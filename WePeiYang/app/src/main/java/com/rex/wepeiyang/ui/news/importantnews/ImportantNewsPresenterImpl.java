@@ -1,0 +1,66 @@
+package com.rex.wepeiyang.ui.news.importantnews;
+
+import com.rex.wepeiyang.bean.NewsList;
+import com.rex.wepeiyang.interactor.ImportantNewsInteractor;
+
+/**
+ * Created by sunjuntao on 15/11/14.
+ */
+public class ImportantNewsPresenterImpl implements ImportantNewsPresenter, OnGetImportantNewsCallback {
+    private ImportantNewsView view;
+    private ImportantNewsInteractor interactor;
+    private boolean isRefreshing = false;
+    private boolean isLoadingMore = false;
+    private int page;
+
+    public ImportantNewsPresenterImpl(ImportantNewsView view, ImportantNewsInteractor interactor) {
+        this.view = view;
+        this.interactor = interactor;
+    }
+
+    @Override
+    public void onSuccess(NewsList newsList) {
+        if (newsList.data.size() == 0) {
+            isLoadingMore = false;
+            isRefreshing = false;
+            view.hideFooter();
+            view.showToast("没有新闻了orz");
+            return;
+        }
+        if (isLoadingMore) {
+            view.loadMoreItems(newsList.data);
+            view.hideFooter();
+            isLoadingMore = false;
+        } else {
+            view.hideRefreshing();
+            isRefreshing = false;
+            view.refreshItems(newsList.data);
+        }
+    }
+
+    @Override
+    public void onFailure(String errorMsg) {
+        isLoadingMore = false;
+        isRefreshing = false;
+        view.hideRefreshing();
+        view.showToast(errorMsg);
+    }
+
+    @Override
+    public void refreshNewsItems() {
+        page = 0;
+        isRefreshing = true;
+        view.showRefreshing();
+        interactor.getImportantNews(page, this);
+    }
+
+    @Override
+    public void loadMoreNewsItems() {
+        if (isLoadingMore) {
+            return;
+        }
+        page += 1;
+        view.userFooter();
+        interactor.getImportantNews(page, this);
+    }
+}

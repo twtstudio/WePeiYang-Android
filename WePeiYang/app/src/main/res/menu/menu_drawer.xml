@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/item_account_settings"
+            android:icon="@mipmap/ic_account_settings"
+            android:title="@string/account_settings" />
+        <item
+            android:id="@+id/item_give_advice"
+            android:icon="@mipmap/ic_give_advice"
+            android:title="@string/give_advice" />
+        <item
+            android:id="@+id/item_share_app"
+            android:icon="@mipmap/ic_share_app"
+            android:title="@string/share_app" />
+        <item
+            android:id="@+id/item_check_update"
+            android:icon="@mipmap/ic_check_update"
+            android:title="@string/check_update" />
+    </group>
+
+</menu>

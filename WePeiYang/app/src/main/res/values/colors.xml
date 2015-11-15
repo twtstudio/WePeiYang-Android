@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Common -->
+    <color name="text_color">#343434</color>
+    <color name="edittext_bg_color">#eeeeee</color>
+    <color name="divider_color">#eeeeee</color>
+    <color name="text_secondary_color">#919191</color>
+    <!-- Login Activity -->
+    <color name="login_primary">#00a1e9</color>
+    <color name="login_edittext">#ffffff</color>
+    <color name="login_bg">#f2f2f2</color>
+    <!-- Main Activity -->
+    <color name="main_primary">#1a4265</color>
+    <!-- Lost Found Activity -->
+    <color name="lost_found_primary_color">#71a830</color>
+    <color name="lost_found_dark_primary_color">#5a8625</color>
+    <color name="lost_found_indicator_color">#c1ff76</color>
+    <color name="lost_found_accent_color">#d73938</color>
+    <!-- Post Lost Found Activity -->
+    <color name="post_lost_found_pre_edit_text_color">#a9cb81</color>
+    <!-- Library Activity -->
+    <color name="library_primary_color">#0097a8</color>
+    <color name="library_dark_primary_color">#007886</color>
+    <color name="library_accent_color">#19ffff</color>
+    <color name="library_login_edt_color">#f1f1f1</color>
+    <color name="library_login_edt_border_color">#dbdbdb</color>
+    <!-- GPA Activity -->
+    <color name="gpa_primary_color">#b50045</color>
+    <color name="gpa_dark_primary_color">#930037</color>
+    <!-- News Activity -->
+    <color name="news_primary_color">#607d8b</color>
+    <color name="news_dark_primary_color">#465a65</color>
+    <!-- Study Room -->
+    <color name="study_room_primary_color">#3f51b5</color>
+</resources>
