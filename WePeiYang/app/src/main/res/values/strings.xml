@@ -46,4 +46,5 @@
     <string name="campus_note">校园公告</string>
     <string name="jobs_info">就业咨询</string>
     <string name="calculate_introduction">计算说明</string>
+    <string name="title_activity_notice">NoticeActivity</string>
 </resources>

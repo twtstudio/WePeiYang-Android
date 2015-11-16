@@ -19,8 +19,8 @@
 
         <!-- Welcome Activity -->
         <activity
-            android:name="com.rex.wepeiyang.ui.welcome.WelcomeActivity"
-            android:label="@string/title_activity_welcome">
+            android:name=".ui.welcome.WelcomeActivity"
+            android:label="@string/title_activity_welcome" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -29,23 +29,27 @@
         </activity>
         <!-- Main Activity -->
         <activity
-            android:name="com.rex.wepeiyang.ui.main.MainActivity"
+            android:name=".ui.main.MainActivity"
             android:label="微北洋"
             android:launchMode="singleTask" />
         <!-- Login Activity -->
         <activity
-            android:name="com.rex.wepeiyang.ui.login.LoginActivity"
+            android:name=".ui.login.LoginActivity"
             android:label="@string/title_activity_login" />
         <activity
-            android:name="com.rex.wepeiyang.ui.lostfound.post.PostLostFoundActivity"
-            android:label="@string/title_activity_post_lost_found"/>
+            android:name=".ui.lostfound.post.PostLostFoundActivity"
+            android:label="@string/title_activity_post_lost_found" />
         <activity
-            android:name="com.rex.wepeiyang.ui.news.NewsActivity"
-            android:label="@string/title_activity_news"/>
+            android:name=".ui.news.NewsActivity"
+            android:label="@string/title_activity_news" />
         <activity
-            android:name="com.rex.wepeiyang.ui.gpa.GpaActivity"
+            android:name=".ui.gpa.GpaActivity"
             android:label="GPA" />
-
+        <activity
+            android:name=".ui.notice.NoticeActivity"
+            android:label="@string/title_activity_notice"
+            android:theme="@style/AppTheme" >
+        </activity>
     </application>
 
 </manifest>

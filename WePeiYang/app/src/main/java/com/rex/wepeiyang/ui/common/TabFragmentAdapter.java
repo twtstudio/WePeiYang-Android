@@ -29,4 +29,9 @@ public class TabFragmentAdapter extends FragmentStatePagerAdapter {
     public int getCount() {
         return titleList.size();
     }
+
+    @Override
+    public CharSequence getPageTitle(int position) {
+        return titleList.get(position);
+    }
 }

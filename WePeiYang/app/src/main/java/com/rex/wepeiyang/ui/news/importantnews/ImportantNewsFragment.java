@@ -29,9 +29,10 @@ public class ImportantNewsFragment extends Fragment implements ImportantNewsView
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         adapter = new ImportantNewsAdapter(getActivity());
-        srlImportantNews.setColorSchemeColors(getResources().getColor(R.color.news_primary_color));
+
         View view = inflater.inflate(R.layout.fragment_important_news, container, false);
         ButterKnife.inject(this, view);
+        srlImportantNews.setColorSchemeColors(getResources().getColor(R.color.news_primary_color));
 
         return view;
     }

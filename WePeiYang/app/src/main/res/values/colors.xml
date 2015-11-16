@@ -27,9 +27,11 @@
     <!-- GPA Activity -->
     <color name="gpa_primary_color">#b50045</color>
     <color name="gpa_dark_primary_color">#930037</color>
+    <color name="gpa_tab_indicator">#fe8db8</color>
     <!-- News Activity -->
     <color name="news_primary_color">#607d8b</color>
     <color name="news_dark_primary_color">#465a65</color>
+    <color name="news_tab_text_color">#a0b6a9</color>
     <!-- Study Room -->
     <color name="study_room_primary_color">#3f51b5</color>
 </resources>

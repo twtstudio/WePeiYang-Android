@@ -20,6 +20,8 @@ import com.daimajia.slider.library.Tricks.ViewPagerEx;
 import com.rex.wepeiyang.R;
 import com.rex.wepeiyang.ui.gpa.GpaActivity;
 import com.rex.wepeiyang.ui.library.LibraryActivity;
+import com.rex.wepeiyang.ui.news.NewsActivity;
+import com.rex.wepeiyang.ui.notice.NoticeActivity;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -84,6 +86,8 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
         btnGpaQuery.setOnClickListener(this);
         btnLibraryQuery.setOnClickListener(this);
         btnStudyRoomQuery.setOnClickListener(this);
+        rlMoreCampusNews.setOnClickListener(this);
+        rlMoreCampusNote.setOnClickListener(this);
     }
 
     @Override
@@ -139,6 +143,11 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
             case R.id.btn_library_query:
                 LibraryActivity.actionStart(this);
                 break;
+            case R.id.rl_more_campus_news:
+                NewsActivity.actionStart(this);
+                break;
+            case R.id.rl_more_campus_note:
+                NoticeActivity.actionStart(this);
         }
     }
 }

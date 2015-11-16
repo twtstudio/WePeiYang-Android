@@ -15,7 +15,6 @@ import com.rex.wepeiyang.ui.BaseActivity;
 import com.rex.wepeiyang.ui.common.TabFragmentAdapter;
 import com.rex.wepeiyang.ui.news.colorfulpeiyang.ColorfulPeiyangFragment;
 import com.rex.wepeiyang.ui.news.importantnews.ImportantNewsFragment;
-import com.rex.wepeiyang.ui.news.investigation.InvestigationFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +33,7 @@ public class NewsActivity extends BaseActivity implements NewsView {
     ViewPager vpNews;
 
     public static void actionStart(Context context) {
-        Intent intent = new Intent();
+        Intent intent = new Intent(context, NewsActivity.class);
         context.startActivity(intent);
     }
 
@@ -57,7 +56,7 @@ public class NewsActivity extends BaseActivity implements NewsView {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        switch (id){
+        switch (id) {
             case android.R.id.home:
                 finish();
                 break;
@@ -69,22 +68,19 @@ public class NewsActivity extends BaseActivity implements NewsView {
     public void initTab() {
         List<String> tabs = new ArrayList<>();
         tabs.add("天大要闻");
-        tabs.add("自助挖掘");
         tabs.add("缤纷北洋");
         tblNews.addTab(tblNews.newTab().setText(tabs.get(0)));
         tblNews.addTab(tblNews.newTab().setText(tabs.get(1)));
-        tblNews.addTab(tblNews.newTab().setText(tabs.get(2)));
-        tblNews.setupWithViewPager(vpNews);
+        tblNews.setTabMode(TabLayout.MODE_FIXED);
         List<Fragment> fragmentList = new ArrayList<>();
         ColorfulPeiyangFragment colorfulPeiyangFragment = new ColorfulPeiyangFragment();
         ImportantNewsFragment importantNewsFragment = new ImportantNewsFragment();
-        InvestigationFragment investigationFragment = new InvestigationFragment();
         fragmentList.add(colorfulPeiyangFragment);
         fragmentList.add(importantNewsFragment);
-        fragmentList.add(investigationFragment);
-        TabFragmentAdapter adapter = new TabFragmentAdapter(getSupportFragmentManager(),fragmentList, tabs);
-        tblNews.setTabsFromPagerAdapter(adapter);
+        TabFragmentAdapter adapter = new TabFragmentAdapter(getSupportFragmentManager(), fragmentList, tabs);
         vpNews.setAdapter(adapter);
+        tblNews.setupWithViewPager(vpNews);
+        tblNews.setTabsFromPagerAdapter(adapter);
 
     }
 }
