@@ -5,6 +5,7 @@
     <color name="edittext_bg_color">#eeeeee</color>
     <color name="divider_color">#eeeeee</color>
     <color name="text_secondary_color">#919191</color>
+    <color name="background">#FFFFFF</color>
     <!-- Login Activity -->
     <color name="login_primary">#00a1e9</color>
     <color name="login_edittext">#ffffff</color>

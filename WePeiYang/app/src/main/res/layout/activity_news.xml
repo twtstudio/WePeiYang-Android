@@ -4,28 +4,38 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <android.support.design.widget.AppBarLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/news_primary_color">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <include
-            android:id="@+id/toolbar"
-            layout="@layout/app_toolbar" />
-
-        <android.support.design.widget.TabLayout
-            android:id="@+id/tbl_news"
+        <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:tabIndicatorColor="@android:color/white"
-            app:tabSelectedTextColor="@android:color/white"
-            app:tabTextColor="@color/news_tab_text_color" />
+            android:background="@color/news_primary_color">
 
-    </android.support.design.widget.AppBarLayout>
+            <include
+                android:id="@+id/toolbar"
+                layout="@layout/app_toolbar" />
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/vp_news"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+            <android.support.design.widget.TabLayout
+                android:id="@+id/tbl_news"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:tabIndicatorColor="@android:color/white"
+                app:tabSelectedTextColor="@android:color/white"
+                app:tabTextColor="@color/news_tab_text_color" />
+
+        </android.support.design.widget.AppBarLayout>
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/vp_news"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
+
+
 
 </android.support.design.widget.CoordinatorLayout>

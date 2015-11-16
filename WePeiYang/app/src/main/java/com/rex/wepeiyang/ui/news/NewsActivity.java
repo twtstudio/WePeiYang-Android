@@ -75,8 +75,8 @@ public class NewsActivity extends BaseActivity implements NewsView {
         List<Fragment> fragmentList = new ArrayList<>();
         ColorfulPeiyangFragment colorfulPeiyangFragment = new ColorfulPeiyangFragment();
         ImportantNewsFragment importantNewsFragment = new ImportantNewsFragment();
-        fragmentList.add(colorfulPeiyangFragment);
         fragmentList.add(importantNewsFragment);
+        fragmentList.add(colorfulPeiyangFragment);
         TabFragmentAdapter adapter = new TabFragmentAdapter(getSupportFragmentManager(), fragmentList, tabs);
         vpNews.setAdapter(adapter);
         tblNews.setupWithViewPager(vpNews);

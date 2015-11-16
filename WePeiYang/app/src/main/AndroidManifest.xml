@@ -50,6 +50,10 @@
             android:label="@string/title_activity_notice"
             android:theme="@style/AppTheme" >
         </activity>
+        <activity android:name=".ui.news.details.NewsDetailsActivity"
+            android:label="">
+
+        </activity>
     </application>
 
 </manifest>

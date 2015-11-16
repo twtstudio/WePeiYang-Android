@@ -48,7 +48,10 @@ public class ImportantNewsPresenterImpl implements ImportantNewsPresenter, OnGet
 
     @Override
     public void refreshNewsItems() {
-        page = 0;
+        if (isRefreshing){
+            return;
+        }
+        page = 1;
         isRefreshing = true;
         view.showRefreshing();
         interactor.getImportantNews(page, this);
@@ -61,6 +64,7 @@ public class ImportantNewsPresenterImpl implements ImportantNewsPresenter, OnGet
         }
         page += 1;
         view.userFooter();
+        isLoadingMore = true;
         interactor.getImportantNews(page, this);
     }
 }

@@ -28,7 +28,7 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_news">NewsActivity</string>
+    <string name="title_activity_news">校园新闻</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -46,5 +46,10 @@
     <string name="campus_note">校园公告</string>
     <string name="jobs_info">就业咨询</string>
     <string name="calculate_introduction">计算说明</string>
-    <string name="title_activity_notice">NoticeActivity</string>
+    <string name="title_activity_notice">校园公告</string>
+    <string name="gonggao">供稿：</string>
+    <string name="shengao">审稿：</string>
+    <string name="sheying">摄影：</string>
+    <string name="laiyuan">来源：</string>
+    <string name="yuedu">阅读：</string>
 </resources>

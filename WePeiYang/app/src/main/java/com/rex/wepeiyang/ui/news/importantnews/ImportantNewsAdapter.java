@@ -13,9 +13,11 @@ import com.daimajia.slider.library.Indicators.PagerIndicator;
 import com.daimajia.slider.library.SliderLayout;
 import com.rex.wepeiyang.R;
 import com.rex.wepeiyang.bean.NewsItem;
+import com.rex.wepeiyang.ui.news.details.NewsDetailsActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -83,24 +85,13 @@ public class ImportantNewsAdapter extends RecyclerView.Adapter<RecyclerView.View
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        RecyclerView.ViewHolder viewHolder;
-        View view;
-        switch (viewType) {
-            case ITEM_VIEW_TYPE_HEADER:
-                view = inflater.inflate(R.layout.header_important_news, parent, false);
-                break;
-            case ITEM_VIEW_TYPE_ITEM:
-                view = inflater.inflate(R.layout.item_news, parent, false);
-                break;
-            case ITEM_VIEW_TYPE_FOOTER:
-                view = inflater.inflate(R.layout.footer, parent, false);
-                break;
-            default:
-                view = inflater.inflate(R.layout.footer, parent, false);
-                break;
+        if (viewType == ITEM_VIEW_TYPE_HEADER) {
+            return new HeaderHolder(inflater.inflate(R.layout.header_important_news, parent, false));
+        } else if (viewType == ITEM_VIEW_TYPE_FOOTER) {
+            return new FooterHolder(inflater.inflate(R.layout.footer, parent, false));
+        } else {
+            return new ItemHolder(inflater.inflate(R.layout.item_news, parent, false));
         }
-        viewHolder = new ItemHolder(view);
-        return viewHolder;
     }
 
     @Override
@@ -108,15 +99,21 @@ public class ImportantNewsAdapter extends RecyclerView.Adapter<RecyclerView.View
         int type = getItemViewType(position);
         if (type == ITEM_VIEW_TYPE_ITEM) {
             ItemHolder itemHolder = (ItemHolder) holder;
-            NewsItem newsItem = dataSet.get(position);
+            final NewsItem newsItem = dataSet.get(position);
             itemHolder.tvNewsTitle.setText(newsItem.subject);
-            itemHolder.tvViewCount.setText("没有");
-            itemHolder.tvCommentCount.setText("没有");
+            itemHolder.tvViewCount.setText(newsItem.visitcount+"");
+            itemHolder.tvCommentCount.setText(newsItem.comments+"");
             itemHolder.tvNewsDate.setText("没有");
             if (!newsItem.pic.isEmpty()) {
                 itemHolder.ivNewsPicture.setVisibility(View.VISIBLE);
                 Picasso.with(context).load(newsItem.pic).into(itemHolder.ivNewsPicture);
             }
+            itemHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    NewsDetailsActivity.actionStart(context, newsItem.index);
+                }
+            });
         } else if (type == ITEM_VIEW_TYPE_HEADER) {
             HeaderHolder headerHolder = (HeaderHolder) holder;
         }
@@ -147,15 +144,17 @@ public class ImportantNewsAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
     }
 
-    public void refreshItems(ArrayList<NewsItem> items) {
+    public void refreshItems(List<NewsItem> items) {
         dataSet.clear();
         dataSet.addAll(items);
         notifyDataSetChanged();
     }
 
-    public void addItems(ArrayList<NewsItem> items) {
+    public void addItems(List<NewsItem> items) {
         useFooter = false;
-        dataSet.addAll(getItemCount(), items);
+        for (NewsItem item : items) {
+            dataSet.add(item);
+        }
         notifyDataSetChanged();
     }
 
@@ -167,4 +166,5 @@ public class ImportantNewsAdapter extends RecyclerView.Adapter<RecyclerView.View
     public NewsItem getItem(int position) {
         return dataSet.get(position);
     }
+
 }

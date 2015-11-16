@@ -12,7 +12,7 @@ import retrofit.RestAdapter;
  */
 public class ApiClient {
 
-    public static final String API = "open.twtstudio.com/api/v1";
+    public static final String API = "http://open.twtstudio.com/api/v1";
     private static RestAdapter adapter = new RestAdapter.Builder().setLogLevel(RestAdapter.LogLevel.FULL).setEndpoint(API).build();
     private static Api mApi = adapter.create(Api.class);
 
@@ -29,11 +29,11 @@ public class ApiClient {
         mApi.getNewsList(1, page, callback);
     }
 
-    public static void getNotice(int page, Callback<NewsList> callback) {
+    public static void getNoticeList(int page, Callback<NewsList> callback) {
         mApi.getNewsList(2, page, callback);
     }
 
-    public static void getNews(int index, Callback<News> callback) {
+    public static void getNewsDetails(int index, Callback<News> callback) {
         mApi.getNews(index, callback);
     }
 
