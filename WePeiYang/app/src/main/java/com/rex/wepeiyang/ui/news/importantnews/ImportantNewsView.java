@@ -9,11 +9,9 @@ import java.util.List;
  */
 public interface ImportantNewsView {
     void showToast(String message);
-    void showFooter();
     void hideFooter();
     void showRefreshing();
     void hideRefreshing();
-    void setAdapter();
     void userFooter();
     void loadMoreItems(List<NewsItem> items);
     void refreshItems(List<NewsItem> items);

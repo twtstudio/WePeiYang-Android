@@ -148,6 +148,7 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
                 break;
             case R.id.rl_more_campus_note:
                 NoticeActivity.actionStart(this);
+                break;
         }
     }
 }

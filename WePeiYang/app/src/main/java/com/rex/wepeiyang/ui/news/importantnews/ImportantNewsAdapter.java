@@ -101,13 +101,16 @@ public class ImportantNewsAdapter extends RecyclerView.Adapter<RecyclerView.View
             ItemHolder itemHolder = (ItemHolder) holder;
             final NewsItem newsItem = dataSet.get(position);
             itemHolder.tvNewsTitle.setText(newsItem.subject);
-            itemHolder.tvViewCount.setText(newsItem.visitcount+"");
-            itemHolder.tvCommentCount.setText(newsItem.comments+"");
+            itemHolder.tvViewCount.setText(newsItem.visitcount + "");
+            itemHolder.tvCommentCount.setText(newsItem.comments + "");
             itemHolder.tvNewsDate.setText("没有");
+            itemHolder.ivNewsPicture.setVisibility(View.VISIBLE);
             if (!newsItem.pic.isEmpty()) {
-                itemHolder.ivNewsPicture.setVisibility(View.VISIBLE);
                 Picasso.with(context).load(newsItem.pic).into(itemHolder.ivNewsPicture);
+            } else {
+                itemHolder.ivNewsPicture.setImageResource(R.mipmap.ic_launcher);
             }
+
             itemHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -161,10 +164,6 @@ public class ImportantNewsAdapter extends RecyclerView.Adapter<RecyclerView.View
     public void setUseFooter(boolean useFooter) {
         this.useFooter = useFooter;
         notifyDataSetChanged();
-    }
-
-    public NewsItem getItem(int position) {
-        return dataSet.get(position);
     }
 
 }

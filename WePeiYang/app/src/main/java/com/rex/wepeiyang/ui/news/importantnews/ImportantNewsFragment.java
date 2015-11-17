@@ -61,10 +61,6 @@ public class ImportantNewsFragment extends Fragment implements ImportantNewsView
         Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
     }
 
-    @Override
-    public void showFooter() {
-        adapter.setUseFooter(true);
-    }
 
     @Override
     public void hideFooter() {
@@ -84,11 +80,6 @@ public class ImportantNewsFragment extends Fragment implements ImportantNewsView
     @Override
     public void hideRefreshing() {
         srlImportantNews.setRefreshing(false);
-    }
-
-    @Override
-    public void setAdapter() {
-        rvImportantNews.setAdapter(adapter);
     }
 
     @Override
