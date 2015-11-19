@@ -51,6 +51,7 @@ public class NoticeActivity extends BaseActivity implements NoticeView {
                 presenter.refreshNoticeItems();
             }
         });
+        srlNotice.setColorSchemeColors(getResources().getColor(R.color.news_primary_color));
         rvNotice.setOnScrollListener(new OnRcvScrollListener() {
             @Override
             public void onBottom() {

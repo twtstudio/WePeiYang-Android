@@ -90,7 +90,7 @@ public class ImportantNewsAdapter extends RecyclerView.Adapter<RecyclerView.View
         } else if (viewType == ITEM_VIEW_TYPE_FOOTER) {
             return new FooterHolder(inflater.inflate(R.layout.footer, parent, false));
         } else {
-            return new ItemHolder(inflater.inflate(R.layout.item_news, parent, false));
+            return new ItemHolder(inflater.inflate(R.layout.item_news_with_pic, parent, false));
         }
     }
 
