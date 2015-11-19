@@ -37,6 +37,10 @@ public class ApiClient {
         mApi.getNewsList(5, page, callback);
     }
 
+    public static void getAssociationList(int page, Callback<NewsList> callback){
+        mApi.getNewsList(3, page, callback);
+    }
+
     public static void getNewsDetails(int index, Callback<News> callback) {
         mApi.getNews(index, callback);
     }
