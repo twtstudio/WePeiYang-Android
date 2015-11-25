@@ -1,4 +1,4 @@
-package com.rex.wepeiyang.ui.news.associations;
+package com.rex.wepeiyang.ui.news.associationsnews;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

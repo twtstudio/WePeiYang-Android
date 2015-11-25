@@ -1,5 +1,9 @@
 package com.rex.wepeiyang.api;
 
+import android.util.Log;
+
+import com.facebook.common.util.Hex;
+
 import org.apache.commons.codec.digest.DigestUtils;
 
 import java.util.ArrayList;
@@ -12,27 +16,27 @@ import java.util.List;
  * Created by sunjuntao on 15/11/5.
  */
 public class Sign {
+
     public static String generate(HashMap<String, String> params) {
-        HashMap<String, String> sortedParams = dictSort(params);//获取字典排序后的参数列表
-        String paramsString = "";
-        for (HashMap.Entry<String, String> entry : sortedParams.entrySet()) {
-            paramsString += entry.getKey() + entry.getValue();
-        }
+        String paramsString = dictSort(params);//获取字典排序后的参数列表
         paramsString = Constant.APPKEY + paramsString + Constant.APPSECRET;
-        return DigestUtils.sha1Hex(paramsString).toUpperCase();
+        Log.e("paramsString", paramsString);
+        String result = Hex.encodeHex(DigestUtils.sha1(paramsString), true);
+        return result.toUpperCase();
     }
 
     /*
-    对参数进行字典排序的方法
+    对除app_key外的参数进行字典升序排列
      */
-    private static HashMap<String, String> dictSort(HashMap<String, String> map) {
+    private static String dictSort(HashMap<String, String> map) {
         Collection<String> keySet = map.keySet();
-        List<String> list = new ArrayList<>(keySet);
+        ArrayList<String> list = new ArrayList<>(keySet);
         Collections.sort(list);
-        HashMap<String, String> result = new HashMap<>();
+        String result = "";
         for (String item : list) {
-            result.put(item, map.get(item));
+            result = result + item + map.get(item);
         }
         return result;
     }
+
 }

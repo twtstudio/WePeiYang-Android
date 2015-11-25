@@ -108,7 +108,7 @@ public class ImportantNewsAdapter extends RecyclerView.Adapter<RecyclerView.View
             if (!newsItem.pic.isEmpty()) {
                 Picasso.with(context).load(newsItem.pic).into(itemHolder.ivNewsPicture);
             } else {
-                itemHolder.ivNewsPicture.setImageResource(R.mipmap.ic_launcher);
+                itemHolder.ivNewsPicture.setImageResource(R.mipmap.ic_login);
             }
 
             itemHolder.itemView.setOnClickListener(new View.OnClickListener() {

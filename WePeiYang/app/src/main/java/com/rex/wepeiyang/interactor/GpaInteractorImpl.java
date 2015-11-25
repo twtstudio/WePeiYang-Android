@@ -1,5 +1,7 @@
 package com.rex.wepeiyang.interactor;
 
+import android.util.Log;
+
 import com.rex.wepeiyang.api.ApiClient;
 import com.rex.wepeiyang.bean.Gpa;
 import com.rex.wepeiyang.ui.gpa.OnGetGpaCallback;
@@ -22,7 +24,8 @@ public class GpaInteractorImpl implements GpaInteractor {
 
             @Override
             public void failure(RetrofitError error) {
-                onGetGpaCallback.onFailure(error.toString());
+                onGetGpaCallback.onFailure(error.getMessage());
+                Log.e("error", error.getMessage());
             }
         });
     }

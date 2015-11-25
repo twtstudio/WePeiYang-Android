@@ -1,4 +1,4 @@
-package com.rex.wepeiyang.ui.news.associations;
+package com.rex.wepeiyang.ui.news.associationsnews;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;

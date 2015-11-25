@@ -8,8 +8,13 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.rex.wepeiyang.R;
+import com.rex.wepeiyang.bean.Gpa;
+import com.rex.wepeiyang.interactor.GpaInteractorImpl;
 import com.rex.wepeiyang.ui.BaseActivity;
 import com.rex.wepeiyang.ui.common.TabFragmentAdapter;
 import com.rex.wepeiyang.ui.gpa.analysis.AnalysisFragment;
@@ -31,6 +36,12 @@ public class GpaActivity extends BaseActivity implements GpaView {
     ViewPager vpGpa;
     @InjectView(R.id.toolbar)
     Toolbar toolbar;
+    @InjectView(R.id.pb_gpa)
+    ProgressBar pbGpa;
+
+    private ScoreFragment scoreFragment = new ScoreFragment();
+    private AnalysisFragment analysisFragment = new AnalysisFragment();
+    private GpaPresenter presenter;
 
     public static void actionStart(Context context) {
         Intent intent = new Intent(context, GpaActivity.class);
@@ -44,8 +55,9 @@ public class GpaActivity extends BaseActivity implements GpaView {
         ButterKnife.inject(this);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         initTab();
+        presenter = new GpaPresenterImpl(this, new GpaInteractorImpl());
+        presenter.getGpa();
     }
 
 
@@ -57,8 +69,6 @@ public class GpaActivity extends BaseActivity implements GpaView {
         tblGpa.addTab(tblGpa.newTab().setText(tabList.get(0)));
         tblGpa.addTab(tblGpa.newTab().setText(tabList.get(1)));
         List<Fragment> fragmentList = new ArrayList<>();
-        ScoreFragment scoreFragment = new ScoreFragment();
-        AnalysisFragment analysisFragment = new AnalysisFragment();
         fragmentList.add(scoreFragment);
         fragmentList.add(analysisFragment);
         TabFragmentAdapter fragmentAdapter = new TabFragmentAdapter(getSupportFragmentManager(), fragmentList, tabList);
@@ -66,6 +76,29 @@ public class GpaActivity extends BaseActivity implements GpaView {
         tblGpa.setupWithViewPager(vpGpa);
         tblGpa.setTabsFromPagerAdapter(fragmentAdapter);
 
+    }
+
+    @Override
+    public void showProgress() {
+        pbGpa.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgress() {
+        pbGpa.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void toastMessage(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void bindData(Gpa gpa) {
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("gpa", gpa);
+        analysisFragment.setArguments(bundle);
+        scoreFragment.setArguments(bundle);
     }
 
     @Override

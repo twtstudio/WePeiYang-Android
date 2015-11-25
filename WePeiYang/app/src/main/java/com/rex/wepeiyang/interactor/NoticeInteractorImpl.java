@@ -22,7 +22,7 @@ public class NoticeInteractorImpl implements NoticeInteractor {
 
             @Override
             public void failure(RetrofitError error) {
-                onGetNoticeCallback.onFailure(error.toString());
+                onGetNoticeCallback.onFailure(error.getMessage());
             }
         });
     }

@@ -10,6 +10,7 @@ import java.util.HashMap;
 
 import retrofit.Callback;
 import retrofit.http.GET;
+import retrofit.http.POST;
 import retrofit.http.Path;
 import retrofit.http.QueryMap;
 
@@ -21,7 +22,7 @@ import retrofit.http.QueryMap;
 public interface Api {
 
     @GET("/tmp/gpa/")
-    void getGPA(@QueryMap HashMap<String, String> gpaParams, Callback<Gpa> response);
+    void getGPA(@QueryMap HashMap<String, String> gpaParams, Callback<Object> response);
 
     @GET("/tmp/classtable")
     void getCourse(@QueryMap HashMap<String, String> classtableParams, Callback<ClassTable> response);

@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -64,7 +66,14 @@ public class NewsDetailsActivity extends BaseActivity implements NewsDetailsView
         presenter = new NewsDetailsPresenterImpl(this, new NewsDetailsInteractorImpl());
         presenter.loadNewsDetails(index);
         wvNewsDetials.getSettings().setJavaScriptEnabled(true);
-
+        wvNewsDetials.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                return (motionEvent.getAction() == MotionEvent.ACTION_MOVE);
+            }
+        });
+        wvNewsDetials.setScrollbarFadingEnabled(true);
+        wvNewsDetials.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
     }
 
     @Override
@@ -73,6 +82,8 @@ public class NewsDetailsActivity extends BaseActivity implements NewsDetailsView
             case android.R.id.home:
                 finish();
                 break;
+            case R.id.news_comment:
+
         }
         return super.onOptionsItemSelected(item);
     }

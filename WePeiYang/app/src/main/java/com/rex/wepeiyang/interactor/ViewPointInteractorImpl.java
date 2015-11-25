@@ -22,7 +22,7 @@ public class ViewPointInteractorImpl implements ViewPointInteractor {
 
             @Override
             public void failure(RetrofitError error) {
-                onGetViewPointCallback.onFailure(error.toString());
+                onGetViewPointCallback.onFailure(error.getMessage());
             }
         });
     }

@@ -1,4 +1,4 @@
-package com.rex.wepeiyang.ui.news.associations;
+package com.rex.wepeiyang.ui.news.associationsnews;
 
 import com.rex.wepeiyang.bean.NewsList;
 import com.rex.wepeiyang.interactor.AssociationInteractor;

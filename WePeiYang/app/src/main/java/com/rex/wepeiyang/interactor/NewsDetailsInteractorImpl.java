@@ -22,7 +22,7 @@ public class NewsDetailsInteractorImpl implements NewsDetailsInteractor {
 
             @Override
             public void failure(RetrofitError error) {
-                onGetNewsDetailsCallback.onFailure(error.toString());
+                onGetNewsDetailsCallback.onFailure(error.getMessage());
             }
         });
     }

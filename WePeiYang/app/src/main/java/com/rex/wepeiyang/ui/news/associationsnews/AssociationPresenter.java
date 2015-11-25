@@ -1,4 +1,4 @@
-package com.rex.wepeiyang.ui.news.associations;
+package com.rex.wepeiyang.ui.news.associationsnews;
 
 /**
  * Created by sunjuntao on 15/11/19.

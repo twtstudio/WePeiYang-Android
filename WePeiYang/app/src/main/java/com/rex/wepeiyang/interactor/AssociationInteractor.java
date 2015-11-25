@@ -1,6 +1,6 @@
 package com.rex.wepeiyang.interactor;
 
-import com.rex.wepeiyang.ui.news.associations.OnGetAssociationCallback;
+import com.rex.wepeiyang.ui.news.associationsnews.OnGetAssociationCallback;
 
 /**
  * Created by sunjuntao on 15/11/19.

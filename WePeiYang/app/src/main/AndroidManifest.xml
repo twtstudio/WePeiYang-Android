@@ -12,7 +12,7 @@
     <application
         android:name=".WePeiYangApp"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_login"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
@@ -20,7 +20,8 @@
         <!-- Welcome Activity -->
         <activity
             android:name=".ui.welcome.WelcomeActivity"
-            android:label="@string/title_activity_welcome" >
+            android:label="@string/title_activity_welcome"
+            android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -50,9 +51,11 @@
             android:label="@string/title_activity_notice"
             android:theme="@style/AppTheme" >
         </activity>
-        <activity android:name=".ui.news.details.NewsDetailsActivity"
-            android:label="">
-
+        <activity
+            android:name=".ui.news.details.NewsDetailsActivity"
+            android:label="" >
+        </activity>
+        <activity android:name=".ui.news.comments.NewsCommentsActivity" >
         </activity>
     </application>
 

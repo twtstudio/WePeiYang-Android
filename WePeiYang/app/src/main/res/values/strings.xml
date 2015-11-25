@@ -1,10 +1,10 @@
 <resources>
-    <string name="app_name">WePeiYang</string>
+    <string name="app_name">微北洋</string>
     <string name="toast_network_failed">无法连接到网络</string>
     <string name="empty_error">不能为空</string>
 
     <!-- Welcome Activity -->
-    <string name="title_activity_welcome">Welcome</string>
+    <string name="title_activity_welcome">微北洋</string>
 
     <!-- Main Activity -->
     <string name="title_activity_main">Main</string>
@@ -52,4 +52,8 @@
     <string name="sheying">摄影：</string>
     <string name="laiyuan">来源：</string>
     <string name="yuedu">阅读：</string>
+    <string name="news_comments">评论</string>
+    <string name="comment_send">发送</string>
+    <string name="hint_write_comment">写评论</string>
+    <string name="zongjidian">总绩点</string>
 </resources>

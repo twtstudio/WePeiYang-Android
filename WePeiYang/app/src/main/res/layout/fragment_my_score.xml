@@ -42,10 +42,11 @@
                     android:textSize="12sp" />
 
                 <TextView
+                    android:id="@+id/tv_zongjiaquan"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
-                    android:text="91.15"
+                    android:layout_marginStart="8dp"
                     android:textColor="@color/gpa_primary_color"
                     android:textSize="16sp" />
 
@@ -53,14 +54,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
-                    android:text="总绩点"
+                    android:layout_marginStart="8dp"
+                    android:text="@string/zongjidian"
                     android:textSize="12sp" />
 
                 <TextView
+                    android:id="@+id/zongjidian"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
-                    android:text="4.0"
+                    android:layout_marginStart="8dp"
                     android:textColor="@color/gpa_primary_color"
                     android:textSize="16sp" />
             </LinearLayout>
@@ -168,9 +171,9 @@
                 android:background="@color/divider_color" />
 
             <android.support.v7.widget.RecyclerView
-                android:layout_marginTop="8dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp" />
 
 
         </LinearLayout>
