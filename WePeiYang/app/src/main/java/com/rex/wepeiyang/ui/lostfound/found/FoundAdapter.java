@@ -5,9 +5,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.facebook.drawee.view.SimpleDraweeView;
 import com.rex.wepeiyang.R;
 import com.rex.wepeiyang.bean.LostFound;
 
@@ -31,7 +31,7 @@ public class FoundAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public static class ItemHolder extends RecyclerView.ViewHolder {
 
         @InjectView(R.id.sdv_item_found)
-        SimpleDraweeView sdvPhoto;
+        ImageView sdvPhoto;
         @InjectView(R.id.tv_found_item_date)
         TextView tvDate;
         @InjectView(R.id.tv_found_item_time)

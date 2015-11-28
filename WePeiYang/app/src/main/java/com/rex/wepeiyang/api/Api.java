@@ -1,5 +1,6 @@
 package com.rex.wepeiyang.api;
 
+import com.google.gson.JsonElement;
 import com.rex.wepeiyang.bean.ClassTable;
 import com.rex.wepeiyang.bean.Feedback;
 import com.rex.wepeiyang.bean.Gpa;
@@ -22,7 +23,7 @@ import retrofit.http.QueryMap;
 public interface Api {
 
     @GET("/tmp/gpa/")
-    void getGPA(@QueryMap HashMap<String, String> gpaParams, Callback<Object> response);
+    void getGPA(@QueryMap HashMap<String, String> gpaParams, Callback<JsonElement> response);
 
     @GET("/tmp/classtable")
     void getCourse(@QueryMap HashMap<String, String> classtableParams, Callback<ClassTable> response);

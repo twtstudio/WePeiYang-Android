@@ -7,6 +7,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 
 import com.rex.wepeiyang.R;
 import com.rex.wepeiyang.bean.Gpa;
+import com.rex.wepeiyang.bean.GpaCaptcha;
 import com.rex.wepeiyang.interactor.GpaInteractorImpl;
 import com.rex.wepeiyang.ui.BaseActivity;
 import com.rex.wepeiyang.ui.common.TabFragmentAdapter;
@@ -41,7 +43,7 @@ public class GpaActivity extends BaseActivity implements GpaView {
 
     private ScoreFragment scoreFragment = new ScoreFragment();
     private AnalysisFragment analysisFragment = new AnalysisFragment();
-    private GpaPresenter presenter;
+    public static GpaPresenter presenter;
 
     public static void actionStart(Context context) {
         Intent intent = new Intent(context, GpaActivity.class);
@@ -57,7 +59,7 @@ public class GpaActivity extends BaseActivity implements GpaView {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         initTab();
         presenter = new GpaPresenterImpl(this, new GpaInteractorImpl());
-        presenter.getGpa();
+        presenter.getGpaWithoutToken();
     }
 
 
@@ -95,10 +97,17 @@ public class GpaActivity extends BaseActivity implements GpaView {
 
     @Override
     public void bindData(Gpa gpa) {
+        scoreFragment.bindData(gpa);
+    }
+
+    @Override
+    public void showCaptchaDialog(GpaCaptcha gpaCaptcha) {
+        CaptchaDialogFragment fragment = new CaptchaDialogFragment();
         Bundle bundle = new Bundle();
-        bundle.putSerializable("gpa", gpa);
-        analysisFragment.setArguments(bundle);
-        scoreFragment.setArguments(bundle);
+        bundle.putString("token", gpaCaptcha.token);
+        bundle.putString("raw", gpaCaptcha.raw);
+        fragment.setArguments(bundle);
+        fragment.show(getFragmentManager(), "Captcha Dialog");
     }
 
     @Override

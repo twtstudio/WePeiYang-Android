@@ -12,10 +12,9 @@
         android:orientation="vertical"
         android:padding="8dp">
 
-        <com.facebook.drawee.view.SimpleDraweeView
+        <ImageView
             android:id="@+id/sdv_item_found"
             android:layout_width="match_parent"
-            fresco:placeholderImage="@mipmap/lost_found_default_image"
             android:layout_height="wrap_content"/>
 
         <LinearLayout

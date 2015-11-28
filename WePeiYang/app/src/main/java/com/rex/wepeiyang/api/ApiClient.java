@@ -1,5 +1,6 @@
 package com.rex.wepeiyang.api;
 
+import com.google.gson.JsonElement;
 import com.rex.wepeiyang.bean.Gpa;
 import com.rex.wepeiyang.bean.News;
 import com.rex.wepeiyang.bean.NewsList;
@@ -18,7 +19,7 @@ public class ApiClient {
     private static RestAdapter adapter = new RestAdapter.Builder().setLogLevel(RestAdapter.LogLevel.FULL).setEndpoint(API).build();
     private static Api mApi = adapter.create(Api.class);
 
-    public static void getGpaWithoutToken(String tjuuname, String tjupasswd, Callback<Object> callback) {
+    public static void getGpaWithoutToken(String tjuuname, String tjupasswd, Callback<JsonElement> callback) {
         RequestParams params = new RequestParams();
         params.put("tjuuname", tjuuname);
         params.put("tjupasswd", tjupasswd);
@@ -31,7 +32,7 @@ public class ApiClient {
         mApi.getGPA(params, callback);
     }
 
-    public static void getGpaWithToken(String tjuuname, String tjupasswd, String token, String captcha, Callback<Object> callback){
+    public static void getGpaWithToken(String tjuuname, String tjupasswd, String token, String captcha, Callback<JsonElement> callback) {
         RequestParams params = new RequestParams();
         params.put("tjuuname", tjuuname);
         params.put("tjupasswd", tjupasswd);
@@ -41,8 +42,8 @@ public class ApiClient {
         temp.put("t", params.get("t"));
         temp.put("tjuuname", tjuuname);
         temp.put("tjupasswd", tjupasswd);
-        params.put("token", token);
-        params.put("captcha", captcha);
+        temp.put("token", token);
+        temp.put("captcha", captcha);
         String sign = Sign.generate(temp);
         params.put("sign", sign);
         mApi.getGPA(params, callback);

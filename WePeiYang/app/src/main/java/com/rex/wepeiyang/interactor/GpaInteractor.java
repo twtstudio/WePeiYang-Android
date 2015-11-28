@@ -7,5 +7,5 @@ import com.rex.wepeiyang.ui.gpa.OnGetGpaCallback;
  */
 public interface GpaInteractor {
     void getGpaWithoutToken(String tjuuname, String tjupasswd, OnGetGpaCallback onGetGpaCallback);
-    void getGpaWithTOken(String tjuuname, String tjupasswd, String token, String captcha, OnGetGpaCallback onGetGpaCallback);
+    void getGpaWithToken(String tjuuname, String tjupasswd, String token, String captcha, OnGetGpaCallback onGetGpaCallback);
 }

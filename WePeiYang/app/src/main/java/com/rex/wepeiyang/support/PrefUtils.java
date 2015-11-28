@@ -13,27 +13,34 @@ public class PrefUtils {
     private static final String PREF_IS_LOGIN = "is_login";
     private static final String PREF_TJU_UNAME = "tjuuname";
     private static final String PREF_TJU_PASSWD = "tjupasswd";
+    private static final String PREF_CAPTCHA_TOKEN = "captchatoken";
 
 
-    private static SharedPreferences getDefaultSharedPreferences(){
+    private static SharedPreferences getDefaultSharedPreferences() {
         return PreferenceManager.getDefaultSharedPreferences(WePeiYangApp.getContext());
     }
-    public static void setLogin(boolean isLogin){
+
+    public static void setLogin(boolean isLogin) {
         getDefaultSharedPreferences().edit().putBoolean(PREF_IS_LOGIN, isLogin).apply();
     }
-    public static boolean isLogin(){
+
+    public static boolean isLogin() {
         return getDefaultSharedPreferences().getBoolean(PREF_IS_LOGIN, false);
     }
-    public static void setTjuuname(String tjuuname){
+
+    public static void setTjuuname(String tjuuname) {
         getDefaultSharedPreferences().edit().putString(PREF_TJU_UNAME, tjuuname).apply();
     }
-    public static String getTjuUname(){
+
+    public static String getTjuUname() {
         return getDefaultSharedPreferences().getString(PREF_TJU_UNAME, null);
     }
-    public static void setTjuPasswd(String tjupasswd){
+
+    public static void setTjuPasswd(String tjupasswd) {
         getDefaultSharedPreferences().edit().putString(PREF_TJU_PASSWD, tjupasswd).apply();
     }
-    public static String getTjuPasswd(){
+
+    public static String getTjuPasswd() {
         return getDefaultSharedPreferences().getString(PREF_TJU_PASSWD, null);
     }
 }

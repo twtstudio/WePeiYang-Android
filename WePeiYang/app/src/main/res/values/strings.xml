@@ -56,4 +56,7 @@
     <string name="comment_send">发送</string>
     <string name="hint_write_comment">写评论</string>
     <string name="zongjidian">总绩点</string>
+    <string name="captcha">验证码</string>
+    <string name="cancle">取消</string>
+    <string name="submit">确定</string>
 </resources>
