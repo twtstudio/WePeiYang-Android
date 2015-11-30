@@ -96,6 +96,7 @@
                     android:orientation="horizontal">
 
                     <Button
+                        android:id="@+id/btn_order_by_score"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -105,6 +106,7 @@
                         android:textSize="12sp" />
 
                     <Button
+                        android:id="@+id/btn_order_by_credit"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -155,13 +157,13 @@
                     android:text="成绩"
                     android:textSize="12sp" />
 
-                <TextView
+                <!--<TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="绩点"
-                    android:textSize="12sp" />
+                    android:textSize="12sp" />-->
             </LinearLayout>
 
             <View
@@ -171,6 +173,7 @@
                 android:background="@color/divider_color" />
 
             <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_my_score"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp" />

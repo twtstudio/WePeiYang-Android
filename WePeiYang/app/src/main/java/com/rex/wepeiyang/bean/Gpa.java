@@ -38,9 +38,10 @@ public class Gpa implements Serializable {
         }
 
         public class Term {
-            String term;//学期编号
-            List<Course> data;//课程列表
-            String name;//学期名称
+            public String term;//学期编号
+            public List<Course> data;//课程列表
+            public String name;//学期名称
+            public TermStat stat;
 
             public class Course {
                 public String no;//课程编号
@@ -48,6 +49,7 @@ public class Gpa implements Serializable {
                 public int type;//课程类型
                 public double credit;//课程学分
                 public int reset;//实在猜不出来
+                public double score;
             }
 
             public class TermStat {
