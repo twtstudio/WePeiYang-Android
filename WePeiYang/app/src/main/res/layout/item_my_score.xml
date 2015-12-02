@@ -11,28 +11,28 @@
         android:layout_height="wrap_content"
         android:layout_weight="2"
         android:gravity="center"
-        android:paddingBottom="8dp"
-        android:paddingTop="8dp"
+        android:paddingBottom="4dp"
+        android:paddingTop="4dp"
         android:textSize="12sp" />
 
     <TextView
         android:id="@+id/tv_credit"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight="1"
         android:gravity="center"
-        android:paddingBottom="8dp"
-        android:paddingTop="8dp"
+        android:paddingBottom="4dp"
+        android:paddingTop="4dp"
         android:textSize="12sp" />
 
     <TextView
         android:id="@+id/tv_score"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight="1"
         android:gravity="center"
-        android:paddingBottom="8dp"
-        android:paddingTop="8dp"
+        android:paddingBottom="4dp"
+        android:paddingTop="4dp"
         android:textSize="12sp" />
 
     <!--<TextView
