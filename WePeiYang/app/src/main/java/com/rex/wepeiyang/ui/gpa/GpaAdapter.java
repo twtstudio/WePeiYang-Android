@@ -1,4 +1,4 @@
-package com.rex.wepeiyang.ui.gpa.score;
+package com.rex.wepeiyang.ui.gpa;
 
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
@@ -21,15 +21,14 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 /**
- * Created by sunjuntao on 15/11/28.
+ * Created by sunjuntao on 15/12/2.
  */
-public class ScoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class GpaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;
     private List<Gpa.Data.Term.Course> dataSet = new ArrayList<>();
     private boolean isOrderByScore = true;
-    private boolean isFirstTime = true;
 
-    public ScoreAdapter(Context context) {
+    public GpaAdapter(Context context) {
         this.context = context;
     }
 
@@ -76,8 +75,6 @@ public class ScoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     }
 
     public void refreshItemsByScore(List<Gpa.Data.Term.Course> items) {
-        Log.e("course size", items.size() + "");
-        isFirstTime = false;
         isOrderByScore = true;
         dataSet.clear();
         Collections.sort(items, new Comparator<Gpa.Data.Term.Course>() {
