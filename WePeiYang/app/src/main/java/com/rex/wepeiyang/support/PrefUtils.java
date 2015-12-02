@@ -13,6 +13,7 @@ public class PrefUtils {
     private static final String PREF_IS_LOGIN = "is_login";
     private static final String PREF_TJU_UNAME = "tjuuname";
     private static final String PREF_TJU_PASSWD = "tjupasswd";
+    private static final String PREF_IS_KNOW_GPA_USAGE = "isknowgpausage";
     private static final String PREF_CAPTCHA_TOKEN = "captchatoken";
 
 
@@ -42,5 +43,13 @@ public class PrefUtils {
 
     public static String getTjuPasswd() {
         return getDefaultSharedPreferences().getString(PREF_TJU_PASSWD, null);
+    }
+
+    public static void setKnowGpaUsage(boolean isKnowGpaUsage) {
+        getDefaultSharedPreferences().edit().putBoolean(PREF_IS_KNOW_GPA_USAGE, isKnowGpaUsage).apply();
+    }
+
+    public static boolean isKnowGpaUsage() {
+        return getDefaultSharedPreferences().getBoolean(PREF_IS_KNOW_GPA_USAGE, false);
     }
 }

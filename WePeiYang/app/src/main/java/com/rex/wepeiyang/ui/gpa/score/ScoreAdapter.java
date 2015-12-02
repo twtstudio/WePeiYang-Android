@@ -3,6 +3,7 @@ package com.rex.wepeiyang.ui.gpa.score;
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,38 +76,39 @@ public class ScoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     }
 
     public void refreshItemsByScore(List<Gpa.Data.Term.Course> items) {
-        if (isOrderByScore && !isFirstTime) {
-            return;
-        } else {
-            isFirstTime = false;
-            isOrderByScore = true;
-            dataSet.clear();
-            Collections.sort(items, new Comparator<Gpa.Data.Term.Course>() {
-                @Override
-                public int compare(Gpa.Data.Term.Course course, Gpa.Data.Term.Course t1) {
-                    return (int) (t1.score - course.score);
+        Log.e("course size", items.size() + "");
+        isFirstTime = false;
+        isOrderByScore = true;
+        dataSet.clear();
+        Collections.sort(items, new Comparator<Gpa.Data.Term.Course>() {
+            @Override
+            public int compare(Gpa.Data.Term.Course course, Gpa.Data.Term.Course t1) {
+                if (t1.score > course.score) {
+                    return 1;
+                } else {
+                    return -1;
                 }
-            });
-            dataSet.addAll(items);
-            notifyDataSetChanged();
-        }
+            }
+        });
+        dataSet.addAll(items);
+        notifyDataSetChanged();
 
     }
 
     public void refreshItemsByCredit(List<Gpa.Data.Term.Course> items) {
-        if (!isOrderByScore) {
-            return;
-        } else {
-            isOrderByScore = false;
-            dataSet.clear();
-            Collections.sort(items, new Comparator<Gpa.Data.Term.Course>() {
-                @Override
-                public int compare(Gpa.Data.Term.Course course, Gpa.Data.Term.Course t1) {
-                    return (int) (t1.credit - course.credit);
+        isOrderByScore = false;
+        dataSet.clear();
+        Collections.sort(items, new Comparator<Gpa.Data.Term.Course>() {
+            @Override
+            public int compare(Gpa.Data.Term.Course course, Gpa.Data.Term.Course t1) {
+                if (t1.credit > course.credit) {
+                    return 1;
+                } else {
+                    return -1;
                 }
-            });
-            dataSet.addAll(items);
-            notifyDataSetChanged();
-        }
+            }
+        });
+        dataSet.addAll(items);
+        notifyDataSetChanged();
     }
 }
