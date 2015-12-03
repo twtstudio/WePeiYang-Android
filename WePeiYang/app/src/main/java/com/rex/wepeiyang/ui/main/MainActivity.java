@@ -12,21 +12,31 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.daimajia.slider.library.Indicators.PagerIndicator;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.Tricks.ViewPagerEx;
 import com.rex.wepeiyang.R;
+import com.rex.wepeiyang.bean.Main;
+import com.rex.wepeiyang.interactor.MainInteractor;
+import com.rex.wepeiyang.interactor.MainInteractorImpl;
 import com.rex.wepeiyang.ui.gpa.GpaActivity;
 import com.rex.wepeiyang.ui.library.LibraryActivity;
 import com.rex.wepeiyang.ui.news.NewsActivity;
+import com.rex.wepeiyang.ui.news.details.NewsDetailsActivity;
 import com.rex.wepeiyang.ui.notice.NoticeActivity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class MainActivity extends AppCompatActivity implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener, View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener, View.OnClickListener, MainView {
 
     @InjectView(R.id.dl_main)
     DrawerLayout dlMain;
@@ -50,6 +60,82 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
     LinearLayout rlMoreCampusNote;
     @InjectView(R.id.rl_more_jobs_info)
     LinearLayout rlMoreJobsInfo;
+    @InjectView(R.id.pb_main)
+    ProgressBar pbMain;
+    @InjectView(R.id.tv_campusnews_title1)
+    TextView tvCampusnewsTitle1;
+    @InjectView(R.id.tv_campusnews_viewcount1)
+    TextView tvCampusnewsViewcount1;
+    @InjectView(R.id.tv_campusnews_comment1)
+    TextView tvCampusnewsComment1;
+    @InjectView(R.id.tv_campusnews_date1)
+    TextView tvCampusnewsDate1;
+    @InjectView(R.id.tv_campusnews_title2)
+    TextView tvCampusnewsTitle2;
+    @InjectView(R.id.tv_campusnews_viewcount2)
+    TextView tvCampusnewsViewcount2;
+    @InjectView(R.id.tv_campusnews_comment2)
+    TextView tvCampusnewsComment2;
+    @InjectView(R.id.tv_campusnews_date2)
+    TextView tvCampusnewsDate2;
+    @InjectView(R.id.tv_campusnews_title3)
+    TextView tvCampusnewsTitle3;
+    @InjectView(R.id.tv_campusnews_viewcount3)
+    TextView tvCampusnewsViewcount3;
+    @InjectView(R.id.tv_campusnews_comment3)
+    TextView tvCampusnewsComment3;
+    @InjectView(R.id.tv_campusnews_date3)
+    TextView tvCampusnewsDate3;
+    @InjectView(R.id.tv_announcement_title1)
+    TextView tvAnnouncementTitle1;
+    @InjectView(R.id.tv_announcement_comefrom1)
+    TextView tvAnnouncementComefrom1;
+    @InjectView(R.id.tv_announcement_date1)
+    TextView tvAnnouncementDate1;
+    @InjectView(R.id.tv_announcement_title2)
+    TextView tvAnnouncementTitle2;
+    @InjectView(R.id.tv_announcement_comefrom2)
+    TextView tvAnnouncementComefrom2;
+    @InjectView(R.id.tv_announcement_date2)
+    TextView tvAnnouncementDate2;
+    @InjectView(R.id.tv_announcement_title3)
+    TextView tvAnnouncementTitle3;
+    @InjectView(R.id.tv_announcement_comefrom3)
+    TextView tvAnnouncementComefrom3;
+    @InjectView(R.id.tv_announcement_date3)
+    TextView tvAnnouncementDate3;
+    @InjectView(R.id.tv_jobs_title1)
+    TextView tvJobsTitle1;
+    @InjectView(R.id.tv_jobs_date1)
+    TextView tvJobsDate1;
+    @InjectView(R.id.tv_jobs_title2)
+    TextView tvJobsTitle2;
+    @InjectView(R.id.tv_jobs_date2)
+    TextView tvJobsDate2;
+    @InjectView(R.id.tv_jobs_title3)
+    TextView tvJobsTitle3;
+    @InjectView(R.id.tv_jobs_date3)
+    TextView tvJobsDate3;
+    @InjectView(R.id.campusnews1)
+    LinearLayout campusnews1;
+    @InjectView(R.id.campusnews2)
+    LinearLayout campusnews2;
+    @InjectView(R.id.campusnews3)
+    LinearLayout campusnews3;
+    @InjectView(R.id.announcement1)
+    LinearLayout announcement1;
+    @InjectView(R.id.announcement2)
+    LinearLayout announcement2;
+    @InjectView(R.id.announcement3)
+    LinearLayout announcement3;
+    @InjectView(R.id.jobs1)
+    LinearLayout jobs1;
+    @InjectView(R.id.jobs2)
+    LinearLayout jobs2;
+    @InjectView(R.id.jobs3)
+    LinearLayout jobs3;
+
+    private MainPresenter presenter;
 
     public static void actionStart(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
@@ -88,6 +174,8 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
         btnStudyRoomQuery.setOnClickListener(this);
         rlMoreCampusNews.setOnClickListener(this);
         rlMoreCampusNote.setOnClickListener(this);
+        presenter = new MainPresenterImpl(this, new MainInteractorImpl());
+        presenter.loadData();
     }
 
     @Override
@@ -150,5 +238,61 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
                 NoticeActivity.actionStart(this);
                 break;
         }
+    }
+
+    @Override
+    public void toastMessage(String msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showProgress() {
+        pbMain.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgress() {
+        pbMain.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void bindData(Main main) {
+        final List<Main.Data.News.Annoucement> annoucements = new ArrayList<>();
+        annoucements.addAll(main.data.news.annoucements);
+        tvAnnouncementTitle1.setText(annoucements.get(0).subject);
+        tvAnnouncementComefrom1.setText(annoucements.get(0).gonggao);
+        tvAnnouncementDate1.setText(annoucements.get(0).addat);
+        tvAnnouncementTitle2.setText(annoucements.get(1).subject);
+        tvAnnouncementComefrom2.setText(annoucements.get(1).gonggao);
+        tvAnnouncementDate2.setText(annoucements.get(1).addat);
+        tvAnnouncementTitle3.setText(annoucements.get(2).subject);
+        tvAnnouncementComefrom3.setText(annoucements.get(2).gonggao);
+        tvAnnouncementDate3.setText(annoucements.get(2).addat);
+        List<Main.Data.News.Job> jobs = new ArrayList<>();
+        jobs.addAll(main.data.news.jobs);
+        tvJobsTitle1.setText(jobs.get(0).title);
+        tvJobsDate1.setText(jobs.get(0).date);
+        tvJobsTitle2.setText(jobs.get(1).title);
+        tvJobsDate2.setText(jobs.get(1).date);
+        tvJobsTitle3.setText(jobs.get(2).title);
+        tvJobsDate3.setText(jobs.get(2).date);
+        announcement1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NewsDetailsActivity.actionStart(MainActivity.this, annoucements.get(0).index);
+            }
+        });
+        announcement2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NewsDetailsActivity.actionStart(MainActivity.this, annoucements.get(1).index);
+            }
+        });
+        announcement3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NewsDetailsActivity.actionStart(MainActivity.this, annoucements.get(2).index);
+            }
+        });
     }
 }

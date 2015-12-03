@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <!-- Content -->
-    <android.support.design.widget.CoordinatorLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -21,764 +21,749 @@
 
         </android.support.design.widget.AppBarLayout>
 
-        <ScrollView
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            android:layout_height="0dp"
+            android:layout_weight="1">
 
-            <LinearLayout
+            <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp">
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-                <GridLayout
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:columnCount="3"
-                    android:rowCount="1">
+                    android:orientation="vertical"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp">
 
-                    <LinearLayout
-                        android:id="@+id/btn_study_room_query"
+                    <GridLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="8dp"
-                        android:orientation="vertical">
+                        android:layout_gravity="center_horizontal"
+                        android:columnCount="3"
+                        android:rowCount="1">
 
-                        <ImageView
-                            android:layout_width="60dp"
-                            android:layout_height="60dp"
-                            android:layout_gravity="center_horizontal"
-                            android:src="@mipmap/ic_main_study_room" />
+                        <LinearLayout
+                            android:id="@+id/btn_study_room_query"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="8dp"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="60dp"
+                                android:layout_height="60dp"
+                                android:layout_gravity="center_horizontal"
+                                android:src="@mipmap/ic_main_study_room" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginTop="5dp"
+                                android:text="@string/study_room_query"
+                                android:textColor="@color/study_room_primary_color" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/btn_gpa_query"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="8dp"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="60dp"
+                                android:layout_height="60dp"
+                                android:layout_gravity="center_horizontal"
+                                android:src="@mipmap/ic_main_gpa" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginTop="5dp"
+                                android:text="@string/gpa_query"
+                                android:textColor="@color/gpa_primary_color" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/btn_library_query"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="8dp"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="60dp"
+                                android:layout_height="60dp"
+                                android:layout_gravity="center_horizontal"
+                                android:src="@mipmap/ic_main_library" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginTop="5dp"
+                                android:text="@string/library_query"
+                                android:textColor="@color/library_primary_color" />
+
+                        </LinearLayout>
+                    </GridLayout>
+
+                    <com.daimajia.slider.library.SliderLayout
+                        android:id="@+id/slider"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        app:auto_cycle="true"
+                        app:indicator_visibility="visible"
+                        app:pager_animation="Accordion"
+                        app:pager_animation_span="1100" />
+
+                    <com.daimajia.slider.library.Indicators.PagerIndicator
+                        android:id="@+id/indicator"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center" />
+
+                    <LinearLayout
+                        android:id="@+id/rl_more_campus_news"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:orientation="horizontal"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:layout_marginTop="5dp"
-                            android:text="@string/study_room_query"
-                            android:textColor="@color/study_room_primary_color" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/btn_gpa_query"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="8dp"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:layout_width="60dp"
-                            android:layout_height="60dp"
-                            android:layout_gravity="center_horizontal"
-                            android:src="@mipmap/ic_main_gpa" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:layout_marginTop="5dp"
-                            android:text="@string/gpa_query"
-                            android:textColor="@color/gpa_primary_color" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/btn_library_query"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="8dp"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:layout_width="60dp"
-                            android:layout_height="60dp"
-                            android:layout_gravity="center_horizontal"
-                            android:src="@mipmap/ic_main_library" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:layout_marginTop="5dp"
-                            android:text="@string/library_query"
-                            android:textColor="@color/library_primary_color" />
-
-                    </LinearLayout>
-                </GridLayout>
-
-                <com.daimajia.slider.library.SliderLayout
-                    android:id="@+id/slider"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    app:auto_cycle="true"
-                    app:indicator_visibility="visible"
-                    app:pager_animation="Accordion"
-                    app:pager_animation_span="1100" />
-
-                <com.daimajia.slider.library.Indicators.PagerIndicator
-                    android:id="@+id/indicator"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center" />
-
-                <LinearLayout
-                    android:id="@+id/rl_more_campus_news"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:orientation="horizontal"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/campus_news"
-                        android:textSize="20sp" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:gravity="end">
-
-                        <ImageView
-                            android:layout_width="36dp"
-                            android:layout_height="20dp"
-                            android:src="@mipmap/ic_more_btn" />
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <android.support.v7.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    app:cardCornerRadius="3dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:paddingBottom="16dp"
-                        android:paddingLeft="8dp"
-                        android:paddingRight="8dp"
-                        android:paddingTop="16dp">
+                            android:text="@string/campus_news"
+                            android:textSize="20sp" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal">
+                            android:layout_gravity="center_vertical"
+                            android:gravity="end">
+
+                            <ImageView
+                                android:layout_width="36dp"
+                                android:layout_height="20dp"
+                                android:src="@mipmap/ic_more_btn" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <android.support.v7.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        app:cardCornerRadius="3dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:paddingBottom="16dp"
+                            android:paddingLeft="8dp"
+                            android:paddingRight="8dp"
+                            android:paddingTop="16dp">
 
                             <LinearLayout
-                                android:layout_width="0dp"
+                                android:id="@+id/campusnews1"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="2"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:text="冬日的小礼物:北洋军乐团交响管乐会" />
+                                android:orientation="horizontal">
 
                                 <LinearLayout
-                                    android:layout_width="match_parent"
+                                    android:layout_width="0dp"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="8dp">
-
-                                    <ImageView
-                                        android:layout_width="14dp"
-                                        android:layout_height="12dp"
-                                        android:src="@mipmap/ic_main_view_count" />
+                                    android:layout_weight="2"
+                                    android:orientation="vertical">
 
                                     <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginLeft="8dp"
-                                        android:layout_marginStart="8dp"
-                                        android:text="132"
-                                        android:textSize="12sp" />
-
-                                    <ImageView
-                                        android:layout_width="14dp"
-                                        android:layout_height="12dp"
-                                        android:layout_marginLeft="16dp"
-                                        android:layout_marginStart="16dp"
-                                        android:src="@mipmap/ic_main_comments" />
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginLeft="8dp"
-                                        android:layout_marginStart="8dp"
-                                        android:text="12"
-                                        android:textSize="12sp" />
+                                        android:id="@+id/tv_campusnews_title1"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content" />
 
                                     <LinearLayout
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:gravity="end">
+                                        android:layout_marginTop="8dp">
+
+                                        <ImageView
+                                            android:layout_width="14dp"
+                                            android:layout_height="12dp"
+                                            android:src="@mipmap/ic_main_view_count" />
 
                                         <TextView
+                                            android:id="@+id/tv_campusnews_viewcount1"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
-                                            android:text="11/18"
+                                            android:layout_marginLeft="8dp"
+                                            android:layout_marginStart="8dp"
                                             android:textSize="12sp" />
 
-                                    </LinearLayout>
-                                </LinearLayout>
-                            </LinearLayout>
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:adjustViewBounds="true"
-                                android:maxHeight="40dp"
-                                android:maxWidth="60dp" />
-
-                        </LinearLayout>
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginBottom="8dp"
-                            android:layout_marginTop="8dp"
-                            android:background="@color/divider_color" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <LinearLayout
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="2"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:text="冬日的小礼物:北洋军乐团交响管乐会" />
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="8dp">
-
-                                    <ImageView
-                                        android:layout_width="14dp"
-                                        android:layout_height="12dp"
-                                        android:src="@mipmap/ic_main_view_count" />
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginLeft="8dp"
-                                        android:layout_marginStart="8dp"
-                                        android:text="132"
-                                        android:textSize="12sp" />
-
-                                    <ImageView
-                                        android:layout_width="14dp"
-                                        android:layout_height="12dp"
-                                        android:layout_marginLeft="16dp"
-                                        android:layout_marginStart="16dp"
-                                        android:src="@mipmap/ic_main_comments" />
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginLeft="8dp"
-                                        android:layout_marginStart="8dp"
-                                        android:text="12"
-                                        android:textSize="12sp" />
-
-                                    <LinearLayout
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:gravity="end">
+                                        <ImageView
+                                            android:layout_width="14dp"
+                                            android:layout_height="12dp"
+                                            android:layout_marginLeft="16dp"
+                                            android:layout_marginStart="16dp"
+                                            android:src="@mipmap/ic_main_comments" />
 
                                         <TextView
+                                            android:id="@+id/tv_campusnews_comment1"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
-                                            android:text="11/18"
+                                            android:layout_marginLeft="8dp"
+                                            android:layout_marginStart="8dp"
                                             android:textSize="12sp" />
 
-                                    </LinearLayout>
-                                </LinearLayout>
-                            </LinearLayout>
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:adjustViewBounds="true"
-                                android:maxHeight="40dp"
-                                android:maxWidth="60dp" />
-
-                        </LinearLayout>
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginBottom="8dp"
-                            android:layout_marginTop="8dp"
-                            android:background="@color/divider_color" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <LinearLayout
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="2"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:text="冬日的小礼物:北洋军乐团交响管乐会" />
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="8dp">
-
-                                    <ImageView
-                                        android:layout_width="14dp"
-                                        android:layout_height="12dp"
-                                        android:src="@mipmap/ic_main_view_count" />
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginLeft="8dp"
-                                        android:layout_marginStart="8dp"
-                                        android:text="132"
-                                        android:textSize="12sp" />
-
-                                    <ImageView
-                                        android:layout_width="14dp"
-                                        android:layout_height="12dp"
-                                        android:layout_marginLeft="16dp"
-                                        android:layout_marginStart="16dp"
-                                        android:src="@mipmap/ic_main_comments" />
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginLeft="8dp"
-                                        android:layout_marginStart="8dp"
-                                        android:text="12"
-                                        android:textSize="12sp" />
-
-                                    <LinearLayout
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:gravity="end">
-
-                                        <TextView
-                                            android:layout_width="wrap_content"
+                                        <LinearLayout
+                                            android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
-                                            android:text="11/18"
-                                            android:textSize="12sp" />
+                                            android:gravity="end">
 
+                                            <TextView
+                                                android:id="@+id/tv_campusnews_date1"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:textSize="12sp" />
+
+                                        </LinearLayout>
                                     </LinearLayout>
                                 </LinearLayout>
-                            </LinearLayout>
 
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:adjustViewBounds="true"
-                                android:maxHeight="40dp"
-                                android:maxWidth="60dp" />
-
-                        </LinearLayout>
-
-                    </LinearLayout>
-
-
-                </android.support.v7.widget.CardView>
-
-                <LinearLayout
-                    android:id="@+id/rl_more_campus_note"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:orientation="horizontal"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/campus_note"
-                        android:textSize="20sp" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:gravity="end">
-
-                        <ImageView
-                            android:layout_width="36dp"
-                            android:layout_height="20dp"
-                            android:src="@mipmap/ic_more_btn" />
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <android.support.v7.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    app:cardCornerRadius="3dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:paddingBottom="16dp"
-                        android:paddingLeft="8dp"
-                        android:paddingRight="8dp"
-                        android:paddingTop="16dp">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="关于2015-2016学年第一学期全日制在校生收费注册的通知" />
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal">
-
-                                <TextView
+                                <ImageView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="财务处 学工部"
-                                    android:textSize="12sp" />
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="end">
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="11/18"
-                                        android:textSize="12sp" />
-
-                                </LinearLayout>
+                                    android:layout_weight="1"
+                                    android:adjustViewBounds="true"
+                                    android:maxHeight="40dp"
+                                    android:maxWidth="60dp" />
 
                             </LinearLayout>
 
-
-                        </LinearLayout>
-
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginBottom="8dp"
-                            android:layout_marginTop="8dp"
-                            android:background="@color/divider_color" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
-
-                            <TextView
+                            <View
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="关于2015-2016学年第一学期全日制在校生收费注册的通知" />
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="财务处 学工部"
-                                    android:textSize="12sp" />
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="end">
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="11/18"
-                                        android:textSize="12sp" />
-
-                                </LinearLayout>
-
-                            </LinearLayout>
-
-
-                        </LinearLayout>
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginBottom="8dp"
-                            android:layout_marginTop="8dp"
-                            android:background="@color/divider_color" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="关于2015-2016学年第一学期全日制在校生收费注册的通知" />
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="财务处 学工部"
-                                    android:textSize="12sp" />
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="end">
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="11/18"
-                                        android:textSize="12sp" />
-
-                                </LinearLayout>
-
-                            </LinearLayout>
-
-
-                        </LinearLayout>
-
-                    </LinearLayout>
-
-
-                </android.support.v7.widget.CardView>
-
-                <LinearLayout
-                    android:id="@+id/rl_more_jobs_info"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:orientation="horizontal"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/jobs_info"
-                        android:textSize="20sp" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:gravity="end">
-
-                        <ImageView
-                            android:layout_width="36dp"
-                            android:layout_height="20dp"
-                            android:src="@mipmap/ic_more_btn" />
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <android.support.v7.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    app:cardCornerRadius="3dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:paddingBottom="16dp"
-                        android:paddingLeft="8dp"
-                        android:paddingRight="8dp"
-                        android:paddingTop="16dp">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="关于2015-2016学年第一学期全日制在校生收费注册的通知" />
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="财务处 学工部"
-                                    android:textSize="12sp" />
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="end">
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="11/18"
-                                        android:textSize="12sp" />
-
-                                </LinearLayout>
-
-                            </LinearLayout>
-
-
-                        </LinearLayout>
-
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginBottom="8dp"
-                            android:layout_marginTop="8dp"
-                            android:background="@color/divider_color" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="关于2015-2016学年第一学期全日制在校生收费注册的通知" />
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
+                                android:layout_height="1dp"
+                                android:layout_marginBottom="8dp"
                                 android:layout_marginTop="8dp"
+                                android:background="@color/divider_color" />
+
+                            <LinearLayout
+                                android:id="@+id/campusnews2"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
                                 android:orientation="horizontal">
 
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="财务处 学工部"
-                                    android:textSize="12sp" />
-
                                 <LinearLayout
-                                    android:layout_width="match_parent"
+                                    android:layout_width="0dp"
                                     android:layout_height="wrap_content"
-                                    android:gravity="end">
+                                    android:layout_weight="2"
+                                    android:orientation="vertical">
 
                                     <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="11/18"
-                                        android:textSize="12sp" />
+                                        android:id="@+id/tv_campusnews_title2"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content" />
 
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="8dp">
+
+                                        <ImageView
+                                            android:layout_width="14dp"
+                                            android:layout_height="12dp"
+                                            android:src="@mipmap/ic_main_view_count" />
+
+                                        <TextView
+                                            android:id="@+id/tv_campusnews_viewcount2"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginLeft="8dp"
+                                            android:layout_marginStart="8dp"
+                                            android:textSize="12sp" />
+
+                                        <ImageView
+                                            android:layout_width="14dp"
+                                            android:layout_height="12dp"
+                                            android:layout_marginLeft="16dp"
+                                            android:layout_marginStart="16dp"
+                                            android:src="@mipmap/ic_main_comments" />
+
+                                        <TextView
+                                            android:id="@+id/tv_campusnews_comment2"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginLeft="8dp"
+                                            android:layout_marginStart="8dp"
+                                            android:textSize="12sp" />
+
+                                        <LinearLayout
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:gravity="end">
+
+                                            <TextView
+                                                android:id="@+id/tv_campusnews_date2"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:textSize="12sp" />
+
+                                        </LinearLayout>
+                                    </LinearLayout>
                                 </LinearLayout>
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:adjustViewBounds="true"
+                                    android:maxHeight="40dp"
+                                    android:maxWidth="60dp" />
 
                             </LinearLayout>
 
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_marginBottom="8dp"
+                                android:layout_marginTop="8dp"
+                                android:background="@color/divider_color" />
+
+                            <LinearLayout
+                                android:id="@+id/campusnews3"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="2"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:id="@+id/tv_campusnews_title3"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content" />
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="8dp">
+
+                                        <ImageView
+                                            android:layout_width="14dp"
+                                            android:layout_height="12dp"
+                                            android:src="@mipmap/ic_main_view_count" />
+
+                                        <TextView
+                                            android:id="@+id/tv_campusnews_viewcount3"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginLeft="8dp"
+                                            android:layout_marginStart="8dp"
+                                            android:textSize="12sp" />
+
+                                        <ImageView
+                                            android:layout_width="14dp"
+                                            android:layout_height="12dp"
+                                            android:layout_marginLeft="16dp"
+                                            android:layout_marginStart="16dp"
+                                            android:src="@mipmap/ic_main_comments" />
+
+                                        <TextView
+                                            android:id="@+id/tv_campusnews_comment3"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginLeft="8dp"
+                                            android:layout_marginStart="8dp"
+                                            android:textSize="12sp" />
+
+                                        <LinearLayout
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:gravity="end">
+
+                                            <TextView
+                                                android:id="@+id/tv_campusnews_date3"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:textSize="12sp" />
+
+                                        </LinearLayout>
+                                    </LinearLayout>
+                                </LinearLayout>
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:adjustViewBounds="true"
+                                    android:maxHeight="40dp"
+                                    android:maxWidth="60dp" />
+
+                            </LinearLayout>
 
                         </LinearLayout>
 
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginBottom="8dp"
-                            android:layout_marginTop="8dp"
-                            android:background="@color/divider_color" />
+
+                    </android.support.v7.widget.CardView>
+
+                    <LinearLayout
+                        android:id="@+id/rl_more_campus_note"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:orientation="horizontal"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/campus_note"
+                            android:textSize="20sp" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical">
+                            android:layout_gravity="center_vertical"
+                            android:gravity="end">
 
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="关于2015-2016学年第一学期全日制在校生收费注册的通知" />
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="8dp"
-                                android:orientation="horizontal">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="财务处 学工部"
-                                    android:textSize="12sp" />
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="end">
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="11/18"
-                                        android:textSize="12sp" />
-
-                                </LinearLayout>
-
-                            </LinearLayout>
-
-
+                            <ImageView
+                                android:layout_width="36dp"
+                                android:layout_height="20dp"
+                                android:src="@mipmap/ic_more_btn" />
                         </LinearLayout>
 
                     </LinearLayout>
 
+                    <android.support.v7.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        app:cardCornerRadius="3dp">
 
-                </android.support.v7.widget.CardView>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:paddingBottom="16dp"
+                            android:paddingLeft="8dp"
+                            android:paddingRight="8dp"
+                            android:paddingTop="16dp">
+
+                            <LinearLayout
+                                android:id="@+id/announcement1"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/tv_announcement_title1"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:id="@+id/tv_announcement_comefrom1"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textSize="12sp" />
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="end">
+
+                                        <TextView
+                                            android:id="@+id/tv_announcement_date1"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:textSize="12sp" />
+
+                                    </LinearLayout>
+
+                                </LinearLayout>
 
 
-            </LinearLayout>
-        </ScrollView>
+                            </LinearLayout>
 
-    </android.support.design.widget.CoordinatorLayout>
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_marginBottom="8dp"
+                                android:layout_marginTop="8dp"
+                                android:background="@color/divider_color" />
+
+                            <LinearLayout
+                                android:id="@+id/announcement2"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/tv_announcement_title2"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:id="@+id/tv_announcement_comefrom2"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textSize="12sp" />
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="end">
+
+                                        <TextView
+                                            android:id="@+id/tv_announcement_date2"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:textSize="12sp" />
+
+                                    </LinearLayout>
+
+                                </LinearLayout>
+
+
+                            </LinearLayout>
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_marginBottom="8dp"
+                                android:layout_marginTop="8dp"
+                                android:background="@color/divider_color" />
+
+                            <LinearLayout
+                                android:id="@+id/announcement3"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/tv_announcement_title3"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:id="@+id/tv_announcement_comefrom3"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textSize="12sp" />
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="end">
+
+                                        <TextView
+                                            android:id="@+id/tv_announcement_date3"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:textSize="12sp" />
+
+                                    </LinearLayout>
+
+                                </LinearLayout>
+
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+
+                    </android.support.v7.widget.CardView>
+
+                    <LinearLayout
+                        android:id="@+id/rl_more_jobs_info"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:orientation="horizontal"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/jobs_info"
+                            android:textSize="20sp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="end">
+
+                            <ImageView
+                                android:layout_width="36dp"
+                                android:layout_height="20dp"
+                                android:src="@mipmap/ic_more_btn" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <android.support.v7.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        app:cardCornerRadius="3dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:paddingBottom="16dp"
+                            android:paddingLeft="8dp"
+                            android:paddingRight="8dp"
+                            android:paddingTop="16dp">
+
+                            <LinearLayout
+                                android:id="@+id/jobs1"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/tv_jobs_title1"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content" />
+
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="end"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:id="@+id/tv_jobs_date1"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textSize="12sp" />
+
+                                </LinearLayout>
+
+
+                            </LinearLayout>
+
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_marginBottom="8dp"
+                                android:layout_marginTop="8dp"
+                                android:background="@color/divider_color" />
+
+                            <LinearLayout
+                                android:id="@+id/jobs2"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/tv_jobs_title2"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="8dp"
+                                    android:gravity="end"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:id="@+id/tv_jobs_date2"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textSize="12sp" />
+
+                                </LinearLayout>
+
+
+                            </LinearLayout>
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_marginBottom="8dp"
+                                android:layout_marginTop="8dp"
+                                android:background="@color/divider_color" />
+
+                            <LinearLayout
+                                android:id="@+id/jobs3"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/tv_jobs_title3"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="8dp"
+                                    android:gravity="end"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:id="@+id/tv_jobs_date3"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textSize="12sp" />
+
+                                </LinearLayout>
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+
+                    </android.support.v7.widget.CardView>
+
+
+                </LinearLayout>
+
+            </ScrollView>
+
+            <ProgressBar
+                android:id="@+id/pb_main"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
+        </FrameLayout>
+
+    </LinearLayout>
 
     <!-- Drawer -->
     <android.support.design.widget.NavigationView

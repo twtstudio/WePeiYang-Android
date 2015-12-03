@@ -2,6 +2,7 @@ package com.rex.wepeiyang.api;
 
 import com.google.gson.JsonElement;
 import com.rex.wepeiyang.bean.Gpa;
+import com.rex.wepeiyang.bean.Main;
 import com.rex.wepeiyang.bean.News;
 import com.rex.wepeiyang.bean.NewsList;
 
@@ -73,6 +74,9 @@ public class ApiClient {
         mApi.getNews(index, callback);
     }
 
+    public static void getMain(Callback<Main> callback) {
+        mApi.getMain(callback);
+    }
 
     public static void getLost() {
 

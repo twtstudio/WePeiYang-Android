@@ -13,7 +13,6 @@ import android.view.MenuItem;
 import com.rex.wepeiyang.R;
 import com.rex.wepeiyang.ui.BaseActivity;
 import com.rex.wepeiyang.ui.common.TabFragmentAdapter;
-import com.rex.wepeiyang.ui.news.colorfulpeiyang.ColorfulPeiyangFragment;
 import com.rex.wepeiyang.ui.news.importantnews.ImportantNewsFragment;
 
 import java.util.ArrayList;
@@ -73,10 +72,10 @@ public class NewsActivity extends BaseActivity implements NewsView {
         tblNews.addTab(tblNews.newTab().setText(tabs.get(1)));
         tblNews.setTabMode(TabLayout.MODE_FIXED);
         List<Fragment> fragmentList = new ArrayList<>();
-        ColorfulPeiyangFragment colorfulPeiyangFragment = new ColorfulPeiyangFragment();
+        //ColorfulPeiyangFragment colorfulPeiyangFragment = new ColorfulPeiyangFragment();
         ImportantNewsFragment importantNewsFragment = new ImportantNewsFragment();
         fragmentList.add(importantNewsFragment);
-        fragmentList.add(colorfulPeiyangFragment);
+        //fragmentList.add(colorfulPeiyangFragment);
         TabFragmentAdapter adapter = new TabFragmentAdapter(getSupportFragmentManager(), fragmentList, tabs);
         vpNews.setAdapter(adapter);
         tblNews.setupWithViewPager(vpNews);

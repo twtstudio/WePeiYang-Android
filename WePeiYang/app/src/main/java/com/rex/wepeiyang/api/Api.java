@@ -4,6 +4,7 @@ import com.google.gson.JsonElement;
 import com.rex.wepeiyang.bean.ClassTable;
 import com.rex.wepeiyang.bean.Feedback;
 import com.rex.wepeiyang.bean.Gpa;
+import com.rex.wepeiyang.bean.Main;
 import com.rex.wepeiyang.bean.News;
 import com.rex.wepeiyang.bean.NewsList;
 
@@ -36,5 +37,8 @@ public interface Api {
 
     @GET("/news/{index}")
     void getNews(@Path("index") int index, Callback<News> response);
+
+    @GET("/app/index")
+    void getMain(Callback<Main> response);
 
 }

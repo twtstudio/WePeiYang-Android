@@ -159,7 +159,6 @@ public class GpaActivity extends BaseActivity implements GpaView, OnChartValueSe
         yAxis.setDrawAxisLine(false);
         yAxis.setDrawGridLines(false);
         yAxis.setDrawLabels(false);
-        //yAxis.setLabelCount(4, true);
         YAxis rightAxis = lineChart.getAxisRight();
         rightAxis.setDrawLabels(false);
         rightAxis.setDrawAxisLine(false);
