@@ -13,6 +13,9 @@
         android:paddingTop="8dp">
 
         <LinearLayout
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="8dp"
+            android:layout_marginEnd="8dp"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"

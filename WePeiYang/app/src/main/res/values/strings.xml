@@ -39,9 +39,8 @@
     <string name="share_app">分享APP</string>
     <string name="check_update">检查更新</string>
     <string name="choose_tags">标签选择</string>
-    <string name="study_room_query">自习室查询</string>
-    <string name="gpa_query">GPA查询</string>
-    <string name="library_query">图书馆查询</string>
+    <string name="gpa_query">GPA</string>
+    <string name="library_query">图书馆</string>
     <string name="campus_news">校园新闻</string>
     <string name="campus_note">校园公告</string>
     <string name="jobs_info">就业咨询</string>
@@ -59,4 +58,12 @@
     <string name="captcha">验证码</string>
     <string name="cancle">取消</string>
     <string name="submit">确定</string>
+    <string name="monday">一</string>
+    <string name="tuesday">二</string>
+    <string name="wendesday">三</string>
+    <string name="thursday">四</string>
+    <string name="friday">五</string>
+    <string name="saturday">六</string>
+    <string name="sunday">日</string>
+    <string name="schedule">课程表</string>
 </resources>

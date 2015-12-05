@@ -49,11 +49,14 @@
         <activity
             android:name=".ui.notice.NoticeActivity"
             android:label="@string/title_activity_notice"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.news.details.NewsDetailsActivity"
-            android:label=""></activity>
-        <activity android:name=".ui.news.comments.NewsCommentsActivity"></activity>
+            android:label="" />
+        <activity android:name=".ui.news.comments.NewsCommentsActivity" />
+        <activity
+            android:name=".ui.schedule.ScheduleActivity"
+            android:label="课程表" />
     </application>
 
 </manifest>

@@ -3,6 +3,7 @@ package com.rex.wepeiyang.ui.news.collegenews;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +12,9 @@ import android.widget.Toast;
 
 import com.rex.wepeiyang.R;
 import com.rex.wepeiyang.bean.NewsItem;
+import com.rex.wepeiyang.interactor.CollegeNewsInteractorImpl;
 import com.rex.wepeiyang.ui.BaseFragment;
+import com.rex.wepeiyang.ui.common.OnRcvScrollListener;
 
 import java.util.List;
 
@@ -26,12 +29,33 @@ public class CollegeNewsFragment extends BaseFragment implements CollegeNewsView
     RecyclerView rvCollegenews;
     @InjectView(R.id.srl_collegenews)
     SwipeRefreshLayout srlCollegenews;
+    private CollegeNewsAdapter adapter;
+    private CollegeNewsPresenter presenter;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_collegenews, container, false);
         ButterKnife.inject(this, view);
+        adapter = new CollegeNewsAdapter(getActivity());
+        RecyclerView.LayoutManager manager = new LinearLayoutManager(getActivity());
+        rvCollegenews.setLayoutManager(manager);
+        rvCollegenews.setAdapter(adapter);
+        presenter = new CollegeNewsPresenterImpl(this, new CollegeNewsInteractorImpl());
+        presenter.refreshItems();
+        srlCollegenews.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                presenter.refreshItems();
+            }
+        });
+        rvCollegenews.setOnScrollListener(new OnRcvScrollListener(){
+            @Override
+            public void onBottom() {
+                super.onBottom();
+                presenter.loadMoreItems();
+            }
+        });
         return view;
     }
 

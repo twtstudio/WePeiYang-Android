@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="104dp"
+    android:background="@color/background"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/tv_course_number"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@color/divider_color"
+        android:gravity="center_horizontal"
+        android:textColor="@color/text_color"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/tv_monday_course"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:textColor="@color/text_color"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/tv_tuesday_course"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:textColor="@color/text_color"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/tv_wendesday_course"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:textColor="@color/text_color"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/tv_thursday_course"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:textColor="@color/text_color"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/tv_friday_course"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:textColor="@color/text_color"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/tv_saturday_course"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:textColor="@color/text_color"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/tv_sunday_course"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:textColor="@color/text_color"
+        android:textSize="12sp" />
+
+</LinearLayout>

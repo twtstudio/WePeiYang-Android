@@ -17,6 +17,7 @@ import com.rex.wepeiyang.ui.news.details.NewsDetailsActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.EventListener;
 import java.util.List;
 
 import butterknife.ButterKnife;
@@ -28,8 +29,9 @@ import butterknife.InjectView;
 public class ImportantNewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final int ITEM_VIEW_TYPE_HEADER = 0;
-    private static final int ITEM_VIEW_TYPE_ITEM = 1;
+    private static final int ITEM_VIEW_TYPE_ITEM_WITH_PIC = 1;
     private static final int ITEM_VIEW_TYPE_FOOTER = 2;
+    private static final int ITEM_VIEW_TYPE_ITEM_WITHOUT_PIC = 3;
 
 
     private ArrayList<NewsItem> dataSet = new ArrayList<>();
@@ -40,7 +42,7 @@ public class ImportantNewsAdapter extends RecyclerView.Adapter<RecyclerView.View
         this.context = context;
     }
 
-    public static class ItemHolder extends RecyclerView.ViewHolder {
+    public static class ItemHolderWithPic extends RecyclerView.ViewHolder {
 
         @InjectView(R.id.tv_news_title)
         TextView tvNewsTitle;
@@ -53,7 +55,23 @@ public class ImportantNewsAdapter extends RecyclerView.Adapter<RecyclerView.View
         @InjectView(R.id.iv_news_picture)
         ImageView ivNewsPicture;
 
-        public ItemHolder(View itemView) {
+        public ItemHolderWithPic(View itemView) {
+            super(itemView);
+            ButterKnife.inject(this, itemView);
+        }
+    }
+
+    public static class ItemHolderWithoutPic extends RecyclerView.ViewHolder{
+        @InjectView(R.id.tv_news_title)
+        TextView tvNewsTitle;
+        @InjectView(R.id.tv_view_count)
+        TextView tvViewCount;
+        @InjectView(R.id.tv_news_date)
+        TextView tvNewsDate;
+        @InjectView(R.id.tv_comment_count)
+        TextView tvCommentCount;
+
+        public ItemHolderWithoutPic(View itemView) {
             super(itemView);
             ButterKnife.inject(this, itemView);
         }
@@ -90,15 +108,15 @@ public class ImportantNewsAdapter extends RecyclerView.Adapter<RecyclerView.View
         } else if (viewType == ITEM_VIEW_TYPE_FOOTER) {
             return new FooterHolder(inflater.inflate(R.layout.footer, parent, false));
         } else {
-            return new ItemHolder(inflater.inflate(R.layout.item_news_with_pic, parent, false));
+            return new ItemHolderWithPic(inflater.inflate(R.layout.item_news_with_pic, parent, false));
         }
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         int type = getItemViewType(position);
-        if (type == ITEM_VIEW_TYPE_ITEM) {
-            ItemHolder itemHolder = (ItemHolder) holder;
+        if (type == ITEM_VIEW_TYPE_ITEM_WITH_PIC) {
+            ItemHolderWithPic itemHolder = (ItemHolderWithPic) holder;
             final NewsItem newsItem = dataSet.get(position);
             itemHolder.tvNewsTitle.setText(newsItem.subject);
             itemHolder.tvViewCount.setText(newsItem.visitcount + "");
@@ -117,6 +135,8 @@ public class ImportantNewsAdapter extends RecyclerView.Adapter<RecyclerView.View
                     NewsDetailsActivity.actionStart(context, newsItem.index);
                 }
             });
+        } else if (type == ITEM_VIEW_TYPE_ITEM_WITHOUT_PIC) {
+
         } else if (type == ITEM_VIEW_TYPE_HEADER) {
             HeaderHolder headerHolder = (HeaderHolder) holder;
         }
@@ -138,9 +158,17 @@ public class ImportantNewsAdapter extends RecyclerView.Adapter<RecyclerView.View
             return ITEM_VIEW_TYPE_HEADER;
         } else {
             if (!useFooter) {
-                return ITEM_VIEW_TYPE_ITEM;
+                if (dataSet.get(position).pic.isEmpty()) {
+                    return ITEM_VIEW_TYPE_ITEM_WITHOUT_PIC;
+                } else {
+                    return ITEM_VIEW_TYPE_ITEM_WITH_PIC;
+                }
             } else if (position < getItemCount() - 1) {
-                return ITEM_VIEW_TYPE_ITEM;
+                if (dataSet.get(position).pic.isEmpty()) {
+                    return ITEM_VIEW_TYPE_ITEM_WITHOUT_PIC;
+                } else {
+                    return ITEM_VIEW_TYPE_ITEM_WITH_PIC;
+                }
             } else {
                 return ITEM_VIEW_TYPE_FOOTER;
             }

@@ -3,6 +3,8 @@ package com.rex.wepeiyang;
 import android.app.Application;
 import android.content.Context;
 
+import org.litepal.LitePalApplication;
+
 /**
  * Created by sunjuntao on 15/11/15.
  */
@@ -13,6 +15,7 @@ public class WePeiYangApp extends Application{
     @Override
     public void onCreate() {
         context = getApplicationContext();
+        LitePalApplication.initialize(this);
         super.onCreate();
     }
 

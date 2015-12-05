@@ -13,7 +13,10 @@ import android.view.MenuItem;
 import com.rex.wepeiyang.R;
 import com.rex.wepeiyang.ui.BaseActivity;
 import com.rex.wepeiyang.ui.common.TabFragmentAdapter;
+import com.rex.wepeiyang.ui.news.associationsnews.AssociationFragment;
+import com.rex.wepeiyang.ui.news.collegenews.CollegeNewsFragment;
 import com.rex.wepeiyang.ui.news.importantnews.ImportantNewsFragment;
+import com.rex.wepeiyang.ui.news.viewpoint.ViewPointFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,15 +70,23 @@ public class NewsActivity extends BaseActivity implements NewsView {
     public void initTab() {
         List<String> tabs = new ArrayList<>();
         tabs.add("天大要闻");
-        tabs.add("缤纷北洋");
+        tabs.add("视点观察");
+        tabs.add("社团风采");
+        tabs.add("院系动态");
         tblNews.addTab(tblNews.newTab().setText(tabs.get(0)));
         tblNews.addTab(tblNews.newTab().setText(tabs.get(1)));
+        tblNews.addTab(tblNews.newTab().setText(tabs.get(2)));
+        tblNews.addTab(tblNews.newTab().setText(tabs.get(3)));
         tblNews.setTabMode(TabLayout.MODE_FIXED);
         List<Fragment> fragmentList = new ArrayList<>();
-        //ColorfulPeiyangFragment colorfulPeiyangFragment = new ColorfulPeiyangFragment();
         ImportantNewsFragment importantNewsFragment = new ImportantNewsFragment();
+        ViewPointFragment viewPointFragment = new ViewPointFragment();
+        AssociationFragment associationFragment = new AssociationFragment();
+        CollegeNewsFragment collegeNewsFragment = new CollegeNewsFragment();
         fragmentList.add(importantNewsFragment);
-        //fragmentList.add(colorfulPeiyangFragment);
+        fragmentList.add(viewPointFragment);
+        fragmentList.add(associationFragment);
+        fragmentList.add(collegeNewsFragment);
         TabFragmentAdapter adapter = new TabFragmentAdapter(getSupportFragmentManager(), fragmentList, tabs);
         vpNews.setAdapter(adapter);
         tblNews.setupWithViewPager(vpNews);

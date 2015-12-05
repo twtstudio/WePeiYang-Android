@@ -33,6 +33,9 @@
     <color name="news_primary_color">#607d8b</color>
     <color name="news_dark_primary_color">#465a65</color>
     <color name="news_tab_text_color">#a0b6a9</color>
-    <!-- Study Room -->
+    <!-- Study Room Activity-->
     <color name="study_room_primary_color">#3f51b5</color>
+    <!-- Schedule Activity-->
+    <color name="schedule_primary_color">#ff9801</color>
+    <color name="schedule_dark_primary_color">#f67c01</color>
 </resources>

@@ -82,8 +82,8 @@ public class ViewPointAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             ItemHolder itemHolder = (ItemHolder) holder;
             final NewsItem item = dataSet.get(position);
             itemHolder.tvNewsTitle.setText(item.subject);
-            itemHolder.tvCommentCount.setText(item.comments);
-            itemHolder.tvViewCount.setText(item.visitcount);
+            itemHolder.tvCommentCount.setText(item.comments+"");
+            itemHolder.tvViewCount.setText(item.visitcount+"");
             if (!item.pic.isEmpty()) {
                 Picasso.with(context).load(item.pic).into(itemHolder.ivNewsPicture);
             } else {

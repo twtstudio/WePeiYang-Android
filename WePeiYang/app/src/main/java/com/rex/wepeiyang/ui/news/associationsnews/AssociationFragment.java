@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.rex.wepeiyang.R;
 import com.rex.wepeiyang.bean.NewsItem;
+import com.rex.wepeiyang.interactor.AssociationInteractorImpl;
 import com.rex.wepeiyang.ui.BaseFragment;
 import com.rex.wepeiyang.ui.common.OnRcvScrollListener;
 
@@ -29,15 +30,16 @@ public class AssociationFragment extends BaseFragment implements AssociationView
     RecyclerView rvAssociation;
     @InjectView(R.id.srl_association)
     SwipeRefreshLayout srlAssociation;
-    private AssociationAdapter adapter = new AssociationAdapter(getActivity());
     private AssociationPresenter presenter;
-
+    private AssociationAdapter adapter;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_association, container, false);
         ButterKnife.inject(this, view);
+        presenter = new AssociationPresenterImpl(this, new AssociationInteractorImpl());
         rvAssociation.setLayoutManager(new LinearLayoutManager(getActivity()));
+        adapter = new AssociationAdapter(getActivity());
         rvAssociation.setAdapter(adapter);
         rvAssociation.setOnScrollListener(new OnRcvScrollListener() {
             @Override

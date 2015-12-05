@@ -16,7 +16,7 @@ import java.util.HashMap;
  */
 public class Sign {
 
-    public static String generate(HashMap<String, String> params) {
+    public String generate(HashMap<String, String> params) {
         String paramsString = dictSort(params);//获取字典排序后的参数列表
         paramsString = Constant.APPKEY + paramsString + Constant.APPSECRET;
         Log.e("paramsString", paramsString);

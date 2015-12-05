@@ -1,6 +1,7 @@
 package com.rex.wepeiyang.api;
 
 import com.google.gson.JsonElement;
+import com.rex.wepeiyang.bean.ClassTable;
 import com.rex.wepeiyang.bean.Gpa;
 import com.rex.wepeiyang.bean.Main;
 import com.rex.wepeiyang.bean.News;
@@ -28,7 +29,7 @@ public class ApiClient {
         temp.put("t", params.get("t"));
         temp.put("tjuuname", tjuuname);
         temp.put("tjupasswd", tjupasswd);
-        String sign = Sign.generate(temp);
+        String sign = new Sign().generate(temp);
         params.put("sign", sign);
         mApi.getGPA(params, callback);
     }
@@ -45,9 +46,22 @@ public class ApiClient {
         temp.put("tjupasswd", tjupasswd);
         temp.put("token", token);
         temp.put("captcha", captcha);
-        String sign = Sign.generate(temp);
+        String sign = new Sign().generate(temp);
         params.put("sign", sign);
         mApi.getGPA(params, callback);
+    }
+
+    public static void getClassTable(String tjuuname, String tjupasswd, Callback<ClassTable> callback) {
+        RequestParams params = new RequestParams();
+        params.put("tjuuname", tjuuname);
+        params.put("tjupasswd", tjupasswd);
+        HashMap<String, String> temp = new HashMap<>();
+        temp.put("t", params.get("t"));
+        temp.put("tjuuname", tjuuname);
+        temp.put("tjupasswd", tjupasswd);
+        String sign = new Sign().generate(temp);
+        params.put("sign", sign);
+        mApi.getCourse(params, callback);
     }
 
     public static void getImportantNewsList(int page, Callback<NewsList> callback) {

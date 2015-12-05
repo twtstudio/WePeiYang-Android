@@ -22,13 +22,13 @@ import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.Tricks.ViewPagerEx;
 import com.rex.wepeiyang.R;
 import com.rex.wepeiyang.bean.Main;
-import com.rex.wepeiyang.interactor.MainInteractor;
 import com.rex.wepeiyang.interactor.MainInteractorImpl;
 import com.rex.wepeiyang.ui.gpa.GpaActivity;
 import com.rex.wepeiyang.ui.library.LibraryActivity;
 import com.rex.wepeiyang.ui.news.NewsActivity;
 import com.rex.wepeiyang.ui.news.details.NewsDetailsActivity;
 import com.rex.wepeiyang.ui.notice.NoticeActivity;
+import com.rex.wepeiyang.ui.schedule.ScheduleActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,8 +40,6 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
 
     @InjectView(R.id.dl_main)
     DrawerLayout dlMain;
-    @InjectView(R.id.btn_study_room_query)
-    LinearLayout btnStudyRoomQuery;
     @InjectView(R.id.btn_gpa_query)
     LinearLayout btnGpaQuery;
     @InjectView(R.id.btn_library_query)
@@ -134,6 +132,8 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
     LinearLayout jobs2;
     @InjectView(R.id.jobs3)
     LinearLayout jobs3;
+    @InjectView(R.id.btn_schedule)
+    LinearLayout btnSchedule;
 
     private MainPresenter presenter;
 
@@ -171,9 +171,9 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
         });
         btnGpaQuery.setOnClickListener(this);
         btnLibraryQuery.setOnClickListener(this);
-        btnStudyRoomQuery.setOnClickListener(this);
         rlMoreCampusNews.setOnClickListener(this);
         rlMoreCampusNote.setOnClickListener(this);
+        btnSchedule.setOnClickListener(this);
         presenter = new MainPresenterImpl(this, new MainInteractorImpl());
         presenter.loadData();
     }
@@ -223,7 +223,8 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.btn_study_room_query:
+            case R.id.btn_schedule:
+                ScheduleActivity.actionStart(this);
                 break;
             case R.id.btn_gpa_query:
                 GpaActivity.actionStart(this);
