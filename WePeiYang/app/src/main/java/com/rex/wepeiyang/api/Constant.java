@@ -6,4 +6,5 @@ package com.rex.wepeiyang.api;
 public class Constant {
     public static final String APPKEY = "9GTdynvrCm1EKKFfVmTC";
     public static final String APPSECRET  ="1aVhfAYBFUfqrdlcT621d9d6OzahMI";
+    public static final String UMENGAPPKEY = "56656330e0f55add0a002611";
 }

@@ -57,6 +57,8 @@
         <activity
             android:name=".ui.schedule.ScheduleActivity"
             android:label="课程表" />
+        <meta-data android:value="56656330e0f55add0a002611" android:name="UMENG_APPKEY"/>
+        <meta-data android:value="Wandoujia" android:name="UMENG_CHANNEL"/>
     </application>
 
 </manifest>

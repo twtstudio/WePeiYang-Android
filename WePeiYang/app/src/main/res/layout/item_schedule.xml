@@ -20,6 +20,7 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
+        android:gravity="center_horizontal"
         android:textColor="@color/text_color"
         android:textSize="12sp" />
 
@@ -28,6 +29,7 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
+        android:gravity="center_horizontal"
         android:textColor="@color/text_color"
         android:textSize="12sp" />
 
@@ -36,6 +38,7 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
+        android:gravity="center_horizontal"
         android:textColor="@color/text_color"
         android:textSize="12sp" />
 
@@ -44,6 +47,7 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
+        android:gravity="center_horizontal"
         android:textColor="@color/text_color"
         android:textSize="12sp" />
 
@@ -52,6 +56,7 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
+        android:gravity="center_horizontal"
         android:textColor="@color/text_color"
         android:textSize="12sp" />
 
@@ -60,14 +65,16 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
+        android:gravity="center_horizontal"
         android:textColor="@color/text_color"
         android:textSize="12sp" />
 
     <TextView
-        android:id="@+id/tv_sunday_course"
+          android:id="@+id/tv_sunday_course"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
+        android:gravity="center_horizontal"
         android:textColor="@color/text_color"
         android:textSize="12sp" />
 
