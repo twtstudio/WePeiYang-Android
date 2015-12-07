@@ -63,10 +63,7 @@ public class AssociationFragment extends BaseFragment implements AssociationView
         Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
     }
 
-    @Override
-    public void hideFooter() {
-        adapter.setUseFooter(false);
-    }
+
 
     @Override
     public void showRefreshing() {
@@ -76,11 +73,6 @@ public class AssociationFragment extends BaseFragment implements AssociationView
     @Override
     public void hideRefreshing() {
         srlAssociation.setRefreshing(false);
-    }
-
-    @Override
-    public void userFooter() {
-        adapter.setUseFooter(true);
     }
 
     @Override

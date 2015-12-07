@@ -23,7 +23,6 @@ import butterknife.InjectView;
  */
 public class CollegeNewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private boolean useFooter = false;
     private Context context;
     private ArrayList<NewsItem> dataSet = new ArrayList<>();
     private int ITEM_TYPE_ITEM = 0;
@@ -91,36 +90,28 @@ public class CollegeNewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @Override
     public int getItemViewType(int position) {
-        if (!useFooter) {
-            return ITEM_TYPE_ITEM;
+        if (position == dataSet.size()) {
+            return ITEM_TYPE_FOOTER;
         } else {
-            if (position < getItemCount() - 1) {
-                return ITEM_TYPE_ITEM;
-            } else {
-                return ITEM_TYPE_FOOTER;
-            }
+            return ITEM_TYPE_ITEM;
         }
     }
 
     @Override
     public int getItemCount() {
-        return dataSet.size();
+        return dataSet.size() + 1;
     }
 
-    public void refreshItems(List<NewsItem> items){
+    public void refreshItems(List<NewsItem> items) {
         dataSet.clear();
         dataSet.addAll(items);
         notifyDataSetChanged();
     }
 
-    public void addItems(List<NewsItem> items){
-        for (NewsItem item: items){
+    public void addItems(List<NewsItem> items) {
+        for (NewsItem item : items) {
             dataSet.add(item);
         }
         notifyDataSetChanged();
-    }
-
-    public void setUseFooter(boolean useFooter){
-        this.useFooter = useFooter;
     }
 }

@@ -36,7 +36,6 @@ public class CollegeNewsPresenterImpl implements CollegeNewsPresenter, OnGetColl
             return;
         } else {
             isLoadingMore = true;
-            view.useFooter();
             page += 1;
             interactor.getCollegeNewslist(page, this);
         }
@@ -50,7 +49,6 @@ public class CollegeNewsPresenterImpl implements CollegeNewsPresenter, OnGetColl
             view.refreshItems(newsList.data);
         } else {
             isLoadingMore = false;
-            view.hideFooter();
             view.loadMoreItems(newsList.data);
         }
     }

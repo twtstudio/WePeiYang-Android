@@ -27,7 +27,6 @@ public class AssociationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private ArrayList<NewsItem> dataSet = new ArrayList<>();
     private int ITEM_TYPE_ITEM = 0;
     private int ITEM_TYPE_FOOTER = 1;
-    private boolean useFooter = false;
     private Context context;
 
     public AssociationAdapter(Context context) {
@@ -91,26 +90,18 @@ public class AssociationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @Override
     public int getItemCount() {
-        return dataSet.size();
+        return dataSet.size() + 1;
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (!useFooter) {
-            return ITEM_TYPE_ITEM;
+        if (position == dataSet.size()) {
+            return ITEM_TYPE_FOOTER;
         } else {
-            if (position < getItemCount() - 1) {
-                return ITEM_TYPE_ITEM;
-            } else {
-                return ITEM_TYPE_FOOTER;
-            }
+            return ITEM_TYPE_ITEM;
         }
     }
 
-    public void setUseFooter(boolean useFooter) {
-        this.useFooter = useFooter;
-        notifyDataSetChanged();
-    }
 
     public void refreshItems(List<NewsItem> items) {
         dataSet.clear();

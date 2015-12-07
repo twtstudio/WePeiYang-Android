@@ -35,7 +35,7 @@ public class ImportantNewsAdapter extends RecyclerView.Adapter<RecyclerView.View
 
 
     private ArrayList<NewsItem> dataSet = new ArrayList<>();
-    private boolean useFooter = false;
+    //private boolean useFooter = false;
     private Context context;
 
     public ImportantNewsAdapter(Context context) {
@@ -61,7 +61,7 @@ public class ImportantNewsAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
     }
 
-    public static class ItemHolderWithoutPic extends RecyclerView.ViewHolder{
+    public static class ItemHolderWithoutPic extends RecyclerView.ViewHolder {
         @InjectView(R.id.tv_news_title)
         TextView tvNewsTitle;
         @InjectView(R.id.tv_view_count)
@@ -145,11 +145,7 @@ public class ImportantNewsAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     @Override
     public int getItemCount() {
-        int itemCount = dataSet.size();
-        if (useFooter) {
-            itemCount += 1;
-        }
-        return itemCount;
+        return dataSet.size() + 1;
     }
 
     @Override
@@ -157,20 +153,14 @@ public class ImportantNewsAdapter extends RecyclerView.Adapter<RecyclerView.View
         if (position == 0) {
             return ITEM_VIEW_TYPE_HEADER;
         } else {
-            if (!useFooter) {
-                if (dataSet.get(position).pic.isEmpty()) {
-                    return ITEM_VIEW_TYPE_ITEM_WITHOUT_PIC;
-                } else {
-                    return ITEM_VIEW_TYPE_ITEM_WITH_PIC;
-                }
-            } else if (position < getItemCount() - 1) {
-                if (dataSet.get(position).pic.isEmpty()) {
-                    return ITEM_VIEW_TYPE_ITEM_WITHOUT_PIC;
-                } else {
-                    return ITEM_VIEW_TYPE_ITEM_WITH_PIC;
-                }
-            } else {
+            if (position == dataSet.size()) {
                 return ITEM_VIEW_TYPE_FOOTER;
+            } else {
+                if (dataSet.get(position).pic.isEmpty()) {
+                    return ITEM_VIEW_TYPE_ITEM_WITHOUT_PIC;
+                } else {
+                    return ITEM_VIEW_TYPE_ITEM_WITH_PIC;
+                }
             }
         }
     }
@@ -182,15 +172,9 @@ public class ImportantNewsAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     public void addItems(List<NewsItem> items) {
-        useFooter = false;
         for (NewsItem item : items) {
             dataSet.add(item);
         }
-        notifyDataSetChanged();
-    }
-
-    public void setUseFooter(boolean useFooter) {
-        this.useFooter = useFooter;
         notifyDataSetChanged();
     }
 

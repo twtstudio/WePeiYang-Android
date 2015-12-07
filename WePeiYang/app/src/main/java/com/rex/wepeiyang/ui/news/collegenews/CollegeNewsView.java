@@ -9,10 +9,8 @@ import java.util.List;
  */
 public interface CollegeNewsView {
     void toastMessage(String message);
-    void hideFooter();
     void showRefreshing();
     void hideRefreshing();
-    void useFooter();
     void loadMoreItems(List<NewsItem> items);
     void refreshItems(List<NewsItem> items);
 }

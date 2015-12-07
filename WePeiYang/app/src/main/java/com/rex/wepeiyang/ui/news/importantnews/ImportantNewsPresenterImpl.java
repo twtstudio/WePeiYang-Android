@@ -23,13 +23,11 @@ public class ImportantNewsPresenterImpl implements ImportantNewsPresenter, OnGet
         if (newsList.data.size() == 0) {
             isLoadingMore = false;
             isRefreshing = false;
-            view.hideFooter();
             view.showToast("没有新闻了orz");
             return;
         }
         if (isLoadingMore) {
             view.loadMoreItems(newsList.data);
-            view.hideFooter();
             isLoadingMore = false;
         } else {
             view.hideRefreshing();
@@ -63,7 +61,6 @@ public class ImportantNewsPresenterImpl implements ImportantNewsPresenter, OnGet
             return;
         }
         page += 1;
-        view.userFooter();
         isLoadingMore = true;
         interactor.getImportantNews(page, this);
     }

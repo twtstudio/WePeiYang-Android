@@ -77,16 +77,6 @@ public class ViewPointFragment extends BaseFragment implements ViewPointView {
     }
 
     @Override
-    public void useFooter() {
-        adapter.setUseFooter(true);
-    }
-
-    @Override
-    public void hideFooter() {
-        adapter.setUseFooter(false);
-    }
-
-    @Override
     public void toastMessage(String msg) {
         Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
     }

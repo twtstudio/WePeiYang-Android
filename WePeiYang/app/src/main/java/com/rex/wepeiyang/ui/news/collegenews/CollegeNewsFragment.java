@@ -70,10 +70,6 @@ public class CollegeNewsFragment extends BaseFragment implements CollegeNewsView
         Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
     }
 
-    @Override
-    public void hideFooter() {
-
-    }
 
     @Override
     public void showRefreshing() {
@@ -84,11 +80,7 @@ public class CollegeNewsFragment extends BaseFragment implements CollegeNewsView
     public void hideRefreshing() {
 
     }
-
-    @Override
-    public void useFooter() {
-
-    }
+    
 
     @Override
     public void loadMoreItems(List<NewsItem> items) {

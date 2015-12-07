@@ -41,7 +41,6 @@ public class ViewPointPresenterImpl implements ViewPointPresenter, OnGetViewPoin
         }else {
             page += 1;
             isLoadingMore = true;
-            view.useFooter();
             interactor.getViewPoints(page, this);
         }
 
@@ -52,7 +51,6 @@ public class ViewPointPresenterImpl implements ViewPointPresenter, OnGetViewPoin
         if (newsList.data.size() == 0) {
             isLoadingMore = false;
             isRefreshing = false;
-            view.hideFooter();
             view.toastMessage("没有新闻了orz");
             return;
         }
@@ -62,7 +60,6 @@ public class ViewPointPresenterImpl implements ViewPointPresenter, OnGetViewPoin
             view.refreshItems(newsList.data);
         }else {
             isLoadingMore = false;
-            view.hideFooter();
             view.loadMoreItems(newsList.data);
         }
 
@@ -72,7 +69,6 @@ public class ViewPointPresenterImpl implements ViewPointPresenter, OnGetViewPoin
     public void onFailure(String errorMsg) {
         isLoadingMore = false;
         isRefreshing = false;
-        view.hideFooter();
         view.hideProgress();
         view.toastMessage(errorMsg);
     }

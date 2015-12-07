@@ -62,10 +62,6 @@ public class ImportantNewsFragment extends Fragment implements ImportantNewsView
     }
 
 
-    @Override
-    public void hideFooter() {
-        adapter.setUseFooter(false);
-    }
 
     @Override
     public void showRefreshing() {
@@ -82,12 +78,6 @@ public class ImportantNewsFragment extends Fragment implements ImportantNewsView
         srlImportantNews.setRefreshing(false);
     }
 
-    @Override
-    public void userFooter() {
-        if (adapter != null) {
-            adapter.setUseFooter(true);
-        }
-    }
 
     @Override
     public void loadMoreItems(List<NewsItem> items) {

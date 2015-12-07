@@ -39,7 +39,6 @@ public class AssociationPresenterImpl implements AssociationPresenter, OnGetAsso
         } else {
             isLoadingMore = true;
             page += 1;
-            view.userFooter();
             interactor.getAssociationList(page, this);
         }
     }
@@ -52,7 +51,6 @@ public class AssociationPresenterImpl implements AssociationPresenter, OnGetAsso
             view.refreshItems(newsList.data);
         } else {
             isLoadingMore = false;
-            view.hideFooter();
             view.loadMoreItems(newsList.data);
         }
     }

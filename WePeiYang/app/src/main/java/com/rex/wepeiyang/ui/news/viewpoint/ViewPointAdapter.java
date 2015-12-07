@@ -25,8 +25,6 @@ import butterknife.InjectView;
  */
 public class ViewPointAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-
-    private boolean useFooter = false;
     private ArrayList<NewsItem> dataSet = new ArrayList<>();
     private static final int ITEM_TYPE_ITEM = 0;
     private static final int ITEM_TYPE_FOOTER = 1;
@@ -82,8 +80,8 @@ public class ViewPointAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             ItemHolder itemHolder = (ItemHolder) holder;
             final NewsItem item = dataSet.get(position);
             itemHolder.tvNewsTitle.setText(item.subject);
-            itemHolder.tvCommentCount.setText(item.comments+"");
-            itemHolder.tvViewCount.setText(item.visitcount+"");
+            itemHolder.tvCommentCount.setText(item.comments + "");
+            itemHolder.tvViewCount.setText(item.visitcount + "");
             if (!item.pic.isEmpty()) {
                 Picasso.with(context).load(item.pic).into(itemHolder.ivNewsPicture);
             } else {
@@ -100,35 +98,26 @@ public class ViewPointAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public int getItemCount() {
-        return dataSet.size();
+        return dataSet.size() + 1;
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (!useFooter) {
+        if (position == dataSet.size()){
+            return ITEM_TYPE_FOOTER;
+        }else {
             return ITEM_TYPE_ITEM;
-        } else {
-            if (position < getItemCount() - 1) {
-                return ITEM_TYPE_ITEM;
-            } else {
-                return ITEM_TYPE_FOOTER;
-            }
         }
     }
 
-    public void setUseFooter(boolean useFooter) {
-        this.useFooter = useFooter;
-        notifyDataSetChanged();
-    }
-
-    public void refreshItems(List<NewsItem> items){
+    public void refreshItems(List<NewsItem> items) {
         dataSet.clear();
         dataSet.addAll(items);
         notifyDataSetChanged();
     }
 
-    public void addItems(List<NewsItem> items){
-        for (NewsItem item : items){
+    public void addItems(List<NewsItem> items) {
+        for (NewsItem item : items) {
             dataSet.add(item);
         }
         notifyDataSetChanged();
