@@ -38,4 +38,6 @@
     <!-- Schedule Activity-->
     <color name="schedule_primary_color">#ff9801</color>
     <color name="schedule_dark_primary_color">#f67c01</color>
+    <!--Bound Activity-->
+    <color name="bound_primary_color">#014b88</color>
 </resources>

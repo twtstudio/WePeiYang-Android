@@ -12,14 +12,27 @@ public class Main {
 
 
     public class Data {
-        public List<Object> carousel;
+        public List<Carousel> carousel;
         public News news;
         public Service service;
 
+        public class Carousel {
+            public int index;
+            public String name;
+            public String wideimage;
+        }
+
         public class News {
-            public List<Object> campus;
+            public List<Campus> campus;
             public List<Annoucement> annoucements;
             public List<Job> jobs;
+
+            public class Campus {
+                public int index;
+                public String pic;
+                public String addat;
+                public String visitcount;
+            }
 
             public class Annoucement {
                 public int index;
@@ -38,6 +51,7 @@ public class Main {
         public class Service {
             List<LostFound> lost;
             List<LostFound> found;
+
             public class LostFound {
                 public int id;
                 public String ename;

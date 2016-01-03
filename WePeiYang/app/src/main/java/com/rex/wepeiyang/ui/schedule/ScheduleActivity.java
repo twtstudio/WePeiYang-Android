@@ -13,14 +13,12 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.facebook.imagepipeline.producers.HttpUrlConnectionNetworkFetcher;
 import com.rex.wepeiyang.R;
 import com.rex.wepeiyang.bean.ClassTable;
 import com.rex.wepeiyang.interactor.ScheduleInteractorImpl;
 import com.rex.wepeiyang.ui.BaseActivity;
 
 import java.util.Calendar;
-import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;

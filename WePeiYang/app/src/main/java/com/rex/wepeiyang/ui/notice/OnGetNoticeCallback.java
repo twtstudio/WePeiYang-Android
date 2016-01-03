@@ -1,6 +1,5 @@
 package com.rex.wepeiyang.ui.notice;
 
-import com.rex.wepeiyang.bean.NewsItem;
 import com.rex.wepeiyang.bean.NewsList;
 
 /**

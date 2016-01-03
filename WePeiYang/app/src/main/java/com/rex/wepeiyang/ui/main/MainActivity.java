@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -19,16 +20,22 @@ import android.widget.Toast;
 import com.daimajia.slider.library.Indicators.PagerIndicator;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
+import com.daimajia.slider.library.SliderTypes.DefaultSliderView;
+import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.daimajia.slider.library.Tricks.ViewPagerEx;
 import com.rex.wepeiyang.R;
 import com.rex.wepeiyang.bean.Main;
 import com.rex.wepeiyang.interactor.MainInteractorImpl;
+import com.rex.wepeiyang.support.PrefUtils;
+import com.rex.wepeiyang.ui.account.AccountActivity;
+import com.rex.wepeiyang.ui.common.NextActivity;
 import com.rex.wepeiyang.ui.gpa.GpaActivity;
-import com.rex.wepeiyang.ui.library.LibraryActivity;
+import com.rex.wepeiyang.ui.login.LoginActivity;
 import com.rex.wepeiyang.ui.news.NewsActivity;
 import com.rex.wepeiyang.ui.news.details.NewsDetailsActivity;
 import com.rex.wepeiyang.ui.notice.NoticeActivity;
 import com.rex.wepeiyang.ui.schedule.ScheduleActivity;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,10 +49,8 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
     DrawerLayout dlMain;
     @InjectView(R.id.btn_gpa_query)
     LinearLayout btnGpaQuery;
-    @InjectView(R.id.btn_library_query)
-    LinearLayout btnLibraryQuery;
-    @InjectView(R.id.drawer)
-    NavigationView drawer;
+    //@InjectView(R.id.btn_library_query)
+    //LinearLayout btnLibraryQuery;
     @InjectView(R.id.toolbar)
     Toolbar toolbar;
     @InjectView(R.id.slider)
@@ -56,10 +61,8 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
     LinearLayout rlMoreCampusNews;
     @InjectView(R.id.rl_more_campus_note)
     LinearLayout rlMoreCampusNote;
-    @InjectView(R.id.rl_more_jobs_info)
-    LinearLayout rlMoreJobsInfo;
-    @InjectView(R.id.pb_main)
-    ProgressBar pbMain;
+    //@InjectView(R.id.rl_more_jobs_info)
+    //LinearLayout rlMoreJobsInfo;
     @InjectView(R.id.tv_campusnews_title1)
     TextView tvCampusnewsTitle1;
     @InjectView(R.id.tv_campusnews_viewcount1)
@@ -102,20 +105,18 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
     TextView tvAnnouncementComefrom3;
     @InjectView(R.id.tv_announcement_date3)
     TextView tvAnnouncementDate3;
-    @InjectView(R.id.tv_jobs_title1)
-    TextView tvJobsTitle1;
-    @InjectView(R.id.tv_jobs_date1)
-    TextView tvJobsDate1;
-    @InjectView(R.id.tv_jobs_title2)
-    TextView tvJobsTitle2;
-    @InjectView(R.id.tv_jobs_date2)
-    TextView tvJobsDate2;
-    @InjectView(R.id.tv_jobs_title3)
-    TextView tvJobsTitle3;
-    @InjectView(R.id.tv_jobs_date3)
-    TextView tvJobsDate3;
-    @InjectView(R.id.campusnews1)
-    LinearLayout campusnews1;
+    //@InjectView(R.id.tv_jobs_title1)
+    //TextView tvJobsTitle1;
+    //@InjectView(R.id.tv_jobs_date1)
+    //TextView tvJobsDate1;
+    //@InjectView(R.id.tv_jobs_title2)
+    //TextView tvJobsTitle2;
+    //@InjectView(R.id.tv_jobs_date2)
+    //TextView tvJobsDate2;
+    //@InjectView(R.id.tv_jobs_title3)
+    //TextView tvJobsTitle3;
+    //@InjectView(R.id.tv_jobs_date3)
+    //TextView tvJobsDate3;
     @InjectView(R.id.campusnews2)
     LinearLayout campusnews2;
     @InjectView(R.id.campusnews3)
@@ -126,14 +127,26 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
     LinearLayout announcement2;
     @InjectView(R.id.announcement3)
     LinearLayout announcement3;
-    @InjectView(R.id.jobs1)
-    LinearLayout jobs1;
-    @InjectView(R.id.jobs2)
-    LinearLayout jobs2;
-    @InjectView(R.id.jobs3)
-    LinearLayout jobs3;
+    //@InjectView(R.id.jobs1)
+    //LinearLayout jobs1;
+    //@InjectView(R.id.jobs2)
+    //LinearLayout jobs2;
+    //@InjectView(R.id.jobs3)
+    //LinearLayout jobs3;
     @InjectView(R.id.btn_schedule)
     LinearLayout btnSchedule;
+    @InjectView(R.id.iv_campus_picture1)
+    ImageView ivCampusPicture1;
+    @InjectView(R.id.campusnews1)
+    LinearLayout campusnews1;
+    @InjectView(R.id.iv_campus_picture2)
+    ImageView ivCampusPicture2;
+    @InjectView(R.id.iv_campus_picture3)
+    ImageView ivCampusPicture3;
+    @InjectView(R.id.pb_main)
+    ProgressBar pbMain;
+    @InjectView(R.id.drawer)
+    NavigationView drawer;
 
     private MainPresenter presenter;
 
@@ -157,6 +170,11 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
             public boolean onNavigationItemSelected(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.item_account_settings:
+                        if (PrefUtils.isLogin()) {
+                            AccountActivity.actionStart(MainActivity.this);
+                        } else {
+                            LoginActivity.actionStart(MainActivity.this, NextActivity.Main);
+                        }
                         break;
                     case R.id.item_give_advice:
                         break;
@@ -170,7 +188,7 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
             }
         });
         btnGpaQuery.setOnClickListener(this);
-        btnLibraryQuery.setOnClickListener(this);
+        //btnLibraryQuery.setOnClickListener(this);
         rlMoreCampusNews.setOnClickListener(this);
         rlMoreCampusNote.setOnClickListener(this);
         btnSchedule.setOnClickListener(this);
@@ -224,14 +242,22 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_schedule:
-                ScheduleActivity.actionStart(this);
+                if (PrefUtils.isLogin()) {
+                    ScheduleActivity.actionStart(this);
+                } else {
+                    LoginActivity.actionStart(this, NextActivity.Schedule);
+                }
                 break;
             case R.id.btn_gpa_query:
-                GpaActivity.actionStart(this);
+                if (PrefUtils.isLogin()) {
+                    GpaActivity.actionStart(this);
+                } else {
+                    LoginActivity.actionStart(this,NextActivity.Gpa);
+                }
                 break;
-            case R.id.btn_library_query:
-                LibraryActivity.actionStart(this);
-                break;
+            //case R.id.btn_library_query:
+            //LibraryActivity.actionStart(this);
+            //break;
             case R.id.rl_more_campus_news:
                 NewsActivity.actionStart(this);
                 break;
@@ -257,7 +283,67 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
     }
 
     @Override
-    public void bindData(Main main) {
+    public void bindData(final Main main) {
+        View drawerHeader = drawer.getHeaderView(0);
+        TextView tvUsername = (TextView) drawerHeader.findViewById(R.id.tv_username);
+        tvUsername.setText(PrefUtils.getUsername());
+        DefaultSliderView banner1 = new DefaultSliderView(this);
+        banner1.image(main.data.carousel.get(0).wideimage);
+        DefaultSliderView banner2 = new DefaultSliderView(this);
+        banner2.image(main.data.carousel.get(1).wideimage);
+        DefaultSliderView banner3 = new DefaultSliderView(this);
+        banner3.image(main.data.carousel.get(2).wideimage);
+        slider.addSlider(banner1);
+        slider.addSlider(banner2);
+        slider.addSlider(banner3);
+        slider.setPresetTransformer(SliderLayout.Transformer.DepthPage);
+        banner1.setOnSliderClickListener(new BaseSliderView.OnSliderClickListener() {
+            @Override
+            public void onSliderClick(BaseSliderView slider) {
+                NewsDetailsActivity.actionStart(MainActivity.this, main.data.carousel.get(0).index);
+            }
+        });
+        final List<Main.Data.News.Campus> campuses = new ArrayList<>();
+        campuses.addAll(main.data.news.campus);
+        tvCampusnewsDate1.setText(campuses.get(0).addat);
+        tvCampusnewsViewcount1.setText(campuses.get(0).visitcount);
+        if (!campuses.get(0).pic.isEmpty()) {
+            Picasso.with(this).load(campuses.get(0).pic).into(ivCampusPicture1);
+        } else {
+            ivCampusPicture1.setImageResource(R.mipmap.ic_login);
+        }
+        tvCampusnewsDate2.setText(campuses.get(1).addat);
+        tvCampusnewsViewcount2.setText(campuses.get(1).visitcount);
+        if (!campuses.get(1).pic.isEmpty()) {
+            Picasso.with(this).load(campuses.get(1).pic).into(ivCampusPicture2);
+        } else {
+            ivCampusPicture2.setImageResource(R.mipmap.ic_login);
+        }
+        tvCampusnewsDate3.setText(campuses.get(2).addat);
+        tvCampusnewsViewcount3.setText(campuses.get(2).visitcount);
+        if (!campuses.get(2).pic.isEmpty()) {
+            Picasso.with(this).load(campuses.get(2).pic).into(ivCampusPicture3);
+        } else {
+            ivCampusPicture3.setImageResource(R.mipmap.ic_login);
+        }
+        campusnews1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NewsDetailsActivity.actionStart(MainActivity.this, campuses.get(0).index);
+            }
+        });
+        campusnews2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NewsDetailsActivity.actionStart(MainActivity.this, campuses.get(1).index);
+            }
+        });
+        campusnews3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NewsDetailsActivity.actionStart(MainActivity.this, campuses.get(2).index);
+            }
+        });
         final List<Main.Data.News.Annoucement> annoucements = new ArrayList<>();
         annoucements.addAll(main.data.news.annoucements);
         tvAnnouncementTitle1.setText(annoucements.get(0).subject);
@@ -269,14 +355,14 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
         tvAnnouncementTitle3.setText(annoucements.get(2).subject);
         tvAnnouncementComefrom3.setText(annoucements.get(2).gonggao);
         tvAnnouncementDate3.setText(annoucements.get(2).addat);
-        List<Main.Data.News.Job> jobs = new ArrayList<>();
-        jobs.addAll(main.data.news.jobs);
-        tvJobsTitle1.setText(jobs.get(0).title);
-        tvJobsDate1.setText(jobs.get(0).date);
-        tvJobsTitle2.setText(jobs.get(1).title);
-        tvJobsDate2.setText(jobs.get(1).date);
-        tvJobsTitle3.setText(jobs.get(2).title);
-        tvJobsDate3.setText(jobs.get(2).date);
+        //List<Main.Data.News.Job> jobs = new ArrayList<>();
+        //jobs.addAll(main.data.news.jobs);
+        //tvJobsTitle1.setText(jobs.get(0).title);
+        //tvJobsDate1.setText(jobs.get(0).date);
+        //tvJobsTitle2.setText(jobs.get(1).title);
+        //tvJobsDate2.setText(jobs.get(1).date);
+        //tvJobsTitle3.setText(jobs.get(2).title);
+        //tvJobsDate3.setText(jobs.get(2).date);
         announcement1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

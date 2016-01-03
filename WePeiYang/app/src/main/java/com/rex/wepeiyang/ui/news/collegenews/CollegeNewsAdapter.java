@@ -76,9 +76,9 @@ public class CollegeNewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             ItemHolder itemHolder = (ItemHolder) holder;
             final NewsItem item = dataSet.get(position);
             itemHolder.tvNewsTitle.setText(item.subject);
-            itemHolder.tvCommentCount.setText(item.comments);
+            itemHolder.tvCommentCount.setText(item.comments+"");
             itemHolder.tvNewsDate.setText("没有");
-            itemHolder.tvViewCount.setText(item.visitcount);
+            itemHolder.tvViewCount.setText(item.visitcount+"");
             itemHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

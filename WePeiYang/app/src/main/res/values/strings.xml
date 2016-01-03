@@ -13,8 +13,8 @@
 
     <!-- Login Activity -->
     <string name="title_activity_login">Login</string>
-    <string name="hint_login_account">办公网账号</string>
-    <string name="hint_login_password">办公网密码</string>
+    <string name="hint_login_account">天外天账号</string>
+    <string name="hint_login_password">天外天密码</string>
 
 
     <!-- Library Activity -->
@@ -66,4 +66,11 @@
     <string name="saturday">六</string>
     <string name="sunday">日</string>
     <string name="schedule">课程表</string>
+    <string name="logout">退出登录</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="login_later">稍后登录</string>
+    <string name="bind">绑定</string>
+    <string name="tjupasswd">办公网密码</string>
+    <string name="tjunumber">办公网帐号</string>
+    <string name="share">分享</string>
 </resources>

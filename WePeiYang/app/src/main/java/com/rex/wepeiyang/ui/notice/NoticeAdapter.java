@@ -26,7 +26,7 @@ public class NoticeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private ArrayList<NewsItem> dataSet = new ArrayList<>();
     private static final int ITEM_TYPE_ITEM = 0;
     private static final int ITEM_TYPE_FOOTER = 1;
-    private boolean useFooter = false;
+    private boolean useFooter = true;
     private Context context;
 
     public NoticeAdapter(Context context) {
@@ -91,22 +91,17 @@ public class NoticeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @Override
     public int getItemViewType(int position) {
-        if (!useFooter) {
-            return ITEM_TYPE_ITEM;
-        } else if (position < getItemCount() - 1) {
-            return ITEM_TYPE_ITEM;
-        } else {
+        if (position == dataSet.size()){
             return ITEM_TYPE_FOOTER;
+        }else {
+            return ITEM_TYPE_ITEM;
         }
     }
 
     @Override
     public int getItemCount() {
-        if (!useFooter) {
-            return dataSet.size();
-        } else {
-            return dataSet.size() + 1;
-        }
+        return dataSet.size() + 1;
+
     }
 
     public void setUseFooter(boolean useFooter) {

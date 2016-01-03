@@ -2,7 +2,7 @@ package com.rex.wepeiyang.api;
 
 import com.google.gson.JsonElement;
 import com.rex.wepeiyang.bean.ClassTable;
-import com.rex.wepeiyang.bean.Gpa;
+import com.rex.wepeiyang.bean.Login;
 import com.rex.wepeiyang.bean.Main;
 import com.rex.wepeiyang.bean.News;
 import com.rex.wepeiyang.bean.NewsList;
@@ -21,29 +21,52 @@ public class ApiClient {
     private static RestAdapter adapter = new RestAdapter.Builder().setLogLevel(RestAdapter.LogLevel.FULL).setEndpoint(API).build();
     private static Api mApi = adapter.create(Api.class);
 
-    public static void getGpaWithoutToken(String tjuuname, String tjupasswd, Callback<JsonElement> callback) {
+
+    public static void bind(String tjuname, String tjupwd, Callback<JsonElement> callback) {
         RequestParams params = new RequestParams();
-        params.put("tjuuname", tjuuname);
-        params.put("tjupasswd", tjupasswd);
+        params.put("tjuname", tjuname);
+        params.put("tjupwd", tjupwd);
         HashMap<String, String> temp = new HashMap<>();
         temp.put("t", params.get("t"));
-        temp.put("tjuuname", tjuuname);
-        temp.put("tjupasswd", tjupasswd);
+        temp.put("tjuname", tjuname);
+        temp.put("tjupwd", tjupwd);
+        String sign = new Sign().generate(temp);
+        params.put("sign", sign);
+        mApi.bind(params, callback);
+    }
+
+    public static void login(String twtuname, String twtpasswd, Callback<Login> callback) {
+        RequestParams params = new RequestParams();
+        params.put("twtuname", twtuname);
+        params.put("twtpasswd", twtpasswd);
+        HashMap<String, String> temp = new HashMap<>();
+        temp.put("t", params.get("t"));
+        temp.put("twtuname", twtuname);
+        temp.put("twtpasswd", twtpasswd);
+        String sign = new Sign().generate(temp);
+        params.put("sign", sign);
+        mApi.login(params, callback);
+    }
+
+    public static void getGpaWithoutToken(String authorization, Callback<JsonElement> callback) {
+        RequestParams params = new RequestParams();
+        params.put("Authorization", authorization);
+        HashMap<String, String> temp = new HashMap<>();
+        temp.put("t", params.get("t"));
+        temp.put("Authorization", authorization);
         String sign = new Sign().generate(temp);
         params.put("sign", sign);
         mApi.getGPA(params, callback);
     }
 
-    public static void getGpaWithToken(String tjuuname, String tjupasswd, String token, String captcha, Callback<JsonElement> callback) {
+    public static void getGpaWithToken(String authorization, String token, String captcha, Callback<JsonElement> callback) {
         RequestParams params = new RequestParams();
-        params.put("tjuuname", tjuuname);
-        params.put("tjupasswd", tjupasswd);
+        params.put("Authorization", authorization);
         params.put("token", token);
         params.put("captcha", captcha);
         HashMap<String, String> temp = new HashMap<>();
         temp.put("t", params.get("t"));
-        temp.put("tjuuname", tjuuname);
-        temp.put("tjupasswd", tjupasswd);
+        temp.put("Authorization", authorization);
         temp.put("token", token);
         temp.put("captcha", captcha);
         String sign = new Sign().generate(temp);

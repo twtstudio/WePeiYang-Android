@@ -69,6 +69,8 @@
                         </LinearLayout>
 
                         <LinearLayout
+                            android:layout_marginLeft="32dp"
+                            android:layout_marginStart="32dp"
                             android:id="@+id/btn_gpa_query"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -91,7 +93,7 @@
 
                         </LinearLayout>
 
-                        <LinearLayout
+                        <!--<LinearLayout
                             android:id="@+id/btn_library_query"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -112,7 +114,7 @@
                                 android:text="@string/library_query"
                                 android:textColor="@color/library_primary_color" />
 
-                        </LinearLayout>
+                        </LinearLayout>-->
                     </GridLayout>
 
                     <com.daimajia.slider.library.SliderLayout
@@ -182,26 +184,37 @@
 
                                 <LinearLayout
                                     android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginEnd="8dp"
+                                    android:layout_marginRight="16dp"
                                     android:layout_weight="2"
                                     android:orientation="vertical">
 
                                     <TextView
                                         android:id="@+id/tv_campusnews_title1"
                                         android:layout_width="match_parent"
-                                        android:layout_height="wrap_content" />
-
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="top" />
                                     <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:orientation="vertical"
+                                        android:gravity="bottom">
+                                    <LinearLayout
+                                        android:layout_gravity="bottom"
+                                        android:orientation="horizontal"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="8dp">
 
                                         <ImageView
+                                            android:layout_gravity="center_vertical"
                                             android:layout_width="14dp"
                                             android:layout_height="12dp"
                                             android:src="@mipmap/ic_main_view_count" />
 
                                         <TextView
+                                            android:layout_gravity="center_vertical"
                                             android:id="@+id/tv_campusnews_viewcount1"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
@@ -210,6 +223,7 @@
                                             android:textSize="12sp" />
 
                                         <ImageView
+                                            android:layout_gravity="center_vertical"
                                             android:layout_width="14dp"
                                             android:layout_height="12dp"
                                             android:layout_marginLeft="16dp"
@@ -217,6 +231,7 @@
                                             android:src="@mipmap/ic_main_comments" />
 
                                         <TextView
+                                            android:layout_gravity="center_vertical"
                                             android:id="@+id/tv_campusnews_comment1"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
@@ -225,6 +240,7 @@
                                             android:textSize="12sp" />
 
                                         <LinearLayout
+                                            android:layout_gravity="center_vertical"
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:gravity="end">
@@ -236,16 +252,15 @@
                                                 android:textSize="12sp" />
 
                                         </LinearLayout>
-                                    </LinearLayout>
+                                    </LinearLayout></LinearLayout>
                                 </LinearLayout>
 
                                 <ImageView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
+                                    android:id="@+id/iv_campus_picture1"
+                                    android:layout_width="0dp"
+                                    android:layout_height="80dp"
                                     android:layout_weight="1"
-                                    android:adjustViewBounds="true"
-                                    android:maxHeight="40dp"
-                                    android:maxWidth="60dp" />
+                                    android:scaleType="centerInside" />
 
                             </LinearLayout>
 
@@ -264,70 +279,83 @@
 
                                 <LinearLayout
                                     android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginEnd="8dp"
+                                    android:layout_marginRight="16dp"
                                     android:layout_weight="2"
                                     android:orientation="vertical">
 
                                     <TextView
                                         android:id="@+id/tv_campusnews_title2"
                                         android:layout_width="match_parent"
-                                        android:layout_height="wrap_content" />
-
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="top" />
                                     <LinearLayout
                                         android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginTop="8dp">
-
-                                        <ImageView
-                                            android:layout_width="14dp"
-                                            android:layout_height="12dp"
-                                            android:src="@mipmap/ic_main_view_count" />
-
-                                        <TextView
-                                            android:id="@+id/tv_campusnews_viewcount2"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:layout_marginLeft="8dp"
-                                            android:layout_marginStart="8dp"
-                                            android:textSize="12sp" />
-
-                                        <ImageView
-                                            android:layout_width="14dp"
-                                            android:layout_height="12dp"
-                                            android:layout_marginLeft="16dp"
-                                            android:layout_marginStart="16dp"
-                                            android:src="@mipmap/ic_main_comments" />
-
-                                        <TextView
-                                            android:id="@+id/tv_campusnews_comment2"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:layout_marginLeft="8dp"
-                                            android:layout_marginStart="8dp"
-                                            android:textSize="12sp" />
-
+                                        android:layout_height="match_parent"
+                                        android:orientation="vertical"
+                                        android:gravity="bottom">
                                         <LinearLayout
+                                            android:layout_gravity="bottom"
+                                            android:orientation="horizontal"
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
-                                            android:gravity="end">
+                                            android:layout_marginTop="8dp">
+
+                                            <ImageView
+                                                android:layout_gravity="center_vertical"
+                                                android:layout_width="14dp"
+                                                android:layout_height="12dp"
+                                                android:src="@mipmap/ic_main_view_count" />
 
                                             <TextView
-                                                android:id="@+id/tv_campusnews_date2"
+                                                android:layout_gravity="center_vertical"
+                                                android:id="@+id/tv_campusnews_viewcount2"
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="wrap_content"
+                                                android:layout_marginLeft="8dp"
+                                                android:layout_marginStart="8dp"
                                                 android:textSize="12sp" />
 
-                                        </LinearLayout>
-                                    </LinearLayout>
+                                            <ImageView
+                                                android:layout_gravity="center_vertical"
+                                                android:layout_width="14dp"
+                                                android:layout_height="12dp"
+                                                android:layout_marginLeft="16dp"
+                                                android:layout_marginStart="16dp"
+                                                android:src="@mipmap/ic_main_comments" />
+
+                                            <TextView
+                                                android:layout_gravity="center_vertical"
+                                                android:id="@+id/tv_campusnews_comment2"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_marginLeft="8dp"
+                                                android:layout_marginStart="8dp"
+                                                android:textSize="12sp" />
+
+                                            <LinearLayout
+                                                android:layout_gravity="center_vertical"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                android:gravity="end">
+
+                                                <TextView
+                                                    android:id="@+id/tv_campusnews_date2"
+                                                    android:layout_width="wrap_content"
+                                                    android:layout_height="wrap_content"
+                                                    android:textSize="12sp" />
+
+                                            </LinearLayout>
+                                        </LinearLayout></LinearLayout>
                                 </LinearLayout>
 
                                 <ImageView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
+                                    android:id="@+id/iv_campus_picture2"
+                                    android:layout_width="0dp"
+                                    android:layout_height="80dp"
                                     android:layout_weight="1"
-                                    android:adjustViewBounds="true"
-                                    android:maxHeight="40dp"
-                                    android:maxWidth="60dp" />
+                                    android:scaleType="centerInside" />
 
                             </LinearLayout>
 
@@ -346,70 +374,83 @@
 
                                 <LinearLayout
                                     android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginEnd="8dp"
+                                    android:layout_marginRight="16dp"
                                     android:layout_weight="2"
                                     android:orientation="vertical">
 
                                     <TextView
                                         android:id="@+id/tv_campusnews_title3"
                                         android:layout_width="match_parent"
-                                        android:layout_height="wrap_content" />
-
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="top" />
                                     <LinearLayout
                                         android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginTop="8dp">
-
-                                        <ImageView
-                                            android:layout_width="14dp"
-                                            android:layout_height="12dp"
-                                            android:src="@mipmap/ic_main_view_count" />
-
-                                        <TextView
-                                            android:id="@+id/tv_campusnews_viewcount3"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:layout_marginLeft="8dp"
-                                            android:layout_marginStart="8dp"
-                                            android:textSize="12sp" />
-
-                                        <ImageView
-                                            android:layout_width="14dp"
-                                            android:layout_height="12dp"
-                                            android:layout_marginLeft="16dp"
-                                            android:layout_marginStart="16dp"
-                                            android:src="@mipmap/ic_main_comments" />
-
-                                        <TextView
-                                            android:id="@+id/tv_campusnews_comment3"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:layout_marginLeft="8dp"
-                                            android:layout_marginStart="8dp"
-                                            android:textSize="12sp" />
-
+                                        android:layout_height="match_parent"
+                                        android:orientation="vertical"
+                                        android:gravity="bottom">
                                         <LinearLayout
+                                            android:layout_gravity="bottom"
+                                            android:orientation="horizontal"
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
-                                            android:gravity="end">
+                                            android:layout_marginTop="8dp">
+
+                                            <ImageView
+                                                android:layout_gravity="center_vertical"
+                                                android:layout_width="14dp"
+                                                android:layout_height="12dp"
+                                                android:src="@mipmap/ic_main_view_count" />
 
                                             <TextView
-                                                android:id="@+id/tv_campusnews_date3"
+                                                android:layout_gravity="center_vertical"
+                                                android:id="@+id/tv_campusnews_viewcount3"
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="wrap_content"
+                                                android:layout_marginLeft="8dp"
+                                                android:layout_marginStart="8dp"
                                                 android:textSize="12sp" />
 
-                                        </LinearLayout>
-                                    </LinearLayout>
+                                            <ImageView
+                                                android:layout_gravity="center_vertical"
+                                                android:layout_width="14dp"
+                                                android:layout_height="12dp"
+                                                android:layout_marginLeft="16dp"
+                                                android:layout_marginStart="16dp"
+                                                android:src="@mipmap/ic_main_comments" />
+
+                                            <TextView
+                                                android:layout_gravity="center_vertical"
+                                                android:id="@+id/tv_campusnews_comment3"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_marginLeft="8dp"
+                                                android:layout_marginStart="8dp"
+                                                android:textSize="12sp" />
+
+                                            <LinearLayout
+                                                android:layout_gravity="center_vertical"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                android:gravity="end">
+
+                                                <TextView
+                                                    android:id="@+id/tv_campusnews_date3"
+                                                    android:layout_width="wrap_content"
+                                                    android:layout_height="wrap_content"
+                                                    android:textSize="12sp" />
+
+                                            </LinearLayout>
+                                        </LinearLayout></LinearLayout>
                                 </LinearLayout>
 
                                 <ImageView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
+                                    android:id="@+id/iv_campus_picture3"
+                                    android:layout_width="0dp"
+                                    android:layout_height="80dp"
                                     android:layout_weight="1"
-                                    android:adjustViewBounds="true"
-                                    android:maxHeight="40dp"
-                                    android:maxWidth="60dp" />
+                                    android:scaleType="centerInside" />
 
                             </LinearLayout>
 
@@ -602,7 +643,7 @@
 
                     </android.support.v7.widget.CardView>
 
-                    <LinearLayout
+                    <!--<LinearLayout
                         android:id="@+id/rl_more_jobs_info"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -710,9 +751,9 @@
                                 </LinearLayout>
 
 
-                            </LinearLayout>
+                            </LinearLayout>-->
 
-                            <View
+                            <!--<View
                                 android:layout_width="match_parent"
                                 android:layout_height="1dp"
                                 android:layout_marginBottom="8dp"
@@ -749,7 +790,7 @@
                         </LinearLayout>
 
 
-                    </android.support.v7.widget.CardView>
+                    </android.support.v7.widget.CardView>-->
 
 
                 </LinearLayout>

@@ -24,7 +24,7 @@ import butterknife.InjectView;
 /**
  * Created by sunjuntao on 15/11/19.
  */
-public class CollegeNewsFragment extends BaseFragment implements CollegeNewsView{
+public class CollegeNewsFragment extends BaseFragment implements CollegeNewsView {
     @InjectView(R.id.rv_collegenews)
     RecyclerView rvCollegenews;
     @InjectView(R.id.srl_collegenews)
@@ -49,7 +49,7 @@ public class CollegeNewsFragment extends BaseFragment implements CollegeNewsView
                 presenter.refreshItems();
             }
         });
-        rvCollegenews.setOnScrollListener(new OnRcvScrollListener(){
+        rvCollegenews.setOnScrollListener(new OnRcvScrollListener() {
             @Override
             public void onBottom() {
                 super.onBottom();
@@ -73,22 +73,22 @@ public class CollegeNewsFragment extends BaseFragment implements CollegeNewsView
 
     @Override
     public void showRefreshing() {
-
+        srlCollegenews.setRefreshing(true);
     }
 
     @Override
     public void hideRefreshing() {
-
+        srlCollegenews.setRefreshing(false);
     }
-    
+
 
     @Override
     public void loadMoreItems(List<NewsItem> items) {
-
+        adapter.addItems(items);
     }
 
     @Override
     public void refreshItems(List<NewsItem> items) {
-
+        adapter.refreshItems(items);
     }
 }

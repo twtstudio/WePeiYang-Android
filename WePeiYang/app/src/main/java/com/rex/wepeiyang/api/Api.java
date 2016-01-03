@@ -4,6 +4,7 @@ import com.google.gson.JsonElement;
 import com.rex.wepeiyang.bean.ClassTable;
 import com.rex.wepeiyang.bean.Feedback;
 import com.rex.wepeiyang.bean.Gpa;
+import com.rex.wepeiyang.bean.Login;
 import com.rex.wepeiyang.bean.Main;
 import com.rex.wepeiyang.bean.News;
 import com.rex.wepeiyang.bean.NewsList;
@@ -40,5 +41,10 @@ public interface Api {
 
     @GET("/app/index")
     void getMain(Callback<Main> response);
+    @GET("/auth/token/get")
+    void login(@QueryMap HashMap<String, String> loginParams, Callback<Login> response);
+
+    @GET("/auth/bind/tju")
+    void bind(@QueryMap HashMap<String, String> bindParams, Callback<JsonElement> response);
 
 }

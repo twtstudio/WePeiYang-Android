@@ -11,10 +11,10 @@ import com.rex.wepeiyang.WePeiYangApp;
 public class PrefUtils {
 
     private static final String PREF_IS_LOGIN = "is_login";
-    private static final String PREF_TJU_UNAME = "tjuuname";
-    private static final String PREF_TJU_PASSWD = "tjupasswd";
     private static final String PREF_IS_KNOW_GPA_USAGE = "isknowgpausage";
     private static final String PREF_CAPTCHA_TOKEN = "captchatoken";
+    private static final String PREF_TOKEN = "token";
+    private static final String PREF_USERNAME = "username";
 
 
     private static SharedPreferences getDefaultSharedPreferences() {
@@ -29,27 +29,27 @@ public class PrefUtils {
         return getDefaultSharedPreferences().getBoolean(PREF_IS_LOGIN, false);
     }
 
-    public static void setTjuuname(String tjuuname) {
-        getDefaultSharedPreferences().edit().putString(PREF_TJU_UNAME, tjuuname).apply();
-    }
-
-    public static String getTjuUname() {
-        return getDefaultSharedPreferences().getString(PREF_TJU_UNAME, null);
-    }
-
-    public static void setTjuPasswd(String tjupasswd) {
-        getDefaultSharedPreferences().edit().putString(PREF_TJU_PASSWD, tjupasswd).apply();
-    }
-
-    public static String getTjuPasswd() {
-        return getDefaultSharedPreferences().getString(PREF_TJU_PASSWD, null);
-    }
-
     public static void setKnowGpaUsage(boolean isKnowGpaUsage) {
         getDefaultSharedPreferences().edit().putBoolean(PREF_IS_KNOW_GPA_USAGE, isKnowGpaUsage).apply();
     }
 
     public static boolean isKnowGpaUsage() {
         return getDefaultSharedPreferences().getBoolean(PREF_IS_KNOW_GPA_USAGE, false);
+    }
+
+    public static void setToken(String token) {
+        getDefaultSharedPreferences().edit().putString(PREF_TOKEN, token).apply();
+    }
+
+    public static String getToken() {
+        return getDefaultSharedPreferences().getString(PREF_TOKEN, "");
+    }
+
+    public static void setUsername(String twtuname) {
+        getDefaultSharedPreferences().edit().putString(PREF_USERNAME, twtuname).apply();
+    }
+
+    public static String getUsername() {
+        return getDefaultSharedPreferences().getString(PREF_USERNAME, "未登录");
     }
 }

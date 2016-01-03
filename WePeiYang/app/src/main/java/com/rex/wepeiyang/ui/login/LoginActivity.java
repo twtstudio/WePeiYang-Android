@@ -1,16 +1,24 @@
 package com.rex.wepeiyang.ui.login;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.rex.wepeiyang.R;
+import com.rex.wepeiyang.interactor.LoginInteractorImpl;
 import com.rex.wepeiyang.support.StatusBarHelper;
 import com.rex.wepeiyang.ui.BaseActivity;
+import com.rex.wepeiyang.ui.common.NextActivity;
+import com.rex.wepeiyang.ui.gpa.GpaActivity;
 import com.rex.wepeiyang.ui.main.MainActivity;
+import com.rex.wepeiyang.ui.schedule.ScheduleActivity;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -26,17 +34,39 @@ public class LoginActivity extends BaseActivity implements LoginView {
     @InjectView(R.id.bt_login)
     Button btLogin;
     LoginPresenter loginPresenter;
+    @InjectView(R.id.tv_login_later)
+    TextView tvLoginLater;
+    @InjectView(R.id.pb_login)
+    ProgressBar pbLogin;
+    private NextActivity nextActivity = NextActivity.Main;
+
+
+    public static void actionStart(Context context, NextActivity nextActivity) {
+        Intent intent = new Intent(context, LoginActivity.class);
+        intent.putExtra("nextactivity", nextActivity);
+        context.startActivity(intent);
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.inject(this);
-        loginPresenter = new LoginPresenterImpl(this);
+        NextActivity temp = (NextActivity) getIntent().getSerializableExtra("nextactivity");
+        if (temp != null) {
+            this.nextActivity = temp;
+        }
+        loginPresenter = new LoginPresenterImpl(this, new LoginInteractorImpl(), nextActivity);
         btLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 loginPresenter.validateLogin(etLoginAccount.getText().toString(), etLoginPassword.getText().toString());
+            }
+        });
+        tvLoginLater.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startMainActivity();
             }
         });
     }
@@ -45,6 +75,18 @@ public class LoginActivity extends BaseActivity implements LoginView {
     @Override
     public void startMainActivity() {
         MainActivity.actionStart(this);
+        finish();
+    }
+
+    @Override
+    public void startGpaActivity() {
+        GpaActivity.actionStart(this);
+        finish();
+    }
+
+    @Override
+    public void startScheduleActivity() {
+        ScheduleActivity.actionStart(this);
         finish();
     }
 
@@ -63,6 +105,21 @@ public class LoginActivity extends BaseActivity implements LoginView {
     @Override
     public void passwordError(String errorMsg) {
         etLoginPassword.setError(errorMsg);
+    }
+
+    @Override
+    public void showToast(String msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showProcessing() {
+        pbLogin.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProcessing() {
+        pbLogin.setVisibility(View.GONE);
     }
 
     @Override

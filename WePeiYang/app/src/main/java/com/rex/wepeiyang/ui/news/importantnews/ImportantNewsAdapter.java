@@ -28,7 +28,7 @@ import butterknife.InjectView;
  */
 public class ImportantNewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private static final int ITEM_VIEW_TYPE_HEADER = 0;
+    //private static final int ITEM_VIEW_TYPE_HEADER = 0;
     private static final int ITEM_VIEW_TYPE_ITEM_WITH_PIC = 1;
     private static final int ITEM_VIEW_TYPE_FOOTER = 2;
     private static final int ITEM_VIEW_TYPE_ITEM_WITHOUT_PIC = 3;
@@ -103,9 +103,10 @@ public class ImportantNewsAdapter extends RecyclerView.Adapter<RecyclerView.View
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        if (viewType == ITEM_VIEW_TYPE_HEADER) {
+        /*if (viewType == ITEM_VIEW_TYPE_HEADER) {
             return new HeaderHolder(inflater.inflate(R.layout.header_important_news, parent, false));
-        } else if (viewType == ITEM_VIEW_TYPE_FOOTER) {
+        }else */
+        if (viewType == ITEM_VIEW_TYPE_FOOTER) {
             return new FooterHolder(inflater.inflate(R.layout.footer, parent, false));
         } else {
             return new ItemHolderWithPic(inflater.inflate(R.layout.item_news_with_pic, parent, false));
@@ -137,9 +138,9 @@ public class ImportantNewsAdapter extends RecyclerView.Adapter<RecyclerView.View
             });
         } else if (type == ITEM_VIEW_TYPE_ITEM_WITHOUT_PIC) {
 
-        } else if (type == ITEM_VIEW_TYPE_HEADER) {
+        } /*else if (type == ITEM_VIEW_TYPE_HEADER) {
             HeaderHolder headerHolder = (HeaderHolder) holder;
-        }
+        }*/
 
     }
 
@@ -150,17 +151,16 @@ public class ImportantNewsAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     @Override
     public int getItemViewType(int position) {
-        if (position == 0) {
+        /*if (position == 0) {
             return ITEM_VIEW_TYPE_HEADER;
+        } else {*/
+        if (position == dataSet.size()) {
+            return ITEM_VIEW_TYPE_FOOTER;
         } else {
-            if (position == dataSet.size()) {
-                return ITEM_VIEW_TYPE_FOOTER;
+            if (dataSet.get(position).pic.isEmpty()) {
+                return ITEM_VIEW_TYPE_ITEM_WITHOUT_PIC;
             } else {
-                if (dataSet.get(position).pic.isEmpty()) {
-                    return ITEM_VIEW_TYPE_ITEM_WITHOUT_PIC;
-                } else {
-                    return ITEM_VIEW_TYPE_ITEM_WITH_PIC;
-                }
+                return ITEM_VIEW_TYPE_ITEM_WITH_PIC;
             }
         }
     }

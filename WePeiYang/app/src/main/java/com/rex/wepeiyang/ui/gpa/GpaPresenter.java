@@ -5,6 +5,5 @@ package com.rex.wepeiyang.ui.gpa;
  */
 public interface GpaPresenter {
     void getGpaWithoutToken();
-
     void getGpaWithToken(String token, String captcha);
 }

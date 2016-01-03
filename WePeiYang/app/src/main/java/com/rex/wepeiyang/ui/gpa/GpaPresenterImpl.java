@@ -4,13 +4,10 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
-import com.google.gson.stream.JsonReader;
 import com.rex.wepeiyang.bean.Gpa;
 import com.rex.wepeiyang.bean.GpaCaptcha;
 import com.rex.wepeiyang.interactor.GpaInteractor;
 import com.rex.wepeiyang.support.PrefUtils;
-
-import java.io.StringReader;
 
 /**
  * Created by sunjuntao on 15/11/22.
@@ -28,17 +25,17 @@ public class GpaPresenterImpl implements GpaPresenter, OnGetGpaCallback {
     @Override
     public void getGpaWithoutToken() {
         view.showProgress();
-        String tjuuname = PrefUtils.getTjuUname();
-        String tjupasswd = PrefUtils.getTjuPasswd();
-        interactor.getGpaWithoutToken(tjuuname, tjupasswd, this);
+        //String tjuuname = PrefUtils.getTjuUname();
+        //String tjupasswd = PrefUtils.getTjuPasswd();
+        interactor.getGpaWithoutToken(PrefUtils.getToken(), this);
     }
 
     @Override
     public void getGpaWithToken(String token, String captcha) {
         view.showProgress();
-        String tjuuname = PrefUtils.getTjuUname();
-        String tjupasswd = PrefUtils.getTjuPasswd();
-        interactor.getGpaWithToken(tjuuname, tjupasswd, token, captcha, this);
+        //String tjuuname = PrefUtils.getTjuUname();
+        //String tjupasswd = PrefUtils.getTjuPasswd();
+        interactor.getGpaWithToken(PrefUtils.getToken(), token, captcha, this);
     }
 
     @Override
