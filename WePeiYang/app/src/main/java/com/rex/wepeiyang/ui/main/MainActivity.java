@@ -2,6 +2,7 @@ package com.rex.wepeiyang.ui.main;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -177,6 +178,14 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
                         }
                         break;
                     case R.id.item_give_advice:
+                        Intent intent = new Intent(Intent.ACTION_SENDTO);
+                        intent.setData(Uri.parse("mailto:sunjuntao@twt.edu.cn"));
+                        intent.putExtra(Intent.EXTRA_SUBJECT, "微北洋意见反馈");
+                        try {
+                            startActivity(intent);
+                        } catch (android.content.ActivityNotFoundException ex) {
+                            Toast.makeText(MainActivity.this, "没有安装邮件应用", Toast.LENGTH_SHORT).show();
+                        }
                         break;
                     case R.id.item_share_app:
                         break;
@@ -194,6 +203,12 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
         btnSchedule.setOnClickListener(this);
         presenter = new MainPresenterImpl(this, new MainInteractorImpl());
         presenter.loadData();
+    }
+
+    @Override
+    protected void onStop() {
+        slider.stopAutoCycle();
+        super.onStop();
     }
 
     @Override
@@ -252,7 +267,7 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
                 if (PrefUtils.isLogin()) {
                     GpaActivity.actionStart(this);
                 } else {
-                    LoginActivity.actionStart(this,NextActivity.Gpa);
+                    LoginActivity.actionStart(this, NextActivity.Gpa);
                 }
                 break;
             //case R.id.btn_library_query:

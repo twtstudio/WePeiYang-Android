@@ -72,6 +72,7 @@
                     android:orientation="vertical">
 
                     <LinearLayout
+                        android:id="@+id/ll_news_details_gonggao"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="right"
@@ -94,6 +95,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/ll_news_details_shengao"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="right"
@@ -113,6 +115,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/ll_news_details_sheying"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="right"
@@ -132,6 +135,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/ll_news_details_laiyuan"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="right"

@@ -9,13 +9,13 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.rex.wepeiyang.R;
 import com.rex.wepeiyang.bean.News;
-import com.rex.wepeiyang.interactor.NewsDetailsInteractor;
 import com.rex.wepeiyang.interactor.NewsDetailsInteractorImpl;
 import com.rex.wepeiyang.ui.BaseActivity;
 
@@ -45,6 +45,14 @@ public class NewsDetailsActivity extends BaseActivity implements NewsDetailsView
     TextView tvNewsDetailsSheying;
     @InjectView(R.id.tv_news_details_laiyuan)
     TextView tvNewsDetailsLaiyuan;
+    @InjectView(R.id.ll_news_details_gonggao)
+    LinearLayout llNewsDetailsGonggao;
+    @InjectView(R.id.ll_news_details_shengao)
+    LinearLayout llNewsDetailsShengao;
+    @InjectView(R.id.ll_news_details_sheying)
+    LinearLayout llNewsDetailsSheying;
+    @InjectView(R.id.ll_news_details_laiyuan)
+    LinearLayout llNewsDetailsLaiyuan;
     private int index;
     private NewsDetailsPresenter presenter;
 
@@ -101,11 +109,27 @@ public class NewsDetailsActivity extends BaseActivity implements NewsDetailsView
     @Override
     public void bindData(News news) {
         tvNewsDetailsTitle.setText(news.data.subject);
-        tvNewsDetailsGonggao.setText(news.data.gonggao);
-        tvNewsDetailsShengao.setText(news.data.shengao);
-        tvNewsDetailsLaiyuan.setText(news.data.newscome);
+        if (news.data.gonggao.isEmpty()) {
+            llNewsDetailsGonggao.setVisibility(View.GONE);
+        } else {
+            tvNewsDetailsGonggao.setText(news.data.gonggao);
+        }
+        if (news.data.shengao.isEmpty()) {
+            llNewsDetailsShengao.setVisibility(View.GONE);
+        } else {
+            tvNewsDetailsShengao.setText(news.data.shengao);
+        }
+        if (news.data.newscome.isEmpty()) {
+            llNewsDetailsLaiyuan.setVisibility(View.GONE);
+        } else {
+            tvNewsDetailsLaiyuan.setText(news.data.newscome);
+        }
         tvNewsdetailsViewCount.setText(news.data.visitcount + "");
-        tvNewsDetailsSheying.setText(news.data.sheying);
+        if (news.data.sheying.isEmpty()) {
+            llNewsDetailsSheying.setVisibility(View.GONE);
+        } else {
+            tvNewsDetailsSheying.setText(news.data.sheying);
+        }
         wvNewsDetials.loadDataWithBaseURL("", news.data.content, "text/html", "UTF-8", "");
     }
 

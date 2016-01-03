@@ -19,7 +19,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="whispertoyou"
             android:layout_marginLeft="16dp"
             android:layout_marginStart="16dp"
             android:textColor="@android:color/white"

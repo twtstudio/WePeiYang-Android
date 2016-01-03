@@ -59,8 +59,8 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
         switch (view.getId()) {
             case R.id.btn_log_out:
                 PrefUtils.setLogin(false);
-                PrefUtils.setUsername("");
-                PrefUtils.setToken("");
+                PrefUtils.setUsername(null);
+                PrefUtils.setToken(null);
                 LoginActivity.actionStart(this, NextActivity.Main);
                 finish();
         }
