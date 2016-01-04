@@ -9,4 +9,5 @@ public interface BindView {
     void toastMessage(String msg);
     void startMainActivity();
     void startGpaActivity();
+    void startLoginActivity();
 }

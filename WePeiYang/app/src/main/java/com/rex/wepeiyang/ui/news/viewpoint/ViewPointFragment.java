@@ -66,15 +66,6 @@ public class ViewPointFragment extends BaseFragment implements ViewPointView {
         ButterKnife.reset(this);
     }
 
-    @Override
-    public void showProgress() {
-        srlViewpoint.setRefreshing(true);
-    }
-
-    @Override
-    public void hideProgress() {
-        srlViewpoint.setRefreshing(false);
-    }
 
     @Override
     public void toastMessage(String msg) {

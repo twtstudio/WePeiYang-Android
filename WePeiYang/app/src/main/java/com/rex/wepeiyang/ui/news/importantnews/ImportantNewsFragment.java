@@ -64,22 +64,6 @@ public class ImportantNewsFragment extends Fragment implements ImportantNewsView
 
 
     @Override
-    public void showRefreshing() {
-        if (srlImportantNews.isRefreshing()) {
-            return;
-        } else {
-            srlImportantNews.setRefreshing(true);
-        }
-
-    }
-
-    @Override
-    public void hideRefreshing() {
-        srlImportantNews.setRefreshing(false);
-    }
-
-
-    @Override
     public void loadMoreItems(List<NewsItem> items) {
         adapter.addItems(items);
     }

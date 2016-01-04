@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.rex.wepeiyang.R;
 import com.rex.wepeiyang.bean.ClassTable;
 import com.rex.wepeiyang.interactor.ScheduleInteractorImpl;
+import com.rex.wepeiyang.support.StatusBarHelper;
 import com.rex.wepeiyang.ui.BaseActivity;
 
 import java.util.Calendar;
@@ -72,6 +73,7 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
         rvSchedule.setLayoutManager(manager);
         presenter = new SchedulePresenterImpl(this, new ScheduleInteractorImpl());
         presenter.loadCourses();
+        //StatusBarHelper.setStatusBar(this, getResources().getColor(R.color.schedule_primary_color));
     }
 
     @Override

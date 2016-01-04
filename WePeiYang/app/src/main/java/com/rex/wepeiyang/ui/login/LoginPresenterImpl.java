@@ -27,24 +27,24 @@ public class LoginPresenterImpl implements LoginPresenter, OnLoginCallback {
 
     @Override
     public void validateLogin(String twtuname, String twtpasswd) {
-        view.showProcessing();
         view.hideKeyboard();
         if (TextUtils.isEmpty(twtuname)) {
             view.usernameError(ResourceHelper.getString(R.string.empty_error));
             return;
-        }
-        if (TextUtils.isEmpty(twtpasswd)) {
+        } else if (TextUtils.isEmpty(twtpasswd)) {
             view.passwordError(ResourceHelper.getString(R.string.empty_error));
             return;
+        } else {
+            view.showProcessing();
+            interactor.login(twtuname, twtpasswd, this);
+            this.twtuname = twtuname;
         }
-        interactor.login(twtuname, twtpasswd, this);
-        this.twtuname = twtuname;
     }
 
     @Override
     public void onSuccess(Login login) {
         view.hideProcessing();
-        PrefUtils.setToken(login.data.token);
+        PrefUtils.setToken("Bearer " + login.data.token);
         PrefUtils.setLogin(true);
         if (twtuname != null) {
             PrefUtils.setUsername(twtuname);

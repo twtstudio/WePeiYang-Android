@@ -4,10 +4,12 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
-import com.rex.wepeiyang.bean.Gpa;
-import com.rex.wepeiyang.bean.GpaCaptcha;
+import com.rex.wepeiyang.bean.*;
+import com.rex.wepeiyang.bean.Error;
 import com.rex.wepeiyang.interactor.GpaInteractor;
 import com.rex.wepeiyang.support.PrefUtils;
+
+import retrofit.RetrofitError;
 
 /**
  * Created by sunjuntao on 15/11/22.
@@ -25,16 +27,12 @@ public class GpaPresenterImpl implements GpaPresenter, OnGetGpaCallback {
     @Override
     public void getGpaWithoutToken() {
         view.showProgress();
-        //String tjuuname = PrefUtils.getTjuUname();
-        //String tjupasswd = PrefUtils.getTjuPasswd();
         interactor.getGpaWithoutToken(PrefUtils.getToken(), this);
     }
 
     @Override
     public void getGpaWithToken(String token, String captcha) {
         view.showProgress();
-        //String tjuuname = PrefUtils.getTjuUname();
-        //String tjupasswd = PrefUtils.getTjuPasswd();
         interactor.getGpaWithToken(PrefUtils.getToken(), token, captcha, this);
     }
 
@@ -53,8 +51,13 @@ public class GpaPresenterImpl implements GpaPresenter, OnGetGpaCallback {
     }
 
     @Override
-    public void onFailure(String errorMsg) {
-        view.hideProgress();
-        view.toastMessage(errorMsg);
+    public void onFailure(RetrofitError retrofitError) {
+        com.rex.wepeiyang.bean.Error error = new Gson().fromJson(retrofitError.getBody().toString(), Error.class);
+        switch (error.error_code){
+            case 20001:
+                view.toastMessage("请绑定办公网帐号");
+                view.startBindActivity();
+                break;
+        }
     }
 }

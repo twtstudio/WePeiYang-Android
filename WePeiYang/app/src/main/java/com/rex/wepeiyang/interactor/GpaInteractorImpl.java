@@ -1,7 +1,10 @@
 package com.rex.wepeiyang.interactor;
 
+
+import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.rex.wepeiyang.api.ApiClient;
+import com.rex.wepeiyang.bean.Error;
 import com.rex.wepeiyang.ui.gpa.OnGetGpaCallback;
 
 import retrofit.Callback;
@@ -23,7 +26,8 @@ public class GpaInteractorImpl implements GpaInteractor {
 
             @Override
             public void failure(RetrofitError error) {
-                onGetGpaCallback.onFailure(error.getMessage());
+                com.rex.wepeiyang.bean.Error jsonError = new Gson().fromJson(error.getBody().toString(), Error.class);
+                onGetGpaCallback.onFailure(error);
             }
         });
     }
@@ -38,7 +42,7 @@ public class GpaInteractorImpl implements GpaInteractor {
 
             @Override
             public void failure(RetrofitError error) {
-                onGetGpaCallback.onFailure(error.getMessage());
+                onGetGpaCallback.onFailure(error);
             }
         });
     }

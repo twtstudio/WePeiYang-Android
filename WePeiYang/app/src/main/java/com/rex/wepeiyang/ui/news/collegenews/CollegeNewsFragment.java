@@ -43,6 +43,7 @@ public class CollegeNewsFragment extends BaseFragment implements CollegeNewsView
         rvCollegenews.setAdapter(adapter);
         presenter = new CollegeNewsPresenterImpl(this, new CollegeNewsInteractorImpl());
         presenter.refreshItems();
+        srlCollegenews.setColorSchemeColors(getResources().getColor(R.color.news_primary_color));
         srlCollegenews.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -70,16 +71,6 @@ public class CollegeNewsFragment extends BaseFragment implements CollegeNewsView
         Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
     }
 
-
-    @Override
-    public void showRefreshing() {
-        srlCollegenews.setRefreshing(true);
-    }
-
-    @Override
-    public void hideRefreshing() {
-        srlCollegenews.setRefreshing(false);
-    }
 
 
     @Override

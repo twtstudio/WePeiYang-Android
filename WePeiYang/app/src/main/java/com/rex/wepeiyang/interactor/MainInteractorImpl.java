@@ -22,7 +22,7 @@ public class MainInteractorImpl implements MainInteractor {
 
             @Override
             public void failure(RetrofitError error) {
-                onGetMainCallback.onFailure(error.getMessage());
+                onGetMainCallback.onFailure("无法连接到网络");
             }
         });
     }

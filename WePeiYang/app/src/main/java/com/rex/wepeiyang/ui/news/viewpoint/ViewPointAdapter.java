@@ -40,8 +40,8 @@ public class ViewPointAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         TextView tvNewsTitle;
         @InjectView(R.id.tv_view_count)
         TextView tvViewCount;
-        @InjectView(R.id.tv_news_date)
-        TextView tvNewsDate;
+        //@InjectView(R.id.tv_news_date)
+        //TextView tvNewsDate;
         @InjectView(R.id.tv_comment_count)
         TextView tvCommentCount;
         @InjectView(R.id.iv_news_picture)

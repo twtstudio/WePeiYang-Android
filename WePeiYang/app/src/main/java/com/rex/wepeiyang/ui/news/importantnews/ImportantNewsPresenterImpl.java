@@ -30,7 +30,6 @@ public class ImportantNewsPresenterImpl implements ImportantNewsPresenter, OnGet
             view.loadMoreItems(newsList.data);
             isLoadingMore = false;
         } else {
-            view.hideRefreshing();
             isRefreshing = false;
             view.refreshItems(newsList.data);
         }
@@ -40,7 +39,6 @@ public class ImportantNewsPresenterImpl implements ImportantNewsPresenter, OnGet
     public void onFailure(String errorMsg) {
         isLoadingMore = false;
         isRefreshing = false;
-        view.hideRefreshing();
         view.showToast(errorMsg);
     }
 
@@ -51,7 +49,6 @@ public class ImportantNewsPresenterImpl implements ImportantNewsPresenter, OnGet
         }
         page = 1;
         isRefreshing = true;
-        view.showRefreshing();
         interactor.getImportantNews(page, this);
     }
 

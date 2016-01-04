@@ -18,8 +18,8 @@ public class Main {
 
         public class Carousel {
             public int index;
-            public String name;
-            public String wideimage;
+            public String subject;
+            public String pic;
         }
 
         public class News {
@@ -32,6 +32,7 @@ public class Main {
                 public String pic;
                 public String addat;
                 public String visitcount;
+                public String subject;
             }
 
             public class Annoucement {

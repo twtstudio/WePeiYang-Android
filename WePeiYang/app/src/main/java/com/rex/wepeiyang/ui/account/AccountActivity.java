@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.rex.wepeiyang.R;
 import com.rex.wepeiyang.support.PrefUtils;
+import com.rex.wepeiyang.support.StatusBarHelper;
 import com.rex.wepeiyang.ui.BaseActivity;
 import com.rex.wepeiyang.ui.common.NextActivity;
 import com.rex.wepeiyang.ui.login.LoginActivity;
@@ -42,6 +43,7 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
         //tvAccountName.setText(PrefUtils.getTjuUname());
         tvAccountName.setText(PrefUtils.getUsername());
         btnLogOut.setOnClickListener(this);
+        //StatusBarHelper.setStatusBar(this, getResources().getColor(R.color.main_primary));
     }
 
     @Override

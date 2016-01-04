@@ -22,7 +22,7 @@ public class AssociationInteractorImpl implements AssociationInteractor {
 
             @Override
             public void failure(RetrofitError error) {
-                onGetAssociationCallback.onFailure(error.getMessage());
+                onGetAssociationCallback.onFailure("无法连接到网络");
             }
         });
     }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,9 +12,11 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.rex.wepeiyang.R;
+import com.rex.wepeiyang.interactor.BindInteractorImpl;
 import com.rex.wepeiyang.ui.BaseActivity;
 import com.rex.wepeiyang.ui.common.NextActivity;
 import com.rex.wepeiyang.ui.gpa.GpaActivity;
+import com.rex.wepeiyang.ui.login.LoginActivity;
 import com.rex.wepeiyang.ui.main.MainActivity;
 
 import butterknife.ButterKnife;
@@ -32,6 +35,7 @@ public class BindActivity extends BaseActivity implements BindView {
     @InjectView(R.id.pb_bind)
     ProgressBar pbBind;
     private NextActivity nextActivity;
+    private BindPresenter presenter;
 
 
     public static void actionStart(Context context, NextActivity nextActivity) {
@@ -41,10 +45,12 @@ public class BindActivity extends BaseActivity implements BindView {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bind);
         ButterKnife.inject(this);
         nextActivity = (NextActivity) getIntent().getSerializableExtra("nextactivity");
+        presenter = new BindPresenterImpl(this, new BindInteractorImpl(), nextActivity);
         btBind.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -53,12 +59,11 @@ public class BindActivity extends BaseActivity implements BindView {
                 } else if (etBindPassword.getText().toString().isEmpty()) {
                     etBindPassword.setError("不能为空");
                 } else {
-
+                    presenter.bind(etBindAccount.getText().toString(), etBindPassword.getText().toString());
                 }
 
             }
         });
-        super.onCreate(savedInstanceState, persistentState);
     }
 
     @Override
@@ -85,6 +90,12 @@ public class BindActivity extends BaseActivity implements BindView {
     @Override
     public void startGpaActivity() {
         GpaActivity.actionStart(this);
+        finish();
+    }
+
+    @Override
+    public void startLoginActivity() {
+        LoginActivity.actionStart(this, nextActivity);
         finish();
     }
 }

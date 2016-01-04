@@ -27,7 +27,6 @@ public class AssociationPresenterImpl implements AssociationPresenter, OnGetAsso
         } else {
             isRefreshing = true;
             page = 1;
-            view.showRefreshing();
             interactor.getAssociationList(page, this);
         }
     }
@@ -47,7 +46,6 @@ public class AssociationPresenterImpl implements AssociationPresenter, OnGetAsso
     public void onSuccess(NewsList newsList) {
         if (isRefreshing) {
             isRefreshing = false;
-            view.hideRefreshing();
             view.refreshItems(newsList.data);
         } else {
             isLoadingMore = false;

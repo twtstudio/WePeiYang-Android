@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.rex.wepeiyang.R;
 import com.rex.wepeiyang.bean.NewsItem;
 import com.rex.wepeiyang.interactor.NoticeInteractorImpl;
+import com.rex.wepeiyang.support.StatusBarHelper;
 import com.rex.wepeiyang.ui.BaseActivity;
 import com.rex.wepeiyang.ui.common.OnRcvScrollListener;
 
@@ -63,6 +64,7 @@ public class NoticeActivity extends BaseActivity implements NoticeView {
         rvNotice.setAdapter(adapter);
         rvNotice.setLayoutManager(new LinearLayoutManager(this));
         presenter.refreshNoticeItems();
+        //StatusBarHelper.setStatusBar(this, getResources().getColor(R.color.news_primary_color));
     }
 
     @Override

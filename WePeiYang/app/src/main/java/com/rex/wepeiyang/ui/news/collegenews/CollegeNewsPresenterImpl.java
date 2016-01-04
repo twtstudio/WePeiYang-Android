@@ -24,7 +24,6 @@ public class CollegeNewsPresenterImpl implements CollegeNewsPresenter, OnGetColl
             return;
         } else {
             isRefreshing = true;
-            view.showRefreshing();
             page = 1;
             interactor.getCollegeNewslist(page, this);
         }
@@ -45,7 +44,6 @@ public class CollegeNewsPresenterImpl implements CollegeNewsPresenter, OnGetColl
     public void onSuccess(NewsList newsList) {
         if (isRefreshing) {
             isRefreshing = false;
-            view.hideRefreshing();
             view.refreshItems(newsList.data);
         } else {
             isLoadingMore = false;

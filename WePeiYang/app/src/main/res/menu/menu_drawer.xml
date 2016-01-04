@@ -11,7 +11,7 @@
             android:id="@+id/item_give_advice"
             android:icon="@mipmap/ic_give_advice"
             android:title="@string/give_advice" />
-        <item
+        <!--<item
             android:checkable="false"
             android:id="@+id/item_share_app"
             android:icon="@mipmap/ic_share_app"
@@ -20,7 +20,7 @@
             android:checkable="false"
             android:id="@+id/item_check_update"
             android:icon="@mipmap/ic_check_update"
-            android:title="@string/check_update" />
+            android:title="@string/check_update" />-->
     </group>
 
 </menu>

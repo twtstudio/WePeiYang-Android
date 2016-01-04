@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.rex.wepeiyang.R;
+import com.rex.wepeiyang.support.StatusBarHelper;
 import com.rex.wepeiyang.ui.BaseActivity;
 import com.rex.wepeiyang.ui.common.TabFragmentAdapter;
 import com.rex.wepeiyang.ui.news.associationsnews.AssociationFragment;
@@ -47,6 +48,7 @@ public class NewsActivity extends BaseActivity implements NewsView {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         initTab();
+        //StatusBarHelper.setStatusBar(this, getResources().getColor(R.color.news_primary_color));
     }
 
     @Override

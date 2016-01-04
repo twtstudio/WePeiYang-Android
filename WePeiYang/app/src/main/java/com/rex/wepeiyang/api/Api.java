@@ -13,6 +13,7 @@ import java.util.HashMap;
 
 import retrofit.Callback;
 import retrofit.http.GET;
+import retrofit.http.Header;
 import retrofit.http.POST;
 import retrofit.http.Path;
 import retrofit.http.QueryMap;
@@ -24,14 +25,11 @@ import retrofit.http.QueryMap;
  */
 public interface Api {
 
-    @GET("/tmp/gpa/")
-    void getGPA(@QueryMap HashMap<String, String> gpaParams, Callback<JsonElement> response);
+    @GET("/gpa/")
+    void getGPA(@Header("Authorization") String authorization, @QueryMap HashMap<String, String> gpaParams, Callback<JsonElement> response);
 
-    @GET("/tmp/classtable")
-    void getCourse(@QueryMap HashMap<String, String> classtableParams, Callback<ClassTable> response);
-
-    @GET("/app/feedback/")
-    void feedback(@QueryMap HashMap<String, String> feedbackParams, Callback<Feedback> response);
+    @GET("/classtable")
+    void getCourse(@Header("Authorization") String authorization, @QueryMap HashMap<String, String> classtableParams, Callback<ClassTable> response);
 
     @GET("/news/{type}/page/{page}")
     void getNewsList(@Path("type") int type, @Path("page") int page, Callback<NewsList> response);
@@ -41,10 +39,12 @@ public interface Api {
 
     @GET("/app/index")
     void getMain(Callback<Main> response);
+
     @GET("/auth/token/get")
     void login(@QueryMap HashMap<String, String> loginParams, Callback<Login> response);
 
     @GET("/auth/bind/tju")
-    void bind(@QueryMap HashMap<String, String> bindParams, Callback<JsonElement> response);
+    void bind(@Header("Authorization") String authorization, @QueryMap HashMap<String, String> bindParams, Callback<JsonElement> response);
+
 
 }

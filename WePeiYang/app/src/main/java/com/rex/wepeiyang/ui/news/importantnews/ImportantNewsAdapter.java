@@ -50,8 +50,8 @@ public class ImportantNewsAdapter extends RecyclerView.Adapter<RecyclerView.View
         TextView tvViewCount;
         @InjectView(R.id.tv_comment_count)
         TextView tvCommentCount;
-        @InjectView(R.id.tv_news_date)
-        TextView tvNewsDate;
+        //@InjectView(R.id.tv_news_date)
+        //TextView tvNewsDate;
         @InjectView(R.id.iv_news_picture)
         ImageView ivNewsPicture;
 
@@ -66,8 +66,8 @@ public class ImportantNewsAdapter extends RecyclerView.Adapter<RecyclerView.View
         TextView tvNewsTitle;
         @InjectView(R.id.tv_view_count)
         TextView tvViewCount;
-        @InjectView(R.id.tv_news_date)
-        TextView tvNewsDate;
+        //@InjectView(R.id.tv_news_date)
+        //TextView tvNewsDate;
         @InjectView(R.id.tv_comment_count)
         TextView tvCommentCount;
 
@@ -122,7 +122,7 @@ public class ImportantNewsAdapter extends RecyclerView.Adapter<RecyclerView.View
             itemHolder.tvNewsTitle.setText(newsItem.subject);
             itemHolder.tvViewCount.setText(newsItem.visitcount + "");
             itemHolder.tvCommentCount.setText(newsItem.comments + "");
-            itemHolder.tvNewsDate.setText("没有");
+            //itemHolder.tvNewsDate.setText("没有");
             itemHolder.ivNewsPicture.setVisibility(View.VISIBLE);
             if (!newsItem.pic.isEmpty()) {
                 Picasso.with(context).load(newsItem.pic).into(itemHolder.ivNewsPicture);

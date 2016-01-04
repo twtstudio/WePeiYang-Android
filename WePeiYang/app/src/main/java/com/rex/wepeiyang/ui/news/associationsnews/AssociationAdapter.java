@@ -39,8 +39,8 @@ public class AssociationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         TextView tvNewsTitle;
         @InjectView(R.id.tv_comment_count)
         TextView tvCommentCount;
-        @InjectView(R.id.tv_news_date)
-        TextView tvNewsDate;
+        //@InjectView(R.id.tv_news_date)
+        //TextView tvNewsDate;
         @InjectView(R.id.tv_view_count)
         TextView tvViewCount;
 

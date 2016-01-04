@@ -48,6 +48,7 @@ public class AssociationFragment extends BaseFragment implements AssociationView
                 presenter.loadMoreItems();
             }
         });
+        srlAssociation.setColorSchemeColors(getResources().getColor(R.color.news_primary_color));
         srlAssociation.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -63,17 +64,6 @@ public class AssociationFragment extends BaseFragment implements AssociationView
         Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
     }
 
-
-
-    @Override
-    public void showRefreshing() {
-        srlAssociation.setRefreshing(true);
-    }
-
-    @Override
-    public void hideRefreshing() {
-        srlAssociation.setRefreshing(false);
-    }
 
     @Override
     public void loadMoreItems(List<NewsItem> items) {

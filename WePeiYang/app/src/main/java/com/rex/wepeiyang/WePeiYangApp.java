@@ -5,6 +5,8 @@ import android.content.Context;
 
 import org.litepal.LitePalApplication;
 
+import im.fir.sdk.FIR;
+
 /**
  * Created by sunjuntao on 15/11/15.
  */
@@ -16,6 +18,7 @@ public class WePeiYangApp extends Application{
     public void onCreate() {
         context = getApplicationContext();
         LitePalApplication.initialize(this);
+        FIR.init(this);
         super.onCreate();
     }
 

@@ -1,5 +1,7 @@
 package com.rex.wepeiyang.api;
 
+import android.util.Log;
+
 import com.google.gson.JsonElement;
 import com.rex.wepeiyang.bean.ClassTable;
 import com.rex.wepeiyang.bean.Login;
@@ -10,6 +12,7 @@ import com.rex.wepeiyang.bean.NewsList;
 import java.util.HashMap;
 
 import retrofit.Callback;
+import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
 
 /**
@@ -22,7 +25,7 @@ public class ApiClient {
     private static Api mApi = adapter.create(Api.class);
 
 
-    public static void bind(String tjuname, String tjupwd, Callback<JsonElement> callback) {
+    public static void bind(String authorization,String tjuname, String tjupwd, Callback<JsonElement> callback) {
         RequestParams params = new RequestParams();
         params.put("tjuname", tjuname);
         params.put("tjupwd", tjupwd);
@@ -32,7 +35,8 @@ public class ApiClient {
         temp.put("tjupwd", tjupwd);
         String sign = new Sign().generate(temp);
         params.put("sign", sign);
-        mApi.bind(params, callback);
+        Log.e("authorization", authorization);
+        mApi.bind(authorization, params, callback);
     }
 
     public static void login(String twtuname, String twtpasswd, Callback<Login> callback) {
@@ -50,13 +54,11 @@ public class ApiClient {
 
     public static void getGpaWithoutToken(String authorization, Callback<JsonElement> callback) {
         RequestParams params = new RequestParams();
-        params.put("Authorization", authorization);
         HashMap<String, String> temp = new HashMap<>();
         temp.put("t", params.get("t"));
-        temp.put("Authorization", authorization);
         String sign = new Sign().generate(temp);
         params.put("sign", sign);
-        mApi.getGPA(params, callback);
+        mApi.getGPA(authorization, params, callback);
     }
 
     public static void getGpaWithToken(String authorization, String token, String captcha, Callback<JsonElement> callback) {
@@ -71,20 +73,16 @@ public class ApiClient {
         temp.put("captcha", captcha);
         String sign = new Sign().generate(temp);
         params.put("sign", sign);
-        mApi.getGPA(params, callback);
+        mApi.getGPA(authorization,params, callback);
     }
 
-    public static void getClassTable(String tjuuname, String tjupasswd, Callback<ClassTable> callback) {
+    public static void getClassTable(String authorization,Callback<ClassTable> callback) {
         RequestParams params = new RequestParams();
-        params.put("tjuuname", tjuuname);
-        params.put("tjupasswd", tjupasswd);
         HashMap<String, String> temp = new HashMap<>();
         temp.put("t", params.get("t"));
-        temp.put("tjuuname", tjuuname);
-        temp.put("tjupasswd", tjupasswd);
         String sign = new Sign().generate(temp);
         params.put("sign", sign);
-        mApi.getCourse(params, callback);
+        mApi.getCourse(authorization,params, callback);
     }
 
     public static void getImportantNewsList(int page, Callback<NewsList> callback) {

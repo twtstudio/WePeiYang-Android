@@ -22,7 +22,7 @@ public class NewsDetailsInteractorImpl implements NewsDetailsInteractor {
 
             @Override
             public void failure(RetrofitError error) {
-                onGetNewsDetailsCallback.onFailure(error.getMessage());
+                onGetNewsDetailsCallback.onFailure("无法连接到网络");
             }
         });
     }

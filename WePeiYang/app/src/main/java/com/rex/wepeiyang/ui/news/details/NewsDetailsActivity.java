@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.rex.wepeiyang.R;
 import com.rex.wepeiyang.bean.News;
 import com.rex.wepeiyang.interactor.NewsDetailsInteractorImpl;
+import com.rex.wepeiyang.support.StatusBarHelper;
 import com.rex.wepeiyang.ui.BaseActivity;
 
 import butterknife.ButterKnife;
@@ -82,6 +83,7 @@ public class NewsDetailsActivity extends BaseActivity implements NewsDetailsView
         });
         wvNewsDetials.setScrollbarFadingEnabled(true);
         wvNewsDetials.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+        //StatusBarHelper.setStatusBar(this, getResources().getColor(R.color.news_primary_color));
     }
 
     @Override

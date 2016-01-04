@@ -16,4 +16,6 @@ public interface GpaView {
     void bindData(Gpa gpa);
 
     void showCaptchaDialog(GpaCaptcha gpaCaptcha);
+    void setClickable(boolean clickable);
+    void startBindActivity();
 }

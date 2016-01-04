@@ -38,8 +38,8 @@ public class CollegeNewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         TextView tvNewsTitle;
         @InjectView(R.id.tv_view_count)
         TextView tvViewCount;
-        @InjectView(R.id.tv_news_date)
-        TextView tvNewsDate;
+        //@InjectView(R.id.tv_news_date)
+        //TextView tvNewsDate;
         @InjectView(R.id.tv_comment_count)
         TextView tvCommentCount;
 
@@ -77,7 +77,7 @@ public class CollegeNewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             final NewsItem item = dataSet.get(position);
             itemHolder.tvNewsTitle.setText(item.subject);
             itemHolder.tvCommentCount.setText(item.comments+"");
-            itemHolder.tvNewsDate.setText("没有");
+            //itemHolder.tvNewsDate.setText("没有");
             itemHolder.tvViewCount.setText(item.visitcount+"");
             itemHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

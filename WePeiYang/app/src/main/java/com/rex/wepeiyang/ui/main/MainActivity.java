@@ -1,17 +1,22 @@
 package com.rex.wepeiyang.ui.main;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.AttributeSet;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -25,9 +30,12 @@ import com.daimajia.slider.library.SliderTypes.DefaultSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.daimajia.slider.library.Tricks.ViewPagerEx;
 import com.rex.wepeiyang.R;
+import com.rex.wepeiyang.api.Constant;
 import com.rex.wepeiyang.bean.Main;
 import com.rex.wepeiyang.interactor.MainInteractorImpl;
 import com.rex.wepeiyang.support.PrefUtils;
+import com.rex.wepeiyang.support.StatusBarHelper;
+import com.rex.wepeiyang.ui.BaseActivity;
 import com.rex.wepeiyang.ui.account.AccountActivity;
 import com.rex.wepeiyang.ui.common.NextActivity;
 import com.rex.wepeiyang.ui.gpa.GpaActivity;
@@ -43,8 +51,10 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import im.fir.sdk.FIR;
+import im.fir.sdk.VersionCheckCallback;
 
-public class MainActivity extends AppCompatActivity implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener, View.OnClickListener, MainView {
+public class MainActivity extends BaseActivity implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener, View.OnClickListener, MainView {
 
     @InjectView(R.id.dl_main)
     DrawerLayout dlMain;
@@ -183,14 +193,14 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
                         intent.putExtra(Intent.EXTRA_SUBJECT, "微北洋意见反馈");
                         try {
                             startActivity(intent);
-                        } catch (android.content.ActivityNotFoundException ex) {
+                        } catch (ActivityNotFoundException ex) {
                             Toast.makeText(MainActivity.this, "没有安装邮件应用", Toast.LENGTH_SHORT).show();
                         }
                         break;
-                    case R.id.item_share_app:
+                    /*case R.id.item_share_app:
                         break;
                     case R.id.item_check_update:
-                        break;
+                        break;*/
                 }
                 dlMain.closeDrawers();
                 return true;
@@ -203,6 +213,7 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
         btnSchedule.setOnClickListener(this);
         presenter = new MainPresenterImpl(this, new MainInteractorImpl());
         presenter.loadData();
+        //StatusBarHelper.setStatusBar(this, getResources().getColor(R.color.main_primary));
     }
 
     @Override
@@ -302,15 +313,21 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
         View drawerHeader = drawer.getHeaderView(0);
         TextView tvUsername = (TextView) drawerHeader.findViewById(R.id.tv_username);
         tvUsername.setText(PrefUtils.getUsername());
-        DefaultSliderView banner1 = new DefaultSliderView(this);
-        banner1.image(main.data.carousel.get(0).wideimage);
-        DefaultSliderView banner2 = new DefaultSliderView(this);
-        banner2.image(main.data.carousel.get(1).wideimage);
-        DefaultSliderView banner3 = new DefaultSliderView(this);
-        banner3.image(main.data.carousel.get(2).wideimage);
+        TextSliderView banner1 = new TextSliderView(this);
+        banner1.description(main.data.carousel.get(0).subject).image(main.data.carousel.get(0).pic);
+        TextSliderView banner2 = new TextSliderView(this);
+        banner2.description(main.data.carousel.get(1).subject).image(main.data.carousel.get(1).pic);
+        TextSliderView banner3 = new TextSliderView(this);
+        banner3.description(main.data.carousel.get(2).subject).image(main.data.carousel.get(2).pic);
+        TextSliderView banner4 = new TextSliderView(this);
+        banner4.description(main.data.carousel.get(3).subject).image(main.data.carousel.get(3).pic);
+        TextSliderView banner5 = new TextSliderView(this);
+        banner5.description(main.data.carousel.get(4).subject).image(main.data.carousel.get(4).pic);
         slider.addSlider(banner1);
         slider.addSlider(banner2);
         slider.addSlider(banner3);
+        slider.addSlider(banner4);
+        slider.addSlider(banner5);
         slider.setPresetTransformer(SliderLayout.Transformer.DepthPage);
         banner1.setOnSliderClickListener(new BaseSliderView.OnSliderClickListener() {
             @Override
@@ -318,8 +335,35 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
                 NewsDetailsActivity.actionStart(MainActivity.this, main.data.carousel.get(0).index);
             }
         });
+        banner2.setOnSliderClickListener(new BaseSliderView.OnSliderClickListener() {
+            @Override
+            public void onSliderClick(BaseSliderView slider) {
+                NewsDetailsActivity.actionStart(MainActivity.this, main.data.carousel.get(1).index);
+            }
+        });
+        banner3.setOnSliderClickListener(new BaseSliderView.OnSliderClickListener() {
+            @Override
+            public void onSliderClick(BaseSliderView slider) {
+                NewsDetailsActivity.actionStart(MainActivity.this, main.data.carousel.get(2).index);
+            }
+        });
+        banner4.setOnSliderClickListener(new BaseSliderView.OnSliderClickListener() {
+            @Override
+            public void onSliderClick(BaseSliderView slider) {
+                NewsDetailsActivity.actionStart(MainActivity.this, main.data.carousel.get(3).index);
+            }
+        });
+        banner5.setOnSliderClickListener(new BaseSliderView.OnSliderClickListener() {
+            @Override
+            public void onSliderClick(BaseSliderView slider) {
+                NewsDetailsActivity.actionStart(MainActivity.this, main.data.carousel.get(4).index);
+            }
+        });
         final List<Main.Data.News.Campus> campuses = new ArrayList<>();
         campuses.addAll(main.data.news.campus);
+        tvCampusnewsTitle1.setText(main.data.news.campus.get(0).subject);
+        tvCampusnewsTitle2.setText(main.data.news.campus.get(1).subject);
+        tvCampusnewsTitle3.setText(main.data.news.campus.get(2).subject);
         tvCampusnewsDate1.setText(campuses.get(0).addat);
         tvCampusnewsViewcount1.setText(campuses.get(0).visitcount);
         if (!campuses.get(0).pic.isEmpty()) {
@@ -394,6 +438,29 @@ public class MainActivity extends AppCompatActivity implements BaseSliderView.On
             @Override
             public void onClick(View view) {
                 NewsDetailsActivity.actionStart(MainActivity.this, annoucements.get(2).index);
+            }
+        });
+    }
+    private void checkUpdate(){
+        FIR.checkForUpdateInFIR(Constant.FIRAPITOKEN, new VersionCheckCallback() {
+            @Override
+            public void onSuccess(String s) {
+                super.onSuccess(s);
+            }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+            }
+
+            @Override
+            public void onStart() {
+                super.onStart();
+            }
+
+            @Override
+            public void onFail(Exception e) {
+                super.onFail(e);
             }
         });
     }

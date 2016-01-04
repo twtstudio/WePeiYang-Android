@@ -63,6 +63,9 @@
         <activity
             android:name=".ui.account.AccountActivity"
             android:label="账号设置" />
+        <activity android:name=".ui.bind.BindActivity"
+            android:label="办公网绑定"/>
+        <meta-data android:value="86c0f584a2b1079d0284e445f539da47" android:name="BUG_HD_SDK_GENERAL_KEY" />
     </application>
 
 </manifest>

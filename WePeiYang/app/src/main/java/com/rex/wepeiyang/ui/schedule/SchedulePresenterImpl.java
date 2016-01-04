@@ -2,6 +2,7 @@ package com.rex.wepeiyang.ui.schedule;
 
 import com.rex.wepeiyang.bean.ClassTable;
 import com.rex.wepeiyang.interactor.ScheduleInteractor;
+import com.rex.wepeiyang.support.PrefUtils;
 
 /**
  * Created by sunjuntao on 15/12/5.
@@ -18,7 +19,7 @@ public class SchedulePresenterImpl implements SchedulePresenter, OnGetScheduleCa
     @Override
     public void loadCourses() {
         view.showProgress();
-        //interactor.getSchedule(PrefUtils.getTjuUname(), PrefUtils.getTjuPasswd(), this);
+        interactor.getSchedule(PrefUtils.getToken(), this);
     }
 
     @Override

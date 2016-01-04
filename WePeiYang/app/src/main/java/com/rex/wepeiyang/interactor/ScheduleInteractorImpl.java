@@ -13,8 +13,8 @@ import retrofit.client.Response;
  */
 public class ScheduleInteractorImpl implements ScheduleInteractor {
     @Override
-    public void getSchedule(String tjuuname, String tjupasswd, final OnGetScheduleCallback onGetScheduleCallback) {
-        ApiClient.getClassTable(tjuuname, tjupasswd, new Callback<ClassTable>() {
+    public void getSchedule(String authorization, final OnGetScheduleCallback onGetScheduleCallback) {
+        ApiClient.getClassTable(authorization, new Callback<ClassTable>() {
             @Override
             public void success(ClassTable classTable, Response response) {
                 onGetScheduleCallback.onSuccess(classTable);
@@ -22,7 +22,7 @@ public class ScheduleInteractorImpl implements ScheduleInteractor {
 
             @Override
             public void failure(RetrofitError error) {
-                onGetScheduleCallback.onFailure(error.getMessage());
+                onGetScheduleCallback.onFailure("无法连接到网络");
             }
         });
     }

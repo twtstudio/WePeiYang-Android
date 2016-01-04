@@ -10,10 +10,6 @@ import java.util.List;
 public interface AssociationView {
     void showToast(String message);
 
-    void showRefreshing();
-
-    void hideRefreshing();
-
     void loadMoreItems(List<NewsItem> items);
 
     void refreshItems(List<NewsItem> items);

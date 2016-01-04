@@ -29,7 +29,6 @@ public class ViewPointPresenterImpl implements ViewPointPresenter, OnGetViewPoin
         } else {
             page = 1;
             isRefreshing = true;
-            view.showProgress();
             interactor.getViewPoints(page, this);
         }
     }
@@ -56,7 +55,6 @@ public class ViewPointPresenterImpl implements ViewPointPresenter, OnGetViewPoin
         }
         if (isRefreshing){
             isRefreshing = false;
-            view.hideProgress();
             view.refreshItems(newsList.data);
         }else {
             isLoadingMore = false;
@@ -69,7 +67,6 @@ public class ViewPointPresenterImpl implements ViewPointPresenter, OnGetViewPoin
     public void onFailure(String errorMsg) {
         isLoadingMore = false;
         isRefreshing = false;
-        view.hideProgress();
         view.toastMessage(errorMsg);
     }
 }

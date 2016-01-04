@@ -9,6 +9,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -31,7 +32,10 @@ import com.rex.wepeiyang.bean.Gpa;
 import com.rex.wepeiyang.bean.GpaCaptcha;
 import com.rex.wepeiyang.interactor.GpaInteractorImpl;
 import com.rex.wepeiyang.support.PrefUtils;
+import com.rex.wepeiyang.support.StatusBarHelper;
 import com.rex.wepeiyang.ui.BaseActivity;
+import com.rex.wepeiyang.ui.bind.BindActivity;
+import com.rex.wepeiyang.ui.common.NextActivity;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -90,8 +94,6 @@ public class GpaActivity extends BaseActivity implements GpaView, OnChartValueSe
         rvMyScore.setLayoutManager(layoutManager);
         adapter = new GpaAdapter(this);
         rvMyScore.setAdapter(adapter);
-        btnOrderByScore.setOnClickListener(this);
-        btnOrderByCredit.setOnClickListener(this);
         if (!PrefUtils.isKnowGpaUsage()) {
             final Snackbar snackbar = Snackbar.make(llMyScore, "点击折线图中的圆圈切换成绩列表所属学期", Snackbar.LENGTH_INDEFINITE);
             snackbar.setAction("知道了", new View.OnClickListener() {
@@ -103,6 +105,7 @@ public class GpaActivity extends BaseActivity implements GpaView, OnChartValueSe
             });
             snackbar.show();
         }
+        //StatusBarHelper.setStatusBar(this, getResources().getColor(R.color.gpa_primary_color));
     }
 
 
@@ -211,6 +214,20 @@ public class GpaActivity extends BaseActivity implements GpaView, OnChartValueSe
         bundle.putString("raw", gpaCaptcha.raw);
         fragment.setArguments(bundle);
         fragment.show(getFragmentManager(), "Captcha Dialog");
+    }
+
+    @Override
+    public void setClickable(boolean clickable) {
+        if (clickable){
+            btnOrderByScore.setOnClickListener(this);
+            btnOrderByCredit.setOnClickListener(this);
+        }
+    }
+
+    @Override
+    public void startBindActivity() {
+        BindActivity.actionStart(this, NextActivity.Gpa);
+        finish();
     }
 
     @Override

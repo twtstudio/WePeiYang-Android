@@ -79,6 +79,7 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.facebook.fresco/fbcore/0.8.1/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.facebook.fresco/fresco/0.8.1/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.facebook.fresco/imagepipeline/0.8.1/jars" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/im.fir/fir-sdk/1.3.7/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/org.litepal.android/core/1.3.0/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/incremental" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/manifests" />
@@ -95,7 +96,9 @@
     <orderEntry type="library" exported="" name="support-annotations-23.1.1" level="project" />
     <orderEntry type="library" exported="" name="fresco-0.8.1" level="project" />
     <orderEntry type="library" exported="" name="design-23.1.1" level="project" />
+    <orderEntry type="library" exported="" name="systembartint-1.0.3" level="project" />
     <orderEntry type="library" exported="" name="imagepipeline-0.8.1" level="project" />
+    <orderEntry type="library" exported="" name="fir-sdk-1.3.7" level="project" />
     <orderEntry type="library" exported="" name="retrofit-1.9.0" level="project" />
     <orderEntry type="library" exported="" name="picasso-2.3.2" level="project" />
     <orderEntry type="library" exported="" name="gson-2.3.1" level="project" />
@@ -106,7 +109,6 @@
     <orderEntry type="library" exported="" name="commons-codec-1.10" level="project" />
     <orderEntry type="library" exported="" name="fbcore-0.8.1" level="project" />
     <orderEntry type="library" exported="" name="butterknife-5.1.1" level="project" />
-    <orderEntry type="library" exported="" name="analytics-5.6.4" level="project" />
     <orderEntry type="library" exported="" name="drawee-0.8.1" level="project" />
     <orderEntry type="library" exported="" name="library-1.1.5" level="project" />
     <orderEntry type="library" exported="" name="MPAndroidChart-v2.1.3" level="project" />
