@@ -40,7 +40,6 @@ public class GpaPresenterImpl implements GpaPresenter, OnGetGpaCallback {
     public void onSuccess(JsonElement jsonElement) {
         view.hideProgress();
         String json = jsonElement.toString();
-        Log.e("json", json);
         if (json.contains("token")) {
             GpaCaptcha gpaCaptcha = new Gson().fromJson(json, GpaCaptcha.class);
             view.showCaptchaDialog(gpaCaptcha);

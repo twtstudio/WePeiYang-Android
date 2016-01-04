@@ -32,6 +32,7 @@ public class BindPresenterImpl implements BindPresenter, OnBindCallback {
     @Override
     public void onSuccess() {
         view.hindProgress();
+        view.toastMessage("绑定成功！");
         switch (nextActivity) {
             case Main:
                 view.startMainActivity();

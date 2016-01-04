@@ -8,6 +8,7 @@ import com.rex.wepeiyang.bean.Login;
 import com.rex.wepeiyang.bean.Main;
 import com.rex.wepeiyang.bean.News;
 import com.rex.wepeiyang.bean.NewsList;
+import com.rex.wepeiyang.support.PrefUtils;
 
 import java.util.HashMap;
 
@@ -27,12 +28,12 @@ public class ApiClient {
 
     public static void bind(String authorization,String tjuname, String tjupwd, Callback<JsonElement> callback) {
         RequestParams params = new RequestParams();
-        params.put("tjuname", tjuname);
-        params.put("tjupwd", tjupwd);
+        params.put("tjuuname", tjuname);
+        params.put("tjupasswd", tjupwd);
         HashMap<String, String> temp = new HashMap<>();
         temp.put("t", params.get("t"));
-        temp.put("tjuname", tjuname);
-        temp.put("tjupwd", tjupwd);
+        temp.put("tjuuname", tjuname);
+        temp.put("tjupasswd", tjupwd);
         String sign = new Sign().generate(temp);
         params.put("sign", sign);
         Log.e("authorization", authorization);
@@ -63,12 +64,10 @@ public class ApiClient {
 
     public static void getGpaWithToken(String authorization, String token, String captcha, Callback<JsonElement> callback) {
         RequestParams params = new RequestParams();
-        params.put("Authorization", authorization);
         params.put("token", token);
         params.put("captcha", captcha);
         HashMap<String, String> temp = new HashMap<>();
         temp.put("t", params.get("t"));
-        temp.put("Authorization", authorization);
         temp.put("token", token);
         temp.put("captcha", captcha);
         String sign = new Sign().generate(temp);

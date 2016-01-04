@@ -25,7 +25,10 @@ import retrofit.http.QueryMap;
  */
 public interface Api {
 
-    @GET("/gpa/")
+    @GET("/auth/bind/tju")
+    void bind(@Header("Authorization") String authorization, @QueryMap HashMap<String, String> bindParams, Callback<JsonElement> response);
+
+    @GET("/gpa")
     void getGPA(@Header("Authorization") String authorization, @QueryMap HashMap<String, String> gpaParams, Callback<JsonElement> response);
 
     @GET("/classtable")
@@ -43,8 +46,7 @@ public interface Api {
     @GET("/auth/token/get")
     void login(@QueryMap HashMap<String, String> loginParams, Callback<Login> response);
 
-    @GET("/auth/bind/tju")
-    void bind(@Header("Authorization") String authorization, @QueryMap HashMap<String, String> bindParams, Callback<JsonElement> response);
+
 
 
 }

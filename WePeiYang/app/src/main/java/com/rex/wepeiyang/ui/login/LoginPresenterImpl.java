@@ -44,7 +44,7 @@ public class LoginPresenterImpl implements LoginPresenter, OnLoginCallback {
     @Override
     public void onSuccess(Login login) {
         view.hideProcessing();
-        PrefUtils.setToken("Bearer " + login.data.token);
+        PrefUtils.setToken("Bearer {" + login.data.token+"}");
         PrefUtils.setLogin(true);
         if (twtuname != null) {
             PrefUtils.setUsername(twtuname);

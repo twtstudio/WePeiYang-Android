@@ -210,8 +210,8 @@ public class GpaActivity extends BaseActivity implements GpaView, OnChartValueSe
     public void showCaptchaDialog(GpaCaptcha gpaCaptcha) {
         CaptchaDialogFragment fragment = new CaptchaDialogFragment();
         Bundle bundle = new Bundle();
-        bundle.putString("token", gpaCaptcha.token);
-        bundle.putString("raw", gpaCaptcha.raw);
+        bundle.putString("token", gpaCaptcha.data.token);
+        bundle.putString("raw", gpaCaptcha.data.raw);
         fragment.setArguments(bundle);
         fragment.show(getFragmentManager(), "Captcha Dialog");
     }
