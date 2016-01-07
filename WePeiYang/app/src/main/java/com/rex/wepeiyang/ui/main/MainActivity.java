@@ -4,19 +4,14 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.AttributeSet;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -26,15 +21,13 @@ import android.widget.Toast;
 import com.daimajia.slider.library.Indicators.PagerIndicator;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
-import com.daimajia.slider.library.SliderTypes.DefaultSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.daimajia.slider.library.Tricks.ViewPagerEx;
+import com.rex.wepeiyang.JniUtils;
 import com.rex.wepeiyang.R;
-import com.rex.wepeiyang.api.Constant;
 import com.rex.wepeiyang.bean.Main;
 import com.rex.wepeiyang.interactor.MainInteractorImpl;
 import com.rex.wepeiyang.support.PrefUtils;
-import com.rex.wepeiyang.support.StatusBarHelper;
 import com.rex.wepeiyang.ui.BaseActivity;
 import com.rex.wepeiyang.ui.account.AccountActivity;
 import com.rex.wepeiyang.ui.common.NextActivity;
@@ -442,7 +435,8 @@ public class MainActivity extends BaseActivity implements BaseSliderView.OnSlide
         });
     }
     private void checkUpdate(){
-        FIR.checkForUpdateInFIR(Constant.FIRAPITOKEN, new VersionCheckCallback() {
+        JniUtils jniUtils = new JniUtils();
+        FIR.checkForUpdateInFIR(jniUtils.getFirApiToken(), new VersionCheckCallback() {
             @Override
             public void onSuccess(String s) {
                 super.onSuccess(s);

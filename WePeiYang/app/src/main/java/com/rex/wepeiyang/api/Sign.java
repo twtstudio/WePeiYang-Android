@@ -3,6 +3,7 @@ package com.rex.wepeiyang.api;
 import android.util.Log;
 
 import com.facebook.common.util.Hex;
+import com.rex.wepeiyang.JniUtils;
 
 import org.apache.commons.codec.digest.DigestUtils;
 
@@ -18,7 +19,8 @@ public class Sign {
 
     public String generate(HashMap<String, String> params) {
         String paramsString = dictSort(params);//获取字典排序后的参数列表
-        paramsString = Constant.APPKEY + paramsString + Constant.APPSECRET;
+        JniUtils jniUtils = new JniUtils();
+        paramsString = jniUtils.getAppKey() + paramsString + jniUtils.getAppSecret();
         String result = Hex.encodeHex(DigestUtils.sha1(paramsString), true);
         return result.toUpperCase();
     }

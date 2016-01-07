@@ -1,5 +1,7 @@
 package com.rex.wepeiyang.api;
 
+import com.rex.wepeiyang.JniUtils;
+
 import java.util.Calendar;
 import java.util.HashMap;
 
@@ -9,7 +11,8 @@ import java.util.HashMap;
 public class RequestParams extends HashMap<String, String>{
     public RequestParams(){
         String timeStamp = Calendar.getInstance().getTimeInMillis()+"";
-        this.put("app_key", Constant.APPKEY);
+        JniUtils jniUtils = new JniUtils();
+        this.put("app_key", jniUtils.getAppKey());
         this.put("t", timeStamp);
     }
 }
