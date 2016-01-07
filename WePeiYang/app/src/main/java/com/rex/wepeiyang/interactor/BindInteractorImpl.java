@@ -13,11 +13,11 @@ import retrofit.client.Response;
  */
 public class BindInteractorImpl implements BindInteractor {
     @Override
-    public void bind(String authorization,String tjuname, String tjupwd, final OnBindCallback onBindCallback) {
+    public void bind(String authorization, String tjuname, String tjupwd, final OnBindCallback onBindCallback) {
         ApiClient.bind(authorization, tjuname, tjupwd, new Callback<JsonElement>() {
             @Override
             public void success(JsonElement jsonElement, Response response) {
-
+                onBindCallback.onSuccess();
             }
 
             @Override

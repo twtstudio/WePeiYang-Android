@@ -18,6 +18,7 @@ import com.rex.wepeiyang.ui.common.NextActivity;
 import com.rex.wepeiyang.ui.gpa.GpaActivity;
 import com.rex.wepeiyang.ui.login.LoginActivity;
 import com.rex.wepeiyang.ui.main.MainActivity;
+import com.rex.wepeiyang.ui.schedule.ScheduleActivity;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -96,6 +97,12 @@ public class BindActivity extends BaseActivity implements BindView {
     @Override
     public void startLoginActivity() {
         LoginActivity.actionStart(this, nextActivity);
+        finish();
+    }
+
+    @Override
+    public void startScheduleActivity() {
+        ScheduleActivity.actionStart(this);
         finish();
     }
 }

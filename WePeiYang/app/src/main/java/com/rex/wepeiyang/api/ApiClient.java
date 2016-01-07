@@ -26,7 +26,7 @@ public class ApiClient {
     private static Api mApi = adapter.create(Api.class);
 
 
-    public static void bind(String authorization,String tjuname, String tjupwd, Callback<JsonElement> callback) {
+    public static void bind(String authorization, String tjuname, String tjupwd, Callback<JsonElement> callback) {
         RequestParams params = new RequestParams();
         params.put("tjuuname", tjuname);
         params.put("tjupasswd", tjupwd);
@@ -36,8 +36,16 @@ public class ApiClient {
         temp.put("tjupasswd", tjupwd);
         String sign = new Sign().generate(temp);
         params.put("sign", sign);
-        Log.e("authorization", authorization);
         mApi.bind(authorization, params, callback);
+    }
+
+    public static void refreshToken(String authorization, Callback<JsonElement> callback) {
+        RequestParams params = new RequestParams();
+        HashMap<String, String> temp = new HashMap<>();
+        temp.put("t", params.get("t"));
+        String sign = new Sign().generate(temp);
+        params.put("sign", sign);
+        mApi.refreshToken(authorization, params, callback);
     }
 
     public static void login(String twtuname, String twtpasswd, Callback<Login> callback) {
@@ -72,16 +80,16 @@ public class ApiClient {
         temp.put("captcha", captcha);
         String sign = new Sign().generate(temp);
         params.put("sign", sign);
-        mApi.getGPA(authorization,params, callback);
+        mApi.getGPA(authorization, params, callback);
     }
 
-    public static void getClassTable(String authorization,Callback<ClassTable> callback) {
+    public static void getClassTable(String authorization, Callback<ClassTable> callback) {
         RequestParams params = new RequestParams();
         HashMap<String, String> temp = new HashMap<>();
         temp.put("t", params.get("t"));
         String sign = new Sign().generate(temp);
         params.put("sign", sign);
-        mApi.getCourse(authorization,params, callback);
+        mApi.getCourse(authorization, params, callback);
     }
 
     public static void getImportantNewsList(int page, Callback<NewsList> callback) {

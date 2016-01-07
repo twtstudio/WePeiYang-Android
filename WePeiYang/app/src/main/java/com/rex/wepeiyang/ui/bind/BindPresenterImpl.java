@@ -40,6 +40,8 @@ public class BindPresenterImpl implements BindPresenter, OnBindCallback {
             case Gpa:
                 view.startGpaActivity();
                 break;
+            case Schedule:
+                view.startScheduleActivity();
         }
     }
 
@@ -54,7 +56,6 @@ public class BindPresenterImpl implements BindPresenter, OnBindCallback {
                 view.toastMessage("请重新登录");
                 view.startLoginActivity();
                 break;
-
 
         }
     }

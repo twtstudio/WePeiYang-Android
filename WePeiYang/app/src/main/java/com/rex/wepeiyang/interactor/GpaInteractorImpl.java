@@ -6,6 +6,7 @@ import com.google.gson.JsonElement;
 import com.rex.wepeiyang.api.ApiClient;
 import com.rex.wepeiyang.bean.Error;
 import com.rex.wepeiyang.ui.gpa.OnGetGpaCallback;
+import com.rex.wepeiyang.ui.gpa.OnRefreshTokenCallback;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -43,6 +44,21 @@ public class GpaInteractorImpl implements GpaInteractor {
             @Override
             public void failure(RetrofitError error) {
                 onGetGpaCallback.onFailure(error);
+            }
+        });
+    }
+
+    @Override
+    public void refreshToken(String authorization, OnRefreshTokenCallback onRefreshTokenCallback) {
+        ApiClient.refreshToken(authorization, new Callback<JsonElement>() {
+            @Override
+            public void success(JsonElement jsonElement, Response response) {
+
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+
             }
         });
     }

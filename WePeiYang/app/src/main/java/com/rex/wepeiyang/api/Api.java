@@ -46,6 +46,9 @@ public interface Api {
     @GET("/auth/token/get")
     void login(@QueryMap HashMap<String, String> loginParams, Callback<Login> response);
 
+    @GET("/auth/token/refresh")
+    void refreshToken(@Header("Authorization") String authorization, @QueryMap HashMap<String, String> refreshParams,Callback<JsonElement> response);
+
 
 
 

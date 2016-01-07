@@ -36,6 +36,7 @@ import com.rex.wepeiyang.support.StatusBarHelper;
 import com.rex.wepeiyang.ui.BaseActivity;
 import com.rex.wepeiyang.ui.bind.BindActivity;
 import com.rex.wepeiyang.ui.common.NextActivity;
+import com.rex.wepeiyang.ui.login.LoginActivity;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -227,6 +228,12 @@ public class GpaActivity extends BaseActivity implements GpaView, OnChartValueSe
     @Override
     public void startBindActivity() {
         BindActivity.actionStart(this, NextActivity.Gpa);
+        finish();
+    }
+
+    @Override
+    public void startLoginActivity() {
+        LoginActivity.actionStart(this, NextActivity.Gpa);
         finish();
     }
 
