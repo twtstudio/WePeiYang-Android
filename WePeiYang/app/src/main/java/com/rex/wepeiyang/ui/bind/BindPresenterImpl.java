@@ -1,8 +1,7 @@
 package com.rex.wepeiyang.ui.bind;
 
 import com.google.gson.Gson;
-import com.rex.wepeiyang.bean.*;
-import com.rex.wepeiyang.bean.Error;
+import com.rex.wepeiyang.bean.RestError;
 import com.rex.wepeiyang.interactor.BindInteractor;
 import com.rex.wepeiyang.support.PrefUtils;
 import com.rex.wepeiyang.ui.common.NextActivity;
@@ -47,16 +46,22 @@ public class BindPresenterImpl implements BindPresenter, OnBindCallback {
 
     @Override
     public void onFailure(RetrofitError retrofitError) {
-        com.rex.wepeiyang.bean.Error error = new Gson().fromJson(retrofitError.getBody().toString(), Error.class);
-        switch (error.error_code){
-            case 20002:
-                view.toastMessage("帐号或密码错误");
-                break;
-            case 10000:
-                view.toastMessage("请重新登录");
-                view.startLoginActivity();
-                break;
-
+        view.hindProgress();
+        RestError error = (RestError)retrofitError.getBodyAs(RestError.class);
+        if (error != null) {
+            switch (error.error_code) {
+                case 20002:
+                    view.toastMessage("用户名或密码错误");
+                    break;
+                case 10000:
+                    view.toastMessage("请重新登录");
+                    view.startLoginActivity();
+                    break;
+                default:
+                    view.toastMessage(error.message);
+            }
+        } else {
+            view.toastMessage("无法连接到网络");
         }
     }
 }

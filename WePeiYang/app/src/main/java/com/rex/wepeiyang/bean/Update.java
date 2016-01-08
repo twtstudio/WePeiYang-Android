@@ -8,4 +8,5 @@ public class Update {
     public String version;
     public String changelog;
     public String install_url;
+    public String build;
 }

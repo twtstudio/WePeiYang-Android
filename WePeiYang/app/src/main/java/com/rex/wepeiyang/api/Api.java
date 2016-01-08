@@ -8,6 +8,7 @@ import com.rex.wepeiyang.bean.Login;
 import com.rex.wepeiyang.bean.Main;
 import com.rex.wepeiyang.bean.News;
 import com.rex.wepeiyang.bean.NewsList;
+import com.rex.wepeiyang.bean.RefreshedToken;
 
 import java.util.HashMap;
 
@@ -47,8 +48,9 @@ public interface Api {
     void login(@QueryMap HashMap<String, String> loginParams, Callback<Login> response);
 
     @GET("/auth/token/refresh")
-    void refreshToken(@Header("Authorization") String authorization, @QueryMap HashMap<String, String> refreshParams,Callback<JsonElement> response);
-
+    void refreshToken(@Header("Authorization") String authorization, @QueryMap HashMap<String, String> refreshParams,Callback<RefreshedToken> response);
+    @GET("/app/feedback")
+    void feedback(@Header("User-Agent")String ua, @QueryMap HashMap<String, String> feedbackParams, Callback<JsonElement> response);
 
 
 

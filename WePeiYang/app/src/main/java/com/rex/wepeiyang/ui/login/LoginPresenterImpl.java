@@ -3,11 +3,13 @@ package com.rex.wepeiyang.ui.login;
 import android.text.TextUtils;
 
 import com.rex.wepeiyang.R;
-import com.rex.wepeiyang.bean.Login;
+import com.rex.wepeiyang.bean.*;
 import com.rex.wepeiyang.interactor.LoginInteractor;
 import com.rex.wepeiyang.support.PrefUtils;
 import com.rex.wepeiyang.support.ResourceHelper;
 import com.rex.wepeiyang.ui.common.NextActivity;
+
+import retrofit.RetrofitError;
 
 /**
  * Created by sunjuntao on 15/11/15.
@@ -44,7 +46,7 @@ public class LoginPresenterImpl implements LoginPresenter, OnLoginCallback {
     @Override
     public void onSuccess(Login login) {
         view.hideProcessing();
-        PrefUtils.setToken("Bearer {" + login.data.token+"}");
+        PrefUtils.setToken("Bearer {" + login.data.token + "}");
         PrefUtils.setLogin(true);
         if (twtuname != null) {
             PrefUtils.setUsername(twtuname);
@@ -63,8 +65,13 @@ public class LoginPresenterImpl implements LoginPresenter, OnLoginCallback {
     }
 
     @Override
-    public void onFailure(String errorMsg) {
+    public void onFailure(RetrofitError retrofitError) {
         view.hideProcessing();
-        view.showToast(errorMsg);
+        RestError error = (RestError)retrofitError.getBodyAs(RestError.class);
+        if (error != null) {
+            view.showToast(error.message);
+        } else {
+            view.showToast("无法连接到网络");
+        }
     }
 }

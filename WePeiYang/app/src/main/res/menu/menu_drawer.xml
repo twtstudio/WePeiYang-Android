@@ -15,12 +15,17 @@
             android:checkable="false"
             android:id="@+id/item_share_app"
             android:icon="@mipmap/ic_share_app"
-            android:title="@string/share_app" />
+            android:title="@string/share_app" />-->
         <item
             android:checkable="false"
             android:id="@+id/item_check_update"
             android:icon="@mipmap/ic_check_update"
-            android:title="@string/check_update" />-->
+            android:title="@string/check_update" />
+        <item
+            android:checkable="false"
+            android:id="@+id/item_about"
+            android:icon="@mipmap/ic_about_app"
+            android:title="@string/about_app"/>
     </group>
 
 </menu>

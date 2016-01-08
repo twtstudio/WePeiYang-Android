@@ -2,8 +2,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/calculate_introduction"
-        android:title="@string/calculate_introduction"
+        android:id="@+id/send"
+        android:icon="@mipmap/ic_send"
+        android:title="@string/send"
         app:showAsAction="always"/>
-
 </menu>

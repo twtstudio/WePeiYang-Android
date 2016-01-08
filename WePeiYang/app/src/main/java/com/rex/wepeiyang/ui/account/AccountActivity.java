@@ -2,6 +2,7 @@ package com.rex.wepeiyang.ui.account;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -43,7 +44,9 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
         //tvAccountName.setText(PrefUtils.getTjuUname());
         tvAccountName.setText(PrefUtils.getUsername());
         btnLogOut.setOnClickListener(this);
-        //StatusBarHelper.setStatusBar(this, getResources().getColor(R.color.main_primary));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(getResources().getColor(R.color.main_primary));
+        }
     }
 
     @Override
@@ -62,7 +65,7 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
             case R.id.btn_log_out:
                 PrefUtils.setLogin(false);
                 PrefUtils.setUsername(null);
-                PrefUtils.setToken(null);
+                PrefUtils.setToken("");
                 LoginActivity.actionStart(this, NextActivity.Main);
                 finish();
         }

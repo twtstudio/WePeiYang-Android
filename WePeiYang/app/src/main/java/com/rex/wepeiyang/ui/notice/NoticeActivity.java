@@ -2,6 +2,7 @@ package com.rex.wepeiyang.ui.notice;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -64,7 +65,9 @@ public class NoticeActivity extends BaseActivity implements NoticeView {
         rvNotice.setAdapter(adapter);
         rvNotice.setLayoutManager(new LinearLayoutManager(this));
         presenter.refreshNoticeItems();
-        //StatusBarHelper.setStatusBar(this, getResources().getColor(R.color.news_primary_color));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(getResources().getColor(R.color.news_primary_color));
+        }
     }
 
     @Override

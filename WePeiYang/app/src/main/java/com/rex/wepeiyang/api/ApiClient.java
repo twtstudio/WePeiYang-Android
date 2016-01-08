@@ -1,6 +1,7 @@
 package com.rex.wepeiyang.api;
 
 import android.util.Log;
+import android.webkit.WebView;
 
 import com.google.gson.JsonElement;
 import com.rex.wepeiyang.bean.ClassTable;
@@ -8,6 +9,7 @@ import com.rex.wepeiyang.bean.Login;
 import com.rex.wepeiyang.bean.Main;
 import com.rex.wepeiyang.bean.News;
 import com.rex.wepeiyang.bean.NewsList;
+import com.rex.wepeiyang.bean.RefreshedToken;
 import com.rex.wepeiyang.support.PrefUtils;
 
 import java.util.HashMap;
@@ -39,7 +41,7 @@ public class ApiClient {
         mApi.bind(authorization, params, callback);
     }
 
-    public static void refreshToken(String authorization, Callback<JsonElement> callback) {
+    public static void refreshToken(String authorization, Callback<RefreshedToken> callback) {
         RequestParams params = new RequestParams();
         HashMap<String, String> temp = new HashMap<>();
         temp.put("t", params.get("t"));
@@ -118,6 +120,19 @@ public class ApiClient {
 
     public static void getMain(Callback<Main> callback) {
         mApi.getMain(callback);
+    }
+
+    public static void feedback(String ua, String content, String email, Callback<JsonElement> callback) {
+        RequestParams params = new RequestParams();
+        params.put("content", content);
+        params.put("email", email);
+        HashMap<String, String> temp = new HashMap<>();
+        temp.put("t", params.get("t"));
+        temp.put("content", content);
+        temp.put("email", email);
+        String sign = new Sign().generate(temp);
+        params.put("sign", sign);
+        mApi.feedback(ua, params, callback);
     }
 
     public static void getLost() {

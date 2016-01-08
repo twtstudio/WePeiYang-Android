@@ -83,7 +83,7 @@ public class NewsDetailsActivity extends BaseActivity implements NewsDetailsView
         });
         wvNewsDetials.setScrollbarFadingEnabled(true);
         wvNewsDetials.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
-        //StatusBarHelper.setStatusBar(this, getResources().getColor(R.color.news_primary_color));
+        getWindow().setStatusBarColor(getResources().getColor(R.color.news_primary_color));
     }
 
     @Override

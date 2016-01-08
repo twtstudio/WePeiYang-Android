@@ -24,7 +24,7 @@ public class LoginInteractorImpl implements LoginInteractor {
 
             @Override
             public void failure(RetrofitError error) {
-                onLoginCallback.onFailure("用户名或密码错误");
+                onLoginCallback.onFailure(error);
             }
         });
     }

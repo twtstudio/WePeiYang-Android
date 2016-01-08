@@ -3,6 +3,7 @@ package com.rex.wepeiyang.ui.gpa;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
@@ -106,7 +107,9 @@ public class GpaActivity extends BaseActivity implements GpaView, OnChartValueSe
             });
             snackbar.show();
         }
-        //StatusBarHelper.setStatusBar(this, getResources().getColor(R.color.gpa_primary_color));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(getResources().getColor(R.color.gpa_primary_color));
+        }
     }
 
 
@@ -156,7 +159,7 @@ public class GpaActivity extends BaseActivity implements GpaView, OnChartValueSe
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setTextColor(ContextCompat.getColor(this, R.color.text_secondary_color));
         xAxis.setDrawLabels(true);
-        xAxis.setTextSize(5);
+        xAxis.setTextSize(7);
         YAxis yAxis = lineChart.getAxisLeft();
         yAxis.setAxisMaxValue(4f);
         yAxis.setStartAtZero(false);

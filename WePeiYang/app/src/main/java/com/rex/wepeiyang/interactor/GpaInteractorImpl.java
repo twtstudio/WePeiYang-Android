@@ -4,7 +4,8 @@ package com.rex.wepeiyang.interactor;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.rex.wepeiyang.api.ApiClient;
-import com.rex.wepeiyang.bean.Error;
+import com.rex.wepeiyang.bean.RestError;
+import com.rex.wepeiyang.bean.RefreshedToken;
 import com.rex.wepeiyang.ui.gpa.OnGetGpaCallback;
 import com.rex.wepeiyang.ui.gpa.OnRefreshTokenCallback;
 
@@ -27,7 +28,7 @@ public class GpaInteractorImpl implements GpaInteractor {
 
             @Override
             public void failure(RetrofitError error) {
-                com.rex.wepeiyang.bean.Error jsonError = new Gson().fromJson(error.getBody().toString(), Error.class);
+                RestError jsonError = new Gson().fromJson(error.getBody().toString(), RestError.class);
                 onGetGpaCallback.onFailure(error);
             }
         });
@@ -49,16 +50,16 @@ public class GpaInteractorImpl implements GpaInteractor {
     }
 
     @Override
-    public void refreshToken(String authorization, OnRefreshTokenCallback onRefreshTokenCallback) {
-        ApiClient.refreshToken(authorization, new Callback<JsonElement>() {
+    public void refreshToken(String authorization, final OnRefreshTokenCallback onRefreshTokenCallback) {
+        ApiClient.refreshToken(authorization, new Callback<RefreshedToken>() {
             @Override
-            public void success(JsonElement jsonElement, Response response) {
-
+            public void success(RefreshedToken refreshedToken, Response response) {
+                onRefreshTokenCallback.onSuccess(refreshedToken);
             }
 
             @Override
             public void failure(RetrofitError error) {
-
+                onRefreshTokenCallback.onFailure();
             }
         });
     }

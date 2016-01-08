@@ -37,6 +37,7 @@ public class LibraryActivity extends BaseActivity implements LibraryView{
         ButterKnife.inject(this);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getWindow().setStatusBarColor(getResources().getColor(R.color.library_primary_color));
     }
 
     @Override

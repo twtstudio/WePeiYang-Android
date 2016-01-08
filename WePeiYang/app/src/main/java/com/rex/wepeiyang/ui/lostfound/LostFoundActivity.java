@@ -44,6 +44,7 @@ public class LostFoundActivity extends BaseActivity implements LostFoundView {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         initTab();
+        getWindow().setStatusBarColor(getResources().getColor(R.color.lost_found_primary_color));
     }
 
 

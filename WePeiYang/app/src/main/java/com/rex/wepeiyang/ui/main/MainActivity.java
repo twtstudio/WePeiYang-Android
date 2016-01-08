@@ -1,14 +1,17 @@
 package com.rex.wepeiyang.ui.main;
 
+import android.annotation.TargetApi;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,14 +26,18 @@ import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.daimajia.slider.library.Tricks.ViewPagerEx;
+import com.google.gson.Gson;
 import com.rex.wepeiyang.JniUtils;
 import com.rex.wepeiyang.R;
 import com.rex.wepeiyang.bean.Main;
+import com.rex.wepeiyang.bean.Update;
 import com.rex.wepeiyang.interactor.MainInteractorImpl;
 import com.rex.wepeiyang.support.PrefUtils;
 import com.rex.wepeiyang.ui.BaseActivity;
+import com.rex.wepeiyang.ui.about.AboutActivity;
 import com.rex.wepeiyang.ui.account.AccountActivity;
 import com.rex.wepeiyang.ui.common.NextActivity;
+import com.rex.wepeiyang.ui.feedback.FeedbackActivity;
 import com.rex.wepeiyang.ui.gpa.GpaActivity;
 import com.rex.wepeiyang.ui.login.LoginActivity;
 import com.rex.wepeiyang.ui.news.NewsActivity;
@@ -181,19 +188,16 @@ public class MainActivity extends BaseActivity implements BaseSliderView.OnSlide
                         }
                         break;
                     case R.id.item_give_advice:
-                        Intent intent = new Intent(Intent.ACTION_SENDTO);
-                        intent.setData(Uri.parse("mailto:sunjuntao@twt.edu.cn"));
-                        intent.putExtra(Intent.EXTRA_SUBJECT, "微北洋意见反馈");
-                        try {
-                            startActivity(intent);
-                        } catch (ActivityNotFoundException ex) {
-                            Toast.makeText(MainActivity.this, "没有安装邮件应用", Toast.LENGTH_SHORT).show();
-                        }
+                        FeedbackActivity.actionStart(MainActivity.this);
+                        break;
+                    case R.id.item_about:
+                        AboutActivity.actionStart(MainActivity.this);
                         break;
                     /*case R.id.item_share_app:
-                        break;
-                    case R.id.item_check_update:
                         break;*/
+                    case R.id.item_check_update:
+                        checkUpdate();
+                        break;
                 }
                 dlMain.closeDrawers();
                 return true;
@@ -206,7 +210,10 @@ public class MainActivity extends BaseActivity implements BaseSliderView.OnSlide
         btnSchedule.setOnClickListener(this);
         presenter = new MainPresenterImpl(this, new MainInteractorImpl());
         presenter.loadData();
-        //StatusBarHelper.setStatusBar(this, getResources().getColor(R.color.main_primary));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(getResources().getColor(R.color.main_primary));
+        }
+
     }
 
     @Override
@@ -439,6 +446,8 @@ public class MainActivity extends BaseActivity implements BaseSliderView.OnSlide
         FIR.checkForUpdateInFIR(jniUtils.getFirApiToken(), new VersionCheckCallback() {
             @Override
             public void onSuccess(String s) {
+                Update update = new Gson().fromJson(s, Update.class);
+                Log.e("fir", s);
                 super.onSuccess(s);
             }
 

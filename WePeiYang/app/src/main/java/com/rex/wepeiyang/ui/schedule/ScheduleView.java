@@ -10,4 +10,6 @@ public interface ScheduleView {
     void showProgress();
     void hideProgress();
     void bindData(ClassTable classTable);
+    void startLoginActivity();
+    void startBindActivity();
 }

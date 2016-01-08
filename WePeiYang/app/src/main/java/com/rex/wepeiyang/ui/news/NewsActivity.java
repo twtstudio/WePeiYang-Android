@@ -1,7 +1,9 @@
 package com.rex.wepeiyang.ui.news;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -48,7 +50,9 @@ public class NewsActivity extends BaseActivity implements NewsView {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         initTab();
-        //StatusBarHelper.setStatusBar(this, getResources().getColor(R.color.news_primary_color));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(getResources().getColor(R.color.news_primary_color));
+        }
     }
 
     @Override

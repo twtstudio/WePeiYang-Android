@@ -1,8 +1,11 @@
 package com.rex.wepeiyang.interactor;
 
+import com.google.gson.JsonElement;
 import com.rex.wepeiyang.api.ApiClient;
 import com.rex.wepeiyang.bean.ClassTable;
+import com.rex.wepeiyang.bean.RefreshedToken;
 import com.rex.wepeiyang.ui.schedule.OnGetScheduleCallback;
+import com.rex.wepeiyang.ui.schedule.OnRefreshTokenCallback;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -22,7 +25,22 @@ public class ScheduleInteractorImpl implements ScheduleInteractor {
 
             @Override
             public void failure(RetrofitError error) {
-                onGetScheduleCallback.onFailure("无法连接到网络");
+                onGetScheduleCallback.onFailure(error);
+            }
+        });
+    }
+
+    @Override
+    public void refreshToken(String authorization, final OnRefreshTokenCallback onRefreshTokenCallback) {
+        ApiClient.refreshToken(authorization, new Callback<RefreshedToken>() {
+            @Override
+            public void success(RefreshedToken refreshedToken, Response response) {
+                onRefreshTokenCallback.onSuccess(refreshedToken);
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                onRefreshTokenCallback.onFailure();
             }
         });
     }

@@ -2,6 +2,7 @@ package com.rex.wepeiyang.ui.schedule;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,6 +19,9 @@ import com.rex.wepeiyang.bean.ClassTable;
 import com.rex.wepeiyang.interactor.ScheduleInteractorImpl;
 import com.rex.wepeiyang.support.StatusBarHelper;
 import com.rex.wepeiyang.ui.BaseActivity;
+import com.rex.wepeiyang.ui.bind.BindActivity;
+import com.rex.wepeiyang.ui.common.NextActivity;
+import com.rex.wepeiyang.ui.login.LoginActivity;
 
 import java.util.Calendar;
 
@@ -73,7 +77,9 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
         rvSchedule.setLayoutManager(manager);
         presenter = new SchedulePresenterImpl(this, new ScheduleInteractorImpl());
         presenter.loadCourses();
-        //StatusBarHelper.setStatusBar(this, getResources().getColor(R.color.schedule_primary_color));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(getResources().getColor(R.color.schedule_primary_color));
+        }
     }
 
     @Override
@@ -119,6 +125,18 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
                 break;
         }
         adapter.bindData(classTable);
+    }
+
+    @Override
+    public void startLoginActivity() {
+        LoginActivity.actionStart(this, NextActivity.Schedule);
+        finish();
+    }
+
+    @Override
+    public void startBindActivity() {
+        BindActivity.actionStart(this, NextActivity.Schedule);
+        finish();
     }
 
     @Override

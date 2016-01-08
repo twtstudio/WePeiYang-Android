@@ -1,11 +1,9 @@
 package com.rex.wepeiyang.ui.gpa;
 
-import android.util.Log;
-
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.rex.wepeiyang.bean.*;
-import com.rex.wepeiyang.bean.Error;
+import com.rex.wepeiyang.bean.RestError;
 import com.rex.wepeiyang.interactor.GpaInteractor;
 import com.rex.wepeiyang.support.PrefUtils;
 
@@ -52,33 +50,41 @@ public class GpaPresenterImpl implements GpaPresenter, OnGetGpaCallback, OnRefre
 
     @Override
     public void onFailure(RetrofitError retrofitError) {
-        com.rex.wepeiyang.bean.Error error = new Gson().fromJson(retrofitError.getBody().toString(), Error.class);
-        switch (error.error_code) {
-            case 10000:
-                view.toastMessage("请重新登录");
-                PrefUtils.setLogin(false);
-                PrefUtils.setToken(null);
-                view.startLoginActivity();
-                break;
-            case 10001:
-                view.toastMessage("请重新登录");
-                PrefUtils.setLogin(false);
-                PrefUtils.setToken(null);
-                view.startLoginActivity();
-                break;
-            case 10002:
-                view.toastMessage("请重新登录");
-                PrefUtils.setLogin(false);
-                PrefUtils.setToken(null);
-                view.startLoginActivity();
-                break;
-            case 10003:
-                interactor.refreshToken(PrefUtils.getToken(), this);
-                break;
-            case 20001:
-                view.toastMessage("请绑定办公网帐号");
-                view.startBindActivity();
-                break;
+        view.hideProgress();
+        RestError error = (RestError) retrofitError.getBodyAs(RestError.class);
+        if (error != null) {
+            switch (error.error_code) {
+                case 10000:
+                    view.toastMessage("请重新登录");
+                    PrefUtils.setLogin(false);
+                    PrefUtils.setToken(null);
+                    view.startLoginActivity();
+                    break;
+                case 10001:
+                    view.toastMessage("请重新登录");
+                    PrefUtils.setLogin(false);
+                    PrefUtils.setToken(null);
+                    view.startLoginActivity();
+                    break;
+                case 10002:
+                    view.toastMessage("请重新登录");
+                    PrefUtils.setLogin(false);
+                    PrefUtils.setToken(null);
+                    view.startLoginActivity();
+                    break;
+                case 10003:
+                    interactor.refreshToken(PrefUtils.getToken(), this);
+                    break;
+                case 20001:
+                    view.toastMessage("请绑定办公网帐号");
+                    view.startBindActivity();
+                    break;
+                default:
+                    view.toastMessage(error.message);
+                    break;
+            }
+        }else {
+            view.toastMessage("无法连接到网络");
         }
     }
 
@@ -90,7 +96,7 @@ public class GpaPresenterImpl implements GpaPresenter, OnGetGpaCallback, OnRefre
     }
 
     @Override
-    public void onFailure(String errorMsg) {
+    public void onFailure() {
         view.toastMessage("请重新登录");
         PrefUtils.setLogin(false);
         PrefUtils.setToken(null);
