@@ -57,7 +57,7 @@ public class CaptchaDialogFragment extends DialogFragment implements View.OnClic
         }
         btnCaptchaCancle.setOnClickListener(this);
         btnCaptchaSubmit.setOnClickListener(this);
-        getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getDialog().setTitle("验证");
         return view;
     }
 

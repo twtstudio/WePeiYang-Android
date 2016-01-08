@@ -222,13 +222,13 @@
                                             android:layout_marginStart="8dp"
                                             android:textSize="12sp" />
 
-                                        <ImageView
+                                        <!--<ImageView
                                             android:layout_gravity="center_vertical"
                                             android:layout_width="14dp"
                                             android:layout_height="12dp"
                                             android:layout_marginLeft="16dp"
                                             android:layout_marginStart="16dp"
-                                            android:src="@mipmap/ic_main_comments" />
+                                            android:src="@mipmap/ic_main_comments" />-->
 
                                         <TextView
                                             android:layout_gravity="center_vertical"
@@ -317,13 +317,13 @@
                                                 android:layout_marginStart="8dp"
                                                 android:textSize="12sp" />
 
-                                            <ImageView
+                                            <!--<ImageView
                                                 android:layout_gravity="center_vertical"
                                                 android:layout_width="14dp"
                                                 android:layout_height="12dp"
                                                 android:layout_marginLeft="16dp"
                                                 android:layout_marginStart="16dp"
-                                                android:src="@mipmap/ic_main_comments" />
+                                                android:src="@mipmap/ic_main_comments" />-->
 
                                             <TextView
                                                 android:layout_gravity="center_vertical"
@@ -412,13 +412,13 @@
                                                 android:layout_marginStart="8dp"
                                                 android:textSize="12sp" />
 
-                                            <ImageView
+                                            <!--<ImageView
                                                 android:layout_gravity="center_vertical"
                                                 android:layout_width="14dp"
                                                 android:layout_height="12dp"
                                                 android:layout_marginLeft="16dp"
                                                 android:layout_marginStart="16dp"
-                                                android:src="@mipmap/ic_main_comments" />
+                                                android:src="@mipmap/ic_main_comments" />-->
 
                                             <TextView
                                                 android:layout_gravity="center_vertical"

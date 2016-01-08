@@ -28,7 +28,6 @@ public class GpaInteractorImpl implements GpaInteractor {
 
             @Override
             public void failure(RetrofitError error) {
-                RestError jsonError = new Gson().fromJson(error.getBody().toString(), RestError.class);
                 onGetGpaCallback.onFailure(error);
             }
         });

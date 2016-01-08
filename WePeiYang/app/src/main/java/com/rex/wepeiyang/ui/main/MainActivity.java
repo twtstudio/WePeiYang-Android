@@ -4,6 +4,8 @@ import android.annotation.TargetApi;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -78,24 +80,24 @@ public class MainActivity extends BaseActivity implements BaseSliderView.OnSlide
     TextView tvCampusnewsTitle1;
     @InjectView(R.id.tv_campusnews_viewcount1)
     TextView tvCampusnewsViewcount1;
-    @InjectView(R.id.tv_campusnews_comment1)
-    TextView tvCampusnewsComment1;
+    //@InjectView(R.id.tv_campusnews_comment1)
+    //TextView tvCampusnewsComment1;
     @InjectView(R.id.tv_campusnews_date1)
     TextView tvCampusnewsDate1;
     @InjectView(R.id.tv_campusnews_title2)
     TextView tvCampusnewsTitle2;
     @InjectView(R.id.tv_campusnews_viewcount2)
     TextView tvCampusnewsViewcount2;
-    @InjectView(R.id.tv_campusnews_comment2)
-    TextView tvCampusnewsComment2;
+    //@InjectView(R.id.tv_campusnews_comment2)
+    //TextView tvCampusnewsComment2;
     @InjectView(R.id.tv_campusnews_date2)
     TextView tvCampusnewsDate2;
     @InjectView(R.id.tv_campusnews_title3)
     TextView tvCampusnewsTitle3;
     @InjectView(R.id.tv_campusnews_viewcount3)
     TextView tvCampusnewsViewcount3;
-    @InjectView(R.id.tv_campusnews_comment3)
-    TextView tvCampusnewsComment3;
+    //@InjectView(R.id.tv_campusnews_comment3)
+    //TextView tvCampusnewsComment3;
     @InjectView(R.id.tv_campusnews_date3)
     TextView tvCampusnewsDate3;
     @InjectView(R.id.tv_announcement_title1)
@@ -196,7 +198,7 @@ public class MainActivity extends BaseActivity implements BaseSliderView.OnSlide
                     /*case R.id.item_share_app:
                         break;*/
                     case R.id.item_check_update:
-                        checkUpdate();
+                        checkUpdate(false);
                         break;
                 }
                 dlMain.closeDrawers();
@@ -210,6 +212,7 @@ public class MainActivity extends BaseActivity implements BaseSliderView.OnSlide
         btnSchedule.setOnClickListener(this);
         presenter = new MainPresenterImpl(this, new MainInteractorImpl());
         presenter.loadData();
+        checkUpdate(true);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(getResources().getColor(R.color.main_primary));
         }
@@ -441,13 +444,32 @@ public class MainActivity extends BaseActivity implements BaseSliderView.OnSlide
             }
         });
     }
-    private void checkUpdate(){
+
+    private void checkUpdate(final boolean isInMain) {
         JniUtils jniUtils = new JniUtils();
         FIR.checkForUpdateInFIR(jniUtils.getFirApiToken(), new VersionCheckCallback() {
             @Override
             public void onSuccess(String s) {
                 Update update = new Gson().fromJson(s, Update.class);
-                Log.e("fir", s);
+                PackageInfo packageInfo = null;
+                try {
+                    packageInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+                    String version = packageInfo.versionName;
+                    if (!version.equals(update.versionShort)) {
+                        UpdateDialogFragment dialogFragment = new UpdateDialogFragment();
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("update", update);
+                        dialogFragment.setArguments(bundle);
+                        dialogFragment.show(getFragmentManager(), "Update Dialog");
+                    } else {
+                        if (!isInMain) {
+                            toastMessage("当前为最新版本");
+                        }
+                    }
+
+                } catch (PackageManager.NameNotFoundException e) {
+                    e.printStackTrace();
+                }
                 super.onSuccess(s);
             }
 

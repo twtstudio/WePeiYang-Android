@@ -81,4 +81,6 @@
     <string name="your_email">您的email</string>
     <string name="your_advice">您的意见</string>
     <string name="send">发送</string>
+    <string name="update">更新</string>
+    <string name="already_update">已更新：</string>
 </resources>
