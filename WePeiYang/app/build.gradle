@@ -7,11 +7,11 @@ android {
     buildToolsVersion "23.0.2"
 
     defaultConfig {
-        applicationId "com.rex.wepeiyang"
+        applicationId "com.twt.service"
         minSdkVersion 14
         targetSdkVersion 23
         versionCode 1
-        versionName "2.0 beta"
+        versionName "2.0.3 beta"
         ndk{
             moduleName "Jni"
         }

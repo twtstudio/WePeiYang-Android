@@ -125,7 +125,7 @@
                         android:textSize="12sp" />
                 </LinearLayout>
 
-                <Button
+                <!--<Button
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="8dp"
@@ -133,7 +133,7 @@
                     android:background="@color/gpa_dark_primary_color"
                     android:text="一键教学评价"
                     android:textColor="@android:color/white"
-                    android:textSize="10sp" />
+                    android:textSize="10sp" />-->
             </LinearLayout>
 
             <LinearLayout

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.rex.wepeiyang">
+    package="com.twt.service">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -10,7 +10,7 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
-        android:name=".WePeiYangApp"
+        android:name="com.twt.service.WePeiYangApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -19,7 +19,7 @@
 
         <!-- Welcome Activity -->
         <activity
-            android:name=".ui.welcome.WelcomeActivity"
+            android:name="com.twt.service.ui.welcome.WelcomeActivity"
             android:label="@string/title_activity_welcome"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
@@ -30,50 +30,51 @@
         </activity>
         <!-- Main Activity -->
         <activity
-            android:name=".ui.main.MainActivity"
+            android:name="com.twt.service.ui.main.MainActivity"
             android:label="微北洋"
             android:launchMode="singleTask" />
         <!-- Login Activity -->
         <activity
-            android:name=".ui.login.LoginActivity"
+            android:name="com.twt.service.ui.login.LoginActivity"
             android:label="@string/title_activity_login" />
         <activity
-            android:name=".ui.lostfound.post.PostLostFoundActivity"
+            android:name="com.twt.service.ui.lostfound.post.PostLostFoundActivity"
             android:label="@string/title_activity_post_lost_found" />
         <activity
-            android:name=".ui.news.NewsActivity"
+            android:name="com.twt.service.ui.news.NewsActivity"
             android:label="@string/title_activity_news" />
         <activity
-            android:name=".ui.gpa.GpaActivity"
+            android:name="com.twt.service.ui.gpa.GpaActivity"
             android:label="GPA" />
         <activity
-            android:name=".ui.notice.NoticeActivity"
+            android:name="com.twt.service.ui.notice.NoticeActivity"
             android:label="@string/title_activity_notice"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".ui.news.details.NewsDetailsActivity"
+            android:name="com.twt.service.ui.news.details.NewsDetailsActivity"
             android:label="" />
-        <activity android:name=".ui.news.comments.NewsCommentsActivity" />
+        <activity android:name="com.twt.service.ui.news.comments.NewsCommentsActivity" />
         <activity
-            android:name=".ui.schedule.ScheduleActivity"
+            android:name="com.twt.service.ui.schedule.ScheduleActivity"
             android:label="课程表" />
         <activity
-            android:name=".ui.BaseActivity"
+            android:name="com.twt.service.ui.BaseActivity"
             android:label="Bind" />
         <activity
-            android:name=".ui.account.AccountActivity"
+            android:name="com.twt.service.ui.account.AccountActivity"
             android:label="账号设置" />
         <activity
-            android:name=".ui.bind.BindActivity"
+            android:name="com.twt.service.ui.bind.BindActivity"
             android:label="办公网绑定" />
 
-        <activity android:name=".ui.about.AboutActivity" />
+        <activity android:name="com.twt.service.ui.about.AboutActivity"
+            android:label="About"/>
         <activity
-            android:name=".ui.feedback.FeedbackActivity"
+            android:name="com.twt.service.ui.feedback.FeedbackActivity"
             android:label="意见反馈" />
         <meta-data
             android:name="BUG_HD_SDK_GENERAL_KEY"
-            android:value="d963b75f8e35a230fea915a0c8a3df70" />
+            android:value="d340fd61ec1744da6cdbeda09273520c" />
     </application>
 
 </manifest>
