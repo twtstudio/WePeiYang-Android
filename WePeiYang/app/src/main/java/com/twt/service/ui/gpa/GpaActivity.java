@@ -141,11 +141,11 @@ public class GpaActivity extends BaseActivity implements GpaView, OnChartValueSe
         lineChart.setNoDataTextDescription("还没有成绩哟");
         lineChart.setDrawGridBackground(false);
         lineChart.setDragEnabled(false);
-        lineChart.animateX(1000);
+        lineChart.animateX(500);
         lineChart.setDrawBorders(false);
         lineChart.setDescription("");
         lineChart.setDoubleTapToZoomEnabled(false);
-        lineChart.setPinchZoom(true);
+        lineChart.setPinchZoom(false);
         lineChart.setAutoScaleMinMaxEnabled(true);
         lineChart.setGridBackgroundColor(Color.BLACK);
         lineChart.setBorderWidth(3);
@@ -180,11 +180,21 @@ public class GpaActivity extends BaseActivity implements GpaView, OnChartValueSe
                 circleColors.add(ContextCompat.getColor(this, R.color.gpa_primary_color));
             }
         }
+        double max = terms.get(0).stat.gpa;
+        double min = terms.get(0).stat.gpa;
         ArrayList<Entry> yVals = new ArrayList<>();
         for (int i = 0; i < terms.size(); i++) {
             double val = terms.get(i).stat.gpa;
             yVals.add(new Entry((float) val, i));
+            if (val > max){
+                max = val;
+            }
+            if (val < min){
+                min = val;
+            }
         }
+        yAxis.setAxisMaxValue((float)(max+0.1));
+        yAxis.setAxisMinValue((float)min);
         set = new LineDataSet(yVals, null);
         formatLineDataSet(set);
         set.setCircleColors(circleColors);
