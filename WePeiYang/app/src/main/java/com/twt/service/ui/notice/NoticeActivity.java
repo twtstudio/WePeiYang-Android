@@ -91,7 +91,9 @@ public class NoticeActivity extends BaseActivity implements NoticeView {
 
     @Override
     public void toastMessage(String msg) {
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+        if (msg != null) {
+            Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -106,7 +108,9 @@ public class NoticeActivity extends BaseActivity implements NoticeView {
 
     @Override
     public void setRefreshEnable(boolean refreshEnable) {
-        srlNotice.setRefreshing(refreshEnable);
+        if (srlNotice != null) {
+            srlNotice.setRefreshing(refreshEnable);
+        }
     }
 
     @Override

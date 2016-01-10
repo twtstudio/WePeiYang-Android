@@ -83,7 +83,9 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
 
     @Override
     public void toastMessage(String msg) {
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+        if (msg != null) {
+            Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

@@ -58,9 +58,10 @@ public class ImportantNewsFragment extends Fragment implements ImportantNewsView
 
     @Override
     public void showToast(String message) {
-        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+        if (message != null) {
+            Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+        }
     }
-
 
 
     @Override
@@ -75,7 +76,9 @@ public class ImportantNewsFragment extends Fragment implements ImportantNewsView
 
     @Override
     public void setRefreshEnable(boolean refreshEnable) {
-        srlImportantNews.setRefreshing(refreshEnable);
+        if (srlImportantNews != null) {
+            srlImportantNews.setRefreshing(refreshEnable);
+        }
     }
 
     @Override

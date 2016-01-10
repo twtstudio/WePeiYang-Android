@@ -123,7 +123,9 @@ public class GpaActivity extends BaseActivity implements GpaView, OnChartValueSe
 
     @Override
     public void toastMessage(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        if (message != null) {
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -186,15 +188,15 @@ public class GpaActivity extends BaseActivity implements GpaView, OnChartValueSe
         for (int i = 0; i < terms.size(); i++) {
             double val = terms.get(i).stat.gpa;
             yVals.add(new Entry((float) val, i));
-            if (val > max){
+            if (val > max) {
                 max = val;
             }
-            if (val < min){
+            if (val < min) {
                 min = val;
             }
         }
-        yAxis.setAxisMaxValue((float)(max+0.1));
-        yAxis.setAxisMinValue((float)min);
+        yAxis.setAxisMaxValue((float) (max + 0.1));
+        yAxis.setAxisMinValue((float) min);
         set = new LineDataSet(yVals, null);
         formatLineDataSet(set);
         set.setCircleColors(circleColors);
@@ -230,7 +232,7 @@ public class GpaActivity extends BaseActivity implements GpaView, OnChartValueSe
 
     @Override
     public void setClickable(boolean clickable) {
-        if (clickable){
+        if (clickable) {
             btnOrderByScore.setOnClickListener(this);
             btnOrderByCredit.setOnClickListener(this);
         }

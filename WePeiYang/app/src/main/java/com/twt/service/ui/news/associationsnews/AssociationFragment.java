@@ -32,6 +32,7 @@ public class AssociationFragment extends BaseFragment implements AssociationView
     SwipeRefreshLayout srlAssociation;
     private AssociationPresenter presenter;
     private AssociationAdapter adapter;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -61,7 +62,9 @@ public class AssociationFragment extends BaseFragment implements AssociationView
 
     @Override
     public void showToast(String message) {
-        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+        if (message != null) {
+            Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+        }
     }
 
 
@@ -77,7 +80,9 @@ public class AssociationFragment extends BaseFragment implements AssociationView
 
     @Override
     public void setRefreshEnable(boolean refreshEnable) {
-        srlAssociation.setRefreshing(refreshEnable);
+        if (srlAssociation != null) {
+            srlAssociation.setRefreshing(refreshEnable);
+        }
     }
 
     @Override

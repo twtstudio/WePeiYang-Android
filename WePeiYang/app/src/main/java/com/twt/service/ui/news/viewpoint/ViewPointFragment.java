@@ -69,7 +69,9 @@ public class ViewPointFragment extends BaseFragment implements ViewPointView {
 
     @Override
     public void toastMessage(String msg) {
-        Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+        if (msg != null) {
+            Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -84,6 +86,8 @@ public class ViewPointFragment extends BaseFragment implements ViewPointView {
 
     @Override
     public void setRefreshEnable(boolean refreshEnable) {
-        srlViewpoint.setRefreshing(false);
+        if (srlViewpoint != null) {
+            srlViewpoint.setRefreshing(false);
+        }
     }
 }

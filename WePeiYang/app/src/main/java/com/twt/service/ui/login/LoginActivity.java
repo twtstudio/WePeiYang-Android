@@ -109,7 +109,9 @@ public class LoginActivity extends BaseActivity implements LoginView {
 
     @Override
     public void showToast(String msg) {
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+        if (msg != null) {
+            Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
