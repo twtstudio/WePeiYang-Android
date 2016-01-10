@@ -7,20 +7,28 @@ import com.twt.service.bean.Main;
 import com.twt.service.bean.News;
 import com.twt.service.bean.NewsList;
 import com.twt.service.bean.RefreshedToken;
+import com.twt.service.support.UserAgent;
 
 import java.util.HashMap;
 
 import retrofit.Callback;
+import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
 
 /**
  * Created by Rex on 2015/8/1.
  */
 public class ApiClient {
-
-    public static final String API = "http://open.twtstudio.com/api/v1";
-    private static RestAdapter adapter = new RestAdapter.Builder().setLogLevel(RestAdapter.LogLevel.FULL).setEndpoint(API).build();
+    private static RequestInterceptor requestInterceptor = new RequestInterceptor() {
+        @Override
+        public void intercept(RequestInterceptor.RequestFacade request) {
+            request.addHeader("User-Agent", UserAgent.generate());
+        }
+    };
+    private static final String API = "http://open.twtstudio.com/api/v1";
+    private static RestAdapter adapter = new RestAdapter.Builder().setLogLevel(RestAdapter.LogLevel.FULL).setRequestInterceptor(requestInterceptor).setEndpoint(API).build();
     private static Api mApi = adapter.create(Api.class);
+
 
 
     public static void bind(String authorization, String tjuname, String tjupwd, Callback<JsonElement> callback) {

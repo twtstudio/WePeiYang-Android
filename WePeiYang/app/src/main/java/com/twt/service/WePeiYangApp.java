@@ -19,6 +19,9 @@ public class WePeiYangApp extends Application{
         context = getApplicationContext();
         LitePalApplication.initialize(this);
         FIR.init(this);
+        FIR.addCustomizeValue("sdk", android.os.Build.VERSION.SDK_INT + "");
+        FIR.addCustomizeValue("cpu", android.os.Build.CPU_ABI);
+        FIR.addCustomizeValue("rom_provider", android.os.Build.MANUFACTURER);
         super.onCreate();
     }
 
