@@ -74,8 +74,8 @@ public class SchedulePresenterImpl implements SchedulePresenter, OnGetScheduleCa
     @Override
     public void onSuccess(RefreshedToken refreshedToken) {
         PrefUtils.setLogin(true);
-        PrefUtils.setToken(refreshedToken.data);
-        interactor.getSchedule(refreshedToken.data, this);
+        PrefUtils.setToken("Bearer {" + refreshedToken.data + "}");
+        interactor.getSchedule("Bearer {" + refreshedToken.data + "}", this);
     }
 
     @Override

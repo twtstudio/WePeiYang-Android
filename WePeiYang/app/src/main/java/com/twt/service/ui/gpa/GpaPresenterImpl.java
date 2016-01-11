@@ -1,5 +1,7 @@
 package com.twt.service.ui.gpa;
 
+import android.util.Log;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.twt.service.bean.*;
@@ -73,6 +75,7 @@ public class GpaPresenterImpl implements GpaPresenter, OnGetGpaCallback, OnRefre
                     view.startLoginActivity();
                     break;
                 case 10003:
+                    Log.e("refresh", "refresh");
                     interactor.refreshToken(PrefUtils.getToken(), this);
                     break;
                 case 20001:
@@ -91,8 +94,8 @@ public class GpaPresenterImpl implements GpaPresenter, OnGetGpaCallback, OnRefre
     @Override
     public void onSuccess(RefreshedToken refreshedToken) {
         PrefUtils.setLogin(true);
-        PrefUtils.setToken(refreshedToken.data);
-        interactor.getGpaWithoutToken(refreshedToken.data, this);
+        PrefUtils.setToken("Bearer {" + refreshedToken.data + "}");
+        interactor.getGpaWithoutToken("Bearer {" + refreshedToken.data + "}", this);
     }
 
     @Override
