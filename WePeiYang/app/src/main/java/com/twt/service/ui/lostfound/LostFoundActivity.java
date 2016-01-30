@@ -1,5 +1,6 @@
 package com.twt.service.ui.lostfound;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -44,7 +45,9 @@ public class LostFoundActivity extends BaseActivity implements LostFoundView {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         initTab();
-        getWindow().setStatusBarColor(getResources().getColor(R.color.lost_found_primary_color));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(getResources().getColor(R.color.lost_found_primary_color));
+        }
     }
 
 

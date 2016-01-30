@@ -2,6 +2,7 @@ package com.twt.service.ui.library;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -37,8 +38,11 @@ public class LibraryActivity extends BaseActivity implements LibraryView{
         ButterKnife.inject(this);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getWindow().setStatusBarColor(getResources().getColor(R.color.library_primary_color));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(getResources().getColor(R.color.library_primary_color));
+        }
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

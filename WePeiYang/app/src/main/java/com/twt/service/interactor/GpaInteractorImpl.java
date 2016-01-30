@@ -4,9 +4,12 @@ package com.twt.service.interactor;
 import com.google.gson.JsonElement;
 import com.twt.service.api.ApiClient;
 import com.twt.service.bean.RefreshedToken;
+import com.twt.service.ui.gpa.FailureEvent;
 import com.twt.service.ui.gpa.OnGetGpaCallback;
 import com.twt.service.ui.gpa.OnRefreshTokenCallback;
+import com.twt.service.ui.gpa.SuccessEvent;
 
+import de.greenrobot.event.EventBus;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -21,12 +24,12 @@ public class GpaInteractorImpl implements GpaInteractor {
 
             @Override
             public void success(JsonElement jsonElement, Response response) {
-                onGetGpaCallback.onSuccess(jsonElement);
+                EventBus.getDefault().post(new SuccessEvent(jsonElement.toString()));
             }
 
             @Override
             public void failure(RetrofitError error) {
-                onGetGpaCallback.onFailure(error);
+                EventBus.getDefault().post(new FailureEvent(error));
             }
         });
     }
@@ -36,7 +39,7 @@ public class GpaInteractorImpl implements GpaInteractor {
         ApiClient.getGpaWithToken(authorization, token, captcha, new Callback<JsonElement>() {
             @Override
             public void success(JsonElement jsonElement, Response response) {
-                onGetGpaCallback.onSuccess(jsonElement);
+                onGetGpaCallback.onSuccess(jsonElement.toString());
             }
 
             @Override

@@ -8,6 +8,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -26,6 +27,7 @@ import java.util.Calendar;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import de.greenrobot.event.EventBus;
 
 public class ScheduleActivity extends BaseActivity implements ScheduleView {
 
@@ -51,7 +53,7 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
     ProgressBar pbSchedule;
     @InjectView(R.id.tv_schedule_term)
     TextView tvScheduleTerm;
-    private SchedulePresenter presenter;
+    private SchedulePresenterImpl presenter;
     private String currentTerm;//当前学期
     private ScheduleAdapter adapter;
     private int currentDay;
@@ -65,6 +67,7 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule);
+        EventBus.getDefault().register(this);
         ButterKnife.inject(this);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -74,11 +77,25 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
         RecyclerView.LayoutManager manager = new LinearLayoutManager(this);
         rvSchedule.setAdapter(adapter);
         rvSchedule.setLayoutManager(manager);
-        presenter = new SchedulePresenterImpl(this, new ScheduleInteractorImpl());
-        presenter.loadCourses();
+        presenter = new SchedulePresenterImpl(this, new ScheduleInteractorImpl(), this);
+        presenter.loadCoursesFromCache();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(getResources().getColor(R.color.schedule_primary_color));
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    public void onEvent(SuccessEvent successEvent){
+        presenter.onSuccess(successEvent.toString());
+    }
+
+    public void onEvent(FailureEvent failureEvent){
+        presenter.onFailure(failureEvent.getRetrofitError());
     }
 
     @Override
@@ -100,8 +117,12 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
 
     @Override
     public void bindData(ClassTable classTable) {
-        currentTerm = classTable.data.term.substring(0, classTable.data.term.length() - 1);
-        tvScheduleTerm.setText(currentTerm + "学期课表");
+        if (classTable.data.term.length() > 1) {
+            currentTerm = classTable.data.term.substring(0, classTable.data.term.length() - 1);
+            tvScheduleTerm.setText(currentTerm + "学期课表");
+        }else {
+            tvScheduleTerm.setText("现在是假期:)");
+        }
         switch (currentDay) {
             case 1:
                 tvSunday.setBackgroundColor(ContextCompat.getColor(this, R.color.divider_color));
@@ -141,10 +162,19 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_schedule, menu);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
+                break;
+            case R.id.refresh:
+                presenter.loadCoursesFromNet();
                 break;
         }
         return super.onOptionsItemSelected(item);

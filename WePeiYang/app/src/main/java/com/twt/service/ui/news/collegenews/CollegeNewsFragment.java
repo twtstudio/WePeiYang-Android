@@ -69,7 +69,7 @@ public class CollegeNewsFragment extends BaseFragment implements CollegeNewsView
     @Override
     public void toastMessage(String message) {
         if (message != null) {
-            Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
         }
     }
 

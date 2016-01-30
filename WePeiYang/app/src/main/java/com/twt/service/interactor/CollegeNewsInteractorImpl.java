@@ -22,7 +22,7 @@ public class CollegeNewsInteractorImpl implements CollegeNewsInteractor {
 
             @Override
             public void failure(RetrofitError error) {
-                onGetCollegeNewsCallback.onFailure("无法连接到网络");
+                onGetCollegeNewsCallback.onFailure(error);
             }
         });
     }

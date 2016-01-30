@@ -5,5 +5,11 @@ package com.twt.service.ui.gpa;
  */
 public interface GpaPresenter {
     void getGpaWithoutToken();
+
     void getGpaWithToken(String token, String captcha);
+
+    void getGpaFromNet();
+
+    void getGpaFromCache();
+
 }

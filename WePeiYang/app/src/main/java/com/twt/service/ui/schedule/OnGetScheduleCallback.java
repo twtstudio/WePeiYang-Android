@@ -8,7 +8,7 @@ import retrofit.RetrofitError;
  * Created by sunjuntao on 15/12/5.
  */
 public interface OnGetScheduleCallback {
-    void onSuccess(ClassTable classTable);
+    void onSuccess(String classTableString);
 
     void onFailure(RetrofitError retrofitError);
 }

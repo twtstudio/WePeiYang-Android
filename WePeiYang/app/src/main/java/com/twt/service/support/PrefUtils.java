@@ -52,4 +52,12 @@ public class PrefUtils {
     public static String getUsername() {
         return getDefaultSharedPreferences().getString(PREF_USERNAME, "未登录");
     }
+
+    public static void removeUserName() {
+        getDefaultSharedPreferences().edit().remove(PREF_USERNAME).commit();
+    }
+
+    public static void removeToken() {
+        getDefaultSharedPreferences().edit().remove(PREF_TOKEN).commit();
+    }
 }

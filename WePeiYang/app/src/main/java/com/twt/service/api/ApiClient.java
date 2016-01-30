@@ -1,5 +1,7 @@
 package com.twt.service.api;
 
+import android.util.Log;
+
 import com.google.gson.JsonElement;
 import com.twt.service.bean.ClassTable;
 import com.twt.service.bean.Login;
@@ -30,7 +32,6 @@ public class ApiClient {
     private static Api mApi = adapter.create(Api.class);
 
 
-
     public static void bind(String authorization, String tjuname, String tjupwd, Callback<JsonElement> callback) {
         RequestParams params = new RequestParams();
         params.put("tjuuname", tjuname);
@@ -44,6 +45,18 @@ public class ApiClient {
         mApi.bind(authorization, params, callback);
     }
 
+    public static void unbind(String authorization, String twtuname, Callback<JsonElement> callback) {
+        RequestParams params = new RequestParams();
+        params.put("twtuname", twtuname);
+        HashMap<String, String> temp = new HashMap<>();
+        temp.put("t", params.get("t"));
+        temp.put("twtuname", twtuname);
+        String sign = new Sign().generate(temp);
+        params.put("sign", sign);
+        mApi.unbindTju(authorization, params, callback);
+
+    }
+
     public static void refreshToken(String authorization, Callback<RefreshedToken> callback) {
         RequestParams params = new RequestParams();
         HashMap<String, String> temp = new HashMap<>();
@@ -53,7 +66,7 @@ public class ApiClient {
         mApi.refreshToken(authorization, params, callback);
     }
 
-    public static void login(String twtuname, String twtpasswd, Callback<Login> callback) {
+    public static void login(String twtuname, String twtpasswd, Callback<JsonElement> callback) {
         RequestParams params = new RequestParams();
         params.put("twtuname", twtuname);
         params.put("twtpasswd", twtpasswd);
@@ -88,7 +101,7 @@ public class ApiClient {
         mApi.getGPA(authorization, params, callback);
     }
 
-    public static void getClassTable(String authorization, Callback<ClassTable> callback) {
+    public static void getClassTable(String authorization, Callback<JsonElement> callback) {
         RequestParams params = new RequestParams();
         HashMap<String, String> temp = new HashMap<>();
         temp.put("t", params.get("t"));
@@ -121,7 +134,7 @@ public class ApiClient {
         mApi.getNews(index, callback);
     }
 
-    public static void getMain(Callback<Main> callback) {
+    public static void getMain(Callback<JsonElement> callback) {
         mApi.getMain(callback);
     }
 

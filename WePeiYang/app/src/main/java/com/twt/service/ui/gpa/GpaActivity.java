@@ -10,6 +10,8 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -43,6 +45,7 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by sunjuntao on 15/11/15.
@@ -67,7 +70,7 @@ public class GpaActivity extends BaseActivity implements GpaView, OnChartValueSe
     LinearLayout llMyScore;
     @InjectView(R.id.pb_gpa)
     ProgressBar pbGpa;
-    public static GpaPresenter presenter;
+    public static GpaPresenterImpl presenter;
 
     private static boolean isOrderByScore = true;
     private GpaAdapter adapter;
@@ -85,11 +88,13 @@ public class GpaActivity extends BaseActivity implements GpaView, OnChartValueSe
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gpa);
+        EventBus.getDefault().register(this);
         ButterKnife.inject(this);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        presenter = new GpaPresenterImpl(this, new GpaInteractorImpl());
-        presenter.getGpaWithoutToken();
+        presenter = new GpaPresenterImpl(this, new GpaInteractorImpl(), this);
+        presenter.getGpaFromCache();
+        presenter.getGpaFromNet();
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         rvMyScore.setLayoutManager(layoutManager);
         adapter = new GpaAdapter(this);
@@ -110,6 +115,19 @@ public class GpaActivity extends BaseActivity implements GpaView, OnChartValueSe
         }
     }
 
+    public void onEvent(SuccessEvent successEvent) {
+        presenter.onSuccess(successEvent.toString());
+    }
+
+    public void onEvent(FailureEvent failureEvent) {
+        presenter.onFailure(failureEvent.getRetrofitError());
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
 
     @Override
     public void showProgress() {
@@ -143,7 +161,7 @@ public class GpaActivity extends BaseActivity implements GpaView, OnChartValueSe
         lineChart.setNoDataTextDescription("还没有成绩哟");
         lineChart.setDrawGridBackground(false);
         lineChart.setDragEnabled(false);
-        lineChart.animateX(500);
+        lineChart.animateX(100);
         lineChart.setDrawBorders(false);
         lineChart.setDescription("");
         lineChart.setDoubleTapToZoomEnabled(false);
@@ -182,11 +200,11 @@ public class GpaActivity extends BaseActivity implements GpaView, OnChartValueSe
                 circleColors.add(ContextCompat.getColor(this, R.color.gpa_primary_color));
             }
         }
-        double max = terms.get(0).stat.gpa;
-        double min = terms.get(0).stat.gpa;
+        double max = terms.get(0).stat.score;
+        double min = terms.get(0).stat.score;
         ArrayList<Entry> yVals = new ArrayList<>();
         for (int i = 0; i < terms.size(); i++) {
-            double val = terms.get(i).stat.gpa;
+            double val = terms.get(i).stat.score;
             yVals.add(new Entry((float) val, i));
             if (val > max) {
                 max = val;
@@ -195,13 +213,17 @@ public class GpaActivity extends BaseActivity implements GpaView, OnChartValueSe
                 min = val;
             }
         }
-        yAxis.setAxisMaxValue((float) (max + 0.1));
+        yAxis.setAxisMaxValue((float) max);
         yAxis.setAxisMinValue((float) min);
         set = new LineDataSet(yVals, null);
         formatLineDataSet(set);
         set.setCircleColors(circleColors);
         LineData data = new LineData(xVals, set);
         lineChart.setData(data);
+        lineChart.setExtraLeftOffset(15);
+        lineChart.setExtraRightOffset(20);
+        lineChart.setExtraTopOffset(15);
+        lineChart.setExtraBottomOffset(15);
     }
 
     public void formatLineDataSet(LineDataSet set) {
@@ -223,6 +245,7 @@ public class GpaActivity extends BaseActivity implements GpaView, OnChartValueSe
     @Override
     public void showCaptchaDialog(GpaCaptcha gpaCaptcha) {
         CaptchaDialogFragment fragment = new CaptchaDialogFragment();
+        fragment.getDialog().setCanceledOnTouchOutside(false);
         Bundle bundle = new Bundle();
         bundle.putString("token", gpaCaptcha.data.token);
         bundle.putString("raw", gpaCaptcha.data.raw);
@@ -251,10 +274,19 @@ public class GpaActivity extends BaseActivity implements GpaView, OnChartValueSe
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_gpa, menu);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 GpaActivity.this.finish();
+                break;
+            case R.id.refresh:
+                presenter.getGpaFromNet();
                 break;
         }
         return super.onOptionsItemSelected(item);

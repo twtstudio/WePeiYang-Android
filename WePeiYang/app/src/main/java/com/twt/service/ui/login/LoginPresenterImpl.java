@@ -2,6 +2,7 @@ package com.twt.service.ui.login;
 
 import android.text.TextUtils;
 
+import com.google.gson.Gson;
 import com.twt.service.R;
 import com.twt.service.bean.*;
 import com.twt.service.interactor.LoginInteractor;
@@ -44,8 +45,9 @@ public class LoginPresenterImpl implements LoginPresenter, OnLoginCallback {
     }
 
     @Override
-    public void onSuccess(Login login) {
+    public void onSuccess(String loginString) {
         view.hideProcessing();
+        Login login = new Gson().fromJson(loginString, Login.class);
         PrefUtils.setToken("Bearer {" + login.data.token + "}");
         PrefUtils.setLogin(true);
         if (twtuname != null) {

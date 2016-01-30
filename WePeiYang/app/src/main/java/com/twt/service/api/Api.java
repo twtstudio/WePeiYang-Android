@@ -30,7 +30,7 @@ public interface Api {
     void getGPA(@Header("Authorization") String authorization, @QueryMap HashMap<String, String> gpaParams, Callback<JsonElement> response);
 
     @GET("/classtable")
-    void getCourse(@Header("Authorization") String authorization, @QueryMap HashMap<String, String> classtableParams, Callback<ClassTable> response);
+    void getCourse(@Header("Authorization") String authorization, @QueryMap HashMap<String, String> classtableParams, Callback<JsonElement> response);
 
     @GET("/news/{type}/page/{page}")
     void getNewsList(@Path("type") int type, @Path("page") int page, Callback<NewsList> response);
@@ -39,16 +39,19 @@ public interface Api {
     void getNews(@Path("index") int index, Callback<News> response);
 
     @GET("/app/index")
-    void getMain(Callback<Main> response);
+    void getMain(Callback<JsonElement> response);
 
     @GET("/auth/token/get")
-    void login(@QueryMap HashMap<String, String> loginParams, Callback<Login> response);
+    void login(@QueryMap HashMap<String, String> loginParams, Callback<JsonElement> response);
 
     @GET("/auth/token/refresh")
-    void refreshToken(@Header("Authorization") String authorization, @QueryMap HashMap<String, String> refreshParams,Callback<RefreshedToken> response);
-    @GET("/app/feedback")
-    void feedback(@Header("User-Agent")String ua, @QueryMap HashMap<String, String> feedbackParams, Callback<JsonElement> response);
+    void refreshToken(@Header("Authorization") String authorization, @QueryMap HashMap<String, String> refreshParams, Callback<RefreshedToken> response);
 
+    @GET("/app/feedback")
+    void feedback(@Header("User-Agent") String ua, @QueryMap HashMap<String, String> feedbackParams, Callback<JsonElement> response);
+
+    @GET("/auth/unbind/tju")
+    void unbindTju(@Header("Authorization") String authorization, @QueryMap HashMap<String, String> unbindParams, Callback<JsonElement> response);
 
 
 }

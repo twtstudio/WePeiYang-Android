@@ -69,6 +69,7 @@ public class NoticeActivity extends BaseActivity implements NoticeView {
         }
     }
 
+
     @Override
     public void showProgress() {
         srlNotice.setRefreshing(true);

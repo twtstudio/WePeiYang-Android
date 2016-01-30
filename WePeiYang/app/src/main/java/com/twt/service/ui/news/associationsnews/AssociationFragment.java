@@ -63,7 +63,7 @@ public class AssociationFragment extends BaseFragment implements AssociationView
     @Override
     public void showToast(String message) {
         if (message != null) {
-            Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
         }
     }
 

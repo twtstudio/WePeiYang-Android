@@ -32,6 +32,6 @@
         </list>
     -->
     <list>
-
+        <mapping class="com.twt.service.db.JsonDataSupport"></mapping>
     </list>
 </litepal>

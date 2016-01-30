@@ -8,6 +8,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -16,7 +17,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,6 +50,7 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import de.greenrobot.event.EventBus;
 import im.fir.sdk.FIR;
 import im.fir.sdk.VersionCheckCallback;
 
@@ -153,12 +154,12 @@ public class MainActivity extends BaseActivity implements BaseSliderView.OnSlide
     ImageView ivCampusPicture2;
     @InjectView(R.id.iv_campus_picture3)
     ImageView ivCampusPicture3;
-    @InjectView(R.id.pb_main)
-    ProgressBar pbMain;
     @InjectView(R.id.drawer)
     NavigationView drawer;
+    @InjectView(R.id.srl_main)
+    SwipeRefreshLayout srlMain;
 
-    private MainPresenter presenter;
+    private MainPresenterImpl presenter;
 
     public static void actionStart(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
@@ -169,6 +170,7 @@ public class MainActivity extends BaseActivity implements BaseSliderView.OnSlide
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        EventBus.getDefault().register(this);
         ButterKnife.inject(this);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -207,18 +209,39 @@ public class MainActivity extends BaseActivity implements BaseSliderView.OnSlide
         rlMoreCampusNews.setOnClickListener(this);
         rlMoreCampusNote.setOnClickListener(this);
         btnSchedule.setOnClickListener(this);
-        presenter = new MainPresenterImpl(this, new MainInteractorImpl());
-        presenter.loadData();
+        presenter = new MainPresenterImpl(this, new MainInteractorImpl(), this);
+        presenter.loadDataFromCache();
+        srlMain.setColorSchemeColors(getResources().getColor(R.color.main_primary));
+        srlMain.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                presenter.loadDataFromNet();
+            }
+        });
         checkUpdate(true);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(getResources().getColor(R.color.main_primary));
         }
     }
 
+    public void onEvent(SuccessEvent successEvent) {
+        presenter.onSuccess(successEvent.toString());
+    }
+
+    public void onEvent(FailureEvent failureEvent) {
+        presenter.onFailure(failureEvent.getRetrofitError());
+    }
+
     @Override
     protected void onStop() {
         slider.stopAutoCycle();
         super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -298,16 +321,6 @@ public class MainActivity extends BaseActivity implements BaseSliderView.OnSlide
     }
 
     @Override
-    public void showProgress() {
-        pbMain.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void hideProgress() {
-        pbMain.setVisibility(View.GONE);
-    }
-
-    @Override
     public void bindData(final Main main) {
         View drawerHeader = drawer.getHeaderView(0);
         TextView tvUsername = (TextView) drawerHeader.findViewById(R.id.tv_username);
@@ -317,11 +330,12 @@ public class MainActivity extends BaseActivity implements BaseSliderView.OnSlide
         TextSliderView banner2 = new TextSliderView(this);
         banner2.description(main.data.carousel.get(1).subject + "\n").image(main.data.carousel.get(1).pic);
         TextSliderView banner3 = new TextSliderView(this);
-        banner3.description(main.data.carousel.get(2).subject+"\n").image(main.data.carousel.get(2).pic);
+        banner3.description(main.data.carousel.get(2).subject + "\n").image(main.data.carousel.get(2).pic);
         TextSliderView banner4 = new TextSliderView(this);
-        banner4.description(main.data.carousel.get(3).subject+"\n").image(main.data.carousel.get(3).pic);
+        banner4.description(main.data.carousel.get(3).subject + "\n").image(main.data.carousel.get(3).pic);
         TextSliderView banner5 = new TextSliderView(this);
-        banner5.description(main.data.carousel.get(4).subject+"\n").image(main.data.carousel.get(4).pic);
+        banner5.description(main.data.carousel.get(4).subject + "\n").image(main.data.carousel.get(4).pic);
+        slider.removeAllSliders();
         slider.addSlider(banner1);
         slider.addSlider(banner2);
         slider.addSlider(banner3);
@@ -441,30 +455,37 @@ public class MainActivity extends BaseActivity implements BaseSliderView.OnSlide
         });
     }
 
+    @Override
+    public void hideRefreshing() {
+        srlMain.setRefreshing(false);
+    }
+
     private void checkUpdate(final boolean isInMain) {
-        JniUtils jniUtils = new JniUtils();
+        JniUtils jniUtils = JniUtils.getInstance();
         FIR.checkForUpdateInFIR(jniUtils.getFirApiToken(), new VersionCheckCallback() {
             @Override
             public void onSuccess(String s) {
-                Update update = new Gson().fromJson(s, Update.class);
-                PackageInfo packageInfo = null;
-                try {
-                    packageInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
-                    String version = packageInfo.versionName;
-                    if (!version.equals(update.versionShort)) {
-                        UpdateDialogFragment dialogFragment = new UpdateDialogFragment();
-                        Bundle bundle = new Bundle();
-                        bundle.putSerializable("update", update);
-                        dialogFragment.setArguments(bundle);
-                        dialogFragment.show(getFragmentManager(), "Update Dialog");
-                    } else {
-                        if (!isInMain) {
-                            toastMessage("当前为最新版本");
+                if (s != null) {
+                    Update update = new Gson().fromJson(s, Update.class);
+                    PackageInfo packageInfo = null;
+                    try {
+                        packageInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+                        String version = packageInfo.versionName;
+                        if (!version.equals(update.versionShort)) {
+                            UpdateDialogFragment dialogFragment = new UpdateDialogFragment();
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable("update", update);
+                            dialogFragment.setArguments(bundle);
+                            dialogFragment.show(getFragmentManager(), "Update Dialog");
+                        } else {
+                            if (!isInMain) {
+                                toastMessage("当前为最新版本");
+                            }
                         }
-                    }
 
-                } catch (PackageManager.NameNotFoundException e) {
-                    e.printStackTrace();
+                    } catch (PackageManager.NameNotFoundException e) {
+                        e.printStackTrace();
+                    }
                 }
                 super.onSuccess(s);
             }

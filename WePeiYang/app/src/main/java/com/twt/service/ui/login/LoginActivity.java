@@ -3,6 +3,7 @@ package com.twt.service.ui.login;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -22,6 +23,7 @@ import com.twt.service.ui.schedule.ScheduleActivity;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by sunjuntao on 15/11/15.
@@ -33,7 +35,7 @@ public class LoginActivity extends BaseActivity implements LoginView {
     EditText etLoginPassword;
     @InjectView(R.id.bt_login)
     Button btLogin;
-    LoginPresenter loginPresenter;
+    LoginPresenterImpl loginPresenter;
     @InjectView(R.id.tv_login_later)
     TextView tvLoginLater;
     @InjectView(R.id.pb_login)
@@ -51,6 +53,7 @@ public class LoginActivity extends BaseActivity implements LoginView {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        EventBus.getDefault().register(this);
         ButterKnife.inject(this);
         NextActivity temp = (NextActivity) getIntent().getSerializableExtra("nextactivity");
         if (temp != null) {
@@ -71,6 +74,21 @@ public class LoginActivity extends BaseActivity implements LoginView {
         });
     }
 
+    public void onEvent(SuccessEvent successEvent) {
+        Log.e("successEvent", successEvent.toString());
+        loginPresenter.onSuccess(successEvent.toString());
+    }
+
+    public void onEvent(FailureEvent failureEvent) {
+        loginPresenter.onFailure(failureEvent.getRetrofitError());
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
 
     @Override
     public void startMainActivity() {

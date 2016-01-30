@@ -20,6 +20,7 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by sunjuntao on 15/11/18.
@@ -30,7 +31,17 @@ public class ViewPointFragment extends BaseFragment implements ViewPointView {
     @InjectView(R.id.srl_viewpoint)
     SwipeRefreshLayout srlViewpoint;
     private ViewPointAdapter adapter;
-    private ViewPointPresenter presenter;
+    private ViewPointPresenterImpl presenter;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
 
     @Nullable
     @Override
@@ -66,11 +77,10 @@ public class ViewPointFragment extends BaseFragment implements ViewPointView {
         ButterKnife.reset(this);
     }
 
-
     @Override
     public void toastMessage(String msg) {
         if (msg != null) {
-            Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
         }
     }
 

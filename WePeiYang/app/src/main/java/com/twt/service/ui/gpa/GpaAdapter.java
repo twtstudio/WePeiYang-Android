@@ -58,7 +58,11 @@ public class GpaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         Gpa.Data.Term.Course item = dataSet.get(position);
         itemHolder.tvCourseName.setText(item.name);
         itemHolder.tvCredit.setText(item.credit + "");
-        itemHolder.tvScore.setText(item.score + "");
+        if (item.score != -1) {
+            itemHolder.tvScore.setText(item.score + "");
+        }else {
+            itemHolder.tvScore.setText("待评价");
+        }
         if (isOrderByScore) {
             itemHolder.tvScore.setBackgroundColor(ContextCompat.getColor(context, R.color.divider_color));
             itemHolder.tvCredit.setBackgroundColor(ContextCompat.getColor(context, android.R.color.white));

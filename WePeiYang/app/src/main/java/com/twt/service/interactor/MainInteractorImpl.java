@@ -1,9 +1,11 @@
 package com.twt.service.interactor;
-
+import com.google.gson.JsonElement;
 import com.twt.service.api.ApiClient;
-import com.twt.service.bean.Main;
+import com.twt.service.ui.main.FailureEvent;
 import com.twt.service.ui.main.OnGetMainCallback;
+import com.twt.service.ui.main.SuccessEvent;
 
+import de.greenrobot.event.EventBus;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -14,15 +16,15 @@ import retrofit.client.Response;
 public class MainInteractorImpl implements MainInteractor {
     @Override
     public void getMain(final OnGetMainCallback onGetMainCallback) {
-        ApiClient.getMain(new Callback<Main>() {
+        ApiClient.getMain(new Callback<JsonElement>() {
             @Override
-            public void success(Main main, Response response) {
-                onGetMainCallback.onSuccess(main);
+            public void success(JsonElement mainJson, Response response) {
+                EventBus.getDefault().post(new SuccessEvent(mainJson.toString()));
             }
 
             @Override
             public void failure(RetrofitError error) {
-                onGetMainCallback.onFailure("无法连接到网络");
+                EventBus.getDefault().post(new FailureEvent(error));
             }
         });
     }

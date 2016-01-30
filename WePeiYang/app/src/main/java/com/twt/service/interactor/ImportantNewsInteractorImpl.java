@@ -22,7 +22,7 @@ public class ImportantNewsInteractorImpl implements ImportantNewsInteractor {
 
             @Override
             public void failure(RetrofitError error) {
-                onGetImportantNewsCallback.onFailure("无法连接到网络");
+                onGetImportantNewsCallback.onFailure(error);
             }
         });
     }

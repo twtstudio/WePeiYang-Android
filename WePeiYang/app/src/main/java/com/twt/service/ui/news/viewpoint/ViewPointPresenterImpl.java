@@ -1,7 +1,11 @@
 package com.twt.service.ui.news.viewpoint;
 
+import com.google.gson.Gson;
 import com.twt.service.bean.NewsList;
+import com.twt.service.bean.RestError;
 import com.twt.service.interactor.ViewPointInteractor;
+
+import retrofit.RetrofitError;
 
 /**
  * Created by sunjuntao on 15/11/18.
@@ -62,10 +66,25 @@ public class ViewPointPresenterImpl implements ViewPointPresenter, OnGetViewPoin
     }
 
     @Override
-    public void onFailure(String errorMsg) {
+    public void onFailure(RetrofitError error) {
         view.setRefreshEnable(false);
         isLoadingMore = false;
         isRefreshing = false;
-        view.toastMessage(errorMsg);
+        switch (error.getKind()){
+            case HTTP:
+                RestError restError = (RestError)error.getBodyAs(RestError.class);
+                if (restError!= null){
+                    view.toastMessage(restError.message);
+                }
+                break;
+            case NETWORK:
+                view.toastMessage("无法连接到网络");
+                break;
+            case CONVERSION:
+            case UNEXPECTED:
+                throw error;
+            default:
+                throw new AssertionError("未知的错误类型：" + error.getKind());
+        }
     }
 }

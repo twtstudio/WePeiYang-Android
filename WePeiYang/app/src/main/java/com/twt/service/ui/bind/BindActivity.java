@@ -65,6 +65,7 @@ public class BindActivity extends BaseActivity implements BindView {
         });
     }
 
+
     @Override
     public void showProgress() {
         pbBind.setVisibility(View.VISIBLE);

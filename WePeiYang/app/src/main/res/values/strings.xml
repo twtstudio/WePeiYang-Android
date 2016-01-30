@@ -83,4 +83,6 @@
     <string name="send">发送</string>
     <string name="update">更新</string>
     <string name="already_update">已更新：</string>
+    <string name="refresh">刷新</string>
+    <string name="unbind">办公网解绑</string>
 </resources>

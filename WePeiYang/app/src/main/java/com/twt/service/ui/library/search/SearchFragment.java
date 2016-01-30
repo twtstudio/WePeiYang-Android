@@ -1,5 +1,4 @@
 package com.twt.service.ui.library.search;
-
 import com.twt.service.ui.BaseActivity;
 
 /**

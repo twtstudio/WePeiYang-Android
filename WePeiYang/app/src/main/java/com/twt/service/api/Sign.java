@@ -1,8 +1,8 @@
 package com.twt.service.api;
 
-import com.facebook.common.util.Hex;
 import com.twt.service.JniUtils;
 
+import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import java.util.ArrayList;
@@ -17,16 +17,16 @@ public class Sign {
 
     public String generate(HashMap<String, String> params) {
         String paramsString = dictSort(params);//获取字典排序后的参数列表
-        JniUtils jniUtils = new JniUtils();
+        JniUtils jniUtils = JniUtils.getInstance();
         paramsString = jniUtils.getAppKey() + paramsString + jniUtils.getAppSecret();
-        String result = Hex.encodeHex(DigestUtils.sha1(paramsString), true);
+        String result = new String(Hex.encodeHex(DigestUtils.sha1(paramsString)));
         return result.toUpperCase();
     }
 
     /*
     对除app_key外的参数进行字典升序排列
      */
-    private static String dictSort(HashMap<String, String> map) {
+    private String dictSort(HashMap<String, String> map) {
         Collection<String> keySet = map.keySet();
         ArrayList<String> list = new ArrayList<>(keySet);
         Collections.sort(list);

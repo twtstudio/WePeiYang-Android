@@ -22,7 +22,7 @@ public class ViewPointInteractorImpl implements ViewPointInteractor {
 
             @Override
             public void failure(RetrofitError error) {
-                onGetViewPointCallback.onFailure("无法连接到网络");
+                onGetViewPointCallback.onFailure(error);
             }
         });
     }

@@ -1,7 +1,10 @@
 package com.twt.service.ui.notice;
 
 import com.twt.service.bean.NewsList;
+import com.twt.service.bean.RestError;
 import com.twt.service.interactor.NoticeInteractor;
+
+import retrofit.RetrofitError;
 
 /**
  * Created by sunjuntao on 15/11/16.
@@ -59,11 +62,26 @@ public class NoticePresenterImpl implements NoticePresenter, OnGetNoticeCallback
     }
 
     @Override
-    public void onFailure(String errorMsg) {
+    public void onFailure(RetrofitError error) {
         view.setRefreshEnable(false);
         isRefreshing = false;
         isLoadingMore = false;
         view.hideProgress();
-        view.toastMessage(errorMsg);
+        switch (error.getKind()){
+            case HTTP:
+                RestError restError = (RestError)error.getBodyAs(RestError.class);
+                if (restError!=null){
+                    view.toastMessage(restError.message);
+                }
+                break;
+            case NETWORK:
+                view.toastMessage("无法连接到网络");
+                break;
+            case CONVERSION:
+            case UNEXPECTED:
+                throw error;
+            default:
+                throw new AssertionError("未知的错误类型：" + error.getKind());
+        }
     }
 }

@@ -1,11 +1,15 @@
 package com.twt.service.interactor;
 
+import com.google.gson.JsonElement;
 import com.twt.service.api.ApiClient;
 import com.twt.service.bean.ClassTable;
 import com.twt.service.bean.RefreshedToken;
+import com.twt.service.ui.schedule.FailureEvent;
 import com.twt.service.ui.schedule.OnGetScheduleCallback;
 import com.twt.service.ui.schedule.OnRefreshTokenCallback;
+import com.twt.service.ui.schedule.SuccessEvent;
 
+import de.greenrobot.event.EventBus;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -16,15 +20,18 @@ import retrofit.client.Response;
 public class ScheduleInteractorImpl implements ScheduleInteractor {
     @Override
     public void getSchedule(String authorization, final OnGetScheduleCallback onGetScheduleCallback) {
-        ApiClient.getClassTable(authorization, new Callback<ClassTable>() {
+        ApiClient.getClassTable(authorization, new Callback<JsonElement>() {
             @Override
-            public void success(ClassTable classTable, Response response) {
-                onGetScheduleCallback.onSuccess(classTable);
+            public void success(JsonElement classTableJson, Response response) {
+                if (classTableJson != null){
+                    String classTable = classTableJson.toString();
+                    EventBus.getDefault().post(new SuccessEvent(classTable));
+                }
             }
 
             @Override
             public void failure(RetrofitError error) {
-                onGetScheduleCallback.onFailure(error);
+                EventBus.getDefault().post(new FailureEvent(error));
             }
         });
     }

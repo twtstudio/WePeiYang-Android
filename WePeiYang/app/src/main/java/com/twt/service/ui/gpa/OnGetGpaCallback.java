@@ -1,13 +1,12 @@
 package com.twt.service.ui.gpa;
 
-import com.google.gson.JsonElement;
-
 import retrofit.RetrofitError;
 
 /**
  * Created by sunjuntao on 15/11/15.
  */
 public interface OnGetGpaCallback {
-    void onSuccess(JsonElement jsonElement);
+    void onSuccess(String gpaString);
+
     void onFailure(RetrofitError error);
 }
