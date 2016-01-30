@@ -19,7 +19,7 @@ public class Sign {
         String paramsString = dictSort(params);//获取字典排序后的参数列表
         JniUtils jniUtils = JniUtils.getInstance();
         paramsString = jniUtils.getAppKey() + paramsString + jniUtils.getAppSecret();
-        String result = new String(Hex.encodeHex(DigestUtils.sha1(paramsString)));
+        String result = new String(Hex.encodeHex(DigestUtils.sha(paramsString)));
         return result.toUpperCase();
     }
 
