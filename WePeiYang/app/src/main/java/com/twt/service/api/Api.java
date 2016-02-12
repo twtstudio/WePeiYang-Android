@@ -2,7 +2,9 @@ package com.twt.service.api;
 
 import com.google.gson.JsonElement;
 import com.twt.service.bean.ClassTable;
+import com.twt.service.bean.Found;
 import com.twt.service.bean.Login;
+import com.twt.service.bean.Lost;
 import com.twt.service.bean.Main;
 import com.twt.service.bean.News;
 import com.twt.service.bean.NewsList;
@@ -52,6 +54,12 @@ public interface Api {
 
     @GET("/auth/unbind/tju")
     void unbindTju(@Header("Authorization") String authorization, @QueryMap HashMap<String, String> unbindParams, Callback<JsonElement> response);
+
+    @GET("/lostfound/lost?page={page}")
+    void getLostList(@QueryMap HashMap<String, String> lostParams, Callback<Lost> response);
+
+    @GET("/lostfound/found")
+    void getFoundList(@Path("page") int page, Callback<Found> response);
 
 
 }

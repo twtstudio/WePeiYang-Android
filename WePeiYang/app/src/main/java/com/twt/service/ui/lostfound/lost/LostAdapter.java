@@ -9,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.twt.service.R;
-import com.twt.service.bean.LostFound;
 
 import java.util.ArrayList;
 

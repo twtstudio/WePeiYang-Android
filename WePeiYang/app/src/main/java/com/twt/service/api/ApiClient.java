@@ -4,7 +4,9 @@ import android.util.Log;
 
 import com.google.gson.JsonElement;
 import com.twt.service.bean.ClassTable;
+import com.twt.service.bean.Found;
 import com.twt.service.bean.Login;
+import com.twt.service.bean.Lost;
 import com.twt.service.bean.Main;
 import com.twt.service.bean.News;
 import com.twt.service.bean.NewsList;
@@ -151,11 +153,12 @@ public class ApiClient {
         mApi.feedback(ua, params, callback);
     }
 
-    public static void getLost() {
-
+    public static void getLostList(int page, Callback<Lost> callback) {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("page", page);
     }
 
-    public static void getFound() {
+    public static void getFoundList(int page, Callback<Found> callback) {
 
     }
 }
