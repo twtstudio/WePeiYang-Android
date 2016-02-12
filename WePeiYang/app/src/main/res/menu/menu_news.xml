@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.twt.service.ui.news.NewsActivity">
     <item
-        android:id="@+id/news_comment"
-        android:icon="@mipmap/ic_news_comments"
-        android:title="@string/news_comments"
+        android:id="@+id/news_share"
+        android:icon="@mipmap/ic_share"
+        android:title="@string/share"
         app:showAsAction="always" />
 </menu>

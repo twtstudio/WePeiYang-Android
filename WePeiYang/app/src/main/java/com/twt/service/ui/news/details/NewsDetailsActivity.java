@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -18,10 +19,12 @@ import android.widget.Toast;
 import com.twt.service.R;
 import com.twt.service.bean.News;
 import com.twt.service.interactor.NewsDetailsInteractorImpl;
+import com.twt.service.support.share.OnekeyShare;
 import com.twt.service.ui.BaseActivity;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import cn.sharesdk.framework.ShareSDK;
 
 public class NewsDetailsActivity extends BaseActivity implements NewsDetailsView {
 
@@ -56,6 +59,8 @@ public class NewsDetailsActivity extends BaseActivity implements NewsDetailsView
     LinearLayout llNewsDetailsLaiyuan;
     private int index;
     private NewsDetailsPresenter presenter;
+    private static final String NEWSURL = "http://news.twt.edu.cn/new_mobile/detail.php?id=";
+    private News mNews;
 
 
     public static void actionStart(Context context, int index) {
@@ -89,12 +94,29 @@ public class NewsDetailsActivity extends BaseActivity implements NewsDetailsView
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_news, menu);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
                 break;
-            case R.id.news_comment:
+            case R.id.news_share:
+                if (mNews != null) {
+                    ShareSDK.initSDK(this);
+                    OnekeyShare oks = new OnekeyShare();
+                    oks.disableSSOWhenAuthorize();
+                    oks.setTitle(getString(R.string.share));
+                    oks.setText(mNews.data.subject);
+                    oks.setImagePath(getCacheDir() + "/logo.png");//确保SDcard下面存在此张图片
+                    oks.setUrl(NEWSURL + mNews.data.index);
+                    oks.show(this);
+                }
+
 
         }
         return super.onOptionsItemSelected(item);
@@ -112,6 +134,7 @@ public class NewsDetailsActivity extends BaseActivity implements NewsDetailsView
 
     @Override
     public void bindData(News news) {
+        mNews = news;
         tvNewsDetailsTitle.setText(news.data.subject);
         if (news.data.gonggao.isEmpty()) {
             llNewsDetailsGonggao.setVisibility(View.GONE);
