@@ -110,27 +110,67 @@ public class ApiClient {
     }
 
     public static void getImportantNewsList(int page, Callback<NewsList> callback) {
-        mApi.getNewsList(1, page, callback);
+        RequestParams params = new RequestParams();
+        params.put("page", page + "");
+        HashMap<String, String> temp = new HashMap<>();
+        temp.put("t", params.get("t"));
+        temp.put("page", page + "");
+        String sign = new Sign().generate(temp);
+        params.put("sign", sign);
+        mApi.getNewsList(1, params, callback);
     }
 
     public static void getNoticeList(int page, Callback<NewsList> callback) {
-        mApi.getNewsList(2, page, callback);
+        RequestParams params = new RequestParams();
+        params.put("page", page + "");
+        HashMap<String, String> temp = new HashMap<>();
+        temp.put("t", params.get("t"));
+        temp.put("page", page + "");
+        String sign = new Sign().generate(temp);
+        params.put("sign", sign);
+        mApi.getNewsList(2, params, callback);
     }
 
     public static void getViewPointList(int page, Callback<NewsList> callback) {
-        mApi.getNewsList(5, page, callback);
+        RequestParams params = new RequestParams();
+        params.put("page", page + "");
+        HashMap<String, String> temp = new HashMap<>();
+        temp.put("t", params.get("t"));
+        temp.put("page", page + "");
+        String sign = new Sign().generate(temp);
+        params.put("sign", sign);
+        mApi.getNewsList(5, params, callback);
     }
 
     public static void getAssociationList(int page, Callback<NewsList> callback) {
-        mApi.getNewsList(3, page, callback);
+        RequestParams params = new RequestParams();
+        params.put("page", page + "");
+        HashMap<String, String> temp = new HashMap<>();
+        temp.put("t", params.get("t"));
+        temp.put("page", page + "");
+        String sign = new Sign().generate(temp);
+        params.put("sign", sign);
+        mApi.getNewsList(3, params, callback);
     }
 
     public static void getCollegeNewslist(int page, Callback<NewsList> callback) {
-        mApi.getNewsList(4, page, callback);
+        RequestParams params = new RequestParams();
+        params.put("page", page + "");
+        HashMap<String, String> temp = new HashMap<>();
+        temp.put("t", params.get("t"));
+        temp.put("page", page + "");
+        String sign = new Sign().generate(temp);
+        params.put("sign", sign);
+        mApi.getNewsList(4, params, callback);
     }
 
     public static void getNewsDetails(int index, Callback<News> callback) {
-        mApi.getNews(index, callback);
+        RequestParams params = new RequestParams();
+        HashMap<String, String> temp = new HashMap<>();
+        temp.put("t", params.get("t"));
+        String sign = new Sign().generate(temp);
+        params.put("sign", sign);
+        mApi.getNews(index, params, callback);
     }
 
     public static void getMain(Callback<JsonElement> callback) {

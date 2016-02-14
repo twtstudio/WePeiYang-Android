@@ -34,11 +34,11 @@ public interface Api {
     @GET("/classtable")
     void getCourse(@Header("Authorization") String authorization, @QueryMap HashMap<String, String> classtableParams, Callback<JsonElement> response);
 
-    @GET("/news/{type}/page/{page}")
-    void getNewsList(@Path("type") int type, @Path("page") int page, Callback<NewsList> response);
+    @GET("/news/type/{type}")
+    void getNewsList(@Path("type") int type, @QueryMap HashMap<String, String> newsParams, Callback<NewsList> response);
 
     @GET("/news/{index}")
-    void getNews(@Path("index") int index, Callback<News> response);
+    void getNews(@Path("index") int index, @QueryMap HashMap<String, String> newsParams, Callback<News> response);
 
     @GET("/app/index")
     void getMain(Callback<JsonElement> response);
