@@ -24,10 +24,10 @@ public class LostPresenterImpl implements LostPresenter, onGetLostCallback {
     @Override
     public void refreshLostItems() {
         if (isRefershing) return;
-        page = 0;
+        page = 1;
         isRefershing = true;
         lostView.showRefreshing();
-        interactor.getLost();
+        interactor.getLostList(page);
     }
 
     @Override
@@ -36,7 +36,7 @@ public class LostPresenterImpl implements LostPresenter, onGetLostCallback {
         page += 1;
         isLoadingMore = true;
         lostView.showRefreshing();
-        interactor.getLost();
+        interactor.getLostList(page);
 
     }
 

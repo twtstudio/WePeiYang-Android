@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.twt.service.R;
+import com.twt.service.bean.Lost;
 
 import java.util.ArrayList;
 
@@ -24,7 +25,7 @@ public class LostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int TYPE_FOOTER = 1;
 
     private Context context;
-    private ArrayList<LostFound> dataSet = new ArrayList<>();
+    private ArrayList<Lost> dataSet = new ArrayList<>();
 
     public LostAdapter(Context context) {
         this.context = context;
@@ -68,7 +69,7 @@ public class LostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         int type = getItemViewType(position);
         if (type == TYPE_ITEM) {
-            LostFound item = dataSet.get(position);
+            Lost item = dataSet.get(position);
             /*
             在此将item中的数据与viewholder中的view 绑定
              */
@@ -86,18 +87,18 @@ public class LostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return itemCount;
     }
 
-    public void refreshItems(ArrayList<LostFound> items) {
+    public void refreshItems(ArrayList<Lost> items) {
         dataSet.clear();
         dataSet.addAll(items);
         notifyDataSetChanged();
     }
 
-    public void addItems(ArrayList<LostFound> items) {
+    public void addItems(ArrayList<Lost> items) {
         dataSet.addAll(items);
         notifyDataSetChanged();
     }
 
-    public LostFound getItem(int position) {
+    public Lost getItem(int position) {
         return dataSet.get(position);
     }
 

@@ -1,13 +1,10 @@
 package com.twt.service.api;
 
-import android.util.Log;
-
 import com.google.gson.JsonElement;
-import com.twt.service.bean.ClassTable;
 import com.twt.service.bean.Found;
-import com.twt.service.bean.Login;
+import com.twt.service.bean.Jobs;
+import com.twt.service.bean.JobsList;
 import com.twt.service.bean.Lost;
-import com.twt.service.bean.Main;
 import com.twt.service.bean.News;
 import com.twt.service.bean.NewsList;
 import com.twt.service.bean.RefreshedToken;
@@ -154,11 +151,44 @@ public class ApiClient {
     }
 
     public static void getLostList(int page, Callback<Lost> callback) {
-        HashMap<String, String> params = new HashMap<>();
-        params.put("page", page);
+        RequestParams params = new RequestParams();
+        params.put("page", page + "");
+        HashMap<String, String> temp = new HashMap<>();
+        temp.put("t", params.get("t"));
+        temp.put("page", page + "");
+        String sign = new Sign().generate(temp);
+        params.put("sign", sign);
+        mApi.getLostList(params, callback);
     }
 
     public static void getFoundList(int page, Callback<Found> callback) {
+        RequestParams params = new RequestParams();
+        params.put("page", page + "");
+        HashMap<String, String> temp = new HashMap<>();
+        temp.put("t", params.get("t"));
+        temp.put("page", page + "");
+        String sign = new Sign().generate(temp);
+        params.put("sign", sign);
+        mApi.getFoundList(params, callback);
+    }
 
+    public static void getJobsList(int page, Callback<JobsList> callback) {
+        RequestParams params = new RequestParams();
+        params.put("page", page + "");
+        HashMap<String, String> temp = new HashMap<>();
+        temp.put("t", params.get("t"));
+        temp.put("page", page + "");
+        String sign = new Sign().generate(temp);
+        params.put("sign", sign);
+        mApi.getJobsList(params, callback);
+    }
+
+    public static void getJobsDetails(int id, Callback<Jobs> callback) {
+        RequestParams params = new RequestParams();
+        HashMap<String, String> temp = new HashMap<>();
+        temp.put("t", params.get("t"));
+        String sign = new Sign().generate(temp);
+        params.put("sign", sign);
+        mApi.getJobsDetails(params, id, callback);
     }
 }

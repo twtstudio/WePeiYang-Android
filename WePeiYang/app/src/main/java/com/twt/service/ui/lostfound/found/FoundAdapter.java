@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.twt.service.R;
+import com.twt.service.bean.Found;
 
 import java.util.ArrayList;
 
@@ -21,7 +22,7 @@ import butterknife.InjectView;
 public class FoundAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context context;
-    private ArrayList<LostFound> dataSet = new ArrayList<>();
+    private ArrayList<Found> dataSet = new ArrayList<>();
 
     public FoundAdapter(Context context) {
         this.context = context;
@@ -63,7 +64,7 @@ public class FoundAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         ItemHolder itemHolder = (ItemHolder) holder;
-        LostFound item = dataSet.get(position);
+        Found item = dataSet.get(position);
         /*
         Bind Item
          */
@@ -74,18 +75,18 @@ public class FoundAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         return dataSet.size();
     }
 
-    public void refreshItems(ArrayList<LostFound> items) {
+    public void refreshItems(ArrayList<Found> items) {
         dataSet.clear();
         dataSet.addAll(items);
         notifyDataSetChanged();
     }
 
-    public void addItems(ArrayList<LostFound> items) {
+    public void addItems(ArrayList<Found> items) {
         dataSet.addAll(getItemCount(), items);
         notifyDataSetChanged();
     }
 
-    public LostFound getItem(int position) {
+    public Found getItem(int position) {
         return dataSet.get(position);
     }
 }

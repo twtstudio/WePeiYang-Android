@@ -26,6 +26,7 @@ import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.daimajia.slider.library.Tricks.ViewPagerEx;
 import com.google.gson.Gson;
+import com.squareup.picasso.Picasso;
 import com.twt.service.JniUtils;
 import com.twt.service.R;
 import com.twt.service.bean.Main;
@@ -38,12 +39,13 @@ import com.twt.service.ui.account.AccountActivity;
 import com.twt.service.ui.common.NextActivity;
 import com.twt.service.ui.feedback.FeedbackActivity;
 import com.twt.service.ui.gpa.GpaActivity;
+import com.twt.service.ui.jobs.JobsActivity;
+import com.twt.service.ui.jobs.jobsdetails.JobsDetailsActivity;
 import com.twt.service.ui.login.LoginActivity;
 import com.twt.service.ui.news.NewsActivity;
 import com.twt.service.ui.news.details.NewsDetailsActivity;
 import com.twt.service.ui.notice.NoticeActivity;
 import com.twt.service.ui.schedule.ScheduleActivity;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,30 +74,22 @@ public class MainActivity extends BaseActivity implements BaseSliderView.OnSlide
     LinearLayout rlMoreCampusNews;
     @InjectView(R.id.rl_more_campus_note)
     LinearLayout rlMoreCampusNote;
-    //@InjectView(R.id.rl_more_jobs_info)
-    //LinearLayout rlMoreJobsInfo;
     @InjectView(R.id.tv_campusnews_title1)
     TextView tvCampusnewsTitle1;
     @InjectView(R.id.tv_campusnews_viewcount1)
     TextView tvCampusnewsViewcount1;
-    //@InjectView(R.id.tv_campusnews_comment1)
-    //TextView tvCampusnewsComment1;
     @InjectView(R.id.tv_campusnews_date1)
     TextView tvCampusnewsDate1;
     @InjectView(R.id.tv_campusnews_title2)
     TextView tvCampusnewsTitle2;
     @InjectView(R.id.tv_campusnews_viewcount2)
     TextView tvCampusnewsViewcount2;
-    //@InjectView(R.id.tv_campusnews_comment2)
-    //TextView tvCampusnewsComment2;
     @InjectView(R.id.tv_campusnews_date2)
     TextView tvCampusnewsDate2;
     @InjectView(R.id.tv_campusnews_title3)
     TextView tvCampusnewsTitle3;
     @InjectView(R.id.tv_campusnews_viewcount3)
     TextView tvCampusnewsViewcount3;
-    //@InjectView(R.id.tv_campusnews_comment3)
-    //TextView tvCampusnewsComment3;
     @InjectView(R.id.tv_campusnews_date3)
     TextView tvCampusnewsDate3;
     @InjectView(R.id.tv_announcement_title1)
@@ -116,18 +110,6 @@ public class MainActivity extends BaseActivity implements BaseSliderView.OnSlide
     TextView tvAnnouncementComefrom3;
     @InjectView(R.id.tv_announcement_date3)
     TextView tvAnnouncementDate3;
-    //@InjectView(R.id.tv_jobs_title1)
-    //TextView tvJobsTitle1;
-    //@InjectView(R.id.tv_jobs_date1)
-    //TextView tvJobsDate1;
-    //@InjectView(R.id.tv_jobs_title2)
-    //TextView tvJobsTitle2;
-    //@InjectView(R.id.tv_jobs_date2)
-    //TextView tvJobsDate2;
-    //@InjectView(R.id.tv_jobs_title3)
-    //TextView tvJobsTitle3;
-    //@InjectView(R.id.tv_jobs_date3)
-    //TextView tvJobsDate3;
     @InjectView(R.id.campusnews2)
     LinearLayout campusnews2;
     @InjectView(R.id.campusnews3)
@@ -138,12 +120,6 @@ public class MainActivity extends BaseActivity implements BaseSliderView.OnSlide
     LinearLayout announcement2;
     @InjectView(R.id.announcement3)
     LinearLayout announcement3;
-    //@InjectView(R.id.jobs1)
-    //LinearLayout jobs1;
-    //@InjectView(R.id.jobs2)
-    //LinearLayout jobs2;
-    //@InjectView(R.id.jobs3)
-    //LinearLayout jobs3;
     @InjectView(R.id.btn_schedule)
     LinearLayout btnSchedule;
     @InjectView(R.id.iv_campus_picture1)
@@ -158,6 +134,26 @@ public class MainActivity extends BaseActivity implements BaseSliderView.OnSlide
     NavigationView drawer;
     @InjectView(R.id.srl_main)
     SwipeRefreshLayout srlMain;
+    @InjectView(R.id.rl_more_jobs_info)
+    LinearLayout rlMoreJobsInfo;
+    @InjectView(R.id.tv_jobs_title1)
+    TextView tvJobsTitle1;
+    @InjectView(R.id.tv_jobs_date1)
+    TextView tvJobsDate1;
+    @InjectView(R.id.jobs1)
+    LinearLayout jobs1;
+    @InjectView(R.id.tv_jobs_title2)
+    TextView tvJobsTitle2;
+    @InjectView(R.id.tv_jobs_date2)
+    TextView tvJobsDate2;
+    @InjectView(R.id.jobs2)
+    LinearLayout jobs2;
+    @InjectView(R.id.tv_jobs_title3)
+    TextView tvJobsTitle3;
+    @InjectView(R.id.tv_jobs_date3)
+    TextView tvJobsDate3;
+    @InjectView(R.id.jobs3)
+    LinearLayout jobs3;
 
     private MainPresenterImpl presenter;
 
@@ -208,6 +204,7 @@ public class MainActivity extends BaseActivity implements BaseSliderView.OnSlide
         //btnLibraryQuery.setOnClickListener(this);
         rlMoreCampusNews.setOnClickListener(this);
         rlMoreCampusNote.setOnClickListener(this);
+        rlMoreJobsInfo.setOnClickListener(this);
         btnSchedule.setOnClickListener(this);
         presenter = new MainPresenterImpl(this, new MainInteractorImpl(), this);
         presenter.loadDataFromCache();
@@ -311,6 +308,9 @@ public class MainActivity extends BaseActivity implements BaseSliderView.OnSlide
                 break;
             case R.id.rl_more_campus_note:
                 NoticeActivity.actionStart(this);
+                break;
+            case R.id.rl_more_jobs_info:
+                JobsActivity.actionStart(this);
                 break;
         }
     }
@@ -427,14 +427,14 @@ public class MainActivity extends BaseActivity implements BaseSliderView.OnSlide
         tvAnnouncementTitle3.setText(annoucements.get(2).subject);
         tvAnnouncementComefrom3.setText(annoucements.get(2).gonggao);
         tvAnnouncementDate3.setText(annoucements.get(2).addat);
-        //List<Main.Data.News.Job> jobs = new ArrayList<>();
-        //jobs.addAll(main.data.news.jobs);
-        //tvJobsTitle1.setText(jobs.get(0).title);
-        //tvJobsDate1.setText(jobs.get(0).date);
-        //tvJobsTitle2.setText(jobs.get(1).title);
-        //tvJobsDate2.setText(jobs.get(1).date);
-        //tvJobsTitle3.setText(jobs.get(2).title);
-        //tvJobsDate3.setText(jobs.get(2).date);
+        final List<Main.Data.News.Job> jobs = new ArrayList<>();
+        jobs.addAll(main.data.news.jobs);
+        tvJobsTitle1.setText(jobs.get(0).title);
+        tvJobsDate1.setText(jobs.get(0).date);
+        tvJobsTitle2.setText(jobs.get(1).title);
+        tvJobsDate2.setText(jobs.get(1).date);
+        tvJobsTitle3.setText(jobs.get(2).title);
+        tvJobsDate3.setText(jobs.get(2).date);
         announcement1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -451,6 +451,24 @@ public class MainActivity extends BaseActivity implements BaseSliderView.OnSlide
             @Override
             public void onClick(View view) {
                 NewsDetailsActivity.actionStart(MainActivity.this, annoucements.get(2).index);
+            }
+        });
+        jobs1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                JobsDetailsActivity.actionStart(MainActivity.this, jobs.get(0).id);
+            }
+        });
+        jobs2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                JobsDetailsActivity.actionStart(MainActivity.this, jobs.get(1).id);
+            }
+        });
+        jobs3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                JobsDetailsActivity.actionStart(MainActivity.this, jobs.get(2).id);
             }
         });
     }

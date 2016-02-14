@@ -3,6 +3,8 @@ package com.twt.service.api;
 import com.google.gson.JsonElement;
 import com.twt.service.bean.ClassTable;
 import com.twt.service.bean.Found;
+import com.twt.service.bean.Jobs;
+import com.twt.service.bean.JobsList;
 import com.twt.service.bean.Login;
 import com.twt.service.bean.Lost;
 import com.twt.service.bean.Main;
@@ -17,8 +19,6 @@ import retrofit.http.GET;
 import retrofit.http.Header;
 import retrofit.http.Path;
 import retrofit.http.QueryMap;
-
-;
 
 /**
  * Created by sunjuntao on 15/11/5.
@@ -55,11 +55,17 @@ public interface Api {
     @GET("/auth/unbind/tju")
     void unbindTju(@Header("Authorization") String authorization, @QueryMap HashMap<String, String> unbindParams, Callback<JsonElement> response);
 
-    @GET("/lostfound/lost?page={page}")
+    @GET("/lostfound/lost")
     void getLostList(@QueryMap HashMap<String, String> lostParams, Callback<Lost> response);
 
     @GET("/lostfound/found")
-    void getFoundList(@Path("page") int page, Callback<Found> response);
+    void getFoundList(@QueryMap HashMap<String, String> foundParams, Callback<Found> response);
+
+    @GET("/jobs")
+    void getJobsList(@QueryMap HashMap<String, String> jobsParams, Callback<JobsList> response);
+
+    @GET("/jobs/{id}")
+    void getJobsDetails(@QueryMap HashMap<String, String> jobsDetailsParams, @Path("id") int id, Callback<Jobs> response);
 
 
 }
