@@ -174,7 +174,12 @@ public class ApiClient {
     }
 
     public static void getMain(Callback<JsonElement> callback) {
-        mApi.getMain(callback);
+        RequestParams params = new RequestParams();
+        HashMap<String, String> temp = new HashMap<>();
+        temp.put("t", params.get("t"));
+        String sign = new Sign().generate(temp);
+        params.put("sign", sign);
+        mApi.getMain(params, callback);
     }
 
     public static void feedback(String ua, String content, String email, Callback<JsonElement> callback) {

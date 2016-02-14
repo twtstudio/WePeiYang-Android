@@ -41,7 +41,7 @@ public interface Api {
     void getNews(@Path("index") int index, @QueryMap HashMap<String, String> newsParams, Callback<News> response);
 
     @GET("/app/index")
-    void getMain(Callback<JsonElement> response);
+    void getMain(@QueryMap HashMap<String, String> mainParams, Callback<JsonElement> response);
 
     @GET("/auth/token/get")
     void login(@QueryMap HashMap<String, String> loginParams, Callback<JsonElement> response);
