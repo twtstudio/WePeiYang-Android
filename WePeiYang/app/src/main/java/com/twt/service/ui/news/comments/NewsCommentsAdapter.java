@@ -2,6 +2,7 @@ package com.twt.service.ui.news.comments;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,7 +58,7 @@ public class NewsCommentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         Comment item = dataSet.get(position);
         itemHolder.tvCommentUname.setText(item.cuser);
         itemHolder.tvCommentDate.setText(item.ctime);
-        itemHolder.tvCommentContent.setText(item.content);
+        itemHolder.tvCommentContent.setText(item.ccontent);
     }
 
     @Override

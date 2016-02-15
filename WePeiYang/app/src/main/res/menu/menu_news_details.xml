@@ -7,4 +7,9 @@
         android:icon="@mipmap/ic_share"
         android:title="@string/share"
         app:showAsAction="always" />
+    <item
+        android:id="@+id/news_comment"
+        android:icon="@mipmap/ic_commet"
+        android:title="@string/comment"
+        app:showAsAction="ifRoom" />
 </menu>

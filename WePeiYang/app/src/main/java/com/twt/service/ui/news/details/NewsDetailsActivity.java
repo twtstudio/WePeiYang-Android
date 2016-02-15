@@ -21,6 +21,7 @@ import com.twt.service.bean.News;
 import com.twt.service.interactor.NewsDetailsInteractorImpl;
 import com.twt.service.support.share.OnekeyShare;
 import com.twt.service.ui.BaseActivity;
+import com.twt.service.ui.news.comments.NewsCommentsActivity;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -95,7 +96,7 @@ public class NewsDetailsActivity extends BaseActivity implements NewsDetailsView
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_news, menu);
+        getMenuInflater().inflate(R.menu.menu_news_details, menu);
         return true;
     }
 
@@ -116,8 +117,12 @@ public class NewsDetailsActivity extends BaseActivity implements NewsDetailsView
                     oks.setUrl(NEWSURL + mNews.data.index);
                     oks.show(this);
                 }
-
-
+                break;
+            case R.id.news_comment:
+                if (mNews != null) {
+                    NewsCommentsActivity.actionStart(this, mNews);
+                }
+                break;
         }
         return super.onOptionsItemSelected(item);
     }

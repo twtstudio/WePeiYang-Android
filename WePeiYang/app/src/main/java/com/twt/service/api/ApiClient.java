@@ -1,6 +1,7 @@
 package com.twt.service.api;
 
 import com.google.gson.JsonElement;
+import com.twt.service.bean.CommentCallback;
 import com.twt.service.bean.Found;
 import com.twt.service.bean.Jobs;
 import com.twt.service.bean.JobsList;
@@ -171,6 +172,19 @@ public class ApiClient {
         String sign = new Sign().generate(temp);
         params.put("sign", sign);
         mApi.getNews(index, params, callback);
+    }
+
+    public static void postNewsComment(String authorization, int id, String content, String ip, Callback<CommentCallback> callback) {
+        RequestParams params = new RequestParams();
+        params.put("content", content);
+        params.put("ip", ip);
+        HashMap<String, String> temp = new HashMap<>();
+        temp.put("t", params.get("t"));
+        temp.put("content", content);
+        temp.put("ip", ip);
+        String sign = new Sign().generate(temp);
+        params.put("sign", sign);
+        mApi.postNewsComment(authorization, id, params, callback);
     }
 
     public static void getMain(Callback<JsonElement> callback) {

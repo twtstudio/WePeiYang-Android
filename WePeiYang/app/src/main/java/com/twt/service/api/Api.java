@@ -2,6 +2,7 @@ package com.twt.service.api;
 
 import com.google.gson.JsonElement;
 import com.twt.service.bean.ClassTable;
+import com.twt.service.bean.CommentCallback;
 import com.twt.service.bean.Found;
 import com.twt.service.bean.Jobs;
 import com.twt.service.bean.JobsList;
@@ -17,6 +18,7 @@ import java.util.HashMap;
 import retrofit.Callback;
 import retrofit.http.GET;
 import retrofit.http.Header;
+import retrofit.http.POST;
 import retrofit.http.Path;
 import retrofit.http.QueryMap;
 
@@ -39,6 +41,9 @@ public interface Api {
 
     @GET("/news/{index}")
     void getNews(@Path("index") int index, @QueryMap HashMap<String, String> newsParams, Callback<News> response);
+
+    @POST("/news/comment/{id}")
+    void postNewsComment(@Header("Authorization") String authorization, @Path("id") int id, @QueryMap HashMap<String, String> commentParams, Callback<CommentCallback> response);
 
     @GET("/app/index")
     void getMain(@QueryMap HashMap<String, String> mainParams, Callback<JsonElement> response);

@@ -13,7 +13,7 @@ public class News implements Serializable{
     public String message;
 
 
-    public class Data {
+    public class Data implements Serializable{
         public String content;
         public String gonggao;//供稿
         public int index;

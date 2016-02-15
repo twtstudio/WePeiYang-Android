@@ -46,9 +46,14 @@
                 android:singleLine="true"
                 android:textSize="16sp" />
 
-            <TextView
-                android:id="@+id/et_comment_send"
+            <Button
+                android:background="@color/news_primary_color"
+                android:id="@+id/btn_comment_send"
                 android:layout_width="0dp"
+                android:layout_marginEnd="6dp"
+                android:layout_marginRight="6dp"
+                android:textColor="@android:color/white"
+                android:layout_marginBottom="6dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1"
@@ -56,6 +61,13 @@
                 android:text="@string/comment_send"
                 android:textSize="16sp" />
         </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/pb_news_comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone" />
 
     </FrameLayout>
 

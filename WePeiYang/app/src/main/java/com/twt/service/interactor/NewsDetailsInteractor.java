@@ -7,4 +7,6 @@ import com.twt.service.ui.news.details.OnGetNewsDetailsCallback;
  */
 public interface NewsDetailsInteractor {
     void getNewsDetails(int index, OnGetNewsDetailsCallback onGetNewsDetailsCallback);
+
+    void postComment(String authorization, int id, String content, String ip);
 }

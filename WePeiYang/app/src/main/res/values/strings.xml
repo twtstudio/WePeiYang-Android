@@ -85,4 +85,5 @@
     <string name="already_update">已更新：</string>
     <string name="refresh">刷新</string>
     <string name="unbind">办公网解绑</string>
+    <string name="comment">评论</string>
 </resources>
