@@ -50,12 +50,19 @@ public class Main {
         }
 
         public class Service {
-            List<LostFound> lost;
-            List<LostFound> found;
+            public List<MainLost> lost;
+            public List<MainFound> found;
 
-            public class LostFound {
+            public class MainLost {
                 public int id;
-                public String ename;
+                public String title;
+                public int lost_type;
+            }
+
+            public class MainFound {
+                public int id;
+                public String title;
+                public String found_pic;
             }
         }
     }

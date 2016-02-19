@@ -86,4 +86,7 @@
     <string name="refresh">刷新</string>
     <string name="unbind">办公网解绑</string>
     <string name="comment">评论</string>
+    <string name="lost">Lost</string>
+    <string name="found">Found</string>
+    <string name="more">查看更多</string>
 </resources>

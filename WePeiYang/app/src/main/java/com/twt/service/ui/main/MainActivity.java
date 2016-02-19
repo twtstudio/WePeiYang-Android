@@ -10,6 +10,8 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -42,6 +44,8 @@ import com.twt.service.ui.gpa.GpaActivity;
 import com.twt.service.ui.jobs.JobsActivity;
 import com.twt.service.ui.jobs.jobsdetails.JobsDetailsActivity;
 import com.twt.service.ui.login.LoginActivity;
+import com.twt.service.ui.main.adapter.MainFoundAdapter;
+import com.twt.service.ui.main.adapter.MainLostAdapter;
 import com.twt.service.ui.news.NewsActivity;
 import com.twt.service.ui.news.details.NewsDetailsActivity;
 import com.twt.service.ui.notice.NoticeActivity;
@@ -154,8 +158,14 @@ public class MainActivity extends BaseActivity implements BaseSliderView.OnSlide
     TextView tvJobsDate3;
     @InjectView(R.id.jobs3)
     LinearLayout jobs3;
+    @InjectView(R.id.rv_main_lost)
+    RecyclerView rvMainLost;
+    @InjectView(R.id.rv_main_found)
+    RecyclerView rvMainFound;
 
     private MainPresenterImpl presenter;
+    private MainFoundAdapter mainFoundAdapter;
+    private MainLostAdapter mainLostAdapter;
 
     public static void actionStart(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
@@ -219,6 +229,12 @@ public class MainActivity extends BaseActivity implements BaseSliderView.OnSlide
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(getResources().getColor(R.color.main_primary));
         }
+         mainFoundAdapter = new MainFoundAdapter(this);
+        mainLostAdapter = new MainLostAdapter(this);
+        rvMainFound.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        rvMainLost.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        rvMainFound.setAdapter(mainFoundAdapter);
+        rvMainLost.setAdapter(mainLostAdapter);
     }
 
     public void onEvent(SuccessEvent successEvent) {
@@ -471,6 +487,8 @@ public class MainActivity extends BaseActivity implements BaseSliderView.OnSlide
                 JobsDetailsActivity.actionStart(MainActivity.this, jobs.get(2).id);
             }
         });
+        mainFoundAdapter.bindData(main.data.service.found);
+        mainLostAdapter.bindData(main.data.service.lost);
     }
 
     @Override
