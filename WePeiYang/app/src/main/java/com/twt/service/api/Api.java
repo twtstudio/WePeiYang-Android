@@ -1,14 +1,13 @@
 package com.twt.service.api;
 
 import com.google.gson.JsonElement;
-import com.twt.service.bean.ClassTable;
 import com.twt.service.bean.CommentCallback;
 import com.twt.service.bean.Found;
+import com.twt.service.bean.FoundDetails;
 import com.twt.service.bean.Jobs;
 import com.twt.service.bean.JobsList;
-import com.twt.service.bean.Login;
 import com.twt.service.bean.Lost;
-import com.twt.service.bean.Main;
+import com.twt.service.bean.LostDetails;
 import com.twt.service.bean.News;
 import com.twt.service.bean.NewsList;
 import com.twt.service.bean.RefreshedToken;
@@ -65,6 +64,12 @@ public interface Api {
 
     @GET("/lostfound/found")
     void getFoundList(@QueryMap HashMap<String, String> foundParams, Callback<Found> response);
+
+    @GET("/lostfound/{id}")
+    void getLostDetails(@Path("id") int id, @QueryMap HashMap<String, String> params, Callback<LostDetails> response);
+
+    @GET("/lostfound/{id}")
+    void getFoundDetails(@Path("id") int id, @QueryMap HashMap<String, String> params, Callback<FoundDetails> response);
 
     @GET("/jobs")
     void getJobsList(@QueryMap HashMap<String, String> jobsParams, Callback<JobsList> response);

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.twt.service" >
+    package="com.twt.service">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -18,13 +18,13 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
 
         <!-- Welcome Activity -->
         <activity
             android:name=".ui.welcome.WelcomeActivity"
             android:label="@string/title_activity_welcome"
-            android:windowSoftInputMode="adjustResize" >
+            android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -56,8 +56,9 @@
         <activity
             android:name=".ui.news.details.NewsDetailsActivity"
             android:label="" />
-        <activity android:name=".ui.news.comments.NewsCommentsActivity"
-            android:label="评论"/>
+        <activity
+            android:name=".ui.news.comments.NewsCommentsActivity"
+            android:label="评论" />
         <activity
             android:name=".ui.schedule.ScheduleActivity"
             android:label="课程表" />
@@ -92,12 +93,19 @@
 
         <activity
             android:name=".ui.jobs.JobsActivity"
-            android:label="@string/jobs_info" >
-        </activity>
+            android:label="@string/jobs_info" />
         <activity
             android:name=".ui.jobs.jobsdetails.JobsDetailsActivity"
-            android:label="" >
-        </activity>
+            android:label="" />
+        <activity
+            android:name=".ui.lostfound.LostFoundActivity"
+            android:label="失物招领" />
+        <activity
+            android:name=".ui.lostfound.found.details.FoundDetailsActivity"
+            android:label="捡到物品" />
+        <activity
+            android:name=".ui.lostfound.lost.details.LostDetailsActivity"
+            android:label="丢失物品" />
     </application>
 
 </manifest>

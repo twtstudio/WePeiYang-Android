@@ -89,4 +89,15 @@
     <string name="lost">Lost</string>
     <string name="found">Found</string>
     <string name="more">查看更多</string>
+    <string name="bank_card">银行卡</string>
+    <string name="id_card">饭卡&amp;身份证</string>
+    <string name="key">钥匙</string>
+    <string name="backpack">书包</string>
+    <string name="computer_pag">电脑包</string>
+    <string name="watch">手表&amp;饰品</string>
+    <string name="udisk">U盘&amp;硬盘</string>
+    <string name="cup">水杯</string>
+    <string name="book">书</string>
+    <string name="mobile_phone">手机</string>
+    <string name="wallet">钱包</string>
 </resources>

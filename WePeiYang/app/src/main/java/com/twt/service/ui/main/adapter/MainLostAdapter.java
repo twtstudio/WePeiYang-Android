@@ -11,6 +11,8 @@ import android.widget.TextView;
 import com.twt.service.R;
 import com.twt.service.bean.Main;
 import com.twt.service.ui.common.LostType;
+import com.twt.service.ui.lostfound.LostFoundActivity;
+import com.twt.service.ui.lostfound.lost.details.LostDetailsActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,7 +69,7 @@ public class MainLostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         int type = getItemViewType(position);
         if (type == ITEM_TYPE_ITEM) {
             ItemHoder itemHoder = (ItemHoder) holder;
-            Main.Data.Service.MainLost item = dataSet.get(position);
+            final Main.Data.Service.MainLost item = dataSet.get(position);
             switch (item.lost_type) {
                 case LostType.OTHERS:
                     itemHoder.ivMainLostType.setImageResource(R.mipmap.icon_others);
@@ -107,6 +109,21 @@ public class MainLostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     break;
             }
             itemHoder.tvMainLostName.setText(item.title);
+            itemHoder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    LostDetailsActivity.actionStart(context, item.id);
+                }
+            });
+        }
+        if (type == ITEM_TYPE_FOOTER) {
+            FooterHolder footerHolder = (FooterHolder) holder;
+            footerHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    LostFoundActivity.actionStart(context);
+                }
+            });
         }
     }
 

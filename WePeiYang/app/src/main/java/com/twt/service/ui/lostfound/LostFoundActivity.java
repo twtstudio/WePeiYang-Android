@@ -1,5 +1,7 @@
 package com.twt.service.ui.lostfound;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -37,6 +39,11 @@ public class LostFoundActivity extends BaseActivity implements LostFoundView {
     @InjectView(R.id.vp_lostfound)
     ViewPager vpLostfound;
 
+    public static void actionStart(Context context) {
+        Intent intent = new Intent(context, LostFoundActivity.class);
+        context.startActivity(intent);
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,19 +78,13 @@ public class LostFoundActivity extends BaseActivity implements LostFoundView {
     }
 
     @Override
-    public void setContentView(int layoutResID) {
-        super.setContentView(layoutResID);
-        StatusBarHelper.setStatusBar(this, ResourceHelper.getColor(R.color.lost_found_dark_primary_color));
-    }
-
-    @Override
     public void initTab() {
         List<String> tabList = new ArrayList<>();
-        tabList.add("丢了东西");
-        tabList.add("捡了东西");
+        tabList.add("丢失");
+        tabList.add("捡到");
+        tblLostfound.setTabMode(TabLayout.MODE_FIXED);
         tblLostfound.addTab(tblLostfound.newTab().setText(tabList.get(0)));
         tblLostfound.addTab(tblLostfound.newTab().setText(tabList.get(1)));
-        tblLostfound.setupWithViewPager(vpLostfound);
         List<Fragment> fragmentList = new ArrayList<>();
         LostFragment lostFragment = new LostFragment();
         FoundFragment foundFragment = new FoundFragment();
@@ -92,5 +93,7 @@ public class LostFoundActivity extends BaseActivity implements LostFoundView {
         TabFragmentAdapter adapter = new TabFragmentAdapter(getSupportFragmentManager(), fragmentList, tabList);
         vpLostfound.setAdapter(adapter);
         tblLostfound.setTabsFromPagerAdapter(adapter);
+        tblLostfound.setupWithViewPager(vpLostfound);
+
     }
 }

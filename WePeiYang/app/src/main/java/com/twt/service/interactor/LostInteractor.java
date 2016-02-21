@@ -5,4 +5,6 @@ package com.twt.service.interactor;
  */
 public interface LostInteractor {
     void getLostList(int page);
+
+    void getLostDetails(int id);
 }

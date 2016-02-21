@@ -3,9 +3,11 @@ package com.twt.service.api;
 import com.google.gson.JsonElement;
 import com.twt.service.bean.CommentCallback;
 import com.twt.service.bean.Found;
+import com.twt.service.bean.FoundDetails;
 import com.twt.service.bean.Jobs;
 import com.twt.service.bean.JobsList;
 import com.twt.service.bean.Lost;
+import com.twt.service.bean.LostDetails;
 import com.twt.service.bean.News;
 import com.twt.service.bean.NewsList;
 import com.twt.service.bean.RefreshedToken;
@@ -229,6 +231,24 @@ public class ApiClient {
         String sign = new Sign().generate(temp);
         params.put("sign", sign);
         mApi.getFoundList(params, callback);
+    }
+
+    public static void getLostDetails(int id, Callback<LostDetails> callback) {
+        RequestParams params = new RequestParams();
+        HashMap<String, String> temp = new HashMap<>();
+        temp.put("t", params.get("t"));
+        String sign = new Sign().generate(temp);
+        params.put("sign", sign);
+        mApi.getLostDetails(id, params, callback);
+    }
+
+    public static void getFoundDetails(int id, Callback<FoundDetails> callback) {
+        RequestParams params = new RequestParams();
+        HashMap<String, String> temp = new HashMap<>();
+        temp.put("t", params.get("t"));
+        String sign = new Sign().generate(temp);
+        params.put("sign", sign);
+        mApi.getFoundDetails(id, params, callback);
     }
 
     public static void getJobsList(int page, Callback<JobsList> callback) {

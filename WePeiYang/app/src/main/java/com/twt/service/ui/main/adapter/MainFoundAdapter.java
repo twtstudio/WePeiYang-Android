@@ -1,9 +1,7 @@
 package com.twt.service.ui.main.adapter;
 
 import android.content.Context;
-import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +11,8 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.twt.service.R;
 import com.twt.service.bean.Main;
+import com.twt.service.ui.lostfound.LostFoundActivity;
+import com.twt.service.ui.lostfound.found.details.FoundDetailsActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,13 +69,28 @@ public class MainFoundAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         int type = getItemViewType(position);
         if (type == ITEM_TYPE_ITEM) {
             ItemHolder itemHolder = (ItemHolder) holder;
-            Main.Data.Service.MainFound found = dataSet.get(position);
+            final Main.Data.Service.MainFound found = dataSet.get(position);
             if (!found.found_pic.isEmpty()) {
                 Picasso.with(context).load(found.found_pic);
             } else {
                 itemHolder.ivMainLostType.setImageResource(R.mipmap.icon_others);
             }
             itemHolder.tvMainLostName.setText(found.title);
+            itemHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    FoundDetailsActivity.actionStart(context, found.id);
+                }
+            });
+        }
+        if (type == ITEM_TYPE_FOOTER) {
+            FooterHolder footerHolder = (FooterHolder) holder;
+            footerHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    LostFoundActivity.actionStart(context);
+                }
+            });
         }
     }
 
