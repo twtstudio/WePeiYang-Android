@@ -1,6 +1,9 @@
 package com.twt.service.interactor;
 
+import android.util.Log;
+
 import com.twt.service.api.ApiClient;
+import com.twt.service.bean.Lost;
 import com.twt.service.bean.LostDetails;
 import com.twt.service.ui.lostfound.lost.details.FailureEvent;
 import com.twt.service.ui.lostfound.lost.details.SuccessEvent;
@@ -17,7 +20,17 @@ public class LostInteractorImpl implements LostInteractor {
 
     @Override
     public void getLostList(int page) {
+        ApiClient.getLostList(page, new Callback<Lost>() {
+            @Override
+            public void success(Lost lost, Response response) {
+                EventBus.getDefault().post(new com.twt.service.ui.lostfound.lost.SuccessEvent(lost));
+            }
 
+            @Override
+            public void failure(RetrofitError error) {
+                EventBus.getDefault().post(new com.twt.service.ui.lostfound.lost.FailureEvent(error));
+            }
+        });
     }
 
     @Override

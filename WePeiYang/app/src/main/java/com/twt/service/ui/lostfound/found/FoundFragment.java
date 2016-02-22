@@ -12,10 +12,15 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.twt.service.R;
+import com.twt.service.bean.FoundItem;
+import com.twt.service.interactor.FoundInteractorImpl;
 import com.twt.service.ui.common.OnRcvScrollListener;
+
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by Rex on 2015/8/2.
@@ -27,7 +32,14 @@ public class FoundFragment extends Fragment implements FoundView, SwipeRefreshLa
     SwipeRefreshLayout srlFound;
     private StaggeredGridLayoutManager layoutManager;
     private FoundAdapter adapter;
-    private  FoundPresenter presenter;
+    private FoundPresenterImpl presenter;
+
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
+    }
 
     @Nullable
     @Override
@@ -38,6 +50,7 @@ public class FoundFragment extends Fragment implements FoundView, SwipeRefreshLa
         srlFound.setOnRefreshListener(this);
         layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         adapter = new FoundAdapter(getActivity());
+        presenter = new FoundPresenterImpl(this, new FoundInteractorImpl());
         rvFound.setLayoutManager(layoutManager);
         rvFound.setAdapter(adapter);
         rvFound.addOnScrollListener(new OnRcvScrollListener() {
@@ -47,12 +60,23 @@ public class FoundFragment extends Fragment implements FoundView, SwipeRefreshLa
                 presenter.loadMoreFoundItems();
             }
         });
+        presenter.refreshFoundItems();
         return view;
     }
 
+
+    public void onEvent(SuccessEvent successEvent) {
+        presenter.onSuccess(successEvent.getFound());
+    }
+
+    public void onEvent(FailureEvent failureEvent) {
+        presenter.onFailure(failureEvent.getError());
+    }
+
     @Override
-    public void showRefreshing() {
-        srlFound.setRefreshing(true);
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -66,6 +90,16 @@ public class FoundFragment extends Fragment implements FoundView, SwipeRefreshLa
     }
 
     @Override
+    public void refreshItems(List<FoundItem> items) {
+        adapter.refreshItems(items);
+    }
+
+    @Override
+    public void loadMoreItems(List<FoundItem> items) {
+        adapter.loadMoreItems(items);
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.reset(this);
@@ -74,17 +108,6 @@ public class FoundFragment extends Fragment implements FoundView, SwipeRefreshLa
     @Override
     public void onRefresh() {
         presenter.refreshFoundItems();
-    }
-
-    private int findMax(int[] lastPositions) {
-        int max = lastPositions[0];
-        for (int value : lastPositions) {
-            if (value > max) {
-                max = value;
-            }
-
-        }
-        return max;
     }
 
 }

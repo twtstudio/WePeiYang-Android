@@ -1,6 +1,7 @@
 package com.twt.service.interactor;
 
 import com.twt.service.api.ApiClient;
+import com.twt.service.bean.Found;
 import com.twt.service.bean.FoundDetails;
 import com.twt.service.ui.lostfound.found.details.FailureEvent;
 import com.twt.service.ui.lostfound.found.details.SuccessEvent;
@@ -16,7 +17,17 @@ import retrofit.client.Response;
 public class FoundInteractorImpl implements FoundInteractor {
     @Override
     public void getFoundList(int page) {
+        ApiClient.getFoundList(page, new Callback<Found>() {
+            @Override
+            public void success(Found found, Response response) {
+                EventBus.getDefault().post(new com.twt.service.ui.lostfound.found.SuccessEvent(found));
+            }
 
+            @Override
+            public void failure(RetrofitError error) {
+                EventBus.getDefault().post(new com.twt.service.ui.lostfound.found.FailureEvent(error));
+            }
+        });
     }
 
     @Override

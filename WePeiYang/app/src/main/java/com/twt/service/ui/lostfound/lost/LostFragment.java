@@ -11,11 +11,16 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.twt.service.R;
+import com.twt.service.bean.LostItem;
+import com.twt.service.interactor.LostInteractorImpl;
 import com.twt.service.ui.BaseFragment;
 import com.twt.service.ui.common.OnRcvScrollListener;
 
+import java.util.List;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by Rex on 2015/8/2.
@@ -27,14 +32,17 @@ public class LostFragment extends BaseFragment implements LostView, SwipeRefresh
     @InjectView(R.id.srl_lost)
     SwipeRefreshLayout srlLost;
 
-    LostPresenter presenter;
+    LostPresenterImpl presenter;
 
     private LostAdapter adapter;
     private StaggeredGridLayoutManager layoutManager;
 
-    private int[] lastPositions;//最后一个的位置
-    private int lastVisibleItemPosition;//最后一个可见item的position
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
+    }
 
     @Nullable
     @Override
@@ -43,10 +51,12 @@ public class LostFragment extends BaseFragment implements LostView, SwipeRefresh
         ButterKnife.inject(this, rootView);
         srlLost.setColorSchemeColors(getResources().getColor(R.color.lost_found_dark_primary_color));
         srlLost.setOnRefreshListener(this);
+        presenter = new LostPresenterImpl(this, new LostInteractorImpl());
         adapter = new LostAdapter(getActivity());
         layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         rvLost.setLayoutManager(layoutManager);
         rvLost.setAdapter(adapter);
+        presenter.refreshLostItems();
         rvLost.setOnScrollListener(new OnRcvScrollListener() {
             @Override
             public void onBottom() {
@@ -58,9 +68,18 @@ public class LostFragment extends BaseFragment implements LostView, SwipeRefresh
         return rootView;
     }
 
+    public void onEvent(SuccessEvent successEvent) {
+        presenter.onSuccess(successEvent.getLost());
+    }
+
+    public void onEvent(FailureEvent failureEvent) {
+        presenter.onFailure(failureEvent.getError());
+    }
+
     @Override
-    public void showRefreshing() {
-        srlLost.setRefreshing(true);
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -71,6 +90,16 @@ public class LostFragment extends BaseFragment implements LostView, SwipeRefresh
     @Override
     public void toastMessage(String msg) {
         Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void refreshItems(List<LostItem> items) {
+        adapter.refreshItems(items);
+    }
+
+    @Override
+    public void loadMoreItems(List<LostItem> items) {
+        adapter.loadMoretems(items);
     }
 
 
@@ -84,15 +113,4 @@ public class LostFragment extends BaseFragment implements LostView, SwipeRefresh
     public void onRefresh() {
         presenter.refreshLostItems();
     }
-
-    private int findMax(int[] dataSet) {
-        int max = dataSet[0];
-        for (int value : dataSet) {
-            if (value > max) {
-                max = value;
-            }
-        }
-        return max;
-    }
-
 }

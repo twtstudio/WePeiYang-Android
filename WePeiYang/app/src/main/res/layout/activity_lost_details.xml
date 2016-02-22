@@ -148,6 +148,7 @@
                     android:textColor="@color/lost_found_primary_color" />
 
                 <TextView
+                    android:autoLink="phone"
                     android:id="@+id/tv_lost_detail_phone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
