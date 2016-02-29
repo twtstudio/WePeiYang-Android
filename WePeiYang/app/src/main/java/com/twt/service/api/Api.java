@@ -11,15 +11,19 @@ import com.twt.service.bean.LostDetails;
 import com.twt.service.bean.News;
 import com.twt.service.bean.NewsList;
 import com.twt.service.bean.RefreshedToken;
+import com.twt.service.bean.Upload;
 
 import java.util.HashMap;
 
 import retrofit.Callback;
 import retrofit.http.GET;
 import retrofit.http.Header;
+import retrofit.http.Multipart;
 import retrofit.http.POST;
+import retrofit.http.Part;
 import retrofit.http.Path;
 import retrofit.http.QueryMap;
+import retrofit.mime.TypedFile;
 
 /**
  * Created by sunjuntao on 15/11/5.
@@ -77,5 +81,10 @@ public interface Api {
     @GET("/jobs/{id}")
     void getJobsDetails(@QueryMap HashMap<String, String> jobsDetailsParams, @Path("id") int id, Callback<Jobs> response);
 
+    @POST("/lostfound/found")
+    void postFound(@Header("Authorization") String authorization, @QueryMap HashMap<String, String> params, Callback<JsonElement> response);
 
+    @Multipart
+    @GET("/app/upload")
+    void uploadImage(@Part("to") String to, @Part("file") TypedFile file, Callback<Upload> response);
 }

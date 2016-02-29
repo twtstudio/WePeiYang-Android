@@ -2,17 +2,20 @@ package com.twt.service.ui.lostfound.post;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.FrameLayout;
+import android.widget.EditText;
 
 import com.twt.service.R;
+import com.twt.service.bean.FoundDetails;
+import com.twt.service.bean.Lost;
+import com.twt.service.bean.LostDetails;
 import com.twt.service.ui.BaseActivity;
 import com.twt.service.ui.common.TabFragmentAdapter;
 import com.twt.service.ui.lostfound.post.found.PostFoundFragment;
@@ -26,15 +29,18 @@ import butterknife.InjectView;
 
 public class PostLostFoundActivity extends BaseActivity implements PostLostFoundView {
 
-    @InjectView(R.id.fl_post_lost_found)
-    FrameLayout flPostLostFound;
     @InjectView(R.id.tbl_post_lost_found)
     TabLayout tblPostLostFound;
     @InjectView(R.id.vp_post_lost_found)
     ViewPager vpPostLostFound;
-    private FragmentManager fragmentManager;
-    public static PreEditFragment preEditFragment;
-    public static EditFragment editFragment;
+    @InjectView(R.id.toolbar)
+    Toolbar toolbar;
+    @InjectView(R.id.et_lost_found_name)
+    EditText etLostFoundName;
+    @InjectView(R.id.et_lost_found_number)
+    EditText etLostFoundNumber;
+    private LostDetails lostDetails;
+    private FoundDetails foundDetails;
 
 
     public static void actionStart(Context context) {
@@ -42,18 +48,32 @@ public class PostLostFoundActivity extends BaseActivity implements PostLostFound
         context.startActivity(intent);
     }
 
+    public static void actionStart(Context context, LostDetails lostDetails) {
+        Intent intent = new Intent(context, PostLostFoundActivity.class);
+        intent.putExtra("lostDetails", lostDetails);
+        context.startActivity(intent);
+    }
+
+    public static void actionStart(Context context, FoundDetails foundDetails) {
+        Intent intent = new Intent(context, PostLostFoundActivity.class);
+        intent.putExtra("foundDetails", foundDetails);
+        context.startActivity(intent);
+    }
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_lost_found);
         ButterKnife.inject(this);
-        fragmentManager = getSupportFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        preEditFragment = new PreEditFragment();
-        editFragment = new EditFragment();
-        transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
-        transaction.add(R.id.fl_post_lost_found, preEditFragment);
-        transaction.commit();
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        lostDetails = (LostDetails) getIntent().getSerializableExtra("lostDetails");
+        foundDetails = (FoundDetails) getIntent().getSerializableExtra("foundDetails");
+        initTabs();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(getResources().getColor(R.color.lost_found_primary_color));
+        }
     }
 
     @Override
@@ -65,14 +85,10 @@ public class PostLostFoundActivity extends BaseActivity implements PostLostFound
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
         }
 
         return super.onOptionsItemSelected(item);
@@ -86,7 +102,7 @@ public class PostLostFoundActivity extends BaseActivity implements PostLostFound
         tabList.add("发布捡到信息");
         tblPostLostFound.addTab(tblPostLostFound.newTab().setText(tabList.get(0)));
         tblPostLostFound.addTab(tblPostLostFound.newTab().setText(tabList.get(1)));
-        tblPostLostFound.setupWithViewPager(vpPostLostFound);
+        tblPostLostFound.setTabMode(TabLayout.MODE_FIXED);
         List<Fragment> fragmentList = new ArrayList<>();
         PostLostFragment postLostFragment = new PostLostFragment();
         PostFoundFragment postFoundFragment = new PostFoundFragment();
@@ -94,6 +110,17 @@ public class PostLostFoundActivity extends BaseActivity implements PostLostFound
         fragmentList.add(postFoundFragment);
         TabFragmentAdapter adapter = new TabFragmentAdapter(getSupportFragmentManager(), fragmentList, tabList);
         vpPostLostFound.setAdapter(adapter);
+        tblPostLostFound.setupWithViewPager(vpPostLostFound);
         tblPostLostFound.setTabsFromPagerAdapter(adapter);
+        if (lostDetails != null) {
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("lostDetails", lostDetails);
+            postLostFragment.setArguments(bundle);
+        } else if (foundDetails != null) {
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("foundDetails", foundDetails);
+            postFoundFragment.setArguments(bundle);
+            vpPostLostFound.setCurrentItem(1);
+        }
     }
 }

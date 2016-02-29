@@ -2,6 +2,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     android:orientation="vertical">
 
     <android.support.design.widget.AppBarLayout
@@ -13,10 +15,55 @@
             android:id="@+id/toolbar"
             layout="@layout/app_toolbar" />
 
-        <FrameLayout
-            android:id="@+id/fl_post_lost_found"
+        <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:background="@android:color/white">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="64dp"
+                android:layout_marginRight="64dp"
+                android:orientation="vertical"
+                android:padding="8dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:drawablePadding="10dp"
+                        android:id="@+id/et_lost_found_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@mipmap/ic_lost_found_edit_name"
+                        android:hint="姓名"
+                        android:inputType="text"
+                        android:singleLine="true" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:drawablePadding="10dp"
+                        android:id="@+id/et_lost_found_number"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@mipmap/ic_lost_found_edit_number"
+                        android:hint="联系方式"
+                        android:inputType="number"
+                        android:singleLine="true" />
+                </LinearLayout>
+
+            </LinearLayout>
+        </FrameLayout>
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tbl_post_lost_found"

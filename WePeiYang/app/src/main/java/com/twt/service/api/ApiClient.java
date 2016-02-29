@@ -11,13 +11,16 @@ import com.twt.service.bean.LostDetails;
 import com.twt.service.bean.News;
 import com.twt.service.bean.NewsList;
 import com.twt.service.bean.RefreshedToken;
+import com.twt.service.bean.Upload;
 import com.twt.service.support.UserAgent;
 
+import java.io.File;
 import java.util.HashMap;
 
 import retrofit.Callback;
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
+import retrofit.mime.TypedFile;
 
 /**
  * Created by Rex on 2015/8/1.
@@ -269,5 +272,35 @@ public class ApiClient {
         String sign = new Sign().generate(temp);
         params.put("sign", sign);
         mApi.getJobsDetails(params, id, callback);
+    }
+
+
+    public static void postFound(String authorization, String title, String name, String time, String place, String phone, String content, String lost_type, String other_tag, Callback<JsonElement> callback) {
+        RequestParams params = new RequestParams();
+        HashMap<String, String> temp = new HashMap<>();
+        params.put("title", title);
+        params.put("name", name);
+        params.put("time", time);
+        params.put("place", place);
+        params.put("phone", phone);
+        params.put("content", content);
+        params.put("lost_type", lost_type);
+        params.put("other_tag", other_tag);
+        temp.put("t", params.get("t"));
+        temp.put("title", title);
+        temp.put("name", name);
+        temp.put("place", place);
+        temp.put("phone", phone);
+        temp.put("content", content);
+        temp.put("lost_type", lost_type);
+        temp.put("other_tag", other_tag);
+        String sign = new Sign().generate(temp);
+        params.put("sign", sign);
+        mApi.postFound(authorization, params, callback);
+    }
+
+    public static void uploadImage(String to, File file, Callback<Upload> callback) {
+        TypedFile typedFile = new TypedFile("multipart/form-data", file);
+        mApi.uploadImage(to, typedFile, callback);
     }
 }

@@ -1,9 +1,11 @@
 package com.twt.service.bean;
 
+import java.io.Serializable;
+
 /**
  * Created by sunjuntao on 16/2/19.
  */
-public class LostDetails {
+public class LostDetails implements Serializable{
     public int error_code;
     public String message;
     public Data data;

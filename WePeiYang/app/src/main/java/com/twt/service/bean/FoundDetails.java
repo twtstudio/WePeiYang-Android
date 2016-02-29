@@ -1,9 +1,11 @@
 package com.twt.service.bean;
 
+import java.io.Serializable;
+
 /**
  * Created by sunjuntao on 16/2/19.
  */
-public class FoundDetails {
+public class FoundDetails implements Serializable {
 
     public int id;
     public String message;

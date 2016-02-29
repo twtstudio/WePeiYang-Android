@@ -2,6 +2,7 @@ package com.twt.service.ui.schedule;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -92,6 +93,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     }
 
+
     @Override
     public int getItemCount() {
         return 6;
@@ -100,46 +102,86 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public void bindData(ClassTable classTable) {
         currentWeek = classTable.data.week;
         dataSet.clear();
-        dataSet.addAll(classTable.data.data);
+        for (ClassTable.Data.Course course: classTable.data.data){
+            dataSet.add(course);
+        }
         notifyDataSetChanged();
     }
 
     private void setRowCourse(ItemHolder itemHolder, int courseNum) {
+        boolean mondyHasCourse = false;
+        boolean tuesdayHasCourse = false;
+        boolean wendesdayHasCourse = false;
+        boolean thursdayHasCourse = false;
+        boolean fridayHasCourse = false;
+        boolean saturdayHasCourse = false;
+        boolean sundayHasCourse = false;
         for (ClassTable.Data.Course course : dataSet) {
             int startWeek = Integer.parseInt(course.week.start);
             int endWeek = Integer.parseInt(course.week.end);
             if (currentWeek >= startWeek && currentWeek <= endWeek) {
                 for (ClassTable.Data.Course.Arrange arrange : course.arrange) {
-                    if (arrange.week.equals("单双周") || (arrange.week.equals("单周") && currentWeek % 2 == 1) || (arrange.week.equals("双周") && currentWeek % 2 == 0)) {
+                    if (arrange.week.equals("单双周") || (arrange.week.equals("单周") && currentWeek % 2 == 1) ||
+                            (arrange.week.equals("双周") && currentWeek % 2 == 0)) {
                         int start = Integer.parseInt(arrange.start);
                         int day = Integer.parseInt(arrange.day);
                         if (start == courseNum) {
                             switch (day) {
                                 case 1:
                                     itemHolder.tvMondayCourse.setText(course.coursename + "@" + arrange.room);
+                                    mondyHasCourse = true;
                                     break;
                                 case 2:
                                     itemHolder.tvTuesdayCourse.setText(course.coursename + "@" + arrange.room);
+                                    tuesdayHasCourse = true;
                                     break;
                                 case 3:
                                     itemHolder.tvWendesdayCourse.setText(course.coursename + "@" + arrange.room);
+                                    wendesdayHasCourse = true;
                                     break;
                                 case 4:
                                     itemHolder.tvThursdayCourse.setText(course.coursename + "@" + arrange.room);
+                                    thursdayHasCourse = true;
                                     break;
                                 case 5:
                                     itemHolder.tvFridayCourse.setText(course.coursename + "@" + arrange.room);
+                                    fridayHasCourse = true;
                                     break;
                                 case 6:
                                     itemHolder.tvSaturdayCourse.setText(course.coursename + "@" + arrange.room);
+                                    saturdayHasCourse = true;
                                     break;
                                 case 7:
                                     itemHolder.tvSundayCourse.setText(course.coursename + "@" + arrange.room);
+                                    sundayHasCourse = true;
+                                    break;
                             }
                         }
                     }
                 }
+
             }
+        }
+        if (!mondyHasCourse){
+            itemHolder.tvMondayCourse.setText("");
+        }
+        if (!tuesdayHasCourse){
+            itemHolder.tvTuesdayCourse.setText("");
+        }
+        if (!wendesdayHasCourse){
+            itemHolder.tvWendesdayCourse.setText("");
+        }
+        if (!thursdayHasCourse){
+            itemHolder.tvThursdayCourse.setText("");
+        }
+        if (!fridayHasCourse){
+            itemHolder.tvFridayCourse.setText("");
+        }
+        if (!saturdayHasCourse){
+            itemHolder.tvSaturdayCourse.setText("");
+        }
+        if (!sundayHasCourse){
+            itemHolder.tvSundayCourse.setText("");
         }
     }
 }

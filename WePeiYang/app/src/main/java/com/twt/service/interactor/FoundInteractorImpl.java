@@ -3,10 +3,14 @@ package com.twt.service.interactor;
 import com.twt.service.api.ApiClient;
 import com.twt.service.bean.Found;
 import com.twt.service.bean.FoundDetails;
+import com.twt.service.bean.Upload;
 import com.twt.service.ui.lostfound.found.details.FailureEvent;
 import com.twt.service.ui.lostfound.found.details.SuccessEvent;
 
+import java.io.File;
+
 import de.greenrobot.event.EventBus;
+import im.fir.sdk.FIR;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -41,6 +45,21 @@ public class FoundInteractorImpl implements FoundInteractor {
             @Override
             public void failure(RetrofitError error) {
                 EventBus.getDefault().post(new FailureEvent(error));
+            }
+        });
+    }
+
+    @Override
+    public void uploadImage(File file) {
+        ApiClient.uploadImage("lostfound", file, new Callback<Upload>() {
+            @Override
+            public void success(Upload upload, Response response) {
+
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+
             }
         });
     }

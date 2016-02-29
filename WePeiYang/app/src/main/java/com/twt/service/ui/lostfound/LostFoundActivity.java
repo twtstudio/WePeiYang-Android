@@ -38,9 +38,11 @@ public class LostFoundActivity extends BaseActivity implements LostFoundView {
     TabLayout tblLostfound;
     @InjectView(R.id.vp_lostfound)
     ViewPager vpLostfound;
+    private int page;
 
-    public static void actionStart(Context context) {
+    public static void actionStart(Context context, int page) {
         Intent intent = new Intent(context, LostFoundActivity.class);
+        intent.putExtra("page", page);
         context.startActivity(intent);
     }
 
@@ -52,6 +54,8 @@ public class LostFoundActivity extends BaseActivity implements LostFoundView {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         initTab();
+        page = getIntent().getIntExtra("page", 0);
+        vpLostfound.setCurrentItem(page);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(getResources().getColor(R.color.lost_found_primary_color));
         }

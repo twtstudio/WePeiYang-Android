@@ -121,7 +121,7 @@ public class MainLostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             footerHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    LostFoundActivity.actionStart(context);
+                    LostFoundActivity.actionStart(context, 0);
                 }
             });
         }
