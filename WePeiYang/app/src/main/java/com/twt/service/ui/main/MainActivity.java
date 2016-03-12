@@ -250,6 +250,7 @@ public class MainActivity extends BaseActivity implements BaseSliderView.OnSlide
         slider.stopAutoCycle();
         super.onStop();
     }
+    
 
     @Override
     protected void onDestroy() {

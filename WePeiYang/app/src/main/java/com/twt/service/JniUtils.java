@@ -23,6 +23,6 @@ public class JniUtils {
     }
 
     private static class JniUtilsCarry {
-        static JniUtils instance = new JniUtils();
+        private static final JniUtils instance = new JniUtils();
     }
 }

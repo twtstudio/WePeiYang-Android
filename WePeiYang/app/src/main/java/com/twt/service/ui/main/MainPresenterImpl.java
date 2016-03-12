@@ -8,6 +8,7 @@ import com.twt.service.bean.Main;
 import com.twt.service.bean.RestError;
 import com.twt.service.interactor.MainInteractor;
 import com.twt.service.support.ACache;
+import com.twt.service.support.FileCacheLoader;
 
 import retrofit.RetrofitError;
 
@@ -31,21 +32,14 @@ public class MainPresenterImpl implements MainPresenter, OnGetMainCallback {
         view.hideRefreshing();
         Main main = new Gson().fromJson(mainString, Main.class);
         view.bindData(main);
-        final ACache cache = ACache.get(context);
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                if (mainString != null) {
-                    cache.put("main", mainString, 2 * ACache.TIME_DAY);
-                }
-            }
-        }).start();
+        FileCacheLoader loader = FileCacheLoader.build();
+        loader.setMain(mainString);
     }
 
     @Override
     public void onFailure(RetrofitError retrofitError) {
         view.hideRefreshing();
-        switch (retrofitError.getKind()){
+        switch (retrofitError.getKind()) {
             case HTTP:
                 RestError restError = (RestError) retrofitError.getBodyAs(RestError.class);
                 if (restError != null) {
@@ -71,26 +65,8 @@ public class MainPresenterImpl implements MainPresenter, OnGetMainCallback {
 
     @Override
     public void loadDataFromCache() {
-        final Handler handler = new Handler();
-        final ACache cache = ACache.get(context);
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                final String mainString = cache.getAsString("main");
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (mainString == null) {
-                            loadDataFromNet();
-                        } else {
-                            Main main = new Gson().fromJson(mainString, Main.class);
-                            view.bindData(main);
-                        }
-                    }
-                });
-            }
-        }).start();
-
+        FileCacheLoader loader = FileCacheLoader.build();
+        loader.getMain(this, view);
     }
 
 }

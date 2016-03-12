@@ -8,6 +8,7 @@ import com.twt.service.bean.*;
 import com.twt.service.bean.RestError;
 import com.twt.service.interactor.ScheduleInteractor;
 import com.twt.service.support.ACache;
+import com.twt.service.support.FileCacheLoader;
 import com.twt.service.support.PrefUtils;
 
 import retrofit.RetrofitError;
@@ -34,25 +35,8 @@ public class SchedulePresenterImpl implements SchedulePresenter, OnGetScheduleCa
 
     @Override
     public void loadCoursesFromCache() {
-        final ACache cache = ACache.get(context);
-        final Handler handler = new Handler();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                final String classTableString = cache.getAsString("classtable");
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (classTableString != null) {
-                            ClassTable classTable = new Gson().fromJson(classTableString, ClassTable.class);
-                            view.bindData(classTable);
-                        }else {
-                            loadCoursesFromNet();
-                        }
-                    }
-                });
-            }
-        }).start();
+        FileCacheLoader loader = FileCacheLoader.build();
+        loader.getSchedule(this, view);
     }
 
     @Override
@@ -61,13 +45,8 @@ public class SchedulePresenterImpl implements SchedulePresenter, OnGetScheduleCa
         if (classTableString != null) {
             ClassTable classTable = new Gson().fromJson(classTableString, ClassTable.class);
             view.bindData(classTable);
-            final ACache cache = ACache.get(context);
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    cache.put("classtable", classTableString);
-                }
-            }).start();
+            FileCacheLoader loader = FileCacheLoader.build();
+            loader.setSchedule(classTableString);
         }
 
     }

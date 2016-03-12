@@ -1,5 +1,8 @@
 package com.twt.service.bean;
 
+import android.os.Parcelable;
+
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -16,7 +19,7 @@ public class ClassTable {
         public int week;
         public String update_at;
 
-        public class Course {
+        public class Course implements Serializable{
             public String classid;//班级编号
             public String courseid;//课程编号
             public String coursename;//课程名称

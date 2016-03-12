@@ -106,6 +106,7 @@
         <activity
             android:name=".ui.lostfound.lost.details.LostDetailsActivity"
             android:label="丢失物品" />
+        <activity android:name=".ui.schedule.ScheduleDetailsActivity"></activity>
     </application>
 
 </manifest>

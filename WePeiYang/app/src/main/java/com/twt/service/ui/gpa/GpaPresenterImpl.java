@@ -11,6 +11,7 @@ import com.twt.service.bean.RestError;
 import com.twt.service.db.JsonDataSupport;
 import com.twt.service.interactor.GpaInteractor;
 import com.twt.service.support.ACache;
+import com.twt.service.support.FileCacheLoader;
 import com.twt.service.support.PrefUtils;
 
 import retrofit.RetrofitError;
@@ -50,26 +51,8 @@ public class GpaPresenterImpl implements GpaPresenter, OnGetGpaCallback, OnRefre
 
     @Override
     public void getGpaFromCache() {
-        final ACache cache = ACache.get(context);
-        final Handler handler = new Handler();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                final String gpaString = cache.getAsString("gpa");
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (gpaString == null) {
-                            getGpaFromNet();
-                        } else {
-                            Gpa gpa = new Gson().fromJson(gpaString, Gpa.class);
-                            view.bindData(gpa);
-                            view.setClickable(true);
-                        }
-                    }
-                });
-            }
-        }).start();
+        FileCacheLoader loader = FileCacheLoader.build();
+        loader.getGpa(this, view);
     }
 
 
@@ -82,15 +65,10 @@ public class GpaPresenterImpl implements GpaPresenter, OnGetGpaCallback, OnRefre
             view.showCaptchaDialog(gpaCaptcha);
         } else {
             view.setClickable(true);
-            final ACache cache = ACache.get(context);
             Gpa gpa = new Gson().fromJson(json, Gpa.class);
             view.bindData(gpa);
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    cache.put("gpa", json, 2 * ACache.TIME_DAY);
-                }
-            }).start();
+            FileCacheLoader loader = FileCacheLoader.build();
+            loader.setGpa(json);
         }
     }
 
