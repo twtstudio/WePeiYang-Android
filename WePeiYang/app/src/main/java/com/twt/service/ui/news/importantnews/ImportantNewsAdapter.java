@@ -41,7 +41,7 @@ public class ImportantNewsAdapter extends RecyclerView.Adapter<RecyclerView.View
         this.context = context;
     }
 
-    public static class ItemHolderWithPic extends RecyclerView.ViewHolder {
+    static class ItemHolderWithPic extends RecyclerView.ViewHolder {
 
         @InjectView(R.id.tv_news_title)
         TextView tvNewsTitle;
@@ -60,7 +60,7 @@ public class ImportantNewsAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
     }
 
-    public static class ItemHolderWithoutPic extends RecyclerView.ViewHolder {
+    static class ItemHolderWithoutPic extends RecyclerView.ViewHolder {
         @InjectView(R.id.tv_news_title)
         TextView tvNewsTitle;
         @InjectView(R.id.tv_view_count)
@@ -76,7 +76,7 @@ public class ImportantNewsAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
     }
 
-    public static class FooterHolder extends RecyclerView.ViewHolder {
+    static class FooterHolder extends RecyclerView.ViewHolder {
 
         @InjectView(R.id.pb_footer)
         ProgressBar pbFooter;
@@ -87,7 +87,7 @@ public class ImportantNewsAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
     }
 
-    public static class HeaderHolder extends RecyclerView.ViewHolder {
+    static class HeaderHolder extends RecyclerView.ViewHolder {
         @InjectView(R.id.important_news_slider)
         SliderLayout importantNewsSlider;
         @InjectView(R.id.important_news_indicator)

@@ -622,6 +622,7 @@
                     </LinearLayout>
 
                     <EditText
+                        android:singleLine="true"
                         android:id="@+id/et_post_lost_detail"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

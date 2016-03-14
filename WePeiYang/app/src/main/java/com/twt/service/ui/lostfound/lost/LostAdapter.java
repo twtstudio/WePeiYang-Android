@@ -33,7 +33,7 @@ public class LostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         this.context = context;
     }
 
-    public static class ItemHolder extends RecyclerView.ViewHolder {
+    static class ItemHolder extends RecyclerView.ViewHolder {
 
         @InjectView(R.id.iv_lost_item_category)
         ImageView ivCategory;

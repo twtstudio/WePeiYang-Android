@@ -2,8 +2,11 @@ package com.twt.service.ui.lostfound.post;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -18,6 +21,7 @@ import com.twt.service.bean.LostDetails;
 import com.twt.service.support.PrefUtils;
 import com.twt.service.ui.BaseActivity;
 import com.twt.service.ui.common.TabFragmentAdapter;
+import com.twt.service.ui.lostfound.post.found.AddPhotoEvent;
 import com.twt.service.ui.lostfound.post.found.PostFoundFragment;
 import com.twt.service.ui.lostfound.post.lost.GetPostLostContactInfoEvent;
 import com.twt.service.ui.lostfound.post.lost.PostLostFragment;
@@ -43,6 +47,7 @@ public class PostLostFoundActivity extends BaseActivity implements PostLostFound
     EditText etLostFoundNumber;
     private LostDetails lostDetails;
     private FoundDetails foundDetails;
+    private static final int ADD_PHOTO = 1234;
 
 
     public static void actionStart(Context context) {
@@ -92,6 +97,29 @@ public class PostLostFoundActivity extends BaseActivity implements PostLostFound
             PrefUtils.setLostFoundContactName(name);
             PrefUtils.setLostFoundContactNumber(number);
             EventBus.getDefault().post(new PostLostContactInfoEvent(name, number));
+        }
+    }
+
+    public void onEvent(AddPhotoEvent event) {
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+        startActivityForResult(intent, ADD_PHOTO);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case ADD_PHOTO:
+                if (resultCode == RESULT_OK) {
+                    Uri selectedImage = data.getData();
+                    String[] filePathColumn = {MediaStore.Images.Media.DATA};
+                    Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
+                    cursor.moveToFirst();
+                    int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                    String filePath = cursor.getString(columnIndex);
+                    cursor.close();
+                    EventBus.getDefault().post(new AddedPhotoEvent(filePath));
+                }
         }
     }
 

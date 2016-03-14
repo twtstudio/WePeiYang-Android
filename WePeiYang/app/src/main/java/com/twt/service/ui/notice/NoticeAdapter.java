@@ -33,7 +33,7 @@ public class NoticeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         this.context = context;
     }
 
-    public static class ItemHolder extends RecyclerView.ViewHolder {
+    static class ItemHolder extends RecyclerView.ViewHolder {
 
         @InjectView(R.id.tv_news_title)
         TextView tvNewsTitle;
@@ -50,7 +50,7 @@ public class NoticeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
     }
 
-    public static class FooterHolder extends RecyclerView.ViewHolder {
+    static class FooterHolder extends RecyclerView.ViewHolder {
 
         @InjectView(R.id.pb_footer)
         ProgressBar pbFooter;

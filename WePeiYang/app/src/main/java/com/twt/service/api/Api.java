@@ -84,6 +84,9 @@ public interface Api {
     @POST("/lostfound/lost")
     void postLost(@Header("Authorization") String authorization, @QueryMap HashMap<String, String> params, Callback<JsonElement> response);
 
+    @POST("/lostfound/found")
+    void postFound(@Header("Authorization") String authorization, @QueryMap HashMap<String, String> params, Callback<JsonElement> response);
+
     @Multipart
     @GET("/app/upload")
     void uploadImage(@Part("to") String to, @Part("file") TypedFile file, Callback<Upload> response);

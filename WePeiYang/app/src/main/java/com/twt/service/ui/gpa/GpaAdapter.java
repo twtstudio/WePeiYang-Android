@@ -31,7 +31,7 @@ public class GpaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         this.context = context;
     }
 
-    public static class ItemHolder extends RecyclerView.ViewHolder {
+    static class ItemHolder extends RecyclerView.ViewHolder {
 
         @InjectView(R.id.tv_course_name)
         TextView tvCourseName;

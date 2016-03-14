@@ -34,7 +34,7 @@ public class ViewPointAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         this.context = context;
     }
 
-    public static class ItemHolder extends RecyclerView.ViewHolder {
+    static class ItemHolder extends RecyclerView.ViewHolder {
 
         @InjectView(R.id.tv_news_title)
         TextView tvNewsTitle;
@@ -53,7 +53,7 @@ public class ViewPointAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         }
     }
 
-    public static class FooterHolder extends RecyclerView.ViewHolder {
+    static class FooterHolder extends RecyclerView.ViewHolder {
         @InjectView(R.id.pb_footer)
         ProgressBar pbFooter;
 

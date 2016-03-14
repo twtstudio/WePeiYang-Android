@@ -30,7 +30,7 @@ public class NewsCommentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
 
-    public static class ItemHolder extends RecyclerView.ViewHolder {
+    static class ItemHolder extends RecyclerView.ViewHolder {
 
 
         @InjectView(R.id.tv_comment_uname)

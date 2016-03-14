@@ -299,6 +299,29 @@ public class ApiClient {
         mApi.postLost(authorization, params, callback);
     }
 
+    public static void postFound(String authorization, String title, String name, String time, String place, String phone, String content, String found_pic, Callback<JsonElement> callback) {
+        RequestParams params = new RequestParams();
+        HashMap<String, String> temp = new HashMap<>();
+        params.put("title", title);
+        params.put("name", name);
+        params.put("time", time);
+        params.put("place", place);
+        params.put("phone", phone);
+        params.put("content", content);
+        params.put("found_pic", found_pic);
+        temp.put("t", params.get("t"));
+        temp.put("title", title);
+        temp.put("name", name);
+        temp.put("time", time);
+        temp.put("place", place);
+        temp.put("phone", phone);
+        temp.put("content", content);
+        temp.put("found_pic", found_pic);
+        String sign = new Sign().generate(temp);
+        params.put("sign", sign);
+        mApi.postFound(authorization, params, callback);
+    }
+
     public static void uploadImage(String to, File file, Callback<Upload> callback) {
         TypedFile typedFile = new TypedFile("multipart/form-data", file);
         mApi.uploadImage(to, typedFile, callback);

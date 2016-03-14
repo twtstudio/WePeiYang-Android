@@ -12,4 +12,6 @@ public interface FoundInteractor {
     void getFoundDetails(int id);
 
     void uploadImage(File file);
+
+    void postFound(String title, String name, String time, String place, String phone,String content,String found_pic);
 }
