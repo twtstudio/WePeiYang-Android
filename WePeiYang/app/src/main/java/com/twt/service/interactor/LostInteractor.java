@@ -7,4 +7,6 @@ public interface LostInteractor {
     void getLostList(int page);
 
     void getLostDetails(int id);
+
+    void postLost(String title, String name, String time, String place, String phone, String content, String lost_type, String otherTag);
 }

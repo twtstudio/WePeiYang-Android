@@ -275,7 +275,7 @@ public class ApiClient {
     }
 
 
-    public static void postFound(String authorization, String title, String name, String time, String place, String phone, String content, String lost_type, String other_tag, Callback<JsonElement> callback) {
+    public static void postLost(String authorization, String title, String name, String time, String place, String phone, String content, String lost_type, String other_tag, Callback<JsonElement> callback) {
         RequestParams params = new RequestParams();
         HashMap<String, String> temp = new HashMap<>();
         params.put("title", title);
@@ -296,7 +296,7 @@ public class ApiClient {
         temp.put("other_tag", other_tag);
         String sign = new Sign().generate(temp);
         params.put("sign", sign);
-        mApi.postFound(authorization, params, callback);
+        mApi.postLost(authorization, params, callback);
     }
 
     public static void uploadImage(String to, File file, Callback<Upload> callback) {

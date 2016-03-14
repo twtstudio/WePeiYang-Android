@@ -14,11 +14,12 @@ import android.widget.EditText;
 
 import com.twt.service.R;
 import com.twt.service.bean.FoundDetails;
-import com.twt.service.bean.Lost;
 import com.twt.service.bean.LostDetails;
+import com.twt.service.support.PrefUtils;
 import com.twt.service.ui.BaseActivity;
 import com.twt.service.ui.common.TabFragmentAdapter;
 import com.twt.service.ui.lostfound.post.found.PostFoundFragment;
+import com.twt.service.ui.lostfound.post.lost.GetPostLostContactInfoEvent;
 import com.twt.service.ui.lostfound.post.lost.PostLostFragment;
 
 import java.util.ArrayList;
@@ -26,6 +27,7 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import de.greenrobot.event.EventBus;
 
 public class PostLostFoundActivity extends BaseActivity implements PostLostFoundView {
 
@@ -63,17 +65,40 @@ public class PostLostFoundActivity extends BaseActivity implements PostLostFound
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        EventBus.getDefault().register(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_lost_found);
         ButterKnife.inject(this);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        etLostFoundName.setText(PrefUtils.getLostFoundContactName());
+        etLostFoundNumber.setText(PrefUtils.getLostFoundContactNumber());
         lostDetails = (LostDetails) getIntent().getSerializableExtra("lostDetails");
         foundDetails = (FoundDetails) getIntent().getSerializableExtra("foundDetails");
         initTabs();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(getResources().getColor(R.color.lost_found_primary_color));
         }
+    }
+
+    public void onEvent(GetPostLostContactInfoEvent event) {
+        String name = etLostFoundName.getText().toString();
+        String number = etLostFoundNumber.getText().toString();
+        if (name.isEmpty()) {
+            etLostFoundName.setError("不能为空");
+        } else if (number.isEmpty()) {
+            etLostFoundNumber.setError("不能为空");
+        } else {
+            PrefUtils.setLostFoundContactName(name);
+            PrefUtils.setLostFoundContactNumber(number);
+            EventBus.getDefault().post(new PostLostContactInfoEvent(name, number));
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override

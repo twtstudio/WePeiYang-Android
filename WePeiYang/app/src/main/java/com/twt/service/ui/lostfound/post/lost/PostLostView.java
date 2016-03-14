@@ -9,4 +9,8 @@ public interface PostLostView {
     void showProgress();
 
     void hideProgress();
+
+    void setSubmitClickable(boolean clickable);
+
+    void finishActivity();
 }

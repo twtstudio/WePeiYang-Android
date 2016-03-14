@@ -15,6 +15,8 @@ public class PrefUtils {
     private static final String PREF_CAPTCHA_TOKEN = "captchatoken";
     private static final String PREF_TOKEN = "token";
     private static final String PREF_USERNAME = "username";
+    private static final String PREF_LOST_FOUND_CONTACT_NAME = "lost_found_contact_name";
+    private static final String PREF_LOST_FOUND_CONTACT_NUMBER = "lost_found_contact_number";
 
 
     private static SharedPreferences getDefaultSharedPreferences() {
@@ -59,5 +61,21 @@ public class PrefUtils {
 
     public static void removeToken() {
         getDefaultSharedPreferences().edit().remove(PREF_TOKEN).commit();
+    }
+
+    public static void setLostFoundContactName(String name) {
+        getDefaultSharedPreferences().edit().putString(PREF_LOST_FOUND_CONTACT_NAME, name).apply();
+    }
+
+    public static String getLostFoundContactName() {
+        return getDefaultSharedPreferences().getString(PREF_LOST_FOUND_CONTACT_NAME, "");
+    }
+
+    public static void setLostFoundContactNumber(String number) {
+        getDefaultSharedPreferences().edit().putString(PREF_LOST_FOUND_CONTACT_NUMBER, number).apply();
+    }
+
+    public static String getLostFoundContactNumber() {
+        return getDefaultSharedPreferences().getString(PREF_LOST_FOUND_CONTACT_NUMBER,"");
     }
 }

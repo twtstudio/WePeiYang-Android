@@ -81,8 +81,8 @@ public interface Api {
     @GET("/jobs/{id}")
     void getJobsDetails(@QueryMap HashMap<String, String> jobsDetailsParams, @Path("id") int id, Callback<Jobs> response);
 
-    @POST("/lostfound/found")
-    void postFound(@Header("Authorization") String authorization, @QueryMap HashMap<String, String> params, Callback<JsonElement> response);
+    @POST("/lostfound/lost")
+    void postLost(@Header("Authorization") String authorization, @QueryMap HashMap<String, String> params, Callback<JsonElement> response);
 
     @Multipart
     @GET("/app/upload")

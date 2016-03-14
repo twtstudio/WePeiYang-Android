@@ -11,18 +11,23 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.twt.service.R;
+import com.twt.service.interactor.LostInteractorImpl;
 import com.twt.service.ui.BaseFragment;
 import com.twt.service.ui.common.LostType;
+import com.twt.service.ui.lostfound.post.PostLostContactInfoEvent;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import de.greenrobot.event.EventBus;
+import retrofit.RetrofitError;
 
 /**
  * Created by Rex on 2015/8/7.
  */
-public class PostLostFragment extends BaseFragment implements View.OnClickListener {
+public class PostLostFragment extends BaseFragment implements View.OnClickListener, PostLostView {
 
 
     private static ImageView ivTagChosed;
@@ -99,7 +104,19 @@ public class PostLostFragment extends BaseFragment implements View.OnClickListen
     @InjectView(R.id.pb_post_lost)
     ProgressBar pbPostLost;
     private int lost_type;
-    private PostLostPresenterImpl presenter;
+    private PostLostPresenter presenter;
+    private String name;
+    private String number;
+    private String title;
+    private String time;
+    private String place;
+    private String content;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
+    }
 
     @Nullable
     @Override
@@ -120,6 +137,7 @@ public class PostLostFragment extends BaseFragment implements View.OnClickListen
         tagOthers.setOnClickListener(this);
         btnPostLostChange.setOnClickListener(this);
         btnPostLostSubmit.setOnClickListener(this);
+        presenter = new PostLostPresenterImpl(this, new LostInteractorImpl());
         return view;
     }
 
@@ -127,6 +145,12 @@ public class PostLostFragment extends BaseFragment implements View.OnClickListen
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.reset(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -209,10 +233,10 @@ public class PostLostFragment extends BaseFragment implements View.OnClickListen
                 lost_type = LostType.OTHERS;
                 break;
             case R.id.btn_post_lost_submit:
-                String title = etPostLostTitle.getText().toString();
-                String time = etLostTime.getText().toString();
-                String place = etLostPosition.getText().toString();
-                String content = etPostLostDetail.getText().toString();
+                title = etPostLostTitle.getText().toString();
+                time = etLostTime.getText().toString();
+                place = etLostPosition.getText().toString();
+                content = etPostLostDetail.getText().toString();
                 if (title.isEmpty()) {
                     etPostLostTitle.setError("不能为空");
                 } else if (time.isEmpty()) {
@@ -222,11 +246,26 @@ public class PostLostFragment extends BaseFragment implements View.OnClickListen
                 } else if (content.isEmpty()) {
                     etPostLostDetail.setError("不能为空");
                 } else {
-
+                    EventBus.getDefault().post(new GetPostLostContactInfoEvent());
                 }
                 break;
         }
 
+    }
+
+    public void onEvent(PostLostContactInfoEvent event) {
+        name = event.getName();
+        number = event.getNumber();
+        presenter.postLost(title, name, time, place, number, content, lost_type + "");
+    }
+
+    public void onEvent(SuccessEvent event) {
+        presenter.onSuccess();
+    }
+
+    public void onEvent(FailureEvent event) {
+        RetrofitError error = event.getError();
+        presenter.onFailure(error);
     }
 
     private void clearTagState() {
@@ -235,5 +274,30 @@ public class PostLostFragment extends BaseFragment implements View.OnClickListen
         } else {
             ivTagChosed.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public void toastMessage(String message) {
+        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showProgress() {
+        pbPostLost.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgress() {
+        pbPostLost.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void setSubmitClickable(boolean clickable) {
+        btnPostLostSubmit.setClickable(clickable);
+    }
+
+    @Override
+    public void finishActivity() {
+        getActivity().finish();
     }
 }

@@ -531,7 +531,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:background="@drawable/bg_post_lost_found_edittext" />
+                        android:background="@drawable/bg_post_lost_found_edittext"
+                        android:singleLine="true" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -559,7 +560,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:background="@drawable/bg_post_lost_found_edittext" />
+                        android:background="@drawable/bg_post_lost_found_edittext"
+                        android:singleLine="true" />
 
                     <View
                         android:layout_width="match_parent"
@@ -593,7 +595,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:background="@drawable/bg_post_lost_found_edittext" />
+                        android:background="@drawable/bg_post_lost_found_edittext"
+                        android:singleLine="true" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -655,11 +658,11 @@
                 </LinearLayout>
 
                 <ProgressBar
-                    android:visibility="gone"
                     android:id="@+id/pb_post_lost"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center" />
+                    android:layout_gravity="center"
+                    android:visibility="gone" />
             </FrameLayout>
 
 
