@@ -35,11 +35,11 @@
                     android:orientation="horizontal">
 
                     <EditText
-                        android:drawablePadding="10dp"
                         android:id="@+id/et_lost_found_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:drawableLeft="@mipmap/ic_lost_found_edit_name"
+                        android:drawablePadding="10dp"
                         android:hint="姓名"
                         android:inputType="text"
                         android:singleLine="true" />
@@ -52,11 +52,11 @@
                     android:orientation="horizontal">
 
                     <EditText
-                        android:drawablePadding="10dp"
                         android:id="@+id/et_lost_found_number"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:drawableLeft="@mipmap/ic_lost_found_edit_number"
+                        android:drawablePadding="10dp"
                         android:hint="联系方式"
                         android:inputType="number"
                         android:singleLine="true" />

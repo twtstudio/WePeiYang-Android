@@ -4,12 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.twt.service.R;
 import com.twt.service.support.ResourceHelper;
@@ -38,6 +40,8 @@ public class LostFoundActivity extends BaseActivity implements LostFoundView {
     TabLayout tblLostfound;
     @InjectView(R.id.vp_lostfound)
     ViewPager vpLostfound;
+    @InjectView(R.id.fab_lost_found)
+    FloatingActionButton fabLostFound;
     private int page;
 
     public static void actionStart(Context context, int page) {
@@ -59,6 +63,12 @@ public class LostFoundActivity extends BaseActivity implements LostFoundView {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(getResources().getColor(R.color.lost_found_primary_color));
         }
+        fabLostFound.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PostLostFoundActivity.actionStart(LostFoundActivity.this);
+            }
+        });
     }
 
 
