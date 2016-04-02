@@ -109,7 +109,37 @@
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_marginTop="8dp"
-                        android:background="@color/text_secondary_color" />
+                        android:background="@color/divider_color" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:src="@mipmap/tag_lost_found_detail" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="8dp"
+                            android:text="详细名称"
+                            android:textColor="@color/lost_found_primary_color"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+
+                    <EditText
+                        android:id="@+id/et_post_found_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/bg_post_lost_found_edittext"
+                        android:singleLine="true" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -145,7 +175,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_marginTop="8dp"
-                        android:background="@color/text_secondary_color" />
+                        android:background="@color/divider_color" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -181,7 +211,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_marginTop="8dp"
-                        android:background="@color/text_secondary_color" />
+                        android:background="@color/divider_color" />
 
                     <LinearLayout
                         android:layout_width="match_parent"

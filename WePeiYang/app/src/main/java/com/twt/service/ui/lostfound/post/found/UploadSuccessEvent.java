@@ -2,17 +2,19 @@ package com.twt.service.ui.lostfound.post.found;
 
 import com.twt.service.bean.Upload;
 
+import java.util.List;
+
 /**
  * Created by sunjuntao on 16/2/26.
  */
 public class UploadSuccessEvent {
-    private Upload upload;
+    private List<Upload> uploads;
 
-    public UploadSuccessEvent(Upload upload) {
-        this.upload = upload;
+    public UploadSuccessEvent(List<Upload> uploads) {
+        this.uploads = uploads;
     }
 
-    public Upload getUpload() {
-        return upload;
+    public List<Upload> getUploads() {
+        return uploads;
     }
 }

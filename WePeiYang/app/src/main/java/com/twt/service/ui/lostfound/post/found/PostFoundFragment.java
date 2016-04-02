@@ -17,6 +17,7 @@ import com.twt.service.interactor.FoundInteractorImpl;
 import com.twt.service.support.ImageResizer;
 import com.twt.service.ui.BaseFragment;
 import com.twt.service.ui.lostfound.post.AddedPhotoEvent;
+import com.twt.service.ui.lostfound.post.PostFoundContactInfoEvent;
 
 import java.io.File;
 
@@ -46,8 +47,17 @@ public class PostFoundFragment extends BaseFragment implements View.OnClickListe
     EditText etPostFoundDetails;
     @InjectView(R.id.pb_post_found)
     ProgressBar pbPostFound;
+    @InjectView(R.id.et_post_found_title)
+    EditText etPostFoundTitle;
     private File mUploadPhoto;
     private PostFoundPresenter presenter;
+    private String name;
+    private String number;
+    private String title;
+    private String time;
+    private String place;
+    private String details;
+    private static final String EDITTEXT_EMPTY_ERROR = "不能为空";
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -89,7 +99,7 @@ public class PostFoundFragment extends BaseFragment implements View.OnClickListe
     }
 
     public void onEvent(UploadSuccessEvent event) {
-        presenter.postFinally(event.getUpload().data.get(0).url);
+        presenter.postFinally(event.getUploads().get(0).url);
     }
 
     public void onEvent(UploadFailureEvent event) {
@@ -111,6 +121,21 @@ public class PostFoundFragment extends BaseFragment implements View.OnClickListe
                 EventBus.getDefault().post(new AddPhotoEvent());
                 break;
             case R.id.btn_post_found_submit:
+                title = etPostFoundTitle.getText().toString();
+                time = etPostFoundTime.getText().toString();
+                place = etPostFoundPlace.getText().toString();
+                details = etPostFoundDetails.getText().toString();
+                if (title.isEmpty()) {
+                    etPostFoundTitle.setError(EDITTEXT_EMPTY_ERROR);
+                } else if (time.isEmpty()) {
+                    etPostFoundTime.setError(EDITTEXT_EMPTY_ERROR);
+                } else if (place.isEmpty()) {
+                    etPostFoundPlace.setError(EDITTEXT_EMPTY_ERROR);
+                } else if (details.isEmpty()) {
+                    etPostFoundDetails.setError(EDITTEXT_EMPTY_ERROR);
+                } else {
+                    EventBus.getDefault().post(new GetPostFoundContactInfoEvent());
+                }
                 break;
             case R.id.btn_post_found_change:
                 break;
@@ -120,6 +145,12 @@ public class PostFoundFragment extends BaseFragment implements View.OnClickListe
                 ivDeleteAddedPhoto.setVisibility(View.GONE);
                 break;
         }
+    }
+
+    public void onEvent(PostFoundContactInfoEvent event) {
+        name = event.getName();
+        number = event.getNumber();
+        presenter.postFound(title, name, time, place, number, details, mUploadPhoto);
     }
 
     @Override

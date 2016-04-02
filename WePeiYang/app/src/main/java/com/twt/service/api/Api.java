@@ -14,13 +14,17 @@ import com.twt.service.bean.RefreshedToken;
 import com.twt.service.bean.Upload;
 
 import java.util.HashMap;
+import java.util.List;
 
 import retrofit.Callback;
+import retrofit.http.FieldMap;
+import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
 import retrofit.http.Header;
 import retrofit.http.Multipart;
 import retrofit.http.POST;
 import retrofit.http.Part;
+import retrofit.http.PartMap;
 import retrofit.http.Path;
 import retrofit.http.QueryMap;
 import retrofit.mime.TypedFile;
@@ -31,63 +35,67 @@ import retrofit.mime.TypedFile;
 public interface Api {
 
     @GET("/auth/bind/tju")
-    void bind(@Header("Authorization") String authorization, @QueryMap HashMap<String, String> bindParams, Callback<JsonElement> response);
+    void bind(@Header("Authorization") String authorization, @QueryMap RequestParams bindParams, Callback<JsonElement> response);
 
     @GET("/gpa")
-    void getGPA(@Header("Authorization") String authorization, @QueryMap HashMap<String, String> gpaParams, Callback<JsonElement> response);
+    void getGPA(@Header("Authorization") String authorization, @QueryMap RequestParams gpaParams, Callback<JsonElement> response);
 
     @GET("/classtable")
-    void getCourse(@Header("Authorization") String authorization, @QueryMap HashMap<String, String> classtableParams, Callback<JsonElement> response);
+    void getCourse(@Header("Authorization") String authorization, @QueryMap RequestParams classtableParams, Callback<JsonElement> response);
 
     @GET("/news/type/{type}")
-    void getNewsList(@Path("type") int type, @QueryMap HashMap<String, String> newsParams, Callback<NewsList> response);
+    void getNewsList(@Path("type") int type, @QueryMap RequestParams newsParams, Callback<NewsList> response);
 
     @GET("/news/{index}")
-    void getNews(@Path("index") int index, @QueryMap HashMap<String, String> newsParams, Callback<News> response);
+    void getNews(@Path("index") int index, @QueryMap RequestParams newsParams, Callback<News> response);
 
+    @FormUrlEncoded
     @POST("/news/comment/{id}")
-    void postNewsComment(@Header("Authorization") String authorization, @Path("id") int id, @QueryMap HashMap<String, String> commentParams, Callback<CommentCallback> response);
+    void postNewsComment(@Header("Authorization") String authorization, @Path("id") int id, @FieldMap RequestParams commentParams, Callback<CommentCallback> response);
 
     @GET("/app/index")
-    void getMain(@QueryMap HashMap<String, String> mainParams, Callback<JsonElement> response);
+    void getMain(@QueryMap RequestParams mainParams, Callback<JsonElement> response);
 
     @GET("/auth/token/get")
-    void login(@QueryMap HashMap<String, String> loginParams, Callback<JsonElement> response);
+    void login(@QueryMap RequestParams loginParams, Callback<JsonElement> response);
 
     @GET("/auth/token/refresh")
-    void refreshToken(@Header("Authorization") String authorization, @QueryMap HashMap<String, String> refreshParams, Callback<RefreshedToken> response);
+    void refreshToken(@Header("Authorization") String authorization, @QueryMap RequestParams refreshParams, Callback<RefreshedToken> response);
 
     @GET("/app/feedback")
-    void feedback(@Header("User-Agent") String ua, @QueryMap HashMap<String, String> feedbackParams, Callback<JsonElement> response);
+    void feedback(@Header("User-Agent") String ua, @QueryMap RequestParams feedbackParams, Callback<JsonElement> response);
 
     @GET("/auth/unbind/tju")
-    void unbindTju(@Header("Authorization") String authorization, @QueryMap HashMap<String, String> unbindParams, Callback<JsonElement> response);
+    void unbindTju(@Header("Authorization") String authorization, @QueryMap RequestParams unbindParams, Callback<JsonElement> response);
 
     @GET("/lostfound/lost")
-    void getLostList(@QueryMap HashMap<String, String> lostParams, Callback<Lost> response);
+    void getLostList(@QueryMap RequestParams lostParams, Callback<Lost> response);
 
     @GET("/lostfound/found")
-    void getFoundList(@QueryMap HashMap<String, String> foundParams, Callback<Found> response);
+    void getFoundList(@QueryMap RequestParams foundParams, Callback<Found> response);
 
     @GET("/lostfound/{id}")
-    void getLostDetails(@Path("id") int id, @QueryMap HashMap<String, String> params, Callback<LostDetails> response);
+    void getLostDetails(@Path("id") int id, @QueryMap RequestParams params, Callback<LostDetails> response);
 
     @GET("/lostfound/{id}")
-    void getFoundDetails(@Path("id") int id, @QueryMap HashMap<String, String> params, Callback<FoundDetails> response);
+    void getFoundDetails(@Path("id") int id, @QueryMap RequestParams params, Callback<FoundDetails> response);
 
     @GET("/jobs")
-    void getJobsList(@QueryMap HashMap<String, String> jobsParams, Callback<JobsList> response);
+    void getJobsList(@QueryMap RequestParams jobsParams, Callback<JobsList> response);
 
     @GET("/jobs/{id}")
-    void getJobsDetails(@QueryMap HashMap<String, String> jobsDetailsParams, @Path("id") int id, Callback<Jobs> response);
+    void getJobsDetails(@QueryMap RequestParams jobsDetailsParams, @Path("id") int id, Callback<Jobs> response);
 
+    @FormUrlEncoded
     @POST("/lostfound/lost")
-    void postLost(@Header("Authorization") String authorization, @QueryMap HashMap<String, String> params, Callback<JsonElement> response);
+    void postLost(@Header("Authorization") String authorization, @FieldMap RequestParams params, Callback<JsonElement> response);
 
+    @FormUrlEncoded
     @POST("/lostfound/found")
-    void postFound(@Header("Authorization") String authorization, @QueryMap HashMap<String, String> params, Callback<JsonElement> response);
+    void postFound(@Header("Authorization") String authorization, @FieldMap RequestParams params, Callback<JsonElement> response);
 
     @Multipart
-    @GET("/app/upload")
-    void uploadImage(@Part("to") String to, @Part("file") TypedFile file, Callback<Upload> response);
+    @POST("/app/upload")
+    void uploadImage(@Part("file") TypedFile file, @PartMap RequestParams params, Callback<List<Upload>> response);
+
 }

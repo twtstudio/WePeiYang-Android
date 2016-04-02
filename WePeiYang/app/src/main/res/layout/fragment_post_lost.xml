@@ -519,7 +519,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="8dp"
-                            android:text="详细名称"
+                            android:text="物品名称"
                             android:textColor="@color/lost_found_primary_color"
                             android:textSize="16sp" />
 

@@ -14,6 +14,7 @@ import com.twt.service.ui.lostfound.post.found.UploadFailureEvent;
 import com.twt.service.ui.lostfound.post.found.UploadSuccessEvent;
 
 import java.io.File;
+import java.util.List;
 
 import de.greenrobot.event.EventBus;
 import im.fir.sdk.FIR;
@@ -57,10 +58,10 @@ public class FoundInteractorImpl implements FoundInteractor {
 
     @Override
     public void uploadImage(File file) {
-        ApiClient.uploadImage("lostfound", file, new Callback<Upload>() {
+        ApiClient.uploadImage("lostfound", file, new Callback<List<Upload>>() {
             @Override
-            public void success(Upload upload, Response response) {
-                EventBus.getDefault().post(new UploadSuccessEvent(upload));
+            public void success(List<Upload> uploads, Response response) {
+                EventBus.getDefault().post(new UploadSuccessEvent(uploads));
             }
 
             @Override

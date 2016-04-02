@@ -22,6 +22,7 @@ import com.twt.service.support.PrefUtils;
 import com.twt.service.ui.BaseActivity;
 import com.twt.service.ui.common.TabFragmentAdapter;
 import com.twt.service.ui.lostfound.post.found.AddPhotoEvent;
+import com.twt.service.ui.lostfound.post.found.GetPostFoundContactInfoEvent;
 import com.twt.service.ui.lostfound.post.found.PostFoundFragment;
 import com.twt.service.ui.lostfound.post.lost.GetPostLostContactInfoEvent;
 import com.twt.service.ui.lostfound.post.lost.PostLostFragment;
@@ -97,6 +98,20 @@ public class PostLostFoundActivity extends BaseActivity implements PostLostFound
             PrefUtils.setLostFoundContactName(name);
             PrefUtils.setLostFoundContactNumber(number);
             EventBus.getDefault().post(new PostLostContactInfoEvent(name, number));
+        }
+    }
+
+    public void onEvent(GetPostFoundContactInfoEvent event) {
+        String name = etLostFoundName.getText().toString();
+        String number = etLostFoundNumber.getText().toString();
+        if (name.isEmpty()) {
+            etLostFoundName.setError("不能为空");
+        } else if (number.isEmpty()) {
+            etLostFoundNumber.setError("不能为空");
+        } else {
+            PrefUtils.setLostFoundContactName(name);
+            PrefUtils.setLostFoundContactNumber(number);
+            EventBus.getDefault().post(new PostFoundContactInfoEvent(name, number));
         }
     }
 

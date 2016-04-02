@@ -16,6 +16,7 @@ import com.twt.service.support.UserAgent;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 
 import retrofit.Callback;
 import retrofit.RequestInterceptor;
@@ -322,8 +323,15 @@ public class ApiClient {
         mApi.postFound(authorization, params, callback);
     }
 
-    public static void uploadImage(String to, File file, Callback<Upload> callback) {
+    public static void uploadImage(String to, File file, Callback<List<Upload>> callback) {
         TypedFile typedFile = new TypedFile("multipart/form-data", file);
-        mApi.uploadImage(to, typedFile, callback);
+        RequestParams params = new RequestParams();
+        params.put("to", to);
+        HashMap<String, String> temp = new HashMap<>();
+        temp.put("t", params.get("t"));
+        temp.put("to", to);
+        String sign = new Sign().generate(temp);
+        params.put("sign", sign);
+        mApi.uploadImage(typedFile, params, callback);
     }
 }
