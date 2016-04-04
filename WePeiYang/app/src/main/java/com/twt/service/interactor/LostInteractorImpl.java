@@ -55,12 +55,12 @@ public class LostInteractorImpl implements LostInteractor {
         ApiClient.postLost(authorization, title, name, time, place, phone, content, lost_type, otherTag, new Callback<JsonElement>() {
             @Override
             public void success(JsonElement jsonElement, Response response) {
-                EventBus.getDefault().post(new com.twt.service.ui.lostfound.post.lost.SuccessEvent());
+                EventBus.getDefault().post(new com.twt.service.ui.lostfound.post.lost.event.SuccessEvent());
             }
 
             @Override
             public void failure(RetrofitError error) {
-                EventBus.getDefault().post(new com.twt.service.ui.lostfound.post.lost.FailureEvent(error));
+                EventBus.getDefault().post(new com.twt.service.ui.lostfound.post.lost.event.FailureEvent(error));
             }
         });
     }

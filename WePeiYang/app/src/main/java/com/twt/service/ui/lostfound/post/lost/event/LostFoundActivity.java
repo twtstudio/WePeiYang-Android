@@ -1,4 +1,4 @@
-package com.twt.service.ui.lostfound;
+package com.twt.service.ui.lostfound.post.lost.event;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,10 +14,9 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.twt.service.R;
-import com.twt.service.support.ResourceHelper;
-import com.twt.service.support.StatusBarHelper;
 import com.twt.service.ui.BaseActivity;
 import com.twt.service.ui.common.TabFragmentAdapter;
+import com.twt.service.ui.lostfound.LostFoundView;
 import com.twt.service.ui.lostfound.found.FoundFragment;
 import com.twt.service.ui.lostfound.lost.LostFragment;
 import com.twt.service.ui.lostfound.post.PostLostFoundActivity;

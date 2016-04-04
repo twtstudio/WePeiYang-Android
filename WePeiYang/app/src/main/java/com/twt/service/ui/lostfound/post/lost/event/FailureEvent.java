@@ -1,14 +1,14 @@
-package com.twt.service.ui.lostfound.post.found;
+package com.twt.service.ui.lostfound.post.lost.event;
 
 import retrofit.RetrofitError;
 
 /**
- * Created by sunjuntao on 16/2/26.
+ * Created by sunjuntao on 16/3/12.
  */
-public class UploadFailureEvent {
+public class FailureEvent {
     private RetrofitError error;
 
-    public UploadFailureEvent(RetrofitError error) {
+    public FailureEvent(RetrofitError error) {
         this.error = error;
     }
 

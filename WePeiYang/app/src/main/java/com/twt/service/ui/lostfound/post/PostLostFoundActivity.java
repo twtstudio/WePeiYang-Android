@@ -21,10 +21,10 @@ import com.twt.service.bean.LostDetails;
 import com.twt.service.support.PrefUtils;
 import com.twt.service.ui.BaseActivity;
 import com.twt.service.ui.common.TabFragmentAdapter;
-import com.twt.service.ui.lostfound.post.found.AddPhotoEvent;
-import com.twt.service.ui.lostfound.post.found.GetPostFoundContactInfoEvent;
+import com.twt.service.ui.lostfound.post.found.event.AddPhotoEvent;
+import com.twt.service.ui.lostfound.post.found.event.GetPostFoundContactInfoEvent;
 import com.twt.service.ui.lostfound.post.found.PostFoundFragment;
-import com.twt.service.ui.lostfound.post.lost.GetPostLostContactInfoEvent;
+import com.twt.service.ui.lostfound.post.lost.event.GetPostLostContactInfoEvent;
 import com.twt.service.ui.lostfound.post.lost.PostLostFragment;
 
 import java.util.ArrayList;

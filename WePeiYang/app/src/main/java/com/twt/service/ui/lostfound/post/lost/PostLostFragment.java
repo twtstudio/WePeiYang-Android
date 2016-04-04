@@ -18,6 +18,9 @@ import com.twt.service.interactor.LostInteractorImpl;
 import com.twt.service.ui.BaseFragment;
 import com.twt.service.ui.common.LostType;
 import com.twt.service.ui.lostfound.post.PostLostContactInfoEvent;
+import com.twt.service.ui.lostfound.post.lost.event.FailureEvent;
+import com.twt.service.ui.lostfound.post.lost.event.GetPostLostContactInfoEvent;
+import com.twt.service.ui.lostfound.post.lost.event.SuccessEvent;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;

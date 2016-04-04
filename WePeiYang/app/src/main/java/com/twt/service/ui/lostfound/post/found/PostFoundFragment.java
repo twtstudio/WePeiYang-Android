@@ -18,6 +18,12 @@ import com.twt.service.support.ImageResizer;
 import com.twt.service.ui.BaseFragment;
 import com.twt.service.ui.lostfound.post.AddedPhotoEvent;
 import com.twt.service.ui.lostfound.post.PostFoundContactInfoEvent;
+import com.twt.service.ui.lostfound.post.found.event.AddPhotoEvent;
+import com.twt.service.ui.lostfound.post.found.event.GetPostFoundContactInfoEvent;
+import com.twt.service.ui.lostfound.post.found.event.PostFoundFailureEvent;
+import com.twt.service.ui.lostfound.post.found.event.PostFoundSuccessEvent;
+import com.twt.service.ui.lostfound.post.found.event.UploadFailureEvent;
+import com.twt.service.ui.lostfound.post.found.event.UploadSuccessEvent;
 
 import java.io.File;
 
