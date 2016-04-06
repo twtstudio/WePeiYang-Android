@@ -1,4 +1,4 @@
-package com.twt.service.ui.lostfound.post.lost.event;
+package com.twt.service.ui.lostfound;
 
 import android.content.Context;
 import android.content.Intent;
@@ -16,10 +16,10 @@ import android.view.View;
 import com.twt.service.R;
 import com.twt.service.ui.BaseActivity;
 import com.twt.service.ui.common.TabFragmentAdapter;
-import com.twt.service.ui.lostfound.LostFoundView;
 import com.twt.service.ui.lostfound.found.FoundFragment;
 import com.twt.service.ui.lostfound.lost.LostFragment;
 import com.twt.service.ui.lostfound.post.PostLostFoundActivity;
+import com.twt.service.ui.lostfound.post.mypost.MyLostFoundActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,7 +84,7 @@ public class LostFoundActivity extends BaseActivity implements LostFoundView {
                 finish();
                 break;
             case R.id.icon_lost_found_personal:
-                PostLostFoundActivity.actionStart(this);
+                MyLostFoundActivity.actionStart(LostFoundActivity.this);
                 break;
         }
         return super.onOptionsItemSelected(item);

@@ -12,7 +12,6 @@ public class PrefUtils {
 
     private static final String PREF_IS_LOGIN = "is_login";
     private static final String PREF_IS_KNOW_GPA_USAGE = "isknowgpausage";
-    private static final String PREF_CAPTCHA_TOKEN = "captchatoken";
     private static final String PREF_TOKEN = "token";
     private static final String PREF_USERNAME = "username";
     private static final String PREF_LOST_FOUND_CONTACT_NAME = "lost_found_contact_name";
@@ -40,7 +39,9 @@ public class PrefUtils {
     }
 
     public static void setToken(String token) {
-        getDefaultSharedPreferences().edit().putString(PREF_TOKEN, token).apply();
+        if (token != null) {
+            getDefaultSharedPreferences().edit().putString(PREF_TOKEN, "Bearer{" + token + "}").apply();
+        }
     }
 
     public static String getToken() {
@@ -76,6 +77,6 @@ public class PrefUtils {
     }
 
     public static String getLostFoundContactNumber() {
-        return getDefaultSharedPreferences().getString(PREF_LOST_FOUND_CONTACT_NUMBER,"");
+        return getDefaultSharedPreferences().getString(PREF_LOST_FOUND_CONTACT_NUMBER, "");
     }
 }

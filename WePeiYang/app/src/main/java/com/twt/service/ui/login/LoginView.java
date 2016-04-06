@@ -5,13 +5,23 @@ package com.twt.service.ui.login;
  */
 public interface LoginView {
     void startMainActivity();
+
     void startGpaActivity();
+
     void startScheduleActivity();
+
+    void startPostLostFoundActivity();
+
     void hideKeyboard();
+
     void usernameError(String errorMsg);
+
     void passwordError(String errorMsg);
+
     void showToast(String msg);
+
     void showProcessing();
+
     void hideProcessing();
 
 }

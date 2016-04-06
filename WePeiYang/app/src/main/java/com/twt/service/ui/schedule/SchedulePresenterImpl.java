@@ -60,19 +60,19 @@ public class SchedulePresenterImpl implements SchedulePresenter, OnGetScheduleCa
                 case 10000:
                     view.toastMessage("请重新登录");
                     PrefUtils.setLogin(false);
-                    PrefUtils.setToken(null);
+                    PrefUtils.removeToken();
                     view.startLoginActivity();
                     break;
                 case 10001:
                     view.toastMessage("请重新登录");
                     PrefUtils.setLogin(false);
-                    PrefUtils.setToken(null);
+                    PrefUtils.removeToken();
                     view.startLoginActivity();
                     break;
                 case 10002:
                     view.toastMessage("请重新登录");
                     PrefUtils.setLogin(false);
-                    PrefUtils.setToken(null);
+                    PrefUtils.removeToken();
                     view.startLoginActivity();
                     break;
                 case 10003:
@@ -94,7 +94,7 @@ public class SchedulePresenterImpl implements SchedulePresenter, OnGetScheduleCa
     @Override
     public void onSuccess(RefreshedToken refreshedToken) {
         PrefUtils.setLogin(true);
-        PrefUtils.setToken("Bearer {" + refreshedToken.data + "}");
+        PrefUtils.setToken(refreshedToken.data);
         interactor.getSchedule("Bearer {" + refreshedToken.data + "}", this);
     }
 
@@ -102,7 +102,7 @@ public class SchedulePresenterImpl implements SchedulePresenter, OnGetScheduleCa
     public void onFailure() {
         view.toastMessage("请重新登录");
         PrefUtils.setLogin(false);
-        PrefUtils.setToken(null);
+        PrefUtils.removeToken();
         view.startLoginActivity();
     }
 }

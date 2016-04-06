@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.twt.service.R;
 import com.twt.service.bean.Main;
-import com.twt.service.ui.lostfound.post.lost.event.LostFoundActivity;
+import com.twt.service.ui.lostfound.LostFoundActivity;
 import com.twt.service.ui.lostfound.found.details.FoundDetailsActivity;
 
 import java.util.ArrayList;

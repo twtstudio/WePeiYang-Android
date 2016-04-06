@@ -8,6 +8,8 @@ import com.twt.service.bean.LostDetails;
 import com.twt.service.support.PrefUtils;
 import com.twt.service.ui.lostfound.lost.details.FailureEvent;
 import com.twt.service.ui.lostfound.lost.details.SuccessEvent;
+import com.twt.service.ui.lostfound.post.mypost.mylost.event.GetMyLostFailureEvent;
+import com.twt.service.ui.lostfound.post.mypost.mylost.event.GetMyLostSuccessEvent;
 
 import de.greenrobot.event.EventBus;
 import retrofit.Callback;
@@ -50,8 +52,7 @@ public class LostInteractorImpl implements LostInteractor {
     }
 
     @Override
-    public void postLost(String title, String name, String time, String place, String phone, String content, String lost_type, String otherTag) {
-        String authorization = PrefUtils.getToken();
+    public void postLost(String authorization, String title, String name, String time, String place, String phone, String content, String lost_type, String otherTag) {
         ApiClient.postLost(authorization, title, name, time, place, phone, content, lost_type, otherTag, new Callback<JsonElement>() {
             @Override
             public void success(JsonElement jsonElement, Response response) {
@@ -61,6 +62,21 @@ public class LostInteractorImpl implements LostInteractor {
             @Override
             public void failure(RetrofitError error) {
                 EventBus.getDefault().post(new com.twt.service.ui.lostfound.post.lost.event.FailureEvent(error));
+            }
+        });
+    }
+
+    @Override
+    public void getMyLostList(String authorization, int page) {
+        ApiClient.getMyLostList(authorization, page, new Callback<Lost>() {
+            @Override
+            public void success(Lost lost, Response response) {
+                EventBus.getDefault().post(new GetMyLostSuccessEvent(lost));
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                EventBus.getDefault().post(new GetMyLostFailureEvent(error));
             }
         });
     }

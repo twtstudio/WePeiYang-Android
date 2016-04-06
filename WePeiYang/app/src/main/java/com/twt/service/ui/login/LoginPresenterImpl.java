@@ -48,7 +48,7 @@ public class LoginPresenterImpl implements LoginPresenter, OnLoginCallback {
     public void onSuccess(String loginString) {
         view.hideProcessing();
         Login login = new Gson().fromJson(loginString, Login.class);
-        PrefUtils.setToken("Bearer {" + login.data.token + "}");
+        PrefUtils.setToken(login.data.token);
         PrefUtils.setLogin(true);
         if (twtuname != null) {
             PrefUtils.setUsername(twtuname);
@@ -63,6 +63,8 @@ public class LoginPresenterImpl implements LoginPresenter, OnLoginCallback {
             case Schedule:
                 view.startScheduleActivity();
                 break;
+            case PostLostFound:
+                view.startPostLostFoundActivity();
         }
     }
 

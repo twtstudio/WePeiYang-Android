@@ -34,14 +34,16 @@ import retrofit.mime.TypedFile;
  */
 public interface Api {
 
+    static final String AUTHORIZATION = "Authorization";
+
     @GET("/auth/bind/tju")
-    void bind(@Header("Authorization") String authorization, @QueryMap RequestParams bindParams, Callback<JsonElement> response);
+    void bind(@Header(AUTHORIZATION) String authorization, @QueryMap RequestParams bindParams, Callback<JsonElement> response);
 
     @GET("/gpa")
-    void getGPA(@Header("Authorization") String authorization, @QueryMap RequestParams gpaParams, Callback<JsonElement> response);
+    void getGPA(@Header(AUTHORIZATION) String authorization, @QueryMap RequestParams gpaParams, Callback<JsonElement> response);
 
     @GET("/classtable")
-    void getCourse(@Header("Authorization") String authorization, @QueryMap RequestParams classtableParams, Callback<JsonElement> response);
+    void getCourse(@Header(AUTHORIZATION) String authorization, @QueryMap RequestParams classtableParams, Callback<JsonElement> response);
 
     @GET("/news/type/{type}")
     void getNewsList(@Path("type") int type, @QueryMap RequestParams newsParams, Callback<NewsList> response);
@@ -51,7 +53,7 @@ public interface Api {
 
     @FormUrlEncoded
     @POST("/news/comment/{id}")
-    void postNewsComment(@Header("Authorization") String authorization, @Path("id") int id, @FieldMap RequestParams commentParams, Callback<CommentCallback> response);
+    void postNewsComment(@Header(AUTHORIZATION) String authorization, @Path("id") int id, @FieldMap RequestParams commentParams, Callback<CommentCallback> response);
 
     @GET("/app/index")
     void getMain(@QueryMap RequestParams mainParams, Callback<JsonElement> response);
@@ -60,13 +62,13 @@ public interface Api {
     void login(@QueryMap RequestParams loginParams, Callback<JsonElement> response);
 
     @GET("/auth/token/refresh")
-    void refreshToken(@Header("Authorization") String authorization, @QueryMap RequestParams refreshParams, Callback<RefreshedToken> response);
+    void refreshToken(@Header(AUTHORIZATION) String authorization, @QueryMap RequestParams refreshParams, Callback<RefreshedToken> response);
 
     @GET("/app/feedback")
     void feedback(@Header("User-Agent") String ua, @QueryMap RequestParams feedbackParams, Callback<JsonElement> response);
 
     @GET("/auth/unbind/tju")
-    void unbindTju(@Header("Authorization") String authorization, @QueryMap RequestParams unbindParams, Callback<JsonElement> response);
+    void unbindTju(@Header(AUTHORIZATION) String authorization, @QueryMap RequestParams unbindParams, Callback<JsonElement> response);
 
     @GET("/lostfound/lost")
     void getLostList(@QueryMap RequestParams lostParams, Callback<Lost> response);
@@ -88,14 +90,21 @@ public interface Api {
 
     @FormUrlEncoded
     @POST("/lostfound/lost")
-    void postLost(@Header("Authorization") String authorization, @FieldMap RequestParams params, Callback<JsonElement> response);
+    void postLost(@Header(AUTHORIZATION) String authorization, @FieldMap RequestParams params, Callback<JsonElement> response);
 
     @FormUrlEncoded
     @POST("/lostfound/found")
-    void postFound(@Header("Authorization") String authorization, @FieldMap RequestParams params, Callback<JsonElement> response);
+    void postFound(@Header(AUTHORIZATION) String authorization, @FieldMap RequestParams params, Callback<JsonElement> response);
 
     @Multipart
     @POST("/app/upload")
     void uploadImage(@Part("file") TypedFile file, @PartMap RequestParams params, Callback<List<Upload>> response);
+
+    @GET("/lostfound/user/lost")
+    void getMyLostList(@Header(AUTHORIZATION)String authorization, @QueryMap RequestParams params, Callback<Lost> response);
+
+    @GET("/lostfound/user/found")
+    void getMyFoundList(@Header(AUTHORIZATION) String authorization, @QueryMap RequestParams params,Callback<Found> response);
+
 
 }

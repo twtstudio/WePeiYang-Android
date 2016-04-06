@@ -13,5 +13,7 @@ public interface FoundInteractor {
 
     void uploadImage(File file);
 
-    void postFound(String title, String name, String time, String place, String phone,String content,String found_pic);
+    void postFound(String authorizatioh, String title, String name, String time, String place, String phone, String content, String found_pic);
+
+    void getMyFoundList(String authorization, int page);
 }

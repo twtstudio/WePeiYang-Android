@@ -1,7 +1,12 @@
 package com.twt.service.ui.lostfound.post.lost;
 
+import android.util.Log;
+
 import com.twt.service.bean.RestError;
 import com.twt.service.interactor.LostInteractor;
+import com.twt.service.interactor.TokenRefreshInteractor;
+import com.twt.service.interactor.TokenRefreshInteractorImpl;
+import com.twt.service.support.PrefUtils;
 
 import retrofit.RetrofitError;
 
@@ -20,10 +25,10 @@ public class PostLostPresenterImpl implements PostLostPresenter {
     }
 
     @Override
-    public void postLost(String title, String name, String time, String place, String phone, String content, String lost_type) {
+    public void postLost(String authorization, String title, String name, String time, String place, String phone, String content, String lost_type) {
         view.showProgress();
         view.setSubmitClickable(false);
-        interactor.postLost(title, name, time, place, phone, content, lost_type, "");
+        interactor.postLost(authorization,title, name, time, place, phone, content, lost_type, "");
     }
 
     @Override
@@ -36,11 +41,39 @@ public class PostLostPresenterImpl implements PostLostPresenter {
     @Override
     public void onFailure(RetrofitError error) {
         view.hideProgress();
+        view.setSubmitClickable(true);
         switch (error.getKind()) {
             case HTTP:
                 RestError restError = (RestError) error.getBodyAs(RestError.class);
                 if (restError != null) {
-                    view.toastMessage(restError.message);
+                    switch (restError.error_code) {
+                        case 10000:
+                            view.toastMessage("请重新登录");
+                            PrefUtils.setLogin(false);
+                            PrefUtils.removeToken();
+                            view.startLoginActivity();
+                            break;
+                        case 10001:
+                            view.toastMessage("请重新登录");
+                            PrefUtils.setLogin(false);
+                            PrefUtils.removeToken();
+                            view.startLoginActivity();
+                            break;
+                        case 10002:
+                            view.toastMessage("请重新登录");
+                            PrefUtils.setLogin(false);
+                            PrefUtils.removeToken();
+                            view.startLoginActivity();
+                            break;
+                        case 10003:
+                            Log.e("refresh", "refresh");
+                            TokenRefreshInteractor tokenRefreshInteractor = new TokenRefreshInteractorImpl();
+                            tokenRefreshInteractor.refreshToken(PrefUtils.getToken());
+                            break;
+                        default:
+                            view.toastMessage(restError.message);
+                            break;
+                    }
                 }
                 break;
             case NETWORK:

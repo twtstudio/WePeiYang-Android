@@ -102,7 +102,7 @@
             android:name=".ui.jobs.jobsdetails.JobsDetailsActivity"
             android:label="" />
         <activity
-            android:name=".ui.lostfound.post.lost.event.LostFoundActivity"
+            android:name=".ui.lostfound.LostFoundActivity"
             android:label="失物招领" />
         <activity
             android:name=".ui.lostfound.found.details.FoundDetailsActivity"
@@ -112,6 +112,9 @@
             android:label="丢失物品" />
         <activity android:name=".ui.schedule.ScheduleDetailsActivity" />
         <activity android:name=".ui.library.LibraryActivity" />
+        <activity
+            android:name=".ui.lostfound.post.mypost.MyLostFoundActivity"
+            android:label="个人中心" />
     </application>
 
 </manifest>

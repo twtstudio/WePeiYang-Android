@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.twt.service.R;
 import com.twt.service.bean.Main;
 import com.twt.service.ui.common.LostType;
-import com.twt.service.ui.lostfound.post.lost.event.LostFoundActivity;
+import com.twt.service.ui.lostfound.LostFoundActivity;
 import com.twt.service.ui.lostfound.lost.details.LostDetailsActivity;
 
 import java.util.ArrayList;

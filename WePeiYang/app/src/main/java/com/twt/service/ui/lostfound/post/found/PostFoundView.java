@@ -11,4 +11,8 @@ public interface PostFoundView {
     void toastMessage(String msg);
 
     void finishActivity();
+
+    void startLoginActivity();
+
+    void setSubmitClickable(boolean clickable);
 }

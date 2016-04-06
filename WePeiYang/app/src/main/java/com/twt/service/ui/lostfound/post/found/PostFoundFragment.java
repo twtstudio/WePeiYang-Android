@@ -15,7 +15,10 @@ import android.widget.Toast;
 import com.twt.service.R;
 import com.twt.service.interactor.FoundInteractorImpl;
 import com.twt.service.support.ImageResizer;
+import com.twt.service.support.PrefUtils;
 import com.twt.service.ui.BaseFragment;
+import com.twt.service.ui.common.NextActivity;
+import com.twt.service.ui.login.LoginActivity;
 import com.twt.service.ui.lostfound.post.AddedPhotoEvent;
 import com.twt.service.ui.lostfound.post.PostFoundContactInfoEvent;
 import com.twt.service.ui.lostfound.post.found.event.AddPhotoEvent;
@@ -156,7 +159,7 @@ public class PostFoundFragment extends BaseFragment implements View.OnClickListe
     public void onEvent(PostFoundContactInfoEvent event) {
         name = event.getName();
         number = event.getNumber();
-        presenter.postFound(title, name, time, place, number, details, mUploadPhoto);
+        presenter.postFound(PrefUtils.getToken(),title, name, time, place, number, details, mUploadPhoto);
     }
 
     @Override
@@ -177,5 +180,15 @@ public class PostFoundFragment extends BaseFragment implements View.OnClickListe
     @Override
     public void finishActivity() {
         getActivity().finish();
+    }
+
+    @Override
+    public void startLoginActivity() {
+        LoginActivity.actionStart(getActivity(), NextActivity.PostLostFound);
+    }
+
+    @Override
+    public void setSubmitClickable(boolean clickable) {
+        btnPostFoundSubmit.setClickable(clickable);
     }
 }

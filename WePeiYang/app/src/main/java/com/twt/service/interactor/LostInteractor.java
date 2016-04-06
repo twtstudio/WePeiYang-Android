@@ -8,5 +8,8 @@ public interface LostInteractor {
 
     void getLostDetails(int id);
 
-    void postLost(String title, String name, String time, String place, String phone, String content, String lost_type, String otherTag);
+    void postLost(String authorization, String title, String name, String time, String place, String phone, String content, String lost_type, String otherTag);
+
+    void getMyLostList(String authorization, int page);
+
 }

@@ -334,4 +334,26 @@ public class ApiClient {
         params.put("sign", sign);
         mApi.uploadImage(typedFile, params, callback);
     }
+
+    public static void getMyLostList(String authorization, int page, Callback<Lost> callback) {
+        RequestParams params = new RequestParams();
+        params.put("page", page + "");
+        HashMap<String, String> temp = new HashMap<>();
+        temp.put("t", params.get("t"));
+        temp.put("page", page + "");
+        String sign = new Sign().generate(temp);
+        params.put("sign", sign);
+        mApi.getMyLostList(authorization, params, callback);
+    }
+
+    public static void getMyFoundList(String authorization, int page, Callback<Found> callback) {
+        RequestParams params = new RequestParams();
+        params.put("page", page + "");
+        HashMap<String, String> temp = new HashMap<>();
+        temp.put("t", params.get("t"));
+        temp.put("page", page + "");
+        String sign = new Sign().generate(temp);
+        params.put("sign", sign);
+        mApi.getMyFoundList(authorization, params, callback);
+    }
 }

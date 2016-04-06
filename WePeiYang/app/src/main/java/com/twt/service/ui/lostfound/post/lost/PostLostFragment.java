@@ -15,9 +15,15 @@ import android.widget.Toast;
 
 import com.twt.service.R;
 import com.twt.service.interactor.LostInteractorImpl;
+import com.twt.service.support.PrefUtils;
 import com.twt.service.ui.BaseFragment;
 import com.twt.service.ui.common.LostType;
+import com.twt.service.ui.common.NextActivity;
+import com.twt.service.ui.common.TokenRefreshFailureEvent;
+import com.twt.service.ui.common.TokenRefreshSuccessEvent;
+import com.twt.service.ui.login.LoginActivity;
 import com.twt.service.ui.lostfound.post.PostLostContactInfoEvent;
+import com.twt.service.ui.lostfound.post.PostLostFoundActivity;
 import com.twt.service.ui.lostfound.post.lost.event.FailureEvent;
 import com.twt.service.ui.lostfound.post.lost.event.GetPostLostContactInfoEvent;
 import com.twt.service.ui.lostfound.post.lost.event.SuccessEvent;
@@ -259,7 +265,7 @@ public class PostLostFragment extends BaseFragment implements View.OnClickListen
     public void onEvent(PostLostContactInfoEvent event) {
         name = event.getName();
         number = event.getNumber();
-        presenter.postLost(title, name, time, place, number, content, lost_type + "");
+        presenter.postLost(PrefUtils.getToken(), title, name, time, place, number, content, lost_type + "");
     }
 
     public void onEvent(SuccessEvent event) {
@@ -269,6 +275,16 @@ public class PostLostFragment extends BaseFragment implements View.OnClickListen
     public void onEvent(FailureEvent event) {
         RetrofitError error = event.getError();
         presenter.onFailure(error);
+    }
+
+    public void onEvent(TokenRefreshSuccessEvent event) {
+        PrefUtils.setToken(event.getRefreshedToken().data);
+        presenter.postLost(event.getRefreshedToken().data, title, name, time, place, number, content, lost_type + "");
+    }
+
+    public void onEvent(TokenRefreshFailureEvent event) {
+        toastMessage("请重新登录");
+        startLoginActivity();
     }
 
     private void clearTagState() {
@@ -302,5 +318,10 @@ public class PostLostFragment extends BaseFragment implements View.OnClickListen
     @Override
     public void finishActivity() {
         getActivity().finish();
+    }
+
+    @Override
+    public void startLoginActivity() {
+        LoginActivity.actionStart(getActivity(), NextActivity.PostLostFound);
     }
 }

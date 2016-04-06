@@ -8,7 +8,7 @@ import retrofit.RetrofitError;
  * Created by sunjuntao on 16/3/14.
  */
 public interface PostFoundPresenter {
-    void postFound(String title, String name, String time, String place, String phone, String content, File uploadImage);
+    void postFound(String authorization, String title, String name, String time, String place, String phone, String content, File uploadImage);
 
     void uploadImage(File uploadImage);
 

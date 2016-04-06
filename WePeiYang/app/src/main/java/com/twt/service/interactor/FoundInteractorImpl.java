@@ -5,13 +5,14 @@ import com.twt.service.api.ApiClient;
 import com.twt.service.bean.Found;
 import com.twt.service.bean.FoundDetails;
 import com.twt.service.bean.Upload;
-import com.twt.service.support.PrefUtils;
 import com.twt.service.ui.lostfound.found.details.FailureEvent;
 import com.twt.service.ui.lostfound.found.details.SuccessEvent;
 import com.twt.service.ui.lostfound.post.found.event.PostFoundFailureEvent;
 import com.twt.service.ui.lostfound.post.found.event.PostFoundSuccessEvent;
 import com.twt.service.ui.lostfound.post.found.event.UploadFailureEvent;
 import com.twt.service.ui.lostfound.post.found.event.UploadSuccessEvent;
+import com.twt.service.ui.lostfound.post.mypost.myfound.event.GetMyFoundFailureEvent;
+import com.twt.service.ui.lostfound.post.mypost.myfound.event.GetMyFoundSuccessEvent;
 
 import java.io.File;
 import java.util.List;
@@ -71,8 +72,8 @@ public class FoundInteractorImpl implements FoundInteractor {
     }
 
     @Override
-    public void postFound(String title, String name, String time, String place, String phone, String content, String found_pic) {
-        ApiClient.postFound(PrefUtils.getToken(), title, name, time, place, phone, content, found_pic, new Callback<JsonElement>() {
+    public void postFound(String authorization, String title, String name, String time, String place, String phone, String content, String found_pic) {
+        ApiClient.postFound(authorization, title, name, time, place, phone, content, found_pic, new Callback<JsonElement>() {
             @Override
             public void success(JsonElement jsonElement, Response response) {
                 EventBus.getDefault().post(new PostFoundSuccessEvent());
@@ -81,6 +82,21 @@ public class FoundInteractorImpl implements FoundInteractor {
             @Override
             public void failure(RetrofitError error) {
                 EventBus.getDefault().post(new PostFoundFailureEvent(error));
+            }
+        });
+    }
+
+    @Override
+    public void getMyFoundList(String authorization, int page) {
+        ApiClient.getMyFoundList(authorization, page, new Callback<Found>() {
+            @Override
+            public void success(Found found, Response response) {
+                EventBus.getDefault().post(new GetMyFoundSuccessEvent(found));
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                EventBus.getDefault().post(new GetMyFoundFailureEvent(error));
             }
         });
     }
