@@ -15,4 +15,6 @@ public interface MyFoundPresenter {
     void onSuccess(Found found);
 
     void onFailure(RetrofitError error);
+
+    void afterTokenRefreshed(String authorization);
 }

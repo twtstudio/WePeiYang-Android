@@ -15,4 +15,6 @@ public interface MyLostPresenter {
     void onSuccess(Lost lost);
 
     void onFailure(RetrofitError error);
+
+    void afterTokenRefreshed(String authorization);
 }

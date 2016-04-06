@@ -1,7 +1,10 @@
 package com.twt.service.ui.lostfound.post.mypost.mylost;
 
+import android.preference.PreferenceFragment;
+
 import com.twt.service.bean.Lost;
 import com.twt.service.interactor.LostInteractor;
+import com.twt.service.support.PrefUtils;
 
 import retrofit.RetrofitError;
 
@@ -12,6 +15,9 @@ public class MyLostPresenterImpl implements MyLostPresenter {
 
     private MyLostView view;
     private LostInteractor interactor;
+    private boolean isRefreshing = false;
+    private boolean isLoadingMore = false;
+    private int page;
 
     public MyLostPresenterImpl(MyLostView view, LostInteractor interactor) {
         this.view = view;
@@ -20,12 +26,24 @@ public class MyLostPresenterImpl implements MyLostPresenter {
 
     @Override
     public void refreshMyLostItems() {
-
+        if (isRefreshing) {
+            return;
+        } else {
+            isRefreshing = true;
+            page = 1;
+            interactor.getMyLostList(PrefUtils.getToken(), page);
+        }
     }
 
     @Override
     public void loadMoreMyLostItems() {
-
+        if (isLoadingMore) {
+            return;
+        } else {
+            isLoadingMore = true;
+            page += 1;
+            interactor.getMyLostList(PrefUtils.getToken(), page);
+        }
     }
 
     @Override
@@ -35,6 +53,11 @@ public class MyLostPresenterImpl implements MyLostPresenter {
 
     @Override
     public void onFailure(RetrofitError error) {
+
+    }
+
+    @Override
+    public void afterTokenRefreshed(String authorization) {
 
     }
 }
