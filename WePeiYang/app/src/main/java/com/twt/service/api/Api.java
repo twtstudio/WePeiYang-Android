@@ -23,6 +23,7 @@ import retrofit.http.GET;
 import retrofit.http.Header;
 import retrofit.http.Multipart;
 import retrofit.http.POST;
+import retrofit.http.PUT;
 import retrofit.http.Part;
 import retrofit.http.PartMap;
 import retrofit.http.Path;
@@ -101,10 +102,16 @@ public interface Api {
     void uploadImage(@Part("file") TypedFile file, @PartMap RequestParams params, Callback<List<Upload>> response);
 
     @GET("/lostfound/user/lost")
-    void getMyLostList(@Header(AUTHORIZATION)String authorization, @QueryMap RequestParams params, Callback<Lost> response);
+    void getMyLostList(@Header(AUTHORIZATION) String authorization, @QueryMap RequestParams params, Callback<Lost> response);
 
     @GET("/lostfound/user/found")
-    void getMyFoundList(@Header(AUTHORIZATION) String authorization, @QueryMap RequestParams params,Callback<Found> response);
+    void getMyFoundList(@Header(AUTHORIZATION) String authorization, @QueryMap RequestParams params, Callback<Found> response);
 
+    @FormUrlEncoded
+    @PUT("/lostfound/lost/{id}")
+    void editLost(@Header(AUTHORIZATION) String authorization, @Path("id") int id, @FieldMap RequestParams params, Callback<JsonElement> response);
 
+    @FormUrlEncoded
+    @PUT("/lostfound/found/{id}")
+    void editFound(@Header(AUTHORIZATION) String authorization, @Path("id") int id, @FieldMap RequestParams params, Callback<JsonElement> response);
 }

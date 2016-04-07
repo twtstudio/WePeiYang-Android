@@ -68,8 +68,8 @@ public class FoundDetailsActivity extends AppCompatActivity implements FoundDeta
 
     }
 
-    public void onEvent(SuccessEvent successEvent) {
-        presenter.onSuccess(successEvent.getDetails());
+    public void onEvent(FoundDetails foundDetails) {
+        presenter.onSuccess(foundDetails);
     }
 
     public void onEvent(FailureEvent failureEvent) {

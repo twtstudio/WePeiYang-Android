@@ -75,8 +75,8 @@ public class LostDetailsActivity extends AppCompatActivity implements LostDetail
         EventBus.getDefault().unregister(this);
     }
 
-    public void onEvent(SuccessEvent successEvent) {
-        presenter.onSuccess(successEvent.getLostDetails());
+    public void onEvent(LostDetails lostDetails) {
+        presenter.onSuccess(lostDetails);
     }
 
     public void onEvent(FailureEvent failureEvent) {

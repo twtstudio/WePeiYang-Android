@@ -32,7 +32,7 @@ public class PostFoundPresenterImpl implements PostFoundPresenter {
     }
 
     @Override
-    public void postFound(String authorization,String title, String name, String time, String place, String phone, String content, File uploadImage) {
+    public void postFound(String authorization, String title, String name, String time, String place, String phone, String content, File uploadImage) {
         this.title = title;
         this.name = name;
         this.time = time;
@@ -48,7 +48,6 @@ public class PostFoundPresenterImpl implements PostFoundPresenter {
     }
 
 
-
     @Override
     public void uploadImage(File uploadImage) {
         view.showProgress();
@@ -58,6 +57,11 @@ public class PostFoundPresenterImpl implements PostFoundPresenter {
     @Override
     public void postFinally(String found_pic) {
         interactor.postFound(PrefUtils.getToken(), title, name, time, place, phone, content, found_pic);
+    }
+
+    @Override
+    public void getFoundDetails(int id) {
+        interactor.getFoundDetails(id);
     }
 
     @Override

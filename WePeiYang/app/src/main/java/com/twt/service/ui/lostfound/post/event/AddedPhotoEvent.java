@@ -1,4 +1,4 @@
-package com.twt.service.ui.lostfound.post;
+package com.twt.service.ui.lostfound.post.event;
 
 /**
  * Created by sunjuntao on 16/3/14.

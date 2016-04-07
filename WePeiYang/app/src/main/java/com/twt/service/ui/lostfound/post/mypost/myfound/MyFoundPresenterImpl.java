@@ -51,13 +51,22 @@ public class MyFoundPresenterImpl implements MyFoundPresenter {
 
     @Override
     public void onSuccess(Found found) {
-
+        if (isLoadingMore) {
+            isLoadingMore = false;
+            view.loadMoreItems(found.data);
+        }
+        if (isRefreshing) {
+            isRefreshing = false;
+            view.refreshItems(found.data);
+            view.hideRefreshing();
+        }
     }
 
     @Override
     public void onFailure(RetrofitError error) {
         isRefreshing = false;
         isLoadingMore = false;
+        view.hideRefreshing();
         switch (error.getKind()) {
             case HTTP:
                 RestError restError = (RestError) error.getBodyAs(RestError.class);

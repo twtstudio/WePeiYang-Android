@@ -28,7 +28,7 @@ public class PostLostPresenterImpl implements PostLostPresenter {
     public void postLost(String authorization, String title, String name, String time, String place, String phone, String content, String lost_type) {
         view.showProgress();
         view.setSubmitClickable(false);
-        interactor.postLost(authorization,title, name, time, place, phone, content, lost_type, "");
+        interactor.postLost(authorization, title, name, time, place, phone, content, lost_type, "");
     }
 
     @Override
@@ -85,5 +85,10 @@ public class PostLostPresenterImpl implements PostLostPresenter {
             default:
                 throw new AssertionError("未知的错误类型：" + error.getKind());
         }
+    }
+
+    @Override
+    public void getLostDetails(int id) {
+        interactor.getLostDetails(id);
     }
 }

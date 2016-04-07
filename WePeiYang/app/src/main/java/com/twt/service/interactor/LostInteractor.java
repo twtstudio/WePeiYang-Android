@@ -12,4 +12,6 @@ public interface LostInteractor {
 
     void getMyLostList(String authorization, int page);
 
+    void editLost(String authorization, int id,String title, String name, String time, String place, String phone, String content, int lost_type, String other_tag);
+
 }

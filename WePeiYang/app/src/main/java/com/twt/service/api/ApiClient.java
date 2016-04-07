@@ -356,4 +356,51 @@ public class ApiClient {
         params.put("sign", sign);
         mApi.getMyFoundList(authorization, params, callback);
     }
+
+    public static void editLost(String authorization, int id, String title, String name, String time, String place, String phone, String content, int lost_type, String other_tag, Callback<JsonElement> callback) {
+        RequestParams params = new RequestParams();
+        params.put("title", title);
+        params.put("name", name);
+        params.put("time", time);
+        params.put("place", place);
+        params.put("phone", phone);
+        params.put("content", content);
+        params.put("lost_type", lost_type + "");
+        params.put("other_tag", other_tag);
+        HashMap<String, String> temp = new HashMap<>();
+        temp.put("t", params.get("t"));
+        temp.put("title", title);
+        temp.put("name", name);
+        temp.put("time", time);
+        temp.put("place", place);
+        temp.put("phone", phone);
+        temp.put("content", content);
+        temp.put("lost_type", lost_type + "");
+        temp.put("other_tag", other_tag);
+        String sign = new Sign().generate(temp);
+        params.put("sign", sign);
+        mApi.editLost(authorization, id, params, callback);
+    }
+
+    public static void editFound(String authorization, int id, String title, String name, String time, String phone, String place, String content, String found_pic, Callback<JsonElement> callback) {
+        RequestParams params = new RequestParams();
+        params.put("title", title);
+        params.put("name", name);
+        params.put("time", time);
+        params.put("phone", phone);
+        params.put("place", place);
+        params.put("content", content);
+        params.put("found_pic", found_pic);
+        HashMap<String, String> temp = new HashMap<>();
+        temp.put("title", title);
+        temp.put("name", name);
+        temp.put("time", time);
+        temp.put("phone", phone);
+        temp.put("place", place);
+        temp.put("content", content);
+        temp.put("found_pic", found_pic);
+        String sign = new Sign().generate(temp);
+        params.put("sign", sign);
+        mApi.editFound(authorization, id, params, callback);
+    }
 }

@@ -1,13 +1,13 @@
-package com.twt.service.ui.lostfound.post;
+package com.twt.service.ui.lostfound.post.event;
 
 /**
  * Created by sunjuntao on 16/3/12.
  */
-public class PostLostContactInfoEvent {
+public class PostFoundContactInfoEvent {
     private String name;
     private String number;
 
-    public PostLostContactInfoEvent(String name, String number) {
+    public PostFoundContactInfoEvent(String name, String number) {
         this.name = name;
         this.number = number;
     }

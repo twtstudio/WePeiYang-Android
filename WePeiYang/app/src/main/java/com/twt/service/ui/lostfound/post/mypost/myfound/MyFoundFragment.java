@@ -23,11 +23,14 @@ import com.twt.service.ui.common.TokenRefreshFailureEvent;
 import com.twt.service.ui.common.TokenRefreshSuccessEvent;
 import com.twt.service.ui.login.LoginActivity;
 import com.twt.service.ui.lostfound.found.FoundAdapter;
+import com.twt.service.ui.lostfound.post.mypost.myfound.event.GetMyFoundFailureEvent;
+import com.twt.service.ui.lostfound.post.mypost.myfound.event.GetMyFoundSuccessEvent;
 
 import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by sunjuntao on 16/4/5.
@@ -46,6 +49,7 @@ public class MyFoundFragment extends Fragment implements MyFoundView {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_found, container, false);
         ButterKnife.inject(this, view);
+        EventBus.getDefault().register(this);
         adapter = new FoundAdapter(getActivity());
         presenter = new MyFoundPresenterImpl(this, new FoundInteractorImpl());
         presenter.refreshMyFoundItems();
@@ -59,7 +63,7 @@ public class MyFoundFragment extends Fragment implements MyFoundView {
         layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         rvFound.setLayoutManager(layoutManager);
         rvFound.setAdapter(adapter);
-        rvFound.addOnScrollListener(new OnRcvScrollListener(){
+        rvFound.addOnScrollListener(new OnRcvScrollListener() {
             @Override
             public void onBottom() {
                 super.onBottom();
@@ -75,6 +79,12 @@ public class MyFoundFragment extends Fragment implements MyFoundView {
         ButterKnife.reset(this);
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
     public void onEvent(TokenRefreshSuccessEvent event) {
         String authorization = event.getRefreshedToken().data;
         PrefUtils.setToken(authorization);
@@ -82,6 +92,14 @@ public class MyFoundFragment extends Fragment implements MyFoundView {
     }
 
     public void onEvent(TokenRefreshFailureEvent event) {
+        presenter.onFailure(event.getError());
+    }
+
+    public void onEvent(GetMyFoundSuccessEvent event) {
+        presenter.onSuccess(event.getFound());
+    }
+
+    public void onEvent(GetMyFoundFailureEvent event) {
         presenter.onFailure(event.getError());
     }
 

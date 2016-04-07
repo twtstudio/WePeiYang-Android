@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.twt.service.R;
+import com.twt.service.bean.LostDetails;
 import com.twt.service.interactor.LostInteractorImpl;
 import com.twt.service.support.PrefUtils;
 import com.twt.service.ui.BaseFragment;
@@ -22,8 +23,8 @@ import com.twt.service.ui.common.NextActivity;
 import com.twt.service.ui.common.TokenRefreshFailureEvent;
 import com.twt.service.ui.common.TokenRefreshSuccessEvent;
 import com.twt.service.ui.login.LoginActivity;
-import com.twt.service.ui.lostfound.post.PostLostContactInfoEvent;
-import com.twt.service.ui.lostfound.post.PostLostFoundActivity;
+import com.twt.service.ui.lostfound.post.SetContactInfoEvent;
+import com.twt.service.ui.lostfound.post.event.PostLostContactInfoEvent;
 import com.twt.service.ui.lostfound.post.lost.event.FailureEvent;
 import com.twt.service.ui.lostfound.post.lost.event.GetPostLostContactInfoEvent;
 import com.twt.service.ui.lostfound.post.lost.event.SuccessEvent;
@@ -277,6 +278,10 @@ public class PostLostFragment extends BaseFragment implements View.OnClickListen
         presenter.onFailure(error);
     }
 
+    public void onEvent(LostDetails lostDetails) {
+        bindData(lostDetails);
+    }
+
     public void onEvent(TokenRefreshSuccessEvent event) {
         PrefUtils.setToken(event.getRefreshedToken().data);
         presenter.postLost(event.getRefreshedToken().data, title, name, time, place, number, content, lost_type + "");
@@ -323,5 +328,82 @@ public class PostLostFragment extends BaseFragment implements View.OnClickListen
     @Override
     public void startLoginActivity() {
         LoginActivity.actionStart(getActivity(), NextActivity.PostLostFound);
+    }
+
+    @Override
+    public void bindData(LostDetails lostDetails) {
+        lost_type = lostDetails.data.lost_type;
+        switch (lost_type) {
+            case LostType.OTHERS:
+                clearTagState();
+                chooseOthers.setVisibility(View.VISIBLE);
+                ivTagChosed = chooseOthers;
+                break;
+            case LostType.BANK_CARD:
+                clearTagState();
+                chooseBankCard.setVisibility(View.VISIBLE);
+                ivTagChosed = chooseBankCard;
+                break;
+            case LostType.ID_CARD:
+                clearTagState();
+                chooseIdCard.setVisibility(View.VISIBLE);
+                ivTagChosed = chooseIdCard;
+                break;
+            case LostType.KEY:
+                clearTagState();
+                chooseKey.setVisibility(View.VISIBLE);
+                ivTagChosed = chooseKey;
+                break;
+            case LostType.BACKPACK:
+                clearTagState();
+                chooseBackpack.setVisibility(View.VISIBLE);
+                ivTagChosed = chooseBackpack;
+                break;
+            case LostType.COMPUTER_PAG:
+                clearTagState();
+                chooseComputerPag.setVisibility(View.VISIBLE);
+                ivTagChosed = chooseComputerPag;
+                break;
+            case LostType.WATCH:
+                clearTagState();
+                chooseWatch.setVisibility(View.VISIBLE);
+                ivTagChosed = chooseWatch;
+                break;
+            case LostType.UDISK:
+                clearTagState();
+                chooseUdisk.setVisibility(View.VISIBLE);
+                ivTagChosed = chooseUdisk;
+                break;
+            case LostType.CUP:
+                clearTagState();
+                chooseCup.setVisibility(View.VISIBLE);
+                ivTagChosed = chooseCup;
+                break;
+            case LostType.BOOK:
+                clearTagState();
+                chooseBooks.setVisibility(View.VISIBLE);
+                ivTagChosed = chooseBooks;
+                break;
+            case LostType.MOBILE_PHONE:
+                clearTagState();
+                chooseMobilePhone.setVisibility(View.VISIBLE);
+                ivTagChosed = chooseMobilePhone;
+                break;
+            case LostType.WALLET:
+                clearTagState();
+                chooseWallet.setVisibility(View.VISIBLE);
+                ivTagChosed = chooseWallet;
+                break;
+        }
+        name = lostDetails.data.name;
+        title = lostDetails.data.title;
+        place = lostDetails.data.place;
+        time = lostDetails.data.time;
+        number = lostDetails.data.phone;
+        content = lostDetails.data.content;
+        etPostLostTitle.setText(title);
+        etLostPosition.setText(place);
+        etLostTime.setText(time);
+        EventBus.getDefault().post(new SetContactInfoEvent(name, number));
     }
 }

@@ -11,4 +11,6 @@ public interface PostLostPresenter {
     void onSuccess();
 
     void onFailure(RetrofitError error);
+
+    void getLostDetails(int id);
 }

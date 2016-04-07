@@ -14,6 +14,8 @@ public interface PostFoundPresenter {
 
     void postFinally(String found_pic);
 
+    void getFoundDetails(int id);
+
     void onSuccess();
 
     void onFailure(RetrofitError error);

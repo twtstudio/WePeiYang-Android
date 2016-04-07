@@ -21,6 +21,11 @@ import com.twt.service.bean.LostDetails;
 import com.twt.service.support.PrefUtils;
 import com.twt.service.ui.BaseActivity;
 import com.twt.service.ui.common.TabFragmentAdapter;
+import com.twt.service.ui.lostfound.post.event.AddedPhotoEvent;
+import com.twt.service.ui.lostfound.post.event.FoundId;
+import com.twt.service.ui.lostfound.post.event.LostId;
+import com.twt.service.ui.lostfound.post.event.PostFoundContactInfoEvent;
+import com.twt.service.ui.lostfound.post.event.PostLostContactInfoEvent;
 import com.twt.service.ui.lostfound.post.found.event.AddPhotoEvent;
 import com.twt.service.ui.lostfound.post.found.event.GetPostFoundContactInfoEvent;
 import com.twt.service.ui.lostfound.post.found.PostFoundFragment;
@@ -49,22 +54,20 @@ public class PostLostFoundActivity extends BaseActivity implements PostLostFound
     private LostDetails lostDetails;
     private FoundDetails foundDetails;
     private static final int ADD_PHOTO = 1234;
-
+    private ObjectType mObjectType;
+    private static final String ID = "id";
+    private static final String OBJECT_TYPE = "objectType";
+    private int mId;
 
     public static void actionStart(Context context) {
         Intent intent = new Intent(context, PostLostFoundActivity.class);
         context.startActivity(intent);
     }
 
-    public static void actionStart(Context context, LostDetails lostDetails) {
+    public static void actionStart(Context context, int id, ObjectType objectType) {
         Intent intent = new Intent(context, PostLostFoundActivity.class);
-        intent.putExtra("lostDetails", lostDetails);
-        context.startActivity(intent);
-    }
-
-    public static void actionStart(Context context, FoundDetails foundDetails) {
-        Intent intent = new Intent(context, PostLostFoundActivity.class);
-        intent.putExtra("foundDetails", foundDetails);
+        intent.putExtra(ID, id);
+        intent.putExtra(OBJECT_TYPE, objectType);
         context.startActivity(intent);
     }
 
@@ -81,6 +84,8 @@ public class PostLostFoundActivity extends BaseActivity implements PostLostFound
         etLostFoundNumber.setText(PrefUtils.getLostFoundContactNumber());
         lostDetails = (LostDetails) getIntent().getSerializableExtra("lostDetails");
         foundDetails = (FoundDetails) getIntent().getSerializableExtra("foundDetails");
+        mId = getIntent().getIntExtra(ID, -1);
+        mObjectType = (ObjectType) getIntent().getSerializableExtra(OBJECT_TYPE);
         initTabs();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(getResources().getColor(R.color.lost_found_primary_color));
@@ -118,6 +123,11 @@ public class PostLostFoundActivity extends BaseActivity implements PostLostFound
     public void onEvent(AddPhotoEvent event) {
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
         startActivityForResult(intent, ADD_PHOTO);
+    }
+
+    public void onEvent(SetContactInfoEvent event) {
+        etLostFoundName.setText(event.getName());
+        etLostFoundNumber.setText(event.getPhone());
     }
 
     @Override
@@ -180,6 +190,16 @@ public class PostLostFoundActivity extends BaseActivity implements PostLostFound
         vpPostLostFound.setAdapter(adapter);
         tblPostLostFound.setupWithViewPager(vpPostLostFound);
         tblPostLostFound.setTabsFromPagerAdapter(adapter);
+        if (mId > 0) {
+            switch (mObjectType) {
+                case LOST:
+                    EventBus.getDefault().post(new LostId(mId));
+                    break;
+                case FOUND:
+                    EventBus.getDefault().post(new FoundId(mId));
+                    break;
+            }
+        }
         if (lostDetails != null) {
             Bundle bundle = new Bundle();
             bundle.putSerializable("lostDetails", lostDetails);

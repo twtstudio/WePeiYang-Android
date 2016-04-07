@@ -41,7 +41,7 @@ public class LostInteractorImpl implements LostInteractor {
         ApiClient.getLostDetails(id, new Callback<LostDetails>() {
             @Override
             public void success(LostDetails lostDetails, Response response) {
-                EventBus.getDefault().post(new SuccessEvent(lostDetails));
+                EventBus.getDefault().post(lostDetails);
             }
 
             @Override
@@ -77,6 +77,21 @@ public class LostInteractorImpl implements LostInteractor {
             @Override
             public void failure(RetrofitError error) {
                 EventBus.getDefault().post(new GetMyLostFailureEvent(error));
+            }
+        });
+    }
+
+    @Override
+    public void editLost(String authorization, int id,String title, String name, String time, String place, String phone, String content, int lost_type, String other_tag) {
+        ApiClient.editLost(authorization, id, title, name, time, place, phone, content, lost_type, other_tag, new Callback<JsonElement>() {
+            @Override
+            public void success(JsonElement jsonElement, Response response) {
+
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+
             }
         });
     }

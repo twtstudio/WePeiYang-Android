@@ -12,15 +12,19 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
 import com.twt.service.R;
+import com.twt.service.bean.FoundDetails;
 import com.twt.service.interactor.FoundInteractorImpl;
 import com.twt.service.support.ImageResizer;
 import com.twt.service.support.PrefUtils;
 import com.twt.service.ui.BaseFragment;
 import com.twt.service.ui.common.NextActivity;
 import com.twt.service.ui.login.LoginActivity;
-import com.twt.service.ui.lostfound.post.AddedPhotoEvent;
-import com.twt.service.ui.lostfound.post.PostFoundContactInfoEvent;
+import com.twt.service.ui.lostfound.post.SetContactInfoEvent;
+import com.twt.service.ui.lostfound.post.event.AddedPhotoEvent;
+import com.twt.service.ui.lostfound.post.event.FoundId;
+import com.twt.service.ui.lostfound.post.event.PostFoundContactInfoEvent;
 import com.twt.service.ui.lostfound.post.found.event.AddPhotoEvent;
 import com.twt.service.ui.lostfound.post.found.event.GetPostFoundContactInfoEvent;
 import com.twt.service.ui.lostfound.post.found.event.PostFoundFailureEvent;
@@ -159,7 +163,16 @@ public class PostFoundFragment extends BaseFragment implements View.OnClickListe
     public void onEvent(PostFoundContactInfoEvent event) {
         name = event.getName();
         number = event.getNumber();
-        presenter.postFound(PrefUtils.getToken(),title, name, time, place, number, details, mUploadPhoto);
+        presenter.postFound(PrefUtils.getToken(), title, name, time, place, number, details, mUploadPhoto);
+    }
+
+    public void onEvent(FoundId foundId) {
+        int id = foundId.getId();
+        presenter.getFoundDetails(id);
+    }
+
+    public void onEvent(FoundDetails foundDetails) {
+        bindData(foundDetails);
     }
 
     @Override
@@ -175,6 +188,23 @@ public class PostFoundFragment extends BaseFragment implements View.OnClickListe
     @Override
     public void toastMessage(String msg) {
         Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void bindData(FoundDetails foundDetails) {
+        Picasso.with(getActivity()).load(foundDetails.data.found_pic).into(ivPhotoAdded);
+        ivDeleteAddedPhoto.setVisibility(View.VISIBLE);
+        name = foundDetails.data.name;
+        number = foundDetails.data.phone;
+        title = foundDetails.data.title;
+        time = foundDetails.data.time;
+        place = foundDetails.data.place;
+        details = foundDetails.data.content;
+        etPostFoundTitle.setText(title);
+        etPostFoundTime.setText(time);
+        etPostFoundPlace.setText(place);
+        etPostFoundDetails.setError(details);
+        EventBus.getDefault().post(new SetContactInfoEvent(name, number));
     }
 
     @Override

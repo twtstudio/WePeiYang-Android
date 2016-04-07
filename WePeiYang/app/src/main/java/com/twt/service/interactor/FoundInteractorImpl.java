@@ -46,7 +46,7 @@ public class FoundInteractorImpl implements FoundInteractor {
         ApiClient.getFoundDetails(id, new Callback<FoundDetails>() {
             @Override
             public void success(FoundDetails details, Response response) {
-                EventBus.getDefault().post(new SuccessEvent(details));
+                EventBus.getDefault().post(details);
             }
 
             @Override
