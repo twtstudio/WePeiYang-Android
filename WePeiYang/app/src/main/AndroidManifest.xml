@@ -46,7 +46,7 @@
             android:label="@string/title_activity_login" />
         <activity
             android:name=".ui.lostfound.post.PostLostFoundActivity"
-            android:label="@string/title_activity_post_lost_found" />
+            android:label="发布信息" />
         <activity
             android:name=".ui.news.NewsActivity"
             android:label="@string/title_activity_news" />

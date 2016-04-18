@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +29,8 @@ import com.twt.service.ui.login.LoginActivity;
 import com.twt.service.ui.lostfound.post.SetContactInfoEvent;
 import com.twt.service.ui.lostfound.post.event.LostId;
 import com.twt.service.ui.lostfound.post.event.PostLostContactInfoEvent;
+import com.twt.service.ui.lostfound.post.lost.event.EditLostFailureEvent;
+import com.twt.service.ui.lostfound.post.lost.event.EditLostSuccessEvent;
 import com.twt.service.ui.lostfound.post.lost.event.FailureEvent;
 import com.twt.service.ui.lostfound.post.lost.event.GetPostLostContactInfoEvent;
 import com.twt.service.ui.lostfound.post.lost.event.SuccessEvent;
@@ -266,7 +269,7 @@ public class PostLostFragment extends BaseFragment implements View.OnClickListen
             case R.id.btn_lost_time:
                 Calendar now = Calendar.getInstance();
                 DatePickerDialog dpd = DatePickerDialog.newInstance(this, now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DATE));
-                dpd.show(getActivity().getFragmentManager(),"选择日期");
+                dpd.show(getActivity().getFragmentManager(), "选择日期");
                 break;
             case R.id.btn_post_lost_submit:
                 title = etPostLostTitle.getText().toString();
@@ -284,7 +287,8 @@ public class PostLostFragment extends BaseFragment implements View.OnClickListen
                     EventBus.getDefault().post(new GetPostLostContactInfoEvent());
                 }
                 break;
-            case R.id.btn_post_found_change:
+            case R.id.btn_post_lost_change:
+                Log.e("clicked", "点击修改");
                 if (isEditObject) {
                     title = etPostLostTitle.getText().toString();
                     place = etLostPosition.getText().toString();
@@ -343,6 +347,14 @@ public class PostLostFragment extends BaseFragment implements View.OnClickListen
     public void onEvent(TokenRefreshFailureEvent event) {
         toastMessage("请重新登录");
         startLoginActivity();
+    }
+
+    public void onEvent(EditLostSuccessEvent event) {
+        presenter.onSuccess();
+    }
+
+    public void onEvent(EditLostFailureEvent event) {
+        presenter.onFailure(event.getError());
     }
 
     private void clearTagState() {

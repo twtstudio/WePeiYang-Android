@@ -8,6 +8,8 @@ import com.twt.service.bean.LostDetails;
 import com.twt.service.support.PrefUtils;
 import com.twt.service.ui.lostfound.lost.details.FailureEvent;
 import com.twt.service.ui.lostfound.lost.details.SuccessEvent;
+import com.twt.service.ui.lostfound.post.lost.event.EditLostFailureEvent;
+import com.twt.service.ui.lostfound.post.lost.event.EditLostSuccessEvent;
 import com.twt.service.ui.lostfound.post.mypost.mylost.event.GetMyLostFailureEvent;
 import com.twt.service.ui.lostfound.post.mypost.mylost.event.GetMyLostSuccessEvent;
 
@@ -82,16 +84,16 @@ public class LostInteractorImpl implements LostInteractor {
     }
 
     @Override
-    public void editLost(String authorization, int id,String title, String name, String time, String place, String phone, String content, int lost_type, String other_tag) {
+    public void editLost(String authorization, int id, String title, String name, String time, String place, String phone, String content, int lost_type, String other_tag) {
         ApiClient.editLost(authorization, id, title, name, time, place, phone, content, lost_type, other_tag, new Callback<JsonElement>() {
             @Override
             public void success(JsonElement jsonElement, Response response) {
-
+                EventBus.getDefault().post(new EditLostSuccessEvent());
             }
 
             @Override
             public void failure(RetrofitError error) {
-
+                EventBus.getDefault().post(new EditLostFailureEvent(error));
             }
         });
     }

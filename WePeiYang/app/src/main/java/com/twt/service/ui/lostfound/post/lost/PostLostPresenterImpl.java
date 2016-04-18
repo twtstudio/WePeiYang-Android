@@ -42,6 +42,7 @@ public class PostLostPresenterImpl implements PostLostPresenter {
     public void onFailure(RetrofitError error) {
         view.hideProgress();
         view.setSubmitClickable(true);
+        view.setChangeClickable(true);
         switch (error.getKind()) {
             case HTTP:
                 RestError restError = (RestError) error.getBodyAs(RestError.class);
@@ -93,10 +94,10 @@ public class PostLostPresenterImpl implements PostLostPresenter {
     }
 
     @Override
-    public void editLost(String authorization, int id,String title, String name, String time, String place, String phone, String content, int lost_type) {
+    public void editLost(String authorization, int id, String title, String name, String time, String place, String phone, String content, int lost_type) {
         view.setSubmitClickable(false);
         view.setChangeClickable(false);
         view.showProgress();
-        interactor.editLost(authorization,id,title,name,time,place,phone,content,lost_type,"");
+        interactor.editLost(authorization, id, title, name, time, place, phone, content, lost_type, "");
     }
 }
