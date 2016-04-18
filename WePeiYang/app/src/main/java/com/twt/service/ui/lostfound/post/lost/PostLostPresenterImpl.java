@@ -91,4 +91,12 @@ public class PostLostPresenterImpl implements PostLostPresenter {
     public void getLostDetails(int id) {
         interactor.getLostDetails(id);
     }
+
+    @Override
+    public void editLost(String authorization, int id,String title, String name, String time, String place, String phone, String content, int lost_type) {
+        view.setSubmitClickable(false);
+        view.setChangeClickable(false);
+        view.showProgress();
+        interactor.editLost(authorization,id,title,name,time,place,phone,content,lost_type,"");
+    }
 }

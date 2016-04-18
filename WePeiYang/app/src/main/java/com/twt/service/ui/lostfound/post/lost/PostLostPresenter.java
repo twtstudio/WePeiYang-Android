@@ -13,4 +13,6 @@ public interface PostLostPresenter {
     void onFailure(RetrofitError error);
 
     void getLostDetails(int id);
+
+    void editLost(String authorization,int id,String title,String name,String time,String place,String phone,String content,int lost_type);
 }

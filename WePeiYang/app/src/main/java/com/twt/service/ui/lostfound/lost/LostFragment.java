@@ -52,7 +52,7 @@ public class LostFragment extends BaseFragment implements LostView, SwipeRefresh
         srlLost.setColorSchemeColors(getResources().getColor(R.color.lost_found_dark_primary_color));
         srlLost.setOnRefreshListener(this);
         presenter = new LostPresenterImpl(this, new LostInteractorImpl());
-        adapter = new LostAdapter(getActivity());
+        adapter = new LostAdapter(getActivity(), LostAdapter.TYPE_ALL_LOST);
         layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         rvLost.setLayoutManager(layoutManager);
         rvLost.setAdapter(adapter);

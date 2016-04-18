@@ -14,6 +14,8 @@ public interface PostLostView {
 
     void setSubmitClickable(boolean clickable);
 
+    void setChangeClickable(boolean clickable);
+
     void finishActivity();
 
     void startLoginActivity();

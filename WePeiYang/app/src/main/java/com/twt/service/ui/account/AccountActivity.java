@@ -64,6 +64,7 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
         EventBus.getDefault().unregister(this);
     }
 
+    
     public void onEvent(SuccessEvent successEvent) {
         presenter.onSuccess();
     }

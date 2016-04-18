@@ -19,6 +19,7 @@ import com.twt.service.ui.BaseActivity;
 import com.twt.service.ui.common.NextActivity;
 import com.twt.service.ui.gpa.GpaActivity;
 import com.twt.service.ui.lostfound.post.PostLostFoundActivity;
+import com.twt.service.ui.lostfound.post.mypost.MyLostFoundActivity;
 import com.twt.service.ui.main.MainActivity;
 import com.twt.service.ui.schedule.ScheduleActivity;
 
@@ -112,6 +113,13 @@ public class LoginActivity extends BaseActivity implements LoginView {
     @Override
     public void startPostLostFoundActivity() {
         PostLostFoundActivity.actionStart(this);
+        finish();
+    }
+
+    @Override
+    public void startMyLostFoundActivity() {
+        MyLostFoundActivity.actionStart(this);
+        finish();
     }
 
     @Override

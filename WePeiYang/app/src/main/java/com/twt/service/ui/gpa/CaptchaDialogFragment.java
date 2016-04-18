@@ -38,7 +38,9 @@ public class CaptchaDialogFragment extends DialogFragment implements View.OnClic
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         //getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-        return super.onCreateDialog(savedInstanceState);
+        final Dialog dialog = super.onCreateDialog(savedInstanceState);
+        dialog.setCanceledOnTouchOutside(false);
+        return dialog;
     }
 
     @Nullable

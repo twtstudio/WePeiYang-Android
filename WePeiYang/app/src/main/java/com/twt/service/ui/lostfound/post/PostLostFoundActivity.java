@@ -193,14 +193,20 @@ public class PostLostFoundActivity extends BaseActivity implements PostLostFound
         if (mId > 0) {
             switch (mObjectType) {
                 case LOST:
-                    EventBus.getDefault().post(new LostId(mId));
+                    Bundle lostBundle = new Bundle();
+                    lostBundle.putInt("id", mId);
+                    postLostFragment.setArguments(lostBundle);
+                    vpPostLostFound.setCurrentItem(0);
                     break;
                 case FOUND:
-                    EventBus.getDefault().post(new FoundId(mId));
+                    Bundle foundBundle = new Bundle();
+                    foundBundle.putInt("id", mId);
+                    postFoundFragment.setArguments(foundBundle);
+                    vpPostLostFound.setCurrentItem(1);
                     break;
             }
         }
-        if (lostDetails != null) {
+        /*if (lostDetails != null) {
             Bundle bundle = new Bundle();
             bundle.putSerializable("lostDetails", lostDetails);
             postLostFragment.setArguments(bundle);
@@ -209,6 +215,6 @@ public class PostLostFoundActivity extends BaseActivity implements PostLostFound
             bundle.putSerializable("foundDetails", foundDetails);
             postFoundFragment.setArguments(bundle);
             vpPostLostFound.setCurrentItem(1);
-        }
+        }*/
     }
 }

@@ -19,4 +19,8 @@ public interface PostFoundPresenter {
     void onSuccess();
 
     void onFailure(RetrofitError error);
+
+    void editFound(String authorization, String title, String name, String time, String place, String phone, String content, File uploadImage);
+
+    void editFinally(String found_pic);
 }

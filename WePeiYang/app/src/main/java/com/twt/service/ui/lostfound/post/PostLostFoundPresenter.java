@@ -7,4 +7,5 @@ public interface PostLostFoundPresenter {
     void getLostDetails(int id);
 
     void getFoundDetails(int id);
+
 }

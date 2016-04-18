@@ -1,8 +1,10 @@
 package com.twt.service.ui.lostfound.post.found;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,8 +33,10 @@ import com.twt.service.ui.lostfound.post.found.event.PostFoundFailureEvent;
 import com.twt.service.ui.lostfound.post.found.event.PostFoundSuccessEvent;
 import com.twt.service.ui.lostfound.post.found.event.UploadFailureEvent;
 import com.twt.service.ui.lostfound.post.found.event.UploadSuccessEvent;
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import java.io.File;
+import java.util.Calendar;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -41,7 +45,7 @@ import de.greenrobot.event.EventBus;
 /**
  * Created by Rex on 2015/8/7.
  */
-public class PostFoundFragment extends BaseFragment implements View.OnClickListener, PostFoundView {
+public class PostFoundFragment extends BaseFragment implements View.OnClickListener, PostFoundView, DatePickerDialog.OnDateSetListener {
     @InjectView(R.id.iv_add_photo)
     ImageView ivAddPhoto;
     @InjectView(R.id.iv_photo_added)
@@ -52,8 +56,8 @@ public class PostFoundFragment extends BaseFragment implements View.OnClickListe
     Button btnPostFoundChange;
     @InjectView(R.id.iv_delete_added_photo)
     ImageView ivDeleteAddedPhoto;
-    @InjectView(R.id.et_post_found_time)
-    EditText etPostFoundTime;
+    @InjectView(R.id.btn_post_found_time)
+    Button btnPostFoundTime;
     @InjectView(R.id.et_post_found_place)
     EditText etPostFoundPlace;
     @InjectView(R.id.et_post_found_details)
@@ -70,24 +74,32 @@ public class PostFoundFragment extends BaseFragment implements View.OnClickListe
     private String time;
     private String place;
     private String details;
+    private int id;
     private static final String EDITTEXT_EMPTY_ERROR = "不能为空";
+    private static final String PLEASE_CHOOSE_DATE = "请选择时间";
+    private boolean isAnEditObject = false;
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        EventBus.getDefault().register(this);
-    }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_post_found, container, false);
         ButterKnife.inject(this, view);
+        EventBus.getDefault().register(this);
         ivAddPhoto.setOnClickListener(this);
         btnPostFoundSubmit.setOnClickListener(this);
         btnPostFoundChange.setOnClickListener(this);
         ivDeleteAddedPhoto.setOnClickListener(this);
+        btnPostFoundTime.setOnClickListener(this);
         presenter = new PostFoundPresenterImpl(this, new FoundInteractorImpl());
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            id = getArguments().getInt("id");
+            if (id > 0) {
+                presenter.getFoundDetails(id);
+                isAnEditObject = true;
+            }
+        }
         return view;
     }
 
@@ -134,42 +146,56 @@ public class PostFoundFragment extends BaseFragment implements View.OnClickListe
                 EventBus.getDefault().post(new AddPhotoEvent());
                 break;
             case R.id.btn_post_found_submit:
-                title = etPostFoundTitle.getText().toString();
-                time = etPostFoundTime.getText().toString();
-                place = etPostFoundPlace.getText().toString();
-                details = etPostFoundDetails.getText().toString();
-                if (title.isEmpty()) {
-                    etPostFoundTitle.setError(EDITTEXT_EMPTY_ERROR);
-                } else if (time.isEmpty()) {
-                    etPostFoundTime.setError(EDITTEXT_EMPTY_ERROR);
-                } else if (place.isEmpty()) {
-                    etPostFoundPlace.setError(EDITTEXT_EMPTY_ERROR);
-                } else if (details.isEmpty()) {
-                    etPostFoundDetails.setError(EDITTEXT_EMPTY_ERROR);
-                } else {
-                    EventBus.getDefault().post(new GetPostFoundContactInfoEvent());
-                }
+                getPostFoundInfo();
                 break;
             case R.id.btn_post_found_change:
+                if (isAnEditObject) {
+                    getPostFoundInfo();
+                } else {
+                    toastMessage("该物品尚未发布，不能修改，请点击发布");
+                }
+
                 break;
             case R.id.iv_delete_added_photo:
                 mUploadPhoto = null;
                 ivPhotoAdded.setImageResource(android.R.color.transparent);
                 ivDeleteAddedPhoto.setVisibility(View.GONE);
                 break;
+            case R.id.btn_post_found_time:
+                Calendar now = Calendar.getInstance();
+                DatePickerDialog dpd = DatePickerDialog.newInstance(this, now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DATE));
+                dpd.show(getActivity().getFragmentManager(), "选择日期");
+                break;
+        }
+    }
+
+    private void getPostFoundInfo() {
+        title = etPostFoundTitle.getText().toString();
+        place = etPostFoundPlace.getText().toString();
+        details = etPostFoundDetails.getText().toString();
+        if (title.isEmpty()) {
+            etPostFoundTitle.setError(EDITTEXT_EMPTY_ERROR);
+        } else if (time.isEmpty()) {
+            toastMessage(PLEASE_CHOOSE_DATE);
+        } else if (place.isEmpty()) {
+            etPostFoundPlace.setError(EDITTEXT_EMPTY_ERROR);
+        } else if (details.isEmpty()) {
+            etPostFoundDetails.setError(EDITTEXT_EMPTY_ERROR);
+        } else {
+            EventBus.getDefault().post(new GetPostFoundContactInfoEvent());
         }
     }
 
     public void onEvent(PostFoundContactInfoEvent event) {
         name = event.getName();
         number = event.getNumber();
-        presenter.postFound(PrefUtils.getToken(), title, name, time, place, number, details, mUploadPhoto);
+        if (!isAnEditObject) {
+            presenter.postFound(PrefUtils.getToken(), title, name, time, place, number, details, mUploadPhoto);
+        } else {
+            presenter.editFound(PrefUtils.getToken(), title, name, time, place, number, details, mUploadPhoto);
+        }
     }
 
-    public void onEvent(FoundId foundId) {
-        int id = foundId.getId();
-        presenter.getFoundDetails(id);
-    }
 
     public void onEvent(FoundDetails foundDetails) {
         bindData(foundDetails);
@@ -201,9 +227,9 @@ public class PostFoundFragment extends BaseFragment implements View.OnClickListe
         place = foundDetails.data.place;
         details = foundDetails.data.content;
         etPostFoundTitle.setText(title);
-        etPostFoundTime.setText(time);
+        btnPostFoundTime.setText(time);
         etPostFoundPlace.setText(place);
-        etPostFoundDetails.setError(details);
+        etPostFoundDetails.setText(details);
         EventBus.getDefault().post(new SetContactInfoEvent(name, number));
     }
 
@@ -220,5 +246,11 @@ public class PostFoundFragment extends BaseFragment implements View.OnClickListe
     @Override
     public void setSubmitClickable(boolean clickable) {
         btnPostFoundSubmit.setClickable(clickable);
+    }
+
+    @Override
+    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+        time = year + "/" + monthOfYear + "/" + dayOfMonth;
+        btnPostFoundTime.setText(time);
     }
 }

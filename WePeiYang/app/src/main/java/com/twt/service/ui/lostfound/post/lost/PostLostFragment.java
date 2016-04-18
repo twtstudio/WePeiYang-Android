@@ -1,5 +1,7 @@
 package com.twt.service.ui.lostfound.post.lost;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -24,10 +26,14 @@ import com.twt.service.ui.common.TokenRefreshFailureEvent;
 import com.twt.service.ui.common.TokenRefreshSuccessEvent;
 import com.twt.service.ui.login.LoginActivity;
 import com.twt.service.ui.lostfound.post.SetContactInfoEvent;
+import com.twt.service.ui.lostfound.post.event.LostId;
 import com.twt.service.ui.lostfound.post.event.PostLostContactInfoEvent;
 import com.twt.service.ui.lostfound.post.lost.event.FailureEvent;
 import com.twt.service.ui.lostfound.post.lost.event.GetPostLostContactInfoEvent;
 import com.twt.service.ui.lostfound.post.lost.event.SuccessEvent;
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
+
+import java.util.Calendar;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -37,7 +43,7 @@ import retrofit.RetrofitError;
 /**
  * Created by Rex on 2015/8/7.
  */
-public class PostLostFragment extends BaseFragment implements View.OnClickListener, PostLostView {
+public class PostLostFragment extends BaseFragment implements View.OnClickListener, PostLostView, DatePickerDialog.OnDateSetListener {
 
 
     private static ImageView ivTagChosed;
@@ -107,8 +113,8 @@ public class PostLostFragment extends BaseFragment implements View.OnClickListen
     ImageView chooseOthers;
     @InjectView(R.id.et_post_lost_title)
     EditText etPostLostTitle;
-    @InjectView(R.id.et_lost_time)
-    EditText etLostTime;
+    @InjectView(R.id.btn_lost_time)
+    Button btnLostTime;
     @InjectView(R.id.et_lost_position)
     EditText etLostPosition;
     @InjectView(R.id.pb_post_lost)
@@ -121,6 +127,11 @@ public class PostLostFragment extends BaseFragment implements View.OnClickListen
     private String time;
     private String place;
     private String content;
+    private boolean isEditObject = false;
+    private static final String EDITTEXT_EMPTY_ERROR = "不能为空";
+    private static final String IS_NOT_AN_EDIT_OBJECT = "不能修改未发布的项目，请点击发布";
+    private static final String PLEASE_CHOOSE_DATE = "请选择时间";
+    private int id;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -145,11 +156,21 @@ public class PostLostFragment extends BaseFragment implements View.OnClickListen
         tagCup.setOnClickListener(this);
         tagBooks.setOnClickListener(this);
         tagOthers.setOnClickListener(this);
+        btnLostTime.setOnClickListener(this);
         btnPostLostChange.setOnClickListener(this);
         btnPostLostSubmit.setOnClickListener(this);
         presenter = new PostLostPresenterImpl(this, new LostInteractorImpl());
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            id = getArguments().getInt("id");
+            if (id > 0) {
+                presenter.getLostDetails(id);
+                isEditObject = true;
+            }
+        }
         return view;
     }
+
 
     @Override
     public void onDestroyView() {
@@ -242,31 +263,63 @@ public class PostLostFragment extends BaseFragment implements View.OnClickListen
                 ivTagChosed = chooseOthers;
                 lost_type = LostType.OTHERS;
                 break;
+            case R.id.btn_lost_time:
+                Calendar now = Calendar.getInstance();
+                DatePickerDialog dpd = DatePickerDialog.newInstance(this, now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DATE));
+                dpd.show(getActivity().getFragmentManager(),"选择日期");
+                break;
             case R.id.btn_post_lost_submit:
                 title = etPostLostTitle.getText().toString();
-                time = etLostTime.getText().toString();
                 place = etLostPosition.getText().toString();
                 content = etPostLostDetail.getText().toString();
                 if (title.isEmpty()) {
-                    etPostLostTitle.setError("不能为空");
-                } else if (time.isEmpty()) {
-                    etLostTime.setError("不能为空");
+                    etPostLostTitle.setError(EDITTEXT_EMPTY_ERROR);
                 } else if (place.isEmpty()) {
-                    etLostPosition.setError("不能为空");
+                    etLostPosition.setError(EDITTEXT_EMPTY_ERROR);
                 } else if (content.isEmpty()) {
-                    etPostLostDetail.setError("不能为空");
+                    etPostLostDetail.setError(EDITTEXT_EMPTY_ERROR);
+                } else if (time == null || time.isEmpty()) {
+                    toastMessage(PLEASE_CHOOSE_DATE);
                 } else {
                     EventBus.getDefault().post(new GetPostLostContactInfoEvent());
                 }
                 break;
+            case R.id.btn_post_found_change:
+                if (isEditObject) {
+                    title = etPostLostTitle.getText().toString();
+                    place = etLostPosition.getText().toString();
+                    content = etPostLostDetail.getText().toString();
+                    if (title.isEmpty()) {
+                        etPostLostTitle.setError(EDITTEXT_EMPTY_ERROR);
+                    } else if (place.isEmpty()) {
+                        etLostPosition.setError(EDITTEXT_EMPTY_ERROR);
+                    } else if (content.isEmpty()) {
+                        etPostLostDetail.setError(EDITTEXT_EMPTY_ERROR);
+                    } else if (time == null || time.isEmpty()) {
+                        toastMessage(PLEASE_CHOOSE_DATE);
+                    } else {
+                        EventBus.getDefault().post(new GetPostLostContactInfoEvent());
+                    }
+                } else {
+                    toastMessage(IS_NOT_AN_EDIT_OBJECT);
+                }
         }
 
     }
 
+    /*
+     * 从我的丢失列表中点击item会post LostId，从而调用该方法
+     */
+
+
     public void onEvent(PostLostContactInfoEvent event) {
         name = event.getName();
         number = event.getNumber();
-        presenter.postLost(PrefUtils.getToken(), title, name, time, place, number, content, lost_type + "");
+        if (!isEditObject) {
+            presenter.postLost(PrefUtils.getToken(), title, name, time, place, number, content, lost_type + "");
+        } else {
+            presenter.editLost(PrefUtils.getToken(), id, title, name, time, place, number, content, lost_type);
+        }
     }
 
     public void onEvent(SuccessEvent event) {
@@ -318,6 +371,11 @@ public class PostLostFragment extends BaseFragment implements View.OnClickListen
     @Override
     public void setSubmitClickable(boolean clickable) {
         btnPostLostSubmit.setClickable(clickable);
+    }
+
+    @Override
+    public void setChangeClickable(boolean clickable) {
+        btnPostLostChange.setClickable(clickable);
     }
 
     @Override
@@ -403,7 +461,14 @@ public class PostLostFragment extends BaseFragment implements View.OnClickListen
         content = lostDetails.data.content;
         etPostLostTitle.setText(title);
         etLostPosition.setText(place);
-        etLostTime.setText(time);
+        btnLostTime.setText(time);
+        etPostLostDetail.setText(content);
         EventBus.getDefault().post(new SetContactInfoEvent(name, number));
+    }
+
+    @Override
+    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+        time = year + "/" + monthOfYear + "/" + dayOfMonth;
+        btnLostTime.setText(time);
     }
 }

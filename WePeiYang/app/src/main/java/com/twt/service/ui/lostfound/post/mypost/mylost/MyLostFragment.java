@@ -54,7 +54,7 @@ public class MyLostFragment extends Fragment implements MyLostView {
         View view = inflater.inflate(R.layout.fragment_lost, container, false);
         ButterKnife.inject(this, view);
         presenter = new MyLostPresenterImpl(this, new LostInteractorImpl());
-        adapter = new LostAdapter(getActivity());
+        adapter = new LostAdapter(getActivity(), LostAdapter.TYPE_MY_LOST);
         layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         rvLost.setLayoutManager(layoutManager);
         rvLost.setAdapter(adapter);

@@ -1,5 +1,6 @@
 package com.twt.service.ui.lostfound.post.mypost.myfound;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -50,7 +51,7 @@ public class MyFoundFragment extends Fragment implements MyFoundView {
         View view = inflater.inflate(R.layout.fragment_found, container, false);
         ButterKnife.inject(this, view);
         EventBus.getDefault().register(this);
-        adapter = new FoundAdapter(getActivity());
+        adapter = new FoundAdapter(getActivity(), FoundAdapter.TYPE_MY_FOUND);
         presenter = new MyFoundPresenterImpl(this, new FoundInteractorImpl());
         presenter.refreshMyFoundItems();
         srlFound.setColorSchemeColors(getResources().getColor(R.color.lost_found_primary_color));

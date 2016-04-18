@@ -555,10 +555,11 @@
                             android:textSize="16sp" />
                     </LinearLayout>
 
-                    <EditText
-                        android:id="@+id/et_lost_time"
+                    <Button
+                        android:id="@+id/btn_lost_time"
+                        android:text="选择时间"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="24dp"
                         android:layout_marginTop="8dp"
                         android:background="@drawable/bg_post_lost_found_edittext"
                         android:singleLine="true" />

@@ -12,6 +12,8 @@ public interface LoginView {
 
     void startPostLostFoundActivity();
 
+    void startMyLostFoundActivity();
+
     void hideKeyboard();
 
     void usernameError(String errorMsg);

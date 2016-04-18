@@ -290,6 +290,7 @@ public class ApiClient {
         temp.put("t", params.get("t"));
         temp.put("title", title);
         temp.put("name", name);
+        temp.put("time", time);
         temp.put("place", place);
         temp.put("phone", phone);
         temp.put("content", content);

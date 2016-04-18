@@ -162,10 +162,11 @@
                             android:textSize="16sp" />
                     </LinearLayout>
 
-                    <EditText
-                        android:id="@+id/et_post_found_time"
+                    <Button
+                        android:text="选择日期"
+                        android:id="@+id/btn_post_found_time"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="24dp"
                         android:layout_marginLeft="16dp"
                         android:layout_marginTop="8dp"
                         android:background="@drawable/bg_post_lost_found_edittext"

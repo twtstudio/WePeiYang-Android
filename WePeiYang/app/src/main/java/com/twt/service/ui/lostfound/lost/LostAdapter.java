@@ -13,6 +13,9 @@ import com.twt.service.R;
 import com.twt.service.bean.Lost;
 import com.twt.service.bean.LostItem;
 import com.twt.service.ui.common.LostType;
+import com.twt.service.ui.lostfound.lost.details.LostDetailsActivity;
+import com.twt.service.ui.lostfound.post.ObjectType;
+import com.twt.service.ui.lostfound.post.PostLostFoundActivity;
 import com.twt.service.ui.main.adapter.MainLostAdapter;
 
 import java.util.ArrayList;
@@ -29,9 +32,15 @@ public class LostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;
     private ArrayList<LostItem> dataSet = new ArrayList<>();
 
-    public LostAdapter(Context context) {
+    public static final int TYPE_ALL_LOST = 1;
+    public static final int TYPE_MY_LOST = 2;
+    private int adapterType;
+
+    public LostAdapter(Context context, int adapterType) {
         this.context = context;
+        this.adapterType = adapterType;
     }
+
 
     static class ItemHolder extends RecyclerView.ViewHolder {
 
@@ -62,7 +71,7 @@ public class LostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         int type = getItemViewType(position);
         ItemHolder itemHolder = (ItemHolder) holder;
         LostItem item = dataSet.get(position);
@@ -109,6 +118,19 @@ public class LostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         itemHolder.tvName.setText(item.name);
         itemHolder.tvNumber.setText(item.phone);
         itemHolder.tvTitle.setText(item.title);
+        itemHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (adapterType) {
+                    case TYPE_ALL_LOST:
+                        LostDetailsActivity.actionStart(context, dataSet.get(position).id);
+                        break;
+                    case TYPE_MY_LOST:
+                        PostLostFoundActivity.actionStart(context, dataSet.get(position).id, ObjectType.LOST);
+                        break;
+                }
+            }
+        });
     }
 
     @Override

@@ -49,7 +49,7 @@ public class FoundFragment extends Fragment implements FoundView, SwipeRefreshLa
         srlFound.setColorSchemeColors(getResources().getColor(R.color.lost_found_dark_primary_color));
         srlFound.setOnRefreshListener(this);
         layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-        adapter = new FoundAdapter(getActivity());
+        adapter = new FoundAdapter(getActivity(),FoundAdapter.TYPE_ALL_FOUND);
         presenter = new FoundPresenterImpl(this, new FoundInteractorImpl());
         rvFound.setLayoutManager(layoutManager);
         rvFound.setAdapter(adapter);

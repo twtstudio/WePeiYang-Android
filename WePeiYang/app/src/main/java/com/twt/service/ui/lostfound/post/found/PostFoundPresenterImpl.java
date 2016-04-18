@@ -119,4 +119,14 @@ public class PostFoundPresenterImpl implements PostFoundPresenter {
                 throw new AssertionError("未知的错误类型：" + error.getKind());
         }
     }
+
+    @Override
+    public void editFound(String authorization, String title, String name, String time, String place, String phone, String content, File uploadImage) {
+        
+    }
+
+    @Override
+    public void editFinally(String found_pic) {
+
+    }
 }

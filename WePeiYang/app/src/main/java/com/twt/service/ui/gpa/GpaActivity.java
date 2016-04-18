@@ -245,7 +245,6 @@ public class GpaActivity extends BaseActivity implements GpaView, OnChartValueSe
     @Override
     public void showCaptchaDialog(GpaCaptcha gpaCaptcha) {
         CaptchaDialogFragment fragment = new CaptchaDialogFragment();
-        fragment.getDialog().setCanceledOnTouchOutside(false);
         Bundle bundle = new Bundle();
         bundle.putString("token", gpaCaptcha.data.token);
         bundle.putString("raw", gpaCaptcha.data.raw);
