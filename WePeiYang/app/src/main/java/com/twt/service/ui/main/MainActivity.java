@@ -38,7 +38,9 @@ import com.twt.service.support.PrefUtils;
 import com.twt.service.ui.BaseActivity;
 import com.twt.service.ui.about.AboutActivity;
 import com.twt.service.ui.account.AccountActivity;
+import com.twt.service.ui.bus.BusActivity;
 import com.twt.service.ui.common.NextActivity;
+import com.twt.service.ui.date.DatingActivity;
 import com.twt.service.ui.feedback.FeedbackActivity;
 import com.twt.service.ui.gpa.GpaActivity;
 import com.twt.service.ui.jobs.JobsActivity;
@@ -204,6 +206,12 @@ public class MainActivity extends BaseActivity implements BaseSliderView.OnSlide
                         break;*/
                     case R.id.item_check_update:
                         checkUpdate(false);
+                        break;
+                    case R.id.item_bus:
+                        BusActivity.actionStart(MainActivity.this);
+                        break;
+                    case R.id.item_dating:
+                        DatingActivity.actionStart(MainActivity.this);
                         break;
                 }
                 dlMain.closeDrawers();

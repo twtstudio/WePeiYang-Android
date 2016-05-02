@@ -1,10 +1,13 @@
 package com.twt.service.support;
 
 import android.app.Activity;
+import android.content.Context;
+import android.graphics.Color;
 import android.os.Build;
 import android.view.WindowManager;
 
 import com.readystatesoftware.systembartint.SystemBarTintManager;
+import com.twt.service.R;
 
 
 /**
@@ -12,13 +15,10 @@ import com.readystatesoftware.systembartint.SystemBarTintManager;
  */
 public class StatusBarHelper {
     private static com.readystatesoftware.systembartint.SystemBarTintManager tintManager;
-    public static void setStatusBar(Activity activity, int color){
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
-            activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-            tintManager = new SystemBarTintManager(activity);
-            tintManager.setStatusBarTintColor(color);
-            tintManager.setStatusBarTintEnabled(true);
+
+    public static void setColor(Activity activity, int color) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            activity.getWindow().setStatusBarColor(color);
         }
     }
 }

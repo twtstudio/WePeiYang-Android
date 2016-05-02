@@ -115,6 +115,8 @@
         <activity
             android:name=".ui.lostfound.post.mypost.MyLostFoundActivity"
             android:label="个人中心" />
+        <activity android:name=".ui.date.DatingActivity" />
+        <activity android:name=".ui.bus.BusActivity"></activity>
     </application>
 
 </manifest>

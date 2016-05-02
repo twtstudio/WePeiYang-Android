@@ -156,9 +156,4 @@ public class LoginActivity extends BaseActivity implements LoginView {
         pbLogin.setVisibility(View.GONE);
     }
 
-    @Override
-    public void setContentView(int layoutResID) {
-        StatusBarHelper.setStatusBar(this, getResources().getColor(android.R.color.holo_blue_light));
-        super.setContentView(layoutResID);
-    }
 }

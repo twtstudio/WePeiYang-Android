@@ -2,13 +2,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single">
         <item
-            android:checkable="false"
             android:id="@+id/item_account_settings"
+            android:checkable="false"
             android:icon="@mipmap/ic_account_settings"
             android:title="@string/account_settings" />
         <item
-            android:checkable="false"
             android:id="@+id/item_give_advice"
+            android:checkable="false"
             android:icon="@mipmap/ic_give_advice"
             android:title="@string/give_advice" />
         <!--<item
@@ -17,15 +17,27 @@
             android:icon="@mipmap/ic_share_app"
             android:title="@string/share_app" />-->
         <item
-            android:checkable="false"
             android:id="@+id/item_check_update"
+            android:checkable="false"
             android:icon="@mipmap/ic_check_update"
             android:title="@string/check_update" />
         <item
-            android:checkable="false"
             android:id="@+id/item_about"
+            android:checkable="false"
             android:icon="@mipmap/ic_about_app"
-            android:title="@string/about_app"/>
+            android:title="@string/about_app" />
+        <item
+            android:id="@+id/item_bus"
+            android:checkable="false"
+            android:icon="@mipmap/ic_bus"
+            android:title="@string/bus" />
+        <item
+            android:id="@+id/item_dating"
+            android:checkable="false"
+            android:icon="@mipmap/ic_dating"
+            android:title="@string/dating" />
+
+
     </group>
 
 </menu>

@@ -100,4 +100,7 @@
     <string name="book">书</string>
     <string name="mobile_phone">手机</string>
     <string name="wallet">钱包</string>
+    <string name="lab_function">实验功能</string>
+    <string name="bus">公交签到</string>
+    <string name="dating">约吧</string>
 </resources>
