@@ -14,6 +14,10 @@ public interface LoginView {
 
     void startMyLostFoundActivity();
 
+    void startDatingActivity();
+
+    void startBusActivity();
+
     void hideKeyboard();
 
     void usernameError(String errorMsg);

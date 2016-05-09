@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.twt.service.ui.bus.BusActivity">
-    <WebView
+    <com.twt.service.ui.common.WebApp
         android:id="@+id/wv_bus"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

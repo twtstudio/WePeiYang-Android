@@ -111,9 +111,9 @@ public class NewsDetailsActivity extends BaseActivity implements NewsDetailsView
                     ShareSDK.initSDK(this);
                     OnekeyShare oks = new OnekeyShare();
                     oks.disableSSOWhenAuthorize();
-                    oks.setTitle(getString(R.string.share));
+                    oks.setTitle(mNews.data.subject);
                     oks.setText(mNews.data.subject);
-                    oks.setImagePath(getCacheDir() + "/logo.png");//确保SDcard下面存在此张图片
+                    oks.setImagePath(getCacheDir() + "/logo.jpg");//确保SDcard下面存在此张图片
                     oks.setUrl(NEWSURL + mNews.data.index);
                     oks.show(this);
                 }

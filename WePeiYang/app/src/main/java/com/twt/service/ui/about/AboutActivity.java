@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import com.twt.service.R;
+import com.twt.service.support.ApplicationUtils;
 import com.twt.service.ui.BaseActivity;
 
 import butterknife.ButterKnife;
@@ -29,12 +30,8 @@ public class AboutActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
         ButterKnife.inject(this);
-        try {
-            PackageInfo packageInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
-            String version = packageInfo.versionName;
-            tvVersion.setText(version);
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
+        String version = ApplicationUtils.getVersionName();
+        tvVersion.setText(version);
+
     }
 }

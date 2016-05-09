@@ -75,9 +75,11 @@ public class PostFoundFragment extends BaseFragment implements View.OnClickListe
     private String place;
     private String details;
     private int id;
+    private String found_pic;
     private static final String EDITTEXT_EMPTY_ERROR = "不能为空";
     private static final String PLEASE_CHOOSE_DATE = "请选择时间";
     private boolean isAnEditObject = false;
+    private boolean isPhotoChanged = false;
 
 
     @Nullable
@@ -124,7 +126,11 @@ public class PostFoundFragment extends BaseFragment implements View.OnClickListe
     }
 
     public void onEvent(UploadSuccessEvent event) {
-        presenter.postFinally(event.getUploads().get(0).url);
+        if (!isAnEditObject) {
+            presenter.postFinally(event.getUploads().get(0).url);
+        } else {
+            presenter.editFinally(event.getUploads().get(0).url);
+        }
     }
 
     public void onEvent(UploadFailureEvent event) {
@@ -143,16 +149,21 @@ public class PostFoundFragment extends BaseFragment implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_add_photo:
+                isPhotoChanged = true;
                 EventBus.getDefault().post(new AddPhotoEvent());
                 break;
             case R.id.btn_post_found_submit:
-                getPostFoundInfo();
+                if (isAnEditObject) {
+                    toastMessage("已发布的物品，请点击修改");
+                } else {
+                    getPostFoundInfo();
+                }
                 break;
             case R.id.btn_post_found_change:
                 if (isAnEditObject) {
                     getPostFoundInfo();
                 } else {
-                    toastMessage("该物品尚未发布，不能修改，请点击发布");
+                    toastMessage("未发布的物品，请点击发布");
                 }
 
                 break;
@@ -192,7 +203,11 @@ public class PostFoundFragment extends BaseFragment implements View.OnClickListe
         if (!isAnEditObject) {
             presenter.postFound(PrefUtils.getToken(), title, name, time, place, number, details, mUploadPhoto);
         } else {
-            presenter.editFound(PrefUtils.getToken(), title, name, time, place, number, details, mUploadPhoto);
+            if (isPhotoChanged) {
+                presenter.editFound(PrefUtils.getToken(), id, title, name, time, place, number, details, mUploadPhoto);
+            } else {
+                presenter.editFound(PrefUtils.getToken(), id, title, name, time, place, number, details, found_pic);
+            }
         }
     }
 
@@ -218,7 +233,8 @@ public class PostFoundFragment extends BaseFragment implements View.OnClickListe
 
     @Override
     public void bindData(FoundDetails foundDetails) {
-        Picasso.with(getActivity()).load(foundDetails.data.found_pic).into(ivPhotoAdded);
+        found_pic = foundDetails.data.found_pic;
+        Picasso.with(getActivity()).load(found_pic).into(ivPhotoAdded);
         ivDeleteAddedPhoto.setVisibility(View.VISIBLE);
         name = foundDetails.data.name;
         number = foundDetails.data.phone;

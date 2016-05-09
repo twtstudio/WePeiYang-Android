@@ -67,7 +67,14 @@ public class LoginPresenterImpl implements LoginPresenter, OnLoginCallback {
                 view.startPostLostFoundActivity();
                 break;
             case MyLostFound:
-
+                view.startMyLostFoundActivity();
+                break;
+            case Dating:
+                view.startDatingActivity();
+                break;
+            case Bus:
+                view.startBusActivity();
+                break;
         }
     }
 

@@ -7,6 +7,8 @@
     <color name="text_secondary_color">#919191</color>
     <color name="background">#FFFFFF</color>
     <color name="logo">#0277bd</color>
+    <color name="main_text_color">#383838</color>
+    <color name="sub_text_color">#797979</color>
     <!-- Login Activity -->
     <color name="login_primary">#00a1e9</color>
     <color name="login_edittext">#ffffff</color>

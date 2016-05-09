@@ -1,5 +1,7 @@
 package com.twt.service.api;
 
+import android.util.Log;
+
 import com.google.gson.JsonElement;
 import com.twt.service.bean.CommentCallback;
 import com.twt.service.bean.Found;
@@ -15,6 +17,8 @@ import com.twt.service.bean.Upload;
 import com.twt.service.support.UserAgent;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 
@@ -391,8 +395,13 @@ public class ApiClient {
         params.put("phone", phone);
         params.put("place", place);
         params.put("content", content);
-        params.put("found_pic", found_pic);
+        try {
+            params.put("found_pic", URLEncoder.encode(found_pic, "UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
         HashMap<String, String> temp = new HashMap<>();
+        temp.put("t", params.get("t"));
         temp.put("title", title);
         temp.put("name", name);
         temp.put("time", time);
@@ -401,6 +410,7 @@ public class ApiClient {
         temp.put("content", content);
         temp.put("found_pic", found_pic);
         String sign = new Sign().generate(temp);
+        Log.e("sign", sign);
         params.put("sign", sign);
         mApi.editFound(authorization, id, params, callback);
     }

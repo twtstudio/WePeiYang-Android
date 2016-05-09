@@ -74,6 +74,24 @@ public class FoundInteractorImpl implements FoundInteractor {
     }
 
     @Override
+    public void postEdit(String authorization, int id, String title, String name, String time, String place, String phone, String content, String found_pic) {
+        if (found_pic == null) {
+            Log.e("pic 空", "空");
+        }
+        ApiClient.editFound(authorization, id, title, name, time, phone, place, content, found_pic, new Callback<JsonElement>() {
+            @Override
+            public void success(JsonElement jsonElement, Response response) {
+                EventBus.getDefault().post(new PostFoundSuccessEvent());
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                EventBus.getDefault().post(new PostFoundFailureEvent(error));
+            }
+        });
+    }
+
+    @Override
     public void postFound(String authorization, String title, String name, String time, String place, String phone, String content, String found_pic) {
         ApiClient.postFound(authorization, title, name, time, place, phone, content, found_pic, new Callback<JsonElement>() {
             @Override

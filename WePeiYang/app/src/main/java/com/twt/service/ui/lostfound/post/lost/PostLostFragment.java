@@ -132,7 +132,7 @@ public class PostLostFragment extends BaseFragment implements View.OnClickListen
     private String content;
     private boolean isEditObject = false;
     private static final String EDITTEXT_EMPTY_ERROR = "不能为空";
-    private static final String IS_NOT_AN_EDIT_OBJECT = "不能修改未发布的项目，请点击发布";
+    private static final String IS_NOT_AN_EDIT_OBJECT = "未发布的物品，请点击发布";
     private static final String PLEASE_CHOOSE_DATE = "请选择时间";
     private int id;
 
@@ -272,23 +272,26 @@ public class PostLostFragment extends BaseFragment implements View.OnClickListen
                 dpd.show(getActivity().getFragmentManager(), "选择日期");
                 break;
             case R.id.btn_post_lost_submit:
-                title = etPostLostTitle.getText().toString();
-                place = etLostPosition.getText().toString();
-                content = etPostLostDetail.getText().toString();
-                if (title.isEmpty()) {
-                    etPostLostTitle.setError(EDITTEXT_EMPTY_ERROR);
-                } else if (place.isEmpty()) {
-                    etLostPosition.setError(EDITTEXT_EMPTY_ERROR);
-                } else if (content.isEmpty()) {
-                    etPostLostDetail.setError(EDITTEXT_EMPTY_ERROR);
-                } else if (time == null || time.isEmpty()) {
-                    toastMessage(PLEASE_CHOOSE_DATE);
+                if (isEditObject) {
+                    toastMessage("已发布的物品，请点击修改");
                 } else {
-                    EventBus.getDefault().post(new GetPostLostContactInfoEvent());
+                    title = etPostLostTitle.getText().toString();
+                    place = etLostPosition.getText().toString();
+                    content = etPostLostDetail.getText().toString();
+                    if (title.isEmpty()) {
+                        etPostLostTitle.setError(EDITTEXT_EMPTY_ERROR);
+                    } else if (place.isEmpty()) {
+                        etLostPosition.setError(EDITTEXT_EMPTY_ERROR);
+                    } else if (content.isEmpty()) {
+                        etPostLostDetail.setError(EDITTEXT_EMPTY_ERROR);
+                    } else if (time == null || time.isEmpty()) {
+                        toastMessage(PLEASE_CHOOSE_DATE);
+                    } else {
+                        EventBus.getDefault().post(new GetPostLostContactInfoEvent());
+                    }
                 }
                 break;
             case R.id.btn_post_lost_change:
-                Log.e("clicked", "点击修改");
                 if (isEditObject) {
                     title = etPostLostTitle.getText().toString();
                     place = etLostPosition.getText().toString();

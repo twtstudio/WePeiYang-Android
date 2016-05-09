@@ -16,7 +16,9 @@ import com.twt.service.R;
 import com.twt.service.interactor.LoginInteractorImpl;
 import com.twt.service.support.StatusBarHelper;
 import com.twt.service.ui.BaseActivity;
+import com.twt.service.ui.bus.BusActivity;
 import com.twt.service.ui.common.NextActivity;
+import com.twt.service.ui.date.DatingActivity;
 import com.twt.service.ui.gpa.GpaActivity;
 import com.twt.service.ui.lostfound.post.PostLostFoundActivity;
 import com.twt.service.ui.lostfound.post.mypost.MyLostFoundActivity;
@@ -120,6 +122,16 @@ public class LoginActivity extends BaseActivity implements LoginView {
     public void startMyLostFoundActivity() {
         MyLostFoundActivity.actionStart(this);
         finish();
+    }
+
+    @Override
+    public void startDatingActivity() {
+        DatingActivity.actionStart(this);
+    }
+
+    @Override
+    public void startBusActivity() {
+        BusActivity.actionStart(this);
     }
 
     @Override

@@ -66,6 +66,7 @@ public class MyLostFragment extends Fragment implements MyLostView {
             }
         });
         presenter.refreshMyLostItems();
+        srlLost.setColorSchemeColors(getResources().getColor(R.color.lost_found_primary_color));
         srlLost.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {

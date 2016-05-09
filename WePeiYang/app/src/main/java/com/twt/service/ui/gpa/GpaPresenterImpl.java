@@ -81,18 +81,9 @@ public class GpaPresenterImpl implements GpaPresenter, OnGetGpaCallback, OnRefre
                 if (error != null) {
                     switch (error.error_code) {
                         case 10000:
-                            view.toastMessage("请重新登录");
-                            PrefUtils.setLogin(false);
-                            PrefUtils.removeToken();
-                            view.startLoginActivity();
-                            break;
                         case 10001:
-                            view.toastMessage("请重新登录");
-                            PrefUtils.setLogin(false);
-                            PrefUtils.removeToken();
-                            view.startLoginActivity();
-                            break;
                         case 10002:
+                        case 10004:
                             view.toastMessage("请重新登录");
                             PrefUtils.setLogin(false);
                             PrefUtils.removeToken();

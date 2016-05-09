@@ -20,7 +20,9 @@ public interface PostFoundPresenter {
 
     void onFailure(RetrofitError error);
 
-    void editFound(String authorization, String title, String name, String time, String place, String phone, String content, File uploadImage);
+    void editFound(String authorization, int id, String title, String name, String time, String place, String phone, String content, File uploadImage);
+
+    void editFound(String authorization,int id,  String title, String name, String time, String place, String phone, String content, String file);
 
     void editFinally(String found_pic);
 }

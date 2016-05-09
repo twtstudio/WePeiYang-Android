@@ -15,22 +15,28 @@ import java.io.InputStream;
 /**
  * Created by sunjuntao on 16/2/5.
  */
-public class CacheLogoTask implements Runnable{
+public class CacheLogoTask implements Runnable {
 
     private Context context;
 
-    public CacheLogoTask(Context context){
+    public CacheLogoTask(Context context) {
         this.context = context;
     }
+
     @Override
     public void run() {
-        File logo = new File(context.getCacheDir(), "logo.png");
-        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher);
+        File logo = new File(context.getCacheDir(), "logo.jpg");
+        InputStream is = context.getResources().openRawResource(R.raw.logo);
         try {
             FileOutputStream fileOutputStream = new FileOutputStream(logo);
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream);
+            int read = 0;
+            byte[] bytes = new byte[1024];
+            while ((read = is.read(bytes)) != -1) {
+                fileOutputStream.write(bytes, 0, read);
+            }
             fileOutputStream.flush();
             fileOutputStream.close();
+            is.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {

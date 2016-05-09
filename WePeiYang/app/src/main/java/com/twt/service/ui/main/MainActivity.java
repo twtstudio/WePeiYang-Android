@@ -208,10 +208,18 @@ public class MainActivity extends BaseActivity implements BaseSliderView.OnSlide
                         checkUpdate(false);
                         break;
                     case R.id.item_bus:
-                        BusActivity.actionStart(MainActivity.this);
+                        if (PrefUtils.isLogin()) {
+                            BusActivity.actionStart(MainActivity.this);
+                        } else {
+                            LoginActivity.actionStart(MainActivity.this, NextActivity.Bus);
+                        }
                         break;
                     case R.id.item_dating:
-                        DatingActivity.actionStart(MainActivity.this);
+                        if (PrefUtils.isLogin()) {
+                            DatingActivity.actionStart(MainActivity.this);
+                        } else {
+                            LoginActivity.actionStart(MainActivity.this, NextActivity.Dating);
+                        }
                         break;
                 }
                 dlMain.closeDrawers();
@@ -237,7 +245,7 @@ public class MainActivity extends BaseActivity implements BaseSliderView.OnSlide
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(getResources().getColor(R.color.main_primary));
         }
-         mainFoundAdapter = new MainFoundAdapter(this);
+        mainFoundAdapter = new MainFoundAdapter(this);
         mainLostAdapter = new MainLostAdapter(this);
         rvMainFound.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         rvMainLost.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
@@ -258,7 +266,7 @@ public class MainActivity extends BaseActivity implements BaseSliderView.OnSlide
         slider.stopAutoCycle();
         super.onStop();
     }
-    
+
 
     @Override
     protected void onDestroy() {

@@ -18,6 +18,7 @@ import retrofit.RetrofitError;
 public class PostFoundPresenterImpl implements PostFoundPresenter {
     private PostFoundView view;
     private FoundInteractor interactor;
+    private int id;
     private String title;
     private String name;
     private String time;
@@ -121,12 +122,29 @@ public class PostFoundPresenterImpl implements PostFoundPresenter {
     }
 
     @Override
-    public void editFound(String authorization, String title, String name, String time, String place, String phone, String content, File uploadImage) {
-        
+    public void editFound(String authorization, int id, String title, String name, String time, String place, String phone, String content, File uploadImage) {
+        this.id = id;
+        this.title = title;
+        this.name = name;
+        this.time = time;
+        this.place = place;
+        this.phone = phone;
+        this.content = content;
+        if (found_pic == null || found_pic.isEmpty()) {
+            uploadImage(uploadImage);
+        } else {
+            interactor.postEdit(authorization, id, title, name, time, place, phone, content, found_pic);
+        }
     }
 
     @Override
-    public void editFinally(String found_pic) {
+    public void editFound(String authorization, int id, String title, String name, String time, String place, String phone, String content, String found_pic) {
+        interactor.postEdit(authorization, id, title, name, time, place, phone, content, found_pic);
+    }
 
+
+    @Override
+    public void editFinally(String found_pic) {
+        interactor.postEdit(PrefUtils.getToken(), id, title, name, time, place, phone, content, found_pic);
     }
 }

@@ -198,6 +198,7 @@
                                         android:orientation="vertical">
 
                                         <TextView
+                                            android:textColor="@color/main_text_color"
                                             android:id="@+id/tv_campusnews_title1"
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
@@ -223,6 +224,7 @@
                                                     android:src="@mipmap/ic_main_view_count" />
 
                                                 <TextView
+                                                    android:textColor="@color/sub_text_color"
                                                     android:id="@+id/tv_campusnews_viewcount1"
                                                     android:layout_width="wrap_content"
                                                     android:layout_height="wrap_content"
@@ -240,6 +242,7 @@
                                                     android:src="@mipmap/ic_main_comments" />-->
 
                                                 <TextView
+                                                    android:textColor="@color/sub_text_color"
                                                     android:id="@+id/tv_campusnews_comment1"
                                                     android:layout_width="wrap_content"
                                                     android:layout_height="wrap_content"
@@ -255,6 +258,7 @@
                                                     android:gravity="end">
 
                                                     <TextView
+                                                        android:textColor="@color/sub_text_color"
                                                         android:id="@+id/tv_campusnews_date1"
                                                         android:layout_width="wrap_content"
                                                         android:layout_height="wrap_content"
