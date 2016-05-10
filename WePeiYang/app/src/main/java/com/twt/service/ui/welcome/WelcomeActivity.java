@@ -14,6 +14,7 @@ import com.twt.service.support.ACache;
 import com.twt.service.support.CacheLogoTask;
 import com.twt.service.support.PrefUtils;
 import com.twt.service.support.UserAgent;
+import com.twt.service.ui.guide.GuideActivity;
 import com.twt.service.ui.login.LoginActivity;
 import com.twt.service.ui.main.MainActivity;
 
@@ -52,7 +53,10 @@ public class WelcomeActivity extends Activity {
             @Override
             public void run() {
                 Intent intent;
-                if (PrefUtils.isLogin()) {
+                if(PrefUtils.isGuide()){
+                    PrefUtils.setPrefIsGuide(false);
+                    intent = new Intent(WelcomeActivity.this, GuideActivity.class);
+                }else if (PrefUtils.isLogin()) {
                     intent = new Intent(WelcomeActivity.this, MainActivity.class);
                 } else {
                     intent = new Intent(WelcomeActivity.this, LoginActivity.class);

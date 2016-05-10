@@ -117,6 +117,8 @@
             android:label="个人中心" />
         <activity android:name=".ui.date.DatingActivity" />
         <activity android:name=".ui.bus.BusActivity"></activity>
+        <activity android:name=".ui.guide.GuideActivity"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"></activity>
     </application>
 
 </manifest>
