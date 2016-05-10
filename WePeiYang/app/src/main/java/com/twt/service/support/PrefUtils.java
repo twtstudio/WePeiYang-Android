@@ -16,7 +16,6 @@ public class PrefUtils {
     private static final String PREF_USERNAME = "username";
     private static final String PREF_LOST_FOUND_CONTACT_NAME = "lost_found_contact_name";
     private static final String PREF_LOST_FOUND_CONTACT_NUMBER = "lost_found_contact_number";
-    private static final String PREF_IS_GUIDE = "is_guide";
 
 
     private static SharedPreferences getDefaultSharedPreferences() {
@@ -79,13 +78,5 @@ public class PrefUtils {
 
     public static String getLostFoundContactNumber() {
         return getDefaultSharedPreferences().getString(PREF_LOST_FOUND_CONTACT_NUMBER, "");
-    }
-
-    public static void setPrefIsGuide(boolean isGuide){
-        getDefaultSharedPreferences().edit().putBoolean(PREF_IS_GUIDE, isGuide).apply();
-    }
-
-    public static boolean isGuide(){
-        return getDefaultSharedPreferences().getBoolean(PREF_IS_GUIDE, true);
     }
 }
