@@ -8,8 +8,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.webkit.WebSettings;
 import android.widget.Toast;
 
@@ -17,7 +15,6 @@ import com.github.lzyzsd.jsbridge.BridgeHandler;
 import com.github.lzyzsd.jsbridge.CallBackFunction;
 import com.twt.service.R;
 import com.twt.service.support.PrefUtils;
-import com.twt.service.support.ProviderHelper;
 import com.twt.service.support.share.UpLoadWebChromeClient;
 import com.twt.service.ui.common.NextActivity;
 import com.twt.service.ui.common.TokenRefreshFailureEvent;

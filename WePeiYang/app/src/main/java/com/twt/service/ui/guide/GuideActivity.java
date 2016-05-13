@@ -13,6 +13,8 @@ import android.widget.FrameLayout;
 import com.shizhefei.view.indicator.Indicator;
 import com.shizhefei.view.indicator.IndicatorViewPager;
 import com.twt.service.R;
+import com.twt.service.support.ApplicationUtils;
+import com.twt.service.support.PrefUtils;
 import com.twt.service.ui.login.LoginActivity;
 
 import butterknife.ButterKnife;
@@ -27,8 +29,6 @@ public class GuideActivity extends Activity {
     ViewPager viewPager;
     @InjectView(R.id.guide_button)
     Button button;
-//    @InjectView(R.id.guide_indicator)
-//    Indicator indicator;
 
     private IndicatorViewPager indicatorViewPager;
     private LayoutInflater inflate;
@@ -45,6 +45,7 @@ public class GuideActivity extends Activity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                PrefUtils.setPrefVersion(ApplicationUtils.getVersionName());
                 Intent intent = new Intent(GuideActivity.this, LoginActivity.class);
                 startActivity(intent);
                 finish();
@@ -69,11 +70,6 @@ public class GuideActivity extends Activity {
                 convertView = new View(getApplicationContext());
                 convertView.setLayoutParams(new FrameLayout.LayoutParams(ViewPager.LayoutParams.MATCH_PARENT, ViewPager.LayoutParams.MATCH_PARENT));
             }
-//            if(position == images.length){
-//                button.setVisibility(View.VISIBLE);
-//            }else {
-//                button.setVisibility(View.GONE);
-//            }
             convertView.setBackgroundResource(images[position]);
             return convertView;
         }
