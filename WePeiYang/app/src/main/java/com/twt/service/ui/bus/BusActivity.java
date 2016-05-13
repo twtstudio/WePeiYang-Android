@@ -15,6 +15,7 @@ import com.github.lzyzsd.jsbridge.BridgeHandler;
 import com.github.lzyzsd.jsbridge.CallBackFunction;
 import com.twt.service.R;
 import com.twt.service.support.PrefUtils;
+import com.twt.service.support.StatusBarHelper;
 import com.twt.service.support.share.UpLoadWebChromeClient;
 import com.twt.service.ui.common.NextActivity;
 import com.twt.service.ui.common.TokenRefreshFailureEvent;
@@ -79,7 +80,6 @@ public class BusActivity extends WebAppActivity implements BusView {
                 startLoginActivity();
             }
         });
-
     }
 
     public void onEvent(TokenRefreshSuccessEvent event) {
@@ -113,7 +113,7 @@ public class BusActivity extends WebAppActivity implements BusView {
             if (upLoadWebChromeClient.mUploadCallbackAboveL != null) {
                 onActivityResultAboveL(requestCode, resultCode, data);
             }
-            else  if (upLoadWebChromeClient.mUploadMessage != null) {
+            else  if (upLoadWebChromeClient.mUploadMessage != null && result!= null) {
                 upLoadWebChromeClient.mUploadMessage.onReceiveValue(result);
                 upLoadWebChromeClient.mUploadMessage = null;
             }
@@ -145,9 +145,13 @@ public class BusActivity extends WebAppActivity implements BusView {
         }
         if (results == null && upLoadWebChromeClient.mCameraFilePath != ""){
             Uri result = UpLoadWebChromeClient.getImageContentUri(this, new File(upLoadWebChromeClient.mCameraFilePath));
-            results  = new Uri[]{result};
+            if(result!=null) {
+                results = new Uri[]{result};
+            }
         }
-        upLoadWebChromeClient.mUploadCallbackAboveL.onReceiveValue(results);
+        if(results!=null) {
+            upLoadWebChromeClient.mUploadCallbackAboveL.onReceiveValue(results);
+        }
         upLoadWebChromeClient.mUploadCallbackAboveL = null;
         return;
     }

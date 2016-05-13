@@ -17,6 +17,7 @@ import com.github.lzyzsd.jsbridge.BridgeHandler;
 import com.github.lzyzsd.jsbridge.CallBackFunction;
 import com.twt.service.R;
 import com.twt.service.support.PrefUtils;
+import com.twt.service.support.StatusBarHelper;
 import com.twt.service.support.share.UpLoadWebChromeClient;
 import com.twt.service.ui.common.NextActivity;
 import com.twt.service.ui.common.TokenRefreshFailureEvent;
@@ -120,13 +121,13 @@ public class DatingActivity extends WebAppActivity implements DatingView {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==UpLoadWebChromeClient.FILECHOOSER_RESULTCODE)
-        {
-            if (null == upLoadWebChromeClient.mUploadMessage && upLoadWebChromeClient.mUploadCallbackAboveL == null) return;
+        if (requestCode == UpLoadWebChromeClient.FILECHOOSER_RESULTCODE) {
+            if (null == upLoadWebChromeClient.mUploadMessage && upLoadWebChromeClient.mUploadCallbackAboveL == null)
+                return;
             Uri result = data == null || resultCode != RESULT_OK ? null : data.getData();
             if (upLoadWebChromeClient.mUploadCallbackAboveL != null) {
                 onActivityResultAboveL(requestCode, resultCode, data);
-            }else  if (upLoadWebChromeClient.mUploadMessage != null) {
+            } else if (upLoadWebChromeClient.mUploadMessage != null && result != null) {
                 upLoadWebChromeClient.mUploadMessage.onReceiveValue(result);
                 upLoadWebChromeClient.mUploadMessage = null;
             }
@@ -156,12 +157,15 @@ public class DatingActivity extends WebAppActivity implements DatingView {
                     results = new Uri[]{Uri.parse(dataString)};
             }
         }
-        if (results == null && upLoadWebChromeClient.mCameraFilePath != ""){
+        if (results == null && upLoadWebChromeClient.mCameraFilePath != "") {
             Uri result = UpLoadWebChromeClient.getImageContentUri(this, new File(upLoadWebChromeClient.mCameraFilePath));
-            results  = new Uri[]{result};
+            if (result != null) {
+                results = new Uri[]{result};
+            }
         }
-        Log.d(LOG_TAG, results.toString());
-        upLoadWebChromeClient.mUploadCallbackAboveL.onReceiveValue(results);
+        if (results != null) {
+            upLoadWebChromeClient.mUploadCallbackAboveL.onReceiveValue(results);
+        }
         upLoadWebChromeClient.mUploadCallbackAboveL = null;
         return;
     }

@@ -26,17 +26,6 @@
             android:checkable="false"
             android:icon="@mipmap/ic_about_app"
             android:title="@string/about_app" />
-        <item
-            android:id="@+id/item_bus"
-            android:checkable="false"
-            android:icon="@mipmap/ic_bus"
-            android:title="@string/bus" />
-        <item
-            android:id="@+id/item_dating"
-            android:checkable="false"
-            android:icon="@mipmap/ic_dating"
-            android:title="@string/dating" />
-
 
     </group>
 

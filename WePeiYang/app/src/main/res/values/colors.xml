@@ -43,4 +43,8 @@
     <color name="schedule_dark_primary_color">#f67c01</color>
     <!--Bound Activity-->
     <color name="bound_primary_color">#014b88</color>
+    <!-- Bus Activity-->
+    <color name="bus_primary_color">#4384ed</color>
+    <!-- Dating Activity-->
+    <color name="dating_primary_color">#15b0c6</color>
 </resources>

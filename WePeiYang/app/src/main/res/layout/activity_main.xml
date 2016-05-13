@@ -37,10 +37,10 @@
                     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
                     <LinearLayout
-                        android:focusableInTouchMode="true"
-                        android:focusable="true"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
                         android:orientation="vertical"
                         android:paddingLeft="16dp"
                         android:paddingRight="16dp">
@@ -49,7 +49,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
-                            android:columnCount="3"
+                            android:columnCount="4"
                             android:rowCount="1">
 
                             <LinearLayout
@@ -80,8 +80,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="8dp"
-                                android:layout_marginLeft="32dp"
-                                android:layout_marginStart="32dp"
+                                android:layout_marginLeft="16dp"
+                                android:layout_marginStart="16dp"
                                 android:orientation="vertical">
 
                                 <ImageView
@@ -97,6 +97,54 @@
                                     android:layout_marginTop="5dp"
                                     android:text="@string/gpa_query"
                                     android:textColor="@color/gpa_primary_color" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/btn_dating"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="8dp"
+                                android:layout_marginLeft="16dp"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:layout_width="60dp"
+                                    android:layout_height="60dp"
+                                    android:layout_gravity="center_horizontal"
+                                    android:src="@mipmap/ic_dating" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_marginTop="5dp"
+                                    android:text="@string/dating"
+                                    android:textColor="@color/dating_primary_color" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/btn_bus"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="8dp"
+                                android:layout_marginLeft="16dp"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:layout_width="60dp"
+                                    android:layout_height="60dp"
+                                    android:layout_gravity="center_horizontal"
+                                    android:src="@mipmap/ic_bus" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_marginTop="5dp"
+                                    android:text="@string/bus"
+                                    android:textColor="@color/bus_primary_color" />
 
                             </LinearLayout>
 
@@ -198,11 +246,11 @@
                                         android:orientation="vertical">
 
                                         <TextView
-                                            android:textColor="@color/main_text_color"
                                             android:id="@+id/tv_campusnews_title1"
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
-                                            android:layout_gravity="top" />
+                                            android:layout_gravity="top"
+                                            android:textColor="@color/main_text_color" />
 
                                         <LinearLayout
                                             android:layout_width="match_parent"
@@ -224,13 +272,13 @@
                                                     android:src="@mipmap/ic_main_view_count" />
 
                                                 <TextView
-                                                    android:textColor="@color/sub_text_color"
                                                     android:id="@+id/tv_campusnews_viewcount1"
                                                     android:layout_width="wrap_content"
                                                     android:layout_height="wrap_content"
                                                     android:layout_gravity="center_vertical"
                                                     android:layout_marginLeft="8dp"
                                                     android:layout_marginStart="8dp"
+                                                    android:textColor="@color/sub_text_color"
                                                     android:textSize="12sp" />
 
                                                 <!--<ImageView
@@ -242,13 +290,13 @@
                                                     android:src="@mipmap/ic_main_comments" />-->
 
                                                 <TextView
-                                                    android:textColor="@color/sub_text_color"
                                                     android:id="@+id/tv_campusnews_comment1"
                                                     android:layout_width="wrap_content"
                                                     android:layout_height="wrap_content"
                                                     android:layout_gravity="center_vertical"
                                                     android:layout_marginLeft="8dp"
                                                     android:layout_marginStart="8dp"
+                                                    android:textColor="@color/sub_text_color"
                                                     android:textSize="12sp" />
 
                                                 <LinearLayout
@@ -258,10 +306,10 @@
                                                     android:gravity="end">
 
                                                     <TextView
-                                                        android:textColor="@color/sub_text_color"
                                                         android:id="@+id/tv_campusnews_date1"
                                                         android:layout_width="wrap_content"
                                                         android:layout_height="wrap_content"
+                                                        android:textColor="@color/sub_text_color"
                                                         android:textSize="12sp" />
 
                                                 </LinearLayout>
@@ -303,7 +351,8 @@
                                             android:id="@+id/tv_campusnews_title2"
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
-                                            android:layout_gravity="top" />
+                                            android:layout_gravity="top"
+                                            android:textColor="@color/main_text_color" />
 
                                         <LinearLayout
                                             android:layout_width="match_parent"
@@ -331,6 +380,7 @@
                                                     android:layout_gravity="center_vertical"
                                                     android:layout_marginLeft="8dp"
                                                     android:layout_marginStart="8dp"
+                                                    android:textColor="@color/sub_text_color"
                                                     android:textSize="12sp" />
 
                                                 <!--<ImageView
@@ -348,6 +398,7 @@
                                                     android:layout_gravity="center_vertical"
                                                     android:layout_marginLeft="8dp"
                                                     android:layout_marginStart="8dp"
+                                                    android:textColor="@color/sub_text_color"
                                                     android:textSize="12sp" />
 
                                                 <LinearLayout
@@ -360,6 +411,7 @@
                                                         android:id="@+id/tv_campusnews_date2"
                                                         android:layout_width="wrap_content"
                                                         android:layout_height="wrap_content"
+                                                        android:textColor="@color/sub_text_color"
                                                         android:textSize="12sp" />
 
                                                 </LinearLayout>
@@ -401,7 +453,8 @@
                                             android:id="@+id/tv_campusnews_title3"
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
-                                            android:layout_gravity="top" />
+                                            android:layout_gravity="top"
+                                            android:textColor="@color/main_text_color" />
 
                                         <LinearLayout
                                             android:layout_width="match_parent"
@@ -429,6 +482,7 @@
                                                     android:layout_gravity="center_vertical"
                                                     android:layout_marginLeft="8dp"
                                                     android:layout_marginStart="8dp"
+                                                    android:textColor="@color/sub_text_color"
                                                     android:textSize="12sp" />
 
                                                 <!--<ImageView
@@ -446,6 +500,7 @@
                                                     android:layout_gravity="center_vertical"
                                                     android:layout_marginLeft="8dp"
                                                     android:layout_marginStart="8dp"
+                                                    android:textColor="@color/sub_text_color"
                                                     android:textSize="12sp" />
 
                                                 <LinearLayout
@@ -458,6 +513,7 @@
                                                         android:id="@+id/tv_campusnews_date3"
                                                         android:layout_width="wrap_content"
                                                         android:layout_height="wrap_content"
+                                                        android:textColor="@color/sub_text_color"
                                                         android:textSize="12sp" />
 
                                                 </LinearLayout>
@@ -532,7 +588,8 @@
                                     <TextView
                                         android:id="@+id/tv_announcement_title1"
                                         android:layout_width="match_parent"
-                                        android:layout_height="wrap_content" />
+                                        android:layout_height="wrap_content"
+                                        android:textColor="@color/main_text_color" />
 
                                     <LinearLayout
                                         android:layout_width="match_parent"
@@ -543,6 +600,7 @@
                                             android:id="@+id/tv_announcement_comefrom1"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
+                                            android:textColor="@color/sub_text_color"
                                             android:textSize="12sp" />
 
                                         <LinearLayout
@@ -554,6 +612,7 @@
                                                 android:id="@+id/tv_announcement_date1"
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="wrap_content"
+                                                android:textColor="@color/sub_text_color"
                                                 android:textSize="12sp" />
 
                                         </LinearLayout>
@@ -580,7 +639,8 @@
                                     <TextView
                                         android:id="@+id/tv_announcement_title2"
                                         android:layout_width="match_parent"
-                                        android:layout_height="wrap_content" />
+                                        android:layout_height="wrap_content"
+                                        android:textColor="@color/main_text_color" />
 
                                     <LinearLayout
                                         android:layout_width="match_parent"
@@ -591,6 +651,7 @@
                                             android:id="@+id/tv_announcement_comefrom2"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
+                                            android:textColor="@color/sub_text_color"
                                             android:textSize="12sp" />
 
                                         <LinearLayout
@@ -602,6 +663,7 @@
                                                 android:id="@+id/tv_announcement_date2"
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="wrap_content"
+                                                android:textColor="@color/sub_text_color"
                                                 android:textSize="12sp" />
 
                                         </LinearLayout>
@@ -627,7 +689,8 @@
                                     <TextView
                                         android:id="@+id/tv_announcement_title3"
                                         android:layout_width="match_parent"
-                                        android:layout_height="wrap_content" />
+                                        android:layout_height="wrap_content"
+                                        android:textColor="@color/main_text_color" />
 
                                     <LinearLayout
                                         android:layout_width="match_parent"
@@ -638,6 +701,7 @@
                                             android:id="@+id/tv_announcement_comefrom3"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
+                                            android:textColor="@color/sub_text_color"
                                             android:textSize="12sp" />
 
                                         <LinearLayout
@@ -649,6 +713,7 @@
                                                 android:id="@+id/tv_announcement_date3"
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="wrap_content"
+                                                android:textColor="@color/sub_text_color"
                                                 android:textSize="12sp" />
 
                                         </LinearLayout>
@@ -716,7 +781,8 @@
                                     <TextView
                                         android:id="@+id/tv_jobs_title1"
                                         android:layout_width="match_parent"
-                                        android:layout_height="wrap_content" />
+                                        android:layout_height="wrap_content"
+                                        android:textColor="@color/main_text_color" />
 
 
                                     <LinearLayout
@@ -729,6 +795,7 @@
                                             android:id="@+id/tv_jobs_date1"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
+                                            android:textColor="@color/sub_text_color"
                                             android:textSize="12sp" />
 
                                     </LinearLayout>
@@ -753,7 +820,8 @@
                                     <TextView
                                         android:id="@+id/tv_jobs_title2"
                                         android:layout_width="match_parent"
-                                        android:layout_height="wrap_content" />
+                                        android:layout_height="wrap_content"
+                                        android:textColor="@color/main_text_color" />
 
                                     <LinearLayout
                                         android:layout_width="match_parent"
@@ -766,6 +834,7 @@
                                             android:id="@+id/tv_jobs_date2"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
+                                            android:textColor="@color/sub_text_color"
                                             android:textSize="12sp" />
 
                                     </LinearLayout>
@@ -789,7 +858,8 @@
                                     <TextView
                                         android:id="@+id/tv_jobs_title3"
                                         android:layout_width="match_parent"
-                                        android:layout_height="wrap_content" />
+                                        android:layout_height="wrap_content"
+                                        android:textColor="@color/main_text_color" />
 
                                     <LinearLayout
                                         android:layout_width="match_parent"
@@ -802,6 +872,7 @@
                                             android:id="@+id/tv_jobs_date3"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
+                                            android:textColor="@color/sub_text_color"
                                             android:textSize="12sp" />
 
                                     </LinearLayout>
@@ -853,7 +924,7 @@
                             android:id="@+id/rv_main_found"
                             android:layout_width="match_parent"
                             android:layout_height="100dp"
-                            android:layout_marginBottom="32dp"/>
+                            android:layout_marginBottom="32dp" />
 
 
                     </LinearLayout>

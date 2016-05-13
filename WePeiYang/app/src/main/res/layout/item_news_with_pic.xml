@@ -21,6 +21,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:textColor="@color/main_text_color"
                 android:id="@+id/tv_news_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -45,6 +46,7 @@
                         android:src="@mipmap/ic_main_view_count" />
 
                     <TextView
+                        android:textColor="@color/sub_text_color"
                         android:id="@+id/tv_view_count"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -62,6 +64,7 @@
                         android:src="@mipmap/ic_main_comments" />
 
                     <TextView
+                        android:textColor="@color/sub_text_color"
                         android:id="@+id/tv_comment_count"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

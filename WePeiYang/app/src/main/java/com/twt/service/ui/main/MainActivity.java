@@ -31,6 +31,7 @@ import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 import com.twt.service.JniUtils;
 import com.twt.service.R;
+import com.twt.service.bean.Login;
 import com.twt.service.bean.Main;
 import com.twt.service.bean.Update;
 import com.twt.service.interactor.MainInteractorImpl;
@@ -164,6 +165,10 @@ public class MainActivity extends BaseActivity implements BaseSliderView.OnSlide
     RecyclerView rvMainLost;
     @InjectView(R.id.rv_main_found)
     RecyclerView rvMainFound;
+    @InjectView(R.id.btn_dating)
+    LinearLayout btnDating;
+    @InjectView(R.id.btn_bus)
+    LinearLayout btnBus;
 
     private MainPresenterImpl presenter;
     private MainFoundAdapter mainFoundAdapter;
@@ -207,20 +212,6 @@ public class MainActivity extends BaseActivity implements BaseSliderView.OnSlide
                     case R.id.item_check_update:
                         checkUpdate(false);
                         break;
-                    case R.id.item_bus:
-                        if (PrefUtils.isLogin()) {
-                            BusActivity.actionStart(MainActivity.this);
-                        } else {
-                            LoginActivity.actionStart(MainActivity.this, NextActivity.Bus);
-                        }
-                        break;
-                    case R.id.item_dating:
-                        if (PrefUtils.isLogin()) {
-                            DatingActivity.actionStart(MainActivity.this);
-                        } else {
-                            LoginActivity.actionStart(MainActivity.this, NextActivity.Dating);
-                        }
-                        break;
                 }
                 dlMain.closeDrawers();
                 return true;
@@ -232,6 +223,8 @@ public class MainActivity extends BaseActivity implements BaseSliderView.OnSlide
         rlMoreCampusNote.setOnClickListener(this);
         rlMoreJobsInfo.setOnClickListener(this);
         btnSchedule.setOnClickListener(this);
+        btnBus.setOnClickListener(this);
+        btnDating.setOnClickListener(this);
         presenter = new MainPresenterImpl(this, new MainInteractorImpl(), this);
         presenter.loadDataFromCache();
         srlMain.setColorSchemeColors(getResources().getColor(R.color.main_primary));
@@ -331,6 +324,20 @@ public class MainActivity extends BaseActivity implements BaseSliderView.OnSlide
                     GpaActivity.actionStart(this);
                 } else {
                     LoginActivity.actionStart(this, NextActivity.Gpa);
+                }
+                break;
+            case R.id.btn_bus:
+                if (PrefUtils.isLogin()) {
+                    BusActivity.actionStart(this);
+                } else {
+                    LoginActivity.actionStart(this, NextActivity.Bus);
+                }
+                break;
+            case R.id.btn_dating:
+                if (PrefUtils.isLogin()) {
+                    DatingActivity.actionStart(this);
+                } else {
+                    LoginActivity.actionStart(this, NextActivity.Dating);
                 }
                 break;
             //case R.id.btn_library_query:
@@ -512,6 +519,7 @@ public class MainActivity extends BaseActivity implements BaseSliderView.OnSlide
     public void hideRefreshing() {
         srlMain.setRefreshing(false);
     }
+
 
     private void checkUpdate(final boolean isInMain) {
         JniUtils jniUtils = JniUtils.getInstance();
