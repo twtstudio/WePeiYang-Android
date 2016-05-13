@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.github.mikephil.charting.utils.Utils;
 import com.twt.service.R;
 import com.twt.service.support.ACache;
+import com.twt.service.support.ApplicationUtils;
 import com.twt.service.support.CacheLogoTask;
 import com.twt.service.support.PrefUtils;
 import com.twt.service.support.UserAgent;
@@ -53,14 +54,14 @@ public class WelcomeActivity extends Activity {
             @Override
             public void run() {
                 Intent intent;
-                if(PrefUtils.isGuide()){
-                    PrefUtils.setPrefIsGuide(false);
+                if(!PrefUtils.getPreFversion().equals(ApplicationUtils.getVersionName())){
                     intent = new Intent(WelcomeActivity.this, GuideActivity.class);
                 }else if (PrefUtils.isLogin()) {
                     intent = new Intent(WelcomeActivity.this, MainActivity.class);
                 } else {
                     intent = new Intent(WelcomeActivity.this, LoginActivity.class);
                 }
+
                 startActivity(intent);
                 finish();
             }
