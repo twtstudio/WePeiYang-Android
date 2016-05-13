@@ -16,6 +16,10 @@ public class PrefUtils {
     private static final String PREF_USERNAME = "username";
     private static final String PREF_LOST_FOUND_CONTACT_NAME = "lost_found_contact_name";
     private static final String PREF_LOST_FOUND_CONTACT_NUMBER = "lost_found_contact_number";
+<<<<<<< HEAD
+=======
+    private static final String PREF_VERSION = "version";
+>>>>>>> origin/photoupload
 
 
     private static SharedPreferences getDefaultSharedPreferences() {
@@ -79,4 +83,15 @@ public class PrefUtils {
     public static String getLostFoundContactNumber() {
         return getDefaultSharedPreferences().getString(PREF_LOST_FOUND_CONTACT_NUMBER, "");
     }
+<<<<<<< HEAD
+=======
+
+    public static void setPrefVersion(String version){
+        getDefaultSharedPreferences().edit().putString(PREF_VERSION, version).apply();
+    }
+
+    public static String getPreFversion(){
+        return getDefaultSharedPreferences().getString(PREF_VERSION, "");
+    }
+>>>>>>> origin/photoupload
 }
