@@ -8,7 +8,7 @@ android {
         applicationId "com.twt.service"
         minSdkVersion 14
         targetSdkVersion 23
-        versionCode 12
+        versionCode 13
         versionName "1.6.1"
         ndk{
             moduleName "Jni"
