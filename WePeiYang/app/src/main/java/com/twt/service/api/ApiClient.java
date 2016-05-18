@@ -17,30 +17,59 @@ import com.twt.service.bean.Upload;
 import com.twt.service.support.UserAgent;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
-import retrofit.Callback;
-import retrofit.RequestInterceptor;
-import retrofit.RestAdapter;
-import retrofit.mime.TypedFile;
+import okhttp3.Interceptor;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Callback;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by Rex on 2015/8/1.
  */
 public class ApiClient {
-    private static RequestInterceptor requestInterceptor = new RequestInterceptor() {
+    private static Interceptor requestInterceptor = new Interceptor() {
         @Override
-        public void intercept(RequestInterceptor.RequestFacade request) {
-            request.addHeader("User-Agent", UserAgent.generate());
+        public Response intercept(Chain chain) throws IOException {
+            Request request = chain.request();
+            Request newRequest = request.newBuilder().addHeader("User-Agent", UserAgent.generate()).build();
+            return chain.proceed(newRequest);
         }
     };
     private static final String API = "http://open.twtstudio.com/api/v1";
-    private static RestAdapter adapter = new RestAdapter.Builder().setLogLevel(RestAdapter.LogLevel.FULL).setRequestInterceptor(requestInterceptor).setEndpoint(API).build();
-    private static Api mApi = adapter.create(Api.class);
+    private static Api mApi;
 
+    private ApiClient() {
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+
+        OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(interceptor)
+                .retryOnConnectionFailure(true)
+                .connectTimeout(30, TimeUnit.SECONDS)
+                .addInterceptor(requestInterceptor)
+                .build();
+
+        Retrofit adapter = new Retrofit.Builder()
+                .baseUrl(API)
+                .client(client)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        mApi = adapter.create(Api.class);
+    }
 
     public static void bind(String authorization, String tjuname, String tjupwd, Callback<JsonElement> callback) {
         RequestParams params = new RequestParams();
@@ -329,15 +358,20 @@ public class ApiClient {
     }
 
     public static void uploadImage(String to, File file, Callback<List<Upload>> callback) {
-        TypedFile typedFile = new TypedFile("multipart/form-data", file);
+        //TypedFile typedFile = new TypedFile("multipart/form-data", file);
         RequestParams params = new RequestParams();
         params.put("to", to);
         HashMap<String, String> temp = new HashMap<>();
         temp.put("t", params.get("t"));
         temp.put("to", to);
-        String sign = new Sign().generate(temp);
-        params.put("sign", sign);
-        mApi.uploadImage(typedFile, params, callback);
+
+        Map<String, RequestBody> requestBodyMap = new HashMap<>();
+        requestBodyMap.put("to", RequestBody.create(MediaType.parse("text/plain"), to));
+        requestBodyMap.put("app_key", RequestBody.create(MediaType.parse("text/plain"), params.get("app_key")));
+        requestBodyMap.put("t", RequestBody.create(MediaType.parse("text/plain"), params.get("t")));
+        requestBodyMap.put("sign", RequestBody.create(MediaType.parse("text/plain"), new Sign().generate(temp)));
+        requestBodyMap.put("file\"; filename=\"image.png\"", RequestBody.create(MediaType.parse("image/*"), file));
+        mApi.uploadImage(requestBodyMap, callback);
     }
 
     public static void getMyLostList(String authorization, int page, Callback<Lost> callback) {
