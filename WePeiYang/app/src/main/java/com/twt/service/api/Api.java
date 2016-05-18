@@ -13,22 +13,21 @@ import com.twt.service.bean.NewsList;
 import com.twt.service.bean.RefreshedToken;
 import com.twt.service.bean.Upload;
 
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import retrofit.Callback;
-import retrofit.http.FieldMap;
-import retrofit.http.FormUrlEncoded;
-import retrofit.http.GET;
-import retrofit.http.Header;
-import retrofit.http.Multipart;
-import retrofit.http.POST;
-import retrofit.http.PUT;
-import retrofit.http.Part;
-import retrofit.http.PartMap;
-import retrofit.http.Path;
-import retrofit.http.QueryMap;
-import retrofit.mime.TypedFile;
+import okhttp3.RequestBody;
+import retrofit2.Callback;
+import retrofit2.http.FieldMap;
+import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
+import retrofit2.http.Header;
+import retrofit2.http.Multipart;
+import retrofit2.http.POST;
+import retrofit2.http.PUT;
+import retrofit2.http.PartMap;
+import retrofit2.http.Path;
+import retrofit2.http.QueryMap;
 
 /**
  * Created by sunjuntao on 15/11/5.
@@ -99,7 +98,7 @@ public interface Api {
 
     @Multipart
     @POST("/app/upload")
-    void uploadImage(@Part("file") TypedFile file, @PartMap RequestParams params, Callback<List<Upload>> response);
+    void uploadImage(@PartMap Map<String, RequestBody> requestBodyMap, Callback<List<Upload>> response);
 
     @GET("/lostfound/user/lost")
     void getMyLostList(@Header(AUTHORIZATION) String authorization, @QueryMap RequestParams params, Callback<Lost> response);
