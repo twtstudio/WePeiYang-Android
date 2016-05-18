@@ -483,7 +483,7 @@ public class PostLostFragment extends BaseFragment implements View.OnClickListen
 
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-        time = year + "/" + monthOfYear + "/" + dayOfMonth;
+        time = year + "/" + (monthOfYear + 1) + "/" + dayOfMonth;
         btnLostTime.setText(time);
     }
 }
