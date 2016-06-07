@@ -2,6 +2,7 @@ package com.twt.service.ui.lostfound.lost;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -13,7 +14,6 @@ import android.widget.Toast;
 import com.twt.service.R;
 import com.twt.service.bean.LostItem;
 import com.twt.service.interactor.LostInteractorImpl;
-import com.twt.service.ui.BaseFragment;
 import com.twt.service.ui.common.OnRcvScrollListener;
 
 import java.util.List;
@@ -25,7 +25,7 @@ import de.greenrobot.event.EventBus;
 /**
  * Created by Rex on 2015/8/2.
  */
-public class LostFragment extends BaseFragment implements LostView, SwipeRefreshLayout.OnRefreshListener {
+public class LostFragment extends Fragment implements LostView, SwipeRefreshLayout.OnRefreshListener {
 
     @InjectView(R.id.rv_lost)
     RecyclerView rvLost;

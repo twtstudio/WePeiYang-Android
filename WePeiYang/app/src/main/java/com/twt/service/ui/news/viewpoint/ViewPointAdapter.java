@@ -10,7 +10,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.twt.service.R;
-import com.twt.service.bean.NewsItem;
 import com.twt.service.ui.news.details.NewsDetailsActivity;
 import com.squareup.picasso.Picasso;
 

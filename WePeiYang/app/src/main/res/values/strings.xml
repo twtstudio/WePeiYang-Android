@@ -29,6 +29,11 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_news">校园新闻</string>
+    <!-- News Activity -->
+    <string name="important_news">天大要闻</string>
+    <string name="viewpoint">视点观察</string>
+    <string name="association_news">社团风采</string>
+    <string name="college_news">院系动态</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

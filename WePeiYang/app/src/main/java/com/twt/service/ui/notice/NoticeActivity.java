@@ -12,7 +12,6 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.twt.service.R;
-import com.twt.service.bean.NewsItem;
 import com.twt.service.interactor.NoticeInteractorImpl;
 import com.twt.service.ui.BaseActivity;
 import com.twt.service.ui.common.OnRcvScrollListener;

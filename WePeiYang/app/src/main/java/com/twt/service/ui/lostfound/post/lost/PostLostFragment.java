@@ -1,10 +1,8 @@
 package com.twt.service.ui.lostfound.post.lost;
 
-import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,14 +18,12 @@ import com.twt.service.R;
 import com.twt.service.bean.LostDetails;
 import com.twt.service.interactor.LostInteractorImpl;
 import com.twt.service.support.PrefUtils;
-import com.twt.service.ui.BaseFragment;
 import com.twt.service.ui.common.LostType;
 import com.twt.service.ui.common.NextActivity;
 import com.twt.service.ui.common.TokenRefreshFailureEvent;
 import com.twt.service.ui.common.TokenRefreshSuccessEvent;
 import com.twt.service.ui.login.LoginActivity;
 import com.twt.service.ui.lostfound.post.SetContactInfoEvent;
-import com.twt.service.ui.lostfound.post.event.LostId;
 import com.twt.service.ui.lostfound.post.event.PostLostContactInfoEvent;
 import com.twt.service.ui.lostfound.post.lost.event.EditLostFailureEvent;
 import com.twt.service.ui.lostfound.post.lost.event.EditLostSuccessEvent;
@@ -46,7 +42,7 @@ import retrofit.RetrofitError;
 /**
  * Created by Rex on 2015/8/7.
  */
-public class PostLostFragment extends BaseFragment implements View.OnClickListener, PostLostView, DatePickerDialog.OnDateSetListener {
+public class PostLostFragment extends Fragment implements View.OnClickListener, PostLostView, DatePickerDialog.OnDateSetListener {
 
 
     private static ImageView ivTagChosed;

@@ -2,30 +2,27 @@ package com.twt.service.ui.news.viewpoint;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.twt.service.R;
-import com.twt.service.bean.NewsItem;
 import com.twt.service.interactor.ViewPointInteractorImpl;
-import com.twt.service.ui.BaseFragment;
 import com.twt.service.ui.common.OnRcvScrollListener;
 
 import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import de.greenrobot.event.EventBus;
 
 /**
  * Created by sunjuntao on 15/11/18.
  */
-public class ViewPointFragment extends BaseFragment implements ViewPointView {
+public class ViewPointFragment extends Fragment implements ViewPointView {
     @InjectView(R.id.rv_viewpoint)
     RecyclerView rvViewpoint;
     @InjectView(R.id.srl_viewpoint)

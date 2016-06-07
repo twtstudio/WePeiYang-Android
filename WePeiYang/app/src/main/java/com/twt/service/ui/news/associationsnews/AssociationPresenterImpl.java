@@ -4,8 +4,6 @@ import com.twt.service.bean.NewsList;
 import com.twt.service.bean.RestError;
 import com.twt.service.interactor.AssociationInteractor;
 
-import retrofit.RetrofitError;
-
 /**
  * Created by sunjuntao on 15/11/19.
  */

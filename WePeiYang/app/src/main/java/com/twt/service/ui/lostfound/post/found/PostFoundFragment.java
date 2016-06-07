@@ -1,10 +1,9 @@
 package com.twt.service.ui.lostfound.post.found;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,12 +19,10 @@ import com.twt.service.bean.FoundDetails;
 import com.twt.service.interactor.FoundInteractorImpl;
 import com.twt.service.support.ImageResizer;
 import com.twt.service.support.PrefUtils;
-import com.twt.service.ui.BaseFragment;
 import com.twt.service.ui.common.NextActivity;
 import com.twt.service.ui.login.LoginActivity;
 import com.twt.service.ui.lostfound.post.SetContactInfoEvent;
 import com.twt.service.ui.lostfound.post.event.AddedPhotoEvent;
-import com.twt.service.ui.lostfound.post.event.FoundId;
 import com.twt.service.ui.lostfound.post.event.PostFoundContactInfoEvent;
 import com.twt.service.ui.lostfound.post.found.event.AddPhotoEvent;
 import com.twt.service.ui.lostfound.post.found.event.GetPostFoundContactInfoEvent;
@@ -45,7 +42,7 @@ import de.greenrobot.event.EventBus;
 /**
  * Created by Rex on 2015/8/7.
  */
-public class PostFoundFragment extends BaseFragment implements View.OnClickListener, PostFoundView, DatePickerDialog.OnDateSetListener {
+public class PostFoundFragment extends Fragment implements View.OnClickListener, PostFoundView, DatePickerDialog.OnDateSetListener {
     @InjectView(R.id.iv_add_photo)
     ImageView ivAddPhoto;
     @InjectView(R.id.iv_photo_added)

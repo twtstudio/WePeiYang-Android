@@ -10,8 +10,6 @@ import com.twt.service.support.PrefUtils;
 import com.twt.service.support.ResourceHelper;
 import com.twt.service.ui.common.NextActivity;
 
-import retrofit.RetrofitError;
-
 /**
  * Created by sunjuntao on 15/11/15.
  */

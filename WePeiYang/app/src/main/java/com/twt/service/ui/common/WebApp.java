@@ -1,15 +1,9 @@
 package com.twt.service.ui.common;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
-
-import com.github.lzyzsd.jsbridge.BridgeHandler;
 import com.github.lzyzsd.jsbridge.BridgeWebView;
-import com.github.lzyzsd.jsbridge.CallBackFunction;
 import com.twt.service.support.ApplicationUtils;
-import com.twt.service.support.PrefUtils;
 
 /**
  * Created by sunjuntao on 16/5/3.

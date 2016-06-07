@@ -1,25 +1,27 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    compileSdkVersion Integer.parseInt(ANDROID_COMPILE_SDK)
+    buildToolsVersion ANDROID_BUILD_TOOLS_VERSION
 
     defaultConfig {
         applicationId "com.twt.service"
-        minSdkVersion 14
-        targetSdkVersion 23
         versionCode 13
+        minSdkVersion Integer.parseInt(ANDROID_MIN_SDK)
+        targetSdkVersion Integer.parseInt(ANDROID_TARGET_SDK)
         versionName "1.6.1"
-        ndk{
+        ndk {
             moduleName "Jni"
         }
     }
     buildTypes {
         debug {
+            buildConfigField "boolean", "LOG_ENABLE", "false"
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         release {
+            buildConfigField "boolean", "LOG_ENABLE", "false"
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
@@ -29,32 +31,32 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:23.1.1'
-    compile 'com.android.support:design:23.1.1'
-    compile 'com.squareup.picasso:picasso:2.3.2'
-    compile 'com.android.support:design:23.1.1'
-    compile 'com.android.support:cardview-v7:23.1.1'
-    compile 'com.android.support:recyclerview-v7:23.1.1'
+    compile "com.android.support:appcompat-v7:${SUPPORT_V7_VERSION}"
+    compile "com.android.support:design:${SUPPORT_V7_VERSION}"
+    compile "com.android.support:design:${SUPPORT_V7_VERSION}"
+    compile "com.android.support:cardview-v7:${SUPPORT_V7_VERSION}"
+    compile "com.android.support:recyclerview-v7:${SUPPORT_V7_VERSION}"
+
+    compile 'io.reactivex:rxjava:1.1.5'
+    compile 'io.reactivex:rxandroid:1.2.0'
+    compile 'com.squareup.retrofit2:retrofit:2.0.2'
+    compile 'com.squareup.retrofit2:converter-gson:2.0.2'
+    compile 'com.squareup.retrofit2:adapter-rxjava:2.0.2'
+    compile 'com.squareup.okhttp3:okhttp:3.0.1'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.0.1'
+
+    compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.jakewharton:butterknife:5.1.1'
-    compile 'com.github.PhilJay:MPAndroidChart:v2.1.3'
-    compile 'com.nineoldandroids:library:2.4.0'
-    compile 'com.daimajia.slider:library:1.1.5@aar'
-    compile 'com.squareup.retrofit:retrofit:1.9.0'
-    compile 'com.android.support:support-v4:23.1.1'
-    compile 'com.wdullaer:materialdatetimepicker:2.3.0'
-    compile 'commons-codec:commons-codec:1.6'
-    compile 'com.facebook.fresco:fresco:0.8.1'
-    compile 'org.litepal.android:core:1.3.0'
-    compile 'com.readystatesoftware.systembartint:systembartint:1.0.3'
-    compile 'im.fir:fir-sdk:latest.integration@aar'
+    compile 'com.github.campusappcn.AndRouter:router:1.2.4'
     compile 'de.greenrobot:eventbus:2.4.0'
-    compile files('libs/MobCommons.jar')
-    compile files('libs/MobTools.jar')
-    compile files('libs/ShareSDK-Core-2.6.6.jar')
-    compile files('libs/ShareSDK-Wechat-2.6.6.jar')
-    compile files('libs/ShareSDK-Wechat-Core-2.6.6.jar')
-    compile files('libs/ShareSDK-Wechat-Favorite-2.6.6.jar')
-    compile files('libs/ShareSDK-Wechat-Moments-2.6.6.jar')
     compile 'com.github.lzyzsd:jsbridge:1.0.4'
-    compile files('libs/viewpagerindicator_v1.0.2.jar')
+    compile 'im.fir:fir-sdk:latest.integration@aar'
+    compile 'org.litepal.android:core:1.3.0'
+    compile 'commons-codec:commons-codec:1.6'
+    compile 'com.nineoldandroids:library:2.4.0'
+
+    compile 'com.github.PhilJay:MPAndroidChart:v2.1.3'
+    compile 'com.daimajia.slider:library:1.1.5@aar'
+    compile 'com.wdullaer:materialdatetimepicker:2.3.0'
+    compile 'com.readystatesoftware.systembartint:systembartint:1.0.3'
 }

@@ -2,18 +2,16 @@ package com.twt.service.ui.news.associationsnews;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.twt.service.R;
-import com.twt.service.bean.NewsItem;
 import com.twt.service.interactor.AssociationInteractorImpl;
-import com.twt.service.ui.BaseFragment;
 import com.twt.service.ui.common.OnRcvScrollListener;
 
 import java.util.List;
@@ -24,7 +22,7 @@ import butterknife.InjectView;
 /**
  * Created by sunjuntao on 15/11/19.
  */
-public class AssociationFragment extends BaseFragment implements AssociationView {
+public class AssociationFragment extends Fragment implements AssociationView {
 
     @InjectView(R.id.rv_association)
     RecyclerView rvAssociation;

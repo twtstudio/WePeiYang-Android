@@ -1,7 +1,5 @@
 package com.twt.service.ui.notice;
 
-import com.twt.service.bean.NewsItem;
-
 import java.util.List;
 
 /**
