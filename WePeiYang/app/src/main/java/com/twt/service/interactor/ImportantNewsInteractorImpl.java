@@ -2,7 +2,6 @@ package com.twt.service.interactor;
 
 import com.twt.service.api.ApiClient;
 import com.twt.service.bean.NewsList;
-import com.twt.service.ui.news.importantnews.OnGetImportantNewsCallback;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;

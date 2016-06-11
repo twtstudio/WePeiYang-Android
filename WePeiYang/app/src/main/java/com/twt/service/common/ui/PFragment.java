@@ -15,20 +15,14 @@ import butterknife.ButterKnife;
 /**
  * Created by sunjuntao on 16/6/3.
  */
-public abstract class PFragment<T extends Presenter> extends Fragment {
+public abstract class PFragment<T extends Presenter> extends BaseFragment {
     protected T mPresenter;
 
     protected abstract T getPresenter();
 
-    protected abstract int getLayout();
-
-    protected abstract void initView();
-
-    protected void preInitView() {
-
-    }
-
-    protected void afrerInitView() {
+    @Override
+    protected void afterInitView() {
+        super.afterInitView();
         if (mPresenter != null) {
             mPresenter.onCreate();
         }
@@ -37,12 +31,8 @@ public abstract class PFragment<T extends Presenter> extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(getLayout(), container, false);
-        ButterKnife.inject(this, view);
-        preInitView();
-        initView();
-        afrerInitView();
-        return view;
+        mPresenter = getPresenter();
+        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     @Override

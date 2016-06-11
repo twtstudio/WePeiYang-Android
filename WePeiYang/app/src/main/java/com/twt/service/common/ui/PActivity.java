@@ -16,7 +16,9 @@ public abstract class PActivity<T extends Presenter> extends BaseActivity {
 
     protected abstract T getPresenter();
 
+    @Override
     protected void afterInitView() {
+        super.afterInitView();
         if (mPresenter != null) {
             mPresenter.onCreate();
         }
@@ -24,9 +26,8 @@ public abstract class PActivity<T extends Presenter> extends BaseActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         mPresenter = getPresenter();
-        afterInitView();
+        super.onCreate(savedInstanceState);
     }
 
     @Override

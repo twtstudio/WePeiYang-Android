@@ -8,32 +8,51 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.twt.service.R;
+import com.twt.service.common.ui.PFragment;
 import com.twt.service.interactor.ImportantNewsInteractorImpl;
+import com.twt.service.model.NewsItem;
 import com.twt.service.ui.common.OnRcvScrollListener;
+import com.twt.service.ui.news.NewsAdapter;
 
 import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class ImportantNewsFragment extends Fragment implements ImportantNewsView {
+public class ImportantNewsFragment extends PFragment<ImportantNewsPresenter> implements ImportantNewsViewController {
 
     @InjectView(R.id.rv_important_news)
     RecyclerView rvImportantNews;
     @InjectView(R.id.srl_important_news)
     SwipeRefreshLayout srlImportantNews;
-    private ImportantNewsAdapter adapter;
+    private NewsAdapter adapter;
     private ImportantNewsPresenter presenter;
+
+    @Override
+    protected ImportantNewsPresenter getPresenter() {
+        if (mPresenter == null) {
+            return new ImportantNewsPresenter(getContext());
+        }
+        return mPresenter;
+    }
+
+    @Override
+    protected int getLayout() {
+        return R.layout.fragment_important_news;
+    }
+
+    @Override
+    protected void initView() {
+        srlImportantNews.setColorSchemeColors(getResources().getColor(R.color.news_primary_color));
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         adapter = new ImportantNewsAdapter(getActivity());
-        View view = inflater.inflate(R.layout.fragment_important_news, container, false);
-        ButterKnife.inject(this, view);
-        srlImportantNews.setColorSchemeColors(getResources().getColor(R.color.news_primary_color));
         presenter = new ImportantNewsPresenterImpl(this, new ImportantNewsInteractorImpl());
         rvImportantNews.setOnScrollListener(new OnRcvScrollListener() {
             @Override
@@ -83,5 +102,10 @@ public class ImportantNewsFragment extends Fragment implements ImportantNewsView
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.reset(this);
+    }
+
+    @Override
+    public void toastMessage(String message) {
+        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
     }
 }

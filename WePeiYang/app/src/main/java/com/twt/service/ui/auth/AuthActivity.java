@@ -1,8 +1,12 @@
 package com.twt.service.ui.auth;
 
+import android.content.Context;
+import android.content.Intent;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.twt.service.R;
 import com.twt.service.common.ui.PActivity;
@@ -49,12 +53,18 @@ public class AuthActivity extends PActivity<AuthPresenter> implements AuthViewCo
         if (mPresenter == null) {
             return new AuthPresenter(this, this);
         }
-        return (AuthPresenter) mPresenter;
+        return mPresenter;
     }
 
     @Override
     protected int getLayout() {
         return R.layout.activity_auth;
+    }
+
+    @Override
+    protected void actionStart(Context context) {
+        Intent intent = new Intent(context, AuthActivity.class);
+        context.startActivity(intent);
     }
 
     @Override
@@ -89,6 +99,11 @@ public class AuthActivity extends PActivity<AuthPresenter> implements AuthViewCo
         }
     }
 
+    @Override
+    protected Toolbar getToolbar() {
+        return null;
+    }
+
     @OnClick({R.id.auth_submit, R.id.auth_later})
     public void onClick(View view) {
         int id = view.getId();
@@ -116,5 +131,10 @@ public class AuthActivity extends PActivity<AuthPresenter> implements AuthViewCo
     @Override
     public void showPasswordError(String message) {
         mPasswordView.setError(message);
+    }
+
+    @Override
+    public void toastMessage(String message) {
+        Toast.makeText(AuthActivity.this, message, Toast.LENGTH_SHORT).show();
     }
 }

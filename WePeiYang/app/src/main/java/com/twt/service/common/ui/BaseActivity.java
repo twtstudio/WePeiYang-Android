@@ -35,9 +35,12 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     }
 
+    protected void afterInitView() {
+
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         super.onCreate(savedInstanceState);
         setContentView(getLayout());
         ButterKnife.inject(this);
@@ -51,6 +54,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
         preInitView();
         initView();
+        afterInitView();
     }
 
     @Override
