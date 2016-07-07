@@ -3,6 +3,8 @@ package com.twt.service;
 import android.app.Application;
 import android.content.Context;
 
+import com.twt.service.service.push.PushService;
+
 import org.litepal.LitePalApplication;
 
 import im.fir.sdk.FIR;
@@ -22,6 +24,8 @@ public class WePeiYangApp extends Application{
         FIR.addCustomizeValue("sdk", android.os.Build.VERSION.SDK_INT + "");
         FIR.addCustomizeValue("cpu", android.os.Build.CPU_ABI);
         FIR.addCustomizeValue("rom_provider", android.os.Build.MANUFACTURER);
+        //启动推送服务
+        PushService.actionStart(this);
         super.onCreate();
     }
 

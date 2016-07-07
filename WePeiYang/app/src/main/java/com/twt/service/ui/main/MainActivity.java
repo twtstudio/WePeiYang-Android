@@ -52,6 +52,7 @@ import com.twt.service.ui.main.adapter.MainLostAdapter;
 import com.twt.service.ui.news.NewsActivity;
 import com.twt.service.ui.news.details.NewsDetailsActivity;
 import com.twt.service.ui.notice.NoticeActivity;
+import com.twt.service.ui.push.PushActivity;
 import com.twt.service.ui.schedule.ScheduleActivity;
 
 import java.util.ArrayList;
@@ -212,6 +213,9 @@ public class MainActivity extends BaseActivity implements BaseSliderView.OnSlide
                     case R.id.item_check_update:
                         checkUpdate(false);
                         break;
+                    /*case R.id.push_settings:
+                        PushActivity.actionStart(MainActivity.this);
+                        break;*/
                 }
                 dlMain.closeDrawers();
                 return true;
