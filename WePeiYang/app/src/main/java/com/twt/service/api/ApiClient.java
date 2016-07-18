@@ -8,6 +8,7 @@ import com.twt.service.bean.Found;
 import com.twt.service.bean.FoundDetails;
 import com.twt.service.bean.Jobs;
 import com.twt.service.bean.JobsList;
+import com.twt.service.bean.LibSearch;
 import com.twt.service.bean.Lost;
 import com.twt.service.bean.LostDetails;
 import com.twt.service.bean.News;
@@ -414,4 +415,18 @@ public class ApiClient {
         params.put("sign", sign);
         mApi.editFound(authorization, id, params, callback);
     }
+    public static void libSearch(String title, int page, Callback<LibSearch> callback)
+    {
+        RequestParams params=new RequestParams();
+        params.put("title",title);
+        params.put("page",page+"");
+        HashMap<String,String> temp=new HashMap<>();
+        temp.put("t",params.get("t"));
+        temp.put("title","swift");
+        temp.put("page",1+"");
+        String sign=new Sign().generate(temp);
+        params.put("sign",sign);
+        mApi.libSearch(params,callback);
+    }
+
 }

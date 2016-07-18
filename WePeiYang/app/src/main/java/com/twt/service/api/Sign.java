@@ -13,7 +13,7 @@ import java.util.HashMap;
 /**
  * Created by sunjuntao on 15/11/5.
  */
-public class Sign {
+public  class Sign {
 
     public String generate(HashMap<String, String> params) {
         String paramsString = dictSort(params);//获取字典排序后的参数列表

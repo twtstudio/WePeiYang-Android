@@ -6,6 +6,7 @@ import com.twt.service.bean.Found;
 import com.twt.service.bean.FoundDetails;
 import com.twt.service.bean.Jobs;
 import com.twt.service.bean.JobsList;
+import com.twt.service.bean.LibSearch;
 import com.twt.service.bean.Lost;
 import com.twt.service.bean.LostDetails;
 import com.twt.service.bean.News;
@@ -114,4 +115,7 @@ public interface Api {
     @FormUrlEncoded
     @PUT("/lostfound/found/{id}")
     void editFound(@Header(AUTHORIZATION) String authorization, @Path("id") int id, @FieldMap RequestParams params, Callback<JsonElement> response);
+
+    @GET("/lib/search")
+    void libSearch( @QueryMap RequestParams params, Callback<LibSearch> response);
 }

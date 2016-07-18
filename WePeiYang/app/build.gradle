@@ -48,6 +48,7 @@ dependencies {
     compile 'com.readystatesoftware.systembartint:systembartint:1.0.3'
     compile 'im.fir:fir-sdk:latest.integration@aar'
     compile 'de.greenrobot:eventbus:2.4.0'
+    compile 'com.squareup.retrofit2:retrofit:2.1.0'
     compile files('libs/MobCommons.jar')
     compile files('libs/MobTools.jar')
     compile files('libs/ShareSDK-Core-2.6.6.jar')

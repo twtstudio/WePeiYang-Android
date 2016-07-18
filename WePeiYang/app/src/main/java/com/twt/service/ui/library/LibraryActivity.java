@@ -5,12 +5,19 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.twt.service.R;
 import com.twt.service.ui.BaseActivity;
+import com.twt.service.ui.library.search.SearchFragment;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -25,6 +32,8 @@ public class LibraryActivity extends BaseActivity implements LibraryView{
     ViewPager vpLibrary;
     @InjectView(R.id.toolbar)
     Toolbar toolbar;
+
+    private ViewPagerAdapter adapter;
 
     public static void actionStart(Context context) {
         Intent intent = new Intent(context, LibraryActivity.class);
@@ -41,6 +50,8 @@ public class LibraryActivity extends BaseActivity implements LibraryView{
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(getResources().getColor(R.color.library_primary_color));
         }
+        adapter=new ViewPagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(SearchFragment.newInstance());
     }
 
 
@@ -59,5 +70,26 @@ public class LibraryActivity extends BaseActivity implements LibraryView{
         tlLibrary.addTab(tlLibrary.newTab().setText("我的账户"));
         tlLibrary.addTab(tlLibrary.newTab().setText("查找书籍"));
         tlLibrary.setupWithViewPager(vpLibrary);
+    }
+    class ViewPagerAdapter extends FragmentPagerAdapter
+    {
+        List<Fragment> fragmentList=new ArrayList<>();
+        public ViewPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return fragmentList.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return fragmentList.size();
+        }
+        void addFragment(Fragment fragment)
+        {
+            fragmentList.add(fragment);
+        }
     }
 }

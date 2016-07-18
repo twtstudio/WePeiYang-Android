@@ -2,6 +2,7 @@ package com.twt.service.support;
 
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import com.twt.service.WePeiYangApp;
 
@@ -46,7 +47,9 @@ public class PrefUtils {
     }
 
     public static String getToken() {
-        return getDefaultSharedPreferences().getString(PREF_TOKEN, "");
+        String s=getDefaultSharedPreferences().getString(PREF_TOKEN, "");
+        Log.d("token", "getToken:->"+s);
+        return s;
     }
 
     public static void setUsername(String twtuname) {
