@@ -18,6 +18,8 @@ public interface LoginView {
 
     void startBusActivity();
 
+    void startPartyActivity();
+
     void hideKeyboard();
 
     void usernameError(String errorMsg);

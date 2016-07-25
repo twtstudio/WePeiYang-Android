@@ -75,6 +75,9 @@ public class LoginPresenterImpl implements LoginPresenter, OnLoginCallback {
             case Bus:
                 view.startBusActivity();
                 break;
+            case Party:
+                view.startPartyActivity();
+                break;
         }
     }
 

@@ -50,7 +50,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
                             android:columnCount="4"
-                            android:rowCount="1">
+                            android:rowCount="2">
 
                             <LinearLayout
                                 android:id="@+id/btn_schedule"
@@ -148,6 +148,28 @@
 
                             </LinearLayout>
 
+                            <LinearLayout
+                                android:id="@+id/btn_party"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="8dp"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:layout_width="60dp"
+                                    android:layout_height="60dp"
+                                    android:layout_gravity="center_horizontal"
+                                    android:src="@mipmap/ic_main_party" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_marginTop="5dp"
+                                    android:text="@string/party"
+                                    android:textColor="@color/party_primary_color" />
+
+                            </LinearLayout>
                             <!--<LinearLayout
                                 android:id="@+id/btn_library_query"
                                 android:layout_width="wrap_content"

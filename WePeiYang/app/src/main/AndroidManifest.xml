@@ -121,6 +121,17 @@
         <activity android:name=".ui.bus.BusActivity"/>
         <activity android:name=".ui.guide.GuideActivity"/>
 
+        <activity android:name=".party.ui.home.PartyActivity"
+            android:label="党建系统"/>
+        <activity android:name=".party.ui.submit.SubmitActivity"/>
+        <activity android:name=".party.ui.sign.SignActivity"/>
+        <activity android:name=".party.ui.study.StudyActivity"/>
+        <activity android:name=".party.ui.inquiry.InquiryActivity"/>
+        <activity android:name=".party.ui.forum.ForumActivity"/>
+        <activity android:name=".party.ui.notification.NotificationActivity"/>
+        <activity android:name=".party.ui.submit.detail.SubmitDetailActivity"/>
+        <activity android:name=".party.ui.inquiry.appeal.AppealActivity"/>
+
         <activity android:name=".ui.push.PushActivity"/>
 
         <service android:name=".service.push.PushService"/>

@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.twt.service.R;
 import com.twt.service.interactor.BindInteractorImpl;
+import com.twt.service.party.ui.home.PartyActivity;
 import com.twt.service.ui.BaseActivity;
 import com.twt.service.ui.common.NextActivity;
 import com.twt.service.ui.gpa.GpaActivity;
@@ -102,6 +103,12 @@ public class BindActivity extends BaseActivity implements BindView {
     @Override
     public void startScheduleActivity() {
         ScheduleActivity.actionStart(this);
+        finish();
+    }
+
+    @Override
+    public void startPartyActivity() {
+        PartyActivity.actionStart(this);
         finish();
     }
 }

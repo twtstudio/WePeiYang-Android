@@ -47,4 +47,17 @@
     <color name="bus_primary_color">#4384ed</color>
     <!-- Dating Activity-->
     <color name="dating_primary_color">#15b0c6</color>
+    <!--Party Activity-->
+    <color name="party_primary_color">#dd2727</color>
+    <color name="party_primary_dark_color">#cd2121</color>
+    <color name="myDivider">#c8c7cc</color>
+    <color name="myWindowBackground">#fafafa</color>
+    <color name="myWindowBackgroundGray">#eeeeee</color>
+    <color name="myWindowBackgroundWhite">#ffffff</color>
+    <color name="myTextPrimaryColorBlack">#212121</color>
+    <color name="myTextPrimaryColorWhite">#ffffff</color>
+    <color name="myTextPrimaryColorGray">#999999</color>
+    <color name="myTextPrimaryColorGreen">#4ad865</color>
+    <color name="myTextPrimaryColorRed">#ff0000</color>
+    <color name="myNavigationColor">#000</color>
 </resources>

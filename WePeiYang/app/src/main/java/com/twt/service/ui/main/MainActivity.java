@@ -35,6 +35,8 @@ import com.twt.service.bean.Login;
 import com.twt.service.bean.Main;
 import com.twt.service.bean.Update;
 import com.twt.service.interactor.MainInteractorImpl;
+import com.twt.service.party.ui.home.PartyActivity;
+import com.twt.service.party.ui.home.PartyView;
 import com.twt.service.support.PrefUtils;
 import com.twt.service.ui.BaseActivity;
 import com.twt.service.ui.about.AboutActivity;
@@ -170,6 +172,8 @@ public class MainActivity extends BaseActivity implements BaseSliderView.OnSlide
     LinearLayout btnDating;
     @InjectView(R.id.btn_bus)
     LinearLayout btnBus;
+    @InjectView(R.id.btn_party)
+    LinearLayout btnParty;
 
     private MainPresenterImpl presenter;
     private MainFoundAdapter mainFoundAdapter;
@@ -229,6 +233,7 @@ public class MainActivity extends BaseActivity implements BaseSliderView.OnSlide
         btnSchedule.setOnClickListener(this);
         btnBus.setOnClickListener(this);
         btnDating.setOnClickListener(this);
+        btnParty.setOnClickListener(this);
         presenter = new MainPresenterImpl(this, new MainInteractorImpl(), this);
         presenter.loadDataFromCache();
         srlMain.setColorSchemeColors(getResources().getColor(R.color.main_primary));
@@ -342,6 +347,13 @@ public class MainActivity extends BaseActivity implements BaseSliderView.OnSlide
                     DatingActivity.actionStart(this);
                 } else {
                     LoginActivity.actionStart(this, NextActivity.Dating);
+                }
+                break;
+            case R.id.btn_party:
+                if (PrefUtils.isLogin()) {
+                    PartyActivity.actionStart(this);
+                } else {
+                    LoginActivity.actionStart(this, NextActivity.Party);
                 }
                 break;
             //case R.id.btn_library_query:

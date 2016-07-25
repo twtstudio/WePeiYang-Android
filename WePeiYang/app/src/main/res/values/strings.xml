@@ -103,4 +103,12 @@
     <string name="lab_function">实验功能</string>
     <string name="bus">公交签到</string>
     <string name="dating">约吧</string>
+    <string name="party">党建系统</string>
+    <string name="sign_party">报名</string>
+    <string name="study_party">学习</string>
+    <string name="inquiry_party">成绩查询</string>
+    <string name="submit_party">递交</string>
+    <string name="forum_party">论坛</string>
+    <string name="notification_party">通知公告</string>
+    <string name="appeal_party">申诉</string>
 </resources>

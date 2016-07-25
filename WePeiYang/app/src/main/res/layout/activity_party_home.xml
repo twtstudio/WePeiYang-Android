@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/party_primary_color">
+
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/app_toolbar" />
+
+    </android.support.design.widget.AppBarLayout>
+
+  <com.getbase.floatingactionbutton.FloatingActionsMenu
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_alignParentBottom="true"
+      android:layout_alignParentRight="true"
+      android:layout_alignParentEnd="true"
+      android:layout_marginBottom="38dp"
+      android:layout_marginRight="38dp"
+      android:layout_marginEnd="38dp"
+      app:fab_addButtonColorNormal="@color/party_primary_color"
+      app:fab_addButtonColorPressed="@color/party_primary_dark_color"
+      fab:fab_addButtonSize="normal"
+      app:fab_labelStyle="@style/menu_labels_style">
+
+      <com.getbase.floatingactionbutton.FloatingActionButton
+          android:id="@+id/action_sign"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:src="@mipmap/ic_sign"
+          fab:fab_colorNormal="#4388fc"
+          fab:fab_colorPressed="#1b66e5"
+          fab:fab_size="mini"
+          fab:fab_title="@string/sign_party" />
+      <com.getbase.floatingactionbutton.FloatingActionButton
+          android:id="@+id/action_study"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:src="@mipmap/ic_study"
+          fab:fab_colorNormal="#e8568c"
+          fab:fab_colorPressed="#d52e6c"
+          fab:fab_size="mini"
+          fab:fab_title="@string/study_party" />
+      <com.getbase.floatingactionbutton.FloatingActionButton
+          android:id="@+id/action_inquiry"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:src="@mipmap/ic_inquiry"
+          fab:fab_colorNormal="#fbc02d"
+          fab:fab_colorPressed="#e9ae19"
+          fab:fab_size="mini"
+          fab:fab_title="@string/inquiry_party" />
+      <com.getbase.floatingactionbutton.FloatingActionButton
+          android:id="@+id/action_submit"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:src="@mipmap/ic_submit"
+          fab:fab_colorNormal="#17c7a8"
+          fab:fab_colorPressed="#17bc9b"
+          fab:fab_size="mini"
+          fab:fab_title="@string/submit_party" />
+      <com.getbase.floatingactionbutton.FloatingActionButton
+          android:id="@+id/action_forum"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:src="@mipmap/ic_forum"
+          fab:fab_colorNormal="#d32727"
+          fab:fab_colorPressed="#cd2020"
+          fab:fab_size="mini"
+          fab:fab_title="@string/forum_party" />
+
+  </com.getbase.floatingactionbutton.FloatingActionsMenu>
+
+</RelativeLayout>

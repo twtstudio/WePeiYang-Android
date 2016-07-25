@@ -40,6 +40,10 @@ public class BindPresenterImpl implements BindPresenter, OnBindCallback {
                 break;
             case Schedule:
                 view.startScheduleActivity();
+                break;
+            case Party:
+                view.startPartyActivity();
+                break;
         }
     }
 

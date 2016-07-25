@@ -11,4 +11,5 @@ public interface BindView {
     void startGpaActivity();
     void startLoginActivity();
     void startScheduleActivity();
+    void startPartyActivity();
 }
