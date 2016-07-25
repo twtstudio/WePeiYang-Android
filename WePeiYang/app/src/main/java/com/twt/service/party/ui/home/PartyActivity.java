@@ -2,28 +2,41 @@ package com.twt.service.party.ui.home;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewTreeObserver;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.HorizontalScrollView;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.twt.service.R;
-import com.twt.service.party.ui.BaseActivity;
-import com.twt.service.party.bean.Status;
+import com.twt.service.party.bean.StatusIdBean;
 import com.twt.service.party.interactor.PersonalStatusInteractorImpl;
+import com.twt.service.party.ui.BaseActivity;
 import com.twt.service.party.ui.forum.ForumActivity;
 import com.twt.service.party.ui.inquiry.InquiryActivity;
 import com.twt.service.party.ui.notification.NotificationActivity;
 import com.twt.service.party.ui.sign.SignActivity;
 import com.twt.service.party.ui.study.StudyActivity;
 import com.twt.service.party.ui.submit.SubmitActivity;
+import com.twt.service.support.PrefUtils;
 import com.twt.service.ui.bind.BindActivity;
 import com.twt.service.ui.common.NextActivity;
 import com.twt.service.ui.login.LoginActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
@@ -34,6 +47,8 @@ public class PartyActivity extends BaseActivity implements PartyView {
 
     @InjectView(R.id.toolbar)
     Toolbar toolbar;
+    @InjectView(R.id.fam)
+    FloatingActionsMenu actionsMenu;
     @InjectView(R.id.action_sign)
     FloatingActionButton actionSign;
     @InjectView(R.id.action_study)
@@ -44,8 +59,91 @@ public class PartyActivity extends BaseActivity implements PartyView {
     FloatingActionButton actionSubmit;
     @InjectView(R.id.action_forum)
     FloatingActionButton actionForum;
+    @InjectView(R.id.tv_party_home_marquee)
+    TextView tvPartyHomeMarquee;
+    @InjectView(R.id.bt_home_1)
+    Button btHome1;
+    @InjectView(R.id.bt_home_2)
+    Button btHome2;
+    @InjectView(R.id.bt_home_3)
+    Button btHome3;
+    @InjectView(R.id.bt_home_4)
+    Button btHome4;
+    @InjectView(R.id.bt_home_5)
+    Button btHome5;
+    @InjectView(R.id.bt_home_6)
+    Button btHome6;
+    @InjectView(R.id.bt_home_7)
+    Button btHome7;
+    @InjectView(R.id.bt_home_8)
+    Button btHome8;
+    @InjectView(R.id.bt_home_9)
+    Button btHome9;
+    @InjectView(R.id.bt_home_10)
+    Button btHome10;
+    @InjectView(R.id.bt_home_11)
+    Button btHome11;
+    @InjectView(R.id.hsv_1)
+    HorizontalScrollView hsv1;
+    @InjectView(R.id.bt_home_12)
+    Button btHome12;
+    @InjectView(R.id.bt_home_13)
+    Button btHome13;
+    @InjectView(R.id.bt_home_14)
+    Button btHome14;
+    @InjectView(R.id.bt_home_15)
+    Button btHome15;
+    @InjectView(R.id.bt_home_16)
+    Button btHome16;
+    @InjectView(R.id.bt_home_17)
+    Button btHome17;
+    @InjectView(R.id.bt_home_18)
+    Button btHome18;
+    @InjectView(R.id.bt_home_19)
+    Button btHome19;
+    @InjectView(R.id.bt_home_20)
+    Button btHome20;
+    @InjectView(R.id.bt_home_21)
+    Button btHome21;
+    @InjectView(R.id.bt_home_22)
+    Button btHome22;
+    @InjectView(R.id.bt_home_23)
+    Button btHome23;
+    @InjectView(R.id.bt_home_24)
+    Button btHome24;
+    @InjectView(R.id.bt_home_25)
+    Button btHome25;
+    @InjectView(R.id.bt_home_26)
+    Button btHome26;
+    @InjectView(R.id.hsv_2)
+    HorizontalScrollView hsv2;
+    @InjectView(R.id.bt_home_27)
+    Button btHome27;
+    @InjectView(R.id.bt_home_28)
+    Button btHome28;
+    @InjectView(R.id.bt_home_29)
+    Button btHome29;
+    @InjectView(R.id.bt_home_30)
+    Button btHome30;
+    @InjectView(R.id.bt_home_31)
+    Button btHome31;
+    private int width;
+    @InjectView(R.id.ll_home_1)
+    LinearLayout llHome1;
+    @InjectView(R.id.ll_home_2)
+    LinearLayout llHome2;
+
+    private static final int TYPE_NO = 0;
+    private static final int TYPE_DOING = 1;
+    private static final int TYPE_FINISH = 2;
+
+    private static final String TAG = "PartyActivity";
 
     private PartyPresenter presenter;
+
+    private String status;
+
+    List<Button> buttons;
 
     @Override
     public int getContentViewId() {
@@ -54,12 +152,57 @@ public class PartyActivity extends BaseActivity implements PartyView {
 
     @Override
     public void preInitView() {
-        presenter = new PartyPresenterImpl(this,new PersonalStatusInteractorImpl());
-        presenter.loadPersonalStatus();
+        buttons = new ArrayList<>();
+        buttons.add(btHome1);
+        buttons.add(btHome2);
+        buttons.add(btHome3);
+        buttons.add(btHome4);
+        buttons.add(btHome5);
+        buttons.add(btHome6);
+        buttons.add(btHome7);
+        buttons.add(btHome8);
+        buttons.add(btHome9);
+        buttons.add(btHome10);
+        buttons.add(btHome11);
+        buttons.add(btHome12);
+        buttons.add(btHome13);
+        buttons.add(btHome14);
+        buttons.add(btHome15);
+        buttons.add(btHome16);
+        buttons.add(btHome17);
+        buttons.add(btHome18);
+        buttons.add(btHome19);
+        buttons.add(btHome20);
+        buttons.add(btHome21);
+        buttons.add(btHome22);
+        buttons.add(btHome23);
+        buttons.add(btHome24);
+        buttons.add(btHome25);
+        buttons.add(btHome26);
+        buttons.add(btHome27);
+        buttons.add(btHome28);
+        buttons.add(btHome29);
+        buttons.add(btHome30);
+        buttons.add(btHome31);
+        Log.d(TAG, "preInitView: " + llHome1.getMeasuredWidth() );
+        Log.d(TAG, "preInitView: " );
+        WindowManager wm = (WindowManager) this
+                .getSystemService(Context.WINDOW_SERVICE);
+        width = wm.getDefaultDisplay().getWidth();
+        setScrollToMid(hsv1,llHome1);
+        setScrollToMid(hsv2,llHome2);
     }
 
     @Override
     public void initView() {
+        presenter = new PartyPresenterImpl(this, new PersonalStatusInteractorImpl());
+        Log.d("lqy","2" + PrefUtils.getPrefUserNumber());
+        if("".equals(PrefUtils.getPrefUserNumber()) || "".equals(PrefUtils.getPrefUserRealname())){
+            presenter.loadUserInformation();
+        }
+        else {
+            presenter.loadPersonalStatus();
+        }
 
     }
 
@@ -96,9 +239,10 @@ public class PartyActivity extends BaseActivity implements PartyView {
         finish();
     }
 
-    @OnClick({R.id.action_forum,R.id.action_inquiry,R.id.action_sign,R.id.action_study,R.id.action_submit})
-    void onClick(View v){
-        switch (v.getId()){
+    //floatbarmenu的点击事件
+    @OnClick({R.id.action_forum, R.id.action_inquiry, R.id.action_sign, R.id.action_study, R.id.action_submit})
+    void onMenuClick(View v) {
+        switch (v.getId()) {
             case R.id.action_forum:
                 ForumActivity.actionStart(this);
                 break;
@@ -139,7 +283,121 @@ public class PartyActivity extends BaseActivity implements PartyView {
     }
 
     @Override
-    public void bindData(List<Status.StatusIdBean> ids) {
-//        text.setText(ids.get(0).getMsg());
+    public void gotInformation() {
+        presenter.loadPersonalStatus();
+    }
+
+    @Override
+    public void bindData(List<StatusIdBean> ids) {
+        status = "申请人";
+        for (StatusIdBean s : ids) {
+            if (s.getStatus() == TYPE_FINISH) {
+                buttons.get(s.getId()).setBackgroundResource(R.drawable.shape_button_home_green);
+                buttons.get(s.getId()).setTextColor(getResources().getColor(R.color.myTextPrimaryColorGreen));
+                switch (s.getId()){
+                    case 9:
+                        status = "入党积极分子";
+                        break;
+                    case 11:
+                        status = "发展对象";
+                        break;
+                    case 19:
+                        status = "预备党员";
+                        break;
+                    case 30:
+                        status = "正式党员";
+                        break;
+                    default:
+                        break;
+                }
+            }
+            if (s.getStatus() == TYPE_DOING) {
+                buttons.get(s.getId()).setBackgroundResource(R.drawable.shape_button_home_red);
+                buttons.get(s.getId()).setTextColor(getResources().getColor(R.color.myTextPrimaryColorRed));
+            }
+        }
+        tvPartyHomeMarquee.setText("您好"
+                +PrefUtils.getPrefUserRealname()
+                +"，您处于"
+                + status
+                +"状态。");
+    }
+
+    @OnClick({R.id.bt_home_1, R.id.bt_home_2, R.id.bt_home_3, R.id.bt_home_4, R.id.bt_home_5, R.id.bt_home_6, R.id.bt_home_7, R.id.bt_home_8, R.id.bt_home_9, R.id.bt_home_10, R.id.bt_home_11, R.id.bt_home_12, R.id.bt_home_13, R.id.bt_home_14, R.id.bt_home_15, R.id.bt_home_16, R.id.bt_home_17, R.id.bt_home_18, R.id.bt_home_19, R.id.bt_home_20, R.id.bt_home_21, R.id.bt_home_22, R.id.bt_home_23, R.id.bt_home_24, R.id.bt_home_25, R.id.bt_home_26, R.id.bt_home_27, R.id.bt_home_28, R.id.bt_home_29, R.id.bt_home_30, R.id.bt_home_31})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.bt_home_1:
+                break;
+            case R.id.bt_home_2:
+                break;
+            case R.id.bt_home_3:
+                break;
+            case R.id.bt_home_4:
+                break;
+            case R.id.bt_home_5:
+                break;
+            case R.id.bt_home_6:
+                break;
+            case R.id.bt_home_7:
+                break;
+            case R.id.bt_home_8:
+                break;
+            case R.id.bt_home_9:
+                break;
+            case R.id.bt_home_10:
+                break;
+            case R.id.bt_home_11:
+                break;
+            case R.id.bt_home_12:
+                break;
+            case R.id.bt_home_13:
+                break;
+            case R.id.bt_home_14:
+                break;
+            case R.id.bt_home_15:
+                break;
+            case R.id.bt_home_16:
+                break;
+            case R.id.bt_home_17:
+                break;
+            case R.id.bt_home_18:
+                break;
+            case R.id.bt_home_19:
+                break;
+            case R.id.bt_home_20:
+                break;
+            case R.id.bt_home_21:
+                break;
+            case R.id.bt_home_22:
+                break;
+            case R.id.bt_home_23:
+                break;
+            case R.id.bt_home_24:
+                break;
+            case R.id.bt_home_25:
+                break;
+            case R.id.bt_home_26:
+                break;
+            case R.id.bt_home_27:
+                break;
+            case R.id.bt_home_28:
+                break;
+            case R.id.bt_home_29:
+                break;
+            case R.id.bt_home_30:
+                break;
+            case R.id.bt_home_31:
+                break;
+        }
+    }
+    private void setScrollToMid(final HorizontalScrollView sv, final LinearLayout inner){
+        ViewTreeObserver vto = inner.getViewTreeObserver();
+        vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                inner.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                sv.smoothScrollBy((inner.getWidth() - width) / 2, 0);
+            }
+        });
     }
 }

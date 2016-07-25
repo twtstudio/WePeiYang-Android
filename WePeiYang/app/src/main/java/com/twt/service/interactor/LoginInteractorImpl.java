@@ -1,5 +1,7 @@
 package com.twt.service.interactor;
 
+import android.util.Log;
+
 import com.google.gson.JsonElement;
 import com.twt.service.api.ApiClient;
 import com.twt.service.ui.login.FailureEvent;

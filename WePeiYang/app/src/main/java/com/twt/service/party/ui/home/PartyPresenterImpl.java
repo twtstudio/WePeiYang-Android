@@ -1,8 +1,13 @@
 package com.twt.service.party.ui.home;
 
+import android.util.Log;
+
 import com.twt.service.party.bean.Status;
 import com.twt.service.party.bean.StatusIdBean;
+import com.twt.service.party.bean.UserInfomation;
 import com.twt.service.party.interactor.PersonalStatusInteractor;
+import com.twt.service.support.PrefUtils;
+
 import java.util.List;
 
 /**
@@ -18,15 +23,30 @@ public class PartyPresenterImpl implements PartyPresenter, OnGetPersonalStatusCa
         this.view = view;
         this.interactor = interactor;
     }
+
+    @Override
+    public void loadUserInformation() {
+        interactor.loadUserInformation(this);
+    }
+
     @Override
     public void loadPersonalStatus() {
-        interactor.loadPersonalStatus("3015218062",this);
+        interactor.loadPersonalStatus(PrefUtils.getPrefUserNumber(),this);
+        Log.d("lqy","1"+PrefUtils.getPrefUserNumber());
+    }
+
+    @Override
+    public void onGetUserInfomation(UserInfomation infomation) {
+        PrefUtils.setPrefUserRealName(infomation.getRealname());
+        PrefUtils.setPrefUserNumber(infomation.getStudentid());
+        Log.d("lqy",PrefUtils.getPrefUserNumber());
+        view.gotInformation();
     }
 
     @Override
     public void onGetStatusIds(List<StatusIdBean> ids) {
         view.bindData(ids);
-        view.toastMsg(ids.get(0).getMsg());
+//        view.toastMsg(ids.get(0).getMsg());
     }
 
     @Override

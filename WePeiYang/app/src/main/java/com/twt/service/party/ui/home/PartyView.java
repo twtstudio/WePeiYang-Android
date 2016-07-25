@@ -11,6 +11,7 @@ import java.util.List;
 public interface PartyView {
     void startBindActivity();
     void startLoginActivity();
+    void gotInformation();
     void bindData(List<StatusIdBean> ids);
     void toastMsg(String msg);
 }

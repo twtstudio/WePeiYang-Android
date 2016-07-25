@@ -7,4 +7,5 @@ import com.twt.service.party.ui.home.OnGetPersonalStatusCallBack;
  */
 public interface PersonalStatusInteractor {
     void loadPersonalStatus(String sno, OnGetPersonalStatusCallBack callBack);
+    void loadUserInformation(OnGetPersonalStatusCallBack callBack);
 }

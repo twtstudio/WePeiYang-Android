@@ -5,7 +5,7 @@ package com.twt.service.party.bean;
  */
 public class StatusIdBean {
     private int id;
-    private int status;
+    private int status;//0 表示还没通过，1表示正在进行，2表示已经完成
     private String msg;
 
     public int getId() {
