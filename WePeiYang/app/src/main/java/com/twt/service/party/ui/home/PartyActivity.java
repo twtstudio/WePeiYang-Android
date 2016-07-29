@@ -132,7 +132,8 @@ public class PartyActivity extends BaseActivity implements PartyView {
     LinearLayout llHome1;
     @InjectView(R.id.ll_home_2)
     LinearLayout llHome2;
-
+    @InjectView(R.id.white_view)
+    View whiteView;
     private static final int TYPE_NO = 0;
     private static final int TYPE_DOING = 1;
     private static final int TYPE_FINISH = 2;
@@ -184,19 +185,27 @@ public class PartyActivity extends BaseActivity implements PartyView {
         buttons.add(btHome29);
         buttons.add(btHome30);
         buttons.add(btHome31);
-        Log.d(TAG, "preInitView: " + llHome1.getMeasuredWidth() );
-        Log.d(TAG, "preInitView: " );
         WindowManager wm = (WindowManager) this
                 .getSystemService(Context.WINDOW_SERVICE);
         width = wm.getDefaultDisplay().getWidth();
         setScrollToMid(hsv1,llHome1);
         setScrollToMid(hsv2,llHome2);
+        actionsMenu.setOnFloatingActionsMenuUpdateListener(new FloatingActionsMenu.OnFloatingActionsMenuUpdateListener() {
+            @Override
+            public void onMenuExpanded() {
+                whiteView.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onMenuCollapsed() {
+                whiteView.setVisibility(View.INVISIBLE);
+            }
+        });
     }
 
     @Override
     public void initView() {
         presenter = new PartyPresenterImpl(this, new PersonalStatusInteractorImpl());
-        Log.d("lqy","2" + PrefUtils.getPrefUserNumber());
         if("".equals(PrefUtils.getPrefUserNumber()) || "".equals(PrefUtils.getPrefUserRealname())){
             presenter.loadUserInformation();
         }

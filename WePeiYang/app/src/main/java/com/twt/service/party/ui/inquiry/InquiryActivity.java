@@ -61,12 +61,6 @@ public class InquiryActivity extends BaseActivity {
         return 0;
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.inject(this);
-    }
 
     public static void actionStart(Context context){
         Intent intent = new Intent(context,InquiryActivity.class);

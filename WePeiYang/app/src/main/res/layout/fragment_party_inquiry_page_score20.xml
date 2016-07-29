@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <RelativeLayout
@@ -17,8 +17,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toLeftOf="@+id/tv_inquiry_answer_time"
-            android:layout_marginRight="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="100dp"
             android:textColor="@color/myTextPrimaryColorBlack"
             android:text="成绩"/>
         <TextView
@@ -31,8 +31,16 @@
             android:text="答题时间" />
     </RelativeLayout>
     <android.support.v7.widget.RecyclerView
+        android:layout_marginTop="52dp"
         android:id="@+id/rv_inquiry"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
+    <TextView
+        android:id="@+id/tv_error_msg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/myTextPrimaryColorGray"
+        android:visibility="invisible"
+        android:layout_centerInParent="true"/>
 
-</LinearLayout>
+</RelativeLayout>

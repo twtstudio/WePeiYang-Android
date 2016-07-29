@@ -2,11 +2,13 @@ package com.twt.service.party.ui.home;
 
 import android.util.Log;
 
+import com.twt.service.R;
 import com.twt.service.party.bean.Status;
 import com.twt.service.party.bean.StatusIdBean;
 import com.twt.service.party.bean.UserInfomation;
 import com.twt.service.party.interactor.PersonalStatusInteractor;
 import com.twt.service.support.PrefUtils;
+import com.twt.service.support.ResourceHelper;
 
 import java.util.List;
 
@@ -56,6 +58,6 @@ public class PartyPresenterImpl implements PartyPresenter, OnGetPersonalStatusCa
 
     @Override
     public void onFailure() {
-        view.toastMsg("网络错误");
+        view.toastMsg(ResourceHelper.getString(R.string.toast_network_failed));
     }
 }

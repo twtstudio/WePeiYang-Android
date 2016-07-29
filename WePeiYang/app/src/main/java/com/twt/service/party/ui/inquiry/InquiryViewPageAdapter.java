@@ -5,6 +5,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.twt.service.party.ui.inquiry.Score20.InquiryPageScore20Fragment;
+
 /**
  * Created by dell on 2016/7/19.
  */
@@ -24,7 +26,7 @@ public class InquiryViewPageAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
         if(position == 0){
-            return InquiryPage0Fragment.newInstance(1);
+            return InquiryPageScore20Fragment.newInstance(1);
         }
         return InquiryPage123Fragment.newInstance(position + 1);
     }

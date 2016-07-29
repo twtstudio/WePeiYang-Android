@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/appbar"
         android:ellipsize="marquee"
-        android:singleLine="true"
+        android:lines="1"
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:background="@color/myWindowBackgroundWhite"/>
@@ -38,7 +38,6 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
             <Button
                 android:id="@+id/bt_home_1"
                 android:layout_width="match_parent"
@@ -488,7 +487,7 @@
                 android:layout_marginTop="2dp"
                 android:layout_marginBottom="2dp"
                 android:layout_centerHorizontal="true"
-                android:layout_below="@id/bt_home_1"/>
+                android:layout_below="@id/bt_home_20"/>
             <View
                 android:layout_width="1dp"
                 android:layout_height="10dp"
@@ -746,6 +745,14 @@
         </RelativeLayout>
     </ScrollView>
 
+    <View
+        android:id="@+id/white_view"
+        android:layout_below="@+id/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/myWindowBackgroundWhite"
+        android:alpha="0.85"
+        android:visibility="invisible"/>
   <com.getbase.floatingactionbutton.FloatingActionsMenu
       android:id="@+id/fam"
       android:layout_width="wrap_content"
@@ -808,5 +815,4 @@
           fab:fab_title="@string/forum_party" />
 
   </com.getbase.floatingactionbutton.FloatingActionsMenu>
-
 </RelativeLayout>

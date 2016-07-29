@@ -16,6 +16,14 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class ApiClient {
 
+    private static Api api;
+    static {
+        Retrofit retrofit = new Retrofit.Builder()
+                .addConverterFactory(GsonConverterFactory.create())
+                .baseUrl("http://www.twt.edu.cn/")
+                .build();
+        api = retrofit.create(Api.class);
+    }
     public static void loadUserInfomation(Callback<UserInfomation> callback){
         Retrofit retrofit = new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
@@ -29,15 +37,7 @@ public class ApiClient {
     }
 
     public static void loadStatus(String doWhat, String sno, Callback<Status> callback){
-        Retrofit retrofit = new Retrofit.Builder()
-                .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl("http://www.twt.edu.cn/")
-                .build();
-        Api api = retrofit.create(Api.class);
         Call<Status> call= api.getStatus("api",doWhat,sno);
         call.enqueue(callback);
     }
-
-
-
 }

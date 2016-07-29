@@ -23,7 +23,10 @@ public class Status {
     private List<StatusIdBean> status_id;
 
     //报名模块使用
-    private List<TestInfo> test_info;
+    private TestInfo test_info;
+
+    //查成绩模块使用
+    private List<ScoreInfo> score_info;
 
     private String msg; //失败原因，若成功不反回message
 
@@ -51,11 +54,19 @@ public class Status {
         this.status_id = status_id;
     }
 
-    public List<TestInfo> getTest_info() {
+    public TestInfo getTest_info() {
         return test_info;
     }
 
-    public void setTest_info(List<TestInfo> test_info) {
+    public void setTest_info(TestInfo test_info) {
         this.test_info = test_info;
+    }
+
+    public List<ScoreInfo> getScore_info() {
+        return score_info;
+    }
+
+    public void setScore_info(List<ScoreInfo> score_info) {
+        this.score_info = score_info;
     }
 }
