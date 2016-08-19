@@ -40,7 +40,7 @@ public class StudyActivity extends BaseActivity {
         pagerAdapter = new StudyViewPagerAdapter(getSupportFragmentManager(),this);
         viewPager.setAdapter(pagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
-        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+        tabLayout.setTabMode(TabLayout.MODE_FIXED);
     }
 
     @Override

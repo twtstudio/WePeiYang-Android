@@ -126,6 +126,8 @@
         <activity android:name=".party.ui.submit.SubmitActivity"/>
         <activity android:name=".party.ui.sign.SignActivity"/>
         <activity android:name=".party.ui.study.StudyActivity"/>
+        <activity android:name=".party.ui.study.detail.StudyDetailActivity"/>
+        <activity android:name=".party.ui.study.detail.StudyDetailListActivity"/>
         <activity android:name=".party.ui.inquiry.InquiryActivity"/>
         <activity android:name=".party.ui.forum.ForumActivity"/>
         <activity android:name=".party.ui.notification.NotificationActivity"/>

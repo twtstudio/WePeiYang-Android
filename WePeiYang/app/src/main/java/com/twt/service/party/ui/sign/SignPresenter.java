@@ -6,4 +6,5 @@ package com.twt.service.party.ui.sign;
 
 public interface SignPresenter {
     void getTest();
+    void signTest(String type, int testId);
 }

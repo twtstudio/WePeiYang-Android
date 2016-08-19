@@ -1,7 +1,6 @@
 package com.twt.service.party.ui.inquiry.Score20;
 
-import com.twt.service.party.bean.ScoreInfo;
-import com.twt.service.party.bean.TestInfo;
+import com.twt.service.party.bean.Score20Info;
 
 import java.util.List;
 
@@ -10,7 +9,7 @@ import java.util.List;
  */
 
 public interface OnGetScore20CallBack {
-    void onGetScoreInfo(List<ScoreInfo> list);
+    void onGetScoreInfo(List<Score20Info> list);
     void onNoScoreInfo(String msg);
     void onFailure();
 }

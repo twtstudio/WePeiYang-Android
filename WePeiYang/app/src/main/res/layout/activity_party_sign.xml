@@ -38,6 +38,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/myTextPrimaryColorWhite"
             android:layout_marginLeft="12dp"
+            android:clickable="false"
             android:text="报名"/>
         <TextView
             android:id="@+id/tv_sign_applicant"
@@ -71,6 +72,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/myTextPrimaryColorWhite"
             android:layout_marginLeft="12dp"
+            android:clickable="false"
             android:text="报名"/>
         <TextView
             android:id="@+id/tv_sign_academy"
@@ -110,6 +112,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/myTextPrimaryColorWhite"
             android:layout_marginLeft="12dp"
+            android:clickable="false"
             android:text="报名"/>
         <Button
             android:id="@+id/bt_sign_change_class"
@@ -119,6 +122,7 @@
             android:textColor="@color/myTextPrimaryColorWhite"
             android:layout_marginLeft="12dp"
             android:layout_marginRight="12dp"
+            android:clickable="false"
             android:text="调课"/>
     </LinearLayout>
 

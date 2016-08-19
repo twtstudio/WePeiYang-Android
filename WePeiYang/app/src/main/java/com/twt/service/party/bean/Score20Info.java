@@ -4,7 +4,7 @@ package com.twt.service.party.bean;
  * Created by tjliqy on 2016/7/29.
  */
 
-public class ScoreInfo {
+public class Score20Info {
 
     /**
      * id : 1524425

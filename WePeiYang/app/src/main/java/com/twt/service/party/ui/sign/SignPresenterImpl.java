@@ -1,20 +1,16 @@
 package com.twt.service.party.ui.sign;
 
-import android.view.View;
-
 import com.twt.service.R;
 import com.twt.service.party.bean.TestInfo;
 import com.twt.service.party.interactor.SignTestInteractor;
 import com.twt.service.support.PrefUtils;
 import com.twt.service.support.ResourceHelper;
 
-import java.util.List;
-
 /**
  * Created by tjliqy on 2016/7/29.
  */
 
-public class SignPresenterImpl implements SignPresenter, OnGetTestCallBack{
+public class SignPresenterImpl implements SignPresenter, OnGetTestCallBack, OnSignTestCallBack{
 
     public static final String TYPE_APPLICANT = "applicant";
 
@@ -38,6 +34,11 @@ public class SignPresenterImpl implements SignPresenter, OnGetTestCallBack{
     }
 
     @Override
+    public void signTest(String type,int testId) {
+        interactor.signTest(PrefUtils.getPrefUserNumber(),type,testId,this);
+    }
+
+    @Override
     public void onGetTestInfo(TestInfo test, String type) {
         view.bindData(test, type);
     }
@@ -50,5 +51,15 @@ public class SignPresenterImpl implements SignPresenter, OnGetTestCallBack{
     @Override
     public void onFailure() {
         view.toastMsg(ResourceHelper.getString(R.string.toast_network_failed));
+    }
+
+    @Override
+    public void onSignSuccess(String msg) {
+        view.toastMsg(msg);
+    }
+
+    @Override
+    public void onSignFailure(String msg) {
+        view.toastMsg(msg);
     }
 }

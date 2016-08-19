@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.twt.service.R;
-import com.twt.service.party.bean.ScoreInfo;
+import com.twt.service.party.bean.Score20Info;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,13 +25,13 @@ public class Score20Adapter extends RecyclerView.Adapter<Score20Adapter.MyViewHo
 
     private Context context;
 
-    private List<ScoreInfo> list = new ArrayList<>();
+    private List<Score20Info> list = new ArrayList<>();
 
     public Score20Adapter(Context context) {
         this.context = context;
     }
 
-    public void addScore(List<ScoreInfo> list){
+    public void addScore(List<Score20Info> list){
         this.list.clear();
         this.list.addAll(list);
         notifyDataSetChanged();

@@ -9,20 +9,31 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.twt.service.R;
+import com.twt.service.party.interactor.InquiryInteractorImpl;
 import com.twt.service.party.ui.BaseActivity;
+import com.twt.service.party.ui.inquiry.other.OtherPresenter;
+import com.twt.service.party.ui.inquiry.other.OtherPresenterImpl;
 
 import butterknife.InjectView;
 
 /**
  * Created by dell on 2016/7/19.
  */
-public class AppealActivity extends BaseActivity {
+public class AppealActivity extends BaseActivity implements ApealView{
     @InjectView(R.id.toolbar)
     Toolbar toolbar;
     @InjectView(R.id.et_inquiry_title)
     EditText title;
     @InjectView(R.id.et_inquiry_context)
     EditText context;
+
+    private OtherPresenter presenter;
+
+    private Intent intent;
+
+    private String type;
+
+    private int testId;
 
     @Override
     public int getContentViewId() {
@@ -31,7 +42,10 @@ public class AppealActivity extends BaseActivity {
 
     @Override
     public void preInitView() {
-
+        intent = getIntent();
+        type = intent.getStringExtra("type");
+        testId = intent.getIntExtra("test_id",0);
+        presenter = new OtherPresenterImpl(this,new InquiryInteractorImpl());
     }
 
     @Override
@@ -61,17 +75,33 @@ public class AppealActivity extends BaseActivity {
             case R.id.action_submit_yes:
                 if("".equals(title.getText().toString().trim()) || "".equals(context.getText().toString().trim())){
                     Toast.makeText(this, "请输入标题和内容", Toast.LENGTH_SHORT).show();
-                }
-                else {
-
+                }else {
+                    presenter.appeal(title.getText().toString().trim(),context.getText().toString().trim(),type,testId);
                 }
         }
         return super.onOptionsItemSelected(item);
     }
 
-    public static void actionStart(Context context, int type){
+    public static void actionStart(Context context, String type, int testId){
         Intent intent = new Intent(context, AppealActivity.class);
         intent.putExtra("type",type);
+        intent.putExtra("test_id",testId);
         context.startActivity(intent);
+    }
+
+    @Override
+    public void appealFailure(String msg) {
+        toastMsg(msg);
+    }
+
+    @Override
+    public void appealSuccess(String msg) {
+        toastMsg(msg);
+        finish();
+    }
+
+    @Override
+    public void toastMsg(String msg) {
+        Toast.makeText(AppealActivity.this, msg, Toast.LENGTH_SHORT).show();
     }
 }

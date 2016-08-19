@@ -8,8 +8,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.twt.service.R;
-import com.twt.service.party.bean.ScoreInfo;
-import com.twt.service.party.interactor.Score20InteractorImpl;
+import com.twt.service.party.bean.Score20Info;
+import com.twt.service.party.interactor.InquiryInteractorImpl;
 import com.twt.service.party.ui.BaseFragment;
 
 import java.util.List;
@@ -21,7 +21,7 @@ import butterknife.InjectView;
  */
 public class InquiryPageScore20Fragment extends BaseFragment implements Score20View{
 
-    private List<ScoreInfo> list;
+    private List<Score20Info> list;
 
     private static final String ARG_PAGE = "ARG_PAGE";
 
@@ -56,7 +56,7 @@ public class InquiryPageScore20Fragment extends BaseFragment implements Score20V
 
     @Override
     public void initView() {
-        presenter = new Score20PresenterImpl(this, new Score20InteractorImpl());
+        presenter = new Score20PresenterImpl(this, new InquiryInteractorImpl());
         presenter.getScoreInfo();
     }
 
@@ -71,7 +71,7 @@ public class InquiryPageScore20Fragment extends BaseFragment implements Score20V
     }
 
     @Override
-    public void bindData(List<ScoreInfo> list) {
+    public void bindData(List<Score20Info> list) {
         adapter.addScore(list);
     }
 

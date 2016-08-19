@@ -25,8 +25,13 @@ public class Status {
     //报名模块使用
     private TestInfo test_info;
 
+    //学习模块使用
+    private List<CourseInfo> courselist;
+    private List<TextInfo> textlist;
+
     //查成绩模块使用
-    private List<ScoreInfo> score_info;
+    private List<Score20Info> score_info;
+    private List<OtherScoreInfo> data;
 
     private String msg; //失败原因，若成功不反回message
 
@@ -62,11 +67,37 @@ public class Status {
         this.test_info = test_info;
     }
 
-    public List<ScoreInfo> getScore_info() {
+    public List<Score20Info> getScore_info() {
         return score_info;
     }
 
-    public void setScore_info(List<ScoreInfo> score_info) {
+    public void setScore_info(List<Score20Info> score_info) {
         this.score_info = score_info;
     }
+
+    public List<OtherScoreInfo> getData() {
+        return data;
+    }
+
+    public void setData(List<OtherScoreInfo> data) {
+        this.data = data;
+    }
+
+    public List<CourseInfo> getCourselist() {
+        return courselist;
+    }
+
+    public void setCourselist(List<CourseInfo> courselist) {
+        this.courselist = courselist;
+    }
+
+
+    public List<TextInfo> getTextlist() {
+        return textlist;
+    }
+
+    public void setTextlist(List<TextInfo> textlist) {
+        this.textlist = textlist;
+    }
+
 }

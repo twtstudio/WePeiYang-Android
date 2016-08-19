@@ -1,8 +1,8 @@
 package com.twt.service.party.ui.inquiry.Score20;
 
 import com.twt.service.R;
-import com.twt.service.party.bean.ScoreInfo;
-import com.twt.service.party.interactor.Score20Interactor;
+import com.twt.service.party.bean.Score20Info;
+import com.twt.service.party.interactor.InquiryInteractor;
 import com.twt.service.support.ResourceHelper;
 
 import java.util.List;
@@ -15,20 +15,20 @@ public class Score20PresenterImpl implements Score20Presenter ,OnGetScore20CallB
 
     Score20View view;
 
-    Score20Interactor interactor;
+    InquiryInteractor interactor;
 
-    public Score20PresenterImpl(Score20View view, Score20Interactor interactor){
+    public Score20PresenterImpl(Score20View view, InquiryInteractor interactor){
         this.view = view;
         this.interactor = interactor;
     }
 
     @Override
     public void getScoreInfo() {
-        interactor.loadTestInfo(this);
+        interactor.load20TestInfo(this);
     }
 
     @Override
-    public void onGetScoreInfo(List<ScoreInfo> list) {
+    public void onGetScoreInfo(List<Score20Info> list) {
         view.bindData(list);
     }
 

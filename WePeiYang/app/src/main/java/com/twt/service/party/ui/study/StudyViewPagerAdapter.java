@@ -12,9 +12,11 @@ public class StudyViewPagerAdapter extends FragmentPagerAdapter {
 
     private Context context;
 
-    private String tabTitles[] = new String[]{"网上党校","预备党员党校","支部书记培训班","面向全体党员"};
+    private String tabTitles[] = new String[]{"网上党校","预备党员党校"};
 
-    private static  final int PAGE_COUNT = 4;
+    //,"支部书记培训班","面向全体党员"暂时不存在
+
+    private static  final int PAGE_COUNT = 2;
 
     public StudyViewPagerAdapter(FragmentManager fm, Context context) {
         super(fm);

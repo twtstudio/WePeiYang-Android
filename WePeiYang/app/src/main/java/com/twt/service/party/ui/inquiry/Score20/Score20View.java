@@ -1,6 +1,6 @@
 package com.twt.service.party.ui.inquiry.Score20;
 
-import com.twt.service.party.bean.ScoreInfo;
+import com.twt.service.party.bean.Score20Info;
 
 import java.util.List;
 
@@ -10,6 +10,6 @@ import java.util.List;
 
 public interface Score20View {
     void toastMsg(String msg);
-    void bindData(List<ScoreInfo> list);
+    void bindData(List<Score20Info> list);
     void setErrorMsg(String errorMsg);
 }
