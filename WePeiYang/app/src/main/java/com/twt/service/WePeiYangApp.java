@@ -25,7 +25,7 @@ public class WePeiYangApp extends Application{
         FIR.addCustomizeValue("cpu", android.os.Build.CPU_ABI);
         FIR.addCustomizeValue("rom_provider", android.os.Build.MANUFACTURER);
         //启动推送服务
-        PushService.actionStart(this);
+//        PushService.actionStart(this);
         super.onCreate();
     }
 

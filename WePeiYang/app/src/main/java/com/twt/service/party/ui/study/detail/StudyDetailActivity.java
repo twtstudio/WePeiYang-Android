@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.webkit.WebView;
+import android.widget.TextView;
 
 import com.twt.service.R;
 import com.twt.service.party.ui.BaseActivity;
@@ -21,6 +22,8 @@ public class StudyDetailActivity extends BaseActivity {
 
     @InjectView(R.id.toolbar)
     Toolbar toolbar;
+    @InjectView(R.id.tv_study_title)
+    TextView tvStudyTitle;
     @InjectView(R.id.wv_study_detail)
     WebView wvStudyDetail;
 
@@ -57,6 +60,7 @@ public class StudyDetailActivity extends BaseActivity {
     @Override
     public void initView() {
         if(TYPE_COURSE.equals(intent.getStringExtra("type"))){
+            tvStudyTitle.setText(title);
             wvStudyDetail.loadData(content,"text/html;charset=utf-8", null);
         }else {
             // TODO: 2016/8/18 预备党员党校的还没做 

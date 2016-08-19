@@ -13,10 +13,27 @@
             layout="@layout/app_toolbar" />
 
     </android.support.design.widget.AppBarLayout>
-    <WebView
-        android:id="@+id/wv_study_detail"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/tv_study_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:textColor="@color/myTextPrimaryColorBlack"
+                android:textSize="25sp" />
+            <WebView
+                android:id="@+id/wv_study_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </WebView>
+        </LinearLayout>
 
-    </WebView>
+    </ScrollView>
+
 </LinearLayout>
