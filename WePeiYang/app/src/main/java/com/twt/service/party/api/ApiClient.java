@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.twt.service.party.bean.CourseDetailInfo;
 import com.twt.service.party.bean.Status;
+import com.twt.service.party.bean.TextDetailInfo;
 import com.twt.service.party.bean.UserInfomation;
 import com.twt.service.support.PrefUtils;
 
@@ -53,6 +54,10 @@ public class ApiClient {
         call.enqueue(callback);
     }
 
+    public static void loadTextDetail(String sno, int textId, Callback<TextDetailInfo> callback){
+        Call<TextDetailInfo> call = api.getTextDetail("api", "study_textArticle", sno, textId);
+        call.enqueue(callback);
+    }
     public static void appeal(String sno,String doWhat, int test_id, String title, String content, Callback<Status> callback){
         Call<Status> call = api.appeal("api",doWhat,sno,test_id,title,content);
         call.enqueue(callback);

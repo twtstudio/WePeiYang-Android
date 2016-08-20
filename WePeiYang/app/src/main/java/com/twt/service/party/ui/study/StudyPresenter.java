@@ -5,7 +5,7 @@ package com.twt.service.party.ui.study;
  */
 public interface StudyPresenter {
     void getCourse();
-    void getCourseDetail(int course_id);
+    void getCourseDetail(int courseId);
     void getText();
-    void getTextDetail();
+    void getTextDetail(int textId);
 }

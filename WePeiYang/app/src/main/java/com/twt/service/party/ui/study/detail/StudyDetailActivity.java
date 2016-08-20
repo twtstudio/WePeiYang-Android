@@ -4,10 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.webkit.WebView;
 import android.widget.TextView;
 
 import com.twt.service.R;
+import com.twt.service.party.bean.TextDetailInfo;
+import com.twt.service.party.interactor.StudyInteractorImpl;
 import com.twt.service.party.ui.BaseActivity;
 import com.twt.service.party.ui.study.StudyPresenter;
 import com.twt.service.party.ui.study.StudyPresenterImpl;
@@ -18,7 +21,7 @@ import butterknife.InjectView;
 /**
  * Created by tjliqy on 2016/8/18.
  */
-public class StudyDetailActivity extends BaseActivity {
+public class StudyDetailActivity extends BaseActivity implements StudyDetailView{
 
     @InjectView(R.id.toolbar)
     Toolbar toolbar;
@@ -63,7 +66,8 @@ public class StudyDetailActivity extends BaseActivity {
             tvStudyTitle.setText(title);
             wvStudyDetail.loadData(content,"text/html;charset=utf-8", null);
         }else {
-            // TODO: 2016/8/18 预备党员党校的还没做 
+            presenter = new StudyPresenterImpl(this,new StudyInteractorImpl());
+            presenter.getTextDetail(textId);
         }
 
     }
@@ -96,5 +100,12 @@ public class StudyDetailActivity extends BaseActivity {
         intent.putExtra("type",type);
         intent.putExtra("text_id",textId);
         context.startActivity(intent);
+    }
+
+    @Override
+    // TODO: 2016/8/19 不知道如何加载网页 
+    public void onGetTextDetail(TextDetailInfo detailInfo) {
+        tvStudyTitle.setText(detailInfo.getFile_title());
+        wvStudyDetail.loadData(detailInfo.getFile_content(),"text/html;charset=utf-8", null);
     }
 }

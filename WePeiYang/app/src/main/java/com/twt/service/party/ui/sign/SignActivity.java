@@ -2,8 +2,8 @@ package com.twt.service.party.ui.sign;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -14,6 +14,7 @@ import com.twt.service.party.bean.TestInfo;
 import com.twt.service.party.interactor.SignTestInteractorImpl;
 import com.twt.service.party.ui.BaseActivity;
 
+import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
@@ -33,8 +34,10 @@ public class SignActivity extends BaseActivity implements SignView {
     TextView tvSignAcademy;
     @InjectView(R.id.bt_sign_probationary)
     Button btSignProbationary;
-    @InjectView(R.id.bt_sign_change_class)
-    Button btSignChangeClass;
+    @InjectView(R.id.tv_sign_probationary)
+    TextView tvSignProbationary;
+//    @InjectView(R.id.bt_sign_change_class)
+//    Button btSignChangeClass;
 
     private SignPresenter presenter;
 
@@ -91,27 +94,26 @@ public class SignActivity extends BaseActivity implements SignView {
     public void bindData(TestInfo testInfo, String type) {
         switch (type) {
             case SignPresenterImpl.TYPE_APPLICANT:
-                if ("1".equals(testInfo.getTest_status())){
-                    btSignApplicant.setBackgroundResource(R.color.myButtonColorRed);
-                    btSignApplicant.setClickable(true);
-                }else {
-                    btSignAcademy.setBackgroundResource(R.color.myButtonColorGreen);
-                    btSignAcademy.setText("已经报名");
-                }
+                btSignApplicant.setBackgroundResource(R.color.myButtonColorGreen);
+                btSignApplicant.setClickable(true);
                 applicant_id = testInfo.getTest_id();
                 tvSignApplicant.setText(testInfo.getTest_name());
                 break;
             case SignPresenterImpl.TYPE_ACADEMY:
-                btSignAcademy.setBackgroundResource(R.color.myButtonColorRed);
+                btSignAcademy.setBackgroundResource(R.color.myButtonColorGreen);
                 academy_id = testInfo.getTest_id();
                 btSignAcademy.setClickable(true);
                 tvSignAcademy.setText(testInfo.getTest_name());
                 break;
             case SignPresenterImpl.TYPE_PROBATIONARY:
-                // TODO: 2016/8/16 下拉菜单逻辑没有完成
+                btSignProbationary.setBackgroundResource(R.color.myButtonColorGreen);
+                btSignProbationary.setClickable(true);
+                probationary_id = testInfo.getTrain_id();
+                tvSignProbationary.setText(testInfo.getTrain_name());
                 break;
         }
     }
+
     @Override
     public void setNoTestReason(String msg, String type) {
         switch (type) {
@@ -122,24 +124,25 @@ public class SignActivity extends BaseActivity implements SignView {
                 tvSignAcademy.setText(msg);
                 break;
             case SignPresenterImpl.TYPE_PROBATIONARY:
-                // TODO: 2016/8/16 下拉菜单的信息
+                tvSignProbationary.setText(msg);
                 break;
         }
     }
-    //TODO 得到返回的testinfo后按钮的处理未完成
-    @OnClick({R.id.bt_sign_applicant, R.id.bt_sign_academy, R.id.bt_sign_probationary, R.id.bt_sign_change_class})
+
+    @OnClick({R.id.bt_sign_applicant, R.id.bt_sign_academy, R.id.bt_sign_probationary})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.bt_sign_applicant:
-                presenter.signTest(SignPresenterImpl.TYPE_APPLICANT,applicant_id);
+                presenter.signTest(SignPresenterImpl.TYPE_APPLICANT, applicant_id);
                 break;
             case R.id.bt_sign_academy:
-                presenter.signTest(SignPresenterImpl.TYPE_ACADEMY,academy_id);
+                presenter.signTest(SignPresenterImpl.TYPE_ACADEMY, academy_id);
                 break;
             case R.id.bt_sign_probationary:
+                presenter.signTest(SignPresenterImpl.TYPE_PROBATIONARY,probationary_id);
                 break;
-            case R.id.bt_sign_change_class:
-                break;
+//            case R.id.bt_sign_change_class:
+//                break;
         }
     }
 }
