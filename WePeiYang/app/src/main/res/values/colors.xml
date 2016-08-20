@@ -63,4 +63,5 @@
     <color name="myButtonColorGreen">#56cc00</color>
     <color name="myButtonColorRed">#dd2727</color>
     <color name="myNavigationColor">#000</color>
+    <color name="bike_primary_color">#338f2f</color>
 </resources>
