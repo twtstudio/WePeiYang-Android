@@ -1,6 +1,7 @@
 package com.twt.service.bike.bike.bikeAuth;
 
-import com.twtstudio.wepeiyanglite.common.IViewController;
+
+import com.twt.service.bike.common.IViewController;
 
 /**
  * Created by jcy on 2016/8/7.

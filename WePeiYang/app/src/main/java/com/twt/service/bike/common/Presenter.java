@@ -2,7 +2,7 @@ package com.twt.service.bike.common;
 
 import android.content.Context;
 
-import com.twtstudio.wepeiyanglite.api.WePeiYangClient;
+
 
 /**
  * Created by huangyong on 16/5/18.
@@ -20,7 +20,7 @@ public abstract class Presenter {
     }
 
     public void onDestroy() {
-        WePeiYangClient.getInstance().unSubscribe(mContext);
+       // WePeiYangClient.getInstance().unSubscribe(mContext);
     }
 
     public void onStart() {

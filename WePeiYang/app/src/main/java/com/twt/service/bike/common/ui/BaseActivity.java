@@ -8,16 +8,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-import com.twtstudio.wepeiyanglite.common.IViewController;
-import com.twtstudio.wepeiyanglite.common.ui.views.LoadingDialog;
-import com.twtstudio.wepeiyanglite.utils.ToastUtils;
+
+import com.twt.service.bike.common.IViewController;
+import com.twt.service.bike.common.ui.views.LoadingDialog;
+import com.twt.service.bike.utils.ToastUtils;
 
 import butterknife.ButterKnife;
 
 /**
  * Created by huangyong on 16/5/18.
  */
-public abstract class BaseActivity extends AppCompatActivity implements IViewController{
+public abstract class BaseActivity extends AppCompatActivity implements IViewController {
 
     protected LoadingDialog mLoadingDialog;
 
@@ -43,7 +44,7 @@ public abstract class BaseActivity extends AppCompatActivity implements IViewCon
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayout());
-        ButterKnife.bind(this);
+        ButterKnife.inject(this);
         actionStart(this);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(getResources().getColor(getStatusbarColor()));

@@ -2,7 +2,8 @@ package com.twt.service.bike.common;
 
 import android.content.Context;
 
-import com.twtstudio.wepeiyanglite.api.bikeApi.BikeApiClient;
+import com.twt.service.bike.api.BikeApiClient;
+
 
 /**
  * Created by jcy on 2016/8/7.

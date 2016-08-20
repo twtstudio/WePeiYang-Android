@@ -29,22 +29,23 @@ import com.twt.service.bike.utils.BikeStationUtils;
 
 import java.util.ArrayList;
 
-import butterknife.BindView;
+import butterknife.InjectView;
+import butterknife.InjectView;
 
 /**
  * Created by jcy on 2016/8/7.
  */
 
 public class BikeFragment extends PFragment<BikeFragPresenter> implements BikeViewController, LocationSource, AMapLocationListener, AMap.OnMarkerClickListener, AMap.OnCameraChangeListener {
-    @BindView(R.id.amap_view)
+    @InjectView(R.id.amap_view)
     MapView mAmapView;
-    @BindView(R.id.bike_available)
+    @InjectView(R.id.bike_available)
     TextView mAvailableText;
-    @BindView(R.id.bike_empty)
+    @InjectView(R.id.bike_empty)
     TextView mEmptyText;
-    @BindView(R.id.station_name)
+    @InjectView(R.id.station_name)
     TextView mStationName;
-    @BindView(R.id.sliding_layout)
+    @InjectView(R.id.sliding_layout)
     SlidingUpPanelLayout mSlidingUpPanelLayout;
 
     private AMap mAmap;
