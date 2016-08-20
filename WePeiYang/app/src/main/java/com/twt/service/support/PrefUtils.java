@@ -20,6 +20,10 @@ public class PrefUtils {
     private static final String PREF_VERSION = "version";
     private static final String PREF_USER_REALNAME = "user_realname";
     private static final String PREF_USER_NUMBER = "user_number";
+//bike
+    private static final String PREF_BIKE_TOKEN = "bike_token";
+    private static final String PREF_BIKE_CARD_SIGN = "bike_sign";
+    private static final String PREF_BIKE_CARD_ID = "bike_id";
 
 
     private static SharedPreferences getDefaultSharedPreferences() {
@@ -44,14 +48,17 @@ public class PrefUtils {
 
     public static void setToken(String token) {
         if (token != null) {
-            getDefaultSharedPreferences().edit().putString(PREF_TOKEN, "Bearer{" + token + "}").apply();
+            getDefaultSharedPreferences().edit().putString(PREF_TOKEN, token ).apply();
         }
     }
 
     public static String getToken() {
-        String s=getDefaultSharedPreferences().getString(PREF_TOKEN, "");
-        Log.d("token", "getToken:->"+s);
-        return s;
+        String token =  getDefaultSharedPreferences().getString(PREF_TOKEN, "");
+        return "Bearer{" + token + "}";
+    }
+
+    public static String getTokenForBike(){
+        return getDefaultSharedPreferences().getString(PREF_TOKEN,"");
     }
 
     public static void setUsername(String twtuname) {
@@ -108,5 +115,29 @@ public class PrefUtils {
 
     public static String getPrefUserNumber(){
         return getDefaultSharedPreferences().getString(PREF_USER_NUMBER,"");
+    }
+
+    public static void setBikeToken(String token) {
+        getDefaultSharedPreferences().edit().putString(PREF_BIKE_TOKEN, token).apply();
+    }
+
+    public static String getBikeToken() {
+        return getDefaultSharedPreferences().getString(PREF_BIKE_TOKEN, "");
+    }
+
+    public static void setCardSign(String sign) {
+        getDefaultSharedPreferences().edit().putString(PREF_BIKE_CARD_SIGN, sign).apply();
+    }
+
+    public static String getCardSign() {
+        return getDefaultSharedPreferences().getString(PREF_BIKE_CARD_SIGN, "");
+    }
+
+    public static void setCardId(String id) {
+        getDefaultSharedPreferences().edit().putString(PREF_BIKE_CARD_ID,id).apply();
+    }
+
+    public static String getCardId(){
+        return getDefaultSharedPreferences().getString(PREF_BIKE_CARD_ID,"");
     }
 }
