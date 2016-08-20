@@ -141,6 +141,8 @@
 
         <service android:name=".service.push.PushService"/>
         <receiver android:name=".receiver.push.BootReceiver"/>
+
+        <activity android:name=".bike.bike.ui.main.BikeActivity"/>
     </application>
 
 </manifest>

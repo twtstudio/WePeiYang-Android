@@ -34,6 +34,7 @@ import com.twt.service.R;
 import com.twt.service.bean.Login;
 import com.twt.service.bean.Main;
 import com.twt.service.bean.Update;
+import com.twt.service.bike.bike.ui.main.BikeActivity;
 import com.twt.service.interactor.MainInteractorImpl;
 import com.twt.service.party.ui.home.PartyActivity;
 import com.twt.service.party.ui.home.PartyView;
@@ -174,6 +175,8 @@ public class MainActivity extends BaseActivity implements BaseSliderView.OnSlide
     LinearLayout btnBus;
     @InjectView(R.id.btn_party)
     LinearLayout btnParty;
+    @InjectView(R.id.btn_bike)
+    LinearLayout btnBike;
 
     private MainPresenterImpl presenter;
     private MainFoundAdapter mainFoundAdapter;
@@ -234,6 +237,7 @@ public class MainActivity extends BaseActivity implements BaseSliderView.OnSlide
         btnBus.setOnClickListener(this);
         btnDating.setOnClickListener(this);
         btnParty.setOnClickListener(this);
+        btnBike.setOnClickListener(this);
         presenter = new MainPresenterImpl(this, new MainInteractorImpl(), this);
         presenter.loadDataFromCache();
         srlMain.setColorSchemeColors(getResources().getColor(R.color.main_primary));
@@ -356,6 +360,12 @@ public class MainActivity extends BaseActivity implements BaseSliderView.OnSlide
                     LoginActivity.actionStart(this, NextActivity.Party);
                 }
                 break;
+            case R.id.btn_bike:
+                if (PrefUtils.isLogin()){
+                    BikeActivity.actionStart(this);
+                }else {
+                    LoginActivity.actionStart(this,NextActivity.Bike);
+                }break;
             //case R.id.btn_library_query:
             //LibraryActivity.actionStart(this);
             //break;
