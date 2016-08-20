@@ -20,6 +20,8 @@
             android:layout_height="wrap_content"
             android:background="@color/party_primary_color"
             app:tabTextColor="@color/myTextPrimaryColorWhite"
+            app:tabSelectedTextColor="@color/myTextPrimaryColorWhite"
+            app:tabIndicatorColor="@color/myTabIndicatorColor"
             android:clickable="true"/>
 
     </android.support.design.widget.AppBarLayout>

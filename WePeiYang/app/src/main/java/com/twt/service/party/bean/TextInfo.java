@@ -11,15 +11,15 @@ public class TextInfo {
      * file_addtime : 2016-04-07
      */
 
-    private String file_id;
+    private int file_id;
     private String file_title;
     private String file_addtime;
 
-    public String getFile_id() {
+    public int getFile_id() {
         return file_id;
     }
 
-    public void setFile_id(String file_id) {
+    public void setFile_id(int file_id) {
         this.file_id = file_id;
     }
 

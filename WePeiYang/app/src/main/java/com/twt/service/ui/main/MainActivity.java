@@ -365,7 +365,7 @@ public class MainActivity extends BaseActivity implements BaseSliderView.OnSlide
                     BikeActivity.actionStart(this);
                 }else {
                     LoginActivity.actionStart(this,NextActivity.Bike);
-                }
+                }break;
             //case R.id.btn_library_query:
             //LibraryActivity.actionStart(this);
             //break;

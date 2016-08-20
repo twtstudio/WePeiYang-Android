@@ -41,14 +41,14 @@ public class InquiryInteractorImpl implements InquiryInteractor {
 
     @Override
     public void loadOtherTestInfo(String type, final OnGetOtherTestCallBack callBack) {
-        ApiClient.loadStatus(type + "_gradecheck", "3013218130", new Callback<Status>() {
+        ApiClient.loadStatus(type + "_gradecheck", PrefUtils.getPrefUserNumber(), new Callback<Status>() {
             @Override
             public void onResponse(Call<Status> call, Response<Status> response) {
                 if(response.body().getStatus() == 1){
                     Log.d("lqy",response.body().toString());
                     callBack.onGetScoreInfo(response.body().getData().get(0));
                 }else {
-                    callBack.onNoScoreInfo(response.body().getMsg());
+                    callBack.onNoScoreInfo(response.body().getMessage());
                 }
             }
 

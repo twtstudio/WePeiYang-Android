@@ -38,7 +38,6 @@
             android:layout_height="wrap_content"
             android:textColor="@color/myTextPrimaryColorWhite"
             android:layout_marginLeft="12dp"
-            android:clickable="false"
             android:text="报名"/>
         <TextView
             android:id="@+id/tv_sign_applicant"
@@ -72,7 +71,6 @@
             android:layout_height="wrap_content"
             android:textColor="@color/myTextPrimaryColorWhite"
             android:layout_marginLeft="12dp"
-            android:clickable="false"
             android:text="报名"/>
         <TextView
             android:id="@+id/tv_sign_academy"
@@ -99,12 +97,6 @@
         android:gravity="center_vertical"
         android:background="@color/myWindowBackgroundWhite">
 
-        <Spinner
-            android:layout_width="0dp"
-            android:layout_weight="2"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="12dp" />
-
         <Button
             android:id="@+id/bt_sign_probationary"
             android:layout_width="0dp"
@@ -112,18 +104,50 @@
             android:layout_height="wrap_content"
             android:textColor="@color/myTextPrimaryColorWhite"
             android:layout_marginLeft="12dp"
-            android:clickable="false"
             android:text="报名"/>
-        <Button
-            android:id="@+id/bt_sign_change_class"
+        <TextView
+            android:id="@+id/tv_sign_probationary"
             android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_weight="3"
             android:layout_height="wrap_content"
-            android:textColor="@color/myTextPrimaryColorWhite"
+            android:textColor="@color/myTextPrimaryColorGray"
             android:layout_marginLeft="12dp"
-            android:layout_marginRight="12dp"
-            android:clickable="false"
-            android:text="调课"/>
+            android:text="当前报名尚未开启"/>
     </LinearLayout>
+
+    <!--预备党员党校暂时没有api-->
+    <!--<LinearLayout-->
+        <!--android:orientation="horizontal"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="68dp"-->
+        <!--android:gravity="center_vertical"-->
+        <!--android:background="@color/myWindowBackgroundWhite">-->
+
+        <!--<Spinner-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_weight="2"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginLeft="12dp" />-->
+
+        <!--<Button-->
+            <!--android:id="@+id/bt_sign_probationary"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:textColor="@color/myTextPrimaryColorWhite"-->
+            <!--android:layout_marginLeft="12dp"-->
+            <!--android:clickable="false"-->
+            <!--android:text="报名"/>-->
+        <!--<Button-->
+            <!--android:id="@+id/bt_sign_change_class"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:textColor="@color/myTextPrimaryColorWhite"-->
+            <!--android:layout_marginLeft="12dp"-->
+            <!--android:layout_marginRight="12dp"-->
+            <!--android:clickable="false"-->
+            <!--android:text="调课"/>-->
+    <!--</LinearLayout>-->
 
 </LinearLayout>

@@ -76,10 +76,15 @@ public class AppealActivity extends BaseActivity implements ApealView{
                 if("".equals(title.getText().toString().trim()) || "".equals(context.getText().toString().trim())){
                     Toast.makeText(this, "请输入标题和内容", Toast.LENGTH_SHORT).show();
                 }else {
-                    presenter.appeal(title.getText().toString().trim(),context.getText().toString().trim(),type,testId);
+                    setDialog("确认要提交申诉吗？",0);
                 }
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onClickPositiveButton(int id) {
+        presenter.appeal(title.getText().toString().trim(),context.getText().toString().trim(),type,testId);
     }
 
     public static void actionStart(Context context, String type, int testId){

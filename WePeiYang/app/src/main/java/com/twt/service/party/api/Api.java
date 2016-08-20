@@ -2,6 +2,7 @@ package com.twt.service.party.api;
 
 import com.twt.service.party.bean.CourseDetailInfo;
 import com.twt.service.party.bean.Status;
+import com.twt.service.party.bean.TextDetailInfo;
 import com.twt.service.party.bean.UserInfomation;
 
 import retrofit2.Call;
@@ -27,6 +28,9 @@ public interface Api {
     Call<CourseDetailInfo> getCourseDetail(@Query("page") String page, @Query("do") String doWhat, @Query("sno") String sno, @Query("course_id") int courseId);
 
     @GET("party/")
-    Call<Status> appeal(@Query("page") String page, @Query("do") String doWhat, @Query("sno") String sno, @Query("test_id") int test_id, @Query("title") String title, @Query("content") String content);
+    Call<TextDetailInfo> getTextDetail(@Query("page") String page, @Query("do") String doWhat, @Query("sno") String sno, @Query("text_id") int textId);
+
+    @GET("party/")
+    Call<Status> appeal(@Query("page") String page, @Query("do") String doWhat, @Query("sno") String sno, @Query("test_id") int testId, @Query("title") String title, @Query("content") String content);
 
 }

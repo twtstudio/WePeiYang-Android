@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/appbar"
         android:ellipsize="marquee"
-        android:lines="1"
+        android:singleLine="true"
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:background="@color/myWindowBackgroundWhite"/>
@@ -735,19 +735,20 @@
                     android:orientation="horizontal">
                     <!--第二横向中的第一竖排-->
                     <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_marginRight="14dp"
                         android:layout_marginLeft="14dp"
-                        android:layout_centerVertical="true">
+                        android:layout_gravity="center_vertical">
                     <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="wrap_content">
                     <Button
                         android:id="@+id/bt_home_21"
                         android:layout_width="180dp"
                         android:lines="2"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="11dp"
                         android:textColor="@color/myTextPrimaryColorGray"
                         android:background="@drawable/shape_button_home_gray"
                         android:text="完成预备党员党校学习"/>
@@ -853,26 +854,27 @@
 
                     <!--第二横向的第三竖排-->
                     <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_marginRight="14dp"
                         android:layout_marginLeft="14dp"
-                        android:layout_centerVertical="true">
+                        android:layout_gravity="center_vertical">
                     <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
                         <Button
                             android:id="@+id/bt_home_26"
                             android:layout_width="180dp"
                             android:lines="2"
                             android:layout_height="wrap_content"
+                            android:layout_marginBottom="11dp"
                             android:textColor="@color/myTextPrimaryColorGray"
                             android:background="@drawable/shape_button_home_gray"
                             android:text="按时参加党支部组织生活及党内活动"/>
                     </RelativeLayout>
                         <include
                             android:id="@+id/tv_left_26"
-                            layout="@layout/slanted_textview"/>
+                            layout="@layout/slanted_textview" />
                     </RelativeLayout>
 
                 </LinearLayout>
@@ -916,18 +918,24 @@
                 android:layout_alignParentEnd="true"
                 android:layout_below="@id/hsv_2"/>
 
+        <RelativeLayout
+            android:id="@+id/rl_home_27"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/hsv_2"
+            android:layout_marginTop="24dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
             <Button
                 android:id="@+id/bt_home_27"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="递交转正申请"
                 android:textColor="@color/myTextPrimaryColorGray"
-                android:background="@drawable/shape_button_home_gray"
-                android:layout_below="@+id/hsv_2"
-                android:layout_marginTop="24dp"
-                android:layout_marginLeft="40dp"
-                android:layout_marginRight="40dp"/>
-
+                android:background="@drawable/shape_button_home_gray" />
             <View
                 android:layout_width="1dp"
                 android:layout_height="11dp"
@@ -936,19 +944,29 @@
                 android:layout_marginBottom="2dp"
                 android:layout_centerHorizontal="true"
                 android:layout_below="@id/bt_home_27"/>
+        </RelativeLayout>
+            <include
+                android:id="@+id/tv_left_27"
+                layout="@layout/slanted_textview"/>
+        </RelativeLayout>
 
+        <RelativeLayout
+            android:id="@+id/rl_home_28"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/rl_home_27"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
             <Button
                 android:id="@+id/bt_home_28"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="党员转正公示"
                 android:textColor="@color/myTextPrimaryColorGray"
-                android:background="@drawable/shape_button_home_gray"
-                android:layout_below="@+id/bt_home_27"
-                android:layout_marginTop="15dp"
-                android:layout_marginLeft="40dp"
-                android:layout_marginRight="40dp"/>
-
+                android:background="@drawable/shape_button_home_gray" />
             <View
                 android:layout_width="1dp"
                 android:layout_height="11dp"
@@ -957,19 +975,29 @@
                 android:layout_marginBottom="2dp"
                 android:layout_centerHorizontal="true"
                 android:layout_below="@id/bt_home_28"/>
+        </RelativeLayout>
+            <include
+                android:id="@+id/tv_left_28"
+                layout="@layout/slanted_textview"/>
+        </RelativeLayout>
 
+        <RelativeLayout
+            android:id="@+id/rl_home_29"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/rl_home_28"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
             <Button
                 android:id="@+id/bt_home_29"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="党支部召开转正大会，表决通过"
                 android:textColor="@color/myTextPrimaryColorGray"
-                android:background="@drawable/shape_button_home_gray"
-                android:layout_below="@+id/bt_home_28"
-                android:layout_marginTop="15dp"
-                android:layout_marginLeft="40dp"
-                android:layout_marginRight="40dp"/>
-
+                android:background="@drawable/shape_button_home_gray" />
             <View
                 android:layout_width="1dp"
                 android:layout_height="11dp"
@@ -978,19 +1006,29 @@
                 android:layout_marginBottom="2dp"
                 android:layout_centerHorizontal="true"
                 android:layout_below="@id/bt_home_29"/>
+        </RelativeLayout>
+            <include
+                android:id="@+id/tv_left_29"
+                layout="@layout/slanted_textview"/>
+        </RelativeLayout>
 
+        <RelativeLayout
+            android:id="@+id/rl_home_30"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/rl_home_29"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
             <Button
                 android:id="@+id/bt_home_30"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="党委审批"
                 android:textColor="@color/myTextPrimaryColorGray"
-                android:background="@drawable/shape_button_home_gray"
-                android:layout_below="@+id/bt_home_29"
-                android:layout_marginTop="15dp"
-                android:layout_marginLeft="40dp"
-                android:layout_marginRight="40dp"/>
-
+                android:background="@drawable/shape_button_home_gray" />
             <View
                 android:layout_width="1dp"
                 android:layout_height="11dp"
@@ -999,27 +1037,35 @@
                 android:layout_marginBottom="2dp"
                 android:layout_centerHorizontal="true"
                 android:layout_below="@id/bt_home_30"/>
+        </RelativeLayout>
+            <include
+                android:id="@+id/tv_left_30"
+                layout="@layout/slanted_textview"/>
+        </RelativeLayout>
 
+        <RelativeLayout
+            android:id="@+id/rl_home_31"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/rl_home_30"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
             <Button
                 android:id="@+id/bt_home_31"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="成为中共正式党员"
+                android:layout_marginBottom="11dp"
                 android:textColor="@color/myTextPrimaryColorGray"
-                android:background="@drawable/shape_button_home_gray"
-                android:layout_below="@+id/bt_home_30"
-                android:layout_marginTop="15dp"
-                android:layout_marginLeft="40dp"
-                android:layout_marginRight="40dp"/>
-
-            <View
-                android:layout_width="1dp"
-                android:layout_height="11dp"
-                android:background="@color/myTextPrimaryColorGray"
-                android:layout_marginTop="2dp"
-                android:layout_marginBottom="2dp"
-                android:layout_centerHorizontal="true"
-                android:layout_below="@id/bt_home_31"/>
+                android:background="@drawable/shape_button_home_gray" />
+        </RelativeLayout>
+            <include
+                android:id="@+id/tv_left_31"
+                layout="@layout/slanted_textview"/>
+        </RelativeLayout>
         </RelativeLayout>
     </ScrollView>
 
@@ -1082,15 +1128,15 @@
           fab:fab_colorPressed="#17bc9b"
           fab:fab_size="mini"
           fab:fab_title="@string/submit_party" />
-      <com.getbase.floatingactionbutton.FloatingActionButton
-          android:id="@+id/action_forum"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:src="@mipmap/ic_forum"
-          fab:fab_colorNormal="#d32727"
-          fab:fab_colorPressed="#cd2020"
-          fab:fab_size="mini"
-          fab:fab_title="@string/forum_party" />
+      <!--<com.getbase.floatingactionbutton.FloatingActionButton-->
+          <!--android:id="@+id/action_forum"-->
+          <!--android:layout_width="wrap_content"-->
+          <!--android:layout_height="wrap_content"-->
+          <!--android:src="@mipmap/ic_forum"-->
+          <!--fab:fab_colorNormal="#d32727"-->
+          <!--fab:fab_colorPressed="#cd2020"-->
+          <!--fab:fab_size="mini"-->
+          <!--fab:fab_title="@string/forum_party" />-->
 
   </com.getbase.floatingactionbutton.FloatingActionsMenu>
 </RelativeLayout>

@@ -2,6 +2,7 @@ package com.twt.service.bike.bike.ui.main;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -45,16 +46,20 @@ public class BikeActivity extends AppCompatActivity {
         ButterKnife.inject(this);
         setSupportActionBar(mToolBar);
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(getResources().getColor(R.color.bike_primary_color));
+        }
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         viewPagerAdapter.addFragement(new BikeFragment());
+        mViewPager.setAdapter(viewPagerAdapter);
 
         mViewPager.requestDisallowInterceptTouchEvent(false);
 
         mTabLayout.setupWithViewPager(mViewPager);
         mTabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
-//        TabLayout.Tab tab = mTabLayout.getTabAt(0);
-//        tab.setIcon(R.drawable.point_layout_map);
+        TabLayout.Tab tab = mTabLayout.getTabAt(0);
+        tab.setIcon(R.drawable.point_layout_map);
 //        TabLayout.Tab tab1=mTabLayout.getTabAt(1);
 //        tab1.setIcon(R.drawable.use_record);
 //        TabLayout.Tab tab2=mTabLayout.getTabAt(2);
@@ -82,6 +87,10 @@ public class BikeActivity extends AppCompatActivity {
             return fragmentList.size();
         }
 
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return null;
+        }
 
         @Override
         public void destroyItem(ViewGroup container, int position, Object object) {

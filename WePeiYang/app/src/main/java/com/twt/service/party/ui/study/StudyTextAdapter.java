@@ -2,14 +2,17 @@ package com.twt.service.party.ui.study;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.twt.service.R;
 import com.twt.service.party.bean.CourseInfo;
 import com.twt.service.party.bean.TextInfo;
+import com.twt.service.party.ui.study.detail.StudyDetailActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,8 +45,15 @@ public class StudyTextAdapter extends RecyclerView.Adapter<StudyTextAdapter.MyVi
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
+    public void onBindViewHolder(MyViewHolder holder, final int position) {
         holder.tvCourseName.setText(list.get(position).getFile_title());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(context, "", Toast.LENGTH_SHORT).show();
+//                StudyDetailActivity.actionStart(context,StudyDetailActivity.TYPE_TEXT,list.get(position).getFile_id());
+            }
+        });
     }
 
 

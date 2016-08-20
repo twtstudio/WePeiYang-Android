@@ -1,5 +1,7 @@
 package com.twt.service.party.ui.sign;
 
+import android.util.Log;
+
 import com.twt.service.R;
 import com.twt.service.party.bean.TestInfo;
 import com.twt.service.party.interactor.SignTestInteractor;
@@ -35,6 +37,7 @@ public class SignPresenterImpl implements SignPresenter, OnGetTestCallBack, OnSi
 
     @Override
     public void signTest(String type,int testId) {
+        Log.d("lqy",testId+"presenter");
         interactor.signTest(PrefUtils.getPrefUserNumber(),type,testId,this);
     }
 

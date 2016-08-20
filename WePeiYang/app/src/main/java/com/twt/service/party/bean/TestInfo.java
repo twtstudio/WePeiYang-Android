@@ -13,6 +13,14 @@ public class TestInfo {
     private String test_status;
     private String test_isdeleted;
 
+    private int train_id;
+    private String train_name;
+    private String train_begintime;
+
+    public void setTrain_begintime(String train_begintime) {
+        this.train_begintime = train_begintime;
+    }
+
     public int getTest_id() {
         return test_id;
     }
@@ -75,5 +83,25 @@ public class TestInfo {
 
     public void setTest_isdeleted(String test_isdeleted) {
         this.test_isdeleted = test_isdeleted;
+    }
+
+    public int getTrain_id() {
+        return train_id;
+    }
+
+    public void setTrain_id(int train_id) {
+        this.train_id = train_id;
+    }
+
+    public String getTrain_name() {
+        return train_name;
+    }
+
+    public void setTrain_name(String train_name) {
+        this.train_name = train_name;
+    }
+
+    public String getTrain_begintime() {
+        return train_begintime;
     }
 }
