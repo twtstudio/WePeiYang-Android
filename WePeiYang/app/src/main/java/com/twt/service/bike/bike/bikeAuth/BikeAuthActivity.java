@@ -5,21 +5,22 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 
-import com.twtstudio.wepeiyanglite.R;
-import com.twtstudio.wepeiyanglite.common.ui.PActivity;
+import com.twt.service.R;
+import com.twt.service.bike.common.ui.PActivity;
 
-import butterknife.BindView;
+import butterknife.InjectView;
+
 
 /**
  * Created by jcy on 2016/8/7.
  */
 
 public class BikeAuthActivity extends PActivity<BikeAuthPresenter> implements BikeAuthController{
-    @BindView(R.id.bike_auth_button)
+    @InjectView(R.id.bike_auth_button)
     Button mButton;
-    @BindView(R.id.bike_card)
+    @InjectView(R.id.bike_card)
     Button mCardButton;
-    @BindView(R.id.bind_card)
+    @InjectView(R.id.bind_card)
     Button mBindButton;
     @Override
     protected BikeAuthPresenter getPresenter() {

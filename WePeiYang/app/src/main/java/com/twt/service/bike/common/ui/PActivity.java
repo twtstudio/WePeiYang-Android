@@ -3,7 +3,8 @@ package com.twt.service.bike.common.ui;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
-import com.twtstudio.wepeiyanglite.common.Presenter;
+import com.twt.service.bike.common.Presenter;
+
 
 /**
  * Created by huangyong on 16/5/18.

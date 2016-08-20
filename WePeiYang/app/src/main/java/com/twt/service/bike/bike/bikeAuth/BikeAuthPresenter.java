@@ -3,15 +3,16 @@ package com.twt.service.bike.bike.bikeAuth;
 import android.content.Context;
 import android.util.Log;
 
-import com.twtstudio.wepeiyanglite.api.OnNextListener;
-import com.twtstudio.wepeiyanglite.api.bikeApi.BikeApiClient;
-import com.twtstudio.wepeiyanglite.api.bikeApi.BikeApiSubscriber;
-import com.twtstudio.wepeiyanglite.common.BikePresenter;
-import com.twtstudio.wepeiyanglite.model.BikeAuth;
-import com.twtstudio.wepeiyanglite.model.BikeCard;
-import com.twtstudio.wepeiyanglite.support.PrefUtils;
+import com.twt.service.bike.api.BikeApiClient;
+import com.twt.service.bike.api.BikeApiSubscriber;
+import com.twt.service.bike.api.OnNextListener;
+import com.twt.service.bike.common.BikePresenter;
+import com.twt.service.bike.model.BikeAuth;
+import com.twt.service.bike.model.BikeCard;
+import com.twt.service.support.PrefUtils;
 
 import java.util.List;
+
 
 /**
  * Created by jcy on 2016/8/7.

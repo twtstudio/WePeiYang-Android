@@ -7,7 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.twtstudio.wepeiyanglite.common.Presenter;
+import com.twt.service.bike.common.Presenter;
+
 
 /**
  * Created by sunjuntao on 16/6/3.
