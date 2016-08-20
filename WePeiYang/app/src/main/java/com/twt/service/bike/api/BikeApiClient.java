@@ -3,6 +3,7 @@ package com.twt.service.bike.api;
 import android.util.Log;
 
 
+import com.twt.service.bike.model.BikeAnnouncement;
 import com.twt.service.bike.model.BikeAuth;
 import com.twt.service.bike.model.BikeCard;
 import com.twt.service.bike.model.BikeStation;
@@ -189,9 +190,18 @@ public class BikeApiClient {
 
     public void cacheStationStatus(Object tag, Subscriber subscriber) {
         Subscription subscription = mService.cacheStationStaus()
+                .repeatWhen(v -> v.delay(90,TimeUnit.SECONDS))
                 .map(new BikeResponseTransformer<List<BikeStation>>())
                 .compose(BikeApiUtils.applySchedulers())
                 .subscribe(subscriber);
         addSubscription(tag, subscription);
+    }
+
+    public void getAnnouncement(Object tag,Subscriber subscriber){
+        Subscription subscription = mService.getBikeAnnouncement()
+                .map(new BikeResponseTransformer<List<BikeAnnouncement>>())
+                .compose(BikeApiUtils.applySchedulers())
+                .subscribe(subscriber);
+        addSubscription(tag,subscription);
     }
 }

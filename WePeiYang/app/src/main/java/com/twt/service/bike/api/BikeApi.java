@@ -2,6 +2,7 @@ package com.twt.service.bike.api;
 
 
 
+import com.twt.service.bike.model.BikeAnnouncement;
 import com.twt.service.bike.model.BikeAuth;
 import com.twt.service.bike.model.BikeCard;
 import com.twt.service.bike.model.BikeStation;
@@ -46,4 +47,7 @@ public interface BikeApi {
 
     @GET("station/status")
     Observable<BikeApiResponse<List<BikeStation>>> cacheStationStaus();
+
+    @GET("announcement")
+    Observable<BikeApiResponse<List<BikeAnnouncement>>> getBikeAnnouncement();
 }
