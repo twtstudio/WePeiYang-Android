@@ -54,10 +54,12 @@ public class PartyPresenterImpl implements PartyPresenter, OnGetPersonalStatusCa
     @Override
     public void onStatusError(String msg) {
         view.toastMsg(msg);
+        view.setMsg(msg);
     }
 
     @Override
     public void onFailure() {
         view.toastMsg(ResourceHelper.getString(R.string.toast_network_failed));
+        view.setMsg(ResourceHelper.getString(R.string.toast_network_failed));
     }
 }

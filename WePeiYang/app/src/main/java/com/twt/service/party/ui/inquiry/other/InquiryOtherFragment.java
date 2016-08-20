@@ -69,10 +69,13 @@ public class InquiryOtherFragment extends BaseFragment implements OtherView {
     LinearLayout llInquiryEntryId;
     @InjectView(R.id.ll_inquiry_status)
     LinearLayout llInquiryStatus;
-
+    @InjectView(R.id.tv_error_msg)
+    TextView tvErrorMsg;
     private OtherPresenter presenter;
 
     private int test_id;
+
+    private boolean b_clickable = false;
 
     public static InquiryOtherFragment newInstance(int page) {
         Bundle args = new Bundle();
@@ -122,15 +125,19 @@ public class InquiryOtherFragment extends BaseFragment implements OtherView {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.bt_inquiry_to_appeal:
-                switch (this.getArguments().getInt(ARG_PAGE)){
-                    case 2:
-                        AppealActivity.actionStart(getActivity(), TYPE_APPLICANT, test_id);
-                        break;
-                    case 3:
-                        AppealActivity.actionStart(getActivity(), TYPE_ACADEMY, test_id);
-                        break;
-                    case 4:
-                        AppealActivity.actionStart(getActivity(), TYPE_PROBATIONARY, test_id);
+                if(b_clickable) {
+                    switch (this.getArguments().getInt(ARG_PAGE)) {
+                        case 2:
+                            AppealActivity.actionStart(getActivity(), TYPE_APPLICANT, test_id);
+                            break;
+                        case 3:
+                            AppealActivity.actionStart(getActivity(), TYPE_ACADEMY, test_id);
+                            break;
+                        case 4:
+                            AppealActivity.actionStart(getActivity(), TYPE_PROBATIONARY, test_id);
+                    }
+                }else {
+                    toastMsg("无法申诉");
                 }
 
         }
@@ -145,6 +152,7 @@ public class InquiryOtherFragment extends BaseFragment implements OtherView {
             btInquiryToAppeal.setBackgroundResource(R.drawable.shape_button_red);
             btInquiryToAppeal.setClickable(true);
             btInquiryToAppeal.setText("申诉");
+            b_clickable = true;
         }
         switch ((int) this.getArguments().get(ARG_PAGE)) {
             case 2:
@@ -188,4 +196,9 @@ public class InquiryOtherFragment extends BaseFragment implements OtherView {
         Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    public void setErrorMsg(String errorMsg) {
+        tvErrorMsg.setVisibility(View.VISIBLE);
+        tvErrorMsg.setText(errorMsg);
+    }
 }

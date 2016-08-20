@@ -14,4 +14,5 @@ public interface PartyView {
     void gotInformation();
     void bindData(List<StatusIdBean> ids);
     void toastMsg(String msg);
+    void setMsg(String msg);
 }

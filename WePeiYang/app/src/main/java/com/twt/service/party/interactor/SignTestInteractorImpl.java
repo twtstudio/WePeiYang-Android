@@ -1,5 +1,7 @@
 package com.twt.service.party.interactor;
 
+import android.util.Log;
+
 import com.twt.service.party.api.ApiClient;
 import com.twt.service.party.bean.Status;
 import com.twt.service.party.ui.sign.OnGetTestCallBack;
@@ -34,6 +36,7 @@ public class SignTestInteractorImpl implements SignTestInteractor{
 
     @Override
     public void signTest(String sno, String testType, int testId, final OnSignTestCallBack callBack) {
+        Log.d("lqy",testId+"");
         ApiClient.signTest(sno, testType+"_entry2", testId, new Callback<Status>() {
             @Override
             public void onResponse(Call<Status> call, Response<Status> response) {

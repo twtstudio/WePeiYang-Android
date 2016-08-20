@@ -35,6 +35,8 @@ public class Status {
 
     private String msg; //失败原因，若成功不反回message
 
+    private String message;
+
     public int getStatus() {
         return status;
     }
@@ -50,6 +52,15 @@ public class Status {
     public void setMsg(String msg) {
         this.msg = msg;
     }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
 
     public List<StatusIdBean> getStatus_id() {
         return status_id;

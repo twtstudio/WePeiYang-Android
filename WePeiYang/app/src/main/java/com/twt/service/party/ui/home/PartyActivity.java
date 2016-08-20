@@ -58,8 +58,8 @@ public class PartyActivity extends BaseActivity implements PartyView {
     FloatingActionButton actionInquiry;
     @InjectView(R.id.action_submit)
     FloatingActionButton actionSubmit;
-    @InjectView(R.id.action_forum)
-    FloatingActionButton actionForum;
+//    @InjectView(R.id.action_forum)
+//    FloatingActionButton actionForum;
     @InjectView(R.id.tv_party_home_marquee)
     TextView tvPartyHomeMarquee;
     @InjectView(R.id.bt_home_1)
@@ -208,6 +208,8 @@ public class PartyActivity extends BaseActivity implements PartyView {
 
     private String status;
 
+    private String sign_status;
+
     List<Button> buttons;
 
     List<SlantedTextView> leftText;
@@ -328,7 +330,8 @@ public class PartyActivity extends BaseActivity implements PartyView {
 
     @Override
     public int getMenu() {
-        return R.menu.menu_party_home;
+        return 0;
+//        return R.menu.menu_party_home;
     }
 
     public static void actionStart(Context context) {
@@ -349,12 +352,9 @@ public class PartyActivity extends BaseActivity implements PartyView {
     }
 
     //floatbarmenu的点击事件
-    @OnClick({R.id.action_forum, R.id.action_inquiry, R.id.action_sign, R.id.action_study, R.id.action_submit})
+    @OnClick({ R.id.action_inquiry, R.id.action_sign, R.id.action_study, R.id.action_submit})
     void onMenuClick(View v) {
         switch (v.getId()) {
-            case R.id.action_forum:
-                ForumActivity.actionStart(this);
-                break;
             case R.id.action_inquiry:
                 InquiryActivity.actionStart(this);
                 break;
@@ -371,18 +371,18 @@ public class PartyActivity extends BaseActivity implements PartyView {
                 break;
         }
     }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        switch (item.getItemId()) {
-            case R.id.action_notification:
-                NotificationActivity.actionStart(this);
-        }
-        return super.onOptionsItemSelected(item);
-    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        // Handle action bar item clicks here. The action bar will
+//        // automatically handle clicks on the Home/Up button, so long
+//        // as you specify a parent activity in AndroidManifest.xml.
+//        switch (item.getItemId()) {
+//            case R.id.action_notification:
+//                NotificationActivity.actionStart(this);
+//        }
+//        return super.onOptionsItemSelected(item);
+//    }
 
     @Override
     public void toastMsg(String msg) {
@@ -424,13 +424,39 @@ public class PartyActivity extends BaseActivity implements PartyView {
             if (s.getStatus() == TYPE_DOING) {
                 buttons.get(s.getId()).setBackgroundResource(R.drawable.shape_button_home_red);
                 buttons.get(s.getId()).setTextColor(getResources().getColor(R.color.myTextPrimaryColorRed));
+                switch (s.getId()){
+                    case 0:
+                    case 4:
+                    case 5:
+                    case 6:
+                    case 7:
+                    case 21:
+                    case 22:
+                    case 23:
+                    case 24:
+                    case 26:
+                        sign_status = buttons.get(s.getId()).getText().toString();
+                        break;
+                }
             }
         }
-        tvPartyHomeMarquee.setText("您好"
+        setMarquee();
+    }
+
+    private void setMarquee(){
+        String text = "您好"
                 +PrefUtils.getPrefUserRealname()
                 +"，您处于"
                 + status
-                +"状态。");
+                +"状态。";
+        if (sign_status != null) {
+            text += "您现在可以" + sign_status;
+        }
+        tvPartyHomeMarquee.setText(text);
+    }
+    @Override
+    public void setMsg(String msg) {
+        tvPartyHomeMarquee.setText(msg);
     }
 
     @OnClick({R.id.bt_home_1, R.id.bt_home_2, R.id.bt_home_3, R.id.bt_home_4, R.id.bt_home_5, R.id.bt_home_6, R.id.bt_home_7, R.id.bt_home_8, R.id.bt_home_9, R.id.bt_home_10, R.id.bt_home_11, R.id.bt_home_12, R.id.bt_home_13, R.id.bt_home_14, R.id.bt_home_15, R.id.bt_home_16, R.id.bt_home_17, R.id.bt_home_18, R.id.bt_home_19, R.id.bt_home_20, R.id.bt_home_21, R.id.bt_home_22, R.id.bt_home_23, R.id.bt_home_24, R.id.bt_home_25, R.id.bt_home_26, R.id.bt_home_27, R.id.bt_home_28, R.id.bt_home_29, R.id.bt_home_30, R.id.bt_home_31})

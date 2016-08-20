@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -46,6 +47,10 @@ public class SignActivity extends BaseActivity implements SignView {
     private int applicant_id;
 
     private int probationary_id;
+
+    private boolean b_academy = false;
+    private boolean b_applicant = false;
+    private boolean b_probationary = false;
 
     @Override
     public int getContentViewId() {
@@ -94,20 +99,20 @@ public class SignActivity extends BaseActivity implements SignView {
     public void bindData(TestInfo testInfo, String type) {
         switch (type) {
             case SignPresenterImpl.TYPE_APPLICANT:
+                b_applicant = true;
                 btSignApplicant.setBackgroundResource(R.color.myButtonColorGreen);
-                btSignApplicant.setClickable(true);
                 applicant_id = testInfo.getTest_id();
                 tvSignApplicant.setText(testInfo.getTest_name());
                 break;
             case SignPresenterImpl.TYPE_ACADEMY:
+                b_academy = true;
                 btSignAcademy.setBackgroundResource(R.color.myButtonColorGreen);
                 academy_id = testInfo.getTest_id();
-                btSignAcademy.setClickable(true);
                 tvSignAcademy.setText(testInfo.getTest_name());
                 break;
             case SignPresenterImpl.TYPE_PROBATIONARY:
+                b_probationary = true;
                 btSignProbationary.setBackgroundResource(R.color.myButtonColorGreen);
-                btSignProbationary.setClickable(true);
                 probationary_id = testInfo.getTrain_id();
                 tvSignProbationary.setText(testInfo.getTrain_name());
                 break;
@@ -133,6 +138,35 @@ public class SignActivity extends BaseActivity implements SignView {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.bt_sign_applicant:
+                if(b_applicant){
+                    setDialog("是否要报名结业考试？",view.getId());
+                }else {
+                    toastMsg("无法报名");
+                }
+                break;
+            case R.id.bt_sign_academy:
+                if(b_academy) {
+                    setDialog("是否要报名院级积极分子党校考试？", view.getId());
+                }else {
+                    toastMsg("无法报名");
+                }
+                break;
+            case R.id.bt_sign_probationary:
+                if (b_probationary){
+                    setDialog("是否要报名预备党员党校？",view.getId());
+                }else {
+                    toastMsg("无法报名");
+                }
+                break;
+//            case R.id.bt_sign_change_class:
+//                break;
+        }
+    }
+
+    @Override
+    public void onClickPositiveButton(int id) {
+        switch (id){
+            case R.id.bt_sign_applicant:
                 presenter.signTest(SignPresenterImpl.TYPE_APPLICANT, applicant_id);
                 break;
             case R.id.bt_sign_academy:
@@ -141,8 +175,6 @@ public class SignActivity extends BaseActivity implements SignView {
             case R.id.bt_sign_probationary:
                 presenter.signTest(SignPresenterImpl.TYPE_PROBATIONARY,probationary_id);
                 break;
-//            case R.id.bt_sign_change_class:
-//                break;
         }
     }
 }

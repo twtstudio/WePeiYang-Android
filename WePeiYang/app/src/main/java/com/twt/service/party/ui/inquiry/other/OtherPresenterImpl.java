@@ -1,8 +1,10 @@
 package com.twt.service.party.ui.inquiry.other;
 
+import com.twt.service.R;
 import com.twt.service.party.bean.OtherScoreInfo;
 import com.twt.service.party.interactor.InquiryInteractor;
 import com.twt.service.party.ui.inquiry.appeal.ApealView;
+import com.twt.service.support.ResourceHelper;
 
 /**
  * Created by tjliqy on 2016/8/16.
@@ -87,7 +89,12 @@ public class OtherPresenterImpl implements OtherPresenter,OnGetOtherTestCallBack
 
     @Override
     public void onNoScoreInfo(String msg) {
-        view.toastMsg(msg);
+        view.setErrorMsg(msg);
+    }
+
+    @Override
+    public void onOtherScoreFailure() {
+        view.setErrorMsg(ResourceHelper.getString(R.string.toast_network_failed));
     }
 
     @Override

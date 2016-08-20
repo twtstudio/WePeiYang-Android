@@ -8,4 +8,5 @@ import com.twt.service.party.bean.OtherScoreInfo;
 public interface OtherView {
     void bindData(OtherScoreInfo scoreInfo);
     void toastMsg(String msg);
+    void setErrorMsg(String errorMsg);
 }

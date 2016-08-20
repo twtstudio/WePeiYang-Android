@@ -48,7 +48,7 @@ public class InquiryInteractorImpl implements InquiryInteractor {
                     Log.d("lqy",response.body().toString());
                     callBack.onGetScoreInfo(response.body().getData().get(0));
                 }else {
-                    callBack.onNoScoreInfo(response.body().getMsg());
+                    callBack.onNoScoreInfo(response.body().getMessage());
                 }
             }
 

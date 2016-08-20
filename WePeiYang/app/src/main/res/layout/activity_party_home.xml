@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/appbar"
         android:ellipsize="marquee"
-        android:lines="1"
+        android:singleLine="true"
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:background="@color/myWindowBackgroundWhite"/>
@@ -1128,15 +1128,15 @@
           fab:fab_colorPressed="#17bc9b"
           fab:fab_size="mini"
           fab:fab_title="@string/submit_party" />
-      <com.getbase.floatingactionbutton.FloatingActionButton
-          android:id="@+id/action_forum"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:src="@mipmap/ic_forum"
-          fab:fab_colorNormal="#d32727"
-          fab:fab_colorPressed="#cd2020"
-          fab:fab_size="mini"
-          fab:fab_title="@string/forum_party" />
+      <!--<com.getbase.floatingactionbutton.FloatingActionButton-->
+          <!--android:id="@+id/action_forum"-->
+          <!--android:layout_width="wrap_content"-->
+          <!--android:layout_height="wrap_content"-->
+          <!--android:src="@mipmap/ic_forum"-->
+          <!--fab:fab_colorNormal="#d32727"-->
+          <!--fab:fab_colorPressed="#cd2020"-->
+          <!--fab:fab_size="mini"-->
+          <!--fab:fab_title="@string/forum_party" />-->
 
   </com.getbase.floatingactionbutton.FloatingActionsMenu>
 </RelativeLayout>

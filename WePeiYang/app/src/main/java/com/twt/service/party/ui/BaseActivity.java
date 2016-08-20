@@ -65,29 +65,30 @@ public abstract class BaseActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-    public void setDialog(){
+    public void setDialog(String msg,int id){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(msg);
         builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                onClickPositiveButton();
+                onClickPositiveButton(id);
                 dialog.dismiss();
             }
         });
         builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                onClickNegativeButton();
+                onClickNegativeButton(id);
                 dialog.dismiss();
             }
         });
         builder.create().show();
     }
 
-    public void onClickPositiveButton(){
+    public void onClickPositiveButton(int id){
 
     }
 
-    public void onClickNegativeButton(){
+    public void onClickNegativeButton(int id){
     }
 }

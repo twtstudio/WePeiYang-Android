@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.twt.service.R;
 import com.twt.service.party.bean.CourseInfo;
@@ -49,7 +50,8 @@ public class StudyTextAdapter extends RecyclerView.Adapter<StudyTextAdapter.MyVi
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                StudyDetailActivity.actionStart(context,StudyDetailActivity.TYPE_TEXT,list.get(position).getFile_id());
+                Toast.makeText(context, "", Toast.LENGTH_SHORT).show();
+//                StudyDetailActivity.actionStart(context,StudyDetailActivity.TYPE_TEXT,list.get(position).getFile_id());
             }
         });
     }

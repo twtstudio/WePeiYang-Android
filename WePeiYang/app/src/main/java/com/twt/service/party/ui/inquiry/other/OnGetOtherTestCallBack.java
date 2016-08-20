@@ -8,4 +8,5 @@ import com.twt.service.party.bean.OtherScoreInfo;
 public interface OnGetOtherTestCallBack {
     void onGetScoreInfo(OtherScoreInfo scoreInfo);
     void onNoScoreInfo(String msg);
+    void onOtherScoreFailure();
 }
