@@ -20,6 +20,7 @@ public class BikeApiSubscriber<T> extends Subscriber<T> {
 
     protected OnNextListener<T> mOnNextListener;
 
+
     protected OnErrorListener mOnErrorListener;
 
     protected boolean isToastError = true;
@@ -28,6 +29,13 @@ public class BikeApiSubscriber<T> extends Subscriber<T> {
         mContext = context;
         mOnNextListener = listener;
     }
+
+    public BikeApiSubscriber(Context context, OnNextListener<T> listener,OnErrorListener errorListener) {
+        mContext = context;
+        mOnNextListener = listener;
+        mOnErrorListener = errorListener;
+    }
+
 
     public boolean isToastError() {
         return isToastError;
@@ -40,6 +48,10 @@ public class BikeApiSubscriber<T> extends Subscriber<T> {
     @Override
     public void onCompleted() {
 
+    }
+
+    public void setOnErrorListener(OnErrorListener mOnErrorListener) {
+        this.mOnErrorListener = mOnErrorListener;
     }
 
     @Override

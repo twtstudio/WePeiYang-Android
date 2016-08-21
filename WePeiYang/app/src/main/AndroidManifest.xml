@@ -143,6 +143,9 @@
         <receiver android:name=".receiver.push.BootReceiver"/>
 
         <activity android:name=".bike.bike.ui.main.BikeActivity"/>
+
+        <activity android:name=".bike.bike.bikeAuth.BikeAuthActivity"/>
+        <activity android:name=".bike.bike.bikeAuth.BikeCardActivity"/>
     </application>
 
 </manifest>

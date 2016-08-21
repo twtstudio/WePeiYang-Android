@@ -92,6 +92,9 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
                 PrefUtils.removeUserName();
                 PrefUtils.removePrefUserNumber();
                 PrefUtils.removePrefUserRealname();
+                PrefUtils.removeBikeToken();
+                PrefUtils.removeCardId();
+                PrefUtils.removeCardSign();
                 CacheUtils.clear();
                 LoginActivity.actionStart(this, NextActivity.Main);
                 finish();
