@@ -269,8 +269,11 @@ public class MainActivity extends BaseActivity implements BaseSliderView.OnSlide
         rvMainLost.setAdapter(mainLostAdapter);
 
         //HrDialog 弹出
-        HrDialog hrDialog = new HrDialog();
-        hrDialog.show(getFragmentManager(),"HrDialog");
+        if(PrefUtils.isShowDiaLog()){
+            HrDialog hrDialog = new HrDialog();
+            hrDialog.show(getFragmentManager(),"HrDialog");
+        }
+
     }
 
     public void onEvent(SuccessEvent successEvent) {

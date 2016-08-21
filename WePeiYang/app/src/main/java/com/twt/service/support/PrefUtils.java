@@ -11,6 +11,7 @@ import com.twt.service.WePeiYangApp;
  */
 public class PrefUtils {
 
+    private static final String PREF_SHOW_DIALOG = "show_dialog";
     private static final String PREF_IS_LOGIN = "is_login";
     private static final String PREF_IS_KNOW_GPA_USAGE = "isknowgpausage";
     private static final String PREF_TOKEN = "token";
@@ -18,9 +19,10 @@ public class PrefUtils {
     private static final String PREF_LOST_FOUND_CONTACT_NAME = "lost_found_contact_name";
     private static final String PREF_LOST_FOUND_CONTACT_NUMBER = "lost_found_contact_number";
     private static final String PREF_VERSION = "version";
+
     private static final String PREF_USER_REALNAME = "user_realname";
     private static final String PREF_USER_NUMBER = "user_number";
-//ic_main_bike
+
     private static final String PREF_BIKE_TOKEN = "bike_token";
     private static final String PREF_BIKE_CARD_SIGN = "bike_sign";
     private static final String PREF_BIKE_CARD_ID = "bike_id";
@@ -37,6 +39,15 @@ public class PrefUtils {
     public static boolean isLogin() {
         return getDefaultSharedPreferences().getBoolean(PREF_IS_LOGIN, false);
     }
+
+    public static boolean isShowDiaLog() {
+        return getDefaultSharedPreferences().getBoolean(PREF_SHOW_DIALOG, false);
+    }
+    public static void setShowDialog(boolean isFirstOpen) {
+        getDefaultSharedPreferences().edit().putBoolean(PREF_SHOW_DIALOG, isFirstOpen).apply();
+    }
+
+
 
     public static void setKnowGpaUsage(boolean isKnowGpaUsage) {
         getDefaultSharedPreferences().edit().putBoolean(PREF_IS_KNOW_GPA_USAGE, isKnowGpaUsage).apply();

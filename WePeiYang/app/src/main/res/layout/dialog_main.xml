@@ -9,25 +9,42 @@
         android:layout_height="wrap_content"
         android:scaleType="centerCrop"
         android:src="@mipmap/hr" />
-    <TextView
+    <Button
+        android:id="@+id/know_more"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/notice_never"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/shape_button_dialog"
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        android:text="了解详情"/>
+    <Button
         android:id="@+id/notice_later"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/notice_never"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_margin="8dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:paddingLeft="16dp"
+        android:paddingBottom="8dp"
         android:textColor="@color/white"
+        android:background="@android:color/transparent"
         android:text="稍后提醒"
         />
-    <TextView
+    <Button
         android:id="@+id/notice_never"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_margin="8dp"
+        android:paddingBottom="8dp"
+        android:paddingRight="16dp"
         android:textColor="@color/white"
+        android:background="@android:color/transparent"
         android:text="不再提醒"/>
 </RelativeLayout>
