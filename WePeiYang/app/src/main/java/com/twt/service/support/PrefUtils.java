@@ -20,7 +20,7 @@ public class PrefUtils {
     private static final String PREF_VERSION = "version";
     private static final String PREF_USER_REALNAME = "user_realname";
     private static final String PREF_USER_NUMBER = "user_number";
-//bike
+//ic_main_bike
     private static final String PREF_BIKE_TOKEN = "bike_token";
     private static final String PREF_BIKE_CARD_SIGN = "bike_sign";
     private static final String PREF_BIKE_CARD_ID = "bike_id";
@@ -109,8 +109,16 @@ public class PrefUtils {
         return getDefaultSharedPreferences().getString(PREF_USER_REALNAME,"");
     }
 
+    public static void removePrefUserRealname(){
+        getDefaultSharedPreferences().edit().remove(PREF_USER_REALNAME).commit();
+    }
+
     public static void setPrefUserNumber(String userNumber){
         getDefaultSharedPreferences().edit().putString(PREF_USER_NUMBER, userNumber).apply();
+    }
+
+    public static void removePrefUserNumber(){
+        getDefaultSharedPreferences().edit().remove(PREF_USER_NUMBER).commit();
     }
 
     public static String getPrefUserNumber(){

@@ -14,7 +14,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginStart="20dp"
             android:textColor="@color/myTextPrimaryColorGray"
-            android:text="学习状态" />
+            android:text="课程名称" />
         <TextView
             android:id="@+id/tv_study_num_finished"
             android:layout_width="wrap_content"

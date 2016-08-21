@@ -90,6 +90,8 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
                 PrefUtils.setLogin(false);
                 PrefUtils.removeToken();
                 PrefUtils.removeUserName();
+                PrefUtils.removePrefUserNumber();
+                PrefUtils.removePrefUserRealname();
                 CacheUtils.clear();
                 LoginActivity.actionStart(this, NextActivity.Main);
                 finish();
