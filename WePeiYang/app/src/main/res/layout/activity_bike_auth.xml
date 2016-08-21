@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
     <EditText
-        android:id="@+id/et_login_account"
+        android:id="@+id/et_auth_bike"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
@@ -29,7 +29,7 @@
     </android.support.design.widget.TextInputLayout>
 
     <Button
-        android:id="@+id/bt_login"
+        android:id="@+id/bt_auth_bike"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
@@ -40,25 +40,3 @@
 
 
 </LinearLayout>
-<!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
-    <!--android:orientation="vertical" android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent">-->
-
-    <!--<Button-->
-        <!--android:text="auth"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:id="@+id/bike_auth_button" />-->
-
-    <!--<Button-->
-        <!--android:text="card"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:id="@+id/bike_card" />-->
-
-    <!--<Button-->
-        <!--android:text="bind"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:id="@+id/bind_card"/>-->
-<!--</LinearLayout>-->

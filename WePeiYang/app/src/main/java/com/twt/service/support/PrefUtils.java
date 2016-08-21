@@ -58,7 +58,7 @@ public class PrefUtils {
     }
 
     public static String getTokenForBike(){
-        return getDefaultSharedPreferences().getString(PREF_TOKEN,"");
+        return getDefaultSharedPreferences().getString(PREF_TOKEN,"nothing");
     }
 
     public static void setUsername(String twtuname) {

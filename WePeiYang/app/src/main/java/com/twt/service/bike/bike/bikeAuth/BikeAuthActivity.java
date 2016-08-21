@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
 import com.twt.service.R;
 import com.twt.service.bike.common.ui.PActivity;
@@ -16,12 +17,12 @@ import butterknife.InjectView;
  */
 
 public class BikeAuthActivity extends PActivity<BikeAuthPresenter> implements BikeAuthController{
-    @InjectView(R.id.bike_auth_button)
-    Button mButton;
-    @InjectView(R.id.bike_card)
-    Button mCardButton;
-    @InjectView(R.id.bind_card)
-    Button mBindButton;
+
+    @InjectView(R.id.et_auth_bike)
+    EditText mAuthNumEdit;
+    @InjectView(R.id.bt_auth_bike)
+    Button mAuthBtn;
+
     @Override
     protected BikeAuthPresenter getPresenter() {
         return new BikeAuthPresenter(this,this);
@@ -44,28 +45,18 @@ public class BikeAuthActivity extends PActivity<BikeAuthPresenter> implements Bi
 
     @Override
     protected void initView() {
-        mButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mPresenter.getBikeToken();
-            }
-        });
-        mCardButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mPresenter.getBikeCard("130727199709231059");
-            }
-        });
-        mBindButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mPresenter.bindBikeCard();
-            }
-        });
+        //String idnum = mAuthNumEdit.getText().toString();
+        mPresenter.getBikeToken();
+        showLoadingDialog("正在校验身份...");
     }
 
     @Override
     protected Toolbar getToolbar() {
         return null;
+    }
+
+    @Override
+    public void onTokenGot() {
+
     }
 }

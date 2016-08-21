@@ -607,8 +607,10 @@ public class MainActivity extends BaseActivity implements BaseSliderView.OnSlide
                                 }
                                 break;
                             case 2:
-                                if (PrefUtils.isLogin()){
+                                if (PrefUtils.isLogin()&&!PrefUtils.getBikeToken().equals("nothing")){
                                     BikeActivity.actionStart(MainActivity.this);
+                                }else if (PrefUtils.isLogin()&&PrefUtils.getBikeToken().equals("nothing")){
+
                                 }else {
                                     LoginActivity.actionStart(MainActivity.this, NextActivity.Bike);
                                 }
