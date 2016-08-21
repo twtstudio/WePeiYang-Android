@@ -15,6 +15,8 @@ import android.view.ViewGroup;
 
 import com.twt.service.R;
 import com.twt.service.bike.bike.BikeFragment;
+import com.twt.service.bike.bike.ui.announcement.AnnouncementFragment;
+import com.twt.service.bike.bike.ui.data.HomeFragment;
 import com.twt.service.bike.common.MyViewPager;
 
 import java.util.ArrayList;
@@ -51,6 +53,8 @@ public class BikeActivity extends AppCompatActivity {
         }
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         viewPagerAdapter.addFragement(new BikeFragment());
+        viewPagerAdapter.addFragement(new HomeFragment());
+        viewPagerAdapter.addFragement(new AnnouncementFragment());
         mViewPager.setAdapter(viewPagerAdapter);
 
         mViewPager.requestDisallowInterceptTouchEvent(false);
@@ -60,10 +64,10 @@ public class BikeActivity extends AppCompatActivity {
 
         TabLayout.Tab tab = mTabLayout.getTabAt(0);
         tab.setIcon(R.drawable.point_layout_map);
-//        TabLayout.Tab tab1=mTabLayout.getTabAt(1);
-//        tab1.setIcon(R.drawable.use_record);
-//        TabLayout.Tab tab2=mTabLayout.getTabAt(2);
-//        tab2.setIcon(R.drawable.announcement);
+        TabLayout.Tab tab1=mTabLayout.getTabAt(1);
+        tab1.setIcon(R.drawable.use_record);
+        TabLayout.Tab tab2=mTabLayout.getTabAt(2);
+        tab2.setIcon(R.drawable.announcement);
     }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {
