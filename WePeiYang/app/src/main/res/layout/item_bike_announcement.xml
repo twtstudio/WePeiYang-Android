@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="30dp"
-        android:text="有点晚了，你明天还搬宿舍" />
+        android:text=".." />
 
     <TextView
         android:id="@+id/bike_announcement_time"

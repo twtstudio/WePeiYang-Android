@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.twt.service.bike.api.BikeApiClient;
 import com.twt.service.bike.api.BikeApiSubscriber;
+import com.twt.service.bike.api.OnErrorListener;
 import com.twt.service.bike.api.OnNextListener;
 import com.twt.service.bike.common.BikePresenter;
 import com.twt.service.bike.model.BikeAuth;
@@ -37,9 +38,12 @@ public class BikeAuthPresenter extends BikePresenter {
         @Override
         public void onNext(BikeAuth bikeAuth) {
             PrefUtils.setBikeToken(bikeAuth.token);
+            mViewController.onTokenGot(bikeAuth);
             Log.d(TAG,bikeAuth.token);
         }
     };
+
+
 
     public void getBikeCard(String idnum){
         BikeApiClient.getInstance().getBikeCard(mContext,new BikeApiSubscriber(mContext,mCardListener),idnum);

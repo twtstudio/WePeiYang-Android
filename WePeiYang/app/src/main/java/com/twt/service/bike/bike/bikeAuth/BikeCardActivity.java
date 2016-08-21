@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
 import com.twt.service.R;
+import com.twt.service.bike.bike.ui.main.BikeActivity;
 import com.twt.service.bike.common.ui.PActivity;
 import com.twt.service.bike.model.BikeCard;
 
@@ -49,7 +50,8 @@ public class BikeCardActivity extends PActivity<BikeCardPresenter> implements Bi
 
     @Override
     protected void initView() {
-        mAdapter = new BikeCardAdapter(this);
+        showLoadingDialog("正在验证身份信息...");
+        mAdapter = new BikeCardAdapter(this,this);
         mRcv.setLayoutManager(new LinearLayoutManager(this));
         mRcv.setAdapter(mAdapter);
         mPresenter.getBikeCard(mIdNumber);
@@ -62,6 +64,29 @@ public class BikeCardActivity extends PActivity<BikeCardPresenter> implements Bi
 
     @Override
     public void setCardList(List<BikeCard> cardList) {
+        dismissLoadingDialog();
         mAdapter.refreshItems(cardList);
     }
+
+    @Override
+    public void onError(String s) {
+        toastMessage(s);
+        BikeActivity.actionStart(this);
+        finish();
+    }
+
+    @Override
+    public void onCardSelected() {
+        mPresenter.bindBikeCard();
+        showLoadingDialog("正在绑定");
+    }
+
+    @Override
+    public void onCardBind() {
+        BikeActivity.actionStart(this);
+        dismissLoadingDialog();
+        finish();
+    }
+
+
 }

@@ -2,8 +2,9 @@
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/bike_card_cardview"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="70dp"
     android:layout_margin="10dp"
+    android:foreground="?attr/selectableItemBackground"
     android:orientation="vertical">
 
     <LinearLayout
@@ -13,6 +14,7 @@
 
         <TextView
             android:id="@+id/bike_card_number"
+            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"

@@ -40,6 +40,7 @@ import com.twt.service.R;
 import com.twt.service.bean.Login;
 import com.twt.service.bean.Main;
 import com.twt.service.bean.Update;
+import com.twt.service.bike.bike.bikeAuth.BikeAuthActivity;
 import com.twt.service.bike.bike.ui.main.BikeActivity;
 import com.twt.service.interactor.MainInteractorImpl;
 import com.twt.service.party.ui.home.PartyActivity;
@@ -610,7 +611,7 @@ public class MainActivity extends BaseActivity implements BaseSliderView.OnSlide
                                 if (PrefUtils.isLogin()&&!PrefUtils.getBikeToken().equals("nothing")){
                                     BikeActivity.actionStart(MainActivity.this);
                                 }else if (PrefUtils.isLogin()&&PrefUtils.getBikeToken().equals("nothing")){
-
+                                    startActivity(new Intent(MainActivity.this,BikeAuthActivity.class));
                                 }else {
                                     LoginActivity.actionStart(MainActivity.this, NextActivity.Bike);
                                 }

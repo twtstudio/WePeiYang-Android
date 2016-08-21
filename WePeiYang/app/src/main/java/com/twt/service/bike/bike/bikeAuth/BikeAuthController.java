@@ -10,4 +10,5 @@ import com.twt.service.bike.model.BikeAuth;
 
 public interface BikeAuthController extends IViewController {
     void onTokenGot(BikeAuth bikeAuth);
+
 }

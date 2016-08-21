@@ -10,6 +10,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.twt.service.R;
+import com.twt.service.bike.bike.BikeViewController;
 import com.twt.service.bike.bike.ui.main.BikeActivity;
 import com.twt.service.bike.common.ui.BaseAdapter;
 import com.twt.service.bike.common.ui.BaseViewHolder;
@@ -28,6 +29,8 @@ public class BikeCardAdapter extends BaseAdapter<BikeCard> {
     private static final int ITEM_NORMAL = 0;
     private static final int ITEM_FOOTER = 1;
 
+    private BikeCardViewController mViewController;
+
     static class sCardItemHolder extends BaseViewHolder {
         @InjectView(R.id.bike_card_number)
         TextView mNumberText;
@@ -42,8 +45,9 @@ public class BikeCardAdapter extends BaseAdapter<BikeCard> {
         }
     }
 
-    public BikeCardAdapter(Context context) {
+    public BikeCardAdapter(Context context, BikeCardViewController viewController) {
         super(context);
+        mViewController = viewController;
     }
 
     static class FooterHolder extends BaseViewHolder {
@@ -77,7 +81,8 @@ public class BikeCardAdapter extends BaseAdapter<BikeCard> {
             itemHolder.mCardView.setOnClickListener(view -> {
                 PrefUtils.setCardId(item.id);
                 PrefUtils.setCardSign(item.sign);
-                BikeActivity.actionStart(mContext);
+                mViewController.onCardSelected();
+//                BikeActivity.actionStart(mContext);
             });
         }
     }

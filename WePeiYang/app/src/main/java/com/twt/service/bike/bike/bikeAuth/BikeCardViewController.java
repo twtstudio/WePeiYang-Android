@@ -11,4 +11,10 @@ import java.util.List;
 
 public interface BikeCardViewController extends IViewController {
     void setCardList(List<BikeCard> cardList);
+
+    void onError(String s);
+
+    void onCardSelected();
+
+    void onCardBind();
 }
