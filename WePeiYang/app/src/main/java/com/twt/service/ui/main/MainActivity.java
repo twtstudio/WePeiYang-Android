@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -28,6 +29,11 @@ import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.daimajia.slider.library.Tricks.ViewPagerEx;
 import com.google.gson.Gson;
+import com.nightonke.boommenu.BoomMenuButton;
+import com.nightonke.boommenu.Types.BoomType;
+import com.nightonke.boommenu.Types.ButtonType;
+import com.nightonke.boommenu.Types.PlaceType;
+import com.nightonke.boommenu.Util;
 import com.squareup.picasso.Picasso;
 import com.twt.service.JniUtils;
 import com.twt.service.R;
@@ -71,8 +77,8 @@ public class MainActivity extends BaseActivity implements BaseSliderView.OnSlide
 
     @InjectView(R.id.dl_main)
     DrawerLayout dlMain;
-    @InjectView(R.id.btn_gpa_query)
-    LinearLayout btnGpaQuery;
+//    @InjectView(R.id.btn_gpa_query)
+//    LinearLayout btnGpaQuery;
     //@InjectView(R.id.btn_library_query)
     //LinearLayout btnLibraryQuery;
     @InjectView(R.id.toolbar)
@@ -131,8 +137,8 @@ public class MainActivity extends BaseActivity implements BaseSliderView.OnSlide
     LinearLayout announcement2;
     @InjectView(R.id.announcement3)
     LinearLayout announcement3;
-    @InjectView(R.id.btn_schedule)
-    LinearLayout btnSchedule;
+//    @InjectView(R.id.btn_schedule)
+//    LinearLayout btnSchedule;
     @InjectView(R.id.iv_campus_picture1)
     ImageView ivCampusPicture1;
     @InjectView(R.id.campusnews1)
@@ -169,19 +175,22 @@ public class MainActivity extends BaseActivity implements BaseSliderView.OnSlide
     RecyclerView rvMainLost;
     @InjectView(R.id.rv_main_found)
     RecyclerView rvMainFound;
-    @InjectView(R.id.btn_dating)
-    LinearLayout btnDating;
-    @InjectView(R.id.btn_bus)
-    LinearLayout btnBus;
-    @InjectView(R.id.btn_party)
-    LinearLayout btnParty;
-    @InjectView(R.id.btn_bike)
-    LinearLayout btnBike;
+//    @InjectView(R.id.btn_dating)
+//    LinearLayout btnDating;
+//    @InjectView(R.id.btn_bus)
+//    LinearLayout btnBus;
+//    @InjectView(R.id.btn_party)
+//    LinearLayout btnParty;
+//    @InjectView(R.id.btn_bike)
+//    LinearLayout btnBike;
+    @InjectView(R.id.boom)
+    BoomMenuButton boomMenuButton;
 
     private MainPresenterImpl presenter;
     private MainFoundAdapter mainFoundAdapter;
     private MainLostAdapter mainLostAdapter;
 
+    private static final int BUTTONS = 6;//功能按钮的个数;
     public static void actionStart(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
         context.startActivity(intent);
@@ -228,16 +237,17 @@ public class MainActivity extends BaseActivity implements BaseSliderView.OnSlide
                 return true;
             }
         });
-        btnGpaQuery.setOnClickListener(this);
+
         //btnLibraryQuery.setOnClickListener(this);
         rlMoreCampusNews.setOnClickListener(this);
         rlMoreCampusNote.setOnClickListener(this);
         rlMoreJobsInfo.setOnClickListener(this);
-        btnSchedule.setOnClickListener(this);
-        btnBus.setOnClickListener(this);
-        btnDating.setOnClickListener(this);
-        btnParty.setOnClickListener(this);
-        btnBike.setOnClickListener(this);
+//        btnGpaQuery.setOnClickListener(this);
+//        btnSchedule.setOnClickListener(this);
+//        btnBus.setOnClickListener(this);
+//        btnDating.setOnClickListener(this);
+//        btnParty.setOnClickListener(this);
+//        btnBike.setOnClickListener(this);
         presenter = new MainPresenterImpl(this, new MainInteractorImpl(), this);
         presenter.loadDataFromCache();
         srlMain.setColorSchemeColors(getResources().getColor(R.color.main_primary));
@@ -257,6 +267,10 @@ public class MainActivity extends BaseActivity implements BaseSliderView.OnSlide
         rvMainLost.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         rvMainFound.setAdapter(mainFoundAdapter);
         rvMainLost.setAdapter(mainLostAdapter);
+
+        //HrDialog 弹出
+        HrDialog hrDialog = new HrDialog();
+        hrDialog.show(getFragmentManager(),"HrDialog");
     }
 
     public void onEvent(SuccessEvent successEvent) {
@@ -325,47 +339,47 @@ public class MainActivity extends BaseActivity implements BaseSliderView.OnSlide
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.btn_schedule:
-                if (PrefUtils.isLogin()) {
-                    ScheduleActivity.actionStart(this);
-                } else {
-                    LoginActivity.actionStart(this, NextActivity.Schedule);
-                }
-                break;
-            case R.id.btn_gpa_query:
-                if (PrefUtils.isLogin()) {
-                    GpaActivity.actionStart(this);
-                } else {
-                    LoginActivity.actionStart(this, NextActivity.Gpa);
-                }
-                break;
-            case R.id.btn_bus:
-                if (PrefUtils.isLogin()) {
-                    BusActivity.actionStart(this);
-                } else {
-                    LoginActivity.actionStart(this, NextActivity.Bus);
-                }
-                break;
-            case R.id.btn_dating:
-                if (PrefUtils.isLogin()) {
-                    DatingActivity.actionStart(this);
-                } else {
-                    LoginActivity.actionStart(this, NextActivity.Dating);
-                }
-                break;
-            case R.id.btn_party:
-                if (PrefUtils.isLogin()) {
-                    PartyActivity.actionStart(this);
-                } else {
-                    LoginActivity.actionStart(this, NextActivity.Party);
-                }
-                break;
-            case R.id.btn_bike:
-                if (PrefUtils.isLogin()){
-                    BikeActivity.actionStart(this);
-                }else {
-                    LoginActivity.actionStart(this,NextActivity.Bike);
-                }break;
+//            case R.id.btn_schedule:
+//                if (PrefUtils.isLogin()) {
+//                    ScheduleActivity.actionStart(this);
+//                } else {
+//                    LoginActivity.actionStart(this, NextActivity.Schedule);
+//                }
+//                break;
+//            case R.id.btn_gpa_query:
+//                if (PrefUtils.isLogin()) {
+//                    GpaActivity.actionStart(this);
+//                } else {
+//                    LoginActivity.actionStart(this, NextActivity.Gpa);
+//                }
+//                break;
+//            case R.id.btn_bus:
+//                if (PrefUtils.isLogin()) {
+//                    BusActivity.actionStart(this);
+//                } else {
+//                    LoginActivity.actionStart(this, NextActivity.Bus);
+//                }
+//                break;
+//            case R.id.btn_dating:
+//                if (PrefUtils.isLogin()) {
+//                    DatingActivity.actionStart(this);
+//                } else {
+//                    LoginActivity.actionStart(this, NextActivity.Dating);
+//                }
+//                break;
+//            case R.id.btn_party:
+//                if (PrefUtils.isLogin()) {
+//                    PartyActivity.actionStart(this);
+//                } else {
+//                    LoginActivity.actionStart(this, NextActivity.Party);
+//                }
+//                break;
+//            case R.id.btn_bike:
+//                if (PrefUtils.isLogin()){
+//                    BikeActivity.actionStart(this);
+//                }else {
+//                    LoginActivity.actionStart(this,NextActivity.Bike);
+//                }break;
             //case R.id.btn_library_query:
             //LibraryActivity.actionStart(this);
             //break;
@@ -546,6 +560,85 @@ public class MainActivity extends BaseActivity implements BaseSliderView.OnSlide
         srlMain.setRefreshing(false);
     }
 
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        int[][] subButtonColors = new int[BUTTONS][2];
+        subButtonColors[0][1] = ContextCompat.getColor(this, R.color.schedule_primary_color);
+        subButtonColors[1][1] = ContextCompat.getColor(this, R.color.gpa_primary_color);
+        subButtonColors[2][1] = ContextCompat.getColor(this, R.color.bike_primary_color);
+        subButtonColors[3][1] = ContextCompat.getColor(this, R.color.party_primary_color);
+        subButtonColors[4][1] = ContextCompat.getColor(this, R.color.dating_primary_color);
+        subButtonColors[5][1] = ContextCompat.getColor(this, R.color.bus_primary_color);
+
+        for (int i = 0; i < BUTTONS; i++) {
+            subButtonColors[i][0] = Util.getInstance().getPressedColor(subButtonColors[i][1]);
+        }
+        new BoomMenuButton.Builder()
+                .addSubButton(ContextCompat.getDrawable(this, R.mipmap.ic_main_schedule), subButtonColors[0], "课程表")
+                .addSubButton(ContextCompat.getDrawable(this, R.mipmap.ic_main_gpa), subButtonColors[1], "GPA")
+                .addSubButton(ContextCompat.getDrawable(this, R.mipmap.ic_main_bike), subButtonColors[2], "自行车")
+                .addSubButton(ContextCompat.getDrawable(this, R.mipmap.ic_main_party), subButtonColors[3], "党建")
+                .addSubButton(ContextCompat.getDrawable(this, R.mipmap.ic_main_dating), subButtonColors[4], "约吧")
+                .addSubButton(ContextCompat.getDrawable(this, R.mipmap.ic_main_bus), subButtonColors[5], "公交签到")
+                .button(ButtonType.CIRCLE)
+                .boom(BoomType.HORIZONTAL_THROW)
+                .place(PlaceType.CIRCLE_6_3)
+                .subButtonTextColor(ContextCompat.getColor(this, R.color.white))
+//                .subButtonsShadow(Util.getInstance().dp2px(2), Util.getInstance().dp2px(2))
+                .boomButtonShadow(Util.getInstance().dp2px(2), Util.getInstance().dp2px(2))
+                .autoDismiss(false)
+                .onSubButtonClick(new BoomMenuButton.OnSubButtonClickListener() {
+                    @Override
+                    public void onClick(int buttonIndex) {
+                        switch (buttonIndex){
+                            case 0:
+                                if (PrefUtils.isLogin()) {
+                                    ScheduleActivity.actionStart(MainActivity.this);
+                                } else {
+                                    LoginActivity.actionStart(MainActivity.this, NextActivity.Schedule);
+                                }
+                                break;
+                            case 1:
+                                if (PrefUtils.isLogin()) {
+                                    GpaActivity.actionStart(MainActivity.this);
+                                } else {
+                                    LoginActivity.actionStart(MainActivity.this, NextActivity.Gpa);
+                                }
+                                break;
+                            case 2:
+                                if (PrefUtils.isLogin()){
+                                    BikeActivity.actionStart(MainActivity.this);
+                                }else {
+                                    LoginActivity.actionStart(MainActivity.this, NextActivity.Bike);
+                                }
+                                break;
+                            case 3:
+                                if (PrefUtils.isLogin()) {
+                                    PartyActivity.actionStart(MainActivity.this);
+                                } else {
+                                    LoginActivity.actionStart(MainActivity.this, NextActivity.Party);
+                                }
+                                break;
+                            case 4:
+                                if (PrefUtils.isLogin()) {
+                                    DatingActivity.actionStart(MainActivity.this);
+                                } else {
+                                    LoginActivity.actionStart(MainActivity.this, NextActivity.Dating);
+                                }
+                                break;
+                            case 5:
+                                if (PrefUtils.isLogin()) {
+                                    BusActivity.actionStart(MainActivity.this);
+                                } else {
+                                    LoginActivity.actionStart(MainActivity.this, NextActivity.Bus);
+                                }
+                                break;
+                        }
+                    }
+                })
+                .init(boomMenuButton);
+    }
 
     private void checkUpdate(final boolean isInMain) {
         JniUtils jniUtils = JniUtils.getInstance();

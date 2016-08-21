@@ -20,11 +20,10 @@
 
         </android.support.design.widget.AppBarLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
-            android:orientation="vertical">
+            android:layout_weight="1">
 
             <android.support.v4.widget.SwipeRefreshLayout
                 android:id="@+id/srl_main"
@@ -45,183 +44,184 @@
                         android:paddingLeft="16dp"
                         android:paddingRight="16dp">
 
-                        <GridLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:columnCount="4"
-                            android:rowCount="2">
+                        <!--<GridLayout-->
+                            <!--android:layout_width="wrap_content"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_gravity="center_horizontal"-->
+                            <!--android:columnCount="4"-->
+                            <!--android:rowCount="2">-->
 
-                            <LinearLayout
-                                android:id="@+id/btn_schedule"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_margin="8dp"
-                                android:orientation="vertical">
+                            <!--<LinearLayout-->
+                                <!--android:id="@+id/btn_schedule"-->
+                                <!--android:layout_width="wrap_content"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:layout_margin="8dp"-->
+                                <!--android:orientation="vertical">-->
 
-                                <ImageView
-                                    android:layout_width="60dp"
-                                    android:layout_height="60dp"
-                                    android:layout_gravity="center_horizontal"
-                                    android:src="@mipmap/ic_main_schedule" />
+                                <!--<ImageView-->
+                                    <!--android:layout_width="60dp"-->
+                                    <!--android:layout_height="60dp"-->
+                                    <!--android:layout_gravity="center_horizontal"-->
+                                    <!--android:src="@mipmap/ic_main_schedule" />-->
 
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_horizontal"
-                                    android:layout_marginTop="5dp"
-                                    android:text="@string/schedule"
-                                    android:textColor="@color/schedule_primary_color" />
+                                <!--<TextView-->
+                                    <!--android:layout_width="wrap_content"-->
+                                    <!--android:layout_height="wrap_content"-->
+                                    <!--android:layout_gravity="center_horizontal"-->
+                                    <!--android:layout_marginTop="5dp"-->
+                                    <!--android:text="@string/schedule"-->
+                                    <!--android:textColor="@color/schedule_primary_color" />-->
 
-                            </LinearLayout>
+                            <!--</LinearLayout>-->
 
-                            <LinearLayout
-                                android:id="@+id/btn_gpa_query"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_margin="8dp"
-                                android:layout_marginLeft="16dp"
-                                android:layout_marginStart="16dp"
-                                android:orientation="vertical">
+                            <!--<LinearLayout-->
+                                <!--android:id="@+id/btn_gpa_query"-->
+                                <!--android:layout_width="wrap_content"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:layout_margin="8dp"-->
+                                <!--android:layout_marginLeft="16dp"-->
+                                <!--android:layout_marginStart="16dp"-->
+                                <!--android:orientation="vertical">-->
 
-                                <ImageView
-                                    android:layout_width="60dp"
-                                    android:layout_height="60dp"
-                                    android:layout_gravity="center_horizontal"
-                                    android:src="@mipmap/ic_main_gpa" />
+                                <!--<ImageView-->
+                                    <!--android:layout_width="60dp"-->
+                                    <!--android:layout_height="60dp"-->
+                                    <!--android:layout_gravity="center_horizontal"-->
+                                    <!--android:src="@mipmap/ic_main_gpa" />-->
 
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_horizontal"
-                                    android:layout_marginTop="5dp"
-                                    android:text="@string/gpa_query"
-                                    android:textColor="@color/gpa_primary_color" />
+                                <!--<TextView-->
+                                    <!--android:layout_width="wrap_content"-->
+                                    <!--android:layout_height="wrap_content"-->
+                                    <!--android:layout_gravity="center_horizontal"-->
+                                    <!--android:layout_marginTop="5dp"-->
+                                    <!--android:text="@string/gpa_query"-->
+                                    <!--android:textColor="@color/gpa_primary_color" />-->
 
-                            </LinearLayout>
+                            <!--</LinearLayout>-->
 
-                            <LinearLayout
-                                android:id="@+id/btn_dating"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_margin="8dp"
-                                android:layout_marginLeft="16dp"
-                                android:orientation="vertical">
+                            <!--<LinearLayout-->
+                                <!--android:id="@+id/btn_dating"-->
+                                <!--android:layout_width="wrap_content"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:layout_margin="8dp"-->
+                                <!--android:layout_marginLeft="16dp"-->
+                                <!--android:orientation="vertical">-->
 
-                                <ImageView
-                                    android:layout_width="60dp"
-                                    android:layout_height="60dp"
-                                    android:layout_gravity="center_horizontal"
-                                    android:src="@mipmap/ic_dating" />
+                                <!--<ImageView-->
+                                    <!--android:layout_width="60dp"-->
+                                    <!--android:layout_height="60dp"-->
+                                    <!--android:layout_gravity="center_horizontal"-->
+                                    <!--android:src="@mipmap/ic_main_dating" />-->
 
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_horizontal"
-                                    android:layout_marginTop="5dp"
-                                    android:text="@string/dating"
-                                    android:textColor="@color/dating_primary_color" />
+                                <!--<TextView-->
+                                    <!--android:layout_width="wrap_content"-->
+                                    <!--android:layout_height="wrap_content"-->
+                                    <!--android:layout_gravity="center_horizontal"-->
+                                    <!--android:layout_marginTop="5dp"-->
+                                    <!--android:text="@string/dating"-->
+                                    <!--android:textColor="@color/dating_primary_color" />-->
 
-                            </LinearLayout>
+                            <!--</LinearLayout>-->
 
-                            <LinearLayout
-                                android:id="@+id/btn_bus"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_margin="8dp"
-                                android:layout_marginLeft="16dp"
-                                android:orientation="vertical">
+                            <!--<LinearLayout-->
+                                <!--android:id="@+id/btn_bus"-->
+                                <!--android:layout_width="wrap_content"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:layout_margin="8dp"-->
+                                <!--android:layout_marginLeft="16dp"-->
+                                <!--android:orientation="vertical">-->
 
-                                <ImageView
-                                    android:layout_width="60dp"
-                                    android:layout_height="60dp"
-                                    android:layout_gravity="center_horizontal"
-                                    android:src="@mipmap/ic_bus" />
+                                <!--<ImageView-->
+                                    <!--android:layout_width="60dp"-->
+                                    <!--android:layout_height="60dp"-->
+                                    <!--android:layout_gravity="center_horizontal"-->
+                                    <!--android:src="@mipmap/ic_main_bus" />-->
 
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_horizontal"
-                                    android:layout_marginTop="5dp"
-                                    android:text="@string/bus"
-                                    android:textColor="@color/bus_primary_color" />
+                                <!--<TextView-->
+                                    <!--android:layout_width="wrap_content"-->
+                                    <!--android:layout_height="wrap_content"-->
+                                    <!--android:layout_gravity="center_horizontal"-->
+                                    <!--android:layout_marginTop="5dp"-->
+                                    <!--android:text="@string/bus"-->
+                                    <!--android:textColor="@color/bus_primary_color" />-->
 
-                            </LinearLayout>
+                            <!--</LinearLayout>-->
 
-                            <LinearLayout
-                                android:id="@+id/btn_party"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_margin="8dp"
-                                android:orientation="vertical">
+                            <!--<LinearLayout-->
+                                <!--android:id="@+id/btn_party"-->
+                                <!--android:layout_width="wrap_content"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:layout_margin="8dp"-->
+                                <!--android:orientation="vertical">-->
 
-                                <ImageView
-                                    android:layout_width="60dp"
-                                    android:layout_height="60dp"
-                                    android:layout_gravity="center_horizontal"
-                                    android:src="@mipmap/ic_main_party" />
+                                <!--<ImageView-->
+                                    <!--android:layout_width="60dp"-->
+                                    <!--android:layout_height="60dp"-->
+                                    <!--android:layout_gravity="center_horizontal"-->
+                                    <!--android:src="@mipmap/ic_main_party" />-->
 
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_horizontal"
-                                    android:layout_marginTop="5dp"
-                                    android:text="@string/party"
-                                    android:textColor="@color/party_primary_color" />
+                                <!--<TextView-->
+                                    <!--android:layout_width="wrap_content"-->
+                                    <!--android:layout_height="wrap_content"-->
+                                    <!--android:layout_gravity="center_horizontal"-->
+                                    <!--android:layout_marginTop="5dp"-->
+                                    <!--android:text="@string/party"-->
+                                    <!--android:textColor="@color/party_primary_color" />-->
 
-                            </LinearLayout>
-                            <LinearLayout
-                                android:id="@+id/btn_bike"
-                                android:layout_marginLeft="16dp"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_margin="8dp"
-                                android:orientation="vertical">
+                            <!--</LinearLayout>-->
+                            <!--<LinearLayout-->
+                                <!--android:id="@+id/btn_bike"-->
+                                <!--android:layout_marginLeft="16dp"-->
+                                <!--android:layout_width="wrap_content"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:layout_margin="8dp"-->
+                                <!--android:orientation="vertical">-->
 
-                                <ImageView
-                                    android:layout_width="60dp"
-                                    android:layout_height="60dp"
-                                    android:layout_gravity="center_horizontal"
-                                    android:src="@mipmap/bike" />
+                                <!--<ImageView-->
+                                    <!--android:layout_width="60dp"-->
+                                    <!--android:layout_height="60dp"-->
+                                    <!--android:layout_gravity="center_horizontal"-->
+                                    <!--android:src="@mipmap/ic_main_bike" />-->
 
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_horizontal"
-                                    android:layout_marginTop="5dp"
-                                    android:text="@string/bike"
-                                    android:textColor="@color/bike_primary_color" />
+                                <!--<TextView-->
+                                    <!--android:layout_width="wrap_content"-->
+                                    <!--android:layout_height="wrap_content"-->
+                                    <!--android:layout_gravity="center_horizontal"-->
+                                    <!--android:layout_marginTop="5dp"-->
+                                    <!--android:text="@string/bike"-->
+                                    <!--android:textColor="@color/bike_primary_color" />-->
 
-                            </LinearLayout>
-                            <!--<LinearLayout
-                                android:id="@+id/btn_library_query"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_margin="8dp"
-                                android:orientation="vertical">
+                            <!--</LinearLayout>-->
+                            <!--&lt;!&ndash;<LinearLayout-->
+                                <!--android:id="@+id/btn_library_query"-->
+                                <!--android:layout_width="wrap_content"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:layout_margin="8dp"-->
+                                <!--android:orientation="vertical">-->
 
-                                <ImageView
-                                    android:layout_width="60dp"
-                                    android:layout_height="60dp"
-                                    android:layout_gravity="center_horizontal"
-                                    android:src="@mipmap/ic_main_library" />
+                                <!--<ImageView-->
+                                    <!--android:layout_width="60dp"-->
+                                    <!--android:layout_height="60dp"-->
+                                    <!--android:layout_gravity="center_horizontal"-->
+                                    <!--android:src="@mipmap/ic_main_library" />-->
 
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_horizontal"
-                                    android:layout_marginTop="5dp"
-                                    android:text="@string/library_query"
-                                    android:textColor="@color/library_primary_color" />
+                                <!--<TextView-->
+                                    <!--android:layout_width="wrap_content"-->
+                                    <!--android:layout_height="wrap_content"-->
+                                    <!--android:layout_gravity="center_horizontal"-->
+                                    <!--android:layout_marginTop="5dp"-->
+                                    <!--android:text="@string/library_query"-->
+                                    <!--android:textColor="@color/library_primary_color" />-->
 
-                            </LinearLayout>-->
-                        </GridLayout>
+                            <!--</LinearLayout>&ndash;&gt;-->
+                        <!--</GridLayout>-->
 
                         <com.daimajia.slider.library.SliderLayout
                             android:id="@+id/slider"
                             android:layout_width="match_parent"
                             android:layout_height="200dp"
                             app:auto_cycle="true"
+                            android:layout_marginTop="8dp"
                             app:indicator_visibility="visible"
                             app:pager_animation="Accordion"
                             app:pager_animation_span="1100" />
@@ -977,7 +977,18 @@
                 </ScrollView>
 
             </android.support.v4.widget.SwipeRefreshLayout>
-        </LinearLayout>
+
+            <com.nightonke.boommenu.BoomMenuButton
+                android:id="@+id/boom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_margin="20dp"
+                app:boom_button_color="@color/colorPrimary"
+                app:boom_button_pressed_color="@color/colorPrimary"/>
+        </RelativeLayout>
 
     </LinearLayout>
 

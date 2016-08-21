@@ -15,6 +15,7 @@
     <color name="login_bg">#f2f2f2</color>
     <!-- Main Activity -->
     <color name="main_primary">#1a4265</color>
+    <color name="transparent">#00000000</color>
     <!-- Lost Found Activity -->
     <color name="lost_found_primary_color">#71a830</color>
     <color name="lost_found_dark_primary_color">#5a8625</color>

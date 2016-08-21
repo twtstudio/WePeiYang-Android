@@ -100,19 +100,19 @@ public class SignActivity extends BaseActivity implements SignView {
         switch (type) {
             case SignPresenterImpl.TYPE_APPLICANT:
                 b_applicant = true;
-                btSignApplicant.setBackgroundResource(R.color.myButtonColorGreen);
+                btSignApplicant.setBackgroundResource(R.drawable.shape_button_green);
                 applicant_id = testInfo.getTest_id();
                 tvSignApplicant.setText(testInfo.getTest_name());
                 break;
             case SignPresenterImpl.TYPE_ACADEMY:
                 b_academy = true;
-                btSignAcademy.setBackgroundResource(R.color.myButtonColorGreen);
+                btSignAcademy.setBackgroundResource(R.drawable.shape_button_green);
                 academy_id = testInfo.getTest_id();
                 tvSignAcademy.setText(testInfo.getTest_name());
                 break;
             case SignPresenterImpl.TYPE_PROBATIONARY:
                 b_probationary = true;
-                btSignProbationary.setBackgroundResource(R.color.myButtonColorGreen);
+                btSignProbationary.setBackgroundResource(R.drawable.shape_button_green);
                 probationary_id = testInfo.getTrain_id();
                 tvSignProbationary.setText(testInfo.getTrain_name());
                 break;
