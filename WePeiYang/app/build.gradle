@@ -7,9 +7,11 @@ android {
 
     defaultConfig {
         applicationId "com.twt.service"
-        minSdkVersion 14
+        minSdkVersion 17
         targetSdkVersion 24
         versionCode 13
+        renderscriptTargetApi 22
+        renderscriptSupportModeEnabled true
         versionName "1.6.1"
         ndk{
             moduleName "Jni"

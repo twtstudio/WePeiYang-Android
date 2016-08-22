@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.amap.api.location.AMapLocation;
@@ -47,6 +48,7 @@ public class BikeFragment extends PFragment<BikeFragPresenter> implements BikeVi
     TextView mStationName;
     @InjectView(R.id.sliding_layout)
     SlidingUpPanelLayout mSlidingUpPanelLayout;
+
 
     private AMap mAmap;
     private AMapLocationClient mLocationClient;

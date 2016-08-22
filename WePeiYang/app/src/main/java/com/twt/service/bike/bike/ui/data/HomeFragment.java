@@ -3,6 +3,7 @@ package com.twt.service.bike.bike.ui.data;
 import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 
@@ -13,6 +14,7 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.squareup.picasso.Picasso;
 import com.twt.service.R;
 import com.twt.service.bike.common.ui.PFragment;
 import com.twt.service.bike.model.BikeUserInfo;
@@ -45,6 +47,8 @@ public class HomeFragment extends PFragment<HomePresenter> implements HomeViewCo
     TextView mBikeFeeText;
     @InjectView(R.id.bike_data_chart)
     LineChart mLineChart;
+    @InjectView(R.id.bike_data_background)
+    ImageView mBackImage;
 
     ArrayList<String> xVals = new ArrayList<>();
     ArrayList<Integer> colors = new ArrayList<>();
@@ -82,6 +86,7 @@ public class HomeFragment extends PFragment<HomePresenter> implements HomeViewCo
 
     @Override
     protected void initView() {
+        Picasso.with(getContext()).load(R.drawable.bulr_2).into(mBackImage);
         mLineChart.setLogEnabled(true);
         mLineChart.setNoDataText("最近没有骑行数据");
         mLineChart.setTouchEnabled(false);
