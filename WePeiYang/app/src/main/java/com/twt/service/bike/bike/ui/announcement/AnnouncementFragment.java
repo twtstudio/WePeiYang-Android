@@ -3,6 +3,8 @@ package com.twt.service.bike.bike.ui.announcement;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.TextView;
 
 import com.twt.service.R;
 import com.twt.service.bike.common.ui.PFragment;
@@ -20,6 +22,8 @@ public class AnnouncementFragment extends PFragment<AnnouncementPresenter> imple
     RecyclerView mRecyclerView;
     @InjectView(R.id.bike_announcement_srl)
     SwipeRefreshLayout mSwipeRefreshLayout;
+    @InjectView(R.id.bike_announcement_empty)
+    TextView mEmptyView;
     private AnnouncementAdapter mAdapter;
 
     @Override
@@ -44,7 +48,13 @@ public class AnnouncementFragment extends PFragment<AnnouncementPresenter> imple
 
     @Override
     public void setAnnouncementList(List<BikeAnnouncement> announcementList) {
+        mEmptyView.setVisibility(View.INVISIBLE);
         mSwipeRefreshLayout.setRefreshing(false);
         mAdapter.refreshItems(announcementList);
+        mAdapter.hideFooter();
+        if (announcementList == null) {
+            mEmptyView.setText("没有公告");
+            mEmptyView.setVisibility(View.VISIBLE);
+        }
     }
 }

@@ -38,6 +38,9 @@ public class GuideActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_guide);
         ButterKnife.inject(this);
+
+        PrefUtils.setShowDialog(true);
+        
         Indicator indicator = (Indicator) findViewById(R.id.guide_indicator);
         indicatorViewPager = new IndicatorViewPager(indicator, viewPager);
         inflate = LayoutInflater.from(getApplicationContext());

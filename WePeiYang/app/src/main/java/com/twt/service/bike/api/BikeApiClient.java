@@ -23,10 +23,14 @@ import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.HttpException;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
+import rx.functions.Action1;
+import rx.functions.Func1;
 import rx.subscriptions.CompositeSubscription;
 
 /**
@@ -40,6 +44,8 @@ public class BikeApiClient {
     protected Map<Object, CompositeSubscription> mSubscriptionsMap = new HashMap<>();
 
     private BikeApi mService;
+
+    private AuthHelper mTokenHelper;
 
     private BikeApiClient() {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
@@ -60,6 +66,7 @@ public class BikeApiClient {
                 .build();
 
         mService = mRetrofit.create(BikeApi.class);
+        mTokenHelper = new AuthHelper(mService);
     }
 
     private static class SingletonHolder {
@@ -150,6 +157,7 @@ public class BikeApiClient {
 
     public void getBikeToken(Object tag, Subscriber subscriber, String wpy_token) {
         Subscription subscription = mService.getBikeToken(wpy_token)
+                .retryWhen(mTokenHelper)
                 .map(new BikeResponseTransformer<BikeAuth>())
                 .compose(BikeApiUtils.<BikeAuth>applySchedulers())
                 .subscribe(subscriber);
@@ -158,6 +166,7 @@ public class BikeApiClient {
 
     public void getBikeCard(Object tag, Subscriber subscriber, String num) {
         Subscription subscription = mService.getBikeCard(num)
+                .retryWhen(mTokenHelper)
                 .map(new BikeResponseTransformer<List<BikeCard>>())
                 .compose(BikeApiUtils.<List<BikeCard>>applySchedulers())
                 .subscribe(subscriber);
@@ -174,6 +183,7 @@ public class BikeApiClient {
 
     public void bindBikeCard(Object tag, Subscriber subscriber, String id, String sign) {
         Subscription subscription = mService.bindBikeCard(id, sign)
+                .retryWhen(mTokenHelper)
                 .map(new BikeResponseTransformer<String>())
                 .compose(BikeApiUtils.<String>applySchedulers())
                 .subscribe(subscriber);
@@ -182,6 +192,7 @@ public class BikeApiClient {
 
     public void getUserInfo(Object tag, Subscriber subscriber) {
         Subscription subscription = mService.getUserInfo("fake")
+                .retryWhen(mTokenHelper)
                 .map(new BikeResponseTransformer<BikeUserInfo>())
                 .compose(BikeApiUtils.<BikeUserInfo>applySchedulers())
                 .subscribe(subscriber);

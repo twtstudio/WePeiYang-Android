@@ -33,7 +33,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_flash_screen">FlashScreenActivity</string>
-    <string name="login_btn_text">登陆</string>
+    <string name="login_btn_text">登录</string>
     <string name="account_settings">账号设置</string>
     <string name="give_advice">意见反馈</string>
     <string name="share_app">分享APP</string>
@@ -75,6 +75,7 @@
     <string name="share">分享</string>
     <string name="app_name_en">WePeiYang</string>
     <string name="version">Version:&#160;</string>
+    <string name="supportedby">Supported by Ji Chenyang and Li Qiyu</string>
     <string name="author">Author: Juntao Sun</string>
     <string name="poweredby">Powered by TWT Studio</string>
     <string name="about_app">应用信息</string>
@@ -112,4 +113,5 @@
     <string name="notification_party">通知公告</string>
     <string name="appeal_party">申诉</string>
     <string name="bike">自行车</string>
+    <string name="loading">加载中...</string>
 </resources>

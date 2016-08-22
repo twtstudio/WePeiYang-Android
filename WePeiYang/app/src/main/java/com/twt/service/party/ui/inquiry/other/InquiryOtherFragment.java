@@ -33,6 +33,8 @@ public class InquiryOtherFragment extends BaseFragment implements OtherView {
 
     public static final String TYPE_PROBATIONARY = "probationary";
 
+    @InjectView(R.id.ll_inquiry)
+    LinearLayout linearLayout;
     @InjectView(R.id.bt_inquiry_to_appeal)
     Button btInquiryToAppeal;
     @InjectView(R.id.tv_inquiry_name)
@@ -145,49 +147,53 @@ public class InquiryOtherFragment extends BaseFragment implements OtherView {
 
     @Override
     public void bindData(OtherScoreInfo scoreInfo) {
-        tvInquiryName.setText(PrefUtils.getPrefUserRealname());
-        tvInquirySno.setText(PrefUtils.getPrefUserNumber());
-        test_id = scoreInfo.getTest_id();
-        if (scoreInfo.getShenshu() == 1) {
-            btInquiryToAppeal.setBackgroundResource(R.drawable.shape_button_red);
-            btInquiryToAppeal.setClickable(true);
-            btInquiryToAppeal.setText("申诉");
-            b_clickable = true;
-        }
-        switch ((int) this.getArguments().get(ARG_PAGE)) {
-            case 2:
-                llInquiryPracticegrade.setVisibility(View.GONE);
-                tvInquiryEntryId.setText(scoreInfo.getTest_name());
-                tvInquiryTime.setText(scoreInfo.getEntry_time());
-                //Api封装好像有点问题,把笔试成绩封装到了practicegrade
-                tvInquiryTestgrade.setText(scoreInfo.getEntry_practicegrade());
-                tvInquiryArticalgrade.setText(scoreInfo.getEntry_articlegrade());
-                tvInquiryStatus.setText(scoreInfo.getEntry_status());
-                tvInquiryIspassed.setText(scoreInfo.getEntry_ispassed());
-                break;
-            case 3:
-                tvInquiryEntryId.setText(scoreInfo.getTest_name());
-                tvInquiryTime.setText(scoreInfo.getEntry_time());
-                tvInquiryPracticegrade.setText(scoreInfo.getEntry_practicegrade());
-                tvInquiryArticalgrade.setText(scoreInfo.getEntry_articlegrade());
-                tvInquiryTestgrade.setText(scoreInfo.getEntry_testgrade());
-                tvInquiryStatus.setText(scoreInfo.getEntry_status());
-                tvInquiryIspassed.setText(scoreInfo.getEntry_ispassed());
-                break;
-            case 4:
-                llInquiryTestgrade.setVisibility(View.GONE);
-                llInquiryPassmust.setVisibility(View.VISIBLE);
-                llInquiryPasschoose.setVisibility(View.VISIBLE);
-                llInquiryEntryId.setVisibility(View.GONE);
-                llInquiryStatus.setVisibility(View.GONE);
+        if (linearLayout != null) {
+            linearLayout.setVisibility(View.VISIBLE);
+            tvErrorMsg.setVisibility(View.GONE);
+            tvInquiryName.setText(PrefUtils.getPrefUserRealname());
+            tvInquirySno.setText(PrefUtils.getPrefUserNumber());
+            test_id = scoreInfo.getTest_id();
+            if (scoreInfo.getShenshu() == 1) {
+                btInquiryToAppeal.setBackgroundResource(R.drawable.shape_button_red);
+                btInquiryToAppeal.setClickable(true);
+                btInquiryToAppeal.setText("申诉");
+                b_clickable = true;
+            }
+            switch ((int) this.getArguments().get(ARG_PAGE)) {
+                case 2:
+                    llInquiryPracticegrade.setVisibility(View.GONE);
+                    tvInquiryEntryId.setText(scoreInfo.getTest_name());
+                    tvInquiryTime.setText(scoreInfo.getEntry_time());
+                    //Api封装好像有点问题,把笔试成绩封装到了practicegrade
+                    tvInquiryTestgrade.setText(scoreInfo.getEntry_practicegrade());
+                    tvInquiryArticalgrade.setText(scoreInfo.getEntry_articlegrade());
+                    tvInquiryStatus.setText(scoreInfo.getEntry_status());
+                    tvInquiryIspassed.setText(scoreInfo.getEntry_ispassed());
+                    break;
+                case 3:
+                    tvInquiryEntryId.setText(scoreInfo.getTest_name());
+                    tvInquiryTime.setText(scoreInfo.getEntry_time());
+                    tvInquiryPracticegrade.setText(scoreInfo.getEntry_practicegrade());
+                    tvInquiryArticalgrade.setText(scoreInfo.getEntry_articlegrade());
+                    tvInquiryTestgrade.setText(scoreInfo.getEntry_testgrade());
+                    tvInquiryStatus.setText(scoreInfo.getEntry_status());
+                    tvInquiryIspassed.setText(scoreInfo.getEntry_ispassed());
+                    break;
+                case 4:
+                    llInquiryTestgrade.setVisibility(View.GONE);
+                    llInquiryPassmust.setVisibility(View.VISIBLE);
+                    llInquiryPasschoose.setVisibility(View.VISIBLE);
+                    llInquiryEntryId.setVisibility(View.GONE);
+                    llInquiryStatus.setVisibility(View.GONE);
 
-                tvInquiryTime.setText(scoreInfo.getEntry_time());
-                tvInquiryPracticegrade.setText(scoreInfo.getEntry_practicegrade());
-                tvInquiryArticalgrade.setText(scoreInfo.getEntry_articlegrade());
-                tvInquiryPasschoose.setText(scoreInfo.getPass_choose());
-                tvInquiryPassmust.setText(scoreInfo.getPass_must());
-                tvInquiryTestgrade.setText(scoreInfo.getEntry_testgrade());
-                tvInquiryIspassed.setText(scoreInfo.getEntry_isallpassed());
+                    tvInquiryTime.setText(scoreInfo.getEntry_time());
+                    tvInquiryPracticegrade.setText(scoreInfo.getEntry_practicegrade());
+                    tvInquiryArticalgrade.setText(scoreInfo.getEntry_articlegrade());
+                    tvInquiryPasschoose.setText(scoreInfo.getPass_choose());
+                    tvInquiryPassmust.setText(scoreInfo.getPass_must());
+                    tvInquiryTestgrade.setText(scoreInfo.getEntry_testgrade());
+                    tvInquiryIspassed.setText(scoreInfo.getEntry_isallpassed());
+            }
         }
     }
 
@@ -198,7 +204,6 @@ public class InquiryOtherFragment extends BaseFragment implements OtherView {
 
     @Override
     public void setErrorMsg(String errorMsg) {
-        tvErrorMsg.setVisibility(View.VISIBLE);
         tvErrorMsg.setText(errorMsg);
     }
 }
