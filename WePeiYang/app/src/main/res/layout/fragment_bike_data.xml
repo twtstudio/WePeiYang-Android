@@ -21,7 +21,13 @@
             android:layout_height="200dp"
             android:background="@drawable/chart_background" />
 
-
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="60dp"
@@ -220,7 +226,8 @@
                     android:textSize="20dp" />
             </LinearLayout>
         </LinearLayout>
-
+            </LinearLayout>
+        </ScrollView>
 
     </LinearLayout>
 
