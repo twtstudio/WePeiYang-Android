@@ -11,6 +11,7 @@ import com.twt.service.R;
 import com.twt.service.bike.bike.ui.main.BikeActivity;
 import com.twt.service.bike.common.ui.PActivity;
 import com.twt.service.bike.model.BikeAuth;
+import com.twt.service.support.PrefUtils;
 
 import butterknife.InjectView;
 
@@ -71,6 +72,7 @@ public class BikeAuthActivity extends PActivity<BikeAuthPresenter> implements Bi
     @Override
     public void onTokenGot(BikeAuth bikeAuth) {
         if (bikeAuth.status == 1) {
+            PrefUtils.setBikeIsBindState(true);
             BikeActivity.actionStart(this);
             finish();
         }

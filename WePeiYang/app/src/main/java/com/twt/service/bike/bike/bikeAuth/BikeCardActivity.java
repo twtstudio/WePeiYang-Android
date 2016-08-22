@@ -10,6 +10,7 @@ import com.twt.service.R;
 import com.twt.service.bike.bike.ui.main.BikeActivity;
 import com.twt.service.bike.common.ui.PActivity;
 import com.twt.service.bike.model.BikeCard;
+import com.twt.service.support.PrefUtils;
 
 import java.util.List;
 
@@ -71,7 +72,9 @@ public class BikeCardActivity extends PActivity<BikeCardPresenter> implements Bi
     @Override
     public void onError(String s) {
         toastMessage(s);
-        BikeActivity.actionStart(this);
+        Intent intent = new Intent(this,BikeAuthActivity.class);
+        startActivity(intent);
+        //BikeActivity.actionStart(this);
         finish();
     }
 
@@ -83,10 +86,10 @@ public class BikeCardActivity extends PActivity<BikeCardPresenter> implements Bi
 
     @Override
     public void onCardBind() {
+        PrefUtils.setBikeIsBindState(true);
         BikeActivity.actionStart(this);
         dismissLoadingDialog();
         finish();
     }
-
 
 }

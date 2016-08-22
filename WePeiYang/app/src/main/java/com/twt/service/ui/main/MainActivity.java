@@ -633,9 +633,9 @@ public class MainActivity extends BaseActivity implements BaseSliderView.OnSlide
                                 }
                                 break;
                             case 2:
-                                if (PrefUtils.isLogin()&&!PrefUtils.getBikeToken().equals("nothing")){
+                                if (PrefUtils.getBikeIsBindState()){
                                     BikeActivity.actionStart(MainActivity.this);
-                                }else if (PrefUtils.isLogin()&&PrefUtils.getBikeToken().equals("nothing")){
+                                }else if (PrefUtils.isLogin()){
                                     startActivity(new Intent(MainActivity.this,BikeAuthActivity.class));
                                 }else {
                                     LoginActivity.actionStart(MainActivity.this, NextActivity.Bike);
