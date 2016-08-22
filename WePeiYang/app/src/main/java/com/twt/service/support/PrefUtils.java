@@ -130,7 +130,7 @@ public class PrefUtils {
     }
 
     public static String getBikeToken() {
-        return getDefaultSharedPreferences().getString(PREF_BIKE_TOKEN, "");
+        return getDefaultSharedPreferences().getString(PREF_BIKE_TOKEN, "nothing");
     }
 
     public static void setCardSign(String sign) {
@@ -147,5 +147,17 @@ public class PrefUtils {
 
     public static String getCardId(){
         return getDefaultSharedPreferences().getString(PREF_BIKE_CARD_ID,"");
+    }
+
+    public static void removeBikeToken(){
+        getDefaultSharedPreferences().edit().remove(PREF_BIKE_TOKEN).commit();
+    }
+
+    public static void removeCardId(){
+        getDefaultSharedPreferences().edit().remove(PREF_BIKE_CARD_ID).commit();
+    }
+
+    public static void removeCardSign(){
+        getDefaultSharedPreferences().edit().remove(PREF_BIKE_CARD_SIGN).commit();
     }
 }

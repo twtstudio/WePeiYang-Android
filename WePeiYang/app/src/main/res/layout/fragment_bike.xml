@@ -67,16 +67,30 @@
                         android:textSize="18sp" />
                 </LinearLayout>
 
-                <TextView
-                    android:id="@+id/station_name"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_alignParentRight="true"
                     android:layout_marginEnd="15dp"
                     android:layout_marginRight="15dp"
-                    android:gravity="center"
-                    android:text="格园一斋停车位1"
-                    android:textSize="22sp" />
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/station_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="格园一斋停车位1"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/station_status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="online" />
+                </LinearLayout>
 
             </RelativeLayout>
         </android.support.v7.widget.CardView>
