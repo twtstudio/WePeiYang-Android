@@ -17,6 +17,8 @@ public class TestInfo {
     private String train_name;
     private String train_begintime;
 
+    private int has_entry;
+
     public void setTrain_begintime(String train_begintime) {
         this.train_begintime = train_begintime;
     }
@@ -104,4 +106,13 @@ public class TestInfo {
     public String getTrain_begintime() {
         return train_begintime;
     }
+
+    public int getHas_entry() {
+        return has_entry;
+    }
+
+    public void setHas_entry(int has_entry) {
+        this.has_entry = has_entry;
+    }
+
 }

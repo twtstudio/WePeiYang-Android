@@ -29,6 +29,7 @@ import com.twt.service.party.ui.notification.NotificationActivity;
 import com.twt.service.party.ui.sign.SignActivity;
 import com.twt.service.party.ui.study.StudyActivity;
 import com.twt.service.party.ui.submit.SubmitActivity;
+import com.twt.service.party.ui.submit.detail.SubmitDetailActivity;
 import com.twt.service.support.PrefUtils;
 import com.twt.service.ui.bind.BindActivity;
 import com.twt.service.ui.common.NextActivity;
@@ -210,10 +211,16 @@ public class PartyActivity extends BaseActivity implements PartyView {
 
     private String sign_status;
 
+    private String submitType;
+
+    private int submitId;
     List<Button> buttons;
 
     List<SlantedTextView> leftText;
 
+    Boolean[] clickable;
+
+    int[] buttonIds = {R.id.bt_home_1, R.id.bt_home_2, R.id.bt_home_3, R.id.bt_home_4, R.id.bt_home_5, R.id.bt_home_6, R.id.bt_home_7, R.id.bt_home_8, R.id.bt_home_9, R.id.bt_home_10, R.id.bt_home_11, R.id.bt_home_12, R.id.bt_home_13, R.id.bt_home_14, R.id.bt_home_15, R.id.bt_home_16, R.id.bt_home_17, R.id.bt_home_18, R.id.bt_home_19, R.id.bt_home_20, R.id.bt_home_21, R.id.bt_home_22, R.id.bt_home_23, R.id.bt_home_24, R.id.bt_home_25, R.id.bt_home_26, R.id.bt_home_27, R.id.bt_home_28, R.id.bt_home_29, R.id.bt_home_30, R.id.bt_home_31};
     @Override
     public int getContentViewId() {
         return R.layout.activity_party_home;
@@ -303,6 +310,12 @@ public class PartyActivity extends BaseActivity implements PartyView {
                 whiteView.setVisibility(View.INVISIBLE);
             }
         });
+
+        clickable = new Boolean[31];
+        for (int i = 0; i < 31; i++) {
+            clickable[i] = false;
+        }
+
     }
 
     @Override
@@ -314,7 +327,6 @@ public class PartyActivity extends BaseActivity implements PartyView {
         else {
             presenter.loadPersonalStatus();
         }
-
     }
 
     @Override
@@ -359,7 +371,7 @@ public class PartyActivity extends BaseActivity implements PartyView {
                 InquiryActivity.actionStart(this);
                 break;
             case R.id.action_submit:
-                SubmitActivity.actionStart(this);
+                SubmitActivity.actionStart(this,submitId,submitType,sign_status);
                 break;
             case R.id.action_study:
                 StudyActivity.actionStart(this);
@@ -383,7 +395,6 @@ public class PartyActivity extends BaseActivity implements PartyView {
 //        }
 //        return super.onOptionsItemSelected(item);
 //    }
-
     @Override
     public void toastMsg(String msg) {
         if (msg != null) {
@@ -435,9 +446,12 @@ public class PartyActivity extends BaseActivity implements PartyView {
                     case 23:
                     case 24:
                     case 26:
+                        submitId = s.getId();
+                        submitType = s.getType();
                         sign_status = buttons.get(s.getId()).getText().toString();
                         break;
                 }
+                clickable[s.getId()] = true;
             }
         }
         setMarquee();
@@ -461,70 +475,91 @@ public class PartyActivity extends BaseActivity implements PartyView {
 
     @OnClick({R.id.bt_home_1, R.id.bt_home_2, R.id.bt_home_3, R.id.bt_home_4, R.id.bt_home_5, R.id.bt_home_6, R.id.bt_home_7, R.id.bt_home_8, R.id.bt_home_9, R.id.bt_home_10, R.id.bt_home_11, R.id.bt_home_12, R.id.bt_home_13, R.id.bt_home_14, R.id.bt_home_15, R.id.bt_home_16, R.id.bt_home_17, R.id.bt_home_18, R.id.bt_home_19, R.id.bt_home_20, R.id.bt_home_21, R.id.bt_home_22, R.id.bt_home_23, R.id.bt_home_24, R.id.bt_home_25, R.id.bt_home_26, R.id.bt_home_27, R.id.bt_home_28, R.id.bt_home_29, R.id.bt_home_30, R.id.bt_home_31})
     public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.bt_home_1:
+        int clickButtonId = 0;
+        for (; clickButtonId < 31; clickButtonId++) {
+            if (view.getId() == buttonIds[clickButtonId]){
                 break;
-            case R.id.bt_home_2:
-                break;
-            case R.id.bt_home_3:
-                break;
-            case R.id.bt_home_4:
-                break;
-            case R.id.bt_home_5:
-                break;
-            case R.id.bt_home_6:
-                break;
-            case R.id.bt_home_7:
-                break;
-            case R.id.bt_home_8:
-                break;
-            case R.id.bt_home_9:
-                break;
-            case R.id.bt_home_10:
-                break;
-            case R.id.bt_home_11:
-                break;
-            case R.id.bt_home_12:
-                break;
-            case R.id.bt_home_13:
-                break;
-            case R.id.bt_home_14:
-                break;
-            case R.id.bt_home_15:
-                break;
-            case R.id.bt_home_16:
-                break;
-            case R.id.bt_home_17:
-                break;
-            case R.id.bt_home_18:
-                break;
-            case R.id.bt_home_19:
-                break;
-            case R.id.bt_home_20:
-                break;
-            case R.id.bt_home_21:
-                break;
-            case R.id.bt_home_22:
-                break;
-            case R.id.bt_home_23:
-                break;
-            case R.id.bt_home_24:
-                break;
-            case R.id.bt_home_25:
-                break;
-            case R.id.bt_home_26:
-                break;
-            case R.id.bt_home_27:
-                break;
-            case R.id.bt_home_28:
-                break;
-            case R.id.bt_home_29:
-                break;
-            case R.id.bt_home_30:
-                break;
-            case R.id.bt_home_31:
-                break;
+            }
         }
+        if(clickable[clickButtonId]){
+            switch (view.getId()) {
+                case R.id.bt_home_1:
+                    SubmitDetailActivity.actionStart(this,submitType,sign_status);
+                    break;
+                case R.id.bt_home_2:
+                    StudyActivity.actionStart(this);
+                    break;
+                case R.id.bt_home_3:
+                    InquiryActivity.actionStart(this);
+                    break;
+                case R.id.bt_home_4:
+                    break;
+                case R.id.bt_home_5:
+                    SubmitDetailActivity.actionStart(this,submitType,sign_status);
+                    break;
+                case R.id.bt_home_6:
+                    SubmitDetailActivity.actionStart(this,submitType,sign_status);
+                    break;
+                case R.id.bt_home_7:
+                    SubmitDetailActivity.actionStart(this,submitType,sign_status);
+                    break;
+                case R.id.bt_home_8:
+                    SubmitDetailActivity.actionStart(this,submitType,sign_status);
+                    break;
+                case R.id.bt_home_9:
+                    break;
+                case R.id.bt_home_10:
+                    break;
+                case R.id.bt_home_11:
+                    break;
+                case R.id.bt_home_12:
+                    break;
+                case R.id.bt_home_13:
+                    break;
+                case R.id.bt_home_14:
+                    break;
+                case R.id.bt_home_15:
+                    break;
+                case R.id.bt_home_16:
+                    break;
+                case R.id.bt_home_17:
+                    break;
+                case R.id.bt_home_18:
+                    break;
+                case R.id.bt_home_19:
+                    break;
+                case R.id.bt_home_20:
+                    break;
+                case R.id.bt_home_21:
+                    SubmitDetailActivity.actionStart(this,submitType,sign_status);
+                    break;
+                case R.id.bt_home_22:
+                    SubmitDetailActivity.actionStart(this,submitType,sign_status);
+                    break;
+                case R.id.bt_home_23:
+                    SubmitDetailActivity.actionStart(this,submitType,sign_status);
+                    break;
+                case R.id.bt_home_24:
+                    SubmitDetailActivity.actionStart(this,submitType,sign_status);
+                    break;
+                case R.id.bt_home_25:
+                    break;
+                case R.id.bt_home_26:
+                    SubmitDetailActivity.actionStart(this,submitType,sign_status);
+                    break;
+                case R.id.bt_home_27:
+                    break;
+                case R.id.bt_home_28:
+                    break;
+                case R.id.bt_home_29:
+                    break;
+                case R.id.bt_home_30:
+                    break;
+                case R.id.bt_home_31:
+                    break;
+            }
+        }
+
     }
     private void setScrollToMid(final HorizontalScrollView sv, final LinearLayout inner){
         ViewTreeObserver vto = inner.getViewTreeObserver();
@@ -535,5 +570,9 @@ public class PartyActivity extends BaseActivity implements PartyView {
                 sv.smoothScrollBy((inner.getWidth() - width) / 2, 0);
             }
         });
+    }
+
+    private void toastSorryMsg(){
+        Toast.makeText(PartyActivity.this, "请于网页版完成相关操作", Toast.LENGTH_SHORT).show();
     }
 }

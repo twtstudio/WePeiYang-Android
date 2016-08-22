@@ -50,7 +50,7 @@ public class StudyTextAdapter extends RecyclerView.Adapter<StudyTextAdapter.MyVi
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context, "", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "此功能暂未开放！可以于网页端查看", Toast.LENGTH_SHORT).show();
 //                StudyDetailActivity.actionStart(context,StudyDetailActivity.TYPE_TEXT,list.get(position).getFile_id());
             }
         });

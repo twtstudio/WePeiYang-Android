@@ -47,7 +47,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/myTextPrimaryColorGray"
             android:layout_marginLeft="12dp"
-            android:text="当前报名尚未开启"/>
+            android:text="@string/loading"/>
     </LinearLayout>
 
     <TextView
@@ -81,7 +81,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/myTextPrimaryColorGray"
             android:layout_marginLeft="12dp"
-            android:text="当前报名尚未开启"/>
+            android:text="@string/loading"/>
     </LinearLayout>
 
     <TextView
@@ -115,7 +115,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/myTextPrimaryColorGray"
             android:layout_marginLeft="12dp"
-            android:text="当前报名尚未开启"/>
+            android:text="@string/loading"/>
     </LinearLayout>
 
     <!--预备党员党校暂时没有api-->

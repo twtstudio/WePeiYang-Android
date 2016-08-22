@@ -34,12 +34,13 @@
         android:layout_marginTop="52dp"
         android:id="@+id/rv_inquiry"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:visibility="invisible"/>
     <TextView
         android:id="@+id/tv_error_msg"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
         android:textColor="@color/myTextPrimaryColorGray"
-        android:visibility="invisible" />
+        android:text="@string/loading"/>
 </RelativeLayout>
