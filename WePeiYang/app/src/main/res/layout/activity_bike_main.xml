@@ -15,10 +15,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <android.support.v7.widget.Toolbar
+            <include
                 android:id="@+id/toolbar_main_act"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                layout="@layout/app_toolbar" />
 
             <android.support.design.widget.TabLayout
                 android:id="@+id/tab_main_act"

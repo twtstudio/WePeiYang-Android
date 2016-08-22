@@ -12,7 +12,7 @@ android {
         versionCode 13
         renderscriptTargetApi 22
         renderscriptSupportModeEnabled true
-        versionName "1.6.1"
+        versionName "2.0.0"
         ndk{
             moduleName "Jni"
         }
