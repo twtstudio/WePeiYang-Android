@@ -109,7 +109,7 @@ public class BikeFragment extends PFragment<BikeFragPresenter> implements BikeVi
                 //System.out.println(aMapLocation.getLatitude());
                 mListener.onLocationChanged(aMapLocation);
             } else {
-                Log.d("jcy", "定位失败" + aMapLocation.getErrorCode());
+                //Log.d("jcy", "定位失败" + aMapLocation.getErrorCode());
             }
         } else {
             Log.d("jcy", "初始化问题");
