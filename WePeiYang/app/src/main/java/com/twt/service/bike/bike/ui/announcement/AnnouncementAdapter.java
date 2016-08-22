@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -27,7 +28,7 @@ public class AnnouncementAdapter extends BaseAdapter<BikeAnnouncement>{
         @InjectView(R.id.bike_announcement_title)
         TextView mTitleView;
         @InjectView(R.id.bike_announcement_content)
-        TextView mContentView;
+        WebView mContentView;
         @InjectView(R.id.bike_announcement_time)
         TextView mTimeView;
 
@@ -66,7 +67,7 @@ public class AnnouncementAdapter extends BaseAdapter<BikeAnnouncement>{
             sAnnouncementHolder itemHolder = (sAnnouncementHolder) holder;
             final BikeAnnouncement item = mDataSet.get(position);
             itemHolder.mTitleView.setText(item.title);
-            itemHolder.mContentView.setText(item.content);
+            itemHolder.mContentView.loadData(item.content,"text/html;charset=utf-8",null);
             itemHolder.mTimeView.setText(TimeStampUtils.getDateString(item.timestamp));
         }
     }

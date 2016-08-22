@@ -7,22 +7,26 @@ package com.twt.service.bike.model;
 public class BikeStation {
 
     /**
-     * id : 150
+     * id : 324
      * status : 1
-     * total : 32
-     * used : 6
-     * used_poor : 5
-     * free : 26
-     * free_poor : 18
-     * timestamp : 1470978763
+     * total : 67
+     * used : 44
+     * used_poor : 9
+     * used_bad : 6
+     * free : 23
+     * free_poor : 7
+     * free_bad : 3
+     * timestamp : 1471853198
      */
 
     public String id;
     public String status;
     public String total;
-    public String used;
-    public String used_poor;
-    public String free;
-    public String free_poor;
+    public int used;
+    public int used_poor;
+    public int used_bad;
+    public int free;
+    public int free_poor;
+    public int free_bad;
     public String timestamp;
 }

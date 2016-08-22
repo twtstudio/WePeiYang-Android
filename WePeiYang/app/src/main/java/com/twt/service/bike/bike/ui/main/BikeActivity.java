@@ -47,6 +47,7 @@ public class BikeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_bike_main);
         ButterKnife.inject(this);
         setSupportActionBar(mToolBar);
+        setTitle("自行车");
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(getResources().getColor(R.color.bike_primary_color));

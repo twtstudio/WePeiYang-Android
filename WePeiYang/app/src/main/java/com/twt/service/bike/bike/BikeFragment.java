@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.amap.api.location.AMapLocation;
@@ -31,7 +30,6 @@ import com.twt.service.bike.utils.BikeStationUtils;
 import java.util.ArrayList;
 
 import butterknife.InjectView;
-import butterknife.InjectView;
 
 /**
  * Created by jcy on 2016/8/7.
@@ -48,6 +46,8 @@ public class BikeFragment extends PFragment<BikeFragPresenter> implements BikeVi
     TextView mStationName;
     @InjectView(R.id.sliding_layout)
     SlidingUpPanelLayout mSlidingUpPanelLayout;
+    @InjectView(R.id.station_status)
+    TextView mStatusText;
 
 
     private AMap mAmap;
@@ -111,7 +111,7 @@ public class BikeFragment extends PFragment<BikeFragPresenter> implements BikeVi
                 //System.out.println(aMapLocation.getLatitude());
                 mListener.onLocationChanged(aMapLocation);
             } else {
-                //Log.d("jcy", "定位失败" + aMapLocation.getErrorCode());
+                Log.d("jcy", "定位失败" + aMapLocation.getErrorCode());
             }
         } else {
             Log.d("jcy", "初始化问题");
@@ -210,7 +210,12 @@ public class BikeFragment extends PFragment<BikeFragPresenter> implements BikeVi
 
     @Override
     public void setStationDetail(BikeStation stationDetail) {
-        mAvailableText.setText("可用车辆"+stationDetail.used+" (不佳:"+stationDetail.used_poor+")");
-        mEmptyText.setText("可用空位"+stationDetail.free+" (不佳:"+stationDetail.free_poor+")");
+        mAvailableText.setText("可用车辆"+stationDetail.used+" (含不佳:"+String.valueOf(stationDetail.used_poor-stationDetail.used_bad)+" 损坏:"+stationDetail.used_bad+")");
+        mEmptyText.setText("可用空位"+stationDetail.free+" (含不佳:"+String.valueOf(stationDetail.free_poor-stationDetail.free_bad)+" 损坏:"+stationDetail.free_bad+")");
+        if (stationDetail.status.equals("0")){
+            mStatusText.setText("offline");
+        }else {
+            mStatusText.setText("online");
+        }
     }
 }

@@ -66,4 +66,8 @@
     <color name="myNavigationColor">#000</color>
     <color name="bike_primary_color">#338f2f</color>
     <color name="myTabIndicatorColor">#ffffff</color>
+
+    <!--BikeAct-->
+    <color name="bike_background">#ebeff0</color>
+    <color name="bike_crad_background">#fdfdfe</color>
 </resources>
