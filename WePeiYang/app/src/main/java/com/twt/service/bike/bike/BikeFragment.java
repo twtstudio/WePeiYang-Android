@@ -13,6 +13,8 @@ import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.amap.api.maps.AMap;
+import com.amap.api.maps.CameraUpdate;
+import com.amap.api.maps.CameraUpdateFactory;
 import com.amap.api.maps.LocationSource;
 import com.amap.api.maps.MapView;
 import com.amap.api.maps.model.BitmapDescriptorFactory;
@@ -59,8 +61,12 @@ public class BikeFragment extends PFragment<BikeFragPresenter> implements BikeVi
     private ArrayList<MarkerOptions> mDetailMarkerOptions;
     private ArrayList<MarkerOptions> mBriefMarkerOptions;
 
+    private Marker mSelectedMarker;
+
     private static final float CHANGEPOINT = 18.23416f;
     private boolean isBrief = true;
+
+    private boolean isCameraChanged = false;
 
     @Override
     protected BikeFragPresenter getPresenter() {
@@ -85,6 +91,8 @@ public class BikeFragment extends PFragment<BikeFragPresenter> implements BikeVi
         View view = super.onCreateView(inflater, container, savedInstanceState);
         mAmapView.onCreate(savedInstanceState);
         mAmap = mAmapView.getMap();
+        mAmap.addMarkers(mDetailMarkerOptions,!isCameraChanged);
+        mAmap.setOnMarkerClickListener(this);
         mAmap.setLocationSource(this);
         mAmap.getUiSettings().setMyLocationButtonEnabled(true);
         mAmap.setMyLocationEnabled(true);
@@ -92,14 +100,17 @@ public class BikeFragment extends PFragment<BikeFragPresenter> implements BikeVi
             @Override
             public void onMapClick(LatLng latLng) {
                 mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
+                if (mSelectedMarker != null) {
+                    mSelectedMarker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.map_marker_unselected));
+                }
             }
         });
+
+
 //        mAmap.addMarkers()
 //        Marker marker1=mAmap.addMarker(new MarkerOptions().position(new LatLng(38.997704,117.315942)).icon(BitmapDescriptorFactory.fromResource(R.drawable.qinwa)));
 //        marker1.setTitle("A1");
-        mAmap.addMarkers(mDetailMarkerOptions, true);
-        mAmap.setOnMarkerClickListener(this);
-       // mAmap.setOnCameraChangeListener(this);
+        //mAmap.setOnCameraChangeListener(this);
         return view;
     }
 
@@ -108,8 +119,13 @@ public class BikeFragment extends PFragment<BikeFragPresenter> implements BikeVi
     public void onLocationChanged(AMapLocation aMapLocation) {
         if (mListener != null && aMapLocation != null) {
             if (aMapLocation.getErrorCode() == 0) {
-                //System.out.println(aMapLocation.getLatitude());
+                System.out.println(aMapLocation.getLatitude());
                 mListener.onLocationChanged(aMapLocation);
+                if (!isCameraChanged){
+                    CameraUpdate update=CameraUpdateFactory.zoomTo(17.685846f);
+                    mAmap.moveCamera(update);
+                    isCameraChanged = true;
+                }
             } else {
                 Log.d("jcy", "定位失败" + aMapLocation.getErrorCode());
             }
@@ -120,12 +136,17 @@ public class BikeFragment extends PFragment<BikeFragPresenter> implements BikeVi
 
     @Override
     public boolean onMarkerClick(Marker marker) {
-        marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.map_marker_selected));
-        // TODO: 2016/8/11 marker logic
-        mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
-        mSlidingUpPanelLayout.setTouchEnabled(false);
-        mStationName.setText(marker.getTitle());
+        if (mSelectedMarker != null) {
+            mSelectedMarker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.map_marker_unselected));
+        }
         if (marker.getSnippet() != null) {
+            mSelectedMarker = marker;
+            marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.map_marker_selected));
+            // TODO: 2016/8/11 marker logic
+            mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+            mSlidingUpPanelLayout.setTouchEnabled(false);
+            mStationName.setText(marker.getTitle());
+
             mPresenter.queryCachedStatus(marker.getSnippet());
             mPresenter.getStationStatus(marker.getSnippet());
         }
@@ -189,7 +210,7 @@ public class BikeFragment extends PFragment<BikeFragPresenter> implements BikeVi
 
     @Override
     public void onCameraChange(CameraPosition cameraPosition) {
-        //Log.d(TAG, "onCameraChange: " + cameraPosition.zoom);
+        Log.d(TAG, "onCameraChange: " + cameraPosition.zoom);
         if (cameraPosition.zoom < CHANGEPOINT && isBrief == false) {
             mAmap.clear(true);
             mAmap.addMarkers(mBriefMarkerOptions, false);
@@ -210,11 +231,11 @@ public class BikeFragment extends PFragment<BikeFragPresenter> implements BikeVi
 
     @Override
     public void setStationDetail(BikeStation stationDetail) {
-        mAvailableText.setText("可用车辆"+stationDetail.used+" (含不佳:"+String.valueOf(stationDetail.used_poor-stationDetail.used_bad)+" 损坏:"+stationDetail.used_bad+")");
-        mEmptyText.setText("可用空位"+stationDetail.free+" (含不佳:"+String.valueOf(stationDetail.free_poor-stationDetail.free_bad)+" 损坏:"+stationDetail.free_bad+")");
-        if (stationDetail.status.equals("0")){
+        mAvailableText.setText("可用车辆" + stationDetail.used + " (含:不佳:" + String.valueOf(stationDetail.used_poor - stationDetail.used_bad) + " 损坏:" + stationDetail.used_bad + ")");
+        mEmptyText.setText("可用空位" + stationDetail.free + " (含:不佳:" + String.valueOf(stationDetail.free_poor - stationDetail.free_bad) + " 损坏:" + stationDetail.free_bad + ")");
+        if (stationDetail.status.equals("0")) {
             mStatusText.setText("offline");
-        }else {
+        } else {
             mStatusText.setText("online");
         }
     }

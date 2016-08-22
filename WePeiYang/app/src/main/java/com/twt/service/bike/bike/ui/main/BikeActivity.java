@@ -1,17 +1,23 @@
 package com.twt.service.bike.bike.ui.main;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.twt.service.R;
 import com.twt.service.bike.bike.BikeFragment;
@@ -47,6 +53,8 @@ public class BikeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_bike_main);
         ButterKnife.inject(this);
         setSupportActionBar(mToolBar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        mToolBar.setNavigationOnClickListener(view -> onBackPressed());
         setTitle("自行车");
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -69,6 +77,15 @@ public class BikeActivity extends AppCompatActivity {
         tab1.setIcon(R.drawable.use_record);
         TabLayout.Tab tab2=mTabLayout.getTabAt(2);
         tab2.setIcon(R.drawable.announcement);
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)!= PackageManager.PERMISSION_GRANTED){
+            Toast.makeText(this,"自行车定位服务需要权限",Toast.LENGTH_SHORT);
+            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    Manifest.permission.READ_EXTERNAL_STORAGE,
+                    Manifest.permission.READ_PHONE_STATE},0);
+        }
     }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {

@@ -11,7 +11,7 @@
 
         <android.support.design.widget.AppBarLayout
             android:id="@+id/app_bar"
-            android:background="@color/bike_primary_color"
+            android:background="@color/bike_toolbar_color"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -25,6 +25,8 @@
                 style="@style/MyCustomTabLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:tabIndicatorColor="@color/bike_toolbar_indicator_color"
+                app:tabIndicatorHeight="3dp"
                 android:visibility="visible"
                 app:tabMode="fixed" />
 
