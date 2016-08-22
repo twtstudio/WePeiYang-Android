@@ -86,5 +86,6 @@ dependencies {
     compile 'com.afollestad.material-dialogs:core:0.9.0.1'
     compile 'commons-io:commons-io:2.4'
     compile 'com.nightonke:boommenu:1.0.9'
+    compile 'com.github.wooplr:Spotlight:1.2.2'
     compile files('libs/AMap3DMap_3.4.0_AMapLocation_2.7.0_20160809.jar')
 }

@@ -72,6 +72,8 @@ public class InquiryPageScore20Fragment extends BaseFragment implements Score20V
 
     @Override
     public void bindData(List<Score20Info> list) {
+        recyclerView.setVisibility(View.VISIBLE);
+        tvErrorMsg.setVisibility(View.GONE);
         adapter.addScore(list);
     }
 
@@ -82,7 +84,6 @@ public class InquiryPageScore20Fragment extends BaseFragment implements Score20V
 
     @Override
     public void setErrorMsg(String errorMsg) {
-        tvErrorMsg.setVisibility(View.VISIBLE);
         tvErrorMsg.setText(errorMsg);
     }
 }

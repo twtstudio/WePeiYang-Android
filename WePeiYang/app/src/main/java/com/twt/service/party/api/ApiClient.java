@@ -62,4 +62,9 @@ public class ApiClient {
         Call<Status> call = api.appeal("api",doWhat,sno,test_id,title,content);
         call.enqueue(callback);
     }
+
+    public static void submit(String sno, String title, String content, String type, Callback<Status> callback){
+        Call<Status> call = api.submit("api", "fileupload", sno, title, content,type,"submit");
+        call.enqueue(callback);
+    }
 }

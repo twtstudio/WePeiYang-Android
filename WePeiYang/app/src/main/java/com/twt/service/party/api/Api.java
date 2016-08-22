@@ -6,7 +6,10 @@ import com.twt.service.party.bean.TextDetailInfo;
 import com.twt.service.party.bean.UserInfomation;
 
 import retrofit2.Call;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 /**
@@ -33,4 +36,7 @@ public interface Api {
     @GET("party/")
     Call<Status> appeal(@Query("page") String page, @Query("do") String doWhat, @Query("sno") String sno, @Query("test_id") int testId, @Query("title") String title, @Query("content") String content);
 
+    @FormUrlEncoded
+    @POST("party/")
+    Call<Status> submit(@Query("page") String page, @Query("do") String doWhat, @Query("sno") String sno, @Field("message_title") String title, @Field("message_content") String content, @Field("file_type") String type, @Field("submit") String submit);
 }

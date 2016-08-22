@@ -97,25 +97,48 @@ public class SignActivity extends BaseActivity implements SignView {
 
     @Override
     public void bindData(TestInfo testInfo, String type) {
-        switch (type) {
-            case SignPresenterImpl.TYPE_APPLICANT:
-                b_applicant = true;
-                btSignApplicant.setBackgroundResource(R.drawable.shape_button_green);
-                applicant_id = testInfo.getTest_id();
-                tvSignApplicant.setText(testInfo.getTest_name());
-                break;
-            case SignPresenterImpl.TYPE_ACADEMY:
-                b_academy = true;
-                btSignAcademy.setBackgroundResource(R.drawable.shape_button_green);
-                academy_id = testInfo.getTest_id();
-                tvSignAcademy.setText(testInfo.getTest_name());
-                break;
-            case SignPresenterImpl.TYPE_PROBATIONARY:
-                b_probationary = true;
-                btSignProbationary.setBackgroundResource(R.drawable.shape_button_green);
-                probationary_id = testInfo.getTrain_id();
-                tvSignProbationary.setText(testInfo.getTrain_name());
-                break;
+        if(testInfo.getHas_entry() == 0){
+            switch (type) {
+                case SignPresenterImpl.TYPE_APPLICANT:
+                    b_applicant = true;
+                    btSignApplicant.setBackgroundResource(R.drawable.shape_button_red);
+                    applicant_id = testInfo.getTest_id();
+                    tvSignApplicant.setText(testInfo.getTest_name()+ "\n考试时间：" + testInfo.getTest_begintime());
+                    break;
+                case SignPresenterImpl.TYPE_ACADEMY:
+                    b_academy = true;
+                    btSignAcademy.setBackgroundResource(R.drawable.shape_button_red);
+                    academy_id = testInfo.getTest_id();
+                    tvSignAcademy.setText(testInfo.getTest_name()+ "\n考试时间：" + testInfo.getTest_begintime());
+                    break;
+                case SignPresenterImpl.TYPE_PROBATIONARY:
+                    b_probationary = true;
+                    btSignProbationary.setBackgroundResource(R.drawable.shape_button_red);
+                    probationary_id = testInfo.getTrain_id();
+                    tvSignProbationary.setText(testInfo.getTrain_name()+ "\n考试时间：" + testInfo.getTrain_begintime());
+                    break;
+            }
+        }else {
+            switch (type){
+                case SignPresenterImpl.TYPE_APPLICANT:
+                    b_applicant = false;
+                    btSignApplicant.setBackgroundResource(R.drawable.shape_button_green);
+                    btSignApplicant.setText("已报名");
+                    tvSignApplicant.setText(testInfo.getTest_name() + "\n考试时间：" + testInfo.getTest_begintime());
+                    break;
+                case SignPresenterImpl.TYPE_ACADEMY:
+                    b_academy = false;
+                    btSignAcademy.setBackgroundResource(R.drawable.shape_button_green);
+                    btSignAcademy.setText("已报名");
+                    tvSignAcademy.setText(testInfo.getTest_name()+ "\n考试时间："+ testInfo.getTest_begintime());
+                    break;
+                case SignPresenterImpl.TYPE_PROBATIONARY:
+                    b_probationary = false;
+                    btSignProbationary.setBackgroundResource(R.drawable.shape_button_green);
+                    btSignProbationary.setText("已报名");
+                    tvSignProbationary.setText(testInfo.getTrain_name()+ "\n考试时间：" + testInfo.getTrain_begintime());
+                    break;
+            }
         }
     }
 

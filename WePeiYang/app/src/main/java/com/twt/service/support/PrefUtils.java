@@ -22,6 +22,8 @@ public class PrefUtils {
 
     private static final String PREF_USER_REALNAME = "user_realname";
     private static final String PREF_USER_NUMBER = "user_number";
+    private static final String PREF_SUBMIT_TITLE = "submit_title";
+    private static final String PREF_SUBMIT_CONTENT = "submit_content";
 
     private static final String PREF_BIKE_TOKEN = "bike_token";
     private static final String PREF_BIKE_CARD_SIGN = "bike_sign";
@@ -159,4 +161,31 @@ public class PrefUtils {
     public static String getCardId(){
         return getDefaultSharedPreferences().getString(PREF_BIKE_CARD_ID,"");
     }
+
+    public static void setPrefSubmitTitle(String title){
+        getDefaultSharedPreferences().edit().putString(PREF_SUBMIT_TITLE, title).apply();
+    }
+
+    public static void removePrefSubmitTitle(){
+        getDefaultSharedPreferences().edit().remove(PREF_SUBMIT_TITLE).commit();
+    }
+
+    public static String getPrefSubmitTitle(){
+        return getDefaultSharedPreferences().getString(PREF_SUBMIT_TITLE,"");
+    }
+
+
+
+    public static void setPrefSubmitContent(String submitContent){
+        getDefaultSharedPreferences().edit().putString(PREF_SUBMIT_CONTENT, submitContent).apply();
+    }
+
+    public static void removePrefSubmitContent(){
+        getDefaultSharedPreferences().edit().remove(PREF_SUBMIT_CONTENT).commit();
+    }
+
+    public static String getPrefSubmitContent(){
+        return getDefaultSharedPreferences().getString(PREF_SUBMIT_CONTENT,"");
+    }
+
 }

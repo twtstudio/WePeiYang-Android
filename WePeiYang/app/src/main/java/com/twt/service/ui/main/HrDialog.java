@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.twt.service.R;
 import com.twt.service.support.PrefUtils;
@@ -26,9 +27,15 @@ public class HrDialog extends DialogFragment {
     @InjectView(R.id.know_more)
     Button knowMore;
     @InjectView(R.id.notice_later)
-    Button noticeLater;
+    TextView noticeLater;
     @InjectView(R.id.notice_never)
-    Button noticeNever;
+    TextView noticeNever;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setStyle(DialogFragment.STYLE_NORMAL,0);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

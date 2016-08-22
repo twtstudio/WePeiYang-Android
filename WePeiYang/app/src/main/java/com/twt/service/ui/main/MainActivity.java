@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -63,6 +64,7 @@ import com.twt.service.ui.news.details.NewsDetailsActivity;
 import com.twt.service.ui.notice.NoticeActivity;
 import com.twt.service.ui.push.PushActivity;
 import com.twt.service.ui.schedule.ScheduleActivity;
+import com.wooplr.spotlight.SpotlightView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -267,6 +269,26 @@ public class MainActivity extends BaseActivity implements BaseSliderView.OnSlide
         rvMainLost.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         rvMainFound.setAdapter(mainFoundAdapter);
         rvMainLost.setAdapter(mainLostAdapter);
+
+//        //新手引导
+//        new SpotlightView.Builder(this)
+//                .introAnimationDuration(400)
+//                .enableRevalAnimation(true)
+//                .performClick(true)
+//                .fadeinTextDuration(400)
+//                .headingTvColor(Color.parseColor("#eb273f"))
+//                .headingTvSize(32)
+//                .headingTvText("BOOM！")
+//                .subHeadingTvColor(Color.parseColor("#ffffff"))
+//                .subHeadingTvSize(16)
+//                .subHeadingTvText("工具栏移动到了这里哦~\n快来体验吧~")
+//                .maskColor(Color.parseColor("#dc000000"))
+//                .target(boomMenuButton)
+//                .lineAnimDuration(400)
+//                .lineAndArcColor(Color.parseColor("#eb273f"))
+//                .dismissOnTouch(true)
+//                .enableDismissAfterShown(true)
+//                .show();
 
         //HrDialog 弹出
         if(PrefUtils.isShowDiaLog()){
