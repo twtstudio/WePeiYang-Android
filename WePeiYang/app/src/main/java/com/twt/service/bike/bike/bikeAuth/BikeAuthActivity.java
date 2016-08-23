@@ -2,11 +2,14 @@ package com.twt.service.bike.bike.bikeAuth;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.twt.service.R;
 import com.twt.service.bike.bike.ui.main.BikeActivity;
 import com.twt.service.bike.common.ui.PActivity;
@@ -77,5 +80,12 @@ public class BikeAuthActivity extends PActivity<BikeAuthPresenter> implements Bi
             finish();
         }
         dismissLoadingDialog();
+        new MaterialDialog.Builder(this)
+                .title("注意")
+                .content("在您进行新办卡、修改卡信息、换卡等操作后，第二天才能正常使用本系统")
+                .positiveText("OK")
+                .onPositive((dialog, which) -> finish())
+                .negativeText("继续绑定")
+                .show();
     }
 }

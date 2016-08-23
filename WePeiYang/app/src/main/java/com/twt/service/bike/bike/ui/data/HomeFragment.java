@@ -36,8 +36,8 @@ import butterknife.InjectView;
  */
 
 public class HomeFragment extends PFragment<HomePresenter> implements HomeViewController {
-    //    @InjectView(R.id.srl_home)
-//    SwipeRefreshLayout mSrlHome;
+    @InjectView(R.id.srl_home)
+    SwipeRefreshLayout mSrlHome;
     //自行车卡片
     @InjectView(R.id.leave_station)
     TextView mLeaveStation;
@@ -76,19 +76,19 @@ public class HomeFragment extends PFragment<HomePresenter> implements HomeViewCo
     @Override
     protected void preInitView() {
         super.preInitView();
-//        mSrlHome.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-//            @Override
-//            public void onRefresh() {
-//                mPresenter.getBikeUserInfo();
-//            }
-//        });
-//        mSrlHome.post(new Runnable() {
-//            @Override
-//            public void run() {
-//                mPresenter.getBikeUserInfo();
-//            }
-//        });
-        mPresenter.getBikeUserInfo();
+        mSrlHome.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mPresenter.getBikeUserInfo();
+            }
+        });
+        mSrlHome.post(new Runnable() {
+            @Override
+            public void run() {
+                mPresenter.getBikeUserInfo();
+            }
+        });
+        //mPresenter.getBikeUserInfo();
     }
 
     @Override
@@ -100,6 +100,8 @@ public class HomeFragment extends PFragment<HomePresenter> implements HomeViewCo
 
     @Override
     public void setBikeUserInfo(BikeUserInfo bikeUserInfo) {
+        mSrlHome.setRefreshing(false);
+
         if (bikeUserInfo.status == 0) {
             Intent intent = new Intent(getActivity(), BikeAuthActivity.class);
             startActivity(intent);
@@ -112,11 +114,18 @@ public class HomeFragment extends PFragment<HomePresenter> implements HomeViewCo
             mLeaveStation.setText(dep + "-" + bikeUserInfo.record.dep_dev + "号桩 取出");
             mLeaveTime.setText(TimeStampUtils.getDateString(bikeUserInfo.record.dep_time));
             String arr = BikeStationUtils.getInstance().queryId(bikeUserInfo.record.arr).name;
-            mArrStation.setText(arr + "-" + bikeUserInfo.record.arr_dev + "号桩 还入");
-            mArrTime.setText(TimeStampUtils.getDateString(bikeUserInfo.record.arr_time));
-            mBikeFeeText.setText("本次消费:" + bikeUserInfo.record.fee);
+            if (arr.equals("no data")) {
+                mArrStation.setText("尚未还车或数据尚未同步");
+                mArrTime.setText(" ");
+                mBikeFeeText.setText(" ");
+            } else {
+                mArrStation.setText(arr + "-" + bikeUserInfo.record.arr_dev + "号桩 还入");
+                mArrTime.setText(TimeStampUtils.getDateString(bikeUserInfo.record.arr_time));
+                mBikeFeeText.setText("本次消费:" + bikeUserInfo.record.fee);
+            }
             mNameText.setText("姓名:" + bikeUserInfo.name);
             mBalanceText.setText("余额:" + bikeUserInfo.balance);
+
 
             mLineChart.setLogEnabled(true);
             mLineChart.setNoDataText("最近没有骑行数据");
@@ -133,19 +142,21 @@ public class HomeFragment extends PFragment<HomePresenter> implements HomeViewCo
             //mLineChart.setGridBackgroundColor(Color.BLACK);
             mLineChart.setBorderWidth(3);
 //            int[] colors = mLineChart.getLegend().getColors();
-//            int[] color = {android.R.color.holo_blue_dark};
-//            String[] names = {"最近骑行记录"};
-//            mLineChart.getLegend().setCustom(color, names);
-            mLineChart.getLegend().setEnabled(false);
+            int[] color = {Color.rgb(145,145,145)};
+            String[] names = {"最近一周骑行时间 (min)"};
+            mLineChart.getLegend().setCustom(color, names);
+            mLineChart.getLegend().setEnabled(true);
             mLineChart.animateY(2000, Easing.EasingOption.EaseInExpo);
 
+            xVals.clear();
+            yVals.clear();
 
             XAxis xAxis = mLineChart.getXAxis();
             xAxis.setDrawGridLines(false);
             xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
             xAxis.setTextColor(ContextCompat.getColor(getContext(), R.color.text_secondary_color));
             xAxis.setDrawAxisLine(true);
-            xAxis.setAxisLineColor(Color.rgb(39,173,97));
+            xAxis.setAxisLineColor(Color.rgb(39, 173, 97));
             xAxis.setAxisLineWidth(1f);
             xAxis.setDrawLabels(true);
             xAxis.setTextSize(10);
@@ -180,9 +191,9 @@ public class HomeFragment extends PFragment<HomePresenter> implements HomeViewCo
             yAxis.setAxisMaxValue(max);
             yAxis.setAxisMinValue(min);
             mSet = new LineDataSet(yVals, null);
-            mSet.setCircleColor(Color.rgb(39,173,97));
+            mSet.setCircleColor(Color.rgb(39, 173, 97));
             mSet.setColor(ContextCompat.getColor(getContext(), R.color.text_secondary_color));
-            mSet.setValueTextColor(Color.rgb(145,145,145));
+            mSet.setValueTextColor(Color.rgb(145, 145, 145));
             mSet.setValueTextSize(10f);
             mSet.setLineWidth(1f);
             mSet.setValueFormatter(new MyValueFormatter());
