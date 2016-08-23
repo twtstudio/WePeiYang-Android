@@ -83,8 +83,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_horizontal"
                                     android:layout_marginTop="5dp"
-                                    android:text="@string/schedule"
-                                    android:textColor="@color/schedule_primary_color" />
+                                    android:text="@string/schedule" />
 
                             </LinearLayout>
 
@@ -109,8 +108,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_horizontal"
                                     android:layout_marginTop="5dp"
-                                    android:text="@string/gpa_query"
-                                    android:textColor="@color/gpa_primary_color" />
+                                    android:text="@string/gpa_query"/>
 
                             </LinearLayout>
 
@@ -133,8 +131,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_horizontal"
                                     android:layout_marginTop="5dp"
-                                    android:text="@string/bike"
-                                    android:textColor="@color/bike_primary_color" />
+                                    android:text="@string/bike"/>
 
                             </LinearLayout>
                             <LinearLayout
@@ -149,15 +146,14 @@
                                     android:layout_width="60dp"
                                     android:layout_height="60dp"
                                     android:layout_gravity="center_horizontal"
-                                    android:src="@mipmap/ic_main_party" />
+                                    android:src="@mipmap/ic_main_tools" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_horizontal"
                                     android:layout_marginTop="5dp"
-                                    android:text="更多工具"
-                                    android:textColor="@color/party_primary_color" />
+                                    android:text="更多工具"/>
 
                             </LinearLayout>
                         </LinearLayout>
