@@ -187,6 +187,7 @@ public class MainActivity extends BaseActivity implements BaseSliderView.OnSlide
     private MainLostAdapter mainLostAdapter;
 
     private static final int BUTTONS = 6;//功能按钮的个数;
+
     public static void actionStart(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
         context.startActivity(intent);
@@ -283,9 +284,9 @@ public class MainActivity extends BaseActivity implements BaseSliderView.OnSlide
 //                .show();
 
         //HrDialog 弹出
-        if(PrefUtils.isShowDiaLog()){
+        if (PrefUtils.isShowDiaLog()) {
             HrDialog hrDialog = new HrDialog();
-            hrDialog.show(getFragmentManager(),"HrDialog");
+            hrDialog.show(getFragmentManager(), "HrDialog");
         }
 
     }
@@ -392,11 +393,18 @@ public class MainActivity extends BaseActivity implements BaseSliderView.OnSlide
 //                }
 //                break;
             case R.id.btn_bike:
-                if (PrefUtils.isLogin()){
-                    BikeActivity.actionStart(this);
-                }else {
-                    LoginActivity.actionStart(this,NextActivity.Bike);
-                }break;
+                if (android.os.Build.CPU_ABI.equals("x86")) {
+                    toastMessage("因为某些硬件问题，自行车功能无法添加对x86架构手机的支持");
+                    break;
+                }
+                if (PrefUtils.getBikeIsBindState()) {
+                    BikeActivity.actionStart(MainActivity.this);
+                } else if (PrefUtils.isLogin()) {
+                    startActivity(new Intent(MainActivity.this, BikeAuthActivity.class));
+                } else {
+                    LoginActivity.actionStart(MainActivity.this, NextActivity.Bike);
+                }
+                break;
             case R.id.btn_more:
                 ToolsActivity.actionStart(this);
                 break;

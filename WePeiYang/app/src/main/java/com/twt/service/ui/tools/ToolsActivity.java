@@ -8,8 +8,10 @@ import android.support.design.widget.AppBarLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.twt.service.R;
+import com.twt.service.bike.bike.bikeAuth.BikeAuthActivity;
 import com.twt.service.bike.bike.ui.main.BikeActivity;
 import com.twt.service.party.ui.home.PartyActivity;
 import com.twt.service.support.PrefUtils;
@@ -19,6 +21,7 @@ import com.twt.service.ui.common.NextActivity;
 import com.twt.service.ui.date.DatingActivity;
 import com.twt.service.ui.gpa.GpaActivity;
 import com.twt.service.ui.login.LoginActivity;
+import com.twt.service.ui.main.MainActivity;
 import com.twt.service.ui.schedule.ScheduleActivity;
 
 import butterknife.ButterKnife;
@@ -110,11 +113,18 @@ public class ToolsActivity extends BaseActivity {
                 }
                 break;
             case R.id.btn_bike:
-                if (PrefUtils.isLogin()){
-                    BikeActivity.actionStart(this);
-                }else {
-                    LoginActivity.actionStart(this,NextActivity.Bike);
-                }break;
+                if (android.os.Build.CPU_ABI.equals("x86")) {
+                    Toast.makeText(ToolsActivity.this, "因为某些硬件问题，自行车功能无法添加对x86架构手机的支持", Toast.LENGTH_SHORT).show();
+                    break;
+                }
+                if (PrefUtils.getBikeIsBindState()) {
+                    BikeActivity.actionStart(ToolsActivity.this);
+                } else if (PrefUtils.isLogin()) {
+                    startActivity(new Intent(ToolsActivity.this, BikeAuthActivity.class));
+                } else {
+                    LoginActivity.actionStart(ToolsActivity.this, NextActivity.Bike);
+                }
+                break;
         }
     }
 }
