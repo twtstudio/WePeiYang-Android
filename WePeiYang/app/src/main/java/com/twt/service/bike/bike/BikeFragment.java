@@ -90,7 +90,7 @@ public class BikeFragment extends PFragment<BikeFragPresenter> implements BikeVi
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
-        mAmapView.onCreate(savedInstanceState);
+        //mAmapView.onCreate(savedInstanceState);
         mAmap = mAmapView.getMap();
         mAmap.addMarkers(mDetailMarkerOptions,!isCameraChanged);
         MyLocationStyle myLocationStyle = new MyLocationStyle();
