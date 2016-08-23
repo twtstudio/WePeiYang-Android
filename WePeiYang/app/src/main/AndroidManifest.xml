@@ -153,6 +153,8 @@
         <activity android:name=".bike.bike.bikeAuth.BikeAuthActivity"/>
         <activity android:name=".bike.bike.bikeAuth.BikeCardActivity"/>
         <service android:name="com.amap.api.location.APSService"/>
+
+        <activity android:name=".ui.tools.ToolsActivity"/>
     </application>
 
 </manifest>
