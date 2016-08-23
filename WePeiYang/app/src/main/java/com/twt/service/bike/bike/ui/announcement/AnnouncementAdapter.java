@@ -1,6 +1,8 @@
 package com.twt.service.bike.bike.ui.announcement;
 
 import android.content.Context;
+import android.content.Intent;
+import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,10 +29,10 @@ public class AnnouncementAdapter extends BaseAdapter<BikeAnnouncement>{
     static class sAnnouncementHolder extends BaseViewHolder{
         @InjectView(R.id.bike_announcement_title)
         TextView mTitleView;
-        @InjectView(R.id.bike_announcement_content)
-        WebView mContentView;
         @InjectView(R.id.bike_announcement_time)
         TextView mTimeView;
+        @InjectView(R.id.bike_announcement_crad)
+        CardView mCardView;
 
         public sAnnouncementHolder(View itemView) {
             super(itemView);
@@ -67,8 +69,17 @@ public class AnnouncementAdapter extends BaseAdapter<BikeAnnouncement>{
             sAnnouncementHolder itemHolder = (sAnnouncementHolder) holder;
             final BikeAnnouncement item = mDataSet.get(position);
             itemHolder.mTitleView.setText(item.title);
-            itemHolder.mContentView.loadData(item.content,"text/html;charset=utf-8",null);
-            itemHolder.mTimeView.setText(TimeStampUtils.getDateString(item.timestamp));
+            //itemHolder.mContentView.loadData(item.content,"text/html;charset=utf-8",null);
+            itemHolder.mTimeView.setText(TimeStampUtils.getSimpleDateString(item.timestamp));
+            itemHolder.mCardView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(mContext,AnnouncementDetail.class);
+                    intent.putExtra("detail",item.content);
+                    intent.putExtra("title",item.title);
+                    mContext.startActivity(intent);
+                }
+            });
         }
     }
 

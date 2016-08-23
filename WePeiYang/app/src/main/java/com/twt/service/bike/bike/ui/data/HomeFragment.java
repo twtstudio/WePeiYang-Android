@@ -61,7 +61,7 @@ public class HomeFragment extends PFragment<HomePresenter> implements HomeViewCo
     ArrayList<Entry> yVals = new ArrayList<>();
     private LineDataSet mSet;
 
-    private List<List<Integer>> mRecentData;
+    private List<List<String>> mRecentData;
 
     @Override
     protected HomePresenter getPresenter() {
@@ -100,8 +100,8 @@ public class HomeFragment extends PFragment<HomePresenter> implements HomeViewCo
 
     @Override
     public void setBikeUserInfo(BikeUserInfo bikeUserInfo) {
-        if (bikeUserInfo.status == 0){
-            Intent intent = new Intent(getActivity(),BikeAuthActivity.class);
+        if (bikeUserInfo.status == 0) {
+            Intent intent = new Intent(getActivity(), BikeAuthActivity.class);
             startActivity(intent);
             getActivity().finish();
         }
@@ -130,23 +130,26 @@ public class HomeFragment extends PFragment<HomePresenter> implements HomeViewCo
             mLineChart.setDoubleTapToZoomEnabled(false);
             mLineChart.setPinchZoom(false);
             mLineChart.setAutoScaleMinMaxEnabled(true);
-            mLineChart.setGridBackgroundColor(Color.BLACK);
+            //mLineChart.setGridBackgroundColor(Color.BLACK);
             mLineChart.setBorderWidth(3);
-            int[] colors = mLineChart.getLegend().getColors();
-            int[] color = {android.R.color.holo_blue_dark};
-            String[] names = {"最近骑行记录"};
-            mLineChart.getLegend().setCustom(color, names);
+//            int[] colors = mLineChart.getLegend().getColors();
+//            int[] color = {android.R.color.holo_blue_dark};
+//            String[] names = {"最近骑行记录"};
+//            mLineChart.getLegend().setCustom(color, names);
+            mLineChart.getLegend().setEnabled(false);
             mLineChart.animateY(2000, Easing.EasingOption.EaseInExpo);
 
 
             XAxis xAxis = mLineChart.getXAxis();
-            xAxis.setDrawAxisLine(false);
             xAxis.setDrawGridLines(false);
             xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
             xAxis.setTextColor(ContextCompat.getColor(getContext(), R.color.text_secondary_color));
+            xAxis.setDrawAxisLine(true);
+            xAxis.setAxisLineColor(Color.rgb(39,173,97));
+            xAxis.setAxisLineWidth(1f);
             xAxis.setDrawLabels(true);
             xAxis.setTextSize(10);
-            xAxis.setTextColor(Color.BLACK);
+//            xAxis.setTextColor(Color.BLACK);
             YAxis yAxis = mLineChart.getAxisLeft();
             yAxis.setAxisMaxValue(4f);
             yAxis.setStartAtZero(false);
@@ -162,23 +165,25 @@ public class HomeFragment extends PFragment<HomePresenter> implements HomeViewCo
             float max = 0;
             float min = 0;
             for (int i = 0; i < mRecentData.size(); i++) {
-                List<Integer> item = mRecentData.get(i);
-                Integer val = item.get(1);
+                List<String> item = mRecentData.get(i);
+                Integer val = Integer.valueOf(item.get(1));
                 if (val > max) {
                     max = val;
                 }
                 if (val < min) {
                     min = val;
                 }
-                xVals.add(String.valueOf(item.get(0)) + "时");
-                yVals.add(new Entry(item.get(1), i));
+                xVals.add(String.valueOf(item.get(0)));
+                yVals.add(new Entry(val, i));
                 //colors.add(ContextCompat.getColor(getContext(), R.color.gpa_primary_color));
             }
             yAxis.setAxisMaxValue(max);
             yAxis.setAxisMinValue(min);
             mSet = new LineDataSet(yVals, null);
+            mSet.setCircleColor(Color.rgb(39,173,97));
+            mSet.setColor(ContextCompat.getColor(getContext(), R.color.text_secondary_color));
             mSet.setValueTextSize(10f);
-            mSet.setLineWidth(3f);
+            mSet.setLineWidth(1f);
             mSet.setValueFormatter(new MyValueFormatter());
             LineData data = new LineData(xVals, mSet);
             mLineChart.setData(data);
