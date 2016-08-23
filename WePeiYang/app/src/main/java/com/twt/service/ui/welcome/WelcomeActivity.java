@@ -34,8 +34,8 @@ import cn.sharesdk.framework.ShareSDK;
  * Created by Rex on 2015/8/3.
  */
 public class WelcomeActivity extends Activity {
-    @InjectView(R.id.tv_version_name)
-    TextView tvVersionName;
+//    @InjectView(R.id.tv_version_name)
+//    TextView tvVersionName;
     private static boolean hasCacheLogo = false;
 
     @Override
@@ -43,7 +43,7 @@ public class WelcomeActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
         ButterKnife.inject(this);
-        tvVersionName.setText(UserAgent.getAppVersion());
+//        tvVersionName.setText(UserAgent.getAppVersion());
         if (!hasCacheLogo) {
             CacheLogoTask cacheLogoTask = new CacheLogoTask(this);
             ExecutorService executor = Executors.newCachedThreadPool();
