@@ -50,7 +50,7 @@
                 android:layout_marginLeft="10dp"
                 android:gravity="center_vertical"
                 android:text="用户名：么么哒"
-                android:textSize="18sp" />
+                android:textSize="20sp" />
         </LinearLayout>
 
 
@@ -76,7 +76,7 @@
                 android:layout_marginLeft="10dp"
                 android:gravity="center_vertical"
                 android:text="余额：9.40元"
-                android:textSize="18sp" />
+                android:textSize="20sp" />
         </LinearLayout>
 
 
@@ -90,7 +90,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
+                android:layout_margin="15dp"
                 android:gravity="start"
                 android:text="最近一次骑行"
                 android:textSize="20dp" />
@@ -127,7 +127,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
                             android:text="33楼北侧1-2号桩"
-                            android:textSize="20dp" />
+                            android:textSize="20sp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -137,7 +137,8 @@
                         <ImageView
                             android:layout_width="25dp"
                             android:layout_height="25dp"
-                            android:src="@drawable/ic_access_time_black_24dp" />
+                            android:src="@drawable/ic_access_time_black_24dp"
+                            android:id="@+id/imageView" />
 
                         <TextView
                             android:id="@+id/leave_time"
@@ -145,7 +146,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
                             android:text="2016/7/24 9:4:4"
-                            android:textSize="20dp" />
+                            android:textSize="20sp" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
@@ -178,7 +179,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
                             android:text="33楼北侧1-2号桩"
-                            android:textSize="20dp" />
+                            android:textSize="20sp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -196,7 +197,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
                             android:text="2016/7/24 9:4:4"
-                            android:textSize="20dp" />
+                            android:textSize="20sp" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
@@ -214,7 +215,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginLeft="15dp"
-                    android:src="@drawable/ic_money_off_black_24dp" />
+                    android:src="@drawable/ic_attach_money_black_18dp" />
 
                 <TextView
                     android:id="@+id/bike_fee"
@@ -223,7 +224,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="10dp"
                     android:text="本次:0.00元"
-                    android:textSize="20dp" />
+                    android:textSize="20sp" />
             </LinearLayout>
         </LinearLayout>
             </LinearLayout>

@@ -72,4 +72,6 @@
     <color name="bike_crad_background">#fdfdfe</color>
     <color name="bike_toolbar_color">#27ad61</color>
     <color name="bike_toolbar_indicator_color">#67f1a2</color>
+    <color name="bike_circle_fill_color">#64d9e1e4</color>
+    <color name="bike_bottom_fill_color">#f1ced7db</color>
 </resources>
