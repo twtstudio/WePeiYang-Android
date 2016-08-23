@@ -182,6 +182,7 @@ public class HomeFragment extends PFragment<HomePresenter> implements HomeViewCo
             mSet = new LineDataSet(yVals, null);
             mSet.setCircleColor(Color.rgb(39,173,97));
             mSet.setColor(ContextCompat.getColor(getContext(), R.color.text_secondary_color));
+            mSet.setValueTextColor(Color.rgb(145,145,145));
             mSet.setValueTextSize(10f);
             mSet.setLineWidth(1f);
             mSet.setValueFormatter(new MyValueFormatter());
@@ -205,9 +206,9 @@ public class HomeFragment extends PFragment<HomePresenter> implements HomeViewCo
             int more = intValue % 60;
             int min = (intValue - more) / 60;
             if (min > 0) {
-                return min + "分" + more + "秒";
+                return min + "'" + more + "\"";
             } else {
-                return more + "秒";
+                return more + "\"";
             }
         }
     }
