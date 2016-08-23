@@ -8,6 +8,12 @@
         android:background="@color/lost_found_indicator_color"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"/>
+    <TextView
+        android:text="请点击你的自行车卡以完成绑定，如果只有一张，那就是它了"
+        android:textSize="25sp"
+        android:layout_margin="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
     <android.support.v7.widget.RecyclerView
         android:id="@+id/bike_card_rcv"
         android:layout_width="match_parent"

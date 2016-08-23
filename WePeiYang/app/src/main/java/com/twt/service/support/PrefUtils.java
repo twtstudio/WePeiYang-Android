@@ -27,6 +27,7 @@ public class PrefUtils {
     private static final String PREF_BIKE_TOKEN = "bike_token";
     private static final String PREF_BIKE_CARD_SIGN = "bike_sign";
     private static final String PREF_BIKE_CARD_ID = "bike_id";
+    private static final String PREF_BIKE_IS_BIND = "bike_is_bind";
 
 
     private static SharedPreferences getDefaultSharedPreferences() {
@@ -173,8 +174,6 @@ public class PrefUtils {
         return getDefaultSharedPreferences().getString(PREF_SUBMIT_TITLE,"");
     }
 
-
-
     public static void setPrefSubmitContent(String submitContent){
         getDefaultSharedPreferences().edit().putString(PREF_SUBMIT_CONTENT, submitContent).apply();
     }
@@ -198,5 +197,17 @@ public class PrefUtils {
 
     public static void removeCardSign(){
         getDefaultSharedPreferences().edit().remove(PREF_BIKE_CARD_SIGN).commit();
+    }
+
+    public static void setBikeIsBindState(boolean isBind){
+        getDefaultSharedPreferences().edit().putBoolean(PREF_BIKE_IS_BIND,isBind).commit();
+    }
+
+    public static boolean getBikeIsBindState(){
+        return getDefaultSharedPreferences().getBoolean(PREF_BIKE_IS_BIND,false);
+    }
+
+    public static void removeBikeIsBindState(){
+        getDefaultSharedPreferences().edit().remove(PREF_BIKE_IS_BIND);
     }
 }

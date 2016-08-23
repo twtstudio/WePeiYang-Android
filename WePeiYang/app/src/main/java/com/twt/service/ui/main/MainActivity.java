@@ -633,9 +633,13 @@ public class MainActivity extends BaseActivity implements BaseSliderView.OnSlide
                                 }
                                 break;
                             case 2:
-                                if (PrefUtils.isLogin()&&!PrefUtils.getBikeToken().equals("nothing")){
+                                if (android.os.Build.CPU_ABI.equals("x86")){
+                                    toastMessage("因为某些硬件问题，自行车功能无法添加对x86架构手机的支持");
+                                    break;
+                                }
+                                if (PrefUtils.getBikeIsBindState()){
                                     BikeActivity.actionStart(MainActivity.this);
-                                }else if (PrefUtils.isLogin()&&PrefUtils.getBikeToken().equals("nothing")){
+                                }else if (PrefUtils.isLogin()){
                                     startActivity(new Intent(MainActivity.this,BikeAuthActivity.class));
                                 }else {
                                     LoginActivity.actionStart(MainActivity.this, NextActivity.Bike);

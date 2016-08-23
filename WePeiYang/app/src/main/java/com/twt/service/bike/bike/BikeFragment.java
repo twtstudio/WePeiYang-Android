@@ -22,6 +22,7 @@ import com.amap.api.maps.model.CameraPosition;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
+import com.amap.api.maps.model.MyLocationStyle;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.twt.service.R;
 import com.twt.service.bike.common.ui.PFragment;
@@ -92,6 +93,10 @@ public class BikeFragment extends PFragment<BikeFragPresenter> implements BikeVi
         mAmapView.onCreate(savedInstanceState);
         mAmap = mAmapView.getMap();
         mAmap.addMarkers(mDetailMarkerOptions,!isCameraChanged);
+        MyLocationStyle myLocationStyle = new MyLocationStyle();
+        myLocationStyle.myLocationIcon(BitmapDescriptorFactory.fromResource(R.drawable.mylocation_icon));
+        myLocationStyle.radiusFillColor(R.color.bike_circle_fill_color);
+        mAmap.setMyLocationStyle(myLocationStyle);
         mAmap.setOnMarkerClickListener(this);
         mAmap.setLocationSource(this);
         mAmap.getUiSettings().setMyLocationButtonEnabled(true);

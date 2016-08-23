@@ -21,7 +21,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        android:background="@drawable/bg_login_edittext"
         android:hint="输入身份证号码以绑定自行车"
         android:padding="10dp"
         android:singleLine="true"

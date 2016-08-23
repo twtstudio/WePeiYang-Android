@@ -21,6 +21,7 @@ import java.util.List;
 public class BikeCardPresenter extends BikePresenter {
     private BikeCardViewController mViewController;
 
+    private static final String TAG = "BikeCardPresenter";
     public BikeCardPresenter(Context context,BikeCardViewController viewController) {
         super(context);
         mViewController = viewController;
@@ -48,6 +49,6 @@ public class BikeCardPresenter extends BikePresenter {
 
     protected OnNextListener<String> mBindListener = s -> {
         mViewController.onCardBind();
-        //Log.d(TAG, "onNext: "+"bindok");
+        Log.d(TAG, "onNext: "+"bindok");
     };
 }
