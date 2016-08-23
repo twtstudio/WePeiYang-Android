@@ -94,7 +94,7 @@ public class BikeFragment extends PFragment<BikeFragPresenter> implements BikeVi
         mAmapView.onCreate(savedInstanceState);
 
         //test
-        mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+        //mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
 
         mAmap = mAmapView.getMap();
         mAmap.addMarkers(mDetailMarkerOptions,!isCameraChanged);

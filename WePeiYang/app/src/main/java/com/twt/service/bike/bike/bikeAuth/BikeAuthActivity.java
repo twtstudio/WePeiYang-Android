@@ -46,7 +46,7 @@ public class BikeAuthActivity extends PActivity<BikeAuthPresenter> implements Bi
 
     @Override
     protected int getStatusbarColor() {
-        return R.color.lost_found_indicator_color;
+        return R.color.bike_background;
     }
 
     @Override

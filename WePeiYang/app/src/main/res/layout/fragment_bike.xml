@@ -50,7 +50,7 @@
                             android:layout_height="wrap_content"
                             android:gravity="center"
                             android:text="格园一斋停车位1"
-                            android:textSize="20sp" />
+                            android:textSize="16sp" />
 
                         <TextView
                             android:id="@+id/station_status"
@@ -68,14 +68,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:text="正在获取数据..."
-                        android:textSize="18sp" />
+                        android:textSize="14sp" />
 
                     <TextView
                         android:id="@+id/bike_empty"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:text="正在获取数据..."
-                        android:textSize="18sp" />
+                        android:textSize="14sp" />
                 </LinearLayout>
 
                 <!--<LinearLayout-->
