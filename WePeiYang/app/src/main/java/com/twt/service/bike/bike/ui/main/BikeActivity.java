@@ -58,7 +58,7 @@ public class BikeActivity extends AppCompatActivity {
         setTitle("自行车");
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setStatusBarColor(getResources().getColor(R.color.bike_primary_color));
+            getWindow().setStatusBarColor(getResources().getColor(R.color.bike_toolbar_color));
         }
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         viewPagerAdapter.addFragement(new BikeFragment());

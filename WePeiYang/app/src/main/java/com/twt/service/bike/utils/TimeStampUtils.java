@@ -13,4 +13,9 @@ public class TimeStampUtils {
         long timeSta = Long.valueOf(timeStamp);
         return dateFormat.format(new Date(timeSta*1000L));
     }
+    public static String getSimpleDateString(String timeStamp){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd ");
+        long timeSta = Long.valueOf(timeStamp);
+        return dateFormat.format(new Date(timeSta*1000L));
+    }
 }

@@ -34,7 +34,7 @@ public class BikeUserInfo {
      */
 
     public RecordBean record;
-    public List<List<Integer>> recent;
+    public List<List<String>> recent;
 
     public static class RecordBean {
         public String id;
@@ -47,4 +47,6 @@ public class BikeUserInfo {
         public String duration;
         public String fee;
     }
+
+
 }

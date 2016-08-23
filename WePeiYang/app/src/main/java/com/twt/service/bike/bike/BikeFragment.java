@@ -90,7 +90,12 @@ public class BikeFragment extends PFragment<BikeFragPresenter> implements BikeVi
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
-        //mAmapView.onCreate(savedInstanceState);
+        // TODO: 2016/8/23 觉得高德地图很烦的话旧注释掉下一句
+        mAmapView.onCreate(savedInstanceState);
+
+        //test
+        mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+
         mAmap = mAmapView.getMap();
         mAmap.addMarkers(mDetailMarkerOptions,!isCameraChanged);
         MyLocationStyle myLocationStyle = new MyLocationStyle();
@@ -238,6 +243,7 @@ public class BikeFragment extends PFragment<BikeFragPresenter> implements BikeVi
     public void setStationDetail(BikeStation stationDetail) {
         mAvailableText.setText("可用车辆" + stationDetail.used + " (含:不佳:" + String.valueOf(stationDetail.used_poor - stationDetail.used_bad) + " 损坏:" + stationDetail.used_bad + ")");
         mEmptyText.setText("可用空位" + stationDetail.free + " (含:不佳:" + String.valueOf(stationDetail.free_poor - stationDetail.free_bad) + " 损坏:" + stationDetail.free_bad + ")");
+//        mAvailableText.setText();
         if (stationDetail.status.equals("0")) {
             mStatusText.setText("offline");
         } else {
