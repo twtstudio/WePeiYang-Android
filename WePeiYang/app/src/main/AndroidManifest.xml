@@ -30,7 +30,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <meta-data android:name="com.amap.api.v2.apikey" android:value="5e05551de412bbf3d449d9c75a152310"/>
+        <meta-data android:name="com.amap.api.v2.apikey" android:value="f2d1429489830cea60924ada2f8ee83a"/>
 
         <activity android:name=".ui.splash.SplashActivity"
             android:theme="@style/SplashTheme">

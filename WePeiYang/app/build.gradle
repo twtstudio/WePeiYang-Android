@@ -9,7 +9,7 @@ android {
         applicationId "com.twt.service"
         minSdkVersion 17
         targetSdkVersion 24
-        versionCode 13
+        versionCode 14
         renderscriptTargetApi 22
         renderscriptSupportModeEnabled true
         versionName "2.0.0"
