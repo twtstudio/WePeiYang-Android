@@ -9,6 +9,8 @@ public class CourseInfo {
 
     private String course_name;
 
+    private int status;
+
     public int getCourse_id() {
         return course_id;
     }
@@ -24,4 +26,13 @@ public class CourseInfo {
     public void setCourse_name(String course_name) {
         this.course_name = course_name;
     }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
 }

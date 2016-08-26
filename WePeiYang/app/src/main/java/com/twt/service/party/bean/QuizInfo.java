@@ -32,6 +32,8 @@ public class QuizInfo {
 
     private List<DataBean> data;
 
+    private String msg;
+
     public int getStatus() {
         return status;
     }
@@ -51,14 +53,14 @@ public class QuizInfo {
     public static class DataBean {
         private String exercise_id;
         private String course_id;
-        private String exercise_type;
+        private int exercise_type;
         private String exercise_content;
         private String exercise_optionA;
         private String exercise_optionB;
         private String exercise_optionC;
         private String exercise_optionD;
         private String exercise_optionE;
-        private String exercise_answer;
+        private int exercise_answer;
         private String exercise_ishidden;
         private String exercise_isdeleted;
         /**
@@ -84,11 +86,11 @@ public class QuizInfo {
             this.course_id = course_id;
         }
 
-        public String getExercise_type() {
+        public int getExercise_type() {
             return exercise_type;
         }
 
-        public void setExercise_type(String exercise_type) {
+        public void setExercise_type(int exercise_type) {
             this.exercise_type = exercise_type;
         }
 
@@ -140,11 +142,11 @@ public class QuizInfo {
             this.exercise_optionE = exercise_optionE;
         }
 
-        public String getExercise_answer() {
+        public int getExercise_answer() {
             return exercise_answer;
         }
 
-        public void setExercise_answer(String exercise_answer) {
+        public void setExercise_answer(int exercise_answer) {
             this.exercise_answer = exercise_answer;
         }
 
@@ -192,5 +194,13 @@ public class QuizInfo {
                 this.pos = pos;
             }
         }
+    }
+
+    public String getMsg() {
+        return msg;
+    }
+
+    public void setMsg(String msg) {
+        this.msg = msg;
     }
 }

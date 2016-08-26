@@ -3,6 +3,7 @@ package com.twt.service.party.api;
 import android.util.Log;
 
 import com.twt.service.party.bean.CourseDetailInfo;
+import com.twt.service.party.bean.QuizInfo;
 import com.twt.service.party.bean.Status;
 import com.twt.service.party.bean.TextDetailInfo;
 import com.twt.service.party.bean.UserInfomation;
@@ -65,6 +66,16 @@ public class ApiClient {
 
     public static void submit(String sno, String title, String content, String type, Callback<Status> callback){
         Call<Status> call = api.submit("api", "fileupload", sno, title, content,type,"submit");
+        call.enqueue(callback);
+    }
+
+    public static void getQuiz(String sno, int courseId, Callback<QuizInfo> callback){
+        Call<QuizInfo> call = api.getQuestion("api","20course_test",sno,courseId);
+        call.enqueue(callback);
+    }
+
+    public static void submitAnswer(String sno, int courseId, int[] rightAnswer, int[] exerciseAnswer, Callback<Status> callback){
+        Call<Status> call = api.submitAnswer("api","20course_test",sno,courseId,rightAnswer,exerciseAnswer,"success");
         call.enqueue(callback);
     }
 }

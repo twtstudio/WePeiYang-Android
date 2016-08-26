@@ -1,6 +1,7 @@
 package com.twt.service.party.api;
 
 import com.twt.service.party.bean.CourseDetailInfo;
+import com.twt.service.party.bean.QuizInfo;
 import com.twt.service.party.bean.Status;
 import com.twt.service.party.bean.TextDetailInfo;
 import com.twt.service.party.bean.UserInfomation;
@@ -39,4 +40,12 @@ public interface Api {
     @FormUrlEncoded
     @POST("party/")
     Call<Status> submit(@Query("page") String page, @Query("do") String doWhat, @Query("sno") String sno, @Field("message_title") String title, @Field("message_content") String content, @Field("file_type") String type, @Field("submit") String submit);
+
+    @GET("party/")
+    Call<QuizInfo> getQuestion(@Query("page") String page, @Query("do") String doWhat, @Query("sno") String sno, @Query("course_id") int courseId);
+
+    @FormUrlEncoded
+    @POST("party/")
+    Call<Status> submitAnswer(@Query("page") String page, @Query("do") String doWhat, @Query("sno") String sno, @Field("course_id") int courseId, @Field("answer") int[] rightAnswer, @Field("exercise_answer") int[] exercise_answer, @Field("submit") String submit);
+
 }

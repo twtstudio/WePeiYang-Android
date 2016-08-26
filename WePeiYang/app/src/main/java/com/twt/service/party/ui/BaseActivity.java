@@ -7,6 +7,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.twt.service.R;
@@ -47,7 +48,13 @@ public abstract class BaseActivity extends AppCompatActivity {
             toolbar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    finish();
+                    onBackPressed();
+                }
+            });
+            toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    return onMenuClickActions(item);
                 }
             });
         }
@@ -56,6 +63,9 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
+    public boolean onMenuClickActions(MenuItem item){
+        return false;
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         if (getMenu() != 0) {

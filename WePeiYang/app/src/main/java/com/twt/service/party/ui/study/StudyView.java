@@ -11,5 +11,6 @@ import java.util.List;
 public interface StudyView {
     void bindCourseData(List<CourseInfo> courseInfos);
     void bindTextData(List<TextInfo> textInfos);
+    void onFailure();
     void toastMsg(String msg);
 }

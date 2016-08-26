@@ -33,6 +33,9 @@ public class Status {
     private List<Score20Info> score_info;
     private List<OtherScoreInfo> data;
 
+    //答题结果使用
+    private int score;
+
     private String msg; //失败原因，若成功不反回message
 
     private String message;
@@ -110,5 +113,15 @@ public class Status {
     public void setTextlist(List<TextInfo> textlist) {
         this.textlist = textlist;
     }
+
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
 
 }

@@ -11,4 +11,5 @@ import java.util.List;
 public interface OnGetCourseCallBack {
     void onGetCourseInfo(List<CourseInfo> courseInfos);
     void onGetTextInfo(List<TextInfo> textInfos);
+    void onGetFailure();
 }
