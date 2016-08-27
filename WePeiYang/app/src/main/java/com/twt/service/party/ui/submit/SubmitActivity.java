@@ -103,11 +103,11 @@ public class SubmitActivity extends BaseActivity {
     }
 
     private void setView(TextView textView, Button button, int startId, int endId,int type_id){
-        if(submitId >= startId && submitId <= endId){
+        if(submitId >= startId && submitId <= endId && !"".equals(submitText)){
             button.setBackgroundResource(R.drawable.shape_button_red);
             textView.setText(submitText);
             clickable[type_id] = true;
-        }else if(submitId > startId){
+        }else if(submitId > startId && !"".equals(submitText)){
             button.setBackgroundResource(R.drawable.shape_button_green);
             textView.setText("已完成");
         }else if(submitId< startId){

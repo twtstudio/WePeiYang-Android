@@ -8,4 +8,6 @@ public interface StudyPresenter {
     void getCourseDetail(int courseId);
     void getText();
     void getTextDetail(int textId);
+    void getQuiz(int courseId);
+    void submitAnswer(int courseId, int[] rightAnswer, int[] exerciseAnswer);
 }

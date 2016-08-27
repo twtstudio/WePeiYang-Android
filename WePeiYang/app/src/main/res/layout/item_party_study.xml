@@ -9,11 +9,21 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="12dp"
-        android:layout_marginRight="12dp"
         android:ellipsize="end"
         android:lines="1"
         android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/tv_study_course_status"
         android:textColor="@color/myTextPrimaryColorBlack"/>
+    <TextView
+        android:id="@+id/tv_study_course_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="12dp"
+        android:layout_alignParentRight="true"
+        android:textColor="@color/myTextPrimaryColorGray"
+        android:visibility="gone"
+        android:layout_centerVertical="true"
+        android:text="未完成"/>
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"

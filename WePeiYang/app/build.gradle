@@ -9,10 +9,10 @@ android {
         applicationId "com.twt.service"
         minSdkVersion 17
         targetSdkVersion 24
-        versionCode 14
+        versionCode 15
         renderscriptTargetApi 22
         renderscriptSupportModeEnabled true
-        versionName "2.0.0"
+        versionName "2.1.0"
         ndk{
             moduleName "Jni"
         }
@@ -89,5 +89,6 @@ dependencies {
     compile 'commons-io:commons-io:2.4'
     compile 'com.nightonke:boommenu:1.0.9'
     compile 'com.github.wooplr:Spotlight:1.2.2'
+    compile 'com.sothree.slidinguppanel:library:3.0.0'
     compile files('libs/AMap3DMap_3.4.0_AMapLocation_2.7.0_20160809.jar')
 }

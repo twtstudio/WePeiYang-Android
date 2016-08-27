@@ -142,6 +142,8 @@
         <activity android:name=".party.ui.notification.NotificationActivity"/>
         <activity android:name=".party.ui.submit.detail.SubmitDetailActivity"/>
         <activity android:name=".party.ui.inquiry.appeal.AppealActivity"/>
+        <activity android:name=".party.ui.study.answer.StudyAnswerActivity"/>
+        <activity android:name=".party.ui.study.answer.StudyResultActivity"/>
 
         <activity android:name=".ui.push.PushActivity"/>
 

@@ -3,6 +3,8 @@ package com.twt.service.party.ui.study;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.twt.service.R;
@@ -10,6 +12,7 @@ import com.twt.service.party.bean.CourseInfo;
 import com.twt.service.party.bean.TextInfo;
 import com.twt.service.party.interactor.StudyInteractorImpl;
 import com.twt.service.party.ui.BaseFragment;
+import com.twt.service.support.ResourceHelper;
 
 import java.util.List;
 
@@ -32,6 +35,8 @@ public class StudyPageFragment extends BaseFragment implements StudyView{
 
     @InjectView(R.id.rv_study)
     RecyclerView recyclerView;
+    @InjectView(R.id.tv_loading)
+    TextView tvLoading;
 
     public static StudyPageFragment newInstance(int page) {
         Bundle args = new Bundle();
@@ -87,12 +92,19 @@ public class StudyPageFragment extends BaseFragment implements StudyView{
 
     @Override
     public void bindCourseData(List<CourseInfo> courseInfos) {
+        tvLoading.setVisibility(View.GONE);
         courseAdapter.addCourse(courseInfos);
     }
 
     @Override
     public void bindTextData(List<TextInfo> textInfos) {
+        tvLoading.setVisibility(View.GONE);
         textAdapter.addText(textInfos);
+    }
+
+    @Override
+    public void onFailure() {
+        tvLoading.setText(ResourceHelper.getString(R.string.toast_network_failed));
     }
 
     @Override
