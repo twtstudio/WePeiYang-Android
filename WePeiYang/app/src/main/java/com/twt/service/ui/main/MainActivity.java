@@ -252,6 +252,12 @@ public class MainActivity extends BaseActivity implements BaseSliderView.OnSlide
                 presenter.loadDataFromNet();
             }
         });
+        srlMain.post(new Runnable() {
+            @Override
+            public void run() {
+                presenter.loadDataFromNet();
+            }
+        });
         checkUpdate(true);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(getResources().getColor(R.color.main_primary));

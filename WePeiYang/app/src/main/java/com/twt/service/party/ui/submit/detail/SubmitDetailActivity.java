@@ -71,8 +71,22 @@ public class SubmitDetailActivity extends BaseActivity implements SubmitDetailVi
         return R.menu.menu_party_yes;
     }
 
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        switch (item.getItemId()){
+//            case R.id.action_submit_yes:
+//                if("".equals(title.getText().toString().trim()) || "".equals(content.getText().toString().trim())){
+//                    Toast.makeText(SubmitDetailActivity.this, "请输入标题和内容", Toast.LENGTH_SHORT).show();
+//                }
+//                else {
+//                    setDialog("确认要" + submitText +"吗？",0);
+//                }
+//        }
+//        return super.onOptionsItemSelected(item);
+//    }
+
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onMenuClickActions(MenuItem item) {
         switch (item.getItemId()){
             case R.id.action_submit_yes:
                 if("".equals(title.getText().toString().trim()) || "".equals(content.getText().toString().trim())){
@@ -82,10 +96,10 @@ public class SubmitDetailActivity extends BaseActivity implements SubmitDetailVi
                     setDialog("确认要" + submitText +"吗？",0);
                 }
         }
-        return super.onOptionsItemSelected(item);
+        return true;
     }
 
-    public static void actionStart(Context context,String type, String submitText){
+    public static void actionStart(Context context, String type, String submitText){
         Intent intent = new Intent(context, SubmitDetailActivity.class);
         intent.putExtra(TYPE,type);
         intent.putExtra(TEXT,submitText);
