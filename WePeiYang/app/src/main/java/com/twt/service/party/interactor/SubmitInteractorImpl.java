@@ -1,5 +1,7 @@
 package com.twt.service.party.interactor;
 
+import android.util.Log;
+
 import com.twt.service.party.api.ApiClient;
 import com.twt.service.party.bean.Status;
 import com.twt.service.party.ui.submit.detail.OnSubmitCallBack;
@@ -19,7 +21,7 @@ public class SubmitInteractorImpl implements SubmitInteractor {
             @Override
             public void onResponse(Call<Status> call, Response<Status> response) {
                 if (response.body().getStatus() == 1){
-                    callBack.onSuccess(response.body().getMessage());
+                    callBack.onSuccess(response.body().getMsg());
                 }else {
                     callBack.onError(response.body().getMsg() );
                 }
