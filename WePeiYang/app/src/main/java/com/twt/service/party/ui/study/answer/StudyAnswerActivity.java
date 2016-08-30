@@ -131,11 +131,14 @@ public class StudyAnswerActivity extends BaseActivity implements StudyAnswerBrid
         if (rightAnswer != null) {
             setDialog("退出后将丢失答题进度，确认退出吗？", 0);
         }
+        else {
+            super.onBackPressed();
+        }
     }
 
     private boolean isFinishAll() {
         if (rightAnswer == null) {
-            return true;
+            return false;
         }
         for (int i = 0; i < exerciseAnswer.length; i++) {
             if (exerciseAnswer[i] == 0) {

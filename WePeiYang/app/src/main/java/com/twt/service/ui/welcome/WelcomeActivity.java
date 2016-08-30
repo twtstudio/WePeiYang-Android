@@ -54,9 +54,10 @@ public class WelcomeActivity extends Activity {
             @Override
             public void run() {
                 Intent intent;
-                if(!PrefUtils.getPreFversion().equals(ApplicationUtils.getVersionName())){
-                    intent = new Intent(WelcomeActivity.this, GuideActivity.class);
-                }else if (PrefUtils.isLogin()) {
+//                if(!PrefUtils.getPreFversion().equals(ApplicationUtils.getVersionName())){
+//                    intent = new Intent(WelcomeActivity.this, GuideActivity.class);
+//                }else
+                if (PrefUtils.isLogin()) {
                     intent = new Intent(WelcomeActivity.this, MainActivity.class);
                 } else {
                     intent = new Intent(WelcomeActivity.this, LoginActivity.class);

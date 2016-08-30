@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.twt.service.R;
 import com.twt.service.interactor.LoginInteractorImpl;
 import com.twt.service.party.ui.home.PartyActivity;
+import com.twt.service.support.PrefUtils;
 import com.twt.service.support.StatusBarHelper;
 import com.twt.service.ui.BaseActivity;
 import com.twt.service.ui.bus.BusActivity;
@@ -65,6 +66,8 @@ public class LoginActivity extends BaseActivity implements LoginView {
             this.nextActivity = temp;
         }
         loginPresenter = new LoginPresenterImpl(this, new LoginInteractorImpl(), nextActivity);
+        PrefUtils.removePrefUserNumber();
+        PrefUtils.removePrefUserRealname();
         btLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

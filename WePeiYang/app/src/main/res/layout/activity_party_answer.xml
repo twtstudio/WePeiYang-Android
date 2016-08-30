@@ -37,6 +37,8 @@
                 android:id="@+id/tv_loading"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginRight="8dp"
+                android:layout_marginLeft="8dp"
                 android:gravity="center"
                 android:text="加载中..." />
         </RelativeLayout>
@@ -102,7 +104,7 @@
                 android:id="@+id/rv_answer"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_centerHorizontal="true"></android.support.v7.widget.RecyclerView>
+                android:layout_centerHorizontal="true"/>
         </RelativeLayout>
     </LinearLayout>
 </com.sothree.slidinguppanel.SlidingUpPanelLayout>
