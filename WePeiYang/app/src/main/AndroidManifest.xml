@@ -54,7 +54,8 @@
         <!-- Login Activity -->
         <activity
             android:name=".ui.login.LoginActivity"
-            android:label="@string/title_activity_login" />
+            android:label="@string/title_activity_login"
+            android:launchMode="singleTask"/>
         <activity
             android:name=".ui.lostfound.post.PostLostFoundActivity"
             android:label="发布信息" />
@@ -82,7 +83,8 @@
             android:label="账号设置" />
         <activity
             android:name=".ui.bind.BindActivity"
-            android:label="办公网绑定" />
+            android:label="办公网绑定"
+            android:launchMode="singleTask"/>
         <activity
             android:name=".ui.about.AboutActivity"
             android:label="About" />
