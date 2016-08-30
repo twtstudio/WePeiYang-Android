@@ -208,6 +208,6 @@ public class PrefUtils {
     }
 
     public static void removeBikeIsBindState(){
-        getDefaultSharedPreferences().edit().remove(PREF_BIKE_IS_BIND);
+        getDefaultSharedPreferences().edit().remove(PREF_BIKE_IS_BIND).commit();
     }
 }

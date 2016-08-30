@@ -62,6 +62,7 @@ public class BikeAuthActivity extends PActivity<BikeAuthPresenter> implements Bi
             Intent intent = new Intent(BikeAuthActivity.this,BikeCardActivity.class);
             intent.putExtra("idnum",mIdNum);
             startActivity(intent);
+            dismissLoadingDialog();
             finish();
         });
     }
@@ -78,14 +79,15 @@ public class BikeAuthActivity extends PActivity<BikeAuthPresenter> implements Bi
             PrefUtils.setBikeIsBindState(true);
             BikeActivity.actionStart(this);
             finish();
+        }else {
+            dismissLoadingDialog();
+            new MaterialDialog.Builder(this)
+                    .title("注意")
+                    .content("在您进行新办卡、修改卡信息、换卡等操作后，第二天才能正常使用本系统")
+                    .positiveText("OK")
+                    .onPositive((dialog, which) -> finish())
+                    .negativeText("继续绑定")
+                    .show();
         }
-        dismissLoadingDialog();
-        new MaterialDialog.Builder(this)
-                .title("注意")
-                .content("在您进行新办卡、修改卡信息、换卡等操作后，第二天才能正常使用本系统")
-                .positiveText("OK")
-                .onPositive((dialog, which) -> finish())
-                .negativeText("继续绑定")
-                .show();
     }
 }
