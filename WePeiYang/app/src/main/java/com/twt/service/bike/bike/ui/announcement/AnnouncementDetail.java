@@ -58,9 +58,12 @@ public class AnnouncementDetail extends BaseActivity {
 //        mWebView.getSettings().setUseWideViewPort(true);
         mWebView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         Intent intent = getIntent();
-        String s = intent.getStringExtra("detail");
+        String content = intent.getStringExtra("detail");
         String title = intent.getStringExtra("title");
-        setTitle(title);
+        String time = intent.getStringExtra("time");
+        String s = "<!DOCTYPE html> \n <html> \n <head> \n <meta charset=\"utf-8\"> \n <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\"> \n <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"> \n <link href=\"bootstrap.css\" rel=\"stylesheet\"> \n </head> \n <body> \n <div class=\"container\"> \n <div class=\"row\"> \n <div class=\"col-sm-12\" style=\"font-size: 16px;\"> \n <h3>"+title+"</h3> \n <br> \n"+content+"\n <br><br> \n </div> \n <div class=\"col-sm-12\" style=\"color: #666666; font-size: 16px;\">"+time+"</div> \n </div></div> \n <script src=\"bootstrap.min.js\"></script> \n <script src=\"jquery.min.js\"></script> \n <script src=\"bridge.js\"></script> \n </body> \n </html>";
+        setTitle("通知详情");
+
         mWebView.loadData(s,"text/html;charset=utf-8",null);
     }
 }

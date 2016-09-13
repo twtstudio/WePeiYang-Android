@@ -100,7 +100,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     public void bindData(ClassTable classTable) {
-        currentWeek = classTable.data.week;
+        currentWeek = classTable.data.week +1;
         dataSet.clear();
         for (ClassTable.Data.Course course: classTable.data.data){
             dataSet.add(course);
