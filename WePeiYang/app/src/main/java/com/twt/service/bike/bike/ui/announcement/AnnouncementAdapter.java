@@ -77,6 +77,7 @@ public class AnnouncementAdapter extends BaseAdapter<BikeAnnouncement>{
                     Intent intent = new Intent(mContext,AnnouncementDetail.class);
                     intent.putExtra("detail",item.content);
                     intent.putExtra("title",item.title);
+                    intent.putExtra("time",TimeStampUtils.getSimpleDateString(item.timestamp));
                     mContext.startActivity(intent);
                 }
             });

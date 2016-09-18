@@ -99,7 +99,7 @@ public class HomeFragment extends PFragment<HomePresenter> implements HomeViewCo
     }
 
     @Override
-    public void setBikeUserInfo(BikeUserInfo bikeUserInfo) {
+    public void setBikeUserInfo(BikeUserInfo bikeUserInfo)  {
         mSrlHome.setRefreshing(false);
 
         if (bikeUserInfo.status == 0) {

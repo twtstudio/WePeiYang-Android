@@ -5,6 +5,7 @@ package com.twt.service.bike.api;
 import com.twt.service.bike.model.BikeAnnouncement;
 import com.twt.service.bike.model.BikeAuth;
 import com.twt.service.bike.model.BikeCard;
+import com.twt.service.bike.model.BikeRecord;
 import com.twt.service.bike.model.BikeStation;
 import com.twt.service.bike.model.BikeUserInfo;
 
@@ -50,4 +51,7 @@ public interface BikeApi {
 
     @GET("announcement")
     Observable<BikeApiResponse<List<BikeAnnouncement>>> getBikeAnnouncement();
+
+    @POST("user/record")
+    Observable<BikeApiResponse<List<BikeRecord>>> getBikeRecord(String month);
 }
