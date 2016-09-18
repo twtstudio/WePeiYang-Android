@@ -157,6 +157,7 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
 //            tvScheduleTerm.setText(currentTerm + "学期课表");
         }else {
 //            tvScheduleTerm.setText("现在是假期:)");
+            tvWeek.setText("现在是假期:)");
         }
         switch (currentDay) {
             case 1:
