@@ -77,6 +77,8 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
     private int griditemWidth;
     private int currentDay;
 
+    private int[] classColors;
+
     public static void actionStart(Context context) {
         Intent intent = new Intent(context, ScheduleActivity.class);
         context.startActivity(intent);
@@ -95,7 +97,6 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
         // TODO: 2016/9/11 设置当前周
         currentWeek = 4  ;
         tvWeek.setText("第" + currentWeek + "周");
-
 
         presenter = new SchedulePresenterImpl(this, new ScheduleInteractorImpl(), this);
 
@@ -185,8 +186,8 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
                 tvSaturday.setBackgroundColor(ContextCompat.getColor(this, R.color.divider_color));
                 break;
         }
-        initSchedule(classTable);
         currentWeek = classTable.data.week;
+        initSchedule(classTable);
         tvWeek.setText("第" + currentWeek + "周");
     }
 
@@ -197,6 +198,9 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
             textView.setText(i+1+"");
             textView.setWidth(griditemWidth);
             textView.setHeight(griditemWidth*2);
+            textView.setGravity(Gravity.CENTER);
+            textView.setTextColor(ResourceHelper.getColor(R.color.myTextPrimaryColorGray));
+            textView.setBackgroundResource(R.color.myWindowBackgroundGray);
 
             GridLayout.Spec rowSpec = GridLayout.spec(i);
             GridLayout.Spec columnSpec = GridLayout.spec(0);
@@ -207,9 +211,25 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
 
         }
         //绘制课程信息
+        int[][] hasclass = new int[7][12]; //0表示无课程， 1表示有课程但是本周不上, 2表示有课程且本周上课
+        int i = 0;// 用来记录classColors用到第几个了。
+        if (classColors == null){
+            classColors = new int[]{R.color.schedule_green,
+                    R.color.schedule_orange,
+                    R.color.schedule_blue,
+                    R.color.schedule_green2,
+                    R.color.schedule_pink,
+                    R.color.schedule_blue2,
+                    R.color.schedule_green3,
+                    R.color.schedule_purple,
+                    R.color.schedule_red,
+                    R.color.schedule_green4,
+                    R.color.schedule_purple2};
+        }
         for (ClassTable.Data.Course course:classTable.data.data) {
             int startWeek = Integer.parseInt(course.week.start);
             int endWeek = Integer.parseInt(course.week.end);
+
             for (ClassTable.Data.Course.Arrange arrange: course.arrange) {
                 int startTime = Integer.parseInt(arrange.start);
                 int endTime = Integer.parseInt(arrange.end);
@@ -217,29 +237,33 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
                 int length = endTime - startTime + 1;
 
                 LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                CardView v = (CardView)inflater.inflate(R.layout.item_schedule,null,false);
+                View v = inflater.inflate(R.layout.item_schedule,null,false);
+                CardView cv = (CardView)v.findViewById(R.id.cv_s);
                 TextView tv = (TextView)v.findViewById(R.id.tv_schedule_class);
                 tv.setText(course.coursename + "@" + arrange.room);
-                tv.setWidth(griditemWidth*2);
-                tv.setHeight(griditemWidth*2*length);
+                tv.setWidth(griditemWidth*2 - 8);
+                tv.setHeight(griditemWidth*2*length - 8);
                 tv.setTextSize(13);
+
+                if (course.coursecolor == 0){
+                    if (i == 11){
+                        i = 0;
+                    }
+                    course.coursecolor = ResourceHelper.getColor(classColors[i]);
+                    i++;
+                }
 
                 if (currentWeek >= startWeek && currentWeek <= endWeek &&
                         arrange.week.equals("单双周") ||
                         (arrange.week.equals("单周") && currentWeek % 2 == 1) ||
                         (arrange.week.equals("双周") && currentWeek % 2 == 0)){
-                    if (course.coursecolor == 0){
-                        Random random = new Random();
-                        int ranColor = 0xff000000 | random.nextInt(0x00ffffff);
-                        course.coursecolor = ranColor;
-                    }
-                    v.setCardBackgroundColor(course.coursecolor);
+                    cv.setCardBackgroundColor(course.coursecolor);
                 }else {
-                    v.setCardBackgroundColor(ResourceHelper.getColor(R.color.myWindowBackgroundGray));
-                    tv.setTextColor(ResourceHelper.getColor(R.color.myDivider));
+                    cv.setCardBackgroundColor(ResourceHelper.getColor(R.color.myWindowBackgroundGray));
+                    tv.setTextColor(ResourceHelper.getColor(R.color.schedule_gray));
                 }
+                cv.getCardBackgroundColor().withAlpha(90);
 
-                v.getBackground().setAlpha(90);
                 v.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -250,9 +274,8 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
                 GridLayout.Spec rowSpec = GridLayout.spec(startTime - 1, length);
                 GridLayout.Spec columnSpec = GridLayout.spec(day+1, 1);
                 GridLayout.LayoutParams params = new GridLayout.LayoutParams(rowSpec,columnSpec);
-                params.setMargins(4,4,4,4);
                 params.setGravity(Gravity.CENTER_HORIZONTAL);
-
+                params.setMargins(4,4,4,4);
                 glSchedule.addView(v, params);
             }
         }

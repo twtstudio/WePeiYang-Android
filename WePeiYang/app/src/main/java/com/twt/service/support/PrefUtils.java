@@ -5,6 +5,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.twt.service.WePeiYangApp;
+import com.twt.service.ui.schedule.ScheduleView;
 
 /**
  * Created by Rex on 2015/8/3.
@@ -29,6 +30,7 @@ public class PrefUtils {
     private static final String PREF_BIKE_CARD_ID = "bike_id";
     private static final String PREF_BIKE_IS_BIND = "bike_is_bind";
 
+    private static final String PREF_SCHEDULE_START_DATE = "schedule_start_date";
 
     private static SharedPreferences getDefaultSharedPreferences() {
         return PreferenceManager.getDefaultSharedPreferences(WePeiYangApp.getContext());
@@ -209,5 +211,17 @@ public class PrefUtils {
 
     public static void removeBikeIsBindState(){
         getDefaultSharedPreferences().edit().remove(PREF_BIKE_IS_BIND).commit();
+    }
+
+    public static void setScheduleStartDate(String date){
+        getDefaultSharedPreferences().edit().putString(PREF_SCHEDULE_START_DATE,date).commit();
+    }
+
+    public static String getScheduleStartDate(){
+        return getDefaultSharedPreferences().getString(PREF_SCHEDULE_START_DATE,"");
+    }
+
+    public static void removeScheduleStartDate(){
+        getDefaultSharedPreferences().edit().remove(PREF_SCHEDULE_START_DATE).commit();
     }
 }
