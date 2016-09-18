@@ -7,6 +7,9 @@ import android.support.v7.widget.Toolbar;
 
 import com.twt.service.R;
 import com.twt.service.bike.common.ui.PActivity;
+import com.twt.service.bike.model.BikeRecord;
+
+import java.util.List;
 
 import butterknife.InjectView;
 
@@ -17,8 +20,9 @@ public class RecordActivity extends PActivity<RecordPresenter> implements Record
 
     @InjectView(R.id.record_rcv)
     RecyclerView mRecyclerView;
-    @InjectView(R.id.record_rcv)
+    @InjectView(R.id.bike_record_toolbar)
     Toolbar mToolbar;
+    RecordAdapter mAdapter;
 
     @Override
     protected RecordPresenter getPresenter() {
@@ -42,11 +46,20 @@ public class RecordActivity extends PActivity<RecordPresenter> implements Record
 
     @Override
     protected void initView() {
+        mAdapter = new RecordAdapter(this);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView.setAdapter(mAdapter);
+        mPresenter.getCurrentRecordList();
     }
 
     @Override
     protected Toolbar getToolbar() {
         return mToolbar;
+    }
+
+    @Override
+    public void refreshItems(List<BikeRecord> recordList) {
+        mAdapter.refreshItems(recordList);
+        mAdapter.hideFooter();
     }
 }

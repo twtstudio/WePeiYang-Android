@@ -32,7 +32,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 /**
- * Created by root on 16-8-20.
+ * Created by jcy on 16-8-20.
  */
 public class BikeActivity extends AppCompatActivity {
     @InjectView(R.id.toolbar_main_act)

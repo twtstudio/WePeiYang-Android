@@ -5,7 +5,10 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
@@ -20,6 +23,7 @@ import com.github.mikephil.charting.utils.ValueFormatter;
 import com.squareup.picasso.Picasso;
 import com.twt.service.R;
 import com.twt.service.bike.bike.bikeAuth.BikeAuthActivity;
+import com.twt.service.bike.bike.ui.record.RecordActivity;
 import com.twt.service.bike.common.ui.PFragment;
 import com.twt.service.bike.model.BikeUserInfo;
 import com.twt.service.bike.utils.BikeStationUtils;
@@ -55,6 +59,8 @@ public class HomeFragment extends PFragment<HomePresenter> implements HomeViewCo
     TextView mNameText;
     @InjectView(R.id.bike_user_balance)
     TextView mBalanceText;
+    @InjectView(R.id.bike_query_record)
+    LinearLayout mQueryRecordLayout;
 
     ArrayList<String> xVals = new ArrayList<>();
     ArrayList<Integer> colors = new ArrayList<>();
@@ -62,6 +68,7 @@ public class HomeFragment extends PFragment<HomePresenter> implements HomeViewCo
     private LineDataSet mSet;
 
     private List<List<String>> mRecentData;
+    private static final String TAG = "HomeFragment";
 
     @Override
     protected HomePresenter getPresenter() {
@@ -94,7 +101,14 @@ public class HomeFragment extends PFragment<HomePresenter> implements HomeViewCo
     @Override
     protected void initView() {
         //Picasso.with(getContext()).load(R.drawable.bulr_2).into(mBackImage);
-
+        mQueryRecordLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "onClick: ");
+                Intent intent = new Intent(getActivity(), RecordActivity.class);
+                startActivity(intent);
+            }
+        });
 
     }
 
@@ -127,7 +141,7 @@ public class HomeFragment extends PFragment<HomePresenter> implements HomeViewCo
             mBalanceText.setText("余额:" + bikeUserInfo.balance);
 
 
-            mLineChart.setLogEnabled(true);
+            mLineChart.setLogEnabled(false);
             mLineChart.setNoDataText("最近没有骑行数据");
             mLineChart.setTouchEnabled(false);
             mLineChart.setDrawGridBackground(false);
@@ -146,7 +160,7 @@ public class HomeFragment extends PFragment<HomePresenter> implements HomeViewCo
             String[] names = {"最近一周骑行时间 (min)"};
             mLineChart.getLegend().setCustom(color, names);
             mLineChart.getLegend().setEnabled(true);
-            mLineChart.animateY(2000, Easing.EasingOption.EaseInExpo);
+            mLineChart.animateY(1500, Easing.EasingOption.EaseInExpo);
 
             xVals.clear();
             yVals.clear();

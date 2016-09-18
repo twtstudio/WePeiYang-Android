@@ -93,7 +93,7 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
         Calendar calendar = Calendar.getInstance();
         currentDay = calendar.get(Calendar.DAY_OF_WEEK);
         // TODO: 2016/9/11 设置当前周
-        currentWeek = 1;
+        currentWeek = 4  ;
         tvWeek.setText("第" + currentWeek + "周");
 
 
@@ -152,6 +152,9 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
 
     @Override
     public void bindData(ClassTable classTable) {
+        //修复初始情况的课程不可用bug,
+        changeWeek(String.valueOf(classTable.data.week));
+
         if (classTable.data.term.length() > 1) {
             currentTerm = classTable.data.term.substring(0, classTable.data.term.length() - 1);
 //            tvScheduleTerm.setText(currentTerm + "学期课表");

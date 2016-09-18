@@ -91,7 +91,7 @@ public class BikeFragment extends PFragment<BikeFragPresenter> implements BikeVi
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
         // TODO: 2016/8/23 觉得高德地图很烦的话旧注释掉下一句
-        mAmapView.onCreate(savedInstanceState);
+        //mAmapView.onCreate(savedInstanceState);
 
         //test
         //mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
@@ -129,7 +129,7 @@ public class BikeFragment extends PFragment<BikeFragPresenter> implements BikeVi
     public void onLocationChanged(AMapLocation aMapLocation) {
         if (mListener != null && aMapLocation != null) {
             if (aMapLocation.getErrorCode() == 0) {
-                System.out.println(aMapLocation.getLatitude());
+                //System.out.println(aMapLocation.getLatitude());
                 mListener.onLocationChanged(aMapLocation);
                 if (!isCameraChanged){
                     CameraUpdate update=CameraUpdateFactory.zoomTo(17.685846f);

@@ -160,6 +160,7 @@
         <service android:name="com.amap.api.location.APSService"/>
 
         <activity android:name=".ui.tools.ToolsActivity"/>
+        <activity android:name=".bike.bike.ui.record.RecordActivity"/>
     </application>
 
 </manifest>

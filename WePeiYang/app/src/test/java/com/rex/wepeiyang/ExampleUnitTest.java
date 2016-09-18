@@ -2,6 +2,7 @@ package com.rex.wepeiyang;
 
 import com.twt.service.api.RequestParams;
 import com.twt.service.api.Sign;
+import com.twt.service.bike.utils.TimeStampUtils;
 
 import org.junit.Test;
 
@@ -18,4 +19,9 @@ public class ExampleUnitTest {
         assertEquals(4, 2 + 2);
     }
 
+    @Test
+    public void getTime(){
+        String s = TimeStampUtils.getSimpleMonthString(String.valueOf(System.currentTimeMillis()));
+        System.out.println(s);
+    }
 }

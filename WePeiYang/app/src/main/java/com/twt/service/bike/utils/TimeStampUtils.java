@@ -18,4 +18,9 @@ public class TimeStampUtils {
         long timeSta = Long.valueOf(timeStamp);
         return dateFormat.format(new Date(timeSta*1000L));
     }
+    public static String getSimpleMonthString(String curmills){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMM");
+        long timeSta = Long.valueOf(curmills);
+        return dateFormat.format(timeSta);
+    }
 }

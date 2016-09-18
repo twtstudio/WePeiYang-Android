@@ -7,6 +7,7 @@ import com.twt.service.bike.api.BikeApiSubscriber;
 import com.twt.service.bike.api.OnNextListener;
 import com.twt.service.bike.common.Presenter;
 import com.twt.service.bike.model.BikeRecord;
+import com.twt.service.bike.utils.TimeStampUtils;
 
 import java.util.List;
 
@@ -21,14 +22,15 @@ public class RecordPresenter extends Presenter{
         mController = recordViewController;
     }
 
-    public void getRecordList(String time){
+    public void getCurrentRecordList(){
+        String time = TimeStampUtils.getSimpleMonthString(String.valueOf(System.currentTimeMillis()));
         BikeApiClient.getInstance().getBikeRecord(mContext,new BikeApiSubscriber(mContext,mOnNextListener),time);
     }
 
     private OnNextListener<List<BikeRecord>> mOnNextListener = new OnNextListener<List<BikeRecord>>() {
         @Override
         public void onNext(List<BikeRecord> bikeRecords) {
-
+            mController.refreshItems(bikeRecords);
         }
     };
 }

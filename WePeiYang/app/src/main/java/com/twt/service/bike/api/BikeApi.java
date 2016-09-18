@@ -52,6 +52,7 @@ public interface BikeApi {
     @GET("announcement")
     Observable<BikeApiResponse<List<BikeAnnouncement>>> getBikeAnnouncement();
 
+    @FormUrlEncoded
     @POST("user/record")
-    Observable<BikeApiResponse<List<BikeRecord>>> getBikeRecord(String month);
+    Observable<BikeApiResponse<List<BikeRecord>>> getBikeRecord(@Field("month") String month);
 }

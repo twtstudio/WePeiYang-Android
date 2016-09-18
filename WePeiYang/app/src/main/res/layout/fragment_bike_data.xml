@@ -1,26 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/srl_home"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/bike_background">
+                                              xmlns:app="http://schemas.android.com/apk/res-auto"
+                                              android:id="@+id/srl_home"
+                                              android:layout_width="match_parent"
+                                              android:layout_height="match_parent"
+                                              android:background="@color/bike_background">
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
 
-        <com.github.mikephil.charting.charts.LineChart
-            android:id="@+id/bike_data_chart"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_margin="16dp"
-            android:layout_marginLeft="12dp"
-            android:layout_marginRight="12dp" />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/bike_data_chart"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_margin="16dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -38,8 +39,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
+                        android:tint="#999"
                         android:layout_marginLeft="15dp"
-                        android:src="@drawable/ic_account_circle_black_24dp" />
+                        android:src="@drawable/ic_account_circle_black_24dp"/>
 
                     <TextView
                         android:id="@+id/bike_user_name"
@@ -49,7 +51,7 @@
                         android:layout_marginLeft="10dp"
                         android:gravity="center_vertical"
                         android:text="用户名：么么哒"
-                        android:textSize="16sp" />
+                        android:textSize="16sp"/>
                 </LinearLayout>
 
 
@@ -64,8 +66,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
+                        android:tint="#999"
                         android:layout_marginLeft="15dp"
-                        android:src="@drawable/ic_account_balance_wallet_black_24dp" />
+                        android:src="@drawable/ic_account_balance_wallet_black_24dp"/>
 
                     <TextView
                         android:id="@+id/bike_user_balance"
@@ -75,7 +78,7 @@
                         android:layout_marginLeft="10dp"
                         android:gravity="center_vertical"
                         android:text="余额：9.40元"
-                        android:textSize="16sp" />
+                        android:textSize="16sp"/>
                 </LinearLayout>
 
 
@@ -92,7 +95,7 @@
                         android:layout_margin="15dp"
                         android:gravity="start"
                         android:text="最近一次骑行"
-                        android:textSize="20dp" />
+                        android:textSize="20dp"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -116,9 +119,11 @@
                                 android:orientation="horizontal">
 
                                 <ImageView
-                                    android:layout_width="25dp"
-                                    android:layout_height="25dp"
-                                    android:src="@drawable/ic_location_on_black_24dp" />
+                                    android:layout_width="14dp"
+                                    android:layout_height="14dp"
+                                    android:layout_gravity="center"
+                                    android:tint="#aaa"
+                                    android:src="@drawable/ic_location_on_black_24dp"/>
 
                                 <TextView
                                     android:id="@+id/leave_station"
@@ -126,18 +131,21 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="10dp"
                                     android:text="33楼北侧1-2号桩"
-                                    android:textSize="16sp" />
+                                    android:textSize="16sp"/>
                             </LinearLayout>
 
                             <LinearLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp">
 
                                 <ImageView
                                     android:id="@+id/imageView"
-                                    android:layout_width="25dp"
-                                    android:layout_height="25dp"
-                                    android:src="@drawable/ic_access_time_black_24dp" />
+                                    android:layout_width="14dp"
+                                    android:layout_height="14dp"
+                                    android:layout_gravity="center"
+                                    android:tint="#aaa"
+                                    android:src="@drawable/ic_access_time_black_24dp"/>
 
                                 <TextView
                                     android:id="@+id/leave_time"
@@ -145,7 +153,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="10dp"
                                     android:text="2016/7/24 9:4:4"
-                                    android:textSize="16sp" />
+                                    android:textSize="16sp"/>
                             </LinearLayout>
                         </LinearLayout>
                     </LinearLayout>
@@ -153,7 +161,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="15dp"
+                        android:layout_marginTop="14dp"
                         android:orientation="horizontal">
 
                         <LinearLayout
@@ -168,9 +176,11 @@
                                 android:orientation="horizontal">
 
                                 <ImageView
-                                    android:layout_width="25dp"
-                                    android:layout_height="25dp"
-                                    android:src="@drawable/ic_location_on_black_24dp" />
+                                    android:layout_width="14dp"
+                                    android:layout_height="14dp"
+                                    android:layout_gravity="center"
+                                    android:tint="#aaa"
+                                    android:src="@drawable/ic_location_on_black_24dp"/>
 
                                 <TextView
                                     android:id="@+id/arr_station"
@@ -178,17 +188,20 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="10dp"
                                     android:text="33楼北侧1-2号桩"
-                                    android:textSize="16sp" />
+                                    android:textSize="16sp"/>
                             </LinearLayout>
 
                             <LinearLayout
+                                android:layout_marginTop="10dp"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content">
 
                                 <ImageView
-                                    android:layout_width="25dp"
-                                    android:layout_height="25dp"
-                                    android:src="@drawable/ic_access_time_black_24dp" />
+                                    android:layout_width="14dp"
+                                    android:layout_height="14dp"
+                                    android:layout_gravity="center"
+                                    android:tint="#aaa"
+                                    android:src="@drawable/ic_access_time_black_24dp"/>
 
                                 <TextView
                                     android:id="@+id/arr_time"
@@ -196,7 +209,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="10dp"
                                     android:text="2016/7/24 9:4:4"
-                                    android:textSize="16sp" />
+                                    android:textSize="16sp"/>
                             </LinearLayout>
                         </LinearLayout>
                     </LinearLayout>
@@ -205,16 +218,17 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="14dp"
                         android:orientation="horizontal">
 
 
                         <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="14dp"
+                            android:layout_height="14dp"
                             android:layout_gravity="center"
                             android:layout_marginLeft="15dp"
-                            android:src="@drawable/ic_attach_money_black_18dp" />
+                            android:tint="#aaa"
+                            android:src="@drawable/ic_attach_money_black_18dp"/>
 
                         <TextView
                             android:id="@+id/bike_fee"
@@ -223,11 +237,38 @@
                             android:layout_gravity="center_vertical"
                             android:layout_marginLeft="10dp"
                             android:text="本次:0.00元"
-                            android:textSize="16sp" />
+                            android:textSize="16sp"/>
                     </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/bike_query_record"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="20dp"
+                    android:background="@color/bike_crad_background"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_gravity="center_vertical"
+                        android:tint="#999"
+                        android:layout_marginLeft="15dp"
+                        android:src="@drawable/bike_time"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="10dp"
+                        android:gravity="center_vertical"
+                        android:text="点击查询本月历史记录"
+                        android:textSize="16sp"/>
                 </LinearLayout>
             </LinearLayout>
 
-    </LinearLayout>
+        </LinearLayout>
     </ScrollView>
 </android.support.v4.widget.SwipeRefreshLayout>
