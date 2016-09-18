@@ -28,6 +28,7 @@ public class ClassTable {
             public String credit;//学分
             public String teacher;//授课教师
             public List<Arrange> arrange;
+            public int coursecolor;//课程表的颜色
 
             public class Arrange {
                 public String week;//单双周

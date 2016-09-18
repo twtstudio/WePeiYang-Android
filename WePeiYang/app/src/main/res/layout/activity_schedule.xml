@@ -1,17 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:background="@android:color/white"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:background="@android:color/white"
+              android:orientation="vertical">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/schedule_primary_color">
 
-        <include layout="@layout/app_toolbar" />
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="?attr/actionBarSize"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>
 
     <FrameLayout
@@ -21,7 +30,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
             <LinearLayout
@@ -35,23 +44,23 @@
                     android:layout_height="1dp"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
-                    android:background="@color/schedule_primary_color" />
+                    android:background="@color/schedule_primary_color"/>
 
                 <TextView
-                    android:id="@+id/tv_schedule_term"
+                    android:id="@+id/tv_week"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:gravity="center"
                     android:textColor="@color/schedule_primary_color"
-                    android:textSize="24sp" />
+                    android:textSize="24sp"/>
 
                 <View
                     android:layout_width="0dp"
                     android:layout_height="1dp"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
-                    android:background="@color/schedule_primary_color" />
+                    android:background="@color/schedule_primary_color"/>
 
             </LinearLayout>
 
@@ -61,105 +70,113 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:paddingTop="8dp"
-                    android:paddingBottom="8dp"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
+                    android:paddingBottom="8dp"
+                    android:paddingTop="8dp"
                     android:textColor="@color/schedule_primary_color"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"/>
 
                 <TextView
-                    android:paddingTop="8dp"
-                    android:paddingBottom="8dp"
                     android:id="@+id/tv_monday"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
                     android:gravity="center"
+                    android:paddingBottom="8dp"
+                    android:paddingTop="8dp"
                     android:text="@string/monday"
                     android:textColor="@color/schedule_primary_color"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"/>
 
                 <TextView
-                    android:paddingTop="8dp"
-                    android:paddingBottom="8dp"
                     android:id="@+id/tv_tuesday"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
                     android:gravity="center"
+                    android:paddingBottom="8dp"
+                    android:paddingTop="8dp"
                     android:text="@string/tuesday"
                     android:textColor="@color/schedule_primary_color"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"/>
 
                 <TextView
-                    android:paddingTop="8dp"
-                    android:paddingBottom="8dp"
                     android:id="@+id/tv_wendesday"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
                     android:gravity="center"
+                    android:paddingBottom="8dp"
+                    android:paddingTop="8dp"
                     android:text="@string/wendesday"
                     android:textColor="@color/schedule_primary_color"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"/>
 
                 <TextView
-                    android:paddingTop="8dp"
-                    android:paddingBottom="8dp"
                     android:id="@+id/tv_thursday"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
                     android:gravity="center"
+                    android:paddingBottom="8dp"
+                    android:paddingTop="8dp"
                     android:text="@string/thursday"
                     android:textColor="@color/schedule_primary_color"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"/>
 
                 <TextView
-                    android:paddingTop="8dp"
-                    android:paddingBottom="8dp"
                     android:id="@+id/tv_friday"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
                     android:gravity="center"
+                    android:paddingBottom="8dp"
+                    android:paddingTop="8dp"
                     android:text="@string/friday"
                     android:textColor="@color/schedule_primary_color"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"/>
 
                 <TextView
-                    android:paddingTop="8dp"
-                    android:paddingBottom="8dp"
                     android:id="@+id/tv_saturday"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
                     android:gravity="center"
+                    android:paddingBottom="8dp"
+                    android:paddingTop="8dp"
                     android:text="@string/saturday"
                     android:textColor="@color/schedule_primary_color"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"/>
 
                 <TextView
-                    android:paddingTop="8dp"
-                    android:paddingBottom="8dp"
                     android:id="@+id/tv_sunday"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
                     android:gravity="center"
+                    android:paddingBottom="8dp"
+                    android:paddingTop="8dp"
                     android:text="@string/sunday"
                     android:textColor="@color/schedule_primary_color"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"/>
 
             </LinearLayout>
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_schedule"
+            <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="match_parent">
+
+                <GridLayout
+                    android:id="@+id/gl_schedule"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:columnCount="8">
+                </GridLayout>
+            </ScrollView>
+
         </LinearLayout>
 
         <ProgressBar
@@ -167,6 +184,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:visibility="gone" />
+            android:visibility="gone"/>
     </FrameLayout>
 </LinearLayout>
