@@ -5,6 +5,7 @@
               android:layout_height="match_parent"
               xmlns:app="http://schemas.android.com/apk/res-auto"
               android:background="@android:color/white"
+              android:id="@+id/schedule_parent_layout"
               android:orientation="vertical">
 
     <android.support.design.widget.AppBarLayout
@@ -22,10 +23,12 @@
 
         </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>
-
+<FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
         android:layout_weight="1">
 
         <LinearLayout
@@ -186,4 +189,10 @@
             android:layout_gravity="center"
             android:visibility="gone"/>
     </FrameLayout>
+    <FrameLayout
+        android:background="@color/transparent"
+        android:id="@+id/schedule_back_frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+</FrameLayout>
 </LinearLayout>

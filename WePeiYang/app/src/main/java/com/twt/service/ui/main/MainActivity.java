@@ -603,7 +603,8 @@ public class MainActivity extends BaseActivity implements BaseSliderView.OnSlide
         FIR.checkForUpdateInFIR(jniUtils.getFirApiToken(), new VersionCheckCallback() {
             @Override
             public void onSuccess(String s) {
-                if (s != null) {
+                //避免json解析的崩溃
+                if (s != null&&!s.startsWith("<!DOCTYPE html>")) {
                     Update update = new Gson().fromJson(s, Update.class);
                     PackageInfo packageInfo = null;
                     try {

@@ -1,12 +1,18 @@
 package com.twt.service.ui.schedule;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.annotation.TargetApi;
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.util.Pair;
 import android.support.v4.widget.PopupWindowCompat;
 import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.CardView;
@@ -18,8 +24,10 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.FrameLayout;
 import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -71,6 +79,12 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
     TextView tvWeek;
     @InjectView(R.id.gl_schedule)
     GridLayout glSchedule;
+    //test animation
+    @InjectView(R.id.schedule_parent_layout)
+    LinearLayout mParentLayout;
+    @InjectView(R.id.schedule_back_frame)
+    FrameLayout mBackFrame;
+
     private SchedulePresenterImpl presenter;
     private String currentTerm;//当前学期
     private int currentWeek;// 当前周
@@ -95,7 +109,7 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
         Calendar calendar = Calendar.getInstance();
         currentDay = calendar.get(Calendar.DAY_OF_WEEK);
         // TODO: 2016/9/11 设置当前周
-        currentWeek = 4  ;
+        currentWeek = 5  ;
         tvWeek.setText("第" + currentWeek + "周");
 
         presenter = new SchedulePresenterImpl(this, new ScheduleInteractorImpl(), this);
@@ -154,7 +168,7 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
     @Override
     public void bindData(ClassTable classTable) {
         //修复初始情况的课程不可用bug,
-        changeWeek(String.valueOf(classTable.data.week));
+        //changeWeek(String.valueOf(classTable.data.week));
 
         if (classTable.data.term.length() > 1) {
             currentTerm = classTable.data.term.substring(0, classTable.data.term.length() - 1);
@@ -186,9 +200,9 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
                 tvSaturday.setBackgroundColor(ContextCompat.getColor(this, R.color.divider_color));
                 break;
         }
-        currentWeek = classTable.data.week;
+        //currentWeek = classTable.data.week;
         initSchedule(classTable);
-        tvWeek.setText("第" + currentWeek + "周");
+        //tvWeek.setText("第" + currentWeek + "周");
     }
 
     private void initSchedule(ClassTable classTable){
@@ -240,6 +254,7 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
                 View v = inflater.inflate(R.layout.item_schedule,null,false);
                 CardView cv = (CardView)v.findViewById(R.id.cv_s);
                 TextView tv = (TextView)v.findViewById(R.id.tv_schedule_class);
+                FrameLayout fl = (FrameLayout) v.findViewById(R.id.course_back_frame);
                 tv.setText(course.coursename + "@" + arrange.room);
                 tv.setWidth(griditemWidth*2 - 8);
                 tv.setHeight(griditemWidth*2*length - 8);
@@ -257,17 +272,18 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
                         arrange.week.equals("单双周") ||
                         (arrange.week.equals("单周") && currentWeek % 2 == 1) ||
                         (arrange.week.equals("双周") && currentWeek % 2 == 0)){
-                    cv.setCardBackgroundColor(course.coursecolor);
+                    fl.setBackgroundColor(course.coursecolor);
                 }else {
-                    cv.setCardBackgroundColor(ResourceHelper.getColor(R.color.myWindowBackgroundGray));
+                    fl.setBackgroundColor(ResourceHelper.getColor(R.color.myWindowBackgroundGray));
                     tv.setTextColor(ResourceHelper.getColor(R.color.schedule_gray));
                 }
                 cv.getCardBackgroundColor().withAlpha(90);
 
-                v.setOnClickListener(new View.OnClickListener() {
+                cv.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        toClassContent(course);
+                        //toClassContent(course,cv);
+                        moveToContent(course,fl);
                     }
                 });
 
@@ -313,7 +329,51 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
         return super.onOptionsItemSelected(item);
     }
 
-    private void toClassContent(ClassTable.Data.Course course){
+    // TODO: 16-9-20 圆形扩散
+    private void toClassContent(ClassTable.Data.Course course,View view){
         // TODO: 2016/9/18 课程详情的逻辑写在这里
+        int color = course.coursecolor;
+        int px = mParentLayout.getWidth();
+        int py = mParentLayout.getHeight();
+        float radius = (float) Math.hypot(px,py);
+        int[] location = new int[2];
+        view.getLocationOnScreen(location);
+        int x = location[0];
+        int y = location[1];
+
+        Animator animator = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            animator = ViewAnimationUtils.createCircularReveal(mBackFrame,x+view.getWidth()/2,y-view.getHeight()/4,10,radius);
+
+            animator.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    super.onAnimationEnd(animation);
+                    mBackFrame.setBackgroundColor(Color.TRANSPARENT);
+
+                    Intent intent = new Intent(ScheduleActivity.this,ScheduleDetailsActivity.class);
+                    intent.putExtra("color",color);
+                    //startActivity(intent);
+                }
+
+                @Override
+                public void onAnimationStart(Animator animation) {
+                    super.onAnimationStart(animation);
+                    mBackFrame.setBackgroundColor(color);
+                }
+            });
+        }
+        animator.setDuration(1000);
+        animator.start();
+    }
+
+    //方形扩散
+    private void moveToContent(ClassTable.Data.Course course,View view){
+        String transName = getString(R.string.schedule_transition);
+        Intent intent = new Intent(ScheduleActivity.this,ScheduleDetailsActivity.class);
+        intent.putExtra("color",course.coursecolor);
+
+        ActivityOptions activityOptions = ActivityOptions.makeSceneTransitionAnimation(ScheduleActivity.this,view,transName);
+        startActivity(intent,activityOptions.toBundle());
     }
 }

@@ -20,7 +20,10 @@
     <!-- Library Activity -->
     <string name="library_account">我的账户</string>
     <string name="library_search">查找书籍</string>
-
+    
+    <!--Schedule Activity-->
+    <string name="schedule_transition">schedule_transition</string>
+    
     <!-- LostFound Activity -->
     <string name="lost_something">丢了东西</string>
     <string name="found_something">捡了东西</string>
