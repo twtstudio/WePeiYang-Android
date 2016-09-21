@@ -17,7 +17,8 @@ public class ClassTable {
         public String term;
         public List<Course> data;
         public int week;
-        public String update_at;
+        public String updated_at;
+        public String term_start;
 
         public class Course implements Serializable{
             public String classid;//班级编号

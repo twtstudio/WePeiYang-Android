@@ -44,7 +44,8 @@ import com.twt.service.ui.bind.BindActivity;
 import com.twt.service.ui.common.NextActivity;
 import com.twt.service.ui.login.LoginActivity;
 
-import java.util.ArrayList;
+
+import java.sql.Time;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
@@ -108,9 +109,8 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         Calendar calendar = Calendar.getInstance();
         currentDay = calendar.get(Calendar.DAY_OF_WEEK);
-        // TODO: 2016/9/11 设置当前周
-        currentWeek = 5  ;
-        tvWeek.setText("第" + currentWeek + "周");
+//        currentWeek = 4;
+//        tvWeek.setText("第" + currentWeek + "周");
 
         presenter = new SchedulePresenterImpl(this, new ScheduleInteractorImpl(), this);
 
@@ -147,12 +147,13 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
         }
     }
 
-    @Override
-    public void changeWeek(String week) {
-        if (!week.equals(currentWeek)){
-            week += "（非当前周）";
+    @Override//只用来修改显示周数的文字
+    public void changeWeek(int week) {
+        String sWeek = "第" + TimeHelper.getWeekString(week) + "周";
+        if (week != currentWeek){
+            sWeek += "(非当前周)";
         }
-        tvWeek.setText(week);
+        tvWeek.setText(sWeek);
     }
 
     @Override
@@ -167,9 +168,9 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
 
     @Override
     public void bindData(ClassTable classTable) {
-        //修复初始情况的课程不可用bug,
-        //changeWeek(String.valueOf(classTable.data.week));
-
+//        //修复初始情况的课程不可用bug,
+        currentWeek = TimeHelper.getWeekInt(Long.parseLong(classTable.data.term_start));
+        changeWeek(currentWeek);
         if (classTable.data.term.length() > 1) {
             currentTerm = classTable.data.term.substring(0, classTable.data.term.length() - 1);
 //            tvScheduleTerm.setText(currentTerm + "学期课表");
@@ -200,9 +201,7 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
                 tvSaturday.setBackgroundColor(ContextCompat.getColor(this, R.color.divider_color));
                 break;
         }
-        //currentWeek = classTable.data.week;
         initSchedule(classTable);
-        //tvWeek.setText("第" + currentWeek + "周");
     }
 
     private void initSchedule(ClassTable classTable){
