@@ -13,17 +13,8 @@
         app:cardElevation="0dp"
         android:clickable="true"
         android:foreground="?android:attr/selectableItemBackground"
-
+        android:transitionName="@string/schedule_transition"
         >
-        <FrameLayout
-            android:id="@+id/course_back_frame"
-            android:transitionName="@string/schedule_transition"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
         <TextView
             android:id="@+id/tv_schedule_class"
             android:layout_width="wrap_content"
@@ -32,7 +23,6 @@
             android:textColor="@color/myTextPrimaryColorWhite"
             android:gravity="center_horizontal"
             android:padding="2dp"/>
-        </FrameLayout>
 
     </android.support.v7.widget.CardView>
 

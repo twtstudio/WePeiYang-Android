@@ -31,11 +31,11 @@ public class ScheduleDetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule_details);
-        mLayout = (FrameLayout) findViewById(R.id.course_back_detail);
-        int color = getIntent().getIntExtra("color",0);
-        mLayout.setBackgroundColor(color);
+        //mLayout = (FrameLayout) findViewById(R.id.course_back_detail);
+        //int color = getIntent().getIntExtra("color",0);
+        //mLayout.setBackgroundColor(color);
 
-        //setUpAnimations();
+        setUpAnimations();
         //mCourse = (ClassTable.Data.Course) getIntent().getSerializableExtra("course");
     }
 

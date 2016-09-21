@@ -10,15 +10,16 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.util.Pair;
 import android.support.v4.widget.PopupWindowCompat;
 import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Pair;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -253,7 +254,7 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
                 View v = inflater.inflate(R.layout.item_schedule,null,false);
                 CardView cv = (CardView)v.findViewById(R.id.cv_s);
                 TextView tv = (TextView)v.findViewById(R.id.tv_schedule_class);
-                FrameLayout fl = (FrameLayout) v.findViewById(R.id.course_back_frame);
+                //FrameLayout fl = (FrameLayout) v.findViewById(R.id.course_back_frame);
                 tv.setText(course.coursename + "@" + arrange.room);
                 tv.setWidth(griditemWidth*2 - 8);
                 tv.setHeight(griditemWidth*2*length - 8);
@@ -271,9 +272,9 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
                         arrange.week.equals("单双周") ||
                         (arrange.week.equals("单周") && currentWeek % 2 == 1) ||
                         (arrange.week.equals("双周") && currentWeek % 2 == 0)){
-                    fl.setBackgroundColor(course.coursecolor);
+                    cv.setCardBackgroundColor(course.coursecolor);
                 }else {
-                    fl.setBackgroundColor(ResourceHelper.getColor(R.color.myWindowBackgroundGray));
+                    cv.setCardBackgroundColor(ResourceHelper.getColor(R.color.myWindowBackgroundGray));
                     tv.setTextColor(ResourceHelper.getColor(R.color.schedule_gray));
                 }
                 cv.getCardBackgroundColor().withAlpha(90);
@@ -282,7 +283,7 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
                     @Override
                     public void onClick(View view) {
                         //toClassContent(course,cv);
-                        moveToContent(course,fl);
+                        moveToContent(course,cv);
                     }
                 });
 
@@ -345,6 +346,7 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
             animator = ViewAnimationUtils.createCircularReveal(mBackFrame,x+view.getWidth()/2,y-view.getHeight()/4,10,radius);
 
             animator.addListener(new AnimatorListenerAdapter() {
+                @RequiresApi(api = Build.VERSION_CODES.M)
                 @Override
                 public void onAnimationEnd(Animator animation) {
                     super.onAnimationEnd(animation);
@@ -352,7 +354,11 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
 
                     Intent intent = new Intent(ScheduleActivity.this,ScheduleDetailsActivity.class);
                     intent.putExtra("color",color);
-                    //startActivity(intent);
+                    //Pair<View,String> pair = new Pair<View, String>(view,getString(R.string.schedule_transition));
+                    //ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(ScheduleActivity.this,pair);
+
+                    ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(ScheduleActivity.this,view,getString(R.string.schedule_transition));
+                    startActivity(intent,options.toBundle());
                 }
 
                 @Override
@@ -366,13 +372,14 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
         animator.start();
     }
 
-    //方形扩散
+    //另一种扩散
     private void moveToContent(ClassTable.Data.Course course,View view){
         String transName = getString(R.string.schedule_transition);
         Intent intent = new Intent(ScheduleActivity.this,ScheduleDetailsActivity.class);
         intent.putExtra("color",course.coursecolor);
 
-        ActivityOptions activityOptions = ActivityOptions.makeSceneTransitionAnimation(ScheduleActivity.this,view,transName);
+        ActivityOptions activityOptions = ActivityOptions.makeSceneTransitionAnimation(ScheduleActivity.this,view,getString(R.string.schedule_transition));
         startActivity(intent,activityOptions.toBundle());
     }
+
 }
