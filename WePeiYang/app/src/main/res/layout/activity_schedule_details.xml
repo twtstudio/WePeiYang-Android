@@ -6,35 +6,28 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical"
-              android:paddingBottom="@dimen/activity_vertical_margin"
-              android:paddingLeft="@dimen/activity_horizontal_margin"
-              android:paddingRight="@dimen/activity_horizontal_margin"
-              android:paddingTop="@dimen/activity_vertical_margin"
-
               tools:context="com.twt.service.ui.schedule.ScheduleDetailsActivity">
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
+        android:id="@+id/schedule_detail_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?android:attr/actionBarSize"
-        android:background="?android:colorPrimary"
         android:elevation="4dp">
 
-        <RelativeLayout
+        <FrameLayout
+            android:id="@+id/schedule_back_relative_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <android.support.v7.widget.CardView
-                android:id="@+id/shared_target"
+            <FrameLayout
+                android:id="@+id/schedule_detail_shared_element"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
                 android:transitionName="@string/schedule_transition"
-                app:cardCornerRadius="15dp"
-                app:cardBackgroundColor="@color/schedule_green2"
-                />
+                android:background="@drawable/circle_24dp"/>
 
-        </RelativeLayout>
+        </FrameLayout>
 
 
 
