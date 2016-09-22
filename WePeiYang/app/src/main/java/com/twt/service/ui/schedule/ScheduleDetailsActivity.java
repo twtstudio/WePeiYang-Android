@@ -18,6 +18,7 @@ import android.transition.Explode;
 import android.transition.Fade;
 import android.transition.Slide;
 import android.transition.Transition;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.animation.AccelerateInterpolator;
@@ -31,11 +32,10 @@ import com.twt.service.bean.ClassTable;
 public class ScheduleDetailsActivity extends AppCompatActivity {
 
     private ClassTable.Data.Course mCourse;
-    private FrameLayout mLayout;
+    private FrameLayout mSharedElement;
     private int mToolBarColor;
     private Toolbar mToolbar;
-    private CardView mCardView;
-    private RelativeLayout mRelativeLayout;
+    
 
     public static void actionStart(Context context, ClassTable.Data.Course course) {
         Intent intent = new Intent(context, ScheduleDetailsActivity.class);
@@ -48,22 +48,22 @@ public class ScheduleDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule_details);
         mToolbar = (Toolbar) findViewById(R.id.schedule_detail_toolbar);
-        //mCardView = (CardView) findViewById(R.id.schedule_detail_shared_element);
-        mLayout = (FrameLayout) findViewById(R.id.schedule_detail_shared_element);
-        //mRelativeLayout = (RelativeLayout) findViewById(R.id.schedule_back_relative_layout);
-
-
-
-        //mLayout = (FrameLayout) findViewById(R.id.course_back_detail);
+        mToolbar.setTitle(" ");
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        mSharedElement = (FrameLayout) findViewById(R.id.schedule_detail_shared_element);
+        //get Intent Data
         mToolBarColor = getIntent().getIntExtra("color",0);
+        mCourse = (ClassTable.Data.Course) getIntent().getSerializableExtra("course");
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(mToolBarColor);
+        }
 
+        //api21
         setTint(getResources().getDrawable(R.drawable.circle_24dp),mToolBarColor);
-        mLayout.setBackground(getResources().getDrawable(R.drawable.circle_24dp));
-        //mLayout.setBackgroundColor(color);
-
+        mSharedElement.setBackground(getResources().getDrawable(R.drawable.circle_24dp));
         setUpAnimations();
-        //mCourse = (ClassTable.Data.Course) getIntent().getSerializableExtra("course");
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -76,23 +76,20 @@ public class ScheduleDetailsActivity extends AppCompatActivity {
 
         Fade fade = new Fade();
         fade.setDuration(1000);
-        getWindow().setEnterTransition(fade);
+        getWindow().setEnterTransition(explode);
 
         Transition transition = getWindow().getSharedElementEnterTransition();
         transition.addListener(new Transition.TransitionListener() {
             @Override
             public void onTransitionStart(Transition transition) {
-//                ColorStateList list = new ColorStateList()
-//                mLayout.setBackgroundTintList(mToolBarColor);
             }
 
             @Override
             public void onTransitionEnd(Transition transition) {
                 transition.removeListener(this);
-                //mCardView.setVisibility(View.GONE);
-                //mRelativeLayout.setVisibility(View.GONE);
-//                mCardView.setCardBackgroundColor();
+                mSharedElement.setVisibility(View.GONE);
                 animateRevealShow(mToolbar);
+                mToolbar.setTitle("2333");
 
             }
 
@@ -121,15 +118,27 @@ public class ScheduleDetailsActivity extends AppCompatActivity {
         int finalRadius = Math.max(viewRoot.getWidth(), viewRoot.getHeight());
 
         Animator anim = ViewAnimationUtils.createCircularReveal(viewRoot, cx, cy, 0, finalRadius);
+        anim.setInterpolator(new AccelerateInterpolator());
         viewRoot.setVisibility(View.VISIBLE);
         anim.setDuration(500);
         anim.setInterpolator(new AccelerateInterpolator());
         anim.start();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(mToolBarColor);
+        }
     }
 
     private Drawable setTint(Drawable drawable, int color) {
         final Drawable newDrawable = DrawableCompat.wrap(drawable);
         DrawableCompat.setTint(newDrawable, color);
         return newDrawable;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId()==android.R.id.home){
+            onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

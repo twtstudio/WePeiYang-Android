@@ -378,6 +378,9 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
         Intent intent = new Intent(ScheduleActivity.this,ScheduleDetailsActivity.class);
         intent.putExtra("color",course.coursecolor);
 
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("course",course);
+
         ActivityOptions activityOptions = ActivityOptions.makeSceneTransitionAnimation(ScheduleActivity.this,view,getString(R.string.schedule_transition));
         startActivity(intent,activityOptions.toBundle());
     }

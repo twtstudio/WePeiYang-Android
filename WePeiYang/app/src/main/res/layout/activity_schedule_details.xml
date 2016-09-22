@@ -12,12 +12,8 @@
         android:id="@+id/schedule_detail_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?android:attr/actionBarSize"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         android:elevation="4dp">
-
-        <FrameLayout
-            android:id="@+id/schedule_back_relative_layout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
 
             <FrameLayout
                 android:id="@+id/schedule_detail_shared_element"
@@ -26,10 +22,6 @@
                 android:layout_gravity="center"
                 android:transitionName="@string/schedule_transition"
                 android:background="@drawable/circle_24dp"/>
-
-        </FrameLayout>
-
-
 
     </android.support.v7.widget.Toolbar>
     <FrameLayout
