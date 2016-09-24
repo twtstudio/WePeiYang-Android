@@ -377,9 +377,10 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
         String transName = getString(R.string.schedule_transition);
         Intent intent = new Intent(ScheduleActivity.this,ScheduleDetailsActivity.class);
         intent.putExtra("color",course.coursecolor);
+        intent.putExtra("course",course);
 
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("course",course);
+//        Bundle bundle = new Bundle();
+//        bundle.putSerializable("course",course);
 
         ActivityOptions activityOptions = ActivityOptions.makeSceneTransitionAnimation(ScheduleActivity.this,view,getString(R.string.schedule_transition));
         startActivity(intent,activityOptions.toBundle());

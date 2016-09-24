@@ -20,7 +20,9 @@ allprojects {
             url "http://maven.bughd.com/public"
         }
         mavenCentral()
+
     }
+
 }
 task clean(type: Delete) {
     delete rootProject.buildDir
