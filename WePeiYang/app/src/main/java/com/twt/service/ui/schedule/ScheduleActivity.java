@@ -47,6 +47,7 @@ import com.twt.service.ui.login.LoginActivity;
 
 
 import java.sql.Time;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
@@ -56,6 +57,8 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import de.greenrobot.event.EventBus;
+
+import static com.amap.api.col.c.i;
 
 public class ScheduleActivity extends BaseActivity implements ScheduleView {
 
@@ -94,6 +97,14 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
     private int currentDay;
 
     private int[] classColors;
+    /*classTypes说明：
+    * 第一维表示星期几，
+    * 第二维表示课程状态：0表示无课程， 1表示有课程但是本周不上, 2表示有课程且本周上课
+    * */
+    boolean[][] hasClass; //
+    private static final int NO_CLASS = 0;
+    private static final int CLASS_NOT_THIS_WEEK = 1;
+    private static final int CLASS_THIS_WEEK = 2;
 
     public static void actionStart(Context context) {
         Intent intent = new Intent(context, ScheduleActivity.class);
@@ -118,7 +129,7 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
         glSchedule.post(new Runnable() {
             @Override
             public void run() {
-                griditemWidth = glSchedule.getWidth()/15;
+                griditemWidth = glSchedule.getWidth() / 15;
                 presenter.loadCoursesFromCache();
             }
         });
@@ -133,11 +144,11 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
         EventBus.getDefault().unregister(this);
     }
 
-    public void onEvent(SuccessEvent successEvent){
+    public void onEvent(SuccessEvent successEvent) {
         presenter.onSuccess(successEvent.toString());
     }
 
-    public void onEvent(FailureEvent failureEvent){
+    public void onEvent(FailureEvent failureEvent) {
         presenter.onFailure(failureEvent.getRetrofitError());
     }
 
@@ -149,11 +160,12 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
     }
 
     @Override//只用来修改显示周数的文字
-    public void changeWeek(int week) {
+    public void changeWeek(long startUnix, int week) {
         String sWeek = "第" + TimeHelper.getWeekString(week) + "周";
-        if (week != currentWeek){
+        if (week != currentWeek) {
             sWeek += "(非当前周)";
         }
+//        TimeHelper.getWeekDate(startUnix, week);
         tvWeek.setText(sWeek);
     }
 
@@ -169,13 +181,14 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
 
     @Override
     public void bindData(ClassTable classTable) {
+        hasClass = new boolean[7][12];
 //        //修复初始情况的课程不可用bug,
         currentWeek = TimeHelper.getWeekInt(Long.parseLong(classTable.data.term_start));
-        changeWeek(currentWeek);
+        changeWeek(Long.parseLong(classTable.data.term_start),currentWeek);
         if (classTable.data.term.length() > 1) {
             currentTerm = classTable.data.term.substring(0, classTable.data.term.length() - 1);
 //            tvScheduleTerm.setText(currentTerm + "学期课表");
-        }else {
+        } else {
 //            tvScheduleTerm.setText("现在是假期:)");
             tvWeek.setText("现在是假期:)");
         }
@@ -205,29 +218,29 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
         initSchedule(classTable);
     }
 
-    private void initSchedule(ClassTable classTable){
+    private void initSchedule(ClassTable classTable) {
         //绘制左侧
         for (int i = 0; i < 12; i++) {
             TextView textView = new TextView(this);
-            textView.setText(i+1+"");
+            textView.setText(i + 1 + "");
             textView.setWidth(griditemWidth);
-            textView.setHeight(griditemWidth*2);
+            textView.setHeight(griditemWidth * 2);
             textView.setGravity(Gravity.CENTER);
             textView.setTextColor(ResourceHelper.getColor(R.color.myTextPrimaryColorGray));
             textView.setBackgroundResource(R.color.myWindowBackgroundGray);
 
             GridLayout.Spec rowSpec = GridLayout.spec(i);
             GridLayout.Spec columnSpec = GridLayout.spec(0);
-            GridLayout.LayoutParams params = new GridLayout.LayoutParams(rowSpec,columnSpec);
+            GridLayout.LayoutParams params = new GridLayout.LayoutParams(rowSpec, columnSpec);
             params.setGravity(Gravity.CENTER_VERTICAL);
 
             glSchedule.addView(textView, params);
 
         }
         //绘制课程信息
-        int[][] hasclass = new int[7][12]; //0表示无课程， 1表示有课程但是本周不上, 2表示有课程且本周上课
+        List<ClassTable.Data.Course> coursesNotThisWeek = new ArrayList<>();
         int i = 0;// 用来记录classColors用到第几个了。
-        if (classColors == null){
+        if (classColors == null) {
             classColors = new int[]{R.color.schedule_green,
                     R.color.schedule_orange,
                     R.color.schedule_blue,
@@ -240,63 +253,116 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
                     R.color.schedule_green4,
                     R.color.schedule_purple2};
         }
-        for (ClassTable.Data.Course course:classTable.data.data) {
+        //绘制当前周的课程
+        for (ClassTable.Data.Course course : classTable.data.data) {
             int startWeek = Integer.parseInt(course.week.start);
             int endWeek = Integer.parseInt(course.week.end);
-
-            for (ClassTable.Data.Course.Arrange arrange: course.arrange) {
+            for (ClassTable.Data.Course.Arrange arrange : course.arrange) {
                 int startTime = Integer.parseInt(arrange.start);
                 int endTime = Integer.parseInt(arrange.end);
                 int day = Integer.parseInt(arrange.day);
                 int length = endTime - startTime + 1;
-
-                LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                View v = inflater.inflate(R.layout.item_schedule,null,false);
-                CardView cv = (CardView)v.findViewById(R.id.cv_s);
-                TextView tv = (TextView)v.findViewById(R.id.tv_schedule_class);
-                //FrameLayout fl = (FrameLayout) v.findViewById(R.id.course_back_frame);
-                tv.setText(course.coursename + "@" + arrange.room);
-                tv.setWidth(griditemWidth*2 - 8);
-                tv.setHeight(griditemWidth*2*length - 8);
-                tv.setTextSize(13);
-
-                if (course.coursecolor == 0){
-                    if (i == 11){
+                if (course.coursecolor == 0) {
+                    if (i == 11) {
                         i = 0;
                     }
                     course.coursecolor = ResourceHelper.getColor(classColors[i]);
                     i++;
                 }
-
                 if (currentWeek >= startWeek && currentWeek <= endWeek &&
                         arrange.week.equals("单双周") ||
                         (arrange.week.equals("单周") && currentWeek % 2 == 1) ||
-                        (arrange.week.equals("双周") && currentWeek % 2 == 0)){
-                    cv.setCardBackgroundColor(course.coursecolor);
-                }else {
+                        (arrange.week.equals("双周") && currentWeek % 2 == 0)) {
+                    if (!hasClassThisWeek(day, startTime, endTime)) {
+                        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                        View v = inflater.inflate(R.layout.item_schedule, null, false);
+                        CardView cv = (CardView) v.findViewById(R.id.cv_s);
+                        TextView tv = (TextView) v.findViewById(R.id.tv_schedule_class);
+                        tv.setText(course.coursename + "@" + arrange.room);
+                        tv.setWidth(griditemWidth * 2 - 8);
+                        tv.setHeight(griditemWidth * 2 * length - 8);
+                        tv.setTextSize(13);
+                        cv.setCardBackgroundColor(course.coursecolor);
+                        cv.getCardBackgroundColor().withAlpha(90);
+
+                        cv.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                toClassContent(classTable.data.data,day,startTime,endTime,cv);
+//                                moveToContent(course, cv);
+                            }
+                        });
+
+                        GridLayout.Spec rowSpec = GridLayout.spec(startTime - 1, length);
+                        GridLayout.Spec columnSpec = GridLayout.spec(day + 1, 1);
+                        GridLayout.LayoutParams params = new GridLayout.LayoutParams(rowSpec, columnSpec);
+                        params.setGravity(Gravity.CENTER_HORIZONTAL);
+                        params.setMargins(4, 4, 4, 4);
+                        glSchedule.addView(v, params);
+                        for (int t = startTime - 1; t < endTime; t++) {
+                            hasClass[day][t] = true;
+                        }
+                    }
+                } else {
+                    // TODO: 2016/9/25 把course放入一个飞当前周的list
+                    coursesNotThisWeek.add(course);
+                }
+            }
+        }
+        //绘制非本周课程信息
+        for (ClassTable.Data.Course course : coursesNotThisWeek) {
+            int startWeek = Integer.parseInt(course.week.start);
+            int endWeek = Integer.parseInt(course.week.end);
+            for (ClassTable.Data.Course.Arrange arrange : course.arrange) {
+                int startTime = Integer.parseInt(arrange.start);
+                int endTime = Integer.parseInt(arrange.end);
+                int day = Integer.parseInt(arrange.day);
+                int length = endTime - startTime + 1;
+                if (!hasClassThisWeek(day, startTime, endTime)) {
+                    LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    View v = inflater.inflate(R.layout.item_schedule, null, false);
+                    CardView cv = (CardView) v.findViewById(R.id.cv_s);
+                    TextView tv = (TextView) v.findViewById(R.id.tv_schedule_class);
+                    tv.setText(course.coursename + "@" + arrange.room);
+                    tv.setWidth(griditemWidth * 2 - 8);
+                    tv.setHeight(griditemWidth * 2 * length - 8);
+                    tv.setTextSize(13);
+
                     cv.setCardBackgroundColor(ResourceHelper.getColor(R.color.myWindowBackgroundGray));
                     tv.setTextColor(ResourceHelper.getColor(R.color.schedule_gray));
-                }
-                cv.getCardBackgroundColor().withAlpha(90);
+                    cv.getCardBackgroundColor().withAlpha(90);
 
-                cv.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        //toClassContent(course,cv);
-                        moveToContent(course,cv);
+                    cv.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            toClassContent(classTable.data.data,day,startTime,endTime,cv);
+//                            moveToContent(course, cv);
+                        }
+                    });
+
+                    GridLayout.Spec rowSpec = GridLayout.spec(startTime - 1, length);
+                    GridLayout.Spec columnSpec = GridLayout.spec(day + 1, 1);
+                    GridLayout.LayoutParams params = new GridLayout.LayoutParams(rowSpec, columnSpec);
+                    params.setGravity(Gravity.CENTER_HORIZONTAL);
+                    params.setMargins(4, 4, 4, 4);
+                    glSchedule.addView(v, params);
+                    for (int t = startTime - 1; t < endTime; t++) {
+                        hasClass[day][t] = true;
                     }
-                });
-
-                GridLayout.Spec rowSpec = GridLayout.spec(startTime - 1, length);
-                GridLayout.Spec columnSpec = GridLayout.spec(day+1, 1);
-                GridLayout.LayoutParams params = new GridLayout.LayoutParams(rowSpec,columnSpec);
-                params.setGravity(Gravity.CENTER_HORIZONTAL);
-                params.setMargins(4,4,4,4);
-                glSchedule.addView(v, params);
+                }
             }
         }
     }
 
+
+    private boolean hasClassThisWeek(int day, int startTime, int endTime) {
+        for (int t = startTime - 1; t < endTime; t++) {
+            if (hasClass[day][t]) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     @Override
     public void startLoginActivity() {
@@ -328,14 +394,32 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
         }
         return super.onOptionsItemSelected(item);
     }
-
+    //这段会判断是否有多个课程出现重复的情况。第一个参数传入所有的课程，第二个传入点击课程的星期，第三、四个传入课程的起始时间，第五个传入控件
+    private void toClassContent(List<ClassTable.Data.Course> courses,int day, int startTime, int endTime, View v){
+        List<ClassTable.Data.Course> coursesInThisTime = new ArrayList<>();
+        for (ClassTable.Data.Course course: courses) {
+            for (ClassTable.Data.Course.Arrange arrange: course.arrange){
+                int sT = Integer.parseInt(arrange.start);
+                int eT = Integer.parseInt(arrange.end);
+                int d = Integer.parseInt(arrange.day);
+                if (d == day && sT >= startTime && eT <= endTime){
+                    coursesInThisTime.add(course);
+                }
+            }
+        }
+        if (coursesInThisTime.size() == 1){
+            moveToContent(coursesInThisTime.get(0),v);
+        }else {
+            // TODO: 2016/9/25 这里表示有多个课程的情况，直接使用courseInThisTime即可
+        }
+    }
     // TODO: 16-9-20 圆形扩散
-    private void toClassContent(ClassTable.Data.Course course,View view){
+    private void toClassContent(ClassTable.Data.Course course, View view) {
         // TODO: 2016/9/18 课程详情的逻辑写在这里
         int color = course.coursecolor;
         int px = mParentLayout.getWidth();
         int py = mParentLayout.getHeight();
-        float radius = (float) Math.hypot(px,py);
+        float radius = (float) Math.hypot(px, py);
         int[] location = new int[2];
         view.getLocationOnScreen(location);
         int x = location[0];
@@ -343,7 +427,7 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
 
         Animator animator = null;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            animator = ViewAnimationUtils.createCircularReveal(mBackFrame,x+view.getWidth()/2,y-view.getHeight()/4,10,radius);
+            animator = ViewAnimationUtils.createCircularReveal(mBackFrame, x + view.getWidth() / 2, y - view.getHeight() / 4, 10, radius);
 
             animator.addListener(new AnimatorListenerAdapter() {
                 @RequiresApi(api = Build.VERSION_CODES.M)
@@ -352,13 +436,13 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
                     super.onAnimationEnd(animation);
                     mBackFrame.setBackgroundColor(Color.TRANSPARENT);
 
-                    Intent intent = new Intent(ScheduleActivity.this,ScheduleDetailsActivity.class);
-                    intent.putExtra("color",color);
+                    Intent intent = new Intent(ScheduleActivity.this, ScheduleDetailsActivity.class);
+                    intent.putExtra("color", color);
                     //Pair<View,String> pair = new Pair<View, String>(view,getString(R.string.schedule_transition));
                     //ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(ScheduleActivity.this,pair);
 
-                    ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(ScheduleActivity.this,view,getString(R.string.schedule_transition));
-                    startActivity(intent,options.toBundle());
+                    ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(ScheduleActivity.this, view, getString(R.string.schedule_transition));
+                    startActivity(intent, options.toBundle());
                 }
 
                 @Override
@@ -373,17 +457,17 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
     }
 
     //另一种扩散
-    private void moveToContent(ClassTable.Data.Course course,View view){
+    private void moveToContent(ClassTable.Data.Course course, View view) {
         String transName = getString(R.string.schedule_transition);
-        Intent intent = new Intent(ScheduleActivity.this,ScheduleDetailsActivity.class);
-        intent.putExtra("color",course.coursecolor);
-        intent.putExtra("course",course);
+        Intent intent = new Intent(ScheduleActivity.this, ScheduleDetailsActivity.class);
+        intent.putExtra("color", course.coursecolor);
+//        intent.putExtra("course", course);
 
 //        Bundle bundle = new Bundle();
 //        bundle.putSerializable("course",course);
 
-        ActivityOptions activityOptions = ActivityOptions.makeSceneTransitionAnimation(ScheduleActivity.this,view,getString(R.string.schedule_transition));
-        startActivity(intent,activityOptions.toBundle());
+        ActivityOptions activityOptions = ActivityOptions.makeSceneTransitionAnimation(ScheduleActivity.this, view, getString(R.string.schedule_transition));
+        startActivity(intent, activityOptions.toBundle());
     }
 
 }

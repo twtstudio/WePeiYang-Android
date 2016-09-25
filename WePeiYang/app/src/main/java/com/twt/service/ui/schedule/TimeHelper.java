@@ -2,7 +2,9 @@ package com.twt.service.ui.schedule;
 
 import com.twt.service.support.PrefUtils;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 import static com.amap.api.col.c.i;
@@ -35,5 +37,12 @@ public class TimeHelper {
         }
         sWeek += cDay[week%10];
         return sWeek;
+    }
+
+    public static void getWeekDate(long startUnix, int week){
+        startUnix += week*7*86400*1000;
+        Date date = new Date(startUnix);
+        SimpleDateFormat eDateFormat = new SimpleDateFormat("E");
+        int iE =Integer.parseInt(eDateFormat.format(date));
     }
 }

@@ -105,78 +105,131 @@
 
                 </LinearLayout>
 
-
-                <TextView
-                    android:id="@+id/tv_tuesday"
+                <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:gravity="center"
-                    android:paddingBottom="8dp"
-                    android:paddingTop="8dp"
-                    android:text="@string/tuesday"
-                    android:textColor="@color/schedule_primary_color"
-                    android:textSize="16sp"/>
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/tv_tuesday_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:id="@+id/tv_tuesday"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/tuesday"
+                        android:textColor="@color/schedule_primary_color"
+                        android:textSize="16sp"/>
 
-                <TextView
-                    android:id="@+id/tv_wendesday"
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:gravity="center"
-                    android:paddingBottom="8dp"
-                    android:paddingTop="8dp"
-                    android:text="@string/wendesday"
-                    android:textColor="@color/schedule_primary_color"
-                    android:textSize="16sp"/>
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/tv_wendesday_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:id="@+id/tv_wendesday"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/wendesday"
+                        android:textColor="@color/schedule_primary_color"
+                        android:textSize="16sp"/>
 
-                <TextView
-                    android:id="@+id/tv_thursday"
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:gravity="center"
-                    android:paddingBottom="8dp"
-                    android:paddingTop="8dp"
-                    android:text="@string/thursday"
-                    android:textColor="@color/schedule_primary_color"
-                    android:textSize="16sp"/>
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/tv_thursady_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:id="@+id/tv_thursday"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/thursday"
+                        android:textColor="@color/schedule_primary_color"
+                        android:textSize="16sp"/>
 
-                <TextView
-                    android:id="@+id/tv_friday"
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:gravity="center"
-                    android:paddingBottom="8dp"
-                    android:paddingTop="8dp"
-                    android:text="@string/friday"
-                    android:textColor="@color/schedule_primary_color"
-                    android:textSize="16sp"/>
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/tv_friday_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:id="@+id/tv_friday"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/friday"
+                        android:textColor="@color/schedule_primary_color"
+                        android:textSize="16sp"/>
 
-                <TextView
-                    android:id="@+id/tv_saturday"
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:gravity="center"
-                    android:paddingBottom="8dp"
-                    android:paddingTop="8dp"
-                    android:text="@string/saturday"
-                    android:textColor="@color/schedule_primary_color"
-                    android:textSize="16sp"/>
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/tv_saturday_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:id="@+id/tv_saturday"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/saturday"
+                        android:textColor="@color/schedule_primary_color"
+                        android:textSize="16sp"/>
 
-                <TextView
-                    android:id="@+id/tv_sunday"
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:gravity="center"
-                    android:paddingBottom="8dp"
-                    android:paddingTop="8dp"
-                    android:text="@string/sunday"
-                    android:textColor="@color/schedule_primary_color"
-                    android:textSize="16sp"/>
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/tv_sunday_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:id="@+id/tv_sunday"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/sunday"
+                        android:textColor="@color/schedule_primary_color"
+                        android:textSize="16sp"/>
+
+                </LinearLayout>
 
             </LinearLayout>
 

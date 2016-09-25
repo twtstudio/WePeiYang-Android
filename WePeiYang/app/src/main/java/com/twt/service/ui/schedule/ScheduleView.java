@@ -12,5 +12,5 @@ public interface ScheduleView {
     void bindData(ClassTable classTable);
     void startLoginActivity();
     void startBindActivity();
-    void changeWeek(int week);
+    void changeWeek(long startUnix, int week);
 }
