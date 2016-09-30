@@ -13,14 +13,17 @@ public class ClassTable {
     public String message;
     public Data data;
 
-    public class Data {
+    public static class Data {
         public String term;
         public List<Course> data;
         public int week;
         public String updated_at;
         public String term_start;
 
-        public class Course implements Serializable{
+        public static class Course implements Serializable{
+
+            private static final long serialVersionUID = -4083503801443301445L;
+
             public String classid;//班级编号
             public String courseid;//课程编号
             public String coursename;//课程名称
@@ -31,7 +34,7 @@ public class ClassTable {
             public List<Arrange> arrange;
             public int coursecolor;//课程表的颜色
 
-            public class Arrange {
+            public static class Arrange implements Serializable {
                 public String week;//单双周
                 public String day;//周几上课
                 public String start;//开始于第几节课
@@ -41,7 +44,7 @@ public class ClassTable {
 
             public Week week;//从第几周至第几周上课
 
-            public class Week {
+            public static class Week implements Serializable {
                 public String start;//开始周数
                 public String end;//结束周数
             }
