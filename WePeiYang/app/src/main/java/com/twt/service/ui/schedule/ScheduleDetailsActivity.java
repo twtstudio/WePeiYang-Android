@@ -13,11 +13,14 @@ import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.transition.Explode;
 import android.transition.Fade;
 import android.transition.Slide;
 import android.transition.Transition;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewAnimationUtils;
@@ -35,6 +38,9 @@ public class ScheduleDetailsActivity extends AppCompatActivity {
     private FrameLayout mSharedElement;
     private int mToolBarColor;
     private Toolbar mToolbar;
+    private RecyclerView mRecyclerView;
+
+    private ScheduleDetailAdapter mAdapter;
     
 
     public static void actionStart(Context context, ClassTable.Data.Course course) {
@@ -47,6 +53,7 @@ public class ScheduleDetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule_details);
+        mRecyclerView = (RecyclerView) findViewById(R.id.schedule_detail_rcv);
         mToolbar = (Toolbar) findViewById(R.id.schedule_detail_toolbar);
         mToolbar.setTitle(" ");
         setSupportActionBar(mToolbar);
@@ -54,7 +61,13 @@ public class ScheduleDetailsActivity extends AppCompatActivity {
         mSharedElement = (FrameLayout) findViewById(R.id.schedule_detail_shared_element);
         //get Intent Data
         mToolBarColor = getIntent().getIntExtra("color",0);
+        //取得序列化的course
         mCourse = (ClassTable.Data.Course) getIntent().getSerializableExtra("course");
+
+        mAdapter = new ScheduleDetailAdapter(this,new ScheduleDetail(mCourse));
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView.setAdapter(mAdapter);
+
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(mToolBarColor);
@@ -71,12 +84,12 @@ public class ScheduleDetailsActivity extends AppCompatActivity {
         Explode explode = new Explode();
         explode.setDuration(300);
 
-        Slide slide = new Slide();
+        Slide slide = new Slide(Gravity.LEFT);
         slide.setDuration(300);
 
         Fade fade = new Fade();
         fade.setDuration(1000);
-        getWindow().setEnterTransition(explode);
+        getWindow().setEnterTransition(slide);
 
         Transition transition = getWindow().getSharedElementEnterTransition();
         transition.addListener(new Transition.TransitionListener() {
@@ -89,7 +102,7 @@ public class ScheduleDetailsActivity extends AppCompatActivity {
                 transition.removeListener(this);
                 mSharedElement.setVisibility(View.GONE);
                 animateRevealShow(mToolbar);
-                mToolbar.setTitle("2333");
+                mToolbar.setTitle(mCourse.coursename);
 
             }
 

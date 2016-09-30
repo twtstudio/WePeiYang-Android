@@ -82,4 +82,9 @@ public class ScheduleDetailAdapter extends BaseAdapter<ScheduleDetail.Content> {
             return DETAIL_INFO;
         }
     }
+
+    @Override
+    public int getItemCount() {
+        return mDataSet.size();
+    }
 }

@@ -24,8 +24,8 @@
                 android:background="@drawable/circle_24dp"/>
 
     </android.support.v7.widget.Toolbar>
-    <FrameLayout
-        android:background="@color/schedule_green2"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/schedule_detail_rcv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         />

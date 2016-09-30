@@ -22,24 +22,24 @@ public class ScheduleDetail {
         mContentList.get(2).setKV("教师",course.teacher);
         mContentList.get(3).setKV("学分",course.credit);
         mContentList.get(4).setKV("类型",course.coursetype);
-        //mContentList.get(5).setKV("时间");
-        mContentList.get(6).setKV("课程安排","必修3-14");
+        mContentList.get(5).setKey("课程详情");
+        mContentList.get(6).setKV("课程安排",course.coursenature+" 第"+course.week.start+"-"+course.week.end+"周");
         List<ClassTable.Data.Course.Arrange> arrangeList = course.arrange;
         int size = arrangeList.size();
         if (size == 1){
             ClassTable.Data.Course.Arrange arrange = arrangeList.get(0);
             mContentList.get(7).setKV("周数",arrange.week);
-            mContentList.get(8).setKV("时间",arrange.start+"  "+arrange.end);
+            mContentList.get(8).setKV("时间","第"+arrange.start+"-"+arrange.end+"节");
             mContentList.get(9).setKV("地点",arrange.room);
         }else if (size == 2){
             ClassTable.Data.Course.Arrange arrange = arrangeList.get(0);
             mContentList.get(7).setKV("周数",arrange.week);
-            mContentList.get(8).setKV("时间",arrange.start+"  "+arrange.end);
+            mContentList.get(8).setKV("时间","第"+arrange.start+"-"+arrange.end+"节");
             mContentList.get(9).setKV("地点",arrange.room);
 
-            ClassTable.Data.Course.Arrange arrange2 = arrangeList.get(0);
+            ClassTable.Data.Course.Arrange arrange2 = arrangeList.get(1);
             mContentList.get(10).setKV("周数",arrange2.week);
-            mContentList.get(11).setKV("时间",arrange2.start+"  "+arrange2.end);
+            mContentList.get(11).setKV("时间","第"+arrange2.start+"-"+arrange2.end+"节");
             mContentList.get(12).setKV("地点",arrange2.room);
         }
         //mContentList.get(5).setKV("时间",course.);
