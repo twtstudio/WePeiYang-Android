@@ -411,6 +411,8 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
             moveToContent(coursesInThisTime.get(0),v);
         }else {
             // TODO: 2016/9/25 这里表示有多个课程的情况，直接使用courseInThisTime即可
+            Intent intent = new Intent(ScheduleActivity.this,MultiCourse.class);
+            startActivity(intent);
         }
     }
     // TODO: 16-9-20 圆形扩散

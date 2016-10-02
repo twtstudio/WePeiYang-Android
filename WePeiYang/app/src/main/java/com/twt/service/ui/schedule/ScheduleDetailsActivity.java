@@ -88,8 +88,8 @@ public class ScheduleDetailsActivity extends AppCompatActivity {
         slide.setDuration(300);
 
         Fade fade = new Fade();
-        fade.setDuration(1000);
-        getWindow().setEnterTransition(slide);
+        fade.setDuration(500);
+        getWindow().setEnterTransition(fade);
 
         Transition transition = getWindow().getSharedElementEnterTransition();
         transition.addListener(new Transition.TransitionListener() {

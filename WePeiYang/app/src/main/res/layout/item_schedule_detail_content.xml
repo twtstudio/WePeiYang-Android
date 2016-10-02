@@ -26,4 +26,10 @@
         android:textSize="18sp"
         android:text="编译原理导论"/>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/schedule_gray"/>
+
 </RelativeLayout>
