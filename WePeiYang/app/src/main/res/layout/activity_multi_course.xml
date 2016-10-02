@@ -2,14 +2,60 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/schedule_green3"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_multi_course"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.twt.service.ui.schedule.MultiCourse">
+    android:background="@color/bike_background"
+    tools:context="com.twt.service.ui.schedule.MultiCourseActivity">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+        <android.support.v7.widget.CardView
+            android:id="@+id/multi_course_one_card"
+            android:clickable="true"
+            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="1.0"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:transitionName="@string/schedule_transition"
+            app:cardCornerRadius="5dp"
+            app:cardElevation="0dp"
+            >
+
+            <TextView
+                android:id="@+id/multi_course_one_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center_horizontal"
+                android:padding="2dp"
+                android:textColor="@color/myTextPrimaryColorWhite"/>
+
+        </android.support.v7.widget.CardView>
+        <android.support.v7.widget.CardView
+            android:id="@+id/multi_course_two_card"
+            android:layout_marginLeft="10dp"
+            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="1.0"
+            android:clickable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            app:cardCornerRadius="5dp"
+            app:cardElevation="0dp"
+            >
+
+            <TextView
+                android:id="@+id/multi_course_two_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center_horizontal"
+                android:padding="2dp"
+                android:textColor="@color/myTextPrimaryColorWhite"/>
+
+        </android.support.v7.widget.CardView>
+    </LinearLayout>
 </RelativeLayout>

@@ -2,36 +2,26 @@ package com.twt.service.ui.schedule;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.annotation.TargetApi;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.annotation.RequiresApi;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.widget.PopupWindowCompat;
-import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.CardView;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Pair;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewAnimationUtils;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.GridLayout;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -46,19 +36,13 @@ import com.twt.service.ui.common.NextActivity;
 import com.twt.service.ui.login.LoginActivity;
 
 
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Random;
-import java.util.zip.Inflater;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import butterknife.OnClick;
 import de.greenrobot.event.EventBus;
-
-import static com.amap.api.col.c.i;
 
 public class ScheduleActivity extends BaseActivity implements ScheduleView {
 
@@ -411,8 +395,7 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
             moveToContent(coursesInThisTime.get(0),v);
         }else {
             // TODO: 2016/9/25 这里表示有多个课程的情况，直接使用courseInThisTime即可
-            Intent intent = new Intent(ScheduleActivity.this,MultiCourse.class);
-            startActivity(intent);
+            moveToMultiContent(coursesInThisTime,v);
         }
     }
     // TODO: 16-9-20 圆形扩散
@@ -470,6 +453,30 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
 
         ActivityOptions activityOptions = ActivityOptions.makeSceneTransitionAnimation(ScheduleActivity.this, view, getString(R.string.schedule_transition));
         startActivity(intent, activityOptions.toBundle());
+    }
+
+    private void moveToMultiContent(List<ClassTable.Data.Course> coursesInThisTime,View view){
+        Intent intent = new Intent(ScheduleActivity.this,MultiCourseActivity.class);
+        double card_x = view.getWidth();
+        double card_y = view.getHeight();
+        //计算出如何缩放多课程选择窗口
+        Point point = new Point();
+        getWindowManager().getDefaultDisplay().getSize(point);
+        int window_x = point.x;
+        int window_y = point.y;
+        card_y *= 1.5;
+        card_x *= 2.5;
+        double percent_x = card_x/window_x;
+        double percent_y = card_y/window_y;
+        intent.putExtra("percent_x",percent_x);
+        intent.putExtra("percent_y",percent_y);
+        //装入前两个课程
+        intent.putExtra("course1",coursesInThisTime.get(0));
+        intent.putExtra("course2",coursesInThisTime.get(1));
+
+        //ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(ScheduleActivity.this,view,getString(R.string.schedule_transition));
+
+        startActivity(intent);
     }
 
 }

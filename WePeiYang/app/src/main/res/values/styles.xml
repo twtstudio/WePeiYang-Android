@@ -23,7 +23,7 @@
         <item name="android:windowBackground">@drawable/splash</item>
         <item name="android:windowFullscreen">true</item>
     </style>
-    <style name="Theme.FloatingWindow.Popup" parent="@android:style/Theme.NoTitleBar" >
+    <style name="Theme.FloatingWindow.Popup" parent="AppTheme" >
 
         <item name="android:windowIsFloating">false</item>
         <item name="android:windowSoftInputMode">stateUnchanged</item>
