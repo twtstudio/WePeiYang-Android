@@ -33,6 +33,7 @@ public class ClassTable {
             public String teacher;//授课教师
             public List<Arrange> arrange;
             public int coursecolor;//课程表的颜色
+            public boolean isAvaiableCurrentWeek = false;
 
             public static class Arrange implements Serializable {
                 public String week;//单双周

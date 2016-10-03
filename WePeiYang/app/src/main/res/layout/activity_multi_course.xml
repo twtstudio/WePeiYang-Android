@@ -6,7 +6,7 @@
     android:id="@+id/activity_multi_course"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bike_background"
+    android:background="@android:color/white"
     tools:context="com.twt.service.ui.schedule.MultiCourseActivity">
 
     <LinearLayout

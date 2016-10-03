@@ -257,6 +257,9 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
                         arrange.week.equals("单双周") ||
                         (arrange.week.equals("单周") && currentWeek % 2 == 1) ||
                         (arrange.week.equals("双周") && currentWeek % 2 == 0)) {
+                    //缓存课程当前周状态
+                    course.isAvaiableCurrentWeek = true;
+
                     if (!hasClassThisWeek(day, startTime, endTime)) {
                         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                         View v = inflater.inflate(R.layout.item_schedule, null, false);
@@ -311,7 +314,8 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
                     tv.setWidth(griditemWidth * 2 - 8);
                     tv.setHeight(griditemWidth * 2 * length - 8);
                     tv.setTextSize(13);
-
+                    //跳转详情页面需要灰色
+                    course.coursecolor = ResourceHelper.getColor(R.color.schedule_gray);
                     cv.setCardBackgroundColor(ResourceHelper.getColor(R.color.myWindowBackgroundGray));
                     tv.setTextColor(ResourceHelper.getColor(R.color.schedule_gray));
                     cv.getCardBackgroundColor().withAlpha(90);
@@ -451,8 +455,13 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
 //        Bundle bundle = new Bundle();
 //        bundle.putSerializable("course",course);
 
-        ActivityOptions activityOptions = ActivityOptions.makeSceneTransitionAnimation(ScheduleActivity.this, view, getString(R.string.schedule_transition));
-        startActivity(intent, activityOptions.toBundle());
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            ActivityOptions activityOptions = ActivityOptions.makeSceneTransitionAnimation(ScheduleActivity.this, view, getString(R.string.schedule_transition));
+            startActivity(intent, activityOptions.toBundle());
+        }else {
+            startActivity(intent);
+        }
+
     }
 
     private void moveToMultiContent(List<ClassTable.Data.Course> coursesInThisTime,View view){

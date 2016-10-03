@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.twt.service.R;
 import com.twt.service.bean.ClassTable;
+import com.twt.service.support.ResourceHelper;
 
 public class MultiCourseActivity extends AppCompatActivity {
 
@@ -44,7 +45,14 @@ public class MultiCourseActivity extends AppCompatActivity {
         mTextView1 = (TextView) findViewById(R.id.multi_course_one_text);
         mTextView2 = (TextView) findViewById(R.id.multi_course_two_text);
 
-        mCardView1.setCardBackgroundColor(mCourse1.coursecolor);
+        if (!mCourse1.isAvaiableCurrentWeek){
+            mCardView1.setCardBackgroundColor(ResourceHelper.getColor(R.color.myWindowBackgroundGray));
+            mCardView1.getCardBackgroundColor().withAlpha(90);
+            mTextView1.setTextColor(ResourceHelper.getColor(R.color.schedule_gray));
+            mCourse1.coursecolor = ResourceHelper.getColor(R.color.schedule_gray);
+        }else {
+            mCardView1.setCardBackgroundColor(mCourse1.coursecolor);
+        }
         mTextView1.setText(mCourse1.coursename+"@ "+mCourse1.arrange.get(0).room);
         mCardView1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,7 +62,14 @@ public class MultiCourseActivity extends AppCompatActivity {
         });
 
 
-        mCardView2.setCardBackgroundColor(mCourse2.coursecolor);
+        if (!mCourse2.isAvaiableCurrentWeek){
+            mCardView2.setCardBackgroundColor(ResourceHelper.getColor(R.color.myWindowBackgroundGray));
+            mCardView2.getCardBackgroundColor().withAlpha(90);
+            mTextView2.setTextColor(ResourceHelper.getColor(R.color.schedule_gray));
+            mCourse2.coursecolor = ResourceHelper.getColor(R.color.schedule_gray);
+        }else {
+            mCardView2.setCardBackgroundColor(mCourse2.coursecolor);
+        }
         mTextView2.setText(mCourse2.coursename+"@ "+mCourse2.arrange.get(0).room);
         mCardView2.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,7 +114,12 @@ public class MultiCourseActivity extends AppCompatActivity {
         intent.putExtra("color", course.coursecolor);
         intent.putExtra("course", course);
 
-        ActivityOptions activityOptions = ActivityOptions.makeSceneTransitionAnimation(MultiCourseActivity.this, view, getString(R.string.schedule_transition));
-        startActivity(intent, activityOptions.toBundle());
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            ActivityOptions activityOptions  = ActivityOptions.makeSceneTransitionAnimation(MultiCourseActivity.this, view, getString(R.string.schedule_transition));
+            startActivity(intent, activityOptions.toBundle());
+        }else {
+            startActivity(intent);
+        }
+
     }
 }

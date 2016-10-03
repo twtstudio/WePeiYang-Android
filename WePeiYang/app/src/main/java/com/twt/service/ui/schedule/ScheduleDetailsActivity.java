@@ -41,7 +41,7 @@ public class ScheduleDetailsActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
 
     private ScheduleDetailAdapter mAdapter;
-    
+
 
     public static void actionStart(Context context, ClassTable.Data.Course course) {
         Intent intent = new Intent(context, ScheduleDetailsActivity.class);
@@ -60,11 +60,11 @@ public class ScheduleDetailsActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mSharedElement = (FrameLayout) findViewById(R.id.schedule_detail_shared_element);
         //get Intent Data
-        mToolBarColor = getIntent().getIntExtra("color",0);
+        mToolBarColor = getIntent().getIntExtra("color", 0);
         //取得序列化的course
         mCourse = (ClassTable.Data.Course) getIntent().getSerializableExtra("course");
 
-        mAdapter = new ScheduleDetailAdapter(this,new ScheduleDetail(mCourse));
+        mAdapter = new ScheduleDetailAdapter(this, new ScheduleDetail(mCourse));
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(mAdapter);
 
@@ -73,19 +73,25 @@ public class ScheduleDetailsActivity extends AppCompatActivity {
             getWindow().setStatusBarColor(mToolBarColor);
         }
 
-        //api21
-        setTint(getResources().getDrawable(R.drawable.circle_24dp),mToolBarColor);
-        mSharedElement.setBackground(getResources().getDrawable(R.drawable.circle_24dp));
-        setUpAnimations();
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            //api21
+            setTint(getResources().getDrawable(R.drawable.circle_24dp), mToolBarColor);
+            mSharedElement.setBackground(getResources().getDrawable(R.drawable.circle_24dp));
+            setUpAnimations();
+        }else {
+            mSharedElement.setVisibility(View.GONE);
+            mToolbar.setTitle(mCourse.coursename);
+            mToolbar.setBackgroundColor(mToolBarColor);
+        }
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private void setUpAnimations(){
-        Explode explode = new Explode();
-        explode.setDuration(300);
-
-        Slide slide = new Slide(Gravity.LEFT);
-        slide.setDuration(300);
+    private void setUpAnimations() {
+//        Explode explode = new Explode();
+//        explode.setDuration(300);
+//
+//        Slide slide = new Slide(Gravity.LEFT);
+//        slide.setDuration(300);
 
         Fade fade = new Fade();
         fade.setDuration(500);
@@ -124,13 +130,15 @@ public class ScheduleDetailsActivity extends AppCompatActivity {
 
     }
 
-    private void animateRevealShow(View viewRoot){
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void animateRevealShow(View viewRoot) {
         viewRoot.setBackgroundColor(mToolBarColor);
         int cx = (viewRoot.getLeft() + viewRoot.getRight()) / 2;
         int cy = (viewRoot.getTop() + viewRoot.getBottom()) / 2;
         int finalRadius = Math.max(viewRoot.getWidth(), viewRoot.getHeight());
 
-        Animator anim = ViewAnimationUtils.createCircularReveal(viewRoot, cx, cy, 0, finalRadius);
+        Animator anim = null;
+        anim = ViewAnimationUtils.createCircularReveal(viewRoot, cx, cy, 0, finalRadius);
         anim.setInterpolator(new AccelerateInterpolator());
         viewRoot.setVisibility(View.VISIBLE);
         anim.setDuration(500);
@@ -149,7 +157,7 @@ public class ScheduleDetailsActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId()==android.R.id.home){
+        if (item.getItemId() == android.R.id.home) {
             onBackPressed();
         }
         return super.onOptionsItemSelected(item);
