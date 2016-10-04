@@ -6,6 +6,7 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical"
+              android:background="@color/bike_background"
               tools:context="com.twt.service.ui.schedule.ScheduleDetailsActivity">
 
     <android.support.v7.widget.Toolbar
@@ -27,6 +28,5 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/schedule_detail_rcv"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        />
+        android:layout_height="match_parent"/>
 </LinearLayout>
