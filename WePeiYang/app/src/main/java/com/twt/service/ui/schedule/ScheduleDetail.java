@@ -34,6 +34,7 @@ public class ScheduleDetail {
             mContentList.add(new Content().setKV("时间","第"+arrange.start+"-"+arrange.end+"节"));
             mContentList.add(new Content().setKV("地点",arrange.room));
 
+            mContentList.add(new Content().setKey("  "));
             ClassTable.Data.Course.Arrange arrange2 = arrangeList.get(1);
             mContentList.add(new Content().setKV("周数",arrange2.week));
             mContentList.add(new Content().setKV("时间","第"+arrange2.start+"-"+arrange2.end+"节"));
