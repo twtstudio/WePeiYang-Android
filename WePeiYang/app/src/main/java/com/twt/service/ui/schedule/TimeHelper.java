@@ -20,13 +20,8 @@ public class TimeHelper {
         return day/7 + 1;
     }
 
-    public static String getWeekString(int week){
-        String sWeek;
-        sWeek = week2Chinese(week);
-        return sWeek;
-    }
 
-    private static String week2Chinese(int week){
+    public static String getWeekString(int week){
         String[] cDay = {"零","一","二","三","四","五","六","七","八","九"};
         String sWeek = "";
         if (week/10 != 0){

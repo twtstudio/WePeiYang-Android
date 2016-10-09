@@ -28,12 +28,14 @@ import android.widget.Toast;
 
 import com.twt.service.R;
 import com.twt.service.bean.ClassTable;
+import com.twt.service.bean.WeekItem;
 import com.twt.service.interactor.ScheduleInteractorImpl;
 import com.twt.service.support.ResourceHelper;
 import com.twt.service.ui.BaseActivity;
 import com.twt.service.ui.bind.BindActivity;
 import com.twt.service.ui.common.NextActivity;
 import com.twt.service.ui.login.LoginActivity;
+import com.twt.service.ui.main.MainActivity;
 
 
 import java.util.ArrayList;
@@ -79,8 +81,9 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
     private int currentWeek;// 当前周
     private int griditemWidth;
     private int currentDay;
-
+    List<WeekItem> items;
     private int[] classColors;
+    private RecyclerPopupWindow recyclerPopupWindow;
     /*classTypes说明：
     * 第一维表示星期几，
     * 第二维表示课程状态：0表示无课程， 1表示有课程但是本周不上, 2表示有课程且本周上课
@@ -89,7 +92,7 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
     private static final int NO_CLASS = 0;
     private static final int CLASS_NOT_THIS_WEEK = 1;
     private static final int CLASS_THIS_WEEK = 2;
-
+    private ClassTable mClassTable;
     public static void actionStart(Context context) {
         Intent intent = new Intent(context, ScheduleActivity.class);
         context.startActivity(intent);
@@ -120,6 +123,13 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(getResources().getColor(R.color.schedule_primary_color));
         }
+
+        //初始化周数下拉列表的List
+        items = new ArrayList<>();
+        for (int i = 0; i < 25; ++i) {
+            items.add(i, new WeekItem(i + 1, false));
+
+        }
     }
 
     @Override
@@ -143,13 +153,12 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
         }
     }
 
-    @Override//只用来修改显示周数的文字
-    public void changeWeek(long startUnix, int week) {
+    //只用来修改显示周数的文字
+    public void changeWeek(int week) {
         String sWeek = "第" + TimeHelper.getWeekString(week) + "周";
         if (week != currentWeek) {
             sWeek += "(非当前周)";
         }
-//        TimeHelper.getWeekDate(startUnix, week);
         tvWeek.setText(sWeek);
     }
 
@@ -165,10 +174,11 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
 
     @Override
     public void bindData(ClassTable classTable) {
-        hasClass = new boolean[7][12];
+        mClassTable = classTable;
+
 //        //修复初始情况的课程不可用bug,
         currentWeek = TimeHelper.getWeekInt(Long.parseLong(classTable.data.term_start));
-        changeWeek(Long.parseLong(classTable.data.term_start),currentWeek);
+        changeWeek(currentWeek);
         if (classTable.data.term.length() > 1) {
             currentTerm = classTable.data.term.substring(0, classTable.data.term.length() - 1);
 //            tvScheduleTerm.setText(currentTerm + "学期课表");
@@ -199,10 +209,31 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
                 tvSaturday.setBackgroundColor(ContextCompat.getColor(this, R.color.divider_color));
                 break;
         }
-        initSchedule(classTable);
+
+        tvWeek.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (recyclerPopupWindow == null) {
+                    recyclerPopupWindow = new RecyclerPopupWindow(items, currentWeek);
+                    recyclerPopupWindow.showPopupWindow(ScheduleActivity.this, tvWeek, tvWeek.getWidth(), 300);
+                    recyclerPopupWindow.setCallBack((value, week_num) -> {
+                        if (!"-1".equals(value)) {
+                            changeWeek(week_num);
+                            if (mClassTable != null){
+                                glSchedule.removeAllViews();
+                                initSchedule(mClassTable, week_num);
+                            }
+                        }
+                        recyclerPopupWindow = null;
+                    });
+                }
+            }
+        });
+        initSchedule(classTable,currentWeek);
     }
 
-    private void initSchedule(ClassTable classTable) {
+    private void initSchedule(ClassTable classTable, int week) {
+        hasClass = new boolean[7][12];
         //绘制左侧
         for (int i = 0; i < 12; i++) {
             TextView textView = new TextView(this);
@@ -222,7 +253,7 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
 
         }
         //绘制课程信息
-        List<ClassTable.Data.Course> coursesNotThisWeek = new ArrayList<>();
+        List<ClassTable.Data.Course> coursesNotThisWeek = new ArrayList<>(); //非当前周的课程
         int i = 0;// 用来记录classColors用到第几个了。
         if (classColors == null) {
             classColors = new int[]{R.color.schedule_green,
@@ -253,10 +284,10 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
                     course.coursecolor = ResourceHelper.getColor(classColors[i]);
                     i++;
                 }
-                if (currentWeek >= startWeek && currentWeek <= endWeek &&
+                if (week >= startWeek && week <= endWeek &&
                         arrange.week.equals("单双周") ||
-                        (arrange.week.equals("单周") && currentWeek % 2 == 1) ||
-                        (arrange.week.equals("双周") && currentWeek % 2 == 0)) {
+                        (arrange.week.equals("单周") && week % 2 == 1) ||
+                        (arrange.week.equals("双周") && week % 2 == 0)) {
                     //缓存课程当前周状态
                     course.isAvaiableCurrentWeek = true;
 
@@ -291,7 +322,7 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
                         }
                     }
                 } else {
-                    // TODO: 2016/9/25 把course放入一个飞当前周的list
+                    // TODO: 2016/9/25 把course放入一个非当前周的list
                     coursesNotThisWeek.add(course);
                 }
             }
@@ -315,7 +346,7 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
                     tv.setHeight(griditemWidth * 2 * length - 8);
                     tv.setTextSize(13);
                     //跳转详情页面需要灰色
-                    course.coursecolor = ResourceHelper.getColor(R.color.schedule_gray);
+//                    course.coursecolor = ResourceHelper.getColor(R.color.schedule_gray);
                     cv.setCardBackgroundColor(ResourceHelper.getColor(R.color.myWindowBackgroundGray));
                     tv.setTextColor(ResourceHelper.getColor(R.color.schedule_gray));
                     cv.getCardBackgroundColor().withAlpha(90);
