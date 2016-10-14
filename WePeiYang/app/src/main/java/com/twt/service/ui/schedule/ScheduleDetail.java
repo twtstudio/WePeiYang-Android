@@ -25,21 +25,22 @@ public class ScheduleDetail {
         int size = arrangeList.size();
         if (size == 1){
             ClassTable.Data.Course.Arrange arrange = arrangeList.get(0);
-            mContentList.add(new Content().setKV("周数",arrange.week));
+            mContentList.add(new Content().setKV("周数",arrange.week+" 周"+TimeHelper.getWeekString(Integer.parseInt(arrange.day))));
             mContentList.add(new Content().setKV("时间","第"+arrange.start+"-"+arrange.end+"节"));
             mContentList.add(new Content().setKV("地点",arrange.room));
         }else if (size == 2){
             ClassTable.Data.Course.Arrange arrange = arrangeList.get(0);
-            mContentList.add(new Content().setKV("周数",arrange.week));
+            mContentList.add(new Content().setKV("周数",arrange.week+" 周"+TimeHelper.getWeekString(Integer.parseInt(arrange.day))));
             mContentList.add(new Content().setKV("时间","第"+arrange.start+"-"+arrange.end+"节"));
             mContentList.add(new Content().setKV("地点",arrange.room));
 
             mContentList.add(new Content().setKey("  "));
             ClassTable.Data.Course.Arrange arrange2 = arrangeList.get(1);
-            mContentList.add(new Content().setKV("周数",arrange2.week));
+            mContentList.add(new Content().setKV("周数",arrange2.week+" 周"+TimeHelper.getWeekString(Integer.parseInt(arrange2.day))));
             mContentList.add(new Content().setKV("时间","第"+arrange2.start+"-"+arrange2.end+"节"));
             mContentList.add(new Content().setKV("地点",arrange2.room));
         }
+        mContentList.add(new Content().setKey(" "));
         //mContentList.get(5).setKV("时间",course.);
     }
 
