@@ -24,6 +24,8 @@ public class ScheduleDetailAdapter extends BaseAdapter<ScheduleDetail.Content> {
     static class sDetailInfoHolder extends BaseViewHolder{
         @InjectView(R.id.schedule_detail_info)
         TextView mTextView;
+        @InjectView(R.id.schedule_detail_divider)
+        View mView;
 
         public sDetailInfoHolder(View itemView) {
             super(itemView);
@@ -63,6 +65,9 @@ public class ScheduleDetailAdapter extends BaseAdapter<ScheduleDetail.Content> {
         int type = getItemViewType(position);
         if (type == DETAIL_INFO){
             sDetailInfoHolder itemHolder = (sDetailInfoHolder) holder;
+            if (position == getItemCount()-1){
+                itemHolder.mView.setVisibility(View.GONE);
+            }
             final ScheduleDetail.Content item = mDataSet.get(position);
             itemHolder.mTextView.setText(item.getKey());
         }else if (type == DETAIL_CONTENT){

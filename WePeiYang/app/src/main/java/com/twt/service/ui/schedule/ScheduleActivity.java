@@ -504,8 +504,8 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
         getWindowManager().getDefaultDisplay().getSize(point);
         int window_x = point.x;
         int window_y = point.y;
-        card_y *= 1.5;
-        card_x *= 2.5;
+        card_y *= 2.0;
+        card_x *= 5.0;
         double percent_x = card_x/window_x;
         double percent_y = card_y/window_y;
         intent.putExtra("percent_x",percent_x);

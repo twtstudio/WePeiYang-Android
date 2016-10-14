@@ -24,6 +24,7 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewAnimationUtils;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AccelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -98,6 +99,7 @@ public class ScheduleDetailsActivity extends AppCompatActivity {
         getWindow().setEnterTransition(fade);
 
         Transition transition = getWindow().getSharedElementEnterTransition();
+        transition.setInterpolator(new AccelerateDecelerateInterpolator());
         transition.addListener(new Transition.TransitionListener() {
             @Override
             public void onTransitionStart(Transition transition) {
