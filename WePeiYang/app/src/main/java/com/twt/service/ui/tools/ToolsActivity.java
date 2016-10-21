@@ -4,15 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.AppBarLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.twt.service.R;
-import com.twt.service.bike.bike.bikeAuth.BikeAuthActivity;
-import com.twt.service.bike.bike.ui.main.BikeActivity;
+import com.twt.service.rxsrc.bike.bikeAuth.BikeAuthActivity;
+import com.twt.service.rxsrc.bike.ui.main.BikeActivity;
 import com.twt.service.party.ui.home.PartyActivity;
 import com.twt.service.support.PrefUtils;
 import com.twt.service.ui.BaseActivity;
@@ -21,7 +20,6 @@ import com.twt.service.ui.common.NextActivity;
 import com.twt.service.ui.date.DatingActivity;
 import com.twt.service.ui.gpa.GpaActivity;
 import com.twt.service.ui.login.LoginActivity;
-import com.twt.service.ui.main.MainActivity;
 import com.twt.service.ui.schedule.ScheduleActivity;
 
 import butterknife.ButterKnife;

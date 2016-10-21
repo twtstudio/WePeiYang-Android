@@ -7,8 +7,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.twt.service.R;
-import com.twt.service.bike.common.ui.BaseAdapter;
-import com.twt.service.bike.common.ui.BaseViewHolder;
+import com.twt.service.rxsrc.common.ui.BaseAdapter;
+import com.twt.service.rxsrc.common.ui.BaseViewHolder;
 
 import butterknife.InjectView;
 

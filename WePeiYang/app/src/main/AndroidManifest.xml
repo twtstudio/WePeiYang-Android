@@ -153,15 +153,15 @@
 
         <receiver android:name=".receiver.push.BootReceiver"/>
 
-        <activity android:name=".bike.bike.ui.main.BikeActivity"/>
-        <activity android:name=".bike.bike.bikeAuth.BikeAuthActivity"/>
-        <activity android:name=".bike.bike.bikeAuth.BikeCardActivity"/>
-        <activity android:name=".bike.bike.ui.announcement.AnnouncementDetail"/>
+        <activity android:name=".rxsrc.bike.ui.main.BikeActivity"/>
+        <activity android:name=".rxsrc.bike.bikeAuth.BikeAuthActivity"/>
+        <activity android:name=".rxsrc.bike.bikeAuth.BikeCardActivity"/>
+        <activity android:name=".rxsrc.bike.ui.announcement.AnnouncementDetail"/>
 
         <service android:name="com.amap.api.location.APSService"/>
 
         <activity android:name=".ui.tools.ToolsActivity"/>
-        <activity android:name=".bike.bike.ui.record.RecordActivity"/>
+        <activity android:name=".rxsrc.bike.ui.record.RecordActivity"/>
         <activity android:name=".ui.schedule.MultiCourseActivity"
             android:theme="@style/Theme.FloatingWindow.Popup"/>
     </application>

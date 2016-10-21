@@ -1,12 +1,8 @@
 package com.rex.wepeiyang;
 
-import com.twt.service.api.RequestParams;
-import com.twt.service.api.Sign;
-import com.twt.service.bike.utils.TimeStampUtils;
+import com.twt.service.rxsrc.utils.TimeStampUtils;
 
 import org.junit.Test;
-
-import java.util.HashMap;
 
 import static org.junit.Assert.*;
 
