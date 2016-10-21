@@ -108,31 +108,6 @@ public class BikeApiClient {
             return chain.proceed(request);
         }
     };
-//    public static Request interceptRequest(@NotNull Request request, @NotNull String parameter)
-//            throws IOException {
-//
-//        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//
-//        Sink sink = Okio.sink(baos);
-//        BufferedSink bufferedSink = Okio.buffer(sink);
-//
-//        /**
-//         * Write old params
-//         * */
-//        request.body().writeTo(bufferedSink);
-//
-//        /**
-//         * write to buffer additional params
-//         * */
-//        bufferedSink.writeString(parameter, Charset.defaultCharset());
-//
-//        RequestBody newRequestBody = RequestBody.create(
-//                request.body().contentType(),
-//                bufferedSink.buffer().readUtf8()
-//        );
-//
-//        return request.newBuilder().post(newRequestBody).build();
-//    }
 
     public void unSubscribe(Object tag) {
         if (mSubscriptionsMap.containsKey(tag)) {
