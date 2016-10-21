@@ -8,7 +8,7 @@ import rx.schedulers.Schedulers;
  * Created by jcy on 2016/8/7.
  */
 
-public class BikeApiUtils {
+public class ApiUtils {
 
     public static <T> Observable.Transformer<T, T> applySchedulers() {
         return new Observable.Transformer<T, T>() {

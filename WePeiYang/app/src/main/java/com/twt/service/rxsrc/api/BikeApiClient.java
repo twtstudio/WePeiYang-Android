@@ -131,7 +131,7 @@ public class BikeApiClient {
         Subscription subscription = mService.getBikeToken(wpy_token)
                 .retryWhen(mTokenHelper)
                 .map(new BikeResponseTransformer<BikeAuth>())
-                .compose(BikeApiUtils.<BikeAuth>applySchedulers())
+                .compose(ApiUtils.<BikeAuth>applySchedulers())
                 .subscribe(subscriber);
         addSubscription(tag, subscription);
     }
@@ -140,7 +140,7 @@ public class BikeApiClient {
         Subscription subscription = mService.getBikeCard(num)
                 .retryWhen(mTokenHelper)
                 .map(new BikeResponseTransformer<List<BikeCard>>())
-                .compose(BikeApiUtils.<List<BikeCard>>applySchedulers())
+                .compose(ApiUtils.<List<BikeCard>>applySchedulers())
                 .subscribe(subscriber);
         addSubscription(tag, subscription);
     }
@@ -148,7 +148,7 @@ public class BikeApiClient {
     public void getStationStatus(Object tag, Subscriber subscriber, String id) {
         Subscription subscription = mService.getStationStaus(id)
                 .map(new BikeResponseTransformer<List<BikeStation>>())
-                .compose(BikeApiUtils.<List<BikeStation>>applySchedulers())
+                .compose(ApiUtils.<List<BikeStation>>applySchedulers())
                 .subscribe(subscriber);
         addSubscription(tag, subscription);
     }
@@ -157,7 +157,7 @@ public class BikeApiClient {
         Subscription subscription = mService.bindBikeCard(id, sign)
                 .retryWhen(mTokenHelper)
                 .map(new BikeResponseTransformer<String>())
-                .compose(BikeApiUtils.<String>applySchedulers())
+                .compose(ApiUtils.<String>applySchedulers())
                 .subscribe(subscriber);
         addSubscription(tag, subscription);
     }
@@ -166,7 +166,7 @@ public class BikeApiClient {
         Subscription subscription = mService.getUserInfo("fake")
                 .retryWhen(mTokenHelper)
                 .map(new BikeResponseTransformer<BikeUserInfo>())
-                .compose(BikeApiUtils.<BikeUserInfo>applySchedulers())
+                .compose(ApiUtils.<BikeUserInfo>applySchedulers())
                 .subscribe(subscriber);
         addSubscription(tag, subscription);
     }
@@ -175,7 +175,7 @@ public class BikeApiClient {
         Subscription subscription = mService.cacheStationStaus()
                 .repeatWhen(v -> v.delay(90, TimeUnit.SECONDS))
                 .map(new BikeResponseTransformer<List<BikeStation>>())
-                .compose(BikeApiUtils.applySchedulers())
+                .compose(ApiUtils.applySchedulers())
                 .subscribe(subscriber);
         addSubscription(tag, subscription);
     }
@@ -183,7 +183,7 @@ public class BikeApiClient {
     public void getAnnouncement(Object tag, Subscriber subscriber) {
         Subscription subscription = mService.getBikeAnnouncement()
                 .map(new BikeResponseTransformer<List<BikeAnnouncement>>())
-                .compose(BikeApiUtils.applySchedulers())
+                .compose(ApiUtils.applySchedulers())
                 .subscribe(subscriber);
         addSubscription(tag, subscription);
     }
@@ -191,7 +191,7 @@ public class BikeApiClient {
     public void getBikeRecord(Object tag, Subscriber subscriber, String month) {
         Subscription subscription = mService.getBikeRecord(month)
                 .map(new BikeResponseTransformer<List<BikeRecord>>())
-                .compose(BikeApiUtils.applySchedulers())
+                .compose(ApiUtils.applySchedulers())
                 .subscribe(subscriber);
         addSubscription(tag, subscription);
     }

@@ -68,7 +68,7 @@ public class BikeApiSubscriber<T> extends Subscriber<T> {
         } else if (e instanceof HttpException){
             toastMessage("Http错误"+((HttpException) e).code());
         }
-        else if (e instanceof BikeApiException){
+        else if (e instanceof ApiException){
             toastMessage("错误: " + e.getMessage());
         }else {
             try {

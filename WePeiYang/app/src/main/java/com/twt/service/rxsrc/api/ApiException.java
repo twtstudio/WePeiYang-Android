@@ -8,7 +8,7 @@ import java.util.List;
  * Created by jcy on 2016/8/7.
  */
 
-public class BikeApiException extends RuntimeException {
+public class ApiException extends RuntimeException {
     protected static final List<Integer> AUTH_ERROR_CODES = new ArrayList<>();
 
     static {
@@ -19,7 +19,7 @@ public class BikeApiException extends RuntimeException {
 
     private BikeApiResponse mResult;
 
-    public BikeApiException(BikeApiResponse Result) {
+    public ApiException(BikeApiResponse Result) {
         this.mResult = Result;
     }
 
