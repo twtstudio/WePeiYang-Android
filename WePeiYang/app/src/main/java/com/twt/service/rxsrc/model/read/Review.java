@@ -12,6 +12,8 @@ public class Review {
     public int rate;
     public int like;
     public String timestamp;
+    public user user;
+    public book book;
 
     public static class user {
         public String id;
