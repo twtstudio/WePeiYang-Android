@@ -2,18 +2,17 @@ package com.twt.service.rxsrc.read.bindAdapter;
 
 import android.databinding.BindingAdapter;
 import android.text.TextUtils;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.liuguangqiang.idaily.ui.widget.MyWebView;
-import com.liuguangqiang.idaily.utils.DailyUtils;
 
 /**
- * Custom binding.
- * <p>
- * Created by Eric on 15/6/23.
+ * Created by jcy on 16-10-21.
+ * @TwtStudio Mobile Develope Team
  */
+
 public class DataBindingAdapter {
 
     @BindingAdapter({"imageUrl"})
@@ -23,14 +22,14 @@ public class DataBindingAdapter {
     }
 
     @BindingAdapter({"body"})
-    public static void loadBody(MyWebView webView, String body) {
+    public static void loadBody(WebView webView, String body) {
         if (!TextUtils.isEmpty(body))
             webView.loadData(body, "text/html; charset=UTF-8", null);
     }
 
-    @BindingAdapter({"datetime"})
-    public static void loadDatetime(TextView textView, int datetime) {
-        textView.setText(DailyUtils.getDisplayDate(textView.getContext(), datetime));
-    }
+//    @BindingAdapter({"datetime"})
+//    public static void loadDatetime(TextView textView, int datetime) {
+//        textView.setText(DailyUtils.getDisplayDate(textView.getContext(), datetime));
+//    }
 
 }

@@ -1,5 +1,6 @@
 package com.twt.service.rxsrc.api;
 
+import com.twt.service.rxsrc.model.read.ReadToken;
 import com.twt.service.support.PrefUtils;
 
 import java.io.IOException;
@@ -36,6 +37,8 @@ public class ReadApiClient {
     // TODO: 16-10-22 定制authhelper来实现readtoken的刷新
     private ReadAuthHelper mTokenHelper;
 
+    private ReadResponseTransformer mResponseTransformer;
+
     public ReadApiClient() {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -58,6 +61,7 @@ public class ReadApiClient {
         mService = mRetrofit.create(ReadApi.class);
 
         mTokenHelper = new ReadAuthHelper(mService);
+        mResponseTransformer = new ReadResponseTransformer<>();
     }
 
     private static class SingletonHolder {
@@ -133,11 +137,18 @@ public class ReadApiClient {
     public void getReadToken(Object tag, Subscriber subscriber, String wpy_token) {
         Subscription subscription = mService.getReadToken(wpy_token)
                 .retryWhen(mTokenHelper)
-                .map(new ReadResponseTransformer<>())
+                .map(mResponseTransformer)
                 .compose(ApiUtils.applySchedulers())
                 .subscribe(subscriber);
         addSubscription(tag, subscription);
     }
 
-
+    public void searchBooks(Object tag , Subscriber subscriber , String info){
+        Subscription subscription = mService.searchBooks(info)
+                .retryWhen(mTokenHelper)
+                .map(mResponseTransformer)
+                .compose(ApiUtils.applySchedulers())
+                .subscribe(subscriber);
+        addSubscription(tag,subscription);
+    }
 }

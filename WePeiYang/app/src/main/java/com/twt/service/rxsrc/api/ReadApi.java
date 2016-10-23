@@ -41,7 +41,7 @@ public interface ReadApi {
     Observable<ApiResponse<List<User>>> getStarReaderList(@Path("count") String count);
 
     @GET("search/{info}")
-    Observable<ApiResponse<List<SearchBook>>> getSearchBooks(@Path("info") String info);
+    Observable<ApiResponse<List<SearchBook>>> searchBooks(@Path("info") String info);
 
     @GET("detail/{id}")
     Observable<ApiResponse<Detail>> getBookDetail(@Path("id") String id);
