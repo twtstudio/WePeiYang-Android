@@ -18,6 +18,11 @@ android {
             moduleName "Jni"
         }
     }
+
+    dataBinding {
+        enabled = true
+    }
+
     buildTypes {
         debug {
             minifyEnabled false

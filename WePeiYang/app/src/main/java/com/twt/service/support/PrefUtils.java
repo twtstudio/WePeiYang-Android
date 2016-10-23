@@ -30,6 +30,8 @@ public class PrefUtils {
     private static final String PREF_BIKE_CARD_ID = "bike_id";
     private static final String PREF_BIKE_IS_BIND = "bike_is_bind";
 
+    private static final String PREF_READ_TOKEN = "read_token";
+
     private static final String PREF_SCHEDULE_START_DATE = "schedule_start_date";
 
     private static SharedPreferences getDefaultSharedPreferences() {
@@ -223,5 +225,13 @@ public class PrefUtils {
 
     public static void removeScheduleStartDate(){
         getDefaultSharedPreferences().edit().remove(PREF_SCHEDULE_START_DATE).commit();
+    }
+
+    public static String getReadToken(){
+        return getDefaultSharedPreferences().getString(PREF_READ_TOKEN,"");
+    }
+
+    public static void setReadToken(String readToken){
+        getDefaultSharedPreferences().edit().putString(PREF_READ_TOKEN,readToken).commit();
     }
 }

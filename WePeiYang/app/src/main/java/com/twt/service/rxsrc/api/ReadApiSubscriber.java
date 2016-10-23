@@ -2,7 +2,6 @@ package com.twt.service.rxsrc.api;
 
 import android.content.Context;
 
-
 import com.twt.service.rxsrc.utils.ToastUtils;
 
 import java.net.ConnectException;
@@ -12,10 +11,11 @@ import retrofit2.adapter.rxjava.HttpException;
 import rx.Subscriber;
 
 /**
- * Created by jcy on 2016/8/7.
+ * Created by jcy on 2016/10/23.
+ * @TwtStudio Mobile Develope Team
  */
 
-public class BikeApiSubscriber<T> extends Subscriber<T> {
+public class ReadApiSubscriber<T> extends Subscriber<T> {
     protected Context mContext;
 
     protected OnNextListener<T> mOnNextListener;
@@ -25,12 +25,12 @@ public class BikeApiSubscriber<T> extends Subscriber<T> {
 
     protected boolean isToastError = true;
 
-    public BikeApiSubscriber(Context context, OnNextListener<T> listener) {
+    public ReadApiSubscriber(Context context, OnNextListener<T> listener) {
         mContext = context;
         mOnNextListener = listener;
     }
 
-    public BikeApiSubscriber(Context context, OnNextListener<T> listener,OnErrorListener errorListener) {
+    public ReadApiSubscriber(Context context, OnNextListener<T> listener, OnErrorListener errorListener) {
         mContext = context;
         mOnNextListener = listener;
         mOnErrorListener = errorListener;

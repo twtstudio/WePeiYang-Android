@@ -10,7 +10,7 @@ public class BikeResponseTransformer<T> implements Func1<BikeApiResponse<T>, T> 
     @Override
     public T call(BikeApiResponse<T> tBikeApiResponse) {
         if (tBikeApiResponse.getErrno() != 0) {
-            throw new ApiException(tBikeApiResponse);
+            throw new BIkeApiException(tBikeApiResponse);
         }
         return tBikeApiResponse.getData();
     }

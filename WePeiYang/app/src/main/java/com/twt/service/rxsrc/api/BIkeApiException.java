@@ -6,13 +6,9 @@ import java.util.List;
 
 /**
  * Created by jcy on 2016/8/7.
- * @TwtStudio Mobile Develope Team
  */
 
-/**
- * wpy通用API封装
- */
-public class ApiException extends RuntimeException {
+public class BIkeApiException extends RuntimeException {
     protected static final List<Integer> AUTH_ERROR_CODES = new ArrayList<>();
 
     static {
@@ -21,19 +17,19 @@ public class ApiException extends RuntimeException {
         AUTH_ERROR_CODES.add(23);
     }
 
-    private ApiResponse mResult;
+    private BikeApiResponse mResult;
 
-    public ApiException(ApiResponse Result) {
+    public BIkeApiException(BikeApiResponse Result) {
         this.mResult = Result;
     }
 
     public int getCode() {
-        return mResult.getErr_code();
+        return mResult.getErrno();
     }
 
     @Override
     public String getMessage() {
-        return mResult.getMessage();
+        return mResult.getErrmsg();
     }
 
     public boolean isAuthError() {
