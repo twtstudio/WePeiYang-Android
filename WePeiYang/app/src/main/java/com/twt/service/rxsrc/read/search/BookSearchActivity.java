@@ -58,6 +58,7 @@ public class BookSearchActivity extends BPActivity<BookSearchPresenter> implemen
     @Override
     protected void afterInitView() {
         super.afterInitView();
+        setUpToolbar(mToolbar);
         mSearchView.setSubmitButtonEnabled(true);
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
