@@ -2,6 +2,7 @@ package com.twt.service.rxsrc.common;
 
 import android.content.Context;
 
+import com.twt.service.rxsrc.api.ReadApiClient;
 
 
 /**
@@ -20,7 +21,7 @@ public abstract class Presenter {
     }
 
     public void onDestroy() {
-       // WePeiYangClient.getInstance().unSubscribe(mContext);
+        ReadApiClient.getInstance().unSubscribe(mContext);
     }
 
     public void onStart() {

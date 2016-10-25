@@ -4,6 +4,7 @@ import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
@@ -29,6 +30,7 @@ public class BookSearchActivity extends BPActivity<BookSearchPresenter> implemen
     private SearchView mSearchView;
     private RecyclerView mRecyclerView;
     private Toolbar mToolbar;
+    private BookSearchAdapter mAdapter;
 
     @Override
     protected BookSearchPresenter getPresenter() {
@@ -52,7 +54,9 @@ public class BookSearchActivity extends BPActivity<BookSearchPresenter> implemen
         mBinding.setHint("输入你想查找的书名");
         mSearchView = mBinding.readSearchView;
         mRecyclerView = mBinding.readSearchRecyclerview;
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mToolbar = mBinding.readSearchToolbar;
+        mAdapter = new BookSearchAdapter(this);
     }
 
     @Override
@@ -76,6 +80,9 @@ public class BookSearchActivity extends BPActivity<BookSearchPresenter> implemen
 
     @Override
     public void onSearchFinished(List<SearchBook> bookList) {
-
+        mAdapter.refreshItems(bookList);
+        if (mRecyclerView.getAdapter()!=null){
+            mRecyclerView.setAdapter(mAdapter);
+        }
     }
 }

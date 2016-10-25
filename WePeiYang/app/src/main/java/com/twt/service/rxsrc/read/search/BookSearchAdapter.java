@@ -13,6 +13,8 @@ import com.twt.service.rxsrc.common.ui.BaseBindHolder;
 import com.twt.service.rxsrc.common.ui.BaseBindingAdapter;
 import com.twt.service.rxsrc.model.read.SearchBook;
 
+import java.util.List;
+
 /**
  * Created by jcy on 16-10-24.
  *
@@ -41,6 +43,12 @@ public class BookSearchAdapter extends BaseBindingAdapter<SearchBook> {
     public BookSearchAdapter(Context context) {
         super(context);
     }
+
+    public BookSearchAdapter(Context context, List<SearchBook> bookList) {
+        super(context);
+        addItems(bookList);
+    }
+
 
     @Override
     public BaseBindHolder onCreateViewHolder(ViewGroup parent, int viewType) {

@@ -88,7 +88,7 @@ public class ReadApiClient {
 
             Request.Builder builder = originRequest
                     .newBuilder()
-                    .addHeader("Authorization",PrefUtils.getBikeToken());
+                    .addHeader("Authorization", PrefUtils.getBikeToken());
 
             Request request = builder.build();
             return chain.proceed(request);
@@ -130,9 +130,10 @@ public class ReadApiClient {
 
     /**
      * 添加新功能时候照着这个写
-     * @param tag presenter，需继承common包里面的presenter，自动绑定订阅关系
+     *
+     * @param tag        presenter，需继承common包里面的presenter，自动绑定订阅关系
      * @param subscriber 订阅者，也是在presenter中初始化
-     * @param wpy_token 传入的wpytoken
+     * @param wpy_token  传入的wpytoken
      */
     public void getReadToken(Object tag, Subscriber subscriber, String wpy_token) {
         Subscription subscription = mService.getReadToken(wpy_token)
@@ -143,12 +144,21 @@ public class ReadApiClient {
         addSubscription(tag, subscription);
     }
 
-    public void searchBooks(Object tag , Subscriber subscriber , String info){
+    public void searchBooks(Object tag, Subscriber subscriber, String info) {
         Subscription subscription = mService.searchBooks(info)
                 .retryWhen(mTokenHelper)
                 .map(mResponseTransformer)
                 .compose(ApiUtils.applySchedulers())
                 .subscribe(subscriber);
-        addSubscription(tag,subscription);
+        addSubscription(tag, subscription);
+    }
+
+    public void getBookDetail(Object tag, Subscriber subscriber, String id) {
+        Subscription subscription = mService.getBookDetail(id)
+                .retryWhen(mTokenHelper)
+                .map(mResponseTransformer)
+                .compose(ApiUtils.applySchedulers())
+                .subscribe(subscriber);
+        addSubscription(tag, subscription);
     }
 }
