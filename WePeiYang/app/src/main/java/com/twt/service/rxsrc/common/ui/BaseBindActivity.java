@@ -25,7 +25,9 @@ public abstract class BaseBindActivity extends AppCompatActivity implements IVie
     protected LoadingDialog mLoadingDialog;
 
 
-    protected abstract void actionStart(Context context);
+    protected void actionStart(Context context){
+
+    };
 
     protected abstract int getStatusbarColor();
 

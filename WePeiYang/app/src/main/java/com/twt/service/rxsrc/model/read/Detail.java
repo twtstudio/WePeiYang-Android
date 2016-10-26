@@ -44,6 +44,7 @@ public class Detail {
         public int rate;
         public int like;
         public String timestamp;
+        public user user;
 
         public static class user{
             public int id;
