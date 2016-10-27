@@ -52,7 +52,7 @@ public class ReadApiClient {
 
         // TODO: 16-10-22 修改fakeURL为图书url
         mRetrofit = new Retrofit.Builder()
-                .baseUrl("fakeurl")
+                .baseUrl("http://bike.twtstudio.com/api.php/")
                 .client(client)
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
