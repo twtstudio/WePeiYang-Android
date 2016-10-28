@@ -52,4 +52,8 @@ public class BookDetailActivity extends BPActivity<BookDetailPresenter> implemen
             mRecyclerView.setAdapter(mAdapter);
         }
     }
+
+//    public void setFuckData(){
+//        Detail detail = new Detail();
+//    }
 }

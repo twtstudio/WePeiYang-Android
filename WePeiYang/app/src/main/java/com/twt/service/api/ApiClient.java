@@ -415,15 +415,16 @@ public class ApiClient {
         params.put("sign", sign);
         mApi.editFound(authorization, id, params, callback);
     }
-    public static void libSearch(String title, int page, Callback<LibSearch> callback)
+
+    public static void libSearch(String title, int page , Callback<LibSearch> callback)
     {
         RequestParams params=new RequestParams();
         params.put("title",title);
         params.put("page",page+"");
         HashMap<String,String> temp=new HashMap<>();
         temp.put("t",params.get("t"));
-        temp.put("title","swift");
-        temp.put("page",1+"");
+        temp.put("title",title);
+        temp.put("page",page+"");
         String sign=new Sign().generate(temp);
         params.put("sign",sign);
         mApi.libSearch(params,callback);

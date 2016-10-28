@@ -116,6 +116,6 @@ public interface Api {
     @PUT("/lostfound/found/{id}")
     void editFound(@Header(AUTHORIZATION) String authorization, @Path("id") int id, @FieldMap RequestParams params, Callback<JsonElement> response);
 
-    @GET("/lib/search")
+    @GET("/library/book")
     void libSearch( @QueryMap RequestParams params, Callback<LibSearch> response);
 }

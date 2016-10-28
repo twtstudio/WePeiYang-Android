@@ -27,11 +27,11 @@
             android:icon="@mipmap/ic_about_app"
             android:title="@string/about_app" />
 
-        <!--<item
-            android:id="@+id/push_settings"
+        <item
+            android:id="@+id/debug_settings"
             android:checkable="false"
             android:icon="@mipmap/ic_account_settings"
-            android:title="推送设置"/>-->
+            android:title="debug"/>
 
 
     </group>

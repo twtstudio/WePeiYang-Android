@@ -36,6 +36,7 @@ import com.twt.service.bean.Update;
 import com.twt.service.rxsrc.bike.bikeAuth.BikeAuthActivity;
 import com.twt.service.rxsrc.bike.ui.main.BikeActivity;
 import com.twt.service.interactor.MainInteractorImpl;
+import com.twt.service.rxsrc.read.DebugActivity;
 import com.twt.service.support.PrefUtils;
 import com.twt.service.ui.BaseActivity;
 import com.twt.service.ui.about.AboutActivity;
@@ -214,9 +215,9 @@ public class MainActivity extends BaseActivity implements BaseSliderView.OnSlide
                     case R.id.item_check_update:
                         checkUpdate(false);
                         break;
-                    /*case R.id.push_settings:
-                        PushActivity.actionStart(MainActivity.this);
-                        break;*/
+                    case R.id.debug_settings:
+                        DebugActivity.actionStart(MainActivity.this);
+                        break;
                 }
                 dlMain.closeDrawers();
                 return true;

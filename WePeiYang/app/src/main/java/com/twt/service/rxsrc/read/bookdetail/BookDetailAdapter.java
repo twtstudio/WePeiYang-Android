@@ -47,11 +47,11 @@ public class BookDetailAdapter extends RecyclerView.Adapter<BaseBindHolder> {
 
     public void setDetail(Detail detail) {
         mDetail = detail;
-        status_count = detail.status.size();
-        review_count = detail.reviews.size();
+        //status_count = detail.status.size();
+        review_count = detail.review.data.size();
         mDataList.add(detail);
-        mDataList.addAll(detail.status);
-        mDataList.addAll(detail.reviews);
+        //mDataList.addAll(detail.status);
+        mDataList.addAll(detail.review.data);
     }
 
     static class sHeaderHolder extends BaseBindHolder {
@@ -80,9 +80,9 @@ public class BookDetailAdapter extends RecyclerView.Adapter<BaseBindHolder> {
             mBinding = DataBindingUtil.bind(itemView);
         }
 
-        public void setStatus(Detail.statusItem status) {
-            mBinding.setStatus(status);
-        }
+//        public void setStatus(Detail. status) {
+//            mBinding.setStatus(status);
+//        }
 
         public ItemBookDetailStatusBinding getBinding() {
             return mBinding;
@@ -99,7 +99,7 @@ public class BookDetailAdapter extends RecyclerView.Adapter<BaseBindHolder> {
             mBinding = DataBindingUtil.bind(itemView);
         }
 
-        public void setReview(Detail.reviewItem review) {
+        public void setReview(Detail.ReviewBean review) {
             mBinding.setReview(review);
         }
 
@@ -128,13 +128,15 @@ public class BookDetailAdapter extends RecyclerView.Adapter<BaseBindHolder> {
         Object baseData = mDataList.get(position);
         if (type == TYPE_HEADER){
             sHeaderHolder headerHolder = (sHeaderHolder) holder;
+            ItemBookDetailHeaderBinding binding = headerHolder.getBinding();
+
             // TODO: 16-10-27 header样式的处理
         }else if (type == TYPE_REVIEW){
             sStatusHolder statusHolder = (sStatusHolder) holder;
-            statusHolder.setStatus((Detail.statusItem) baseData);
+            //statusHolder.setStatus((Detail.statusItem) baseData);
         }else if (type == TYPE_REVIEW){
             sReviewHolder reviewHolder = (sReviewHolder) holder;
-            reviewHolder.setReview((Detail.reviewItem) baseData);
+            reviewHolder.setReview((Detail.ReviewBean) baseData);
         }
     }
 

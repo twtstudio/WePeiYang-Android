@@ -5,7 +5,7 @@
     <data>
         <variable
             name="review"
-            type="com.twt.service.rxsrc.model.read.Detail.reviewItem"/>
+            type="com.twt.service.rxsrc.model.read.Detail.ReviewBean"/>
     </data>
     <RelativeLayout
         android:layout_width="match_parent"

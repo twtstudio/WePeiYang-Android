@@ -1,5 +1,6 @@
 package com.twt.service.rxsrc.api;
 
+import com.twt.service.rxsrc.model.read.Detail;
 import com.twt.service.rxsrc.model.read.ReadToken;
 import com.twt.service.support.PrefUtils;
 
@@ -16,8 +17,10 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
+import rx.functions.Func1;
 import rx.subscriptions.CompositeSubscription;
 
 /**
@@ -156,6 +159,12 @@ public class ReadApiClient {
     public void getBookDetail(Object tag, Subscriber subscriber, String id) {
         Subscription subscription = mService.getBookDetail(id)
                 .retryWhen(mTokenHelper)
+                .flatMap(new Func1<ApiResponse<Detail>, Observable<?>>() {
+                    @Override
+                    public Observable<?> call(ApiResponse<Detail> detailApiResponse) {
+                        return null;
+                    }
+                })
                 .map(mResponseTransformer)
                 .compose(ApiUtils.applySchedulers())
                 .subscribe(subscriber);

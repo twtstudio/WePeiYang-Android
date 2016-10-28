@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/read_edit_review_toolbar"
+            android:background="@color/mdtp_red"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"/>
+        <RatingBar
+            android:id="@+id/read_edit_review_ratingbar"
+            android:layout_gravity="center_horizontal"
+            android:numStars="5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:textSize="22sp"
+            android:text="输入你的评论:"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <EditText
+            android:id="@+id/read_edit_review_edittext"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+</layout>
