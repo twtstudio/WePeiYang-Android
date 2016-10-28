@@ -13,6 +13,7 @@ import com.twt.service.R;
 import com.twt.service.rxsrc.bike.bikeAuth.BikeAuthActivity;
 import com.twt.service.rxsrc.bike.ui.main.BikeActivity;
 import com.twt.service.party.ui.home.PartyActivity;
+import com.twt.service.rxsrc.read.home.BookHomeActivity;
 import com.twt.service.support.PrefUtils;
 import com.twt.service.ui.BaseActivity;
 import com.twt.service.ui.bus.BusActivity;
@@ -45,6 +46,8 @@ public class ToolsActivity extends BaseActivity {
     LinearLayout btnDating;
     @InjectView(R.id.btn_bus)
     LinearLayout btnBus;
+    @InjectView(R.id.btn_read)
+    LinearLayout btnRead;
 
     public static void actionStart(Context context) {
         Intent intent = new Intent(context, ToolsActivity.class);
@@ -72,7 +75,7 @@ public class ToolsActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.btn_schedule, R.id.btn_gpa_query, R.id.btn_bike, R.id.btn_party, R.id.btn_dating, R.id.btn_bus})
+    @OnClick({R.id.btn_schedule, R.id.btn_gpa_query, R.id.btn_bike, R.id.btn_party, R.id.btn_dating, R.id.btn_bus,R.id.btn_read})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_schedule:
@@ -121,6 +124,13 @@ public class ToolsActivity extends BaseActivity {
                     startActivity(new Intent(ToolsActivity.this, BikeAuthActivity.class));
                 } else {
                     LoginActivity.actionStart(ToolsActivity.this, NextActivity.Bike);
+                }
+                break;
+            case R.id.btn_read:
+                if (PrefUtils.isLogin()) {
+                    BookHomeActivity.onActionStart(this);
+                } else {
+                    LoginActivity.actionStart(this, NextActivity.Party);
                 }
                 break;
         }
