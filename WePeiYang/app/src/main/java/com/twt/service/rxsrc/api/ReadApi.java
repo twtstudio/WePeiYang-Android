@@ -43,7 +43,7 @@ public interface ReadApi {
     @GET("search/{info}")
     Observable<ApiResponse<List<SearchBook>>> searchBooks(@Path("info") String info);
 
-    @GET("detail/{id}")
+    @GET("book/detail/{id}?include=review,starreview,status")
     Observable<ApiResponse<Detail>> getBookDetail(@Path("id") String id);
 
     // TODO: 16-10-22 略迷

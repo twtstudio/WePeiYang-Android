@@ -1,6 +1,7 @@
 package com.twt.service.rxsrc.read.home;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -20,6 +21,7 @@ import com.twt.service.R;
 import com.twt.service.rxsrc.common.ui.BaseAdapter;
 import com.twt.service.rxsrc.common.ui.BaseViewHolder;
 import com.twt.service.rxsrc.model.read.Review;
+import com.twt.service.rxsrc.read.bookdetail.BookDetailActivity;
 
 import butterknife.InjectView;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -76,6 +78,10 @@ public class BookReviewAdapter extends BaseAdapter<Review> {
             public void onClick(View view) {
                 // TODO: 2016/10/28 书籍名字点击后的跳转写在这里 
                 Toast.makeText(mContext, title.toString(), Toast.LENGTH_SHORT).show();
+
+                // TODO: 16-10-29 跳转测试逻辑
+                Intent intent = new Intent(mContext, BookDetailActivity.class);
+                mContext.startActivity(intent);
             }
 
             @Override

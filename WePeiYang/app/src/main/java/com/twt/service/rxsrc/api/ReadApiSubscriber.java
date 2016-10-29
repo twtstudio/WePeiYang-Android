@@ -1,6 +1,7 @@
 package com.twt.service.rxsrc.api;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.twt.service.rxsrc.utils.ToastUtils;
 
@@ -24,6 +25,8 @@ public class ReadApiSubscriber<T> extends Subscriber<T> {
     protected OnErrorListener mOnErrorListener;
 
     protected boolean isToastError = true;
+
+    private static final String TAG = "ReadApiSubscriber";
 
     public ReadApiSubscriber(Context context, OnNextListener<T> listener) {
         mContext = context;
@@ -77,6 +80,7 @@ public class ReadApiSubscriber<T> extends Subscriber<T> {
 
     private void toastMessage(String message) {
         if (isToastError()) {
+            Log.d(TAG, "toastMessage: " + message);
             ToastUtils.showMessage(mContext, message);
         }
     }

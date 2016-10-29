@@ -11,7 +11,7 @@ import shutil
 from hashlib import md5
 from subprocess import Popen, PIPE
 
-import err_code
+import error_code
 
 try:
     import xml.etree.cElementTree as ET
@@ -64,7 +64,7 @@ def copy(src, dst):
     try:
         shutil.copytree(src, dst)
     except OSError as e:
-        if e.err_code == err_code.ENOTDIR:
+        if e.error_code == error_code.ENOTDIR:
             shutil.copy(src, dst)
         else:
             print('Directory not copied. Error: {}'.format(e.message))

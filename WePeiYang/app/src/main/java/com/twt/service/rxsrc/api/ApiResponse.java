@@ -8,16 +8,16 @@ import java.io.Serializable;
 
 public class ApiResponse<T> implements Serializable {
 
-    private int err_code;
+    private int error_code;
     private String message;
     private T data;
 
-    public int getErr_code() {
-        return err_code;
+    public int getError_code() {
+        return error_code;
     }
 
-    public void setErr_code(int err_code) {
-        this.err_code = err_code;
+    public void setError_code(int error_code) {
+        this.error_code = error_code;
     }
 
     public String getMessage() {

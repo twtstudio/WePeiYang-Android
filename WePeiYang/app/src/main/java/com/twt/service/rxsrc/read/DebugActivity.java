@@ -34,11 +34,7 @@ public class DebugActivity extends AppCompatActivity {
         fakeToken.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PrefUtils.setReadToken("Bearer {eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwi" +
-                        "aXNzIjoiaHR0cDpcL1wvdGFrb29jdG9wdXMuY29tXC95dWVwZWl5YW5nXC9wdWJsaWNcL2FwaVwvYX" +
-                        "V0aFwvdG9rZW5cL2dldCIsImlhdCI6MTQ3NzY1MDQ0OCwiZXhwIjoxNDc3NjU0MDQ4LCJuYmYiOjE0N" +
-                        "zc2NTA0NDgsImp0aSI6ImMxNjc0NzRjNGVmNGRiNjZkYmU3MWM0N2I3MjM4ZjhhIn0.usNjETq0fhY" +
-                        "Akcg9F4pBPlpoqh2oP73TVyZ9LWg5Mkg}");
+                PrefUtils.setReadToken("Bearer {eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0IiwiaXNzIjoiaHR0cDpcL1wvdGFrb29jdG9wdXMuY29tXC95dWVwZWl5YW5nXC9wdWJsaWNcL2FwaVwvYXV0aFwvdG9rZW5cL2dldCIsImlhdCI6MTQ3NzY2NDkxMywiZXhwIjoxNDc4MjY5NzEzLCJuYmYiOjE0Nzc2NjQ5MTMsImp0aSI6ImUxYzkxYWY4ZWE0ZGYyZGYyNmQ0MmI2ZDljNmEyZDE0In0.RBwRqT0ycDDjEdF6vw9FZSwpkFJHTkz6Ghqa34mcLDQ}");
             }
         });
     }

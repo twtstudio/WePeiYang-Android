@@ -1,5 +1,7 @@
 package com.twt.service.rxsrc.model.read;
 
+import com.twt.service.party.bean.Status;
+
 import java.util.List;
 
 /**
@@ -33,6 +35,7 @@ public class Detail {
     public String summary;
     public ReviewBean review;
     public StarreviewBean starreview;
+    public Status status;
 
     public static class ReviewBean {
         /**
@@ -50,7 +53,7 @@ public class Detail {
             public String book_id;
             public String user_name;
             public String avatar;
-            public Object scores;
+            public String scores;
             public String like;
             public String content;
         }
@@ -73,6 +76,14 @@ public class Detail {
             public String avatar;
             public Object like;
             public String content;
+        }
+    }
+
+    public static class StatusBean {
+        public static class DataBean{
+            public String location;
+            public String library;
+            public String status;
         }
     }
 }

@@ -5,15 +5,16 @@
     <data>
         <variable
             name="review"
-            type="com.twt.service.rxsrc.model.read.Detail.ReviewBean"/>
+            type="com.twt.service.rxsrc.model.read.Detail.ReviewBean.DataBean"/>
     </data>
     <RelativeLayout
+        android:padding="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/item_book_detail_review_avatar"
-            app:imageUrl="@{review.user.avatar}"
+            app:imageUrl="@{review.avatar}"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_margin="5dp"
@@ -21,8 +22,10 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"/>
         <TextView
-            android:text="@{review.user.name}"
+            android:text="@{review.user_name}"
             android:id="@+id/item_book_detail_review_username"
+            android:textSize="18sp"
+            android:textColor="@color/myTextPrimaryColorGray"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@id/item_book_detail_review_avatar"
             android:layout_width="wrap_content"
@@ -30,18 +33,30 @@
         <RatingBar
             android:layout_below="@id/item_book_detail_review_username"
             android:layout_toRightOf="@id/item_book_detail_review_avatar"
+            android:layout_marginLeft="10dp"
             android:layout_width="wrap_content"
-            style="?android:attr/ratingBarStyleSmall"
-            android:numStars="5"
-            android:isIndicator="false"
-            android:rating="@{review.rate}"
-            android:layout_height="20dp"/>
+            style="@style/roomRatingBar"
+            android:numStars="3"
+            android:isIndicator="true"
+            android:rating="3"
+            android:layout_height="wrap_content"/>
         <TextView
             android:text="@{review.content}"
             android:id="@+id/item_book_detail_review_content"
-            android:layout_marginTop="3dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="5sp"
+            android:textSize="18sp"
             android:layout_below="@id/item_book_detail_review_avatar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/myDivider"/>
     </RelativeLayout>
 </layout>

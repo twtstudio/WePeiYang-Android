@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.twt.service.R;
 
 /**
  * Created by jcy on 16-10-21.
@@ -17,8 +18,8 @@ public class DataBindingAdapter {
 
     @BindingAdapter({"imageUrl"})
     public static void loadImage(ImageView iv, String imageUrl) {
-        if (!TextUtils.isEmpty(imageUrl))
-            Glide.with(iv.getContext()).load(imageUrl).into(iv);
+//        if (!TextUtils.isEmpty(imageUrl))
+            Glide.with(iv.getContext()).load(imageUrl).placeholder(R.drawable.ssdk_oks_logo_line).into(iv);
     }
 
     @BindingAdapter({"body"})

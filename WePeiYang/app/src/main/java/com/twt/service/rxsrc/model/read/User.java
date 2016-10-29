@@ -8,9 +8,24 @@ package com.twt.service.rxsrc.model.read;
  * 用户的相关信息
  */
 public class User {
-    public int id;
-    public String name;
+    /**
+     * id : 8
+     * twtid : 2147483647
+     * twtuname : kianna78
+     * avatar :
+     * review_count : 8
+     */
+
+    public String id;
+    public String twtid;
+    public String twtuname;
     public String avatar;
-    public int readcount;
-    public int reviewcount;
+    public String review_count;
+
+
+//    public int id;
+//    public String name;
+//    public String avatar;
+//    public int readcount;
+//    public int reviewcount;
 }

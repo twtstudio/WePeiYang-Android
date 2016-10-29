@@ -28,7 +28,7 @@ public class ApiException extends RuntimeException {
     }
 
     public int getCode() {
-        return mResult.getErr_code();
+        return mResult.getError_code();
     }
 
     @Override

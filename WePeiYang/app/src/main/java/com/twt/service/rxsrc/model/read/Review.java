@@ -1,28 +1,36 @@
 package com.twt.service.rxsrc.model.read;
 
-import java.util.List;
-
 /**
  * Created by jcy on 16-10-21.
  */
 
 public class Review {
+    /**
+     * book_id : 747440
+     * user_name : brandon.huels
+     * avatar :
+     * scores : null
+     * like : 50
+     * content : Quidem voluptas eveniet officia blanditiis doloremque.
+     */
 
-    public String content;
-    public int rate;
-    public int like;
-    public String timestamp;
-    public user user;
-    public book book;
 
-    public static class user {
-        public String id;
-        public String name;
-        public String avatar;
-    }
 
-    public static class book {
-        public String title;
-        public String isbn;
-    }
+//    public String content;
+//    public int rate;
+//    public int like;
+//    public String timestamp;
+//    public user user;
+//    public book book;
+//
+//    public static class user {
+//        public String id;
+//        public String name;
+//        public String avatar;
+//    }
+//
+//    public static class book {
+//        public String title;
+//        public String isbn;
+//    }
 }

@@ -2,10 +2,12 @@ package com.twt.service.rxsrc.read.bookdetail;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.WindowManager;
 
 import com.twt.service.R;
 import com.twt.service.databinding.ActivityBookDetailBinding;
@@ -34,15 +36,16 @@ public class BookDetailActivity extends BPActivity<BookDetailPresenter> implemen
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_book_detail);
-        setUpToolbar(mBinding.readDetailToolbar);
+        //setUpToolbar(mBinding.readDetailToolbar);
         mRecyclerView = mBinding.bookDetailRcv;
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new BookDetailAdapter(this);
+        mPresenter.getBookDetail("747440");
     }
 
     @Override
     protected int getStatusbarColor() {
-        return R.color.bus_primary_color;
+        return R.color.text_secondary_color;
     }
 
     @Override

@@ -55,7 +55,7 @@ public class ReadApiClient {
 
         // TODO: 16-10-22 修改fakeURL为图书url
         mRetrofit = new Retrofit.Builder()
-                .baseUrl("http://bike.twtstudio.com/api.php/")
+                .baseUrl("http://takooctopus.com/yuepeiyang/public/api/")
                 .client(client)
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
@@ -91,7 +91,7 @@ public class ReadApiClient {
 
             Request.Builder builder = originRequest
                     .newBuilder()
-                    .addHeader("Authorization", PrefUtils.getBikeToken());
+                    .addHeader("Authorization", PrefUtils.getReadToken());
 
             Request request = builder.build();
             return chain.proceed(request);
@@ -159,12 +159,6 @@ public class ReadApiClient {
     public void getBookDetail(Object tag, Subscriber subscriber, String id) {
         Subscription subscription = mService.getBookDetail(id)
                 .retryWhen(mTokenHelper)
-                .flatMap(new Func1<ApiResponse<Detail>, Observable<?>>() {
-                    @Override
-                    public Observable<?> call(ApiResponse<Detail> detailApiResponse) {
-                        return null;
-                    }
-                })
                 .map(mResponseTransformer)
                 .compose(ApiUtils.applySchedulers())
                 .subscribe(subscriber);

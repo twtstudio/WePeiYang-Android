@@ -2,6 +2,11 @@ package com.twt.service.rxsrc.read.bookdetail;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;
+import android.graphics.Bitmap;
+import android.os.Build;
+import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.graphics.Palette;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +14,13 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
+import com.bumptech.glide.request.target.ImageViewTarget;
+import com.github.florent37.glidepalette.BitmapPalette;
+import com.github.florent37.glidepalette.GlidePalette;
 import com.twt.service.R;
 import com.twt.service.databinding.ItemBookDetailHeaderBinding;
 import com.twt.service.databinding.ItemBookDetailReviewBinding;
@@ -18,6 +30,8 @@ import com.twt.service.rxsrc.model.read.Detail;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.view.View.Y;
 
 /**
  * Created by jcy on 16-10-26.
@@ -99,7 +113,7 @@ public class BookDetailAdapter extends RecyclerView.Adapter<BaseBindHolder> {
             mBinding = DataBindingUtil.bind(itemView);
         }
 
-        public void setReview(Detail.ReviewBean review) {
+        public void setReview(Detail.ReviewBean.DataBean review) {
             mBinding.setReview(review);
         }
 
@@ -111,13 +125,13 @@ public class BookDetailAdapter extends RecyclerView.Adapter<BaseBindHolder> {
     @Override
     public BaseBindHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == TYPE_HEADER) {
-            View view = LayoutInflater.from(mContext).inflate(R.layout.item_book_detail_header,parent,false);
+            View view = LayoutInflater.from(mContext).inflate(R.layout.item_book_detail_header, parent, false);
             return new sHeaderHolder(view);
-        }else if (viewType == TYPE_STATUS){
-            View view = LayoutInflater.from(mContext).inflate(R.layout.item_book_detail_status,parent,false);
+        } else if (viewType == TYPE_STATUS) {
+            View view = LayoutInflater.from(mContext).inflate(R.layout.item_book_detail_status, parent, false);
             return new sStatusHolder(view);
-        }else {
-            View view = LayoutInflater.from(mContext).inflate(R.layout.item_book_detail_review,parent,false);
+        } else {
+            View view = LayoutInflater.from(mContext).inflate(R.layout.item_book_detail_review, parent, false);
             return new sReviewHolder(view);
         }
     }
@@ -126,17 +140,32 @@ public class BookDetailAdapter extends RecyclerView.Adapter<BaseBindHolder> {
     public void onBindViewHolder(BaseBindHolder holder, int position) {
         int type = getItemViewType(position);
         Object baseData = mDataList.get(position);
-        if (type == TYPE_HEADER){
+        if (type == TYPE_HEADER) {
             sHeaderHolder headerHolder = (sHeaderHolder) holder;
             ItemBookDetailHeaderBinding binding = headerHolder.getBinding();
-
+            Detail detail = (Detail) baseData;
+            binding.setDetail(detail);
+            Glide.with(mContext).load(detail.cover_url).listener(GlidePalette.with(detail.cover_url)
+                    .use(GlidePalette.Profile.MUTED_LIGHT)
+                    .intoBackground(headerHolder.mFrame)
+                    .intoCallBack(new BitmapPalette.CallBack() {
+                        @Override
+                        public void onPaletteLoaded(@Nullable Palette palette) {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                int color = palette.getLightMutedColor(0x000000);
+                                AppCompatActivity activity = (AppCompatActivity) mContext;
+                                activity.getWindow().setStatusBarColor(color);
+                            }
+                        }
+                    }))
+                    .into(headerHolder.mCoverImage);
             // TODO: 16-10-27 header样式的处理
-        }else if (type == TYPE_REVIEW){
+        } else if (type == TYPE_STATUS) {
             sStatusHolder statusHolder = (sStatusHolder) holder;
             //statusHolder.setStatus((Detail.statusItem) baseData);
-        }else if (type == TYPE_REVIEW){
+        } else if (type == TYPE_REVIEW) {
             sReviewHolder reviewHolder = (sReviewHolder) holder;
-            reviewHolder.setReview((Detail.ReviewBean) baseData);
+            reviewHolder.setReview((Detail.ReviewBean.DataBean) baseData);
         }
     }
 

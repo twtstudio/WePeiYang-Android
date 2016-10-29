@@ -8,7 +8,7 @@ import java.util.List;
 
 public class Banner {
     public String id;
-    public String image;
+    public String img;
     public String title;
     public String url;
 

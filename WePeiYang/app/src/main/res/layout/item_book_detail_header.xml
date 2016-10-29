@@ -1,15 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <FrameLayout
-        android:id="@+id/item_book_detail_header_frame"
+    <data>
+        <variable
+            name="detail"
+            type="com.twt.service.rxsrc.model.read.Detail"/>
+    </data>
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="300dp">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/item_book_detail_header_cover"
-            android:layout_gravity="center"
+        <FrameLayout
+            android:id="@+id/item_book_detail_header_frame"
+            android:layout_width="match_parent"
+            android:layout_height="350dp">
+
+            <android.support.v7.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:elevation="155dp"
+                app:cardMaxElevation="155dp"
+                app:cardElevation="155dp">
+
+                <ImageView
+                    android:id="@+id/item_book_detail_header_cover"
+                    android:layout_width="wrap_content"
+                    android:layout_height="250dp"
+                    android:layout_gravity="center"/>
+            </android.support.v7.widget.CardView>
+        </FrameLayout>
+
+        <TextView
             android:layout_width="wrap_content"
-            android:layout_height="250dp"/>
-    </FrameLayout>
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="15dp"
+            android:text="@{detail.title}"
+            android:textColor="@color/myTextPrimaryColorBlack"
+            android:textSize="24sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text='@{"author: "+detail.author}'/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text='@{"publisher: "+detail.publisher}'/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text='@{"year: "+detail.time}'/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text='@{detail.summary!=null?detail.summary:"no summary"}'/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:orientation="horizontal">
+
+            <Button
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="收藏"
+                android:textColor="@color/read_primary_color"/>
+
+            <Button
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="写书评"
+                android:textColor="@color/read_primary_color"/>
+        </LinearLayout>
+
+    </LinearLayout>
 </layout>
