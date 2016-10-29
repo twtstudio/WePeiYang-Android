@@ -82,6 +82,7 @@
                 android:textColor="@color/read_primary_color"/>
 
             <Button
+                android:id="@+id/book_detail_btn_addreview"
                 style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

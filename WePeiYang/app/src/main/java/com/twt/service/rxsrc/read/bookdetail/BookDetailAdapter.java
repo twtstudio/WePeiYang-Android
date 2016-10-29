@@ -1,6 +1,7 @@
 package com.twt.service.rxsrc.read.bookdetail;
 
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.os.Build;
@@ -27,6 +28,7 @@ import com.twt.service.databinding.ItemBookDetailReviewBinding;
 import com.twt.service.databinding.ItemBookDetailStatusBinding;
 import com.twt.service.rxsrc.common.ui.BaseBindHolder;
 import com.twt.service.rxsrc.model.read.Detail;
+import com.twt.service.rxsrc.read.bookreview.AddReviewActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -159,6 +161,13 @@ public class BookDetailAdapter extends RecyclerView.Adapter<BaseBindHolder> {
                         }
                     }))
                     .into(headerHolder.mCoverImage);
+            binding.bookDetailBtnAddreview.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(mContext, AddReviewActivity.class);
+                    mContext.startActivity(intent);
+                }
+            });
             // TODO: 16-10-27 header样式的处理
         } else if (type == TYPE_STATUS) {
             sStatusHolder statusHolder = (sStatusHolder) holder;

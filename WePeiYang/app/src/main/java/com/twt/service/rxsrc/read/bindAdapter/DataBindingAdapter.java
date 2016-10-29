@@ -19,9 +19,14 @@ public class DataBindingAdapter {
     @BindingAdapter({"imageUrl"})
     public static void loadImage(ImageView iv, String imageUrl) {
 //        if (!TextUtils.isEmpty(imageUrl))
-            Glide.with(iv.getContext()).load(imageUrl).placeholder(R.drawable.ssdk_oks_logo_line).into(iv);
+            Glide.with(iv.getContext()).load(imageUrl).placeholder(R.drawable.default_cover).into(iv);
     }
 
+    @BindingAdapter({"avatarUrl"})
+    public static void loadAvatarImage(ImageView iv, String imageUrl) {
+//        if (!TextUtils.isEmpty(imageUrl))
+        Glide.with(iv.getContext()).load(imageUrl).placeholder(R.drawable.ssdk_oks_logo_linkedin).into(iv);
+    }
     @BindingAdapter({"body"})
     public static void loadBody(WebView webView, String body) {
         if (!TextUtils.isEmpty(body))
