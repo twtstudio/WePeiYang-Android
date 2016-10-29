@@ -1,20 +1,20 @@
 package com.twt.service.rxsrc.read.home.recommend;
 
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 import com.twt.service.R;
 import com.twt.service.rxsrc.common.ui.PFragment;
 import com.twt.service.rxsrc.model.read.Recommended;
 import com.twt.service.rxsrc.model.read.Review;
 import com.twt.service.rxsrc.model.read.User;
+import com.twt.service.rxsrc.read.home.BookReviewAdapter;
+import com.youth.banner.Banner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +35,8 @@ public class BookRecommendFragment extends PFragment<BookRecommendPresenter> imp
     RecyclerView mRvReview;
     @InjectView(R.id.rv_star)
     RecyclerView mRvStar;
+    @InjectView(R.id.banner)
+    Banner mBanner;
 
 
     BookRecommendAdapter mRecommendAdapter;
@@ -47,6 +49,15 @@ public class BookRecommendFragment extends PFragment<BookRecommendPresenter> imp
 
     @Override
     protected void initView() {
+        List<Integer> images = new ArrayList<>();
+        for (int i = 0; i < 3; i++) {
+            images.add(R.mipmap.test_banner);
+        }
+        mBanner.setImages(images)
+                .setImageLoader(new BannerLoader())
+                .setDelayTime(4000)
+                .start();
+
         mRecommendAdapter = new BookRecommendAdapter(getContext());
         mRvRecommend.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
         mRecommendAdapter.hideFooter();

@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 
 import com.twt.service.R;
 import com.twt.service.rxsrc.common.ui.BaseActivity;
+import com.twt.service.rxsrc.read.home.profile.BookProfileFragment;
 import com.twt.service.rxsrc.read.home.recommend.BookRecommendController;
 import com.twt.service.rxsrc.read.home.recommend.BookRecommendFragment;
 
@@ -61,6 +62,7 @@ public class BookHomeActivity extends BaseActivity implements BookRecommendContr
 
         ViewPagerAdapter mViewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(),this);
         mViewPagerAdapter.addFragement(new BookRecommendFragment());
+        mViewPagerAdapter.addFragement(new BookProfileFragment());
         mVpMain.setAdapter(mViewPagerAdapter);
         mTlInquiry.setupWithViewPager(mVpMain);
         mTlInquiry.setTabMode(TabLayout.MODE_FIXED);

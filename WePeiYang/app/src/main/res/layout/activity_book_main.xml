@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/myWindowBackgroundWhite"
-            app:tabTextColor="@color/myTextPrimaryColorWhite"
+            app:tabTextColor="@color/myTextPrimaryColorGray"
             app:tabSelectedTextColor="@color/read_primary_color"
             app:tabIndicatorColor="@color/read_primary_color"
             android:clickable="true"/>

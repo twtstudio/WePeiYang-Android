@@ -16,15 +16,15 @@
             android:layout_width="90dp"
             android:layout_height="90dp"
             android:layout_centerHorizontal="true"
-            android:layout_marginLeft="28dp"
-            android:layout_marginRight="28dp"
+            android:layout_marginLeft="18dp"
+            android:layout_marginRight="18dp"
             android:src="@mipmap/hr"/>
 
 
         <ImageView
             android:id="@+id/iv_flag"
-            android:layout_width="26dp"
-            android:layout_height="26dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:src="@mipmap/star_1"
             />
     </RelativeLayout>
@@ -34,7 +34,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="2dp"
         android:layout_marginTop="5dp"
         android:text="猜猜我是谁"
         android:textColor="@color/myTextPrimaryColorBlack"

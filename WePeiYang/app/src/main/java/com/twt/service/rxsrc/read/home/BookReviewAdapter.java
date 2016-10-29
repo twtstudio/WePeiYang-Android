@@ -1,13 +1,18 @@
-package com.twt.service.rxsrc.read.home.recommend;
+package com.twt.service.rxsrc.read.home;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.text.SpannableString;
 import android.text.Spanned;
+import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,8 +39,6 @@ public class BookReviewAdapter extends BaseAdapter<Review> {
         CircleImageView mCivPortrait;
         @InjectView(R.id.tv_name)
         TextView mTvName;
-        @InjectView(R.id.tv_share)
-        TextView mTvShare;
         @InjectView(R.id.tv_content)
         TextView mTvContent;
         @InjectView(R.id.tv_date)
@@ -44,6 +47,10 @@ public class BookReviewAdapter extends BaseAdapter<Review> {
         TextView mTvLike;
         @InjectView(R.id.divider)
         View mDivider;
+        @InjectView(R.id.rb_star)
+        RatingBar mRbStar;
+        @InjectView(R.id.iv_like)
+        ImageView mIvLike;
         public BookReviewHolder(View itemView) {
             super(itemView);
         }
@@ -70,6 +77,13 @@ public class BookReviewAdapter extends BaseAdapter<Review> {
                 // TODO: 2016/10/28 书籍名字点击后的跳转写在这里 
                 Toast.makeText(mContext, title.toString(), Toast.LENGTH_SHORT).show();
             }
+
+            @Override
+            public void updateDrawState(TextPaint ds) {
+                super.updateDrawState(ds);
+                ds.setUnderlineText(false);
+                ds.setARGB(255,220,78,78);
+            }
         },0,title.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
         reviewHolder.mTvContent.setText(title);
         reviewHolder.mTvContent.append("这里是内容这里是内容这里是内容这里是内容");
@@ -77,5 +91,6 @@ public class BookReviewAdapter extends BaseAdapter<Review> {
         if (position == getItemCount() - 1) {
             reviewHolder.mDivider.setVisibility(View.INVISIBLE);
         }
+        reviewHolder.mRbStar.setRating(3.5f);
     }
 }

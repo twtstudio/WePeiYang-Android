@@ -43,7 +43,6 @@ public class BookRecommendAdapter extends BaseAdapter<Recommended> {
 
     @Override
     public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
         LayoutInflater inflater = LayoutInflater.from(mContext);
         return new BookRecommendHolder(inflater.inflate(R.layout.item_book_recommend, parent, false));
     }
