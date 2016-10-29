@@ -14,6 +14,12 @@ public class Review {
      * content : Quidem voluptas eveniet officia blanditiis doloremque.
      */
 
+    public String book_id;
+    public String user_name;
+    public String avatar;
+    public int scores;
+    public String like;
+    public String content;
 
 
 //    public String content;
