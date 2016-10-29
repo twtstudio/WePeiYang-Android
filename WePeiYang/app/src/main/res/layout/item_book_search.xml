@@ -29,13 +29,6 @@
             android:layout_marginLeft="15dp"
             android:layout_marginTop="15dp">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@{book.title}"
-                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-                android:textSize="22sp"/>
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -46,26 +39,37 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:text='@{"著者："+book.author}'/>
+                    android:text='@{"author:"+book.author}'/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:text='@{"出版社："+book.publisher}'/>
+                    android:text='@{"publisher:"+book.publisher}'/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:text='@{"出版日期："+book.year}'/>
+                    android:text='@{"publish date:"+book.year}'/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:text='@{"评分："+book.rate}'/>
+                    android:text='@{"rate:"+book.rate}'/>
             </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{book.title}"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                android:textSize="22sp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:id="@+id/textView"/>
         </RelativeLayout>
     </LinearLayout>
 </layout>

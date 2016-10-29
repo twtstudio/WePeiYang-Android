@@ -43,4 +43,10 @@
         <item name="android:windowExitAnimation">@anim/down_out</item>
         <!-- 指定消失的动画xml -->
     </style>
+
+    <style name="roomRatingBar" parent="@android:style/Widget.RatingBar">
+        <item name="android:progressDrawable">@drawable/rb_book_star</item>
+        <item name="android:minHeight">15dip</item>
+        <item name="android:maxHeight">15dip</item>
+    </style>
 </resources>

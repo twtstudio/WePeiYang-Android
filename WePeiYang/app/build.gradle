@@ -98,4 +98,7 @@ dependencies {
     compile 'com.github.wooplr:Spotlight:1.2.2'
     compile 'com.sothree.slidinguppanel:library:3.0.0'
     compile files('libs/AMap3DMap_3.4.0_AMapLocation_2.7.0_20160809.jar')
+
+    compile 'de.hdodenhof:circleimageview:2.1.0'
+    compile 'com.youth.banner:banner:1.4.1'  //最新版本
 }

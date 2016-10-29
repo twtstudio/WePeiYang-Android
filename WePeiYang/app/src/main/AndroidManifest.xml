@@ -162,11 +162,14 @@
 
         <activity android:name=".ui.tools.ToolsActivity"/>
         <activity android:name=".rxsrc.bike.ui.record.RecordActivity"/>
-        <activity
-            android:name=".ui.schedule.MultiCourseActivity"
+        <activity android:name=".ui.schedule.MultiCourseActivity"
             android:theme="@style/Theme.FloatingWindow.Popup"/>
         <activity android:name=".rxsrc.read.DebugActivity">
         </activity>
+
+
+        <activity android:name=".rxsrc.read.home.BookHomeActivity"/>
+
     </application>
 
 </manifest>

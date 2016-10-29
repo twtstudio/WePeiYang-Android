@@ -171,28 +171,28 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/btn_read"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:orientation="vertical"
-            android:visibility="invisible">
+            android:orientation="vertical">
 
             <ImageView
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_gravity="center_horizontal"
-                android:src="@mipmap/ic_main_bike" />
+                android:src="@mipmap/ic_main_read" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="5dp"
-                android:text="@string/bike"
-                android:textColor="@color/bike_primary_color" />
+                android:text="@string/read"/>
 
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="0dp"
             android:layout_weight="1"
@@ -216,6 +216,8 @@
                 android:textColor="@color/party_primary_color" />
 
         </LinearLayout>
+
+
     </LinearLayout>
 
 </LinearLayout>

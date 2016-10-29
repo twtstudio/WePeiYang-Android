@@ -120,6 +120,8 @@ public class StudyResultActivity extends BaseActivity implements StudyResultView
     public void bindData(int status, int score, String msg) {
         if(status == 1) {//成绩没通过
             ivMonkey.setImageResource(R.mipmap.ic_party_cry);
+        }else {//成绩通过
+            ivMonkey.setImageResource(R.mipmap.ic_party_smail);
         }
         tvMsg.setText(msg);
         btScore.setText("考试成绩：" + score);

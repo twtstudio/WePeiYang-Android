@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/myWindowBackgroundGray">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:orientation="horizontal"
+            android:padding="8dp"
+            android:background="@color/myWindowBackgroundWhite">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="17sp"
+                android:text="我的收藏"
+                android:layout_gravity="center_vertical"
+                android:textColor="@color/myTextPrimaryColorGray"/>
+
+            <ImageView
+                android:id="@+id/iv_delete"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_gravity="center_vertical"
+                android:src="@mipmap/ic_book_delete"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/divider_color"/>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_collect"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/myWindowBackgroundWhite"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:orientation="horizontal"
+            android:padding="8dp"
+            android:layout_marginTop="13dp"
+            android:background="@color/myWindowBackgroundWhite">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="17sp"
+                android:text="我的点评"
+                android:layout_gravity="center_vertical"
+                android:textColor="@color/myTextPrimaryColorGray"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/divider_color"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_review"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/myWindowBackgroundWhite"/>
+
+    </LinearLayout>
+
+</ScrollView>
