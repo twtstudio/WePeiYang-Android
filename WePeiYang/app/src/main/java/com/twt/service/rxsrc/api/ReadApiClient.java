@@ -1,5 +1,6 @@
 package com.twt.service.rxsrc.api;
 
+import com.twt.service.api.Api;
 import com.twt.service.rxsrc.model.read.Detail;
 import com.twt.service.rxsrc.model.read.ReadToken;
 import com.twt.service.support.PrefUtils;
@@ -24,6 +25,8 @@ import rx.Subscription;
 import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.subscriptions.CompositeSubscription;
+
+import static android.R.attr.tag;
 
 /**
  * Created by jcy on 16-10-22.
@@ -183,4 +186,41 @@ public class ReadApiClient {
                 .subscribe(subscriber);
         addSubscription(tag, subscription);
     }
+
+    public void getBanner(Object tag, Subscriber subscriber){
+        Subscription subscription = mService.getBanner("5")
+                .retryWhen(mTokenHelper)
+                .map(mResponseTransformer)
+                .compose(ApiUtils.applySchedulers())
+                .subscribe(subscriber);
+        addSubscription(tag, subscription);
+    }
+
+    public void getRecommendedList(Object tag, Subscriber subscriber, String count){
+        Subscription subscription = mService.getRecommendedList(count)
+                .retryWhen(mTokenHelper)
+                .map(mResponseTransformer)
+                .compose(ApiUtils.applySchedulers())
+                .subscribe(subscriber);
+        addSubscription(tag, subscription);
+    }
+
+    public void getReviewList(Object tag, Subscriber subscriber, String count){
+        Subscription subscription = mService.getReviewList(count)
+                .retryWhen(mTokenHelper)
+                .map(mResponseTransformer)
+                .compose(ApiUtils.applySchedulers())
+                .subscribe(subscriber);
+        addSubscription(tag, subscription);
+    }
+
+    public void getStarReaderList(Object tag, Subscriber subscriber, String count){
+        Subscription subscription = mService.getStarReaderList(count)
+                .retryWhen(mTokenHelper)
+                .map(mResponseTransformer)
+                .compose(ApiUtils.applySchedulers())
+                .subscribe(subscriber);
+        addSubscription(tag, subscription);
+    }
+
 }

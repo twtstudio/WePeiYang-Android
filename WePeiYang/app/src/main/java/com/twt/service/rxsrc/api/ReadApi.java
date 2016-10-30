@@ -1,6 +1,6 @@
 package com.twt.service.rxsrc.api;
 
-import com.twt.service.rxsrc.model.read.Banner;
+import com.twt.service.rxsrc.model.read.HomeBanner;
 import com.twt.service.rxsrc.model.read.Detail;
 import com.twt.service.rxsrc.model.read.ReadToken;
 import com.twt.service.rxsrc.model.read.Recommended;
@@ -29,7 +29,7 @@ public interface ReadApi {
 //    Observable<ApiResponse<String>> checkReadToken(@Query())
 
     @GET("banner/{count}")
-    Observable<ApiResponse<List<Banner>>> getBanner(@Path("count") String count);
+    Observable<ApiResponse<List<HomeBanner>>> getBanner(@Path("count") String count);
 
     @GET("recommended/{count}")
     Observable<ApiResponse<List<Recommended>>> getRecommendedList(@Path("count") String count);

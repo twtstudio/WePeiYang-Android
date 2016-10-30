@@ -18,7 +18,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginLeft="18dp"
             android:layout_marginRight="18dp"
-            android:src="@mipmap/hr"/>
+            android:src="@mipmap/ic_book_avatar"/>
 
 
         <ImageView

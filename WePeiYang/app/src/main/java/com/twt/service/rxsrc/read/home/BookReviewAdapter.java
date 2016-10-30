@@ -17,6 +17,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.twt.service.R;
 import com.twt.service.rxsrc.common.ui.BaseAdapter;
 import com.twt.service.rxsrc.common.ui.BaseViewHolder;
@@ -71,32 +72,49 @@ public class BookReviewAdapter extends BaseAdapter<Review> {
     @Override
     public void onBindViewHolder(BaseViewHolder holder, int position) {
         BookReviewHolder reviewHolder = (BookReviewHolder)holder;
+        Review review = mDataSet.get(position);
 
-        SpannableString title = new SpannableString("《从你的全世界路过》");
-        title.setSpan(new ClickableSpan() {
-            @Override
-            public void onClick(View view) {
-                // TODO: 2016/10/28 书籍名字点击后的跳转写在这里 
-                Toast.makeText(mContext, title.toString(), Toast.LENGTH_SHORT).show();
+        if (review.avatar != null && !review.avatar.equals("")){
+            Glide.with(mContext).load(review.avatar).into(reviewHolder.mCivPortrait);
+        }
+        reviewHolder.mTvName.setText(review.user_name);
+        reviewHolder.mRbStar.setRating(review.scores);
 
-                // TODO: 16-10-29 跳转测试逻辑
-                Intent intent = new Intent(mContext, BookDetailActivity.class);
-                mContext.startActivity(intent);
-            }
+        if (review.title != null) {
+            SpannableString title = new SpannableString("《" + review.title + "》");
+            title.setSpan(new ClickableSpan() {
+                @Override
+                public void onClick(View view) {
+                    // TODO: 2016/10/28 书籍名字点击后的跳转写在这里
+                    Toast.makeText(mContext, title.toString(), Toast.LENGTH_SHORT).show();
 
-            @Override
-            public void updateDrawState(TextPaint ds) {
-                super.updateDrawState(ds);
-                ds.setUnderlineText(false);
-                ds.setARGB(255,220,78,78);
-            }
-        },0,title.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-        reviewHolder.mTvContent.setText(title);
-        reviewHolder.mTvContent.append("这里是内容这里是内容这里是内容这里是内容");
-        reviewHolder.mTvContent.setMovementMethod(LinkMovementMethod.getInstance());
+                    // TODO: 16-10-29 跳转测试逻辑
+                    Intent intent = new Intent(mContext, BookDetailActivity.class);
+                    mContext.startActivity(intent);
+                }
+
+                @Override
+                public void updateDrawState(TextPaint ds) {
+                    super.updateDrawState(ds);
+                    ds.setUnderlineText(false);
+                    ds.setARGB(255, 220, 78, 78);
+                }
+            }, 0, title.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+            reviewHolder.mTvContent.setText(title);
+        }
+        if (review.content != null) {
+            reviewHolder.mTvContent.append(review.content);
+            reviewHolder.mTvContent.setMovementMethod(LinkMovementMethod.getInstance());
+        }
+        if (review.like != null) {
+            reviewHolder.mTvLike.setText(review.like);
+        }
+        if (review.updated_at != null) {
+            reviewHolder.mTvDate.setText(review.updated_at);
+        }
+
         if (position == getItemCount() - 1) {
             reviewHolder.mDivider.setVisibility(View.INVISIBLE);
         }
-        reviewHolder.mRbStar.setRating(3.5f);
     }
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="wrap_content"
+              android:layout_width="100dp"
               android:layout_height="wrap_content"
               android:layout_margin="10dp"
               android:layout_marginTop="30dp"
@@ -14,7 +14,7 @@
         android:layout_height="100dp"
         android:layout_gravity="center_horizontal"
         android:adjustViewBounds="true"
-        android:scaleType="centerCrop"
+        android:scaleType="centerInside"
         android:src="@mipmap/test_recommend"/>
 
     <TextView
@@ -27,16 +27,16 @@
         android:layout_marginRight="8dp"
         android:ellipsize="end"
         android:lines="1"
-        android:text="最最最最后后后的致意"
         android:textSize="17sp"/>
 
     <TextView
         android:id="@+id/iv_author"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
         android:layout_gravity="center_horizontal"
         android:ellipsize="end"
         android:lines="1"
-        android:text="东野圭吾 著"
         android:textColor="@color/myTextPrimaryColorGray"/>
 </LinearLayout>

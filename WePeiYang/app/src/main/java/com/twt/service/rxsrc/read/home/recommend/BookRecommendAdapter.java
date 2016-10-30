@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.twt.service.R;
 import com.twt.service.rxsrc.common.ui.BaseAdapter;
 import com.twt.service.rxsrc.common.ui.BaseViewHolder;
@@ -49,6 +50,9 @@ public class BookRecommendAdapter extends BaseAdapter<Recommended> {
 
     @Override
     public void onBindViewHolder(BaseViewHolder holder, int position) {
-
+        BookRecommendHolder recommendHolder = (BookRecommendHolder)holder;
+        Glide.with(mContext).load(mDataSet.get(position).cover_url).into(recommendHolder.mIvBook);
+        recommendHolder.mIvTitle.setText(mDataSet.get(position).title);
+        recommendHolder.mIvAuthor.setText(mDataSet.get(position).author + " 著");
     }
 }

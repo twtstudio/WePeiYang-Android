@@ -20,7 +20,7 @@
             android:id="@+id/civ_portrait"
             android:layout_width="45dp"
             android:layout_height="45dp"
-            android:src="@mipmap/hr"
+            android:src="@mipmap/ic_book_avatar"
             app:civ_border_width="0dp"/>
 
         <TextView
@@ -44,8 +44,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginStart="10dp"
             android:layout_toRightOf="@id/civ_portrait"
-            android:isIndicator="false"
-            android:isScrollContainer="false"
+            android:isIndicator="true"
             android:numStars="5"/>
 
         <!--<TextView-->

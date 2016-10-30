@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import com.twt.service.R;
 import com.twt.service.rxsrc.common.ui.PFragment;
+import com.twt.service.rxsrc.model.read.HomeBanner;
 import com.twt.service.rxsrc.model.read.Recommended;
 import com.twt.service.rxsrc.model.read.Review;
 import com.twt.service.rxsrc.model.read.User;
@@ -49,49 +50,26 @@ public class BookRecommendFragment extends PFragment<BookRecommendPresenter> imp
 
     @Override
     protected void initView() {
-        List<Integer> images = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
-            images.add(R.mipmap.test_banner);
-        }
-        mBanner.setImages(images)
-                .setImageLoader(new BannerLoader())
-                .setDelayTime(4000)
-                .start();
+
+        mPresenter.getBanner();
 
         mRecommendAdapter = new BookRecommendAdapter(getContext());
         mRvRecommend.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
         mRecommendAdapter.hideFooter();
         mRvRecommend.setAdapter(mRecommendAdapter);
-
+        mPresenter.getRecommendedList("5");
 
         mReviewAdapter = new BookReviewAdapter(getContext());
         mRvReview.setLayoutManager(new LinearLayoutManager(getContext()));
         mReviewAdapter.hideFooter();
         mRvReview.setAdapter(mReviewAdapter);
+        mPresenter.getReviewList("2");
 
         mStarAdapter = new BookStarAdapter(getContext());
         mRvStar.setLayoutManager(new StaggeredGridLayoutManager(3,StaggeredGridLayoutManager.VERTICAL));
         mStarAdapter.hideFooter();
         mRvStar.setAdapter(mStarAdapter);
-
-        // TODO: 2016/10/28 测试代码，后台接口有了就删掉！
-        List<Recommended> recommendeds = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            recommendeds.add(new Recommended());
-        }
-        mRecommendAdapter.addItems(recommendeds);
-
-        List<Review> reviews = new ArrayList<>();
-        for (int i = 0; i < 2; i++) {
-            reviews.add(new Review());
-        }
-        mReviewAdapter.addItems(reviews);
-
-        List<User> users = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
-            users.add(new User());
-        }
-        mStarAdapter.addItems(users);
+        mPresenter.getStarReaderList("3");
     }
 
     @Override
@@ -111,5 +89,33 @@ public class BookRecommendFragment extends PFragment<BookRecommendPresenter> imp
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.reset(this);
+    }
+
+    @Override
+    public void bindBannerData(List<HomeBanner> banners) {
+
+        List<String> imgs = new ArrayList<>();
+        for (HomeBanner banner: banners) {
+            imgs.add(banner.img);
+        }
+        mBanner.setImages(imgs)
+                .setImageLoader(new BannerLoader())
+                .setDelayTime(4000)
+                .start();
+    }
+
+    @Override
+    public void bindRecommendedData(List<Recommended> recommendeds) {
+        mRecommendAdapter.addItems(recommendeds);
+    }
+
+    @Override
+    public void bindReviewData(List<Review> reviews) {
+        mReviewAdapter.addItems(reviews);
+    }
+
+    @Override
+    public void bindStarReaderData(List<User> users) {
+        mStarAdapter.addItems(users);
     }
 }

@@ -6,7 +6,7 @@ import java.util.List;
  * Created by jcy on 16-10-21.
  */
 
-public class Banner {
+public class HomeBanner {
     public String id;
     public String img;
     public String title;

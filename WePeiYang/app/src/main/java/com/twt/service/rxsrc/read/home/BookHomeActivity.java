@@ -27,7 +27,7 @@ import butterknife.InjectView;
  * Created by tjliqy on 2016/10/27.
  */
 
-public class BookHomeActivity extends BaseActivity implements BookRecommendController {
+public class BookHomeActivity extends BaseActivity {
 
 
     @InjectView(R.id.toolbar)

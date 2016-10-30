@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.twt.service.R;
 import com.twt.service.rxsrc.common.ui.BaseAdapter;
 import com.twt.service.rxsrc.common.ui.BaseViewHolder;
@@ -56,8 +57,10 @@ public class BookStarAdapter extends BaseAdapter<User> {
 
     @Override
     public void onBindViewHolder(BaseViewHolder holder, int position) {
-        BookStarViewHolder starViewHolder = (BookStarViewHolder)holder;
-        switch (position){
+        BookStarViewHolder starViewHolder = (BookStarViewHolder) holder;
+        User user = mDataSet.get(position);
+
+        switch (position) {
             case 0:
                 starViewHolder.mIvFlag.setImageResource(R.mipmap.star_1);
                 break;
@@ -69,11 +72,21 @@ public class BookStarAdapter extends BaseAdapter<User> {
                 break;
         }
 
-        SpannableString reviewCountNum = new SpannableString("6");
-        reviewCountNum.setSpan(new ForegroundColorSpan(ResourceHelper.getColor(R.color.read_primary_color)),0,reviewCountNum.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+        if (user.avatar != null && !user.avatar.equals("")){
+            Glide.with(mContext).load(user.avatar).into(starViewHolder.mCivPortrait);
+        }
 
-        SpannableStringBuilder reviewCount = new SpannableStringBuilder("写过");
-        reviewCount.append(reviewCountNum).append("个书评");
-        starViewHolder.mTvReviewtime.setText(reviewCount);
+        if (user.review_count != null) {
+            SpannableString reviewCountNum = new SpannableString(user.review_count);
+            reviewCountNum.setSpan(new ForegroundColorSpan(ResourceHelper.getColor(R.color.read_primary_color)), 0, reviewCountNum.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+
+            SpannableStringBuilder reviewCount = new SpannableStringBuilder("写过");
+            reviewCount.append(reviewCountNum).append("个书评");
+            starViewHolder.mTvReviewtime.setText(reviewCount);
+        }
+
+        if (user.twtuname != null) {
+            starViewHolder.mTvName.setText(user.twtuname);
+        }
     }
 }

@@ -7,19 +7,24 @@ package com.twt.service.rxsrc.model.read;
 public class Review {
     /**
      * book_id : 747440
-     * user_name : brandon.huels
+     * title : Elta Grady
+     * user_name : angeline.mraz
      * avatar :
-     * scores : null
+     * scores : 3
      * like : 50
-     * content : Quidem voluptas eveniet officia blanditiis doloremque.
+     * content : Et fuga voluptate dolore eum.
+     * updated_at : 2016年10月30日
      */
 
     public String book_id;
+    public String title;
     public String user_name;
     public String avatar;
     public int scores;
     public String like;
     public String content;
+    public String updated_at;
+
 
 
 //    public String content;
