@@ -63,10 +63,10 @@ public class BookDetailAdapter extends RecyclerView.Adapter<BaseBindHolder> {
 
     public void setDetail(Detail detail) {
         mDetail = detail;
-        //status_count = detail.status.size();
+        status_count = detail.holding.data.size();
         review_count = detail.review.data.size();
         mDataList.add(detail);
-        //mDataList.addAll(detail.status);
+        mDataList.addAll(detail.holding.data);
         mDataList.addAll(detail.review.data);
     }
 
@@ -171,6 +171,7 @@ public class BookDetailAdapter extends RecyclerView.Adapter<BaseBindHolder> {
             // TODO: 16-10-27 header样式的处理
         } else if (type == TYPE_STATUS) {
             sStatusHolder statusHolder = (sStatusHolder) holder;
+            statusHolder.mBinding.setStatus((Detail.HoldingBean.DataBean) baseData);
             //statusHolder.setStatus((Detail.statusItem) baseData);
         } else if (type == TYPE_REVIEW) {
             sReviewHolder reviewHolder = (sReviewHolder) holder;

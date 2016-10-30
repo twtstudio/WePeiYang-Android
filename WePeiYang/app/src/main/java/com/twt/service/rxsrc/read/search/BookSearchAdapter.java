@@ -1,6 +1,7 @@
 package com.twt.service.rxsrc.read.search;
 
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import com.twt.service.rxsrc.common.ui.BaseAdapter;
 import com.twt.service.rxsrc.common.ui.BaseBindHolder;
 import com.twt.service.rxsrc.common.ui.BaseBindingAdapter;
 import com.twt.service.rxsrc.model.read.SearchBook;
+import com.twt.service.rxsrc.read.bookdetail.BookDetailActivity;
 
 import java.util.List;
 
@@ -59,7 +61,17 @@ public class BookSearchAdapter extends BaseBindingAdapter<SearchBook> {
     @Override
     public void onBindViewHolder(BaseBindHolder holder, int position) {
         BookHolder itemHolder = (BookHolder) holder;
-        itemHolder.bind(mDataSet.get(position));
+        SearchBook book = mDataSet.get(position);
+        itemHolder.bind(book);
+        itemHolder.getBinding().itemBookSearchParent
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(mContext, BookDetailActivity.class);
+                        intent.putExtra("id",book.index);
+                        mContext.startActivity(intent);
+                    }
+                });
     }
 
 }

@@ -19,7 +19,7 @@ public class DataBindingAdapter {
     @BindingAdapter({"imageUrl"})
     public static void loadImage(ImageView iv, String imageUrl) {
 //        if (!TextUtils.isEmpty(imageUrl))
-            Glide.with(iv.getContext()).load(imageUrl).placeholder(R.drawable.default_cover).into(iv);
+            Glide.with(iv.getContext()).load(imageUrl).placeholder(R.drawable.default_cover).error(R.drawable.default_cover).into(iv);
     }
 
     @BindingAdapter({"avatarUrl"})

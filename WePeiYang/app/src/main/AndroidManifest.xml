@@ -167,6 +167,7 @@
         <activity android:name=".rxsrc.read.DebugActivity"/>
         <activity android:name=".rxsrc.read.bookdetail.BookDetailActivity" android:exported="true"/>
         <activity android:name=".rxsrc.read.bookreview.AddReviewActivity"/>
+        <activity android:name=".rxsrc.read.search.BookSearchActivity"/>
 
 
         <activity android:name=".rxsrc.read.home.BookHomeActivity" android:exported="true"/>

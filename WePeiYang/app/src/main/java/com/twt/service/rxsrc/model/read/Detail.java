@@ -35,7 +35,23 @@ public class Detail {
     public String summary;
     public ReviewBean review;
     public StarreviewBean starreview;
-    public Status status;
+    public HoldingBean holding;
+    /**
+     * id : 1952058
+     * barcode : TD002334297
+     * callno : TP312SW/H38
+     * stateCode : 2
+     * state : 在馆
+     * libCode : 1
+     * localCode : bygx
+     * local : 北洋园工学阅览区
+     * typeCode : ZWPT
+     * type : 中文普通书
+     * indate : 2015-10-21
+     * loan : null
+     */
+
+    //public List<DataBean> data;
 
     public static class ReviewBean {
         /**
@@ -79,13 +95,27 @@ public class Detail {
         }
     }
 
-    public static class StatusBean {
-        public static class DataBean{
-            public String location;
-            public String library;
-            public String status;
+    public static class HoldingBean {
+        public List<HoldingBean.DataBean> data;
+
+        public static class DataBean {
+            public int id;
+            public String barcode;
+            public String callno;
+            public int stateCode;
+            public String state;
+            public String libCode;
+            public String localCode;
+            public String local;
+            public String typeCode;
+            public String type;
+            public String indate;
+            public Object loan;
         }
     }
+
+
+
 }
 
 

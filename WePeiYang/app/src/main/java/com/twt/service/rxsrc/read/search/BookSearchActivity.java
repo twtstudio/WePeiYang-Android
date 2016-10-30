@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ProgressBar;
 
 import com.twt.service.R;
 import com.twt.service.databinding.ActivityBookSearchBinding;
@@ -24,17 +25,18 @@ import java.util.List;
  * @TwtStudio Mobile Develope Team
  */
 
-public class BookSearchActivity extends BPActivity<BookSearchPresenter> implements BookSearchViewController{
+public class BookSearchActivity extends BPActivity<BookSearchPresenter> implements BookSearchViewController {
 
     private ActivityBookSearchBinding mBinding;
     private SearchView mSearchView;
     private RecyclerView mRecyclerView;
     private Toolbar mToolbar;
     private BookSearchAdapter mAdapter;
+    private ProgressBar mProgressBar;
 
     @Override
     protected BookSearchPresenter getPresenter() {
-        return new BookSearchPresenter(this,this);
+        return new BookSearchPresenter(this, this);
     }
 
     @Override
@@ -44,7 +46,7 @@ public class BookSearchActivity extends BPActivity<BookSearchPresenter> implemen
 
     @Override
     protected int getStatusbarColor() {
-        return 0;
+        return R.color.read_primary_color;
     }
 
     @Override
@@ -52,22 +54,25 @@ public class BookSearchActivity extends BPActivity<BookSearchPresenter> implemen
         super.onCreate(savedInstanceState);
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_book_search);
         mBinding.setHint("输入你想查找的书名");
+        mProgressBar = mBinding.bookSearchProgressbar;
         mSearchView = mBinding.readSearchView;
+        mSearchView.setIconifiedByDefault(false);
         mRecyclerView = mBinding.readSearchRecyclerview;
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mToolbar = mBinding.readSearchToolbar;
         mAdapter = new BookSearchAdapter(this);
-    }
 
-    @Override
-    protected void afterInitView() {
-        super.afterInitView();
+        setTitle("搜索图书");
+        mToolbar.setTitleTextColor(getResources().getColor(R.color.edittext_bg_color));
+
         setUpToolbar(mToolbar);
         mSearchView.setSubmitButtonEnabled(true);
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 mPresenter.search(query);
+                mProgressBar.setVisibility(View.VISIBLE);
+                mSearchView.setSubmitButtonEnabled(false);
                 return true;
             }
 
@@ -78,11 +83,13 @@ public class BookSearchActivity extends BPActivity<BookSearchPresenter> implemen
         });
     }
 
+
     @Override
     public void onSearchFinished(List<SearchBook> bookList) {
+        mSearchView.setSubmitButtonEnabled(true);
+        mProgressBar.setVisibility(View.GONE);
         mAdapter.refreshItems(bookList);
-        if (mRecyclerView.getAdapter()!=null){
-            mRecyclerView.setAdapter(mAdapter);
-        }
+        mRecyclerView.setAdapter(mAdapter);
+
     }
 }

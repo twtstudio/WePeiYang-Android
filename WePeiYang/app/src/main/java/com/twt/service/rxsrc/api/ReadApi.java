@@ -40,10 +40,10 @@ public interface ReadApi {
     @GET("starreader/{count}")
     Observable<ApiResponse<List<User>>> getStarReaderList(@Path("count") String count);
 
-    @GET("search/{info}")
+    @GET("book/search/{info}")
     Observable<ApiResponse<List<SearchBook>>> searchBooks(@Path("info") String info);
 
-    @GET("book/detail/{id}?include=review,starreview,status")
+    @GET("book/detail/{id}?include=review,starreview,holding")
     Observable<ApiResponse<Detail>> getBookDetail(@Path("id") String id);
 
     // TODO: 16-10-22 略迷

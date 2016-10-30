@@ -71,10 +71,14 @@ public class ReadApiSubscriber<T> extends Subscriber<T> {
         } else if (e instanceof HttpException){
             toastMessage("Http错误"+((HttpException) e).code());
         }
-        else if (e instanceof BIkeApiException){
+        else if (e instanceof ApiException){
             toastMessage("错误: " + e.getMessage());
-        }else {
-            toastMessage(e.getMessage());
+        }else if(e instanceof NullPointerException){
+            toastMessage("对不起，没有数据");
+        } else {
+            if (isToastError){
+                toastMessage(e.getMessage());
+            }
         }
     }
 

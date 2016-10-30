@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.view.WindowManager;
 
 import com.twt.service.R;
@@ -25,12 +26,18 @@ public class BookDetailActivity extends BPActivity<BookDetailPresenter> implemen
     private ActivityBookDetailBinding mBinding;
     private RecyclerView mRecyclerView;
     private BookDetailAdapter mAdapter;
+    private String id;
 
     @Override
     protected BookDetailPresenter getPresenter() {
         return new BookDetailPresenter(this,this);
     }
 
+    @Override
+    protected void actionStart(Context context) {
+        id = getIntent().getStringExtra("id");
+        super.actionStart(context);
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -40,7 +47,8 @@ public class BookDetailActivity extends BPActivity<BookDetailPresenter> implemen
         mRecyclerView = mBinding.bookDetailRcv;
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new BookDetailAdapter(this);
-        mPresenter.getBookDetail("747440");
+        mPresenter.getBookDetail(id);
+        mBinding.bookDetailProgressbar.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -51,6 +59,7 @@ public class BookDetailActivity extends BPActivity<BookDetailPresenter> implemen
     @Override
     public void onDetailGot(Detail detail) {
         mAdapter.setDetail(detail);
+        mBinding.bookDetailProgressbar.setVisibility(View.INVISIBLE);
         if (mRecyclerView.getAdapter()==null){
             mRecyclerView.setAdapter(mAdapter);
         }

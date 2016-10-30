@@ -5,6 +5,7 @@ import com.twt.service.rxsrc.model.read.ReadToken;
 import com.twt.service.support.PrefUtils;
 
 import java.io.IOException;
+import java.net.SocketTimeoutException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -20,6 +21,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
+import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.subscriptions.CompositeSubscription;
 
@@ -150,6 +152,23 @@ public class ReadApiClient {
     public void searchBooks(Object tag, Subscriber subscriber, String info) {
         Subscription subscription = mService.searchBooks(info)
                 .retryWhen(mTokenHelper)
+//                .retryWhen(observable -> observable.flatMap(new Func1<Throwable, Observable<?>>() {
+//                    @Override
+//                    public Observable<?> call(Throwable throwable) {
+//                        if (throwable instanceof SocketTimeoutException){
+//                            return mService.searchBooks(info)
+//                                    .map(mResponseTransformer)
+//                                    .compose(ApiUtils.applySchedulers())
+//                                    .doOnNext(new Action1() {
+//                                        @Override
+//                                        public void call(Object o) {
+//
+//                                        }
+//                                    });
+//                        }
+//                        return Observable.error(throwable);
+//                    }
+//                }))
                 .map(mResponseTransformer)
                 .compose(ApiUtils.applySchedulers())
                 .subscribe(subscriber);
