@@ -25,7 +25,7 @@ public class DataBindingAdapter {
     @BindingAdapter({"avatarUrl"})
     public static void loadAvatarImage(ImageView iv, String imageUrl) {
 //        if (!TextUtils.isEmpty(imageUrl))
-        Glide.with(iv.getContext()).load(imageUrl).placeholder(R.drawable.ssdk_oks_logo_linkedin).into(iv);
+        Glide.with(iv.getContext()).load(imageUrl).placeholder(R.mipmap.ic_book_avatar).error(R.mipmap.ic_book_avatar).into(iv);
     }
     @BindingAdapter({"body"})
     public static void loadBody(WebView webView, String body) {

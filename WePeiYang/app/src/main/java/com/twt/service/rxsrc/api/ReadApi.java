@@ -21,7 +21,7 @@ import rx.Observable;
 
 public interface ReadApi {
 
-    @GET("token/get")
+    @GET("auth/token/get")
     Observable<ApiResponse<ReadToken>> getReadToken(@Query("wpy_token") String wpy_token);
 
     //检查readtoken逻辑，暂时通过http code实现

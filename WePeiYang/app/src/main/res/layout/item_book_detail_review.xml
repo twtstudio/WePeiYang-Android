@@ -36,9 +36,9 @@
             android:layout_marginLeft="10dp"
             android:layout_width="wrap_content"
             style="@style/roomRatingBar"
-            android:numStars="3"
+            android:numStars="5"
             android:isIndicator="true"
-            android:rating="3"
+            android:rating="@{review.scores}"
             android:layout_height="wrap_content"/>
         <TextView
             android:text="@{review.content}"
@@ -50,6 +50,43 @@
             android:layout_below="@id/item_book_detail_review_avatar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/tv_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="5dp"
+            android:layout_below="@id/item_book_detail_review_content"
+            android:layout_marginTop="2dp"
+            android:text="@{review.updated_at}"
+            android:textColor="@color/myTextPrimaryColorGray"/>
+
+        <TextView
+            android:id="@+id/tv_like"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="5dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/item_book_detail_review_content"
+            android:text="@{review.like}"
+            android:textColor="@color/myTextPrimaryColorGray"
+            android:textSize="18sp"/>
+
+        <ImageView
+            android:id="@+id/item_book_detail_iv_like"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_below="@id/item_book_detail_review_content"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="4dp"
+            android:layout_toLeftOf="@id/tv_like"
+            android:layout_toStartOf="@id/tv_like"
+            android:src="@mipmap/ic_book_unlike"/>
         <View
             android:id="@+id/divider"
             android:layout_width="match_parent"

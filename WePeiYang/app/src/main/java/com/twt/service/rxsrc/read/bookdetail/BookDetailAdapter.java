@@ -49,25 +49,43 @@ public class BookDetailAdapter extends RecyclerView.Adapter<BaseBindHolder> {
     private int TYPE_HEADER = 0;
     private int TYPE_STATUS = 1;
     private int TYPE_REVIEW = 2;
+    private AdapterController mActController;
 
     private List<Object> mDataList = new ArrayList<>();
 
     public BookDetailAdapter(Context context) {
         mContext = context;
+        BookDetailActivity activity = (BookDetailActivity) mContext;
+        mActController = activity;
     }
 
     public BookDetailAdapter(Context context, Detail detail) {
         mContext = context;
         setDetail(detail);
+        BookDetailActivity activity = (BookDetailActivity) mContext;
+        mActController = activity;
     }
 
     public void setDetail(Detail detail) {
         mDetail = detail;
-        status_count = detail.holding.data.size();
-        review_count = detail.review.data.size();
         mDataList.add(detail);
+        status_count = detail.holding.data.size() + 1;
+        review_count = detail.review.data.size();
+        Detail.HoldingBean.DataBean dataBean = new Detail.HoldingBean.DataBean();
+        dataBean.callno = "索书号";
+        dataBean.local = "地点";
+        dataBean.state = "状态";
+        //detail.holding.data.add(dataBean);
+        mDataList.add(dataBean);
+        if (detail.holding.data.size() == 0) {
+            status_count++;
+            Detail.HoldingBean.DataBean dataBean1 = new Detail.HoldingBean.DataBean();
+            dataBean1.callno = "无在馆信息";
+            mDataList.add(dataBean1);
+        }
         mDataList.addAll(detail.holding.data);
         mDataList.addAll(detail.review.data);
+
     }
 
     static class sHeaderHolder extends BaseBindHolder {
@@ -109,10 +127,12 @@ public class BookDetailAdapter extends RecyclerView.Adapter<BaseBindHolder> {
     static class sReviewHolder extends BaseBindHolder {
 
         private ItemBookDetailReviewBinding mBinding;
+        private ImageView likeImage;
 
         public sReviewHolder(View itemView) {
             super(itemView);
             mBinding = DataBindingUtil.bind(itemView);
+            likeImage = mBinding.itemBookDetailIvLike;
         }
 
         public void setReview(Detail.ReviewBean.DataBean review) {
@@ -147,19 +167,22 @@ public class BookDetailAdapter extends RecyclerView.Adapter<BaseBindHolder> {
             ItemBookDetailHeaderBinding binding = headerHolder.getBinding();
             Detail detail = (Detail) baseData;
             binding.setDetail(detail);
-            Glide.with(mContext).load(detail.cover_url).listener(GlidePalette.with(detail.cover_url)
-                    .use(GlidePalette.Profile.MUTED_LIGHT)
-                    .intoBackground(headerHolder.mFrame)
-                    .intoCallBack(new BitmapPalette.CallBack() {
-                        @Override
-                        public void onPaletteLoaded(@Nullable Palette palette) {
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                                int color = palette.getLightMutedColor(0x000000);
-                                AppCompatActivity activity = (AppCompatActivity) mContext;
-                                activity.getWindow().setStatusBarColor(color);
-                            }
-                        }
-                    }))
+            Glide.with(mContext).load(detail.cover_url)
+                    .placeholder(R.drawable.default_cover)
+                    .error(R.drawable.default_cover)
+                    .listener(GlidePalette.with(detail.cover_url)
+                            .use(GlidePalette.Profile.MUTED_LIGHT)
+                            .intoBackground(headerHolder.mFrame)
+                            .intoCallBack(new BitmapPalette.CallBack() {
+                                @Override
+                                public void onPaletteLoaded(@Nullable Palette palette) {
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                        int color = palette.getLightMutedColor(0x000000);
+                                        AppCompatActivity activity = (AppCompatActivity) mContext;
+                                        activity.getWindow().setStatusBarColor(color);
+                                    }
+                                }
+                            }))
                     .into(headerHolder.mCoverImage);
             binding.bookDetailBtnAddreview.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -168,7 +191,12 @@ public class BookDetailAdapter extends RecyclerView.Adapter<BaseBindHolder> {
                     mContext.startActivity(intent);
                 }
             });
-            // TODO: 16-10-27 header样式的处理
+            binding.bookDetailBtnLove.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mActController.onBookLike(detail.id);
+                }
+            });
         } else if (type == TYPE_STATUS) {
             sStatusHolder statusHolder = (sStatusHolder) holder;
             statusHolder.mBinding.setStatus((Detail.HoldingBean.DataBean) baseData);
@@ -176,6 +204,14 @@ public class BookDetailAdapter extends RecyclerView.Adapter<BaseBindHolder> {
         } else if (type == TYPE_REVIEW) {
             sReviewHolder reviewHolder = (sReviewHolder) holder;
             reviewHolder.setReview((Detail.ReviewBean.DataBean) baseData);
+            reviewHolder.likeImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    reviewHolder.likeImage.setImageResource(R.mipmap.ic_book_like);
+                    // TODO: 16-10-31 bookid??????这不科学
+                    mActController.onBookLike(((Detail.ReviewBean.DataBean) baseData).book_id);
+                }
+            });
         }
     }
 

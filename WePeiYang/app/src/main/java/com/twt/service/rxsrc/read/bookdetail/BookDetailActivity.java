@@ -22,7 +22,7 @@ import com.twt.service.rxsrc.model.read.Detail;
  * @TwtStudio Mobile Develope Team
  */
 
-public class BookDetailActivity extends BPActivity<BookDetailPresenter> implements BookDetailController{
+public class BookDetailActivity extends BPActivity<BookDetailPresenter> implements BookDetailController,AdapterController{
     private ActivityBookDetailBinding mBinding;
     private RecyclerView mRecyclerView;
     private BookDetailAdapter mAdapter;
@@ -65,7 +65,20 @@ public class BookDetailActivity extends BPActivity<BookDetailPresenter> implemen
         }
     }
 
+    @Override
+    public void onReviewLike(String reviewId) {
+
+
+    }
+
+    @Override
+    public void onBookLike(String bookId) {
+
+    }
+
+
 //    public void setFuckData(){
 //        Detail detail = new Detail();
 //    }
+
 }

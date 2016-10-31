@@ -24,7 +24,7 @@ public class ReadAuthHelper implements Func1<Observable<? extends Throwable>, Ob
             public Observable<?> call(Throwable throwable) {
                 if (throwable instanceof HttpException){
                     HttpException exception = (HttpException) throwable;
-                    if (exception.code()==403){
+                    if (exception.code()==400){
                         return mService.getReadToken(PrefUtils.getToken())
                                 .doOnNext(readTokenApiResponse -> PrefUtils.setReadToken(readTokenApiResponse.getData().token));
                     }

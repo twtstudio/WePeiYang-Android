@@ -69,9 +69,10 @@ public class Detail {
             public String book_id;
             public String user_name;
             public String avatar;
-            public String scores;
+            public int scores;
             public String like;
             public String content;
+            public String updated_at;
         }
     }
 

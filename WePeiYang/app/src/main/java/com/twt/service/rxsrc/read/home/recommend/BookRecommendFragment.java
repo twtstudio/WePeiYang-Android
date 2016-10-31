@@ -1,5 +1,6 @@
 package com.twt.service.rxsrc.read.home.recommend;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,8 +15,10 @@ import com.twt.service.rxsrc.model.read.HomeBanner;
 import com.twt.service.rxsrc.model.read.Recommended;
 import com.twt.service.rxsrc.model.read.Review;
 import com.twt.service.rxsrc.model.read.User;
+import com.twt.service.rxsrc.read.bookdetail.BookDetailActivity;
 import com.twt.service.rxsrc.read.home.BookReviewAdapter;
 import com.youth.banner.Banner;
+import com.youth.banner.listener.OnBannerClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +46,7 @@ public class BookRecommendFragment extends PFragment<BookRecommendPresenter> imp
     BookRecommendAdapter mRecommendAdapter;
     BookReviewAdapter mReviewAdapter;
     BookStarAdapter mStarAdapter;
+
     @Override
     protected int getLayout() {
         return R.layout.fragment_book_recommend;
@@ -54,7 +58,7 @@ public class BookRecommendFragment extends PFragment<BookRecommendPresenter> imp
         mPresenter.getBanner();
 
         mRecommendAdapter = new BookRecommendAdapter(getContext());
-        mRvRecommend.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
+        mRvRecommend.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         mRecommendAdapter.hideFooter();
         mRvRecommend.setAdapter(mRecommendAdapter);
         mPresenter.getRecommendedList("5");
@@ -66,7 +70,7 @@ public class BookRecommendFragment extends PFragment<BookRecommendPresenter> imp
         mPresenter.getReviewList("2");
 
         mStarAdapter = new BookStarAdapter(getContext());
-        mRvStar.setLayoutManager(new StaggeredGridLayoutManager(3,StaggeredGridLayoutManager.VERTICAL));
+        mRvStar.setLayoutManager(new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL));
         mStarAdapter.hideFooter();
         mRvStar.setAdapter(mStarAdapter);
         mPresenter.getStarReaderList("3");
@@ -95,13 +99,20 @@ public class BookRecommendFragment extends PFragment<BookRecommendPresenter> imp
     public void bindBannerData(List<HomeBanner> banners) {
 
         List<String> imgs = new ArrayList<>();
-        for (HomeBanner banner: banners) {
+        for (HomeBanner banner : banners) {
             imgs.add(banner.img);
         }
         mBanner.setImages(imgs)
                 .setImageLoader(new BannerLoader())
                 .setDelayTime(4000)
-                .start();
+                .start()
+                .setOnBannerClickListener(position -> {
+                    if (banners.get(position).id != null) {
+                        Intent intent = new Intent(getContext(), BookDetailActivity.class);
+                        intent.putExtra("id", banners.get(position).id);
+                        startActivity(intent);
+                    }
+                });
     }
 
     @Override
