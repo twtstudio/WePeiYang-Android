@@ -49,21 +49,21 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:gravity="center_horizontal"
-            android:text='@{"author: "+detail.author}'/>
+            android:text='@{"作者: "+detail.author}'/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:gravity="center"
-            android:text='@{"publisher: "+detail.publisher}'/>
+            android:text='@{"出版社: "+detail.publisher}'/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:gravity="center"
-            android:text='@{"year: "+detail.time}'/>
+            android:text='@{"出版年: "+detail.time}'/>
 
         <TextView
             android:layout_width="wrap_content"

@@ -35,8 +35,6 @@ import com.twt.service.ui.BaseActivity;
 import com.twt.service.ui.bind.BindActivity;
 import com.twt.service.ui.common.NextActivity;
 import com.twt.service.ui.login.LoginActivity;
-import com.twt.service.ui.main.MainActivity;
-
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -54,8 +52,8 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
     TextView tvMonday;
     @InjectView(R.id.tv_tuesday)
     TextView tvTuesday;
-    @InjectView(R.id.tv_wendesday)
-    TextView tvWendesday;
+    @InjectView(R.id.tv_wednesday)
+    TextView tvWednesday;
     @InjectView(R.id.tv_thursday)
     TextView tvThursday;
     @InjectView(R.id.tv_friday)
@@ -75,6 +73,20 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
     LinearLayout mParentLayout;
     @InjectView(R.id.schedule_back_frame)
     FrameLayout mBackFrame;
+    @InjectView(R.id.ll_monday)
+    LinearLayout mLlMonday;
+    @InjectView(R.id.ll_tuesday)
+    LinearLayout mLlTuesday;
+    @InjectView(R.id.ll_wednesday)
+    LinearLayout mLlWednesday;
+    @InjectView(R.id.ll_thursday)
+    LinearLayout mLlThursday;
+    @InjectView(R.id.ll_friday)
+    LinearLayout mLlFriday;
+    @InjectView(R.id.ll_saturday)
+    LinearLayout mLlSaturday;
+    @InjectView(R.id.ll_sunday)
+    LinearLayout mLlSunday;
 
     private SchedulePresenterImpl presenter;
     private String currentTerm;//当前学期
@@ -93,6 +105,7 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
     private static final int CLASS_NOT_THIS_WEEK = 1;
     private static final int CLASS_THIS_WEEK = 2;
     private ClassTable mClassTable;
+
     public static void actionStart(Context context) {
         Intent intent = new Intent(context, ScheduleActivity.class);
         context.startActivity(intent);
@@ -155,10 +168,11 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
 
     //只用来修改显示周数的文字
     public void changeWeek(int week) {
-        String sWeek = "第" + TimeHelper.getWeekString(week) + "周";
+        StringBuilder sWeek = new StringBuilder("第" + TimeHelper.getWeekString(week) + "周");
         if (week != currentWeek) {
-            sWeek += "(非当前周)";
+            sWeek.append("(非当前周)");
         }
+        sWeek.append("▼");
         tvWeek.setText(sWeek);
     }
 
@@ -188,25 +202,25 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
         }
         switch (currentDay) {
             case 1:
-                tvSunday.setBackgroundColor(ContextCompat.getColor(this, R.color.divider_color));
+                mLlSunday.setBackgroundColor(ContextCompat.getColor(this, R.color.divider_color));
                 break;
             case 2:
-                tvMonday.setBackgroundColor(ContextCompat.getColor(this, R.color.divider_color));
+                mLlMonday.setBackgroundColor(ContextCompat.getColor(this, R.color.divider_color));
                 break;
             case 3:
-                tvTuesday.setBackgroundColor(ContextCompat.getColor(this, R.color.divider_color));
+                mLlTuesday.setBackgroundColor(ContextCompat.getColor(this, R.color.divider_color));
                 break;
             case 4:
-                tvWendesday.setBackgroundColor(ContextCompat.getColor(this, R.color.divider_color));
+                mLlWednesday.setBackgroundColor(ContextCompat.getColor(this, R.color.divider_color));
                 break;
             case 5:
-                tvThursday.setBackgroundColor(ContextCompat.getColor(this, R.color.divider_color));
+                mLlThursday.setBackgroundColor(ContextCompat.getColor(this, R.color.divider_color));
                 break;
             case 6:
-                tvFriday.setBackgroundColor(ContextCompat.getColor(this, R.color.divider_color));
+                mLlFriday.setBackgroundColor(ContextCompat.getColor(this, R.color.divider_color));
                 break;
             case 7:
-                tvSaturday.setBackgroundColor(ContextCompat.getColor(this, R.color.divider_color));
+                mLlSaturday.setBackgroundColor(ContextCompat.getColor(this, R.color.divider_color));
                 break;
         }
 
@@ -219,7 +233,7 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
                     recyclerPopupWindow.setCallBack((value, week_num) -> {
                         if (!"-1".equals(value)) {
                             changeWeek(week_num);
-                            if (mClassTable != null){
+                            if (mClassTable != null) {
                                 glSchedule.removeAllViews();
                                 initSchedule(mClassTable, week_num);
                             }
@@ -229,7 +243,7 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
                 }
             }
         });
-        initSchedule(classTable,currentWeek);
+        initSchedule(classTable, currentWeek);
     }
 
     private void initSchedule(ClassTable classTable, int week) {
@@ -306,7 +320,7 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
                         cv.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                toClassContent(classTable.data.data,day,startTime,endTime,cv);
+                                toClassContent(classTable.data.data, day, startTime, endTime, cv);
 //                                moveToContent(course, cv);
                             }
                         });
@@ -323,6 +337,7 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
                     }
                 } else {
                     // TODO: 2016/9/25 把course放入一个非当前周的list
+                    course.isAvaiableCurrentWeek = false;
                     coursesNotThisWeek.add(course);
                 }
             }
@@ -354,7 +369,7 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
                     cv.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            toClassContent(classTable.data.data,day,startTime,endTime,cv);
+                            toClassContent(classTable.data.data, day, startTime, endTime, cv);
 //                            moveToContent(course, cv);
                         }
                     });
@@ -413,26 +428,28 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
         }
         return super.onOptionsItemSelected(item);
     }
+
     //这段会判断是否有多个课程出现重复的情况。第一个参数传入所有的课程，第二个传入点击课程的星期，第三、四个传入课程的起始时间，第五个传入控件
-    private void toClassContent(List<ClassTable.Data.Course> courses,int day, int startTime, int endTime, View v){
+    private void toClassContent(List<ClassTable.Data.Course> courses, int day, int startTime, int endTime, View v) {
         List<ClassTable.Data.Course> coursesInThisTime = new ArrayList<>();
-        for (ClassTable.Data.Course course: courses) {
-            for (ClassTable.Data.Course.Arrange arrange: course.arrange){
+        for (ClassTable.Data.Course course : courses) {
+            for (ClassTable.Data.Course.Arrange arrange : course.arrange) {
                 int sT = Integer.parseInt(arrange.start);
                 int eT = Integer.parseInt(arrange.end);
                 int d = Integer.parseInt(arrange.day);
-                if (d == day && sT >= startTime && eT <= endTime){
+                if (d == day && sT >= startTime && eT <= endTime) {
                     coursesInThisTime.add(course);
                 }
             }
         }
-        if (coursesInThisTime.size() == 1){
-            moveToContent(coursesInThisTime.get(0),v);
-        }else {
+        if (coursesInThisTime.size() == 1) {
+            moveToContent(coursesInThisTime.get(0), v);
+        } else {
             // TODO: 2016/9/25 这里表示有多个课程的情况，直接使用courseInThisTime即可
-            moveToMultiContent(coursesInThisTime,v);
+            moveToMultiContent(coursesInThisTime, v);
         }
     }
+
     // TODO: 16-9-20 圆形扩散
     private void toClassContent(ClassTable.Data.Course course, View view) {
         // TODO: 2016/9/18 课程详情的逻辑写在这里
@@ -446,7 +463,7 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
         int y = location[1];
 
         Animator animator = null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             animator = ViewAnimationUtils.createCircularReveal(mBackFrame, x + view.getWidth() / 2, y - view.getHeight() / 4, 10, radius);
 
             animator.addListener(new AnimatorListenerAdapter() {
@@ -486,17 +503,17 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
 //        Bundle bundle = new Bundle();
 //        bundle.putSerializable("course",course);
 
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             ActivityOptions activityOptions = ActivityOptions.makeSceneTransitionAnimation(ScheduleActivity.this, view, getString(R.string.schedule_transition));
             startActivity(intent, activityOptions.toBundle());
-        }else {
+        } else {
             startActivity(intent);
         }
 
     }
 
-    private void moveToMultiContent(List<ClassTable.Data.Course> coursesInThisTime,View view){
-        Intent intent = new Intent(ScheduleActivity.this,MultiCourseActivity.class);
+    private void moveToMultiContent(List<ClassTable.Data.Course> coursesInThisTime, View view) {
+        Intent intent = new Intent(ScheduleActivity.this, MultiCourseActivity.class);
         double card_x = view.getWidth();
         double card_y = view.getHeight();
         //计算出如何缩放多课程选择窗口
@@ -506,13 +523,13 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
         int window_y = point.y;
         card_y *= 2.0;
         card_x *= 5.0;
-        double percent_x = card_x/window_x;
-        double percent_y = card_y/window_y;
-        intent.putExtra("percent_x",percent_x);
-        intent.putExtra("percent_y",percent_y);
+        double percent_x = card_x / window_x;
+        double percent_y = card_y / window_y;
+        intent.putExtra("percent_x", percent_x);
+        intent.putExtra("percent_y", percent_y);
         //装入前两个课程
-        intent.putExtra("course1",coursesInThisTime.get(0));
-        intent.putExtra("course2",coursesInThisTime.get(1));
+        intent.putExtra("course1", coursesInThisTime.get(0));
+        intent.putExtra("course2", coursesInThisTime.get(1));
 
         //ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(ScheduleActivity.this,view,getString(R.string.schedule_transition));
 

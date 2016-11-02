@@ -278,10 +278,10 @@ public class MainActivity extends BaseActivity implements BaseSliderView.OnSlide
 //                .show();
 
         //HrDialog 弹出
-        if (PrefUtils.isShowDiaLog()) {
-            HrDialog hrDialog = new HrDialog();
-            hrDialog.show(getFragmentManager(), "HrDialog");
-        }
+//        if (PrefUtils.isShowDiaLog()) {
+//            HrDialog hrDialog = new HrDialog();
+//            hrDialog.show(getFragmentManager(), "HrDialog");
+//        }
 
     }
 

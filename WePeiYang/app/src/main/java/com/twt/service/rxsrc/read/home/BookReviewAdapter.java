@@ -78,7 +78,7 @@ public class BookReviewAdapter extends BaseAdapter<Review> {
         Review review = mDataSet.get(position);
 
         if (review.avatar != null && !review.avatar.equals("")){
-            Glide.with(mContext).load(review.avatar).into(reviewHolder.mCivPortrait);
+            Glide.with(mContext).load(review.avatar).placeholder(R.mipmap.ic_book_avatar).error(R.mipmap.ic_book_avatar).into(reviewHolder.mCivPortrait);
         }
         reviewHolder.mTvName.setText(review.user_name);
         reviewHolder.mRbStar.setRating(review.scores);
