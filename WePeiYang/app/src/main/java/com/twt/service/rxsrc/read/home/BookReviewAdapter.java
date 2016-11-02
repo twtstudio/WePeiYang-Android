@@ -88,7 +88,6 @@ public class BookReviewAdapter extends BaseAdapter<Review> {
             title.setSpan(new ClickableSpan() {
                 @Override
                 public void onClick(View view) {
-                    // TODO: 16-10-29 跳转测试逻辑
                     Intent intent = new Intent(mContext, BookDetailActivity.class);
                     intent.putExtra("id",review.book_id);
                     mContext.startActivity(intent);

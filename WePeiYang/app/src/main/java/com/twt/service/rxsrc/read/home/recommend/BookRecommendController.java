@@ -18,4 +18,5 @@ public interface BookRecommendController extends IViewController{
         void bindRecommendedData(List<Recommended> recommends);
         void bindReviewData(List<Review> reviews);
         void bindStarReaderData(List<User> users);
+        void onGetTokenSuccess();
 }

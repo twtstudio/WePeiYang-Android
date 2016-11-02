@@ -9,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 
 import com.bumptech.glide.Glide;
 import com.twt.service.R;
@@ -34,6 +36,11 @@ import static android.R.attr.toDegrees;
  */
 
 public class BookProfileFragment extends PFragment<BookProfilePresenter> implements BookProfileController,BookReviewAdapterInterface {
+
+    @InjectView(R.id.pb_)
+    ProgressBar mProgressBar;
+    @InjectView(R.id.ll_main)
+    LinearLayout mLinearLayout;
     @InjectView(R.id.iv_delete)
     ImageView mIvDelete;
     @InjectView(R.id.rv_collect)
@@ -57,29 +64,13 @@ public class BookProfileFragment extends PFragment<BookProfilePresenter> impleme
         mShelfAdapter.hideFooter();
         mRvCollect.setLayoutManager(new LinearLayoutManager(getContext()));
         mRvCollect.setAdapter(mShelfAdapter);
-        mPresenter.getBookShelf();
+//        mPresenter.getBookShelf();
 
         mReviewAdapter = new BookReviewAdapter(getContext(),this);
         mReviewAdapter.hideFooter();
         mRvReview.setLayoutManager(new LinearLayoutManager(getContext()));
         mRvReview.setAdapter(mReviewAdapter);
-        mPresenter.getMyReview();
-
-        // TODO: 2016/10/28 测试代码
-
-
-//        List<BookInShelf> books = new ArrayList<>();
-//        for (int i = 0; i < 2; i++) {
-//            books.add(new BookInShelf());
-//        }
-//        mShelfAdapter.addItems(books);
-
-//
-//        List<Review> reviews = new ArrayList<>();
-//        for (int i = 0; i < 2; i++) {
-//            reviews.add(new Review());
-//        }
-//        mReviewAdapter.addItems(reviews);
+//        mPresenter.getMyReview();
     }
 
     @Override
@@ -127,7 +118,6 @@ public class BookProfileFragment extends PFragment<BookProfilePresenter> impleme
                         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                         builder.setMessage("是否要删除选中的书目？");
                         builder.setPositiveButton("删除", (dialog, which) -> {
-                            // TODO: 2016/11/2 删除条目
                             mPresenter.delBookShelf(mShelfAdapter.getDeleteArray());
                             dialog.dismiss();
                         });
@@ -157,6 +147,8 @@ public class BookProfileFragment extends PFragment<BookProfilePresenter> impleme
 
     @Override
     public void bindReviewData(List<Review> reviews) {
+        mProgressBar.setVisibility(View.GONE);
+        mLinearLayout.setVisibility(View.VISIBLE);
         mReviewAdapter.addItems(reviews);
     }
 }

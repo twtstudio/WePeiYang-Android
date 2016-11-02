@@ -202,7 +202,6 @@ public class MainActivity extends BaseActivity implements BaseSliderView.OnSlide
                         } else {
                             LoginActivity.actionStart(MainActivity.this, NextActivity.Main);
                         }
-                        finish();
                         break;
                     case R.id.item_give_advice:
                         FeedbackActivity.actionStart(MainActivity.this);

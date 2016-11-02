@@ -8,6 +8,8 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 
 import com.twt.service.R;
 import com.twt.service.rxsrc.common.ui.PFragment;
@@ -18,6 +20,7 @@ import com.twt.service.rxsrc.model.read.User;
 import com.twt.service.rxsrc.read.bookdetail.BookDetailActivity;
 import com.twt.service.rxsrc.read.home.BookReviewAdapter;
 import com.twt.service.rxsrc.read.home.BookReviewAdapterInterface;
+import com.twt.service.support.PrefUtils;
 import com.youth.banner.Banner;
 import com.youth.banner.listener.OnBannerClickListener;
 
@@ -34,6 +37,10 @@ import butterknife.InjectView;
 public class BookRecommendFragment extends PFragment<BookRecommendPresenter> implements BookRecommendController,BookReviewAdapterInterface {
 
 
+    @InjectView(R.id.pb_)
+    ProgressBar mProgressBar;
+    @InjectView(R.id.ll_main)
+    LinearLayout mLinearLayout;
     @InjectView(R.id.rv_recommend)
     RecyclerView mRvRecommend;
     @InjectView(R.id.rv_review)
@@ -56,25 +63,12 @@ public class BookRecommendFragment extends PFragment<BookRecommendPresenter> imp
     @Override
     protected void initView() {
 
-        mPresenter.getBanner();
-
-        mRecommendAdapter = new BookRecommendAdapter(getContext());
-        mRvRecommend.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        mRecommendAdapter.hideFooter();
-        mRvRecommend.setAdapter(mRecommendAdapter);
-        mPresenter.getRecommendedList("5");
-
-        mReviewAdapter = new BookReviewAdapter(getContext(),this);
-        mRvReview.setLayoutManager(new LinearLayoutManager(getContext()));
-        mReviewAdapter.hideFooter();
-        mRvReview.setAdapter(mReviewAdapter);
-        mPresenter.getReviewList("2");
-
-        mStarAdapter = new BookStarAdapter(getContext());
-        mRvStar.setLayoutManager(new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL));
-        mStarAdapter.hideFooter();
-        mRvStar.setAdapter(mStarAdapter);
-        mPresenter.getStarReaderList("3");
+        //获取token
+        if (PrefUtils.getReadToken().equals("")){
+            mPresenter.getToken(PrefUtils.getToken());
+        }else {
+            onGetTokenSuccess();
+        }
     }
 
     @Override
@@ -84,7 +78,6 @@ public class BookRecommendFragment extends PFragment<BookRecommendPresenter> imp
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
         ButterKnife.inject(this, rootView);
         return rootView;
@@ -108,7 +101,7 @@ public class BookRecommendFragment extends PFragment<BookRecommendPresenter> imp
                 .setDelayTime(4000)
                 .start()
                 .setOnBannerClickListener(position -> {
-                    if (banners.get(position).id != null) {
+                    if (banners.get(position-1).id != null) {
                         Intent intent = new Intent(getContext(), BookDetailActivity.class);
                         intent.putExtra("id", banners.get(position).id);
                         startActivity(intent);
@@ -118,6 +111,8 @@ public class BookRecommendFragment extends PFragment<BookRecommendPresenter> imp
 
     @Override
     public void bindRecommendedData(List<Recommended> recommendeds) {
+        mProgressBar.setVisibility(View.GONE);
+        mLinearLayout.setVisibility(View.VISIBLE);
         mRecommendAdapter.addItems(recommendeds);
     }
 
@@ -139,5 +134,28 @@ public class BookRecommendFragment extends PFragment<BookRecommendPresenter> imp
     @Override
     public void delLike(String id) {
         mPresenter.delLike(id);
+    }
+
+    @Override
+    public void onGetTokenSuccess() {
+        mPresenter.getBanner();
+
+        mRecommendAdapter = new BookRecommendAdapter(getContext());
+        mRvRecommend.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        mRecommendAdapter.hideFooter();
+        mRvRecommend.setAdapter(mRecommendAdapter);
+        mPresenter.getRecommendedList("5");
+
+        mReviewAdapter = new BookReviewAdapter(getContext(), this);
+        mRvReview.setLayoutManager(new LinearLayoutManager(getContext()));
+        mReviewAdapter.hideFooter();
+        mRvReview.setAdapter(mReviewAdapter);
+        mPresenter.getReviewList("2");
+
+        mStarAdapter = new BookStarAdapter(getContext());
+        mRvStar.setLayoutManager(new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL));
+        mStarAdapter.hideFooter();
+        mRvStar.setAdapter(mStarAdapter);
+        mPresenter.getStarReaderList("3");
     }
 }

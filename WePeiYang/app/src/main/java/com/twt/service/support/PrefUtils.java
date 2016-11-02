@@ -87,11 +87,11 @@ public class PrefUtils {
     }
 
     public static void removeUserName() {
-        getDefaultSharedPreferences().edit().remove(PREF_USERNAME).commit();
+        getDefaultSharedPreferences().edit().remove(PREF_USERNAME).apply();
     }
 
     public static void removeToken() {
-        getDefaultSharedPreferences().edit().remove(PREF_TOKEN).commit();
+        getDefaultSharedPreferences().edit().remove(PREF_TOKEN).apply();
     }
 
     public static void setLostFoundContactName(String name) {
@@ -127,7 +127,7 @@ public class PrefUtils {
     }
 
     public static void removePrefUserRealname(){
-        getDefaultSharedPreferences().edit().remove(PREF_USER_REALNAME).commit();
+        getDefaultSharedPreferences().edit().remove(PREF_USER_REALNAME).apply();
     }
 
     public static void setPrefUserNumber(String userNumber){
@@ -135,7 +135,7 @@ public class PrefUtils {
     }
 
     public static void removePrefUserNumber(){
-        getDefaultSharedPreferences().edit().remove(PREF_USER_NUMBER).commit();
+        getDefaultSharedPreferences().edit().remove(PREF_USER_NUMBER).apply();
     }
 
     public static String getPrefUserNumber(){
@@ -171,7 +171,7 @@ public class PrefUtils {
     }
 
     public static void removePrefSubmitTitle(){
-        getDefaultSharedPreferences().edit().remove(PREF_SUBMIT_TITLE).commit();
+        getDefaultSharedPreferences().edit().remove(PREF_SUBMIT_TITLE).apply();
     }
 
     public static String getPrefSubmitTitle(){
@@ -183,7 +183,7 @@ public class PrefUtils {
     }
 
     public static void removePrefSubmitContent(){
-        getDefaultSharedPreferences().edit().remove(PREF_SUBMIT_CONTENT).commit();
+        getDefaultSharedPreferences().edit().remove(PREF_SUBMIT_CONTENT).apply();
     }
 
     public static String getPrefSubmitContent(){
@@ -192,19 +192,19 @@ public class PrefUtils {
 
 
     public static void removeBikeToken(){
-        getDefaultSharedPreferences().edit().remove(PREF_BIKE_TOKEN).commit();
+        getDefaultSharedPreferences().edit().remove(PREF_BIKE_TOKEN).apply();
     }
 
     public static void removeCardId(){
-        getDefaultSharedPreferences().edit().remove(PREF_BIKE_CARD_ID).commit();
+        getDefaultSharedPreferences().edit().remove(PREF_BIKE_CARD_ID).apply();
     }
 
     public static void removeCardSign(){
-        getDefaultSharedPreferences().edit().remove(PREF_BIKE_CARD_SIGN).commit();
+        getDefaultSharedPreferences().edit().remove(PREF_BIKE_CARD_SIGN).apply();
     }
 
     public static void setBikeIsBindState(boolean isBind){
-        getDefaultSharedPreferences().edit().putBoolean(PREF_BIKE_IS_BIND,isBind).commit();
+        getDefaultSharedPreferences().edit().putBoolean(PREF_BIKE_IS_BIND,isBind).apply();
     }
 
     public static boolean getBikeIsBindState(){
@@ -212,11 +212,11 @@ public class PrefUtils {
     }
 
     public static void removeBikeIsBindState(){
-        getDefaultSharedPreferences().edit().remove(PREF_BIKE_IS_BIND).commit();
+        getDefaultSharedPreferences().edit().remove(PREF_BIKE_IS_BIND).apply();
     }
 
     public static void setScheduleStartDate(String date){
-        getDefaultSharedPreferences().edit().putString(PREF_SCHEDULE_START_DATE,date).commit();
+        getDefaultSharedPreferences().edit().putString(PREF_SCHEDULE_START_DATE,date).apply();
     }
 
     public static String getScheduleStartDate(){
@@ -224,7 +224,7 @@ public class PrefUtils {
     }
 
     public static void removeScheduleStartDate(){
-        getDefaultSharedPreferences().edit().remove(PREF_SCHEDULE_START_DATE).commit();
+        getDefaultSharedPreferences().edit().remove(PREF_SCHEDULE_START_DATE).apply();
     }
 
     public static String getReadToken(){
@@ -232,6 +232,10 @@ public class PrefUtils {
     }
 
     public static void setReadToken(String readToken){
-        getDefaultSharedPreferences().edit().putString(PREF_READ_TOKEN,readToken).commit();
+        getDefaultSharedPreferences().edit().putString("Bearer{"+PREF_READ_TOKEN,readToken+"}").apply();
+    }
+
+    public static void removeReadToken(){
+        getDefaultSharedPreferences().edit().remove(PREF_READ_TOKEN).apply();
     }
 }
