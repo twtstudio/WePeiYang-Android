@@ -11,7 +11,10 @@ import android.widget.RatingBar;
 import com.twt.service.R;
 import com.twt.service.databinding.ActivityBookAddReviewBinding;
 import com.twt.service.rxsrc.common.ui.BPActivity;
+import com.twt.service.rxsrc.model.read.RefreshEvent;
 import com.twt.service.rxsrc.model.read.ReviewCallback;
+
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by jcy on 16-10-28.
@@ -68,6 +71,7 @@ public class AddReviewActivity extends BPActivity<AddReviewPresenter> implements
     @Override
     public void onAddFinished(ReviewCallback callback) {
         toastMessage("已评论");
+        EventBus.getDefault().post(new RefreshEvent());
         finish();
     }
 }

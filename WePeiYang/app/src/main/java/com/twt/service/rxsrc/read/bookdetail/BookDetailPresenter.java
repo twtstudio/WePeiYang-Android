@@ -8,7 +8,10 @@ import com.twt.service.rxsrc.api.ReadApiClient;
 import com.twt.service.rxsrc.api.ReadApiSubscriber;
 import com.twt.service.rxsrc.common.Presenter;
 import com.twt.service.rxsrc.model.read.Detail;
+import com.twt.service.rxsrc.model.read.RefreshEvent;
 import com.twt.service.rxsrc.model.read.Review;
+
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by jcy on 16-10-25.
@@ -55,6 +58,7 @@ public class BookDetailPresenter extends Presenter {
         @Override
         public void onNext(Object o) {
             Toast.makeText(mContext, "已收藏", Toast.LENGTH_SHORT).show();
+            EventBus.getDefault().post(new RefreshEvent());
         }
     };
 }
