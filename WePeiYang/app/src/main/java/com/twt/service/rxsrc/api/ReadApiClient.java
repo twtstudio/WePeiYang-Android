@@ -258,4 +258,13 @@ public class ReadApiClient {
                 .subscribe(subscriber);
         addSubscription(tag, subscription);
     }
+
+    public void getMyReview(Object tag, Subscriber subscriber){
+        Subscription subscription = mService.getMyReview()
+                .retryWhen(mTokenHelper)
+                .map(mResponseTransformer)
+                .compose(ApiUtils.applySchedulers())
+                .subscribe(subscriber);
+        addSubscription(tag, subscription);
+    }
 }

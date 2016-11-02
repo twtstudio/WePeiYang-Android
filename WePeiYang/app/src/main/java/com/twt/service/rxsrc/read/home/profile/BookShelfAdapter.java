@@ -46,6 +46,11 @@ public class BookShelfAdapter extends BaseAdapter<BookInShelf> {
         deleteList = new ArrayList<>();
     }
 
+    public void refreshItems(List<BookInShelf> booksInShelf){
+        mDataSet.clear();
+        mDataSet.addAll(booksInShelf);
+        notifyDataSetChanged();
+    }
     public void setDeleteMode(boolean deleteMode) {
         isDeleteMode = deleteMode;
         if (!deleteMode){
@@ -60,8 +65,10 @@ public class BookShelfAdapter extends BaseAdapter<BookInShelf> {
         return new BookShelfHolder(inflater.inflate(R.layout.item_book_collect, parent, false));
     }
 
-    public String[] getDeleteList(){
-        return (String[]) deleteList.toArray();
+    public String[] getDeleteArray(){
+        String[] array =new String[deleteList.size()];
+        System.arraycopy(deleteList.toArray(), 0, array, 0, deleteList.size());
+        return array;
     }
 
     @Override

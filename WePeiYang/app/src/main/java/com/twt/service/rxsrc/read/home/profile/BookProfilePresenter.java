@@ -8,6 +8,7 @@ import com.twt.service.rxsrc.api.ReadApiClient;
 import com.twt.service.rxsrc.api.ReadApiSubscriber;
 import com.twt.service.rxsrc.common.Presenter;
 import com.twt.service.rxsrc.model.read.BookInShelf;
+import com.twt.service.rxsrc.model.read.Review;
 
 import java.util.List;
 
@@ -32,6 +33,18 @@ public class BookProfilePresenter extends Presenter {
         ReadApiClient.getInstance().delBookInShelf(mContext, new ReadApiSubscriber(mContext, mDelBookInSelfListener), id);
     }
 
+    public void getMyReview(){
+        ReadApiClient.getInstance().getMyReview(mContext, new ReadApiSubscriber(mContext, mReviewListener));
+    }
+
+    public void addLike(String id){
+        ReadApiClient.getInstance().addLike(mContext, new ReadApiSubscriber(mContext, null), id);
+    }
+
+    public void delLike(String id){
+        ReadApiClient.getInstance().delLike(mContext, new ReadApiSubscriber(mContext, null), id);
+    }
+
     private OnNextListener<List<BookInShelf>> mBookShelfOnNextListener = new OnNextListener<List<BookInShelf>>() {
         @Override
         public void onNext(List<BookInShelf> booksInShelf) {
@@ -39,10 +52,17 @@ public class BookProfilePresenter extends Presenter {
         }
     };
 
-    private OnNextListener mDelBookInSelfListener = new OnNextListener() {
+    private OnNextListener<Object> mDelBookInSelfListener = new OnNextListener<Object>() {
         @Override
         public void onNext(Object o) {
             mController.delBookInShelfSuccess();
+        }
+    };
+
+    private OnNextListener<List<Review>> mReviewListener = new OnNextListener<List<Review>>() {
+        @Override
+        public void onNext(List<Review> reviews) {
+            mController.bindReviewData(reviews);
         }
     };
 }

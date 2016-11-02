@@ -57,15 +57,18 @@ public interface ReadApi {
     @GET("book/bookshelf/get")
     Observable<ApiResponse<List<BookInShelf>>> getBookShelf();
 
-    @GET("addbookshelf/{id}")
-    Observable<ApiResponse<Void>> addBookShelf(@Path("id") String id);
+    @GET("book/addbookshelf/{id}")
+    Observable<ApiResponse<Object>> addBookShelf(@Path("id") String id);
 
-    @GET("delbookshelf/{id}")
-    Observable<ApiResponse<Void>> delBookShelf(@Path("id") String[] id);
+    @GET("book/delbookshelf")
+    Observable<ApiResponse<Object>> delBookShelf(@Query("id[]") String[] id);
 
     @GET("review/addlike/{id}")
-    Observable<ApiResponse<Void>> addLike(@Path("id") String id);
+    Observable<ApiResponse<Object>> addLike(@Path("id") String id);
 
     @GET("review/dellike/{id}")
-    Observable<ApiResponse<Void>> delLike(@Path("id") String id);
+    Observable<ApiResponse<Object>> delLike(@Path("id") String id);
+
+    @GET("review/get")
+    Observable<ApiResponse<List<Review>>> getMyReview();
 }

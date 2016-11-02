@@ -63,7 +63,7 @@ public class BookProfileFragment extends PFragment<BookProfilePresenter> impleme
         mReviewAdapter.hideFooter();
         mRvReview.setLayoutManager(new LinearLayoutManager(getContext()));
         mRvReview.setAdapter(mReviewAdapter);
-
+        mPresenter.getMyReview();
 
         // TODO: 2016/10/28 测试代码
 
@@ -74,12 +74,12 @@ public class BookProfileFragment extends PFragment<BookProfilePresenter> impleme
 //        }
 //        mShelfAdapter.addItems(books);
 
-
-        List<Review> reviews = new ArrayList<>();
-        for (int i = 0; i < 2; i++) {
-            reviews.add(new Review());
-        }
-        mReviewAdapter.addItems(reviews);
+//
+//        List<Review> reviews = new ArrayList<>();
+//        for (int i = 0; i < 2; i++) {
+//            reviews.add(new Review());
+//        }
+//        mReviewAdapter.addItems(reviews);
     }
 
     @Override
@@ -102,12 +102,12 @@ public class BookProfileFragment extends PFragment<BookProfilePresenter> impleme
 
     @Override
     public void addLike(String id) {
-
+        mPresenter.addLike(id);
     }
 
     @Override
     public void delLike(String id) {
-
+        mPresenter.delLike(id);
     }
 
     @OnClick({R.id.iv_delete})
@@ -119,7 +119,7 @@ public class BookProfileFragment extends PFragment<BookProfilePresenter> impleme
                     isDeleteMode = true;
                     mShelfAdapter.setDeleteMode(isDeleteMode);
                 }else {
-                    if (mShelfAdapter.getDeleteList().length == 0){
+                    if (mShelfAdapter.getDeleteArray().length == 0){
                         Glide.with(this).load(R.mipmap.ic_book_delete).into(mIvDelete);
                         isDeleteMode = false;
                         mShelfAdapter.setDeleteMode(isDeleteMode);
@@ -128,7 +128,7 @@ public class BookProfileFragment extends PFragment<BookProfilePresenter> impleme
                         builder.setMessage("是否要删除选中的书目？");
                         builder.setPositiveButton("删除", (dialog, which) -> {
                             // TODO: 2016/11/2 删除条目
-                            mPresenter.delBookShelf(mShelfAdapter.getDeleteList());
+                            mPresenter.delBookShelf(mShelfAdapter.getDeleteArray());
                             dialog.dismiss();
                         });
                         builder.setNegativeButton("取消", (dialog, which) -> dialog.dismiss());
@@ -144,7 +144,7 @@ public class BookProfileFragment extends PFragment<BookProfilePresenter> impleme
 
     @Override
     public void bindBookShelfData(List<BookInShelf> booksInShelf) {
-        mShelfAdapter.addItems(booksInShelf);
+        mShelfAdapter.refreshItems(booksInShelf);
     }
 
     @Override
@@ -152,5 +152,11 @@ public class BookProfileFragment extends PFragment<BookProfilePresenter> impleme
         Glide.with(this).load(R.mipmap.ic_book_delete).into(mIvDelete);
         isDeleteMode = false;
         mShelfAdapter.setDeleteMode(isDeleteMode);
+        mPresenter.getBookShelf();
+    }
+
+    @Override
+    public void bindReviewData(List<Review> reviews) {
+        mReviewAdapter.addItems(reviews);
     }
 }
