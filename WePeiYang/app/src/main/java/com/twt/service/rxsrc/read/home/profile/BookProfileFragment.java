@@ -64,13 +64,13 @@ public class BookProfileFragment extends PFragment<BookProfilePresenter> impleme
         mShelfAdapter.hideFooter();
         mRvCollect.setLayoutManager(new LinearLayoutManager(getContext()));
         mRvCollect.setAdapter(mShelfAdapter);
-//        mPresenter.getBookShelf();
+        mPresenter.getBookShelf();
 
         mReviewAdapter = new BookReviewAdapter(getContext(),this);
         mReviewAdapter.hideFooter();
         mRvReview.setLayoutManager(new LinearLayoutManager(getContext()));
         mRvReview.setAdapter(mReviewAdapter);
-//        mPresenter.getMyReview();
+        mPresenter.getMyReview();
     }
 
     @Override

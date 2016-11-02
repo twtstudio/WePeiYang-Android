@@ -232,7 +232,7 @@ public class PrefUtils {
     }
 
     public static void setReadToken(String readToken){
-        getDefaultSharedPreferences().edit().putString("Bearer{"+PREF_READ_TOKEN,readToken+"}").apply();
+        getDefaultSharedPreferences().edit().putString(PREF_READ_TOKEN,"Bearer {"+readToken+"}").apply();
     }
 
     public static void removeReadToken(){
