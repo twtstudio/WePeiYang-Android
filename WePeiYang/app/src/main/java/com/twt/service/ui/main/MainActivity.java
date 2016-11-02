@@ -1,15 +1,18 @@
 package com.twt.service.ui.main;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -33,9 +36,11 @@ import com.twt.service.JniUtils;
 import com.twt.service.R;
 import com.twt.service.bean.Main;
 import com.twt.service.bean.Update;
+import com.twt.service.rxsrc.api.ReadApiClient;
 import com.twt.service.rxsrc.bike.bikeAuth.BikeAuthActivity;
 import com.twt.service.rxsrc.bike.ui.main.BikeActivity;
 import com.twt.service.interactor.MainInteractorImpl;
+import com.twt.service.rxsrc.model.LatestVersion;
 import com.twt.service.rxsrc.read.DebugActivity;
 import com.twt.service.support.PrefUtils;
 import com.twt.service.ui.BaseActivity;
@@ -63,6 +68,7 @@ import butterknife.InjectView;
 import de.greenrobot.event.EventBus;
 import im.fir.sdk.FIR;
 import im.fir.sdk.VersionCheckCallback;
+import rx.Subscriber;
 
 public class MainActivity extends BaseActivity implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener, View.OnClickListener, MainView {
 
@@ -212,7 +218,7 @@ public class MainActivity extends BaseActivity implements BaseSliderView.OnSlide
                     /*case R.id.item_share_app:
                         break;*/
                     case R.id.item_check_update:
-                        checkUpdate(false);
+                        checkMyUpdate();
                         break;
                     case R.id.debug_settings:
                         DebugActivity.actionStart(MainActivity.this);
@@ -246,7 +252,7 @@ public class MainActivity extends BaseActivity implements BaseSliderView.OnSlide
                 presenter.loadDataFromNet();
             }
         });
-        checkUpdate(true);
+        //checkUpdate(true);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(getResources().getColor(R.color.main_primary));
         }
@@ -283,6 +289,60 @@ public class MainActivity extends BaseActivity implements BaseSliderView.OnSlide
 //            hrDialog.show(getFragmentManager(), "HrDialog");
 //        }
 
+        /**
+         * 检查更新
+         */
+        checkMyUpdate();
+
+    }
+
+    public void checkMyUpdate(){
+        PackageInfo packageInfo = null;
+        try {
+            packageInfo = this.getPackageManager().getPackageInfo(this.getPackageName(),0);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        String versionName = packageInfo.versionName;
+
+        ReadApiClient.getInstance().checkLatestVersion(this, new Subscriber<LatestVersion>() {
+
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(LatestVersion latestVersion) {
+                if (!latestVersion.latest.version.equals(versionName)){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                    builder.setTitle("微北洋有新版啦！");
+                    builder.setMessage(latestVersion.latest.message);
+                    builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent intent = new Intent(Intent.ACTION_VIEW);
+                            intent.setData(Uri.parse(latestVersion.latest.url));
+                            startActivity(intent);
+                        }
+                    });
+                    builder.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                    builder.show();
+                }else {
+                    Toast.makeText(MainActivity.this, "已经是最新版", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     public void onEvent(SuccessEvent successEvent) {
@@ -582,7 +642,11 @@ public class MainActivity extends BaseActivity implements BaseSliderView.OnSlide
         srlMain.setRefreshing(false);
     }
 
-
+    /**
+     * 被废弃的fir升级接口
+     * @deprecated
+     * @param isInMain
+     */
     private void checkUpdate(final boolean isInMain) {
         JniUtils jniUtils = JniUtils.getInstance();
         FIR.checkForUpdateInFIR(jniUtils.getFirApiToken(), new VersionCheckCallback() {

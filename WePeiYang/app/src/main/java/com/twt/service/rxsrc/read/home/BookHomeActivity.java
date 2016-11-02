@@ -2,17 +2,21 @@ package com.twt.service.rxsrc.read.home;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.twt.service.R;
 import com.twt.service.rxsrc.common.ui.BaseActivity;
+import com.twt.service.rxsrc.model.read.RefreshEvent;
 import com.twt.service.rxsrc.read.home.profile.BookProfileFragment;
 import com.twt.service.rxsrc.read.home.recommend.BookRecommendController;
 import com.twt.service.rxsrc.read.home.recommend.BookRecommendFragment;
@@ -22,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by tjliqy on 2016/10/27.
@@ -59,6 +64,22 @@ public class BookHomeActivity extends BaseActivity {
         return mToolbar;
     }
 
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    public void onEvent(RefreshEvent event){
+        // TODO: 16-11-2 这里刷新
+        Log.d("event", "onEvent: ok.......");
+    }
 
     @Override
     protected void initView() {

@@ -1,7 +1,5 @@
 package com.twt.service.rxsrc.model.read;
 
-import com.twt.service.party.bean.Status;
-
 import java.util.List;
 
 /**
@@ -66,13 +64,30 @@ public class Detail {
         public List<DataBean> data;
 
         public static class DataBean {
+
+            /**
+             * review_id : 1
+             * book_id : 747440
+             * title : Elta Grady
+             * user_name : angeline.mraz
+             * avatar :
+             * scores : 3
+             * like_count : 52
+             * content : Et fuga voluptate dolore eum.
+             * updated_at : 2016年11月01日
+             * liked : true
+             */
+
+            public String review_id;
             public String book_id;
+            public String title;
             public String user_name;
             public String avatar;
             public int scores;
-            public String like;
+            public String like_count;
             public String content;
             public String updated_at;
+            public boolean liked;
         }
     }
 

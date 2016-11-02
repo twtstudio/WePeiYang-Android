@@ -1,17 +1,22 @@
 package com.twt.service.rxsrc.api;
 
+import com.twt.service.rxsrc.model.LatestVersion;
 import com.twt.service.rxsrc.model.read.HomeBanner;
 import com.twt.service.rxsrc.model.read.Detail;
 import com.twt.service.rxsrc.model.read.BookInShelf;
 import com.twt.service.rxsrc.model.read.ReadToken;
 import com.twt.service.rxsrc.model.read.Recommended;
 import com.twt.service.rxsrc.model.read.Review;
+import com.twt.service.rxsrc.model.read.ReviewCallback;
 import com.twt.service.rxsrc.model.read.SearchBook;
 import com.twt.service.rxsrc.model.read.User;
 
 import java.util.List;
 
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 import rx.Observable;
@@ -71,4 +76,15 @@ public interface ReadApi {
 
     @GET("review/get")
     Observable<ApiResponse<List<Review>>> getMyReview();
+
+    /**
+     * 微北洋的升级接口
+     * @return
+     */
+    @GET("http://mobile.twt.edu.cn/api/v1/version/com.twt.service")
+    Observable<LatestVersion> checkLatestVersion();
+
+    @FormUrlEncoded
+    @POST("book/review")
+    Observable<ApiResponse<ReviewCallback>> addReview(@Field("id") String id, @Field("content") String content, @Field("score") float score);
 }
