@@ -28,11 +28,11 @@ public class BookRecommendAdapter extends BaseAdapter<Recommended> {
 
         @InjectView(R.id.iv_book)
         ImageView mIvBook;
-        @InjectView(R.id.iv_title)
-        TextView mIvTitle;
-        @InjectView(R.id.iv_author)
-        TextView mIvAuthor;
-        @InjectView(R.id.iv_layout)
+        @InjectView(R.id.tv_title)
+        TextView mTvTitle;
+        @InjectView(R.id.tv_author)
+        TextView mTvAuthor;
+        @InjectView(R.id.ll_layout)
         LinearLayout mLayout;
 
         public BookRecommendHolder(View itemView) {
@@ -54,8 +54,8 @@ public class BookRecommendAdapter extends BaseAdapter<Recommended> {
     public void onBindViewHolder(BaseViewHolder holder, int position) {
         BookRecommendHolder recommendHolder = (BookRecommendHolder)holder;
         Glide.with(mContext).load(mDataSet.get(position).cover_url).into(recommendHolder.mIvBook);
-        recommendHolder.mIvTitle.setText(mDataSet.get(position).title);
-        recommendHolder.mIvAuthor.setText(mDataSet.get(position).author + " 著");
+        recommendHolder.mTvTitle.setText(mDataSet.get(position).title);
+        recommendHolder.mTvAuthor.setText(mDataSet.get(position).author + " 著");
         recommendHolder.mLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

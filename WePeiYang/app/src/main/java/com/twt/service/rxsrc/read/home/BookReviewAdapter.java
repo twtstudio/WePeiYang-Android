@@ -27,6 +27,8 @@ import com.twt.service.rxsrc.read.bookdetail.BookDetailActivity;
 import butterknife.InjectView;
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static android.R.attr.id;
+
 /**
  * Created by tjliqy on 2016/10/28.
  */
@@ -34,7 +36,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class BookReviewAdapter extends BaseAdapter<Review> {
 
 
-
+    private BookReviewAdapterInterface mInterface;
 
     static class BookReviewHolder extends BaseViewHolder {
 
@@ -59,8 +61,9 @@ public class BookReviewAdapter extends BaseAdapter<Review> {
         }
     }
 
-    public BookReviewAdapter(Context context) {
+    public BookReviewAdapter(Context context, BookReviewAdapterInterface anInterface) {
         super(context);
+        mInterface = anInterface;
     }
 
     @Override
@@ -103,17 +106,38 @@ public class BookReviewAdapter extends BaseAdapter<Review> {
             }, 0, title.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
             reviewHolder.mTvContent.setText(title);
         }
+        
+        if (review.liked){
+            Glide.with(mContext).load(R.mipmap.ic_book_like).into(reviewHolder.mIvLike);
+        }
+        reviewHolder.mIvLike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (review.liked){
+                    review.liked = false;
+                    Glide.with(mContext).load(R.mipmap.ic_book_unlike).into(reviewHolder.mIvLike);
+                    Integer like = Integer.valueOf(reviewHolder.mTvLike.getText().toString())-1;
+                    reviewHolder.mTvLike.setText(like.toString());
+                    mInterface.delLike(review.review_id);
+                }else {
+                    review.liked = true;
+                    Glide.with(mContext).load(R.mipmap.ic_book_like).into(reviewHolder.mIvLike);
+                    Integer like = Integer.valueOf(reviewHolder.mTvLike.getText().toString())+1;
+                    reviewHolder.mTvLike.setText(like.toString());
+                    mInterface.addLike(review.review_id);
+                }
+            }
+        });
         if (review.content != null) {
             reviewHolder.mTvContent.append(review.content);
             reviewHolder.mTvContent.setMovementMethod(LinkMovementMethod.getInstance());
         }
-        if (review.like != null) {
-            reviewHolder.mTvLike.setText(review.like);
+        if (review.like_count != null) {
+            reviewHolder.mTvLike.setText(review.like_count);
         }
         if (review.updated_at != null) {
             reviewHolder.mTvDate.setText(review.updated_at);
         }
-
         if (position == getItemCount() - 1) {
             reviewHolder.mDivider.setVisibility(View.INVISIBLE);
         }

@@ -39,6 +39,14 @@ public class BookRecommendPresenter extends Presenter {
         ReadApiClient.getInstance().getReviewList(mContext, new ReadApiSubscriber(mContext, mReviewOnNextListener), count);
     }
 
+    public void addLike(String id){
+        ReadApiClient.getInstance().addLike(mContext, new ReadApiSubscriber(mContext, null), id);
+    }
+
+    public void delLike(String id){
+        ReadApiClient.getInstance().delLike(mContext, new ReadApiSubscriber(mContext, null), id);
+    }
+
     public void getStarReaderList(String count){
         ReadApiClient.getInstance().getStarReaderList(mContext, new ReadApiSubscriber(mContext, mStarReaderOnNextListener), count);
     }

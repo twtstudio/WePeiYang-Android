@@ -2,6 +2,7 @@ package com.twt.service.rxsrc.api;
 
 import com.twt.service.rxsrc.model.read.HomeBanner;
 import com.twt.service.rxsrc.model.read.Detail;
+import com.twt.service.rxsrc.model.read.BookInShelf;
 import com.twt.service.rxsrc.model.read.ReadToken;
 import com.twt.service.rxsrc.model.read.Recommended;
 import com.twt.service.rxsrc.model.read.Review;
@@ -53,9 +54,18 @@ public interface ReadApi {
 //    @GET("score/{id}")
 //    Observable<ApiResponse<>>
 
+    @GET("book/bookshelf/get")
+    Observable<ApiResponse<List<BookInShelf>>> getBookShelf();
+
     @GET("addbookshelf/{id}")
     Observable<ApiResponse<Void>> addBookShelf(@Path("id") String id);
 
     @GET("delbookshelf/{id}")
-    Observable<ApiResponse<Void>> delBookShelf(@Path("id") String id);
+    Observable<ApiResponse<Void>> delBookShelf(@Path("id") String[] id);
+
+    @GET("review/addlike/{id}")
+    Observable<ApiResponse<Void>> addLike(@Path("id") String id);
+
+    @GET("review/dellike/{id}")
+    Observable<ApiResponse<Void>> delLike(@Path("id") String id);
 }

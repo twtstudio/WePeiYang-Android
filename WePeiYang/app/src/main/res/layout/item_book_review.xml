@@ -72,7 +72,7 @@
             android:layout_marginTop="8dp"
             android:ellipsize="end"
             android:lineSpacingMultiplier="1.5"
-            android:maxLines="2"
+            android:lines="2"
             android:textSize="18sp"/>
 
         <TextView

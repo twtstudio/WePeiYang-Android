@@ -15,13 +15,14 @@ public class Review {
      * content : Et fuga voluptate dolore eum.
      * updated_at : 2016年10月30日
      */
-
+    public String review_id;
     public String book_id;
     public String title;
     public String user_name;
     public String avatar;
     public int scores;
-    public String like;
+    public String like_count;
+    public boolean liked;
     public String content;
     public String updated_at;
 

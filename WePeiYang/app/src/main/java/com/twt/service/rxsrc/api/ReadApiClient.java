@@ -223,4 +223,39 @@ public class ReadApiClient {
         addSubscription(tag, subscription);
     }
 
+    public void addLike(Object tag, Subscriber subscriber, String id){
+        Subscription subscription = mService.addLike(id)
+                .retryWhen(mTokenHelper)
+                .map(mResponseTransformer)
+                .compose(ApiUtils.applySchedulers())
+                .subscribe(subscriber);
+        addSubscription(tag, subscription);
+    }
+
+    public void delLike(Object tag, Subscriber subscriber, String id){
+        Subscription subscription = mService.delLike(id)
+                .retryWhen(mTokenHelper)
+                .map(mResponseTransformer)
+                .compose(ApiUtils.applySchedulers())
+                .subscribe(subscriber);
+        addSubscription(tag, subscription);
+    }
+
+    public void getBookShelf(Object tag, Subscriber subscriber){
+        Subscription subscription = mService.getBookShelf()
+                .retryWhen(mTokenHelper)
+                .map(mResponseTransformer)
+                .compose(ApiUtils.applySchedulers())
+                .subscribe(subscriber);
+        addSubscription(tag, subscription);
+    }
+
+    public void delBookInShelf(Object tag, Subscriber subscriber, String[] id){
+        Subscription subscription = mService.delBookShelf(id)
+                .retryWhen(mTokenHelper)
+                .map(mResponseTransformer)
+                .compose(ApiUtils.applySchedulers())
+                .subscribe(subscriber);
+        addSubscription(tag, subscription);
+    }
 }

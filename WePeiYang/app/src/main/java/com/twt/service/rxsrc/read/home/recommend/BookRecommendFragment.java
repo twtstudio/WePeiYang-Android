@@ -17,6 +17,7 @@ import com.twt.service.rxsrc.model.read.Review;
 import com.twt.service.rxsrc.model.read.User;
 import com.twt.service.rxsrc.read.bookdetail.BookDetailActivity;
 import com.twt.service.rxsrc.read.home.BookReviewAdapter;
+import com.twt.service.rxsrc.read.home.BookReviewAdapterInterface;
 import com.youth.banner.Banner;
 import com.youth.banner.listener.OnBannerClickListener;
 
@@ -30,7 +31,7 @@ import butterknife.InjectView;
  * Created by tjliqy on 2016/10/28.
  */
 
-public class BookRecommendFragment extends PFragment<BookRecommendPresenter> implements BookRecommendController {
+public class BookRecommendFragment extends PFragment<BookRecommendPresenter> implements BookRecommendController,BookReviewAdapterInterface {
 
 
     @InjectView(R.id.rv_recommend)
@@ -63,7 +64,7 @@ public class BookRecommendFragment extends PFragment<BookRecommendPresenter> imp
         mRvRecommend.setAdapter(mRecommendAdapter);
         mPresenter.getRecommendedList("5");
 
-        mReviewAdapter = new BookReviewAdapter(getContext());
+        mReviewAdapter = new BookReviewAdapter(getContext(),this);
         mRvReview.setLayoutManager(new LinearLayoutManager(getContext()));
         mReviewAdapter.hideFooter();
         mRvReview.setAdapter(mReviewAdapter);
@@ -128,5 +129,15 @@ public class BookRecommendFragment extends PFragment<BookRecommendPresenter> imp
     @Override
     public void bindStarReaderData(List<User> users) {
         mStarAdapter.addItems(users);
+    }
+
+    @Override
+    public void addLike(String id) {
+        mPresenter.addLike(id);
+    }
+
+    @Override
+    public void delLike(String id) {
+        mPresenter.delLike(id);
     }
 }
