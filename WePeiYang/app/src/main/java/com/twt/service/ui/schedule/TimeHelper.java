@@ -30,7 +30,9 @@ public class TimeHelper {
             }
             sWeek += "十";
         }
-        sWeek += cDay[week%10];
+        if (week%10 != 0) {
+            sWeek += cDay[week % 10];
+        }
         return sWeek;
     }
 

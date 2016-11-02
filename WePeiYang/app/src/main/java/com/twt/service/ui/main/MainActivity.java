@@ -86,7 +86,7 @@ public class MainActivity extends BaseActivity implements BaseSliderView.OnSlide
     Toolbar toolbar;
     @InjectView(R.id.banner)
     Banner mBanner;
-//    @InjectView(R.id.slider)
+    //    @InjectView(R.id.slider)
 //    SliderLayout slider;
 //    @InjectView(R.id.indicator)
 //    PagerIndicator indicator;
@@ -226,7 +226,7 @@ public class MainActivity extends BaseActivity implements BaseSliderView.OnSlide
                     /*case R.id.item_share_app:
                         break;*/
                     case R.id.item_check_update:
-                        checkMyUpdate();
+                        checkMyUpdate(false);
                         break;
                     case R.id.debug_settings:
                         DebugActivity.actionStart(MainActivity.this);
@@ -300,14 +300,14 @@ public class MainActivity extends BaseActivity implements BaseSliderView.OnSlide
         /**
          * 检查更新
          */
-        checkMyUpdate();
+        checkMyUpdate(true);
 
     }
 
-    public void checkMyUpdate(){
+    public void checkMyUpdate(boolean isAuto) {
         PackageInfo packageInfo = null;
         try {
-            packageInfo = this.getPackageManager().getPackageInfo(this.getPackageName(),0);
+            packageInfo = this.getPackageManager().getPackageInfo(this.getPackageName(), 0);
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
@@ -327,7 +327,7 @@ public class MainActivity extends BaseActivity implements BaseSliderView.OnSlide
 
             @Override
             public void onNext(LatestVersion latestVersion) {
-                if (!latestVersion.latest.version.equals(versionName)){
+                if (!latestVersion.latest.version.equals(versionName)) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                     builder.setTitle("微北洋有新版啦！");
                     builder.setMessage(latestVersion.latest.message);
@@ -346,8 +346,10 @@ public class MainActivity extends BaseActivity implements BaseSliderView.OnSlide
                         }
                     });
                     builder.show();
-                }else {
-                    Toast.makeText(MainActivity.this, "已经是最新版", Toast.LENGTH_SHORT).show();
+                } else {
+                    if (!isAuto) {
+                        Toast.makeText(MainActivity.this, "已经是最新版", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
@@ -507,7 +509,7 @@ public class MainActivity extends BaseActivity implements BaseSliderView.OnSlide
                 .setBannerTitles(titles)
                 .setDelayTime(5000)
                 .setBannerStyle(BannerConfig.CIRCLE_INDICATOR_TITLE)
-                .setOnBannerClickListener(position -> NewsDetailsActivity.actionStart(MainActivity.this,main.data.carousel.get(position-1).index));
+                .setOnBannerClickListener(position -> NewsDetailsActivity.actionStart(MainActivity.this, main.data.carousel.get(position - 1).index));
         mBanner.start();
 
         final List<Main.Data.News.Campus> campuses = new ArrayList<>();
@@ -620,8 +622,9 @@ public class MainActivity extends BaseActivity implements BaseSliderView.OnSlide
 
     /**
      * 被废弃的fir升级接口
-     * @deprecated
+     *
      * @param isInMain
+     * @deprecated
      */
     private void checkUpdate(final boolean isInMain) {
         JniUtils jniUtils = JniUtils.getInstance();
@@ -629,7 +632,7 @@ public class MainActivity extends BaseActivity implements BaseSliderView.OnSlide
             @Override
             public void onSuccess(String s) {
                 //避免json解析的崩溃
-                if (s != null&&!s.startsWith("<!DOCTYPE html>")) {
+                if (s != null && !s.startsWith("<!DOCTYPE html>")) {
                     Update update = new Gson().fromJson(s, Update.class);
                     PackageInfo packageInfo = null;
                     try {

@@ -158,6 +158,6 @@ public class BookProfileFragment extends PFragment<BookProfilePresenter> impleme
     public void bindReviewData(List<Review> reviews) {
         mProgressBar.setVisibility(View.GONE);
         mLinearLayout.setVisibility(View.VISIBLE);
-        mReviewAdapter.addItems(reviews);
+        mReviewAdapter.refreshItems(reviews);
     }
 }

@@ -74,7 +74,7 @@ public class RecyclerPopupWindow extends PopupWindow implements RecyclerPopupWin
         //为RecyclerView设置适配器
         recyclerView.setAdapter(recyclerPopupWindowAdapter);
         //设置默认滑到当前周
-        recyclerView.scrollToPosition(prePosition);
+        recyclerView.scrollToPosition(prePosition - 1);
         //设置动画从上往下弹出
         popupWindow.setAnimationStyle(R.style.Popwindow_Anim_Down);
         //显示popupWindow，在anchor下方，x无偏移，y无偏移

@@ -229,7 +229,7 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
             public void onClick(View view) {
                 if (recyclerPopupWindow == null) {
                     recyclerPopupWindow = new RecyclerPopupWindow(items, currentWeek);
-                    recyclerPopupWindow.showPopupWindow(ScheduleActivity.this, tvWeek, tvWeek.getWidth(), 300);
+                    recyclerPopupWindow.showPopupWindow(ScheduleActivity.this, toolbar, toolbar.getWidth(), 500);
                     recyclerPopupWindow.setCallBack((value, week_num) -> {
                         if (!"-1".equals(value)) {
                             changeWeek(week_num);
@@ -266,6 +266,19 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
             glSchedule.addView(textView, params);
 
         }
+
+        //设置占位
+//        for (int i = 1; i <= 7; i++){
+//            View view = new View(this);
+//            view.setMinimumWidth(griditemWidth * 2);
+//            view.setMinimumHeight(griditemWidth);
+//            GridLayout.Spec rowSpec = GridLayout.spec(0);
+//            GridLayout.Spec columnSpec = GridLayout.spec(i);
+//            GridLayout.LayoutParams params = new GridLayout.LayoutParams(rowSpec, columnSpec);
+//
+//            glSchedule.addView(view,params);
+//
+//        }
         //绘制课程信息
         List<ClassTable.Data.Course> coursesNotThisWeek = new ArrayList<>(); //非当前周的课程
         int i = 0;// 用来记录classColors用到第几个了。
@@ -336,7 +349,6 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
                         }
                     }
                 } else {
-                    // TODO: 2016/9/25 把course放入一个非当前周的list
                     course.isAvaiableCurrentWeek = false;
                     coursesNotThisWeek.add(course);
                 }
@@ -445,14 +457,12 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
         if (coursesInThisTime.size() == 1) {
             moveToContent(coursesInThisTime.get(0), v);
         } else {
-            // TODO: 2016/9/25 这里表示有多个课程的情况，直接使用courseInThisTime即可
             moveToMultiContent(coursesInThisTime, v);
         }
     }
 
-    // TODO: 16-9-20 圆形扩散
+    //圆形扩散
     private void toClassContent(ClassTable.Data.Course course, View view) {
-        // TODO: 2016/9/18 课程详情的逻辑写在这里
         int color = course.coursecolor;
         int px = mParentLayout.getWidth();
         int py = mParentLayout.getHeight();

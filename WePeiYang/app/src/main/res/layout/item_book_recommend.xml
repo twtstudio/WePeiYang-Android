@@ -15,8 +15,7 @@
         android:layout_height="100dp"
         android:layout_gravity="center_horizontal"
         android:adjustViewBounds="true"
-        android:scaleType="centerInside"
-        android:src="@mipmap/test_recommend"/>
+        android:scaleType="centerInside"/>
 
     <TextView
         android:id="@+id/tv_title"

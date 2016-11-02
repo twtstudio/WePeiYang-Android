@@ -27,7 +27,9 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:textColor="@color/myTextPrimaryColorWhite"
-                android:textSize="24sp"/>
+                android:textSize="20sp"
+                android:lines="1"
+                android:ellipsize="end"/>
 
         </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>

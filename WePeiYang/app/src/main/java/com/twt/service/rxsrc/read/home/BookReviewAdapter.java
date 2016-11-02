@@ -21,8 +21,11 @@ import com.bumptech.glide.Glide;
 import com.twt.service.R;
 import com.twt.service.rxsrc.common.ui.BaseAdapter;
 import com.twt.service.rxsrc.common.ui.BaseViewHolder;
+import com.twt.service.rxsrc.model.read.BookInShelf;
 import com.twt.service.rxsrc.model.read.Review;
 import com.twt.service.rxsrc.read.bookdetail.BookDetailActivity;
+
+import java.util.List;
 
 import butterknife.InjectView;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -72,6 +75,11 @@ public class BookReviewAdapter extends BaseAdapter<Review> {
         return new BookReviewHolder(inflater.inflate(R.layout.item_book_review, parent, false));
     }
 
+    public void refreshItems(List<Review> reviews){
+        mDataSet.clear();
+        mDataSet.addAll(reviews);
+        notifyDataSetChanged();
+    }
     @Override
     public void onBindViewHolder(BaseViewHolder holder, int position) {
         BookReviewHolder reviewHolder = (BookReviewHolder)holder;
@@ -81,7 +89,7 @@ public class BookReviewAdapter extends BaseAdapter<Review> {
             Glide.with(mContext).load(review.avatar).placeholder(R.mipmap.ic_book_avatar).error(R.mipmap.ic_book_avatar).into(reviewHolder.mCivPortrait);
         }
         reviewHolder.mTvName.setText(review.user_name);
-        reviewHolder.mRbStar.setRating(review.scores);
+        reviewHolder.mRbStar.setRating(review.score);
 
         if (review.title != null) {
             SpannableString title = new SpannableString("《" + review.title + "》");

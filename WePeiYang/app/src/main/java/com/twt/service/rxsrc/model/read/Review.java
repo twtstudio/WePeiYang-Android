@@ -20,7 +20,7 @@ public class Review {
     public String title;
     public String user_name;
     public String avatar;
-    public float scores;
+    public float score;
     public String like_count;
     public boolean liked;
     public String content;
