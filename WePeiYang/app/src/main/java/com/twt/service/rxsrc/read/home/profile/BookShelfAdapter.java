@@ -1,6 +1,7 @@
 package com.twt.service.rxsrc.read.home.profile;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import com.twt.service.R;
 import com.twt.service.rxsrc.common.ui.BaseAdapter;
 import com.twt.service.rxsrc.common.ui.BaseViewHolder;
 import com.twt.service.rxsrc.model.read.BookInShelf;
+import com.twt.service.rxsrc.read.bookdetail.BookDetailActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,22 +78,27 @@ public class BookShelfAdapter extends BaseAdapter<BookInShelf> {
         BookShelfHolder shelfHolder = (BookShelfHolder)holder;
         BookInShelf book = mDataSet.get(position);
         if (isDeleteMode){
+
             shelfHolder.mCbDel.setVisibility(View.VISIBLE);
             if (deleteList.contains(book.book_id)) {
                 shelfHolder.mCbDel.setChecked(true);
             }
-            shelfHolder.mCbDel.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (!shelfHolder.mCbDel.isChecked()){
-                        deleteList.remove(book.book_id);
-                    }else {
-                        deleteList.add(book.book_id);
-                    }
+            shelfHolder.mCbDel.setOnClickListener(view -> {
+                if (!shelfHolder.mCbDel.isChecked()){
+                    deleteList.remove(book.book_id);
+                }else {
+                    deleteList.add(book.book_id);
                 }
             });
         }else {
             shelfHolder.mCbDel.setVisibility(View.INVISIBLE);
+
+            shelfHolder.itemView.setOnClickListener(view -> {
+                Intent intent = new Intent(mContext, BookDetailActivity.class);
+                intent.putExtra("id",book.book_id);
+                mContext.startActivity(intent);
+            });
+
         }
 
         if (book.author != null) {

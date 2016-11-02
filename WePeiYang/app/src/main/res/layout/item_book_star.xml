@@ -36,7 +36,8 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="2dp"
         android:layout_marginTop="5dp"
-        android:text="猜猜我是谁"
+        android:lines="1"
+        android:ellipsize="end"
         android:textColor="@color/myTextPrimaryColorBlack"
         android:textSize="18sp"/>
 
@@ -44,7 +45,6 @@
             android:id="@+id/tv_reviewtime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="写过6个书评"/>
+            android:layout_gravity="center_horizontal"/>
 
 </LinearLayout>

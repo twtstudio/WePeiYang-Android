@@ -88,9 +88,6 @@ public class BookReviewAdapter extends BaseAdapter<Review> {
             title.setSpan(new ClickableSpan() {
                 @Override
                 public void onClick(View view) {
-                    // TODO: 2016/10/28 书籍名字点击后的跳转写在这里
-                    Toast.makeText(mContext, title.toString(), Toast.LENGTH_SHORT).show();
-
                     // TODO: 16-10-29 跳转测试逻辑
                     Intent intent = new Intent(mContext, BookDetailActivity.class);
                     intent.putExtra("id",review.book_id);
@@ -113,13 +110,14 @@ public class BookReviewAdapter extends BaseAdapter<Review> {
         reviewHolder.mIvLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (review.liked){
-                    review.liked = false;
-                    Glide.with(mContext).load(R.mipmap.ic_book_unlike).into(reviewHolder.mIvLike);
-                    Integer like = Integer.valueOf(reviewHolder.mTvLike.getText().toString())-1;
-                    reviewHolder.mTvLike.setText(like.toString());
-                    mInterface.delLike(review.review_id);
-                }else {
+//                if (review.liked){
+//                    review.liked = false;
+//                    Glide.with(mContext).load(R.mipmap.ic_book_unlike).into(reviewHolder.mIvLike);
+//                    Integer like = Integer.valueOf(reviewHolder.mTvLike.getText().toString())-1;
+//                    reviewHolder.mTvLike.setText(like.toString());
+//                    mInterface.delLike(review.review_id);
+//                }
+               if (!review.liked){
                     review.liked = true;
                     Glide.with(mContext).load(R.mipmap.ic_book_like).into(reviewHolder.mIvLike);
                     Integer like = Integer.valueOf(reviewHolder.mTvLike.getText().toString())+1;

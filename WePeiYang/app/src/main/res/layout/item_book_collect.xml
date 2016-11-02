@@ -5,18 +5,18 @@
                 android:orientation="horizontal"
                 android:padding="15dp">
 
-<CheckBox
-    android:id="@+id/cb_del"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_centerVertical="true"/>
+    <CheckBox
+        android:id="@+id/cb_del"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"/>
+
     <TextView
         android:id="@+id/tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/cb_del"
         android:layout_centerVertical="true"
-        android:text="从你的全世界路过"
+        android:layout_toRightOf="@id/cb_del"
         android:textColor="@color/myTextPrimaryColorBlack"
         android:textSize="16sp"/>
 
@@ -27,6 +27,9 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:text="张嘉佳 著"
+        android:layout_toRightOf="@+id/tv_title"
+        android:lines="1"
+        android:ellipsize="start"
+        android:layout_marginLeft="5dp"
         android:textColor="@color/myTextPrimaryColorGray"/>
 </RelativeLayout>
