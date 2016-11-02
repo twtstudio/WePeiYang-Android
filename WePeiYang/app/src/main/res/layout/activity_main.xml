@@ -44,22 +44,14 @@
                         android:paddingLeft="16dp"
                         android:paddingRight="16dp">
 
-                        <com.daimajia.slider.library.SliderLayout
-                            android:id="@+id/slider"
+                        <com.youth.banner.Banner
+                            android:id="@+id/banner"
                             android:layout_width="match_parent"
                             android:layout_height="200dp"
-                            app:auto_cycle="true"
                             android:layout_marginTop="8dp"
-                            app:indicator_visibility="visible"
-                            app:pager_animation="Accordion"
-                            app:pager_animation_span="1100" />
-
-                        <com.daimajia.slider.library.Indicators.PagerIndicator
-                            android:id="@+id/indicator"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center" />
-
+                            app:indicator_height="5dp"
+                            app:indicator_margin="3.5dp"
+                            app:indicator_width="5dp"/>
                         <LinearLayout
                             android:layout_marginTop="5dp"
                             android:layout_width="match_parent"

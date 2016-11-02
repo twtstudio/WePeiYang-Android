@@ -73,7 +73,7 @@ public class BookStarAdapter extends BaseAdapter<User> {
         }
 
         if (user.avatar != null && !user.avatar.equals("")){
-            Glide.with(mContext).load(user.avatar).into(starViewHolder.mCivPortrait);
+            Glide.with(mContext).load(user.avatar).placeholder(R.mipmap.ic_book_avatar).error(R.mipmap.ic_book_avatar).into(starViewHolder.mCivPortrait);
         }
 
         if (user.review_count != null) {

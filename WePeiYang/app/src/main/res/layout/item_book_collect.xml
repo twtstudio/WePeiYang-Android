@@ -27,7 +27,6 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:layout_toRightOf="@+id/tv_title"
         android:lines="1"
         android:ellipsize="start"
         android:layout_marginLeft="5dp"

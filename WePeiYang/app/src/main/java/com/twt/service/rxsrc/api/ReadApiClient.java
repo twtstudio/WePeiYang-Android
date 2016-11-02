@@ -60,7 +60,7 @@ public class ReadApiClient {
 
         // TODO: 16-10-22 修改fakeURL为图书url
         mRetrofit = new Retrofit.Builder()
-                .baseUrl("http://takooctopus.com/yuepeiyang/public/api/")
+                .baseUrl("http://book.twtstudio.com/api/")
                 .client(client)
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())

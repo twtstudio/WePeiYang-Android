@@ -42,6 +42,7 @@ import com.twt.service.rxsrc.bike.ui.main.BikeActivity;
 import com.twt.service.interactor.MainInteractorImpl;
 import com.twt.service.rxsrc.model.LatestVersion;
 import com.twt.service.rxsrc.read.DebugActivity;
+import com.twt.service.support.BannerLoader;
 import com.twt.service.support.PrefUtils;
 import com.twt.service.ui.BaseActivity;
 import com.twt.service.ui.about.AboutActivity;
@@ -59,6 +60,10 @@ import com.twt.service.ui.news.details.NewsDetailsActivity;
 import com.twt.service.ui.notice.NoticeActivity;
 import com.twt.service.ui.tools.ToolsActivity;
 import com.twt.service.ui.schedule.ScheduleActivity;
+import com.youth.banner.Banner;
+import com.youth.banner.BannerConfig;
+import com.youth.banner.Transformer;
+import com.youth.banner.listener.OnBannerClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,6 +75,7 @@ import im.fir.sdk.FIR;
 import im.fir.sdk.VersionCheckCallback;
 import rx.Subscriber;
 
+
 public class MainActivity extends BaseActivity implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener, View.OnClickListener, MainView {
 
     @InjectView(R.id.dl_main)
@@ -78,10 +84,12 @@ public class MainActivity extends BaseActivity implements BaseSliderView.OnSlide
     LinearLayout btnGpaQuery;
     @InjectView(R.id.toolbar)
     Toolbar toolbar;
-    @InjectView(R.id.slider)
-    SliderLayout slider;
-    @InjectView(R.id.indicator)
-    PagerIndicator indicator;
+    @InjectView(R.id.banner)
+    Banner mBanner;
+//    @InjectView(R.id.slider)
+//    SliderLayout slider;
+//    @InjectView(R.id.indicator)
+//    PagerIndicator indicator;
     @InjectView(R.id.rl_more_campus_news)
     LinearLayout rlMoreCampusNews;
     @InjectView(R.id.rl_more_campus_note)
@@ -355,7 +363,7 @@ public class MainActivity extends BaseActivity implements BaseSliderView.OnSlide
 
     @Override
     protected void onStop() {
-        slider.stopAutoCycle();
+//        slider.stopAutoCycle();
         super.onStop();
     }
 
@@ -487,53 +495,21 @@ public class MainActivity extends BaseActivity implements BaseSliderView.OnSlide
         View drawerHeader = drawer.getHeaderView(0);
         TextView tvUsername = (TextView) drawerHeader.findViewById(R.id.tv_username);
         tvUsername.setText(PrefUtils.getUsername());
-        TextSliderView banner1 = new TextSliderView(this);
-        banner1.description(main.data.carousel.get(0).subject + "\n").image(main.data.carousel.get(0).pic);
-        TextSliderView banner2 = new TextSliderView(this);
-        banner2.description(main.data.carousel.get(1).subject + "\n").image(main.data.carousel.get(1).pic);
-        TextSliderView banner3 = new TextSliderView(this);
-        banner3.description(main.data.carousel.get(2).subject + "\n").image(main.data.carousel.get(2).pic);
-        TextSliderView banner4 = new TextSliderView(this);
-        banner4.description(main.data.carousel.get(3).subject + "\n").image(main.data.carousel.get(3).pic);
-        TextSliderView banner5 = new TextSliderView(this);
-        banner5.description(main.data.carousel.get(4).subject + "\n").image(main.data.carousel.get(4).pic);
-        slider.removeAllSliders();
-        slider.addSlider(banner1);
-        slider.addSlider(banner2);
-        slider.addSlider(banner3);
-        slider.addSlider(banner4);
-        slider.addSlider(banner5);
-        slider.setPresetTransformer(SliderLayout.Transformer.DepthPage);
-        banner1.setOnSliderClickListener(new BaseSliderView.OnSliderClickListener() {
-            @Override
-            public void onSliderClick(BaseSliderView slider) {
-                NewsDetailsActivity.actionStart(MainActivity.this, main.data.carousel.get(0).index);
-            }
-        });
-        banner2.setOnSliderClickListener(new BaseSliderView.OnSliderClickListener() {
-            @Override
-            public void onSliderClick(BaseSliderView slider) {
-                NewsDetailsActivity.actionStart(MainActivity.this, main.data.carousel.get(1).index);
-            }
-        });
-        banner3.setOnSliderClickListener(new BaseSliderView.OnSliderClickListener() {
-            @Override
-            public void onSliderClick(BaseSliderView slider) {
-                NewsDetailsActivity.actionStart(MainActivity.this, main.data.carousel.get(2).index);
-            }
-        });
-        banner4.setOnSliderClickListener(new BaseSliderView.OnSliderClickListener() {
-            @Override
-            public void onSliderClick(BaseSliderView slider) {
-                NewsDetailsActivity.actionStart(MainActivity.this, main.data.carousel.get(3).index);
-            }
-        });
-        banner5.setOnSliderClickListener(new BaseSliderView.OnSliderClickListener() {
-            @Override
-            public void onSliderClick(BaseSliderView slider) {
-                NewsDetailsActivity.actionStart(MainActivity.this, main.data.carousel.get(4).index);
-            }
-        });
+
+        List<String> imgUrls = new ArrayList<>();
+        List<String> titles = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            imgUrls.add(main.data.carousel.get(i).pic);
+            titles.add(main.data.carousel.get(i).subject);
+        }
+        mBanner.setImageLoader(new BannerLoader())
+                .setImages(imgUrls)
+                .setBannerTitles(titles)
+                .setDelayTime(5000)
+                .setBannerStyle(BannerConfig.CIRCLE_INDICATOR_TITLE)
+                .setOnBannerClickListener(position -> NewsDetailsActivity.actionStart(MainActivity.this,main.data.carousel.get(position-1).index));
+        mBanner.start();
+
         final List<Main.Data.News.Campus> campuses = new ArrayList<>();
         campuses.addAll(main.data.news.campus);
         tvCampusnewsTitle1.setText(main.data.news.campus.get(0).subject);

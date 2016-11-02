@@ -89,7 +89,8 @@ public class BookProfileFragment extends PFragment<BookProfilePresenter> impleme
     }
 
     public void onEvent(RefreshEvent event){
-        // TODO: 16-11-2 刷新逻辑
+        mPresenter.getBookShelf();
+        mPresenter.getMyReview();
     }
 
     @Override

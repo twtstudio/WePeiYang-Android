@@ -20,9 +20,9 @@ import com.twt.service.rxsrc.model.read.User;
 import com.twt.service.rxsrc.read.bookdetail.BookDetailActivity;
 import com.twt.service.rxsrc.read.home.BookReviewAdapter;
 import com.twt.service.rxsrc.read.home.BookReviewAdapterInterface;
+import com.twt.service.support.BannerLoader;
 import com.twt.service.support.PrefUtils;
 import com.youth.banner.Banner;
-import com.youth.banner.listener.OnBannerClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -98,7 +98,7 @@ public class BookRecommendFragment extends PFragment<BookRecommendPresenter> imp
         }
         mBanner.setImages(imgs)
                 .setImageLoader(new BannerLoader())
-                .setDelayTime(4000)
+                .setDelayTime(5000)
                 .start()
                 .setOnBannerClickListener(position -> {
                     if (banners.get(position-1).id != null) {

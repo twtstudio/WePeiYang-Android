@@ -106,9 +106,7 @@ public class BookReviewAdapter extends BaseAdapter<Review> {
         if (review.liked){
             Glide.with(mContext).load(R.mipmap.ic_book_like).into(reviewHolder.mIvLike);
         }
-        reviewHolder.mIvLike.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        reviewHolder.mIvLike.setOnClickListener(view -> {
 //                if (review.liked){
 //                    review.liked = false;
 //                    Glide.with(mContext).load(R.mipmap.ic_book_unlike).into(reviewHolder.mIvLike);
@@ -116,13 +114,12 @@ public class BookReviewAdapter extends BaseAdapter<Review> {
 //                    reviewHolder.mTvLike.setText(like.toString());
 //                    mInterface.delLike(review.review_id);
 //                }
-               if (!review.liked){
-                    review.liked = true;
-                    Glide.with(mContext).load(R.mipmap.ic_book_like).into(reviewHolder.mIvLike);
-                    Integer like = Integer.valueOf(reviewHolder.mTvLike.getText().toString())+1;
-                    reviewHolder.mTvLike.setText(like.toString());
-                    mInterface.addLike(review.review_id);
-                }
+           if (!review.liked){
+                review.liked = true;
+                Glide.with(mContext).load(R.mipmap.ic_book_like).into(reviewHolder.mIvLike);
+                Integer like = Integer.valueOf(reviewHolder.mTvLike.getText().toString())+1;
+                reviewHolder.mTvLike.setText(like.toString());
+                mInterface.addLike(review.review_id);
             }
         });
         if (review.content != null) {
