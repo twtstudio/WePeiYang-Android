@@ -63,7 +63,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:gravity="center"
-            android:text='@{"出版年: "+detail.time}'/>
+            android:text='@{"出版年份: "+detail.time}'/>
 
         <TextView
             android:layout_width="wrap_content"

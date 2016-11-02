@@ -24,7 +24,8 @@ public class ReadApiSubscriber<T> extends Subscriber<T> {
 
     protected OnErrorListener mOnErrorListener;
 
-    protected boolean isToastError = true;
+    // TODO: 16-11-3 debug
+    protected boolean isToastError = false;
 
     private static final String TAG = "ReadApiSubscriber";
 
