@@ -77,7 +77,7 @@ public class BookHomeActivity extends BaseActivity {
     }
 
     public void onEvent(RefreshEvent event){
-        // TODO: 16-11-2 这里刷新
+        // TODO: 16-11-2 这里刷新activity
         Log.d("event", "onEvent: ok.......");
     }
 

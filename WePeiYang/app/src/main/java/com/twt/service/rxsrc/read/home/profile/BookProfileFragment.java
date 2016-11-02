@@ -17,6 +17,7 @@ import com.twt.service.R;
 import com.twt.service.rxsrc.common.ui.BaseFragment;
 import com.twt.service.rxsrc.common.ui.PFragment;
 import com.twt.service.rxsrc.model.read.BookInShelf;
+import com.twt.service.rxsrc.model.read.RefreshEvent;
 import com.twt.service.rxsrc.model.read.Review;
 import com.twt.service.rxsrc.read.home.BookReviewAdapter;
 import com.twt.service.rxsrc.read.home.BookReviewAdapterInterface;
@@ -27,6 +28,7 @@ import java.util.List;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+import de.greenrobot.event.EventBus;
 
 import static android.R.attr.id;
 import static android.R.attr.toDegrees;
@@ -82,13 +84,19 @@ public class BookProfileFragment extends PFragment<BookProfilePresenter> impleme
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
         ButterKnife.inject(this, rootView);
+        EventBus.getDefault().register(this);
         return rootView;
+    }
+
+    public void onEvent(RefreshEvent event){
+        // TODO: 16-11-2 刷新逻辑
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.reset(this);
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
