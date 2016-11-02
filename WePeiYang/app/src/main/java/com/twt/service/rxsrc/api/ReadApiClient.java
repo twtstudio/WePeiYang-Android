@@ -187,7 +187,7 @@ public class ReadApiClient {
         addSubscription(tag, subscription);
     }
 
-    public void getBanner(Object tag, Subscriber subscriber){
+    public void getBanner(Object tag, Subscriber subscriber) {
         Subscription subscription = mService.getBanner("5")
                 .retryWhen(mTokenHelper)
                 .map(mResponseTransformer)
@@ -196,7 +196,7 @@ public class ReadApiClient {
         addSubscription(tag, subscription);
     }
 
-    public void getRecommendedList(Object tag, Subscriber subscriber, String count){
+    public void getRecommendedList(Object tag, Subscriber subscriber, String count) {
         Subscription subscription = mService.getRecommendedList(count)
                 .retryWhen(mTokenHelper)
                 .map(mResponseTransformer)
@@ -205,7 +205,7 @@ public class ReadApiClient {
         addSubscription(tag, subscription);
     }
 
-    public void getReviewList(Object tag, Subscriber subscriber, String count){
+    public void getReviewList(Object tag, Subscriber subscriber, String count) {
         Subscription subscription = mService.getReviewList(count)
                 .retryWhen(mTokenHelper)
                 .map(mResponseTransformer)
@@ -214,7 +214,7 @@ public class ReadApiClient {
         addSubscription(tag, subscription);
     }
 
-    public void getStarReaderList(Object tag, Subscriber subscriber, String count){
+    public void getStarReaderList(Object tag, Subscriber subscriber, String count) {
         Subscription subscription = mService.getStarReaderList(count)
                 .retryWhen(mTokenHelper)
                 .map(mResponseTransformer)
@@ -223,7 +223,7 @@ public class ReadApiClient {
         addSubscription(tag, subscription);
     }
 
-    public void addLike(Object tag, Subscriber subscriber, String id){
+    public void addLike(Object tag, Subscriber subscriber, String id) {
         Subscription subscription = mService.addLike(id)
                 .retryWhen(mTokenHelper)
                 .map(mResponseTransformer)
@@ -232,7 +232,7 @@ public class ReadApiClient {
         addSubscription(tag, subscription);
     }
 
-    public void delLike(Object tag, Subscriber subscriber, String id){
+    public void delLike(Object tag, Subscriber subscriber, String id) {
         Subscription subscription = mService.delLike(id)
                 .retryWhen(mTokenHelper)
                 .map(mResponseTransformer)
@@ -241,7 +241,7 @@ public class ReadApiClient {
         addSubscription(tag, subscription);
     }
 
-    public void getBookShelf(Object tag, Subscriber subscriber){
+    public void getBookShelf(Object tag, Subscriber subscriber) {
         Subscription subscription = mService.getBookShelf()
                 .retryWhen(mTokenHelper)
                 .map(mResponseTransformer)
@@ -250,7 +250,7 @@ public class ReadApiClient {
         addSubscription(tag, subscription);
     }
 
-    public void delBookInShelf(Object tag, Subscriber subscriber, String[] id){
+    public void delBookInShelf(Object tag, Subscriber subscriber, String[] id) {
         Subscription subscription = mService.delBookShelf(id)
                 .retryWhen(mTokenHelper)
                 .map(mResponseTransformer)
@@ -259,8 +259,33 @@ public class ReadApiClient {
         addSubscription(tag, subscription);
     }
 
-    public void getMyReview(Object tag, Subscriber subscriber){
+    public void getMyReview(Object tag, Subscriber subscriber) {
         Subscription subscription = mService.getMyReview()
+                .retryWhen(mTokenHelper)
+                .map(mResponseTransformer)
+                .compose(ApiUtils.applySchedulers())
+                .subscribe(subscriber);
+        addSubscription(tag, subscription);
+    }
+
+    public void addBookShelf(Object tag, Subscriber subscriber, String id) {
+        Subscription subscription = mService.addBookShelf(id)
+                .retryWhen(mTokenHelper)
+                .map(mResponseTransformer)
+                .compose(ApiUtils.applySchedulers())
+                .subscribe(subscriber);
+        addSubscription(tag, subscription);
+    }
+
+    public void checkLatestVersion(Object tag, Subscriber subscriber) {
+        Subscription subscription = mService.checkLatestVersion()
+                .compose(ApiUtils.applySchedulers())
+                .subscribe(subscriber);
+        addSubscription(tag, subscription);
+    }
+
+    public void addReview(Object tag, Subscriber subscriber, String id, String content, int score) {
+        Subscription subscription = mService.addReview(id, content, score)
                 .retryWhen(mTokenHelper)
                 .map(mResponseTransformer)
                 .compose(ApiUtils.applySchedulers())

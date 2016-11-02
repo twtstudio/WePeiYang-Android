@@ -73,7 +73,7 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_below="@id/item_book_detail_review_content"
-            android:text="@{review.like}"
+            android:text="@{review.like_count}"
             android:textColor="@color/myTextPrimaryColorGray"
             android:textSize="18sp"/>
 

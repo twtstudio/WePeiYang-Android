@@ -50,25 +50,25 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:text='@{"author:"+book.author}'/>
+                    android:text='@{"作者: "+book.author}'/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:text='@{"publisher:"+book.publisher}'/>
+                    android:text='@{"出版社: "+book.publisher}'/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:text='@{"publish date:"+book.year}'/>
+                    android:text='@{"出版日期: "+book.year}'/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:text='@{"rate:"+book.rate}'/>
+                    android:text='@{"评分: "+book.rate}'/>
             </LinearLayout>
 
 

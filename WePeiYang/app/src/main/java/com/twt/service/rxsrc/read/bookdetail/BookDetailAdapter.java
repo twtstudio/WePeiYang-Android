@@ -188,6 +188,7 @@ public class BookDetailAdapter extends RecyclerView.Adapter<BaseBindHolder> {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(mContext, AddReviewActivity.class);
+                    intent.putExtra("id",detail.id);
                     mContext.startActivity(intent);
                 }
             });
@@ -203,13 +204,23 @@ public class BookDetailAdapter extends RecyclerView.Adapter<BaseBindHolder> {
             //statusHolder.setStatus((Detail.statusItem) baseData);
         } else if (type == TYPE_REVIEW) {
             sReviewHolder reviewHolder = (sReviewHolder) holder;
-            reviewHolder.setReview((Detail.ReviewBean.DataBean) baseData);
+            Detail.ReviewBean.DataBean data = (Detail.ReviewBean.DataBean) baseData;
+            reviewHolder.setReview(data);
+            if (data.liked) {
+                reviewHolder.likeImage.setImageResource(R.mipmap.ic_book_like);
+                reviewHolder.likeImage.setClickable(false);
+            }
             reviewHolder.likeImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     reviewHolder.likeImage.setImageResource(R.mipmap.ic_book_like);
                     // TODO: 16-10-31 bookid??????这不科学
-                    mActController.onBookLike(((Detail.ReviewBean.DataBean) baseData).book_id);
+                    mActController.onReviewLike(data.review_id);
+                    int x = Integer.parseInt(data.like_count);
+                    x++;
+                    reviewHolder.mBinding.tvLike.setText(String.valueOf(x));
+                    v.setClickable(false);
+
                 }
             });
         }

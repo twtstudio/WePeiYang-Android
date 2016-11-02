@@ -67,13 +67,13 @@ public class BookDetailActivity extends BPActivity<BookDetailPresenter> implemen
 
     @Override
     public void onReviewLike(String reviewId) {
-
+        mPresenter.loveReview(reviewId);
 
     }
 
     @Override
     public void onBookLike(String bookId) {
-
+        mPresenter.loveBook(bookId);
     }
 
 
