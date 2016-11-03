@@ -27,4 +27,5 @@ public class BookCover {
         public Object fromRes;
         public int status;
     }
+
 }

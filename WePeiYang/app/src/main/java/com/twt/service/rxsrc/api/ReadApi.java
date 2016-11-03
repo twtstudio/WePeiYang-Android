@@ -14,6 +14,7 @@ import com.twt.service.rxsrc.model.read.User;
 
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -90,5 +91,5 @@ public interface ReadApi {
     Observable<ApiResponse<ReviewCallback>> addReview(@Field("id") String id, @Field("content") String content, @Field("score") float score);
 
     @GET("http://api.interlib.com.cn/interlibopac/websearch/metares")
-    Observable<BookCover> getBookCover(@Query("cmdACT") String act,@Query("isbns") String isbn,@Query("callback") String callback);
+    Observable<ResponseBody> getBookCover(@Query("cmdACT") String act, @Query("isbns") String isbn, @Query("callback") String callback);
 }
