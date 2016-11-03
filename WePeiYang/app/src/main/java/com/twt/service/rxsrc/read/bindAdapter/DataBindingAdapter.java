@@ -11,7 +11,7 @@ import com.twt.service.R;
 
 /**
  * Created by jcy on 16-10-21.
- * @TwtStudio Mobile Develope Team
+ * @TwtStudio Mobile Develop Team
  */
 
 public class DataBindingAdapter {
@@ -31,6 +31,11 @@ public class DataBindingAdapter {
     public static void loadBody(WebView webView, String body) {
         if (!TextUtils.isEmpty(body))
             webView.loadData(body, "text/html; charset=UTF-8", null);
+    }
+
+    @BindingAdapter({"isbn"})
+    public static void loadCoverFromIsbn(ImageView iv,String isbn){
+        IsbnImageLoader.with(iv.getContext()).load(isbn).into(iv);
     }
 
 //    @BindingAdapter({"datetime"})

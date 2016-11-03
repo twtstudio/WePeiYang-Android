@@ -20,7 +20,7 @@
             android:layout_marginBottom="5dp"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="15dp"
-            app:imageUrl="@{book.cover}"/>
+            app:isbn="@{book.isbn}"/>
 
         <RelativeLayout
             android:layout_width="match_parent"

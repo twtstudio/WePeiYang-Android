@@ -1,6 +1,7 @@
 package com.twt.service.rxsrc.api;
 
 import com.twt.service.rxsrc.model.LatestVersion;
+import com.twt.service.rxsrc.model.read.BookCover;
 import com.twt.service.rxsrc.model.read.HomeBanner;
 import com.twt.service.rxsrc.model.read.Detail;
 import com.twt.service.rxsrc.model.read.BookInShelf;
@@ -87,4 +88,7 @@ public interface ReadApi {
     @FormUrlEncoded
     @POST("book/review")
     Observable<ApiResponse<ReviewCallback>> addReview(@Field("id") String id, @Field("content") String content, @Field("score") float score);
+
+    @GET("http://api.interlib.com.cn/interlibopac/websearch/metares")
+    Observable<BookCover> getBookCover(@Query("cmdACT") String act,@Query("isbns") String isbn,@Query("callback") String callback);
 }

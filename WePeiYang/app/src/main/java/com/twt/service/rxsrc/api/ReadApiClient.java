@@ -292,4 +292,11 @@ public class ReadApiClient {
                 .subscribe(subscriber);
         addSubscription(tag, subscription);
     }
+
+    public void getBookCover(Object tag,String isbn ,Subscriber subscriber){
+        Subscription subscription = mService.getBookCover("getImages",isbn,"showCovers")
+                .compose(ApiUtils.applySchedulers())
+                .subscribe(subscriber);
+        addSubscription(tag,subscription);
+    }
 }
