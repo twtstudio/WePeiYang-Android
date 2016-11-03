@@ -21,7 +21,7 @@ import rx.Subscriber;
  */
 
 public class IsbnImageLoader {
-    private  Context mContext;
+    private Context mContext;
     private ImageView mImageView;
     private String mImageUrl;
     private String mIsbn;
@@ -31,49 +31,51 @@ public class IsbnImageLoader {
         mContext = context;
     }
 
-    public static IsbnImageLoader with(Context context){
+    public static IsbnImageLoader with(Context context) {
         return new IsbnImageLoader(context);
     }
 
-    public IsbnImageLoader load(String isbn){
+    public IsbnImageLoader load(String isbn) {
         mIsbn = isbn;
         return this;
     }
 
-    public IsbnImageLoader into(ImageView imageView){
+    public IsbnImageLoader into(ImageView imageView) {
         mImageView = imageView;
-        ReadApiClient.getInstance().getBookCover(mContext,mIsbn, new Subscriber<ResponseBody>() {
-            @Override
-            public void onCompleted() {
-                Log.d(TAG, "onCompleted: ");
-                mImageView.setImageResource(R.drawable.default_cover);
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                Log.d(TAG, "onError: "+e.getMessage());
-                mImageView.setImageResource(R.drawable.default_cover);
-            }
-
-            @Override
-            public void onNext(ResponseBody responseBody) {
-                String string = null;
-                try {
-                    string = responseBody.string();
-                } catch (IOException e) {
-                    e.printStackTrace();
+        if (mImageView.getDrawable()==null){
+            ReadApiClient.getInstance().getBookCover(mContext, mIsbn, new Subscriber<ResponseBody>() {
+                @Override
+                public void onCompleted() {
+                    Log.d(TAG, "onCompleted: ");
+                    //mImageView.setImageResource(R.drawable.default_cover);
                 }
-                String jsonStr = string.substring(11,string.length()-1);
-                Gson gson = new Gson();
-                BookCover bookCover = gson.fromJson(jsonStr,BookCover.class);
-                mImageUrl = bookCover.result.get(0).coverlink;
-                Glide.with(mContext).load(mImageUrl)
-                        .placeholder(R.drawable.default_cover)
-                        .error(R.drawable.default_cover)
-                        .into(mImageView);
-            }
 
-        });
+                @Override
+                public void onError(Throwable e) {
+                    Log.d(TAG, "onError: " + e.getMessage());
+                    mImageView.setImageResource(R.drawable.default_cover);
+                }
+
+                @Override
+                public void onNext(ResponseBody responseBody) {
+                    String string = null;
+                    try {
+                        string = responseBody.string();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    String jsonStr = string.substring(11, string.length() - 1);
+                    Gson gson = new Gson();
+                    BookCover bookCover = gson.fromJson(jsonStr, BookCover.class);
+                    mImageUrl = bookCover.result.get(0).coverlink;
+                    Glide.with(mContext).load(mImageUrl)
+                            .placeholder(R.drawable.default_cover)
+                            .error(R.drawable.default_cover)
+                            .into(mImageView);
+                }
+
+            });
+        }
         return this;
     }
 }

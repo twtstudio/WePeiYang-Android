@@ -80,6 +80,7 @@ public class ReadApiSubscriber<T> extends Subscriber<T> {
             if (isToastError){
                 toastMessage(e.getMessage());
             }
+            toastMessage("sorry....");
         }
     }
 

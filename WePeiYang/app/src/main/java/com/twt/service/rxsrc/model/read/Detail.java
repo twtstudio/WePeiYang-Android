@@ -83,7 +83,7 @@ public class Detail {
             public String title;
             public String user_name;
             public String avatar;
-            public int scores;
+            public int score;
             public String like_count;
             public String content;
             public String updated_at;

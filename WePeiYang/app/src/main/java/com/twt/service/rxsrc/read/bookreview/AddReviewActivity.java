@@ -62,7 +62,12 @@ public class AddReviewActivity extends BPActivity<AddReviewPresenter> implements
         int id = item.getItemId();
         if (id == R.id.action_submit_yes) {
             //mPresenter.addReview(mBinding.readEditReviewEdittext.getText().toString());
-            mPresenter.addReview(mId,mEditText.getText().toString(),mRatingBar.getRating());
+            String s = mEditText.getText().toString();
+            if (s.trim().length() < 10){
+                toastMessage("评论不标准或过短");
+            }else {
+                mPresenter.addReview(mId,s.trim(), mRatingBar.getRating());
+            }
             return true;
         }
         return super.onOptionsItemSelected(item);

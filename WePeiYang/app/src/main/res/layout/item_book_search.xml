@@ -11,16 +11,16 @@
     <LinearLayout
         android:id="@+id/item_book_search_parent"
         android:layout_width="match_parent"
-        android:layout_height="175dp"
+        android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <ImageView
             android:layout_width="125dp"
-            android:layout_height="match_parent"
+            android:layout_height="165dp"
             android:layout_marginBottom="5dp"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="15dp"
-            app:isbn="@{book.isbn}"/>
+            app:imageUrl="@{book.cover}"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
