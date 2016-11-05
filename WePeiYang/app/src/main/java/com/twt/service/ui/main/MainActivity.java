@@ -42,6 +42,7 @@ import com.twt.service.rxsrc.bike.ui.main.BikeActivity;
 import com.twt.service.interactor.MainInteractorImpl;
 import com.twt.service.rxsrc.model.LatestVersion;
 import com.twt.service.rxsrc.read.DebugActivity;
+import com.twt.service.rxsrc.read.home.BookHomeActivity;
 import com.twt.service.support.BannerLoader;
 import com.twt.service.support.PrefUtils;
 import com.twt.service.ui.BaseActivity;
@@ -180,8 +181,8 @@ public class MainActivity extends BaseActivity implements BaseSliderView.OnSlide
     RecyclerView rvMainLost;
     @InjectView(R.id.rv_main_found)
     RecyclerView rvMainFound;
-    @InjectView(R.id.btn_bike)
-    LinearLayout btnBike;
+    @InjectView(R.id.btn_read)
+    LinearLayout btnRead;
 
     private MainPresenterImpl presenter;
     private MainFoundAdapter mainFoundAdapter;
@@ -243,7 +244,7 @@ public class MainActivity extends BaseActivity implements BaseSliderView.OnSlide
         rlMoreJobsInfo.setOnClickListener(this);
         btnGpaQuery.setOnClickListener(this);
         btnSchedule.setOnClickListener(this);
-        btnBike.setOnClickListener(this);
+        btnRead.setOnClickListener(this);
         btnMore.setOnClickListener(this);
         presenter = new MainPresenterImpl(this, new MainInteractorImpl(), this);
         presenter.loadDataFromCache();
@@ -467,6 +468,13 @@ public class MainActivity extends BaseActivity implements BaseSliderView.OnSlide
                     startActivity(new Intent(MainActivity.this, BikeAuthActivity.class));
                 } else {
                     LoginActivity.actionStart(MainActivity.this, NextActivity.Bike);
+                }
+                break;
+            case R.id.btn_read:
+                if (PrefUtils.isLogin()) {
+                    BookHomeActivity.onActionStart(this);
+                } else {
+                    LoginActivity.actionStart(this, NextActivity.Party);
                 }
                 break;
             case R.id.btn_more:

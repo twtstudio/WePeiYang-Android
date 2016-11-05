@@ -69,7 +69,8 @@ public class BookDetailAdapter extends RecyclerView.Adapter<BaseBindHolder> {
     public void setDetail(Detail detail) {
         mDetail = detail;
         mDataList.add(detail);
-        status_count = detail.holding.data.size() + 1;
+        //多加的一个bean表示总括信息，另一个来添加margin
+        status_count = detail.holding.data.size() + 2;
         review_count = detail.review.data.size();
         Detail.HoldingBean.DataBean dataBean = new Detail.HoldingBean.DataBean();
         dataBean.callno = "索书号";
@@ -84,6 +85,8 @@ public class BookDetailAdapter extends RecyclerView.Adapter<BaseBindHolder> {
             mDataList.add(dataBean1);
         }
         mDataList.addAll(detail.holding.data);
+        Detail.HoldingBean.DataBean emptyBean = new Detail.HoldingBean.DataBean();
+        mDataList.add(emptyBean);
         mDataList.addAll(detail.review.data);
 
     }

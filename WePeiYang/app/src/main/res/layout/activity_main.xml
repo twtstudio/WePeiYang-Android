@@ -106,7 +106,7 @@
                             </LinearLayout>
 
                             <LinearLayout
-                                android:id="@+id/btn_bike"
+                                android:id="@+id/btn_read"
                                 android:layout_width="0dp"
                                 android:layout_weight="1"
                                 android:layout_height="wrap_content"
@@ -117,14 +117,14 @@
                                     android:layout_width="60dp"
                                     android:layout_height="60dp"
                                     android:layout_gravity="center_horizontal"
-                                    android:src="@mipmap/ic_main_bike" />
+                                    android:src="@mipmap/ic_main_read" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_horizontal"
                                     android:layout_marginTop="5dp"
-                                    android:text="@string/bike"/>
+                                    android:text="@string/read"/>
 
                             </LinearLayout>
                             <LinearLayout

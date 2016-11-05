@@ -47,14 +47,14 @@ public class ReadApiClient {
 
     private ReadResponseTransformer mResponseTransformer;
 
-    public ReadApiClient() {
+    private ReadApiClient() {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(interceptor)
                 .addInterceptor(sRequestInterceptor)
-                .retryOnConnectionFailure(false)
+                .retryOnConnectionFailure(true)
                 .connectTimeout(30, TimeUnit.SECONDS)
                 .build();
 
@@ -117,7 +117,7 @@ public class ReadApiClient {
     }
 
     /**
-     * 添加订阅关系，同时rxjava自动发起网络请求
+     * 添加订阅关系，同时rxjava自动发起网络请求Su
      *
      * @param tag          presenter的实例
      * @param subscription 创建好的订阅关系
