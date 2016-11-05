@@ -213,6 +213,9 @@ public class BookDetailAdapter extends RecyclerView.Adapter<BaseBindHolder> {
                 reviewHolder.likeImage.setImageResource(R.mipmap.ic_book_like);
                 reviewHolder.likeImage.setClickable(false);
             }
+            if (position == getItemCount()-1){
+                reviewHolder.mBinding.divider.setVisibility(View.INVISIBLE);
+            }
             reviewHolder.likeImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
