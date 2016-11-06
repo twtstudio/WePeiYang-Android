@@ -212,23 +212,25 @@ public class BookDetailAdapter extends RecyclerView.Adapter<BaseBindHolder> {
             if (data.liked) {
                 reviewHolder.likeImage.setImageResource(R.mipmap.ic_book_like);
                 reviewHolder.likeImage.setClickable(false);
+            }else {
+                reviewHolder.likeImage.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        reviewHolder.likeImage.setImageResource(R.mipmap.ic_book_like);
+                        // TODO: 16-10-31 bookid??????这不科学
+                        mActController.onReviewLike(data.review_id);
+                        int x = Integer.parseInt(data.like_count);
+                        x++;
+                        reviewHolder.mBinding.tvLike.setText(String.valueOf(x));
+                        v.setClickable(false);
+
+                    }
+                });
             }
             if (position == getItemCount()-1){
                 reviewHolder.mBinding.divider.setVisibility(View.INVISIBLE);
             }
-            reviewHolder.likeImage.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    reviewHolder.likeImage.setImageResource(R.mipmap.ic_book_like);
-                    // TODO: 16-10-31 bookid??????这不科学
-                    mActController.onReviewLike(data.review_id);
-                    int x = Integer.parseInt(data.like_count);
-                    x++;
-                    reviewHolder.mBinding.tvLike.setText(String.valueOf(x));
-                    v.setClickable(false);
 
-                }
-            });
         }
     }
 

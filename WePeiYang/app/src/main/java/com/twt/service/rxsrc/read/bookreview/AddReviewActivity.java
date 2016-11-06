@@ -64,7 +64,7 @@ public class AddReviewActivity extends BPActivity<AddReviewPresenter> implements
             //mPresenter.addReview(mBinding.readEditReviewEdittext.getText().toString());
             String s = mEditText.getText().toString();
             if (s.trim().length() < 10){
-                toastMessage("评论不标准或过短");
+                toastMessage("评论不标准或过短,最少10个字哦");
             }else {
                 mPresenter.addReview(mId,s.trim(), mRatingBar.getRating());
             }

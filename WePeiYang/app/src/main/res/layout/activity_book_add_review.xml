@@ -22,7 +22,7 @@
         <EditText
             android:layout_margin="10dp"
             android:id="@+id/read_edit_review_edittext"
-            android:hint="输入你的评论(可选)"
+            android:hint="输入你的评论(最少10个字)"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
     </LinearLayout>

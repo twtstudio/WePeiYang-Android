@@ -72,6 +72,7 @@
             android:layout_marginBottom="5dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
+            android:gravity="center_vertical"
             android:layout_below="@id/item_book_detail_review_content"
             android:text="@{review.like_count}"
             android:textColor="@color/myTextPrimaryColorGray"

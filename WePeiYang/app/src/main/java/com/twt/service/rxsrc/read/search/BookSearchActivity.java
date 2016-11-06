@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ProgressBar;
 
 import com.twt.service.R;
@@ -73,6 +74,12 @@ public class BookSearchActivity extends BPActivity<BookSearchPresenter> implemen
                 mPresenter.search(query);
                 mProgressBar.setVisibility(View.VISIBLE);
                 mSearchView.setSubmitButtonEnabled(false);
+//                mSearchView
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                if (imm!=null){
+                    imm.hideSoftInputFromWindow(mSearchView.getWindowToken(),0);
+                }
+                mSearchView.clearFocus();
                 return true;
             }
 
@@ -86,6 +93,9 @@ public class BookSearchActivity extends BPActivity<BookSearchPresenter> implemen
 
     @Override
     public void onSearchFinished(List<SearchBook> bookList) {
+        if (bookList.size() == 0){
+            toastMessage("找不到书目哦..");
+        }
         mSearchView.setSubmitButtonEnabled(true);
         mProgressBar.setVisibility(View.GONE);
         mAdapter.refreshItems(bookList);
