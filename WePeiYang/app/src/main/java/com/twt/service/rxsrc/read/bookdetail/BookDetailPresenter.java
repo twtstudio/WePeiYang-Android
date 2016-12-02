@@ -30,7 +30,7 @@ public class BookDetailPresenter extends Presenter {
 
     public void getBookDetail(String id) {
         ReadApiClient.getInstance().getBookDetail(mContext, new ReadApiSubscriber(mContext, mDetailOnNextListener), id);
-    }
+}
 
     private OnNextListener<Detail> mDetailOnNextListener = new OnNextListener<Detail>() {
         @Override
