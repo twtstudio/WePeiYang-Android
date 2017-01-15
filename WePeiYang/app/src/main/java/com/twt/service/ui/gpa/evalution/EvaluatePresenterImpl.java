@@ -35,7 +35,7 @@ public class EvaluatePresenterImpl implements EvaluatePresenter,onPostEvaluateCa
 
     @Override
     public void onSuccess(String message) {
-        mView.toastMessage("评论成功！");
+        mView.toastMessage("评价成功！");
         mView.deleteCourse();
     }
 

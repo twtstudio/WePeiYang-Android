@@ -75,6 +75,7 @@ public class GpaActivity extends BaseActivity implements GpaView, OnChartValueSe
     @InjectView(R.id.pb_gpa)
     ProgressBar pbGpa;
     public static GpaPresenterImpl presenter;
+    boolean hasPaused = false;
 
     private static boolean isOrderByScore = true;
     private GpaAdapter adapter;
@@ -298,10 +299,17 @@ public class GpaActivity extends BaseActivity implements GpaView, OnChartValueSe
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        hasPaused = true;
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
-        Toast.makeText(this, "35534135", Toast.LENGTH_SHORT).show();
-        presenter.getGpaFromNet();
+        if(hasPaused) {
+            presenter.getGpaFromNet();
+        }
     }
 
     @Override

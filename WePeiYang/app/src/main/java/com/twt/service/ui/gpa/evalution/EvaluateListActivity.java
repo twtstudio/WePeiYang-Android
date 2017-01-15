@@ -20,6 +20,8 @@ import java.util.List;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
+import static android.R.id.message;
+
 /**
  * Created by tjliqy on 2017/1/12.
  */
@@ -79,8 +81,10 @@ public class EvaluateListActivity extends BaseActivity implements EvaluateView{
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == 0 && data.getBooleanExtra("success",false)){
-            deleteCourse();
+        if(requestCode == 0 && data!= null){
+            if(data.getBooleanExtra("success",false)) {
+                deleteCourse();
+            }
         }
     }
 
