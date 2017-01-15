@@ -171,7 +171,8 @@
 
 
         <activity android:name=".rxsrc.read.home.BookHomeActivity" android:exported="true"/>
-
+        <activity android:name=".ui.gpa.evalution.EvaluateListActivity" android:label="GPA"/>
+        <activity android:name=".ui.gpa.evalution.EvaluateDetailActivity" android:label="GPA"/>
     </application>
 
 </manifest>

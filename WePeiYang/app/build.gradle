@@ -10,10 +10,10 @@ android {
         applicationId "com.twt.service"
         minSdkVersion 16
         targetSdkVersion 24
-        versionCode 16
+        versionCode 17
         renderscriptTargetApi 22
         renderscriptSupportModeEnabled true
-        versionName "2.2.0"
+        versionName "2.2.1"
         ndk{
             moduleName "Jni"
         }

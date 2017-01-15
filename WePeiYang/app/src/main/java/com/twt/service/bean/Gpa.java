@@ -17,6 +17,7 @@ public class Gpa implements Serializable {
         public Stat stat;//整体分数情况
         public List<Term> data;//各学期列表
         public String updated_at;//更新时间
+        public String session;
 
         public class Stat {
             public List<Year> years;//各学年分数列表
@@ -43,13 +44,21 @@ public class Gpa implements Serializable {
             public String name;//学期名称
             public TermStat stat;
 
-            public class Course {
+            public class Course implements Serializable{
                 public String no;//课程编号
                 public String name;//课程名称
                 public int type;//课程类型
                 public double credit;//课程学分
                 public int reset;//实在猜不出来
                 public double score;
+                public Evaluate evaluate;
+
+                public class Evaluate implements Serializable{
+                    public String lesson_id;
+                    public String term;
+                    public String union_id;
+                    public String course_id;
+                }
             }
 
             public class TermStat {

@@ -16,6 +16,7 @@ public class PrefUtils {
     private static final String PREF_IS_LOGIN = "is_login";
     private static final String PREF_IS_KNOW_GPA_USAGE = "isknowgpausage";
     private static final String PREF_TOKEN = "token";
+    private static final String PREF_GPA_TOKEN = "gpatoken";
     private static final String PREF_USERNAME = "username";
     private static final String PREF_LOST_FOUND_CONTACT_NAME = "lost_found_contact_name";
     private static final String PREF_LOST_FOUND_CONTACT_NUMBER = "lost_found_contact_number";
@@ -74,6 +75,16 @@ public class PrefUtils {
         return "Bearer{" + token + "}";
     }
 
+
+    public static void setGpaToken(String token) {
+        if (token != null) {
+            getDefaultSharedPreferences().edit().putString(PREF_GPA_TOKEN, token ).apply();
+        }
+    }
+
+    public static String getGpaToken() {
+        return getDefaultSharedPreferences().getString(PREF_GPA_TOKEN, "");
+    }
     public static String getTokenForBike(){
         return getDefaultSharedPreferences().getString(PREF_TOKEN,"");
     }

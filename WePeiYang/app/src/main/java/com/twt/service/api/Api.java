@@ -28,6 +28,7 @@ import retrofit.http.PUT;
 import retrofit.http.Part;
 import retrofit.http.PartMap;
 import retrofit.http.Path;
+import retrofit.http.Query;
 import retrofit.http.QueryMap;
 import retrofit.mime.TypedFile;
 
@@ -43,6 +44,10 @@ public interface Api {
 
     @GET("/gpa")
     void getGPA(@Header(AUTHORIZATION) String authorization, @QueryMap RequestParams gpaParams, Callback<JsonElement> response);
+
+    @FormUrlEncoded
+    @POST("/gpa/evaluate")
+    void postGPAEvaluate(@Header(AUTHORIZATION) String authorization,@Query("token") String token, @FieldMap RequestParams params, Callback<JsonElement> response);
 
     @GET("/classtable")
     void getCourse(@Header(AUTHORIZATION) String authorization, @QueryMap RequestParams classtableParams, Callback<JsonElement> response);

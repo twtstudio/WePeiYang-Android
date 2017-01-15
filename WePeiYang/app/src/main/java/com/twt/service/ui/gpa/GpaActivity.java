@@ -10,7 +10,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,6 +19,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.annimon.stream.Collectors;
+import com.annimon.stream.Stream;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
@@ -37,6 +38,7 @@ import com.twt.service.support.PrefUtils;
 import com.twt.service.ui.BaseActivity;
 import com.twt.service.ui.bind.BindActivity;
 import com.twt.service.ui.common.NextActivity;
+import com.twt.service.ui.gpa.evalution.EvaluateListActivity;
 import com.twt.service.ui.login.LoginActivity;
 
 import java.text.DecimalFormat;
@@ -54,6 +56,8 @@ public class GpaActivity extends BaseActivity implements GpaView, OnChartValueSe
 
     @InjectView(R.id.toolbar)
     Toolbar toolbar;
+    @InjectView(R.id.tv_evaluate)
+    TextView tvEvaluate;
     @InjectView(R.id.line_chart)
     LineChart lineChart;
     @InjectView(R.id.tv_zongjiaquan)
@@ -151,11 +155,13 @@ public class GpaActivity extends BaseActivity implements GpaView, OnChartValueSe
         final DecimalFormat decimalFormat = new DecimalFormat("###.00");
         tvZongjiaquan.setText(gpa.data.stat.total.score + "");
         tvZongjidian.setText(decimalFormat.format(gpa.data.stat.total.gpa));
+        PrefUtils.setGpaToken(gpa.data.session);
         terms.clear();
         terms.addAll(gpa.data.data);
         presentTermIndex = terms.size() - 1;
         courses.clear();
-        courses.addAll(gpa.data.data.get(presentTermIndex).data);
+        courses.addAll(gpa.data.data.get(presentTermIndex).data);//当前学期的课程
+        checkEvalution(courses);
         adapter.refreshItemsByScore(courses);
         lineChart.setOnChartValueSelectedListener(this);
         lineChart.setNoDataTextDescription("还没有成绩哟");
@@ -292,6 +298,13 @@ public class GpaActivity extends BaseActivity implements GpaView, OnChartValueSe
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        Toast.makeText(this, "35534135", Toast.LENGTH_SHORT).show();
+        presenter.getGpaFromNet();
+    }
+
+    @Override
     public void onValueSelected(Entry e, int dataSetIndex, Highlight h) {
         set.resetCircleColors();
         ArrayList<Integer> circleColors = new ArrayList<>();
@@ -309,6 +322,7 @@ public class GpaActivity extends BaseActivity implements GpaView, OnChartValueSe
         } else {
             adapter.refreshItemsByCredit(terms.get(e.getXIndex()).data);
         }
+        checkEvalution(terms.get(e.getXIndex()).data);
     }
 
     @Override
@@ -316,6 +330,30 @@ public class GpaActivity extends BaseActivity implements GpaView, OnChartValueSe
 
     }
 
+    private void checkEvalution(List<Gpa.Data.Term.Course> list){
+//        // TODO: 2017/1/12 测试时暂时这么写
+//        tvEvaluate.setVisibility(View.VISIBLE);
+//        tvEvaluate.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                EvaluateListActivity.onActionStart(GpaActivity.this,list);
+//            }
+//        });
+//    }
+        List<Gpa.Data.Term.Course> courses_no_evalution = Stream.of(list).filter(course -> course.score == -1).collect(Collectors.toList());
+
+        if(courses_no_evalution == null || courses_no_evalution.size() == 0){
+            tvEvaluate.setVisibility(View.GONE);
+        }else {
+            tvEvaluate.setVisibility(View.VISIBLE);
+            tvEvaluate.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    EvaluateListActivity.onActionStart(GpaActivity.this,courses_no_evalution);
+                }
+            });
+        }
+    }
     @Override
     public void onClick(View view) {
         switch (view.getId()) {

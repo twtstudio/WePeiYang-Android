@@ -112,6 +112,37 @@ public class ApiClient {
         mApi.getGPA(authorization, params, callback);
     }
 
+    public static void postGpaEvaluate(String authorization,String token, String lessonId, String unionId, String courseId, String term, int[] fiveQ, String note, Callback<JsonElement> callback){
+        RequestParams params = new RequestParams();
+        params.put("lesson_id",lessonId);
+        params.put("union_id",unionId);
+        params.put("course_id",courseId);
+        params.put("term",term);
+        params.put("q1", String.valueOf(fiveQ[0]));
+        params.put("q2", String.valueOf(fiveQ[1]));
+        params.put("q3", String.valueOf(fiveQ[2]));
+        params.put("q4", String.valueOf(fiveQ[3]));
+        params.put("q5", String.valueOf(fiveQ[4]));
+        params.put("note", note);
+        HashMap<String, String> temp = new HashMap<>();
+        temp.put("t", params.get("t"));
+        temp.put("token",token);
+        temp.put("lesson_id",lessonId);
+        temp.put("union_id",unionId);
+        temp.put("course_id",courseId);
+        temp.put("term",term);
+        temp.put("q1", String.valueOf(fiveQ[0]));
+        temp.put("q2", String.valueOf(fiveQ[1]));
+        temp.put("q3", String.valueOf(fiveQ[2]));
+        temp.put("q4", String.valueOf(fiveQ[3]));
+        temp.put("q5", String.valueOf(fiveQ[4]));
+        temp.put("note",note);
+        String sign = new Sign().generate(temp);
+        params.put("sign", sign);
+        mApi.postGPAEvaluate(authorization,token,params,callback);
+
+    }
+
     public static void getClassTable(String authorization, Callback<JsonElement> callback) {
         RequestParams params = new RequestParams();
         HashMap<String, String> temp = new HashMap<>();

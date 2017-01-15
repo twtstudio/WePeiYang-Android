@@ -16,10 +16,21 @@
 
     </android.support.design.widget.AppBarLayout>
 
+    <TextView
+        android:id="@+id/tv_evaluate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="您还有课程未评价，点此评价"
+        android:layout_marginTop="0dp"
+        android:gravity="center"
+        android:background="@color/schedule_orange"
+        android:textColor="@color/schedule_dark_primary_color"
+        android:visibility="gone"/>
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
+
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/ll_my_score"
@@ -28,6 +39,7 @@
             android:background="@android:color/white"
             android:orientation="vertical"
             android:padding="8dp">
+
 
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
