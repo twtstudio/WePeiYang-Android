@@ -1,6 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'me.tatarka.retrolambda'
-apply plugin: 'com.antfortune.freeline'
+//apply plugin: 'com.antfortune.freeline'
 
 android {
     compileSdkVersion 25
@@ -11,8 +11,6 @@ android {
         minSdkVersion 16
         targetSdkVersion 24
         versionCode 17
-        renderscriptTargetApi 22
-        renderscriptSupportModeEnabled true
         versionName "2.2.1"
         ndk{
             moduleName "Jni"
@@ -106,4 +104,5 @@ dependencies {
     compile 'com.github.florent37:glidepalette:1.0.6'
     compile 'de.hdodenhof:circleimageview:2.1.0'
     compile 'com.youth.banner:banner:1.4.1'  //最新版本
+    compile 'com.android.support:multidex:1.0.1'
 }

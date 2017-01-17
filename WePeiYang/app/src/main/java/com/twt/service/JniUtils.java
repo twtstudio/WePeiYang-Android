@@ -14,6 +14,8 @@ public class JniUtils {
 
     public native String getFirApiToken();
 
+
+
     private JniUtils() {
 
     }

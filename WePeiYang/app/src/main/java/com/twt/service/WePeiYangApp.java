@@ -2,6 +2,7 @@ package com.twt.service;
 
 import android.app.Application;
 import android.content.Context;
+import android.support.multidex.MultiDexApplication;
 
 import com.twt.service.service.push.PushService;
 
@@ -12,7 +13,7 @@ import im.fir.sdk.FIR;
 /**
  * Created by sunjuntao on 15/11/15.
  */
-public class WePeiYangApp extends Application{
+public class WePeiYangApp extends MultiDexApplication{
     private static Context context;
     private static boolean isAppLunched;
 
