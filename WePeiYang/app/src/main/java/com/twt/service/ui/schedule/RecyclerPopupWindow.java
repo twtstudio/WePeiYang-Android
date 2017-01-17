@@ -24,10 +24,10 @@ public class RecyclerPopupWindow extends PopupWindow implements RecyclerPopupWin
     private RecyclerView recyclerView;
     private RecyclerPopupWindowAdapter recyclerPopupWindowAdapter;
     private CallBack mCallBack;
-    //上一次点击位置
-    private int position;
     //本次点击位置
-    private int prePosition;
+    private int position = -1;
+    //上次点击位置
+    private int prePosition = -1;
     //是否点击列表项
     private boolean isClickItem;
     //
@@ -35,13 +35,13 @@ public class RecyclerPopupWindow extends PopupWindow implements RecyclerPopupWin
     public RecyclerPopupWindow(List<WeekItem> items, int currentWeek) {
         this.items = items;
         //获取之前点击的位置
-        for (int i = 1; i < items.size(); ++i) {
+        for (int i = 0; i < items.size(); ++i) {
             if (items.get(i).isActive()) {
                 prePosition = i;
                 break;
             }
         }
-        if (prePosition == 0){
+        if (prePosition == -1){
             prePosition = currentWeek - 1;
             items.get(currentWeek - 1).setActive(true);
         }
@@ -99,24 +99,21 @@ public class RecyclerPopupWindow extends PopupWindow implements RecyclerPopupWin
      */
     private void changePos(boolean isCloseWindow) {
         //如果两次点击不同上次选择的取消
-        if (position != prePosition && prePosition != 0) {
+        if (position != prePosition && prePosition != -1) {
             items.get(prePosition).setActive(false);
             recyclerPopupWindowAdapter.notifyItemChanged(prePosition);
         }
         //更新当前位置的选择项
-        if (position > 0) {
+        if (position >= 0) {
             items.get(position).setActive(true);
             recyclerPopupWindowAdapter.notifyItemChanged(position);
         }
         if (isCloseWindow) {
             //动画消失后再关闭
-            (new Handler()).postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    //回调并关闭window
-                    mCallBack.callback(items.get(position).getTitle(),items.get(position).getWeek_num());
-                    destroyPopWindow();
-                }
+            (new Handler()).postDelayed(() -> {
+                //回调并关闭window
+                mCallBack.callback(items.get(position).getTitle(),items.get(position).getWeek_num());
+                destroyPopWindow();
             }, 450);
         }
     }

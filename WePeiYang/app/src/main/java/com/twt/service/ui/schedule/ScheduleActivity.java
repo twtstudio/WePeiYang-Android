@@ -23,6 +23,7 @@ import android.widget.FrameLayout;
 import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -66,8 +67,6 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
     ProgressBar pbSchedule;
     @InjectView(R.id.tv_week)
     TextView tvWeek;
-    @InjectView(R.id.gl_schedule)
-    GridLayout glSchedule;
     //test animation
     @InjectView(R.id.schedule_parent_layout)
     LinearLayout mParentLayout;
@@ -87,6 +86,22 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
     LinearLayout mLlSaturday;
     @InjectView(R.id.ll_sunday)
     LinearLayout mLlSunday;
+    @InjectView(R.id.ll_nums)
+    LinearLayout mLlNums;
+    @InjectView(R.id.rl_monday)
+    RelativeLayout mRlMonday;
+    @InjectView(R.id.rl_tuesday)
+    RelativeLayout mRlTuesday;
+    @InjectView(R.id.rl_wednesday)
+    RelativeLayout mRlWednesday;
+    @InjectView(R.id.rl_thursday)
+    RelativeLayout mRlThursday;
+    @InjectView(R.id.rl_friday)
+    RelativeLayout mRlFriday;
+    @InjectView(R.id.rl_saturday)
+    RelativeLayout mRlSaturday;
+    @InjectView(R.id.rl_sunday)
+    RelativeLayout mRlSunday;
 
     private SchedulePresenterImpl presenter;
     private String currentTerm;//当前学期
@@ -126,11 +141,25 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
 
         presenter = new SchedulePresenterImpl(this, new ScheduleInteractorImpl(), this);
 
-        glSchedule.post(new Runnable() {
-            @Override
-            public void run() {
-                griditemWidth = glSchedule.getWidth() / 15;
-                presenter.loadCoursesFromCache();
+        mLlNums.post(() -> {
+            griditemWidth = mLlNums.getWidth();
+            presenter.loadCoursesFromCache();
+            //绘制左侧
+            for (int i = 0; i < 12; i++) {
+                TextView textView = new TextView(this);
+                textView.setText(i + 1 + "");
+                textView.setWidth(griditemWidth);
+                textView.setHeight(griditemWidth * 2);
+                textView.setGravity(Gravity.CENTER);
+                textView.setTextColor(ResourceHelper.getColor(R.color.myTextPrimaryColorGray));
+                textView.setBackgroundResource(R.color.myWindowBackgroundGray);
+//            GridLayout.Spec rowSpec = GridLayout.spec(i);
+//            GridLayout.Spec columnSpec = GridLayout.spec(0);
+//            GridLayout.LayoutParams params = new GridLayout.LayoutParams(rowSpec, columnSpec);
+//            params.setGravity(Gravity.CENTER_VERTICAL);
+
+                mLlNums.addView(textView);
+
             }
         });
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -224,23 +253,27 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
                 break;
         }
 
-        tvWeek.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (recyclerPopupWindow == null) {
-                    recyclerPopupWindow = new RecyclerPopupWindow(items, currentWeek);
-                    recyclerPopupWindow.showPopupWindow(ScheduleActivity.this, toolbar, toolbar.getWidth(), 500);
-                    recyclerPopupWindow.setCallBack((value, week_num) -> {
-                        if (!"-1".equals(value)) {
-                            changeWeek(week_num);
-                            if (mClassTable != null) {
-                                glSchedule.removeAllViews();
-                                initSchedule(mClassTable, week_num);
-                            }
+        tvWeek.setOnClickListener(view -> {
+            if (recyclerPopupWindow == null) {
+                recyclerPopupWindow = new RecyclerPopupWindow(items, currentWeek);
+                recyclerPopupWindow.showPopupWindow(ScheduleActivity.this, toolbar, toolbar.getWidth(), 500);
+                recyclerPopupWindow.setCallBack((value, week_num) -> {
+                    if (!"-1".equals(value)) {
+                        changeWeek(week_num);
+                        if (mClassTable != null) {
+                            mRlMonday.removeAllViews();
+                            mRlTuesday.removeAllViews();
+                            mRlWednesday.removeAllViews();
+                            mRlThursday.removeAllViews();
+                            mRlFriday.removeAllViews();
+                            mRlSaturday.removeAllViews();
+                            mRlSunday.removeAllViews();
+
+                            initSchedule(mClassTable, week_num);
                         }
-                        recyclerPopupWindow = null;
-                    });
-                }
+                    }
+                    recyclerPopupWindow = null;
+                });
             }
         });
         initSchedule(classTable, currentWeek);
@@ -248,37 +281,7 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
 
     private void initSchedule(ClassTable classTable, int week) {
         hasClass = new boolean[7][12];
-        //绘制左侧
-        for (int i = 0; i < 12; i++) {
-            TextView textView = new TextView(this);
-            textView.setText(i + 1 + "");
-            textView.setWidth(griditemWidth);
-            textView.setHeight(griditemWidth * 2);
-            textView.setGravity(Gravity.CENTER);
-            textView.setTextColor(ResourceHelper.getColor(R.color.myTextPrimaryColorGray));
-            textView.setBackgroundResource(R.color.myWindowBackgroundGray);
 
-            GridLayout.Spec rowSpec = GridLayout.spec(i);
-            GridLayout.Spec columnSpec = GridLayout.spec(0);
-            GridLayout.LayoutParams params = new GridLayout.LayoutParams(rowSpec, columnSpec);
-            params.setGravity(Gravity.CENTER_VERTICAL);
-
-            glSchedule.addView(textView, params);
-
-        }
-
-        //设置占位
-//        for (int i = 1; i <= 7; i++){
-//            View view = new View(this);
-//            view.setMinimumWidth(griditemWidth * 2);
-//            view.setMinimumHeight(griditemWidth);
-//            GridLayout.Spec rowSpec = GridLayout.spec(0);
-//            GridLayout.Spec columnSpec = GridLayout.spec(i);
-//            GridLayout.LayoutParams params = new GridLayout.LayoutParams(rowSpec, columnSpec);
-//
-//            glSchedule.addView(view,params);
-//
-//        }
         //绘制课程信息
         List<ClassTable.Data.Course> coursesNotThisWeek = new ArrayList<>(); //非当前周的课程
         int i = 0;// 用来记录classColors用到第几个了。
@@ -329,21 +332,42 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
                         tv.setTextSize(13);
                         cv.setCardBackgroundColor(course.coursecolor);
                         cv.getCardBackgroundColor().withAlpha(90);
-
-                        cv.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                toClassContent(classTable.data.data, day, startTime, endTime, cv);
+                        cv.setForegroundGravity(Gravity.CENTER_HORIZONTAL);
+                        cv.setOnClickListener(view -> {
+                            toClassContent(classTable.data.data, day, startTime, endTime, cv);
 //                                moveToContent(course, cv);
-                            }
                         });
+                        v.setY((startTime-1)*griditemWidth*2);
+//                        GridLayout.Spec rowSpec = GridLayout.spec(startTime - 1, length);
+//                        GridLayout.Spec columnSpec = GridLayout.spec(day + 1, 1);
+//                        GridLayout.LayoutParams params = new GridLayout.LayoutParams(rowSpec, columnSpec);
 
-                        GridLayout.Spec rowSpec = GridLayout.spec(startTime - 1, length);
-                        GridLayout.Spec columnSpec = GridLayout.spec(day + 1, 1);
-                        GridLayout.LayoutParams params = new GridLayout.LayoutParams(rowSpec, columnSpec);
-                        params.setGravity(Gravity.CENTER_HORIZONTAL);
-                        params.setMargins(4, 4, 4, 4);
-                        glSchedule.addView(v, params);
+//                        params.setGravity(Gravity.CENTER_HORIZONTAL);
+//                        params.setMargins(4, 4, 4, 4);
+                        switch (day){
+                            case 1:
+                                mRlMonday.addView(v);
+                                break;
+                            case 2:
+                                mRlTuesday.addView(v);
+                                break;
+                            case 3:
+                                mRlWednesday.addView(v);
+                                break;
+                            case 4:
+                                mRlThursday.addView(v);
+                                break;
+                            case 5:
+                                mRlFriday.addView(v);
+                                break;
+                            case 6:
+                                mRlSaturday.addView(v);
+                                break;
+                            case 7:
+                                mRlSunday.addView(v);
+                                break;
+                        }
+//                        glSchedule.addView(v, params);
                         for (int t = startTime - 1; t < endTime; t++) {
                             hasClass[day][t] = true;
                         }
@@ -378,20 +402,43 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
                     tv.setTextColor(ResourceHelper.getColor(R.color.schedule_gray));
                     cv.getCardBackgroundColor().withAlpha(90);
 
-                    cv.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            toClassContent(classTable.data.data, day, startTime, endTime, cv);
+                    cv.setOnClickListener(view -> {
+                        toClassContent(classTable.data.data, day, startTime, endTime, cv);
 //                            moveToContent(course, cv);
-                        }
                     });
+                    cv.setForegroundGravity(Gravity.CENTER_HORIZONTAL);
+                    v.setY((startTime-1)*griditemWidth*2);
 
-                    GridLayout.Spec rowSpec = GridLayout.spec(startTime - 1, length);
-                    GridLayout.Spec columnSpec = GridLayout.spec(day + 1, 1);
-                    GridLayout.LayoutParams params = new GridLayout.LayoutParams(rowSpec, columnSpec);
-                    params.setGravity(Gravity.CENTER_HORIZONTAL);
-                    params.setMargins(4, 4, 4, 4);
-                    glSchedule.addView(v, params);
+//                    GridLayout.Spec rowSpec = GridLayout.spec(startTime - 1, length);
+//                    GridLayout.Spec columnSpec = GridLayout.spec(day + 1, 1);
+//                    GridLayout.LayoutParams params = new GridLayout.LayoutParams(rowSpec, columnSpec);
+//                    params.setGravity(Gravity.CENTER_HORIZONTAL);
+//                    params.setMargins(4, 4, 4, 4);
+
+                    switch (day){
+                        case 1:
+                            mRlMonday.addView(v);
+                            break;
+                        case 2:
+                            mRlTuesday.addView(v);
+                            break;
+                        case 3:
+                            mRlWednesday.addView(v);
+                            break;
+                        case 4:
+                            mRlThursday.addView(v);
+                            break;
+                        case 5:
+                            mRlFriday.addView(v);
+                            break;
+                        case 6:
+                            mRlSaturday.addView(v);
+                            break;
+                        case 7:
+                            mRlSunday.addView(v);
+                            break;
+                    }
+//                    glSchedule.addView(v, params);
                     for (int t = startTime - 1; t < endTime; t++) {
                         hasClass[day][t] = true;
                     }
