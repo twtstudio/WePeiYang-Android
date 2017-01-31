@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="LoginTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/white_color</item>
+        <item name="colorPrimaryDark">#d4d4d4</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+</resources>

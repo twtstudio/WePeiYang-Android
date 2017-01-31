@@ -1,0 +1,16 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="com.twt.wepeiyang.commons">
+
+    <application android:allowBackup="true"
+                 android:label="@string/app_name"
+                 android:supportsRtl="true"
+    >
+        <activity
+            android:name="com.twt.wepeiyang.commons.auth.login.LoginActivity"
+            android:exported="true"
+            android:theme="@style/LoginTheme"/>
+
+
+    </application>
+
+</manifest>

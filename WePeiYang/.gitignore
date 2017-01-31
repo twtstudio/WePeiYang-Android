@@ -7,3 +7,5 @@
 /captures
 jni.c
 *.apk
+/freeline
+freeline.py

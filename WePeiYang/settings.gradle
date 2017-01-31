@@ -1,1 +1,1 @@
-include ':app', ':lib'
+include ':preapp', ':lib',':app', ':commons', ':mvvmKit', ':gpa' , ':fragmentation'

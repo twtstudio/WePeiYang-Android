@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="com.twt.service">
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.RESTART_PACKAGES"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.GET_TASKS"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+
+    <uses-feature android:name="android.hardware.camera"/>
+    <uses-feature android:name="android.hardware.camera.autofocus"/>
+
+    <application
+        android:name=".WePeiYangApp"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="f2d1429489830cea60924ada2f8ee83a"/>
+
+        <activity
+            android:name=".ui.splash.SplashActivity"
+            android:theme="@style/SplashTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <!-- Welcome Activity -->
+        <activity
+            android:name=".ui.welcome.WelcomeActivity"
+            android:label="@string/title_activity_welcome"
+            android:windowSoftInputMode="adjustResize">
+        </activity>
+        <!-- Main Activity -->
+        <activity
+            android:name=".ui.main.MainActivity"
+            android:label="微北洋"
+            android:launchMode="singleTask"/>
+        <!-- Login Activity -->
+        <activity
+            android:name=".ui.login.LoginActivity"
+            android:label="@string/title_activity_login"
+            android:launchMode="singleTask"/>
+        <activity
+            android:name=".ui.lostfound.post.PostLostFoundActivity"
+            android:label="发布信息"/>
+        <activity
+            android:name=".ui.news.NewsActivity"
+            android:label="@string/title_activity_news"/>
+        <activity
+            android:name=".ui.gpa.GpaActivity"
+            android:label="GPA"/>
+        <activity
+            android:name=".ui.notice.NoticeActivity"
+            android:label="@string/title_activity_notice"
+            android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".ui.news.details.NewsDetailsActivity"
+            android:label=""/>
+        <activity
+            android:name=".ui.news.comments.NewsCommentsActivity"
+            android:label="评论"/>
+        <activity
+            android:name=".ui.schedule.ScheduleActivity"
+            android:label="课程表"/>
+        <activity
+            android:name=".ui.account.AccountActivity"
+            android:label="账号设置"/>
+        <activity
+            android:name=".ui.bind.BindActivity"
+            android:label="办公网绑定"
+            android:launchMode="singleTask"/>
+        <activity
+            android:name=".ui.about.AboutActivity"
+            android:label="About"/>
+        <activity
+            android:name=".ui.feedback.FeedbackActivity"
+            android:label="意见反馈"/>
+        <activity
+            android:name="com.mob.tools.MobUIShell"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
+        <activity
+            android:name=".ui.share.WXEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+
+        <meta-data
+            android:name="BUG_HD_SDK_GENERAL_KEY"
+            android:value="d340fd61ec1744da6cdbeda09273520c"/>
+
+        <activity
+            android:name=".ui.jobs.JobsActivity"
+            android:label="@string/jobs_info"/>
+        <activity
+            android:name=".ui.jobs.jobsdetails.JobsDetailsActivity"
+            android:label=""/>
+        <activity
+            android:name=".ui.lostfound.LostFoundActivity"
+            android:label="失物招领"/>
+        <activity
+            android:name=".ui.lostfound.found.details.FoundDetailsActivity"
+            android:label="捡到物品"/>
+        <activity
+            android:name=".ui.lostfound.lost.details.LostDetailsActivity"
+            android:label="丢失物品"/>
+        <activity android:name=".ui.schedule.ScheduleDetailsActivity"/>
+        <activity android:name=".ui.library.LibraryActivity"/>
+        <activity
+            android:name=".ui.lostfound.post.mypost.MyLostFoundActivity"
+            android:label="个人中心"/>
+        <activity android:name=".ui.date.DatingActivity"/>
+        <activity android:name=".ui.bus.BusActivity"/>
+        <activity android:name=".ui.guide.GuideActivity"/>
+        <activity
+            android:name=".party.ui.home.PartyActivity"
+            android:label="党建系统"/>
+        <activity android:name=".party.ui.submit.SubmitActivity"/>
+        <activity android:name=".party.ui.sign.SignActivity"/>
+        <activity android:name=".party.ui.study.StudyActivity"/>
+        <activity android:name=".party.ui.study.detail.StudyDetailActivity"/>
+        <activity android:name=".party.ui.study.detail.StudyDetailListActivity"/>
+        <activity android:name=".party.ui.inquiry.InquiryActivity"/>
+        <activity android:name=".party.ui.forum.ForumActivity"/>
+        <activity android:name=".party.ui.notification.NotificationActivity"/>
+        <activity android:name=".party.ui.submit.detail.SubmitDetailActivity"/>
+        <activity android:name=".party.ui.inquiry.appeal.AppealActivity"/>
+        <activity android:name=".party.ui.study.answer.StudyAnswerActivity"/>
+        <activity android:name=".party.ui.study.answer.StudyResultActivity"/>
+        <activity android:name=".ui.push.PushActivity"/>
+
+        <service android:name=".service.push.PushService"/>
+
+        <receiver android:name=".receiver.push.BootReceiver"/>
+
+        <activity android:name=".rxsrc.bike.ui.main.BikeActivity"/>
+        <activity android:name=".rxsrc.bike.bikeAuth.BikeAuthActivity"/>
+        <activity android:name=".rxsrc.bike.bikeAuth.BikeCardActivity"/>
+        <activity android:name=".rxsrc.bike.ui.announcement.AnnouncementDetail"/>
+
+        <service android:name="com.amap.api.location.APSService"/>
+
+        <activity android:name=".ui.tools.ToolsActivity"/>
+        <activity android:name=".rxsrc.bike.ui.record.RecordActivity"/>
+        <activity android:name=".ui.schedule.MultiCourseActivity"
+            android:theme="@style/Theme.FloatingWindow.Popup"/>
+        <activity android:name=".rxsrc.read.DebugActivity"/>
+        <activity android:name=".rxsrc.read.bookdetail.BookDetailActivity" android:exported="true"/>
+        <activity android:name=".rxsrc.read.bookreview.AddReviewActivity"/>
+        <activity android:name=".rxsrc.read.search.BookSearchActivity"/>
+
+
+        <activity android:name=".rxsrc.read.home.BookHomeActivity" android:exported="true"/>
+        <activity android:name=".ui.gpa.evalution.EvaluateListActivity" android:label="GPA"/>
+        <activity android:name=".ui.gpa.evalution.EvaluateDetailActivity" android:label="GPA"/>
+    </application>
+
+</manifest>

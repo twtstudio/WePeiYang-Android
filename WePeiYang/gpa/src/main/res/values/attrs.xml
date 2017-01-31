@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="gpaData" format="reference"/>
+    <attr name="valueCommand" format="reference"/>
+    <attr name="gpaRadar" format="reference"/>
+</resources>

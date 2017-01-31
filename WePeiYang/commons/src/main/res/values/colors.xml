@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="colorPrimary">#00a1e9</color>
+    <color name="colorPrimaryDark">#00a1e9</color>
+    <color name="colorAccent">#00a1e9</color>
+
+    <!--微北洋主题色，强调突出的文字、按钮和icon-->
+    <color name="theme_color">#00a1e9</color>
+
+    <!--用于重要级文字信息、内容标题信息-->
+    <color name="black_color">#333333</color>
+
+    <!--用于顶栏导航文字及标题标签提示性文字-->
+    <color name="white_color">#ffffff</color>
+
+    <color name="tab_unselect">#c9c9c9</color>
+    <color name="background_gray">#eeeeee</color>
+
+    <!--用于普通级段落 信息 引导词-->
+    <color name="common_lv1">#666666</color>
+
+    <!--用于辅助、次要的文字信息-->
+    <color name="common_lv2">#999999</color>
+
+    <!--用于灰色icon，例如底栏菜单未选中状态颜色-->
+    <color name="common_lv3">#c8ccd3</color>
+
+    <!--用于分割线颜色-->
+    <color name="common_lv4_divider">#d9d9d9</color>
+
+    <!--辅助颜色，用于辅助按钮及标签颜色-->
+    <color name="assist_color_1">#0ac3d5</color>
+
+    <!--用于辅助按钮及标签颜色-->
+    <color name="assist_color_2">#ff4282</color>
+
+    <color name="layer_color">#19000000</color>
+
+    <color name="test">#e6e6e6</color>
+    
+    <color name="transparent">#00000000</color>
+</resources>

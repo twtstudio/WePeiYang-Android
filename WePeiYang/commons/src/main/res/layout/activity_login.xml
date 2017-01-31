@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:bind="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.twt.wepeiyang.commons.auth.login.LoginViewModel"/>
+
+        <import type="android.view.View"/>
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="68dp"
+                android:src="@drawable/ic_login_smile"
+                android:tint="@color/colorAccent"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="41dp"
+                android:text="天外天账户登录"
+                android:textColor="@color/common_lv3"/>
+
+            <RelativeLayout
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="33dp">
+
+                <ImageView
+                    android:id="@+id/image_login_username"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_login_username"
+                    android:tint="@color/common_lv3"/>
+
+                <!--<View-->
+                <!--android:layout_below="@id/image_login_username"-->
+                <!--android:layout_marginTop="6dp"-->
+                <!--android:background="@color/common_lv2"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="1dp"/>-->
+
+                <EditText
+                    android:id="@+id/editText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@id/image_login_username"
+                    android:hint="用户名"
+                    android:text="@={viewModel.twtuName}"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp">
+
+                <ImageView
+                    android:id="@+id/image_login_password"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_login_password"
+                    android:tint="@color/common_lv3"/>
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="5dp"
+                    android:layout_toEndOf="@id/image_login_password"
+                    android:hint="密码"
+                    android:inputType="textPassword"
+                    android:text="@={viewModel.twtpasswd}"/>
+                <!--<View-->
+                <!--android:layout_below="@id/image_login_password"-->
+                <!--android:layout_marginTop="6dp"-->
+                <!--android:background="@color/common_lv2"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="1dp"/>-->
+            </RelativeLayout>
+
+            <Button
+                android:layout_width="300dp"
+                android:layout_height="43dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="25dp"
+                android:background="@drawable/login_button_selector"
+                android:text="登录"
+                android:textColor="@color/white_color"
+                android:textSize="18sp"
+                bind:clickCommand="@{viewModel.onLoginClickCommand}"
+                />
+
+            <Button
+                android:layout_width="300dp"
+                android:layout_height="43dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="11dp"
+                android:background="@drawable/laterlogin_button_selector"
+                android:text="稍后登录"
+                android:textColor="@color/white_color"
+                android:textSize="18sp"
+                bind:clickCommand="@{viewModel.onLaterLoginCommand}"
+                />
+
+            <RelativeLayout
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="17dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:text="忘记密码？"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="18sp"
+                    bind:clickCommand="@{viewModel.onForgetPasswordCommand}"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:text="注册帐号"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="18sp"
+                    bind:clickCommand="@{viewModel.onRegisterClickCommand}"/>
+            </RelativeLayout>
+        </LinearLayout>
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="@{viewModel.mViewStyle.isProgressRefreshing ? View.VISIBLE : View.GONE}"/>
+    </FrameLayout>
+</layout>
