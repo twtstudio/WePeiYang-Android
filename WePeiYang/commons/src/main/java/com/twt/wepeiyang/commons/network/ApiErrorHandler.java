@@ -36,7 +36,7 @@ public class ApiErrorHandler {
         throwableObservable.subscribe(apiErrorHandler);
         throwableObservable.subscribe(throwableReplaySubject);
 
-        throwableReplaySubject.subscribe(Throwable::printStackTrace);
+        throwableReplaySubject.subscribe(Throwable::printStackTrace,Throwable::printStackTrace);
 
         ioErrorHandler.filter(throwable -> throwable instanceof IOException)
                 .cast(IOException.class)
@@ -77,7 +77,7 @@ public class ApiErrorHandler {
 //                            view.toastMessage(error.message);
 //                            break;
 //                    }
-                });
+                },Throwable::printStackTrace);
 
     }
 }

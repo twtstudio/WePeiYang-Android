@@ -1,6 +1,6 @@
 package com.twtstudio.retrox.gpa;
 
-import com.twt.wepeiyang.commons.network.ApiResponse;
+
 
 import retrofit2.http.GET;
 import rx.Observable;
@@ -11,5 +11,5 @@ import rx.Observable;
 
 public interface GpaApi {
     @GET("gpa")
-    Observable<ApiResponse<GpaBean>> getGpa();
+    Observable<MyGpaBean> getGpa();
 }
