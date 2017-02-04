@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * Created by sunjuntao on 15/11/5.
+ * Created by 托马斯 on 15/11/5.
  */
 public class ClassTable {
     public int error_code;

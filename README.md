@@ -4,6 +4,20 @@ WePeiYang Redesign and Refactor
 
 
 
+## 注意事项
+
+> 如果你依然要在旧版本上开发，checkout到 v2.2.1 branch
+>
+> 新版本模块化开发，checkout到 v3.0 branch （强烈建议，避免你在上线前遇到的架构不兼容问题）
+>
+> 模块化开发的初期可以做在一个新的app里面，依赖commons库，向外提供必要的provider数据接口即可
+>
+> 注意资源命名方式：eg. Gpa模块里面的资源需要加前缀:   "gpa_"  
+>
+> eg. gpa_item_chart     gpa_activity_main
+
+
+
 ## 模块化
 
 > **每个功能模块独立开发，共同依赖基础库commons**
@@ -26,7 +40,7 @@ WePeiYang Redesign and Refactor
  * 内部也可以用
  */
 
-public class GpaProvider  {
+public class GpaProvider {
 
     public static final String TOKEN_GPA_LOAD_FINISHED = "token_gpa_load_finished";
 
@@ -39,23 +53,29 @@ public class GpaProvider  {
         mActivity = activity;
     }
 
-//    public GpaProvider(RxAppCompatActivity activity, Action1<GpaBean> action) {
-//        mActivity = activity;
-//        this.action = action;
-//    }
-
+    /**
+     * default: not refresh the cache
+     */
     public void getData() {
-        Observable<Notification<GpaBean>> gpaObservable =
-                RetrofitProvider.getRetrofit()
-                        .create(GpaApi.class)
-                        .getGpa()
-                        .subscribeOn(Schedulers.io())
-                        .compose(mActivity.bindToLifecycle())
-                        .map(ApiResponse::getData)
-                        .materialize().share();
+        getData(false);
+    }
 
-        gpaObservable.filter(Notification::isOnNext)
-                .map(Notification::getValue)
+    /**
+     * get from cache or network
+     * @param update get from network and update the cache?
+     */
+    public void getData(boolean update) {
+        GpaCacheProvider gpaCacheProvider = CacheProvider.getRxCache()
+                .using(GpaCacheProvider.class);
+
+        gpaCacheProvider.getGpaAuto(RetrofitProvider.getRetrofit()
+                .create(GpaApi.class)
+                .getGpa(), new DynamicKey("gpa"), new EvictDynamicKey(update))
+                .subscribeOn(Schedulers.io())
+                .doOnNext(gpaBeanReply -> Logger.d(gpaBeanReply.toString()))
+                .map(Reply::getData)
+                .map(MyGpaBean::getData)
+                .compose(mActivity.bindToLifecycle())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(gpaBean -> {
                     //提供模块内的刷新服务，因为数据的bus是不能跨module的
@@ -63,20 +83,15 @@ public class GpaProvider  {
                     if (action != null) {
                         action.call(gpaBean);
                     }
-                });
-
-        ApiErrorHandler handler = new ApiErrorHandler(mActivity);
-
-        handler.handleError(gpaObservable.filter(Notification::isOnError)
-                .map(Notification::getThrowable));
+                }, new RxErrorHandler(mActivity));
 
     }
 
-    public static GpaProvider init(RxAppCompatActivity rxActivity){
+    public static GpaProvider init(RxAppCompatActivity rxActivity) {
         return new GpaProvider(rxActivity);
     }
 
-    public GpaProvider registerAction(Action1<GpaBean> action){
+    public GpaProvider registerAction(Action1<GpaBean> action) {
         this.action = action;
         return this;
     }
@@ -128,11 +143,15 @@ GpaProvider.init(mContext)
 
 ## 基础库 Commons
 
+> **注意：引用基础库的时候，确保项目module的gradle开启了databinding，否则会出现编译错误**
+>
 > 功能：
 >
 > 封装了auth模块，直接使用其中的activity进行跳转
 >
 > 封装网络层，RetrofitProvider封装了签名验证机制
+>
+> 封装了Rx风格的三级缓存框架
 >
 > 网络异常处理的ErrorHandler（这个用不用随你喽）
 >
@@ -156,7 +175,7 @@ GpaProvider.init(mContext)
                         .subscribeOn(Schedulers.io())
                         .compose(mActivity.bindToLifecycle())
                         .map(ApiResponse::getData)
-                        .materialize().share();
+                        //......then do something you like
 ```
 
 
