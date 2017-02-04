@@ -49,11 +49,11 @@ public class RetrofitProvider {
                 .build();
     }
 
-    private static class SignletonHolder{
+    private static class SingletonHolder {
         private static final RetrofitProvider INSTANCE = new RetrofitProvider();
     }
 
     public static Retrofit getRetrofit(){
-        return SignletonHolder.INSTANCE.mRetrofit;
+        return SingletonHolder.INSTANCE.mRetrofit;
     }
 }

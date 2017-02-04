@@ -1,17 +1,11 @@
-package com.twtstudio.retrox.wepeiyangrd;
+package com.twtstudio.retrox.schedule;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
-import com.orhanobut.logger.Logger;
-import com.twtstudio.retrox.wepeiyangrd.api.ApiClient;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 import static org.junit.Assert.*;
 
@@ -27,11 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.example.retrox.wepeiyangrd", appContext.getPackageName());
-
-//        ApiClient.getService().login("miss976885345","JCYwin551100")
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(tokenApiResponse -> Logger.d(tokenApiResponse.getData()));
+        assertEquals("com.twtstudio.retrox.schedule.test", appContext.getPackageName());
     }
 }

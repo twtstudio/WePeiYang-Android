@@ -5,6 +5,7 @@ import android.content.Context;
 import com.kelin.mvvmlight.messenger.Messenger;
 import com.orhanobut.logger.Logger;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
+import com.twt.wepeiyang.commons.cache.CacheProvider;
 import com.twt.wepeiyang.commons.network.ApiErrorHandler;
 import com.twt.wepeiyang.commons.network.ApiResponse;
 import com.twt.wepeiyang.commons.network.RetrofitProvider;
@@ -43,39 +44,6 @@ public class GpaProvider {
         mActivity = activity;
     }
 
-//    public GpaProvider(RxAppCompatActivity activity, Action1<GpaBean> action) {
-//        mActivity = activity;
-//        this.action = action;
-//    }
-
-//    public void getDatabackup() {
-//        Observable<Notification<GpaBean>> gpaObservable =
-//                RetrofitProvider.getRetrofit()
-//                        .create(GpaApi.class)
-//                        .getGpa()
-//                        .subscribeOn(Schedulers.io())
-//                        .compose(mActivity.bindToLifecycle())
-//                        .map(ApiResponse::getData)
-//                        .materialize().share();
-//
-//        gpaObservable.filter(Notification::isOnNext)
-//                .map(Notification::getValue)
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(gpaBean -> {
-//                    //提供模块内的刷新服务，因为数据的bus是不能跨module的
-//                    Messenger.getDefault().send(gpaBean, TOKEN_GPA_LOAD_FINISHED);
-//                    if (action != null) {
-//                        action.call(gpaBean);
-//                    }
-//                });
-//
-//        ApiErrorHandler handler = new ApiErrorHandler(mActivity);
-//
-//        handler.handleError(gpaObservable.filter(Notification::isOnError)
-//                .map(Notification::getThrowable));
-//
-//    }
-
     /**
      * default: not refresh the cache
      */
@@ -88,8 +56,7 @@ public class GpaProvider {
      * @param update get from network and update the cache?
      */
     public void getData(boolean update) {
-        GpaCacheProvider gpaCacheProvider = new RxCache.Builder()
-                .persistence(mActivity.getCacheDir(), new GsonSpeaker())
+        GpaCacheProvider gpaCacheProvider = CacheProvider.getRxCache()
                 .using(GpaCacheProvider.class);
 
         gpaCacheProvider.getGpaAuto(RetrofitProvider.getRetrofit()
