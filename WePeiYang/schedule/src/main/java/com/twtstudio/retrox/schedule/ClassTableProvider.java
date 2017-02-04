@@ -32,6 +32,7 @@ public class ClassTableProvider {
     }
 
     public void getData(boolean update) {
+
         CacheProvider.getRxCache().using(ScheduleCacheApi.class)
                 .getClassTableAuto(RetrofitProvider.getRetrofit().create(ScheduleApi.class)
                 .getClassTable(), new DynamicKey("classTable"), new EvictDynamicKey(update))
@@ -47,6 +48,7 @@ public class ClassTableProvider {
                     }
                     Logger.d(classTable);
                 },new RxErrorHandler(mRxActivity));
+
     }
 
 

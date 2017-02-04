@@ -6,7 +6,12 @@
                  android:supportsRtl="true"
     >
 
-        <activity android:name=".view.GpaActivity" android:theme="@style/GPATheme"/>
+        <activity android:name=".view.GpaActivity" android:theme="@style/GPATheme">
+            <intent-filter>
+                <action android:name="com.twt.gpa.action.DYNAMIC_OPEN" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            </activity>
     </application>
 
 </manifest>
