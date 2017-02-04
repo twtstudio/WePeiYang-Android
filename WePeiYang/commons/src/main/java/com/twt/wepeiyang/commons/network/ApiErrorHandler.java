@@ -12,6 +12,8 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.subjects.ReplaySubject;
 
 /**
+ * @deprecated
+ * moved to RxErrorHandler for better code style
  * Created by retrox on 2017/1/20.
  */
 

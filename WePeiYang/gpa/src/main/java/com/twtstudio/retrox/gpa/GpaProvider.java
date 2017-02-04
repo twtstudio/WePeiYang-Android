@@ -8,6 +8,7 @@ import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 import com.twt.wepeiyang.commons.network.ApiErrorHandler;
 import com.twt.wepeiyang.commons.network.ApiResponse;
 import com.twt.wepeiyang.commons.network.RetrofitProvider;
+import com.twt.wepeiyang.commons.network.RxErrorHandler;
 
 import io.rx_cache.DynamicKey;
 import io.rx_cache.EvictDynamicKey;
@@ -75,28 +76,30 @@ public class GpaProvider {
 //
 //    }
 
-    public void getData(){
+    /**
+     * default: not refresh the cache
+     */
+    public void getData() {
         getData(false);
     }
 
+    /**
+     * get from cache or network
+     * @param update get from network and update the cache?
+     */
     public void getData(boolean update) {
         GpaCacheProvider gpaCacheProvider = new RxCache.Builder()
                 .persistence(mActivity.getCacheDir(), new GsonSpeaker())
                 .using(GpaCacheProvider.class);
 
-        Observable<Notification<GpaBean>> gpaObservable =
-                gpaCacheProvider.getGpaAuto(RetrofitProvider.getRetrofit()
-                        .create(GpaApi.class)
-                        .getGpa(),new DynamicKey("gpa"),new EvictDynamicKey(false))
-                        .subscribeOn(Schedulers.io())
-                        .doOnNext(gpaBeanReply -> Logger.d(gpaBeanReply.toString()))
-                        .map(Reply::getData)
-                        .map(MyGpaBean::getData)
-                        .compose(mActivity.bindToLifecycle())
-                        .materialize().share();
-
-        gpaObservable.filter(Notification::isOnNext)
-                .map(Notification::getValue)
+        gpaCacheProvider.getGpaAuto(RetrofitProvider.getRetrofit()
+                .create(GpaApi.class)
+                .getGpa(), new DynamicKey("gpa"), new EvictDynamicKey(update))
+                .subscribeOn(Schedulers.io())
+                .doOnNext(gpaBeanReply -> Logger.d(gpaBeanReply.toString()))
+                .map(Reply::getData)
+                .map(MyGpaBean::getData)
+                .compose(mActivity.bindToLifecycle())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(gpaBean -> {
                     //提供模块内的刷新服务，因为数据的bus是不能跨module的
@@ -104,12 +107,7 @@ public class GpaProvider {
                     if (action != null) {
                         action.call(gpaBean);
                     }
-                },Throwable::printStackTrace);
-
-        ApiErrorHandler handler = new ApiErrorHandler(mActivity);
-
-        handler.handleError(gpaObservable.filter(Notification::isOnError)
-                .map(Notification::getThrowable));
+                }, new RxErrorHandler(mActivity));
 
     }
 
