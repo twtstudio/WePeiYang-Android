@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="bike_background">#ebeff0</color>
+    <color name="bike_crad_background">#fdfdfe</color>
+    <color name="bike_toolbar_color">#27ad61</color>
+    <color name="bike_toolbar_indicator_color">#58d68d
+    </color>
+    <color name="bike_circle_fill_color">#64d9e1e4</color>
+    <color name="bike_bottom_fill_color">#f1ced7db</color>
+
+    <color name="lost_found_indicator_color">#c1ff76</color>
+    <color name="login_bg">#f2f2f2</color>
+    <color name="text_secondary_color">#919191</color>
+    <!--read-->
+    <color name="read_primary_color">#ee534f</color>
+    <color name="myDivider">#c8c7cc</color>
+    <color name="divider_color">#eeeeee</color>
+    <color name="myWindowBackground">#fafafa</color>
+    <color name="myWindowBackgroundGray">#eeeeee</color>
+    <color name="myWindowBackgroundWhite">#ffffff</color>
+    <color name="myTextPrimaryColorBlack">#212121</color>
+    <color name="myTextPrimaryColorWhite">#ffffff</color>
+    <color name="myTextPrimaryColorGray">#999999</color>
+    <color name="myTextPrimaryColorGreen">#4ad865</color>
+    <color name="myTextPrimaryColorRed">#ff0000</color>
+    <color name="edittext_bg_color">#eeeeee</color>
+
+</resources>

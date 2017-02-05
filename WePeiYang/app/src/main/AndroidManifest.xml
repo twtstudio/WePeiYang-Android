@@ -11,6 +11,11 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="f2d1429489830cea60924ada2f8ee83a"/>
+
         <activity
             android:name="com.twtstudio.retrox.wepeiyangrd.MainActivity"
             android:exported="true"/>
