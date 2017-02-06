@@ -33,6 +33,10 @@ public class CommonPrefUtil {
         }
     }
 
+    /**
+     * sometimes you need to add Bearer{ token }
+     * @return
+     */
     public static String getToken(){
         return Hawk.get(TOKEN," ");
     }

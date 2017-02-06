@@ -157,11 +157,12 @@
         <activity android:name=".rxsrc.bike.bikeAuth.BikeAuthActivity"/>
         <activity android:name=".rxsrc.bike.bikeAuth.BikeCardActivity"/>
         <activity android:name=".rxsrc.bike.ui.announcement.AnnouncementDetail"/>
-
+        <activity android:name=".rxsrc.bike.ui.record.RecordActivity"/>
         <service android:name="com.amap.api.location.APSService"/>
 
+
         <activity android:name=".ui.tools.ToolsActivity"/>
-        <activity android:name=".rxsrc.bike.ui.record.RecordActivity"/>
+
         <activity android:name=".ui.schedule.MultiCourseActivity"
             android:theme="@style/Theme.FloatingWindow.Popup"/>
         <activity android:name=".rxsrc.read.DebugActivity"/>

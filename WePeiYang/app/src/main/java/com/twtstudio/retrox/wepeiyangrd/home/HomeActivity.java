@@ -63,6 +63,7 @@ public class HomeActivity extends BaseActivity {
         }
 
         initView();
+        setFragmentClickable();
     }
 
     private void initView() {
