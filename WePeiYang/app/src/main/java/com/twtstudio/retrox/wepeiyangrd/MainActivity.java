@@ -41,8 +41,8 @@ public class MainActivity extends BaseActivity {
     }
 
     private void test2(){
-//        GpaViewModel viewModel = new GpaViewModel(this);
-        //viewModel.getData();
+//        Intent intent = new Intent(this, BikeActivity.class);
+//        startActivity(intent);
     }
 
 }
