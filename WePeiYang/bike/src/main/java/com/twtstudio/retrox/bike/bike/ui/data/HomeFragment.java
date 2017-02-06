@@ -145,7 +145,7 @@ public class HomeFragment extends PFragment<HomePresenter> implements HomeViewCo
             mLineChart.setDragEnabled(false);
             mLineChart.animateX(100);
             mLineChart.setDrawBorders(false);
-            mLineChart.setDescription("");
+            mLineChart.setDescription(" ");
             mLineChart.setDoubleTapToZoomEnabled(false);
             mLineChart.setPinchZoom(false);
             mLineChart.setAutoScaleMinMaxEnabled(true);

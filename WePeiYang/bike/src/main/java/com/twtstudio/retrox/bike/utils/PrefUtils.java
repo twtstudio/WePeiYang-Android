@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import com.twt.wepeiyang.commons.utils.App;
+import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
 
 /**
  * Created by Rex on 2015/8/3.
@@ -43,88 +44,24 @@ public class PrefUtils {
         }
     }
 
+    /**
+     * 已经迁移到新版到公共preference
+     * @return
+     */
     public static String getToken() {
-        String token =  getDefaultSharedPreferences().getString(PREF_TOKEN, "");
+//        String token =  getDefaultSharedPreferences().getString(PREF_TOKEN, "");
+        String token = CommonPrefUtil.getToken();
         return "Bearer{" + token + "}";
     }
 
-
-    public static void setGpaToken(String token) {
-        if (token != null) {
-            getDefaultSharedPreferences().edit().putString(PREF_GPA_TOKEN, token ).apply();
-        }
-    }
-
-    public static String getGpaToken() {
-        return getDefaultSharedPreferences().getString(PREF_GPA_TOKEN, "");
-    }
+    /**
+     * 已经迁移到新版到公共preference
+     * @return
+     */
     public static String getTokenForBike(){
-        return getDefaultSharedPreferences().getString(PREF_TOKEN,"");
+        return CommonPrefUtil.getToken();
     }
 
-    public static void setUsername(String twtuname) {
-        getDefaultSharedPreferences().edit().putString(PREF_USERNAME, twtuname).apply();
-    }
-
-    public static String getUsername() {
-        return getDefaultSharedPreferences().getString(PREF_USERNAME, "未登录");
-    }
-
-    public static void removeUserName() {
-        getDefaultSharedPreferences().edit().remove(PREF_USERNAME).apply();
-    }
-
-    public static void removeToken() {
-        getDefaultSharedPreferences().edit().remove(PREF_TOKEN).apply();
-    }
-
-    public static void setLostFoundContactName(String name) {
-        getDefaultSharedPreferences().edit().putString(PREF_LOST_FOUND_CONTACT_NAME, name).apply();
-    }
-
-    public static String getLostFoundContactName() {
-        return getDefaultSharedPreferences().getString(PREF_LOST_FOUND_CONTACT_NAME, "");
-    }
-
-    public static void setLostFoundContactNumber(String number) {
-        getDefaultSharedPreferences().edit().putString(PREF_LOST_FOUND_CONTACT_NUMBER, number).apply();
-    }
-
-    public static String getLostFoundContactNumber() {
-        return getDefaultSharedPreferences().getString(PREF_LOST_FOUND_CONTACT_NUMBER, "");
-    }
-
-    public static void setPrefVersion(String version){
-        getDefaultSharedPreferences().edit().putString(PREF_VERSION, version).apply();
-    }
-
-    public static String getPreFversion(){
-        return getDefaultSharedPreferences().getString(PREF_VERSION, "");
-    }
-
-    public static void setPrefUserRealName(String realName){
-        getDefaultSharedPreferences().edit().putString(PREF_USER_REALNAME,realName).apply();
-    }
-
-    public static String getPrefUserRealname(){
-        return getDefaultSharedPreferences().getString(PREF_USER_REALNAME,"");
-    }
-
-    public static void removePrefUserRealname(){
-        getDefaultSharedPreferences().edit().remove(PREF_USER_REALNAME).apply();
-    }
-
-    public static void setPrefUserNumber(String userNumber){
-        getDefaultSharedPreferences().edit().putString(PREF_USER_NUMBER, userNumber).apply();
-    }
-
-    public static void removePrefUserNumber(){
-        getDefaultSharedPreferences().edit().remove(PREF_USER_NUMBER).apply();
-    }
-
-    public static String getPrefUserNumber(){
-        return getDefaultSharedPreferences().getString(PREF_USER_NUMBER,"");
-    }
 
     public static void setBikeToken(String token) {
         getDefaultSharedPreferences().edit().putString(PREF_BIKE_TOKEN, token).apply();
@@ -150,66 +87,11 @@ public class PrefUtils {
         return getDefaultSharedPreferences().getString(PREF_BIKE_CARD_ID,"");
     }
 
-    public static void setPrefSubmitTitle(String title){
-        getDefaultSharedPreferences().edit().putString(PREF_SUBMIT_TITLE, title).apply();
-    }
-
-    public static void removePrefSubmitTitle(){
-        getDefaultSharedPreferences().edit().remove(PREF_SUBMIT_TITLE).apply();
-    }
-
-    public static String getPrefSubmitTitle(){
-        return getDefaultSharedPreferences().getString(PREF_SUBMIT_TITLE,"");
-    }
-
-    public static void setPrefSubmitContent(String submitContent){
-        getDefaultSharedPreferences().edit().putString(PREF_SUBMIT_CONTENT, submitContent).apply();
-    }
-
-    public static void removePrefSubmitContent(){
-        getDefaultSharedPreferences().edit().remove(PREF_SUBMIT_CONTENT).apply();
-    }
-
-    public static String getPrefSubmitContent(){
-        return getDefaultSharedPreferences().getString(PREF_SUBMIT_CONTENT,"");
-    }
-
-
-    public static void removeBikeToken(){
-        getDefaultSharedPreferences().edit().remove(PREF_BIKE_TOKEN).apply();
-    }
-
-    public static void removeCardId(){
-        getDefaultSharedPreferences().edit().remove(PREF_BIKE_CARD_ID).apply();
-    }
-
-    public static void removeCardSign(){
-        getDefaultSharedPreferences().edit().remove(PREF_BIKE_CARD_SIGN).apply();
-    }
 
     public static void setBikeIsBindState(boolean isBind){
         getDefaultSharedPreferences().edit().putBoolean(PREF_BIKE_IS_BIND,isBind).apply();
     }
 
-    public static boolean getBikeIsBindState(){
-        return getDefaultSharedPreferences().getBoolean(PREF_BIKE_IS_BIND,false);
-    }
-
-    public static void removeBikeIsBindState(){
-        getDefaultSharedPreferences().edit().remove(PREF_BIKE_IS_BIND).apply();
-    }
-
-    public static void setScheduleStartDate(String date){
-        getDefaultSharedPreferences().edit().putString(PREF_SCHEDULE_START_DATE,date).apply();
-    }
-
-    public static String getScheduleStartDate(){
-        return getDefaultSharedPreferences().getString(PREF_SCHEDULE_START_DATE,"");
-    }
-
-    public static void removeScheduleStartDate(){
-        getDefaultSharedPreferences().edit().remove(PREF_SCHEDULE_START_DATE).apply();
-    }
 
     public static String getReadToken(){
         return getDefaultSharedPreferences().getString(PREF_READ_TOKEN,"");

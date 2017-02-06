@@ -6,6 +6,17 @@
                  android:supportsRtl="true"
     >
 
+        <activity android:name=".bike.ui.main.BikeActivity" android:exported="true"/>
+        <activity android:name=".bike.bikeAuth.BikeAuthActivity"/>
+        <activity android:name=".bike.bikeAuth.BikeCardActivity"/>
+        <activity android:name=".bike.ui.announcement.AnnouncementDetail"/>
+        <activity android:name=".bike.ui.record.RecordActivity"/>
+        <service android:name="com.amap.api.location.APSService"/>
+
+        <activity android:name=".read.bookdetail.BookDetailActivity" android:exported="true"/>
+        <activity android:name=".read.bookreview.AddReviewActivity"/>
+        <activity android:name=".read.search.BookSearchActivity"/>
+        <activity android:name=".read.home.BookHomeActivity" android:exported="true"/>
     </application>
 
 </manifest>

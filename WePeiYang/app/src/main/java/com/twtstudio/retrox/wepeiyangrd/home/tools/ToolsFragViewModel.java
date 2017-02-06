@@ -13,6 +13,8 @@ import com.twtstudio.retrox.wepeiyangrd.R;
 
 import me.tatarka.bindingcollectionadapter.ItemView;
 
+
+
 /**
  * Created by retrox on 2017/1/15.
  */

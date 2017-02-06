@@ -8,7 +8,7 @@ import com.amap.api.maps.model.MarkerOptions;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.twtstudio.retrox.bike.R;
-import com.twtstudio.retrox.bike.WePeiYangApp;
+import com.twtstudio.retrox.bike.WePeiYangAppOld;
 import com.twtstudio.retrox.bike.model.StationsBrief;
 import com.twtstudio.retrox.bike.model.StationsDetail;
 
@@ -27,7 +27,7 @@ import java.util.Map;
  */
 
 public class BikeStationUtils {
-    private Context mContext = WePeiYangApp.getContext();
+    private Context mContext = WePeiYangAppOld.getContext();
     private List<MarkerOptions> mMarkerOptionsList = new ArrayList<>();
     private Map<String,StationsDetail> mIdMap = new HashMap<>();
     private List<StationsDetail> mDetailList = new ArrayList<>();

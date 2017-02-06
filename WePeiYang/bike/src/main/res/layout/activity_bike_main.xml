@@ -31,7 +31,7 @@
 
         </android.support.design.widget.AppBarLayout>
 
-        <com.twt.service.rxsrc.common.MyViewPager
+        <com.twtstudio.retrox.bike.common.MyViewPager
             android:id="@+id/view_pager_main"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
