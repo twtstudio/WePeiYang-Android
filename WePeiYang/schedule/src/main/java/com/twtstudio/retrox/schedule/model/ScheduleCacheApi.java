@@ -1,4 +1,4 @@
-package com.twtstudio.retrox.schedule;
+package com.twtstudio.retrox.schedule.model;
 
 import java.util.concurrent.TimeUnit;
 

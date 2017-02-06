@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cv_s"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:transitionName="@string/schedule_transition"
+    app:cardCornerRadius="5dp"
+    app:cardElevation="0dp"
+    >
+
+    <TextView
+        android:id="@+id/tv_schedule_class"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center_horizontal"
+        android:padding="2dp"
+        android:textColor="@color/myTextPrimaryColorWhite"/>
+
+</android.support.v7.widget.CardView>
+
+
+

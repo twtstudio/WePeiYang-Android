@@ -1,4 +1,4 @@
-package com.twtstudio.retrox.schedule;
+package com.twtstudio.retrox.schedule.model;
 
 import com.orhanobut.logger.Logger;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
@@ -52,7 +52,7 @@ public class ClassTableProvider {
     }
 
 
-    public ClassTableProvider init(RxAppCompatActivity activity) {
+    public static ClassTableProvider init(RxAppCompatActivity activity) {
         return new ClassTableProvider(activity);
     }
 

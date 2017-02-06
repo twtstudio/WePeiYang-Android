@@ -6,6 +6,11 @@
                  android:supportsRtl="true"
     >
 
+        <activity android:name=".MultiCourseActivity"
+                  android:theme="@style/Theme.FloatingWindow.Popup"/>
+        <activity android:name=".ScheduleActivity"/>
+        <activity android:name=".ScheduleDetailsActivity"/>
     </application>
+
 
 </manifest>

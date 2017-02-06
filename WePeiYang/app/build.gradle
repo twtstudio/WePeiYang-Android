@@ -49,6 +49,7 @@ dependencies {
     compile project(':commons')
     compile project(':gpa')
     compile project(':bike')
+    compile project(':schedule')
 
 
     compile 'de.hdodenhof:circleimageview:2.1.0'

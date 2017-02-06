@@ -1,4 +1,4 @@
-package com.twtstudio.retrox.schedule;
+package com.twtstudio.retrox.schedule.model;
 
 
 import retrofit2.http.GET;
@@ -10,6 +10,6 @@ import rx.Observable;
 
 public interface ScheduleApi {
 
-    @GET("/classtable")
+    @GET("classtable")
     Observable<ClassTable> getClassTable();
 }

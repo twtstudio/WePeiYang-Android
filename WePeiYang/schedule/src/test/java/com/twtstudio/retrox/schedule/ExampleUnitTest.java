@@ -1,5 +1,7 @@
 package com.twtstudio.retrox.schedule;
 
+import com.twtstudio.retrox.schedule.model.ClassTableProvider;
+
 import org.junit.Test;
 
 import static org.junit.Assert.*;

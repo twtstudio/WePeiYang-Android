@@ -1,4 +1,4 @@
-package com.twtstudio.retrox.schedule;
+package com.twtstudio.retrox.schedule.model;
 
 import com.twt.wepeiyang.commons.network.ApiException;
 
@@ -11,7 +11,7 @@ import java.util.List;
 public class ClassTable {
     public int error_code;
     public String message;
-    private Data data;
+    public Data data;
 
     public static class Data {
         public String term;
