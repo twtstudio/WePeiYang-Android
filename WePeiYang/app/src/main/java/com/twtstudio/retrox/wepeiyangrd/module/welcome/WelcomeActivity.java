@@ -40,7 +40,10 @@ public class WelcomeActivity extends BaseActivity {
         }
 
         //add dynamic shortcuts
-        createDynamicShortcuts();
+        if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.N_MR1){
+            createDynamicShortcuts();
+        }
+
 
         finish();
     }
