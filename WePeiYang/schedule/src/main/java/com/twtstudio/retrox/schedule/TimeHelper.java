@@ -8,10 +8,17 @@ import java.util.Date;
  */
 public class TimeHelper {
 
+    //test
     public static int getWeekInt(long startUnix){
         long i = System.currentTimeMillis()/1000  - startUnix;
         int day = (int) (i/86400);
-        return day/7 + 1;
+        int week =  day/7 + 1;
+        //有人过了那个周数就想看下学期hhh
+        if (week > 20){
+            return 1;
+        }else {
+            return week;
+        }
     }
 
 
