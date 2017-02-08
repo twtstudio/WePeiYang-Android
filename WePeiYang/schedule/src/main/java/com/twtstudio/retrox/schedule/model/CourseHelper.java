@@ -32,9 +32,9 @@ public class CourseHelper {
 
     /**
      * 获取今天的课程
-     * @param classTable
+     * @param classTable 传入classtable
      * @param adjust 是否用"无"填充并且去掉同名不同时课程
-     * @return
+     * @return {分为普通课程和空课程} ,空课程属性 ：课程名为"无"，isAvaiableCurrentWeek = false; coursecolor =R.color.myWindowBackgroundGray;
      */
     public List<ClassTable.Data.Course> getTodayCourses(ClassTable classTable , boolean adjust) {
         startUnix = Long.parseLong(classTable.data.term_start);

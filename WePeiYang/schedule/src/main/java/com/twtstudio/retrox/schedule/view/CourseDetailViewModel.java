@@ -52,6 +52,6 @@ public class CourseDetailViewModel implements ViewModel {
 
         teacherName.set(course.teacher);
         credit.set(course.credit+"学分");
-        timePeriod.set("第 "+courseHelper.getTodayStart(course.arrange)+"-"+courseHelper.getTodayEnd(course.arrange)+"节 ");
+        timePeriod.set("第"+courseHelper.getTodayStart(course.arrange)+"-"+courseHelper.getTodayEnd(course.arrange)+"节");
     }
 }
