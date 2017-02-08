@@ -11,11 +11,12 @@
     </data>
 
     <android.support.v7.widget.CardView
-        android:layout_marginTop="3dp"
+        android:layout_marginTop="6dp"
         android:layout_marginBottom="3dp"
         android:elevation="3dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        bind:clickCommand="@{viewModel.replyCommand}"
         bind:cardBackgroundColor="@color/white_color">
 
         <LinearLayout
@@ -29,7 +30,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_margin="4dp"
                 android:textSize="18sp"
-                android:text="2017/1/23" />
+                android:text="@{viewModel.title}" />
 
             <LinearLayout
                 android:layout_width="match_parent"

@@ -13,6 +13,7 @@ import android.support.annotation.Nullable;
 import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
 import com.twt.wepeiyang.commons.auth.login.LoginActivity;
 import com.twtstudio.retrox.gpa.view.GpaActivity;
+import com.twtstudio.retrox.schedule.view.ScheduleTodayAct;
 import com.twtstudio.retrox.wepeiyangrd.MainActivity;
 import com.twtstudio.retrox.wepeiyangrd.R;
 import com.twtstudio.retrox.wepeiyangrd.base.BaseActivity;
@@ -44,9 +45,9 @@ public class WelcomeActivity extends BaseActivity {
             createDynamicShortcuts();
         }
 
-
         finish();
     }
+
 
     @TargetApi(25)
     private void createDynamicShortcuts() {
@@ -77,7 +78,7 @@ public class WelcomeActivity extends BaseActivity {
                 .setShortLabel("Schedule")
                 .setLongLabel("Schedule")
                 .setIcon(Icon.createWithResource(this, R.drawable.ic_main_schedule))
-                .setIntent(new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/life2015")))
+                .setIntent(new Intent(Intent.ACTION_MAIN, Uri.EMPTY, this, ScheduleTodayAct.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK))
                 .build();
 
         ShortcutInfo dynamicShortcut4 = new ShortcutInfo.Builder(this, "shortcut_dynamic_4")

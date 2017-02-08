@@ -88,6 +88,7 @@ public class LoginViewModel implements ViewModel {
                     }
                     Intent intent = new Intent(mActivity, clazz);
                     mActivity.startActivity(intent);
+                    mActivity.finish();
                 });
 
         Observable<Throwable> throwableObservable =

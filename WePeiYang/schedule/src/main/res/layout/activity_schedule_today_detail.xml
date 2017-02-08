@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.twtstudio.retrox.schedule.view.ScheduleTodayViewModel" />
+
+        <import type="me.tatarka.bindingcollectionadapter.LayoutManagers" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/myWindowBackgroundGray"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            bind:itemView="@{viewModel.itemView}"
+            bind:items="@{viewModel.items}"
+            bind:layoutManager="@{LayoutManagers.linear()}" />
+    </LinearLayout>
+</layout>

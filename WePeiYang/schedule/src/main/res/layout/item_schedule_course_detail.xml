@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.twtstudio.retrox.schedule.view.CourseDetailViewModel" />
+    </data>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        android:layout_height="wrap_content"
+        app:cardElevation="2dp"
+        app:cardCornerRadius="2dp"
+        app:cardBackgroundColor="@{viewModel.cardColor}">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                tools:text="专业外语"
+                android:text="@{viewModel.courseName}"
+                android:textColor="@{viewModel.textColor}"
+                android:textSize="20sp"
+                android:layout_margin="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                tools:text="45B201"
+                android:text="@{viewModel.location}"
+                android:textColor="@{viewModel.textColor}"
+                android:textSize="17sp"
+                android:gravity="end"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                tools:text="AUSTIN.K"
+                android:text="@{viewModel.teacherName}"
+                android:textColor="@{viewModel.textColor}"
+                android:gravity="end"
+                android:textSize="17sp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                tools:text="3.0学分"
+                android:text="@{viewModel.credit}"
+                android:textColor="@{viewModel.textColor}"
+                android:gravity="end"
+                android:textSize="17sp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginEnd="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                tools:text="第3-5节"
+                android:text="@{viewModel.timePeriod}"
+                android:textColor="@{viewModel.textColor}"
+                android:gravity="end"
+                android:textSize="17sp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginEnd="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+</layout>

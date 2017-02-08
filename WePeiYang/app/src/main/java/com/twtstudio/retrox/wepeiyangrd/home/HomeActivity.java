@@ -1,9 +1,11 @@
 package com.twtstudio.retrox.wepeiyangrd.home;
 
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
+import android.transition.Slide;
 
 import com.twtstudio.retrox.wepeiyangrd.R;
 import com.twtstudio.retrox.wepeiyangrd.base.BaseActivity;
@@ -36,6 +38,9 @@ public class HomeActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.LOLLIPOP){
+            setWindowTransition();
+        }
         setContentView(R.layout.activity_home);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -63,7 +68,11 @@ public class HomeActivity extends BaseActivity {
         }
 
         initView();
-        setFragmentClickable();
+    }
+
+    private void setWindowTransition(){
+        getWindow().setEnterTransition(new Slide());
+        getWindow().setReenterTransition(new Slide());
     }
 
     private void initView() {

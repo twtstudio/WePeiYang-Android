@@ -1,10 +1,15 @@
 package com.twtstudio.retrox.gpa.view;
 
+import android.annotation.TargetApi;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
+import android.transition.ChangeBounds;
+import android.transition.Fade;
+import android.transition.Slide;
 
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 
@@ -23,13 +28,9 @@ public class GpaActivity extends RxAppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        GpaItemTermBinding binding = DataBindingUtil.setContentView(this,R.layout.gpa_item_term);
-//        GpaProvider.init(this)
-//                .registerAction(gpaBean -> {
-//                    binding.setViewModel(new TermDetailViewModel(gpaBean.data.get(2)));
-//                })
-//                .getData();
-
+        if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.LOLLIPOP){
+            setWindowTransition();
+        }
         mBinding = DataBindingUtil.setContentView(this,R.layout.gpa_activity_main);
         Toolbar toolbar = mBinding.toolbar;
         toolbar.setTitle("GPA");
@@ -41,5 +42,12 @@ public class GpaActivity extends RxAppCompatActivity {
 
     }
 
+    @TargetApi(21)
+    private void setWindowTransition(){
+        getWindow().setEnterTransition(new Fade());
+        getWindow().setAllowEnterTransitionOverlap(false);
+        getWindow().setSharedElementExitTransition(new ChangeBounds());
+
+    }
 
 }

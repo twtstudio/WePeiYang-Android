@@ -20,6 +20,8 @@
      ReplyCommand would has params which means if view hasFocus.-->
     <attr name="onFocusChangeCommand" format="reference" />
 
+    <attr name="viewClickCommand" format="reference"/>
+
     <declare-styleable name="View">
 
         <!-- require ReplyCommand {@link com.kelin.mvvmlight.command.ReplyCommand } to deal with view click event. -->
@@ -29,6 +31,8 @@
         <attr name="onFocusChangeCommand" />
         <!-- require ReplyCommand<MotionEvent> -->
         <attr name="onTouchCommand" />
+        <!--click with view callback-->
+        <attr name="viewClickCommand"/>
     </declare-styleable>
 
 

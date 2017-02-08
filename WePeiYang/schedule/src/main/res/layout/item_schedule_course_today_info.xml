@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.twtstudio.retrox.schedule.view.TodayInfoViewModel" />
+    </data>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="40dp"
+        android:layout_height="wrap_content"
+        app:cardElevation="2dp"
+        app:cardCornerRadius="2dp"
+        app:cardBackgroundColor="@color/schedule_blue"
+        >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            tools:text="2017/1/23"
+            android:text="@{viewModel.date}"
+            android:textSize="23sp"
+            android:layout_margin="10dp"
+            android:textColor="@color/white_color"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            tools:text="星期一"
+            android:text="@{viewModel.todayNumber}"
+            android:gravity="end"
+            android:textSize="23sp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:textColor="@color/white_color"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <TextView
+            tools:text="第二周"
+            android:text="@{viewModel.weekNumber}"
+            android:gravity="end"
+            android:textSize="23sp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="5dp"
+            android:textColor="@color/white_color"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    </android.support.v7.widget.CardView>
+</layout>

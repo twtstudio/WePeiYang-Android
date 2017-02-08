@@ -25,6 +25,18 @@ public final class ViewBindingAdapter {
         });
     }
 
+    @BindingAdapter({"viewClickCommand"})
+    public static void viewClickCommand(View view,final ReplyCommand<View> command){
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (command!=null){
+                    command.execute(v);
+                }
+            }
+        });
+    }
+
     @BindingAdapter({"requestFocus"})
     public static void requestFocusCommand(View view, final Boolean needRequestFocus) {
         if (needRequestFocus) {

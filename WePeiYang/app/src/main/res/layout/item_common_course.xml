@@ -20,9 +20,9 @@
         tools:layout_width="100dp">
 
         <TextView
-            tools:text="计算机软件技术基础2"
+            tools:text="计算机软件技术基础2@45B305"
             android:text="@{viewModel.courseName}"
-            android:padding="15dp"
+            android:padding="4dp"
             android:textColor="@{viewModel.textColor}"
             android:gravity="center"
             android:layout_width="wrap_content"

@@ -37,6 +37,12 @@ public class TimeHelper {
         return sWeek;
     }
 
+    public static String getChineseCharacter(int num){
+        String[] cDay = {"零","一","二","三","四","五","六","日"};
+        return cDay[num];
+
+    }
+
     public static void getWeekDate(long startUnix, int week){
         startUnix += week*7*86400*1000;
         Date date = new Date(startUnix);

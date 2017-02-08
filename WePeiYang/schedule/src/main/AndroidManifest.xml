@@ -10,6 +10,7 @@
                   android:theme="@style/Theme.FloatingWindow.Popup"/>
         <activity android:name=".ScheduleActivity"/>
         <activity android:name=".ScheduleDetailsActivity"/>
+        <activity android:name=".view.ScheduleTodayAct" android:exported="true"/>
     </application>
 
 

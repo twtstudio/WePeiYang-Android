@@ -46,7 +46,6 @@ public class ClassTableProvider {
                     if (mAction1 != null) {
                         mAction1.call(classTable);
                     }
-                    Logger.d(classTable);
                 },new RxErrorHandler(mRxActivity));
 
     }

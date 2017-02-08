@@ -44,10 +44,7 @@ public class CourseHelper {
 //                        isAvailableCurrentWeek是检测课程是不是到期的，就是超出预计学习时间（周数）
                         .peek(course -> course.isAvaiableCurrentWeek = checkAvaiablity(course.week.start, course.week.end, presentWeek))
                         .filter(this::checkIsThisWeek)
-//                        .peek(course -> Logger.d("1-->"+course.coursename))
                         .filter(this::checkIsToday)
-//                        .peek(course -> Logger.d("2-->"+course.coursename))
-//                        .filter(course -> course.isAvaiableCurrentWeek)
                         .collect(Collectors.toList());
 
         for (int i = 0; i < courseList.size(); i++) {
@@ -76,7 +73,7 @@ public class CourseHelper {
         }
     }
 
-    public int getTodayNumber() {
+    public static int getTodayNumber() {
         Calendar calendar = Calendar.getInstance();
         int day = calendar.get(Calendar.DAY_OF_WEEK);
         if (day == Calendar.SUNDAY) {
@@ -150,7 +147,7 @@ public class CourseHelper {
         return todayList;
     }
 
-    private int getTodayStart(List<ClassTable.Data.Course.Arrange> courseArrange){
+    public int getTodayStart(List<ClassTable.Data.Course.Arrange> courseArrange){
         for (ClassTable.Data.Course.Arrange arrange : courseArrange) {
             if (Integer.parseInt(arrange.day) == getTodayNumber()){
                 return Integer.parseInt(arrange.start);
@@ -159,7 +156,7 @@ public class CourseHelper {
         return -1;
     }
 
-    private int getTodayEnd(List<ClassTable.Data.Course.Arrange> courseArrange){
+    public int getTodayEnd(List<ClassTable.Data.Course.Arrange> courseArrange){
         for (ClassTable.Data.Course.Arrange arrange : courseArrange) {
             if (Integer.parseInt(arrange.day) == getTodayNumber()){
                 return Integer.parseInt(arrange.end);
@@ -170,5 +167,14 @@ public class CourseHelper {
 
     private int getTodayLength(List<ClassTable.Data.Course.Arrange> courseArrange){
         return getTodayStart(courseArrange) - getTodayEnd(courseArrange) + 1; //弄成2的倍数
+    }
+
+    public static String getTodayLocation(List<ClassTable.Data.Course.Arrange> courseArrange){
+        for (ClassTable.Data.Course.Arrange arrange : courseArrange) {
+            if (Integer.parseInt(arrange.day) == getTodayNumber()){
+                return arrange.room;
+            }
+        }
+        return "无法查询地点";
     }
 }

@@ -1,22 +1,32 @@
 package com.twtstudio.retrox.wepeiyangrd.home.common.schedule;
 
+import android.app.ActivityOptions;
+import android.content.Intent;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableField;
+import android.os.Build;
 
 import com.annimon.stream.Stream;
 import com.kelin.mvvmlight.base.ViewModel;
+import com.kelin.mvvmlight.command.ReplyCommand;
 import com.orhanobut.logger.Logger;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
-import com.twtstudio.retrox.schedule.BR;
+import com.twtstudio.retrox.schedule.TimeHelper;
+import com.twtstudio.retrox.schedule.view.ScheduleTodayAct;
+import com.twtstudio.retrox.wepeiyangrd.BR;
 import com.twtstudio.retrox.schedule.model.ClassTable;
 import com.twtstudio.retrox.schedule.model.ClassTableProvider;
 import com.twtstudio.retrox.schedule.model.CourseHelper;
 import com.twtstudio.retrox.wepeiyangrd.R;
 
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import me.tatarka.bindingcollectionadapter.ItemView;
+import rx.Observable;
 
 /**
  * Created by retrox on 2017/2/7.
@@ -32,8 +42,14 @@ public class ScheduleViewModel implements ViewModel {
 
     public final ItemView itemView = ItemView.of(BR.viewModel, R.layout.item_common_course);
 
+    public final ReplyCommand replyCommand = new ReplyCommand(this::jumpTodayDetail);
+
+    public static final SimpleDateFormat dateFormate = new SimpleDateFormat("yyyy/MM/dd", Locale.CHINA);
+
+
     public ScheduleViewModel(RxAppCompatActivity rxActivity) {
         this.rxAppCompatActivity = rxActivity;
+        getTodayString();
         getData();
     }
 
@@ -49,10 +65,23 @@ public class ScheduleViewModel implements ViewModel {
             items.add(new CourseBriefViewModel(course));
         }
         Logger.d(items);
-//        Stream.of(new CourseHelper().getTodayCourses(classTable))
-//                .peek(course -> Logger.d(course.coursename))
-//                .map(CourseBriefViewModel::getInstance)
-//                .peek(items::add);
-//        items.size();
+    }
+
+    private void getTodayString(){
+        StringBuilder stringBuilder = new StringBuilder();
+        Observable.just(Calendar.getInstance())
+                .map(Calendar::getTime)
+                .map(dateFormate::format)
+                .subscribe(stringBuilder::append);
+        stringBuilder.append("  ");
+        String s = "星期"+ TimeHelper.getChineseCharacter(new CourseHelper().getTodayNumber());
+        stringBuilder.append(s);
+        title.set(stringBuilder.toString());
+    }
+
+    private void jumpTodayDetail(){
+        Intent intent = new Intent(rxAppCompatActivity, ScheduleTodayAct.class);
+        rxAppCompatActivity.startActivity(intent);
+
     }
 }
