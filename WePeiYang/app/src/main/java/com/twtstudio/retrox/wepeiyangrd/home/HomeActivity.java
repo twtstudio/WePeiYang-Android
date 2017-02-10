@@ -43,10 +43,6 @@ public class HomeActivity extends BaseActivity {
         }
         setContentView(R.layout.activity_home);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("微北洋");
-        toolbar.setTitleTextColor(Color.WHITE);
-
         if (savedInstanceState == null) {
             mFragments[FIRST] = CommonFragment.newInstance();
             mFragments[SECOND] = NewsFragment.newInstance();
@@ -73,6 +69,7 @@ public class HomeActivity extends BaseActivity {
     private void setWindowTransition(){
         getWindow().setEnterTransition(new Slide());
         getWindow().setReenterTransition(new Slide());
+
     }
 
     private void initView() {

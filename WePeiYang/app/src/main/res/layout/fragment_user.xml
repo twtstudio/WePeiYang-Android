@@ -10,6 +10,9 @@
 
         <import type="android.view.View" />
     </data>
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <LinearLayout
         android:orientation="vertical"
         android:background="@color/background_gray"
@@ -21,7 +24,9 @@
             android:layout_height="match_parent"
             bind:layoutManager="@{LayoutManagers.linear()}"
             bind:itemView="@{viewmodel.itemView}"
-            bind:items="@{viewmodel.list}"/>
+            bind:items="@{viewmodel.list}"
+            bind:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
     </LinearLayout>
+    </android.support.design.widget.CoordinatorLayout>
 </layout>

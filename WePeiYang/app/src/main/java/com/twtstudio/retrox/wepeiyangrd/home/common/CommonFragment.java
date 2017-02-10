@@ -1,11 +1,16 @@
 package com.twtstudio.retrox.wepeiyangrd.home.common;
 
 import android.databinding.DataBindingUtil;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.twtstudio.retrox.wepeiyangrd.R;
@@ -17,6 +22,21 @@ import com.twtstudio.retrox.wepeiyangrd.databinding.FragmentCommonsBinding;
  */
 
 public class CommonFragment extends BaseFragment {
+
+
+    private AppBarLayout mAppBarLayout;
+    private CollapsingToolbarLayout collapsingToolbarLayout;
+    private View mToolbar1;
+    private View mToolbar2;
+
+    private ImageView mZhangdan;
+    private TextView mZhangdan_txt;
+    private ImageView mTongxunlu;
+    private ImageView mJiahao;
+    private ImageView mZhangdan2;
+    private ImageView mShaoyishao;
+    private ImageView mSearch;
+    private ImageView mZhaoxiang;
 
     public static CommonFragment newInstance() {
 
@@ -34,6 +54,75 @@ public class CommonFragment extends BaseFragment {
         FragmentCommonsBinding binding = DataBindingUtil.inflate(inflater,R.layout.fragment_commons,container,false);
         binding.setViewModel(new CommonFragViewModel(this));
 
-        return binding.getRoot();
+        View view = binding.getRoot();
+
+        collapsingToolbarLayout=(CollapsingToolbarLayout)view.findViewById(R.id.toolbar_layout);
+        collapsingToolbarLayout.setStatusBarScrimColor(getResources().getColor(R.color.theme_color));
+
+//        myRecyclerView.setAdapter(new ToolbarAdapter(this));
+
+        mAppBarLayout=(AppBarLayout)view.findViewById(R.id.app_bar);
+        mToolbar1=(View)view.findViewById(R.id.toolbar1);
+        mToolbar2=(View)view.findViewById(R.id.toolbar2);
+
+        mZhangdan=(ImageView)view.findViewById(R.id.img_zhangdan);
+        mZhangdan_txt=(TextView)view.findViewById(R.id.img_zhangdan_txt);
+        mTongxunlu=(ImageView)view.findViewById(R.id.tongxunlu);
+        mJiahao=(ImageView)view.findViewById(R.id.jiahao);
+
+        mZhangdan2=(ImageView)view.findViewById(R.id.img_shaomiao);
+        mShaoyishao=(ImageView)view.findViewById(R.id.img_fukuang);
+        mSearch=(ImageView)view.findViewById(R.id.img_search);
+        mZhaoxiang=(ImageView)view.findViewById(R.id.img_zhaoxiang);
+
+        mAppBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                if (verticalOffset == 0){
+                    //张开
+                    mToolbar1.setVisibility(View.VISIBLE);
+                    mToolbar2.setVisibility(View.GONE);
+                    setToolbar1Alpha(255);
+                } else if (Math.abs(verticalOffset) >= appBarLayout.getTotalScrollRange()) {
+                    //收缩
+                    mToolbar1.setVisibility(View.GONE);
+                    mToolbar2.setVisibility(View.VISIBLE);
+                    setToolbar2Alpha(255);
+                } else {
+                    int alpha=255-Math.abs(verticalOffset);
+                    if(alpha<0){
+                        Log.e("alpha",alpha+"");
+                        //收缩toolbar
+                        mToolbar1.setVisibility(View.GONE);
+                        mToolbar2.setVisibility(View.VISIBLE);
+                        setToolbar2Alpha(Math.abs(verticalOffset));
+                    }else{
+                        //张开toolbar
+                        mToolbar1.setVisibility(View.VISIBLE);
+                        mToolbar2.setVisibility(View.GONE);
+                        setToolbar1Alpha(alpha);
+                    }
+                }
+            }
+        });
+
+        return view;
     }
+
+    //设置展开时各控件的透明度
+    public void setToolbar1Alpha(int alpha){
+        mZhangdan.getDrawable().setAlpha(alpha);
+        mZhangdan_txt.setTextColor(Color.argb(alpha,255,255,255));
+        mTongxunlu.getDrawable().setAlpha(alpha);
+        mJiahao.getDrawable().setAlpha(alpha);
+    }
+
+    //设置闭合时各控件的透明度
+    public void setToolbar2Alpha(int alpha){
+        mZhangdan2.getDrawable().setAlpha(alpha);
+        mShaoyishao.getDrawable().setAlpha(alpha);
+        mSearch.getDrawable().setAlpha(alpha);
+        mZhaoxiang.getDrawable().setAlpha(alpha);
+    }
+
 }
