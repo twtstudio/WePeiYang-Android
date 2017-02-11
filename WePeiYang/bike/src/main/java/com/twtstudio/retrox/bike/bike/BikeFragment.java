@@ -96,7 +96,7 @@ public class BikeFragment extends PFragment<BikeFragPresenter> implements BikeVi
         // TODO: 2016/8/23 觉得高德地图很烦的话旧注释掉下一句
         View view = inflater.inflate(R.layout.fragment_bike,container,false);
         mAmapView = (MapView) view.findViewById(R.id.amap_view);
-        mAmapView.onCreate(savedInstanceState);
+//        mAmapView.onCreate(savedInstanceState);
 
         //test
         //mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);

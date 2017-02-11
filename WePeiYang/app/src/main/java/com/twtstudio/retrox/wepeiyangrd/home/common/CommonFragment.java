@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.twt.wepeiyang.commons.view.RecyclerViewDivider;
 import com.twtstudio.retrox.wepeiyangrd.R;
 import com.twtstudio.retrox.wepeiyangrd.base.BaseFragment;
 import com.twtstudio.retrox.wepeiyangrd.databinding.FragmentCommonsBinding;
@@ -59,8 +61,6 @@ public class CommonFragment extends BaseFragment {
         collapsingToolbarLayout=(CollapsingToolbarLayout)view.findViewById(R.id.toolbar_layout);
         collapsingToolbarLayout.setStatusBarScrimColor(getResources().getColor(R.color.theme_color));
 
-//        myRecyclerView.setAdapter(new ToolbarAdapter(this));
-
         mAppBarLayout=(AppBarLayout)view.findViewById(R.id.app_bar);
         mToolbar1=(View)view.findViewById(R.id.toolbar1);
         mToolbar2=(View)view.findViewById(R.id.toolbar2);
@@ -105,6 +105,15 @@ public class CommonFragment extends BaseFragment {
                 }
             }
         });
+
+        RecyclerViewDivider divider = new RecyclerViewDivider.Builder(this.getContext())
+                .setSize(8f)
+                .setColorRes(R.color.background_gray)
+                .build();
+
+        RecyclerView recyclerView = binding.recyclerView;
+
+        recyclerView.addItemDecoration(divider);
 
         return view;
     }

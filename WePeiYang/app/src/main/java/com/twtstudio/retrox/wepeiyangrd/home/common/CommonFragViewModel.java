@@ -44,7 +44,7 @@ public class CommonFragViewModel implements ViewModel {
 
     private void initList(){
         mOneInfoViewModel = new OneInfoViewModel(mFragment);
-        viewModelList.add(mOneInfoViewModel);
+        //viewModelList.add(mOneInfoViewModel);
 
         mGpaItemViewModel = new GpaItemViewModel((BaseActivity) mFragment.getActivity());
         viewModelList.add(mGpaItemViewModel);
