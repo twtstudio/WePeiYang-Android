@@ -15,6 +15,7 @@
         android:layout_height="wrap_content"
         android:background="@color/white_color"
         app:behavior_peekHeight="50dp"
+        android:clickable="true"
         app:layout_behavior="@string/bottom_sheet_behavior">
 
         <include layout="@layout/bike_detail_bottom_sheet" />

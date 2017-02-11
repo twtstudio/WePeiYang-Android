@@ -176,7 +176,7 @@ public class BikeFragment extends PFragment<BikeFragPresenter> implements BikeVi
         }
         if (marker.getSnippet() != null) {
 
-            if(sheetBehavior.getState() != BottomSheetBehavior.STATE_COLLAPSED){
+            if(sheetBehavior.getState() != BottomSheetBehavior.STATE_EXPANDED){
                 sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
             }
 
