@@ -46,8 +46,12 @@ dependencies {
 
     compile 'com.sothree.slidinguppanel:library:3.3.0'
 
-    compile files('libs/AMap3DMap_3.4.0_AMapLocation_2.7.0_20160809.jar')
-    compile 'com.github.PhilJay:MPAndroidChart:v2.1.3'
+//    compile files('libs/AMap3DMap_3.4.0_AMapLocation_2.7.0_20160809.jar')
+    compile 'com.amap.api:map3d:4.1.3'
+    compile 'com.amap.api:map3d-native:4.1.3'
+    compile 'com.amap.api:location:3.3.0'
+
+    compile 'com.github.PhilJay:MPAndroidChart:v3.0.1'
 
     compile 'de.hdodenhof:circleimageview:2.1.0'
     compile 'com.youth.banner:banner:1.4.1'  //最新版本

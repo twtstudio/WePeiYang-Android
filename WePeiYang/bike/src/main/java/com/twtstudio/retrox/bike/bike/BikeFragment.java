@@ -2,6 +2,7 @@ package com.twtstudio.retrox.bike.bike;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomSheetBehavior;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,16 +44,17 @@ import butterknife.Unbinder;
 public class BikeFragment extends PFragment<BikeFragPresenter> implements BikeViewController, LocationSource, AMapLocationListener, AMap.OnMarkerClickListener, AMap.OnCameraChangeListener {
 //    @BindView(R2.id.amap_view)
     private MapView mAmapView;
-    @BindView(R2.id.bike_available)
-    TextView mAvailableText;
-    @BindView(R2.id.bike_empty)
-    TextView mEmptyText;
-    @BindView(R2.id.station_name)
-    TextView mStationName;
-    @BindView(R2.id.sliding_layout)
-    SlidingUpPanelLayout mSlidingUpPanelLayout;
-    @BindView(R2.id.station_status)
-    TextView mStatusText;
+
+    @BindView(R2.id.bike_location)
+    TextView bikeLocation;
+    @BindView(R2.id.bike_available_num)
+    TextView bikeAvailableNum;
+    @BindView(R2.id.bike_available_weak)
+    TextView bikeAvailableWeak;
+    @BindView(R2.id.bike_free_available)
+    TextView bikeFreeAvailable;
+    @BindView(R2.id.bike_free_available_weak)
+    TextView bikeFreeAvailableWeak;
 
     private Unbinder mUnbinder;
 
@@ -71,6 +73,8 @@ public class BikeFragment extends PFragment<BikeFragPresenter> implements BikeVi
     private boolean isBrief = true;
 
     private boolean isCameraChanged = false;
+
+    private BottomSheetBehavior sheetBehavior;
 
     @Override
     protected BikeFragPresenter getPresenter() {
@@ -96,12 +100,21 @@ public class BikeFragment extends PFragment<BikeFragPresenter> implements BikeVi
         // TODO: 2016/8/23 觉得高德地图很烦的话旧注释掉下一句
         View view = inflater.inflate(R.layout.fragment_bike,container,false);
         mAmapView = (MapView) view.findViewById(R.id.amap_view);
-//        mAmapView.onCreate(savedInstanceState);
+        mAmapView.onCreate(savedInstanceState);
 
         //test
         //mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
 
         mUnbinder = ButterKnife.bind(this,view);
+
+        View sharedView = view.findViewById(R.id.share_view);
+        sheetBehavior = BottomSheetBehavior.from(sharedView);
+        sheetBehavior.setHideable(true);
+        //初始化bottomsheet的状态（隐藏）
+        if (sheetBehavior.getState()!=BottomSheetBehavior.STATE_HIDDEN){
+            sheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+        }
+
 
         mAmap = mAmapView.getMap();
         mAmap.addMarkers(mDetailMarkerOptions,!isCameraChanged);
@@ -116,13 +129,18 @@ public class BikeFragment extends PFragment<BikeFragPresenter> implements BikeVi
         mAmap.setOnMapClickListener(new AMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
-                mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
+//                mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
                 if (mSelectedMarker != null) {
                     mSelectedMarker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.map_marker_unselected));
                 }
+
+                if (sheetBehavior.getState()!=BottomSheetBehavior.STATE_HIDDEN){
+                    sheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+                }
+
+
             }
         });
-
 
 //        mAmap.addMarkers()
 //        Marker marker1=mAmap.addMarker(new MarkerOptions().position(new LatLng(38.997704,117.315942)).icon(BitmapDescriptorFactory.fromResource(R.drawable.qinwa)));
@@ -157,12 +175,17 @@ public class BikeFragment extends PFragment<BikeFragPresenter> implements BikeVi
             mSelectedMarker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.map_marker_unselected));
         }
         if (marker.getSnippet() != null) {
+
+            if(sheetBehavior.getState() != BottomSheetBehavior.STATE_COLLAPSED){
+                sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+            }
+
             mSelectedMarker = marker;
             marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.map_marker_selected));
             // TODO: 2016/8/11 marker logic
-            mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
-            mSlidingUpPanelLayout.setTouchEnabled(false);
-            mStationName.setText(marker.getTitle());
+//            mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+//            mSlidingUpPanelLayout.setTouchEnabled(false);
+            bikeLocation.setText(marker.getTitle());
 
             mPresenter.queryCachedStatus(marker.getSnippet());
             mPresenter.getStationStatus(marker.getSnippet());
@@ -249,13 +272,23 @@ public class BikeFragment extends PFragment<BikeFragPresenter> implements BikeVi
 
     @Override
     public void setStationDetail(BikeStation stationDetail) {
-        mAvailableText.setText("可用车辆" + stationDetail.used + " (含:不佳:" + String.valueOf(stationDetail.used_poor - stationDetail.used_bad) + " 损坏:" + stationDetail.used_bad + ")");
-        mEmptyText.setText("可用空位" + stationDetail.free + " (含:不佳:" + String.valueOf(stationDetail.free_poor - stationDetail.free_bad) + " 损坏:" + stationDetail.free_bad + ")");
-//        mAvailableText.setText();
-        if (stationDetail.status.equals("0")) {
-            mStatusText.setText("offline");
-        } else {
-            mStatusText.setText("online");
+
+        String location = bikeLocation.getText().toString();
+        if (!location.contains(String.valueOf(stationDetail.used))){
+            location = location+" "+stationDetail.used+"/"+stationDetail.free;
         }
+
+        bikeLocation.setText(location);
+        bikeAvailableNum.setText("可用车辆:" + stationDetail.used);
+        bikeAvailableWeak.setText("含:不佳:" + String.valueOf(stationDetail.used_poor - stationDetail.used_bad) + " 损坏:" + stationDetail.used_bad + "");
+        bikeFreeAvailable.setText("可用空位" + stationDetail.free);
+        bikeFreeAvailableWeak.setText("含:不佳:" + String.valueOf(stationDetail.free_poor - stationDetail.free_bad) + " 损坏:" + stationDetail.free_bad + "");
+//        mEmptyText.setText("可用空位" + stationDetail.free + " (含:不佳:" + String.valueOf(stationDetail.free_poor - stationDetail.free_bad) + " 损坏:" + stationDetail.free_bad + ")");
+//        mAvailableText.setText();
+//        if (stationDetail.status.equals("0")) {
+//            mStatusText.setText("offline");
+//        } else {
+//            mStatusText.setText("online");
+//        }
     }
 }

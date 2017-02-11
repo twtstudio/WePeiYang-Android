@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                              xmlns:app="http://schemas.android.com/apk/res-auto"
-                                              android:id="@+id/srl_home"
-                                              android:layout_width="match_parent"
-                                              android:layout_height="match_parent"
-                                              android:background="@color/bike_background">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/srl_home"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bike_background">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -36,8 +37,8 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
                         android:layout_gravity="center_vertical"
                         android:tint="#999"
                         android:layout_marginLeft="15dp"
@@ -50,7 +51,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="10dp"
                         android:gravity="center_vertical"
-                        android:text="用户名：么么哒"
+                        tools:text="用户名：么么哒"
                         android:textSize="16sp"/>
                 </LinearLayout>
 
@@ -63,8 +64,8 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
                         android:layout_gravity="center_vertical"
                         android:tint="#999"
                         android:layout_marginLeft="15dp"
@@ -77,7 +78,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="10dp"
                         android:gravity="center_vertical"
-                        android:text="余额：9.40元"
+                        tools:text="余额：9.40元"
                         android:textSize="16sp"/>
                 </LinearLayout>
 
@@ -130,7 +131,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="10dp"
-                                    android:text="33楼北侧1-2号桩"
+                                    tools:text="33楼北侧1-2号桩"
                                     android:textSize="16sp"/>
                             </LinearLayout>
 
@@ -152,7 +153,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="10dp"
-                                    android:text="2016/7/24 9:4:4"
+                                    tools:text="2016/7/24 9:4:4"
                                     android:textSize="16sp"/>
                             </LinearLayout>
                         </LinearLayout>
@@ -187,7 +188,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="10dp"
-                                    android:text="33楼北侧1-2号桩"
+                                    tools:text="33楼北侧1-2号桩"
                                     android:textSize="16sp"/>
                             </LinearLayout>
 
@@ -208,7 +209,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="10dp"
-                                    android:text="2016/7/24 9:4:4"
+                                    tools:text="2016/7/24 9:4:4"
                                     android:textSize="16sp"/>
                             </LinearLayout>
                         </LinearLayout>
@@ -236,7 +237,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:layout_marginLeft="10dp"
-                            android:text="本次:0.00元"
+                            tools:text="本次:0.00元"
                             android:textSize="16sp"/>
                     </LinearLayout>
                 </LinearLayout>

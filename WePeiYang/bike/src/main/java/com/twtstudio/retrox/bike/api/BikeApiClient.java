@@ -2,6 +2,7 @@ package com.twtstudio.retrox.bike.api;
 
 import android.util.Log;
 
+import com.orhanobut.logger.Logger;
 import com.twtstudio.retrox.bike.model.BikeAnnouncement;
 import com.twtstudio.retrox.bike.model.BikeAuth;
 import com.twtstudio.retrox.bike.model.BikeCard;
@@ -21,6 +22,7 @@ import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import okhttp3.internal.platform.Platform;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
@@ -28,6 +30,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
+
+import static okhttp3.internal.platform.Platform.INFO;
 
 /**
  * Created by jcy on 2016/8/6.
@@ -44,7 +48,13 @@ public class BikeApiClient {
     private AuthHelper mTokenHelper;
 
     private BikeApiClient() {
-        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor(message -> {
+            if (message.startsWith("{")){
+                Logger.json(message);
+            }else {
+                Platform.get().log(INFO, message, null);
+            }
+        });
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
         OkHttpClient client = new OkHttpClient.Builder()

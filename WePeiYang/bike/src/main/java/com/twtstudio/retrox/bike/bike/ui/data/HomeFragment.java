@@ -16,7 +16,8 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.utils.ValueFormatter;
+import com.github.mikephil.charting.formatter.IValueFormatter;
+import com.github.mikephil.charting.utils.ViewPortHandler;
 import com.twtstudio.retrox.bike.R;
 import com.twtstudio.retrox.bike.R2;
 import com.twtstudio.retrox.bike.bike.bikeAuth.BikeAuthActivity;
@@ -145,16 +146,17 @@ public class HomeFragment extends PFragment<HomePresenter> implements HomeViewCo
             mLineChart.setDragEnabled(false);
             mLineChart.animateX(100);
             mLineChart.setDrawBorders(false);
-            mLineChart.setDescription(" ");
+            mLineChart.getDescription().setEnabled(false);
             mLineChart.setDoubleTapToZoomEnabled(false);
             mLineChart.setPinchZoom(false);
             mLineChart.setAutoScaleMinMaxEnabled(true);
             //mLineChart.setGridBackgroundColor(Color.BLACK);
             mLineChart.setBorderWidth(3);
 //            int[] colors = mLineChart.getLegend().getColors();
-            int[] color = {Color.rgb(145,145,145)};
-            String[] names = {"最近一周骑行时间 (min)"};
-            mLineChart.getLegend().setCustom(color, names);
+//            int[] color = {Color.rgb(145,145,145)};
+//            String[] names = {"最近一周骑行时间 (min)"};
+            mLineChart.getLegend().setTextColor(Color.rgb(145,145,145));
+//            mLineChart.getLegend().setTextColor();
             mLineChart.getLegend().setEnabled(true);
             mLineChart.animateY(1500, Easing.EasingOption.EaseInExpo);
 
@@ -200,14 +202,14 @@ public class HomeFragment extends PFragment<HomePresenter> implements HomeViewCo
             }
             yAxis.setAxisMaxValue(max);
             yAxis.setAxisMinValue(min);
-            mSet = new LineDataSet(yVals, null);
+            mSet = new LineDataSet(yVals, "最近一周骑行时间 (min)");
             mSet.setCircleColor(Color.rgb(39, 173, 97));
             mSet.setColor(ContextCompat.getColor(getContext(), R.color.text_secondary_color));
             mSet.setValueTextColor(Color.rgb(145, 145, 145));
             mSet.setValueTextSize(10f);
             mSet.setLineWidth(1f);
             mSet.setValueFormatter(new MyValueFormatter());
-            LineData data = new LineData(xVals, mSet);
+            LineData data = new LineData(mSet);
             mLineChart.setData(data);
             mLineChart.setExtraLeftOffset(15);
             mLineChart.setExtraRightOffset(20);
@@ -216,10 +218,11 @@ public class HomeFragment extends PFragment<HomePresenter> implements HomeViewCo
         }
     }
 
-    static class MyValueFormatter implements ValueFormatter {
+    static class MyValueFormatter implements IValueFormatter {
+
 
         @Override
-        public String getFormattedValue(float value) {
+        public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
             int intValue = (int) value;
             if (intValue == 0) {
                 return 0 + "";
@@ -230,7 +233,6 @@ public class HomeFragment extends PFragment<HomePresenter> implements HomeViewCo
                 return min + "'" + more + "\"";
             } else {
                 return more + "\"";
-            }
-        }
+            }        }
     }
 }
