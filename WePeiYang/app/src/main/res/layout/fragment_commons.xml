@@ -18,12 +18,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/background_gray"
-        android:fitsSystemWindows="false"
+        android:fitsSystemWindows="true"
         android:orientation="vertical">
 
         <android.support.design.widget.AppBarLayout
             android:id="@+id/app_bar"
-            android:fitsSystemWindows="false"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:theme="@style/AppTheme.AppBarOverlay">
@@ -32,7 +31,6 @@
                 android:id="@+id/toolbar_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:fitsSystemWindows="false"
                 app:contentScrim="@color/theme_color"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
                 app:title=" ">

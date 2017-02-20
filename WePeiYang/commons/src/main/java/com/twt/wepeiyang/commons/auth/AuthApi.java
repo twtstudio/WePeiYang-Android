@@ -1,6 +1,7 @@
 package com.twt.wepeiyang.commons.auth;
 
 import com.twt.wepeiyang.commons.auth.login.Token;
+import com.twt.wepeiyang.commons.auth.self.AuthSelfBean;
 import com.twt.wepeiyang.commons.network.ApiResponse;
 
 import retrofit2.http.GET;
@@ -20,5 +21,8 @@ public interface AuthApi {
      */
     @GET("auth/token/get")
     Observable<ApiResponse<Token>> login(@Query("twtuname") String twtuname, @Query("twtpasswd") String twtpasswd);
+
+    @GET("http://open.twtstudio.com/api/v2/auth/self")
+    Observable<AuthSelfBean> getAuthSelf();
 
 }

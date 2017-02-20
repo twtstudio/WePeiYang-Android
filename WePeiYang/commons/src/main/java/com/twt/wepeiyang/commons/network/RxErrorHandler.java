@@ -34,6 +34,7 @@ public class RxErrorHandler implements Action1<Throwable> {
              */
 //            Toast.makeText(mContext, e.error_code, Toast.LENGTH_SHORT).show();
             Logger.e(apiException, apiException.message);
+            Toast.makeText(mContext,apiException.message,Toast.LENGTH_SHORT).show();
             switch (apiException.error_code) {
                 case 10000:
                 case 10001:

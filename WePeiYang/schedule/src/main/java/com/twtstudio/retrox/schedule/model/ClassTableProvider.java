@@ -1,5 +1,7 @@
 package com.twtstudio.retrox.schedule.model;
 
+import android.app.job.JobScheduler;
+
 import com.orhanobut.logger.Logger;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 import com.twt.wepeiyang.commons.cache.CacheProvider;
@@ -40,6 +42,7 @@ public class ClassTableProvider {
                 .doOnNext(reply -> Logger.d(reply.toString()))
                 .map(Reply::getData)
 //                .map(ClassTable::getData)
+                .doOnNext(ClassTable::getData)
                 .compose(mRxActivity.bindToLifecycle())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(classTable -> {
