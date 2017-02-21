@@ -50,5 +50,6 @@ public class UserFragViewModel implements ViewModel {
         list.add(new CommonItemViewModel(mActivity,CommonItemViewModel.COLLECTION));
         list.add(new CommonItemViewModel(mActivity,CommonItemViewModel.RECORD));
         list.add(new PrefItemViewModel(mActivity,PrefItemViewModel.NIGHTMODE));
+        list.add(new PrefItemViewModel(mActivity,PrefItemViewModel.SETTINGS));
     }
 }

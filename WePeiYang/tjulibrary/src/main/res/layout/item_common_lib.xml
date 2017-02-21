@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:elevation="3dp"
-        app:cardBackgroundColor="@color/white_color">
+        bind:cardBackgroundColor="@color/white_color">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -57,8 +57,8 @@
                     <ImageView
                         android:layout_width="20dp"
                         android:layout_height="20dp"
-                        android:tint="#28A422"
-                        android:src="@drawable/lib_ok"
+                        android:src="@{viewModel.obDrawable}"
+                        tools:src="@drawable/lib_warning"
                         android:visibility="@{viewModel.isProgressing ? View.GONE : View.VISIBLE}"
                         tools:visibility="visible" />
 
@@ -81,147 +81,12 @@
             </LinearLayout>
 
             <LinearLayout
+                bind:viewModels="@{viewModel.viewModels}"
+                bind:itemView="@{viewModel.itemView}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="8dp"
                 android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginStart="20dp"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="26dp"
-                        android:layout_height="26dp"
-                        android:layout_gravity="center_vertical"
-                        android:src="@drawable/lib_book" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginStart="20dp"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:maxLines="1"
-                            android:textSize="16sp"
-                            tools:text="从你的全世界路过"
-                            android:text="从你的全世界路过"/>
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:fontFamily="sans-serif-light"
-                            android:maxLines="1"
-                            android:textSize="16sp"
-                            tools:text="2017/4/18 到期"
-                            android:text="2017/4/18 到期"/>
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginTop="7dp"
-                            android:background="@color/common_lv4_divider" />
-
-                    </LinearLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginStart="20dp"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="26dp"
-                        android:layout_height="26dp"
-                        android:layout_gravity="center_vertical"
-                        android:src="@drawable/lib_book" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginStart="20dp"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:maxLines="1"
-                            android:textSize="16sp"
-                            tools:text="从你的全世界路过" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:fontFamily="sans-serif-light"
-                            android:maxLines="1"
-                            android:textSize="16sp"
-                            tools:text="2017/4/18 到期" />
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginTop="7dp"
-                            android:background="@color/common_lv4_divider" />
-
-                    </LinearLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginStart="20dp"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="26dp"
-                        android:layout_height="26dp"
-                        android:layout_gravity="center_vertical"
-                        android:src="@drawable/lib_book" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginStart="20dp"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:maxLines="1"
-                            android:textSize="16sp"
-                            tools:text="从你的全世界路过" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:fontFamily="sans-serif-light"
-                            android:maxLines="1"
-                            android:textSize="16sp"
-                            tools:text="2017/4/18 到期" />
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginTop="7dp"
-                            android:background="@color/common_lv4_divider" />
-
-                    </LinearLayout>
-                </LinearLayout>
 
             </LinearLayout>
 
@@ -238,7 +103,8 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="start"
                     android:fontFamily="sans-serif-light"
-                    android:text="续借"
+                    android:text="刷新"
+                    bind:clickCommand="@{viewModel.refreshClick}"
                     android:textColor="@color/colorPrimary" />
 
                 <Button

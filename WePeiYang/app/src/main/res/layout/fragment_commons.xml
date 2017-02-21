@@ -39,7 +39,7 @@
                     layout="@layout/collapsed_common_head"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="?attr/actionBarSize"
+                    android:layout_marginTop="80dp"
                     android:layout_marginBottom="25dp"
                     app:layout_collapseMode="parallax"
                     app:layout_collapseParallaxMultiplier="0.8"/>

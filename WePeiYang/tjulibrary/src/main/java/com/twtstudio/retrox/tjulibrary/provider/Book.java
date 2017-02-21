@@ -1,5 +1,7 @@
 package com.twtstudio.retrox.tjulibrary.provider;
 
+import com.twtstudio.retrox.tjulibrary.home.BookTimeHelper;
+
 /**
  * Created by retrox on 2017/2/21.
  */
@@ -25,4 +27,17 @@ public class Book {
     public String type;
     public String loanTime;
     public String returnTime;
+
+    public int timeLeft(){
+        return BookTimeHelper.getBetweenDays(returnTime);
+//        return 20;
+    }
+
+    public boolean isOverTime(){
+        return this.timeLeft() < 0;
+    }
+
+    public boolean willBeOver(){
+        return this.timeLeft() < 7 && !isOverTime();
+    }
 }

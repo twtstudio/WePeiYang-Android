@@ -37,6 +37,8 @@
             android:exported="true">
         </activity>
 
+        <activity android:name=".settings.SettingsActivity"/>
+
         <activity
             android:name=".module.welcome.WelcomeActivity"
             android:exported="true"

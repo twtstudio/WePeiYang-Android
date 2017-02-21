@@ -1,6 +1,7 @@
 package com.twtstudio.retrox.wepeiyangrd.home.user;
 
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.Observable;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
@@ -11,6 +12,7 @@ import com.kelin.mvvmlight.command.ReplyCommand;
 import com.orhanobut.logger.Logger;
 import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
 import com.twtstudio.retrox.wepeiyangrd.R;
+import com.twtstudio.retrox.wepeiyangrd.settings.SettingsActivity;
 
 /**
  * Created by retrox on 2017/1/14.
@@ -63,6 +65,10 @@ public class PrefItemViewModel implements ViewModel {
             // TODO: 2017/1/14 tju bind ?
         } else if (mode == SETTINGS) {
             // TODO: 2017/1/14 jump to settings
+            imageRes.set(R.drawable.ic_settings);
+            title.set("设置");
+            viewStyle.isMargin.set(false);
+            viewStyle.switchable.set(false);
         }
 
         preference.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
@@ -79,6 +85,11 @@ public class PrefItemViewModel implements ViewModel {
 
     private void onClick() {
         Logger.d("pref click");
+        if (mMode == SETTINGS){
+            //jump to settings
+            Intent intent = new Intent(mContext, SettingsActivity.class);
+            mContext.startActivity(intent);
+        }
     }
 
 }

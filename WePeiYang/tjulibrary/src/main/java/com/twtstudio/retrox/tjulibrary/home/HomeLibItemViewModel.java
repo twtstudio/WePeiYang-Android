@@ -11,11 +11,17 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 
 import com.kelin.mvvmlight.base.ViewModel;
+import com.kelin.mvvmlight.command.ReplyCommand;
 import com.twtstudio.retrox.tjulibrary.R;
+import com.twtstudio.retrox.tjulibrary.provider.Book;
 import com.twtstudio.retrox.tjulibrary.provider.TjuLibProvider;
+import com.twtstudio.retrox.tjulibrary.BR;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import me.tatarka.bindingcollectionadapter.ItemView;
+import rx.functions.Action0;
 
 /**
  * Created by retrox on 2017/2/21.
@@ -27,7 +33,7 @@ public class HomeLibItemViewModel implements ViewModel {
 
     public TjuLibProvider libProvider;
 
-    public final ObservableField<String> message = new ObservableField<>();
+    public final ObservableField<String> message = new ObservableField<>("正在刷新");
 
     public final ObservableBoolean isProgressing = new ObservableBoolean(true);
 
@@ -41,7 +47,9 @@ public class HomeLibItemViewModel implements ViewModel {
 
     public final ObservableArrayList<ViewModel> viewModels = new ObservableArrayList<>();
 
+    public final ItemView itemView = ItemView.of(BR.viewModel, R.layout.item_common_book);
 
+    public final ReplyCommand refreshClick = new ReplyCommand(this::refreshInfo);
 
     private Drawable okImage;
     private Drawable warningImage;
@@ -54,39 +62,48 @@ public class HomeLibItemViewModel implements ViewModel {
         obDrawable.set(okImage);
     }
 
-    private void initDrawable(){
+    private void initDrawable() {
         okImage = ContextCompat.getDrawable(mContext, R.drawable.lib_ok);
-        warningImage = ContextCompat.getDrawable(mContext,R.drawable.lib_warning);
+        warningImage = ContextCompat.getDrawable(mContext, R.drawable.lib_warning);
     }
 
-    private void init(){
+    private void init() {
         state.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable observable, int i) {
-                if (state.get()==0){
+                if (state.get() == 0) {
                     isProgressing.set(false);
                     obDrawable.set(okImage);
-                }else if (state.get()==2){
+                } else if (state.get() == 2) {
                     isProgressing.set(false);
                     obDrawable.set(warningImage);
-                }else {
+                } else {
                     isProgressing.set(true);
+                    message.set("正在刷新");
                 }
             }
         });
 
+        refreshInfo();
+    }
+
+    public void refreshInfo() {
+        state.set(1);
         libProvider.getUserInfo(info -> {
             state.set(0);
             message.set("刷新完成");
             //添加当前书列表
-            if (null == info.books||info.books.size() == 0){
+            if (null == info.books || info.books.size() == 0) {
                 haveBooks.set(false);
+                message.set("还没有从图书馆借书呢");
+            }
+            viewModels.clear();
+            for (Book book : info.books) {
+                viewModels.add(new BookItemViewModel(mContext, book));
             }
 
         });
     }
-
-
 
 
 }
