@@ -4,6 +4,7 @@ import android.databinding.ObservableArrayList;
 
 import com.kelin.mvvmlight.base.ViewModel;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
+import com.twtstudio.retrox.tjulibrary.home.HomeLibItemViewModel;
 import com.twtstudio.retrox.wepeiyangrd.BR;
 import com.twtstudio.retrox.wepeiyangrd.R;
 import com.twtstudio.retrox.wepeiyangrd.base.BaseActivity;
@@ -35,6 +36,7 @@ public class CommonFragViewModel implements ViewModel {
             .put(OneInfoViewModel.class,BR.viewModel,R.layout.item_common_one)
             .put(GpaItemViewModel.class,BR.viewModel,R.layout.item_common_gpa)
             .put(ScheduleViewModel.class,BR.viewModel,R.layout.item_common_schedule)
+            .put(HomeLibItemViewModel.class,com.twtstudio.retrox.tjulibrary.BR.viewModel, com.twtstudio.retrox.tjulibrary.R.layout.item_common_lib)
             .build();
 
     public CommonFragViewModel(BaseFragment fragment) {
@@ -51,6 +53,7 @@ public class CommonFragViewModel implements ViewModel {
 
         mScheduleViewModel = new ScheduleViewModel((RxAppCompatActivity) mFragment.getActivity());
         viewModelList.add(mScheduleViewModel);
+        viewModelList.add(new HomeLibItemViewModel(mFragment.getContext()));
     }
 
     private void refresh(){

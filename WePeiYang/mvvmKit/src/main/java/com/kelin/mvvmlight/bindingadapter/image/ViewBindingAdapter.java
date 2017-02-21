@@ -2,6 +2,7 @@ package com.kelin.mvvmlight.bindingadapter.image;
 
 import android.databinding.BindingAdapter;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.annotation.DrawableRes;
 import android.text.TextUtils;
@@ -68,5 +69,17 @@ public final class ViewBindingAdapter {
         }
     }
 
+    @BindingAdapter("android:src")
+    public static void setImageDrawable(ImageView view, Drawable drawable) {
+        view.setImageDrawable(drawable);
+    }
+
+    @BindingAdapter("android:src")
+    public static void setImageResource(ImageView imageView, int resource) {
+        imageView.setImageResource(resource);
+    }
+
 }
+
+
 
