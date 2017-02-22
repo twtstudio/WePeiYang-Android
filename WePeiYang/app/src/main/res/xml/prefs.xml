@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="自我奋斗以及历史行程">
+        <SwitchPreference
+            android:summaryOff="与其苟延残喘不如纵情燃烧吧"
+            android:summaryOn="您已成功退学"
+            android:title="一键退学" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="主页设置">
+
+        <SwitchPreference
+            android:key="@string/pref_is_display_gpa"
+            android:summaryOff="算了我拒绝看那种东西"
+            android:summaryOn="老夫就是要刺激"
+            android:title="主页显示GPA" />
+    </PreferenceCategory>
+    
+    <PreferenceCategory android:title="绑定设置">
+
+        <Preference
+            android:key="@string/pref_is_bind_lib"
+            android:summary="已绑定"
+            android:title="图书馆绑定状态" />
+        <Preference
+            android:key="@string/pref_is_bind_tju"
+            android:summary="已绑定"
+            android:title="办公网绑定状态" />
+        <Preference
+            android:key="@string/pref_is_bind_bike"
+            android:summary="已绑定"
+            android:title="自行车绑定状态" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="自习室设置">
+        <EditTextPreference
+            android:key="@string/pref_like_buildings"
+            android:summary="45 46 55"
+            android:title="偏好教学楼" />
+    </PreferenceCategory>
+</PreferenceScreen>

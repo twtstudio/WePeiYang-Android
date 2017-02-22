@@ -1,9 +1,12 @@
 package com.twtstudio.retrox.wepeiyangrd.home.common;
 
+import android.content.SharedPreferences;
 import android.databinding.ObservableArrayList;
+import android.preference.PreferenceManager;
 
 import com.kelin.mvvmlight.base.ViewModel;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
+import com.twtstudio.retrox.classroomcore.home.ClassroomViewModel;
 import com.twtstudio.retrox.tjulibrary.home.HomeLibItemViewModel;
 import com.twtstudio.retrox.wepeiyangrd.BR;
 import com.twtstudio.retrox.wepeiyangrd.R;
@@ -36,7 +39,8 @@ public class CommonFragViewModel implements ViewModel {
             .put(OneInfoViewModel.class,BR.viewModel,R.layout.item_common_one)
             .put(GpaItemViewModel.class,BR.viewModel,R.layout.item_common_gpa)
             .put(ScheduleViewModel.class,BR.viewModel,R.layout.item_common_schedule)
-            .put(HomeLibItemViewModel.class,com.twtstudio.retrox.tjulibrary.BR.viewModel, com.twtstudio.retrox.tjulibrary.R.layout.item_common_lib)
+            .put(HomeLibItemViewModel.class,BR.viewModel, com.twtstudio.retrox.tjulibrary.R.layout.item_common_lib)
+            .put(ClassroomViewModel.class,BR.viewModel,com.twtstudio.retrox.classroomcore.R.layout.item_common_classroom_query)
             .build();
 
     public CommonFragViewModel(BaseFragment fragment) {
@@ -48,12 +52,18 @@ public class CommonFragViewModel implements ViewModel {
         mOneInfoViewModel = new OneInfoViewModel(mFragment);
         //viewModelList.add(mOneInfoViewModel);
 
-        mGpaItemViewModel = new GpaItemViewModel((BaseActivity) mFragment.getActivity());
-        viewModelList.add(mGpaItemViewModel);
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mFragment.getContext());
+        boolean isDisplayGpa = sharedPreferences.getBoolean(mFragment.getString(R.string.pref_is_display_gpa),false);
 
+        if (isDisplayGpa){
+            mGpaItemViewModel = new GpaItemViewModel((BaseActivity) mFragment.getActivity());
+            viewModelList.add(mGpaItemViewModel);
+        }
+        
         mScheduleViewModel = new ScheduleViewModel((RxAppCompatActivity) mFragment.getActivity());
         viewModelList.add(mScheduleViewModel);
         viewModelList.add(new HomeLibItemViewModel(mFragment.getContext()));
+        viewModelList.add(new ClassroomViewModel());
     }
 
     private void refresh(){

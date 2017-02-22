@@ -23,6 +23,7 @@ import java.util.List;
 import me.tatarka.bindingcollectionadapter.ItemView;
 import rx.functions.Action0;
 
+
 /**
  * Created by retrox on 2017/2/21.
  */
@@ -50,6 +51,13 @@ public class HomeLibItemViewModel implements ViewModel {
     public final ItemView itemView = ItemView.of(BR.viewModel, R.layout.item_common_book);
 
     public final ReplyCommand refreshClick = new ReplyCommand(this::refreshInfo);
+
+    /**
+     * 超出3本书的缩略
+     */
+    public final ReplyCommand loadMore = new ReplyCommand(this::loadMoreBooks);
+    private final List<ViewModel> moreBookContainer = new ArrayList<>();
+    public ObservableBoolean isExpanded = new ObservableBoolean(false);
 
     private Drawable okImage;
     private Drawable warningImage;
@@ -87,19 +95,36 @@ public class HomeLibItemViewModel implements ViewModel {
         refreshInfo();
     }
 
+    public void loadMoreBooks() {
+        if (moreBookContainer.size() != 0 && !isExpanded.get()) {
+            viewModels.addAll(moreBookContainer);
+            isExpanded.set(true);
+        }
+    }
+
     public void refreshInfo() {
         state.set(1);
         libProvider.getUserInfo(info -> {
             state.set(0);
-            message.set("刷新完成");
+            message.set("您一共借了"+info.books.size()+"本书");
             //添加当前书列表
             if (null == info.books || info.books.size() == 0) {
                 haveBooks.set(false);
                 message.set("还没有从图书馆借书呢");
             }
             viewModels.clear();
-            for (Book book : info.books) {
-                viewModels.add(new BookItemViewModel(mContext, book));
+            if (info.books.size() <= 3) {
+                for (Book book : info.books) {
+                    viewModels.add(new BookItemViewModel(mContext, book));
+                }
+            } else {
+                for (int i = 0; i < info.books.size(); i++) {
+                    if (i < 3) {
+                        viewModels.add(new BookItemViewModel(mContext, info.books.get(i)));
+                    } else {
+                        moreBookContainer.add(new BookItemViewModel(mContext, info.books.get(i)));
+                    }
+                }
             }
 
         });

@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.tapadoo.alerter.Alerter;
 import com.twt.wepeiyang.commons.view.RecyclerViewDivider;
 import com.twtstudio.retrox.wepeiyangrd.R;
 import com.twtstudio.retrox.wepeiyangrd.base.BaseFragment;
@@ -58,6 +59,28 @@ public class CommonFragment extends BaseFragment {
 
         View view = binding.getRoot();
 
+//        initNewView(view);
+
+        RecyclerViewDivider divider = new RecyclerViewDivider.Builder(this.getContext())
+                .setSize(6f)
+                .setColorRes(R.color.background_gray)
+                .build();
+
+        RecyclerView recyclerView = binding.recyclerView;
+
+        recyclerView.addItemDecoration(divider);
+
+        Alerter.create(this.getActivity())
+                .setTitle("明日课程")
+                .setText("明天共三节课\n第一节课是：计算机网络\n上课地点：33楼205")
+                .setDuration(60*1000)
+                .show();
+
+        return view;
+    }
+
+    private void initNewView(View view) {
+        /*
         collapsingToolbarLayout=(CollapsingToolbarLayout)view.findViewById(R.id.toolbar_layout);
         collapsingToolbarLayout.setStatusBarScrimColor(getResources().getColor(R.color.theme_color));
 
@@ -104,18 +127,7 @@ public class CommonFragment extends BaseFragment {
                     }
                 }
             }
-        });
-
-        RecyclerViewDivider divider = new RecyclerViewDivider.Builder(this.getContext())
-                .setSize(8f)
-                .setColorRes(R.color.background_gray)
-                .build();
-
-        RecyclerView recyclerView = binding.recyclerView;
-
-        recyclerView.addItemDecoration(divider);
-
-        return view;
+        });*/
     }
 
     //设置展开时各控件的透明度

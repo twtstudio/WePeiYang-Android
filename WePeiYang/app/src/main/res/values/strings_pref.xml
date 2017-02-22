@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="pref_is_display_gpa">pref_is_display_gpa</string>
+    <string name="pref_is_bind_lib">pref_is_bind_lib</string>
+    <string name="pref_is_bind_tju">pref_is_bind_tju</string>
+    <string name="pref_is_bind_bike">pref_is_bind_bike</string>
+    <string name="pref_like_buildings">pref_like_buildings</string>
+</resources>

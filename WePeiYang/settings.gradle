@@ -1,1 +1,1 @@
-include ':preapp', ':lib', ':app', ':commons', ':mvvmKit', ':gpa', ':schedule', ':fragmentation', ':bike', ':one', ':news', ':tjulibrary'
+include ':preapp', ':lib', ':app', ':commons', ':mvvmKit', ':gpa', ':schedule', ':fragmentation', ':bike', ':one', ':news', ':tjulibrary', ':classroomcore'

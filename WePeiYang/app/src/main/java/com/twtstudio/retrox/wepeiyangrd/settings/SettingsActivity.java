@@ -1,6 +1,8 @@
 package com.twtstudio.retrox.wepeiyangrd.settings;
 
 import android.os.Bundle;
+import android.preference.Preference;
+import android.preference.PreferenceFragment;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -22,25 +24,28 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
 
-        Button button1 = (Button) findViewById(R.id.btn_bind_library);
+        setTitle("偏好设置");
 
+        SettingsFragment fragment = new SettingsFragment();
 
-        button1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                TjuLibProvider provider = new TjuLibProvider(SettingsActivity.this);
-                provider.bindLibrary(Logger::d,"000000");
-            }
-        });
+        getFragmentManager().beginTransaction()
+                .replace(R.id.settings_container,fragment)
+                .commit();
 
-        Button button2 = (Button) findViewById(R.id.btn_clear_pref);
-        button2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CommonPrefUtil.clearAll();
-            }
-        });
+    }
 
+    public static class SettingsFragment extends PreferenceFragment{
 
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            addPreferencesFromResource(R.xml.prefs);
+            initPrefs();
+        }
+
+        public void initPrefs(){
+            Preference libPref = findPreference(getString(R.string.pref_is_bind_lib));
+            
+        }
     }
 }

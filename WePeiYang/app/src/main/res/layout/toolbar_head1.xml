@@ -23,7 +23,7 @@
         android:textColor="@color/white_color"
         android:layout_toRightOf="@+id/img_zhangdan"
         android:textSize="18sp"
-        android:text="账单" />
+        android:text="微北洋v3" />
 
     <ImageView
         android:id="@+id/jiahao"

@@ -53,7 +53,10 @@ dependencies {
     compile project(':schedule')
     compile project(':one')
     compile project(':tjulibrary')
+    compile project(':classroomcore')
 
 
     compile 'de.hdodenhof:circleimageview:2.1.0'
+    compile 'com.tapadoo.android:alerter:1.0.3'
+
 }

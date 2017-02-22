@@ -14,11 +14,7 @@
         android:fitsSystemWindows="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    <LinearLayout
-        android:orientation="vertical"
-        android:background="@color/background_gray"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
@@ -28,6 +24,5 @@
             bind:items="@{viewmodel.list}"
             bind:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
-    </LinearLayout>
     </android.support.design.widget.CoordinatorLayout>
 </layout>

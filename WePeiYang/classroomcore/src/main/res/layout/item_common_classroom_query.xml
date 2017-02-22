@@ -4,12 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
-            type="com.twtstudio.retrox.tjulibrary.home.HomeLibItemViewModel"/>
+            type="com.twtstudio.retrox.classroomcore.home.ClassroomViewModel"/>
 
         <import type="android.view.View"/>
-
     </data>
 
     <android.support.v7.widget.CardView
@@ -33,14 +33,15 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_gravity="center_vertical"
-                    android:src="@drawable/lib_library" />
+                    android:src="@drawable/classroom_icon"
+                    android:tint="#4A90E2" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
                     android:layout_marginStart="20dp"
-                    android:text="图书馆"
+                    android:text="自习室"
                     android:textSize="18sp" />
             </LinearLayout>
 
@@ -57,8 +58,7 @@
                     <ImageView
                         android:layout_width="20dp"
                         android:layout_height="20dp"
-                        android:src="@{viewModel.obDrawable}"
-                        tools:src="@drawable/lib_warning"
+                        android:src="@drawable/classroom_ok"
                         android:visibility="@{viewModel.isProgressing ? View.GONE : View.VISIBLE}"
                         tools:visibility="visible" />
 
@@ -74,28 +74,53 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
                     android:layout_marginStart="20dp"
-                    android:fontFamily="sans-serif-light"
-                    android:textSize="16sp"
                     android:text="@{viewModel.message}"
-                    tools:text="续借完成" />
+                    android:textSize="16sp"
+                    tools:text="正在查询自习室" />
             </LinearLayout>
 
             <LinearLayout
-                bind:viewModels="@{viewModel.viewModels}"
-                bind:itemView="@{viewModel.itemView}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:orientation="vertical">
+                android:paddingLeft="20dp">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/classroom_building"
+                    android:tint="#4BAE66" />
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginStart="20dp"
+                    android:text="教学楼"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical"
+                >
+
+                <include layout="@layout/item_common_classroom_building"/>
+                <include layout="@layout/item_common_classroom_building"/>
+                <include layout="@layout/item_common_classroom_building"/>
 
             </LinearLayout>
 
             <FrameLayout
-                android:visibility="@{viewModel.haveBooks ? View.VISIBLE : View.GONE }"
                 android:layout_width="match_parent"
                 android:layout_height="38dp"
                 android:paddingLeft="27dp"
-                android:paddingRight="27dp">
+                android:paddingRight="27dp"
+                >
 
                 <Button
                     style="?android:attr/borderlessButtonStyle"
@@ -104,8 +129,8 @@
                     android:layout_gravity="start"
                     android:fontFamily="sans-serif-light"
                     android:text="刷新"
-                    bind:clickCommand="@{viewModel.refreshClick}"
-                    android:textColor="@color/colorPrimary" />
+                    android:textColor="@color/colorPrimary"
+                    />
 
                 <Button
                     style="?android:attr/borderlessButtonStyle"
@@ -113,7 +138,7 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="center_horizontal"
                     android:fontFamily="sans-serif"
-                    android:text="一键续借"
+                    android:text="编辑"
                     android:textColor="@color/colorPrimary" />
 
                 <Button
@@ -122,10 +147,10 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="end"
                     android:fontFamily="sans-serif"
-                    android:text="显示更多(2)"
-                    bind:clickCommand="@{viewModel.loadMore}"
+                    android:text="历史记录"
                     android:textColor="@color/colorPrimary" />
             </FrameLayout>
         </LinearLayout>
     </android.support.v7.widget.CardView>
+
 </layout>

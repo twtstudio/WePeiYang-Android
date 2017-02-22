@@ -37,7 +37,7 @@
             android:exported="true">
         </activity>
 
-        <activity android:name=".settings.SettingsActivity"/>
+        <activity android:name=".settings.SettingsActivity" android:theme="@style/AppThemeActionBar"/>
 
         <activity
             android:name=".module.welcome.WelcomeActivity"
