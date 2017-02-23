@@ -63,6 +63,68 @@ public class CourseHelper {
         return courseList;
     }
 
+    public List<ClassTable.Data.Course> getTomorrowCourses(ClassTable classTable , boolean adjust) {
+        long mystartUnix = Long.parseLong(classTable.data.term_start);
+        //计算明天的
+        mystartUnix = mystartUnix - 24*60*60*1000;
+
+        int presentWeek = TimeHelper.getWeekInt(mystartUnix);
+        List<ClassTable.Data.Course> courseList =
+                Stream.of(classTable.data.data)
+//                        isAvailableCurrentWeek是检测课程是不是到期的，就是超出预计学习时间（周数）
+                        .peek(course -> course.isAvaiableCurrentWeek = checkAvaiablity(course.week.start, course.week.end, presentWeek))
+                        .filter(this::checkIsThisWeekForTomorrow)
+                        .filter(this::checkIsTomorrow)
+                        .collect(Collectors.toList());
+
+        for (int i = 0; i < courseList.size(); i++) {
+            //反正也越界不了hhh
+            if (!courseList.get(i).isAvaiableCurrentWeek){
+                courseList.get(i).coursecolor = R.color.myWindowBackgroundGray;
+            }else {
+                courseList.get(i).coursecolor = classColors[i];
+            }
+        }
+
+        if (adjust){
+            return adjustCourseList(courseList);
+        }
+
+        return courseList;
+    }
+
+    private boolean checkIsThisWeekForTomorrow(ClassTable.Data.Course course) {
+        int week = TimeHelper.getWeekInt(startUnix - 24*60*60*1000);
+        for (ClassTable.Data.Course.Arrange arrange : course.arrange) {
+            if (arrange.week.equals("单双周") ||
+                    (arrange.week.equals("单周") && week % 2 == 1) ||
+                    (arrange.week.equals("双周") && week % 2 == 0)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean checkIsTomorrow (ClassTable.Data.Course course) {
+        int today = getTomorrowNumber();
+        for (ClassTable.Data.Course.Arrange arrange : course.arrange) {
+            if (Integer.parseInt(arrange.day) == today) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static int getTomorrowNumber() {
+        Calendar calendar = Calendar.getInstance();
+        int day = calendar.get(Calendar.DAY_OF_WEEK);
+        if (day == Calendar.SUNDAY) {
+            return 1;
+        } else {
+            return (day );
+        }
+    }
+
     private boolean checkAvaiablity(String start, String end, int week) {
         int startInt = Integer.parseInt(start);
         int endInt = Integer.parseInt(end);
@@ -176,5 +238,33 @@ public class CourseHelper {
             }
         }
         return "无法查询地点";
+    }
+
+    public static String getTimeByStartInt(String start){
+
+        int s = Integer.parseInt(start);
+        if (1 == s){
+            return "8:30";
+        }else if (2 == s){
+            return "9:20";
+        }else if (3 == s){
+            return "10:25";
+        }else if (4 == s){
+            return "11:15";
+        }else if (5 == s){
+            return "1:30";
+        }else if (6 == s){
+            return "2:20";
+        }else if (7 == s){
+            return "3:25";
+        }else if (8 == s){
+            return "4:15";
+        }else if (9 == s){
+            return "6:30";
+        }else if (10 == s){
+            return "7:20";
+        }else {
+            return "";
+        }
     }
 }

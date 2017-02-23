@@ -126,9 +126,10 @@ public class HomeFragment extends PFragment<HomePresenter> implements HomeViewCo
             mLeaveTime.setText(TimeStampUtils.getDateString(bikeUserInfo.record.dep_time));
             String arr = BikeStationUtils.getInstance().queryId(bikeUserInfo.record.arr).name;
             if (arr.equals("no data")) {
-                mArrStation.setText("尚未还车或数据尚未同步");
-                mArrTime.setText(" ");
-                mBikeFeeText.setText(" ");
+                mArrStation.setText("点位名无法查询");
+                mArrTime.setText(TimeStampUtils.getDateString(bikeUserInfo.record.arr_time));
+                mBikeFeeText.setText("本次消费:" + bikeUserInfo.record.fee);
+
             } else {
                 mArrStation.setText(arr + "-" + bikeUserInfo.record.arr_dev + "号桩 还入");
                 mArrTime.setText(TimeStampUtils.getDateString(bikeUserInfo.record.arr_time));

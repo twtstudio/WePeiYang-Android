@@ -15,10 +15,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.tapadoo.alerter.Alerter;
+import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 import com.twt.wepeiyang.commons.view.RecyclerViewDivider;
 import com.twtstudio.retrox.wepeiyangrd.R;
 import com.twtstudio.retrox.wepeiyangrd.base.BaseFragment;
 import com.twtstudio.retrox.wepeiyangrd.databinding.FragmentCommonsBinding;
+import com.twtstudio.retrox.wepeiyangrd.push.PushProvider;
 
 /**
  * Created by retrox on 2016/12/12.
@@ -70,11 +72,16 @@ public class CommonFragment extends BaseFragment {
 
         recyclerView.addItemDecoration(divider);
 
-        Alerter.create(this.getActivity())
-                .setTitle("明日课程")
-                .setText("明天共三节课\n第一节课是：计算机网络\n上课地点：33楼205")
-                .setDuration(60*1000)
-                .show();
+        PushProvider pushProvider = new PushProvider((RxAppCompatActivity) this.getActivity());
+        pushProvider.queryCourseMessage(coursePushBean -> {
+            Alerter.create(this.getActivity())
+                    .setTitle(coursePushBean.title)
+                    .setText(coursePushBean.message)
+                    .setDuration(60*1000)
+                    .show();
+        });
+
+
 
         return view;
     }

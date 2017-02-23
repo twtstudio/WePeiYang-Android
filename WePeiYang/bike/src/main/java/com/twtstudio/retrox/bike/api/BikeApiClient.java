@@ -49,7 +49,7 @@ public class BikeApiClient {
 
     private BikeApiClient() {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor(message -> {
-            if (message.startsWith("{")){
+            if (message.startsWith("{")&&message.length()<100){
                 Logger.json(message);
             }else {
                 Platform.get().log(INFO, message, null);
@@ -81,6 +81,10 @@ public class BikeApiClient {
 
     public static BikeApiClient getInstance() {
         return SingletonHolder.INSTANCE;
+    }
+
+    public BikeApi getService(){
+        return mService;
     }
 
     protected static Interceptor sRequsetInterceptor = new Interceptor() {
