@@ -7,6 +7,7 @@ import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 import com.twt.wepeiyang.commons.cache.CacheProvider;
 import com.twt.wepeiyang.commons.network.RetrofitProvider;
 import com.twt.wepeiyang.commons.network.RxErrorHandler;
+import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
 
 import io.rx_cache.DynamicKey;
 import io.rx_cache.EvictDynamicKey;
@@ -46,6 +47,9 @@ public class ClassTableProvider {
                 .compose(mRxActivity.bindToLifecycle())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(classTable -> {
+                    //存入学期开始时间
+                    CommonPrefUtil.setStartUnix(Long.valueOf(classTable.data.term_start));
+
                     if (mAction1 != null) {
                         mAction1.call(classTable);
                     }

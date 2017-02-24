@@ -1,4 +1,6 @@
-package com.twtstudio.retrox.classroomcore.home.Api;
+package com.twtstudio.retrox.classroomcore.home.api;
+
+import com.twt.wepeiyang.commons.network.ApiException;
 
 import java.util.List;
 
@@ -34,5 +36,14 @@ public class ClassroomQueryBean {
         public int power_pack;
         public String state;
         public String collection;
+    }
+
+    public List<DataBean> getData() {
+        if (errorcode == 0){
+            return data;
+        }else {
+            throw new ApiException(errorcode,msg);
+        }
+
     }
 }

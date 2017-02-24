@@ -20,6 +20,7 @@ public class CommonPrefUtil {
     private static final String BIKE_TOKEN = "bike_token";
     private static final String BIKE_CARD_SIGN = "bike_sign";
     private static final String BIKE_CARD_ID = "bike_id";
+    private static final String STARTUNIX = "start_unix";
 
     private static final String THEME_MODE = "theme"; //false is normal , true is night
 
@@ -55,5 +56,13 @@ public class CommonPrefUtil {
 
     public static boolean getThemeMode(){
         return Hawk.get(THEME_MODE,false);
+    }
+
+    public static void setStartUnix(Long startUnix){
+        Hawk.put(STARTUNIX,startUnix);
+    }
+
+    public static long getStartUnix(){
+        return Hawk.get(STARTUNIX,1487520000L);
     }
 }

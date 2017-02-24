@@ -59,5 +59,7 @@ dependencies {
     compile 'de.greenrobot:eventbus:2.4.0'
 
     compile project(':commons')
+    compile project(':mvvmKit')
+
     testCompile 'junit:junit:4.12'
 }

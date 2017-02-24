@@ -1,4 +1,4 @@
-package com.twtstudio.retrox.classroomcore.home.Api;
+package com.twtstudio.retrox.classroomcore.home.api;
 
 import retrofit2.http.GET;
 import retrofit2.http.Query;

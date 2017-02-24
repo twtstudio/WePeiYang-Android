@@ -122,7 +122,8 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="end"
                     android:fontFamily="sans-serif"
-                    android:text="显示更多(2)"
+                    tools:text="显示更多(2)"
+                    android:text="@{viewModel.loadMoreBtnMsg}"
                     bind:clickCommand="@{viewModel.loadMore}"
                     android:textColor="@color/colorPrimary" />
             </FrameLayout>

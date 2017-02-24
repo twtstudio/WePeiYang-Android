@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+            name="viewModel"
+            type="com.twtstudio.retrox.classroomcore.home.BuildingItemViewModel"/>
+    </data>
     <LinearLayout
         android:layout_marginTop="3dp"
         android:layout_width="match_parent"
@@ -25,7 +31,8 @@
                 android:layout_marginLeft="8dp"
                 android:gravity="center_vertical"
                 android:textSize="16sp"
-                android:text="45楼" />
+                android:text="@{viewModel.buildingName}"
+                tools:text="45楼" />
         </LinearLayout>
 
         <LinearLayout
@@ -46,7 +53,8 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="8dp"
                 android:textSize="16sp"
-                android:text="B201 B203 B315" />
+                android:text="@{viewModel.availableRooms}"
+                tools:text="B201 B203 B315" />
         </LinearLayout>
 
         <View

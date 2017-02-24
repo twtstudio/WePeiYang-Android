@@ -107,11 +107,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:orientation="vertical"
+                bind:viewModels="@{viewModel.viewModels}"
+                bind:itemView="@{viewModel.itemView}"
                 >
-
-                <include layout="@layout/item_common_classroom_building"/>
-                <include layout="@layout/item_common_classroom_building"/>
-                <include layout="@layout/item_common_classroom_building"/>
 
             </LinearLayout>
 
