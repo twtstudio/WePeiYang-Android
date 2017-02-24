@@ -15,7 +15,7 @@
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:elevation="3dp"
+        bind:elevation="0dp"
         bind:cardBackgroundColor="@color/white_color">
 
         <LinearLayout

@@ -113,6 +113,7 @@ public class HomeLibItemViewModel implements ViewModel {
                 message.set("还没有从图书馆借书呢");
             }
             viewModels.clear();
+
             if (info.books.size() <= 3) {
                 for (Book book : info.books) {
                     viewModels.add(new BookItemViewModel(mContext, book));

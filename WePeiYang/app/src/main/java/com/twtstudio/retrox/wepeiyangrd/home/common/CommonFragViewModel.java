@@ -6,6 +6,7 @@ import android.preference.PreferenceManager;
 
 import com.kelin.mvvmlight.base.ViewModel;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
+import com.twtstudio.retrox.bike.homeitem.BikeHomeItemViewModel;
 import com.twtstudio.retrox.classroomcore.home.ClassroomViewModel;
 import com.twtstudio.retrox.tjulibrary.home.HomeLibItemViewModel;
 import com.twtstudio.retrox.wepeiyangrd.BR;
@@ -41,6 +42,7 @@ public class CommonFragViewModel implements ViewModel {
             .put(ScheduleViewModel.class,BR.viewModel,R.layout.item_common_schedule)
             .put(HomeLibItemViewModel.class,BR.viewModel, com.twtstudio.retrox.tjulibrary.R.layout.item_common_lib)
             .put(ClassroomViewModel.class,BR.viewModel,com.twtstudio.retrox.classroomcore.R.layout.item_common_classroom_query)
+            .put(BikeHomeItemViewModel.class,BR.viewModel,com.twtstudio.retrox.bike.R.layout.item_common_bike_card)
             .build();
 
     public CommonFragViewModel(BaseFragment fragment) {
@@ -64,6 +66,7 @@ public class CommonFragViewModel implements ViewModel {
         viewModelList.add(mScheduleViewModel);
         viewModelList.add(new HomeLibItemViewModel(mFragment.getContext()));
         viewModelList.add(new ClassroomViewModel());
+        viewModelList.add(new BikeHomeItemViewModel());
     }
 
     private void refresh(){
