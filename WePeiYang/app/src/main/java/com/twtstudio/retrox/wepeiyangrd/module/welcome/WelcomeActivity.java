@@ -10,6 +10,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.orhanobut.hawk.Hawk;
 import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
 import com.twt.wepeiyang.commons.auth.login.LoginActivity;
 import com.twtstudio.retrox.gpa.view.GpaActivity;
@@ -30,6 +32,7 @@ public class WelcomeActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
 
         boolean isLogin = CommonPrefUtil.getIsLogin();
         if (isLogin) {

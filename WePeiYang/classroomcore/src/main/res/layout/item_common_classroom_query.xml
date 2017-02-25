@@ -58,7 +58,8 @@
                     <ImageView
                         android:layout_width="20dp"
                         android:layout_height="20dp"
-                        android:src="@drawable/classroom_ok"
+                        android:src="@drawable/classroom_time"
+                        android:tint="#11d1d1"
                         android:visibility="@{viewModel.isProgressing ? View.GONE : View.VISIBLE}"
                         tools:visibility="visible" />
 
@@ -127,6 +128,7 @@
                     android:layout_gravity="start"
                     android:fontFamily="sans-serif-light"
                     android:text="刷新"
+                    bind:clickCommand="@{viewModel.refreshClick}"
                     android:textColor="@color/colorPrimary"
                     />
 

@@ -7,6 +7,7 @@
     </color>
     <color name="bike_circle_fill_color">#64d9e1e4</color>
     <color name="bike_bottom_fill_color">#f1ced7db</color>
+    <color name="bike_warning_color">#FFB313</color>
 
     <color name="lost_found_indicator_color">#c1ff76</color>
     <color name="login_bg">#f2f2f2</color>
@@ -24,5 +25,6 @@
     <color name="myTextPrimaryColorGreen">#4ad865</color>
     <color name="myTextPrimaryColorRed">#ff0000</color>
     <color name="edittext_bg_color">#eeeeee</color>
+
 
 </resources>

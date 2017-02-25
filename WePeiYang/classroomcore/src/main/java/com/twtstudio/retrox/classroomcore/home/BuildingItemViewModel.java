@@ -20,7 +20,7 @@ public class BuildingItemViewModel implements ViewModel {
 
     public final ObservableField<String> buildingName = new ObservableField<>();
 
-    public final ObservableField<String> availableRooms = new ObservableField<>("");
+    public final ObservableField<String> availableRooms = new ObservableField<>();
 
     private int buildingNum;
 
@@ -30,10 +30,11 @@ public class BuildingItemViewModel implements ViewModel {
         getData();
     }
 
-    private void getData() {
+    public void getData() {
         ClassroomQueryProvider provider = new ClassroomQueryProvider(mContext);
-
+        availableRooms.set("查询中...");
         provider.getClassRoom(buildingNum, classroomQueryBean -> {
+            availableRooms.set("");
             buildingName.set(buildingNum+"楼");
             Observable.from(classroomQueryBean.data)
                     .take(6)

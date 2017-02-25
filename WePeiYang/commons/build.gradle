@@ -64,6 +64,9 @@ dependencies {
 
     compile project(':mvvmKit')
 
+    compile 'com.tapadoo.android:alerter:1.0.3'
+
+
 
     testCompile 'junit:junit:4.12'
 }

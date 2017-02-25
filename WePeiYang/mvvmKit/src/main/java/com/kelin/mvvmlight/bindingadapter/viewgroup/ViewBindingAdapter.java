@@ -18,7 +18,7 @@ import me.tatarka.bindingcollectionadapter.ItemView;
 public final class ViewBindingAdapter {
 
     @BindingAdapter({"itemView", "viewModels"})
-    public static void addViews(ViewGroup viewGroup, final ItemView itemView, final ObservableList<ViewModel> viewModelList) {
+    public static void addViews(ViewGroup viewGroup, final ItemView itemView, final ObservableList<?extends ViewModel> viewModelList) {
         if (viewModelList != null && !viewModelList.isEmpty()) {
             viewGroup.removeAllViews();
             for (ViewModel viewModel : viewModelList) {

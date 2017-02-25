@@ -7,6 +7,7 @@
         <variable
             name="viewModel"
             type="com.twtstudio.retrox.bike.homeitem.BikeHomeItemViewModel"/>
+        <import type="android.view.View"/>
     </data>
 <LinearLayout
     android:layout_width="match_parent"
@@ -36,6 +37,13 @@
             android:gravity="center_vertical"
             android:textSize="18sp"
             android:text="自行车" />
+
+        <ProgressBar
+            android:visibility="@{viewModel.isProgressing?View.VISIBLE:View.GONE}"
+            android:layout_marginLeft="5dp"
+            android:layout_gravity="center_vertical"
+            android:layout_width="20dp"
+            android:layout_height="20dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -99,7 +107,8 @@ android:paddingLeft="20dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:textSize="16sp"
-                android:text="33楼北侧1-2号桩" />
+                android:text="@{viewModel.lastLeavePostion}"
+                tools:text="33楼北侧1-2号桩" />
         </LinearLayout>
 
         <LinearLayout
@@ -121,7 +130,8 @@ android:paddingLeft="20dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:textSize="16sp"
-                android:text="2016/7/24 9:4:4" />
+                android:text="@{viewModel.lastLeaveTime}"
+                tools:text="2016/7/24 9:4:4" />
         </LinearLayout>
 
         <View
@@ -161,7 +171,8 @@ android:paddingLeft="20dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:textSize="16sp"
-                    android:text="33楼北侧1-2号桩" />
+                    android:text="@{viewModel.lastArrivePostion}"
+                    tools:text="33楼北侧1-2号桩" />
             </LinearLayout>
 
             <LinearLayout
@@ -182,7 +193,8 @@ android:paddingLeft="20dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:textSize="16sp"
-                    android:text="2016/7/24 9:4:4" />
+                    android:text="@{viewModel.lastArriveTime}"
+                    tools:text="2016/7/24 9:4:4" />
             </LinearLayout>
 
             <View
@@ -215,7 +227,8 @@ android:paddingLeft="20dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="10dp"
-            android:text="本次:2.40元"
+            android:text="@{viewModel.costMoney}"
+            tools:text="本次:2.40元"
             android:textSize="16sp"/>
     </LinearLayout>
     <View
@@ -237,6 +250,7 @@ android:paddingLeft="20dp"
             android:layout_height="match_parent"
             android:layout_gravity="start"
             android:fontFamily="sans-serif-light"
+            android:visibility="gone"
             android:text="刷新"
             android:textColor="@color/colorPrimary" />
 
@@ -247,6 +261,7 @@ android:paddingLeft="20dp"
             android:layout_gravity="center_horizontal"
             android:fontFamily="sans-serif"
             android:text="刷新"
+            bind:clickCommand="@{viewModel.refreshClick}"
             android:textColor="@color/colorPrimary" />
 
         <Button

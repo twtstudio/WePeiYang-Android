@@ -66,7 +66,7 @@ public class CommonFragViewModel implements ViewModel {
         viewModelList.add(mScheduleViewModel);
         viewModelList.add(new HomeLibItemViewModel(mFragment.getContext()));
         viewModelList.add(new ClassroomViewModel(mFragment.getContext()));
-        viewModelList.add(new BikeHomeItemViewModel());
+        viewModelList.add(new BikeHomeItemViewModel((RxAppCompatActivity) mFragment.getActivity()));
     }
 
     private void refresh(){
