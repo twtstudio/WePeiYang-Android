@@ -4,6 +4,8 @@
     <color name="colorPrimaryDark">#00a1e9</color>
     <color name="colorAccent">#00a1e9</color>
 
+    <color name="colorPrimaryLight">#00d096</color>
+
     <!--微北洋主题色，强调突出的文字、按钮和icon-->
     <color name="theme_color">#00a1e9</color>
 

@@ -5,4 +5,6 @@
     <string name="pref_is_bind_tju">pref_is_bind_tju</string>
     <string name="pref_is_bind_bike">pref_is_bind_bike</string>
     <string name="pref_like_buildings">pref_like_buildings</string>
+    <string name="pref_is_display_bike">pref_is_display_bike</string>
+    <string name="pref_is_switch_news_source">pref_is_switch_news_source</string>
 </resources>

@@ -15,6 +15,20 @@
             android:summaryOff="算了我拒绝看那种东西"
             android:summaryOn="老夫就是要刺激"
             android:title="主页显示GPA" />
+
+        <SwitchPreference
+            android:key="@string/pref_is_display_bike"
+            android:defaultValue="true"
+            android:summaryOff="不显示自行车"
+            android:summaryOn="显示自行车"
+            android:title="主页显示自行车" />
+
+        <SwitchPreference
+            android:key="@string/pref_is_switch_news_source"
+            android:defaultValue="false"
+            android:summaryOn="ONE一个（版权问题需用户承担责任）"
+            android:summaryOff="显示天外天新闻源"
+            android:title="切换新闻源"/>
     </PreferenceCategory>
     
     <PreferenceCategory android:title="绑定设置">

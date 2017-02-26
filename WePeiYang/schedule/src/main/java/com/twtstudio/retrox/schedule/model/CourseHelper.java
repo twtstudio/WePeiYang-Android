@@ -63,7 +63,7 @@ public class CourseHelper {
         return courseList;
     }
 
-    public List<ClassTable.Data.Course> getTomorrowCourses(ClassTable classTable , boolean adjust) {
+    public List<ClassTable.Data.Course> getTomorrowCourses(ClassTable classTable) {
         long mystartUnix = Long.parseLong(classTable.data.term_start);
         //计算明天的
         mystartUnix = mystartUnix - 24*60*60*1000;
@@ -86,9 +86,9 @@ public class CourseHelper {
             }
         }
 
-        if (adjust){
-            return adjustCourseList(courseList);
-        }
+        courseList = Stream.of(courseList)
+                .sorted((c1,c2)-> (getTomorrowStart(c1.arrange) - getTomorrowStart(c2.arrange)))
+                .collect(Collectors.toList());
 
         return courseList;
     }
@@ -218,6 +218,16 @@ public class CourseHelper {
         return -1;
     }
 
+    public int getTomorrowStart(List<ClassTable.Data.Course.Arrange> courseArrange){
+        for (ClassTable.Data.Course.Arrange arrange : courseArrange) {
+            if (Integer.parseInt(arrange.day) == getTomorrowNumber()){
+                return Integer.parseInt(arrange.start);
+            }
+        }
+        return -1;
+    }
+
+
     public int getTodayEnd(List<ClassTable.Data.Course.Arrange> courseArrange){
         for (ClassTable.Data.Course.Arrange arrange : courseArrange) {
             if (Integer.parseInt(arrange.day) == getTodayNumber()){
@@ -234,6 +244,15 @@ public class CourseHelper {
     public static String getTodayLocation(List<ClassTable.Data.Course.Arrange> courseArrange){
         for (ClassTable.Data.Course.Arrange arrange : courseArrange) {
             if (Integer.parseInt(arrange.day) == getTodayNumber()){
+                return arrange.room;
+            }
+        }
+        return "无法查询地点";
+    }
+
+    public static String getTomorrowLocation(List<ClassTable.Data.Course.Arrange> courseArrange){
+        for (ClassTable.Data.Course.Arrange arrange : courseArrange) {
+            if (Integer.parseInt(arrange.day) == getTomorrowNumber()){
                 return arrange.room;
             }
         }

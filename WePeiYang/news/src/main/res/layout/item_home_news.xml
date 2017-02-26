@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.twtstudio.retrox.news.home.NewsItemViewModel" />
+        <import type="android.view.View"/>
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <View
+            android:layout_width="4dp"
+            android:layout_height="match_parent"
+            android:background="@{viewModel.color}"
+            tools:background="@color/assist_color_1" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="10dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:fontFamily="sans-serif"
+                android:textSize="17sp"
+                android:textColor="#424242"
+                android:text="@{viewModel.title}"
+                tools:text="关于新校区游泳馆暂停开放的通知" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:fontFamily="sans-serif-light"
+                android:textSize="15sp"
+                android:visibility="@{viewModel.isDisplayBrief?View.VISIBLE:View.GONE}"
+                android:text="@{viewModel.brief}"
+                tools:text="各位同学：根据学校教学管理安排，确定2017年2月18日（周六）、2月19日（周日）为2016至2017学年…" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@{viewModel.color}"
+                    android:textSize="15sp"
+                    android:text="@{viewModel.type}"
+                    tools:text="校园公告"
+                    tools:textColor="@color/assist_color_1" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:fontFamily="sans-serif-light"
+                    android:textSize="15sp"
+                    android:text="@{viewModel.date}"
+                    tools:text="02/20" />
+            </LinearLayout>
+            <View
+                android:layout_marginTop="6dp"
+                android:background="@color/common_lv4_divider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+        </LinearLayout>
+    </LinearLayout>
+</layout>

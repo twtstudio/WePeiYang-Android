@@ -1,5 +1,6 @@
 package com.twtstudio.retrox.tjulibrary.home;
 
+import android.app.Activity;
 import android.content.Context;
 import android.databinding.Observable;
 import android.databinding.ObservableArrayList;
@@ -12,6 +13,7 @@ import android.support.v4.graphics.drawable.DrawableCompat;
 
 import com.kelin.mvvmlight.base.ViewModel;
 import com.kelin.mvvmlight.command.ReplyCommand;
+import com.tapadoo.alerter.Alerter;
 import com.twtstudio.retrox.tjulibrary.R;
 import com.twtstudio.retrox.tjulibrary.provider.Book;
 import com.twtstudio.retrox.tjulibrary.provider.RenewResult;
@@ -181,6 +183,10 @@ public class HomeLibItemViewModel implements ViewModel {
             String s = stringBuilder.toString();
             refreshInfo();
             //调用alerter
+            Alerter.create((Activity) mContext)
+                    .setTitle("续借操作完成")
+                    .setText(s)
+                    .show();
         });
     }
 

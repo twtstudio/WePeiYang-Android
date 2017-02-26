@@ -1,5 +1,6 @@
 package com.twtstudio.retrox.tjulibrary.home;
 
+import android.app.Activity;
 import android.content.Context;
 import android.databinding.ObservableField;
 import android.graphics.Color;
@@ -9,6 +10,7 @@ import android.support.v4.graphics.drawable.DrawableCompat;
 
 import com.kelin.mvvmlight.base.ViewModel;
 import com.kelin.mvvmlight.messenger.Messenger;
+import com.tapadoo.alerter.Alerter;
 import com.twtstudio.retrox.tjulibrary.R;
 import com.twtstudio.retrox.tjulibrary.provider.Book;
 
@@ -41,6 +43,12 @@ public class BookItemViewModel implements ViewModel {
         }else if (leftDays > 10){
             DrawableCompat.setTint(drawable,Color.rgb(42,160,74)); //green
         }else if (leftDays > 0){
+            if (leftDays<5){
+                Alerter.create((Activity) mContext)
+                        .setText("还书提醒")
+                        .setText(book.title+"剩余时间不足5天，请尽快还书")
+                        .show();
+            }
             DrawableCompat.setTint(drawable,Color.rgb(160,42,42)); //red
         }else {
             drawable = ContextCompat.getDrawable(mContext,R.drawable.lib_warning);

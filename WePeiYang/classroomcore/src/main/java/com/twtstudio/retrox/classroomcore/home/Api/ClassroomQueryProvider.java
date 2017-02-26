@@ -7,6 +7,8 @@ import com.twt.wepeiyang.commons.network.ApiException;
 import com.twt.wepeiyang.commons.network.DefaultRetrofitBuilder;
 import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
 
+import java.net.SocketTimeoutException;
+
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
@@ -23,7 +25,7 @@ public class ClassroomQueryProvider {
 
     public ClassroomQueryProvider(Context mContext) {
         this.mContext = mContext;
-        api = DefaultRetrofitBuilder.getBuilder()
+        api = DefaultRetrofitBuilder.getLoglessBuilder()
                 .baseUrl("http://120.27.115.59/test_laravel/public/index.php/api/")
                 .build().create(ClassroomApi.class);
     }
@@ -34,7 +36,7 @@ public class ClassroomQueryProvider {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(action1,throwable -> {
-                    if (throwable instanceof ApiException){
+                    if (throwable instanceof ApiException || throwable instanceof SocketTimeoutException){
                         Toast.makeText(mContext,"网络错误",Toast.LENGTH_SHORT).show();
                     }else {
                         throwable.printStackTrace();
