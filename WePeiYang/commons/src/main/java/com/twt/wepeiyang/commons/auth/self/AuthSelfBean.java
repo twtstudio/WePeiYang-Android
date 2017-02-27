@@ -7,11 +7,12 @@ package com.twt.wepeiyang.commons.auth.self;
 public class AuthSelfBean {
 
     /**
-     * twtid : 72907
-     * twtuname : miss976885345
-     * realname : 冀辰阳
-     * studentid : 3015204342
-     * avatar : https://i.twtstudio.com/uploads/2016/11/05/1478321959-72907-3015204342.jpg
+     * twtid : 73963
+     * twtuname :
+     * realname :
+     * studentid : 3015204348
+     * avatar : https://i.twtstudio.com/img/avatar.png
+     * accounts : {"tju":true,"lib":true}
      */
 
     public int twtid;
@@ -19,4 +20,15 @@ public class AuthSelfBean {
     public String realname;
     public String studentid;
     public String avatar;
+    public AccountsBean accounts;
+
+    public static class AccountsBean {
+        /**
+         * tju : true
+         * lib : true
+         */
+
+        public boolean tju;
+        public boolean lib;
+    }
 }

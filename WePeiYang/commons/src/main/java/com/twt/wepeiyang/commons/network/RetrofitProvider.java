@@ -37,7 +37,7 @@ public class RetrofitProvider {
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(loggingInterceptor)
                 .addInterceptor(signInterceptor)
-                .retryOnConnectionFailure(false)
+                .retryOnConnectionFailure(true)
                 .connectTimeout(30, TimeUnit.SECONDS)
                 .build();
 

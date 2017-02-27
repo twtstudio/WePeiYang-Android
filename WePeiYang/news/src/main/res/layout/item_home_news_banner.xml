@@ -11,7 +11,7 @@
     <cn.bingoogolapple.bgabanner.BGABanner
         android:id="@+id/banner_guide_content"
         android:layout_width="match_parent"
-        android:layout_height="260dp"
+        android:layout_height="300dp"
         app:bannerData="@{viewModel.bannerData}"
         app:banner_pageChangeDuration="1000"
         app:banner_pointAutoPlayInterval="4000"

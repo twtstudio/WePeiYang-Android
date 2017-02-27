@@ -62,7 +62,7 @@ public class HomeLibItemViewModel implements ViewModel {
     public final ReplyCommand loadMore = new ReplyCommand(this::loadMoreBooks);
     private final List<ViewModel> moreBookContainer = new ArrayList<>();
     public ObservableBoolean isExpanded = new ObservableBoolean(false);
-    public final ObservableField<String> loadMoreBtnMsg = new ObservableField<>();
+    public final ObservableField<String> loadMoreBtnMsg = new ObservableField<>("暂无更多书可以显示");
     private String cacheStr = "";
 
     //对应barcode和book做查询

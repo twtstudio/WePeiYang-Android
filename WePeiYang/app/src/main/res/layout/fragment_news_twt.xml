@@ -1,25 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <data>
+
         <variable
             name="viewModel"
-            type="com.twtstudio.retrox.news.home.NewsListViewModel"/>
+            type="com.twtstudio.retrox.news.home.NewsListViewModel" />
+
         <import type="me.tatarka.bindingcollectionadapter.LayoutManagers" />
     </data>
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
 
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        app:items="@{viewModel.viewModels}"
-        app:itemView="@{viewModel.itemView}"
-        app:layoutManager="@{LayoutManagers.linear()}"
+    <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+        android:layout_height="match_parent">
 
-</android.support.design.widget.CoordinatorLayout>
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_refresh_news"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:refreshing="@{viewModel.isRefreshing}"
+            app:onRefreshCommand="@{viewModel.refreshCommand}">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:itemView="@{viewModel.itemView}"
+                app:items="@{viewModel.viewModels}"
+                app:layoutManager="@{LayoutManagers.linear()}"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        </android.support.v4.widget.SwipeRefreshLayout>
+    </android.support.design.widget.CoordinatorLayout>
 </layout>

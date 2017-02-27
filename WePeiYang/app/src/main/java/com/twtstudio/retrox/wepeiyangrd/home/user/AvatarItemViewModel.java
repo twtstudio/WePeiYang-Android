@@ -6,6 +6,7 @@ import android.databinding.ObservableInt;
 
 import com.kelin.mvvmlight.base.ViewModel;
 import com.kelin.mvvmlight.command.ReplyCommand;
+import com.twt.wepeiyang.commons.auth.self.AuthSelfProvider;
 import com.twtstudio.retrox.wepeiyangrd.R;
 
 /**
@@ -30,5 +31,15 @@ public class AvatarItemViewModel implements ViewModel {
 
     public AvatarItemViewModel() {
         //avatarUrl.set();
+        getData();
+    }
+
+    public void getData(){
+        AuthSelfProvider provider = new AuthSelfProvider();
+        provider.getUserData(authSelfBean -> {
+            userName.set(authSelfBean.twtuname);
+            intro.set(authSelfBean.realname);
+            avatarUrl.set(authSelfBean.avatar);
+        });
     }
 }

@@ -37,9 +37,9 @@ public class NewsFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this.getContext());
-        boolean isChangeNewsSource = sharedPreferences.getBoolean(getString(R.string.pref_is_switch_news_source),true);
+        boolean willChangeNewsSource = sharedPreferences.getBoolean(getString(R.string.pref_is_switch_news_source),true);
         View view = null;
-        if (isChangeNewsSource){
+        if (willChangeNewsSource){
             FragmentNewsBinding binding = DataBindingUtil.inflate(inflater,R.layout.fragment_news,container,false);
             view = binding.getRoot();
             binding.setViewModel(new OneListViewModel());
@@ -54,6 +54,7 @@ public class NewsFragment extends BaseFragment {
         }else {
             FragmentNewsTwtBinding binding = DataBindingUtil.inflate(inflater,R.layout.fragment_news_twt,container,false);
             view = binding.getRoot();
+            binding.swipeRefreshNews.setColorSchemeResources(R.color.colorPrimary,R.color.assist_color_1,R.color.assist_color_2,R.color.schedule_purple2);
             binding.setViewModel(new NewsListViewModel(this.getContext()));
         }
 
