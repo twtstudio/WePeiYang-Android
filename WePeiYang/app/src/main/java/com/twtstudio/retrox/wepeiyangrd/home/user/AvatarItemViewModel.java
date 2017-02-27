@@ -6,7 +6,7 @@ import android.databinding.ObservableInt;
 
 import com.kelin.mvvmlight.base.ViewModel;
 import com.kelin.mvvmlight.command.ReplyCommand;
-import com.twt.wepeiyang.commons.auth.self.AuthSelfProvider;
+import com.twtstudio.retrox.auth.login.AuthSelfProvider;
 import com.twtstudio.retrox.wepeiyangrd.R;
 
 /**

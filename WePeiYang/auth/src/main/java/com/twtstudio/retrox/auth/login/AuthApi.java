@@ -1,7 +1,7 @@
-package com.twt.wepeiyang.commons.auth;
+package com.twtstudio.retrox.auth.login;
 
-import com.twt.wepeiyang.commons.auth.login.Token;
-import com.twt.wepeiyang.commons.auth.self.AuthSelfBean;
+
+
 import com.twt.wepeiyang.commons.network.ApiResponse;
 
 import retrofit2.http.GET;

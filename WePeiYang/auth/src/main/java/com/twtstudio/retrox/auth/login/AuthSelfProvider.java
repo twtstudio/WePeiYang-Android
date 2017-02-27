@@ -1,9 +1,7 @@
-package com.twt.wepeiyang.commons.auth.self;
+package com.twtstudio.retrox.auth.login;
 
-import com.twt.wepeiyang.commons.auth.AuthApi;
 import com.twt.wepeiyang.commons.network.RetrofitProvider;
 
-import retrofit2.Retrofit;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;

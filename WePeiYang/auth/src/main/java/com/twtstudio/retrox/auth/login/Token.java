@@ -1,4 +1,4 @@
-package com.twt.wepeiyang.commons.auth.login;
+package com.twtstudio.retrox.auth.login;
 
 /**
  * Created by retrox on 2016/11/25.

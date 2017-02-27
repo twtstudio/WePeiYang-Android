@@ -3,7 +3,8 @@ package com.twtstudio.retrox.wepeiyangrd;
 import android.os.Bundle;
 import android.widget.Button;
 
-import com.twt.wepeiyang.commons.auth.login.LoginViewModel;
+
+import com.twtstudio.retrox.auth.login.LoginViewModel;
 import com.twtstudio.retrox.wepeiyangrd.base.BaseActivity;
 import com.twtstudio.retrox.wepeiyangrd.base.BaseFragment;
 import com.twtstudio.retrox.wepeiyangrd.home.common.oneItem.OneInfoViewModel;

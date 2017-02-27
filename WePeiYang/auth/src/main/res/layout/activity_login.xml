@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="com.twt.wepeiyang.commons.auth.login.LoginViewModel"/>
+            type="com.twtstudio.retrox.auth.login.LoginViewModel"/>
 
         <import type="android.view.View"/>
     </data>

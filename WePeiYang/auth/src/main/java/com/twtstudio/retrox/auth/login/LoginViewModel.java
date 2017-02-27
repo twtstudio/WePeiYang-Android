@@ -1,4 +1,4 @@
-package com.twt.wepeiyang.commons.auth.login;
+package com.twtstudio.retrox.auth.login;
 
 import android.content.Intent;
 import android.databinding.ObservableBoolean;
@@ -8,7 +8,6 @@ import android.widget.Toast;
 import com.kelin.mvvmlight.base.ViewModel;
 import com.kelin.mvvmlight.command.ReplyCommand;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
-import com.twt.wepeiyang.commons.auth.AuthApi;
 import com.twt.wepeiyang.commons.network.ApiErrorHandler;
 import com.twt.wepeiyang.commons.network.ApiResponse;
 import com.twt.wepeiyang.commons.network.RetrofitProvider;

@@ -1,12 +1,12 @@
-package com.twt.wepeiyang.commons.auth.login;
+package com.twtstudio.retrox.auth.login;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
-import com.twt.wepeiyang.commons.R;
-import com.twt.wepeiyang.commons.databinding.ActivityLoginBinding;
+import com.twtstudio.retrox.auth.R;
+import com.twtstudio.retrox.auth.databinding.ActivityLoginBinding;
 
 
 /**

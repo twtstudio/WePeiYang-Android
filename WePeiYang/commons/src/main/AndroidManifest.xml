@@ -6,7 +6,7 @@
                  android:supportsRtl="true"
     >
         <activity
-            android:name="com.twt.wepeiyang.commons.auth.login.LoginActivity"
+            android:name="com.twt.wepeiyang.commons.com.twtstudio.retrox.auth.login.LoginActivity"
             android:exported="true"
             android:theme="@style/LoginTheme"/>
 

@@ -1,4 +1,4 @@
-package com.twt.wepeiyang.commons.auth.bindtju;
+package com.twtstudio.retrox.auth.tju;
 
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 
