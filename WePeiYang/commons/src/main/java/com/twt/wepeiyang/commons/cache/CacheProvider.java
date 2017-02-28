@@ -2,6 +2,8 @@ package com.twt.wepeiyang.commons.cache;
 
 import com.twt.wepeiyang.commons.utils.App;
 
+import java.io.File;
+
 import io.rx_cache.internal.RxCache;
 import io.victoralbertos.jolyglot.GsonSpeaker;
 
@@ -24,5 +26,12 @@ public class CacheProvider {
 
     public static RxCache getRxCache(){
         return SingletonHolder.INSTANCE.mRxCache;
+    }
+
+    public static void clearCache(){
+        File[] files =  App.getApplication().getFilesDir().listFiles();
+        for (File file: files) {
+            file.delete();
+        }
     }
 }

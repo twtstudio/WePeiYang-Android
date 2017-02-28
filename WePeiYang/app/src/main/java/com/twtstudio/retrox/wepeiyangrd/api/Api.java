@@ -13,8 +13,6 @@ import rx.Observable;
 
 public interface Api {
 
-
-
     @GET("http://rest.wufazhuce.com/OneForWeb/one/getHpinfo")
     Observable<OneInfoBean> getOneHpInfo(@Query("strDate") String date);
 }

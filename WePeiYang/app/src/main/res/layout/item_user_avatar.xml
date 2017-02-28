@@ -46,13 +46,13 @@
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="27dp"
+            android:layout_marginTop="22dp"
             android:layout_marginStart="17dp"
             android:maxLines="1"
             android:layout_toEndOf="@id/imageView"
             android:layout_toStartOf="@id/edit_icon"
-            android:textStyle="bold"
             android:textColor="#302a2a"
+            android:fontFamily="sans-serif-common"
             android:textSize="18sp"
             android:text="@{viewModel.userName}"/>
 

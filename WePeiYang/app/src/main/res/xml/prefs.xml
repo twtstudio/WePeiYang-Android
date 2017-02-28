@@ -45,6 +45,10 @@
             android:key="@string/pref_is_bind_bike"
             android:summary="已绑定"
             android:title="自行车绑定状态" />
+        <Preference
+            android:key="@string/pref_log_out"
+            android:title="退出登录"/>
+        
     </PreferenceCategory>
 
     <PreferenceCategory android:title="自习室设置">
