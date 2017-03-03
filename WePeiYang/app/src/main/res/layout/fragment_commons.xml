@@ -78,7 +78,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/colorPrimary"
-                app:title="WePeiYang v3"
+                app:title="Home"
                 app:titleTextColor="@color/white_color"
                 />
 

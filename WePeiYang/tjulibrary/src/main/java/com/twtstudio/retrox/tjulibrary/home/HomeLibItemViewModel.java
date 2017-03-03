@@ -134,11 +134,12 @@ public class HomeLibItemViewModel implements ViewModel {
         state.set(1);
         libProvider.getUserInfo(info -> {
             state.set(0);
-            message.set("您一共借了"+info.books.size()+"本书");
             //添加当前书列表
-            if (null == info.books || info.books.size() == 0) {
+            if (null == info.books || info.books.size()==0) {
                 haveBooks.set(false);
                 message.set("还没有从图书馆借书呢");
+            }else {
+                message.set("您一共借了"+info.books.size()+"本书");
             }
             viewModels.clear();
             moreBookContainer.clear();

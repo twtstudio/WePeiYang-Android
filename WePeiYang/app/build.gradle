@@ -56,8 +56,10 @@ dependencies {
     compile project(':classroomcore')
     compile project(':news')
     compile project(':auth')
+    compile project(':fellowsearch')
 
-
+    compile 'agency.tango.android:material-intro-screen:0.0.5'
+    compile 'com.github.shem8:material-login:2.1.1'
     compile 'de.hdodenhof:circleimageview:2.1.0'
 
 }

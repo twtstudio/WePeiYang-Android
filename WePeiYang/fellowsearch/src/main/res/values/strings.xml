@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Fellowsearch</string>
+    <drawable name="gray">#eeeeee</drawable>
+</resources>
