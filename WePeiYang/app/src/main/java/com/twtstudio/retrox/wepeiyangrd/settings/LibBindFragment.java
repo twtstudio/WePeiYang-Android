@@ -1,10 +1,13 @@
 package com.twtstudio.retrox.wepeiyangrd.settings;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputEditText;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -26,11 +29,14 @@ public class LibBindFragment extends SlideFragment {
 
     private Unbinder unbinder;
     private boolean canMoveForward = false;
+    private Context mContext;
     @BindView(R.id.lib_password)
-    EditText libPasswordEdit;
+    TextInputEditText libPasswordEdit;
+    @BindView(R.id.btn_lib_bind)
+    Button button;
 
     @OnClick(R.id.btn_lib_bind)
-    private void bind_lib(View view) {
+    public void bind_lib(View view) {
         new TjuLibProvider(this.getContext()).bindLibrary(integer -> {
             if (integer == -1) {
                 canMoveForward = true;
@@ -52,6 +58,7 @@ public class LibBindFragment extends SlideFragment {
         View view = inflater.inflate(R.layout.fragment_lib_bind_slide, container, false);
         canMoveForward = CommonPrefUtil.getIsBindLibrary();
         unbinder = ButterKnife.bind(this, view);
+        mContext = this.getContext();
         return view;
     }
 

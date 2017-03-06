@@ -58,6 +58,10 @@ dependencies {
     compile project(':auth')
     compile project(':fellowsearch')
 
+    compile 'com.jakewharton:butterknife:8.5.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
+
+
     compile 'agency.tango.android:material-intro-screen:0.0.5'
     compile 'com.github.shem8:material-login:2.1.1'
     compile 'de.hdodenhof:circleimageview:2.1.0'
