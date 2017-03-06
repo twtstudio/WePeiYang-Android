@@ -21,6 +21,10 @@ public class CommonPrefUtil {
     private static final String BIKE_CARD_SIGN = "bike_sign";
     private static final String BIKE_CARD_ID = "bike_id";
     private static final String STARTUNIX = "start_unix";
+    private static final String STUDENT_NUMBER = "student_number";
+    public static final String IS_BIND_TJU = "is_bind_tju";
+    public static final String IS_BIND_LIBRARY = "is_bind_library";
+
 
     private static final String THEME_MODE = "theme"; //false is normal , true is night
 
@@ -64,5 +68,29 @@ public class CommonPrefUtil {
 
     public static long getStartUnix(){
         return Hawk.get(STARTUNIX,1487520000L);
+    }
+
+    public static void setStudentNumber(String number){
+        Hawk.put(STUDENT_NUMBER,number);
+    }
+
+    public static String getStudentNumber(){
+        return Hawk.get(STUDENT_NUMBER);
+    }
+
+    public static void setIsBindLibrary(boolean isBindLibrary) {
+        Hawk.put(IS_BIND_LIBRARY,isBindLibrary);
+    }
+
+    public static boolean getIsBindLibrary() {
+        return Hawk.get(IS_BIND_LIBRARY,false);
+    }
+
+    public static void setIsBindTju(boolean isBindTju){
+        Hawk.put(IS_BIND_TJU,isBindTju);
+    }
+
+    public static boolean getIsBindTju() {
+        return Hawk.get(IS_BIND_TJU,false);
     }
 }

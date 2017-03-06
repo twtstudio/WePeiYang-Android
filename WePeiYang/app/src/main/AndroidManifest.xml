@@ -39,6 +39,8 @@
 
         <activity android:name=".settings.SettingsActivity" android:theme="@style/AppThemeActionBar"/>
 
+        <activity android:name=".settings.BindActivity" android:theme="@style/Theme.Intro"/>
+
         <activity
             android:name=".module.welcome.WelcomeActivity"
             android:exported="true"

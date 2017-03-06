@@ -39,4 +39,8 @@
     <color name="layer_color">#19000000</color>
 
     <color name="test">#e6e6e6</color>
+
+    <color name="tju_slide_background_color">#527e7a</color>
+    <color name="intro_slide_buttons">#00d096</color>
+    <color name="lib_slide_background_color">#795548</color>
 </resources>

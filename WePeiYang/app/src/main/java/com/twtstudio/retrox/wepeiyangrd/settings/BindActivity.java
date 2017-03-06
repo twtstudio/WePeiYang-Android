@@ -14,8 +14,9 @@ public class BindActivity extends MaterialIntroActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-//        addSlide();
+        enableLastSlideAlphaExitTransition(true);
+        addSlide(new TjuBindFragment());
+        addSlide(new LibBindFragment());
 
     }
 }

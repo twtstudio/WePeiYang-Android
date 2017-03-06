@@ -14,5 +14,4 @@ public interface TjuApi {
     @GET("/auth/bind/tju")
     Observable<ResponseBody> bindTju(@Query("tjuuname") String tjuuname,@Query("tjupasswd") String tjupasswd);
 
-
 }

@@ -86,6 +86,24 @@ public class SettingsActivity extends AppCompatActivity {
                     return true;
                 }
             });
+
+            Preference libBindPref = findPreference(getString(R.string.pref_is_bind_lib));
+            libBindPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(mContext)
+                            .setMessage("是否要跳转到绑定页面")
+                            .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Intent intent = new Intent(mContext,BindActivity.class);
+                                    mContext.startActivity(intent);
+                                }
+                            });
+                    builder.create().show();
+                    return true;
+                }
+            });
         }
     }
 }

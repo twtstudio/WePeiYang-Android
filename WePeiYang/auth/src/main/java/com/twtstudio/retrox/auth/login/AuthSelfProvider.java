@@ -1,6 +1,7 @@
 package com.twtstudio.retrox.auth.login;
 
 import com.twt.wepeiyang.commons.network.RetrofitProvider;
+import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
 
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
@@ -17,7 +18,16 @@ public class AuthSelfProvider {
         AuthApi authApi = RetrofitProvider.getRetrofit().create(AuthApi.class);
         authApi.getAuthSelf().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(action1,Throwable::printStackTrace);
+                .subscribe(authSelfBean -> {
+                    /**
+                     * 进行一些数据持久化处理
+                     */
+                    CommonPrefUtil.setStudentNumber(authSelfBean.studentid);
+                    CommonPrefUtil.setIsBindLibrary(authSelfBean.accounts.lib);
+                    CommonPrefUtil.setIsBindTju(authSelfBean.accounts.tju);
+
+                    action1.call(authSelfBean);
+                },Throwable::printStackTrace);
 
     }
 }

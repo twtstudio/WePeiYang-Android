@@ -30,6 +30,11 @@ public class TjuLibProvider {
         mContext = context;
     }
 
+    /**
+     * bind tju lib
+     * @param action1 -1:ok others:to Api doc
+     * @param libpasswd
+     */
     public void bindLibrary(Action1<Integer> action1, String libpasswd) {
 
         libApi.bindLib(libpasswd).map(ApiResponse::getData)
