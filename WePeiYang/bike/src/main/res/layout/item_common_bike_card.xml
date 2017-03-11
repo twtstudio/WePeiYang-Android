@@ -270,6 +270,7 @@ android:paddingLeft="20dp"
             android:layout_height="match_parent"
             android:layout_gravity="end"
             android:fontFamily="sans-serif"
+            bind:clickCommand="@{viewModel.callBikeCenter}"
             android:text="拨打客服"
             android:textColor="@color/colorPrimary" />
     </FrameLayout>

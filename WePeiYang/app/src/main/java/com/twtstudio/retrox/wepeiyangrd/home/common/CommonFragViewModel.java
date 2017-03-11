@@ -6,6 +6,7 @@ import android.preference.PreferenceManager;
 
 import com.kelin.mvvmlight.base.ViewModel;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
+import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
 import com.twtstudio.retrox.bike.homeitem.BikeHomeItemViewModel;
 import com.twtstudio.retrox.classroomcore.home.ClassroomViewModel;
 import com.twtstudio.retrox.tjulibrary.home.HomeLibItemViewModel;
@@ -16,6 +17,7 @@ import com.twtstudio.retrox.wepeiyangrd.base.BaseFragment;
 import com.twtstudio.retrox.wepeiyangrd.home.common.gpaItem.GpaItemViewModel;
 import com.twtstudio.retrox.wepeiyangrd.home.common.oneItem.OneInfoViewModel;
 import com.twtstudio.retrox.wepeiyangrd.home.common.schedule.ScheduleViewModel;
+import com.twtstudio.retrox.wepeiyangrd.home.news.OneDetailViewModel;
 
 import me.tatarka.bindingcollectionadapter.ItemViewSelector;
 import me.tatarka.bindingcollectionadapter.itemviews.ItemViewClassSelector;
@@ -34,10 +36,9 @@ public class CommonFragViewModel implements ViewModel {
 
     private OneInfoViewModel mOneInfoViewModel;
     private GpaItemViewModel mGpaItemViewModel;
-    private ScheduleViewModel mScheduleViewModel;
 
     public final ItemViewSelector itemView = ItemViewClassSelector.builder()
-            .put(OneInfoViewModel.class,BR.viewModel,R.layout.item_common_one)
+//            .put(OneDetailViewModel.class,BR.viewModel,R.layout.item_common_one)
             .put(GpaItemViewModel.class,BR.viewModel,R.layout.item_common_gpa)
             .put(ScheduleViewModel.class,BR.viewModel,R.layout.item_common_schedule)
             .put(HomeLibItemViewModel.class,BR.viewModel, com.twtstudio.retrox.tjulibrary.R.layout.item_common_lib)
@@ -51,23 +52,25 @@ public class CommonFragViewModel implements ViewModel {
     }
 
     private void initList(){
-        mOneInfoViewModel = new OneInfoViewModel(mFragment);
-        //viewModelList.add(mOneInfoViewModel);
+//        mOneInfoViewModel = new OneDetailViewModel();
+//        viewModelList.add(mOneInfoViewModel);
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mFragment.getContext());
-        boolean isDisplayGpa = sharedPreferences.getBoolean(mFragment.getString(R.string.pref_is_display_gpa),false);
 
+        ScheduleViewModel mScheduleViewModel = new ScheduleViewModel((RxAppCompatActivity) mFragment.getActivity());
+        viewModelList.add(mScheduleViewModel);
+
+        boolean isDisplayGpa = sharedPreferences.getBoolean(mFragment.getString(R.string.pref_is_display_gpa),false);
         if (isDisplayGpa){
             mGpaItemViewModel = new GpaItemViewModel((BaseActivity) mFragment.getActivity());
             viewModelList.add(mGpaItemViewModel);
         }
-        
-        mScheduleViewModel = new ScheduleViewModel((RxAppCompatActivity) mFragment.getActivity());
-        viewModelList.add(mScheduleViewModel);
+
+
         viewModelList.add(new HomeLibItemViewModel(mFragment.getContext()));
         viewModelList.add(new ClassroomViewModel(mFragment.getContext()));
         boolean isDisplayBike = sharedPreferences.getBoolean(mFragment.getString(R.string.pref_is_display_bike),true);
-        if (isDisplayBike){
+        if (isDisplayBike && CommonPrefUtil.getIsBindBike()){
             viewModelList.add(new BikeHomeItemViewModel((RxAppCompatActivity) mFragment.getActivity()));
         }
     }

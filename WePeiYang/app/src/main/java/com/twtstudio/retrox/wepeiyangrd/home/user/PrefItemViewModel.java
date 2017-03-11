@@ -6,6 +6,7 @@ import android.databinding.Observable;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.databinding.ObservableInt;
+import android.support.v7.app.AppCompatActivity;
 
 import com.kelin.mvvmlight.base.ViewModel;
 import com.kelin.mvvmlight.command.ReplyCommand;
@@ -89,6 +90,7 @@ public class PrefItemViewModel implements ViewModel {
             //jump to settings
             Intent intent = new Intent(mContext, SettingsActivity.class);
             mContext.startActivity(intent);
+            ((AppCompatActivity)mContext).finish();
         }
     }
 

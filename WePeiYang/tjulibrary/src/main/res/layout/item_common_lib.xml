@@ -114,6 +114,7 @@
                     android:layout_gravity="center_horizontal"
                     android:fontFamily="sans-serif"
                     android:text="一键续借"
+                    bind:clickCommand="@{viewModel.renewMyBooks}"
                     android:textColor="@color/colorPrimary" />
 
                 <Button

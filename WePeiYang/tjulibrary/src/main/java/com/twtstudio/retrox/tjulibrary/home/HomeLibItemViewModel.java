@@ -2,6 +2,7 @@ package com.twtstudio.retrox.tjulibrary.home;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.databinding.Observable;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableBoolean;
@@ -10,6 +11,7 @@ import android.databinding.ObservableInt;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
+import android.support.v7.app.AlertDialog;
 
 import com.kelin.mvvmlight.base.ViewModel;
 import com.kelin.mvvmlight.command.ReplyCommand;
@@ -55,6 +57,26 @@ public class HomeLibItemViewModel implements ViewModel {
     public final ItemView itemView = ItemView.of(BR.viewModel, R.layout.item_common_book);
 
     public final ReplyCommand refreshClick = new ReplyCommand(this::refreshInfo);
+
+    public final ReplyCommand renewMyBooks = new ReplyCommand(() -> {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext)
+                .setIcon(R.drawable.lib_library)
+                .setTitle("确定要一键续借?")
+                .setMessage("每本书最多续借两次，续借可延期至今天后一个月，珍惜机会...")
+                .setPositiveButton("我就要续借", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        renewBooks();
+                    }
+                })
+                .setNegativeButton("算了算了", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        builder.create().show();
+    });
 
     /**
      * 超出3本书的缩略 分页加载

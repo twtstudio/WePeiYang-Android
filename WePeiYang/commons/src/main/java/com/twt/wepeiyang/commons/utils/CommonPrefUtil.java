@@ -1,6 +1,7 @@
 package com.twt.wepeiyang.commons.utils;
 
 import com.orhanobut.hawk.Hawk;
+import com.orhanobut.logger.Logger;
 
 /**
  * Created by retrox on 2016/12/12.
@@ -24,6 +25,7 @@ public class CommonPrefUtil {
     private static final String STUDENT_NUMBER = "student_number";
     public static final String IS_BIND_TJU = "is_bind_tju";
     public static final String IS_BIND_LIBRARY = "is_bind_library";
+    public static final String IS_BIND_BIKE = "pref_is_bind_bike";
 
 
     private static final String THEME_MODE = "theme"; //false is normal , true is night
@@ -92,5 +94,13 @@ public class CommonPrefUtil {
 
     public static boolean getIsBindTju() {
         return Hawk.get(IS_BIND_TJU,false);
+    }
+
+    public static void setIsBindBike(boolean isBindBike) {
+        Hawk.put(IS_BIND_BIKE,isBindBike);
+    }
+
+    public static boolean getIsBindBike(){
+        return Hawk.get(IS_BIND_BIKE,false);
     }
 }

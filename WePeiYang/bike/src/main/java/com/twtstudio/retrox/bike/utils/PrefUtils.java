@@ -65,6 +65,7 @@ public class PrefUtils {
 
     public static void setBikeToken(String token) {
         getDefaultSharedPreferences().edit().putString(PREF_BIKE_TOKEN, token).apply();
+        CommonPrefUtil.setIsBindBike(true);
     }
 
     public static String getBikeToken() {

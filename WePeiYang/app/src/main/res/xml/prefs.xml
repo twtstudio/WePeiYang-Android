@@ -28,23 +28,24 @@
             android:defaultValue="false"
             android:summaryOn="ONE一个（版权问题需用户承担责任）"
             android:summaryOff="显示天外天新闻源"
-            android:title="切换新闻源"/>
+            android:title="切换新闻源(内测版only)"/>
     </PreferenceCategory>
     
     <PreferenceCategory android:title="绑定设置">
 
         <Preference
             android:key="@string/pref_is_bind_lib"
-            android:summary="已绑定"
             android:title="图书馆绑定状态" />
         <Preference
             android:key="@string/pref_is_bind_tju"
-            android:summary="已绑定"
             android:title="办公网绑定状态" />
         <Preference
             android:key="@string/pref_is_bind_bike"
-            android:summary="已绑定"
             android:title="自行车绑定状态" />
+        <Preference
+            android:key="@string/pref_bind_settings"
+            android:title="绑定关联账号"
+            />
         <Preference
             android:key="@string/pref_log_out"
             android:title="退出登录"/>

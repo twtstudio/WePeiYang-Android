@@ -21,6 +21,7 @@ import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
 import com.twtstudio.retrox.auth.login.LoginActivity;
 import com.twtstudio.retrox.tjulibrary.provider.TjuLibProvider;
 import com.twtstudio.retrox.wepeiyangrd.R;
+import com.twtstudio.retrox.wepeiyangrd.home.HomeActivity;
 
 /**
  * Created by retrox on 2017/2/21.
@@ -36,6 +37,7 @@ public class SettingsActivity extends AppCompatActivity {
         setTitle("偏好设置");
 
         SettingsFragment fragment = new SettingsFragment();
+        fragment.setmContext(this);
 
         getFragmentManager().beginTransaction()
                 .replace(R.id.settings_container, fragment)
@@ -43,15 +45,28 @@ public class SettingsActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(this, HomeActivity.class);
+        startActivity(intent);
+    }
+
     public static class SettingsFragment extends PreferenceFragment {
 
         private Activity mContext;
+
+        public SettingsFragment() {
+        }
+
+        public void setmContext(Activity mContext) {
+            this.mContext = mContext;
+        }
 
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.prefs);
-            mContext = this.getActivity();
             initPrefs();
         }
 
@@ -71,7 +86,7 @@ public class SettingsActivity extends AppCompatActivity {
                                     CommonPrefUtil.clearAll();
                                     Intent intent = new Intent(mContext, LoginActivity.class);
                                     //清除缓存
-                                    CacheProvider.clearCache();
+//                                    CacheProvider.clearCache();
                                     mContext.startActivity(intent);
                                     mContext.finish();
                                 }
@@ -87,7 +102,7 @@ public class SettingsActivity extends AppCompatActivity {
                 }
             });
 
-            Preference libBindPref = findPreference(getString(R.string.pref_is_bind_lib));
+            Preference libBindPref = findPreference(getString(R.string.pref_bind_settings));
             libBindPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
@@ -104,6 +119,15 @@ public class SettingsActivity extends AppCompatActivity {
                     return true;
                 }
             });
+
+            Preference isBindTju = findPreference(getString(R.string.pref_is_bind_tju));
+            isBindTju.setSummary(CommonPrefUtil.getIsBindTju()?"已绑定":"未绑定");
+
+            Preference isBindLib = findPreference(getString(R.string.pref_is_bind_lib));
+            isBindLib.setSummary(CommonPrefUtil.getIsBindLibrary()?"已绑定":"未绑定");
+
+            Preference isBindBike = findPreference(getString(R.string.pref_is_bind_bike));
+            isBindBike.setSummary(CommonPrefUtil.getIsBindBike()?"已绑定":"未绑定");
         }
     }
 }

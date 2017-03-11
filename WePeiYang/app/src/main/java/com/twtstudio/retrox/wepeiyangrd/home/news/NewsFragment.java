@@ -37,7 +37,7 @@ public class NewsFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this.getContext());
-        boolean willChangeNewsSource = sharedPreferences.getBoolean(getString(R.string.pref_is_switch_news_source),true);
+        boolean willChangeNewsSource = sharedPreferences.getBoolean(getString(R.string.pref_is_switch_news_source),false);
         View view = null;
         if (willChangeNewsSource){
             FragmentNewsBinding binding = DataBindingUtil.inflate(inflater,R.layout.fragment_news,container,false);

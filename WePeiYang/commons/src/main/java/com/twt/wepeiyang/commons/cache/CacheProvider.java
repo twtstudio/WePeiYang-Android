@@ -29,7 +29,7 @@ public class CacheProvider {
     }
 
     public static void clearCache(){
-        File[] files =  App.getApplication().getFilesDir().listFiles();
+        File[] files =  App.getApplicationContext().getCacheDir().listFiles();
         for (File file: files) {
             file.delete();
         }

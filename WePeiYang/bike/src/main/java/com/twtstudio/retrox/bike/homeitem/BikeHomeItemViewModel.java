@@ -1,12 +1,17 @@
 package com.twtstudio.retrox.bike.homeitem;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.graphics.Color;
+import android.net.Uri;
+import android.support.v7.app.AlertDialog;
 import android.widget.Toast;
 
 import com.kelin.mvvmlight.base.ViewModel;
 import com.kelin.mvvmlight.command.ReplyCommand;
+import com.orhanobut.logger.Logger;
 import com.tapadoo.alerter.Alerter;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 import com.twtstudio.retrox.bike.R;
@@ -46,6 +51,8 @@ public class BikeHomeItemViewModel implements ViewModel {
 
     public final ReplyCommand refreshClick = new ReplyCommand(this::getData);
 
+    public final ReplyCommand callBikeCenter = new ReplyCommand(this::callBike);
+
     public BikeHomeItemViewModel(RxAppCompatActivity activity) {
         this.activity = activity;
         getData();
@@ -66,6 +73,9 @@ public class BikeHomeItemViewModel implements ViewModel {
                     }
                     if (bikeUserInfo.record != null) {
                         String dep = BikeStationUtils.getInstance().queryId(bikeUserInfo.record.dep).name;
+                        if (dep.equals("no data")){
+                            dep = "点位无法查询";
+                        }
                         lastLeavePostion.set(dep + "-" + bikeUserInfo.record.dep_dev + "号桩 取出");
                         lastLeaveTime.set(TimeStampUtils.getDateString(bikeUserInfo.record.dep_time));
                         String arr = BikeStationUtils.getInstance().queryId(bikeUserInfo.record.arr).name;
@@ -98,6 +108,24 @@ public class BikeHomeItemViewModel implements ViewModel {
                     }
                     throwable.printStackTrace();
                 });
+    }
+
+    public void callBike(){
+
+        String[] strings = new String[]{"13114951501", "18020061573"};
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity)
+                .setTitle("拨打自行车客服")
+                .setIcon(R.drawable.bike_bike_icon)
+                .setItems(strings, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Uri uri = Uri.parse("tel:"+strings[which]);
+                        Intent intent = new Intent(Intent.ACTION_DIAL,uri);
+                        activity.startActivity(intent);
+                    }
+                });
+        builder.create().show();
     }
 
 }

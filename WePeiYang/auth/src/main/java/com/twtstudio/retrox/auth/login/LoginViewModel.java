@@ -11,6 +11,7 @@ import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 import com.twt.wepeiyang.commons.network.ApiErrorHandler;
 import com.twt.wepeiyang.commons.network.ApiResponse;
 import com.twt.wepeiyang.commons.network.RetrofitProvider;
+import com.twt.wepeiyang.commons.network.RxErrorHandler;
 import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
 
 import rx.Notification;
@@ -94,11 +95,10 @@ public class LoginViewModel implements ViewModel {
                     mActivity.finish();
                 });
 
-        Observable<Throwable> throwableObservable =
-                wpyToken.filter(Notification::isOnError)
-                        .map(Notification::getThrowable);
+        wpyToken.filter(Notification::isOnError)
+                .map(Notification::getThrowable)
+                .subscribe(new RxErrorHandler(mActivity));
 
-        new ApiErrorHandler(mActivity).handleError(throwableObservable);
 
     }
 

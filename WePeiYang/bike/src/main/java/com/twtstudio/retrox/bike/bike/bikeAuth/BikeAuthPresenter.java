@@ -1,8 +1,12 @@
 package com.twtstudio.retrox.bike.bike.bikeAuth;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.twt.wepeiyang.commons.utils.App;
+import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
 import com.twtstudio.retrox.bike.api.BikeApiClient;
 import com.twtstudio.retrox.bike.api.BikeApiSubscriber;
 import com.twtstudio.retrox.bike.api.OnNextListener;
