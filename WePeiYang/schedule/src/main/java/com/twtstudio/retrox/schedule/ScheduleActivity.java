@@ -26,6 +26,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.haozhang.lib.SlantedTextView;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 import com.twtstudio.retrox.schedule.model.ClassTable;
 import com.twtstudio.retrox.schedule.model.ClassTableProvider;
@@ -172,7 +173,7 @@ public class ScheduleActivity extends RxAppCompatActivity implements ScheduleVie
         }
     }
 
-    private void getScheduleDataAuto(boolean refresh){
+    private void getScheduleDataAuto(boolean refresh) {
         showProgress();
         ClassTableProvider.init(this)
                 .registerAction(classTable -> {
@@ -315,10 +316,10 @@ public class ScheduleActivity extends RxAppCompatActivity implements ScheduleVie
                     course.coursecolor = ResourceHelper.getColor(classColors[i]);
                     i++;
                 }
-                if (week >= startWeek && week <= endWeek &&
-                        arrange.week.equals("单双周") ||
-                        (arrange.week.equals("单周") && week % 2 == 1) ||
-                        (arrange.week.equals("双周") && week % 2 == 0)) {
+                if ((week >= startWeek && week <= endWeek) &&
+                        (arrange.week.equals("单双周") ||
+                                (arrange.week.equals("单周") && week % 2 == 1) ||
+                                (arrange.week.equals("双周") && week % 2 == 0))) {
                     //缓存课程当前周状态
                     course.isAvaiableCurrentWeek = true;
 
@@ -338,14 +339,14 @@ public class ScheduleActivity extends RxAppCompatActivity implements ScheduleVie
                             toClassContent(classTable.data.data, day, startTime, endTime, cv);
 //                                moveToContent(course, cv);
                         });
-                        v.setY((startTime-1)*griditemWidth*2);
+                        v.setY((startTime - 1) * griditemWidth * 2);
 //                        GridLayout.Spec rowSpec = GridLayout.spec(startTime - 1, length);
 //                        GridLayout.Spec columnSpec = GridLayout.spec(day + 1, 1);
 //                        GridLayout.LayoutParams params = new GridLayout.LayoutParams(rowSpec, columnSpec);
 
 //                        params.setGravity(Gravity.CENTER_HORIZONTAL);
 //                        params.setMargins(4, 4, 4, 4);
-                        switch (day){
+                        switch (day) {
                             case 1:
                                 mRlMonday.addView(v);
                                 break;
@@ -372,6 +373,9 @@ public class ScheduleActivity extends RxAppCompatActivity implements ScheduleVie
                         for (int t = startTime - 1; t < endTime; t++) {
                             hasClass[day][t] = true;
                         }
+                    } else {
+                        // TODO: 2017/2/24 多节课程逻辑
+                        addMultiClassLabel(day, startTime,endTime);
                     }
                 } else {
                     course.isAvaiableCurrentWeek = false;
@@ -408,7 +412,7 @@ public class ScheduleActivity extends RxAppCompatActivity implements ScheduleVie
 //                            moveToContent(course, cv);
                     });
                     cv.setForegroundGravity(Gravity.CENTER_HORIZONTAL);
-                    v.setY((startTime-1)*griditemWidth*2);
+                    v.setY((startTime - 1) * griditemWidth * 2);
 
 //                    GridLayout.Spec rowSpec = GridLayout.spec(startTime - 1, length);
 //                    GridLayout.Spec columnSpec = GridLayout.spec(day + 1, 1);
@@ -416,7 +420,7 @@ public class ScheduleActivity extends RxAppCompatActivity implements ScheduleVie
 //                    params.setGravity(Gravity.CENTER_HORIZONTAL);
 //                    params.setMargins(4, 4, 4, 4);
 
-                    switch (day){
+                    switch (day) {
                         case 1:
                             mRlMonday.addView(v);
                             break;
@@ -443,11 +447,50 @@ public class ScheduleActivity extends RxAppCompatActivity implements ScheduleVie
                     for (int t = startTime - 1; t < endTime; t++) {
                         hasClass[day][t] = true;
                     }
+                } else {
+                    // TODO: 2017/2/24 多节课程逻辑
+                    addMultiClassLabel(day, startTime,endTime);
                 }
             }
         }
     }
 
+    private void addMultiClassLabel(int day, int startTime,int endTime) {
+        int length = endTime - startTime + 1;
+        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View v = inflater.inflate(R.layout.item_schedule_label, null, false);
+
+        v.setY((startTime - 1) * griditemWidth * 2 + griditemWidth * 2 * length - 8 - dip2px(30));
+        switch (day) {
+            case 1:
+                mRlMonday.addView(v);
+                break;
+            case 2:
+                mRlTuesday.addView(v);
+                break;
+            case 3:
+                mRlWednesday.addView(v);
+                break;
+            case 4:
+                mRlThursday.addView(v);
+                break;
+            case 5:
+                mRlFriday.addView(v);
+                break;
+            case 6:
+                mRlSaturday.addView(v);
+                break;
+            case 7:
+                mRlSunday.addView(v);
+                break;
+        }
+
+    }
+
+    public int dip2px(float dpValue) {
+        final float scale = getApplicationContext().getResources().getDisplayMetrics().density;
+        return (int) (dpValue * scale + 0.5f);
+    }
 
     private boolean hasClassThisWeek(int day, int startTime, int endTime) {
         for (int t = startTime - 1; t < endTime; t++) {
@@ -467,9 +510,9 @@ public class ScheduleActivity extends RxAppCompatActivity implements ScheduleVie
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId()==android.R.id.home){
+        if (item.getItemId() == android.R.id.home) {
             finish();
-        }else if (item.getItemId()==R.id.refresh){
+        } else if (item.getItemId() == R.id.refresh) {
             //refresh
             getScheduleDataAuto(true);
         }

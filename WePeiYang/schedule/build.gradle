@@ -38,6 +38,7 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:25.1.0'
     compile 'com.jakewharton:butterknife:8.5.1'
+    compile 'com.haozhang.libary:android-slanted-textview:1.2'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
     compile project(':commons')
     testCompile 'junit:junit:4.12'
