@@ -4,6 +4,7 @@
     <color name="myTextPrimaryColorWhite">#ffffff</color>
     <color name="myTextPrimaryColorGray">#999999</color>
     <color name="myWindowBackgroundGray">#eeeeee</color>
+    <color name="myButtonColorGreen">#56cc00</color>
     <color name="divider_color">#eeeeee</color>
     <color name="bike_background">#ebeff0</color>
     <color name="white">#ffffff</color>

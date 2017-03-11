@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <com.haozhang.lib.SlantedTextView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:visibility="visible"
+        app:slantedBackgroundColor="@color/myButtonColorGreen"
+        app:slantedLength="12dp"
+        android:alpha="0.3"
+        app:slantedMode="left_bottom"
+        app:slantedText="多节"
+        app:slantedTextColor="@color/myTextPrimaryColorWhite"
+        app:slantedTextSize="8sp"/>
+</FrameLayout>
