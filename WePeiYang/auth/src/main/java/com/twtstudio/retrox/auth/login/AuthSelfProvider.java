@@ -26,8 +26,12 @@ public class AuthSelfProvider {
                     CommonPrefUtil.setIsBindLibrary(authSelfBean.accounts.lib);
                     CommonPrefUtil.setIsBindTju(authSelfBean.accounts.tju);
 
-                    action1.call(authSelfBean);
+                    if (action1 != null) {
+                        action1.call(authSelfBean);
+                    }
                 },Throwable::printStackTrace);
 
     }
+
+
 }

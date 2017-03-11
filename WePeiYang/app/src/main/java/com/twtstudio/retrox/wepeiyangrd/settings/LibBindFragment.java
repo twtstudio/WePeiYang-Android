@@ -64,7 +64,7 @@ public class LibBindFragment extends SlideFragment {
 
     @Override
     public int backgroundColor() {
-        return R.color.lib_slide_background_color;
+        return R.color.white_color;
     }
 
     @Override

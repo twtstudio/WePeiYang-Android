@@ -66,7 +66,7 @@ public class HomeLibItemViewModel implements ViewModel {
     private String cacheStr = "";
 
     //对应barcode和book做查询
-    public final HashMap<String,Book> bookHashMap = new HashMap<>();
+    public final HashMap<String, Book> bookHashMap = new HashMap<>();
 
     private Drawable okImage;
     private Drawable warningImage;
@@ -106,14 +106,14 @@ public class HomeLibItemViewModel implements ViewModel {
 
     public void loadMoreBooks() {
         //先把当前的那个button的字符串存下来
-        if (!loadMoreBtnMsg.get().equals("收缩")){
+        if (!loadMoreBtnMsg.get().equals("收缩")) {
             cacheStr = loadMoreBtnMsg.get();
         }
         if (moreBookContainer.size() != 0 && !isExpanded.get()) {
             viewModels.addAll(moreBookContainer);
             isExpanded.set(true);
             loadMoreBtnMsg.set("收缩");
-        }else if(moreBookContainer.size()!=0 && isExpanded.get()){
+        } else if (moreBookContainer.size() != 0 && isExpanded.get()) {
             /**
              * 这个封装真是尼玛骚
              * 需要我进行add操作时候才会刷新列表
@@ -135,47 +135,49 @@ public class HomeLibItemViewModel implements ViewModel {
         libProvider.getUserInfo(info -> {
             state.set(0);
             //添加当前书列表
-            if (null == info.books || info.books.size()==0) {
+            if (null == info.books || info.books.size() == 0) {
                 haveBooks.set(false);
                 message.set("还没有从图书馆借书呢");
-            }else {
-                message.set("您一共借了"+info.books.size()+"本书");
+            } else {
+                message.set("您一共借了" + info.books.size() + "本书");
             }
             viewModels.clear();
             moreBookContainer.clear();
 
-            for (Book book : info.books) {
-                bookHashMap.put(book.barcode,book);
-            }
-
-            //分页加载
-            if (info.books.size() <= 3) {
+            if (info.books != null) {
                 for (Book book : info.books) {
-                    viewModels.add(new BookItemViewModel(mContext, book));
+                    bookHashMap.put(book.barcode, book);
                 }
-                loadMoreBtnMsg.set("无更多书显示");
-            } else {
-                for (int i = 0; i < info.books.size(); i++) {
-                    if (i < 3) {
-                        viewModels.add(new BookItemViewModel(mContext, info.books.get(i)));
-                    } else {
-                        moreBookContainer.add(new BookItemViewModel(mContext, info.books.get(i)));
+                //分页加载
+                if (info.books.size() <= 3) {
+                    for (Book book : info.books) {
+                        viewModels.add(new BookItemViewModel(mContext, book));
                     }
+                    loadMoreBtnMsg.set("无更多书显示");
+                } else {
+                    for (int i = 0; i < info.books.size(); i++) {
+                        if (i < 3) {
+                            viewModels.add(new BookItemViewModel(mContext, info.books.get(i)));
+                        } else {
+                            moreBookContainer.add(new BookItemViewModel(mContext, info.books.get(i)));
+                        }
+                    }
+                    loadMoreBtnMsg.set("显示更多(" + (info.books.size() - 3) + ")");
                 }
-                loadMoreBtnMsg.set("显示更多("+(info.books.size()-3)+")");
+
             }
 
         });
     }
 
-    public void renewBooks(){
+    public void renewBooks() {
         state.set(1);
         libProvider.renewAllBooks(renewResults -> {
             state.set(0);
             message.set("续借操作完成");
             StringBuilder stringBuilder = new StringBuilder();
             for (RenewResult renewResult : renewResults) {
-                if (renewResult.error == 1){
+                if (renewResult.error == 1) {
                     state.set(2);
                     stringBuilder.append(bookHashMap.get(renewResult.barcode).title).append(" : ").append("续借次数超过两次，请归还重新借阅\n");
                 }

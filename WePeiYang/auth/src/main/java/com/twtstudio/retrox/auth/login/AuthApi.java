@@ -27,6 +27,6 @@ public interface AuthApi {
     Observable<AuthSelfBean> getAuthSelf();
 
     @GET("auth/token/refresh")
-    Observable<ResponseBody> refreshToken();
+    Observable<ApiResponse<Token>> refreshToken();
 
 }

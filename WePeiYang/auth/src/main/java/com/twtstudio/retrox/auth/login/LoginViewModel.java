@@ -77,6 +77,10 @@ public class LoginViewModel implements ViewModel {
                 .subscribe(token -> {
                     CommonPrefUtil.setToken(token.token);
                     CommonPrefUtil.setIsLogin(true);
+
+                    //一些学号头像什么的
+                    new AuthSelfProvider().getUserData(null);
+
                     Toast.makeText(mActivity, "登陆成功", Toast.LENGTH_SHORT).show();
                     // TODO: 2016/11/27 jump to home page
                     Class clazz = null;
