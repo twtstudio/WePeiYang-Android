@@ -1,5 +1,6 @@
 package com.twtstudio.retrox.auth.login;
 
+import com.tencent.bugly.crashreport.CrashReport;
 import com.twt.wepeiyang.commons.network.RetrofitProvider;
 import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
 
@@ -25,6 +26,8 @@ public class AuthSelfProvider {
                     CommonPrefUtil.setStudentNumber(authSelfBean.studentid);
                     CommonPrefUtil.setIsBindLibrary(authSelfBean.accounts.lib);
                     CommonPrefUtil.setIsBindTju(authSelfBean.accounts.tju);
+                    //user id
+                    CrashReport.setUserId(authSelfBean.twtuname);
 
                     if (action1 != null) {
                         action1.call(authSelfBean);

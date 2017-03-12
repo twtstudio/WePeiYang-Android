@@ -32,6 +32,11 @@ public class WelcomeActivity extends BaseActivity {
 
 
         boolean isLogin = CommonPrefUtil.getIsLogin();
+        boolean isFirstLogin = CommonPrefUtil.getIsFirstLogin();
+//        if (true) {
+//            Intent intent = new Intent(this, WelcomeSlideActivity.class);
+//            startActivity(intent);
+//        } else
         if (isLogin) {
             Intent intent = new Intent(this, HomeActivity.class);
             startActivity(intent);
@@ -41,7 +46,7 @@ public class WelcomeActivity extends BaseActivity {
         }
 
         //add dynamic shortcuts
-        if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.N_MR1){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
             createDynamicShortcuts();
         }
 

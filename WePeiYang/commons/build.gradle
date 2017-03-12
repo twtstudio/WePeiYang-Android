@@ -57,6 +57,8 @@ dependencies {
 
     //logger
     compile 'com.orhanobut:logger:1.15'
+    compile 'com.tencent.bugly:crashreport_upgrade:latest.release'//其中latest.release指代最新版本号，也可以指定明确的版本号，例如1.2.0
+
 
     compile 'com.annimon:stream:1.1.4'
 

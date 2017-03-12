@@ -74,25 +74,30 @@ public class LoginViewModel implements ViewModel {
 
         wpyToken.filter(Notification::isOnNext)
                 .map(Notification::getValue)
-                .doAfterTerminate(() -> mViewStyle.isProgressRefreshing.set(false))
+//                .doAfterTerminate(() -> mViewStyle.isProgressRefreshing.set(false))
                 .subscribe(token -> {
                     CommonPrefUtil.setToken(token.token);
                     CommonPrefUtil.setIsLogin(true);
+                    CommonPrefUtil.setIsFirstLogin(false);
 
                     //一些学号头像什么的
-                    new AuthSelfProvider().getUserData(null);
+                    new AuthSelfProvider().getUserData(authSelfBean -> {
 
-                    Toast.makeText(mActivity, "登陆成功", Toast.LENGTH_SHORT).show();
-                    // TODO: 2016/11/27 jump to home page
-                    Class clazz = null;
-                    try {
-                        clazz = Class.forName("com.twtstudio.retrox.wepeiyangrd.home.HomeActivity");
-                    } catch (ClassNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                    Intent intent = new Intent(mActivity, clazz);
-                    mActivity.startActivity(intent);
-                    mActivity.finish();
+                        mViewStyle.isProgressRefreshing.set(false);
+                        Toast.makeText(mActivity, "登陆成功", Toast.LENGTH_SHORT).show();
+                        // TODO: 2016/11/27 jump to home page
+                        Class clazz = null;
+                        try {
+                            clazz = Class.forName("com.twtstudio.retrox.wepeiyangrd.module.welcome.WelcomeSlideActivity");
+                        } catch (ClassNotFoundException e) {
+                            e.printStackTrace();
+                        }
+                        Intent intent = new Intent(mActivity, clazz);
+                        mActivity.startActivity(intent);
+                        mActivity.finish();
+
+                    });
+
                 });
 
         wpyToken.filter(Notification::isOnError)

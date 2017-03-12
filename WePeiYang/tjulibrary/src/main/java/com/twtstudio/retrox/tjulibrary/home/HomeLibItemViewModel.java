@@ -140,13 +140,16 @@ public class HomeLibItemViewModel implements ViewModel {
              * 这个封装真是尼玛骚
              * 需要我进行add操作时候才会刷新列表
              */
-            viewModels.removeAll(moreBookContainer);
+//            viewModels.removeAll(moreBookContainer);
+            for (ViewModel viewModel : moreBookContainer) {
+                viewModels.remove(viewModel);
+            }
+
             List<ViewModel> container = new ArrayList<>();
             for (ViewModel viewModel : viewModels) {
                 container.add(viewModel);
             }
-            viewModels.clear();
-            viewModels.addAll(container);
+
             isExpanded.set(false);
             loadMoreBtnMsg.set(cacheStr);
         }

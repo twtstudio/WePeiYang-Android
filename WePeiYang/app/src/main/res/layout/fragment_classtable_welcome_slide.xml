@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<agency.tango.materialintroscreen.parallax.ParallaxLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <TextView
+        app:layout_parallaxFactor="0.5"
+        android:text="CURRICULUM  SCHEDULE"
+        android:textSize="22sp"
+        android:layout_marginTop="50dp"
+        android:textColor="@color/colorAccent"
+        android:fontFamily="sans-serif-medium"
+        android:gravity="center_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <ImageView
+        app:layout_parallaxFactor="1.0"
+        android:layout_marginTop="60dp"
+        android:src="@drawable/ic_welcome_classtable"
+        android:layout_gravity="center"
+        android:visibility="visible"
+        android:layout_width="300dp"
+        android:scaleType="centerCrop"
+        android:layout_height="300dp" />
+
+    <TextView
+        app:layout_parallaxFactor="1.0"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="60dp"
+        android:textSize="18sp"
+        android:textColor="@color/colorAccent"
+        android:fontFamily="sans-serif-regular"
+        android:text="The Function module of the curriculum schedule of WePeiYang can be used."
+        android:layout_width="350dp"
+        android:layout_height="wrap_content" />
+
+</agency.tango.materialintroscreen.parallax.ParallaxLinearLayout>

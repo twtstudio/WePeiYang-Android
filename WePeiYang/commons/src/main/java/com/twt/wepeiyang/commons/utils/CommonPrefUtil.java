@@ -26,6 +26,7 @@ public class CommonPrefUtil {
     public static final String IS_BIND_TJU = "is_bind_tju";
     public static final String IS_BIND_LIBRARY = "is_bind_library";
     public static final String IS_BIND_BIKE = "pref_is_bind_bike";
+    public static final String IS_FIRST_LOGIN = "is_first_login";
 
 
     private static final String THEME_MODE = "theme"; //false is normal , true is night
@@ -102,5 +103,13 @@ public class CommonPrefUtil {
 
     public static boolean getIsBindBike(){
         return Hawk.get(IS_BIND_BIKE,false);
+    }
+
+    public static void setIsFirstLogin(boolean isFirstLogin){
+        Hawk.put(IS_FIRST_LOGIN,isFirstLogin);
+    }
+
+    public static boolean getIsFirstLogin(){
+        return Hawk.get(IS_FIRST_LOGIN,true);
     }
 }

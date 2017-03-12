@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.orhanobut.logger.Logger;
+import com.tencent.bugly.crashreport.CrashReport;
 import com.twt.wepeiyang.commons.cache.CacheProvider;
 import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
 import com.twtstudio.retrox.auth.login.LoginActivity;
@@ -35,6 +36,8 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_setting);
 
         setTitle("偏好设置");
+
+//        CrashReport.testJavaCrash();
 
         SettingsFragment fragment = new SettingsFragment();
         fragment.setmContext(this);

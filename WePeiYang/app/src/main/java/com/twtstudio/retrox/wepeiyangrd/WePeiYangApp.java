@@ -5,6 +5,9 @@ import android.content.Context;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.orhanobut.hawk.Hawk;
+import com.tencent.bugly.Bugly;
+import com.tencent.bugly.crashreport.CrashReport;
+
 
 /**
  * Created by retrox on 2016/11/25.
@@ -19,6 +22,11 @@ public class WePeiYangApp extends Application {
         sContext = getApplicationContext();
         Hawk.init(sContext).build();
         Fresco.initialize(sContext);
+//        CrashReport.initCrashReport(getApplicationContext(), "8ceee186f2", true);
+
+        Bugly.init(getApplicationContext(), "8ceee186f2", true);
+        CrashReport.setAppChannel(getApplicationContext(),"内测分发");
+
     }
 
     public static Context getContext() {
