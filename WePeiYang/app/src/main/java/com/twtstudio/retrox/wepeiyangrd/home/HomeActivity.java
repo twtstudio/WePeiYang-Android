@@ -2,6 +2,7 @@ package com.twtstudio.retrox.wepeiyangrd.home;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
@@ -48,6 +49,7 @@ public class HomeActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
 //        CommonPrefUtil.setIsAcceptTos(false);//check
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             setWindowTransition();

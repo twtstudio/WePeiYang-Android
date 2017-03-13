@@ -7,5 +7,6 @@
         <item name="colorAccent">#fb7c62</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="colorControlNormal">@color/white_color</item>
     </style>
 </resources>

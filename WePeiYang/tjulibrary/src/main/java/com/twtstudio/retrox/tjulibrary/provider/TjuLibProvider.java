@@ -40,27 +40,9 @@ public class TjuLibProvider {
         libApi.bindLib(libpasswd).map(ApiResponse::getData)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(s -> action1.call(-1), throwable -> {
-                    RxErrorHandler errorHandler = new RxErrorHandler(mContext);
-                    if (throwable instanceof ApiException) {
-                        ApiException apiException = (ApiException) throwable;
-                        Logger.e(apiException, apiException.message);
-                        //已绑定
-                        if (apiException.error_code == 50003) {
-                            action1.call(50003);
-                        } else if (apiException.error_code == 50002) {
-                            //密码错
-                            action1.call(50002);
-                        } else {
-                            errorHandler.call(apiException);
-                        }
-                    } else {
-                        errorHandler.call(throwable);
-                    }
-                });
+                .subscribe(s -> action1.call(-1),new RxErrorHandler(mContext));
 
     }
-
 
     public void getUserInfo(Action1<Info> action1) {
 

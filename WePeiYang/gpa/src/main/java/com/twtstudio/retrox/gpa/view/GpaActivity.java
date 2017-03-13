@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.transition.ChangeBounds;
 import android.transition.Fade;
 import android.transition.Slide;
+import android.view.MenuItem;
 
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 
@@ -36,10 +37,19 @@ public class GpaActivity extends RxAppCompatActivity {
         toolbar.setTitle("GPA");
         toolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         GpaActivityViewModel viewModel = new GpaActivityViewModel(this);
         mBinding.setViewModel(viewModel);
         viewModel.getGpaData();
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @TargetApi(21)

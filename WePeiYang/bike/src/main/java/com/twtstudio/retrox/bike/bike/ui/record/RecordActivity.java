@@ -48,6 +48,7 @@ public class RecordActivity extends PActivity<RecordPresenter> implements Record
 
     @Override
     protected void initView() {
+        setTitle("历史记录");
         mAdapter = new RecordAdapter(this);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(mAdapter);

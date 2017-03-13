@@ -68,7 +68,7 @@ public class PrefItemViewModel implements ViewModel {
             // TODO: 2017/1/14 jump to settings
             imageRes.set(R.drawable.ic_settings);
             title.set("设置");
-            viewStyle.isMargin.set(false);
+            viewStyle.isMargin.set(true);
             viewStyle.switchable.set(false);
         }
 

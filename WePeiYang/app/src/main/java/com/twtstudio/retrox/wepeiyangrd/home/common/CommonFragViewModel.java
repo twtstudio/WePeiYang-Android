@@ -66,8 +66,9 @@ public class CommonFragViewModel implements ViewModel {
             viewModelList.add(mGpaItemViewModel);
         }
 
-
-        viewModelList.add(new HomeLibItemViewModel(mFragment.getContext()));
+        if (CommonPrefUtil.getIsBindLibrary()){
+            viewModelList.add(new HomeLibItemViewModel(mFragment.getContext()));
+        }
         viewModelList.add(new ClassroomViewModel(mFragment.getContext()));
         boolean isDisplayBike = sharedPreferences.getBoolean(mFragment.getString(R.string.pref_is_display_bike),true);
         if (isDisplayBike && CommonPrefUtil.getIsBindBike()){

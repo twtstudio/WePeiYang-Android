@@ -12,6 +12,7 @@ import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
@@ -36,6 +37,8 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_setting);
 
         setTitle("偏好设置");
+        
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 //        CrashReport.testJavaCrash();
 
@@ -46,6 +49,14 @@ public class SettingsActivity extends AppCompatActivity {
                 .replace(R.id.settings_container, fragment)
                 .commit();
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

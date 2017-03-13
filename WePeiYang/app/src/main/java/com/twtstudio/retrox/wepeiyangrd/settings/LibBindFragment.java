@@ -80,7 +80,9 @@ public class LibBindFragment extends SlideFragment {
 
     @Override
     public boolean canMoveFurther() {
-        return this.canMoveForward;
+        // TODO: 14/03/2017 强制绑定？？？
+//        return this.canMoveForward;
+        return true;
     }
 
     @Override

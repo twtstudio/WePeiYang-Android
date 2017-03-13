@@ -37,7 +37,7 @@ public class PushProvider {
                             action1.call(new CoursePushBean("今日课程","今天没课！\n做点有趣的事情吧"));
                         }else {
                             ClassTable.Data.Course course = courseList.get(0);
-                            action1.call(new CoursePushBean("今日课程","共"+courseList.size()+"节\n" +
+                            action1.call(new CoursePushBean("今日课程","共"+courseList.size()+"门\n" +
                                     "第一门是"+course.coursename+"\n在第"+courseHelper.getTodayStart(course.arrange)+"节开始\n"+
                                     "位置："+CourseHelper.getTodayLocation(course.arrange)));
                         }
@@ -52,7 +52,7 @@ public class PushProvider {
                             action1.call(new CoursePushBean("明日课程","明天没课！\n做点有趣的事情吧"));
                         }else {
                             ClassTable.Data.Course course = courseList.get(0);
-                            action1.call(new CoursePushBean("明日课程","共"+courseList.size()+"节\n" +
+                            action1.call(new CoursePushBean("明日课程","共"+courseList.size()+"门\n" +
                                     "第一门是"+course.coursename+"\n在第"+courseHelper.getTomorrowStart(course.arrange)+"节开始\n"+
                                     "位置："+CourseHelper.getTomorrowLocation(course.arrange)));
                         }
