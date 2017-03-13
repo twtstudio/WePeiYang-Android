@@ -4,6 +4,7 @@ import android.content.Context;
 import android.widget.Toast;
 
 import com.orhanobut.logger.Logger;
+import com.tencent.bugly.crashreport.CrashReport;
 import com.twt.wepeiyang.commons.utils.App;
 import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
 
@@ -35,12 +36,16 @@ public class RxErrorHandler implements Action1<Throwable> {
 
     @Override
     public void call(Throwable throwable) {
+
+
         if (throwable instanceof IOException) {
             IOException error = (IOException) throwable;
             Toast.makeText(mContext, "网络错误", Toast.LENGTH_SHORT).show();
+            postThrowable(error);
             Logger.e(error, "error");
         } else if (throwable instanceof HttpException) {
             HttpException exception = (HttpException) throwable;
+            postThrowable(exception);
             Logger.e(exception, "http_error");
             try {
 
@@ -56,8 +61,17 @@ public class RxErrorHandler implements Action1<Throwable> {
                 e.printStackTrace();
             }
         } else {
+            postThrowable(throwable);
             throwable.printStackTrace();
         }
+    }
+
+    /**
+     * post throwable to server
+     * @param throwable
+     */
+    private void postThrowable(Throwable throwable){
+        CrashReport.postCatchedException(throwable);
     }
 
     private void handleApiError(int err_code) {

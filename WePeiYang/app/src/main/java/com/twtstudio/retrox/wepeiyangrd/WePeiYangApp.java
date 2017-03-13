@@ -24,8 +24,9 @@ public class WePeiYangApp extends Application {
         Fresco.initialize(sContext);
 //        CrashReport.initCrashReport(getApplicationContext(), "8ceee186f2", true);
 
-        Bugly.init(getApplicationContext(), "8ceee186f2", true);
+        Bugly.init(getApplicationContext(), "8ceee186f2", false);
         CrashReport.setAppChannel(getApplicationContext(),"内测分发");
+        CrashReport.setIsDevelopmentDevice(getApplicationContext(), BuildConfig.DEBUG);
 
     }
 

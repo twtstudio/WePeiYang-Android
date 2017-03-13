@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory android:title="自我奋斗以及历史行程">
+    <!--<PreferenceCategory android:title="自我奋斗以及历史行程">
         <SwitchPreference
             android:summaryOff="与其苟延残喘不如纵情燃烧吧"
             android:summaryOn="您已成功退学"
             android:title="一键退学" />
-    </PreferenceCategory>
+    </PreferenceCategory>-->
 
     <PreferenceCategory android:title="主页设置">
 

@@ -74,7 +74,7 @@ public class LoginViewModel implements ViewModel {
 
         wpyToken.filter(Notification::isOnNext)
                 .map(Notification::getValue)
-//                .doAfterTerminate(() -> mViewStyle.isProgressRefreshing.set(false))
+                .doAfterTerminate(() -> mViewStyle.isProgressRefreshing.set(false))
                 .subscribe(token -> {
                     CommonPrefUtil.setToken(token.token);
                     CommonPrefUtil.setIsLogin(true);
