@@ -140,6 +140,7 @@
                     android:layout_gravity="center_horizontal"
                     android:fontFamily="sans-serif"
                     android:text="编辑"
+                    bind:clickCommand="@{viewModel.editClick}"
                     android:textColor="@color/colorPrimary" />
 
                 <Button
@@ -148,7 +149,8 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="end"
                     android:fontFamily="sans-serif"
-                    android:text="历史记录"
+                    android:text="详情"
+                    bind:clickCommand="@{viewModel.jumpToDetailClick}"
                     android:textColor="@color/colorPrimary" />
             </FrameLayout>
         </LinearLayout>

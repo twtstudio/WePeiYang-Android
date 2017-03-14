@@ -24,7 +24,7 @@ public class BuildingItemViewModel implements ViewModel {
 
     private int buildingNum;
 
-    public BuildingItemViewModel(int num,Context context) {
+    public BuildingItemViewModel(int num, Context context) {
         mContext = context;
         this.buildingNum = num;
         getData();
@@ -32,18 +32,22 @@ public class BuildingItemViewModel implements ViewModel {
 
     public void getData() {
         ClassroomQueryProvider provider = new ClassroomQueryProvider(mContext);
+        buildingName.set(buildingNum + "楼");
         availableRooms.set("查询中...");
         provider.getClassRoom(buildingNum, classroomQueryBean -> {
             availableRooms.set("");
-            buildingName.set(buildingNum+"楼");
-            Observable.from(classroomQueryBean.data)
-                    .take(6)
-                    .subscribe(dataBean -> {
-                        String s = availableRooms.get();
-                        //去掉后台返回的 xx楼前缀
-                        s = s + dataBean.room.replace(buildingName.get(),"")+"  ";
-                        availableRooms.set(s);
-                    });
+            if (classroomQueryBean.errorcode == 1 || classroomQueryBean.data.size() == 0) {
+                availableRooms.set("不支持查询此教学楼");
+            } else {
+                Observable.from(classroomQueryBean.data)
+                        .take(6)
+                        .subscribe(dataBean -> {
+                            String s = availableRooms.get();
+                            //去掉后台返回的 xx楼前缀
+                            s = s + dataBean.room.replace(buildingName.get(), "") + "  ";
+                            availableRooms.set(s);
+                        });
+            }
         });
     }
 }

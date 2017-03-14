@@ -8,6 +8,15 @@
             android:title="一键退学" />
     </PreferenceCategory>-->
 
+    <PreferenceCategory android:title="课程表设置">
+        <SwitchPreference
+            android:key="@string/pref_is_show_today_course"
+            android:defaultValue="false"
+            android:summaryOff="不显示今日课程页面"
+            android:summaryOn="显示今日课程页面"
+            android:title="显示今日课程页面"/>
+    </PreferenceCategory>
+
     <PreferenceCategory android:title="主页设置">
 
         <SwitchPreference
@@ -55,6 +64,7 @@
     <PreferenceCategory android:title="自习室设置">
         <EditTextPreference
             android:key="@string/pref_like_buildings"
+            android:inputType="number"
             android:summary="45 46 55"
             android:title="偏好教学楼" />
     </PreferenceCategory>

@@ -2,15 +2,18 @@ package com.twtstudio.retrox.wepeiyangrd.home.common.schedule;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableField;
 import android.os.Build;
+import android.preference.PreferenceManager;
 
 import com.annimon.stream.Stream;
 import com.kelin.mvvmlight.base.ViewModel;
 import com.kelin.mvvmlight.command.ReplyCommand;
 import com.orhanobut.logger.Logger;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
+import com.twtstudio.retrox.schedule.ScheduleActivity;
 import com.twtstudio.retrox.schedule.TimeHelper;
 import com.twtstudio.retrox.schedule.view.ScheduleTodayAct;
 import com.twtstudio.retrox.wepeiyangrd.BR;
@@ -80,8 +83,16 @@ public class ScheduleViewModel implements ViewModel {
     }
 
     private void jumpTodayDetail(){
-        Intent intent = new Intent(rxAppCompatActivity, ScheduleTodayAct.class);
-        rxAppCompatActivity.startActivity(intent);
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(rxAppCompatActivity);
+        boolean isShowTodayCoursePage = sharedPreferences.getBoolean(rxAppCompatActivity.getString(R.string.pref_is_show_today_course),false);
+
+        if (isShowTodayCoursePage){
+            Intent intent = new Intent(rxAppCompatActivity, ScheduleTodayAct.class);
+            rxAppCompatActivity.startActivity(intent);
+        }else {
+            Intent intent = new Intent(rxAppCompatActivity, ScheduleActivity.class);
+            rxAppCompatActivity.startActivity(intent);
+        }
 
     }
 }

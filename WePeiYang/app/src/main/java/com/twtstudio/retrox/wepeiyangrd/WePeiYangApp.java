@@ -4,7 +4,9 @@ import android.app.Application;
 import android.content.Context;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.stetho.Stetho;
 import com.orhanobut.hawk.Hawk;
+import com.orhanobut.logger.Logger;
 import com.tencent.bugly.Bugly;
 import com.tencent.bugly.crashreport.CrashReport;
 
@@ -27,7 +29,7 @@ public class WePeiYangApp extends Application {
         Bugly.init(getApplicationContext(), "8ceee186f2", false);
         CrashReport.setAppChannel(getApplicationContext(),"内测分发");
         CrashReport.setIsDevelopmentDevice(getApplicationContext(), BuildConfig.DEBUG);
-
+        Stetho.initializeWithDefaults(getApplicationContext());
     }
 
     public static Context getContext() {

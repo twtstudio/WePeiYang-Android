@@ -55,6 +55,7 @@ public class RxErrorHandler implements Action1<Throwable> {
                 int errcode = errJsonObject.getInt("error_code");
                 String message = errJsonObject.getString("message");
                 Logger.e("错误码：" + errcode + "  message:" + message);
+                postThrowable(new ApiException(errcode,message));
                 Toast.makeText(mContext, "错误：" + message, Toast.LENGTH_SHORT).show();
                 handleApiError(errcode);
             } catch (IOException | JSONException e) {
