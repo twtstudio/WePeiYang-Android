@@ -18,6 +18,6 @@
         app:banner_pointAutoPlayAble="true"
         app:banner_indicatorGravity="bottom|right"
         app:banner_tipTextSize="14sp"
-        app:banner_transitionEffect="accordion" />
+        app:banner_transitionEffect="depth" />
 
 </layout>

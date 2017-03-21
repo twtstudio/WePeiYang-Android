@@ -207,7 +207,7 @@ public class HomeLibItemViewModel implements ViewModel {
                     stringBuilder.append(bookHashMap.get(renewResult.barcode).title).append(" : ").append("续借次数超过两次，请归还重新借阅\n");
                 }
             }
-            stringBuilder.append("其他书均续借成功\n");
+            stringBuilder.append("续借完成\n");
             String s = stringBuilder.toString();
             refreshInfo();
             //调用alerter

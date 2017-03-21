@@ -11,16 +11,16 @@
         android:layout_height="match_parent"
         android:layout_marginBottom="@dimen/bottombar_height" />
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="38dp"
+        android:background="@drawable/actionbar_shadow_up" />
     <com.twtstudio.retrox.wepeiyangrd.view.BottomBar
         android:id="@+id/bottomBar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/bottombar_height"
         android:layout_gravity="bottom" />
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:layout_marginBottom="@dimen/bottombar_height"
-        android:background="@drawable/actionbar_shadow_up" />
 </FrameLayout>

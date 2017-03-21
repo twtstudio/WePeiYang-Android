@@ -15,6 +15,7 @@ import com.orhanobut.logger.Logger;
 import com.tapadoo.alerter.Alerter;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 import com.twtstudio.retrox.bike.R;
+import com.twtstudio.retrox.bike.api.AuthHelper;
 import com.twtstudio.retrox.bike.api.BikeApiClient;
 import com.twtstudio.retrox.bike.api.BikeApiResponse;
 import com.twtstudio.retrox.bike.api.BikeResponseTransformer;
@@ -61,6 +62,7 @@ public class BikeHomeItemViewModel implements ViewModel {
     public void getData() {
         isProgressing.set(true);
         BikeApiClient.getInstance().getService().getUserInfo("fake")
+                .retryWhen(new AuthHelper(BikeApiClient.getInstance().getService())) //token逻辑
                 .map(new BikeResponseTransformer<>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

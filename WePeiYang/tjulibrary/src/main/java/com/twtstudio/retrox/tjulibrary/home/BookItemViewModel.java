@@ -45,7 +45,7 @@ public class BookItemViewModel implements ViewModel {
         }else if (leftDays > 0){
             if (leftDays<5){
                 Alerter.create((Activity) mContext)
-                        .setText("还书提醒")
+                        .setTitle("还书提醒")
                         .setText(book.title+"剩余时间不足5天，请尽快还书")
                         .show();
             }

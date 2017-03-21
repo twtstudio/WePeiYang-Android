@@ -11,11 +11,13 @@ import android.widget.TextView;
 
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.formatter.IValueFormatter;
 import com.github.mikephil.charting.utils.ViewPortHandler;
 import com.twtstudio.retrox.bike.R;
@@ -80,6 +82,7 @@ public class HomeFragment extends PFragment<HomePresenter> implements HomeViewCo
     @Override
     protected void preInitView() {
         super.preInitView();
+        mSrlHome.setColorSchemeResources(R.color.colorPrimary,R.color.assist_color_1,R.color.assist_color_2);
         mSrlHome.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -128,15 +131,15 @@ public class HomeFragment extends PFragment<HomePresenter> implements HomeViewCo
             if (arr.equals("no data")) {
                 mArrStation.setText("点位名无法查询");
                 mArrTime.setText(TimeStampUtils.getDateString(bikeUserInfo.record.arr_time));
-                mBikeFeeText.setText("本次消费:" + bikeUserInfo.record.fee);
+                mBikeFeeText.setText("本次消费: " + bikeUserInfo.record.fee);
 
             } else {
                 mArrStation.setText(arr + "-" + bikeUserInfo.record.arr_dev + "号桩 还入");
                 mArrTime.setText(TimeStampUtils.getDateString(bikeUserInfo.record.arr_time));
-                mBikeFeeText.setText("本次消费:" + bikeUserInfo.record.fee);
+                mBikeFeeText.setText("本次消费: " + bikeUserInfo.record.fee);
             }
-            mNameText.setText("姓名:" + bikeUserInfo.name);
-            mBalanceText.setText("余额:" + bikeUserInfo.balance);
+            mNameText.setText("姓名: " + bikeUserInfo.name);
+            mBalanceText.setText("余额: " + bikeUserInfo.balance);
 
 
             mLineChart.setLogEnabled(false);
@@ -198,12 +201,20 @@ public class HomeFragment extends PFragment<HomePresenter> implements HomeViewCo
                     min = val;
                 }
                 xVals.add(String.valueOf(item.get(0)));
-                yVals.add(new Entry(val, i));
+                yVals.add(new Entry(i, val));
                 //colors.add(ContextCompat.getColor(getContext(), R.color.gpa_primary_color));
             }
+            xAxis.setValueFormatter(new IAxisValueFormatter() {
+                @Override
+                public String getFormattedValue(float value, AxisBase axis) {
+                    return xVals.get((int)value);
+                }
+            });
             yAxis.setAxisMaxValue(max);
             yAxis.setAxisMinValue(min);
+
             mSet = new LineDataSet(yVals, "最近一周骑行时间 (min)");
+//            mSet.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
             mSet.setCircleColor(Color.rgb(39, 173, 97));
             mSet.setColor(ContextCompat.getColor(getContext(), R.color.text_secondary_color));
             mSet.setValueTextColor(Color.rgb(145, 145, 145));

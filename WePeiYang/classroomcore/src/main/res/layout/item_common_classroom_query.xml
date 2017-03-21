@@ -12,12 +12,10 @@
         <import type="android.view.View"/>
     </data>
 
-    <android.support.v7.widget.CardView
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        bind:elevation="0dp"
-        android:elevation="0dp"
-        bind:cardBackgroundColor="@color/white_color">
+        android:background="@color/white_color">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -154,6 +152,6 @@
                     android:textColor="@color/colorPrimary" />
             </FrameLayout>
         </LinearLayout>
-    </android.support.v7.widget.CardView>
+    </FrameLayout>
 
 </layout>
