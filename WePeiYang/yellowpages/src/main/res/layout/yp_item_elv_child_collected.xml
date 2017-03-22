@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="5dp"
@@ -10,13 +11,14 @@
 
     <TextView
         android:id="@+id/tv_item_collected_name"
+        tools:text="天外天1234"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:maxWidth="250dp"
         android:textColor="@color/yp_font_black_700"
         android:layout_alignParentLeft="true"
         android:layout_marginBottom="5dp"
-        android:paddingLeft="10dp"
+        android:layout_marginLeft="16dp"
         android:textSize="@dimen/yp_item_children_text_size" />
 
     <ImageView
@@ -36,7 +38,7 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@id/iv_item_children_icon_phone"
         android:layout_below="@id/tv_item_collected_name"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="16dp"
         android:textColor="@color/yp_font_blue_400"
         android:textSize="@dimen/yp_item_children_text_size"
         android:layout_alignParentLeft="true"

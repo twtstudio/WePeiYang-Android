@@ -39,7 +39,7 @@ public class ToolsFragViewModel implements ViewModel {
         itemList.add(new ToolItemViewModel(mContext,R.drawable.ic_main_party,"党建", MainActivity.class));
         itemList.add(new ToolItemViewModel(mContext,R.drawable.ic_main_read,"图书馆", BookHomeActivity.class));
         itemList.add(new ToolItemViewModel(mContext,R.drawable.ic_main_fellow_search,"老乡查询", com.example.caokun.fellowsearch.view.MainActivity.class));
-        itemList.add(new ToolItemViewModel(mContext,R.drawable.ic_main_fellow_search,"黄页", HomeActivity.class));
+        itemList.add(new ToolItemViewModel(mContext,R.drawable.ic_main_yellowpage,"黄页", HomeActivity.class));
 
         // TODO: 2017/1/15 修改跳转的activity
     }
