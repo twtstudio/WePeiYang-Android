@@ -1,0 +1,17 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="yp_activity_horizontal_margin">16dp</dimen>
+    <dimen name="yp_activity_vertical_margin">16dp</dimen>
+    <dimen name="yp_main_padding_left">15dp</dimen>
+    <dimen name="yp_department_font_size">17sp</dimen>
+    <dimen name="yp_department_icon_size">32dp</dimen>
+    <dimen name="yp_department_item_margin_bottom">20dp</dimen>
+    <dimen name="yp_department_icon_margin_left">20dp</dimen>
+    <dimen name="yp_search_view_inset">5dp</dimen>
+    <dimen name="yp_item_children_padding_left">55dp</dimen>
+    <dimen name="yp_item_children_text_size">16sp</dimen>
+    <dimen name="yp_layout_width_department">170dp</dimen>
+    <dimen name="yp_main_department_margin_left">10dp</dimen>
+    <dimen name="yp_tv_max_width">135dp</dimen>
+
+</resources>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+   
+    <string-array name="feedback_reasons">
+        <item>号码已经打不通了</item>
+        <item>可以打通，但是经常无人接听</item>
+        <item>号码错误</item>
+    </string-array>
+
+</resources>

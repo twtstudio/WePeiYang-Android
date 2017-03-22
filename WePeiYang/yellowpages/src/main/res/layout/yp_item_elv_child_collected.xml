@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="5dp"
+    android:paddingTop="5dp"
+    android:id="@+id/rl_item_search_result"
+    android:background="@color/yp_color_bg_light"
+    >
+
+    <TextView
+        android:id="@+id/tv_item_collected_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxWidth="250dp"
+        android:textColor="@color/yp_font_black_700"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="5dp"
+        android:paddingLeft="10dp"
+        android:textSize="@dimen/yp_item_children_text_size" />
+
+    <ImageView
+        android:id="@+id/iv_item_children_icon_phone"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/tv_item_collected_name"
+        android:layout_marginRight="25dp"
+        android:src="@drawable/icon_yellow_pages_phone"
+        android:background="@drawable/yp_bg_department_click"
+        />
+
+    <TextView
+        android:id="@+id/tv_item_collected_phone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/iv_item_children_icon_phone"
+        android:layout_below="@id/tv_item_collected_name"
+        android:layout_marginLeft="10dp"
+        android:textColor="@color/yp_font_blue_400"
+        android:textSize="@dimen/yp_item_children_text_size"
+        android:layout_alignParentLeft="true"
+        android:gravity="center_vertical"
+        android:clickable="true"
+        android:background="@drawable/yp_bg_department_click"
+        />
+
+    <ImageView
+        android:id="@+id/iv_item_children_icon_collected"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_alignBaseline="@id/iv_item_children_icon_phone"
+        android:layout_below="@id/tv_item_collected_name"
+        android:layout_marginRight="25dp"
+        android:layout_toLeftOf="@id/iv_item_children_icon_phone"
+        android:src="@drawable/icon_yellow_pages_collected"
+        android:visibility="visible" />
+
+    <ImageView
+        android:id="@+id/iv_item_children_icon_uncollected"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_alignBaseline="@id/iv_item_children_icon_phone"
+        android:layout_below="@id/tv_item_collected_name"
+        android:layout_marginRight="25dp"
+        android:layout_toLeftOf="@id/iv_item_children_icon_phone"
+        android:src="@drawable/icon_yellow_pages_uncollected"
+        android:visibility="gone" />
+
+
+</RelativeLayout>

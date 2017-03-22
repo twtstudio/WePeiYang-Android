@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingLeft="10dp"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/yp_department_item_margin_bottom"
+        android:layout_marginBottom="@dimen/yp_department_item_margin_bottom"
+        >
+        <LinearLayout
+            android:id="@+id/department1"
+            android:layout_width="@dimen/yp_layout_width_department"
+            android:layout_height="wrap_content"
+            android:background="@drawable/yp_bg_department_click"
+            android:clickable="true"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="@dimen/yp_department_icon_size"
+                android:layout_height="@dimen/yp_department_icon_size"
+                android:padding="5dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/icon_yellow_pages_1895"
+                />
+
+            <TextView
+                android:id="@+id/tv_title1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:maxWidth="@dimen/yp_tv_max_width"
+                android:text="1895服务大厅"
+                android:textColor="@color/yp_font_black_700"
+                android:textSize="@dimen/yp_department_font_size" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/department2"
+            android:layout_width="@dimen/yp_layout_width_department"
+            android:layout_height="wrap_content"
+            android:background="@drawable/yp_bg_department_click"
+            android:clickable="true"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="@dimen/yp_department_icon_size"
+                android:layout_height="@dimen/yp_department_icon_size"
+                android:padding="5dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/icon_yellow_pages_library" />
+
+            <TextView
+                android:id="@+id/tv_title2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:maxWidth="@dimen/yp_tv_max_width"
+                android:text="图书馆"
+                android:textColor="@color/yp_font_black_700"
+                android:textSize="@dimen/yp_department_font_size" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginBottom="@dimen/yp_department_item_margin_bottom"
+        >
+        <LinearLayout
+            android:id="@+id/department3"
+            android:layout_width="@dimen/yp_layout_width_department"
+            android:layout_height="wrap_content"
+            android:background="@drawable/yp_bg_department_click"
+            android:clickable="true"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="@dimen/yp_department_icon_size"
+                android:layout_height="@dimen/yp_department_icon_size"
+                android:padding="5dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/icon_yellow_pages_repair" />
+
+            <TextView
+                android:id="@+id/tv_title3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:maxWidth="@dimen/yp_tv_max_width"
+                android:text="维修服务中心"
+                android:textColor="@color/yp_font_black_700"
+                android:textSize="@dimen/yp_department_font_size" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/department4"
+            android:layout_width="@dimen/yp_layout_width_department"
+            android:layout_height="wrap_content"
+            android:background="@drawable/yp_bg_department_click"
+            android:clickable="true"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="@dimen/yp_department_icon_size"
+                android:layout_height="@dimen/yp_department_icon_size"
+                android:padding="5dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/icon_yellow_pages_bike" />
+
+            <TextView
+                android:id="@+id/tv_title4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:maxWidth="@dimen/yp_tv_max_width"
+                android:text="智能自行车"
+                android:textColor="@color/yp_font_black_700"
+                android:textSize="@dimen/yp_department_font_size" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginBottom="@dimen/yp_department_item_margin_bottom"
+        >
+        <LinearLayout
+            android:id="@+id/department5"
+            android:layout_width="@dimen/yp_layout_width_department"
+            android:layout_height="wrap_content"
+            android:background="@drawable/yp_bg_department_click"
+            android:clickable="true"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="@dimen/yp_department_icon_size"
+                android:layout_height="@dimen/yp_department_icon_size"
+                android:padding="5dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/icon_yellow_pages_building" />
+
+            <TextView
+                android:id="@+id/tv_title5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:maxWidth="@dimen/yp_tv_max_width"
+                android:text="学生宿舍管理中心"
+                android:textColor="@color/yp_font_black_700"
+                android:textSize="@dimen/yp_department_font_size" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/department6"
+            android:layout_width="@dimen/yp_layout_width_department"
+            android:layout_height="wrap_content"
+            android:background="@drawable/yp_bg_department_click"
+            android:clickable="true"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="@dimen/yp_department_icon_size"
+                android:layout_height="@dimen/yp_department_icon_size"
+                android:padding="5dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/icon_yellow_pages_hospital" />
+
+            <TextView
+                android:id="@+id/tv_title6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:maxWidth="@dimen/yp_tv_max_width"
+                android:text="校医院"
+                android:textColor="@color/yp_font_black_700"
+                android:textSize="@dimen/yp_department_font_size" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

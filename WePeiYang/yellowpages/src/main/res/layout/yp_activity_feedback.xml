@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:clipToPadding="true"
+    android:fitsSystemWindows="true"
+    >
+
+    <include
+        layout="@layout/yp_common_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="64dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="名称:"
+            android:textColor="@color/yp_colorAccent"
+            android:textSize="@dimen/yp_department_font_size" />
+
+        <EditText
+            android:id="@+id/et_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="false"
+            android:inputType="text" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="号码:"
+            android:textColor="@color/yp_colorAccent"
+            android:textSize="@dimen/yp_department_font_size" />
+
+        <EditText
+            android:id="@+id/et_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="false"
+            android:inputType="text" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="错误原因:"
+            android:textColor="@color/yp_colorAccent"
+            android:textSize="@dimen/yp_department_font_size" />
+
+        <android.support.v7.widget.AppCompatSpinner
+            android:layout_marginTop="16dp"
+            android:id="@+id/spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/feedback_reasons"
+            android:spinnerMode="dialog"
+            />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/yp_btn_shape"
+            android:text="提交, 帮助黄页更加完善"
+            android:layout_marginTop="24dp"
+            android:id="@+id/btn_submit"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>
