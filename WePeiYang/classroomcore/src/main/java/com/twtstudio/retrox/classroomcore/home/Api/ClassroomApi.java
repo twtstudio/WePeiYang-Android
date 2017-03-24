@@ -9,6 +9,6 @@ import rx.Observable;
  */
 
 public interface ClassroomApi {
-    @GET("http://120.27.115.59/test_laravel/public/index.php/api/Classroom/getClassroom")
+    @GET("https://open.twtstudio.com/api/v1/Classroom/getClassroom")
     Observable<ClassroomQueryBean> getClassroomFromBuliding(@Query("building") int building,@Query("week") int week);
 }

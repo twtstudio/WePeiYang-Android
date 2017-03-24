@@ -64,7 +64,7 @@ public class FellowFindActivity extends PActivity<FellowPresenter> implements Fe
     }
     @Override
     protected int getStatusbarColor() {
-        return R.color.bus_primary_color;
+        return R.color.main_primary;
     }
 
     @Override

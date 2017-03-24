@@ -41,7 +41,7 @@ public class FellowApiClient {
                 .Builder()
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .baseUrl("http://120.27.115.59/test_laravel/public/index.php/api/Fellow/")
+                .baseUrl("https://open.twtstudio.com/api/v1/Fellow/")
                 .build();
         fellowApi =mRetrofit.create(FellowApi.class);
         mfellowResponseTransformer=new FellowResponseTransformer();
