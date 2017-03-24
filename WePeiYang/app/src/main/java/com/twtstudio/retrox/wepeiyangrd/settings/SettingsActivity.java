@@ -85,6 +85,16 @@ public class SettingsActivity extends AppCompatActivity {
         }
 
         public void initPrefs() {
+            Preference exitTjuPref = findPreference(getString(R.string.pref_is_exit_tju));
+            exitTjuPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newValue) {
+                    Logger.d(preference.toString());
+                    Logger.d((boolean)newValue);
+                    return true;
+                }
+            });
+
             Preference logOutPref = findPreference(getString(R.string.pref_log_out));
             logOutPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
@@ -143,5 +153,11 @@ public class SettingsActivity extends AppCompatActivity {
             Preference isBindBike = findPreference(getString(R.string.pref_is_bind_bike));
             isBindBike.setSummary(CommonPrefUtil.getIsBindBike()?"已绑定":"未绑定");
         }
+
+        private void processExitTju(){
+            // TODO: 23/03/2017 退学逻辑
+        }
     }
+
+
 }

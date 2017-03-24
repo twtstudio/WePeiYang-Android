@@ -10,4 +10,5 @@
     <string name="pref_bind_settings">pref_bind_settings</string>
     <string name="pref_log_out">pref_log_out</string>
     <string name="pref_is_show_today_course">pref_is_show_today_course</string>
+    <string name="pref_is_exit_tju">pref_is_exit_tju</string>
 </resources>

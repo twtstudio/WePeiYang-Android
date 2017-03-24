@@ -85,7 +85,6 @@ public class WelcomeActivity extends BaseActivity {
                 .setIcon(Icon.createWithResource(this, R.drawable.ic_main_schedule))
                 .setIntent(new Intent(Intent.ACTION_MAIN, Uri.EMPTY, this, ScheduleTodayAct.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK))
                 .build();
-
         ShortcutInfo dynamicShortcut4 = new ShortcutInfo.Builder(this, "shortcut_dynamic_4")
                 .setShortLabel("Bike")
                 .setLongLabel("Bike")

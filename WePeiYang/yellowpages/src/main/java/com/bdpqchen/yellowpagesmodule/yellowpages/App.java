@@ -13,7 +13,7 @@ import com.orhanobut.logger.Logger;
  * Created by chen on 17-2-21.
  */
 
-public class App extends Application {
+public class App {
 
 
     public static Context getContext() {

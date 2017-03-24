@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!--<PreferenceCategory android:title="自我奋斗以及历史行程">
+    <PreferenceCategory android:title="自我奋斗以及历史行程">
         <SwitchPreference
+            android:key="@string/pref_is_exit_tju"
             android:summaryOff="与其苟延残喘不如纵情燃烧吧"
             android:summaryOn="您已成功退学"
             android:title="一键退学" />
-    </PreferenceCategory>-->
+    </PreferenceCategory>
 
     <PreferenceCategory android:title="课程表设置">
         <SwitchPreference
-            android:key="@string/pref_is_show_today_course"
             android:defaultValue="false"
+            android:key="@string/pref_is_show_today_course"
             android:summaryOff="不显示今日课程页面"
             android:summaryOn="显示今日课程页面"
-            android:title="显示今日课程页面"/>
+            android:title="显示今日课程页面" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="主页设置">
@@ -26,20 +27,20 @@
             android:title="主页显示GPA" />
 
         <SwitchPreference
-            android:key="@string/pref_is_display_bike"
             android:defaultValue="true"
+            android:key="@string/pref_is_display_bike"
             android:summaryOff="不显示自行车"
             android:summaryOn="显示自行车"
             android:title="主页显示自行车" />
 
         <SwitchPreference
-            android:key="@string/pref_is_switch_news_source"
             android:defaultValue="false"
-            android:summaryOn="ONE一个（版权问题需用户承担责任）"
+            android:key="@string/pref_is_switch_news_source"
             android:summaryOff="显示天外天新闻源"
-            android:title="切换新闻源(内测版only)"/>
+            android:summaryOn="ONE一个（版权问题需用户承担责任）"
+            android:title="切换新闻源(内测版only)" />
     </PreferenceCategory>
-    
+
     <PreferenceCategory android:title="绑定设置">
 
         <Preference
@@ -53,19 +54,11 @@
             android:title="自行车绑定状态" />
         <Preference
             android:key="@string/pref_bind_settings"
-            android:title="绑定关联账号"
-            />
+            android:title="绑定关联账号" />
         <Preference
             android:key="@string/pref_log_out"
-            android:title="退出登录"/>
-        
+            android:title="退出登录" />
+
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="自习室设置">
-        <EditTextPreference
-            android:key="@string/pref_like_buildings"
-            android:inputType="number"
-            android:summary="45 46 55"
-            android:title="偏好教学楼" />
-    </PreferenceCategory>
 </PreferenceScreen>
