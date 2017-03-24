@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--Party Activity-->
+    <color name="white">#FFFFFFFF</color>
+    <color name="party_primary_color">#dd2727</color>
+    <color name="party_primary_dark_color">#cd2121</color>
+    <color name="myDivider">#c8c7cc</color>
+    <color name="myWindowBackground">#fafafa</color>
+    <color name="myWindowBackgroundGray">#eeeeee</color>
+    <color name="myWindowBackgroundWhite">#ffffff</color>
+    <color name="myTextPrimaryColorBlack">#212121</color>
+    <color name="myTextPrimaryColorWhite">#ffffff</color>
+    <color name="myTextPrimaryColorGray">#999999</color>
+    <color name="myTextPrimaryColorGreen">#4ad865</color>
+    <color name="myTextPrimaryColorRed">#ff0000</color>
+    <color name="myButtonColorGray">#d9d9d9</color>
+    <color name="myButtonColorGreen">#56cc00</color>
+    <color name="myButtonColorRed">#dd2727</color>
+    <color name="myNavigationColor">#000</color>
+    <color name="bike_primary_color">#338f2f</color>
+    <color name="myTabIndicatorColor">#ffffff</color>
+    <color name="divider_color">#eeeeee</color>
+
+</resources>

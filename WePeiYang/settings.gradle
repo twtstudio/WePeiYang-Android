@@ -1,2 +1,2 @@
-include ':auth'
-include /*':preapp', */ ':lib', ':app', ':commons', ':mvvmKit', ':gpa', ':schedule', ':fragmentation', ':bike', ':one', ':news', ':tjulibrary', ':classroomcore',':fellowsearch'
+include ':auth', ':party'
+include /*':preapp',*/ ':lib', ':app', ':commons', ':mvvmKit', ':gpa', ':schedule', ':fragmentation', ':bike', ':one', ':news', ':tjulibrary', ':classroomcore', ':fellowsearch'

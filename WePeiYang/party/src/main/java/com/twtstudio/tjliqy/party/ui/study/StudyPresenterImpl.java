@@ -1,0 +1,149 @@
+package com.twtstudio.tjliqy.party.ui.study;
+
+import com.twtstudio.tjliqy.party.R;
+import com.twtstudio.tjliqy.party.bean.CourseDetailInfo;
+import com.twtstudio.tjliqy.party.bean.CourseInfo;
+import com.twtstudio.tjliqy.party.bean.QuizInfo;
+import com.twtstudio.tjliqy.party.bean.TextDetailInfo;
+import com.twtstudio.tjliqy.party.bean.TextInfo;
+import com.twtstudio.tjliqy.party.interactor.StudyInteractor;
+import com.twtstudio.tjliqy.party.support.ResourceHelper;
+import com.twtstudio.tjliqy.party.ui.study.answer.OnGetQuizCallBack;
+import com.twtstudio.tjliqy.party.ui.study.answer.OnSubmitResultCallBack;
+import com.twtstudio.tjliqy.party.ui.study.answer.StudyAnswerView;
+import com.twtstudio.tjliqy.party.ui.study.answer.StudyResultView;
+import com.twtstudio.tjliqy.party.ui.study.detail.OnGetCourseDetailCallBack;
+import com.twtstudio.tjliqy.party.ui.study.detail.OnGetTextDetailCallBack;
+import com.twtstudio.tjliqy.party.ui.study.detail.StudyDetailListView;
+import com.twtstudio.tjliqy.party.ui.study.detail.StudyDetailView;
+
+import java.util.List;
+
+/**
+ * Created by tjliqy on 2016/8/17.
+ */
+public class StudyPresenterImpl implements StudyPresenter, OnGetCourseCallBack, OnGetCourseDetailCallBack, OnGetTextDetailCallBack, OnGetQuizCallBack, OnSubmitResultCallBack {
+
+    private StudyInteractor interactor;
+    private StudyView view;
+    private StudyDetailListView detailListView;
+    private StudyDetailView detailView;
+    private StudyAnswerView answerView;
+    private StudyResultView resultView;
+
+    public StudyPresenterImpl(StudyView view, StudyInteractor interactor) {
+        this.interactor = interactor;
+        this.view = view;
+    }
+
+    public StudyPresenterImpl(StudyDetailListView view, StudyInteractor interactor) {
+        this.interactor = interactor;
+        detailListView = view;
+    }
+
+    public StudyPresenterImpl(StudyDetailView view, StudyInteractor interactor) {
+        this.interactor = interactor;
+        detailView = view;
+    }
+
+    public StudyPresenterImpl(StudyResultView view, StudyInteractor interactor) {
+        this.interactor = interactor;
+        resultView = view;
+    }
+
+    public StudyPresenterImpl(StudyAnswerView view, StudyInteractor interactor) {
+        this.interactor = interactor;
+        answerView = view;
+    }
+
+    @Override
+    public void getCourse() {
+        interactor.getCourse(this);
+    }
+
+    @Override
+    public void getText() {
+        interactor.getText(this);
+    }
+
+    @Override
+    public void onGetCourseInfo(List<CourseInfo> courseInfos) {
+        view.bindCourseData(courseInfos);
+    }
+
+    @Override
+    public void onGetTextInfo(List<TextInfo> textInfos) {
+        view.bindTextData(textInfos);
+    }
+
+    @Override
+    public void onGetFailure() {
+        view.onFailure();
+    }
+
+    @Override
+    public void getCourseDetail(int courseId) {
+        interactor.getCourseDetail(courseId, this);
+    }
+
+    @Override
+    public void getTextDetail(int textId) {
+        interactor.getTextDetail(textId, this);
+    }
+
+    @Override
+    public void getQuiz(int courseId) {
+        interactor.getQuizInfo(courseId, this);
+    }
+
+    @Override
+    public void submitAnswer(int courseId, int[] rightAnswer, int[] exerciseAnswer) {
+        String rAnswer = rightAnswer[0]+"";
+        String eAnswer = exerciseAnswer[0]+"";
+        for (int i = 1; i < rightAnswer.length; i++) {
+            rAnswer += (","+rightAnswer[i]);
+            eAnswer += (","+exerciseAnswer[i]);
+        }
+        interactor.submitAnswer(courseId, rAnswer, eAnswer, this);
+    }
+
+    @Override
+    public void onGetDetailSuccess(List<CourseDetailInfo.DataBean> list) {
+        detailListView.onGetCourseDetail(list);
+    }
+
+    @Override
+    public void onGetDetailSuccess(TextDetailInfo detailInfo) {
+        detailView.onGetTextDetail(detailInfo);
+    }
+
+    @Override
+    public void onGetQuizSuccess(List<QuizInfo.DataBean> dataList) {
+        answerView.bindData(dataList);
+    }
+
+    @Override
+    public void onGetQuizError(String msg) {
+        answerView.setError(msg);
+    }
+
+    @Override
+    public void onGetQuizFailure() {
+        answerView.toastMsg(ResourceHelper.getString(R.string.toast_network_failed));
+    }
+
+    @Override
+    public void onSubmitSuccess(int status, int score, String msg) {
+        resultView.bindData(status, score, msg);
+    }
+
+    @Override
+    public void onSubmitError(String msg) {
+        resultView.setErrorMsg(msg);
+    }
+
+    @Override
+    public void onSubmitFailure() {
+        resultView.setErrorMsg(ResourceHelper.getString(R.string.toast_network_failed));
+    }
+}

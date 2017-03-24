@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Party</string>
+    <string name="loading">加载中...</string>
+    <string name="party">党建</string>
+    <string name="sign_party">报名</string>
+    <string name="study_party">学习</string>
+    <string name="inquiry_party">成绩查询</string>
+    <string name="submit_party">递交</string>
+    <string name="forum_party">论坛</string>
+    <string name="answer_party">答题</string>
+    <string name="notification_party">通知公告</string>
+    <string name="appeal_party">申诉</string>
+    <string name="toast_network_failed">无法连接到网络</string>
+
+</resources>

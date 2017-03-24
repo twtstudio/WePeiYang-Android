@@ -1,4 +1,4 @@
-package com.twt.service.party.ui.study.answer;
+package com.twtstudio.tjliqy.party.ui.study.answer;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,28 +10,29 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.twt.service.R;
-import com.twt.service.party.interactor.StudyInteractorImpl;
-import com.twt.service.party.ui.BaseActivity;
-import com.twt.service.party.ui.study.StudyPresenter;
-import com.twt.service.party.ui.study.StudyPresenterImpl;
+import com.twtstudio.tjliqy.party.R;
+import com.twtstudio.tjliqy.party.R2;
+import com.twtstudio.tjliqy.party.interactor.StudyInteractorImpl;
+import com.twtstudio.tjliqy.party.ui.BaseActivity;
+import com.twtstudio.tjliqy.party.ui.study.StudyPresenter;
+import com.twtstudio.tjliqy.party.ui.study.StudyPresenterImpl;
 
-import butterknife.InjectView;
+import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
  * Created by tjliqy on 2016/8/26.
  */
-public class StudyResultActivity extends BaseActivity implements StudyResultView{
-    @InjectView(R.id.toolbar)
+public class StudyResultActivity extends BaseActivity implements StudyResultView {
+    @BindView(R2.id.toolbar)
     Toolbar toolbar;
-    @InjectView(R.id.iv_monkey)
+    @BindView(R2.id.iv_monkey)
     ImageView ivMonkey;
-    @InjectView(R.id.bt_score)
+    @BindView(R2.id.bt_score)
     Button btScore;
-    @InjectView(R.id.ll_finish)
+    @BindView(R2.id.ll_finish)
     LinearLayout llFinish;
-    @InjectView(R.id.tv_msg)
+    @BindView(R2.id.tv_msg)
     TextView tvMsg;
 
     private int courseId;
@@ -50,15 +51,15 @@ public class StudyResultActivity extends BaseActivity implements StudyResultView
     @Override
     public void preInitView() {
         Intent intent = getIntent();
-        courseId = intent.getIntExtra("course-id",0);
+        courseId = intent.getIntExtra("course-id", 0);
         rightAnswer = intent.getIntArrayExtra("right_answer");
         exerciseAnswer = intent.getIntArrayExtra("exercise_answer");
-        presenter = new StudyPresenterImpl(this,new StudyInteractorImpl());
+        presenter = new StudyPresenterImpl(this, new StudyInteractorImpl());
     }
 
     @Override
     public void initView() {
-        presenter.submitAnswer(courseId,rightAnswer,exerciseAnswer);
+        presenter.submitAnswer(courseId, rightAnswer, exerciseAnswer);
     }
 
     @Override
@@ -77,34 +78,32 @@ public class StudyResultActivity extends BaseActivity implements StudyResultView
         return 0;
     }
 
-    public static void actionStart(Context context, int courseId, int[] rightAnswer, int[] exerciseAnswer){
-        Intent intent = new Intent(context,StudyResultActivity.class);
-        intent.putExtra("course_id",courseId);
-        intent.putExtra("right_answer",rightAnswer);
-        intent.putExtra("exercise_answer",exerciseAnswer);
+    public static void actionStart(Context context, int courseId, int[] rightAnswer, int[] exerciseAnswer) {
+        Intent intent = new Intent(context, StudyResultActivity.class);
+        intent.putExtra("course_id", courseId);
+        intent.putExtra("right_answer", rightAnswer);
+        intent.putExtra("exercise_answer", exerciseAnswer);
         context.startActivity(intent);
     }
 
-    @OnClick({R.id.bt_score, R.id.ll_finish})
+    @OnClick({R2.id.bt_score, R2.id.ll_finish})
     public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.bt_score:
-                if (isSubmitFailure){
-                    btScore.setText("正在交卷");
-                    presenter.submitAnswer(courseId,rightAnswer,exerciseAnswer);
-                }
-                break;
-            case R.id.ll_finish:
-                onBackPressed();
-                break;
+        int id = view.getId();
+        if (id == R.id.bt_score) {
+            if (isSubmitFailure) {
+                btScore.setText("正在交卷");
+                presenter.submitAnswer(courseId, rightAnswer, exerciseAnswer);
+            }
+        }else if (id == R.id.ll_finish) {
+            onBackPressed();
         }
     }
 
     @Override
     public void onBackPressed() {
-        if (isSubmitFailure){
-            setDialog("尚未完成交卷，确认退出吗？",0);
-        }else {
+        if (isSubmitFailure) {
+            setDialog("尚未完成交卷，确认退出吗？", 0);
+        } else {
             finish();
         }
     }
@@ -116,9 +115,9 @@ public class StudyResultActivity extends BaseActivity implements StudyResultView
 
     @Override
     public void bindData(int status, int score, String msg) {
-        if(status == 1) {//成绩没通过
+        if (status == 1) {//成绩没通过
             ivMonkey.setImageResource(R.mipmap.ic_party_cry);
-        }else {//成绩通过
+        } else {//成绩通过
             ivMonkey.setImageResource(R.mipmap.ic_party_smail);
         }
         tvMsg.setText(msg);
