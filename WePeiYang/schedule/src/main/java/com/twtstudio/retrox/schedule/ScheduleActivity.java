@@ -33,7 +33,9 @@ import com.twtstudio.retrox.schedule.model.ClassTableProvider;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -285,7 +287,7 @@ public class ScheduleActivity extends RxAppCompatActivity implements ScheduleVie
         hasClass = new boolean[7][12];
 
         //绘制课程信息
-        List<ClassTable.Data.Course> coursesNotThisWeek = new ArrayList<>(); //非当前周的课程
+        Set<ClassTable.Data.Course> coursesNotThisWeek = new HashSet<>(); //非当前周的课程
         int i = 0;// 用来记录classColors用到第几个了。
         if (classColors == null) {
             classColors = new int[]{R.color.schedule_green,
@@ -374,7 +376,7 @@ public class ScheduleActivity extends RxAppCompatActivity implements ScheduleVie
                             hasClass[day][t] = true;
                         }
                     } else {
-                        // TODO: 2017/2/24 多节课程逻辑
+                        // 多节课程逻辑
                         addMultiClassLabel(day, startTime,endTime);
                     }
                 } else {
@@ -448,7 +450,7 @@ public class ScheduleActivity extends RxAppCompatActivity implements ScheduleVie
                         hasClass[day][t] = true;
                     }
                 } else {
-                    // TODO: 2017/2/24 多节课程逻辑
+                    //  多节课程逻辑
                     addMultiClassLabel(day, startTime,endTime);
                 }
             }
