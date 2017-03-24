@@ -1,0 +1,14 @@
+package com.twtstudio.tjliqy.party.ui.study.answer;
+
+import com.twtstudio.tjliqy.party.bean.QuizInfo;
+
+import java.util.List;
+
+/**
+ * Created by tjliqy on 2016/8/25.
+ */
+public interface OnGetQuizCallBack {
+    void onGetQuizSuccess(List<QuizInfo.DataBean> dataList);
+    void onGetQuizError(String msg);
+    void onGetQuizFailure();
+}

@@ -2,7 +2,6 @@ package com.twt.service.party.ui.study.answer;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
@@ -17,7 +16,6 @@ import com.twt.service.party.ui.BaseActivity;
 import com.twt.service.party.ui.study.StudyPresenter;
 import com.twt.service.party.ui.study.StudyPresenterImpl;
 
-import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
@@ -46,7 +44,7 @@ public class StudyResultActivity extends BaseActivity implements StudyResultView
 
     @Override
     public int getContentViewId() {
-        return R.layout.activity_study_result;
+        return R.layout.activity_party_study_result;
     }
 
     @Override

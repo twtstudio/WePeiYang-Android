@@ -3,7 +3,6 @@ package com.twtstudio.retrox.wepeiyangrd.home.tools;
 import android.content.Context;
 import android.databinding.ObservableArrayList;
 
-import com.bdpqchen.yellowpagesmodule.yellowpages.activity.HomeActivity;
 import com.kelin.mvvmlight.base.ViewModel;
 import com.twtstudio.retrox.bike.bike.ui.main.BikeActivity;
 import com.twtstudio.retrox.bike.read.home.BookHomeActivity;
@@ -12,6 +11,7 @@ import com.twtstudio.retrox.schedule.ScheduleActivity;
 import com.twtstudio.retrox.wepeiyangrd.BR;
 import com.twtstudio.retrox.wepeiyangrd.MainActivity;
 import com.twtstudio.retrox.wepeiyangrd.R;
+import com.twtstudio.tjliqy.party.ui.home.PartyActivity;
 
 import me.tatarka.bindingcollectionadapter.ItemView;
 
@@ -35,8 +35,8 @@ public class ToolsFragViewModel implements ViewModel {
     private void init(){
         itemList.add(new ToolItemViewModel(mContext,R.drawable.ic_main_schedule,"课程表", ScheduleActivity.class));
         itemList.add(new ToolItemViewModel(mContext,R.drawable.ic_main_gpa,"GPA", GpaActivity.class));
-        itemList.add(new ToolItemViewModel(mContext,R.drawable.ic_main_bike,"自行车", BikeActivity.class));
-        itemList.add(new ToolItemViewModel(mContext,R.drawable.ic_main_party,"党建", MainActivity.class));
+        itemList.add(new ToolItemViewModel(mContext,R.drawable.ic_main_bike,"哲学车", BikeActivity.class));
+        itemList.add(new ToolItemViewModel(mContext,R.drawable.ic_main_party,"党建", PartyActivity.class));
         itemList.add(new ToolItemViewModel(mContext,R.drawable.ic_main_read,"图书馆", BookHomeActivity.class));
         itemList.add(new ToolItemViewModel(mContext,R.drawable.ic_main_fellow_search,"老乡查询", com.example.caokun.fellowsearch.view.MainActivity.class));
         itemList.add(new ToolItemViewModel(mContext,R.drawable.ic_main_yellowpage,"黄页", HomeActivity.class));
