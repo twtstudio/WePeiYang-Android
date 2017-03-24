@@ -15,12 +15,14 @@ import android.widget.Toast;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.haozhang.lib.SlantedTextView;
+import com.orhanobut.logger.Logger;
 import com.twtstudio.tjliqy.party.R;
 import com.twtstudio.tjliqy.party.R2;
 import com.twtstudio.tjliqy.party.bean.StatusIdBean;
 import com.twtstudio.tjliqy.party.interactor.PersonalStatusInteractorImpl;
 import com.twtstudio.tjliqy.party.support.ButterPlanet;
 import com.twtstudio.tjliqy.party.support.PrefUtils;
+import com.twtstudio.tjliqy.party.support.RCaster;
 import com.twtstudio.tjliqy.party.ui.BaseActivity;
 import com.twtstudio.tjliqy.party.ui.inquiry.InquiryActivity;
 import com.twtstudio.tjliqy.party.ui.sign.SignActivity;
@@ -458,6 +460,10 @@ public class PartyActivity extends BaseActivity implements PartyView {
                 break;
             }
         }
+
+//        RCaster caster = new RCaster(R.class,R2.class);
+//        Logger.d(caster.cast(view.getId()));
+        
         if (clickable[clickButtonId]) {
             switch (clickButtonId) {
                 case 0:
