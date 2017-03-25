@@ -6,6 +6,7 @@ import com.twt.wepeiyang.commons.network.RxErrorHandler;
 
 import io.rx_cache.DynamicKey;
 import io.rx_cache.EvictDynamicKey;
+import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
@@ -28,6 +29,17 @@ public class HomeNewsProvider {
         newsCacheApi.getHomeNewsAuto(newsApi.getHomeNews(),new DynamicKey("homeNews"),new EvictDynamicKey(update))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(action1,Throwable::printStackTrace);
+                .subscribe(action1,new RxErrorHandler());
+    }
+
+    public void getCommonNews(Action1<CommonNewsBean.DataBean> action1){
+
+        Observable.merge(newsApi.getNews(1,1),newsApi.getNews(1,2),newsApi.getNews(3,1))
+                .map(commonNewsBean -> commonNewsBean.data)
+                .flatMap(Observable::from)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(action1,new RxErrorHandler());
+
     }
 }

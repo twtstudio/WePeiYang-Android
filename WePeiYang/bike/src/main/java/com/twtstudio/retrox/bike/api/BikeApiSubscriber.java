@@ -2,6 +2,7 @@ package com.twtstudio.retrox.bike.api;
 
 import android.content.Context;
 
+import com.tencent.bugly.crashreport.CrashReport;
 import com.twtstudio.retrox.bike.utils.ToastUtils;
 
 import java.net.ConnectException;
@@ -55,10 +56,14 @@ public class BikeApiSubscriber<T> extends Subscriber<T> {
 
     @Override
     public void onError(Throwable e) {
+
+        CrashReport.postCatchedException(e);
+
         if (mOnErrorListener != null) {
             mOnErrorListener.onError(e);
             return;
         }
+
 
         if (e instanceof ConnectException) {
             toastMessage("网络中断，请检查您的网络状态");

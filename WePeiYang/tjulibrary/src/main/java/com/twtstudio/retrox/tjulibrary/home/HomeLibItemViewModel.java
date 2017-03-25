@@ -85,6 +85,7 @@ public class HomeLibItemViewModel implements ViewModel {
     private final List<ViewModel> moreBookContainer = new ArrayList<>();
     public ObservableBoolean isExpanded = new ObservableBoolean(false);
     public final ObservableField<String> loadMoreBtnMsg = new ObservableField<>("暂无更多书");
+    public final ObservableBoolean loadMoreBtnClickable = new ObservableBoolean(false);
     private String cacheStr = "";
 
     //对应barcode和book做查询
@@ -179,6 +180,7 @@ public class HomeLibItemViewModel implements ViewModel {
                         viewModels.add(new BookItemViewModel(mContext, book));
                     }
                     loadMoreBtnMsg.set("无更多书显示");
+                    loadMoreBtnClickable.set(false);
                 } else {
                     for (int i = 0; i < info.books.size(); i++) {
                         if (i < 3) {
@@ -187,6 +189,7 @@ public class HomeLibItemViewModel implements ViewModel {
                             moreBookContainer.add(new BookItemViewModel(mContext, info.books.get(i)));
                         }
                     }
+                    loadMoreBtnClickable.set(true);
                     loadMoreBtnMsg.set("显示更多(" + (info.books.size() - 3) + ")");
                 }
 

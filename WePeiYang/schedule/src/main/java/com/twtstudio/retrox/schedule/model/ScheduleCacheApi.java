@@ -14,6 +14,6 @@ import rx.Observable;
 
 public interface ScheduleCacheApi {
 
-    @LifeCache(duration = 30, timeUnit = TimeUnit.DAYS)
+    @LifeCache(duration = 180, timeUnit = TimeUnit.DAYS)
     Observable<Reply<ClassTable>> getClassTableAuto(Observable<ClassTable> obClassTable, DynamicKey dynamicKey, EvictProvider evictProvider);
 }

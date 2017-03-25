@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.kelin.mvvmlight.base.ViewModel;
 import com.twtstudio.retrox.news.api.HomeNewsBean;
+import com.twtstudio.retrox.news.detail.NewsDetailsActivity;
 
 import cn.bingoogolapple.bgabanner.BGABanner;
 
@@ -30,10 +31,16 @@ public class NewsBannerViewModel implements ViewModel{
             public void fillBannerItem(BGABanner banner, ImageView itemView, String model, int position) {
                 Glide.with(bgaBanner.getContext())
                         .load(model)
-
                         .centerCrop()
                         .dontAnimate()
                         .into(itemView);
+            }
+        });
+
+        bgaBanner.setDelegate(new BGABanner.Delegate() {
+            @Override
+            public void onBannerItemClick(BGABanner banner, View itemView, Object model, int position) {
+                NewsDetailsActivity.actionStart(banner.getContext(),bannerData.getIndexList().get(position));
             }
         });
 

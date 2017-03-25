@@ -2,6 +2,8 @@ package com.twtstudio.retrox.bike.api;
 
 import android.content.Context;
 import android.util.Log;
+
+import com.tencent.bugly.crashreport.CrashReport;
 import com.twtstudio.retrox.bike.utils.ToastUtils;
 
 import java.net.ConnectException;
@@ -59,6 +61,9 @@ public class ReadApiSubscriber<T> extends Subscriber<T> {
 
     @Override
     public void onError(Throwable e) {
+
+        CrashReport.postCatchedException(e);
+
         if (mOnErrorListener != null) {
             mOnErrorListener.onError(e);
             return;

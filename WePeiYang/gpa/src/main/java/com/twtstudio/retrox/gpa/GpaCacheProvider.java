@@ -16,6 +16,6 @@ import rx.Observable;
 
 public interface GpaCacheProvider {
 
-    @LifeCache(duration = 30,timeUnit = TimeUnit.DAYS)
+    @LifeCache(duration = 180,timeUnit = TimeUnit.DAYS)
     Observable<Reply<MyGpaBean>> getGpaAuto(Observable<MyGpaBean> obGpa, DynamicKey value, EvictProvider evictProvider);
 }

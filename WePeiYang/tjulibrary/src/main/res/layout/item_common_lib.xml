@@ -126,7 +126,8 @@
                     tools:text="显示更多(2)"
                     android:text="@{viewModel.loadMoreBtnMsg}"
                     bind:clickCommand="@{viewModel.loadMore}"
-                    android:textColor="@color/colorPrimary" />
+                    android:clickable="@{viewModel.loadMoreBtnClickable}"
+                    android:textColor="@{viewModel.loadMoreBtnClickable?@color/colorPrimary:@color/common_lv1}" />
             </FrameLayout>
         </LinearLayout>
     </android.support.v7.widget.CardView>

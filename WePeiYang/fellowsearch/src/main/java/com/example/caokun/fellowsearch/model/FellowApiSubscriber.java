@@ -7,6 +7,7 @@ import com.example.caokun.fellowsearch.ToastUtils;
 import com.example.caokun.fellowsearch.api.ApiException;
 import com.example.caokun.fellowsearch.api.OnErrorListener;
 import com.example.caokun.fellowsearch.api.OnNextListener;
+import com.tencent.bugly.crashreport.CrashReport;
 
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
@@ -62,6 +63,8 @@ public class FellowApiSubscriber<T> extends Subscriber<T>{
 
     @Override
     public void onError(Throwable e) {
+        CrashReport.postCatchedException(e);
+
         if (mOnErrorListener != null) {
             mOnErrorListener.onError(e);
             return;

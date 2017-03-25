@@ -11,4 +11,6 @@
     <color name="news_item_random_color_3">#E7CE97</color>
     <color name="news_item_random_color_4">#57D1C2</color>
 
+    <color name="news_primary_color">#607d8b</color>
+
 </resources>
