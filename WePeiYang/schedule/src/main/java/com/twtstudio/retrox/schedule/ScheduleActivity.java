@@ -137,6 +137,9 @@ public class ScheduleActivity extends RxAppCompatActivity implements ScheduleVie
 //        currentWeek = 4;
 //        tvWeek.setText("第" + currentWeek + "周");
 
+        //更新窗口小部件
+        Intent intent = new Intent("com.twt.appwidget.refresh");
+        this.sendBroadcast(intent);
 
         mLlNums.post(() -> {
             griditemWidth = mLlNums.getWidth();

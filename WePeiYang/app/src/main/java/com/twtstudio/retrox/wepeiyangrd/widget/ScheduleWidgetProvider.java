@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.widget.RemoteViews;
 
+import com.annimon.stream.Collectors;
+import com.annimon.stream.Stream;
 import com.orhanobut.hawk.Hawk;
 import com.orhanobut.logger.Logger;
 import com.twt.wepeiyang.commons.cache.CacheProvider;
@@ -46,10 +48,23 @@ public class ScheduleWidgetProvider extends AppWidgetProvider {
     private final CourseHelper helper = new CourseHelper();
     public static final SimpleDateFormat dateFormate = new SimpleDateFormat("yyyy/MM/dd", Locale.CHINA);
     private AppWidgetManager manager = null;
+    private int[] ids;
+
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        super.onReceive(context, intent);
+        if (intent.getAction().equals("com.twt.appwidget.refresh")){
+            if (null!=ids){
+            this.onUpdate(context,AppWidgetManager.getInstance(context),ids);
+            }
+            Logger.d("widget refresh click!");
+        }
+    }
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
 
+        ids = appWidgetIds;
         for (int appWidgetId : appWidgetIds) {
 
             Intent intent = new Intent(context, HomeActivity.class);
@@ -58,6 +73,10 @@ public class ScheduleWidgetProvider extends AppWidgetProvider {
             RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_schedule);
             remoteViews.setOnClickPendingIntent(R.id.widget_framelayout, pendingIntent);
 //            remoteViews.setOnClickPendingIntent(R.id.widget_listview,pendingIntent);
+
+            Intent imageClickIntent = new Intent("com.twt.appwidget.refresh");
+            PendingIntent imageClickPendingIntent = PendingIntent.getBroadcast(context,0,imageClickIntent,0);
+            remoteViews.setOnClickPendingIntent(R.id.widget_image_button,imageClickPendingIntent);
 
             remoteViews.setTextViewText(R.id.widget_today_date, getTodayString());
 
@@ -100,14 +119,12 @@ public class ScheduleWidgetProvider extends AppWidgetProvider {
                     CommonPrefUtil.setStartUnix(Long.valueOf(classTable.data.term_start));
 
                     List<ClassTable.Data.Course> courseList = helper.getTodayCourses(classTable,true);
-                    for (int i = courseList.size() - 1; i >= 0; i--) {
-                        //去除后面结尾的 "无" 空课程
-                        if (courseList.get(i).coursename.equals("无")){
-                            courseList.remove(i);
-                        }else {
-                            break;
-                        }
-                    }
+                    //去除无用课程
+                    courseList = Stream.of(courseList)
+                            .filter(course -> course.isAvaiableCurrentWeek)
+                            .filter(course -> !course.coursename.equals("无"))
+                            .collect(Collectors.toList());
+
                     setupList(context, appWidgetId, remoteViews, (ArrayList) courseList);
 
                 }, new RxErrorHandler());

@@ -24,6 +24,7 @@ import com.twtstudio.retrox.wepeiyangrd.home.tools.ToolsFragment;
 import com.twtstudio.retrox.wepeiyangrd.home.user.UserFragment;
 import com.twtstudio.retrox.wepeiyangrd.view.BottomBar;
 import com.twtstudio.retrox.wepeiyangrd.view.BottomBarTab;
+import com.twtstudio.retrox.wepeiyangrd.widget.WidgetUpdateManger;
 
 /**
  * Created by retrox on 2016/12/12.
@@ -77,6 +78,7 @@ public class HomeActivity extends BaseActivity {
         }
 
         initView();
+        WidgetUpdateManger.sendUpdateMsg(this);
     }
 
     private void setWindowTransition() {
