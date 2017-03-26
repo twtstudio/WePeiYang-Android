@@ -1,0 +1,23 @@
+package com.twtstudio.retrox.wepeiyangrd.widget;
+
+import android.content.Intent;
+import android.widget.RemoteViewsService;
+
+import com.orhanobut.hawk.Hawk;
+import com.orhanobut.logger.Logger;
+
+import java.util.List;
+
+/**
+ * Created by retrox on 26/03/2017.
+ */
+
+public class WidgetService extends RemoteViewsService {
+
+    @Override
+    public RemoteViewsFactory onGetViewFactory(Intent intent) {
+//        Hawk.put("scheduleCache",list);
+        Logger.d(Hawk.get("scheduleCache"));
+        return new WidgetListFactory(this.getApplicationContext(),Hawk.get("scheduleCache"));
+    }
+}
