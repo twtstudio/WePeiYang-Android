@@ -2,6 +2,7 @@ package com.twtstudio.retrox.wepeiyangrd.widget;
 
 import android.content.Context;
 import android.content.Intent;
+import android.view.View;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
@@ -58,6 +59,9 @@ public class WidgetListFactory implements RemoteViewsService.RemoteViewsFactory 
 
         ClassTable.Data.Course course = courseList.get(position);
         remoteViews.setTextViewText(R.id.widget_course_title,course.coursename);
+        if (course.coursename.equals("今天没课！！！")){
+            remoteViews.setViewVisibility(R.id.widget_course_location_icon, View.INVISIBLE);
+        }
         if (!(course.coursename.equals("无")||course.coursename.equals("今天没课！！！"))){
 
             String location = CourseHelper.getTodayLocation(course.arrange);

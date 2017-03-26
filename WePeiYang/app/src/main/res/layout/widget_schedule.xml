@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/widget_framelayout"
-    android:background="@color/white_color"
+    android:background="@drawable/widget_background"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -13,13 +13,14 @@
         android:layout_margin="5dp"
         android:padding="4dp"
         android:textColor="@color/white_color"
-        android:background="@color/colorPrimary"
+        android:background="@drawable/widget_background"
+        android:backgroundTint="@color/colorPrimary"
         android:gravity="center_horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     <ListView
         android:id="@+id/widget_listview"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="300dp" />
 
 </LinearLayout>

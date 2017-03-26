@@ -99,7 +99,7 @@ public class ScheduleWidgetProvider extends AppWidgetProvider {
                     //存入学期开始时间
                     CommonPrefUtil.setStartUnix(Long.valueOf(classTable.data.term_start));
 
-                    List<ClassTable.Data.Course> courseList = helper.getTomorrowCourses(classTable);
+                    List<ClassTable.Data.Course> courseList = helper.getTodayCourses(classTable,true);
                     for (int i = courseList.size() - 1; i >= 0; i--) {
                         //去除后面结尾的 "无" 空课程
                         if (courseList.get(i).coursename.equals("无")){
