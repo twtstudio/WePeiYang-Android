@@ -2,6 +2,7 @@ package com.twtstudio.retrox.classroomcore.home;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableBoolean;
@@ -103,6 +104,13 @@ public class ClassroomViewModel implements ViewModel{
     }
 
     private void jumpToDetail(){
-
+        Class clazz = null ;
+        try {
+            clazz = Class.forName("course.labs.classroomquery.homePage.MainActivity");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        Intent intent = new Intent(context,clazz);
+        context.startActivity(intent);
     }
 }
