@@ -3,6 +3,7 @@ package com.twtstudio.retrox.wepeiyangrd.widget;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -48,23 +49,20 @@ public class ScheduleWidgetProvider extends AppWidgetProvider {
     private final CourseHelper helper = new CourseHelper();
     public static final SimpleDateFormat dateFormate = new SimpleDateFormat("yyyy/MM/dd", Locale.CHINA);
     private AppWidgetManager manager = null;
-    private int[] ids;
+
 
     @Override
     public void onReceive(Context context, Intent intent) {
         super.onReceive(context, intent);
         if (intent.getAction().equals("com.twt.appwidget.refresh")){
-            if (null!=ids){
-            this.onUpdate(context,AppWidgetManager.getInstance(context),ids);
-            }
+            ComponentName name = new ComponentName(context, ScheduleWidgetProvider.class);
+            this.onUpdate(context,AppWidgetManager.getInstance(context),AppWidgetManager.getInstance(context).getAppWidgetIds(name));
             Logger.d("widget refresh click!");
         }
     }
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-
-        ids = appWidgetIds;
         for (int appWidgetId : appWidgetIds) {
 
             Intent intent = new Intent(context, HomeActivity.class);
