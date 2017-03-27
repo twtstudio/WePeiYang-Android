@@ -40,14 +40,14 @@ public class LibBindFragment extends SlideFragment {
         new TjuLibProvider(this.getContext()).bindLibrary(integer -> {
             if (integer == -1) {
                 canMoveForward = true;
-                Toast.makeText(this.getContext(), "图书馆绑定完成", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this.getContext(), "图书馆绑定完成,点击底部对勾开始新旅程", Toast.LENGTH_SHORT).show();
             } else if (integer == 50003) {
                 canMoveForward = true;
-                Toast.makeText(this.getContext(), "图书馆已绑定", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this.getContext(), "图书馆已绑定,点击底部对勾开始新旅程", Toast.LENGTH_SHORT).show();
             } else if (integer == 50002) {
-                Toast.makeText(this.getContext(), "图书馆密码错误", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this.getContext(), "图书馆密码错误TAT...", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(this.getContext(), "未知错误", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this.getContext(), "未知错误TAT...", Toast.LENGTH_SHORT).show();
             }
         }, libPasswordEdit.getText().toString());
     }

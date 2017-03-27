@@ -33,12 +33,10 @@
             android:value="f2d1429489830cea60924ada2f8ee83a"/>
 
         <activity
-            android:name="com.twtstudio.retrox.wepeiyangrd.MainActivity"
-            android:exported="true"/>
+            android:name="com.twtstudio.retrox.wepeiyangrd.MainActivity" />
 
         <activity
-            android:name=".home.HomeActivity"
-            android:exported="true">
+            android:name=".home.HomeActivity">
         </activity>
 
         <activity android:name=".settings.SettingsActivity" android:theme="@style/AppThemeActionBar"/>

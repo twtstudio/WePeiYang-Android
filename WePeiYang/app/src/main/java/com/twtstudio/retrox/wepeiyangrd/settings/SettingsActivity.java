@@ -22,6 +22,7 @@ import com.twt.wepeiyang.commons.cache.CacheProvider;
 import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
 import com.twtstudio.retrox.auth.login.LoginActivity;
 import com.twtstudio.retrox.tjulibrary.provider.TjuLibProvider;
+import com.twtstudio.retrox.wepeiyangrd.BuildConfig;
 import com.twtstudio.retrox.wepeiyangrd.R;
 import com.twtstudio.retrox.wepeiyangrd.home.HomeActivity;
 
@@ -110,7 +111,10 @@ public class SettingsActivity extends AppCompatActivity {
                                     CommonPrefUtil.clearAll();
                                     Intent intent = new Intent(mContext, LoginActivity.class);
                                     //清除缓存
-//                                    CacheProvider.clearCache();
+                                    // TODO: 27/03/2017 最后清理下缓存 debug不清理
+                                    if (!BuildConfig.DEBUG){
+                                        CacheProvider.clearCache();
+                                    }
                                     mContext.startActivity(intent);
                                     mContext.finish();
                                 }

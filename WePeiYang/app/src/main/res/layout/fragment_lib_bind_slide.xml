@@ -4,7 +4,6 @@
     android:orientation="vertical"
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
-    android:background="@color/schedule_green2"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -18,10 +17,22 @@
         app:layout_parallaxFactor="0.6"
         />
 
+    <TextView
+        android:layout_gravity="center_horizontal"
+        android:textColor="@color/common_lv3"
+        android:layout_marginBottom="16dp"
+        android:text="图书馆绑定"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
     <android.support.design.widget.TextInputLayout
+        android:textColorHint="@color/common_lv2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <android.support.design.widget.TextInputEditText
+            android:textColor="@color/common_lv2"
+            android:textSize="16sp"
             android:hint="图书馆密码(默认000000)"
             android:id="@+id/lib_password"
             android:inputType="textPassword"

@@ -1,6 +1,8 @@
 package com.twt.wepeiyang.commons.network;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.widget.Toast;
 
 import com.orhanobut.logger.Logger;
@@ -56,7 +58,7 @@ public class RxErrorHandler implements Action1<Throwable> {
                 String message = errJsonObject.getString("message");
                 Logger.e("错误码：" + errcode + "  message:" + message);
                 postThrowable(new ApiException(errcode,message));
-                Toast.makeText(mContext, "错误：" + message, Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, "错误：" + message +" TAT...", Toast.LENGTH_SHORT).show();
                 handleApiError(errcode);
             } catch (IOException | JSONException e) {
                 e.printStackTrace();
@@ -83,6 +85,17 @@ public class RxErrorHandler implements Action1<Throwable> {
                 break;
             case 10004:
                 Toast.makeText(mContext, "请重新登录", Toast.LENGTH_SHORT).show();
+                Class clazz = null;
+                try {
+                    clazz = Class.forName("com.twtstudio.retrox.auth.login.LoginActivity");
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+                if (mContext instanceof Activity){
+                    ((Activity) mContext).finish();
+                }
+                Intent intent = new Intent(mContext,clazz);
+                mContext.startActivity(intent);
                 Logger.e("请重新登录");
                 break;
             case 10003:

@@ -71,7 +71,7 @@ public class TjuBindFragment extends SlideFragment {
 
     @Override
     public int backgroundColor() {
-        return R.color.tju_slide_background_color;
+        return R.color.white_color;
     }
 
     @Override

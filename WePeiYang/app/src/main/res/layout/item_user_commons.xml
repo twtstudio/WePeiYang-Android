@@ -22,7 +22,6 @@
             android:layout_alignParentStart="true"
             android:layout_marginStart="24dp"
             android:layout_centerVertical="true"
-            android:tint="#bbbbbb"
             bind:placeholderImageRes="@{viewModel.imageRes}"
             />
 
@@ -43,7 +42,7 @@
             android:layout_alignParentEnd="true"
             android:layout_margin="15dp"
             android:gravity="center_vertical"
-            android:text="@{String.valueOf(viewModel.num)}"/>
+            android:text="@{viewModel.message}"/>
 
 
     </RelativeLayout>

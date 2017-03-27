@@ -1,11 +1,14 @@
 package com.twtstudio.retrox.wepeiyangrd.home.user;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.databinding.ObservableField;
 import android.databinding.ObservableInt;
+import android.preference.PreferenceManager;
 
 import com.kelin.mvvmlight.base.ViewModel;
 import com.kelin.mvvmlight.command.ReplyCommand;
+import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
 import com.twtstudio.retrox.wepeiyangrd.R;
 
 /**
@@ -30,6 +33,8 @@ public class CommonItemViewModel implements ViewModel {
     //the title of this item
     public final ObservableField<String> title = new ObservableField<>();
 
+    public final ObservableField<String> message = new ObservableField<>();
+
     public final ReplyCommand clickCommand = new ReplyCommand(this::clickItem);
 
     public ViewStyle viewStyle = new ViewStyle();
@@ -44,22 +49,37 @@ public class CommonItemViewModel implements ViewModel {
         init();
     }
 
-    private void init(){
-        if (commandId == MESSAGE){
-            imageRes.set(R.drawable.ic_message);
-            title.set("我的消息");
-        }else if (commandId == COLLECTION){
-            imageRes.set(R.drawable.ic_collection);
-            title.set("我的收藏");
-        }else if (commandId == RECORD){
-            imageRes.set(R.drawable.ic_browsing_history);
-            title.set("历史记录");
+    private void init() {
+//        if (commandId == MESSAGE){
+//            imageRes.set(R.drawable.ic_library_icon);
+//            title.set("我的消息");
+//        }else if (commandId == COLLECTION){
+//            imageRes.set(R.drawable.ic_collection);
+//            title.set("我的收藏");
+//        }else if (commandId == RECORD){
+//            imageRes.set(R.drawable.ic_browsing_history);
+//            title.set("历史记录");
+//        }
+
+        if (commandId == MESSAGE) {
+            imageRes.set(R.drawable.lib_library);
+            title.set("图书馆");
+            message.set(CommonPrefUtil.getIsBindLibrary() ? "已绑定" : "未绑定");
+        } else if (commandId == COLLECTION) {
+            imageRes.set(R.drawable.bike_bike_icon);
+            title.set("自行车");
+            message.set(CommonPrefUtil.getIsBindBike() ? "已绑定" : "未绑定");
+        } else if (commandId == RECORD) {
+            imageRes.set(R.drawable.ic_tju_little_icon);
+            title.set("办公网");
+            message.set(CommonPrefUtil.getIsBindTju() ? "已绑定" : "未绑定");
+
         }
         excuteNetWorkData();
     }
 
-    private void clickItem(){
-        switch (commandId){
+    private void clickItem() {
+        switch (commandId) {
             case MESSAGE:
                 // TODO: 2017/1/14 jump to message
                 break;
@@ -72,7 +92,7 @@ public class CommonItemViewModel implements ViewModel {
         }
     }
 
-    private void excuteNetWorkData(){
+    private void excuteNetWorkData() {
         // TODO: 2017/1/14 rxjava send api for the numbers of each item
     }
 
