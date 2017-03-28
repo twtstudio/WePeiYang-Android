@@ -1,6 +1,5 @@
 package com.twt.wepeiyang.commons.network;
 
-import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.orhanobut.logger.Logger;
 
 import java.util.concurrent.TimeUnit;
@@ -38,7 +37,7 @@ public class RetrofitProvider {
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(loggingInterceptor)
                 .addInterceptor(signInterceptor)
-                .addNetworkInterceptor(new StethoInterceptor())
+//                .addNetworkInterceptor(new StethoInterceptor())
                 .retryOnConnectionFailure(true)
                 .connectTimeout(30, TimeUnit.SECONDS)
                 .build();

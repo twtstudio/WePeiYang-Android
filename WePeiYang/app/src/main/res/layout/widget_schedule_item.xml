@@ -10,6 +10,7 @@
     android:layout_marginStart="8dp">
 
     <LinearLayout
+        android:layout_marginTop="4dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -19,6 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="16sp"
+            android:textColor="@color/common_lv1"
             android:layout_marginLeft="10dp"
             tools:text="专业外语" />
 

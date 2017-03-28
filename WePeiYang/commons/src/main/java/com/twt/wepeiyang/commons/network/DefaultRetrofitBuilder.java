@@ -1,6 +1,5 @@
 package com.twt.wepeiyang.commons.network;
 
-import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.orhanobut.logger.Logger;
 
 import java.util.concurrent.TimeUnit;
@@ -35,7 +34,7 @@ public class DefaultRetrofitBuilder {
 
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(loggingInterceptor)
-                .addNetworkInterceptor(new StethoInterceptor())
+//                .addNetworkInterceptor(new StethoInterceptor())
                 .retryOnConnectionFailure(false)
                 .connectTimeout(30, TimeUnit.SECONDS)
                 .build();

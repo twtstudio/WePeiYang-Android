@@ -7,7 +7,7 @@ android {
     buildToolsVersion "25.0.1"
     defaultConfig {
         applicationId "com.twtstudio.retrox.wepeiyangrd"
-        minSdkVersion 21
+        minSdkVersion 19
         targetSdkVersion 25
         versionCode 6
         versionName "preview1.1"
@@ -15,7 +15,10 @@ android {
         multiDexEnabled true
 
     }
-
+    dexOptions {
+//        incremental true
+        javaMaxHeapSize "4g"
+    }
     dataBinding {
         enabled true
     }
@@ -64,6 +67,7 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
 
 
+    compile 'com.android.support:multidex:1.0.1'
     compile 'agency.tango.android:material-intro-screen:0.0.5'
     compile 'com.github.shem8:material-login:2.1.1'
     compile 'de.hdodenhof:circleimageview:2.1.0'
