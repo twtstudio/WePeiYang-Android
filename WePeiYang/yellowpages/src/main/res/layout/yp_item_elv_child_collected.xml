@@ -23,8 +23,8 @@
 
     <ImageView
         android:id="@+id/iv_item_children_icon_phone"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
+        android:layout_width="23dp"
+        android:layout_height="23dp"
         android:layout_alignParentRight="true"
         android:layout_below="@id/tv_item_collected_name"
         android:layout_marginRight="25dp"

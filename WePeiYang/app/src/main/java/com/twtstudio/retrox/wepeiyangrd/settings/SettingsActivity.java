@@ -96,40 +96,6 @@ public class SettingsActivity extends AppCompatActivity {
                 }
             });
 
-            Preference logOutPref = findPreference(getString(R.string.pref_log_out));
-            logOutPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(mContext)
-                            .setMessage("是否要登出？")
-                            .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    //清除偏好数据和preference数据
-                                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(mContext);
-                                    preferences.edit().clear().apply();
-                                    CommonPrefUtil.clearAll();
-                                    Intent intent = new Intent(mContext, LoginActivity.class);
-                                    //清除缓存
-                                    // TODO: 27/03/2017 最后清理下缓存 debug不清理
-                                    if (!BuildConfig.DEBUG){
-                                        CacheProvider.clearCache();
-                                    }
-                                    mContext.startActivity(intent);
-                                    mContext.finish();
-                                }
-                            })
-                            .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-
-                                }
-                            });
-                    builder.create().show();
-                    return true;
-                }
-            });
-
             Preference libBindPref = findPreference(getString(R.string.pref_bind_settings));
             libBindPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override

@@ -31,7 +31,7 @@ public class BookItemViewModel implements ViewModel {
     public BookItemViewModel(Context context,Book book) {
         mContext = context;
         name.set(book.title);
-        retrunTime.set(book.returnTime);
+        retrunTime.set("还书日期: "+book.returnTime);
         setBookDrawable(book);
     }
 
@@ -46,6 +46,7 @@ public class BookItemViewModel implements ViewModel {
             if (leftDays<5){
                 Alerter.create((Activity) mContext)
                         .setTitle("还书提醒")
+                        .setBackgroundColor(R.color.assist_color_2)
                         .setText(book.title+"剩余时间不足5天，请尽快还书")
                         .show();
             }

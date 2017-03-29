@@ -46,11 +46,14 @@ public class GpaActivityViewModel implements ViewModel {
             .put(TermDetailViewModel.class,BR.viewModel,R.layout.gpa_item_term)
             .build();
 
-    public void getGpaData(){
+    public void getGpaData(boolean update){
         /**
          * for animation use
          * shared elements
          */
+        if (mMergeObservableList.size()!=0){
+            mMergeObservableList.clear();
+        }
         mMergeObservableList.insertItem(headerViewModel);
 
         GpaProvider.init(mRxActivity)
@@ -62,7 +65,11 @@ public class GpaActivityViewModel implements ViewModel {
                     mMergeObservableList.insertList(mViewModels);
                     setTermIndex(gpaBean.data.size()-1);
                 })
-                .getData();
+                .getData(update);
+    }
+
+    public void getGpaData(){
+        getGpaData(false);
     }
 
     public void setTermIndex(int index){

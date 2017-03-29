@@ -2,6 +2,7 @@ package course.labs.classroomquery.chooseXiaoqu;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
@@ -43,7 +44,9 @@ public class ChooseXiaoquActivity extends Activity {
     protected void onCreate(Bundle savedInstance){
         super.onCreate(savedInstance);
         window = this.getWindow();
-        window.setStatusBarColor(getResources().getColor(R.color.purple));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.setStatusBarColor(getResources().getColor(R.color.purple));
+        }
         setContentView(R.layout.choose_xiaoqu_layout);
 
         xiaoqu = -1;

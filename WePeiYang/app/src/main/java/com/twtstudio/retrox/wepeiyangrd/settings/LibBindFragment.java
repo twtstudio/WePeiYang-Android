@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,19 +38,25 @@ public class LibBindFragment extends SlideFragment {
 
     @OnClick(R.id.btn_lib_bind)
     public void bind_lib(View view) {
+
+        String libPassWd = libPasswordEdit.getText().toString();
+        if (TextUtils.isEmpty(libPassWd)){
+            libPassWd = "000000";
+            Toast.makeText(mContext, "尝试默认密码ing...", Toast.LENGTH_SHORT).show();
+        }
         new TjuLibProvider(this.getContext()).bindLibrary(integer -> {
             if (integer == -1) {
                 canMoveForward = true;
-                Toast.makeText(this.getContext(), "图书馆绑定完成,点击底部对勾开始新旅程", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this.getContext(), "图书馆绑定完成,点击底部右侧对勾开始新旅程", Toast.LENGTH_SHORT).show();
             } else if (integer == 50003) {
                 canMoveForward = true;
-                Toast.makeText(this.getContext(), "图书馆已绑定,点击底部对勾开始新旅程", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this.getContext(), "图书馆已绑定,点击底部右侧对勾开始新旅程", Toast.LENGTH_SHORT).show();
             } else if (integer == 50002) {
                 Toast.makeText(this.getContext(), "图书馆密码错误TAT...", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(this.getContext(), "未知错误TAT...", Toast.LENGTH_SHORT).show();
             }
-        }, libPasswordEdit.getText().toString());
+        }, libPassWd);
     }
 
     @Nullable

@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.transition.ChangeBounds;
 import android.transition.Fade;
 import android.transition.Slide;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
@@ -25,6 +26,7 @@ import com.twtstudio.retrox.gpa.databinding.GpaActivityMainBinding;
 public class GpaActivity extends RxAppCompatActivity {
 
     private GpaActivityMainBinding mBinding;
+    private GpaActivityViewModel viewModel;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -38,7 +40,7 @@ public class GpaActivity extends RxAppCompatActivity {
         toolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        GpaActivityViewModel viewModel = new GpaActivityViewModel(this);
+        viewModel = new GpaActivityViewModel(this);
         mBinding.setViewModel(viewModel);
         viewModel.getGpaData();
 
@@ -48,8 +50,16 @@ public class GpaActivity extends RxAppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             onBackPressed();
+        }else if (item.getItemId() == R.id.refresh){
+            viewModel.getGpaData(true);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_gpa, menu);
+        return true;
     }
 
     @TargetApi(21)

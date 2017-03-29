@@ -15,13 +15,14 @@
             android:key="@string/pref_is_show_today_course"
             android:summaryOff="不显示今日课程页面"
             android:summaryOn="显示今日课程页面"
-            android:title="显示今日课程页面" />
+            android:title="是否显示今日课程页面" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="主页设置">
 
         <SwitchPreference
             android:key="@string/pref_is_display_gpa"
+            android:defaultValue="true"
             android:summaryOff="算了我拒绝看那种东西"
             android:summaryOn="老夫就是要刺激"
             android:title="主页显示GPA" />
@@ -42,7 +43,10 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="绑定设置">
-
+        <Preference
+            android:key="@string/pref_bind_settings"
+            android:summary="点击进入绑定页面，自行车功能需要在自行车功能模块单独绑定"
+            android:title="绑定关联账号" />
         <Preference
             android:key="@string/pref_is_bind_lib"
             android:title="图书馆绑定状态" />
@@ -52,12 +56,7 @@
         <Preference
             android:key="@string/pref_is_bind_bike"
             android:title="自行车绑定状态" />
-        <Preference
-            android:key="@string/pref_bind_settings"
-            android:title="绑定关联账号" />
-        <Preference
-            android:key="@string/pref_log_out"
-            android:title="退出登录" />
+
 
     </PreferenceCategory>
 
