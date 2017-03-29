@@ -90,7 +90,7 @@ public class PrefItemViewModel implements ViewModel {
             //jump to settings
             Intent intent = new Intent(mContext, SettingsActivity.class);
             mContext.startActivity(intent);
-            ((AppCompatActivity)mContext).finish();
+//            ((AppCompatActivity)mContext).finish();
         }
     }
 

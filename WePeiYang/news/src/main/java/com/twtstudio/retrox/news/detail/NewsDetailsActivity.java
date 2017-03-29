@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -120,37 +121,41 @@ public class NewsDetailsActivity extends AppCompatActivity{
     }
 
     public void bindData(News news) {
+        hideProgress();
 //        mNews = news;
         tvNewsDetailsTitle.setText(news.data.subject);
-        if (news.data.gonggao.isEmpty()) {
+//        tvNewsDetailsGonggao.setText(news.data.gonggao);
+//        tvNewsDetailsShengao.setText(news.data.shengao);
+//        tvNewsDetailsLaiyuan.setText(news.data.newscome);
+        wvNewsDetials.loadData(news.data.content, "text/html;charset=utf-8", "UTF-8");
+        if (TextUtils.isEmpty(news.data.gonggao)) {
             llNewsDetailsGonggao.setVisibility(View.GONE);
         } else {
             tvNewsDetailsGonggao.setText(news.data.gonggao);
         }
-        if (news.data.shengao.isEmpty()) {
+        if (TextUtils.isEmpty(news.data.shengao)) {
             llNewsDetailsShengao.setVisibility(View.GONE);
         } else {
             tvNewsDetailsShengao.setText(news.data.shengao);
         }
-        if (news.data.newscome.isEmpty()) {
+        if (TextUtils.isEmpty(news.data.newscome)) {
             llNewsDetailsLaiyuan.setVisibility(View.GONE);
         } else {
             tvNewsDetailsLaiyuan.setText(news.data.newscome);
         }
         tvNewsdetailsViewCount.setText(news.data.visitcount + "");
-        if (news.data.sheying.isEmpty()) {
+        if (TextUtils.isEmpty(news.data.sheying)) {
             llNewsDetailsSheying.setVisibility(View.GONE);
         } else {
             tvNewsDetailsSheying.setText(news.data.sheying);
         }
-        wvNewsDetials.loadData(news.data.content, "text/html;charset=utf-8", "UTF-8");
+
     }
 
     private void getNewsData(){
         NewsApi newsApi = RetrofitProvider.getRetrofit().create(NewsApi.class);
         showProgress();
         newsApi.getNewsDetail(index)
-                .doAfterTerminate(this::hideProgress)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::bindData,new RxErrorHandler());

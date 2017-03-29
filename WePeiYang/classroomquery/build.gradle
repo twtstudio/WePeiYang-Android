@@ -24,9 +24,6 @@ android {
         targetCompatibility 1.8
         sourceCompatibility 1.8
     }
-    dataBinding{
-        enabled true
-    }
 }
 
 dependencies {
@@ -35,5 +32,5 @@ dependencies {
 
 
     compile project(':commons')
-    compile project(':mvvmKit')
+//    compile project(':mvvmKit')
 }

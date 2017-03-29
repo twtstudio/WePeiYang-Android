@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
+import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
@@ -131,7 +132,9 @@ public class MainActivity extends AppCompatActivity implements ViewModel{
 //        getSupportActionBar().hide();
        // getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         window = this.getWindow();
-        window.setStatusBarColor(getResources().getColor(R.color.purple));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.setStatusBarColor(getResources().getColor(R.color.purple));
+        }
         int resourceId =getResources().getIdentifier("status_bar_height","dimen","android");
         if(resourceId>0){
             statusBarHeight = getResources().getDimensionPixelSize(resourceId);
@@ -251,9 +254,9 @@ public class MainActivity extends AppCompatActivity implements ViewModel{
         popupWindow3 = new PopupWindow(view3, WindowManager.LayoutParams.FILL_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
 
 
-        popupWindow1.setFocusable(true);
-        popupWindow2.setFocusable(true);
-        popupWindow3.setFocusable(true);
+//        popupWindow1.setFocusable(true);
+//        popupWindow2.setFocusable(true);
+//        popupWindow3.setFocusable(true);
 
         popupWindow1.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override

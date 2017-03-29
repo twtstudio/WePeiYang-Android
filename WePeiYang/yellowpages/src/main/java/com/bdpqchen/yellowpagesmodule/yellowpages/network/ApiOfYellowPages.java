@@ -14,7 +14,7 @@ import rx.Observable;
 
 public interface ApiOfYellowPages {
 
-    @GET("data2")
+    @GET("data3")
 //    @GET("test_final2")
     Observable<DataBean> getDataList();
 

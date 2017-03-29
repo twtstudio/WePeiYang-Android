@@ -51,9 +51,12 @@ public class CommonFragViewModel implements ViewModel {
         initList();
     }
 
-    private void initList(){
+    public void initList(){
 //        mOneInfoViewModel = new OneDetailViewModel();
 //        viewModelList.add(mOneInfoViewModel);
+        if (viewModelList.size()!=0){
+            viewModelList.clear();
+        }
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mFragment.getContext());
 

@@ -1,5 +1,6 @@
 package com.twtstudio.retrox.wepeiyangrd.home.common;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 import com.tapadoo.alerter.Alerter;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 import com.twt.wepeiyang.commons.view.RecyclerViewDivider;
+import com.twtstudio.retrox.schedule.ScheduleActivity;
 import com.twtstudio.retrox.wepeiyangrd.R;
 import com.twtstudio.retrox.wepeiyangrd.base.BaseFragment;
 import com.twtstudio.retrox.wepeiyangrd.databinding.FragmentCommonsBinding;
@@ -43,6 +45,7 @@ public class CommonFragment extends BaseFragment {
     private ImageView mShaoyishao;
     private ImageView mSearch;
     private ImageView mZhaoxiang;
+    private CommonFragViewModel commonFragViewModel;
 
     public static CommonFragment newInstance() {
 
@@ -58,7 +61,8 @@ public class CommonFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         FragmentCommonsBinding binding = DataBindingUtil.inflate(inflater,R.layout.fragment_commons,container,false);
-        binding.setViewModel(new CommonFragViewModel(this));
+        commonFragViewModel = new CommonFragViewModel(this);
+        binding.setViewModel(commonFragViewModel);
 
         View view = binding.getRoot();
 
@@ -78,7 +82,14 @@ public class CommonFragment extends BaseFragment {
             Alerter.create(this.getActivity())
                     .setTitle(coursePushBean.title)
                     .setText(coursePushBean.message)
-                    .setDuration(60*1000)
+                    .setDuration(5*1000)
+                    .setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(CommonFragment.this.getActivity(), ScheduleActivity.class);
+                            startActivity(intent);
+                        }
+                    })
 //                    .setBackgroundColor(R.color.colorPrimaryLight)
                     .show();
         });
@@ -86,6 +97,10 @@ public class CommonFragment extends BaseFragment {
 
 
         return view;
+    }
+
+    public void refreshList(){
+        commonFragViewModel.initList();
     }
 
     private void initNewView(View view) {

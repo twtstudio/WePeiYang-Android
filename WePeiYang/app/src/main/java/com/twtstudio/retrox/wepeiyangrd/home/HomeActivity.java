@@ -8,12 +8,14 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.transition.Fade;
 import android.transition.Slide;
 import android.view.View;
 
+import com.orhanobut.logger.Logger;
 import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
 import com.twtstudio.retrox.wepeiyangrd.R;
 import com.twtstudio.retrox.wepeiyangrd.base.BaseActivity;
@@ -81,6 +83,7 @@ public class HomeActivity extends BaseActivity {
         WidgetUpdateManger.sendUpdateMsg(this);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void setWindowTransition() {
         getWindow().setEnterTransition(new Fade());
         getWindow().setReenterTransition(new Fade());
@@ -91,6 +94,14 @@ public class HomeActivity extends BaseActivity {
         decorView.setSystemUiVisibility(option);
         getWindow().setStatusBarColor(Color.TRANSPARENT);
 
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        CommonFragment fragment = (CommonFragment) mFragments[FIRST];
+        fragment.refreshList();
+        Logger.d("On new Intent!!!!");
     }
 
     @Override

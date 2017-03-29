@@ -36,7 +36,7 @@
             android:name="com.twtstudio.retrox.wepeiyangrd.MainActivity" />
 
         <activity
-            android:name=".home.HomeActivity">
+            android:name=".home.HomeActivity" android:launchMode="singleTop">
         </activity>
 
         <activity android:name=".settings.SettingsActivity" android:theme="@style/AppThemeActionBar"/>
