@@ -29,6 +29,10 @@ public class AuthSelfProvider {
                     //user id
                     CrashReport.setUserId(authSelfBean.twtuname);
 
+                    int dropOutMode = authSelfBean.dropout;
+
+                    CommonPrefUtil.setDropOut(dropOutMode); //0=未操作，1=已退学，2=已复学
+
                     if (action1 != null) {
                         action1.call(authSelfBean);
                     }

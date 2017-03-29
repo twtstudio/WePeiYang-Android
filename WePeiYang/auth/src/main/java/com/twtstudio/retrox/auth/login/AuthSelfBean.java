@@ -21,6 +21,7 @@ public class AuthSelfBean {
     public String studentid;
     public String avatar;
     public AccountsBean accounts;
+    public int dropout; //0=未操作，1=已退学，2=已复学
 
     public static class AccountsBean {
         /**

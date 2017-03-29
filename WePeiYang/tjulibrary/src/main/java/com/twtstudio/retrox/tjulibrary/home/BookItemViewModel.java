@@ -31,7 +31,7 @@ public class BookItemViewModel implements ViewModel {
     public BookItemViewModel(Context context,Book book) {
         mContext = context;
         name.set(book.title);
-        retrunTime.set("还书日期: "+book.returnTime);
+        retrunTime.set("应还日期: "+book.returnTime);
         setBookDrawable(book);
     }
 

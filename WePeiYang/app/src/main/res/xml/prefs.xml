@@ -2,11 +2,10 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory android:title="自我奋斗以及历史行程">
-        <SwitchPreference
+        <Preference
             android:key="@string/pref_is_exit_tju"
-            android:summaryOff="与其苟延残喘不如纵情燃烧吧"
-            android:summaryOn="您已成功退学"
-            android:title="一键退学" />
+            android:summary="退学手续办理"
+            android:title="一键退学手续办理" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="课程表设置">

@@ -79,8 +79,6 @@ public class PrefItemViewModel implements ViewModel {
             // TODO: 2017/1/14 tju bind ?
         } else if (mode == SETTINGS) {
             // TODO: 2017/1/14 jump to settings
-            Drawable drawable = ContextCompat.getDrawable(mContext,R.drawable.ic_settings);
-            DrawableCompat.setTint(drawable, Color.rgb(187,187,187));
             imageRes.set(R.drawable.ic_settings);
             title.set("设置");
             viewStyle.isMargin.set(true);

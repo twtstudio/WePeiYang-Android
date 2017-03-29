@@ -29,4 +29,7 @@ public interface AuthApi {
     @GET("auth/token/refresh")
     Observable<ApiResponse<Token>> refreshToken();
 
+    @GET("auth/dropout")
+    Observable<DropOutBean> dropOut(@Query("mode") int mode);
+
 }

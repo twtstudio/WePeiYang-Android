@@ -52,7 +52,8 @@ public class GpaActivityViewModel implements ViewModel {
          * shared elements
          */
         if (mMergeObservableList.size()!=0){
-            mMergeObservableList.clear();
+            mMergeObservableList.removeItem(headerViewModel);
+            mMergeObservableList.removeList(mViewModels);
         }
         mMergeObservableList.insertItem(headerViewModel);
 

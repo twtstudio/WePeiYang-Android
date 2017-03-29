@@ -1,7 +1,6 @@
 package com.twt.wepeiyang.commons.utils;
 
 import com.orhanobut.hawk.Hawk;
-import com.orhanobut.logger.Logger;
 
 /**
  * Created by retrox on 2016/12/12.
@@ -28,6 +27,7 @@ public class CommonPrefUtil {
     public static final String IS_BIND_BIKE = "pref_is_bind_bike";
     public static final String IS_FIRST_LOGIN = "is_first_login";
     public static final String IS_ACCEPT_TOS = "is_accept_tos"; //是否同意微北洋用户协议
+    public static final String DROP_OUT = "drop_out";
 
 
     private static final String THEME_MODE = "theme"; //false is normal , true is night
@@ -120,5 +120,13 @@ public class CommonPrefUtil {
 
     public static boolean getIsAcceptTos(){
         return Hawk.get(IS_ACCEPT_TOS,false);
+    }
+
+    public static void setDropOut(int dropOut){
+        Hawk.put(DROP_OUT,dropOut);
+    }
+
+    public static int getDropOut(){
+        return Hawk.get(DROP_OUT,0);
     }
 }
