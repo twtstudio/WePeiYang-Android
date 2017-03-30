@@ -35,8 +35,10 @@
         android:textSize="18sp"
         android:textColor="@color/colorAccent"
         android:fontFamily="sans-serif-regular"
-        android:text="The Function module of the curriculum schedule of WePeiYang can be used."
-        android:layout_width="350dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:text="不只是传统课表，更有今日课程、首节课提醒等温馨功能，只为让你的学习生活更加便利"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
 </agency.tango.materialintroscreen.parallax.ParallaxLinearLayout>

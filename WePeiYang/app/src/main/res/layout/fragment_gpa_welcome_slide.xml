@@ -35,8 +35,10 @@
         android:textSize="18sp"
         android:textColor="@color/colorAccent"
         android:fontFamily="sans-serif-regular"
-        android:text="The Function module of the GPA of WePeiYang can be used."
-        android:layout_width="350dp"
+        android:text="全新设计的成绩详情页，直观比较各科成绩"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
 </agency.tango.materialintroscreen.parallax.ParallaxLinearLayout>

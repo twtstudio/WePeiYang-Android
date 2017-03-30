@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory android:title="自我奋斗以及历史行程">
+    <PreferenceCategory android:title="自我奋斗以及历史行程(娱乐性)">
         <Preference
             android:key="@string/pref_is_exit_tju"
             android:summary="退学手续办理"
-            android:title="一键退学手续办理" />
+            android:title="一键退学" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="课程表设置">
@@ -31,7 +31,7 @@
             android:key="@string/pref_is_display_bike"
             android:summaryOff="不显示自行车"
             android:summaryOn="显示自行车"
-            android:title="主页显示自行车" />
+            android:title="主页显示自行车(自行车模块激活后有效）" />
 
         <SwitchPreference
             android:defaultValue="false"

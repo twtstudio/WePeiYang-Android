@@ -6,10 +6,12 @@ import android.view.View;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
+import com.orhanobut.hawk.Hawk;
 import com.twtstudio.retrox.schedule.model.ClassTable;
 import com.twtstudio.retrox.schedule.model.CourseHelper;
 import com.twtstudio.retrox.wepeiyangrd.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -41,6 +43,7 @@ public class WidgetListFactory implements RemoteViewsService.RemoteViewsFactory 
     @Override
     public void onDataSetChanged() {
 //        getData(false);
+        courseList = Hawk.get("scheduleCache",new ArrayList<ClassTable.Data.Course>());
     }
 
     @Override

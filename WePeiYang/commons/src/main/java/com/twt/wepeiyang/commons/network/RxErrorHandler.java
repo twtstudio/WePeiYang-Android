@@ -50,7 +50,6 @@ public class RxErrorHandler implements Action1<Throwable> {
             postThrowable(exception);
             Logger.e(exception, "http_error");
             try {
-
                 String errorJson = exception.response().errorBody().string();
                 Logger.e(errorJson);
                 JSONObject errJsonObject = new JSONObject(errorJson);

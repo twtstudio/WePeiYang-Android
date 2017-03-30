@@ -40,6 +40,7 @@ public class BuildingItemViewModel implements ViewModel {
                 availableRooms.set("不支持查询此教学楼");
             } else {
                 Observable.from(classroomQueryBean.data)
+                        .filter(dataBean -> dataBean.state.equals("空闲")) //筛选掉上课中
                         .take(6)
                         .subscribe(dataBean -> {
                             String s = availableRooms.get();

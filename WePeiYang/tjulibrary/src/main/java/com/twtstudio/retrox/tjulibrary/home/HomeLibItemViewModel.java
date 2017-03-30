@@ -12,21 +12,29 @@ import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.AlertDialog;
+import android.widget.Toast;
 
 import com.kelin.mvvmlight.base.ViewModel;
 import com.kelin.mvvmlight.command.ReplyCommand;
+import com.orhanobut.logger.Logger;
 import com.tapadoo.alerter.Alerter;
+import com.twt.wepeiyang.commons.network.ApiException;
 import com.twtstudio.retrox.tjulibrary.R;
 import com.twtstudio.retrox.tjulibrary.provider.Book;
 import com.twtstudio.retrox.tjulibrary.provider.RenewResult;
 import com.twtstudio.retrox.tjulibrary.provider.TjuLibProvider;
 import com.twtstudio.retrox.tjulibrary.BR;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import me.tatarka.bindingcollectionadapter.ItemView;
+import retrofit2.adapter.rxjava.HttpException;
 import rx.functions.Action0;
 
 
@@ -40,6 +48,7 @@ public class HomeLibItemViewModel implements ViewModel {
 
     public TjuLibProvider libProvider;
 
+    //卡片提示信息的内容
     public final ObservableField<String> message = new ObservableField<>("正在刷新");
 
     public final ObservableBoolean isProgressing = new ObservableBoolean(true);
@@ -140,6 +149,7 @@ public class HomeLibItemViewModel implements ViewModel {
             /**
              * 这个封装真是尼玛骚
              * 需要我进行add操作时候才会刷新列表
+             * 是因为ObserveableList的源码不支持removeall的提示
              */
 //            viewModels.removeAll(moreBookContainer);
             for (ViewModel viewModel : moreBookContainer) {
@@ -195,6 +205,24 @@ public class HomeLibItemViewModel implements ViewModel {
 
             }
 
+        },throwable -> {
+            //错误处理时候的卡片显示状况
+            if (throwable instanceof HttpException) {
+                HttpException exception = (HttpException) throwable;
+                try {
+                    String errorJson = exception.response().errorBody().string();
+                    JSONObject errJsonObject = new JSONObject(errorJson);
+                    int errcode = errJsonObject.getInt("error_code");
+                    String errmessage = errJsonObject.getString("message");
+                    state.set(2);
+                    this.message.set(errmessage);
+                } catch (IOException | JSONException e) {
+                    e.printStackTrace();
+                }
+            }else {
+                state.set(2);
+                this.message.set("粗线错误了啊,我也很绝望我能怎么办...");
+            }
         });
     }
 

@@ -32,7 +32,8 @@ public class TjuLibProvider {
 
     /**
      * bind tju lib
-     * @param action1 -1:ok others:to Api doc
+     *
+     * @param action1   -1:ok others:to Api doc
      * @param libpasswd
      */
     public void bindLibrary(Action1<Integer> action1, String libpasswd) {
@@ -40,7 +41,7 @@ public class TjuLibProvider {
         libApi.bindLib(libpasswd).map(ApiResponse::getData)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(s -> action1.call(-1),new RxErrorHandler(mContext));
+                .subscribe(s -> action1.call(-1), new RxErrorHandler(mContext));
 
     }
 
@@ -50,6 +51,18 @@ public class TjuLibProvider {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(action1, new RxErrorHandler(mContext));
+
+    }
+
+    public void getUserInfo(Action1<Info> action1, Action1<Throwable> throwableAction1) {
+
+        libApi.getLibUserInfo().map(ApiResponse::getData)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(action1, throwable -> {
+                    throwableAction1.call(throwable);
+                    new RxErrorHandler(mContext).call(throwable);
+                });
 
     }
 

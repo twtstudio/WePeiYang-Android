@@ -9,7 +9,7 @@ android {
         applicationId "com.twtstudio.retrox.wepeiyangrd"
         minSdkVersion 19
         targetSdkVersion 25
-        versionCode 7
+        versionCode 8
         versionName "preview1.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true

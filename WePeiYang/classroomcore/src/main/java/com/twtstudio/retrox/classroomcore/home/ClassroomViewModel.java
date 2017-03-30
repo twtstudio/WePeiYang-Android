@@ -71,7 +71,13 @@ public class ClassroomViewModel implements ViewModel{
     private void queryClassrooms(){
         setQueryTime();
         viewModels.clear();
-        boolean[] booleen = Hawk.get("pref_classroom_set",new boolean[55]);
+
+        boolean[] defaultValues = new boolean[55];
+        defaultValues[45] = true;
+        defaultValues[43] = true;
+        defaultValues[44] = true;
+
+        boolean[] booleen = Hawk.get("pref_classroom_set",defaultValues);
         for (int i = 0; i < booleen.length; i++) {
             if (booleen[i]){
                 viewModels.add(new BuildingItemViewModel(i+1,context));
@@ -82,7 +88,12 @@ public class ClassroomViewModel implements ViewModel{
     private void editPreference(){
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 //        Hawk.delete("pref_classroom_set");
-        boolean[] booleen = Hawk.get("pref_classroom_set",new boolean[55]);
+        boolean[] defaultValues = new boolean[55];
+        defaultValues[45] = true;
+        defaultValues[43] = true;
+        defaultValues[44] = true;
+
+        boolean[] booleen = Hawk.get("pref_classroom_set",defaultValues);
         String[] strings = new String[55];
         for (int i = 0; i < strings.length; i++) {
             strings[i] = String.valueOf(i+1);

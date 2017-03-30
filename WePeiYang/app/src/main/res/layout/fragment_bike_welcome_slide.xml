@@ -34,8 +34,10 @@
         android:textSize="18sp"
         android:textColor="@color/colorAccent"
         android:fontFamily="sans-serif-regular"
-        android:text="The Function module of the bicycle of WePeiYang can be used."
-        android:layout_width="350dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:text="担心车没还上？打开微北洋，即时查看借还状态。如有异常，更可直接拨打客服电话。"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
 </agency.tango.materialintroscreen.parallax.ParallaxLinearLayout>

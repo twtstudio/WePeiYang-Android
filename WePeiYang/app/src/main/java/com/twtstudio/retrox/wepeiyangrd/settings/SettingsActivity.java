@@ -108,70 +108,126 @@ public class SettingsActivity extends AppCompatActivity {
                 dropOutSummary = "已复学";
             }
             exitTjuPref.setSummary("退学状态: "+dropOutSummary);
+
+            /**
+             * 这个代码有些冗杂 ...
+             */
             exitTjuPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    String[] items = {"我要复学！","我要打游戏！","我要运动！","我要睡觉！","怎么样都好啦！"};
 
-                    AlertDialog.Builder builder = new AlertDialog.Builder(mContext)
-                            .setTitle("选择你要办理的手续")
-                            .setPositiveButton("我想好了...", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                }
-                            })
-                            .setNegativeButton("我再想想吧...", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                }
-                            })
-                            .setItems(items, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    RetrofitProvider.getRetrofit().create(AuthApi.class)
-                                            .dropOut(which)
-                                            .subscribeOn(Schedulers.io())
-                                            .observeOn(AndroidSchedulers.mainThread())
-                                            .subscribe(dropOutBean -> {
-                                                if (!TextUtils.isEmpty(dropOutBean.data)){
-                                                    Toast.makeText(mContext, dropOutBean.data, Toast.LENGTH_SHORT).show();
+                    if (CommonPrefUtil.getDropOut()==0 ||CommonPrefUtil.getDropOut()==2){
+                        //退学
+                        String[] items = {"我要打游戏！","我要运动！","我要睡觉！","怎么样都好啦！"};
 
-                                                    if (dropOutBean.data.equals("欢迎回来上学 (〃∀〃)")){
-                                                        CommonPrefUtil.setDropOut(2);
-                                                    }else if (dropOutBean.data.equals("退学成功 d(`･∀･)b")){
-                                                        CommonPrefUtil.setDropOut(1);
+                        AlertDialog.Builder builder = new AlertDialog.Builder(mContext)
+                                .setTitle("你为啥要退学呀？")
+                                .setItems(items, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        RetrofitProvider.getRetrofit().create(AuthApi.class)
+                                                .dropOut(which+1)
+                                                .subscribeOn(Schedulers.io())
+                                                .observeOn(AndroidSchedulers.mainThread())
+                                                .subscribe(dropOutBean -> {
+                                                    if (!TextUtils.isEmpty(dropOutBean.data)){
+                                                        Toast.makeText(mContext, dropOutBean.data, Toast.LENGTH_SHORT).show();
+
+                                                        if (dropOutBean.data.equals("欢迎回来上学 (〃∀〃)")){
+                                                            CommonPrefUtil.setDropOut(2);
+                                                        }else if (dropOutBean.data.equals("退学成功 d(`･∀･)b")){
+                                                            CommonPrefUtil.setDropOut(1);
+                                                        }
+
+                                                        //刷新下状态 --
+                                                        int dropOutMode = CommonPrefUtil.getDropOut();
+                                                        String dropOutSummary = "未操作";
+                                                        if (dropOutMode == 0){
+                                                            dropOutSummary = "未操作";
+                                                        }else if (dropOutMode == 1){
+                                                            dropOutSummary = "已退学";
+                                                        }else if (dropOutMode == 2){
+                                                            dropOutSummary = "已复学";
+                                                        }
+                                                        exitTjuPref.setSummary("退学状态: "+dropOutSummary);
+
+                                                        //清空缓存 --- 课程表 GPA
+                                                        CacheProvider.clearCache();
+
+                                                        new AuthSelfProvider().getUserData(null); //null做了处理的 刷新状态
                                                     }
+                                                    dialog.dismiss();
+                                                },throwable -> {
+                                                    new AuthSelfProvider().getUserData(null); //null做了处理的
+                                                    new RxErrorHandler().call(throwable);
+                                                    dialog.dismiss();
+                                                });
+                                    }
+                                });
 
-                                                    //刷新下状态 --
-                                                    int dropOutMode = CommonPrefUtil.getDropOut();
-                                                    String dropOutSummary = "未操作";
-                                                    if (dropOutMode == 0){
-                                                        dropOutSummary = "未操作";
-                                                    }else if (dropOutMode == 1){
-                                                        dropOutSummary = "已退学";
-                                                    }else if (dropOutMode == 2){
-                                                        dropOutSummary = "已复学";
+                        builder.create().show();
+
+                    }else {
+
+                        AlertDialog.Builder dropInBuilder = new AlertDialog.Builder(mContext)
+                                .setTitle("复学申请办理处")
+                                .setMessage("浪子回头金不换啊...")
+                                .setPositiveButton("我想好了...", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+
+                                        RetrofitProvider.getRetrofit().create(AuthApi.class)
+                                                .dropOut(0)
+                                                .subscribeOn(Schedulers.io())
+                                                .observeOn(AndroidSchedulers.mainThread())
+                                                .subscribe(dropOutBean -> {
+                                                    if (!TextUtils.isEmpty(dropOutBean.data)){
+                                                        Toast.makeText(mContext, dropOutBean.data, Toast.LENGTH_SHORT).show();
+
+                                                        if (dropOutBean.data.equals("欢迎回来上学 (〃∀〃)")){
+                                                            CommonPrefUtil.setDropOut(2);
+                                                        }else if (dropOutBean.data.equals("退学成功 d(`･∀･)b")){
+                                                            CommonPrefUtil.setDropOut(1);
+                                                        }
+
+                                                        //刷新下状态 --
+                                                        int dropOutMode = CommonPrefUtil.getDropOut();
+                                                        String dropOutSummary = "未操作";
+                                                        if (dropOutMode == 0){
+                                                            dropOutSummary = "未操作";
+                                                        }else if (dropOutMode == 1){
+                                                            dropOutSummary = "已退学";
+                                                        }else if (dropOutMode == 2){
+                                                            dropOutSummary = "已复学";
+                                                        }
+                                                        exitTjuPref.setSummary("退学状态: "+dropOutSummary);
+
+                                                        //清空缓存 --- 课程表 GPA
+                                                        CacheProvider.clearCache();
+
+                                                        new AuthSelfProvider().getUserData(null); //null做了处理的 刷新状态
                                                     }
-                                                    exitTjuPref.setSummary("退学状态: "+dropOutSummary);
+                                                    dialog.dismiss();
+                                                },throwable -> {
+                                                    new AuthSelfProvider().getUserData(null); //null做了处理的
+                                                    new RxErrorHandler().call(throwable);
+                                                    dialog.dismiss();
+                                                });
 
-                                                    //清空缓存 --- 课程表 GPA
-                                                    CacheProvider.clearCache();
+                                    }
+                                })
+                                .setNegativeButton("我再浪会...", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                });
 
-                                                    new AuthSelfProvider().getUserData(null); //null做了处理的 刷新状态
-                                                }
-                                                dialog.dismiss();
-                                            },throwable -> {
-                                                new AuthSelfProvider().getUserData(null); //null做了处理的
-                                                new RxErrorHandler().call(throwable);
-                                                dialog.dismiss();
-                                            });
-                                }
-                            });
+                        dropInBuilder.create().show();
+                    }
 
-                    builder.create().show();
-                    return false;
+                    return true;
                 }
             });
 

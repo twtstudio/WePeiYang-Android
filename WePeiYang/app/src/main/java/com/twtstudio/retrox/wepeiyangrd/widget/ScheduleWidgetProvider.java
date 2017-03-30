@@ -99,6 +99,8 @@ public class ScheduleWidgetProvider extends AppWidgetProvider {
 
         remoteViews.setRemoteAdapter(R.id.widget_listview, serviceIntent);
         remoteViews.setEmptyView(R.id.widget_listview, R.id.widget_empty_view);
+
+        manager.notifyAppWidgetViewDataChanged(appWidgetId,R.id.widget_listview);
         manager.updateAppWidget(appWidgetId, remoteViews);
 
     }
