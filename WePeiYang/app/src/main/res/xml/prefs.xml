@@ -44,7 +44,7 @@
     <PreferenceCategory android:title="绑定设置">
         <Preference
             android:key="@string/pref_bind_settings"
-            android:summary="点击进入绑定页面，自行车功能需要在自行车功能模块单独绑定"
+            android:summary="点击进入绑定页面，自行选择需要绑定的功能，自行车功能需要在自行车功能模块单独绑定"
             android:title="绑定关联账号" />
         <Preference
             android:key="@string/pref_is_bind_lib"

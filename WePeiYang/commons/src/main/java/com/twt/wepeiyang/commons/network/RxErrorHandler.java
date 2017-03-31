@@ -39,7 +39,6 @@ public class RxErrorHandler implements Action1<Throwable> {
     @Override
     public void call(Throwable throwable) {
 
-
         if (throwable instanceof IOException) {
             IOException error = (IOException) throwable;
             Toast.makeText(mContext, "网络错误", Toast.LENGTH_SHORT).show();

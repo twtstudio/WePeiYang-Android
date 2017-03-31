@@ -96,7 +96,19 @@ public class SettingsActivity extends AppCompatActivity {
             initPrefs();
         }
 
+        @Override
+        public void onResume() {
+            super.onResume();
+            Preference isBindLib = findPreference(getString(R.string.pref_is_bind_lib));
+            isBindLib.setSummary(CommonPrefUtil.getIsBindLibrary()?"已绑定":"未绑定");
+        }
+
         public void initPrefs() {
+
+            /**
+             * 一键退学
+             */
+
             Preference exitTjuPref = findPreference(getString(R.string.pref_is_exit_tju));
             int dropOutMode = CommonPrefUtil.getDropOut();
             String dropOutSummary = "未操作";
@@ -110,7 +122,7 @@ public class SettingsActivity extends AppCompatActivity {
             exitTjuPref.setSummary("退学状态: "+dropOutSummary);
 
             /**
-             * 这个代码有些冗杂 ...
+             * 这个代码有些冗杂 ... 因为一些内部类的调用关系没有理清楚但是先这样子吧
              */
             exitTjuPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 
@@ -126,6 +138,9 @@ public class SettingsActivity extends AppCompatActivity {
                                 .setItems(items, new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
+
+                                        Toast.makeText(mContext, "正在办理...", Toast.LENGTH_SHORT).show();
+
                                         RetrofitProvider.getRetrofit().create(AuthApi.class)
                                                 .dropOut(which+1)
                                                 .subscribeOn(Schedulers.io())
@@ -169,13 +184,13 @@ public class SettingsActivity extends AppCompatActivity {
                         builder.create().show();
 
                     }else {
-
                         AlertDialog.Builder dropInBuilder = new AlertDialog.Builder(mContext)
                                 .setTitle("复学申请办理处")
                                 .setMessage("浪子回头金不换啊...")
                                 .setPositiveButton("我想好了...", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
+                                        Toast.makeText(mContext, "正在办理...", Toast.LENGTH_SHORT).show();
 
                                         RetrofitProvider.getRetrofit().create(AuthApi.class)
                                                 .dropOut(0)
@@ -231,6 +246,10 @@ public class SettingsActivity extends AppCompatActivity {
                 }
             });
 
+            /**
+             * 绑定模块
+             */
+
             Preference libBindPref = findPreference(getString(R.string.pref_bind_settings));
             libBindPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
@@ -249,14 +268,61 @@ public class SettingsActivity extends AppCompatActivity {
                 }
             });
 
+
             Preference isBindTju = findPreference(getString(R.string.pref_is_bind_tju));
             isBindTju.setSummary(CommonPrefUtil.getIsBindTju()?"已绑定":"未绑定");
+            isBindTju.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    Toast.makeText(mContext, "暂不支持解绑 TAT...", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+            });
 
             Preference isBindLib = findPreference(getString(R.string.pref_is_bind_lib));
             isBindLib.setSummary(CommonPrefUtil.getIsBindLibrary()?"已绑定":"未绑定");
+            isBindLib.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(mContext)
+                            .setTitle("图书馆解绑")
+                            .setMessage("是否要解绑图书馆")
+//                            .setCancelable(false)
+                            .setPositiveButton("解绑", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    if (CommonPrefUtil.getIsBindLibrary()){
+                                        new TjuLibProvider(mContext).unbindLibrary(s -> {
+                                            CommonPrefUtil.setIsBindLibrary(false);
+                                            isBindLib.setSummary(CommonPrefUtil.getIsBindLibrary()?"已绑定":"未绑定");
+                                            dialog.dismiss();
+                                        });
+                                    }else {
+                                        Toast.makeText(mContext, "你没绑定解绑啥？？？？？", Toast.LENGTH_SHORT).show();
+                                    }
+
+                                }
+                            })
+                            .setNegativeButton("再绑会...", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                    builder.create().show();
+                    return false;
+                }
+            });
 
             Preference isBindBike = findPreference(getString(R.string.pref_is_bind_bike));
             isBindBike.setSummary(CommonPrefUtil.getIsBindBike()?"已绑定":"未绑定");
+            isBindBike.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    Toast.makeText(mContext, "暂不支持解绑 TAT...", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+            });
         }
 
         private void processExitTju(){

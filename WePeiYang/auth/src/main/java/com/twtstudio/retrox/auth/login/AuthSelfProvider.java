@@ -40,5 +40,9 @@ public class AuthSelfProvider {
 
     }
 
+    public void getUserData(){
+        this.getUserData(null);
+    }
+
 
 }

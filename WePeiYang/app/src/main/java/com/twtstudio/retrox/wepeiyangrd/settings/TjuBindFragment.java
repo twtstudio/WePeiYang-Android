@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.twt.wepeiyang.commons.network.RetrofitProvider;
 import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
+import com.twtstudio.retrox.auth.login.AuthSelfProvider;
 import com.twtstudio.retrox.auth.tju.TjuApi;
 import com.twtstudio.retrox.wepeiyangrd.R;
 
@@ -37,6 +38,7 @@ public class TjuBindFragment extends SlideFragment {
     public void bind(View view) {
         RetrofitProvider.getRetrofit().create(TjuApi.class)
                 .bindTju(numEdit.getText().toString(), passwordEdit.getText().toString())
+                .doAfterTerminate(() -> new AuthSelfProvider().getUserData())
                 .subscribe(responseBody -> {
                     canMoveFuther = true;
                     Toast.makeText(this.getContext(), "绑定成功", Toast.LENGTH_SHORT).show();

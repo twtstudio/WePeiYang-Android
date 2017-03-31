@@ -17,6 +17,7 @@ import android.view.View;
 
 import com.orhanobut.logger.Logger;
 import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
+import com.twtstudio.retrox.auth.login.AuthSelfProvider;
 import com.twtstudio.retrox.wepeiyangrd.R;
 import com.twtstudio.retrox.wepeiyangrd.base.BaseActivity;
 import com.twtstudio.retrox.wepeiyangrd.base.BaseFragment;
@@ -108,6 +109,9 @@ public class HomeActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         checkTos();
+
+        //刷新点状态 ... 也不知道有没有啥用
+//        new AuthSelfProvider().getUserData();
     }
 
     /**

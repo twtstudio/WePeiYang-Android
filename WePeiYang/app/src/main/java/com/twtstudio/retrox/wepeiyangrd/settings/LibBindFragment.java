@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
+import com.twtstudio.retrox.auth.login.AuthSelfProvider;
 import com.twtstudio.retrox.tjulibrary.provider.TjuLibProvider;
 import com.twtstudio.retrox.wepeiyangrd.R;
 
@@ -56,6 +57,8 @@ public class LibBindFragment extends SlideFragment {
             } else {
                 Toast.makeText(this.getContext(), "未知错误TAT...", Toast.LENGTH_SHORT).show();
             }
+            CommonPrefUtil.setIsBindLibrary(true);
+            new AuthSelfProvider().getUserData();
         }, libPassWd);
     }
 

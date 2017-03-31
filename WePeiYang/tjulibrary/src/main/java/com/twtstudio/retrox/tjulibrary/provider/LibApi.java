@@ -27,4 +27,7 @@ public interface LibApi {
     @GET("auth/bind/lib")
     Observable<ApiResponse<String>> bindLib(@Query("libpasswd") String libpasswd);
 
+    @GET("auth/unbind/lib")
+    Observable<ApiResponse<String>> unbindLib();
+
 }

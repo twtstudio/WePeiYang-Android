@@ -33,7 +33,7 @@
         <android.support.design.widget.TextInputEditText
             android:textColor="@color/common_lv2"
             android:textSize="16sp"
-            android:hint="图书馆密码(默认000000)"
+            android:hint="图书馆密码(默认000000或666666)"
             android:id="@+id/lib_password"
             android:inputType="textPassword"
             android:layout_width="match_parent"

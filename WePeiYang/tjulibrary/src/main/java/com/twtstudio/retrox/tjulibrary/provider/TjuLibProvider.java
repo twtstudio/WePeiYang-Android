@@ -1,6 +1,7 @@
 package com.twtstudio.retrox.tjulibrary.provider;
 
 import android.content.Context;
+import android.widget.Toast;
 
 import com.orhanobut.logger.Logger;
 import com.twt.wepeiyang.commons.network.ApiException;
@@ -45,6 +46,17 @@ public class TjuLibProvider {
 
     }
 
+    public void unbindLibrary(Action1<String> action1) {
+        libApi.unbindLib().subscribeOn(Schedulers.io())
+                .map(ApiResponse::getData)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(s -> {
+                    action1.call(s);
+                    Logger.d("解绑图书馆：" + s);
+                    Toast.makeText(mContext, s, Toast.LENGTH_SHORT).show();
+                }, new RxErrorHandler());
+    }
+
     public void getUserInfo(Action1<Info> action1) {
 
         libApi.getLibUserInfo().map(ApiResponse::getData)
@@ -85,4 +97,6 @@ public class TjuLibProvider {
                 .subscribe(action1, new RxErrorHandler(mContext));
 
     }
+
+
 }

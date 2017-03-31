@@ -1,382 +1,473 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/White">
+    android:background="@color/White"
+    android:orientation="vertical">
+
     <TableLayout
+        android:id="@+id/table1"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:shrinkColumns="0,1,2,3,4,5"
-        android:id="@+id/table1">
-        <TableRow android:id="@+id/row1"
+        android:shrinkColumns="0,1,2,3,4,5">
+
+        <TableRow
+            android:id="@+id/row1"
             android:layout_height="47dp">
 
-            <Button android:layout_height="22dp"
+            <Button
+                android:id="@+id/button"
                 android:layout_width="43dp"
+                android:layout_height="22dp"
+                android:layout_marginBottom="13dp"
                 android:layout_marginLeft="17dp"
                 android:layout_marginRight="9dp"
                 android:layout_marginTop="13dp"
-                android:layout_marginBottom="13dp"
-                        android:text="推荐"
 
                 android:background="#00000000"
-                android:textColor="@color/darkgray"/>
-            <Button android:layout_height="22dp"
+                android:text="推荐"
+                android:textColor="@color/darkgray" />
+
+            <Button
                 android:layout_width="43dp"
+                android:layout_height="22dp"
+                android:layout_marginBottom="13dp"
                 android:layout_marginLeft="9dp"
                 android:layout_marginRight="9dp"
                 android:layout_marginTop="13dp"
-                android:layout_marginBottom="13dp"
-                     android:background="#00000000"
-                      android:textColor="@color/darkgray"/>
-            <Button android:layout_height="22dp"
-                android:layout_width="43dp"
-                android:layout_marginLeft="9dp"
-                android:layout_marginRight="9dp"
-                android:layout_marginTop="13dp"
-                android:layout_marginBottom="13dp"
                 android:background="#00000000"
-                android:textColor="@color/darkgray"/>
-            <ImageView android:layout_height="22dp"
-                android:layout_width="43dp"
-                android:layout_marginLeft="9dp"
-                android:layout_marginRight="9dp"
-                android:layout_marginTop="13dp"
-                android:layout_marginBottom="13dp"></ImageView>
+                android:textColor="@color/darkgray" />
 
-            <ImageView android:layout_height="22dp"
+            <Button
                 android:layout_width="43dp"
+                android:layout_height="22dp"
+                android:layout_marginBottom="13dp"
                 android:layout_marginLeft="9dp"
                 android:layout_marginRight="9dp"
                 android:layout_marginTop="13dp"
-                android:layout_marginBottom="13dp"></ImageView>
+                android:background="#00000000"
+                android:textColor="@color/darkgray" />
 
-            <ImageView android:layout_height="22dp"
+            <ImageView
                 android:layout_width="43dp"
+                android:layout_height="22dp"
+                android:layout_marginBottom="13dp"
                 android:layout_marginLeft="9dp"
                 android:layout_marginRight="9dp"
-                android:layout_marginTop="13dp"
-                android:layout_marginBottom="13dp"></ImageView>
+                android:layout_marginTop="13dp"></ImageView>
+
+            <ImageView
+                android:layout_width="43dp"
+                android:layout_height="22dp"
+                android:layout_marginBottom="13dp"
+                android:layout_marginLeft="9dp"
+                android:layout_marginRight="9dp"
+                android:layout_marginTop="13dp"></ImageView>
+
+            <ImageView
+                android:layout_width="43dp"
+                android:layout_height="22dp"
+                android:layout_marginBottom="13dp"
+                android:layout_marginLeft="9dp"
+                android:layout_marginRight="9dp"
+                android:layout_marginTop="13dp"></ImageView>
         </TableRow>
     </TableLayout>
+
     <ImageView
         android:layout_width="fill_parent"
         android:layout_height="1dp"
-        android:background="@color/darkgray"/> 
-     <TableLayout
-         android:layout_width="match_parent"
-         android:layout_height="wrap_content"
-         android:shrinkColumns="0,1,2,3,4,5,6"
-         android:id="@+id/table2">
-         <TableRow android:id="@+id/row2"
-             android:layout_height="47dp">
-             <Button
-                 android:layout_height="22dp"
-                 android:layout_width="43dp"
-                 android:layout_marginLeft="17dp"
-                 android:layout_marginRight="9dp"
-                 android:layout_marginTop="13dp"
-                 android:layout_marginBottom="13dp"
-                         android:text="所有"
-                         android:background="#00000000"
+        android:background="@color/darkgray" /> 
 
-                         android:textColor="@color/darkgray"/>
-             <Button android:layout_height="22dp"
-                 android:layout_width="43dp"
-                 android:layout_marginLeft="9dp"
-                 android:layout_marginRight="9dp"
-                 android:layout_marginTop="13dp"
-                 android:layout_marginBottom="13dp"
-                 android:background="#00000000"
-                 android:textColor="@color/darkgray"/>
-             <Button android:layout_height="22dp"
-                 android:layout_width="43dp"
-                 android:layout_marginLeft="9dp"
-                 android:layout_marginRight="9dp"
-                 android:layout_marginTop="13dp"
-                 android:layout_marginBottom="13dp"
-                 android:background="#00000000"
-                 android:textColor="@color/darkgray"/>
-             <Button android:layout_height="22dp"
-                 android:layout_width="43dp"
-                 android:layout_marginLeft="9dp"
-                 android:layout_marginRight="9dp"
-                 android:layout_marginTop="13dp"
-                 android:layout_marginBottom="13dp"
-                 android:background="#00000000"
-                 android:textColor="@color/darkgray"/>
-             <Button android:layout_height="22dp"
-                 android:layout_width="43dp"
-                 android:layout_marginLeft="9dp"
-                 android:layout_marginRight="9dp"
-                 android:layout_marginTop="13dp"
-                 android:layout_marginBottom="13dp"
-                 android:background="#00000000"
-                 android:textColor="@color/darkgray"/>
-             <Button android:layout_height="22dp"
-                 android:layout_width="43dp"
-                 android:layout_marginLeft="9dp"
-                 android:layout_marginRight="9dp"
-                 android:layout_marginTop="13dp"
-                 android:layout_marginBottom="13dp"
-                 android:background="#00000000"
-                 android:textColor="@color/darkgray"/>
-         </TableRow>
-         <TableRow android:id="@+id/row3"
-                     android:layout_height="47dp">
-             <TextView android:layout_height="22dp"
-                 android:layout_width="43dp"
-                 android:layout_marginLeft="17dp"
-                 android:layout_marginRight="9dp"
-                 android:layout_marginTop="13dp"
-                 android:layout_marginBottom="13dp"
+    <TableLayout
+        android:id="@+id/table2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:shrinkColumns="0,1,2,3,4,5,6">
 
-                 android:visibility="invisible"
-                 />
-             <Button android:layout_height="22dp"
-                 android:layout_width="43dp"
-                 android:layout_marginLeft="9dp"
-                 android:layout_marginRight="9dp"
-                 android:layout_marginTop="13dp"
-                 android:layout_marginBottom="13dp"
-                 android:background="#00000000"
-                 android:textColor="@color/darkgray"/>
-             <Button android:layout_height="22dp"
-                 android:layout_width="43dp"
-                 android:layout_marginLeft="9dp"
-                 android:layout_marginRight="9dp"
-                 android:layout_marginTop="13dp"
-                 android:layout_marginBottom="13dp"
-                 android:background="#00000000"
-                 android:textColor="@color/darkgray"/>
-             <Button android:layout_height="22dp"
-                 android:layout_width="43dp"
-                 android:layout_marginLeft="9dp"
-                 android:layout_marginRight="9dp"
-                 android:layout_marginTop="13dp"
-                 android:layout_marginBottom="13dp"
-                 android:background="#00000000"
-                 android:textColor="@color/darkgray"/>
-             <Button android:layout_height="22dp"
-                 android:layout_width="43dp"
-                 android:layout_marginLeft="9dp"
-                 android:layout_marginRight="9dp"
-                 android:layout_marginTop="13dp"
-                 android:layout_marginBottom="13dp"
-                 android:background="#00000000"
-                 android:textColor="@color/darkgray"/>
-             <Button android:layout_height="22dp"
-                 android:layout_width="43dp"
-                 android:layout_marginLeft="9dp"
-                 android:layout_marginRight="9dp"
-                 android:layout_marginTop="13dp"
-                 android:layout_marginBottom="13dp"
-                 android:background="#00000000"
-                 android:textColor="@color/darkgray"/>
-         </TableRow>
-         <TableRow android:layout_height="47dp">
-             <TextView android:layout_height="22dp"
-                 android:layout_width="43dp"
-                 android:layout_marginLeft="17dp"
-                 android:layout_marginRight="9dp"
-                 android:layout_marginTop="13dp"
-                 android:layout_marginBottom="13dp"
-                 android:visibility="invisible"
+        <TableRow
+            android:id="@+id/row2"
+            android:layout_height="47dp">
 
-                 />
-             <Button android:layout_height="22dp"
-                 android:layout_width="43dp"
-                 android:layout_marginLeft="9dp"
-                 android:layout_marginRight="9dp"
-                 android:layout_marginTop="13dp"
-                 android:layout_marginBottom="13dp"
-                 android:background="#00000000"
-                 android:textColor="@color/darkgray"/>
-             <Button android:layout_height="22dp"
-                 android:layout_width="43dp"
-                 android:layout_marginLeft="9dp"
-                 android:layout_marginRight="9dp"
-                 android:layout_marginTop="13dp"
-                 android:layout_marginBottom="13dp"
-                 android:background="#00000000"
-                 android:textColor="@color/darkgray"/>
-             <Button android:layout_height="22dp"
-                 android:layout_width="43dp"
-                 android:layout_marginLeft="9dp"
-                 android:layout_marginRight="9dp"
-                 android:layout_marginTop="13dp"
-                 android:layout_marginBottom="13dp"
-                 android:background="#00000000"
-                 android:textColor="@color/darkgray"/>
-             <Button android:layout_height="22dp"
-                 android:layout_width="43dp"
-                 android:layout_marginLeft="9dp"
-                 android:layout_marginRight="9dp"
-                 android:layout_marginTop="13dp"
-                 android:layout_marginBottom="13dp"
-                 android:background="#00000000"
-                 android:textColor="@color/darkgray"/>
-             <Button android:layout_height="22dp"
-                 android:layout_width="43dp"
-                 android:layout_marginLeft="9dp"
-                 android:layout_marginRight="9dp"
-                 android:layout_marginTop="13dp"
-                 android:layout_marginBottom="13dp"
-                 android:background="#00000000"
-                 android:textColor="@color/darkgray"/>
-         </TableRow>
-         <TableRow android:layout_height="47dp">
-             <TextView android:layout_height="22dp"
-                 android:layout_width="43dp"
-                 android:layout_marginLeft="17dp"
-                 android:layout_marginRight="9dp"
-                 android:layout_marginTop="13dp"
-                 android:layout_marginBottom="13dp"
+            <Button
+                android:layout_width="43dp"
+                android:layout_height="22dp"
+                android:layout_marginBottom="13dp"
+                android:layout_marginLeft="17dp"
+                android:layout_marginRight="9dp"
+                android:layout_marginTop="13dp"
+                android:background="#00000000"
+                android:text="所有"
 
-                 />
-             <Button android:layout_height="22dp"
-                 android:layout_width="43dp"
-                 android:layout_marginLeft="9dp"
-                 android:layout_marginRight="9dp"
-                 android:layout_marginTop="13dp"
-                 android:layout_marginBottom="13dp"
-                 android:background="#00000000"
-                 android:textColor="@color/darkgray"/>
-             <Button android:layout_height="22dp"
-                 android:layout_width="43dp"
-                 android:layout_marginLeft="9dp"
-                 android:layout_marginRight="9dp"
-                 android:layout_marginTop="13dp"
-                 android:layout_marginBottom="13dp"
-                 android:background="#00000000"
-                 android:textColor="@color/darkgray"/>
-             <Button android:layout_height="22dp"
-                 android:layout_width="43dp"
-                 android:layout_marginLeft="9dp"
-                 android:layout_marginRight="9dp"
-                 android:layout_marginTop="13dp"
-                 android:layout_marginBottom="13dp"
-                 android:background="#00000000"
-                 android:textColor="@color/darkgray"/>
-             <Button android:layout_height="22dp"
-                 android:layout_width="43dp"
-                 android:layout_marginLeft="9dp"
-                 android:layout_marginRight="9dp"
-                 android:layout_marginTop="13dp"
-                 android:layout_marginBottom="13dp"
-                 android:background="#00000000"
-                 android:textColor="@color/darkgray"/>
-             <Button android:layout_height="22dp"
-                 android:layout_width="43dp"
-                 android:layout_marginLeft="9dp"
-                 android:layout_marginRight="9dp"
-                 android:layout_marginTop="13dp"
-                 android:layout_marginBottom="13dp"
-             android:background="#00000000"
-                 android:textColor="@color/darkgray"/>
-         </TableRow>
-         <TableRow android:layout_height="47dp">
-             <TextView android:layout_height="22dp"
-                 android:layout_width="43dp"
-                 android:layout_marginLeft="17dp"
-                 android:layout_marginRight="9dp"
-                 android:layout_marginTop="13dp"
-                 android:layout_marginBottom="13dp"
+                android:textColor="@color/darkgray" />
 
-                 android:visibility="invisible"
-                 />
-             <Button android:layout_height="22dp"
-                 android:layout_width="43dp"
-                 android:layout_marginLeft="9dp"
-                 android:layout_marginRight="9dp"
-                 android:layout_marginTop="13dp"
-                 android:layout_marginBottom="13dp"
-                 android:background="#00000000"
-                 android:textColor="@color/darkgray"/>
-             <Button android:layout_height="22dp"
-                 android:layout_width="43dp"
-                 android:layout_marginLeft="9dp"
-                 android:layout_marginRight="9dp"
-                 android:layout_marginTop="13dp"
-                 android:layout_marginBottom="13dp"
-                 android:background="#00000000"
-                 android:textColor="@color/darkgray"/>
-             <Button android:layout_height="22dp"
-                 android:layout_width="43dp"
-                 android:layout_marginLeft="9dp"
-                 android:layout_marginRight="9dp"
-                 android:layout_marginTop="13dp"
-                 android:layout_marginBottom="13dp"
-                 android:background="#00000000"
-                 android:textColor="@color/darkgray"/>
-             <Button android:layout_height="22dp"
-                 android:layout_width="43dp"
-                 android:layout_marginLeft="9dp"
-                 android:layout_marginRight="9dp"
-                 android:layout_marginTop="13dp"
-                 android:layout_marginBottom="13dp"
-                 android:background="#00000000"
-                 android:textColor="@color/darkgray"/>
-             <Button android:layout_height="22dp"
-                 android:layout_width="43dp"
-                 android:layout_marginLeft="9dp"
-                 android:layout_marginRight="9dp"
-                 android:layout_marginTop="13dp"
-                 android:layout_marginBottom="13dp"
-                 android:background="#00000000"
-                 android:textColor="@color/darkgray"/>
-         </TableRow>
-         <TableRow android:layout_height="47dp">
-             <TextView android:layout_height="22dp"
-                 android:layout_width="43dp"
-                 android:layout_marginLeft="17dp"
-                 android:layout_marginRight="9dp"
-                 android:layout_marginTop="13dp"
-                 android:layout_marginBottom="13dp"
+            <Button
+                android:layout_width="43dp"
+                android:layout_height="22dp"
+                android:layout_marginBottom="13dp"
+                android:layout_marginLeft="9dp"
+                android:layout_marginRight="9dp"
+                android:layout_marginTop="13dp"
+                android:background="#00000000"
+                android:textColor="@color/darkgray" />
 
-                 android:visibility="invisible"
-                 />
-             <Button android:layout_height="22dp"
-                 android:layout_width="43dp"
-                 android:layout_marginLeft="9dp"
-                 android:layout_marginRight="9dp"
-                 android:layout_marginTop="13dp"
-                 android:layout_marginBottom="13dp"
-                 android:background="#00000000"
-                 android:textColor="@color/darkgray"/>
-             <Button android:layout_height="22dp"
-                 android:layout_width="43dp"
-                 android:layout_marginLeft="9dp"
-                 android:layout_marginRight="9dp"
-                 android:layout_marginTop="13dp"
-                 android:layout_marginBottom="13dp"
-                 android:background="#00000000"
-                 android:textColor="@color/darkgray"/>
-             <Button android:layout_height="22dp"
-                 android:layout_width="43dp"
-                 android:layout_marginLeft="9dp"
-                 android:layout_marginRight="9dp"
-                 android:layout_marginTop="13dp"
-                 android:layout_marginBottom="13dp"
-                 android:background="#00000000"
-                 android:textColor="@color/darkgray"/>
-             <Button android:layout_height="22dp"
-                 android:layout_width="43dp"
-                 android:layout_marginLeft="9dp"
-                 android:layout_marginRight="9dp"
-                 android:layout_marginTop="13dp"
-                 android:layout_marginBottom="13dp"
-                 android:background="#00000000"
-                 android:textColor="@color/darkgray"/>
-             <Button android:layout_height="22dp"
-                 android:layout_width="43dp"
-                 android:layout_marginLeft="9dp"
-                 android:layout_marginRight="9dp"
-                 android:layout_marginTop="13dp"
-                 android:layout_marginBottom="13dp"
-                 android:background="#00000000"
-                 android:textColor="@color/darkgray"
-                 />
-         </TableRow>
-     </TableLayout>
+            <Button
+                android:layout_width="43dp"
+                android:layout_height="22dp"
+                android:layout_marginBottom="13dp"
+                android:layout_marginLeft="9dp"
+                android:layout_marginRight="9dp"
+                android:layout_marginTop="13dp"
+                android:background="#00000000"
+                android:textColor="@color/darkgray" />
+
+            <Button
+                android:layout_width="43dp"
+                android:layout_height="22dp"
+                android:layout_marginBottom="13dp"
+                android:layout_marginLeft="9dp"
+                android:layout_marginRight="9dp"
+                android:layout_marginTop="13dp"
+                android:background="#00000000"
+                android:textColor="@color/darkgray" />
+
+            <Button
+                android:layout_width="43dp"
+                android:layout_height="22dp"
+                android:layout_marginBottom="13dp"
+                android:layout_marginLeft="9dp"
+                android:layout_marginRight="9dp"
+                android:layout_marginTop="13dp"
+                android:background="#00000000"
+                android:textColor="@color/darkgray" />
+
+            <Button
+                android:layout_width="43dp"
+                android:layout_height="22dp"
+                android:layout_marginBottom="13dp"
+                android:layout_marginLeft="9dp"
+                android:layout_marginRight="9dp"
+                android:layout_marginTop="13dp"
+                android:background="#00000000"
+                android:textColor="@color/darkgray" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/row3"
+            android:layout_height="47dp">
+
+            <TextView
+                android:layout_width="43dp"
+                android:layout_height="22dp"
+                android:layout_marginBottom="13dp"
+                android:layout_marginLeft="17dp"
+                android:layout_marginRight="9dp"
+                android:layout_marginTop="13dp"
+
+                android:visibility="invisible" />
+
+            <Button
+                android:layout_width="43dp"
+                android:layout_height="22dp"
+                android:layout_marginBottom="13dp"
+                android:layout_marginLeft="9dp"
+                android:layout_marginRight="9dp"
+                android:layout_marginTop="13dp"
+                android:background="#00000000"
+                android:textColor="@color/darkgray" />
+
+            <Button
+                android:layout_width="43dp"
+                android:layout_height="22dp"
+                android:layout_marginBottom="13dp"
+                android:layout_marginLeft="9dp"
+                android:layout_marginRight="9dp"
+                android:layout_marginTop="13dp"
+                android:background="#00000000"
+                android:textColor="@color/darkgray" />
+
+            <Button
+                android:layout_width="43dp"
+                android:layout_height="22dp"
+                android:layout_marginBottom="13dp"
+                android:layout_marginLeft="9dp"
+                android:layout_marginRight="9dp"
+                android:layout_marginTop="13dp"
+                android:background="#00000000"
+                android:textColor="@color/darkgray" />
+
+            <Button
+                android:layout_width="43dp"
+                android:layout_height="22dp"
+                android:layout_marginBottom="13dp"
+                android:layout_marginLeft="9dp"
+                android:layout_marginRight="9dp"
+                android:layout_marginTop="13dp"
+                android:background="#00000000"
+                android:textColor="@color/darkgray" />
+
+            <Button
+                android:layout_width="43dp"
+                android:layout_height="22dp"
+                android:layout_marginBottom="13dp"
+                android:layout_marginLeft="9dp"
+                android:layout_marginRight="9dp"
+                android:layout_marginTop="13dp"
+                android:background="#00000000"
+                android:textColor="@color/darkgray" />
+        </TableRow>
+
+        <TableRow android:layout_height="47dp">
+
+            <TextView
+                android:layout_width="43dp"
+                android:layout_height="22dp"
+                android:layout_marginBottom="13dp"
+                android:layout_marginLeft="17dp"
+                android:layout_marginRight="9dp"
+                android:layout_marginTop="13dp"
+                android:visibility="invisible"
+
+                />
+
+            <Button
+                android:layout_width="43dp"
+                android:layout_height="22dp"
+                android:layout_marginBottom="13dp"
+                android:layout_marginLeft="9dp"
+                android:layout_marginRight="9dp"
+                android:layout_marginTop="13dp"
+                android:background="#00000000"
+                android:textColor="@color/darkgray" />
+
+            <Button
+                android:layout_width="43dp"
+                android:layout_height="22dp"
+                android:layout_marginBottom="13dp"
+                android:layout_marginLeft="9dp"
+                android:layout_marginRight="9dp"
+                android:layout_marginTop="13dp"
+                android:background="#00000000"
+                android:textColor="@color/darkgray" />
+
+            <Button
+                android:layout_width="43dp"
+                android:layout_height="22dp"
+                android:layout_marginBottom="13dp"
+                android:layout_marginLeft="9dp"
+                android:layout_marginRight="9dp"
+                android:layout_marginTop="13dp"
+                android:background="#00000000"
+                android:textColor="@color/darkgray" />
+
+            <Button
+                android:layout_width="43dp"
+                android:layout_height="22dp"
+                android:layout_marginBottom="13dp"
+                android:layout_marginLeft="9dp"
+                android:layout_marginRight="9dp"
+                android:layout_marginTop="13dp"
+                android:background="#00000000"
+                android:textColor="@color/darkgray" />
+
+            <Button
+                android:layout_width="43dp"
+                android:layout_height="22dp"
+                android:layout_marginBottom="13dp"
+                android:layout_marginLeft="9dp"
+                android:layout_marginRight="9dp"
+                android:layout_marginTop="13dp"
+                android:background="#00000000"
+                android:textColor="@color/darkgray" />
+        </TableRow>
+
+        <TableRow android:layout_height="47dp">
+
+            <TextView
+                android:layout_width="43dp"
+                android:layout_height="22dp"
+                android:layout_marginBottom="13dp"
+                android:layout_marginLeft="17dp"
+                android:layout_marginRight="9dp"
+                android:layout_marginTop="13dp"
+
+                />
+
+            <Button
+                android:layout_width="43dp"
+                android:layout_height="22dp"
+                android:layout_marginBottom="13dp"
+                android:layout_marginLeft="9dp"
+                android:layout_marginRight="9dp"
+                android:layout_marginTop="13dp"
+                android:background="#00000000"
+                android:textColor="@color/darkgray" />
+
+            <Button
+                android:layout_width="43dp"
+                android:layout_height="22dp"
+                android:layout_marginBottom="13dp"
+                android:layout_marginLeft="9dp"
+                android:layout_marginRight="9dp"
+                android:layout_marginTop="13dp"
+                android:background="#00000000"
+                android:textColor="@color/darkgray" />
+
+            <Button
+                android:layout_width="43dp"
+                android:layout_height="22dp"
+                android:layout_marginBottom="13dp"
+                android:layout_marginLeft="9dp"
+                android:layout_marginRight="9dp"
+                android:layout_marginTop="13dp"
+                android:background="#00000000"
+                android:textColor="@color/darkgray" />
+
+            <Button
+                android:layout_width="43dp"
+                android:layout_height="22dp"
+                android:layout_marginBottom="13dp"
+                android:layout_marginLeft="9dp"
+                android:layout_marginRight="9dp"
+                android:layout_marginTop="13dp"
+                android:background="#00000000"
+                android:textColor="@color/darkgray" />
+
+            <Button
+                android:layout_width="43dp"
+                android:layout_height="22dp"
+                android:layout_marginBottom="13dp"
+                android:layout_marginLeft="9dp"
+                android:layout_marginRight="9dp"
+                android:layout_marginTop="13dp"
+                android:background="#00000000"
+                android:textColor="@color/darkgray" />
+        </TableRow>
+
+        <TableRow android:layout_height="47dp">
+
+            <TextView
+                android:layout_width="43dp"
+                android:layout_height="22dp"
+                android:layout_marginBottom="13dp"
+                android:layout_marginLeft="17dp"
+                android:layout_marginRight="9dp"
+                android:layout_marginTop="13dp"
+
+                android:visibility="invisible" />
+
+            <Button
+                android:layout_width="43dp"
+                android:layout_height="22dp"
+                android:layout_marginBottom="13dp"
+                android:layout_marginLeft="9dp"
+                android:layout_marginRight="9dp"
+                android:layout_marginTop="13dp"
+                android:background="#00000000"
+                android:textColor="@color/darkgray" />
+
+            <Button
+                android:layout_width="43dp"
+                android:layout_height="22dp"
+                android:layout_marginBottom="13dp"
+                android:layout_marginLeft="9dp"
+                android:layout_marginRight="9dp"
+                android:layout_marginTop="13dp"
+                android:background="#00000000"
+                android:textColor="@color/darkgray" />
+
+            <Button
+                android:layout_width="43dp"
+                android:layout_height="22dp"
+                android:layout_marginBottom="13dp"
+                android:layout_marginLeft="9dp"
+                android:layout_marginRight="9dp"
+                android:layout_marginTop="13dp"
+                android:background="#00000000"
+                android:textColor="@color/darkgray" />
+
+            <Button
+                android:layout_width="43dp"
+                android:layout_height="22dp"
+                android:layout_marginBottom="13dp"
+                android:layout_marginLeft="9dp"
+                android:layout_marginRight="9dp"
+                android:layout_marginTop="13dp"
+                android:background="#00000000"
+                android:textColor="@color/darkgray" />
+
+            <Button
+                android:layout_width="43dp"
+                android:layout_height="22dp"
+                android:layout_marginBottom="13dp"
+                android:layout_marginLeft="9dp"
+                android:layout_marginRight="9dp"
+                android:layout_marginTop="13dp"
+                android:background="#00000000"
+                android:textColor="@color/darkgray" />
+        </TableRow>
+
+        <TableRow android:layout_height="47dp">
+
+            <TextView
+                android:layout_width="43dp"
+                android:layout_height="22dp"
+                android:layout_marginBottom="13dp"
+                android:layout_marginLeft="17dp"
+                android:layout_marginRight="9dp"
+                android:layout_marginTop="13dp"
+
+                android:visibility="invisible" />
+
+            <Button
+                android:layout_width="43dp"
+                android:layout_height="22dp"
+                android:layout_marginBottom="13dp"
+                android:layout_marginLeft="9dp"
+                android:layout_marginRight="9dp"
+                android:layout_marginTop="13dp"
+                android:background="#00000000"
+                android:textColor="@color/darkgray" />
+
+            <Button
+                android:layout_width="43dp"
+                android:layout_height="22dp"
+                android:layout_marginBottom="13dp"
+                android:layout_marginLeft="9dp"
+                android:layout_marginRight="9dp"
+                android:layout_marginTop="13dp"
+                android:background="#00000000"
+                android:textColor="@color/darkgray" />
+
+            <Button
+                android:layout_width="43dp"
+                android:layout_height="22dp"
+                android:layout_marginBottom="13dp"
+                android:layout_marginLeft="9dp"
+                android:layout_marginRight="9dp"
+                android:layout_marginTop="13dp"
+                android:background="#00000000"
+                android:textColor="@color/darkgray" />
+
+            <Button
+                android:layout_width="43dp"
+                android:layout_height="22dp"
+                android:layout_marginBottom="13dp"
+                android:layout_marginLeft="9dp"
+                android:layout_marginRight="9dp"
+                android:layout_marginTop="13dp"
+                android:background="#00000000"
+                android:textColor="@color/darkgray" />
+
+            <Button
+                android:layout_width="43dp"
+                android:layout_height="22dp"
+                android:layout_marginBottom="13dp"
+                android:layout_marginLeft="9dp"
+                android:layout_marginRight="9dp"
+                android:layout_marginTop="13dp"
+                android:background="#00000000"
+                android:textColor="@color/darkgray" />
+        </TableRow>
+    </TableLayout>
 </LinearLayout>
