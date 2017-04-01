@@ -109,6 +109,7 @@ public class BookProfileFragment extends PFragment<BookProfilePresenter> impleme
     @OnClick({R2.id.iv_delete})
     void onClick(View view){
         switch (view.getId()){
+
             case R2.id.iv_delete:
                 if (!isDeleteMode){
                     Glide.with(this).load(R.mipmap.ic_book_deleting).into(mIvDelete);

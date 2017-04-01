@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
@@ -320,6 +321,58 @@ public class SettingsActivity extends AppCompatActivity {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
                     Toast.makeText(mContext, "暂不支持解绑 TAT...", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+            });
+
+            Preference isDisplayBike = findPreference(getString(R.string.pref_is_display_bike));
+            isDisplayBike.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newValue) {
+                    if (newValue.equals(true)){
+                        Toast.makeText(mContext, "打开自行车模块以完成自行车功能的激活", Toast.LENGTH_SHORT).show();
+                    }
+                    return true;
+                }
+            });
+
+//            Preference isChangeSourceEnabled = findPreference(getString(R.string.pref_is_switch_news_source));
+//            if (BuildConfig.DEBUG){
+//                isChangeSourceEnabled.setEnabled(true);
+//            }else {
+//                isChangeSourceEnabled.setEnabled(false);
+//            }
+
+            Preference devTalking = findPreference(getString(R.string.pref_dev_talking));
+            devTalking.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    Intent intent = new Intent(mContext,DevTalkActivity.class);
+                    mContext.startActivity(intent);
+                    return false;
+                }
+            });
+
+            Preference feedback = findPreference(getString(R.string.pref_feedback));
+            feedback.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse("https://support.twtstudio.com/"));
+//                    intent.createChooser(intent,"选择浏览器");
+                    mContext.startActivity(intent);
+                    return false;
+                }
+            });
+
+            Preference contact = findPreference(getString(R.string.perf_contact_me));
+            contact.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    String email = "mobile@twtstudio.com";
+                    Uri uri = Uri.parse("mailto:"+email);
+                    Intent emailIntent = new Intent(Intent.ACTION_SENDTO,uri);
+                    mContext.startActivity(emailIntent);
                     return false;
                 }
             });

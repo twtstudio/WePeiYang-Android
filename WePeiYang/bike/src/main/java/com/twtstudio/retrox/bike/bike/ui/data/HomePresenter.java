@@ -2,6 +2,7 @@ package com.twtstudio.retrox.bike.bike.ui.data;
 
 import android.content.Context;
 
+import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
 import com.twtstudio.retrox.bike.api.BikeApiClient;
 import com.twtstudio.retrox.bike.api.BikeApiSubscriber;
 import com.twtstudio.retrox.bike.api.OnNextListener;
@@ -26,7 +27,10 @@ public class HomePresenter extends Presenter {
     protected OnNextListener<BikeUserInfo> mBikeUserInfoListener = new OnNextListener<BikeUserInfo>() {
         @Override
         public void onNext(BikeUserInfo bikeUserInfo) {
-            mViewController.setBikeUserInfo(bikeUserInfo);
+            CommonPrefUtil.setIsBindBike(true);
+            if (bikeUserInfo.status == 1){
+                mViewController.setBikeUserInfo(bikeUserInfo);
+            }
         }
     };
 

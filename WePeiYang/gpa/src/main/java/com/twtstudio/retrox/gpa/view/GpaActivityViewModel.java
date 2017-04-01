@@ -51,14 +51,19 @@ public class GpaActivityViewModel implements ViewModel {
          * for animation use
          * shared elements
          */
-        if (mMergeObservableList.size()!=0){
-            mMergeObservableList.removeItem(headerViewModel);
-            mMergeObservableList.removeList(mViewModels);
-        }
-        mMergeObservableList.insertItem(headerViewModel);
+
 
         GpaProvider.init(mRxActivity)
                 .registerAction(gpaBean -> {
+
+                    if (mMergeObservableList.size()!=0){
+                        mMergeObservableList.removeItem(headerViewModel);
+                        mMergeObservableList.removeList(mViewModels);
+                    }
+
+                    mMergeObservableList.insertItem(headerViewModel);
+
+
                     headerViewModel.observableGpaBean.set(gpaBean);
                     headerViewModel.setProxy(valueSelectCommand);
                     obGpaBean.set(gpaBean);

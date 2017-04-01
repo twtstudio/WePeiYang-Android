@@ -19,6 +19,7 @@ import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.kelin.mvvmlight.command.ReplyCommand;
+import com.tencent.bugly.crashreport.CrashReport;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,7 +76,14 @@ public class GpaChartBindingAdapter {
         xAxis.setValueFormatter(new IAxisValueFormatter() {
             @Override
             public String getFormattedValue(float value, AxisBase axis) {
-                return xVals.get((int) value);
+                String s = " ";
+                try {
+                    s = xVals.get((int) value);
+                }catch (Exception e){
+                    e.printStackTrace();
+                    CrashReport.postCatchedException(e);
+                }
+                return s;
             }
         });
 

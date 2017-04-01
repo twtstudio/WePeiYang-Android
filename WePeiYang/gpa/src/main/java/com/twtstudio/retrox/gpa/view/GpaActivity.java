@@ -6,6 +6,8 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
 import android.transition.ChangeBounds;
 import android.transition.Fade;
@@ -43,6 +45,10 @@ public class GpaActivity extends RxAppCompatActivity {
         viewModel = new GpaActivityViewModel(this);
         mBinding.setViewModel(viewModel);
         viewModel.getGpaData();
+
+        CoordinatorLayout coordinatorLayout = (CoordinatorLayout) findViewById(R.id.gpa_coordinator);
+        Snackbar snackbar = Snackbar.make(coordinatorLayout,"点击图中的圆圈切换成绩列表所属学期",Snackbar.LENGTH_LONG);
+        snackbar.show();
 
     }
 

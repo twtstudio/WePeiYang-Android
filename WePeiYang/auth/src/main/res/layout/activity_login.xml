@@ -137,6 +137,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:text="忘记密码？"
+                    android:visibility="gone"
                     android:textColor="@color/colorAccent"
                     android:textSize="16sp"
                     bind:clickCommand="@{viewModel.onForgetPasswordCommand}"/>
@@ -146,6 +147,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:text="注册帐号"
+                    android:visibility="gone"
                     android:textColor="@color/colorAccent"
                     android:textSize="16sp"
                     bind:clickCommand="@{viewModel.onRegisterClickCommand}"/>

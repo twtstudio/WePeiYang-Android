@@ -20,6 +20,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by retrox on 01/03/2017.
@@ -38,6 +40,8 @@ public class TjuBindFragment extends SlideFragment {
     public void bind(View view) {
         RetrofitProvider.getRetrofit().create(TjuApi.class)
                 .bindTju(numEdit.getText().toString(), passwordEdit.getText().toString())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .doAfterTerminate(() -> new AuthSelfProvider().getUserData())
                 .subscribe(responseBody -> {
                     canMoveFuther = true;

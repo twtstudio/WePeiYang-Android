@@ -24,6 +24,7 @@ public class WelcomeSlideActivity extends MaterialIntroActivity {
         addSlide(new GpaWelcomeFragment());
         addSlide(new ClassTableWelcomeFragment());
         addSlide(new BikeWelcomeFragment());
+        addSlide(new BriefWelcomeFragment());
         boolean isBindTju = CommonPrefUtil.getIsBindTju();
         if (!isBindTju){
             addSlide(new TjuBindFragment());

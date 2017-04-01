@@ -84,7 +84,7 @@ public class LoginViewModel implements ViewModel {
                     new AuthSelfProvider().getUserData(authSelfBean -> {
 
                         mViewStyle.isProgressRefreshing.set(false);
-                        Toast.makeText(mActivity, "登陆成功", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "登录成功", Toast.LENGTH_SHORT).show();
                         // TODO: 2016/11/27 jump to home page
                         Class clazz = null;
                         try {

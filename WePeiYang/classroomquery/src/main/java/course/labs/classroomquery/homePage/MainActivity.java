@@ -128,6 +128,35 @@ public class MainActivity extends AppCompatActivity implements ViewModel{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //不稳定提醒
+
+        String is_accept_unstable = "is_accept_classroom_unstable";
+
+        boolean isAccept = Hawk.get(is_accept_unstable,false);
+
+        if (!isAccept){
+            AlertDialog.Builder builder = new AlertDialog.Builder(this)
+                    .setTitle("提示")
+                    .setMessage("此功能模块尚处于测试阶段，体验可能不稳定...")
+                    .setPositiveButton("好的", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    })
+                    .setNeutralButton("不再显示", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Hawk.put(is_accept_unstable,true);
+                            dialog.dismiss();
+                        }
+                    });
+            builder.create().show();
+        }
+
+
+
        // this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 //        getSupportActionBar().hide();
        // getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -670,7 +699,8 @@ public class MainActivity extends AppCompatActivity implements ViewModel{
     }
 
     public void refreshData() {
-        mAdapter.clear();
+        //移动到刷新完成后
+//        mAdapter.clear();
         condition1_buiding.clear();
         condition2_time.clear();
         condition3.clear();
@@ -782,6 +812,7 @@ public class MainActivity extends AppCompatActivity implements ViewModel{
 
                             shaixuan();
 
+                            mAdapter.clear();
                             mAdapter.addAll(curClassroomBeen);
 
 

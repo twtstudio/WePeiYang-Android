@@ -27,18 +27,18 @@
             android:title="主页显示GPA" />
 
         <SwitchPreference
-            android:defaultValue="true"
+            android:defaultValue="false"
             android:key="@string/pref_is_display_bike"
             android:summaryOff="不显示自行车"
             android:summaryOn="显示自行车"
             android:title="主页显示自行车(自行车模块激活后有效）" />
 
-        <SwitchPreference
+        <!--<SwitchPreference
             android:defaultValue="false"
             android:key="@string/pref_is_switch_news_source"
             android:summaryOff="显示天外天新闻源"
             android:summaryOn="ONE一个（版权问题需用户承担责任）"
-            android:title="切换新闻源(内测版only)" />
+            android:title="切换新闻源(内测版only)" />-->
     </PreferenceCategory>
 
     <PreferenceCategory android:title="绑定设置">
@@ -56,7 +56,21 @@
             android:key="@string/pref_is_bind_bike"
             android:title="自行车绑定状态" />
 
+    </PreferenceCategory>
 
+    <PreferenceCategory android:title="关于微北洋">
+        <Preference
+            android:key="@string/pref_dev_talking"
+            android:summary="微北洋开发血泪史"
+            android:title="开发者说"/>
+        <Preference
+            android:key="@string/pref_feedback"
+            android:summary="到移动客户端版块，说出你的故事"
+            android:title="意见反馈"/>
+        <Preference
+            android:key="@string/perf_contact_me"
+            android:title="联系我"
+            android:summary="mobile@twtstudio.com"/>
     </PreferenceCategory>
 
 </PreferenceScreen>
