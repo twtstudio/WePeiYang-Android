@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.twt.wepeiyang.commons.network.RetrofitProvider;
+import com.twt.wepeiyang.commons.network.RxErrorHandler;
 import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
 import com.twtstudio.retrox.auth.login.AuthSelfProvider;
 import com.twtstudio.retrox.auth.tju.TjuApi;
@@ -46,7 +47,7 @@ public class TjuBindFragment extends SlideFragment {
                 .subscribe(responseBody -> {
                     canMoveFuther = true;
                     Toast.makeText(this.getContext(), "绑定成功", Toast.LENGTH_SHORT).show();
-                }, Throwable::printStackTrace);
+                }, new RxErrorHandler());
     }
 
     @Nullable

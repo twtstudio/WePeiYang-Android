@@ -39,7 +39,8 @@ public class GpaChartBindingAdapter {
         chart.getDescription().setEnabled(false);
         chart.setNoDataText("还没有成绩哟");
 
-        if (gpaData == null){
+        // TODO: 07/04/2017 鹏鹏的退学接口的bug 暂时判定session的东西
+        if (gpaData == null||gpaData.session==null){
             return;
         }
 

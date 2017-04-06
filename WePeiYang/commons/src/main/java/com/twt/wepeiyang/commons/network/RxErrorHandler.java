@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.widget.Toast;
 
 import com.orhanobut.logger.Logger;
+import com.tencent.bugly.crashreport.BuglyLog;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.twt.wepeiyang.commons.utils.App;
 import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
@@ -72,6 +73,7 @@ public class RxErrorHandler implements Action1<Throwable> {
      * @param throwable
      */
     private void postThrowable(Throwable throwable){
+//        BuglyLog.e("捕获的异常",throwable.getMessage(),throwable);
         CrashReport.postCatchedException(throwable);
     }
 

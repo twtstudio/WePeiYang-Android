@@ -63,7 +63,7 @@ public class CommonFragViewModel implements ViewModel {
         ScheduleViewModel mScheduleViewModel = new ScheduleViewModel((RxAppCompatActivity) mFragment.getActivity());
         viewModelList.add(mScheduleViewModel);
 
-        boolean isDisplayGpa = sharedPreferences.getBoolean(mFragment.getString(R.string.pref_is_display_gpa),true);
+        boolean isDisplayGpa = sharedPreferences.getBoolean(mFragment.getString(R.string.pref_is_display_gpa),false);
         if (isDisplayGpa){
             mGpaItemViewModel = new GpaItemViewModel((BaseActivity) mFragment.getActivity());
             viewModelList.add(mGpaItemViewModel);

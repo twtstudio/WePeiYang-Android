@@ -9,7 +9,7 @@ android {
         applicationId "com.twtstudio.retrox.wepeiyangrd"
         minSdkVersion 19
         targetSdkVersion 25
-        versionCode 8
+        versionCode 9
         versionName "3.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
@@ -64,6 +64,8 @@ dependencies {
     compile project(':yellowpages')
     compile project(':party')
     compile project(":classroomquery")
+
+    compile 'com.wanjian:cockroach:0.0.5'
 
     compile 'com.jakewharton:butterknife:8.5.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'

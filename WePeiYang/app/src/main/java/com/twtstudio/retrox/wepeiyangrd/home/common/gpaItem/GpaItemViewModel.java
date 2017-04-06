@@ -9,6 +9,7 @@ import android.view.View;
 import com.kelin.mvvmlight.base.ViewModel;
 import com.kelin.mvvmlight.command.ReplyCommand;
 import com.kelin.mvvmlight.messenger.Messenger;
+import com.orhanobut.logger.Logger;
 import com.twtstudio.retrox.gpa.GpaBean;
 import com.twtstudio.retrox.gpa.GpaProvider;
 import com.twtstudio.retrox.gpa.view.GpaActivity;

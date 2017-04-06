@@ -11,7 +11,7 @@ import rx.Observable;
 
 public interface TjuApi {
 
-    @GET("65432auth/bind/tju")
+    @GET("auth/bind/tju")
     Observable<ResponseBody> bindTju(@Query("tjuuname") String tjuuname,@Query("tjupasswd") String tjupasswd);
 
 }

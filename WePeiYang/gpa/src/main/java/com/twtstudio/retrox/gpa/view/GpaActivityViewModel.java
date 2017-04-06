@@ -2,9 +2,11 @@ package com.twtstudio.retrox.gpa.view;
 
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableField;
+import android.widget.Toast;
 
 import com.kelin.mvvmlight.base.ViewModel;
 import com.kelin.mvvmlight.command.ReplyCommand;
+import com.tencent.bugly.crashreport.CrashReport;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 import com.twtstudio.retrox.gpa.BR;
 import com.twtstudio.retrox.gpa.GpaBean;
@@ -69,7 +71,12 @@ public class GpaActivityViewModel implements ViewModel {
                     obGpaBean.set(gpaBean);
 //                    mMergeObservableList.insertItem(headerViewModel);
                     mMergeObservableList.insertList(mViewModels);
-                    setTermIndex(gpaBean.data.size()-1);
+                    // TODO: 07/04/2017 也许明年大一的处理？ 不知道为什么后台返回空数据
+                    try {
+                        setTermIndex(gpaBean.data.size()-1);
+                    }catch (IndexOutOfBoundsException e){
+                        CrashReport.postCatchedException(e);
+                    }
                 })
                 .getData(update);
     }

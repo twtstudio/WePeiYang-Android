@@ -65,7 +65,7 @@ public class BikeApiClient {
                 .build();
 
         mRetrofit = new Retrofit.Builder()
-                .baseUrl("http://bike.twtstudio.com/api.php/")
+                .baseUrl("https://bike.twtstudio.com/api.php/")
                 .client(client)
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())

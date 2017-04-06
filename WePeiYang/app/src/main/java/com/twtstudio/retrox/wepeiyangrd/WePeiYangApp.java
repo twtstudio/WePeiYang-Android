@@ -10,6 +10,7 @@ import com.orhanobut.hawk.Hawk;
 import com.orhanobut.logger.Logger;
  import com.tencent.bugly.Bugly;
 import com.tencent.bugly.crashreport.CrashReport;
+import com.wanjian.cockroach.Cockroach;
 
 
 /**
@@ -22,9 +23,18 @@ public class WePeiYangApp extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+
         Bugly.init(getApplicationContext(), "8ceee186f2", false);
         CrashReport.setAppChannel(getApplicationContext(),"内测分发");
         CrashReport.setIsDevelopmentDevice(getApplicationContext(), BuildConfig.DEBUG);
+//        Cockroach.install(new Cockroach.ExceptionHandler() {
+//            @Override
+//            public void handlerException(Thread thread, Throwable throwable) {
+//                Logger.e(throwable,"crash");
+//                CrashReport.postCatchedException(throwable,thread);
+//            }
+//        });
+
         sContext = getApplicationContext();
         Hawk.init(sContext).build();
         Fresco.initialize(sContext);

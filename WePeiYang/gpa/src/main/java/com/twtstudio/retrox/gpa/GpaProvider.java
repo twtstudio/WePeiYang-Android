@@ -1,6 +1,7 @@
 package com.twtstudio.retrox.gpa;
 
 import android.content.Context;
+import android.widget.Toast;
 
 import com.kelin.mvvmlight.messenger.Messenger;
 import com.orhanobut.logger.Logger;
@@ -72,7 +73,11 @@ public class GpaProvider {
                     //提供模块内的刷新服务，因为数据的bus是不能跨module的
                     Messenger.getDefault().send(gpaBean, TOKEN_GPA_LOAD_FINISHED);
                     if (action != null) {
-                        action.call(gpaBean);
+                        if (gpaBean.data.size()!=0){
+                            action.call(gpaBean);
+                        }else {
+                            Toast.makeText(mActivity, "数据出现问题,可尝试关闭退学或在GPA界面手动刷新...", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 }, new RxErrorHandler(mActivity));
 
