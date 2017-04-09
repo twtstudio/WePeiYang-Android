@@ -9,7 +9,7 @@
     <ImageView
         android:id="@+id/cover_image"
         android:layout_width="match_parent"
-        android:layout_height="170dp"
+        android:layout_height="200dp"
         android:scaleType="centerCrop"
         tools:src="@drawable/abc_ab_share_pack_mtrl_alpha" />
 

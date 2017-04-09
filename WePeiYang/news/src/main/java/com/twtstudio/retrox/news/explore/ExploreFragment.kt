@@ -39,7 +39,19 @@ class ExploreFragment : Fragment() {
         recyclerview.layoutManager = virtualLayoutManger
         recyclerview.adapter = deleagteAdapter
 
-        val gridHeader = VistaSingleItem(activity,SingleLayoutHelper())
+
+        val galleryIndexAdapter = GalleryIndexAdapter(context, GridLayoutHelper(2).apply {
+            setGap(8)
+            setAutoExpand(true)
+            bgColor = Color.WHITE
+        })
+        deleagteAdapter.addAdapter(galleryIndexAdapter)
+        picApi.getGalleryIndex().subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({galleryIndexAdapter.refreshData(it)},Throwable::printStackTrace)
+
+
+        val gridHeader = VistaSingleItem(activity, SingleLayoutHelper())
         deleagteAdapter.addAdapter(gridHeader)
 
         val gridHelper = GridLayoutHelper(3)
@@ -53,11 +65,11 @@ class ExploreFragment : Fragment() {
                 .map { it.data }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    Collections.shuffle(it)
+                    Collections.shuffle(it,Random(System.currentTimeMillis()))
                     vistaAdapter.refreshData(it.subList(0, 5))
                 }, Throwable::printStackTrace)
 
-        val gridFooter = VistaSingleItemFooter(activity,SingleLayoutHelper())
+        val gridFooter = VistaSingleItemFooter(activity, SingleLayoutHelper())
         deleagteAdapter.addAdapter(gridFooter)
 
         return view
