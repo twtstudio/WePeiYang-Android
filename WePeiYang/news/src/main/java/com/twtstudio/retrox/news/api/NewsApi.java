@@ -1,5 +1,7 @@
 package com.twtstudio.retrox.news.api;
 
+import com.twtstudio.retrox.news.api.bean.CommonNewsBean;
+import com.twtstudio.retrox.news.api.bean.HomeNewsBean;
 import com.twtstudio.retrox.news.detail.News;
 
 import retrofit2.http.GET;

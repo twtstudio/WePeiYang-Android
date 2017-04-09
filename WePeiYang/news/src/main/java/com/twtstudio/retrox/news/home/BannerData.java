@@ -1,6 +1,6 @@
 package com.twtstudio.retrox.news.home;
 
-import com.twtstudio.retrox.news.api.HomeNewsBean;
+import com.twtstudio.retrox.news.api.bean.HomeNewsBean;
 
 import java.util.ArrayList;
 import java.util.List;

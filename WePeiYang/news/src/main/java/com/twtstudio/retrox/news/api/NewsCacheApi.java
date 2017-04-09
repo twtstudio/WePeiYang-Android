@@ -1,5 +1,7 @@
 package com.twtstudio.retrox.news.api;
 
+import com.twtstudio.retrox.news.api.bean.HomeNewsBean;
+
 import java.util.concurrent.TimeUnit;
 
 import io.rx_cache.DynamicKey;

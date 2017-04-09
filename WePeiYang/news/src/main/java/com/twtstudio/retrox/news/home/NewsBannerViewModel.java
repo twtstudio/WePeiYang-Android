@@ -7,7 +7,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.kelin.mvvmlight.base.ViewModel;
-import com.twtstudio.retrox.news.api.HomeNewsBean;
+import com.twtstudio.retrox.news.api.bean.HomeNewsBean;
 import com.twtstudio.retrox.news.detail.NewsDetailsActivity;
 
 import cn.bingoogolapple.bgabanner.BGABanner;

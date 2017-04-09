@@ -1,4 +1,4 @@
-package com.twtstudio.retrox.news.api;
+package com.twtstudio.retrox.news.api.bean;
 
 /**
  * Created by retrox on 09/04/2017.

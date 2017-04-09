@@ -1,5 +1,8 @@
 package com.twtstudio.retrox.news.api
 
+import com.twtstudio.retrox.news.api.bean.FangcunBean
+import com.twtstudio.retrox.news.api.bean.GalleryIndexBean
+import com.twtstudio.retrox.news.api.bean.GalleryPhotoBean
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.Path

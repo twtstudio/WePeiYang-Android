@@ -8,8 +8,8 @@ import com.kelin.mvvmlight.base.ViewModel;
 import com.kelin.mvvmlight.command.ReplyCommand;
 import com.twtstudio.retrox.news.BR;
 import com.twtstudio.retrox.news.R;
-import com.twtstudio.retrox.news.api.CommonNewsBean;
-import com.twtstudio.retrox.news.api.HomeNewsBean;
+import com.twtstudio.retrox.news.api.bean.CommonNewsBean;
+import com.twtstudio.retrox.news.api.bean.HomeNewsBean;
 import com.twtstudio.retrox.news.api.HomeNewsProvider;
 
 import me.tatarka.bindingcollectionadapter.ItemViewSelector;

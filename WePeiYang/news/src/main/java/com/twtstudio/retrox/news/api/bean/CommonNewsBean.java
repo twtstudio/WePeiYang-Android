@@ -1,4 +1,4 @@
-package com.twtstudio.retrox.news.api;
+package com.twtstudio.retrox.news.api.bean;
 
 import java.util.List;
 
