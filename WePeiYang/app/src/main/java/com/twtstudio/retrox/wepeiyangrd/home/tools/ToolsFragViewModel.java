@@ -1,10 +1,13 @@
 package com.twtstudio.retrox.wepeiyangrd.home.tools;
 
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.ObservableArrayList;
+import android.net.Uri;
 
 import com.bdpqchen.yellowpagesmodule.yellowpages.activity.HomeActivity;
 import com.kelin.mvvmlight.base.ViewModel;
+import com.kelin.mvvmlight.command.ReplyCommand;
 import com.twtstudio.retrox.bike.bike.ui.main.BikeActivity;
 import com.twtstudio.retrox.bike.read.home.BookHomeActivity;
 import com.twtstudio.retrox.gpa.view.GpaActivity;
@@ -27,6 +30,8 @@ public class ToolsFragViewModel implements ViewModel {
 
     public final ItemView itemView = ItemView.of(BR.viewModel, R.layout.item_tool);
 
+    public final ReplyCommand feedbackClick = new ReplyCommand(this::feedback);
+
     public ToolsFragViewModel(Context context) {
         mContext = context;
         init();
@@ -43,5 +48,12 @@ public class ToolsFragViewModel implements ViewModel {
         itemList.add(new ToolItemViewModel(mContext,R.drawable.ic_main_classroom_query,"自习室", course.labs.classroomquery.homePage.MainActivity.class));
 
         // TODO: 2017/1/15 修改跳转的activity
+    }
+
+    private void feedback(){
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse("https://support.twtstudio.com/category/6/%E7%A7%BB%E5%8A%A8%E5%AE%A2%E6%88%B7%E7%AB%AF"));
+//                    intent.createChooser(intent,"选择浏览器");
+        mContext.startActivity(intent);
     }
 }

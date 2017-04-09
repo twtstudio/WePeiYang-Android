@@ -82,7 +82,7 @@ public class CommonFragment extends BaseFragment {
             Alerter.create(this.getActivity())
                     .setTitle(coursePushBean.title)
                     .setText(coursePushBean.message)
-                    .setDuration(5*1000)
+                    .setDuration(3*1000)
                     .setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {

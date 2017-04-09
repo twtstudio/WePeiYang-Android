@@ -358,7 +358,7 @@ public class SettingsActivity extends AppCompatActivity {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
                     Intent intent = new Intent(Intent.ACTION_VIEW);
-                    intent.setData(Uri.parse("https://support.twtstudio.com/"));
+                    intent.setData(Uri.parse("https://support.twtstudio.com/category/6/%E7%A7%BB%E5%8A%A8%E5%AE%A2%E6%88%B7%E7%AB%AF"));
 //                    intent.createChooser(intent,"选择浏览器");
                     mContext.startActivity(intent);
                     return false;

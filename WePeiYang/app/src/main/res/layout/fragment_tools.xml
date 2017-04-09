@@ -12,6 +12,7 @@
 
     <android.support.design.widget.CoordinatorLayout
         android:fitsSystemWindows="true"
+        android:background="@color/background_gray"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -49,15 +50,45 @@
 
         </android.support.design.widget.AppBarLayout>
 
-
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_marginTop="8dp"
+            android:layout_marginBottom="100dp"
+            android:background="@color/white"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:itemView="@{viewModel.itemView}"
             app:items="@{viewModel.itemList}"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+        <LinearLayout
+            app:clickCommand="@{viewModel.feedbackClick}"
+            android:orientation="vertical"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="8dp"
+            android:background="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="8dp"
+                android:src="@drawable/ic_feedback_big"
+                android:tint="#cdcdcd"
+                android:layout_width="40dp"
+                android:layout_height="40dp" />
+
+            <TextView
+                android:text="您还有什么功能需求？写给我们吧..."
+                android:layout_gravity="center_horizontal"
+                android:textSize="16sp"
+                android:tint="#cdcdcd"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
     </android.support.design.widget.CoordinatorLayout>
 
 </layout>

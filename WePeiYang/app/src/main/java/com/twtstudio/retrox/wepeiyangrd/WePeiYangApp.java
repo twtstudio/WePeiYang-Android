@@ -25,7 +25,7 @@ public class WePeiYangApp extends MultiDexApplication {
         super.onCreate();
 
         Bugly.init(getApplicationContext(), "8ceee186f2", false);
-        CrashReport.setAppChannel(getApplicationContext(),"内测分发");
+        CrashReport.setAppChannel(getApplicationContext(),"公测分发");
         CrashReport.setIsDevelopmentDevice(getApplicationContext(), BuildConfig.DEBUG);
 //        Cockroach.install(new Cockroach.ExceptionHandler() {
 //            @Override
