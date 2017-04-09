@@ -1,15 +1,15 @@
-apply plugin: 'com.android.library'
+apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'me.tatarka.retrolambda'
-apply plugin: 'com.jakewharton.butterknife'
 
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.1"
+    buildToolsVersion "25.0.2"
 
     defaultConfig {
-        minSdkVersion 19
+        applicationId "com.twtstudio.retrox.devpeiyang"
+        minSdkVersion 21
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
@@ -17,9 +17,13 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
     }
-    dataBinding {
+    dataBinding{
         enabled true
     }
+    configurations.all {
+        resolutionStrategy.force 'com.google.code.findbugs:jsr305:3.0.1'
+    }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -37,12 +41,9 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'cn.bingoogolapple:bga-banner:2.1.7@aar'
-
-    compile 'com.jakewharton:butterknife:8.5.1'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
-
-
+    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile project(':news')
+    compile project(':auth')
     compile project(':mvvmKit')
     compile project(':commons')
 
