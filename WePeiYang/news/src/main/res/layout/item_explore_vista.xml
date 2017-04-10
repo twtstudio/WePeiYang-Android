@@ -25,7 +25,7 @@
         android:id="@+id/text_content"
         tools:text="落红不是无情物，化作春泥更护花。"
         android:gravity="top"
-        android:ems="20"
+        android:maxLines="1"
         android:layout_marginLeft="5dp"
         android:textSize="12sp"
         android:layout_width="match_parent"

@@ -29,7 +29,7 @@ import java.util.*
 class ExploreFragment : Fragment() {
 
     val virtualLayoutManger by lazy { VirtualLayoutManager(this.activity) }
-    val deleagteAdapter = DelegateAdapter(virtualLayoutManger, true)
+    val delegateAdapter = DelegateAdapter(virtualLayoutManger, true)
     val picApi = PicProvider().picApi
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -37,30 +37,36 @@ class ExploreFragment : Fragment() {
         val recyclerview = view.findViewById(R.id.recyclerview) as RecyclerView
         recyclerview.recycledViewPool = RecyclerView.RecycledViewPool().apply { setMaxRecycledViews(0, 20) }
         recyclerview.layoutManager = virtualLayoutManger
-        recyclerview.adapter = deleagteAdapter
+        recyclerview.adapter = delegateAdapter
 
+        // 主站图集的header
+        delegateAdapter.addAdapter(SingleItem(activity,SingleLayoutHelper(),R.layout.item_explore_gallery_header))
 
+        //主站图集的主体
         val galleryIndexAdapter = GalleryIndexAdapter(context, GridLayoutHelper(2).apply {
             setGap(8)
             setAutoExpand(true)
             bgColor = Color.WHITE
         })
-        deleagteAdapter.addAdapter(galleryIndexAdapter)
+        delegateAdapter.addAdapter(galleryIndexAdapter)
         picApi.getGalleryIndex().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({galleryIndexAdapter.refreshData(it)},Throwable::printStackTrace)
 
+        // 方寸流年的header
+        val gridHeader = SingleItem(activity, SingleLayoutHelper().apply {
+            marginTop = 32
+        })
+        delegateAdapter.addAdapter(gridHeader)
 
-        val gridHeader = VistaSingleItem(activity, SingleLayoutHelper())
-        deleagteAdapter.addAdapter(gridHeader)
-
+        // 方寸流年的主体
         val gridHelper = GridLayoutHelper(3)
         gridHelper.bgColor = Color.WHITE
 //        gridHelper.setSpanSizeLookup(spanLookUp())
         gridHelper.setAutoExpand(true)
         gridHelper.setGap(8)
         val vistaAdapter = VistaAdapter(activity, gridHelper)
-        deleagteAdapter.addAdapter(vistaAdapter)
+        delegateAdapter.addAdapter(vistaAdapter)
         picApi.getFangcunPic().subscribeOn(Schedulers.io())
                 .map { it.data }
                 .observeOn(AndroidSchedulers.mainThread())
@@ -69,8 +75,9 @@ class ExploreFragment : Fragment() {
                     vistaAdapter.refreshData(it.subList(0, 5))
                 }, Throwable::printStackTrace)
 
+        // 方寸流年的footer
         val gridFooter = VistaSingleItemFooter(activity, SingleLayoutHelper())
-        deleagteAdapter.addAdapter(gridFooter)
+        delegateAdapter.addAdapter(gridFooter)
 
         return view
     }

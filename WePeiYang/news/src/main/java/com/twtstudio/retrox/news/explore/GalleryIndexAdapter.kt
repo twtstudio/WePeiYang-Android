@@ -1,6 +1,7 @@
 package com.twtstudio.retrox.news.explore
 
 import android.content.Context
+import android.content.Intent
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,7 @@ import com.bumptech.glide.Glide
 import com.twtstudio.retrox.news.R
 import com.twtstudio.retrox.news.api.bean.FangcunBean
 import com.twtstudio.retrox.news.api.bean.GalleryIndexBean
+import com.twtstudio.retrox.news.explore.gallery.GalleryActivity
 
 /**
  * Created by retrox on 09/04/2017.
@@ -24,6 +26,10 @@ class GalleryIndexAdapter(val context: Context, val layoutHelper: LayoutHelper, 
         holder?.apply {
             Glide.with(context).load(data.coverThumbnailUrl).into(image)
             title.text = data.title
+            image.setOnClickListener {
+                val intent = Intent(context,GalleryActivity::class.java)
+                context.startActivity(intent)
+            }
         }
     }
 

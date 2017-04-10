@@ -1,6 +1,7 @@
 package com.twtstudio.retrox.news.explore
 
 import android.content.Context
+import android.support.annotation.LayoutRes
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -11,14 +12,15 @@ import com.twtstudio.retrox.news.R
 
 /**
  * Created by retrox on 09/04/2017.
+ * 传入layoutres
  */
-class VistaSingleItem (val context: Context, val layoutHelper: LayoutHelper) : DelegateAdapter.Adapter<VistaSingleItem.singleHolder>() {
+class SingleItem(val context: Context, val layoutHelper: LayoutHelper, @LayoutRes val layoutId: Int = R.layout.item_explore_vista_header ) : DelegateAdapter.Adapter<SingleItem.singleHolder>() {
     override fun getItemCount(): Int {
         return 1
     }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): singleHolder {
-        val view = LayoutInflater.from(context).inflate(R.layout.item_explore_vista_header,parent,false)
+        val view = LayoutInflater.from(context).inflate(layoutId,parent,false)
         return singleHolder(view)
     }
 

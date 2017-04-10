@@ -6,6 +6,7 @@
         android:supportsRtl="true">
 
         <activity android:name=".detail.NewsDetailsActivity"/>
+        <activity android:name=".explore.gallery.GalleryActivity"/>
     </application>
 
 </manifest>
