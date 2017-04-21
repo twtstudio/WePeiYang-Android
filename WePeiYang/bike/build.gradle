@@ -18,7 +18,7 @@ android {
             abiFilters 'armeabi'
         }
     }
-    dataBinding{
+    dataBinding {
         enabled true
     }
     buildTypes {
@@ -48,9 +48,13 @@ dependencies {
     compile 'com.sothree.slidinguppanel:library:3.3.0'
 
 //    compile files('libs/AMap3DMap_3.4.0_AMapLocation_2.7.0_20160809.jar')
-    compile 'com.amap.api:map3d:5.0.0'
-    compile 'com.amap.api:map3d-native:5.0.0'
-    compile 'com.amap.api:location:3.3.0'
+//    compile 'com.amap.api:map3d:5.0.0'
+//    compile 'com.amap.api:map3d-native:5.0.0'
+//    compile 'com.amap.api:location:3.3.0'
+//    compile 'com.amap.api:map3d-native:latest.integration'
+    compile 'com.amap.api:map3d:latest.integration'
+    compile 'com.amap.api:location:latest.integration'
+
 
     compile 'com.github.PhilJay:MPAndroidChart:v3.0.1'
 

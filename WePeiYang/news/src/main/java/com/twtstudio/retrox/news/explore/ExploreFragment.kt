@@ -32,6 +32,7 @@ class ExploreFragment : Fragment() {
     val delegateAdapter = DelegateAdapter(virtualLayoutManger, true)
     val picApi = PicProvider().picApi
 
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_explore, container, false)
         val recyclerview = view.findViewById(R.id.recyclerview) as RecyclerView
@@ -82,7 +83,7 @@ class ExploreFragment : Fragment() {
         return view
     }
 
-    //妈的有坑
+    //有坑!
     class spanLookUp : GridLayoutHelper.SpanSizeLookup() {
         override fun getSpanSize(position: Int): Int {
             when (position) {

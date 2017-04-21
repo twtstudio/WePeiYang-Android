@@ -2,6 +2,7 @@ package com.twtstudio.retrox.news.explore.gallery
 
 import android.content.Context
 import android.graphics.Color
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -72,7 +73,9 @@ class GalleryActivity : AppCompatActivity() {
         override fun onBindViewHolder(holder: GalleryItemHolder?, position: Int) {
             val data = list[position]
             holder?.apply {
-                Glide.with(context).load(data.imageUrl).placeholder(R.drawable.vista_title).into(image)
+                image.setImageResource(R.drawable.gallery_text)
+//                image.setImageURI()
+//                Glide.with(context).load(data.imageUrl).placeholder(R.drawable.vista_title).into(image)
 //                image.setGyroscopeObserver(observer)
             }
         }
