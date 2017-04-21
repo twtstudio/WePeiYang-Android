@@ -11,6 +11,7 @@ import com.twt.wepeiyang.commons.network.RxErrorHandler;
 
 import java.util.List;
 
+import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action;
 import rx.functions.Action1;
@@ -68,13 +69,15 @@ public class TjuLibProvider {
 
     public void getUserInfo(Action1<Info> action1, Action1<Throwable> throwableAction1) {
 
-        libApi.getLibUserInfo().map(ApiResponse::getData)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(action1, throwable -> {
-                    throwableAction1.call(throwable);
-                    new RxErrorHandler(mContext).call(throwable);
-                });
+        Observable<Info> infoObservable =
+                libApi.getLibUserInfo().map(ApiResponse::getData)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread());
+        /**
+         * 因为okhttp的异常信息传递过程中，错误体是通过流的方式传输，被读取一次后就特么没了
+         */
+        infoObservable.subscribe(action1, throwableAction1);
+        infoObservable.subscribe(info -> {}, new RxErrorHandler(mContext));
 
     }
 
