@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.alibaba.android.vlayout.DelegateAdapter;
 import com.alibaba.android.vlayout.VirtualLayoutManager;
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
+import es.dmoral.toasty.Toasty;
 import me.yokeyword.fragmentation.SupportFragment;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -38,6 +40,7 @@ public class ExploreFragment extends SupportFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_explore, container, false);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
+
         virtualLayoutManager = new VirtualLayoutManager(this.getActivity());
         delegateAdapter = new DelegateAdapter(virtualLayoutManager);
         RecyclerView.RecycledViewPool recycledViewPool = new RecyclerView.RecycledViewPool();
@@ -47,6 +50,15 @@ public class ExploreFragment extends SupportFragment {
         recyclerView.setAdapter(delegateAdapter);
 
         delegateAdapter.addAdapter(new ToolsAdapter(getActivity()));
+
+        SingleLayoutHelper feedbackLayoutHelper = new SingleLayoutHelper();
+        feedbackLayoutHelper.setBgColor(Color.WHITE);
+        feedbackLayoutHelper.setMarginBottom(32);
+        SingleItem feedbackItem = new SingleItem(getActivity(),feedbackLayoutHelper,R.layout.item_explore_feedback);
+        feedbackItem.setOnClickListener(v -> {
+            Toasty.info(getActivity(),"feedback!", Toast.LENGTH_SHORT).show();
+        });
+        delegateAdapter.addAdapter(feedbackItem);
 
         delegateAdapter.addAdapter(new SingleItem(getActivity(), new SingleLayoutHelper(), R.layout.item_explore_gallery_header));
 

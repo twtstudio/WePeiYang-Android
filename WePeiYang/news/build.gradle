@@ -47,7 +47,7 @@ dependencies {
 
     compile 'com.jakewharton:butterknife:8.5.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
-    compile 'com.gjiazhe:PanoramaImageView:1.0'
+//    compile 'com.gjiazhe:PanoramaImageView:1.0'
 
 
     compile project(':mvvmKit')

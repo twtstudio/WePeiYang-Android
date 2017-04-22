@@ -7,6 +7,8 @@ import android.support.multidex.MultiDexApplication;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.github.piasy.biv.BigImageViewer;
+import com.github.piasy.biv.loader.glide.GlideImageLoader;
 import com.orhanobut.hawk.Hawk;
 import com.orhanobut.logger.Logger;
  import com.tencent.bugly.Bugly;
@@ -40,6 +42,7 @@ public class WePeiYangApp extends MultiDexApplication {
         sContext = getApplicationContext();
         Hawk.init(sContext).build();
         Fresco.initialize(sContext);
+        BigImageViewer.initialize(GlideImageLoader.with(this));
 
         if (BuildConfig.DEBUG){
             ARouter.openDebug();

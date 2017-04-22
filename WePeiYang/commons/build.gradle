@@ -77,8 +77,9 @@ dependencies {
     compile 'com.github.GrenderG:Toasty:1.1.5'
 
     compile 'com.alibaba:arouter-api:1.2.1'
-
-
+    compile 'com.github.piasy:BigImageViewer:1.2.9'
+    compile 'com.github.piasy:GlideImageLoader:1.2.9'
+    compile 'com.github.piasy:ProgressPieIndicator:1.2.9'
 
     testCompile 'junit:junit:4.12'
 }

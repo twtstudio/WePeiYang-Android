@@ -15,6 +15,12 @@ import com.twtstudio.retrox.news.R
  * 传入layoutres
  */
 class SingleItem(val context: Context, val layoutHelper: LayoutHelper, @LayoutRes val layoutId: Int = R.layout.item_explore_vista_header ) : DelegateAdapter.Adapter<SingleItem.singleHolder>() {
+    var listener : View.OnClickListener? = null
+
+    fun setOnClickListener(listener: View.OnClickListener){
+        this.listener = listener
+    }
+
     override fun getItemCount(): Int {
         return 1
     }
@@ -25,7 +31,9 @@ class SingleItem(val context: Context, val layoutHelper: LayoutHelper, @LayoutRe
     }
 
     override fun onBindViewHolder(holder: singleHolder?, position: Int) {
-
+        if (listener!=null){
+            holder?.itemView?.setOnClickListener(listener)
+        }
     }
 
     override fun onCreateLayoutHelper(): LayoutHelper {

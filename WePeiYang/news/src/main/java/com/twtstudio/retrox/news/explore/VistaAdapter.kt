@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import com.alibaba.android.arouter.launcher.ARouter
 import com.alibaba.android.vlayout.DelegateAdapter
 import com.alibaba.android.vlayout.LayoutHelper
 import com.bumptech.glide.Glide
@@ -32,6 +33,11 @@ class VistaAdapter(val context: Context, val layoutHelper: LayoutHelper, val lis
             val url = "https://photograph.twtstudio.com/upload/" + data.cover
 //            Logger.d(url)
             Glide.with(context).load(url).crossFade().into(image)
+            image.setOnClickListener {
+                ARouter.getInstance().build("/photo/preview")
+                        .withString("url",url)
+                        .navigation()
+            }
         }
     }
 

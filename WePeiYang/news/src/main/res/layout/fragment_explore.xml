@@ -2,6 +2,7 @@
 <android.support.design.widget.CoordinatorLayout android:fitsSystemWindows="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background_gray"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:bind="http://schemas.android.com/apk/res-auto">
     <android.support.design.widget.AppBarLayout

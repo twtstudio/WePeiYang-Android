@@ -1,6 +1,7 @@
 package com.twtstudio.retrox.news.explore;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.DrawableRes;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -45,7 +46,10 @@ public class ToolsAdapter extends DelegateAdapter.Adapter<ToolsAdapter.ToolItemH
 
     @Override
     public LayoutHelper onCreateLayoutHelper() {
-        return new GridLayoutHelper(4);
+        GridLayoutHelper gridLayoutHelper = new GridLayoutHelper(4);
+        gridLayoutHelper.setMarginTop(32);
+        gridLayoutHelper.setBgColor(Color.WHITE);
+        return gridLayoutHelper;
     }
 
     @Override

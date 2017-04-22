@@ -21,14 +21,8 @@ buildscript {
 allprojects {
     repositories {
         jcenter()
-        maven {
-            url "https://jitpack.io"
-        }
-        maven {
-            url "http://maven.bughd.com/public"
-        }
-        mavenCentral()
-
+        maven { url "http://dl.bintray.com/piasy/maven" }
+        maven { url "https://jitpack.io" }
     }
 
 }
