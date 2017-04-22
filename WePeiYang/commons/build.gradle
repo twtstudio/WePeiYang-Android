@@ -76,6 +76,9 @@ dependencies {
     compile 'com.tapadoo.android:alerter:1.0.3'
     compile 'com.github.GrenderG:Toasty:1.1.5'
 
+    compile 'com.alibaba:arouter-api:1.2.1'
+
+
 
     testCompile 'junit:junit:4.12'
 }

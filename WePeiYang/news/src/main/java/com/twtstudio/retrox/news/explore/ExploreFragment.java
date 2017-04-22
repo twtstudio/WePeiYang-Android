@@ -46,6 +46,8 @@ public class ExploreFragment extends SupportFragment {
         recyclerView.setLayoutManager(virtualLayoutManager);
         recyclerView.setAdapter(delegateAdapter);
 
+        delegateAdapter.addAdapter(new ToolsAdapter(getActivity()));
+
         delegateAdapter.addAdapter(new SingleItem(getActivity(), new SingleLayoutHelper(), R.layout.item_explore_gallery_header));
 
         GridLayoutHelper gridLayoutHelper = new GridLayoutHelper(2);

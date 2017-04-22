@@ -5,6 +5,7 @@ import android.content.Context;
 import android.support.multidex.MultiDexApplication;
 
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.orhanobut.hawk.Hawk;
 import com.orhanobut.logger.Logger;
@@ -27,6 +28,7 @@ public class WePeiYangApp extends MultiDexApplication {
         Bugly.init(getApplicationContext(), "8ceee186f2", false);
         CrashReport.setAppChannel(getApplicationContext(),"公测分发");
         CrashReport.setIsDevelopmentDevice(getApplicationContext(), BuildConfig.DEBUG);
+
 //        Cockroach.install(new Cockroach.ExceptionHandler() {
 //            @Override
 //            public void handlerException(Thread thread, Throwable throwable) {
@@ -38,10 +40,14 @@ public class WePeiYangApp extends MultiDexApplication {
         sContext = getApplicationContext();
         Hawk.init(sContext).build();
         Fresco.initialize(sContext);
-//        CrashReport.initCrashReport(getApplicationContext(), "8ceee186f2", true);
+
+        if (BuildConfig.DEBUG){
+            ARouter.openDebug();
+            ARouter.openLog();
+        }
+        ARouter.init(this);
 
 
-//        Stetho.initializeWithDefaults(getApplicationContext());
     }
 
 

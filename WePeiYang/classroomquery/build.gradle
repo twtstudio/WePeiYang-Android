@@ -10,6 +10,11 @@ android {
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [ moduleName : project.getName() ]
+            }
+        }
     }
     buildTypes {
         release {
@@ -29,6 +34,7 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
+    annotationProcessor 'com.alibaba:arouter-compiler:1.1.2'
 
 
     compile project(':commons')

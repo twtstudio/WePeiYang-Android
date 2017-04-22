@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
+import com.alibaba.android.arouter.launcher.ARouter
 import com.alibaba.android.vlayout.DelegateAdapter
 import com.alibaba.android.vlayout.LayoutHelper
 import com.twtstudio.retrox.news.R
@@ -26,7 +27,10 @@ class VistaSingleItemFooter (val context: Context, val layoutHelper: LayoutHelpe
     }
 
     override fun onBindViewHolder(holder: singleHolder?, position: Int) {
-        holder?.button?.setOnClickListener { Toasty.info(context,"gg", Toast.LENGTH_SHORT).show() }
+        holder?.button?.setOnClickListener {
+            ARouter.getInstance().build("/gpa/main").navigation()
+            Toasty.info(context,"gg", Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun onCreateLayoutHelper(): LayoutHelper {

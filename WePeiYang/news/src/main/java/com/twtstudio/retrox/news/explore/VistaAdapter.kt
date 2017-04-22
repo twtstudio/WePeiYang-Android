@@ -30,7 +30,7 @@ class VistaAdapter(val context: Context, val layoutHelper: LayoutHelper, val lis
             title.text = data.name
             content.text = data.desc.replace("\n",",")
             val url = "https://photograph.twtstudio.com/upload/" + data.cover
-            Logger.d(url)
+//            Logger.d(url)
             Glide.with(context).load(url).crossFade().into(image)
         }
     }

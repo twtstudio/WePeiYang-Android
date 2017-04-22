@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.haozhang.lib.SlantedTextView;
@@ -40,6 +41,7 @@ import butterknife.OnClick;
 /**
  * Created by dell on 2016/7/18.
  */
+@Route(path = "/party/main")
 public class PartyActivity extends BaseActivity implements PartyView {
 
     @BindView(R2.id.toolbar)

@@ -15,6 +15,7 @@ import android.transition.Slide;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 
 import com.twtstudio.retrox.gpa.R;
@@ -25,6 +26,7 @@ import com.twtstudio.retrox.gpa.databinding.GpaActivityMainBinding;
  * Created by retrox on 2017/1/28.
  */
 
+@Route(path = "/gpa/main")
 public class GpaActivity extends RxAppCompatActivity {
 
     private GpaActivityMainBinding mBinding;

@@ -40,6 +40,7 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.kelin.mvvmlight.base.ViewModel;
 import com.orhanobut.hawk.Hawk;
 import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
@@ -71,6 +72,7 @@ import rx.Observable;
 import rx.Observer;
 import rx.functions.Func1;
 
+@Route(path = "/classroom/main")
 public class MainActivity extends AppCompatActivity implements ViewModel{
     private GradientDrawable drawable;
 

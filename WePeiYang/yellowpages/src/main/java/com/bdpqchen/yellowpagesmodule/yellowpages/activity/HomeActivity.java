@@ -27,6 +27,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.arlib.floatingsearchview.FloatingSearchView;
 import com.arlib.floatingsearchview.suggestions.SearchSuggestionsAdapter;
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
@@ -60,7 +61,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import rx.Subscriber;
 
-
+@Route(path = "/yellowPage/main")
 public class HomeActivity extends BaseActivity implements CollectedFragmentCallBack {
 
     private static final int REQUEST_CODE_WRITE_PHONE = 98;

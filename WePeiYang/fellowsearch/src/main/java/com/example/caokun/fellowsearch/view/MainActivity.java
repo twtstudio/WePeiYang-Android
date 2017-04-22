@@ -12,6 +12,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.example.caokun.fellowsearch.R;
 import com.example.caokun.fellowsearch.common.ui.PActivity;
 import com.example.caokun.fellowsearch.model.FellowfindController;
@@ -25,7 +26,7 @@ import com.example.caokun.fellowsearch.presenter.FellowPresenter;
 import java.util.ArrayList;
 import java.util.List;
 
-
+@Route(path = "/fellowSearch/main")
 public class MainActivity extends PActivity<FellowPresenter> implements FellowfindController{
     AutoCompleteTextView editProvince;
     AutoCompleteTextView editInstitute;
