@@ -24,10 +24,11 @@ class GalleryIndexAdapter(val context: Context, val layoutHelper: LayoutHelper, 
     override fun onBindViewHolder(holder: GalleryIndexHolder?, position: Int) {
         val data = list[position]
         holder?.apply {
-            Glide.with(context).load(data.coverThumbnailUrl).into(image)
+            Glide.with(context).load(data.coverThumbnailUrl).crossFade().into(image)
             title.text = data.title
             image.setOnClickListener {
                 val intent = Intent(context,GalleryActivity::class.java)
+                intent.putExtra("id",data.id)
                 context.startActivity(intent)
             }
         }

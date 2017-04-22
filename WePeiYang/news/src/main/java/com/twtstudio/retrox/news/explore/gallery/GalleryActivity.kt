@@ -1,6 +1,7 @@
 package com.twtstudio.retrox.news.explore.gallery
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
 import android.os.Build
@@ -11,6 +12,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.gjiazhe.panoramaimageview.GyroscopeObserver
 import com.gjiazhe.panoramaimageview.PanoramaImageView
@@ -38,14 +40,16 @@ class GalleryActivity : AppCompatActivity() {
 //            decorView.systemUiVisibility = option
 //            window.statusBarColor = Color.TRANSPARENT
 //        }
+
+        val id = intent.getIntExtra("id",45)
         setContentView(R.layout.activity_explore_photos)
         val recyclerview = findViewById(R.id.recyclerview) as RecyclerView
 
         recyclerview.adapter = adapter
         recyclerview.layoutManager = LinearLayoutManager(this)
-        recyclerview.recycledViewPool = RecyclerView.RecycledViewPool().apply { setMaxRecycledViews(0,20) }
+//        recyclerview.recycledViewPool = RecyclerView.RecycledViewPool().apply { setMaxRecycledViews(0,20) }
 
-        picApi.getGalleryPhotos(45).subscribeOn(Schedulers.io())
+        picApi.getGalleryPhotos(id).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ adapter.refreshData(it) }, Throwable::printStackTrace)
     }
@@ -75,7 +79,12 @@ class GalleryActivity : AppCompatActivity() {
             holder?.apply {
                 image.setImageResource(R.drawable.gallery_text)
 //                image.setImageURI()
-//                Glide.with(context).load(data.imageUrl).placeholder(R.drawable.vista_title).into(image)
+                Glide.with(context).load(data.imageUrl).into(image)
+                image.setOnClickListener {
+                    val intent = Intent(context,MagicPhotoActivity::class.java)
+                    intent.putExtra("url",data.imageUrl)
+                    context.startActivity(intent)
+                }
 //                image.setGyroscopeObserver(observer)
             }
         }
@@ -91,9 +100,9 @@ class GalleryActivity : AppCompatActivity() {
         }
 
         class GalleryItemHolder(itemView: View?,observer: GyroscopeObserver) : RecyclerView.ViewHolder(itemView) {
-            val image = itemView?.findViewById(R.id.panorama_imageview) as PanoramaImageView
+            val image = itemView?.findViewById(R.id.panorama_imageview) as ImageView
             init {
-                image.setGyroscopeObserver(observer)
+//                image.setGyroscopeObserver(observer)
             }
         }
     }

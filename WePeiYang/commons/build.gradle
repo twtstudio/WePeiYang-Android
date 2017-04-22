@@ -4,7 +4,7 @@ apply plugin: 'me.tatarka.retrolambda'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    buildToolsVersion "25.0.1"
 
     defaultConfig {
         minSdkVersion 19
@@ -74,7 +74,7 @@ dependencies {
     compile project(':mvvmKit')
 
     compile 'com.tapadoo.android:alerter:1.0.3'
-
+    compile 'com.github.GrenderG:Toasty:1.1.5'
 
 
     testCompile 'junit:junit:4.12'

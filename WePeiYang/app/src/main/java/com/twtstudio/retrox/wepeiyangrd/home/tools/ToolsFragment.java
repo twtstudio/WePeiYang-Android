@@ -2,6 +2,7 @@ package com.twtstudio.retrox.wepeiyangrd.home.tools;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.view.LayoutInflater;
@@ -19,6 +20,8 @@ import com.twtstudio.retrox.wepeiyangrd.databinding.FragmentToolsBinding;
 
 public class ToolsFragment extends BaseFragment {
 
+    private FragmentToolsBinding binding;
+
     public static ToolsFragment newInstance() {
 
         Bundle args = new Bundle();
@@ -32,10 +35,15 @@ public class ToolsFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        FragmentToolsBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_tools, container, false);
-        binding.recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 4));
-
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_tools, container, false);
         binding.setViewModel(new ToolsFragViewModel(getContext()));
         return binding.getRoot();
+    }
+
+    @Override
+    public void onLazyInitView(@Nullable Bundle savedInstanceState) {
+        super.onLazyInitView(savedInstanceState);
+        binding.recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 4));
+
     }
 }

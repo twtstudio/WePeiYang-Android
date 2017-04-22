@@ -7,6 +7,7 @@
 
         <activity android:name=".detail.NewsDetailsActivity"/>
         <activity android:name=".explore.gallery.GalleryActivity"/>
+        <activity android:name=".explore.gallery.MagicPhotoActivity" android:theme="@style/Theme.AppCompat.NoActionBar"/>
     </application>
 
 </manifest>

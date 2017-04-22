@@ -46,6 +46,8 @@ dependencies {
 
     compile project(':mvvmKit')
     compile project(':commons')
+    compile project(':fragmentation')
+
 
     testCompile 'junit:junit:4.12'
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"

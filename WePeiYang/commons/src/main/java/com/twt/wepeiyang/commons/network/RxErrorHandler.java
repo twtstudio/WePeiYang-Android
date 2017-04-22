@@ -16,6 +16,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
+import es.dmoral.toasty.Toasty;
 import retrofit2.adapter.rxjava.HttpException;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
@@ -42,7 +43,7 @@ public class RxErrorHandler implements Action1<Throwable> {
 
         if (throwable instanceof IOException) {
             IOException error = (IOException) throwable;
-            Toast.makeText(mContext, "网络错误", Toast.LENGTH_SHORT).show();
+            Toasty.error(mContext, "网络错误", Toast.LENGTH_SHORT).show();
             postThrowable(error);
             Logger.e(error, "error");
         } else if (throwable instanceof HttpException) {
@@ -57,7 +58,7 @@ public class RxErrorHandler implements Action1<Throwable> {
                 String message = errJsonObject.getString("message");
                 Logger.e("错误码：" + errcode + "  message:" + message);
                 postThrowable(new ApiException(errcode,message));
-                Toast.makeText(mContext, "错误：" + message +" TAT...", Toast.LENGTH_SHORT).show();
+                Toasty.error(mContext, "错误：" + message +" TAT...", Toast.LENGTH_SHORT).show();
                 handleApiError(errcode);
             } catch (IOException | JSONException e) {
                 e.printStackTrace();
@@ -84,7 +85,7 @@ public class RxErrorHandler implements Action1<Throwable> {
             case 10002:
                 break;
             case 10004:
-                Toast.makeText(mContext, "请重新登录", Toast.LENGTH_SHORT).show();
+                Toasty.warning(mContext, "请重新登录", Toast.LENGTH_SHORT).show();
                 Class clazz = null;
                 try {
                     clazz = Class.forName("com.twtstudio.retrox.auth.login.LoginActivity");
@@ -103,7 +104,7 @@ public class RxErrorHandler implements Action1<Throwable> {
                 RetrofitProvider.getRetrofit().create(CommonApi.class)
                         .refreshToken().subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .doOnNext(body -> Toast.makeText(mContext, "正在自动重试...", Toast.LENGTH_SHORT).show())
+                        .doOnNext(body -> Toasty.info(mContext, "正在自动重试...", Toast.LENGTH_SHORT).show())
                         .subscribe(body -> {
                             try {
                                 String s = body.string();
@@ -113,11 +114,11 @@ public class RxErrorHandler implements Action1<Throwable> {
                             } catch (IOException | JSONException e) {
                                 e.printStackTrace();
                             }
-                            Toast.makeText(mContext, "刷新试试哦", Toast.LENGTH_SHORT).show();
+                            Toasty.info(mContext, "刷新试试哦", Toast.LENGTH_SHORT).show();
                         }, this);
                 break;
             case 20001:
-                Logger.e("绑定办公网啊哥");
+                Toasty.error(mContext,"绑定办公网啊哥",Toast.LENGTH_SHORT).show();
                 break;
             default:
 

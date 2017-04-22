@@ -19,6 +19,7 @@ import com.alibaba.android.vlayout.layout.SingleLayoutHelper
 import com.alibaba.android.vlayout.layout.StaggeredGridLayoutHelper
 import com.twtstudio.retrox.news.R
 import com.twtstudio.retrox.news.api.PicProvider
+import me.yokeyword.fragmentation.SupportFragment
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import java.util.*
@@ -26,7 +27,7 @@ import java.util.*
 /**
  * Created by retrox on 09/04/2017.
  */
-class ExploreFragment : Fragment() {
+class ExploreFragment : SupportFragment() {
 
     val virtualLayoutManger by lazy { VirtualLayoutManager(this.activity) }
     val delegateAdapter = DelegateAdapter(virtualLayoutManger, true)

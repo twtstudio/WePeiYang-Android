@@ -53,7 +53,6 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="100dp"
             android:background="@color/white"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -63,6 +62,7 @@
 
         <LinearLayout
             app:clickCommand="@{viewModel.feedbackClick}"
+            android:visibility="gone"
             android:orientation="vertical"
             android:layout_gravity="bottom"
             android:layout_marginBottom="8dp"

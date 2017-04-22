@@ -10,6 +10,7 @@ import android.widget.Toast
 import com.alibaba.android.vlayout.DelegateAdapter
 import com.alibaba.android.vlayout.LayoutHelper
 import com.twtstudio.retrox.news.R
+import es.dmoral.toasty.Toasty
 
 /**
  * Created by retrox on 09/04/2017.
@@ -25,7 +26,7 @@ class VistaSingleItemFooter (val context: Context, val layoutHelper: LayoutHelpe
     }
 
     override fun onBindViewHolder(holder: singleHolder?, position: Int) {
-        holder?.button?.setOnClickListener { Toast.makeText(context,"gg", Toast.LENGTH_SHORT).show() }
+        holder?.button?.setOnClickListener { Toasty.info(context,"gg", Toast.LENGTH_SHORT).show() }
     }
 
     override fun onCreateLayoutHelper(): LayoutHelper {

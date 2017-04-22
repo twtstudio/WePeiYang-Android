@@ -9,15 +9,21 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.transition.Fade;
 import android.transition.Slide;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.orhanobut.logger.Logger;
 import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
 import com.twtstudio.retrox.auth.login.AuthSelfProvider;
+import com.twtstudio.retrox.news.explore.ExploreFragment;
 import com.twtstudio.retrox.wepeiyangrd.R;
 import com.twtstudio.retrox.wepeiyangrd.base.BaseActivity;
 import com.twtstudio.retrox.wepeiyangrd.base.BaseFragment;
@@ -28,6 +34,8 @@ import com.twtstudio.retrox.wepeiyangrd.home.user.UserFragment;
 import com.twtstudio.retrox.wepeiyangrd.view.BottomBar;
 import com.twtstudio.retrox.wepeiyangrd.view.BottomBarTab;
 import com.twtstudio.retrox.wepeiyangrd.widget.WidgetUpdateManger;
+
+import me.yokeyword.fragmentation.SupportFragment;
 
 /**
  * Created by retrox on 2016/12/12.
@@ -42,11 +50,12 @@ public class HomeActivity extends BaseActivity {
     public static final int THIRD = 2;
     public static final int FOURTH = 3;
 
-    private BaseFragment[] mFragments = new BaseFragment[4];
+    private SupportFragment[] mFragments = new SupportFragment[4];
 
     private BottomBar mBottomBar;
 
     private AlertDialog checkTosDialog;
+    private ViewPager viewPager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -63,14 +72,15 @@ public class HomeActivity extends BaseActivity {
         if (savedInstanceState == null) {
             mFragments[FIRST] = CommonFragment.newInstance();
             mFragments[SECOND] = NewsFragment.newInstance();
-            mFragments[THIRD] = ToolsFragment.newInstance();
+            mFragments[THIRD] = new ExploreFragment();
             mFragments[FOURTH] = UserFragment.newInstance();
 
-            loadMultipleRootFragment(R.id.fl_container, FIRST,
-                    mFragments[FIRST],
-                    mFragments[SECOND],
-                    mFragments[THIRD],
-                    mFragments[FOURTH]);
+//            loadMultipleRootFragment(R.id.fl_container, FOURTH, //坑
+//                    mFragments[FIRST],
+//                    mFragments[SECOND],
+//                    mFragments[THIRD],
+//                    mFragments[FOURTH]);
+
         } else {
 
             mFragments[FIRST] = findFragment(CommonFragment.class);
@@ -79,6 +89,10 @@ public class HomeActivity extends BaseActivity {
             mFragments[FOURTH] = findFragment(UserFragment.class);
 
         }
+
+        viewPager = (ViewPager) findViewById(R.id.fl_container);
+        viewPager.setAdapter(new FragmentAdapter(getSupportFragmentManager()));
+        viewPager.setOffscreenPageLimit(4);
 
         initView();
         WidgetUpdateManger.sendUpdateMsg(this);
@@ -157,10 +171,34 @@ public class HomeActivity extends BaseActivity {
                 .addItem(new BottomBarTab(this, R.drawable.ic_tools))
                 .addItem(new BottomBarTab(this, R.drawable.ic_user));
 
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                mBottomBar.setCurrentItem(position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
         mBottomBar.setOnTabSelectedListener(new BottomBar.OnTabSelectedListener() {
             @Override
             public void onTabSelected(int position, int prePosition) {
-                showHideFragment(mFragments[position], mFragments[prePosition]);
+                if (Math.abs(prePosition - position) == 1) {
+                    viewPager.setCurrentItem(position,true);
+                }else if (prePosition == position){
+
+                }else {
+                    viewPager.setCurrentItem(position,false);
+                }
             }
 
             @Override
@@ -176,8 +214,26 @@ public class HomeActivity extends BaseActivity {
     }
 
     private void checkTos() {
-        if (!CommonPrefUtil.getIsAcceptTos()&&!checkTosDialog.isShowing()) {
+        if (!CommonPrefUtil.getIsAcceptTos() && !checkTosDialog.isShowing()) {
             checkTosDialog.show();
         }
+    }
+
+    private class FragmentAdapter extends FragmentPagerAdapter {
+
+        public FragmentAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return mFragments[position];
+        }
+
+        @Override
+        public int getCount() {
+            return mFragments.length;
+        }
+
     }
 }
