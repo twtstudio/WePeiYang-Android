@@ -5,7 +5,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import com.twtstudio.retrox.news.explore.ExploreFragment;
+import com.twtstudio.retrox.news.explore.ExploreFragmentKt;
 
 
 public class DevMainActivity extends AppCompatActivity {
@@ -17,7 +17,7 @@ public class DevMainActivity extends AppCompatActivity {
 
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = manager.beginTransaction();
-        fragmentTransaction.add(R.id.container,new ExploreFragment());
+        fragmentTransaction.add(R.id.container,new ExploreFragmentKt());
         fragmentTransaction.commit();
 
     }

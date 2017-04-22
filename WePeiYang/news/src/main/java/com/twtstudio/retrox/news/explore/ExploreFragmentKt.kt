@@ -25,9 +25,12 @@ import rx.schedulers.Schedulers
 import java.util.*
 
 /**
+ * @deprecated
  * Created by retrox on 09/04/2017.
+ * 从入门到放弃
+ * 坑太多了
  */
-class ExploreFragment : SupportFragment() {
+class ExploreFragmentKt : SupportFragment() {
 
     val virtualLayoutManger by lazy { VirtualLayoutManager(this.activity) }
     val delegateAdapter = DelegateAdapter(virtualLayoutManger, true)
