@@ -50,6 +50,7 @@ public class RxErrorHandler implements Action1<Throwable> {
             HttpException exception = (HttpException) throwable;
             postThrowable(exception);
             Logger.e(exception, "http_error");
+            Toasty.error(mContext,"错误码："+exception.response().code(),Toast.LENGTH_SHORT).show();
             try {
                 String errorJson = exception.response().errorBody().string();
                 Logger.e(errorJson);

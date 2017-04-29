@@ -28,11 +28,14 @@ import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
 import com.twtstudio.retrox.auth.login.AuthApi;
 import com.twtstudio.retrox.auth.login.AuthSelfProvider;
 import com.twtstudio.retrox.auth.login.LoginActivity;
+import com.twtstudio.retrox.auth.tju.TjuApi;
+import com.twtstudio.retrox.bike.service.BikeServiceProvider;
 import com.twtstudio.retrox.tjulibrary.provider.TjuLibProvider;
 import com.twtstudio.retrox.wepeiyangrd.BuildConfig;
 import com.twtstudio.retrox.wepeiyangrd.R;
 import com.twtstudio.retrox.wepeiyangrd.home.HomeActivity;
 
+import es.dmoral.toasty.Toasty;
 import okhttp3.ResponseBody;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
@@ -50,7 +53,7 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_setting);
 
         setTitle("偏好设置");
-        
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 //        CrashReport.testJavaCrash();
@@ -101,7 +104,7 @@ public class SettingsActivity extends AppCompatActivity {
         public void onResume() {
             super.onResume();
             Preference isBindLib = findPreference(getString(R.string.pref_is_bind_lib));
-            isBindLib.setSummary(CommonPrefUtil.getIsBindLibrary()?"已绑定":"未绑定");
+            isBindLib.setSummary(CommonPrefUtil.getIsBindLibrary() ? "已绑定" : "未绑定");
         }
 
         public void initPrefs() {
@@ -113,14 +116,14 @@ public class SettingsActivity extends AppCompatActivity {
             Preference exitTjuPref = findPreference(getString(R.string.pref_is_exit_tju));
             int dropOutMode = CommonPrefUtil.getDropOut();
             String dropOutSummary = "未操作";
-            if (dropOutMode == 0){
+            if (dropOutMode == 0) {
                 dropOutSummary = "未操作";
-            }else if (dropOutMode == 1){
+            } else if (dropOutMode == 1) {
                 dropOutSummary = "已退学";
-            }else if (dropOutMode == 2){
+            } else if (dropOutMode == 2) {
                 dropOutSummary = "已复学";
             }
-            exitTjuPref.setSummary("退学状态: "+dropOutSummary);
+            exitTjuPref.setSummary("退学状态: " + dropOutSummary);
 
             /**
              * 这个代码有些冗杂 ... 因为一些内部类的调用关系没有理清楚但是先这样子吧
@@ -130,9 +133,9 @@ public class SettingsActivity extends AppCompatActivity {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
 
-                    if (CommonPrefUtil.getDropOut()==0 ||CommonPrefUtil.getDropOut()==2){
+                    if (CommonPrefUtil.getDropOut() == 0 || CommonPrefUtil.getDropOut() == 2) {
                         //退学
-                        String[] items = {"我要打游戏！","我要运动！","我要睡觉！","怎么样都好啦！"};
+                        String[] items = {"我要打游戏！", "我要运动！", "我要睡觉！", "怎么样都好啦！"};
 
                         AlertDialog.Builder builder = new AlertDialog.Builder(mContext)
                                 .setTitle("你为啥要退学呀？")
@@ -143,30 +146,30 @@ public class SettingsActivity extends AppCompatActivity {
                                         Toast.makeText(mContext, "正在办理...", Toast.LENGTH_SHORT).show();
 
                                         RetrofitProvider.getRetrofit().create(AuthApi.class)
-                                                .dropOut(which+1)
+                                                .dropOut(which + 1)
                                                 .subscribeOn(Schedulers.io())
                                                 .observeOn(AndroidSchedulers.mainThread())
                                                 .subscribe(dropOutBean -> {
-                                                    if (!TextUtils.isEmpty(dropOutBean.data)){
+                                                    if (!TextUtils.isEmpty(dropOutBean.data)) {
                                                         Toast.makeText(mContext, dropOutBean.data, Toast.LENGTH_SHORT).show();
 
-                                                        if (dropOutBean.data.equals("欢迎回来上学 (〃∀〃)")){
+                                                        if (dropOutBean.data.equals("欢迎回来上学 (〃∀〃)")) {
                                                             CommonPrefUtil.setDropOut(2);
-                                                        }else if (dropOutBean.data.equals("退学成功 d(`･∀･)b")){
+                                                        } else if (dropOutBean.data.equals("退学成功 d(`･∀･)b")) {
                                                             CommonPrefUtil.setDropOut(1);
                                                         }
 
                                                         //刷新下状态 --
                                                         int dropOutMode = CommonPrefUtil.getDropOut();
                                                         String dropOutSummary = "未操作";
-                                                        if (dropOutMode == 0){
+                                                        if (dropOutMode == 0) {
                                                             dropOutSummary = "未操作";
-                                                        }else if (dropOutMode == 1){
+                                                        } else if (dropOutMode == 1) {
                                                             dropOutSummary = "已退学";
-                                                        }else if (dropOutMode == 2){
+                                                        } else if (dropOutMode == 2) {
                                                             dropOutSummary = "已复学";
                                                         }
-                                                        exitTjuPref.setSummary("退学状态: "+dropOutSummary);
+                                                        exitTjuPref.setSummary("退学状态: " + dropOutSummary);
 
                                                         //清空缓存 --- 课程表 GPA
                                                         CacheProvider.clearCache();
@@ -174,7 +177,7 @@ public class SettingsActivity extends AppCompatActivity {
                                                         new AuthSelfProvider().getUserData(null); //null做了处理的 刷新状态
                                                     }
                                                     dialog.dismiss();
-                                                },throwable -> {
+                                                }, throwable -> {
                                                     new AuthSelfProvider().getUserData(null); //null做了处理的
                                                     new RxErrorHandler().call(throwable);
                                                     dialog.dismiss();
@@ -184,7 +187,7 @@ public class SettingsActivity extends AppCompatActivity {
 
                         builder.create().show();
 
-                    }else {
+                    } else {
                         AlertDialog.Builder dropInBuilder = new AlertDialog.Builder(mContext)
                                 .setTitle("复学申请办理处")
                                 .setMessage("浪子回头金不换啊...")
@@ -198,26 +201,26 @@ public class SettingsActivity extends AppCompatActivity {
                                                 .subscribeOn(Schedulers.io())
                                                 .observeOn(AndroidSchedulers.mainThread())
                                                 .subscribe(dropOutBean -> {
-                                                    if (!TextUtils.isEmpty(dropOutBean.data)){
+                                                    if (!TextUtils.isEmpty(dropOutBean.data)) {
                                                         Toast.makeText(mContext, dropOutBean.data, Toast.LENGTH_SHORT).show();
 
-                                                        if (dropOutBean.data.equals("欢迎回来上学 (〃∀〃)")){
+                                                        if (dropOutBean.data.equals("欢迎回来上学 (〃∀〃)")) {
                                                             CommonPrefUtil.setDropOut(2);
-                                                        }else if (dropOutBean.data.equals("退学成功 d(`･∀･)b")){
+                                                        } else if (dropOutBean.data.equals("退学成功 d(`･∀･)b")) {
                                                             CommonPrefUtil.setDropOut(1);
                                                         }
 
                                                         //刷新下状态 --
                                                         int dropOutMode = CommonPrefUtil.getDropOut();
                                                         String dropOutSummary = "未操作";
-                                                        if (dropOutMode == 0){
+                                                        if (dropOutMode == 0) {
                                                             dropOutSummary = "未操作";
-                                                        }else if (dropOutMode == 1){
+                                                        } else if (dropOutMode == 1) {
                                                             dropOutSummary = "已退学";
-                                                        }else if (dropOutMode == 2){
+                                                        } else if (dropOutMode == 2) {
                                                             dropOutSummary = "已复学";
                                                         }
-                                                        exitTjuPref.setSummary("退学状态: "+dropOutSummary);
+                                                        exitTjuPref.setSummary("退学状态: " + dropOutSummary);
 
                                                         //清空缓存 --- 课程表 GPA
                                                         CacheProvider.clearCache();
@@ -225,7 +228,7 @@ public class SettingsActivity extends AppCompatActivity {
                                                         new AuthSelfProvider().getUserData(null); //null做了处理的 刷新状态
                                                     }
                                                     dialog.dismiss();
-                                                },throwable -> {
+                                                }, throwable -> {
                                                     new AuthSelfProvider().getUserData(null); //null做了处理的
                                                     new RxErrorHandler().call(throwable);
                                                     dialog.dismiss();
@@ -260,7 +263,7 @@ public class SettingsActivity extends AppCompatActivity {
                             .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    Intent intent = new Intent(mContext,BindActivity.class);
+                                    Intent intent = new Intent(mContext, BindActivity.class);
                                     mContext.startActivity(intent);
                                 }
                             });
@@ -271,17 +274,44 @@ public class SettingsActivity extends AppCompatActivity {
 
 
             Preference isBindTju = findPreference(getString(R.string.pref_is_bind_tju));
-            isBindTju.setSummary(CommonPrefUtil.getIsBindTju()?"已绑定":"未绑定");
+            isBindTju.setSummary(CommonPrefUtil.getIsBindTju() ? "已绑定" : "未绑定");
             isBindTju.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    Toast.makeText(mContext, "暂不支持解绑 TAT...", Toast.LENGTH_SHORT).show();
+                    AlertDialog.Builder builder = new AlertDialog.Builder(mContext)
+                            .setTitle("办公网解绑")
+                            .setMessage("是否要解绑办公网")
+//                            .setCancelable(false)
+                            .setPositiveButton("解绑", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    if (CommonPrefUtil.getIsBindTju()) {
+                                        RetrofitProvider.getRetrofit().create(TjuApi.class)
+                                                .unbindTju(CommonPrefUtil.getUserId())
+                                                .subscribeOn(Schedulers.io())
+                                                .observeOn(AndroidSchedulers.mainThread())
+                                                .doAfterTerminate(() -> new AuthSelfProvider().getUserData())
+                                                .subscribe(responseBody -> {
+                                                    Toasty.success(mContext, "解绑成功！请重启微北洋", Toast.LENGTH_SHORT).show();
+                                                }, new RxErrorHandler());
+                                    } else {
+                                        Toasty.warning(mContext, "你没绑定解绑啥？？？？？", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            })
+                            .setNegativeButton("再绑会...", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                    builder.create().show();
                     return false;
                 }
             });
 
             Preference isBindLib = findPreference(getString(R.string.pref_is_bind_lib));
-            isBindLib.setSummary(CommonPrefUtil.getIsBindLibrary()?"已绑定":"未绑定");
+            isBindLib.setSummary(CommonPrefUtil.getIsBindLibrary() ? "已绑定" : "未绑定");
             isBindLib.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
@@ -292,13 +322,14 @@ public class SettingsActivity extends AppCompatActivity {
                             .setPositiveButton("解绑", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    if (CommonPrefUtil.getIsBindLibrary()){
+                                    if (CommonPrefUtil.getIsBindLibrary()) {
                                         new TjuLibProvider(mContext).unbindLibrary(s -> {
                                             CommonPrefUtil.setIsBindLibrary(false);
-                                            isBindLib.setSummary(CommonPrefUtil.getIsBindLibrary()?"已绑定":"未绑定");
+                                            Toasty.success(mContext, "解绑成功！请重启微北洋", Toast.LENGTH_SHORT).show();
+                                            isBindLib.setSummary(CommonPrefUtil.getIsBindLibrary() ? "已绑定" : "未绑定");
                                             dialog.dismiss();
                                         });
-                                    }else {
+                                    } else {
                                         Toast.makeText(mContext, "你没绑定解绑啥？？？？？", Toast.LENGTH_SHORT).show();
                                     }
 
@@ -316,11 +347,31 @@ public class SettingsActivity extends AppCompatActivity {
             });
 
             Preference isBindBike = findPreference(getString(R.string.pref_is_bind_bike));
-            isBindBike.setSummary(CommonPrefUtil.getIsBindBike()?"已绑定":"未绑定");
+            isBindBike.setSummary(CommonPrefUtil.getIsBindBike() ? "已绑定" : "未绑定");
             isBindBike.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    Toast.makeText(mContext, "暂不支持解绑 TAT...", Toast.LENGTH_SHORT).show();
+                    AlertDialog.Builder builder = new AlertDialog.Builder(mContext)
+                            .setTitle("自行车解绑")
+                            .setMessage("是否要解绑自行车")
+//                            .setCancelable(false)
+                            .setPositiveButton("解绑", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    if (CommonPrefUtil.getIsBindBike()) {
+                                        new BikeServiceProvider(mContext).unbind();
+                                    } else {
+                                        Toasty.warning(mContext, "你没绑定解绑啥？？？？？", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            })
+                            .setNegativeButton("再绑会...", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                    builder.create().show();
                     return false;
                 }
             });
@@ -329,7 +380,7 @@ public class SettingsActivity extends AppCompatActivity {
             isDisplayBike.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object newValue) {
-                    if (newValue.equals(true)){
+                    if (newValue.equals(true)) {
                         Toast.makeText(mContext, "打开自行车模块以完成自行车功能的激活", Toast.LENGTH_SHORT).show();
                     }
                     return true;
@@ -347,7 +398,7 @@ public class SettingsActivity extends AppCompatActivity {
             devTalking.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    Intent intent = new Intent(mContext,DevTalkActivity.class);
+                    Intent intent = new Intent(mContext, DevTalkActivity.class);
                     mContext.startActivity(intent);
                     return false;
                 }
@@ -370,15 +421,15 @@ public class SettingsActivity extends AppCompatActivity {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
                     String email = "mobile@twtstudio.com";
-                    Uri uri = Uri.parse("mailto:"+email);
-                    Intent emailIntent = new Intent(Intent.ACTION_SENDTO,uri);
+                    Uri uri = Uri.parse("mailto:" + email);
+                    Intent emailIntent = new Intent(Intent.ACTION_SENDTO, uri);
                     mContext.startActivity(emailIntent);
                     return false;
                 }
             });
         }
 
-        private void processExitTju(){
+        private void processExitTju() {
             // TODO: 23/03/2017 退学逻辑
         }
     }

@@ -28,6 +28,7 @@ public class CommonPrefUtil {
     public static final String IS_FIRST_LOGIN = "is_first_login";
     public static final String IS_ACCEPT_TOS = "is_accept_tos"; //是否同意微北洋用户协议
     public static final String DROP_OUT = "drop_out";
+    public static final String USER_ID = "user_id";
 
 
     private static final String THEME_MODE = "theme"; //false is normal , true is night
@@ -128,5 +129,13 @@ public class CommonPrefUtil {
 
     public static int getDropOut(){
         return Hawk.get(DROP_OUT,0);
+    }
+
+    public static void setUserId(String twtuname){
+        Hawk.put(USER_ID,twtuname);
+    }
+
+    public static String getUserId(){
+        return Hawk.get(USER_ID,"");
     }
 }

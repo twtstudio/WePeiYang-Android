@@ -83,20 +83,28 @@ public class WelcomeActivity extends BaseActivity {
                 .setShortLabel("Schedule")
                 .setLongLabel("Schedule")
                 .setIcon(Icon.createWithResource(this, R.drawable.ic_main_schedule))
-                .setIntent(new Intent(Intent.ACTION_MAIN, Uri.EMPTY, this, ScheduleTodayAct.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK))
+                //com.twt.schedule.action.DYNAMIC_OPEN
+                .setIntents(
+                        // this dynamic shortcut set up a back stack using Intents, when pressing back, will go to MainActivity
+                        // the last Intent is what the shortcut really opened
+                        new Intent[]{
+                                new Intent(Intent.ACTION_MAIN, Uri.EMPTY, this, HomeActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK),
+                                new Intent("com.twt.schedule.action.DYNAMIC_OPEN")
+                                // intent's action must be set
+                        })
                 .build();
-        ShortcutInfo dynamicShortcut4 = new ShortcutInfo.Builder(this, "shortcut_dynamic_4")
-                .setShortLabel("Bike")
-                .setLongLabel("Bike")
-                .setIcon(Icon.createWithResource(this, R.drawable.ic_main_bike))
-                .setIntent(new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/life2015")))
-                .build();
+//        ShortcutInfo dynamicShortcut4 = new ShortcutInfo.Builder(this, "shortcut_dynamic_4")
+//                .setShortLabel("Bike")
+//                .setLongLabel("Bike")
+//                .setIcon(Icon.createWithResource(this, R.drawable.ic_main_bike))
+//                .setIntent(new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/life2015")))
+//                .build();
 
         // the max limit for shortcuts is 5 (static + dynamic), if we add more than 5, exception will be thrown
         // Caused by: java.lang.IllegalArgumentException: Max number of dynamic shortcuts exceeded
 
 
-        shortcutManager.setDynamicShortcuts(Arrays.asList(dynamicShortcut1, dynamicShortcut2, dynamicShortcut3, dynamicShortcut4));
+        shortcutManager.setDynamicShortcuts(Arrays.asList(dynamicShortcut1, dynamicShortcut2, dynamicShortcut3));
 
     }
 }

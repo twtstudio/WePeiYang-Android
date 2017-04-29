@@ -1,6 +1,8 @@
 package com.twtstudio.retrox.news.explore;
 
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
@@ -56,7 +58,11 @@ public class ExploreFragment extends SupportFragment {
         feedbackLayoutHelper.setMarginBottom(32);
         SingleItem feedbackItem = new SingleItem(getActivity(),feedbackLayoutHelper,R.layout.item_explore_feedback);
         feedbackItem.setOnClickListener(v -> {
-            Toasty.info(getActivity(),"feedback!", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse("https://support.twtstudio.com/category/6/%E7%A7%BB%E5%8A%A8%E5%AE%A2%E6%88%B7%E7%AB%AF"));
+//                    intent.createChooser(intent,"选择浏览器");
+            ExploreFragment.this.startActivity(intent);
+            Toasty.info(getActivity(),"写下你的建议", Toast.LENGTH_SHORT).show();
         });
         delegateAdapter.addAdapter(feedbackItem);
 

@@ -35,8 +35,9 @@ public interface BikeApi {
     @POST("user/bind")
     Observable<BikeApiResponse<String>> bindBikeCard(@Field("id") String cardId, @Field("sign") String cardSign);
 
+    @FormUrlEncoded
     @POST("user/unbind")
-    Observable<BikeApiResponse<Void>> unbindBikeCard();
+    Observable<BikeApiResponse<Void>> unbindBikeCard(@Field("fake") String fake);
 
     @GET("station/status")
     Observable<BikeApiResponse<List<BikeStation>>> getStationStaus(@Query("station") String id);

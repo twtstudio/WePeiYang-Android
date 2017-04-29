@@ -1,6 +1,7 @@
 package com.twtstudio.retrox.news.explore
 
 import android.content.Context
+import android.content.Intent
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,7 @@ import com.alibaba.android.arouter.launcher.ARouter
 import com.alibaba.android.vlayout.DelegateAdapter
 import com.alibaba.android.vlayout.LayoutHelper
 import com.twtstudio.retrox.news.R
+import com.twtstudio.retrox.news.explore.gallery.VistaGalleryDetailActivity
 import es.dmoral.toasty.Toasty
 
 /**
@@ -28,8 +30,10 @@ class VistaSingleItemFooter (val context: Context, val layoutHelper: LayoutHelpe
 
     override fun onBindViewHolder(holder: singleHolder?, position: Int) {
         holder?.button?.setOnClickListener {
-            ARouter.getInstance().build("/gpa/main").navigation()
-            Toasty.info(context,"gg", Toast.LENGTH_SHORT).show()
+            val intent = Intent(context,VistaGalleryDetailActivity::class.java)
+            context.startActivity(intent)
+
+            Toasty.success(context,"正在前往...方寸流年", Toast.LENGTH_SHORT).show()
         }
     }
 

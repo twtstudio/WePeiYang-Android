@@ -1,13 +1,21 @@
 package com.twtstudio.retrox.bike.api;
 
 import android.content.Context;
+import android.widget.Toast;
 
+import com.orhanobut.logger.Logger;
 import com.tencent.bugly.crashreport.CrashReport;
+import com.twt.wepeiyang.commons.network.*;
 import com.twtstudio.retrox.bike.utils.ToastUtils;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 
+import es.dmoral.toasty.Toasty;
 import retrofit2.adapter.rxjava.HttpException;
 import rx.Subscriber;
 
@@ -64,12 +72,25 @@ public class BikeApiSubscriber<T> extends Subscriber<T> {
             return;
         }
 
-
         if (e instanceof ConnectException) {
             toastMessage("网络中断，请检查您的网络状态");
         } else if (e instanceof SocketTimeoutException) {
             toastMessage("网络连接超时");
         } else if (e instanceof HttpException){
+            HttpException exception = (HttpException) e;
+            Logger.e(exception, "http_error");
+            try {
+                String errorJson = exception.response().errorBody().string();
+                Logger.e(errorJson);
+                JSONObject errJsonObject = new JSONObject(errorJson);
+                int errcode = errJsonObject.getInt("errno");
+                String message = errJsonObject.getString("errmsg");
+                Logger.e("错误码：" + errcode + "  message:" + message);
+                Toasty.error(mContext, "错误：" + message +" TAT...", Toast.LENGTH_SHORT).show();
+
+            } catch (IOException | JSONException ex) {
+                ex.printStackTrace();
+            }
             toastMessage("Http错误"+((HttpException) e).code());
         }
         else if (e instanceof BIkeApiException){

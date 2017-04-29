@@ -30,7 +30,7 @@
 
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="f2d1429489830cea60924ada2f8ee83a"/>
+            android:value="d2d29ff7e7bef685451725cc52f2683f"/>
 
         <activity
             android:name="com.twtstudio.retrox.wepeiyangrd.MainActivity" />
