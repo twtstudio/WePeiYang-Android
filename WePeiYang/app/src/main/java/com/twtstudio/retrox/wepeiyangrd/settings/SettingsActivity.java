@@ -79,6 +79,7 @@ public class SettingsActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         Intent intent = new Intent(this, HomeActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
 
@@ -295,7 +296,7 @@ public class SettingsActivity extends AppCompatActivity {
                                                     Toasty.success(mContext, "解绑成功！请重启微北洋", Toast.LENGTH_SHORT).show();
                                                 }, new RxErrorHandler());
                                     } else {
-                                        Toasty.warning(mContext, "你没绑定解绑啥？？？？？", Toast.LENGTH_SHORT).show();
+                                        Toasty.warning(mContext, "你没绑定解绑啥？？？？？\n点击上面按钮进入绑定页面", Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             })
@@ -330,7 +331,7 @@ public class SettingsActivity extends AppCompatActivity {
                                             dialog.dismiss();
                                         });
                                     } else {
-                                        Toast.makeText(mContext, "你没绑定解绑啥？？？？？", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(mContext, "你没绑定解绑啥？？？？？\n点击上面按钮进入绑定页面", Toast.LENGTH_SHORT).show();
                                     }
 
                                 }
@@ -361,7 +362,7 @@ public class SettingsActivity extends AppCompatActivity {
                                     if (CommonPrefUtil.getIsBindBike()) {
                                         new BikeServiceProvider(mContext).unbind();
                                     } else {
-                                        Toasty.warning(mContext, "你没绑定解绑啥？？？？？", Toast.LENGTH_SHORT).show();
+                                        Toasty.warning(mContext, "你没绑定解绑啥？？？？？\n进入自行车模块完成绑定", Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             })
@@ -420,10 +421,16 @@ public class SettingsActivity extends AppCompatActivity {
             contact.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    String email = "mobile@twtstudio.com";
-                    Uri uri = Uri.parse("mailto:" + email);
-                    Intent emailIntent = new Intent(Intent.ACTION_SENDTO, uri);
-                    mContext.startActivity(emailIntent);
+                    try {
+                        String email = "mobile@twtstudio.com";
+                        Uri uri = Uri.parse("mailto:" + email);
+                        Intent emailIntent = new Intent(Intent.ACTION_SENDTO, uri);
+                        mContext.startActivity(emailIntent);
+                    } catch (Exception e) {
+                        Toasty.error(mContext,"无法启动邮件发送APP",Toast.LENGTH_SHORT).show();
+                        CrashReport.postCatchedException(e);
+                        e.printStackTrace();
+                    }
                     return false;
                 }
             });

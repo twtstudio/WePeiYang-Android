@@ -53,4 +53,5 @@ public class ProgressWebView extends WebView {
         mProgressBar.setLayoutParams(lp);
         super.onScrollChanged(l, t, oldl, oldt);
     }
+
 }

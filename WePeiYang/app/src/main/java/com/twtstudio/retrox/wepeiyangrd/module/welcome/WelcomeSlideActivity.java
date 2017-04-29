@@ -39,6 +39,7 @@ public class WelcomeSlideActivity extends MaterialIntroActivity {
     public void onFinish() {
         super.onFinish();
         Intent intent = new Intent(this, HomeActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
 }

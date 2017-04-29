@@ -232,7 +232,7 @@ public class BikeFragment extends PFragment<BikeFragPresenter> implements BikeVi
 
     @Override
     public void onDestroy() {
-        mAmapView.onResume();
+        mAmapView.onDestroy();
         super.onDestroy();
         mUnbinder.unbind();
     }

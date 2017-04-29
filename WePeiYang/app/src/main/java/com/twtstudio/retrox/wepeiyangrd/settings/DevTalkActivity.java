@@ -45,7 +45,7 @@ public class DevTalkActivity extends BaseActivity {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                runOnUiThread(new Runnable() {
+                DevTalkActivity.this.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         try {

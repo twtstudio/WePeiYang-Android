@@ -5,7 +5,7 @@
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/bike_card_toolbar"
-        android:background="@color/lost_found_indicator_color"
+        android:background="@color/colorPrimary"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"/>
     <TextView

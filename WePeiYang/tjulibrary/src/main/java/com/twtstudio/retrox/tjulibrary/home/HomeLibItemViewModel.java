@@ -29,6 +29,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -219,6 +220,9 @@ public class HomeLibItemViewModel implements ViewModel {
                 } catch (IOException | JSONException e) {
                     e.printStackTrace();
                 }
+            }else if (throwable instanceof SocketTimeoutException){
+                state.set(2);
+                this.message.set("网络超时...很绝望");
             }else {
                 state.set(2);
                 this.message.set("粗线错误了啊,我也很绝望我能怎么办...");

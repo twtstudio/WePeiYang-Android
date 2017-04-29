@@ -35,6 +35,7 @@ public class DefaultRetrofitBuilder {
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(loggingInterceptor)
 //                .addNetworkInterceptor(new StethoInterceptor())
+                .addInterceptor(new UaInterceptor())
                 .retryOnConnectionFailure(false)
                 .connectTimeout(30, TimeUnit.SECONDS)
                 .build();

@@ -28,6 +28,7 @@ import android.widget.Toast;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.haozhang.lib.SlantedTextView;
+import com.tencent.bugly.crashreport.CrashReport;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 import com.twtstudio.retrox.schedule.model.ClassTable;
 import com.twtstudio.retrox.schedule.model.ClassTableProvider;
@@ -381,7 +382,7 @@ public class ScheduleActivity extends RxAppCompatActivity implements ScheduleVie
                         }
                     } else {
                         // 多节课程逻辑
-                        addMultiClassLabel(day, startTime,endTime);
+                        addMultiClassLabel(day, startTime, endTime);
                     }
                 } else {
                     course.isAvaiableCurrentWeek = false;
@@ -455,13 +456,13 @@ public class ScheduleActivity extends RxAppCompatActivity implements ScheduleVie
                     }
                 } else {
                     //  多节课程逻辑
-                    addMultiClassLabel(day, startTime,endTime);
+                    addMultiClassLabel(day, startTime, endTime);
                 }
             }
         }
     }
 
-    private void addMultiClassLabel(int day, int startTime,int endTime) {
+    private void addMultiClassLabel(int day, int startTime, int endTime) {
         int length = endTime - startTime + 1;
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View v = inflater.inflate(R.layout.item_schedule_label, null, false);
@@ -499,11 +500,16 @@ public class ScheduleActivity extends RxAppCompatActivity implements ScheduleVie
     }
 
     private boolean hasClassThisWeek(int day, int startTime, int endTime) {
-        for (int t = startTime - 1; t < endTime; t++) {
-            if (hasClass[day][t]) {
-                return true;
+        try {
+            for (int t = startTime - 1; t < endTime; t++) {
+                if (hasClass[day][t]) {
+                    return true;
+                }
             }
+        } catch (Exception e) {
+            CrashReport.postCatchedException(e);
         }
+
         return false;
     }
 

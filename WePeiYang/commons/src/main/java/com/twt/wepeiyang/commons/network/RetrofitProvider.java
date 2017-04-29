@@ -38,6 +38,7 @@ public class RetrofitProvider {
                 .addInterceptor(loggingInterceptor)
                 .addInterceptor(signInterceptor)
 //                .addNetworkInterceptor(new StethoInterceptor())
+                .addInterceptor(new UaInterceptor())
                 .retryOnConnectionFailure(true)
                 .connectTimeout(30, TimeUnit.SECONDS)
                 .build();
