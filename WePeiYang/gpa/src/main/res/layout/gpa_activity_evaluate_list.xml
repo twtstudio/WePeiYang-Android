@@ -6,13 +6,12 @@
 
         <variable
             name="viewModel"
-            type="com.twtstudio.retrox.gpa.view.GpaActivityViewModel"/>
+            type="com.twtstudio.retrox.gpa.view.EvaluateListViewModel"/>
         <import type="me.tatarka.bindingcollectionadapter.LayoutManagers"/>
-        <import type="android.view.View"/>
     </data>
 
     <android.support.design.widget.CoordinatorLayout
-        android:id="@+id/gpa_coordinator"
+        android:id="@+id/gpa_evaluate_coordinator"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="true"
@@ -37,25 +36,18 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/tv_evaluate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="您还有课程未评价，点此评价"
-            bind:clickCommand="@{viewModel.evaluateClick}"
-            android:visibility="@{viewModel.isNeedEvaluate ? View.VISIBLE : View.GONE}"
-            android:layout_marginTop="0dp"
-            android:gravity="center"
-            android:background="#fcc780"
-            android:textColor="#f67c01"/>
-
-        <android.support.v7.widget.RecyclerView
-            bind:items="@{viewModel.mMergeObservableList}"
-            bind:itemView="@{viewModel.itemView}"
-            bind:layoutManager="@{LayoutManagers.linear()}"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="请点击想要评价的课程"
+                android:gravity="center"/>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_evalute"
+                bind:itemView="@{viewModel.itemView}"
+                bind:items="@{viewModel.items}"
+                bind:layoutManager="@{LayoutManagers.linear()}"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
         </LinearLayout>
 
     </android.support.design.widget.CoordinatorLayout>

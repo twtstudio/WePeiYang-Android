@@ -1,6 +1,8 @@
 package com.twtstudio.retrox.gpa.view;
 
+import android.content.Intent;
 import android.databinding.ObservableArrayList;
+import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.widget.Toast;
 
@@ -12,6 +14,10 @@ import com.twtstudio.retrox.gpa.BR;
 import com.twtstudio.retrox.gpa.GpaBean;
 import com.twtstudio.retrox.gpa.GpaProvider;
 import com.twtstudio.retrox.gpa.R;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import me.tatarka.bindingcollectionadapter.ItemViewSelector;
 import me.tatarka.bindingcollectionadapter.collections.MergeObservableList;
@@ -42,11 +48,17 @@ public class GpaActivityViewModel implements ViewModel {
 
     public final ReplyCommand<Integer> valueSelectCommand = new ReplyCommand<>(this::setTermIndex);
 
+    public final ObservableBoolean isNeedEvaluate = new ObservableBoolean(false);
+
+    public final ReplyCommand evaluateClick = new ReplyCommand(this::onEvaluateClick);
+
     public final ItemViewSelector itemView = ItemViewClassSelector.builder()
             .put(GpaChartViewModel.class, BR.viewModel, R.layout.gpa_item_chart)
             .put(TermBriefViewModel.class,BR.viewModel,R.layout.gpa_item_term_brief)
             .put(TermDetailViewModel.class,BR.viewModel,R.layout.gpa_item_term)
             .build();
+
+    ArrayList<GpaBean.Term.Course> unEvaluatedCourses;
 
     public void getGpaData(boolean update){
         /**
@@ -65,6 +77,22 @@ public class GpaActivityViewModel implements ViewModel {
 
                     mMergeObservableList.insertItem(headerViewModel);
 
+
+                    unEvaluatedCourses = new ArrayList<>();
+                    for (GpaBean.Term term:gpaBean.data) {
+                        for(GpaBean.Term.Course course: term.data){
+                            // TODO: 2017/6/2 不等于修改为等于
+                            if(course.score != -1){
+                                unEvaluatedCourses.add(course);
+                            }
+                        }
+                    }
+
+                    if (unEvaluatedCourses.size() != 0){
+                        isNeedEvaluate.set(true);
+                    }else {
+                        isNeedEvaluate.set(false);
+                    }
 
                     headerViewModel.observableGpaBean.set(gpaBean);
                     headerViewModel.setProxy(valueSelectCommand);
@@ -90,6 +118,12 @@ public class GpaActivityViewModel implements ViewModel {
         mViewModels.clear();
         mViewModels.add(new TermBriefViewModel(gpaBean.data.get(index)));
         mViewModels.add(new TermDetailViewModel(gpaBean.data.get(index)));
+    }
+
+    public void onEvaluateClick(){
+        Intent intent = new Intent(mRxActivity,EvaluateListActivity.class);
+        intent.putExtra("key",unEvaluatedCourses);
+        mRxActivity.startActivity(intent);
     }
 
 }
