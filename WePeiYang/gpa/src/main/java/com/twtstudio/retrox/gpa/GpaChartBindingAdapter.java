@@ -108,7 +108,7 @@ public class GpaChartBindingAdapter {
 //        LineDataSet xdataSet = new LineDataSet()
 
         dataSet.setDrawFilled(true);
-        dataSet.setFillDrawable(ContextCompat.getDrawable(chart.getContext(),R.drawable.gpa_chart_background));
+        dataSet.setFillDrawable(ContextCompat.getDrawable(chart.getContext(),R .drawable.gpa_chart_background));
         //dataSet.setFillColor(Color.BLUE);
 
         dataSet.setValueTextSize(10f);

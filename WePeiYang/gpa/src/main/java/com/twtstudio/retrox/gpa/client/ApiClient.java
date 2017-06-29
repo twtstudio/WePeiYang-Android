@@ -16,6 +16,7 @@ import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import okhttp3.ResponseBody;
 import retrofit2.Callback;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
@@ -35,7 +36,7 @@ public class ApiClient {
     static OkHttpClient mOkHttpClient = new OkHttpClient.Builder()
             .addInterceptor(requestInterceptor)
             .build();
-    private static final String API = "http://open.twtstudio.com/api/v1";
+    private static final String API = "http://open.twtstudio.com/api/v1/";
 
     static Retrofit mRetrofit = new Retrofit.Builder()
             .client(mOkHttpClient)
@@ -45,7 +46,7 @@ public class ApiClient {
 
     private static Api mApi = mRetrofit.create(Api.class);
 
-    public static void postGpaEvaluate(String authorization, String token, String lessonId, String unionId, String courseId, String term, int[] fiveQ, String note, Callback<JsonElement> callback) {
+    public void postGpaEvaluate(String authorization, String token, String lessonId, String unionId, String courseId, String term, int[] fiveQ, String note, Callback<ResponseBody> callback) {
         RequestParams params = new RequestParams();
         params.put("lesson_id", lessonId);
         params.put("union_id", unionId);
@@ -72,7 +73,8 @@ public class ApiClient {
         temp.put("note", note);
         String sign = new Sign().generate(temp);
         params.put("sign", sign);
-        mApi.postGPAEvaluate(authorization, token, params, callback);
+        authorization = "Bearer{" + authorization + "}";
+        mApi.postGPAEvaluate(authorization, token, params).enqueue(callback);
     }
 
 }

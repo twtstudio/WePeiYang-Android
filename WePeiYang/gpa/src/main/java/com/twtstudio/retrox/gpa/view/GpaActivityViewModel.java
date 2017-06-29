@@ -8,8 +8,10 @@ import android.widget.Toast;
 
 import com.kelin.mvvmlight.base.ViewModel;
 import com.kelin.mvvmlight.command.ReplyCommand;
+import com.kelin.mvvmlight.messenger.Messenger;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
+import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
 import com.twtstudio.retrox.gpa.BR;
 import com.twtstudio.retrox.gpa.GpaBean;
 import com.twtstudio.retrox.gpa.GpaProvider;
@@ -29,6 +31,7 @@ import me.tatarka.bindingcollectionadapter.itemviews.ItemViewClassSelector;
 
 public class GpaActivityViewModel implements ViewModel {
 
+    public static final String TOKEN = "refresh_gpa";
     private RxAppCompatActivity mRxActivity;
 
     public final ObservableField<GpaBean> obGpaBean = new ObservableField<>();
@@ -44,6 +47,10 @@ public class GpaActivityViewModel implements ViewModel {
 
     public GpaActivityViewModel(RxAppCompatActivity rxActivity) {
         mRxActivity = rxActivity;
+
+        Messenger.getDefault().register(rxActivity,TOKEN,()->{
+            getGpaData(true);
+        });
     }
 
     public final ReplyCommand<Integer> valueSelectCommand = new ReplyCommand<>(this::setTermIndex);
@@ -70,6 +77,7 @@ public class GpaActivityViewModel implements ViewModel {
         GpaProvider.init(mRxActivity)
                 .registerAction(gpaBean -> {
 
+                    CommonPrefUtil.setGpaToken(gpaBean.session);
                     if (mMergeObservableList.size()!=0){
                         mMergeObservableList.removeItem(headerViewModel);
                         mMergeObservableList.removeList(mViewModels);
@@ -81,8 +89,7 @@ public class GpaActivityViewModel implements ViewModel {
                     unEvaluatedCourses = new ArrayList<>();
                     for (GpaBean.Term term:gpaBean.data) {
                         for(GpaBean.Term.Course course: term.data){
-                            // TODO: 2017/6/2 不等于修改为等于
-                            if(course.score != -1){
+                            if(course.score == -1){
                                 unEvaluatedCourses.add(course);
                             }
                         }

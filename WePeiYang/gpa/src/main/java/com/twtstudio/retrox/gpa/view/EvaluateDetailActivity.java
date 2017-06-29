@@ -15,10 +15,12 @@ import android.transition.ChangeBounds;
 import android.transition.Fade;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.Toast;
 
 import com.google.gson.JsonElement;
+import com.kelin.mvvmlight.messenger.Messenger;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
 import com.twtstudio.retrox.gpa.GpaBean;
@@ -29,6 +31,7 @@ import com.twtstudio.retrox.gpa.client.Sign;
 
 import java.util.HashMap;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -44,17 +47,19 @@ public class EvaluateDetailActivity extends RxAppCompatActivity {
     RatingBar mRb3;
     RatingBar mRb4;
     RatingBar mRb5;
+    EditText mEtNote;
 
     private final int star = 5;
 
     Activity activity;
     GpaBean.Term.Course course;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            setWindowTransition();
-        }
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//            getWindow().setStatusBarColor(getResources().getColor(R.color.gpa_primary_color));
+//        }
         activity = this;
         setContentView(R.layout.gpa_activity_evaluate_detail);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -70,6 +75,7 @@ public class EvaluateDetailActivity extends RxAppCompatActivity {
         mRb4 = (RatingBar) findViewById(R.id.rb_4);
         mRb5 = (RatingBar) findViewById(R.id.rb_5);
 
+        mEtNote = (EditText) findViewById(R.id.et_note);
         course = (GpaBean.Term.Course) getIntent().getSerializableExtra("key");
         CoordinatorLayout coordinatorLayout = (CoordinatorLayout) findViewById(R.id.gpa_coordinator);
 
@@ -81,23 +87,24 @@ public class EvaluateDetailActivity extends RxAppCompatActivity {
 
     }
 
-    public void postGpaEvaluate(String authorization,String token, String lessonId, String unionId, String courseId, String term, int[] fiveQ, String note, Callback<JsonElement> callback){
-        ApiClient.postGpaEvaluate(authorization,token, lessonId, unionId, courseId, term, fiveQ, note, new Callback<JsonElement>() {
+    public void postGpaEvaluate(String authorization, String token, String lessonId, String unionId, String courseId, String term, int[] fiveQ, String note) {
+        new ApiClient().postGpaEvaluate(authorization, token, lessonId, unionId, courseId, term, fiveQ, note, new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
-                Intent intent = new Intent();
-                intent.putExtra("success",true);
-                activity.setResult(0,intent);
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                Toast.makeText(activity, response.message(), Toast.LENGTH_SHORT).show();
+                Messenger.getDefault().send(lessonId,EvaluateListViewModel.TOKEN);
+                Messenger.getDefault().sendNoMsg(GpaActivityViewModel.TOKEN);
                 finish();
             }
 
             @Override
-            public void onFailure(Call<JsonElement> call, Throwable t) {
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
                 Toast.makeText(activity, "评价失败", Toast.LENGTH_SHORT).show();
             }
         });
 
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_yes, menu);
@@ -110,17 +117,8 @@ public class EvaluateDetailActivity extends RxAppCompatActivity {
             onBackPressed();
         } else if (item.getItemId() == R.id.action_submit_yes) {
             int stars[] = {(int) mRb1.getRating(), (int) mRb2.getRating(), (int) mRb3.getRating(), (int) mRb4.getRating(), (int) mRb5.getRating()};
-            postGpaEvaluate(CommonPrefUtil.getToken(),course.evaluate.lesson_id,course.evaluate.union_id,course.evaluate.course_id,course.evaluate.term,stars,mEtNote.getText().toString().trim());
-
+            postGpaEvaluate(CommonPrefUtil.getToken(), CommonPrefUtil.getGpaToken(), course.evaluate.lesson_id, course.evaluate.union_id, course.evaluate.course_id, course.evaluate.term, stars, mEtNote.getText().toString().trim());
         }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @TargetApi(21)
-    private void setWindowTransition() {
-        getWindow().setEnterTransition(new Fade());
-        getWindow().setAllowEnterTransitionOverlap(false);
-        getWindow().setSharedElementExitTransition(new ChangeBounds());
-
+        return true;
     }
 }

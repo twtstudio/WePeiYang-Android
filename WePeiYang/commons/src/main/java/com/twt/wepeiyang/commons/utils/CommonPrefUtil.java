@@ -13,6 +13,7 @@ public class CommonPrefUtil {
     private static final String IS_LOGIN = "is_login";
     private static final String IS_KNOW_GPA_USAGE = "isknowgpausage";
     private static final String TOKEN = "token";
+    private static final String GPA_TOKEN = "gpa_token";
     private static final String USERNAME = "username";
     private static final String LOST_FOUND_CONTACT_NAME = "lost_found_contact_name";
     private static final String LOST_FOUND_CONTACT_NUMBER = "lost_found_contact_number";
@@ -50,6 +51,14 @@ public class CommonPrefUtil {
     public static String getToken(){
         return Hawk.get(TOKEN," ");
     }
+
+    public static void setGpaToken(String token){
+        if(null != token){
+            Hawk.put(GPA_TOKEN,token);
+        }
+    }
+
+    public static String getGpaToken() {return Hawk.get(GPA_TOKEN," ");}
 
     public static void setIsLogin(boolean isLogin){
         Hawk.put(IS_LOGIN,isLogin);

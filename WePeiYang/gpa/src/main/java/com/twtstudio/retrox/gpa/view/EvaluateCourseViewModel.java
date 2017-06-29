@@ -39,8 +39,10 @@ public class EvaluateCourseViewModel implements ViewModel {
         return new EvaluateCourseViewModel(course,activity);
     }
 
+    public GpaBean.Term.Course getCourse(){
+        return mCourse;
+    }
     public void onClick() {
-
         Intent intent = new Intent(mRxActivity,EvaluateDetailActivity.class);
         intent.putExtra("key",mCourse);
         mRxActivity.startActivity(intent);

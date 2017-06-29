@@ -12,6 +12,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
 import android.transition.ChangeBounds;
 import android.transition.Fade;
+import android.view.MenuItem;
 
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 import com.twtstudio.retrox.gpa.GpaBean;
@@ -50,6 +51,15 @@ public class EvaluateListActivity extends RxAppCompatActivity {
         viewModel.setCourses(unEvaluatedCourses);
         CoordinatorLayout coordinatorLayout = (CoordinatorLayout) findViewById(R.id.gpa_coordinator);
 
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @TargetApi(21)

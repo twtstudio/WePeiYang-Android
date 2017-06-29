@@ -5,7 +5,10 @@ import com.google.gson.JsonElement;
 import java.util.HashMap;
 import java.util.List;
 
+import okhttp3.ResponseBody;
+import retrofit2.Call;
 import retrofit2.Callback;
+import retrofit2.http.Body;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -22,11 +25,11 @@ public interface Api {
     static final String AUTHORIZATION = "Authorization";
 
 
-    @GET("/gpa")
-    void getGPA(@Header(AUTHORIZATION) String authorization, @QueryMap RequestParams gpaParams, Callback<JsonElement> response);
+    @GET("gpa")
+    Call<ResponseBody> getGPA(@Header(AUTHORIZATION) String authorization, @QueryMap RequestParams gpaParams);
 
     @FormUrlEncoded
-    @POST("/gpa/evaluate")
-    void postGPAEvaluate(@Header(AUTHORIZATION) String authorization, @Query("token") String token, @FieldMap RequestParams params, Callback<JsonElement> response);
+    @POST("gpa/evaluate")
+    Call<ResponseBody> postGPAEvaluate(@Header(AUTHORIZATION) String authorization, @Query("token") String token, @FieldMap RequestParams params);
 
 }
