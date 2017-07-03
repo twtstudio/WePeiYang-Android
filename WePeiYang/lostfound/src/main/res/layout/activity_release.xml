@@ -9,5 +9,23 @@
         layout="@layout/common_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+    <TextView
+        android:layout_marginTop="12dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/release_updatePic"/>
+    <ImageView
+        android:layout_width="128dp"
+        android:layout_height="128dp"
+        android:src="@drawable/release_updatepic"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/release_moreInfo"/>
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </android.support.v7.widget.CardView>
 
 </LinearLayout>

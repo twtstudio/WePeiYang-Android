@@ -4,4 +4,6 @@
     <string name="waterfall_item_typeText">丢失物品的种类</string>
     <string name="waterfall_item_timeText">2017/07/03</string>
     <string name="waterfall_item_placeText">大学生活动中心</string>
+    <string name="release_updatePic">发布照片</string>
+    <string name="release_moreInfo">详细信息</string>
 </resources>

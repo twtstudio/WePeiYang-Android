@@ -2,6 +2,7 @@ package com.twtstudio.tjwhm.lostfound.waterfall;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
@@ -28,6 +29,8 @@ public class WaterfallActivity extends BaseActivity {
     ViewPager waterfall_pager;
 
 
+
+
     @Override
     protected int getLayoutResourceId() {
         return R.layout.activity_waterfall;
@@ -47,8 +50,7 @@ public class WaterfallActivity extends BaseActivity {
             public boolean onMenuItemClick(MenuItem item) {
                 int itemId = item.getItemId();
                 if(itemId==R.id.waterfall_search){
-                    System.out.println("abcdef");
-                    Toast.makeText(WaterfallActivity.this,"0",Toast.LENGTH_SHORT).show();
+
                 }else{
                     Toast.makeText(WaterfallActivity.this,"1",Toast.LENGTH_SHORT).show();
 
@@ -79,7 +81,6 @@ public class WaterfallActivity extends BaseActivity {
         waterfall_tabLayout.setupWithViewPager(waterfall_pager);
         waterfall_tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         waterfall_tabLayout.setSelectedTabIndicatorColor(Color.parseColor("#00a1e9"));
-
 
     }
 }

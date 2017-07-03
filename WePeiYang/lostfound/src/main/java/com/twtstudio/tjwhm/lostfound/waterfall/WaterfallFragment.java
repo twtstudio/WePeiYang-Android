@@ -2,6 +2,7 @@ package com.twtstudio.tjwhm.lostfound.waterfall;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -26,6 +27,8 @@ public class WaterfallFragment extends Fragment {
     SwipeRefreshLayout water_refresh;
     @BindView(R.id.waterfall_recyclerView)
     RecyclerView waterfall_recyclerView;
+//    @BindView(R.id.waterfall_floatingButton)
+//    FloatingActionButton waterfall_floatingButton;
 
     private WaterfallTableAdapter tableAdapter;
     private StaggeredGridLayoutManager layoutManager;
