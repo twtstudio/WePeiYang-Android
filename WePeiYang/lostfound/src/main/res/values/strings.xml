@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">LostFound</string>
+    <string name="waterfall_item_title">丢失物品的标题</string>
+    <string name="waterfall_item_typeText">丢失物品的种类</string>
+    <string name="waterfall_item_timeText">2017/07/03</string>
+    <string name="waterfall_item_placeText">大学生活动中心</string>
 </resources>
