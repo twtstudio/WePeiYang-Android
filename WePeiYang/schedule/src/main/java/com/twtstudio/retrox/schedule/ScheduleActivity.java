@@ -27,7 +27,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.haozhang.lib.SlantedTextView;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 import com.twtstudio.retrox.schedule.model.ClassTable;
@@ -524,9 +523,12 @@ public class ScheduleActivity extends RxAppCompatActivity implements ScheduleVie
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             finish();
-        } else if (item.getItemId() == R.id.refresh) {
-            //refresh
-            getScheduleDataAuto(true);
+        } else if (item.getItemId() == R.id.schedule_switch) {
+            //switch
+            Intent intent = new Intent(this, ScheduleNewActivity.class);
+            startActivity(intent);
+            finish();
+
         }
         return super.onOptionsItemSelected(item);
     }
