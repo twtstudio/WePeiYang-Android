@@ -25,4 +25,9 @@ public class SuccessActivity extends BaseActivity{
     protected boolean isShowBackArrow() {
         return false;
     }
+
+    @Override
+    protected int getToolbarMenu() {
+        return 0;
+    }
 }

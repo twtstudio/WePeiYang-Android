@@ -24,4 +24,9 @@ public class MylistActivity extends BaseActivity {
     protected boolean isShowBackArrow() {
         return false;
     }
+
+    @Override
+    protected int getToolbarMenu() {
+        return 0;
+    }
 }

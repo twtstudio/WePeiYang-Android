@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="128dp"
+    android:layout_width="160dp"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
@@ -13,9 +13,11 @@
     android:orientation="vertical">
         <ImageView
             android:id="@+id/waterfall_item_pic"
-            android:layout_width="128dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@mipmap/ic_launcher" />
+            android:scaleType="centerCrop"
+            android:adjustViewBounds="true"
+            android:src="@drawable/waterfall_pic1" />
 
         <TextView
             android:id="@+id/waterfall_item_title"
@@ -46,8 +48,8 @@
 
             <ImageView
                 android:id="@+id/waterfall_item_timePic"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:src="@drawable/waterfall_time" />
 
             <TextView

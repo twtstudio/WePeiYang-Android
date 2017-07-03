@@ -1,6 +1,7 @@
 package com.twtstudio.tjwhm.lostfound.waterfall;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,7 +53,12 @@ public class WaterfallTableAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-
+        WaterfallViewHolder viewHolder = (WaterfallViewHolder) holder;
+        if (position == 0) {
+            viewHolder.waterfall_item_pic.setImageResource(R.drawable.waterfall_pic1);
+        } else {
+            viewHolder.waterfall_item_pic.setImageResource(R.drawable.waterfall_pic2);
+        }
     }
 
     @Override
@@ -72,6 +78,9 @@ public class WaterfallTableAdapter extends RecyclerView.Adapter {
         d1.phone = 170703;
         d1.place = "大学生活动中心一楼";
         waterfallBean.data.add(d1);
+        WaterfallBean.DataBean d2 = d1;
+        waterfallBean.data.add(d2);
         waterfallBean.data.add(d1);
+        waterfallBean.data.add(d2);
     }
 }
