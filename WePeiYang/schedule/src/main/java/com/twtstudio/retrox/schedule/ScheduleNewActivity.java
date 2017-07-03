@@ -1,6 +1,7 @@
 package com.twtstudio.retrox.schedule;
 
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -11,6 +12,10 @@ import android.widget.TextView;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
+import com.twtstudio.retrox.schedule.databinding.ActivityScheduleNewBinding;
+import com.twtstudio.retrox.schedule.view.ScheduleNewViewModel;
+import com.twtstudio.retrox.schedule.view.SelectedDateInfoViewModel;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,24 +27,23 @@ public class ScheduleNewActivity extends RxAppCompatActivity {
 
 
     MaterialCalendarView calendarView;
-    @BindView(R2.id.tv_date)
-    TextView tvDate;
-    @BindView(R2.id.toolbar)
-    Toolbar toolbar;
-
+    ScheduleNewViewModel viewModel;
+    ActivityScheduleNewBinding mbinding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule_new);
-        ButterKnife.bind(this);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        viewModel= new ScheduleNewViewModel(this,CalendarDay.today());
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(getResources().getColor(R.color.schedule_primary_color));
         }
-
-
+        mbinding = DataBindingUtil.setContentView(this, R.layout.activity_schedule_new);
+        mbinding.setViewModel(viewModel);
+        setSupportActionBar(mbinding.toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         initCalendar();
+
 
     }
 
@@ -64,18 +68,20 @@ public class ScheduleNewActivity extends RxAppCompatActivity {
 
     void initCalendar() {
         calendarView = (MaterialCalendarView) findViewById(R.id.calendarView);
+        calendarView.setTopbarVisible(false);
         List<CalendarDay> calendarDays = new ArrayList<>();
         calendarDays.add(CalendarDay.today());
         EventDecorator eventDecorator = new EventDecorator(R.color.schedule_red, calendarDays);
         calendarView.setSelectedDate(CalendarDay.today());
-        tvDate.setText(CalendarDay.today().getYear() + "年" + (CalendarDay.today().getMonth() + 1) + "月");
+        mbinding.tvDate.setText(CalendarDay.today().getYear() + "年" + (CalendarDay.today().getMonth() + 1) + "月");
         calendarView.setOnMonthChangedListener((calendarView, calendarDay) -> {
             calendarView.setSelectedDate(calendarDay);
             if (calendarView.getSelectedDate() != null)
-                tvDate.setText(calendarView.getSelectedDate().getYear() + "年" + (calendarView.getSelectedDate().getMonth() + 1) + "月");
+                mbinding.tvDate.setText(calendarView.getSelectedDate().getYear() + "年" + (calendarView.getSelectedDate().getMonth() + 1) + "月");
         });
         calendarView.setOnDateChangedListener((calendarView, calendarDay, selected) -> {
-            if (calendarView.getSelectedDate() != null) ;
+            if (calendarView.getSelectedDate() != null)
+                viewModel.setData(calendarDay);
             //tvDate.setText(calendarView.getSelectedDate().toString());
         });
         calendarView.addDecorator(eventDecorator);

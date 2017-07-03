@@ -20,8 +20,9 @@
         <activity
             android:name=".view.ScheduleTodayAct"
             android:exported="true" />
-        <activity android:name=".ScheduleNewActivity"
-            android:theme="@style/Theme.FloatingWindow.Popup"></activity>
+        <activity
+            android:name=".ScheduleNewActivity"
+            android:theme="@style/Theme.FloatingWindow.Popup" />
     </application>
 
 </manifest>
