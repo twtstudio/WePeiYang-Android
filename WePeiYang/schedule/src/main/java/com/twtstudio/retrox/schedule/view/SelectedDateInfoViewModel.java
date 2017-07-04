@@ -2,6 +2,7 @@ package com.twtstudio.retrox.schedule.view;
 
 import android.databinding.ObservableField;
 import android.util.Log;
+import android.view.View;
 
 import com.kelin.mvvmlight.base.ViewModel;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
@@ -34,7 +35,7 @@ public class SelectedDateInfoViewModel implements ViewModel {
         if(calendarDay.equals(CalendarDay.today()))
         today.set("今天");
         else
-            today.set(" ");
+            today.set("所选日期");
         date.set(calendarDay.getYear()+"年"+(calendarDay.getMonth()+1)+"月"+calendarDay.getDay()+"日");
 
 

@@ -15,22 +15,26 @@
         android:layout_width="match_parent"
         android:layout_height="55dp"
         app:cardElevation="2dp"
+        android:layout_marginTop="1dp"
         card_view:contentPadding ="8dp"
         android:clickable="true">
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="28dp"
             android:textSize="20sp"
             android:id="@+id/tv_today"
-            android:text="@{viewModel.today}"/>
+            android:text="@{viewModel.today}"
+            android:layout_centerVertical="true"
+            android:layout_alignParentStart="true" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/tv_today"
+            android:layout_alignBottom="@+id/tv_today"
             android:layout_marginLeft="29dp"
             android:id="@+id/tv_date"
             android:textSize="20sp"

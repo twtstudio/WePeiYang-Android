@@ -3,6 +3,7 @@ package com.twtstudio.retrox.schedule.model;
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
 import com.orhanobut.logger.Logger;
+import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.twtstudio.retrox.schedule.R;
 import com.twtstudio.retrox.schedule.TimeHelper;
 
@@ -29,6 +30,7 @@ public class CourseHelper {
             R.color.schedule_purple2};
 
     private long startUnix;
+    private static Calendar calendar = Calendar.getInstance();
 
     /**
      * 获取今天的课程
@@ -136,7 +138,6 @@ public class CourseHelper {
     }
 
     public static int getTodayNumber() {
-        Calendar calendar = Calendar.getInstance();
         int day = calendar.get(Calendar.DAY_OF_WEEK);
         if (day == Calendar.SUNDAY) {
             return 7;
@@ -285,5 +286,9 @@ public class CourseHelper {
         }else {
             return "";
         }
+    }
+
+    public static void setCalendar(CalendarDay calendarDay) {
+        calendarDay.copyTo(calendar);
     }
 }

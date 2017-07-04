@@ -4,36 +4,34 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 
 import com.prolificinteractive.materialcalendarview.CalendarDay;
+import com.prolificinteractive.materialcalendarview.CalendarMode;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 import com.twtstudio.retrox.schedule.databinding.ActivityScheduleNewBinding;
 import com.twtstudio.retrox.schedule.view.ScheduleNewViewModel;
-import com.twtstudio.retrox.schedule.view.SelectedDateInfoViewModel;
-
+import com.twtstudio.retrox.schedule.view.SelectedCoursesInfoViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 public class ScheduleNewActivity extends RxAppCompatActivity {
 
 
-    MaterialCalendarView calendarView;
     ScheduleNewViewModel viewModel;
     ActivityScheduleNewBinding mbinding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule_new);
-        viewModel= new ScheduleNewViewModel(this,CalendarDay.today());
+        viewModel = new ScheduleNewViewModel(this, CalendarDay.today());
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(getResources().getColor(R.color.schedule_primary_color));
@@ -44,6 +42,25 @@ public class ScheduleNewActivity extends RxAppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         initCalendar();
 
+        mbinding.list.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return onTouchEvent(v,event);
+            }
+        });
+        mbinding.scroll.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return onTouchEvent(v,event);
+            }
+        });
+        mbinding.calendarView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return onTouchEvent(v,event);
+            }
+        });
+        //mbinding.calendarView.state().edit().setCalendarDisplayMode(CalendarMode.WEEKS).commit();
 
     }
 
@@ -67,24 +84,74 @@ public class ScheduleNewActivity extends RxAppCompatActivity {
     }
 
     void initCalendar() {
-        calendarView = (MaterialCalendarView) findViewById(R.id.calendarView);
-        calendarView.setTopbarVisible(false);
+        mbinding.calendarView.state().edit().isCacheCalendarPositionEnabled(true).commit();
+        mbinding.calendarView.setTopbarVisible(false);
         List<CalendarDay> calendarDays = new ArrayList<>();
         calendarDays.add(CalendarDay.today());
         EventDecorator eventDecorator = new EventDecorator(R.color.schedule_red, calendarDays);
-        calendarView.setSelectedDate(CalendarDay.today());
+        mbinding.calendarView.setSelectedDate(CalendarDay.today());
         mbinding.tvDate.setText(CalendarDay.today().getYear() + "年" + (CalendarDay.today().getMonth() + 1) + "月");
-        calendarView.setOnMonthChangedListener((calendarView, calendarDay) -> {
-            calendarView.setSelectedDate(calendarDay);
+        mbinding.calendarView.setOnMonthChangedListener((calendarView, calendarDay) -> {
+            if (!(calendarDay.getMonth() == CalendarDay.today().getMonth()&&calendarDay.getYear() == CalendarDay.today().getYear())){
+                mbinding.calendarView.setSelectedDate(calendarDay);
+                viewModel.setData(calendarDay);
+            }
+            else{
+                mbinding.calendarView.setSelectedDate(CalendarDay.today());
+                viewModel.setData(CalendarDay.today());
+            }
             if (calendarView.getSelectedDate() != null)
                 mbinding.tvDate.setText(calendarView.getSelectedDate().getYear() + "年" + (calendarView.getSelectedDate().getMonth() + 1) + "月");
         });
-        calendarView.setOnDateChangedListener((calendarView, calendarDay, selected) -> {
-            if (calendarView.getSelectedDate() != null)
+        mbinding.calendarView.setOnDateChangedListener((calendarView, calendarDay, selected) -> {
                 viewModel.setData(calendarDay);
             //tvDate.setText(calendarView.getSelectedDate().toString());
         });
-        calendarView.addDecorator(eventDecorator);
-        calendarView.invalidateDecorators();
+        mbinding.calendarView.addDecorator(eventDecorator);
+        mbinding.calendarView.invalidateDecorators();
+    }
+    void setScaleAnim(boolean isUp){
+        if(isUp){
+            Animation mAnimation = AnimationUtils.loadAnimation(this,R.anim.scale_up);
+            mbinding.calendarView.startAnimation(mAnimation);
+        }
+        else {
+            Animation mAnimation = AnimationUtils.loadAnimation(this, R.anim.scale_down);
+            mbinding.calendarView.startAnimation(mAnimation);
+        }
+    }
+    boolean onTouchEvent(View v,MotionEvent event){
+        float mPosX, mPosY, mCurPosX, mCurPosY;
+        mPosX = mPosY = mCurPosX = mCurPosY = 0;
+        switch (event.getAction()) {
+
+            case MotionEvent.ACTION_DOWN:
+                mPosX = event.getX();
+                mPosY = event.getY();
+
+                break;
+            case MotionEvent.ACTION_MOVE:
+                mCurPosX = event.getX();
+                mCurPosY = event.getY();
+                if (mCurPosY - mPosY > 0
+                        && (Math.abs(mCurPosY - mPosY) > 35)) {
+                    setScaleAnim(false);
+                    //向下滑動
+                    mbinding.calendarView.state().edit().setCalendarDisplayMode(CalendarMode.MONTHS).commit();
+                    return true;
+                } else if (mCurPosY - mPosY < 0
+                        && (Math.abs(mCurPosY - mPosY) > 35)) {
+                    setScaleAnim(true);
+                    //向上滑动
+                    mbinding.calendarView.state().edit().setCalendarDisplayMode(CalendarMode.WEEKS).commit();
+                    return true;
+                }
+                break;
+
+            case MotionEvent.ACTION_UP:
+
+                break;
+        }
+        return false;
     }
 }

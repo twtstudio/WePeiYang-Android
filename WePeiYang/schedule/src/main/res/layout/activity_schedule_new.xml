@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout xmlns:bind="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -11,59 +11,74 @@
 
         <import type="me.tatarka.bindingcollectionadapter.LayoutManagers" />
     </data>
-<android.support.design.widget.CoordinatorLayout
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@android:color/white"
-    tools:context="com.twtstudio.retrox.schedule.ScheduleNewActivity">
 
-
-
-    <LinearLayout
+    <android.support.design.widget.CoordinatorLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-        <android.support.design.widget.AppBarLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/schedule_primary_color">
+        android:background="@android:color/white"
+        tools:context="com.twtstudio.retrox.schedule.ScheduleNewActivity">
 
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:id="@+id/linear">
+
+            <android.support.design.widget.AppBarLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:minHeight="?attr/actionBarSize"
-                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+                android:id="@+id/appbar"
+                android:background="@color/schedule_primary_color">
 
-                <TextView
-                    android:id="@+id/tv_date"
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:gravity="center"
-                    android:lines="1"
-                    android:textColor="@color/myTextPrimaryColorWhite"
-                    android:textSize="20sp" />
-            </android.support.v7.widget.Toolbar>
-        </android.support.design.widget.AppBarLayout>
-        <com.prolificinteractive.materialcalendarview.MaterialCalendarView xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/calendarView"
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:background="@color/white"
-        app:mcv_selectionColor="@color/calendar_selected_color"
-        app:mcv_showOtherDates="defaults"
-        app:mcv_tileHeight="40sp"
-        app:mcv_weekDayLabels="@array/dayOfWeek" />
-    <android.support.v7.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        bind:itemView="@{viewModel.itemView}"
-        bind:items="@{viewModel.items}"
-        bind:layoutManager="@{LayoutManagers.linear()}" />
-    </LinearLayout>
-</android.support.design.widget.CoordinatorLayout>
+                    android:minHeight="?attr/actionBarSize"
+                    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+                    <TextView
+                        android:id="@+id/tv_date"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:gravity="center"
+                        android:lines="1"
+                        android:textColor="@color/myTextPrimaryColorWhite"
+                        android:textSize="20sp" />
+                </android.support.v7.widget.Toolbar>
+            </android.support.design.widget.AppBarLayout>
+
+            <com.prolificinteractive.materialcalendarview.MaterialCalendarView xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/calendarView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/appbar"
+                android:background="@color/white"
+                app:mcv_selectionColor="@color/calendar_selected_color"
+                app:mcv_showOtherDates="defaults"
+                app:mcv_tileHeight="40sp"
+                app:mcv_weekDayLabels="@array/dayOfWeek"/>
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/scroll"
+                    android:layout_marginTop="16dp"
+                    android:layout_below="@+id/calendarView">
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="1dp"
+                    android:background="@color/schedule_gray"
+                    app:layout_behavior="com.ldf.calendar.behavior.RecyclerViewBehavior"
+                    bind:itemView="@{viewModel.itemView}"
+                    bind:items="@{viewModel.items}"
+                    bind:layoutManager="@{LayoutManagers.linear()}" />
+                </ScrollView>
+        </RelativeLayout>
+    </android.support.design.widget.CoordinatorLayout>
 </layout>
