@@ -117,7 +117,7 @@ public class GpaActivityViewModel implements ViewModel {
     }
 
     public void getGpaData(){
-        getGpaData(false);
+        getGpaData(true);
     }
 
     public void setTermIndex(int index){

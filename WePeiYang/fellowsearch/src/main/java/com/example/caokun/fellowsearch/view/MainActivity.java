@@ -22,6 +22,9 @@ import com.example.caokun.fellowsearch.model.Province;
 import com.example.caokun.fellowsearch.model.RefreshEvent;
 import com.example.caokun.fellowsearch.model.Senior;
 import com.example.caokun.fellowsearch.presenter.FellowPresenter;
+import com.twt.wepeiyang.commons.share.ShareListener;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.bean.SHARE_MEDIA;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -106,13 +109,17 @@ public class MainActivity extends PActivity<FellowPresenter> implements Fellowfi
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent();
-                intent.setClass(MainActivity.this,FellowFindActivity.class);
-                intent.putExtra("province",user_province);
-                intent.putExtra("institute",user_institute);
-                intent.putExtra("major",user_major);
-                intent.putExtra("senior",user_senior);
-                startActivity(intent);
+                new ShareAction(MainActivity.this).setPlatform(SHARE_MEDIA.QQ)
+                        .withText("测试分享")
+                        .setCallback(new ShareListener(MainActivity.this))
+                        .share();
+//                Intent intent=new Intent();
+//                intent.setClass(MainActivity.this,FellowFindActivity.class);
+//                intent.putExtra("province",user_province);
+//                intent.putExtra("institute",user_institute);
+//                intent.putExtra("major",user_major);
+//                intent.putExtra("senior",user_senior);
+//                startActivity(intent);
             }
         });
 
