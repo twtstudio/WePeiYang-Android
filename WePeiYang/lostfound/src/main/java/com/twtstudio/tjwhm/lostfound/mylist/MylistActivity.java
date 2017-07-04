@@ -37,21 +37,6 @@ public class MylistActivity extends BaseActivity {
     }
 
     @Override
-    protected void setToolbarMenuClickEvent() {
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onBackPressed();
-            }
-        });
-    }
-
-    //    @Override
-//    protected int getToolbarMenu() {
-//        return R.menu.null_menu;
-//    }
-
-    @Override
     protected boolean isShowBackArrow() {
         return true;
     }

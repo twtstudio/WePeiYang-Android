@@ -11,4 +11,10 @@
     <string name="mylist_item_type">mylist_item_type</string>
     <string name="mylist_item_time">mylist_item_time</string>
     <string name="mylist_item_place">mylist_item_place</string>
+    <string name="success_success">发布成功</string>
+    <string name="success_share_text_title">分享到</string>
+    <string name="success_share_wechatfriends">微信好友</string>
+    <string name="success_share_wechatzone">朋友圈</string>
+    <string name="success_share_qqfriends">QQ好友</string>
+    <string name="success_share_qzone">QQ空间</string>
 </resources>

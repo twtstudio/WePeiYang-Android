@@ -54,6 +54,7 @@
                     android:orientation="horizontal">
 
                     <ImageView
+                        android:layout_gravity="center"
                         android:layout_width="12dp"
                         android:layout_height="12dp"
                         android:layout_marginStart="12dp"
@@ -71,6 +72,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <ImageView
+                        android:layout_gravity="center"
                         android:layout_width="12dp"
                         android:layout_height="12dp"
                         android:layout_marginStart="12dp"
@@ -88,6 +90,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <ImageView
+                        android:layout_gravity="center"
                         android:layout_width="12dp"
                         android:layout_height="12dp"
                         android:layout_marginStart="12dp"

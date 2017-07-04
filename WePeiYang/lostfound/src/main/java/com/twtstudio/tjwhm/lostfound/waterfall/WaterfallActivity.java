@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.twtstudio.tjwhm.lostfound.R;
 import com.twtstudio.tjwhm.lostfound.base.BaseActivity;
 import com.twtstudio.tjwhm.lostfound.mylist.MylistActivity;
+import com.twtstudio.tjwhm.lostfound.success.SuccessActivity;
 
 import butterknife.BindView;
 
@@ -48,7 +49,9 @@ public class WaterfallActivity extends BaseActivity {
             public boolean onMenuItemClick(MenuItem item) {
                 int itemId = item.getItemId();
                 if (itemId == R.id.waterfall_search) {
-
+                    Intent intent = new Intent();
+                    intent.setClass(WaterfallActivity.this, SuccessActivity.class);
+                    startActivity(intent);
                 } else if (itemId == R.id.waterfall_indi) {
                     Intent intent = new Intent();
                     intent.setClass(WaterfallActivity.this, MylistActivity.class);

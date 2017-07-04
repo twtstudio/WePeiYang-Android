@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.View;
 import android.view.Window;
 
 import butterknife.ButterKnife;
@@ -32,11 +33,11 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseCont
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if(getToolbarMenu()==0){
+        if (getToolbarMenu() == 0) {
             return false;
         }
-            getMenuInflater().inflate(getToolbarMenu(), menu);
-            return true;
+        getMenuInflater().inflate(getToolbarMenu(), menu);
+        return true;
     }
 
     @Override
@@ -50,10 +51,13 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseCont
         if (toolbar != null) {
             setSupportActionBar(toolbar);
             if (isShowBackArrow() && getSupportActionBar() != null) {
-                if (getSupportActionBar() == null) {
-                    System.out.println("BaseActivity.onCreate" + "abcdef");
-                }
                 getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        onBackPressed();
+                    }
+                });
             }
         }
         setToolbarMenuClickEvent();
