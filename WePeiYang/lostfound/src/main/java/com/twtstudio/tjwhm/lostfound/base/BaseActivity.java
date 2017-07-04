@@ -7,8 +7,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.Window;
 
-import com.twtstudio.tjwhm.lostfound.R;
-
 import butterknife.ButterKnife;
 
 /**
@@ -25,14 +23,20 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseCont
 
     protected abstract boolean isShowBackArrow();
 
-    protected abstract int getToolbarMenu();
+    protected int getToolbarMenu() {
+        return 0;
+    }
 
-    protected  void setToolbarMenuClickEvent(){};
+    protected void setToolbarMenuClickEvent() {
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(getToolbarMenu(),menu);
-        return true;
+        if(getToolbarMenu()==0){
+            return false;
+        }
+            getMenuInflater().inflate(getToolbarMenu(), menu);
+            return true;
     }
 
     @Override

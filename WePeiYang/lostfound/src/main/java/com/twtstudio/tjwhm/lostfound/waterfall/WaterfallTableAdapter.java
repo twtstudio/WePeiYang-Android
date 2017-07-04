@@ -53,6 +53,8 @@ public class WaterfallTableAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+
+        //现为假数据
         WaterfallViewHolder viewHolder = (WaterfallViewHolder) holder;
         if (position == 0) {
             viewHolder.waterfall_item_pic.setImageResource(R.drawable.waterfall_pic1);

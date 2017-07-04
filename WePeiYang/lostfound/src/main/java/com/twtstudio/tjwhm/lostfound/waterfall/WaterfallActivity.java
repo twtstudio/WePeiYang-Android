@@ -1,17 +1,17 @@
 package com.twtstudio.tjwhm.lostfound.waterfall;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.twtstudio.tjwhm.lostfound.R;
 import com.twtstudio.tjwhm.lostfound.base.BaseActivity;
+import com.twtstudio.tjwhm.lostfound.mylist.MylistActivity;
 
 import butterknife.BindView;
 
@@ -27,8 +27,6 @@ public class WaterfallActivity extends BaseActivity {
     TabLayout waterfall_tabLayout;
     @BindView(R.id.waterfall_pager)
     ViewPager waterfall_pager;
-
-
 
 
     @Override
@@ -49,11 +47,12 @@ public class WaterfallActivity extends BaseActivity {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 int itemId = item.getItemId();
-                if(itemId==R.id.waterfall_search){
+                if (itemId == R.id.waterfall_search) {
 
-                }else{
-                    Toast.makeText(WaterfallActivity.this,"1",Toast.LENGTH_SHORT).show();
-
+                } else if (itemId == R.id.waterfall_indi) {
+                    Intent intent = new Intent();
+                    intent.setClass(WaterfallActivity.this, MylistActivity.class);
+                    startActivity(intent);
                 }
                 return false;
             }

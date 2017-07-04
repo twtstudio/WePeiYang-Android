@@ -6,4 +6,9 @@
     <string name="waterfall_item_placeText">大学生活动中心</string>
     <string name="release_updatePic">发布照片</string>
     <string name="release_moreInfo">详细信息</string>
+    <string name="mylist_status">物品状态</string>
+    <string name="mylist_item_title">mylist_item_title</string>
+    <string name="mylist_item_type">mylist_item_type</string>
+    <string name="mylist_item_time">mylist_item_time</string>
+    <string name="mylist_item_place">mylist_item_place</string>
 </resources>

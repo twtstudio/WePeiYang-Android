@@ -16,6 +16,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".mylist.MylistActivity"/>
+        <activity android:name=".serach.SearchActivity"/>
+        <activity android:name=".release.ReleaseActivity"/>
+        <activity android:name=".success.SuccessActivity"/>
     </application>
 
 </manifest>
