@@ -4,7 +4,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/backgroundGrey">
 
     <include
         layout="@layout/common_toolbar"
@@ -14,7 +15,7 @@
     <android.support.v7.widget.CardView
         android:id="@+id/success_cardView"
         android:layout_width="match_parent"
-        android:layout_height="128dp"
+        android:layout_height="88dp"
         android:layout_marginEnd="12dp"
         android:layout_marginStart="12dp"
         android:layout_marginTop="12dp"
@@ -29,7 +30,7 @@
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:layout_gravity="center"
-                android:src="@drawable/success_success" />
+                android:src="@drawable/lost_success" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -63,9 +64,10 @@
             android:orientation="vertical">
 
             <ImageView
+                android:id="@+id/share_wechatfriends"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:src="@drawable/success_share_wechatfriends" />
+                android:src="@drawable/lost_wechatfriends" />
 
             <TextView
                 android:layout_marginTop="8dp"
@@ -75,10 +77,11 @@
                 android:text="@string/success_share_wechatfriends" />
 
             <ImageView
+                android:id="@+id/share_qzone"
                 android:layout_marginTop="24dp"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:src="@drawable/success_share_qzone" />
+                android:src="@drawable/lost_qzone" />
 
             <TextView
                 android:layout_marginTop="8dp"
@@ -97,9 +100,10 @@
             android:orientation="vertical">
 
             <ImageView
+                android:id="@+id/share_wechatzone"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:src="@drawable/success_share_wechatzone" />
+                android:src="@drawable/lost_wechatzone" />
 
             <TextView
                 android:layout_marginTop="8dp"
@@ -117,9 +121,10 @@
             android:orientation="vertical">
 
             <ImageView
+                android:id="@+id/share_qqfriends"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:src="@drawable/success_share_qqfriends" />
+                android:src="@drawable/lost_qqfriends" />
 
             <TextView
                 android:layout_marginTop="8dp"

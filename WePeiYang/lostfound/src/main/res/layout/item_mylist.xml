@@ -58,7 +58,7 @@
                         android:layout_width="12dp"
                         android:layout_height="12dp"
                         android:layout_marginStart="12dp"
-                        android:src="@drawable/waterfall_type" />
+                        android:src="@drawable/lost_type" />
 
                     <TextView
                         android:layout_marginStart="4dp"
@@ -76,7 +76,7 @@
                         android:layout_width="12dp"
                         android:layout_height="12dp"
                         android:layout_marginStart="12dp"
-                        android:src="@drawable/waterfall_time" />
+                        android:src="@drawable/lost_time" />
 
                     <TextView
                         android:layout_marginStart="4dp"
@@ -94,7 +94,7 @@
                         android:layout_width="12dp"
                         android:layout_height="12dp"
                         android:layout_marginStart="12dp"
-                        android:src="@drawable/waterfall_place" />
+                        android:src="@drawable/lost_place" />
 
                     <TextView
                         android:layout_marginStart="4dp"

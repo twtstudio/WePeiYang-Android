@@ -18,24 +18,4 @@
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
-    <com.getbase.floatingactionbutton.FloatingActionsMenu
-        android:id="@+id/waterfall_floatingButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="256dp"
-        android:layout_marginTop="176dp"
-        android:backgroundTint="@color/colorPrimary">
-
-
-        <com.getbase.floatingactionbutton.FloatingActionButton
-            app:fab_icon="@drawable/waterfall_search"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-
-        <com.getbase.floatingactionbutton.FloatingActionButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-    </com.getbase.floatingactionbutton.FloatingActionsMenu>
-</RelativeLayout>
+  </RelativeLayout>
