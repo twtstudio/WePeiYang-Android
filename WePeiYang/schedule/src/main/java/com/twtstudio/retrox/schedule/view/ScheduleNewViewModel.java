@@ -1,6 +1,8 @@
 package com.twtstudio.retrox.schedule.view;
 
 import android.databinding.ObservableArrayList;
+import android.databinding.ObservableField;
+import android.util.Log;
 
 import com.kelin.mvvmlight.base.ViewModel;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
@@ -25,9 +27,11 @@ public class ScheduleNewViewModel {
 
     public final ObservableArrayList<ViewModel> items = new ObservableArrayList<>();
     public final ItemViewSelector itemView = ItemViewClassSelector.builder()
-            .put(SelectedDateInfoViewModel.class, BR.viewModel, R.layout.item_selected_date)
             .put(SelectedCoursesInfoViewModel.class, BR.viewModel, R.layout.item_selected_courses)
             .build();
+    public final ObservableField<String> today = new ObservableField<>();
+
+    public final ObservableField<String> date = new ObservableField<>();
 
     public final CourseHelper courseHelper = new CourseHelper();
 
@@ -46,8 +50,9 @@ public class ScheduleNewViewModel {
     private void processData(ClassTable classTable,CalendarDay calendarDay) {
         items.clear();
         courseHelper.setCalendar(calendarDay);
-        items.add(new SelectedDateInfoViewModel(calendarDay));
+        setDate(calendarDay);
         List<ClassTable.Data.Course> courseList = courseHelper.getTodayCourses(classTable, true);
+        courseHelper.setCalendar(calendarDay);
         for (int i = courseList.size() - 1; i >= 0; i--) {
                 //去除后面结尾的 "无" 空课程
                 if (courseList.get(i).coursename.equals("无")) {
@@ -57,9 +62,18 @@ public class ScheduleNewViewModel {
                 }
             }
         for (ClassTable.Data.Course course : courseList) {
-            if (!course.coursename.equals("无"))
+            if (!course.coursename.equals("无")){
                 items.add(new SelectedCoursesInfoViewModel(course, rxActivity));
+            }
+
         }
+    }
+    private void setDate(CalendarDay calendarDay){
+        if(calendarDay.equals(CalendarDay.today()))
+            today.set("今天");
+        else
+            today.set("所选日期");
+        date.set(calendarDay.getYear()+"年"+(calendarDay.getMonth()+1)+"月"+calendarDay.getDay()+"日");
     }
 
 }

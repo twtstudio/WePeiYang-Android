@@ -25,6 +25,7 @@ public class ScheduleNewActivity extends RxAppCompatActivity {
 
     ScheduleNewViewModel viewModel;
     ActivityScheduleNewBinding mbinding;
+    private boolean isWeekMode = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +48,6 @@ public class ScheduleNewActivity extends RxAppCompatActivity {
                 return onTouchEvent(v, event);
             }
         });
-        mbinding.scroll.setEnabled(false);
         mbinding.scroll.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -55,6 +55,8 @@ public class ScheduleNewActivity extends RxAppCompatActivity {
             }
             //mbinding.calendarView.state().edit().setCalendarDisplayMode(CalendarMode.WEEKS).commit();
         });
+        mbinding.scroll.setEnabled(false);
+
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -124,28 +126,33 @@ public class ScheduleNewActivity extends RxAppCompatActivity {
             case MotionEvent.ACTION_MOVE:
                 mCurPosX = event.getX();
                 mCurPosY = event.getY();
+                mbinding.scroll.setEnabled(false);
                 if (mCurPosY - mPosY > 0
                         && (Math.abs(mCurPosY - mPosY) > 25)) {
-                    setScaleAnim(false);
                     //向下滑動
-                    mbinding.calendarView.state().edit().setCalendarDisplayMode(CalendarMode.MONTHS).commit();
-                    mbinding.scroll.setEnabled(false);
+                    if (isWeekMode) {
+                        setScaleAnim(false);
+                        mbinding.calendarView.state().edit().setCalendarDisplayMode(CalendarMode.MONTHS).commit();
+                        isWeekMode = false;
+                    }
                     return true;
                 } else if (mCurPosY - mPosY < 0
                         && (Math.abs(mCurPosY - mPosY) > 25)) {
-                    setScaleAnim(true);
-                    //向上滑动
-                    CalendarDay calendarDay=mbinding.calendarView.getSelectedDate();
-                    mbinding.calendarView.state().edit().setCalendarDisplayMode(CalendarMode.WEEKS).commit();
-                    mbinding.calendarView.setSelectedDate(calendarDay);
-                    viewModel.initData(calendarDay);
-                    mbinding.scroll.setEnabled(true);
+                    if (!isWeekMode) {
+                        setScaleAnim(true);
+                        //向上滑动
+                        CalendarDay calendarDay = mbinding.calendarView.getSelectedDate();
+                        mbinding.calendarView.state().edit().setCalendarDisplayMode(CalendarMode.WEEKS).commit();
+                        mbinding.calendarView.setSelectedDate(calendarDay);
+                        viewModel.initData(calendarDay);
+                        this.isWeekMode = true;
+                    }
                     return true;
                 }
                 break;
 
             case MotionEvent.ACTION_UP:
-
+                mbinding.scroll.setEnabled(true);
                 break;
         }
         return false;

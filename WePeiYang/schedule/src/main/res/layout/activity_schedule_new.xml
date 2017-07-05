@@ -24,7 +24,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:id="@+id/linear">
+            android:background="@color/schedule_gray"
+            android:id="@+id/relative">
 
             <android.support.design.widget.AppBarLayout
                 android:layout_width="match_parent"
@@ -58,16 +59,48 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/appbar"
                 android:background="@color/white"
+                android:paddingBottom="16dp"
                 app:mcv_selectionColor="@color/calendar_selected_color"
                 app:mcv_showOtherDates="defaults"
                 app:mcv_tileHeight="40sp"
                 app:mcv_weekDayLabels="@array/dayOfWeek"/>
+            <android.support.v7.widget.CardView
+                android:id="@+id/cv_s"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                app:cardElevation="0dp"
+                android:layout_marginTop="1dp"
+                android:layout_below="@+id/calendarView"
+                android:clickable="true">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="28dp"
+                        android:textSize="18sp"
+                        android:id="@+id/tv_today"
+                        android:text="@{viewModel.today}"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentStart="true" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/tv_today"
+                        android:layout_alignBottom="@+id/tv_today"
+                        android:layout_marginLeft="29dp"
+                        android:id="@+id/head_date"
+                        android:textSize="18sp"
+                        android:text="@{viewModel.date}"/>
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
                 <ScrollView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:id="@+id/scroll"
-                    android:layout_marginTop="16dp"
-                    android:layout_below="@+id/calendarView">
+                    android:background="@color/white"
+                    android:layout_below="@+id/cv_s">
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/list"
                     android:layout_width="match_parent"
