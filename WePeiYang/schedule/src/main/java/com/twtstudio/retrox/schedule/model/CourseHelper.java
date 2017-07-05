@@ -63,7 +63,6 @@ public class CourseHelper {
         if (adjust){
             return adjustCourseList(courseList);
         }
-
         return courseList;
     }
 
