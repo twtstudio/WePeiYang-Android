@@ -134,16 +134,17 @@ public class ScheduleNewActivity extends RxAppCompatActivity {
                 mCurPosX = event.getX();
                 mCurPosY = event.getY();
                 if (mCurPosY - mPosY > 0
-                        && (Math.abs(mCurPosY - mPosY) > 20)) {
+                        && (Math.abs(mCurPosY - mPosY) > 70)) {
                     //向下滑動
                     if (isWeekMode) {
                         setScaleAnim(false);
                         mbinding.calendarView.state().edit().setCalendarDisplayMode(CalendarMode.MONTHS).commit();
                         isWeekMode = false;
+
                     }
-                    return true;
+                    return false;
                 } else if (mCurPosY - mPosY < 0
-                        && (Math.abs(mCurPosY - mPosY) > 20)) {
+                        && (Math.abs(mCurPosY - mPosY) > 70)) {
                     if (!isWeekMode) {
                         setScaleAnim(true);
                         //向上滑动
@@ -155,7 +156,7 @@ public class ScheduleNewActivity extends RxAppCompatActivity {
                         mbinding.scroll.setEnabled(true);
                     }
                     else
-                    return true;
+                    return false;
                 }
                 break;
 
