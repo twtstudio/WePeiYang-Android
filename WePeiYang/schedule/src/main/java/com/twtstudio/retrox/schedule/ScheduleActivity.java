@@ -228,7 +228,7 @@ public class ScheduleActivity extends RxAppCompatActivity implements ScheduleVie
         mClassTable = classTable;
 
 //        //修复初始情况的课程不可用bug,
-        currentWeek = TimeHelper.getWeekInt(Long.parseLong(classTable.data.term_start));
+        currentWeek = TimeHelper.getWeekInt(Long.parseLong(classTable.data.term_start),Calendar.getInstance());
         changeWeek(currentWeek);
         if (classTable.data.term.length() > 1) {
             currentTerm = classTable.data.term.substring(0, classTable.data.term.length() - 1);

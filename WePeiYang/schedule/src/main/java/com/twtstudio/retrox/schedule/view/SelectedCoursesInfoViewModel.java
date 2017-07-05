@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.kelin.mvvmlight.base.ViewModel;
 import com.twtstudio.retrox.schedule.R;
+import com.twtstudio.retrox.schedule.ResourceHelper;
 import com.twtstudio.retrox.schedule.ScheduleDetailsActivity;
 import com.twtstudio.retrox.schedule.ScheduleNewActivity;
 import com.twtstudio.retrox.schedule.model.ClassTable;
@@ -27,8 +28,9 @@ public class SelectedCoursesInfoViewModel implements ViewModel {
     private final CourseHelper courseHelper = new CourseHelper();
     public  void onClick(View view){
         Intent intent=new Intent(mContext,ScheduleDetailsActivity.class);
-        intent.putExtra("color", R.color.schedule_primary_color);
+        intent.putExtra("color", ResourceHelper.getColor(R.color.schedule_primary_color));
         intent.putExtra("course",course);
+        intent.putExtra("colorTag",false);
         mContext.startActivity(intent);
     }
 

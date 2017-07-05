@@ -14,9 +14,8 @@
         android:id="@+id/cv_s"
         android:layout_width="match_parent"
         android:layout_height="55dp"
-        app:cardElevation="2dp"
+        app:cardElevation="0dp"
         android:layout_marginTop="1dp"
-        card_view:contentPadding ="8dp"
         android:clickable="true">
         <RelativeLayout
             android:layout_width="match_parent"

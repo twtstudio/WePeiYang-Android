@@ -30,28 +30,23 @@ public class ScheduleNewViewModel {
             .build();
 
     public final CourseHelper courseHelper = new CourseHelper();
-    private CalendarDay mCalendarDay=CalendarDay.today();
 
     public ScheduleNewViewModel(RxAppCompatActivity rxActivity, CalendarDay calendarDay) {
         this.rxActivity = rxActivity;
-        setData(calendarDay);
+        initData(calendarDay);
     }
 
-    private void initData() {
+    public void initData(CalendarDay calendarDay) {
         ClassTableProvider.init(rxActivity)
-                .registerAction(this::processData)
-                .getData();
+                .registerAction2(this::processData)
+                .getData(calendarDay);
     }
 
-    public void setData(CalendarDay calendarDay) {
-        this.mCalendarDay=calendarDay;
-        courseHelper.setCalendar(calendarDay);
-        initData();
-    }
 
-    private void processData(ClassTable classTable) {
+    private void processData(ClassTable classTable,CalendarDay calendarDay) {
         items.clear();
-        items.add(new SelectedDateInfoViewModel(mCalendarDay));
+        courseHelper.setCalendar(calendarDay);
+        items.add(new SelectedDateInfoViewModel(calendarDay));
         List<ClassTable.Data.Course> courseList = courseHelper.getTodayCourses(classTable, true);
         for (int i = courseList.size() - 1; i >= 0; i--) {
                 //去除后面结尾的 "无" 空课程

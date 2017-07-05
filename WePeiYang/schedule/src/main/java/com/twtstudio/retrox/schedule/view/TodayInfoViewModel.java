@@ -38,6 +38,6 @@ public class TodayInfoViewModel implements ViewModel {
                 .subscribe(date::set);
         String s = "星期"+ TimeHelper.getChineseCharacter(CourseHelper.getTodayNumber());
         todayNumber.set(s);
-        weekNumber.set("第"+TimeHelper.getWeekString(TimeHelper.getWeekInt(Long.parseLong(classTable.data.term_start)))+"周");
+        weekNumber.set("第"+TimeHelper.getWeekString(TimeHelper.getWeekInt(Long.parseLong(classTable.data.term_start),Calendar.getInstance()))+"周");
     }
 }

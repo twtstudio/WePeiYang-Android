@@ -1,5 +1,7 @@
 package com.twtstudio.retrox.schedule.model;
 
+import android.util.Log;
+
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
 import com.orhanobut.logger.Logger;
@@ -40,7 +42,7 @@ public class CourseHelper {
      */
     public List<ClassTable.Data.Course> getTodayCourses(ClassTable classTable , boolean adjust) {
         startUnix = Long.parseLong(classTable.data.term_start);
-        int presentWeek = TimeHelper.getWeekInt(startUnix);
+        int presentWeek = TimeHelper.getWeekInt(startUnix,calendar);
         List<ClassTable.Data.Course> courseList =
                 Stream.of(classTable.data.data)
 //                        isAvailableCurrentWeek是检测课程是不是到期的，就是超出预计学习时间（周数）
@@ -70,7 +72,7 @@ public class CourseHelper {
         //计算明天的
         mystartUnix = mystartUnix - 24*60*60*1000;
 
-        int presentWeek = TimeHelper.getWeekInt(mystartUnix);
+        int presentWeek = TimeHelper.getWeekInt(mystartUnix,calendar);
         List<ClassTable.Data.Course> courseList =
                 Stream.of(classTable.data.data)
 //                        isAvailableCurrentWeek是检测课程是不是到期的，就是超出预计学习时间（周数）
@@ -96,7 +98,7 @@ public class CourseHelper {
     }
 
     private boolean checkIsThisWeekForTomorrow(ClassTable.Data.Course course) {
-        int week = TimeHelper.getWeekInt(startUnix - 24*60*60*1000);
+        int week = TimeHelper.getWeekInt(startUnix - 24*60*60*1000,calendar);
         for (ClassTable.Data.Course.Arrange arrange : course.arrange) {
             if (arrange.week.equals("单双周") ||
                     (arrange.week.equals("单周") && week % 2 == 1) ||
@@ -157,7 +159,7 @@ public class CourseHelper {
     }
 
     private boolean checkIsThisWeek(ClassTable.Data.Course course) {
-        int week = TimeHelper.getWeekInt(startUnix);
+        int week = TimeHelper.getWeekInt(startUnix,calendar);
         for (ClassTable.Data.Course.Arrange arrange : course.arrange) {
             if (arrange.week.equals("单双周") ||
                     (arrange.week.equals("单周") && week % 2 == 1) ||
