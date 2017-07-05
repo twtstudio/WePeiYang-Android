@@ -1,7 +1,6 @@
 package com.twtstudio.retrox.schedule.view;
 
 import android.databinding.ObservableArrayList;
-import android.databinding.ObservableField;
 
 import com.kelin.mvvmlight.base.ViewModel;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
@@ -13,7 +12,6 @@ import com.twtstudio.retrox.schedule.model.CourseHelper;
 
 import java.util.List;
 
-import me.tatarka.bindingcollectionadapter.ItemView;
 import me.tatarka.bindingcollectionadapter.ItemViewSelector;
 import me.tatarka.bindingcollectionadapter.itemviews.ItemViewClassSelector;
 

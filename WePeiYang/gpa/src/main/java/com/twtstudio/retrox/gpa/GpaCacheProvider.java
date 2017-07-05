@@ -4,7 +4,6 @@ package com.twtstudio.retrox.gpa;
 import java.util.concurrent.TimeUnit;
 
 import io.rx_cache.DynamicKey;
-import io.rx_cache.EvictDynamicKey;
 import io.rx_cache.EvictProvider;
 import io.rx_cache.LifeCache;
 import io.rx_cache.Reply;

@@ -8,7 +8,6 @@ import com.twtstudio.tjliqy.party.bean.QuizInfo;
 import com.twtstudio.tjliqy.party.bean.Status;
 import com.twtstudio.tjliqy.party.bean.TextDetailInfo;
 import com.twtstudio.tjliqy.party.bean.UserInfomation;
-import com.twtstudio.tjliqy.party.support.PrefUtils;
 
 import retrofit2.Call;
 import retrofit2.Callback;

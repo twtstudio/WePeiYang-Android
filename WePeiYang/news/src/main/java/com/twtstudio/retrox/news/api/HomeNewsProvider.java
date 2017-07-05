@@ -3,8 +3,6 @@ package com.twtstudio.retrox.news.api;
 import com.twt.wepeiyang.commons.cache.CacheProvider;
 import com.twt.wepeiyang.commons.network.RetrofitProvider;
 import com.twt.wepeiyang.commons.network.RxErrorHandler;
-import com.twtstudio.retrox.news.api.NewsApi;
-import com.twtstudio.retrox.news.api.NewsCacheApi;
 import com.twtstudio.retrox.news.api.bean.CommonNewsBean;
 import com.twtstudio.retrox.news.api.bean.HomeNewsBean;
 

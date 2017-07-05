@@ -11,7 +11,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
 import android.transition.ChangeBounds;
 import android.transition.Fade;
-import android.transition.Slide;
 import android.view.Menu;
 import android.view.MenuItem;
 

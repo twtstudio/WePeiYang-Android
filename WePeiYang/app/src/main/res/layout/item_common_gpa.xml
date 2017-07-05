@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="com.twtstudio.retrox.wepeiyangrd.home.common.gpaItem.GpaItemViewModel" />
+            type="com.twt.service.home.common.gpaItem.GpaItemViewModel" />
     </data>
 
     <android.support.v7.widget.CardView

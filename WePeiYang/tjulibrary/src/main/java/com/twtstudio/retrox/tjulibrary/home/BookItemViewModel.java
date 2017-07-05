@@ -9,7 +9,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 
 import com.kelin.mvvmlight.base.ViewModel;
-import com.kelin.mvvmlight.messenger.Messenger;
 import com.tapadoo.alerter.Alerter;
 import com.twtstudio.retrox.tjulibrary.R;
 import com.twtstudio.retrox.tjulibrary.provider.Book;

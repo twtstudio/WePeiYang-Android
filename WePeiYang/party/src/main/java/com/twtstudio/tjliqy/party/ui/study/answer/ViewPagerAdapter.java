@@ -12,7 +12,6 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.twtstudio.tjliqy.party.R;
-import com.twtstudio.tjliqy.party.R2;
 import com.twtstudio.tjliqy.party.bean.QuizInfo;
 
 import java.util.ArrayList;

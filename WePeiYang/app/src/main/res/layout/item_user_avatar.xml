@@ -4,7 +4,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.twtstudio.retrox.wepeiyangrd.home.user.AvatarItemViewModel"/>
+            type="com.twt.service.home.user.AvatarItemViewModel"/>
     </data>
 <LinearLayout
     android:orientation="vertical"

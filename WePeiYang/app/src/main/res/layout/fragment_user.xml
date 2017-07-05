@@ -5,7 +5,7 @@
     <data>
         <variable
             name="viewmodel"
-            type="com.twtstudio.retrox.wepeiyangrd.home.user.UserFragViewModel"/>
+            type="com.twt.service.home.user.UserFragViewModel"/>
         <import type="me.tatarka.bindingcollectionadapter.LayoutManagers" />
 
         <import type="android.view.View" />

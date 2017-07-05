@@ -24,7 +24,6 @@ import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.maps.model.MyLocationStyle;
-import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.twtstudio.retrox.bike.R;
 import com.twtstudio.retrox.bike.R2;
 import com.twtstudio.retrox.bike.common.ui.PFragment;
