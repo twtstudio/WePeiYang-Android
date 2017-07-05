@@ -7,7 +7,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,7 +52,18 @@ public class WaterfallFragment extends Fragment implements WaterfallContract.Wat
         tableAdapter = new WaterfallTableAdapter(waterfallBean, getActivity());
         waterfallBean.data = new ArrayList<>();
         waterfall_recyclerView.setAdapter(tableAdapter);
-        waterfallPresenter.loadWaterfallData(1);
+
+        Bundle bundle = getArguments();
+        final String lostOrFound = bundle.getString("index");
+        waterfallPresenter.loadWaterfallData(lostOrFound, 1);
+
+        water_refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                waterfallBean.data.clear();
+                waterfallPresenter.loadWaterfallData(lostOrFound, 1);
+            }
+        });
         return view;
     }
 
@@ -62,8 +72,10 @@ public class WaterfallFragment extends Fragment implements WaterfallContract.Wat
         this.waterfallBean.error_code = waterfallBean.error_code;
         this.waterfallBean.message = waterfallBean.message;
         this.waterfallBean.data.addAll(waterfallBean.data);
-        System.out.println("WaterfallFragment.setWaterfallData"+"abcdef");
+        System.out.println("WaterfallFragment.setWaterfallData" + "abcdef");
         tableAdapter.notifyDataSetChanged();
         water_refresh.setRefreshing(false);
     }
+
+
 }

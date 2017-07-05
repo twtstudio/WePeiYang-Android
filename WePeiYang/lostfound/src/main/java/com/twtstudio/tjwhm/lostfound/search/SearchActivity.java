@@ -1,4 +1,4 @@
-package com.twtstudio.tjwhm.lostfound.serach;
+package com.twtstudio.tjwhm.lostfound.search;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -9,10 +9,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.twtstudio.tjwhm.lostfound.R;
 import com.twtstudio.tjwhm.lostfound.base.BaseActivity;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.BindView;
 
@@ -29,6 +33,8 @@ public class SearchActivity extends BaseActivity {
     Toolbar toolbar;
     @BindView(R.id.search_searview)
     SearchView searchView;
+//    @BindView(R.id.search_test)
+//    TextView search_test;
 
     @Override
     protected int getLayoutResourceId() {
@@ -70,25 +76,14 @@ public class SearchActivity extends BaseActivity {
         SearchView.SearchAutoComplete tv = (SearchView.SearchAutoComplete) searchView.findViewById(R.id.search_src_text);
         tv.setTextColor(Color.WHITE);
         tv.setHintTextColor(Color.WHITE);
-        ImageView ivSearch1 = (ImageView) searchView.findViewById(R.id.search_button);
         searchView.onActionViewExpanded();
-        ivSearch1.setImageResource(R.drawable.lost_search);
-        searchView.setIconifiedByDefault(true);
-        searchView.setFocusable(true);
-        searchView.setIconified(false);
-        searchView.requestFocusFromTouch();
 
-//        inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-//        if (inputMethodManager != null) {
-//            View v = SearchActivity.this.getCurrentFocus();
-//            if (v == null) {
-//                return;
+//        search_test.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                hideInputKeyboard();
 //            }
-//
-//            inputMethodManager.hideSoftInputFromWindow(v.getWindowToken(),
-//                    InputMethodManager.HIDE_NOT_ALWAYS);
-//            searchView.clearFocus();
-//        }
+//        });
     }
 
     private void hideInputKeyboard() {
@@ -103,5 +98,10 @@ public class SearchActivity extends BaseActivity {
                     InputMethodManager.HIDE_NOT_ALWAYS);
             searchView.clearFocus();
         }
+    }
+
+    private void showKeyboard() {
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputMethodManager.showSoftInput(searchView, 0);
     }
 }

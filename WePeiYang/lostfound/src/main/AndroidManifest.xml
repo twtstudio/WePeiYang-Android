@@ -18,7 +18,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".mylist.MylistActivity"/>
-        <activity android:name=".serach.SearchActivity"/>
+        <activity android:name=".search.SearchActivity"/>
         <activity android:name=".release.ReleaseActivity"/>
         <activity android:name=".success.SuccessActivity"/>
     </application>

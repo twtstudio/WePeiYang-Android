@@ -27,7 +27,6 @@ public class WaterfallTableAdapter extends RecyclerView.Adapter {
     public WaterfallTableAdapter(WaterfallBean waterfallBean, Context context) {
         this.waterfallBean = waterfallBean;
         this.context = context;
-       // makeSomeFakeData();
     }
 
     public class WaterfallViewHolder extends RecyclerView.ViewHolder {
@@ -60,7 +59,8 @@ public class WaterfallTableAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 
         WaterfallBean.DataBean dataBean = waterfallBean.data.get(position);
-        //现为假数据
+
+        // TODO: 2017/7/5 现在是假图片,需换成真图片
         WaterfallViewHolder viewHolder = (WaterfallViewHolder) holder;
         if (position == 0) {
             viewHolder.waterfall_item_pic.setImageResource(R.drawable.waterfall_pic1);
@@ -81,21 +81,4 @@ public class WaterfallTableAdapter extends RecyclerView.Adapter {
         return waterfallBean.data.size();
     }
 
-    private void makeSomeFakeData() {
-        waterfallBean = new WaterfallBean();
-        waterfallBean.data = new ArrayList<>();
-        WaterfallBean.DataBean d1 = new WaterfallBean.DataBean();
-        waterfallBean.error_code = 1;
-        waterfallBean.message = "a";
-        d1.title = "塑料、透明水杯";
-        d1.name = "水杯";
-        d1.phone = "170703";
-        d1.place = "大学生活动中心一楼";
-        d1.detail_type = 1;
-        waterfallBean.data.add(d1);
-        WaterfallBean.DataBean d2 = d1;
-        waterfallBean.data.add(d2);
-        waterfallBean.data.add(d1);
-        waterfallBean.data.add(d2);
-    }
 }

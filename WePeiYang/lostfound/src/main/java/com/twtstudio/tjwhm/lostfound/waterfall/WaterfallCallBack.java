@@ -16,18 +16,15 @@ public abstract class WaterfallCallBack<M> extends Subscriber<M> {
 
     @Override
     public void onCompleted() {
-        System.out.println("WaterfallCallBack.onCompleted"+"abcdef");
     }
 
     @Override
     public void onError(Throwable e) {
         e.printStackTrace();
-        System.out.println("WaterfallCallBack.onError"+"abcdef"+e + e.getStackTrace().toString());
     }
 
     @Override
     public void onNext(M m) {
         onSuccess(m);
-        System.out.println("WaterfallCallBack.onNext"+"abcdef");
     }
 }

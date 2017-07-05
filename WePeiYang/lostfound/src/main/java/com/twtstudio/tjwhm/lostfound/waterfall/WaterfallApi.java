@@ -2,6 +2,7 @@ package com.twtstudio.tjwhm.lostfound.waterfall;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 import rx.Observable;
 
@@ -10,6 +11,7 @@ import rx.Observable;
  **/
 
 public interface WaterfallApi {
-    @GET("lostfound/lost")
-    Observable<WaterfallBean> loadWaterData(@Query("page") String page);
+    @GET("lostfound/{lostOrFound}")
+    Observable<WaterfallBean> loadWaterData
+            (@Path("lostOrFound") String lostOrFound,@Query("page") String page);
 }

@@ -22,7 +22,7 @@ public class ReleaseActivity extends BaseActivity{
 
     @Override
     protected boolean isShowBackArrow() {
-        return false;
+        return true;
     }
 
     @Override

@@ -13,6 +13,6 @@ public interface WaterfallContract {
 
     public interface WaterfallPresenter extends BaseContract.BasePresenter {
         void setWaterfallData(WaterfallBean waterfallBean);
-        void loadWaterfallData(int page);
+        void loadWaterfallData(String lostOrFound,int page);
     }
 }

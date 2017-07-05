@@ -21,11 +21,6 @@ public class WaterfallApiClient {
 
     public Retrofit waterfallRerofit(){
         retrofit = RetrofitProvider.getRetrofit();
-//        retrofit = new Retrofit.Builder()
-//                .baseUrl(baseUrl)
-//                .addConverterFactory(GsonConverterFactory.create())
-//                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-//                .build();
         return retrofit;
     }
 }

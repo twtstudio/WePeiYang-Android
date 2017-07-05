@@ -7,11 +7,15 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
 
+import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.twtstudio.tjwhm.lostfound.R;
 import com.twtstudio.tjwhm.lostfound.base.BaseActivity;
 import com.twtstudio.tjwhm.lostfound.mylist.MylistActivity;
-import com.twtstudio.tjwhm.lostfound.serach.SearchActivity;
+import com.twtstudio.tjwhm.lostfound.release.ReleaseActivity;
+import com.twtstudio.tjwhm.lostfound.success.SuccessActivity;
 
 import butterknife.BindView;
 
@@ -19,7 +23,7 @@ import butterknife.BindView;
  * Created by tjwhm on 2017/7/2.
  **/
 
-public class WaterfallActivity extends BaseActivity  {
+public class WaterfallActivity extends BaseActivity {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -27,6 +31,10 @@ public class WaterfallActivity extends BaseActivity  {
     TabLayout waterfall_tabLayout;
     @BindView(R.id.waterfall_pager)
     ViewPager waterfall_pager;
+    @BindView(R.id.waterfall_fab_up)
+    FloatingActionButton waterfall_fab_up;
+    @BindView(R.id.waterfall_fab_down)
+    FloatingActionButton waterfall_fab_down;
 
     @Override
     protected int getLayoutResourceId() {
@@ -48,7 +56,7 @@ public class WaterfallActivity extends BaseActivity  {
                 int itemId = item.getItemId();
                 if (itemId == R.id.waterfall_search) {
                     Intent intent = new Intent();
-                    intent.setClass(WaterfallActivity.this, SearchActivity.class);
+                    intent.setClass(WaterfallActivity.this, SuccessActivity.class);
                     startActivity(intent);
                 } else if (itemId == R.id.waterfall_indi) {
                     Intent intent = new Intent();
@@ -81,7 +89,14 @@ public class WaterfallActivity extends BaseActivity  {
         waterfall_tabLayout.setupWithViewPager(waterfall_pager);
         waterfall_tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         waterfall_tabLayout.setSelectedTabIndicatorColor(Color.parseColor("#00a1e9"));
+
+        waterfall_fab_up.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.setClass(WaterfallActivity.this, ReleaseActivity.class);
+                startActivity(intent);
+            }
+        });
     }
-
-
 }

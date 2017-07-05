@@ -26,9 +26,9 @@ public class WaterfallPresenterImpl implements WaterfallContract.WaterfallPresen
     }
 
     @Override
-    public void loadWaterfallData(int page) {
+    public void loadWaterfallData(String lostOrFound,int page) {
         waterfallApi = waterfallApiClient.waterfallRerofit().create(WaterfallApi.class);
-        addSubscription(waterfallApi.loadWaterData(String.valueOf(page)),
+        addSubscription(waterfallApi.loadWaterData(lostOrFound,String.valueOf(page)),
                 new WaterfallCallBack<WaterfallBean>() {
                     @Override
                     public void onSuccess(WaterfallBean model) {
