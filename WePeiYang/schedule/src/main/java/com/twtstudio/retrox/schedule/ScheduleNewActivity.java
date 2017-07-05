@@ -42,18 +42,19 @@ public class ScheduleNewActivity extends RxAppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         initCalendar();
 
-        mbinding.list.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return onTouchEvent(v, event);
-            }
-        });
+
         mbinding.scroll.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 return onTouchEvent(v, event);
             }
             //mbinding.calendarView.state().edit().setCalendarDisplayMode(CalendarMode.WEEKS).commit();
+        });
+        mbinding.list.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return onTouchEvent(v, event);
+            }
         });
     }
 
@@ -119,7 +120,7 @@ public class ScheduleNewActivity extends RxAppCompatActivity {
             case MotionEvent.ACTION_DOWN:
                 mPosX = event.getX();
                 mPosY = event.getY();
-                mbinding.scroll.setEnabled(false);
+               // mbinding.scroll.setEnabled(false);
                 break;
             case MotionEvent.ACTION_MOVE:
                 mCurPosX = event.getX();
