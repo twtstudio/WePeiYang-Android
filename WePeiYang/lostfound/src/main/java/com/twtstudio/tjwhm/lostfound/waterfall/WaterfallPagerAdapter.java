@@ -13,8 +13,8 @@ import java.util.List;
 
 public class WaterfallPagerAdapter extends FragmentPagerAdapter {
 
-    List<Fragment> fragmentsOfWaterfall = new ArrayList<>();
-    List<String> fragmentsTitles = new ArrayList<>();
+    private List<Fragment> fragmentsOfWaterfall = new ArrayList<>();
+    private List<String> fragmentsTitles = new ArrayList<>();
 
     public WaterfallPagerAdapter(FragmentManager fm) {
         super(fm);

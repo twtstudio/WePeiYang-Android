@@ -1,7 +1,6 @@
 package com.twtstudio.tjwhm.lostfound.waterfall;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,7 +27,7 @@ public class WaterfallTableAdapter extends RecyclerView.Adapter {
     public WaterfallTableAdapter(WaterfallBean waterfallBean, Context context) {
         this.waterfallBean = waterfallBean;
         this.context = context;
-        makeSomeFakeData();
+       // makeSomeFakeData();
     }
 
     public class WaterfallViewHolder extends RecyclerView.ViewHolder {
@@ -36,6 +35,12 @@ public class WaterfallTableAdapter extends RecyclerView.Adapter {
         ImageView waterfall_item_pic;
         @BindView(R.id.waterfall_item_title)
         TextView waterfall_item_title;
+        @BindView(R.id.waterfall_item_type)
+        TextView waterfall_item_type;
+        @BindView(R.id.waterfall_item_time)
+        TextView waterfall_item_time;
+        @BindView(R.id.waterfall_item_place)
+        TextView waterfall_item_place;
 
         public WaterfallViewHolder(View itemView) {
             super(itemView);
@@ -54,6 +59,7 @@ public class WaterfallTableAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 
+        WaterfallBean.DataBean dataBean = waterfallBean.data.get(position);
         //现为假数据
         WaterfallViewHolder viewHolder = (WaterfallViewHolder) holder;
         if (position == 0) {
@@ -61,6 +67,10 @@ public class WaterfallTableAdapter extends RecyclerView.Adapter {
         } else {
             viewHolder.waterfall_item_pic.setImageResource(R.drawable.waterfall_pic2);
         }
+        viewHolder.waterfall_item_title.setText(dataBean.title);
+        viewHolder.waterfall_item_type.setText(String.valueOf(dataBean.detail_type));
+        viewHolder.waterfall_item_time.setText(dataBean.time);
+        viewHolder.waterfall_item_place.setText(dataBean.place);
     }
 
     @Override
@@ -75,10 +85,13 @@ public class WaterfallTableAdapter extends RecyclerView.Adapter {
         waterfallBean = new WaterfallBean();
         waterfallBean.data = new ArrayList<>();
         WaterfallBean.DataBean d1 = new WaterfallBean.DataBean();
+        waterfallBean.error_code = 1;
+        waterfallBean.message = "a";
         d1.title = "塑料、透明水杯";
         d1.name = "水杯";
-        d1.phone = 170703;
+        d1.phone = "170703";
         d1.place = "大学生活动中心一楼";
+        d1.detail_type = 1;
         waterfallBean.data.add(d1);
         WaterfallBean.DataBean d2 = d1;
         waterfallBean.data.add(d2);

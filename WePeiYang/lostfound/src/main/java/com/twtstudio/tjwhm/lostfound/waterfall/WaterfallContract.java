@@ -7,10 +7,12 @@ import com.twtstudio.tjwhm.lostfound.base.BaseContract;
  **/
 
 public interface WaterfallContract {
-    public interface WaterfallView extends BaseContract.BaseView{
-
+    public interface WaterfallView extends BaseContract.BaseView {
+        void setWaterfallData(WaterfallBean waterfallBean);
     }
-    public interface WaterfallPresenter extends BaseContract.BasePresenter{
 
+    public interface WaterfallPresenter extends BaseContract.BasePresenter {
+        void setWaterfallData(WaterfallBean waterfallBean);
+        void loadWaterfallData(int page);
     }
 }

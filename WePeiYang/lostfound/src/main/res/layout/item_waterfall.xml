@@ -34,13 +34,12 @@
                 android:layout_height="wrap_content">
 
                 <ImageView
-                    android:id="@+id/waterfall_item_typePic"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@drawable/lost_type" />
 
                 <TextView
-                    android:id="@+id/waterfall_item_typeText"
+                    android:id="@+id/waterfall_item_type"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="@string/waterfall_item_typeText" />
@@ -51,13 +50,12 @@
                 android:layout_height="wrap_content">
 
                 <ImageView
-                    android:id="@+id/waterfall_item_timePic"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@drawable/lost_time" />
 
                 <TextView
-                    android:id="@+id/waterfall_item_timeText"
+                    android:id="@+id/waterfall_item_time"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="@string/waterfall_item_timeText" />
@@ -68,13 +66,12 @@
                 android:layout_height="wrap_content">
 
                 <ImageView
-                    android:id="@+id/waterfall_item_placePic"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@drawable/lost_place" />
 
                 <TextView
-                    android:id="@+id/waterfall_item_placeText"
+                    android:id="@+id/waterfall_item_place"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="@string/waterfall_item_placeText" />
