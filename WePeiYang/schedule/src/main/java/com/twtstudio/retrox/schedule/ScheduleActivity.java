@@ -29,6 +29,7 @@ import android.widget.Toast;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
+import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
 import com.twtstudio.retrox.schedule.model.ClassTable;
 import com.twtstudio.retrox.schedule.model.ClassTableProvider;
 
@@ -130,6 +131,12 @@ public class ScheduleActivity extends RxAppCompatActivity implements ScheduleVie
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule);
+        //判断默认显示的Activity
+        if(CommonPrefUtil.getIsNewSchedule()) {
+            Intent intent = new Intent(this, ScheduleNewActivity.class);
+            startActivity(intent);
+            finish();
+        }
         mUnbinder = ButterKnife.bind(this);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -527,6 +534,7 @@ public class ScheduleActivity extends RxAppCompatActivity implements ScheduleVie
             //switch
             Intent intent = new Intent(this, ScheduleNewActivity.class);
             startActivity(intent);
+            CommonPrefUtil.setIsNewSchedule(true);
             finish();
 
         }

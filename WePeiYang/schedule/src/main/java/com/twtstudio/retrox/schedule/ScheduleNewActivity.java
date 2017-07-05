@@ -14,6 +14,7 @@ import android.view.animation.AnimationUtils;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.CalendarMode;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
+import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
 import com.twtstudio.retrox.schedule.databinding.ActivityScheduleNewBinding;
 import com.twtstudio.retrox.schedule.view.ScheduleNewViewModel;
 
@@ -31,6 +32,12 @@ public class ScheduleNewActivity extends RxAppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule_new);
+        //判断默认显示的Activity
+        if(!CommonPrefUtil.getIsNewSchedule()) {
+            Intent intent = new Intent(this, ScheduleActivity.class);
+            startActivity(intent);
+            finish();
+        }
         viewModel = new ScheduleNewViewModel(this, CalendarDay.today());
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -70,6 +77,7 @@ public class ScheduleNewActivity extends RxAppCompatActivity {
             //switch
             Intent intent = new Intent(this, ScheduleActivity.class);
             startActivity(intent);
+            CommonPrefUtil.setIsNewSchedule(false);
             finish();
 
 
