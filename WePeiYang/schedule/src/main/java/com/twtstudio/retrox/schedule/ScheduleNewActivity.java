@@ -55,8 +55,6 @@ public class ScheduleNewActivity extends RxAppCompatActivity {
             }
             //mbinding.calendarView.state().edit().setCalendarDisplayMode(CalendarMode.WEEKS).commit();
         });
-        mbinding.scroll.setEnabled(false);
-
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -121,14 +119,13 @@ public class ScheduleNewActivity extends RxAppCompatActivity {
             case MotionEvent.ACTION_DOWN:
                 mPosX = event.getX();
                 mPosY = event.getY();
-
+                mbinding.scroll.setEnabled(false);
                 break;
             case MotionEvent.ACTION_MOVE:
                 mCurPosX = event.getX();
                 mCurPosY = event.getY();
-                mbinding.scroll.setEnabled(false);
                 if (mCurPosY - mPosY > 0
-                        && (Math.abs(mCurPosY - mPosY) > 25)) {
+                        && (Math.abs(mCurPosY - mPosY) > 20)) {
                     //向下滑動
                     if (isWeekMode) {
                         setScaleAnim(false);
@@ -137,7 +134,7 @@ public class ScheduleNewActivity extends RxAppCompatActivity {
                     }
                     return true;
                 } else if (mCurPosY - mPosY < 0
-                        && (Math.abs(mCurPosY - mPosY) > 25)) {
+                        && (Math.abs(mCurPosY - mPosY) > 20)) {
                     if (!isWeekMode) {
                         setScaleAnim(true);
                         //向上滑动
@@ -146,13 +143,14 @@ public class ScheduleNewActivity extends RxAppCompatActivity {
                         mbinding.calendarView.setSelectedDate(calendarDay);
                         viewModel.initData(calendarDay);
                         this.isWeekMode = true;
+                        mbinding.scroll.setEnabled(true);
                     }
+                    else
                     return true;
                 }
                 break;
 
             case MotionEvent.ACTION_UP:
-                mbinding.scroll.setEnabled(true);
                 break;
         }
         return false;
