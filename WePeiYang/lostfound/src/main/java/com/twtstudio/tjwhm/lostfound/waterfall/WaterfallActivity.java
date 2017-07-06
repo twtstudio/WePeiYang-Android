@@ -15,6 +15,7 @@ import com.twtstudio.tjwhm.lostfound.R;
 import com.twtstudio.tjwhm.lostfound.base.BaseActivity;
 import com.twtstudio.tjwhm.lostfound.mylist.MylistActivity;
 import com.twtstudio.tjwhm.lostfound.release.ReleaseActivity;
+import com.twtstudio.tjwhm.lostfound.search.SearchActivity;
 import com.twtstudio.tjwhm.lostfound.success.SuccessActivity;
 
 import butterknife.BindView;
@@ -56,7 +57,7 @@ public class WaterfallActivity extends BaseActivity {
                 int itemId = item.getItemId();
                 if (itemId == R.id.waterfall_search) {
                     Intent intent = new Intent();
-                    intent.setClass(WaterfallActivity.this, SuccessActivity.class);
+                    intent.setClass(WaterfallActivity.this, SearchActivity.class);
                     startActivity(intent);
                 } else if (itemId == R.id.waterfall_indi) {
                     Intent intent = new Intent();

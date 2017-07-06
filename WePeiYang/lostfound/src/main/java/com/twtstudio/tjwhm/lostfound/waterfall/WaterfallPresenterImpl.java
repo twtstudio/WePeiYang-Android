@@ -1,5 +1,7 @@
 package com.twtstudio.tjwhm.lostfound.waterfall;
 
+import com.twtstudio.tjwhm.lostfound.base.BasePrsenterImpl;
+
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -10,7 +12,7 @@ import rx.subscriptions.CompositeSubscription;
  * Created by tjwhm on 2017/7/5.
  **/
 
-public class WaterfallPresenterImpl implements WaterfallContract.WaterfallPresenter {
+public class WaterfallPresenterImpl extends BasePrsenterImpl implements WaterfallContract.WaterfallPresenter {
     WaterfallContract.WaterfallView waterfallView;
     WaterfallApiClient waterfallApiClient = new WaterfallApiClient(this);
     private CompositeSubscription compositeSubscription;
@@ -32,7 +34,6 @@ public class WaterfallPresenterImpl implements WaterfallContract.WaterfallPresen
                 new WaterfallCallBack<WaterfallBean>() {
                     @Override
                     public void onSuccess(WaterfallBean model) {
-                        System.out.println("WaterfallPresenterImpl.onSuccess"+"abcdef"+model.error_code+model.data.get(0).name);
                         setWaterfallData(model);
                     }
 
@@ -47,14 +48,14 @@ public class WaterfallPresenterImpl implements WaterfallContract.WaterfallPresen
                     }
                 });
     }
-
-    public void addSubscription(Observable observable, Subscriber subscriber) {
-        if (compositeSubscription == null) {
-            compositeSubscription = new CompositeSubscription();
-        }
-        compositeSubscription.add(observable
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(subscriber));
-    }
+//
+//    public void addSubscription(Observable observable, Subscriber subscriber) {
+//        if (compositeSubscription == null) {
+//            compositeSubscription = new CompositeSubscription();
+//        }
+//        compositeSubscription.add(observable
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(subscriber));
+//    }
 }

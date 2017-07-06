@@ -72,7 +72,6 @@ public class WaterfallFragment extends Fragment implements WaterfallContract.Wat
         this.waterfallBean.error_code = waterfallBean.error_code;
         this.waterfallBean.message = waterfallBean.message;
         this.waterfallBean.data.addAll(waterfallBean.data);
-        System.out.println("WaterfallFragment.setWaterfallData" + "abcdef");
         tableAdapter.notifyDataSetChanged();
         water_refresh.setRefreshing(false);
     }

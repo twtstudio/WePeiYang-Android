@@ -11,9 +11,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
  **/
 
 public class WaterfallApiClient {
-    private String baseUrl = "http://open.twtstudio.com/api/v1/lostfound/";
-    WaterfallContract.WaterfallPresenter waterfallPresenter;
-    Retrofit retrofit;
+    private WaterfallContract.WaterfallPresenter waterfallPresenter;
+    private Retrofit retrofit;
 
     public WaterfallApiClient(WaterfallContract.WaterfallPresenter waterfallPresenter) {
         this.waterfallPresenter = waterfallPresenter;

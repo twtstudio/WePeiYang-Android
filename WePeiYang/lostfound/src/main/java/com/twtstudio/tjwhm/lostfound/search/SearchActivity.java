@@ -4,19 +4,22 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.twtstudio.tjwhm.lostfound.R;
 import com.twtstudio.tjwhm.lostfound.base.BaseActivity;
+import com.twtstudio.tjwhm.lostfound.waterfall.WaterfallBean;
+import com.twtstudio.tjwhm.lostfound.waterfall.WaterfallTableAdapter;
 
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.ArrayList;
 
 import butterknife.BindView;
 
@@ -24,17 +27,23 @@ import butterknife.BindView;
  * Created by tjwhm on 2017/7/2.
  **/
 
-public class SearchActivity extends BaseActivity {
+public class SearchActivity extends BaseActivity implements SearchContract.SearchUIView {
 
-    InputMethodManager inputMethodManager;
-
+    private InputMethodManager inputMethodManager;
+    private WaterfallBean waterfallBean;
+    private WaterfallTableAdapter tableAdapter;
+    private StaggeredGridLayoutManager layoutManager;
+    SearchContract.SearchPresenter searchPresenter;
 
     @BindView(R.id.search_toolbar)
     Toolbar toolbar;
     @BindView(R.id.search_searview)
     SearchView searchView;
-//    @BindView(R.id.search_test)
-//    TextView search_test;
+    @BindView(R.id.search_recyclerView)
+    RecyclerView search_recyclerView;
+    @BindView(R.id.search_progress)
+    ProgressBar search_progress;
+
 
     @Override
     protected int getLayoutResourceId() {
@@ -43,7 +52,6 @@ public class SearchActivity extends BaseActivity {
 
     @Override
     protected Toolbar getToolbarView() {
-
         return toolbar;
     }
 
@@ -59,7 +67,6 @@ public class SearchActivity extends BaseActivity {
 
     @Override
     protected void setToolbarMenuClickEvent() {
-        //  toolbar.setNavigationIcon(R.drawable.lost_back);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -73,17 +80,38 @@ public class SearchActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        search_progress.setVisibility(View.GONE);
         SearchView.SearchAutoComplete tv = (SearchView.SearchAutoComplete) searchView.findViewById(R.id.search_src_text);
         tv.setTextColor(Color.WHITE);
         tv.setHintTextColor(Color.WHITE);
         searchView.onActionViewExpanded();
+        initValues();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                search_progress.setVisibility(View.VISIBLE);
+                waterfallBean.data.clear();
+                searchPresenter.loadSearchData(query);
+                hideInputKeyboard();
+                return true;
+            }
 
-//        search_test.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                hideInputKeyboard();
-//            }
-//        });
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
+    }
+
+    private void initValues() {
+        waterfallBean = new WaterfallBean();
+        waterfallBean.data = new ArrayList<>();
+        tableAdapter = new WaterfallTableAdapter(waterfallBean, this);
+        layoutManager = new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL);
+        search_recyclerView.setLayoutManager(layoutManager);
+        search_recyclerView.setAdapter(tableAdapter);
+        searchPresenter = new SearchPresenterImpl(this);
     }
 
     private void hideInputKeyboard() {
@@ -93,15 +121,18 @@ public class SearchActivity extends BaseActivity {
             if (v == null) {
                 return;
             }
-
             inputMethodManager.hideSoftInputFromWindow(v.getWindowToken(),
                     InputMethodManager.HIDE_NOT_ALWAYS);
             searchView.clearFocus();
         }
     }
 
-    private void showKeyboard() {
-        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        inputMethodManager.showSoftInput(searchView, 0);
+    @Override
+    public void setSearchData(WaterfallBean waterfallBean) {
+        this.waterfallBean.error_code = waterfallBean.error_code;
+        this.waterfallBean.message = waterfallBean.message;
+        this.waterfallBean.data.addAll(waterfallBean.data);
+        tableAdapter.notifyDataSetChanged();
+        search_progress.setVisibility(View.GONE);
     }
 }
