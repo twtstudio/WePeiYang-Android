@@ -1,35 +1,23 @@
 package com.twtstudio.retrox.gpa.view;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.databinding.DataBindingUtil;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.widget.Toolbar;
-import android.transition.ChangeBounds;
-import android.transition.Fade;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.Toast;
 
-import com.google.gson.JsonElement;
 import com.kelin.mvvmlight.messenger.Messenger;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
 import com.twtstudio.retrox.gpa.GpaBean;
 import com.twtstudio.retrox.gpa.R;
 import com.twtstudio.retrox.gpa.client.ApiClient;
-import com.twtstudio.retrox.gpa.client.RequestParams;
-import com.twtstudio.retrox.gpa.client.Sign;
-
-import java.util.HashMap;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;

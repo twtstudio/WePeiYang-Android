@@ -13,7 +13,6 @@ import android.support.v7.app.AlertDialog;
 import com.kelin.mvvmlight.base.ViewModel;
 import com.kelin.mvvmlight.command.ReplyCommand;
 import com.orhanobut.hawk.Hawk;
-import com.twt.wepeiyang.commons.utils.App;
 import com.twtstudio.retrox.classroomcore.BR;
 import com.twtstudio.retrox.classroomcore.R;
 

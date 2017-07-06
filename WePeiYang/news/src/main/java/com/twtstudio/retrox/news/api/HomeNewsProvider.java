@@ -3,8 +3,6 @@ package com.twtstudio.retrox.news.api;
 import com.twt.wepeiyang.commons.cache.CacheProvider;
 import com.twt.wepeiyang.commons.network.RetrofitProvider;
 import com.twt.wepeiyang.commons.network.RxErrorHandler;
-import com.twtstudio.retrox.news.api.NewsApi;
-import com.twtstudio.retrox.news.api.NewsCacheApi;
 import com.twtstudio.retrox.news.api.bean.CommonNewsBean;
 import com.twtstudio.retrox.news.api.bean.HomeNewsBean;
 
@@ -33,7 +31,7 @@ public class HomeNewsProvider {
         newsCacheApi.getHomeNewsAuto(newsApi.getHomeNews(),new DynamicKey("homeNews"),new EvictDynamicKey(update))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(action1,new RxErrorHandler());
+                .subscribe(action1,throwable -> new RxErrorHandler().call(throwable.getCause()));
     }
 
     public void getCommonNews(Action1<CommonNewsBean.DataBean> action1){

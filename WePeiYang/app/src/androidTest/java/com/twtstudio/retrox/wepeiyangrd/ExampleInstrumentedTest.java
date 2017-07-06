@@ -4,14 +4,8 @@ import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
-import com.orhanobut.logger.Logger;
-import com.twtstudio.retrox.wepeiyangrd.api.ApiClient;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 import static org.junit.Assert.*;
 

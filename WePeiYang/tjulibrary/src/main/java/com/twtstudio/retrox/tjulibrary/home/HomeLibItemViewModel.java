@@ -10,15 +10,11 @@ import android.databinding.ObservableField;
 import android.databinding.ObservableInt;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.AlertDialog;
-import android.widget.Toast;
 
 import com.kelin.mvvmlight.base.ViewModel;
 import com.kelin.mvvmlight.command.ReplyCommand;
-import com.orhanobut.logger.Logger;
 import com.tapadoo.alerter.Alerter;
-import com.twt.wepeiyang.commons.network.ApiException;
 import com.twtstudio.retrox.tjulibrary.R;
 import com.twtstudio.retrox.tjulibrary.provider.Book;
 import com.twtstudio.retrox.tjulibrary.provider.RenewResult;
@@ -36,7 +32,6 @@ import java.util.List;
 
 import me.tatarka.bindingcollectionadapter.ItemView;
 import retrofit2.adapter.rxjava.HttpException;
-import rx.functions.Action0;
 
 
 /**

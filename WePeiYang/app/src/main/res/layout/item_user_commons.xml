@@ -5,7 +5,7 @@
 
         <variable
             name="viewModel"
-            type="com.twtstudio.retrox.wepeiyangrd.home.user.CommonItemViewModel"/>
+            type="com.twt.service.home.user.CommonItemViewModel"/>
     </data>
 
     <RelativeLayout

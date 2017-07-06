@@ -1,7 +1,5 @@
 package com.twtstudio.retrox.schedule.model;
 
-import android.app.job.JobScheduler;
-
 import com.orhanobut.logger.Logger;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 import com.twt.wepeiyang.commons.cache.CacheProvider;
@@ -53,7 +51,7 @@ public class ClassTableProvider {
                     if (mAction1 != null) {
                         mAction1.call(classTable);
                     }
-                },new RxErrorHandler(mRxActivity));
+                },throwable -> new RxErrorHandler(mRxActivity).call(throwable.getCause()));
 
     }
 

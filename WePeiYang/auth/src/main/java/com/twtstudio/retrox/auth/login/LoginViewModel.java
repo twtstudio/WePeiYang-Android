@@ -8,7 +8,6 @@ import android.widget.Toast;
 import com.kelin.mvvmlight.base.ViewModel;
 import com.kelin.mvvmlight.command.ReplyCommand;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
-import com.twt.wepeiyang.commons.network.ApiErrorHandler;
 import com.twt.wepeiyang.commons.network.ApiResponse;
 import com.twt.wepeiyang.commons.network.RetrofitProvider;
 import com.twt.wepeiyang.commons.network.RxErrorHandler;

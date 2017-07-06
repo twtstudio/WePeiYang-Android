@@ -2,7 +2,6 @@ package com.twtstudio.retrox.schedule.model;
 
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
-import com.orhanobut.logger.Logger;
 import com.twtstudio.retrox.schedule.R;
 import com.twtstudio.retrox.schedule.TimeHelper;
 

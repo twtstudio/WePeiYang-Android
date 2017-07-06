@@ -1,9 +1,6 @@
 package com.twtstudio.retrox.one;
 
-import java.util.concurrent.TimeUnit;
-
 import io.rx_cache.DynamicKey;
-import io.rx_cache.LifeCache;
 import io.rx_cache.Reply;
 import rx.Observable;
 

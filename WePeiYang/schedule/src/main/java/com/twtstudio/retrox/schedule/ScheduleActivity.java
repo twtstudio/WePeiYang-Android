@@ -27,7 +27,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.haozhang.lib.SlantedTextView;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 import com.twtstudio.retrox.schedule.model.ClassTable;

@@ -6,8 +6,6 @@ import android.databinding.ObservableField;
 import com.kelin.mvvmlight.base.ViewModel;
 import com.twtstudio.retrox.classroomcore.home.api.ClassroomQueryProvider;
 
-import java.util.concurrent.TimeUnit;
-
 import rx.Observable;
 
 /**

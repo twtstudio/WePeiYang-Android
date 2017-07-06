@@ -4,7 +4,6 @@ import android.content.Context;
 import android.widget.Toast;
 
 import com.orhanobut.logger.Logger;
-import com.twt.wepeiyang.commons.network.ApiException;
 import com.twt.wepeiyang.commons.network.ApiResponse;
 import com.twt.wepeiyang.commons.network.RetrofitProvider;
 import com.twt.wepeiyang.commons.network.RxErrorHandler;
@@ -13,7 +12,6 @@ import java.util.List;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
