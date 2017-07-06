@@ -25,6 +25,7 @@
                 android:textStyle="normal" />
 
             <EditText
+                android:layout_gravity="center"
                 android:id="@+id/release_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -60,6 +61,8 @@
                 android:textStyle="normal" />
 
             <EditText
+                android:layout_gravity="center"
+                android:gravity="center_vertical"
                 android:id="@+id/release_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -94,6 +97,7 @@
                 android:textStyle="normal" />
 
             <EditText
+                android:layout_gravity="center"
                 android:id="@+id/release_place"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

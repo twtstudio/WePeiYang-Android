@@ -1,4 +1,4 @@
-package com.twtstudio.tjwhm.lostfound.search;
+package com.twtstudio.tjwhm.lostfound.release;
 
 import rx.Subscriber;
 
@@ -6,8 +6,7 @@ import rx.Subscriber;
  * Created by tjwhm on 2017/7/6.
  **/
 
-public abstract class SearchApiCallBack<M> extends Subscriber<M> {
-
+public abstract class ReleaseApiCallBack<M> extends Subscriber<M> {
 
     public abstract void onSuccess(M model);
 
@@ -22,8 +21,8 @@ public abstract class SearchApiCallBack<M> extends Subscriber<M> {
 
     @Override
     public void onError(Throwable e) {
+        System.out.println("ReleaseApiCallBack.onError"+"abcdef");
         e.printStackTrace();
-        System.out.println("SearchApiCallBack.onError"+"abcdef");
     }
 
     @Override

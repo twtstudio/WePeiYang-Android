@@ -38,6 +38,7 @@
 
         </android.support.v7.widget.RecyclerView>
         <ProgressBar
+            android:indeterminateDrawable="@drawable/progressbar"
             android:id="@+id/search_progress"
             android:layout_centerHorizontal="true"
             android:layout_width="44dp"

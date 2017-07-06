@@ -25,6 +25,7 @@
                 android:textStyle="normal" />
 
             <EditText
+                android:layout_gravity="center"
                 android:id="@+id/release_contact_name"
                 android:textSize="12sp"
                 android:layout_width="match_parent"
@@ -60,6 +61,7 @@
                 android:textStyle="normal" />
 
             <EditText
+                android:layout_gravity="center"
                 android:id="@+id/release_phone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

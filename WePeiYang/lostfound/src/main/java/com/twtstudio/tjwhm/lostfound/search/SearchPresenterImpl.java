@@ -12,7 +12,7 @@ import rx.subscriptions.CompositeSubscription;
 public class SearchPresenterImpl extends BasePrsenterImpl implements SearchContract.SearchPresenter {
     SearchContract.SearchUIView searchUIView;
     SearchApiClient searchApiClient = new SearchApiClient(this);
-    private CompositeSubscription compositeSubscription;
+  //  private CompositeSubscription compositeSubscription;
     SearchApi searchApi;
 
     public SearchPresenterImpl(SearchContract.SearchUIView searchUIView) {

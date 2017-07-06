@@ -88,7 +88,9 @@ public class LoginViewModel implements ViewModel {
                         // TODO: 2016/11/27 jump to home page
                         Class clazz = null;
                         try {
-                            clazz = Class.forName("com.twtstudio.retrox.wepeiyangrd.module.welcome.WelcomeSlideActivity");
+                           // clazz = Class.forName("com.twtstudio.retrox.wepeiyangrd.module.welcome.WelcomeSlideActivity");
+                            clazz = Class.forName("com.twtstudio.tjwhm.lostfound.waterfall");
+
                         } catch (ClassNotFoundException e) {
                             e.printStackTrace();
                         }

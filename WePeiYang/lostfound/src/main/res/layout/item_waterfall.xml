@@ -24,56 +24,69 @@
                 android:src="@drawable/waterfall_pic1" />
 
             <TextView
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="8dp"
                 android:id="@+id/waterfall_item_title"
+                android:textSize="16sp"
+                android:textStyle="bold"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/waterfall_item_title" />
 
             <LinearLayout
+                android:layout_marginTop="6dp"
+                android:layout_marginStart="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
                     android:src="@drawable/lost_type" />
 
                 <TextView
+                    android:layout_marginStart="4dp"
                     android:id="@+id/waterfall_item_type"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:text="@string/waterfall_item_typeText" />
             </LinearLayout>
 
             <LinearLayout
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
                     android:src="@drawable/lost_time" />
 
                 <TextView
+                    android:layout_marginStart="4dp"
                     android:id="@+id/waterfall_item_time"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:text="@string/waterfall_item_timeText" />
             </LinearLayout>
 
             <LinearLayout
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
                     android:src="@drawable/lost_place" />
 
                 <TextView
+                    android:layout_marginStart="4dp"
                     android:id="@+id/waterfall_item_place"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:text="@string/waterfall_item_placeText" />
             </LinearLayout>
         </LinearLayout>

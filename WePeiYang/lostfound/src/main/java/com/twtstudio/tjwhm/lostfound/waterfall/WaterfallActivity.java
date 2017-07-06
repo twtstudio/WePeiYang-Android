@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.twtstudio.retrox.auth.login.LoginActivity;
 import com.twtstudio.tjwhm.lostfound.R;
 import com.twtstudio.tjwhm.lostfound.base.BaseActivity;
 import com.twtstudio.tjwhm.lostfound.mylist.MylistActivity;
@@ -57,7 +58,7 @@ public class WaterfallActivity extends BaseActivity {
                 int itemId = item.getItemId();
                 if (itemId == R.id.waterfall_search) {
                     Intent intent = new Intent();
-                    intent.setClass(WaterfallActivity.this, SearchActivity.class);
+                    intent.setClass(WaterfallActivity.this, LoginActivity.class);
                     startActivity(intent);
                 } else if (itemId == R.id.waterfall_indi) {
                     Intent intent = new Intent();
