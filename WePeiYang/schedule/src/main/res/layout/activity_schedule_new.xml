@@ -95,12 +95,16 @@
                         android:text="@{viewModel.date}"/>
                 </RelativeLayout>
             </android.support.v7.widget.CardView>
+            <android.support.v4.widget.SwipeRefreshLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/refresh"
+                android:layout_below="@+id/cv_s">
                 <ScrollView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:id="@+id/scroll"
-                    android:background="@color/white"
-                    android:layout_below="@+id/cv_s">
+                    android:background="@color/white">
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/list"
                     android:layout_width="match_parent"
@@ -112,6 +116,7 @@
                     bind:items="@{viewModel.items}"
                     bind:layoutManager="@{LayoutManagers.linear()}" />
                 </ScrollView>
+            </android.support.v4.widget.SwipeRefreshLayout>
         </RelativeLayout>
     </android.support.design.widget.CoordinatorLayout>
 </layout>
