@@ -51,7 +51,7 @@ public class ClassTableProvider {
                     if (mAction1 != null) {
                         mAction1.call(classTable);
                     }
-                },new RxErrorHandler(mRxActivity));
+                },throwable -> new RxErrorHandler(mRxActivity).call(throwable.getCause()));
 
     }
 

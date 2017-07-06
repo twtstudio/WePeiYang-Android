@@ -31,7 +31,7 @@ public class HomeNewsProvider {
         newsCacheApi.getHomeNewsAuto(newsApi.getHomeNews(),new DynamicKey("homeNews"),new EvictDynamicKey(update))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(action1,new RxErrorHandler());
+                .subscribe(action1,throwable -> new RxErrorHandler().call(throwable.getCause()));
     }
 
     public void getCommonNews(Action1<CommonNewsBean.DataBean> action1){

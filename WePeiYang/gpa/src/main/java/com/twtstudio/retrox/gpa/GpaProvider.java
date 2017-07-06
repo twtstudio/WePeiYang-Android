@@ -72,7 +72,7 @@ public class GpaProvider {
                             Toast.makeText(mActivity, "数据出现问题,可尝试关闭退学或在GPA界面手动刷新...", Toast.LENGTH_SHORT).show();
                         }
                     }
-                }, new RxErrorHandler(mActivity));
+                }, throwable -> new RxErrorHandler(mActivity).call(throwable.getCause()));
 
     }
 
