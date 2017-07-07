@@ -21,6 +21,7 @@
         <activity android:name=".search.SearchActivity"/>
         <activity android:name=".release.ReleaseActivity"/>
         <activity android:name=".success.SuccessActivity"/>
+        <activity android:name=".detail.DetailActivity"/>
     </application>
 
 </manifest>

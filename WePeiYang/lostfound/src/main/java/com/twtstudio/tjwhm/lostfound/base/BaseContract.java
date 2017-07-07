@@ -13,6 +13,5 @@ public interface BaseContract {
     }
 
     public interface BasePresenter {
-        public void addSubscription(Observable observable, Subscriber subscriber);
     }
 }

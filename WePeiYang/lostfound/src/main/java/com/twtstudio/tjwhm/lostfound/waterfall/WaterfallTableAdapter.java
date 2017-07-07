@@ -1,6 +1,8 @@
 package com.twtstudio.tjwhm.lostfound.waterfall;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,8 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.twtstudio.tjwhm.lostfound.R;
-
-import java.util.ArrayList;
+import com.twtstudio.tjwhm.lostfound.detail.DetailActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -71,6 +72,10 @@ public class WaterfallTableAdapter extends RecyclerView.Adapter {
         viewHolder.waterfall_item_type.setText(String.valueOf(dataBean.detail_type));
         viewHolder.waterfall_item_time.setText(dataBean.time);
         viewHolder.waterfall_item_place.setText(dataBean.place);
+
+        viewHolder.itemView.setOnClickListener(view -> {
+           startDetailActivity(dataBean.id);
+        });
     }
 
     @Override
@@ -81,4 +86,12 @@ public class WaterfallTableAdapter extends RecyclerView.Adapter {
         return waterfallBean.data.size();
     }
 
+    private void startDetailActivity(int id){
+        Bundle bundle = new Bundle();
+        bundle.putInt("id",id);
+        Intent intent = new Intent();
+        intent.putExtras(bundle);
+        intent.setClass(context, DetailActivity.class);
+        context.startActivity(intent);
+    }
 }

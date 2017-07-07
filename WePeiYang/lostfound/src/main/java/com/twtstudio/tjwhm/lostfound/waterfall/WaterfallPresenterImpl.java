@@ -1,5 +1,7 @@
 package com.twtstudio.tjwhm.lostfound.waterfall;
 
+import com.twt.wepeiyang.commons.network.RetrofitProvider;
+import com.twt.wepeiyang.commons.network.RxErrorHandler;
 import com.twtstudio.tjwhm.lostfound.base.BasePrsenterImpl;
 
 import rx.Observable;
@@ -14,7 +16,6 @@ import rx.subscriptions.CompositeSubscription;
 
 public class WaterfallPresenterImpl extends BasePrsenterImpl implements WaterfallContract.WaterfallPresenter {
     WaterfallContract.WaterfallView waterfallView;
-    WaterfallApiClient waterfallApiClient = new WaterfallApiClient(this);
     private CompositeSubscription compositeSubscription;
     WaterfallApi waterfallApi;
 
@@ -29,33 +30,10 @@ public class WaterfallPresenterImpl extends BasePrsenterImpl implements Waterfal
 
     @Override
     public void loadWaterfallData(String lostOrFound,int page) {
-        waterfallApi = waterfallApiClient.waterfallRerofit().create(WaterfallApi.class);
-        addSubscription(waterfallApi.loadWaterData(lostOrFound,String.valueOf(page)),
-                new WaterfallCallBack<WaterfallBean>() {
-                    @Override
-                    public void onSuccess(WaterfallBean model) {
-                        setWaterfallData(model);
-                    }
-
-                    @Override
-                    public void onFailure(String msg) {
-
-                    }
-
-                    @Override
-                    public void onFinish() {
-
-                    }
-                });
+        waterfallApi = RetrofitProvider.getRetrofit().create(WaterfallApi.class);
+        waterfallApi.loadWaterData(lostOrFound,String.valueOf(page))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::setWaterfallData,new RxErrorHandler());
     }
-//
-//    public void addSubscription(Observable observable, Subscriber subscriber) {
-//        if (compositeSubscription == null) {
-//            compositeSubscription = new CompositeSubscription();
-//        }
-//        compositeSubscription.add(observable
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(subscriber));
-//    }
 }
