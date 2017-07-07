@@ -53,4 +53,6 @@ public class MylistActivity extends BaseActivity {
         mylist_tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         mylist_tabLayout.setSelectedTabIndicatorColor(Color.parseColor("#00a1e9"));
     }
+
+
 }

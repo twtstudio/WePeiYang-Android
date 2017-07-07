@@ -52,9 +52,10 @@ public class MylistFragment extends Fragment implements MylistContract.MylistVie
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_mylist, container, false);
         ButterKnife.bind(this, view);
-        initValues();
         Bundle bundle = getArguments();
         lostOrFound = bundle.getString("index");
+        initValues();
+        // TODO: 2017/7/7 做我的列表的下拉加载下一页 
         mylistPresenter.loadMylistData(lostOrFound, 1);
         return view;
     }
@@ -80,7 +81,14 @@ public class MylistFragment extends Fragment implements MylistContract.MylistVie
         mylistBean.data = new ArrayList<>();
         layoutManager = new LinearLayoutManager(getActivity());
         mylist_recyclerView.setLayoutManager(layoutManager);
-        tableAdapter = new MylistTableAdapter(mylistBean, getActivity());
+        tableAdapter = new MylistTableAdapter(mylistBean, getActivity(),lostOrFound);
         mylist_recyclerView.setAdapter(tableAdapter);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // TODO: 2017/7/7 做我的列表的下拉加载下一页
+        mylistPresenter.loadMylistData(lostOrFound,1);
     }
 }

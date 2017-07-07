@@ -6,8 +6,11 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.view.MotionEvent;
+import android.view.View;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.twtstudio.retrox.auth.login.LoginActivity;
 import com.twtstudio.tjwhm.lostfound.R;
 import com.twtstudio.tjwhm.lostfound.base.BaseActivity;
@@ -35,6 +38,8 @@ public class WaterfallActivity extends BaseActivity {
     FloatingActionButton waterfall_fab_found;
     @BindView(R.id.waterfall_fab_login)
     FloatingActionButton waterfall_fab_login;
+    @BindView(R.id.waterfall_fab_menu)
+    FloatingActionsMenu waterfall_fab_menu;
 
     @Override
     protected int getLayoutResourceId() {
@@ -52,6 +57,7 @@ public class WaterfallActivity extends BaseActivity {
         super.setToolbarMenuClickEvent();
         toolbar.setOnMenuItemClickListener(item -> {
             int itemId = item.getItemId();
+            waterfall_fab_menu.collapse();
             if (itemId == R.id.waterfall_search) {
                 Intent intent = new Intent();
                 intent.setClass(WaterfallActivity.this, SearchActivity.class);
@@ -94,16 +100,20 @@ public class WaterfallActivity extends BaseActivity {
             intent.putExtras(bundle);
             intent.setClass(WaterfallActivity.this, ReleaseActivity.class);
             startActivity(intent);
+            waterfall_fab_menu.collapse();
         });
-        waterfall_fab_found.setOnClickListener(view->{
-            bundle.putString("lostOrFound","found");
+        waterfall_fab_found.setOnClickListener(view -> {
+            bundle.putString("lostOrFound", "found");
             intent.putExtras(bundle);
-            intent.setClass(WaterfallActivity.this,ReleaseActivity.class);
+            intent.setClass(WaterfallActivity.this, ReleaseActivity.class);
             startActivity(intent);
+            waterfall_fab_menu.collapse();
         });
         waterfall_fab_login.setOnClickListener(view -> {
             intent.setClass(this, LoginActivity.class);
             startActivity(intent);
+            waterfall_fab_menu.collapse();
         });
     }
+
 }

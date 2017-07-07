@@ -7,12 +7,16 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.twtstudio.tjwhm.lostfound.R;
 import com.twtstudio.tjwhm.lostfound.detail.DetailActivity;
+import com.twtstudio.tjwhm.lostfound.release.ReleaseActivity;
 import com.twtstudio.tjwhm.lostfound.support.IntToType;
 import com.twtstudio.tjwhm.lostfound.waterfall.WaterfallBean;
+
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -25,10 +29,12 @@ public class MylistTableAdapter extends RecyclerView.Adapter {
 
     MylistBean mylistBean;
     Context context;
+    String lostOrFound;
 
-    public MylistTableAdapter(MylistBean mylistBean, Context context) {
+    public MylistTableAdapter(MylistBean mylistBean, Context context, String lostOrFound) {
         this.mylistBean = mylistBean;
         this.context = context;
+        this.lostOrFound = lostOrFound;
     }
 
     public class MylistViewHolder extends RecyclerView.ViewHolder {
@@ -42,6 +48,12 @@ public class MylistTableAdapter extends RecyclerView.Adapter {
         TextView mylist_item_time;
         @BindView(R.id.mylist_item_place)
         TextView mylist_item_place;
+        @BindView(R.id.mylist_item_back_blue)
+        ImageView mylist_item_back_blue;
+        @BindView(R.id.mylist_item_back_grey)
+        ImageView mylist_item_back_grey;
+        @BindView(R.id.mylist_item_pencil)
+        ImageView mylist_item_pencil;
 
         public MylistViewHolder(View itemView) {
             super(itemView);
@@ -58,23 +70,49 @@ public class MylistTableAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+
         MylistViewHolder viewHolder = (MylistViewHolder) holder;
         WaterfallBean.DataBean dataBean = mylistBean.data.get(position);
         viewHolder.mylist_item_title.setText(dataBean.title);
         viewHolder.mylist_item_type.setText(IntToType.getType(dataBean.detail_type));
         viewHolder.mylist_item_time.setText(dataBean.time);
         viewHolder.mylist_item_place.setText(dataBean.place);
+
         if (dataBean.isback == 1) {
-            viewHolder.mylist_item_status.setText("已交还");
+            viewHolder.mylist_item_back_blue.setVisibility(View.VISIBLE);
+            viewHolder.mylist_item_back_grey.setVisibility(View.GONE);
+            if (Objects.equals(lostOrFound, "found")) {
+                viewHolder.mylist_item_status.setText("已交还");
+            } else {
+                viewHolder.mylist_item_status.setText("已找到");
+            }
         } else {
-            viewHolder.mylist_item_status.setText("未交还");
+            viewHolder.mylist_item_back_blue.setVisibility(View.GONE);
+            viewHolder.mylist_item_back_grey.setVisibility(View.VISIBLE);
+            if (Objects.equals(lostOrFound, "found")) {
+                viewHolder.mylist_item_status.setText("未交还");
+            } else {
+                viewHolder.mylist_item_status.setText("未找到");
+            }
         }
+
+        Intent intent = new Intent();
+        Bundle bundle = new Bundle();
         viewHolder.itemView.setOnClickListener(view -> {
-            Intent intent = new Intent();
-            Bundle bundle = new Bundle();
-            bundle.putInt("id",dataBean.id);
+            bundle.putInt("id", dataBean.id);
             intent.putExtras(bundle);
             intent.setClass(context, DetailActivity.class);
+            context.startActivity(intent);
+        });
+        viewHolder.mylist_item_pencil.setOnClickListener(view -> {
+            if (Objects.equals(lostOrFound, "lost")) {
+                bundle.putString("lostOrFound", "editLost");
+            }else{
+                bundle.putString("lostOrFound","editFound");
+            }
+            bundle.putInt("id", dataBean.id);
+            intent.putExtras(bundle);
+            intent.setClass(context, ReleaseActivity.class);
             context.startActivity(intent);
         });
     }

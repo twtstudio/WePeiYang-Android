@@ -10,6 +10,7 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.twtstudio.tjwhm.lostfound.R;
 
@@ -33,7 +34,8 @@ public class WaterfallFragment extends Fragment implements WaterfallContract.Wat
     WaterfallContract.WaterfallPresenter waterfallPresenter = new WaterfallPresenterImpl(this);
     private int page = 1;
     private boolean isLoading = false;
-    private boolean isRefesh = false;
+    private boolean isRefresh = false;
+    String lostOrFound;
 
     public static WaterfallFragment newInstance(String type) {
 
@@ -56,15 +58,10 @@ public class WaterfallFragment extends Fragment implements WaterfallContract.Wat
         waterfall_recyclerView.setAdapter(tableAdapter);
 
         Bundle bundle = getArguments();
-        final String lostOrFound = bundle.getString("index");
+        lostOrFound = bundle.getString("index");
         waterfallPresenter.loadWaterfallData(lostOrFound, page);
 
-        water_refresh.setOnRefreshListener(() -> {
-            isLoading = true;
-            isRefesh = true;
-            page = 1;
-            waterfallPresenter.loadWaterfallData(lostOrFound, page);
-        });
+        water_refresh.setOnRefreshListener(this::refresh);
 
         waterfall_recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -87,14 +84,26 @@ public class WaterfallFragment extends Fragment implements WaterfallContract.Wat
     public void setWaterfallData(WaterfallBean waterfallBean) {
         this.waterfallBean.error_code = waterfallBean.error_code;
         this.waterfallBean.message = waterfallBean.message;
-        if(isRefesh){
+        if (isRefresh) {
             this.waterfallBean.data.clear();
         }
         this.waterfallBean.data.addAll(waterfallBean.data);
         tableAdapter.notifyDataSetChanged();
         water_refresh.setRefreshing(false);
         isLoading = false;
-        isRefesh = false;
+        isRefresh = false;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        refresh();
+    }
+
+    private void refresh(){
+        isLoading = true;
+        isRefresh = true;
+        page = 1;
+        waterfallPresenter.loadWaterfallData(lostOrFound, page);
+    }
 }
