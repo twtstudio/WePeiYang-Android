@@ -16,7 +16,6 @@ import rx.schedulers.Schedulers;
 public class ReleasePresenterImpl implements ReleaseContract.ReleasePresenter {
 
     ReleaseContract.ReleaseView releaseView;
-    ReleaseApiClient releaseApiClient = new ReleaseApiClient();
     ReleaseApi releaseApi;
 
     public ReleasePresenterImpl(ReleaseContract.ReleaseView releaseView) {

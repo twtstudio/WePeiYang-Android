@@ -9,7 +9,7 @@ import rx.Subscriber;
 
 public class DetailPresenterImpl implements DetailContract.DetailPresenter {
 
-
+DetailContract.DetailView detailView;
     @Override
     public void loadDetailData(int id) {
 
