@@ -35,7 +35,7 @@
         android:id="@+id/waterfall_fab_menu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="256dp"
+        android:layout_marginLeft="200dp"
         android:layout_marginTop="200dp"
         android:backgroundTint="@color/colorPrimary"
         app:layout_behavior="com.twtstudio.tjwhm.lostfound.support.FloatingActionMenuBehavior">
@@ -44,13 +44,15 @@
         <com.getbase.floatingactionbutton.FloatingActionButton
             android:id="@+id/waterfall_fab_login"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            />
 
         <com.getbase.floatingactionbutton.FloatingActionButton
             android:id="@+id/waterfall_fab_lost"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:fab_icon="@drawable/lost_search" />
+            android:tag="@string/app_name"
+            app:fab_title="1232"/>
 
 
         <com.getbase.floatingactionbutton.FloatingActionButton

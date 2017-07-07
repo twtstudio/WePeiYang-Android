@@ -17,11 +17,12 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="88dp"
+                android:layout_width="108dp"
                 android:layout_height="88dp"
                 android:layout_marginBottom="12dp"
                 android:layout_marginLeft="12dp"
                 android:layout_marginTop="12dp"
+                android:scaleType="fitXY"
                 android:src="@drawable/waterfall_pic1" />
 
             <LinearLayout
@@ -45,7 +46,9 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="12dp"
                             android:layout_marginTop="12dp"
-                            android:text="@string/mylist_status" />
+                            android:text="@string/mylist_status"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
 
                         <RelativeLayout
                             android:layout_width="wrap_content"
@@ -82,7 +85,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="12dp"
-                    android:text="@string/mylist_item_title" />
+                    android:text="@string/mylist_item_title"
+                    android:textStyle="bold"
+                    android:textSize="12sp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"

@@ -114,6 +114,9 @@ public class WaterfallActivity extends BaseActivity {
             startActivity(intent);
             waterfall_fab_menu.collapse();
         });
+
+        waterfall_fab_found.setTitle("found");
+        waterfall_fab_found.setTag("aaa");
     }
 
 }
