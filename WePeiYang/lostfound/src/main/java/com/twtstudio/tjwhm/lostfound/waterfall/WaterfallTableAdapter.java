@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.twtstudio.tjwhm.lostfound.R;
 import com.twtstudio.tjwhm.lostfound.detail.DetailActivity;
+import com.twtstudio.tjwhm.lostfound.support.IntToType;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -69,7 +70,7 @@ public class WaterfallTableAdapter extends RecyclerView.Adapter {
             viewHolder.waterfall_item_pic.setImageResource(R.drawable.waterfall_pic2);
         }
         viewHolder.waterfall_item_title.setText(dataBean.title);
-        viewHolder.waterfall_item_type.setText(String.valueOf(dataBean.detail_type));
+        viewHolder.waterfall_item_type.setText(IntToType.getType(dataBean.detail_type));
         viewHolder.waterfall_item_time.setText(dataBean.time);
         viewHolder.waterfall_item_place.setText(dataBean.place);
 

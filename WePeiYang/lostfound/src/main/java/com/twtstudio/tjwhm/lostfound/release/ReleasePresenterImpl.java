@@ -22,22 +22,17 @@ public class ReleasePresenterImpl implements ReleaseContract.ReleasePresenter {
         this.releaseView = releaseView;
     }
 
-
-    public void onSuccess(BaseBean model) {
-        System.out.println("ReleasePresenterImpl.onSuccess" + "abcdef");
-        if (model.error_code == -1) {
-            releaseView.successCallBack();
-        } else if (model.error_code == 10001) {
-            releaseView.turnToAuth();
-        }
+    @Override
+    public void updateReleaseData(final Map<String, Object> map, String lostOrFound) {
+        releaseApi = RetrofitProvider.getRetrofit().create(ReleaseApi.class);
+        releaseApi.updateRelease(map,lostOrFound)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::successCallBack, new RxErrorHandler());
     }
 
     @Override
-    public void updateReleaseData(final Map<String, Object> map) {
-        releaseApi = RetrofitProvider.getRetrofit().create(ReleaseApi.class);
-        releaseApi.updateRelease(map)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::onSuccess, new RxErrorHandler());
+    public void successCallBack(BaseBean baseBean) {
+        releaseView.successCallBack();
     }
 }

@@ -31,7 +31,9 @@ public class WaterfallFragment extends Fragment implements WaterfallContract.Wat
     private StaggeredGridLayoutManager layoutManager;
     private WaterfallBean waterfallBean = new WaterfallBean();
     WaterfallContract.WaterfallPresenter waterfallPresenter = new WaterfallPresenterImpl(this);
-
+    private int page = 1;
+    private boolean isLoading = false;
+    private boolean isRefesh = false;
 
     public static WaterfallFragment newInstance(String type) {
 
@@ -55,13 +57,27 @@ public class WaterfallFragment extends Fragment implements WaterfallContract.Wat
 
         Bundle bundle = getArguments();
         final String lostOrFound = bundle.getString("index");
-        waterfallPresenter.loadWaterfallData(lostOrFound, 1);
+        waterfallPresenter.loadWaterfallData(lostOrFound, page);
 
-        water_refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        water_refresh.setOnRefreshListener(() -> {
+            isLoading = true;
+            isRefesh = true;
+            page = 1;
+            waterfallPresenter.loadWaterfallData(lostOrFound, page);
+        });
+
+        waterfall_recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onRefresh() {
-                waterfallBean.data.clear();
-                waterfallPresenter.loadWaterfallData(lostOrFound, 1);
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int totalCount = layoutManager.getItemCount();
+                int[] lastPositions = new int[2];
+                layoutManager.findLastVisibleItemPositions(lastPositions);
+                if (!isLoading && totalCount < (lastPositions[1]) + 2) {
+                    ++page;
+                    isLoading = true;
+                    waterfallPresenter.loadWaterfallData(lostOrFound, page);
+                }
             }
         });
         return view;
@@ -71,10 +87,14 @@ public class WaterfallFragment extends Fragment implements WaterfallContract.Wat
     public void setWaterfallData(WaterfallBean waterfallBean) {
         this.waterfallBean.error_code = waterfallBean.error_code;
         this.waterfallBean.message = waterfallBean.message;
+        if(isRefesh){
+            this.waterfallBean.data.clear();
+        }
         this.waterfallBean.data.addAll(waterfallBean.data);
         tableAdapter.notifyDataSetChanged();
         water_refresh.setRefreshing(false);
+        isLoading = false;
+        isRefesh = false;
     }
-
 
 }

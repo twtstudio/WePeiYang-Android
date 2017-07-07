@@ -52,12 +52,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseCont
             setSupportActionBar(toolbar);
             if (isShowBackArrow() && getSupportActionBar() != null) {
                 getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-                toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        onBackPressed();
-                    }
-                });
+                toolbar.setNavigationOnClickListener(view -> onBackPressed());
             }
         }
         setToolbarMenuClickEvent();

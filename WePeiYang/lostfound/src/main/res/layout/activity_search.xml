@@ -29,7 +29,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/search_recyclerView"
@@ -37,12 +37,42 @@
             android:layout_height="wrap_content">
 
         </android.support.v7.widget.RecyclerView>
+
         <ProgressBar
-            android:indeterminateDrawable="@drawable/progressbar"
             android:id="@+id/search_progress"
-            android:layout_centerHorizontal="true"
             android:layout_width="44dp"
-            android:layout_height="44dp" />
+            android:layout_height="44dp"
+            android:layout_centerHorizontal="true"
+            android:indeterminateDrawable="@drawable/progressbar" />
+
+        <LinearLayout
+            android:id="@+id/search_no_res"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="128dp"
+                android:layout_height="128dp"
+                android:src="@drawable/lost_no_search_result" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="没有搜索结果"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="没有找到相关信息，建议去分类下面查看" />
+        </LinearLayout>
     </RelativeLayout>
 
 </LinearLayout>

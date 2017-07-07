@@ -11,6 +11,7 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -43,6 +44,8 @@ public class SearchActivity extends BaseActivity implements SearchContract.Searc
     RecyclerView search_recyclerView;
     @BindView(R.id.search_progress)
     ProgressBar search_progress;
+    @BindView(R.id.search_no_res)
+    LinearLayout search_no_res;
 
 
     @Override
@@ -67,13 +70,9 @@ public class SearchActivity extends BaseActivity implements SearchContract.Searc
 
     @Override
     protected void setToolbarMenuClickEvent() {
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(SearchActivity.this, "aaa", Toast.LENGTH_SHORT).show();
-                hideInputKeyboard();
-                finish();
-            }
+        toolbar.setNavigationOnClickListener(view -> {
+            hideInputKeyboard();
+            finish();
         });
     }
 
@@ -81,6 +80,7 @@ public class SearchActivity extends BaseActivity implements SearchContract.Searc
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         search_progress.setVisibility(View.GONE);
+        search_no_res.setVisibility(View.GONE);
         SearchView.SearchAutoComplete tv = (SearchView.SearchAutoComplete) searchView.findViewById(R.id.search_src_text);
         tv.setTextColor(Color.WHITE);
         tv.setHintTextColor(Color.WHITE);
@@ -133,6 +133,11 @@ public class SearchActivity extends BaseActivity implements SearchContract.Searc
         this.waterfallBean.message = waterfallBean.message;
         this.waterfallBean.data.addAll(waterfallBean.data);
         tableAdapter.notifyDataSetChanged();
+        if(waterfallBean.data.size()==0){
+            search_no_res.setVisibility(View.VISIBLE);
+        }else {
+            search_no_res.setVisibility(View.GONE);
+        }
         search_progress.setVisibility(View.GONE);
     }
 }

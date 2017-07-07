@@ -11,6 +11,8 @@ import android.widget.Toast;
 import com.twtstudio.tjwhm.lostfound.R;
 import com.twtstudio.tjwhm.lostfound.base.BaseActivity;
 
+import java.util.Objects;
+
 import butterknife.BindView;
 
 /**
@@ -38,7 +40,7 @@ public class SuccessActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     protected Toolbar getToolbarView() {
-        toolbar.setTitle("发布/分享");
+        toolbar.setTitle("分享");
         return toolbar;
     }
 
@@ -51,7 +53,11 @@ public class SuccessActivity extends BaseActivity implements View.OnClickListene
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setOnClickListenerForViews();
-        // TODO: 2017/7/4 设置不同方式进入该Activity时是否显示“发布成功”
+        Bundle bundle = getIntent().getExtras();
+        String shareOrSuccess = bundle.getString("index");
+        if(Objects.equals(shareOrSuccess, "share")){
+            success_cardView.setVisibility(View.GONE);
+        }
     }
 
     @Override

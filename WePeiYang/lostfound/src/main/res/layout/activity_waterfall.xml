@@ -36,20 +36,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="256dp"
-        android:layout_marginTop="256dp"
+        android:layout_marginTop="200dp"
         android:backgroundTint="@color/colorPrimary"
         app:layout_behavior="com.twtstudio.tjwhm.lostfound.support.FloatingActionMenuBehavior">
 
 
         <com.getbase.floatingactionbutton.FloatingActionButton
-            android:id="@+id/waterfall_fab_up"
+            android:id="@+id/waterfall_fab_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/waterfall_fab_lost"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:fab_icon="@drawable/lost_search" />
 
 
         <com.getbase.floatingactionbutton.FloatingActionButton
-            android:id="@+id/waterfall_fab_down"
+            android:id="@+id/waterfall_fab_found"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 

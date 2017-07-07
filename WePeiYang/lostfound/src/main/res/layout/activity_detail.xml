@@ -14,19 +14,19 @@
         android:layout_height="wrap_content">
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <ImageView
-                android:id="@+id/detail_imageView"
+                android:id="@+id/detail_pic"
                 android:layout_width="match_parent"
                 android:layout_height="290dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/waterfall_pic1" />
 
             <TextView
-                android:id="@+id/detail_textView"
+                android:id="@+id/detail_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -49,7 +49,6 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:id="@+id/detail_img_time"
                     android:layout_width="15dp"
                     android:layout_height="15dp"
                     android:layout_marginLeft="20dp"
@@ -58,7 +57,7 @@
                     android:src="@drawable/lost_time" />
 
                 <TextView
-                    android:id="@+id/detail_textView_time"
+                    android:id="@+id/detail_time"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -73,7 +72,6 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:id="@+id/detail_img_place"
                     android:layout_width="15dp"
                     android:layout_height="15dp"
                     android:layout_marginLeft="20dp"
@@ -82,7 +80,7 @@
                     android:src="@drawable/lost_place" />
 
                 <TextView
-                    android:id="@+id/detail_textView_place"
+                    android:id="@+id/detail_place"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -97,7 +95,6 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:id="@+id/detail_img_type"
                     android:layout_width="15dp"
                     android:layout_height="15dp"
                     android:layout_marginLeft="20dp"
@@ -106,7 +103,7 @@
                     android:src="@drawable/lost_type" />
 
                 <TextView
-                    android:id="@+id/detail_textView_type"
+                    android:id="@+id/detail_type"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -121,7 +118,6 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:id="@+id/detail_img_indi"
                     android:layout_width="15dp"
                     android:layout_height="15dp"
                     android:layout_marginLeft="20dp"
@@ -130,7 +126,7 @@
                     android:src="@drawable/lost_indi_blue" />
 
                 <TextView
-                    android:id="@+id/detail_textView_indi"
+                    android:id="@+id/detail_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -145,7 +141,6 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:id="@+id/detail_img_contact"
                     android:layout_width="15dp"
                     android:layout_height="15dp"
                     android:layout_marginLeft="20dp"
@@ -154,7 +149,7 @@
                     android:src="@drawable/lost_contact" />
 
                 <TextView
-                    android:id="@+id/detail_textView_contact"
+                    android:id="@+id/detail_phone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -169,7 +164,6 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:id="@+id/detail_img_remarks"
                     android:layout_width="15dp"
                     android:layout_height="15dp"
                     android:layout_marginLeft="20dp"
@@ -178,7 +172,7 @@
                     android:src="@drawable/lost_remarks" />
 
                 <TextView
-                    android:id="@+id/detail_textView_rematks"
+                    android:id="@+id/detail_rematks"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="20dp"

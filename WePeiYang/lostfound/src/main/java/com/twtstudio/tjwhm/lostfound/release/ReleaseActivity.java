@@ -11,12 +11,10 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.twtstudio.tjwhm.lostfound.R;
 import com.twtstudio.tjwhm.lostfound.base.BaseActivity;
-import com.twtstudio.tjwhm.lostfound.search.SearchActivity;
-import com.twtstudio.tjwhm.lostfound.waterfall.WaterfallActivity;
+import com.twtstudio.tjwhm.lostfound.success.SuccessActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -24,6 +22,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import butterknife.BindView;
 
@@ -56,6 +55,9 @@ public class ReleaseActivity extends BaseActivity
     @BindView(R.id.release_confirm)
     CardView release_confirm;
 
+    int duration = 1;
+    String lostOrFound;
+
     @Override
     protected int getLayoutResourceId() {
         return R.layout.activity_release;
@@ -63,7 +65,11 @@ public class ReleaseActivity extends BaseActivity
 
     @Override
     protected Toolbar getToolbarView() {
-        toolbar.setTitle("发布");
+        if (Objects.equals(lostOrFound, "lost")) {
+            toolbar.setTitle("发布丢失");
+        }else{
+            toolbar.setTitle("发布捡到");
+        }
         return toolbar;
     }
 
@@ -79,6 +85,8 @@ public class ReleaseActivity extends BaseActivity
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        Bundle bundle = getIntent().getExtras();
+        lostOrFound = bundle.getString("lostOrFound");
         super.onCreate(savedInstanceState);
         initSpinner();
     }
@@ -98,6 +106,7 @@ public class ReleaseActivity extends BaseActivity
                 final Date dateToShow = new Date(System.currentTimeMillis() + dateInt[i] * 86400L * 1000L);
                 SimpleDateFormat ft = new SimpleDateFormat("yyyy/MM/dd");
                 release_publish_res.setText("刊登至" + ft.format(dateToShow));
+                duration = i;
             }
 
             @Override
@@ -117,25 +126,29 @@ public class ReleaseActivity extends BaseActivity
             String phoneString = release_phone.getText().toString();
             String timeString = release_time.getText().toString();
             String placeString = release_place.getText().toString();
-            int duration = 1;
-            Map<String,Object> map = new HashMap<>();
-            map.put("title",titleString);
-            map.put("time",timeString);
-            map.put("place",placeString);
-            map.put("name",nameString);
-            map.put("detail_type",4);
-            map.put("phone",phoneString);
-            map.put("duration",1);
-            releasePresenter.updateReleaseData(map);
+            String remarksString = release_remark.getText().toString();
+            Map<String, Object> map = new HashMap<>();
+            map.put("title", titleString);
+            map.put("time", timeString);
+            map.put("place", placeString);
+            map.put("name", nameString);
+            map.put("detail_type", 4);
+            map.put("phone", phoneString);
+            map.put("duration", duration);
+            map.put("item_description", remarksString);
+            releasePresenter.updateReleaseData(map, lostOrFound);
         }
     }
 
     @Override
     public void successCallBack() {
-        Toast.makeText(this, "success", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent();
+        Bundle bundle = new Bundle();
+        bundle.putString("shareOrSuccess","success");
+        intent.putExtras(bundle);
+        intent.setClass(this, SuccessActivity.class);
+        startActivity(intent);
+        finish();
     }
-    @Override
-    public void turnToAuth(){
-        Toast.makeText(this, "auth", Toast.LENGTH_SHORT).show();
-    }
+
 }

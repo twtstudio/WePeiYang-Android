@@ -7,8 +7,8 @@
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:layout_marginStart="12dp">
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -24,20 +24,21 @@
                 android:src="@drawable/waterfall_pic1" />
 
             <TextView
-                android:layout_marginTop="8dp"
-                android:layout_marginStart="8dp"
                 android:id="@+id/waterfall_item_title"
-                android:textSize="16sp"
-                android:textStyle="bold"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/waterfall_item_title" />
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/waterfall_item_title"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
             <LinearLayout
-                android:layout_marginTop="6dp"
-                android:layout_marginStart="8dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="6dp">
 
                 <ImageView
                     android:layout_width="16dp"
@@ -45,18 +46,19 @@
                     android:src="@drawable/lost_type" />
 
                 <TextView
-                    android:layout_marginStart="4dp"
                     android:id="@+id/waterfall_item_type"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="4dp"
                     android:text="@string/waterfall_item_typeText" />
             </LinearLayout>
 
             <LinearLayout
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp">
 
                 <ImageView
                     android:layout_width="16dp"
@@ -64,18 +66,19 @@
                     android:src="@drawable/lost_time" />
 
                 <TextView
-                    android:layout_marginStart="4dp"
                     android:id="@+id/waterfall_item_time"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="4dp"
                     android:text="@string/waterfall_item_timeText" />
             </LinearLayout>
 
             <LinearLayout
-                android:layout_marginTop="8dp"
-                android:layout_marginStart="8dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp">
 
                 <ImageView
                     android:layout_width="16dp"
@@ -83,10 +86,11 @@
                     android:src="@drawable/lost_place" />
 
                 <TextView
-                    android:layout_marginStart="4dp"
                     android:id="@+id/waterfall_item_place"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="4dp"
                     android:text="@string/waterfall_item_placeText" />
             </LinearLayout>
         </LinearLayout>

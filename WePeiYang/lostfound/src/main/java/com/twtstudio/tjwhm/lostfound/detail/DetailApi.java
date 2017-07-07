@@ -10,5 +10,5 @@ import rx.Observable;
 
 public interface DetailApi {
     @GET("lostfound/{id}")
-    Observable<DetailBean> loadDatailData(@Path("id") String id);
+    Observable<DetailBean> loadDetailData(@Path("id") String id);
 }

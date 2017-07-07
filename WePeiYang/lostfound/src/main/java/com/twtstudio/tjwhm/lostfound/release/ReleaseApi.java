@@ -7,6 +7,7 @@ import java.util.Map;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import rx.Observable;
 
 /**
@@ -14,7 +15,8 @@ import rx.Observable;
  **/
 
 public interface ReleaseApi {
-    @POST("lostfound/lost")
+    @POST("lostfound/{lostOrFound}")
     @FormUrlEncoded
-    Observable<BaseBean> updateRelease(@FieldMap Map<String, Object> map);
+    Observable<BaseBean> updateRelease(@FieldMap Map<String, Object> map,
+                                       @Path("lostOrFound")String lostOrFound);
 }

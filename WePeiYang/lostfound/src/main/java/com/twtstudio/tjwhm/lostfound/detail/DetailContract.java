@@ -12,5 +12,6 @@ public interface DetailContract {
     }
     public interface DetailPresenter {
         void loadDetailData(int id);
+        void setDetailData(DetailBean detailData);
     }
 }
