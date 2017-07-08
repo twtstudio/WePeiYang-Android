@@ -6,8 +6,6 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
-import android.view.MotionEvent;
-import android.view.View;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
@@ -32,14 +30,18 @@ public class WaterfallActivity extends BaseActivity {
     TabLayout waterfall_tabLayout;
     @BindView(R.id.waterfall_pager)
     ViewPager waterfall_pager;
-    @BindView(R.id.waterfall_fab_lost)
-    FloatingActionButton waterfall_fab_lost;
-    @BindView(R.id.waterfall_fab_found)
-    FloatingActionButton waterfall_fab_found;
     @BindView(R.id.waterfall_fab_login)
     FloatingActionButton waterfall_fab_login;
     @BindView(R.id.waterfall_fab_menu)
     FloatingActionsMenu waterfall_fab_menu;
+    @BindView(R.id.waterfall_fab_lost)
+    FloatingActionButton waterfall_fab_lost;
+    @BindView(R.id.waterfall_fab_found)
+    FloatingActionButton waterfall_fab_found;
+//    @BindView(R.id.waterfall_fab_card_lost)
+//    CardView waterfall_fab_card_lost;
+//    @BindView(R.id.waterfall_fab_card_found)
+//    CardView waterfall_fab_card_found;
 
     @Override
     protected int getLayoutResourceId() {
@@ -92,31 +94,44 @@ public class WaterfallActivity extends BaseActivity {
         waterfall_tabLayout.setupWithViewPager(waterfall_pager);
         waterfall_tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         waterfall_tabLayout.setSelectedTabIndicatorColor(Color.parseColor("#00a1e9"));
-
         Bundle bundle = new Bundle();
         Intent intent = new Intent();
+
+        waterfall_fab_login.setOnClickListener(view -> {
+            intent.setClass(this, LoginActivity.class);
+            startActivity(intent);
+            waterfall_fab_menu.collapse();
+        });
         waterfall_fab_lost.setOnClickListener(view -> {
             bundle.putString("lostOrFound", "lost");
             intent.putExtras(bundle);
-            intent.setClass(WaterfallActivity.this, ReleaseActivity.class);
+            intent.setClass(this, ReleaseActivity.class);
             startActivity(intent);
             waterfall_fab_menu.collapse();
         });
         waterfall_fab_found.setOnClickListener(view -> {
             bundle.putString("lostOrFound", "found");
             intent.putExtras(bundle);
-            intent.setClass(WaterfallActivity.this, ReleaseActivity.class);
-            startActivity(intent);
-            waterfall_fab_menu.collapse();
-        });
-        waterfall_fab_login.setOnClickListener(view -> {
-            intent.setClass(this, LoginActivity.class);
+            intent.setClass(this, ReleaseActivity.class);
             startActivity(intent);
             waterfall_fab_menu.collapse();
         });
 
-        waterfall_fab_found.setTitle("found");
-        waterfall_fab_found.setTag("aaa");
+//
+//        waterfall_fab_card_lost.setOnClickListener(view -> {
+//            bundle.putString("lostOrFound", "lost");
+//            intent.putExtras(bundle);
+//            intent.setClass(this, ReleaseActivity.class);
+//            startActivity(intent);
+//            waterfall_fab_menu.collapse();
+//        });
+//        waterfall_fab_card_found.setOnClickListener(view -> {
+//            bundle.putString("lostOrFound", "found");
+//            intent.putExtras(bundle);
+//            intent.setClass(this, ReleaseActivity.class);
+//            startActivity(intent);
+//            waterfall_fab_menu.collapse();
+//        });
     }
 
 }

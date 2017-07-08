@@ -35,32 +35,74 @@
         android:id="@+id/waterfall_fab_menu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="200dp"
-        android:layout_marginTop="200dp"
-        android:backgroundTint="@color/colorPrimary"
-        app:layout_behavior="com.twtstudio.tjwhm.lostfound.support.FloatingActionMenuBehavior">
-
+        android:layout_marginLeft="240dp"
+        android:layout_marginTop="220dp">
 
         <com.getbase.floatingactionbutton.FloatingActionButton
+
             android:id="@+id/waterfall_fab_login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            />
+            android:layout_centerInParent="true"
+            app:fab_title="登录" />
+
+        <!--<android.support.v7.widget.CardView-->
+            <!--android:id="@+id/waterfall_fab_card_lost"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:background="@color/backgroundGrey"-->
+            <!--android:backgroundTint="@color/backgroundGrey">-->
+
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginBottom="8dp"-->
+                <!--android:layout_marginEnd="4dp"-->
+                <!--android:layout_marginStart="4dp"-->
+                <!--android:layout_marginTop="8dp"-->
+                <!--android:background="@color/backgroundGrey"-->
+                <!--android:text="发布丢失信息" />-->
+        <!--</android.support.v7.widget.CardView>-->
+
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="16dp" />-->
+
+        <!--<android.support.v7.widget.CardView-->
+            <!--android:id="@+id/waterfall_fab_card_found"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:background="@color/backgroundGrey"-->
+            <!--android:backgroundTint="@color/backgroundGrey">-->
+
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginBottom="8dp"-->
+                <!--android:layout_marginEnd="4dp"-->
+                <!--android:layout_marginStart="4dp"-->
+                <!--android:layout_marginTop="8dp"-->
+                <!--android:background="@color/backgroundGrey"-->
+                <!--android:text="发布捡到信息" />-->
+        <!--</android.support.v7.widget.CardView>-->
 
         <com.getbase.floatingactionbutton.FloatingActionButton
-            android:id="@+id/waterfall_fab_lost"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:tag="@string/app_name"
-            app:fab_title="1232"/>
 
+        android:id="@+id/waterfall_fab_lost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        app:fab_title="发布丢失" />
 
         <com.getbase.floatingactionbutton.FloatingActionButton
-            android:id="@+id/waterfall_fab_found"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+
+        android:id="@+id/waterfall_fab_found"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        app:fab_title="发布捡到" />
+
 
     </com.getbase.floatingactionbutton.FloatingActionsMenu>
-
 
 </android.support.design.widget.CoordinatorLayout>
