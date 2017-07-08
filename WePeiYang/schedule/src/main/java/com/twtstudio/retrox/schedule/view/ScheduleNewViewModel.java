@@ -1,7 +1,10 @@
 package com.twtstudio.retrox.schedule.view;
 
+import android.databinding.Bindable;
+import android.databinding.BindingAdapter;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableField;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 
 import com.kelin.mvvmlight.base.ViewModel;
@@ -9,6 +12,7 @@ import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 import com.twtstudio.retrox.schedule.BR;
 import com.twtstudio.retrox.schedule.R;
+import com.twtstudio.retrox.schedule.databinding.ActivityScheduleNewBinding;
 import com.twtstudio.retrox.schedule.model.ClassTable;
 import com.twtstudio.retrox.schedule.model.ClassTableProvider;
 import com.twtstudio.retrox.schedule.model.CourseHelper;
@@ -24,7 +28,7 @@ import me.tatarka.bindingcollectionadapter.itemviews.ItemViewClassSelector;
 
 public class ScheduleNewViewModel {
     private RxAppCompatActivity rxActivity;
-
+    public  ObservableField<Boolean> isRefreshing=new ObservableField<>();
     public final ObservableArrayList<ViewModel> items = new ObservableArrayList<>();
     public final ItemViewSelector itemView = ItemViewClassSelector.builder()
             .put(SelectedCoursesInfoViewModel.class, BR.viewModel, R.layout.item_selected_courses)
@@ -38,6 +42,7 @@ public class ScheduleNewViewModel {
 
     public ScheduleNewViewModel(RxAppCompatActivity rxActivity, CalendarDay calendarDay) {
         this.rxActivity = rxActivity;
+        isRefreshing.set(true);
         initData(calendarDay);
     }
 
@@ -70,6 +75,8 @@ public class ScheduleNewViewModel {
             }
 
         }
+        isRefreshing.set(false);
+
     }
     private void setDate(CalendarDay calendarDay){
         if(calendarDay.equals(CalendarDay.today()))
@@ -78,5 +85,7 @@ public class ScheduleNewViewModel {
             today.set("所选日期");
         date.set(calendarDay.getYear()+"年"+(calendarDay.getMonth()+1)+"月"+calendarDay.getDay()+"日");
     }
+
+
 
 }

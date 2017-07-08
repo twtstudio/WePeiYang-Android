@@ -26,6 +26,7 @@ import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
 import com.twtstudio.retrox.schedule.databinding.ActivityScheduleNewBinding;
+import com.twtstudio.retrox.schedule.model.ClassTable;
 import com.twtstudio.retrox.schedule.model.ClassTableProvider;
 import com.twtstudio.retrox.schedule.view.ScheduleNewViewModel;
 
@@ -338,8 +339,13 @@ public class ScheduleNewActivity extends RxAppCompatActivity {
     }
 
     private void onRfreshData() {
-        ClassTableProvider.init(this)
+       ClassTableProvider.init(this).registerAction(this::onRfreshing)
                 .getData(true);
+
+    }
+
+    private void onRfreshing(ClassTable classTable) {
         refresh.setRefreshing(false);
     }
+
 }

@@ -190,7 +190,6 @@ public class ScheduleActivity extends RxAppCompatActivity implements ScheduleVie
 
         refresh.setOnRefreshListener(()-> {
             getScheduleDataAuto(true);
-            refresh.setRefreshing(false);
         });
     }
 
@@ -199,6 +198,7 @@ public class ScheduleActivity extends RxAppCompatActivity implements ScheduleVie
         ClassTableProvider.init(this)
                 .registerAction(classTable -> {
                     hideProgress();
+                    this.refresh.setRefreshing(false);
                     bindData(classTable);
                 })
                 .getData(refresh);
