@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
@@ -18,7 +20,6 @@ import com.twtstudio.tjwhm.lostfound.base.BaseActivity;
 import com.twtstudio.tjwhm.lostfound.detail.DetailBean;
 import com.twtstudio.tjwhm.lostfound.detail.DetailContract;
 import com.twtstudio.tjwhm.lostfound.detail.DetailPresenterImpl;
-import com.twtstudio.tjwhm.lostfound.mylist.MylistActivity;
 import com.twtstudio.tjwhm.lostfound.success.SuccessActivity;
 
 import java.text.SimpleDateFormat;
@@ -60,12 +61,19 @@ public class ReleaseActivity extends BaseActivity
     CardView release_confirm;
     @BindView(R.id.release_delete)
     CardView release_delete;
+    @BindView(R.id.release_type_recycleriew)
+    RecyclerView release_type_recyclerview;
+    @BindView(R.id.release_cardinfo)
+    CardView release_cardinfo;
 
     int duration = 1;
     String lostOrFound;
     ReleaseContract.ReleasePresenter releasePresenter = new ReleasePresenterImpl(this);
+    StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.HORIZONTAL);
+    ReleaseTableAdapter tableAdapter;
     DetailContract.DetailView detailView;
     int id;
+    int selectedItemPosition = 0;
 
     @Override
     protected int getLayoutResourceId() {
@@ -103,10 +111,15 @@ public class ReleaseActivity extends BaseActivity
         if (Objects.equals(lostOrFound, "editLost") || Objects.equals(lostOrFound, "editFound")) {
             release_delete.setVisibility(View.VISIBLE);
             id = bundle.getInt("id");
+            selectedItemPosition = bundle.getInt("type") - 1;
+            onTypeItemSelected(selectedItemPosition);
             DetailContract.DetailPresenter detailPresenter = new DetailPresenterImpl(detailView);
             detailPresenter.loadDetailDataForEdit(id, this);
         }
         initSpinner();
+        release_type_recyclerview.setLayoutManager(layoutManager);
+        release_type_recyclerview.setAdapter(tableAdapter);
+        drawRecyclerView(selectedItemPosition);
     }
 
     private void initSpinner() {
@@ -142,7 +155,7 @@ public class ReleaseActivity extends BaseActivity
             releasePresenter.updateReleaseData(getUpdateMap(), lostOrFound);
         } else if (view == release_confirm) {
             releasePresenter.updateEditData(getUpdateMap(), lostOrFound, id);
-        } else if (view == release_delete){
+        } else if (view == release_delete) {
             releasePresenter.delete(id);
         }
     }
@@ -170,7 +183,7 @@ public class ReleaseActivity extends BaseActivity
 
     @Override
     public void deleteSuccessCallBack() {
-        Toast.makeText(this,"删除成功",Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "删除成功", Toast.LENGTH_SHORT).show();
         finish();
     }
 
@@ -187,10 +200,27 @@ public class ReleaseActivity extends BaseActivity
         map.put("time", timeString);
         map.put("place", placeString);
         map.put("name", nameString);
-        map.put("detail_type", 4);
+        map.put("detail_type", selectedItemPosition+1);
         map.put("phone", phoneString);
         map.put("duration", duration);
         map.put("item_description", remarksString);
         return map;
+    }
+
+    @Override
+    public void drawRecyclerView(int position) {
+        tableAdapter = new ReleaseTableAdapter(this, position, this);
+        release_type_recyclerview.setAdapter(tableAdapter);
+    }
+
+    @Override
+    public void onTypeItemSelected(int position) {
+        selectedItemPosition = position;
+        if(position==0||position==1||position==9){
+            release_cardinfo.setVisibility(View.VISIBLE);
+        }else{
+            release_cardinfo.setVisibility(View.GONE);
+        }
+        Toast.makeText(this, String.valueOf(position), Toast.LENGTH_SHORT).show();
     }
 }

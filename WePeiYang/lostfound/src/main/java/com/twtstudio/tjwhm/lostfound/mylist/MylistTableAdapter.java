@@ -111,6 +111,7 @@ public class MylistTableAdapter extends RecyclerView.Adapter {
                 bundle.putString("lostOrFound","editFound");
             }
             bundle.putInt("id", dataBean.id);
+            bundle.putInt("type",dataBean.detail_type);
             intent.putExtras(bundle);
             intent.setClass(context, ReleaseActivity.class);
             context.startActivity(intent);

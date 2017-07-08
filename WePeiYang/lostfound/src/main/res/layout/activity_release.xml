@@ -58,6 +58,20 @@
                 android:text="类型"
                 android:textColor="@color/colorPrimary" />
 
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/release_type_recycleriew"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <include
+                android:id="@+id/release_cardinfo"
+                layout="@layout/release_cardview_cardinfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -105,6 +119,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp" />
+
             <include
                 layout="@layout/release_cardview_confirm"
                 android:layout_width="match_parent"
@@ -112,6 +127,7 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp" />
+
             <include
                 layout="@layout/release_cardview_delete"
                 android:layout_width="match_parent"
@@ -119,6 +135,9 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="36dp" />
         </LinearLayout>
     </ScrollView>
 

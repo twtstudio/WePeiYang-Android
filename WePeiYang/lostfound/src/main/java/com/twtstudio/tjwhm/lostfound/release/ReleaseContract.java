@@ -18,6 +18,10 @@ public interface ReleaseContract {
 
         void deleteSuccessCallBack();
 
+        void drawRecyclerView(int position);
+
+        void onTypeItemSelected(int position);
+
     }
 
     public interface ReleasePresenter extends BaseContract.BasePresenter {
