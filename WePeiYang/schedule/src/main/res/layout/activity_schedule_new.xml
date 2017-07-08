@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:bind="http://schemas.android.com/apk/res-auto">
 
     <data>
@@ -11,112 +12,117 @@
 
         <import type="me.tatarka.bindingcollectionadapter.LayoutManagers" />
     </data>
-
-    <android.support.design.widget.CoordinatorLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@android:color/white"
-        tools:context="com.twtstudio.retrox.schedule.ScheduleNewActivity">
-
-
-        <RelativeLayout
+        android:layout_height="wrap_content">
+        <android.support.v4.widget.SwipeRefreshLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:background="@color/schedule_gray"
-            android:id="@+id/relative">
+            android:id="@+id/refresh">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical">
 
-            <android.support.design.widget.AppBarLayout
+
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/appbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/schedule_primary_color">
+
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/appbar"
-                android:background="@color/schedule_primary_color">
+                android:minHeight="?attr/actionBarSize"
+                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
-                <android.support.v7.widget.Toolbar
-                    android:id="@+id/toolbar"
+                <TextView
+                    android:id="@+id/tv_date"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:minHeight="?attr/actionBarSize"
-                    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:lines="1"
+                    android:textColor="@color/myTextPrimaryColorWhite"
+                    android:textSize="20sp" />
+            </android.support.v7.widget.Toolbar>
+        </android.support.design.widget.AppBarLayout>
 
-                    <TextView
-                        android:id="@+id/tv_date"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:ellipsize="end"
-                        android:gravity="center"
-                        android:lines="1"
-                        android:textColor="@color/myTextPrimaryColorWhite"
-                        android:textSize="20sp" />
-                </android.support.v7.widget.Toolbar>
-            </android.support.design.widget.AppBarLayout>
 
-            <com.prolificinteractive.materialcalendarview.MaterialCalendarView xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/calendarView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/appbar"
-                android:background="@color/white"
-                android:paddingBottom="16dp"
-                app:mcv_selectionColor="@color/calendar_selected_color"
-                app:mcv_showOtherDates="defaults"
-                app:mcv_tileHeight="40sp"
-                app:mcv_weekDayLabels="@array/dayOfWeek"/>
-            <android.support.v7.widget.CardView
-                android:id="@+id/cv_s"
-                android:layout_width="match_parent"
-                android:layout_height="55dp"
-                app:cardElevation="0dp"
-                android:layout_marginTop="1dp"
-                android:layout_below="@+id/calendarView"
-                android:clickable="true">
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="28dp"
-                        android:textSize="18sp"
-                        android:id="@+id/tv_today"
-                        android:text="@{viewModel.today}"
-                        android:layout_centerVertical="true"
-                        android:layout_alignParentStart="true" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_toRightOf="@+id/tv_today"
-                        android:layout_alignBottom="@+id/tv_today"
-                        android:layout_marginLeft="29dp"
-                        android:id="@+id/head_date"
-                        android:textSize="18sp"
-                        android:text="@{viewModel.date}"/>
-                </RelativeLayout>
-            </android.support.v7.widget.CardView>
-            <android.support.v4.widget.SwipeRefreshLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/refresh"
-                android:layout_below="@+id/cv_s">
-                <ScrollView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/scroll"
-                    android:background="@color/white">
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/list"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="1dp"
+                    android:layout_height="38dp"
+                    android:layout_marginTop="11dp"
                     android:background="@color/schedule_gray"
-                    app:layout_behavior="com.ldf.calendar.behavior.RecyclerViewBehavior"
-                    bind:itemView="@{viewModel.itemView}"
-                    bind:items="@{viewModel.items}"
-                    bind:layoutManager="@{LayoutManagers.linear()}" />
-                </ScrollView>
-            </android.support.v4.widget.SwipeRefreshLayout>
-        </RelativeLayout>
-    </android.support.design.widget.CoordinatorLayout>
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/weekIndicatorStyle"
+                        android:paddingLeft="10dp"
+                        android:text="一" />
+
+                    <TextView
+                        style="@style/weekIndicatorStyle"
+                        android:text="二" />
+
+                    <TextView
+                        style="@style/weekIndicatorStyle"
+                        android:text="三" />
+
+                    <TextView
+                        style="@style/weekIndicatorStyle"
+                        android:text="四" />
+
+                    <TextView
+                        style="@style/weekIndicatorStyle"
+                        android:text="五" />
+
+                    <TextView
+                        style="@style/weekIndicatorStyle"
+                        android:text="六" />
+
+                    <TextView
+                        style="@style/weekIndicatorStyle"
+                        android:text="日"
+                        android:paddingRight="14dp"/>
+                </LinearLayout>
+
+
+                <android.support.design.widget.CoordinatorLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <com.ldf.calendar.view.MonthPager
+                        android:id="@+id/calendar_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="270dp"
+                        android:layout_marginLeft="5dp"
+                        android:background="#fff">
+
+                    </com.ldf.calendar.view.MonthPager>
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/list"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="bottom"
+                        android:layout_marginBottom="45dp"
+                        android:background="@color/white"
+                        android:clipChildren="false"
+                        android:clipToPadding="false"
+                        bind:itemView="@{viewModel.itemView}"
+                        bind:items="@{viewModel.items}"
+                        bind:layoutManager="@{LayoutManagers.linear()}"
+                        bind:layout_behavior="com.twtstudio.retrox.schedule.behavior.RecyclerViewBehavior" />
+
+                </android.support.design.widget.CoordinatorLayout>
+    </LinearLayout>
+        </android.support.v4.widget.SwipeRefreshLayout>
+    </FrameLayout>
 </layout>
