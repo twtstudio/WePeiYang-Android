@@ -26,7 +26,6 @@ import com.twtstudio.retrox.schedule.model.ScheduleCacheApi;
 import com.twtstudio.retrox.wepeiyangrd.R;
 import com.twtstudio.retrox.wepeiyangrd.home.HomeActivity;
 
-import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -38,7 +37,6 @@ import io.rx_cache.EvictDynamicKey;
 import io.rx_cache.Reply;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by retrox on 24/03/2017.
@@ -54,9 +52,9 @@ public class ScheduleWidgetProvider extends AppWidgetProvider {
     @Override
     public void onReceive(Context context, Intent intent) {
         super.onReceive(context, intent);
-        if (intent.getAction().equals("com.twt.appwidget.refresh")){
+        if (intent.getAction().equals("com.twt.appwidget.refresh")) {
             ComponentName name = new ComponentName(context, ScheduleWidgetProvider.class);
-            this.onUpdate(context,AppWidgetManager.getInstance(context),AppWidgetManager.getInstance(context).getAppWidgetIds(name));
+            this.onUpdate(context, AppWidgetManager.getInstance(context), AppWidgetManager.getInstance(context).getAppWidgetIds(name));
             Logger.d("widget refresh click!");
         }
     }
@@ -73,8 +71,8 @@ public class ScheduleWidgetProvider extends AppWidgetProvider {
 //            remoteViews.setOnClickPendingIntent(R.id.widget_listview,pendingIntent);
 
             Intent imageClickIntent = new Intent("com.twt.appwidget.refresh");
-            PendingIntent imageClickPendingIntent = PendingIntent.getBroadcast(context,0,imageClickIntent,0);
-            remoteViews.setOnClickPendingIntent(R.id.widget_image_button,imageClickPendingIntent);
+            PendingIntent imageClickPendingIntent = PendingIntent.getBroadcast(context, 0, imageClickIntent, 0);
+            remoteViews.setOnClickPendingIntent(R.id.widget_image_button, imageClickPendingIntent);
 
             remoteViews.setTextViewText(R.id.widget_today_date, getTodayString());
 
@@ -94,13 +92,13 @@ public class ScheduleWidgetProvider extends AppWidgetProvider {
         Hawk.put("scheduleCache", list);
 
         Intent startActivityIntent = new Intent(context, ScheduleActivity.class);
-        PendingIntent startActivityPendingIntent = PendingIntent.getActivity(context,0,startActivityIntent,PendingIntent.FLAG_UPDATE_CURRENT);
-        remoteViews.setPendingIntentTemplate(R.id.widget_listview,startActivityPendingIntent);
+        PendingIntent startActivityPendingIntent = PendingIntent.getActivity(context, 0, startActivityIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        remoteViews.setPendingIntentTemplate(R.id.widget_listview, startActivityPendingIntent);
 
         remoteViews.setRemoteAdapter(R.id.widget_listview, serviceIntent);
         remoteViews.setEmptyView(R.id.widget_listview, R.id.widget_empty_view);
 
-        manager.notifyAppWidgetViewDataChanged(appWidgetId,R.id.widget_listview);
+        manager.notifyAppWidgetViewDataChanged(appWidgetId, R.id.widget_listview);
         manager.updateAppWidget(appWidgetId, remoteViews);
 
     }
@@ -118,7 +116,7 @@ public class ScheduleWidgetProvider extends AppWidgetProvider {
                     //存入学期开始时间
                     CommonPrefUtil.setStartUnix(Long.valueOf(classTable.data.term_start));
 
-                    List<ClassTable.Data.Course> courseList = helper.getTodayCourses(classTable,true);
+                    List<ClassTable.Data.Course> courseList = helper.getTodayCourses(classTable, true);
                     //去除无用课程
                     courseList = Stream.of(courseList)
                             .filter(course -> course.isAvaiableCurrentWeek)

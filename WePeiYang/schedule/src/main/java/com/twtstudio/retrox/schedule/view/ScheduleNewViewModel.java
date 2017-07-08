@@ -28,6 +28,7 @@ public class ScheduleNewViewModel {
     public final ObservableArrayList<ViewModel> items = new ObservableArrayList<>();
     public final ItemViewSelector itemView = ItemViewClassSelector.builder()
             .put(SelectedCoursesInfoViewModel.class, BR.viewModel, R.layout.item_selected_courses)
+            .put(SelectedDateInfoViewModel.class,BR.viewModel,R.layout.item_selected_date)
             .build();
     public final ObservableField<String> today = new ObservableField<>();
 
@@ -51,7 +52,8 @@ public class ScheduleNewViewModel {
         items.clear();
         courseHelper.setCalendar(calendarDay);
         setDate(calendarDay);
-        List<ClassTable.Data.Course> courseList = courseHelper.getTodayCourses(classTable, true);
+        items.add(new SelectedDateInfoViewModel(calendarDay));
+        List<ClassTable.Data.Course> courseList = courseHelper.getTodayCourses(classTable, false);
         courseHelper.setCalendar(calendarDay);
         for (int i = courseList.size() - 1; i >= 0; i--) {
                 //去除后面结尾的 "无" 空课程
@@ -64,6 +66,7 @@ public class ScheduleNewViewModel {
         for (ClassTable.Data.Course course : courseList) {
             if (!course.coursename.equals("无")){
                 items.add(new SelectedCoursesInfoViewModel(course, rxActivity));
+
             }
 
         }

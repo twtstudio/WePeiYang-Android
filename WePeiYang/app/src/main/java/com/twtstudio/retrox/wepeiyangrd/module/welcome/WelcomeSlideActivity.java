@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
-import com.twtstudio.retrox.auth.login.LoginActivity;
 import com.twtstudio.retrox.wepeiyangrd.home.HomeActivity;
 import com.twtstudio.retrox.wepeiyangrd.settings.LibBindFragment;
 import com.twtstudio.retrox.wepeiyangrd.settings.TjuBindFragment;
@@ -26,11 +25,11 @@ public class WelcomeSlideActivity extends MaterialIntroActivity {
         addSlide(new BikeWelcomeFragment());
         addSlide(new BriefWelcomeFragment());
         boolean isBindTju = CommonPrefUtil.getIsBindTju();
-        if (!isBindTju){
+        if (!isBindTju) {
             addSlide(new TjuBindFragment());
         }
         boolean isBindLib = CommonPrefUtil.getIsBindLibrary();
-        if (!isBindLib){
+        if (!isBindLib) {
             addSlide(new LibBindFragment());
         }
     }

@@ -63,6 +63,9 @@ public class CourseHelper {
         if (adjust){
             return adjustCourseList(courseList);
         }
+        courseList = Stream.of(courseList)
+                .sorted((c1,c2)-> (getTodayStart(c1.arrange) - getTodayStart(c2.arrange)))
+                .collect(Collectors.toList());
         return courseList;
     }
 

@@ -1,10 +1,8 @@
 package com.twtstudio.retrox.wepeiyangrd.home.user;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.databinding.ObservableField;
 import android.databinding.ObservableInt;
-import android.preference.PreferenceManager;
 
 import com.kelin.mvvmlight.base.ViewModel;
 import com.kelin.mvvmlight.command.ReplyCommand;

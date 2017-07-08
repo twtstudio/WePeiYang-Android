@@ -1,25 +1,19 @@
 package com.twtstudio.retrox.wepeiyangrd.settings;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
-import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
-import com.orhanobut.logger.Logger;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.twt.wepeiyang.commons.cache.CacheProvider;
 import com.twt.wepeiyang.commons.network.RetrofitProvider;
@@ -27,18 +21,14 @@ import com.twt.wepeiyang.commons.network.RxErrorHandler;
 import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
 import com.twtstudio.retrox.auth.login.AuthApi;
 import com.twtstudio.retrox.auth.login.AuthSelfProvider;
-import com.twtstudio.retrox.auth.login.LoginActivity;
 import com.twtstudio.retrox.auth.tju.TjuApi;
 import com.twtstudio.retrox.bike.service.BikeServiceProvider;
 import com.twtstudio.retrox.tjulibrary.provider.TjuLibProvider;
-import com.twtstudio.retrox.wepeiyangrd.BuildConfig;
 import com.twtstudio.retrox.wepeiyangrd.R;
 import com.twtstudio.retrox.wepeiyangrd.home.HomeActivity;
 
 import es.dmoral.toasty.Toasty;
-import okhttp3.ResponseBody;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -427,7 +417,7 @@ public class SettingsActivity extends AppCompatActivity {
                         Intent emailIntent = new Intent(Intent.ACTION_SENDTO, uri);
                         mContext.startActivity(emailIntent);
                     } catch (Exception e) {
-                        Toasty.error(mContext,"无法启动邮件发送APP",Toast.LENGTH_SHORT).show();
+                        Toasty.error(mContext, "无法启动邮件发送APP", Toast.LENGTH_SHORT).show();
                         CrashReport.postCatchedException(e);
                         e.printStackTrace();
                     }

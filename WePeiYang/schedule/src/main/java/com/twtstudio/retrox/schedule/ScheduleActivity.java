@@ -11,6 +11,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
@@ -101,6 +102,8 @@ public class ScheduleActivity extends RxAppCompatActivity implements ScheduleVie
     RelativeLayout mRlSaturday;
     @BindView(R2.id.rl_sunday)
     RelativeLayout mRlSunday;
+    @BindView(R2.id.refresh)
+    SwipeRefreshLayout refresh;
 
 
     private String currentTerm;//当前学期
@@ -132,7 +135,7 @@ public class ScheduleActivity extends RxAppCompatActivity implements ScheduleVie
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule);
         //判断默认显示的Activity
-        if(CommonPrefUtil.getIsNewSchedule()) {
+        if (CommonPrefUtil.getIsNewSchedule()) {
             Intent intent = new Intent(this, ScheduleNewActivity.class);
             startActivity(intent);
             finish();
@@ -184,10 +187,15 @@ public class ScheduleActivity extends RxAppCompatActivity implements ScheduleVie
             items.add(i, new WeekItem(i + 1, false));
 
         }
+
+        refresh.setOnRefreshListener(()-> {
+            getScheduleDataAuto(true);
+            refresh.setRefreshing(false);
+        });
     }
 
     private void getScheduleDataAuto(boolean refresh) {
-        showProgress();
+        //showProgress();
         ClassTableProvider.init(this)
                 .registerAction(classTable -> {
                     hideProgress();
@@ -235,7 +243,7 @@ public class ScheduleActivity extends RxAppCompatActivity implements ScheduleVie
         mClassTable = classTable;
 
 //        //修复初始情况的课程不可用bug,
-        currentWeek = TimeHelper.getWeekInt(Long.parseLong(classTable.data.term_start),Calendar.getInstance());
+        currentWeek = TimeHelper.getWeekInt(Long.parseLong(classTable.data.term_start), Calendar.getInstance());
         changeWeek(currentWeek);
         if (classTable.data.term.length() > 1) {
             currentTerm = classTable.data.term.substring(0, classTable.data.term.length() - 1);

@@ -25,7 +25,7 @@ public class AvatarItemViewModel implements ViewModel {
 
     public final ReplyCommand onEditClick = new ReplyCommand(this::editIntro);
 
-    private void editIntro(){
+    private void editIntro() {
         // TODO: 2017/1/14 jump to edit intro activity
     }
 
@@ -34,7 +34,7 @@ public class AvatarItemViewModel implements ViewModel {
         getData();
     }
 
-    public void getData(){
+    public void getData() {
         AuthSelfProvider provider = new AuthSelfProvider();
         provider.getUserData(authSelfBean -> {
             userName.set(authSelfBean.twtuname);

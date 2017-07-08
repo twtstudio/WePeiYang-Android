@@ -7,7 +7,7 @@ import rx.Observable;
  */
 
 public interface ICache {
-    <T> Observable<T> get(String key,Class<T> cls);
+    <T> Observable<T> get(String key, Class<T> cls);
 
-    <T> void put(String key,T t);
+    <T> void put(String key, T t);
 }

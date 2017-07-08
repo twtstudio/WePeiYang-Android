@@ -37,20 +37,20 @@ public class ToolsFragViewModel implements ViewModel {
         init();
     }
 
-    private void init(){
-        itemList.add(new ToolItemViewModel(mContext,R.drawable.ic_main_schedule,"课程表", ScheduleActivity.class));
-        itemList.add(new ToolItemViewModel(mContext,R.drawable.ic_main_gpa,"GPA", GpaActivity.class));
-        itemList.add(new ToolItemViewModel(mContext,R.drawable.ic_main_bike,"自行车", BikeActivity.class));
-        itemList.add(new ToolItemViewModel(mContext,R.drawable.ic_main_party,"党建", PartyActivity.class));
-        itemList.add(new ToolItemViewModel(mContext,R.drawable.ic_main_read,"阅读", BookHomeActivity.class));
-        itemList.add(new ToolItemViewModel(mContext,R.drawable.ic_main_fellow_search,"老乡查询", com.example.caokun.fellowsearch.view.MainActivity.class));
-        itemList.add(new ToolItemViewModel(mContext,R.drawable.ic_main_yellowpage,"黄页", HomeActivity.class));
-        itemList.add(new ToolItemViewModel(mContext,R.drawable.ic_main_classroom_query,"自习室", course.labs.classroomquery.homePage.MainActivity.class));
+    private void init() {
+        itemList.add(new ToolItemViewModel(mContext, R.drawable.ic_main_schedule, "课程表", ScheduleActivity.class));
+        itemList.add(new ToolItemViewModel(mContext, R.drawable.ic_main_gpa, "GPA", GpaActivity.class));
+        itemList.add(new ToolItemViewModel(mContext, R.drawable.ic_main_bike, "自行车", BikeActivity.class));
+        itemList.add(new ToolItemViewModel(mContext, R.drawable.ic_main_party, "党建", PartyActivity.class));
+        itemList.add(new ToolItemViewModel(mContext, R.drawable.ic_main_read, "阅读", BookHomeActivity.class));
+        itemList.add(new ToolItemViewModel(mContext, R.drawable.ic_main_fellow_search, "老乡查询", com.example.caokun.fellowsearch.view.MainActivity.class));
+        itemList.add(new ToolItemViewModel(mContext, R.drawable.ic_main_yellowpage, "黄页", HomeActivity.class));
+        itemList.add(new ToolItemViewModel(mContext, R.drawable.ic_main_classroom_query, "自习室", course.labs.classroomquery.homePage.MainActivity.class));
 
         // TODO: 2017/1/15 修改跳转的activity
     }
 
-    private void feedback(){
+    private void feedback() {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse("https://support.twtstudio.com/category/6/%E7%A7%BB%E5%8A%A8%E5%AE%A2%E6%88%B7%E7%AB%AF"));
 //                    intent.createChooser(intent,"选择浏览器");

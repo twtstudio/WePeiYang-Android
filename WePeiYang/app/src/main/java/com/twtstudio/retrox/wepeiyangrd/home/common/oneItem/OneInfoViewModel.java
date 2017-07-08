@@ -3,7 +3,6 @@ package com.twtstudio.retrox.wepeiyangrd.home.common.oneItem;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 
-
 import com.kelin.mvvmlight.base.ViewModel;
 import com.twtstudio.retrox.wepeiyangrd.api.ApiClient;
 import com.twtstudio.retrox.wepeiyangrd.base.BaseFragment;
@@ -14,7 +13,6 @@ import java.util.Locale;
 
 import rx.Notification;
 import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 /**
@@ -42,7 +40,7 @@ public class OneInfoViewModel implements ViewModel {
     /**
      * 这里暂时没啥乱用
      */
-    public class ViewStyle{
+    public class ViewStyle {
         public final ObservableBoolean progressRefreshing = new ObservableBoolean(true);
     }
 

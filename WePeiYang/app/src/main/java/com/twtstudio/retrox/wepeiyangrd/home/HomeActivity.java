@@ -188,11 +188,11 @@ public class HomeActivity extends BaseActivity {
             @Override
             public void onTabSelected(int position, int prePosition) {
                 if (Math.abs(prePosition - position) == 1) {
-                    viewPager.setCurrentItem(position,true);
-                }else if (prePosition == position){
+                    viewPager.setCurrentItem(position, true);
+                } else if (prePosition == position) {
 
-                }else {
-                    viewPager.setCurrentItem(position,false);
+                } else {
+                    viewPager.setCurrentItem(position, false);
                 }
             }
 

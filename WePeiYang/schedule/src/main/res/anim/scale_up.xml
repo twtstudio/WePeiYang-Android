@@ -7,11 +7,11 @@
 
 
     <scale
-        android:fromXScale="1.2"
+        android:fromXScale="1.0"
         android:fromYScale="1.2"
-        android:pivotX="0.0"
-        android:pivotY="0.0"
-        android:duration="1000"
+        android:pivotX="0.5"
+        android:pivotY="1.0"
+        android:duration="500"
         android:toXScale="1.0"
         android:toYScale="1.0"/>
 </set>

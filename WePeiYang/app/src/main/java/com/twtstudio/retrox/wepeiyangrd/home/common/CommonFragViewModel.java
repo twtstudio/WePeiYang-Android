@@ -17,7 +17,6 @@ import com.twtstudio.retrox.wepeiyangrd.base.BaseFragment;
 import com.twtstudio.retrox.wepeiyangrd.home.common.gpaItem.GpaItemViewModel;
 import com.twtstudio.retrox.wepeiyangrd.home.common.oneItem.OneInfoViewModel;
 import com.twtstudio.retrox.wepeiyangrd.home.common.schedule.ScheduleViewModel;
-import com.twtstudio.retrox.wepeiyangrd.home.news.OneDetailViewModel;
 
 import me.tatarka.bindingcollectionadapter.ItemViewSelector;
 import me.tatarka.bindingcollectionadapter.itemviews.ItemViewClassSelector;
@@ -39,11 +38,11 @@ public class CommonFragViewModel implements ViewModel {
 
     public final ItemViewSelector itemView = ItemViewClassSelector.builder()
 //            .put(OneDetailViewModel.class,BR.viewModel,R.layout.item_common_one)
-            .put(GpaItemViewModel.class,BR.viewModel,R.layout.item_common_gpa)
-            .put(ScheduleViewModel.class,BR.viewModel,R.layout.item_common_schedule)
-            .put(HomeLibItemViewModel.class,BR.viewModel, com.twtstudio.retrox.tjulibrary.R.layout.item_common_lib)
-            .put(ClassroomViewModel.class,BR.viewModel,com.twtstudio.retrox.classroomcore.R.layout.item_common_classroom_query)
-            .put(BikeHomeItemViewModel.class,BR.viewModel,com.twtstudio.retrox.bike.R.layout.item_common_bike_card)
+            .put(GpaItemViewModel.class, BR.viewModel, R.layout.item_common_gpa)
+            .put(ScheduleViewModel.class, BR.viewModel, R.layout.item_common_schedule)
+            .put(HomeLibItemViewModel.class, BR.viewModel, com.twtstudio.retrox.tjulibrary.R.layout.item_common_lib)
+            .put(ClassroomViewModel.class, BR.viewModel, com.twtstudio.retrox.classroomcore.R.layout.item_common_classroom_query)
+            .put(BikeHomeItemViewModel.class, BR.viewModel, com.twtstudio.retrox.bike.R.layout.item_common_bike_card)
             .build();
 
     public CommonFragViewModel(BaseFragment fragment) {
@@ -51,10 +50,10 @@ public class CommonFragViewModel implements ViewModel {
         initList();
     }
 
-    public void initList(){
+    public void initList() {
 //        mOneInfoViewModel = new OneDetailViewModel();
 //        viewModelList.add(mOneInfoViewModel);
-        if (viewModelList.size()!=0){
+        if (viewModelList.size() != 0) {
             viewModelList.clear();
         }
 
@@ -63,23 +62,23 @@ public class CommonFragViewModel implements ViewModel {
         ScheduleViewModel mScheduleViewModel = new ScheduleViewModel((RxAppCompatActivity) mFragment.getActivity());
         viewModelList.add(mScheduleViewModel);
 
-        boolean isDisplayGpa = sharedPreferences.getBoolean(mFragment.getString(R.string.pref_is_display_gpa),false);
-        if (isDisplayGpa){
+        boolean isDisplayGpa = sharedPreferences.getBoolean(mFragment.getString(R.string.pref_is_display_gpa), false);
+        if (isDisplayGpa) {
             mGpaItemViewModel = new GpaItemViewModel((BaseActivity) mFragment.getActivity());
             viewModelList.add(mGpaItemViewModel);
         }
 
-        if (CommonPrefUtil.getIsBindLibrary()){
+        if (CommonPrefUtil.getIsBindLibrary()) {
             viewModelList.add(new HomeLibItemViewModel(mFragment.getContext()));
         }
         viewModelList.add(new ClassroomViewModel(mFragment.getContext()));
-        boolean isDisplayBike = sharedPreferences.getBoolean(mFragment.getString(R.string.pref_is_display_bike),false);
-        if (isDisplayBike && CommonPrefUtil.getIsBindBike()){
+        boolean isDisplayBike = sharedPreferences.getBoolean(mFragment.getString(R.string.pref_is_display_bike), false);
+        if (isDisplayBike && CommonPrefUtil.getIsBindBike()) {
             viewModelList.add(new BikeHomeItemViewModel((RxAppCompatActivity) mFragment.getActivity()));
         }
     }
 
-    private void refresh(){
+    private void refresh() {
         mGpaItemViewModel.getData();
     }
 }

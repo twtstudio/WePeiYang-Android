@@ -24,12 +24,12 @@ public class OneInfoBean {
          * strOriginalImgUrl : http://image.wufazhuce.com/FmtibarNXpg9WaM0WN8p7vEapa4d
          * strAuthor : 绘画
          * strContent : 很多人说爱情是没有缘由的，
-         或许情况恰恰相反，
-         每一个爱情的诞生和失去都是有根据的，
-         只是它太小，太日常，
-         太不浪漫，太不刺激，
-         让习惯轰轰烈烈的大多数人没能察觉到罢了。
-
+         * 或许情况恰恰相反，
+         * 每一个爱情的诞生和失去都是有根据的，
+         * 只是它太小，太日常，
+         * 太不浪漫，太不刺激，
+         * 让习惯轰轰烈烈的大多数人没能察觉到罢了。
+         * <p>
          * strMarketTime : 2017-01-16
          * sWebLk : http://m.wufazhuce.com/one/1589
          * strPn :

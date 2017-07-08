@@ -27,9 +27,9 @@ public class UserFragViewModel implements ViewModel {
             if (position == 0) {
                 itemView.set(BR.viewModel, R.layout.item_user_avatar);
             } else if (1 <= position && position <= 3) {
-                itemView.set(BR.viewModel,R.layout.item_user_commons);
-            }else {
-                itemView.set(BR.viewModel,R.layout.item_user_settings);
+                itemView.set(BR.viewModel, R.layout.item_user_commons);
+            } else {
+                itemView.set(BR.viewModel, R.layout.item_user_settings);
             }
         }
 
@@ -44,13 +44,13 @@ public class UserFragViewModel implements ViewModel {
         init();
     }
 
-    private void init(){
+    private void init() {
         list.add(new AvatarItemViewModel());
-        list.add(new CommonItemViewModel(mActivity,CommonItemViewModel.MESSAGE));
-        list.add(new CommonItemViewModel(mActivity,CommonItemViewModel.COLLECTION));
-        list.add(new CommonItemViewModel(mActivity,CommonItemViewModel.RECORD));
+        list.add(new CommonItemViewModel(mActivity, CommonItemViewModel.MESSAGE));
+        list.add(new CommonItemViewModel(mActivity, CommonItemViewModel.COLLECTION));
+        list.add(new CommonItemViewModel(mActivity, CommonItemViewModel.RECORD));
 //        list.add(new PrefItemViewModel(mActivity,PrefItemViewModel.NIGHTMODE));
-        list.add(new PrefItemViewModel(mActivity,PrefItemViewModel.SETTINGS));
-        list.add(new PrefItemViewModel(mActivity,PrefItemViewModel.EXIT));
+        list.add(new PrefItemViewModel(mActivity, PrefItemViewModel.SETTINGS));
+        list.add(new PrefItemViewModel(mActivity, PrefItemViewModel.EXIT));
     }
 }

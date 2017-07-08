@@ -4,10 +4,8 @@ import android.databinding.ObservableArrayList;
 
 import com.kelin.mvvmlight.base.ViewModel;
 import com.twtstudio.retrox.one.OneApiProvider;
-import com.twtstudio.retrox.one.OneDetailBean;
-import com.twtstudio.retrox.wepeiyangrd.R;
 import com.twtstudio.retrox.wepeiyangrd.BR;
-
+import com.twtstudio.retrox.wepeiyangrd.R;
 
 import me.tatarka.bindingcollectionadapter.ItemView;
 
@@ -25,7 +23,7 @@ public class OneListViewModel implements ViewModel {
         getData();
     }
 
-    public void getData(){
+    public void getData() {
         OneApiProvider.getInstance()
                 .getIdlist(dataBean -> obDetailViewModelList.add(new OneDetailViewModel(dataBean)));
     }

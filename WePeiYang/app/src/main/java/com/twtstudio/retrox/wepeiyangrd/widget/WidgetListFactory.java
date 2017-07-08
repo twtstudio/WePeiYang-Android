@@ -33,7 +33,7 @@ public class WidgetListFactory implements RemoteViewsService.RemoteViewsFactory 
     @Override
     public void onCreate() {
 //        getData(false);
-        if (courseList.size()==0){
+        if (courseList.size() == 0) {
             ClassTable.Data.Course course = new ClassTable.Data.Course();
             course.coursename = "今天没课！！！";
             courseList.add(course);
@@ -43,7 +43,7 @@ public class WidgetListFactory implements RemoteViewsService.RemoteViewsFactory 
     @Override
     public void onDataSetChanged() {
 //        getData(false);
-        courseList = Hawk.get("scheduleCache",new ArrayList<ClassTable.Data.Course>());
+        courseList = Hawk.get("scheduleCache", new ArrayList<ClassTable.Data.Course>());
     }
 
     @Override
@@ -61,22 +61,22 @@ public class WidgetListFactory implements RemoteViewsService.RemoteViewsFactory 
         RemoteViews remoteViews = new RemoteViews(mContext.getPackageName(), R.layout.widget_schedule_item);
 
         ClassTable.Data.Course course = courseList.get(position);
-        remoteViews.setTextViewText(R.id.widget_course_title,course.coursename);
-        if (course.coursename.equals("今天没课！！！")){
+        remoteViews.setTextViewText(R.id.widget_course_title, course.coursename);
+        if (course.coursename.equals("今天没课！！！")) {
             remoteViews.setViewVisibility(R.id.widget_course_location_icon, View.INVISIBLE);
         }
-        if (!(course.coursename.equals("无")||course.coursename.equals("今天没课！！！"))){
+        if (!(course.coursename.equals("无") || course.coursename.equals("今天没课！！！"))) {
 
             String location = CourseHelper.getTodayLocation(course.arrange);
-            remoteViews.setTextViewText(R.id.widget_course_location,location);
-            String time = "第"+helper.getTodayStart(course.arrange) +"-"+ helper.getTodayEnd(course.arrange)+"节";
-            remoteViews.setTextViewText(R.id.widget_course_time,time);
+            remoteViews.setTextViewText(R.id.widget_course_location, location);
+            String time = "第" + helper.getTodayStart(course.arrange) + "-" + helper.getTodayEnd(course.arrange) + "节";
+            remoteViews.setTextViewText(R.id.widget_course_time, time);
 
         }
 
         Intent fillInIntent = new Intent();
 //        fillInIntent.putExtra()
-        remoteViews.setOnClickFillInIntent(R.id.widget_schedule_item,fillInIntent);
+        remoteViews.setOnClickFillInIntent(R.id.widget_schedule_item, fillInIntent);
         return remoteViews;
     }
 

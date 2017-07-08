@@ -47,6 +47,7 @@ dependencies {
     compile 'com.haozhang.libary:android-slanted-textview:1.2'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.prolificinteractive:material-calendarview:1.4.3'
+    compile 'com.github.MagicMashRoom:SuperCalendar:v1.3.1'
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.alibaba:arouter-compiler:1.1.2'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'

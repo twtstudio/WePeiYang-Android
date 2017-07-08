@@ -3,12 +3,10 @@ package com.twtstudio.retrox.wepeiyangrd;
 import android.os.Bundle;
 import android.widget.Button;
 
-
 import com.twtstudio.retrox.auth.login.LoginViewModel;
 import com.twtstudio.retrox.wepeiyangrd.base.BaseActivity;
 import com.twtstudio.retrox.wepeiyangrd.base.BaseFragment;
 import com.twtstudio.retrox.wepeiyangrd.home.common.oneItem.OneInfoViewModel;
-
 
 
 public class MainActivity extends BaseActivity {
@@ -36,12 +34,12 @@ public class MainActivity extends BaseActivity {
         viewModel.onLoginClickCommand.execute();
     }
 
-    private void test1(){
+    private void test1() {
         BaseFragment fragment = new BaseFragment();
         OneInfoViewModel viewModel = new OneInfoViewModel(fragment);
     }
 
-    private void test2(){
+    private void test2() {
 //        Intent intent = new Intent(this, BikeActivity.class);
 //        startActivity(intent);
     }

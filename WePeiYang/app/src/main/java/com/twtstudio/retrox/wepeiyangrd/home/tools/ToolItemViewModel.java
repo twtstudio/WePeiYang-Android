@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.kelin.mvvmlight.base.ViewModel;
 import com.kelin.mvvmlight.command.ReplyCommand;
-import com.twtstudio.retrox.wepeiyangrd.base.BaseActivity;
 
 /**
  * Created by retrox on 2017/1/15.
@@ -33,8 +32,8 @@ public class ToolItemViewModel implements ViewModel {
         this.targetAct = activityClass;
     }
 
-    private void jump(){
-        Intent intent = new Intent(mContext,targetAct);
+    private void jump() {
+        Intent intent = new Intent(mContext, targetAct);
         mContext.startActivity(intent);
     }
 

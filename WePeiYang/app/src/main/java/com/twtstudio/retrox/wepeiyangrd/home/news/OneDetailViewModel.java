@@ -5,17 +5,9 @@ import android.databinding.ObservableField;
 
 import com.kelin.mvvmlight.base.ViewModel;
 import com.twtstudio.retrox.one.OneDetailBean;
-import com.twtstudio.retrox.wepeiyangrd.api.ApiClient;
-import com.twtstudio.retrox.wepeiyangrd.base.BaseFragment;
-import com.twtstudio.retrox.wepeiyangrd.home.common.oneItem.OneInfoBean;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Locale;
-
-import rx.Notification;
-import rx.Observable;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by retrox on 2017/1/16.
@@ -42,7 +34,7 @@ public class OneDetailViewModel implements ViewModel {
     /**
      * 这里暂时没啥乱用
      */
-    public class ViewStyle{
+    public class ViewStyle {
         public final ObservableBoolean progressRefreshing = new ObservableBoolean(true);
     }
 

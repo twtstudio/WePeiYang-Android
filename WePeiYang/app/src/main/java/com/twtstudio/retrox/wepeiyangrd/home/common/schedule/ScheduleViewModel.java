@@ -1,27 +1,23 @@
 package com.twtstudio.retrox.wepeiyangrd.home.common.schedule;
 
-import android.app.ActivityOptions;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableField;
-import android.os.Build;
 import android.preference.PreferenceManager;
 
-import com.annimon.stream.Stream;
 import com.kelin.mvvmlight.base.ViewModel;
 import com.kelin.mvvmlight.command.ReplyCommand;
 import com.orhanobut.logger.Logger;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 import com.twtstudio.retrox.schedule.ScheduleActivity;
 import com.twtstudio.retrox.schedule.TimeHelper;
-import com.twtstudio.retrox.schedule.view.ScheduleTodayAct;
-import com.twtstudio.retrox.wepeiyangrd.BR;
 import com.twtstudio.retrox.schedule.model.ClassTable;
 import com.twtstudio.retrox.schedule.model.ClassTableProvider;
 import com.twtstudio.retrox.schedule.model.CourseHelper;
+import com.twtstudio.retrox.schedule.view.ScheduleTodayAct;
+import com.twtstudio.retrox.wepeiyangrd.BR;
 import com.twtstudio.retrox.wepeiyangrd.R;
-
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -56,40 +52,40 @@ public class ScheduleViewModel implements ViewModel {
         getData();
     }
 
-    public void getData(){
+    public void getData() {
         ClassTableProvider.init(rxAppCompatActivity)
                 .registerAction(this::handleClassTable)
                 .getData();
     }
 
-    private void handleClassTable(ClassTable classTable){
-        List<ClassTable.Data.Course> courseList = new CourseHelper().getTodayCourses(classTable,true);
+    private void handleClassTable(ClassTable classTable) {
+        List<ClassTable.Data.Course> courseList = new CourseHelper().getTodayCourses(classTable, true);
         for (ClassTable.Data.Course course : courseList) {
             items.add(new CourseBriefViewModel(course));
         }
         Logger.d(items);
     }
 
-    private void getTodayString(){
+    private void getTodayString() {
         StringBuilder stringBuilder = new StringBuilder();
         Observable.just(Calendar.getInstance())
                 .map(Calendar::getTime)
                 .map(dateFormate::format)
                 .subscribe(stringBuilder::append);
         stringBuilder.append("  ");
-        String s = "星期"+ TimeHelper.getChineseCharacter(new CourseHelper().getTodayNumber());
+        String s = "星期" + TimeHelper.getChineseCharacter(new CourseHelper().getTodayNumber());
         stringBuilder.append(s);
         title.set(stringBuilder.toString());
     }
 
-    private void jumpTodayDetail(){
+    private void jumpTodayDetail() {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(rxAppCompatActivity);
-        boolean isShowTodayCoursePage = sharedPreferences.getBoolean(rxAppCompatActivity.getString(R.string.pref_is_show_today_course),false);
+        boolean isShowTodayCoursePage = sharedPreferences.getBoolean(rxAppCompatActivity.getString(R.string.pref_is_show_today_course), false);
 
-        if (isShowTodayCoursePage){
+        if (isShowTodayCoursePage) {
             Intent intent = new Intent(rxAppCompatActivity, ScheduleTodayAct.class);
             rxAppCompatActivity.startActivity(intent);
-        }else {
+        } else {
             Intent intent = new Intent(rxAppCompatActivity, ScheduleActivity.class);
             rxAppCompatActivity.startActivity(intent);
         }

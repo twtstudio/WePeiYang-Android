@@ -21,4 +21,14 @@
         <item name="android:backgroundDimEnabled">false</item>
 
     </style>
+    <style name="weekIndicatorStyle">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">@color/white</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_marginBottom">1dp</item>
+        <item name="android:paddingBottom">17dp</item>
+        <item name="android:textSize">13sp</item>
+    </style>
 </resources>

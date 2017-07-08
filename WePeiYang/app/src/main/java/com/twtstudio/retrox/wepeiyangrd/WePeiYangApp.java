@@ -1,19 +1,15 @@
 package com.twtstudio.retrox.wepeiyangrd;
 
-import android.app.Application;
 import android.content.Context;
 import android.support.multidex.MultiDexApplication;
-
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.github.piasy.biv.BigImageViewer;
 import com.github.piasy.biv.loader.glide.GlideImageLoader;
 import com.orhanobut.hawk.Hawk;
-import com.orhanobut.logger.Logger;
- import com.tencent.bugly.Bugly;
+import com.tencent.bugly.Bugly;
 import com.tencent.bugly.crashreport.CrashReport;
-import com.wanjian.cockroach.Cockroach;
 
 
 /**
@@ -28,7 +24,7 @@ public class WePeiYangApp extends MultiDexApplication {
         super.onCreate();
 
         Bugly.init(getApplicationContext(), "8ceee186f2", false);
-        CrashReport.setAppChannel(getApplicationContext(),"公测分发");
+        CrashReport.setAppChannel(getApplicationContext(), "公测分发");
         CrashReport.setIsDevelopmentDevice(getApplicationContext(), BuildConfig.DEBUG);
 
 //        Cockroach.install(new Cockroach.ExceptionHandler() {
@@ -44,7 +40,7 @@ public class WePeiYangApp extends MultiDexApplication {
         Fresco.initialize(sContext);
         BigImageViewer.initialize(GlideImageLoader.with(this));
 
-        if (BuildConfig.DEBUG){
+        if (BuildConfig.DEBUG) {
             ARouter.openDebug();
             ARouter.openLog();
         }
@@ -52,7 +48,6 @@ public class WePeiYangApp extends MultiDexApplication {
 
 
     }
-
 
 
     public static Context getContext() {
