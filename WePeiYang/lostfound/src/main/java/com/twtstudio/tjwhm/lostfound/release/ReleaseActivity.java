@@ -1,6 +1,8 @@
 package com.twtstudio.tjwhm.lostfound.release;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.CardView;
@@ -11,16 +13,21 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.twtstudio.tjwhm.lostfound.R;
 import com.twtstudio.tjwhm.lostfound.base.BaseActivity;
 import com.twtstudio.tjwhm.lostfound.detail.DetailBean;
 import com.twtstudio.tjwhm.lostfound.detail.DetailContract;
 import com.twtstudio.tjwhm.lostfound.detail.DetailPresenterImpl;
 import com.twtstudio.tjwhm.lostfound.success.SuccessActivity;
+import com.zhihu.matisse.Matisse;
+import com.zhihu.matisse.MimeType;
+import com.zhihu.matisse.engine.impl.GlideEngine;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -41,6 +48,8 @@ public class ReleaseActivity extends BaseActivity
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+    @BindView(R.id.release_choose_pic)
+    ImageView release_choose_pic;
     @BindView(R.id.release_title)
     EditText release_title;
     @BindView(R.id.release_time)
@@ -120,6 +129,21 @@ public class ReleaseActivity extends BaseActivity
         release_type_recyclerview.setLayoutManager(layoutManager);
         release_type_recyclerview.setAdapter(tableAdapter);
         drawRecyclerView(selectedItemPosition);
+
+        release_choose_pic.setOnClickListener(view -> {
+
+//            startActivityForResult(,Constants.);
+            Matisse.from(ReleaseActivity.this)
+                    .choose(MimeType.of(MimeType.JPEG, MimeType.PNG, MimeType.GIF))
+                    .countable(true)
+                    .maxSelectable(1)
+                    .gridExpectedSize(getResources().getDimensionPixelSize(R.dimen.grid_expected_size))
+                    .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
+                    .thumbnailScale(0.85f)
+                    .imageEngine(new GlideEngine())
+                    .theme(R.style.Matisse_Zhihu)
+                    .forResult(1);
+        });
     }
 
     private void initSpinner() {
@@ -200,7 +224,7 @@ public class ReleaseActivity extends BaseActivity
         map.put("time", timeString);
         map.put("place", placeString);
         map.put("name", nameString);
-        map.put("detail_type", selectedItemPosition+1);
+        map.put("detail_type", selectedItemPosition + 1);
         map.put("phone", phoneString);
         map.put("duration", duration);
         map.put("item_description", remarksString);
@@ -216,11 +240,21 @@ public class ReleaseActivity extends BaseActivity
     @Override
     public void onTypeItemSelected(int position) {
         selectedItemPosition = position;
-        if(position==0||position==1||position==9){
+        if (position == 0 || position == 1 || position == 9) {
             release_cardinfo.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             release_cardinfo.setVisibility(View.GONE);
         }
         Toast.makeText(this, String.valueOf(position), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        List<Uri> selected;
+        if (requestCode == 1) {
+            selected = Matisse.obtainResult(data);
+            Glide.with(this).load(selected.get(0)).into(release_choose_pic);
+        }
     }
 }

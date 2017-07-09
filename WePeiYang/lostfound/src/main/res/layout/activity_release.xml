@@ -28,11 +28,12 @@
                 android:textColor="@color/colorPrimary" />
 
             <ImageView
+                android:id="@+id/release_choose_pic"
                 android:layout_width="128dp"
                 android:layout_height="128dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="12dp"
-                android:src="@color/wechatGreen" />
+                android:src="@drawable/lost_choose_pic" />
 
             <TextView
                 android:layout_width="match_parent"
