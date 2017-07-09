@@ -163,9 +163,9 @@ public class CourseHelper {
     private boolean checkIsThisWeek(ClassTable.Data.Course course) {
         int week = TimeHelper.getWeekInt(startUnix,calendar);
         for (ClassTable.Data.Course.Arrange arrange : course.arrange) {
-            if (arrange.week.equals("单双周") ||
+            if (course.isAvaiableCurrentWeek && (arrange.week.equals("单双周") ||
                     (arrange.week.equals("单周") && week % 2 == 1) ||
-                    (arrange.week.equals("双周") && week % 2 == 0)) {
+                    (arrange.week.equals("双周") && week % 2 == 0))) {
                 return true;
             }
         }

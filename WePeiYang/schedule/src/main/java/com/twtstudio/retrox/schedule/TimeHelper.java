@@ -16,7 +16,7 @@ public class TimeHelper {
         int week =  day/7 + 1;
         //有人过了那个周数就想看下学期hhh
         if (week > 20){
-            return 1;
+            return week;
         }else {
             return week;
         }
