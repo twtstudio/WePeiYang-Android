@@ -234,9 +234,11 @@ public class ScheduleNewActivity extends RxAppCompatActivity {
        ClassTableProvider.init(this).registerAction(this::onRfreshing)
                 .getData(true);
 
+
     }
 
     private void onRfreshing(ClassTable classTable) {
+        refreshClickDate(currentDate);
         refresh.setRefreshing(false);
     }
 
