@@ -29,7 +29,7 @@
                 android:id="@+id/tv_date"
                 android:textSize="16sp"
                 android:layout_gravity="center_vertical"
-                android:text="今日无课，做点有意思的事吧~"/>
+                android:text="@{viewModel.text}"/>
 
     </android.support.v7.widget.CardView>
 </LinearLayout>

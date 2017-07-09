@@ -76,7 +76,7 @@ public class ScheduleNewViewModel {
 
         }
         if(items.size()==1){
-            items.add(new CourseIsEmptyViewModel());
+            items.add(new CourseIsEmptyViewModel(calendarDay));
         }
 
     }
