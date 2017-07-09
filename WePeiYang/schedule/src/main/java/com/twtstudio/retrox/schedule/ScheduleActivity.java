@@ -200,6 +200,7 @@ public class ScheduleActivity extends RxAppCompatActivity implements ScheduleVie
                     hideProgress();
                     this.refresh.setRefreshing(false);
                     bindData(classTable);
+
                 })
                 .getData(refresh);
     }
@@ -292,18 +293,27 @@ public class ScheduleActivity extends RxAppCompatActivity implements ScheduleVie
                             mRlSaturday.removeAllViews();
                             mRlSunday.removeAllViews();
 
-                            initSchedule(mClassTable, week_num);
+                            initSchedule(mClassTable, week_num,false);
                         }
                     }
                     recyclerPopupWindow = null;
                 });
             }
         });
-        initSchedule(classTable, currentWeek);
+        initSchedule(classTable, currentWeek,true);
     }
 
-    private void initSchedule(ClassTable classTable, int week) {
+    private void initSchedule(ClassTable classTable, int week,boolean isUpdate) {
         hasClass = new boolean[7][12];
+        if(isUpdate) {
+            mRlMonday.removeAllViews();
+            mRlTuesday.removeAllViews();
+            mRlWednesday.removeAllViews();
+            mRlThursday.removeAllViews();
+            mRlFriday.removeAllViews();
+            mRlSaturday.removeAllViews();
+            mRlSunday.removeAllViews();
+        }
 
         //绘制课程信息
         Set<ClassTable.Data.Course> coursesNotThisWeek = new HashSet<>(); //非当前周的课程
