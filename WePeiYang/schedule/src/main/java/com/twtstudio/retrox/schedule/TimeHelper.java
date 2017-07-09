@@ -15,11 +15,11 @@ public class TimeHelper {
         int day = (int) (i/86400);
         int week =  day/7 + 1;
         //有人过了那个周数就想看下学期hhh
-        if (week > 20){
+//        if (week > 20){
+//            return week;
+//        }else {
             return week;
-        }else {
-            return week;
-        }
+//        }
     }
 
 
