@@ -20,7 +20,7 @@
             android:id="@+id/cv_s"
             android:layout_width="match_parent"
             android:layout_height="70dp"
-            android:layout_marginTop="1dp"
+            android:layout_marginBottom="1dp"
             android:background="@color/background_gray"
             android:clickable="true"
             android:foreground="?android:attr/selectableItemBackground"
@@ -38,7 +38,6 @@
                     android:layout_marginLeft="28dp"
                     android:layout_marginTop="8dp"
                     android:text="@{viewModel.timePeriod}"
-                    android:textStyle="bold"
                     android:textSize="18sp" />
 
                 <TextView
@@ -49,8 +48,7 @@
                     android:layout_marginLeft="29dp"
                     android:layout_toRightOf="@+id/tv_class"
                     android:text="@{viewModel.mTime}"
-                    android:textSize="18sp"
-                    android:textStyle="bold"/>
+                    android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/course_name"
