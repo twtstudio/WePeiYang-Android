@@ -20,8 +20,7 @@
         <android.support.v4.widget.SwipeRefreshLayout
             android:id="@+id/refresh"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:refreshing="@{viewModel.isRefreshing}">
+            android:layout_height="match_parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -57,45 +56,51 @@
                     </android.support.v7.widget.Toolbar>
                 </android.support.design.widget.AppBarLayout>
 
-
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="38dp"
-                    android:layout_marginTop="11dp"
-                    android:background="@color/schedule_gray"
-                    android:orientation="horizontal">
+                    android:layout_height="wrap_content"
+                    >
 
-                    <TextView
-                        style="@style/weekIndicatorStyle"
-                        android:paddingLeft="5dp"
-                        android:text="一" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="38dp"
+                        android:layout_marginTop="11dp"
+                        android:background="@color/background_gray"
+                        android:orientation="horizontal">
 
-                    <TextView
-                        style="@style/weekIndicatorStyle"
-                        android:text="二" />
+                        <TextView
+                            style="@style/weekIndicatorStyle"
+                            android:paddingLeft="8dp"
+                            android:text="一" />
 
-                    <TextView
-                        style="@style/weekIndicatorStyle"
-                        android:text="三" />
+                        <TextView
+                            style="@style/weekIndicatorStyle"
+                            android:paddingLeft="8dp"
+                            android:text="二" />
 
-                    <TextView
-                        style="@style/weekIndicatorStyle"
-                        android:text="四" />
+                        <TextView
+                            style="@style/weekIndicatorStyle"
+                            android:text="三" />
 
-                    <TextView
-                        style="@style/weekIndicatorStyle"
-                        android:text="五" />
+                        <TextView
+                            style="@style/weekIndicatorStyle"
+                            android:text="四" />
 
-                    <TextView
-                        style="@style/weekIndicatorStyle"
-                        android:text="六" />
+                        <TextView
+                            style="@style/weekIndicatorStyle"
+                            android:text="五" />
 
-                    <TextView
-                        style="@style/weekIndicatorStyle"
-                        android:paddingRight="10dp"
-                        android:text="日" />
+                        <TextView
+                            style="@style/weekIndicatorStyle"
+                            android:paddingRight="10dp"
+                            android:text="六" />
+
+                        <TextView
+                            style="@style/weekIndicatorStyle"
+                            android:paddingRight="10dp"
+                            android:text="日" />
+                    </LinearLayout>
                 </LinearLayout>
-
 
                 <android.support.design.widget.CoordinatorLayout
                     android:layout_width="match_parent"

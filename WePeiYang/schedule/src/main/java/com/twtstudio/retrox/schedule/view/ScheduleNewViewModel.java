@@ -28,7 +28,6 @@ import me.tatarka.bindingcollectionadapter.itemviews.ItemViewClassSelector;
 
 public class ScheduleNewViewModel {
     private RxAppCompatActivity rxActivity;
-    public  ObservableField<Boolean> isRefreshing=new ObservableField<>();
     public final ObservableArrayList<ViewModel> items = new ObservableArrayList<>();
     public final ItemViewSelector itemView = ItemViewClassSelector.builder()
             .put(SelectedCoursesInfoViewModel.class, BR.viewModel, R.layout.item_selected_courses)
@@ -42,7 +41,6 @@ public class ScheduleNewViewModel {
 
     public ScheduleNewViewModel(RxAppCompatActivity rxActivity, CalendarDay calendarDay) {
         this.rxActivity = rxActivity;
-        isRefreshing.set(true);
         initData(calendarDay);
     }
 
@@ -75,7 +73,6 @@ public class ScheduleNewViewModel {
             }
 
         }
-        isRefreshing.set(false);
 
     }
     private void setDate(CalendarDay calendarDay){

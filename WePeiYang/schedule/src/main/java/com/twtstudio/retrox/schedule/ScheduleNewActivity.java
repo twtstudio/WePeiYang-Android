@@ -42,7 +42,6 @@ public class ScheduleNewActivity extends RxAppCompatActivity {
     CoordinatorLayout content;
     SwipeRefreshLayout refresh;
     private MonthPager monthPager;
-    private boolean isWeekMode = false;
     private ArrayList<Calendar> currentCalendars = new ArrayList<>();
     private CalendarViewAdapter calendarAdapter;
     private OnSelectDateListener onSelectDateListener;
@@ -74,22 +73,6 @@ public class ScheduleNewActivity extends RxAppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         rvToDoList = mbinding.list;
         rvToDoList.setHasFixedSize(true);
-//        initCalendar();
-//
-//
-//        mbinding.scroll.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                return onTouchEvent(v, event);
-//            }
-//            //mbinding.calendarView.state().edit().setCalendarDisplayMode(CalendarMode.WEEKS).commit();
-//        });
-//        mbinding.list.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                return onTouchEvent(v, event);
-//            }
-//        });
         refresh.setProgressViewOffset(true, 120, 150);
         monthPager.setOnTouchListener((v, event) -> {
                     refresh.setEnabled(false);
@@ -141,89 +124,7 @@ public class ScheduleNewActivity extends RxAppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-//    void initCalendar() {
-//        mbinding.calendarView.state().edit().isCacheCalendarPositionEnabled(true).commit();
-//        mbinding.calendarView.setTopbarVisible(false);
-//        List<CalendarDay> calendarDays = new ArrayList<>();
-//        calendarDays.add(CalendarDay.today());
-//        EventDecorator eventDecorator = new EventDecorator(R.color.schedule_red, calendarDays);
-//        mbinding.calendarView.setSelectedDate(CalendarDay.today());
-//        mbinding.tvDate.setText(CalendarDay.today().getYear() + "年" + (CalendarDay.today().getMonth() + 1) + "月");
-//        mbinding.calendarView.setOnMonthChangedListener((calendarView, calendarDay) -> {
-//            if (!(mbinding.calendarView.getSelectedDate().getMonth() == calendarDay.getMonth())) {
-//                mbinding.calendarView.setSelectedDate(calendarDay);
-//                viewModel.initData(calendarDay);
-//            }
-//
-//            if (calendarView.getSelectedDate() != null)
-//                mbinding.tvDate.setText(calendarView.getSelectedDate().getYear() + "年" + (calendarView.getSelectedDate().getMonth() + 1) + "月");
-//        });
-//        mbinding.calendarView.setOnDateChangedListener((calendarView, calendarDay, selected) -> {
-//            viewModel.initData(calendarDay);
-//            //tvDate.setText(calendarView.getSelectedDate().toString());
-//        });
-//        mbinding.calendarView.addDecorator(eventDecorator);
-//        mbinding.calendarView.invalidateDecorators();
-//    }
 
-    //    void setScaleAnim(boolean isUp) {
-//        if (isUp) {
-//            Animation mAnimation = AnimationUtils.loadAnimation(this, R.anim.scale_up);
-//            mbinding.calendarView.startAnimation(mAnimation);
-//        } else {
-//            Animation mAnimation = AnimationUtils.loadAnimation(this, R.anim.scale_down);
-//            mbinding.calendarView.startAnimation(mAnimation);
-//        }
-//    }
-//
-//    boolean onTouchEvent(View v, MotionEvent event) {
-//        float mPosX, mPosY, mCurPosX, mCurPosY;
-//        mPosX = mPosY = mCurPosX = mCurPosY = 0;
-//        switch (event.getAction()) {
-//
-//            case MotionEvent.ACTION_DOWN:
-//                mPosX = event.getX();
-//                mPosY = event.getY();
-//               // mbinding.scroll.setEnabled(false);
-//                break;
-//            case MotionEvent.ACTION_MOVE:
-//
-//                break;
-//
-//            case MotionEvent.ACTION_UP:
-//                mCurPosX = event.getX();
-//                mCurPosY = event.getY();
-//                if (mCurPosY - mPosY > 0
-//                        && (Math.abs(mCurPosY - mPosY) > 70)) {
-//                    //向下滑動
-//                    if (isWeekMode) {
-//                        setScaleAnim(false);
-//                        mbinding.calendarView.state().edit().setCalendarDisplayMode(CalendarMode.MONTHS).commit();
-//                        isWeekMode = false;
-//                        mbinding.refresh.setEnabled(true);
-//
-//                    }
-//                    return false;
-//                } else if (mCurPosY - mPosY < 0
-//                        && (Math.abs(mCurPosY - mPosY) > 70)) {
-//                    if (!isWeekMode) {
-//                        setScaleAnim(true);
-//                        //向上滑动
-//                        CalendarDay calendarDay = mbinding.calendarView.getSelectedDate();
-//                        mbinding.calendarView.state().edit().setCalendarDisplayMode(CalendarMode.WEEKS).commit();
-//                        mbinding.calendarView.setSelectedDate(calendarDay);
-//                        viewModel.initData(calendarDay);
-//                        this.isWeekMode = true;
-//                        mbinding.scroll.setEnabled(true);
-//                        mbinding.refresh.setEnabled(false);
-//                    }
-//                    else
-//                        return false;
-//                }
-//                break;
-//        }
-//        return false;
-//    }
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
         if (hasFocus && !initiated) {
@@ -233,9 +134,7 @@ public class ScheduleNewActivity extends RxAppCompatActivity {
         }
     }
 
-    private void initToolbarClickListener() {
 
-    }
 
     private void initCurrentDate() {
         currentDate = new CalendarDate();
@@ -321,9 +220,7 @@ public class ScheduleNewActivity extends RxAppCompatActivity {
         });
     }
 
-    public void onClickBackToDayBtn() {
-        refreshMonthPager();
-    }
+
 
     private void refreshMonthPager() {
         CalendarDate today = new CalendarDate();
@@ -331,12 +228,7 @@ public class ScheduleNewActivity extends RxAppCompatActivity {
         refreshClickDate(today);
     }
 
-    private void refreshSelectBackground() {
-        ThemeDayView themeDayView = new ThemeDayView(context, R.layout.custom_day_focus);
-        calendarAdapter.setCustomDayRenderer(themeDayView);
-        calendarAdapter.notifyDataSetChanged();
-        calendarAdapter.notifyDataChanged(new CalendarDate());
-    }
+
 
     private void onRfreshData() {
        ClassTableProvider.init(this).registerAction(this::onRfreshing)
