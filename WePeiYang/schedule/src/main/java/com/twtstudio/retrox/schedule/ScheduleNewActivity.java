@@ -83,8 +83,8 @@ public class ScheduleNewActivity extends RxAppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 int[] location1 = new int[2];
                 rvToDoList.getLocationInWindow(location1);
-                int i = Utils.dpi2px(context, 100);
-                Log.d("scroll", Integer.toString(i));
+//                int i = Utils.dpi2px(context, 100);
+//                Log.d("scroll", Integer.toString(i));
                 if (location1[1] < Utils.dpi2px(context, 350)) {
                     refresh.setEnabled(false);
                     return false;
