@@ -30,7 +30,7 @@ public class ScheduleDetailsActivity extends AppCompatActivity {
     private int mToolBarColor;
     private Toolbar mToolbar;
     private RecyclerView mRecyclerView;
-
+    private boolean mColorTag;
     private ScheduleDetailAdapter mAdapter;
 
 
@@ -54,7 +54,7 @@ public class ScheduleDetailsActivity extends AppCompatActivity {
         mToolBarColor = getIntent().getIntExtra("color", 0);
         //取得序列化的course
         mCourse = (ClassTable.Data.Course) getIntent().getSerializableExtra("course");
-
+        mColorTag = getIntent().getBooleanExtra("colorTag", true);
         mAdapter = new ScheduleDetailAdapter(this, new ScheduleDetail(mCourse));
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(mAdapter);
@@ -64,12 +64,12 @@ public class ScheduleDetailsActivity extends AppCompatActivity {
             getWindow().setStatusBarColor(mToolBarColor);
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && mColorTag) {
             //api21
             setTint(getResources().getDrawable(R.drawable.circle_24dp), mToolBarColor);
             mSharedElement.setBackground(getResources().getDrawable(R.drawable.circle_24dp));
             setUpAnimations();
-        }else {
+        } else {
             mSharedElement.setVisibility(View.GONE);
             mToolbar.setTitle(mCourse.coursename);
             mToolbar.setBackgroundColor(mToolBarColor);

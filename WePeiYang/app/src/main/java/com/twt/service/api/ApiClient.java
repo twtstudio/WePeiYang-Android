@@ -42,9 +42,9 @@ public class ApiClient {
     public ApiClient() {
 
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(message -> {
-            if (message.startsWith("{")){
+            if (message.startsWith("{")) {
                 Logger.json(message);
-            }else {
+            } else {
                 Platform.get().log(INFO, message, null);
             }
         });
@@ -80,7 +80,7 @@ public class ApiClient {
         return SingletonHolder.INSTANCE;
     }
 
-    public static Api getService(){
+    public static Api getService() {
         return SingletonHolder.INSTANCE.mService;
     }
 
@@ -92,7 +92,7 @@ public class ApiClient {
             /**
              * deal with other requests (not twt requests)
              */
-            if (!originRequest.url().host().equals("open.twtstudio.com")){
+            if (!originRequest.url().host().equals("open.twtstudio.com")) {
                 return chain.proceed(originRequest);
             }
 
@@ -100,10 +100,10 @@ public class ApiClient {
 
             Request.Builder builder = originRequest.newBuilder()
 //                    .addHeader("User-Agent", UserAgent.generate())
-                    .addHeader("Authorization", "Bearer{"+ CommonPrefUtil.getToken()+"}")
+                    .addHeader("Authorization", "Bearer{" + CommonPrefUtil.getToken() + "}")
                     .url(newUrl);
 
-            Logger.d("token-->"+ CommonPrefUtil.getToken());
+            Logger.d("token-->" + CommonPrefUtil.getToken());
 
             return chain.proceed(builder.build());
         }
@@ -117,9 +117,9 @@ public class ApiClient {
             Collections.sort(keysList);
 
             String keys = Stream.of(keysList).map(s1 -> {
-                if ("t".equals(s1)){
+                if ("t".equals(s1)) {
                     s1 += timestamp;
-                }else {
+                } else {
                     s1 += originUrl.queryParameter(s1);
                 }
                 return s1;

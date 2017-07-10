@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.twtstudio.retrox.schedule">
 
@@ -5,22 +6,23 @@
         android:allowBackup="true"
         android:label="@string/app_name"
         android:supportsRtl="true">
-
         <activity
             android:name=".MultiCourseActivity"
             android:theme="@style/Theme.FloatingWindow.Popup" />
         <activity android:name=".ScheduleActivity">
             <intent-filter>
                 <action android:name="com.twt.schedule.action.DYNAMIC_OPEN" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
         <activity android:name=".ScheduleDetailsActivity" />
         <activity
             android:name=".view.ScheduleTodayAct"
             android:exported="true" />
+        <activity
+            android:name=".ScheduleNewActivity"
+            android:theme="@style/Theme.FloatingWindow.Popup" />
     </application>
-
 
 </manifest>

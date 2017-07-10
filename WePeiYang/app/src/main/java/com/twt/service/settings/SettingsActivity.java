@@ -417,7 +417,7 @@ public class SettingsActivity extends AppCompatActivity {
                         Intent emailIntent = new Intent(Intent.ACTION_SENDTO, uri);
                         mContext.startActivity(emailIntent);
                     } catch (Exception e) {
-                        Toasty.error(mContext,"无法启动邮件发送APP",Toast.LENGTH_SHORT).show();
+                        Toasty.error(mContext, "无法启动邮件发送APP", Toast.LENGTH_SHORT).show();
                         CrashReport.postCatchedException(e);
                         e.printStackTrace();
                     }

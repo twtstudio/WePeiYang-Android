@@ -8,7 +8,7 @@ import android.content.Intent;
  */
 
 public class WidgetUpdateManger {
-    public static void sendUpdateMsg(Context context){
+    public static void sendUpdateMsg(Context context) {
         Intent intent = new Intent("com.twt.appwidget.refresh");
         context.sendBroadcast(intent);
     }

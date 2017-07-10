@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
-
 import com.twtstudio.retrox.auth.login.LoginActivity;
 import com.twt.service.R;
 import com.twt.service.base.BaseActivity;

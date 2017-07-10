@@ -130,9 +130,9 @@ public class DiskCache implements ICache {
         }
         long existTime = System.currentTimeMillis() - dataFile.lastModified();
         boolean isFailure = false;
-        if (isLongTimeData(getKey(dataFile))){
+        if (isLongTimeData(getKey(dataFile))) {
             isFailure = false;
-        }else {
+        } else {
             if (NetworkUtils.getNetworkType(WePeiYangApp.getContext()) == NetworkUtils.NetworkType.NETWORK_WIFI) {
                 isFailure = existTime > WIFI_CACHE_TIME;
             } else {
@@ -181,20 +181,20 @@ public class DiskCache implements ICache {
         }
     }
 
-    public void clearDiskCache(String key){
-        File file = new File(fileDir,key + NAME);
-        if (file.exists()){
+    public void clearDiskCache(String key) {
+        File file = new File(fileDir, key + NAME);
+        if (file.exists()) {
             file.delete();
         }
     }
 
-    private String getKey(File file){
+    private String getKey(File file) {
         String name = file.getName();
         String[] strings = name.split("\\.");
         return strings[0];
     }
 
-    private boolean isLongTimeData(String key){
+    private boolean isLongTimeData(String key) {
         return longTimeDataKey.contains(key);
     }
 }

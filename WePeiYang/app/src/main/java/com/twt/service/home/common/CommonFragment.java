@@ -58,7 +58,7 @@ public class CommonFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        FragmentCommonsBinding binding = DataBindingUtil.inflate(inflater,R.layout.fragment_commons,container,false);
+        FragmentCommonsBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_commons, container, false);
         commonFragViewModel = new CommonFragViewModel(this);
         binding.setViewModel(commonFragViewModel);
 
@@ -80,7 +80,7 @@ public class CommonFragment extends BaseFragment {
             Alerter.create(this.getActivity())
                     .setTitle(coursePushBean.title)
                     .setText(coursePushBean.message)
-                    .setDuration(3*1000)
+                    .setDuration(3 * 1000)
                     .setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -93,11 +93,10 @@ public class CommonFragment extends BaseFragment {
         });
 
 
-
         return view;
     }
 
-    public void refreshList(){
+    public void refreshList() {
         commonFragViewModel.initList();
     }
 
@@ -153,15 +152,15 @@ public class CommonFragment extends BaseFragment {
     }
 
     //设置展开时各控件的透明度
-    public void setToolbar1Alpha(int alpha){
+    public void setToolbar1Alpha(int alpha) {
         mZhangdan.getDrawable().setAlpha(alpha);
-        mZhangdan_txt.setTextColor(Color.argb(alpha,255,255,255));
+        mZhangdan_txt.setTextColor(Color.argb(alpha, 255, 255, 255));
         mTongxunlu.getDrawable().setAlpha(alpha);
         mJiahao.getDrawable().setAlpha(alpha);
     }
 
     //设置闭合时各控件的透明度
-    public void setToolbar2Alpha(int alpha){
+    public void setToolbar2Alpha(int alpha) {
         mZhangdan2.getDrawable().setAlpha(alpha);
         mShaoyishao.getDrawable().setAlpha(alpha);
         mSearch.getDrawable().setAlpha(alpha);

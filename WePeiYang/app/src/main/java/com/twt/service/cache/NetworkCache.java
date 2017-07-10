@@ -7,5 +7,5 @@ import rx.Observable;
  */
 
 public abstract class NetworkCache<T> {
-    public abstract Observable<T> get(String key,Class<T> cls);
+    public abstract Observable<T> get(String key, Class<T> cls);
 }

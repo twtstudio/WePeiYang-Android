@@ -34,7 +34,7 @@ public class OneDetailViewModel implements ViewModel {
     /**
      * 这里暂时没啥乱用
      */
-    public class ViewStyle{
+    public class ViewStyle {
         public final ObservableBoolean progressRefreshing = new ObservableBoolean(true);
     }
 

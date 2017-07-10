@@ -40,7 +40,7 @@ public class LibBindFragment extends SlideFragment {
     public void bind_lib(View view) {
 
         String libPassWd = libPasswordEdit.getText().toString();
-        if (TextUtils.isEmpty(libPassWd)){
+        if (TextUtils.isEmpty(libPassWd)) {
             libPassWd = "000000";
             Toast.makeText(mContext, "尝试默认密码ing...", Toast.LENGTH_SHORT).show();
         }

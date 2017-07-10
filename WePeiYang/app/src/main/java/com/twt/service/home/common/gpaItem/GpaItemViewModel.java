@@ -43,7 +43,7 @@ public class GpaItemViewModel implements ViewModel {
             ActivityOptions activityOptions = ActivityOptions.makeSceneTransitionAnimation(mContext, view,
                     mContext.getResources().getString(com.twtstudio.retrox.gpa.R.string.gpa_transition_name));
             mContext.startActivity(intent, activityOptions.toBundle());
-        }else {
+        } else {
             mContext.startActivity(intent);
         }
 

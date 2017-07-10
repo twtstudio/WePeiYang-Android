@@ -24,7 +24,7 @@ public class OneListViewModel implements ViewModel {
         getData();
     }
 
-    public void getData(){
+    public void getData() {
         OneApiProvider.getInstance()
                 .getIdlist(dataBean -> obDetailViewModelList.add(new OneDetailViewModel(dataBean)));
     }

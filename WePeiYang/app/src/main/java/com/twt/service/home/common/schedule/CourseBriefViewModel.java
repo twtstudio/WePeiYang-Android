@@ -23,15 +23,15 @@ public class CourseBriefViewModel implements ViewModel {
     public CourseBriefViewModel(ClassTable.Data.Course course) {
         String name = course.coursename;
         int color = course.coursecolor;
-        if (!name.equals("无")){
-            this.courseName.set(name+"@"+CourseHelper.getTodayLocation(course.arrange));
-        }else {
+        if (!name.equals("无")) {
+            this.courseName.set(name + "@" + CourseHelper.getTodayLocation(course.arrange));
+        } else {
             this.courseName.set(name);
         }
         this.cardColor.set(ResourceHelper.getColor(color));
-        if (color == com.twtstudio.retrox.schedule.R.color.myWindowBackgroundGray){
+        if (color == com.twtstudio.retrox.schedule.R.color.myWindowBackgroundGray) {
             textColor.set(ResourceHelper.getColor(com.twtstudio.retrox.schedule.R.color.schedule_gray));
-        }else {
+        } else {
             textColor.set(ResourceHelper.getColor(com.twtstudio.retrox.schedule.R.color.white_color));
         }
     }
@@ -39,7 +39,7 @@ public class CourseBriefViewModel implements ViewModel {
     public CourseBriefViewModel() {
     }
 
-    public static CourseBriefViewModel getInstance(ClassTable.Data.Course course){
+    public static CourseBriefViewModel getInstance(ClassTable.Data.Course course) {
         return new CourseBriefViewModel(course);
     }
 }

@@ -32,8 +32,8 @@ public class ToolItemViewModel implements ViewModel {
         this.targetAct = activityClass;
     }
 
-    private void jump(){
-        Intent intent = new Intent(mContext,targetAct);
+    private void jump() {
+        Intent intent = new Intent(mContext, targetAct);
         mContext.startActivity(intent);
     }
 

@@ -14,7 +14,7 @@ android {
         versionName "1.0"
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments = [ moduleName : project.getName() ]
+                arguments = [moduleName: project.getName()]
             }
         }
 
@@ -41,11 +41,14 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    annotationProcessor 'com.alibaba:arouter-compiler:1.1.2'
 
+    compile project(':commons')
     compile 'com.jakewharton:butterknife:8.5.1'
     compile 'com.haozhang.libary:android-slanted-textview:1.2'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
-    compile project(':commons')
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'com.prolificinteractive:material-calendarview:1.4.3'
+    compile 'com.github.MagicMashRoom:SuperCalendar:v1.3.1'
     testCompile 'junit:junit:4.12'
+    annotationProcessor 'com.alibaba:arouter-compiler:1.1.2'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
 }

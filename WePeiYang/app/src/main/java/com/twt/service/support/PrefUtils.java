@@ -8,6 +8,7 @@ import com.twt.service.WePeiYangApp;
 
 /**
  * Created by Rex on 2015/8/3.
+ *
  * @deprecated moved to CommonPrefUtil for Security reasons
  */
 public class PrefUtils {
@@ -46,17 +47,17 @@ public class PrefUtils {
 
     public static void setToken(String token) {
         if (token != null) {
-            getDefaultSharedPreferences().edit().putString(PREF_TOKEN, token ).apply();
+            getDefaultSharedPreferences().edit().putString(PREF_TOKEN, token).apply();
         }
     }
 
     public static String getToken() {
-        String token =  getDefaultSharedPreferences().getString(PREF_TOKEN, "");
+        String token = getDefaultSharedPreferences().getString(PREF_TOKEN, "");
         return "Bearer{" + token + "}";
     }
 
-    public static String getTokenForBike(){
-        return getDefaultSharedPreferences().getString(PREF_TOKEN,"");
+    public static String getTokenForBike() {
+        return getDefaultSharedPreferences().getString(PREF_TOKEN, "");
     }
 
     public static void setUsername(String twtuname) {
@@ -116,10 +117,10 @@ public class PrefUtils {
     }
 
     public static void setCardId(String id) {
-        getDefaultSharedPreferences().edit().putString(PREF_BIKE_CARD_ID,id).apply();
+        getDefaultSharedPreferences().edit().putString(PREF_BIKE_CARD_ID, id).apply();
     }
 
-    public static String getCardId(){
-        return getDefaultSharedPreferences().getString(PREF_BIKE_CARD_ID,"");
+    public static String getCardId() {
+        return getDefaultSharedPreferences().getString(PREF_BIKE_CARD_ID, "");
     }
 }

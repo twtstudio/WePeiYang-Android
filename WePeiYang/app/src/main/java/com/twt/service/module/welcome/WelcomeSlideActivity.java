@@ -25,11 +25,11 @@ public class WelcomeSlideActivity extends MaterialIntroActivity {
         addSlide(new BikeWelcomeFragment());
         addSlide(new BriefWelcomeFragment());
         boolean isBindTju = CommonPrefUtil.getIsBindTju();
-        if (!isBindTju){
+        if (!isBindTju) {
             addSlide(new TjuBindFragment());
         }
         boolean isBindLib = CommonPrefUtil.getIsBindLibrary();
-        if (!isBindLib){
+        if (!isBindLib) {
             addSlide(new LibBindFragment());
         }
     }

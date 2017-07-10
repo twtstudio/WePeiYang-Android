@@ -53,40 +53,40 @@ public class ScheduleViewModel implements ViewModel {
         getData();
     }
 
-    public void getData(){
+    public void getData() {
         ClassTableProvider.init(rxAppCompatActivity)
                 .registerAction(this::handleClassTable)
                 .getData();
     }
 
-    private void handleClassTable(ClassTable classTable){
-        List<ClassTable.Data.Course> courseList = new CourseHelper().getTodayCourses(classTable,true);
+    private void handleClassTable(ClassTable classTable) {
+        List<ClassTable.Data.Course> courseList = new CourseHelper().getTodayCourses(classTable, true);
         for (ClassTable.Data.Course course : courseList) {
             items.add(new CourseBriefViewModel(course));
         }
         Logger.d(items);
     }
 
-    private void getTodayString(){
+    private void getTodayString() {
         StringBuilder stringBuilder = new StringBuilder();
         Observable.just(Calendar.getInstance())
                 .map(Calendar::getTime)
                 .map(dateFormate::format)
                 .subscribe(stringBuilder::append);
         stringBuilder.append("  ");
-        String s = "星期"+ TimeHelper.getChineseCharacter(new CourseHelper().getTodayNumber());
+        String s = "星期" + TimeHelper.getChineseCharacter(new CourseHelper().getTodayNumber());
         stringBuilder.append(s);
         title.set(stringBuilder.toString());
     }
 
-    private void jumpTodayDetail(){
+    private void jumpTodayDetail() {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(rxAppCompatActivity);
-        boolean isShowTodayCoursePage = sharedPreferences.getBoolean(rxAppCompatActivity.getString(R.string.pref_is_show_today_course),false);
+        boolean isShowTodayCoursePage = sharedPreferences.getBoolean(rxAppCompatActivity.getString(R.string.pref_is_show_today_course), false);
 
-        if (isShowTodayCoursePage){
+        if (isShowTodayCoursePage) {
             Intent intent = new Intent(rxAppCompatActivity, ScheduleTodayAct.class);
             rxAppCompatActivity.startActivity(intent);
-        }else {
+        } else {
             Intent intent = new Intent(rxAppCompatActivity, ScheduleActivity.class);
             rxAppCompatActivity.startActivity(intent);
         }

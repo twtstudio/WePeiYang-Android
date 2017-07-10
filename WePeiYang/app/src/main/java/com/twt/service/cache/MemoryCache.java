@@ -15,14 +15,14 @@ import rx.Subscriber;
  * for memoryCache Function
  */
 
-public class MemoryCache implements ICache{
+public class MemoryCache implements ICache {
     private LruCache<String, String> mCache;
 
     public MemoryCache() {
         final int maxMemory = (int) Runtime.getRuntime().maxMemory();
         final int cacheSize = maxMemory / 8;
 
-        mCache = new LruCache<String, String>(cacheSize){
+        mCache = new LruCache<String, String>(cacheSize) {
             @Override
             protected int sizeOf(String key, String value) {
                 try {
@@ -43,14 +43,14 @@ public class MemoryCache implements ICache{
             public void call(Subscriber<? super T> subscriber) {
                 String result = mCache.get(key);
 
-                if (subscriber.isUnsubscribed()){
+                if (subscriber.isUnsubscribed()) {
                     return;
                 }
 
-                if (TextUtils.isEmpty(result)){
+                if (TextUtils.isEmpty(result)) {
                     subscriber.onNext(null);
-                }else {
-                    T t = new Gson().fromJson(result,cls);
+                } else {
+                    T t = new Gson().fromJson(result, cls);
                     subscriber.onNext(t);
                 }
 
@@ -61,12 +61,12 @@ public class MemoryCache implements ICache{
 
     @Override
     public <T> void put(String key, T t) {
-        if (null != t){
-            mCache.put(key,new Gson().toJson(t));
+        if (null != t) {
+            mCache.put(key, new Gson().toJson(t));
         }
     }
 
-    public void clearMemory(String key){
+    public void clearMemory(String key) {
         mCache.remove(key);
     }
 }
