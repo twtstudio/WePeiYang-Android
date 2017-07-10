@@ -17,6 +17,7 @@
             android:layout_height="48dp"
             android:background="@color/colorPrimary"
             android:gravity="center"
+            android:textColor="@color/white"
             android:text="确认" />
     </LinearLayout>
 

@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.twtstudio.tjwhm.lostfound.R;
 import com.twtstudio.tjwhm.lostfound.detail.DetailActivity;
 import com.twtstudio.tjwhm.lostfound.release.ReleaseActivity;
@@ -54,6 +55,8 @@ public class MylistTableAdapter extends RecyclerView.Adapter {
         ImageView mylist_item_back_grey;
         @BindView(R.id.mylist_item_pencil)
         ImageView mylist_item_pencil;
+        @BindView(R.id.mylist_item_pic)
+        ImageView mylist_item_pic;
 
         public MylistViewHolder(View itemView) {
             super(itemView);
@@ -77,6 +80,11 @@ public class MylistTableAdapter extends RecyclerView.Adapter {
         viewHolder.mylist_item_type.setText(Utils.getType(dataBean.detail_type));
         viewHolder.mylist_item_time.setText(dataBean.time);
         viewHolder.mylist_item_place.setText(dataBean.place);
+        Glide.with(context)
+                .load(Utils.getPicUrl(dataBean.picture))
+                .asBitmap()
+                .placeholder(R.drawable.lost_waterfall_nopic)
+                .into(viewHolder.mylist_item_pic);
 
         if (dataBean.isback == 1) {
             viewHolder.mylist_item_back_blue.setVisibility(View.VISIBLE);
@@ -107,11 +115,11 @@ public class MylistTableAdapter extends RecyclerView.Adapter {
         viewHolder.mylist_item_pencil.setOnClickListener(view -> {
             if (Objects.equals(lostOrFound, "lost")) {
                 bundle.putString("lostOrFound", "editLost");
-            }else{
-                bundle.putString("lostOrFound","editFound");
+            } else {
+                bundle.putString("lostOrFound", "editFound");
             }
             bundle.putInt("id", dataBean.id);
-            bundle.putInt("type",dataBean.detail_type);
+            bundle.putInt("type", dataBean.detail_type);
             intent.putExtras(bundle);
             intent.setClass(context, ReleaseActivity.class);
             context.startActivity(intent);

@@ -1,7 +1,5 @@
 package com.twtstudio.tjwhm.lostfound.detail;
 
-import android.widget.Toast;
-
 import com.twt.wepeiyang.commons.network.RetrofitProvider;
 import com.twt.wepeiyang.commons.network.RxErrorHandler;
 import com.twtstudio.tjwhm.lostfound.release.ReleaseContract;

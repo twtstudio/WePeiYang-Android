@@ -15,8 +15,6 @@ import com.twtstudio.tjwhm.lostfound.R;
 import com.twtstudio.tjwhm.lostfound.detail.DetailActivity;
 import com.twtstudio.tjwhm.lostfound.support.Utils;
 
-import java.util.Objects;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -65,13 +63,12 @@ public class WaterfallTableAdapter extends RecyclerView.Adapter {
 
         WaterfallBean.DataBean dataBean = waterfallBean.data.get(position);
 
-        // TODO: 2017/7/5 现在是假图片,需换成真图片
         WaterfallViewHolder viewHolder = (WaterfallViewHolder) holder;
-        if (Objects.equals(dataBean.picture, "")) {
-            viewHolder.waterfall_item_pic.setImageResource(R.drawable.lost_waterfall_nopic);
-        }else{
-            Glide.with(context).load(Utils.getPicUrl(dataBean.picture)).asBitmap().into(viewHolder.waterfall_item_pic);
-        }
+        Glide.with(context)
+                .load(Utils.getPicUrl(dataBean.picture))
+                .asBitmap()
+                .placeholder(R.drawable.lost_waterfall_nopic)
+                .into(viewHolder.waterfall_item_pic);
         viewHolder.waterfall_item_title.setText(dataBean.title);
         viewHolder.waterfall_item_type.setText(Utils.getType(dataBean.detail_type));
         viewHolder.waterfall_item_time.setText(dataBean.time);

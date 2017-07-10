@@ -21,9 +21,8 @@
             <ImageView
                 android:id="@+id/detail_pic"
                 android:layout_width="match_parent"
-                android:layout_height="290dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/waterfall_pic1" />
+                android:layout_height="188dp"
+                android:scaleType="fitCenter" />
 
             <TextView
                 android:id="@+id/detail_title"
@@ -32,8 +31,7 @@
                 android:gravity="center"
                 android:paddingBottom="10dp"
                 android:paddingTop="10dp"
-                android:singleLine="true"
-                android:text="swatch红色表带手表" />
+                android:singleLine="true" />
 
             <ImageView
                 android:layout_width="match_parent"
@@ -61,7 +59,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="2017/5/1"
                     android:textSize="15dp" />
             </LinearLayout>
 
@@ -84,7 +81,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="北洋园-图书馆二楼"
                     android:textSize="15dp" />
             </LinearLayout>
 
@@ -107,7 +103,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="手表 or 饰品"
                     android:textSize="15dp" />
             </LinearLayout>
 
@@ -130,7 +125,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="欧小莹"
                     android:textSize="15dp" />
             </LinearLayout>
 
@@ -153,7 +147,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="15022083566"
                     android:textSize="15dp" />
             </LinearLayout>
 
@@ -177,7 +170,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="20dp"
                     android:layout_weight="1"
-                    android:text="在新校区丢失swatch手表一枚，希望同学们能帮忙看一下，必有重谢。"
                     android:textSize="15dp" />
             </LinearLayout>
         </LinearLayout>

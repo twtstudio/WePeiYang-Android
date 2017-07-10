@@ -9,6 +9,7 @@
     <item
         android:id="@+id/waterfall_indi"
         android:icon="@drawable/lost_indi"
+        
         android:title="indi"
         app:showAsAction="ifRoom"/>
 </menu>

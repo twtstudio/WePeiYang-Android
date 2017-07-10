@@ -5,7 +5,6 @@ import com.twt.wepeiyang.commons.network.RxErrorHandler;
 
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
-import rx.subscriptions.CompositeSubscription;
 
 /**
  * Created by tjwhm on 2017/7/5.

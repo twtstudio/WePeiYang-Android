@@ -1,7 +1,5 @@
 package com.twtstudio.tjwhm.lostfound.release;
 
-import android.widget.Toast;
-
 import com.twt.wepeiyang.commons.network.RetrofitProvider;
 import com.twt.wepeiyang.commons.network.RxErrorHandler;
 import com.twtstudio.tjwhm.lostfound.base.BaseBean;
@@ -14,7 +12,6 @@ import java.util.Objects;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
-import retrofit2.http.Multipart;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -56,7 +53,7 @@ public class ReleasePresenterImpl implements ReleaseContract.ReleasePresenter {
         builder.addFormDataPart("card_name",String.valueOf(map.get("card_name")));
         builder.addFormDataPart("name",String.valueOf(map.get("name")));
         builder.addFormDataPart("phone",String.valueOf(map.get("phone")));
-        builder.addFormDataPart("item_description",String.valueOf("item_description"));
+        builder.addFormDataPart("item_description",String.valueOf(map.get("item_description")));
         builder.addFormDataPart("other_tag","");
         builder.addFormDataPart("duration",String.valueOf(map.get("duration")));
         List<MultipartBody.Part> parts = builder.build().parts();

@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.twtstudio.tjwhm.lostfound.R;
 import com.twtstudio.tjwhm.lostfound.base.BaseActivity;
 import com.twtstudio.tjwhm.lostfound.success.SuccessActivity;
@@ -91,6 +92,13 @@ public class DetailActivity extends BaseActivity implements DetailContract.Detai
 
     @Override
     public void setDetailData(DetailBean detailData) {
+        Glide.with(this)
+                .load(Utils.getPicUrl(detailData.data.picture))
+                .asBitmap()
+                .placeholder(R.drawable.lost_detail_nopic)
+                .fitCenter()
+                .into(detail_pic);
+
         detail_title.setText(detailData.data.title);
         detail_time.setText(detailData.data.time);
         detail_place.setText(detailData.data.place);

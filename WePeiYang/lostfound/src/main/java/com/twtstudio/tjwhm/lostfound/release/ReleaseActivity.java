@@ -43,10 +43,6 @@ import java.util.Map;
 import java.util.Objects;
 
 import butterknife.BindView;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
-import retrofit2.http.Multipart;
 
 /**
  * Created by tjwhm on 2017/7/2.

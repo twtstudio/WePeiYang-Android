@@ -10,7 +10,6 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.twtstudio.tjwhm.lostfound.R;
 
@@ -29,7 +28,7 @@ public class WaterfallFragment extends Fragment implements WaterfallContract.Wat
     @BindView(R.id.waterfall_recyclerView)
     RecyclerView waterfall_recyclerView;
     private WaterfallTableAdapter tableAdapter;
-    private StaggeredGridLayoutManager layoutManager;
+    private StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL);
     private WaterfallBean waterfallBean = new WaterfallBean();
     WaterfallContract.WaterfallPresenter waterfallPresenter = new WaterfallPresenterImpl(this);
     private int page = 1;
@@ -51,7 +50,6 @@ public class WaterfallFragment extends Fragment implements WaterfallContract.Wat
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_waterfall, container, false);
         ButterKnife.bind(this, view);
-        layoutManager = new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL);
         waterfall_recyclerView.setLayoutManager(layoutManager);
         waterfallBean.data = new ArrayList<>();
         tableAdapter = new WaterfallTableAdapter(waterfallBean, getActivity());
@@ -59,7 +57,6 @@ public class WaterfallFragment extends Fragment implements WaterfallContract.Wat
 
         Bundle bundle = getArguments();
         lostOrFound = bundle.getString("index");
-        waterfallPresenter.loadWaterfallData(lostOrFound, page);
 
         water_refresh.setOnRefreshListener(this::refresh);
 
@@ -101,7 +98,7 @@ public class WaterfallFragment extends Fragment implements WaterfallContract.Wat
         refresh();
     }
 
-    private void refresh(){
+    private void refresh() {
         isLoading = true;
         isRefresh = true;
         page = 1;
