@@ -6,8 +6,8 @@ import com.orhanobut.hawk.Hawk;
 import com.twt.wepeiyang.commons.utils.App;
 
 /**
- * Created by HP on 2017/7/5.
- */
+ * Created by tjwhm on 2017/7/5.
+ **/
 
 public class lostfoundApp extends Application {
     @Override

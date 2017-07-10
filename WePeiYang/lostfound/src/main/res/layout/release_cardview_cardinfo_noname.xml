@@ -12,30 +12,31 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="4dp"
             android:focusable="true"
             android:focusableInTouchMode="true">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="top"
                 android:layout_marginStart="12dp"
                 android:maxLines="1"
-                android:text="物品描述"
+                android:text="卡号"
                 android:textSize="16sp"
                 android:textStyle="normal" />
 
             <EditText
-                android:id="@+id/release_remark"
+                android:id="@+id/release_card_num_noname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginStart="8dp"
                 android:background="@null"
-                android:hint="输入物品的具体信息"
-                android:minLines="2"
+                android:hint="输入卡号的后六位"
                 android:textSize="12sp" />
         </LinearLayout>
+
     </LinearLayout>
 
 </android.support.v7.widget.CardView>

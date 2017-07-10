@@ -4,7 +4,7 @@ package com.twtstudio.tjwhm.lostfound.support;
  * Created by tjwhm on 2017/7/7.
  **/
 
-public class IntToType {
+public class Utils {
     public static String getType(int i) {
 
         if (i == 1) {
@@ -35,5 +35,8 @@ public class IntToType {
             return "其他";
         }
         return "wrong";
+    }
+    public static String getPicUrl(String addUrl){
+        return "http://open.twtstudio.com/"+addUrl;
     }
 }

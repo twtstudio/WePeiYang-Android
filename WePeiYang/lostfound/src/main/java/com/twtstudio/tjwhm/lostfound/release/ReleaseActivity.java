@@ -1,9 +1,13 @@
 package com.twtstudio.tjwhm.lostfound.release;
 
+import android.content.ContentUris;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.DocumentsContract;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -29,6 +33,7 @@ import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.engine.impl.GlideEngine;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -38,6 +43,10 @@ import java.util.Map;
 import java.util.Objects;
 
 import butterknife.BindView;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import retrofit2.http.Multipart;
 
 /**
  * Created by tjwhm on 2017/7/2.
@@ -74,6 +83,14 @@ public class ReleaseActivity extends BaseActivity
     RecyclerView release_type_recyclerview;
     @BindView(R.id.release_cardinfo)
     CardView release_cardinfo;
+    @BindView(R.id.release_cardinfo_noname)
+    CardView release_cardinfo_noname;
+    @BindView(R.id.release_card_num)
+    EditText release_card_num;
+    @BindView(R.id.release_card_name)
+    EditText release_card_name;
+    @BindView(R.id.release_card_num_noname)
+    EditText release_card_num_noname;
 
     int duration = 1;
     String lostOrFound;
@@ -83,6 +100,8 @@ public class ReleaseActivity extends BaseActivity
     DetailContract.DetailView detailView;
     int id;
     int selectedItemPosition = 0;
+    List<Uri> selectedPic = new ArrayList<>();
+
 
     @Override
     protected int getLayoutResourceId() {
@@ -125,25 +144,23 @@ public class ReleaseActivity extends BaseActivity
             DetailContract.DetailPresenter detailPresenter = new DetailPresenterImpl(detailView);
             detailPresenter.loadDetailDataForEdit(id, this);
         }
+
         initSpinner();
         release_type_recyclerview.setLayoutManager(layoutManager);
         release_type_recyclerview.setAdapter(tableAdapter);
         drawRecyclerView(selectedItemPosition);
+        onTypeItemSelected(selectedItemPosition);
 
-        release_choose_pic.setOnClickListener(view -> {
-
-//            startActivityForResult(,Constants.);
-            Matisse.from(ReleaseActivity.this)
-                    .choose(MimeType.of(MimeType.JPEG, MimeType.PNG, MimeType.GIF))
-                    .countable(true)
-                    .maxSelectable(1)
-                    .gridExpectedSize(getResources().getDimensionPixelSize(R.dimen.grid_expected_size))
-                    .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
-                    .thumbnailScale(0.85f)
-                    .imageEngine(new GlideEngine())
-                    .theme(R.style.Matisse_Zhihu)
-                    .forResult(1);
-        });
+        release_choose_pic.setOnClickListener(view -> Matisse.from(ReleaseActivity.this)
+                .choose(MimeType.of(MimeType.JPEG, MimeType.PNG, MimeType.GIF))
+                .countable(true)
+                .maxSelectable(1)
+                .gridExpectedSize(getResources().getDimensionPixelSize(R.dimen.grid_expected_size))
+                .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
+                .thumbnailScale(0.85f)
+                .imageEngine(new GlideEngine())
+                .theme(R.style.Matisse_Zhihu)
+                .forResult(2));
     }
 
     private void initSpinner() {
@@ -175,8 +192,15 @@ public class ReleaseActivity extends BaseActivity
 
     @Override
     public void onClick(View view) {
+
         if (view == release_confirm && (Objects.equals(lostOrFound, "lost") || Objects.equals(lostOrFound, "found"))) {
-            releasePresenter.updateReleaseData(getUpdateMap(), lostOrFound);
+            if (selectedPic.size() != 0) {
+                File file = new File(handleImageOnKitKat(selectedPic.get(0)));
+                releasePresenter.uploadReleaseDataWithPic(getUpdateMap(), lostOrFound, file);
+
+            } else {
+                releasePresenter.uploadReleaseData(getUpdateMap(), lostOrFound);
+            }
         } else if (view == release_confirm) {
             releasePresenter.updateEditData(getUpdateMap(), lostOrFound, id);
         } else if (view == release_delete) {
@@ -228,6 +252,18 @@ public class ReleaseActivity extends BaseActivity
         map.put("phone", phoneString);
         map.put("duration", duration);
         map.put("item_description", remarksString);
+        if (selectedItemPosition == 0 || selectedItemPosition == 1) {
+            String card_numString = release_card_num.getText().toString();
+            String card_nameString = release_card_name.getText().toString();
+            map.put("card_number", card_numString);
+            map.put("card_name", card_nameString);
+        } else if (selectedItemPosition == 9) {
+            String card_numString = release_card_num_noname.getText().toString();
+            map.put("card_number", card_numString);
+            map.put("card_name", nameString);
+        } else if (selectedItemPosition == 12) {
+            map.put("other_tag", " ");
+        }
         return map;
     }
 
@@ -240,21 +276,60 @@ public class ReleaseActivity extends BaseActivity
     @Override
     public void onTypeItemSelected(int position) {
         selectedItemPosition = position;
-        if (position == 0 || position == 1 || position == 9) {
+        if (position == 0 || position == 1) {
             release_cardinfo.setVisibility(View.VISIBLE);
+            release_cardinfo_noname.setVisibility(View.GONE);
+        } else if (position == 9) {
+            release_cardinfo_noname.setVisibility(View.VISIBLE);
+            release_cardinfo.setVisibility(View.GONE);
         } else {
+            release_cardinfo_noname.setVisibility(View.GONE);
             release_cardinfo.setVisibility(View.GONE);
         }
-        Toast.makeText(this, String.valueOf(position), Toast.LENGTH_SHORT).show();
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        System.out.println("abcdef" + String.valueOf(resultCode));
         super.onActivityResult(requestCode, resultCode, data);
-        List<Uri> selected;
-        if (requestCode == 1) {
-            selected = Matisse.obtainResult(data);
-            Glide.with(this).load(selected.get(0)).into(release_choose_pic);
+        if (requestCode == 2 && requestCode != 0) {
+            selectedPic = Matisse.obtainResult(data);
+            Glide.with(this).load(selectedPic.get(0)).into(release_choose_pic);
         }
+    }
+
+    private String handleImageOnKitKat(Uri uri) {
+        String imagePath = null;
+        if (DocumentsContract.isDocumentUri(this, uri)) {
+            String docId = DocumentsContract.getDocumentId(uri);
+            if ("com.android.providers.media.documents".equals(uri.getAuthority())) {
+                //Log.d(TAG, uri.toString());
+                String id = docId.split(":")[1];
+                String selection = MediaStore.Images.Media._ID + "=" + id;
+                imagePath = getImagePath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, selection);
+            } else if ("com.android.providers.downloads.documents".equals(uri.getAuthority())) {
+                //Log.d(TAG, uri.toString());
+                Uri contentUri = ContentUris.withAppendedId(
+                        Uri.parse("content://downloads/public_downloads"),
+                        Long.valueOf(docId));
+                imagePath = getImagePath(contentUri, null);
+            }
+        } else if ("content".equalsIgnoreCase(uri.getScheme())) {
+            //Log.d(TAG, "content: " + uri.toString());
+            imagePath = getImagePath(uri, null);
+        }
+        return imagePath;
+    }
+    private String getImagePath(Uri uri, String selection) {
+        String path = null;
+        Cursor cursor = getContentResolver().query(uri, null, selection, null, null);
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
+            }
+
+            cursor.close();
+        }
+        return path;
     }
 }

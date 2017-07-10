@@ -10,9 +10,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.twtstudio.tjwhm.lostfound.R;
 import com.twtstudio.tjwhm.lostfound.detail.DetailActivity;
-import com.twtstudio.tjwhm.lostfound.support.IntToType;
+import com.twtstudio.tjwhm.lostfound.support.Utils;
+
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -64,13 +67,13 @@ public class WaterfallTableAdapter extends RecyclerView.Adapter {
 
         // TODO: 2017/7/5 现在是假图片,需换成真图片
         WaterfallViewHolder viewHolder = (WaterfallViewHolder) holder;
-        if (position == 0) {
-            viewHolder.waterfall_item_pic.setImageResource(R.drawable.waterfall_pic1);
-        } else {
-            viewHolder.waterfall_item_pic.setImageResource(R.drawable.waterfall_pic2);
+        if (Objects.equals(dataBean.picture, "")) {
+            viewHolder.waterfall_item_pic.setImageResource(R.drawable.lost_waterfall_nopic);
+        }else{
+            Glide.with(context).load(Utils.getPicUrl(dataBean.picture)).asBitmap().into(viewHolder.waterfall_item_pic);
         }
         viewHolder.waterfall_item_title.setText(dataBean.title);
-        viewHolder.waterfall_item_type.setText(IntToType.getType(dataBean.detail_type));
+        viewHolder.waterfall_item_type.setText(Utils.getType(dataBean.detail_type));
         viewHolder.waterfall_item_time.setText(dataBean.time);
         viewHolder.waterfall_item_place.setText(dataBean.place);
 

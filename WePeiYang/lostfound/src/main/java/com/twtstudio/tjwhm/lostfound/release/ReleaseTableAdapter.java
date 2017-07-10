@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.twtstudio.tjwhm.lostfound.R;
-import com.twtstudio.tjwhm.lostfound.support.IntToType;
+import com.twtstudio.tjwhm.lostfound.support.Utils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -53,7 +53,7 @@ public class ReleaseTableAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         ReleaseViewHolder viewHolder = (ReleaseViewHolder) holder;
-        viewHolder.release_item_type.setText(IntToType.getType(position + 1));
+        viewHolder.release_item_type.setText(Utils.getType(position + 1));
         viewHolder.release_item_cardview.setCardBackgroundColor(Color.parseColor("#dfdfdf"));
         if (position == positionSelected) {
             viewHolder.release_item_cardview.setCardBackgroundColor(Color.parseColor("#00a1e9"));

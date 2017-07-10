@@ -51,6 +51,8 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp" />
 
+
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -67,6 +69,14 @@
             <include
                 android:id="@+id/release_cardinfo"
                 layout="@layout/release_cardview_cardinfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp" />
+            <include
+                android:id="@+id/release_cardinfo_noname"
+                layout="@layout/release_cardview_cardinfo_noname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
@@ -136,6 +146,7 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="36dp" />

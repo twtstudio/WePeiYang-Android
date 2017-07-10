@@ -4,6 +4,7 @@ import com.twtstudio.tjwhm.lostfound.base.BaseBean;
 import com.twtstudio.tjwhm.lostfound.base.BaseContract;
 import com.twtstudio.tjwhm.lostfound.detail.DetailBean;
 
+import java.io.File;
 import java.util.Map;
 
 /**
@@ -27,7 +28,10 @@ public interface ReleaseContract {
     public interface ReleasePresenter extends BaseContract.BasePresenter {
 
 
-        void updateReleaseData(Map<String, Object> map, String lostOrFound);
+        void uploadReleaseData(Map<String, Object> map, String lostOrFound);
+
+        void uploadReleaseDataWithPic
+                (Map<String, Object> map, String lostOrFound, File file);
 
         void successCallBack(BaseBean baseBean);
 

@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.twtstudio.tjwhm.lostfound.R;
 import com.twtstudio.tjwhm.lostfound.detail.DetailActivity;
 import com.twtstudio.tjwhm.lostfound.release.ReleaseActivity;
-import com.twtstudio.tjwhm.lostfound.support.IntToType;
+import com.twtstudio.tjwhm.lostfound.support.Utils;
 import com.twtstudio.tjwhm.lostfound.waterfall.WaterfallBean;
 
 import java.util.Objects;
@@ -74,7 +74,7 @@ public class MylistTableAdapter extends RecyclerView.Adapter {
         MylistViewHolder viewHolder = (MylistViewHolder) holder;
         WaterfallBean.DataBean dataBean = mylistBean.data.get(position);
         viewHolder.mylist_item_title.setText(dataBean.title);
-        viewHolder.mylist_item_type.setText(IntToType.getType(dataBean.detail_type));
+        viewHolder.mylist_item_type.setText(Utils.getType(dataBean.detail_type));
         viewHolder.mylist_item_time.setText(dataBean.time);
         viewHolder.mylist_item_place.setText(dataBean.place);
 

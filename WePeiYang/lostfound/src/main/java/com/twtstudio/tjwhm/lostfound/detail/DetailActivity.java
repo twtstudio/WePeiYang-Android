@@ -1,6 +1,7 @@
 package com.twtstudio.tjwhm.lostfound.detail;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
@@ -10,7 +11,7 @@ import android.widget.TextView;
 import com.twtstudio.tjwhm.lostfound.R;
 import com.twtstudio.tjwhm.lostfound.base.BaseActivity;
 import com.twtstudio.tjwhm.lostfound.success.SuccessActivity;
-import com.twtstudio.tjwhm.lostfound.support.IntToType;
+import com.twtstudio.tjwhm.lostfound.support.Utils;
 
 import butterknife.BindView;
 
@@ -85,6 +86,7 @@ public class DetailActivity extends BaseActivity implements DetailContract.Detai
         Bundle bundle = getIntent().getExtras();
         int id = bundle.getInt("id");
         detailPresenter.loadDetailData(id);
+
     }
 
     @Override
@@ -92,9 +94,16 @@ public class DetailActivity extends BaseActivity implements DetailContract.Detai
         detail_title.setText(detailData.data.title);
         detail_time.setText(detailData.data.time);
         detail_place.setText(detailData.data.place);
-        detail_type.setText(IntToType.getType(detailData.data.detail_type));
+        detail_type.setText(Utils.getType(detailData.data.detail_type));
         detail_name.setText(detailData.data.name);
         detail_phone.setText(detailData.data.phone);
         detail_remarks.setText(detailData.data.item_description);
+        detail_phone.setOnClickListener(view -> {
+            Uri uri = Uri.parse("tel:" + detailData.data.phone);
+
+            Intent intent = new Intent(Intent.ACTION_DIAL, uri);
+
+            startActivity(intent);
+        });
     }
 }

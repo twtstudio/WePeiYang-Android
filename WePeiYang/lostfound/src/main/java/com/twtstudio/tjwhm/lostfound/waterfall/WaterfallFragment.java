@@ -53,8 +53,8 @@ public class WaterfallFragment extends Fragment implements WaterfallContract.Wat
         ButterKnife.bind(this, view);
         layoutManager = new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL);
         waterfall_recyclerView.setLayoutManager(layoutManager);
-        tableAdapter = new WaterfallTableAdapter(waterfallBean, getActivity());
         waterfallBean.data = new ArrayList<>();
+        tableAdapter = new WaterfallTableAdapter(waterfallBean, getActivity());
         waterfall_recyclerView.setAdapter(tableAdapter);
 
         Bundle bundle = getArguments();
@@ -62,6 +62,7 @@ public class WaterfallFragment extends Fragment implements WaterfallContract.Wat
         waterfallPresenter.loadWaterfallData(lostOrFound, page);
 
         water_refresh.setOnRefreshListener(this::refresh);
+
 
         waterfall_recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
