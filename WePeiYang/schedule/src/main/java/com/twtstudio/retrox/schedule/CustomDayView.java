@@ -2,7 +2,10 @@ package com.twtstudio.retrox.schedule;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ldf.calendar.Utils;
@@ -10,6 +13,7 @@ import com.ldf.calendar.component.State;
 import com.ldf.calendar.interf.IDayRenderer;
 import com.ldf.calendar.model.CalendarDate;
 import com.ldf.calendar.view.DayView;
+import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 
 /**
  * Created by ldf on 17/6/26.
@@ -20,7 +24,9 @@ public class CustomDayView extends DayView {
     private TextView dateTv;
     private View selectedBackground;
     private View todayBackground;
+    private RelativeLayout relativeLayout;
     private final CalendarDate today = new CalendarDate();
+    private RxAppCompatActivity rxAppCompatActivity;
 
     /**
      * Constructor. Sets up the MarkerView with a custom layout resource.
@@ -28,11 +34,20 @@ public class CustomDayView extends DayView {
      * @param context
      * @param layoutResource the layout resource to use for the MarkerView
      */
-    public CustomDayView(Context context, int layoutResource) {
+    public CustomDayView(Context context, int layoutResource,RxAppCompatActivity rxAppCompatActivity) {
         super(context, layoutResource);
+        this.rxAppCompatActivity=rxAppCompatActivity;
         dateTv = (TextView) findViewById(R.id.date);
         selectedBackground = findViewById(R.id.selected_background);
         todayBackground = findViewById(R.id.today_background);
+        relativeLayout=(RelativeLayout)findViewById(R.id.relative);
+        DisplayMetrics metrics = new DisplayMetrics();
+
+       rxAppCompatActivity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        float width=(metrics.widthPixels-2*(metrics.widthPixels/20))/7;
+        ViewGroup.LayoutParams params=relativeLayout.getLayoutParams();
+        params.width= (int) Math.abs(width);
+        relativeLayout.setLayoutParams(params);
     }
 
     @Override
@@ -71,6 +86,8 @@ public class CustomDayView extends DayView {
 
     @Override
     public IDayRenderer copy() {
-        return new CustomDayView(context , layoutResource);
+        return new CustomDayView(context , layoutResource,rxAppCompatActivity);
     }
+
+
 }

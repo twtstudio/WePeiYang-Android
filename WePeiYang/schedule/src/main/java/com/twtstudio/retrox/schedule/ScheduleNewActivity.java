@@ -9,11 +9,14 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.ldf.calendar.Utils;
 import com.ldf.calendar.component.CalendarAttr;
@@ -49,6 +52,7 @@ public class ScheduleNewActivity extends RxAppCompatActivity {
     private Context context;
     private CalendarDate currentDate;
     private boolean initiated = false;
+    private int padding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +78,14 @@ public class ScheduleNewActivity extends RxAppCompatActivity {
         rvToDoList = mbinding.list;
         rvToDoList.setHasFixedSize(true);
         refresh.setProgressViewOffset(true, 120, 150);
+        DisplayMetrics metrics = new DisplayMetrics();
+
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        CoordinatorLayout.LayoutParams params= (CoordinatorLayout.LayoutParams) mbinding.calendarView.getLayoutParams();
+        padding=metrics.widthPixels/20;
+        params.setMargins(padding,0,padding,0);
+        mbinding.calendarView.setLayoutParams(params);
+        mbinding.linear.setPadding(padding,0,padding,0);
         monthPager.setOnTouchListener((v, event) -> {
                     refresh.setEnabled(false);
                     return false;
@@ -142,7 +154,7 @@ public class ScheduleNewActivity extends RxAppCompatActivity {
 
     private void initCalendarView() {
         initListener();
-        CustomDayView customDayView = new CustomDayView(context, R.layout.custom_day);
+        CustomDayView customDayView = new CustomDayView(context, R.layout.custom_day,this);
         calendarAdapter = new CalendarViewAdapter(
                 context,
                 onSelectDateListener,
