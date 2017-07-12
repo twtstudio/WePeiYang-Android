@@ -70,7 +70,8 @@ dependencies {
     compile project(':fellowsearch')
     compile project(':yellowpages')
     compile project(':party')
-    compile project(":classroomquery")
+//    compile project(":classroomquery")
+    compile project(':classroom')
 
     compile 'com.wanjian:cockroach:0.0.5'
 

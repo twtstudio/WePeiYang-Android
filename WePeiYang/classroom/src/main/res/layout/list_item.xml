@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.twtstudio.service.classroom.view.ItemViewModel" />
+
+        <import type="me.tatarka.bindingcollectionadapter.LayoutManagers" />
+    </data>
+
+    <android.support.v7.widget.CardView
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:background="@color/White"
+        app:cardElevation="1dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="15dp"
+            android:paddingBottom="10dp"
+            android:paddingTop="5dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/classroomItem"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_weight="10"
+                    android:clickable="true"
+                    android:gravity="left"
+                    android:textSize="25dip" />
+
+                <Button
+                    android:id="@+id/clickButton"
+                    android:layout_width="30dp"
+                    android:layout_height="32dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:background="@drawable/classroom_icon_uncollected" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="3dp">
+
+                <TextView
+                    android:id="@+id/xiaoquItem"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="10"
+                    android:gravity="left"
+                    android:textSize="15dip" />
+
+                <TextView
+                    android:id="@+id/time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="7dp"
+
+
+                >
+
+                <ImageView
+                    android:id="@+id/image1"
+                    android:layout_width="130px"
+                    android:layout_height="46px"
+                    android:layout_margin="3dp"
+                    android:layout_weight="1"
+                    android:scaleType="fitCenter" />
+
+                <ImageView
+                    android:id="@+id/image2"
+                    android:layout_width="130px"
+                    android:layout_height="46px"
+                    android:layout_margin="3dp"
+                    android:layout_weight="1"
+                    android:scaleType="fitCenter"
+                    android:visibility="invisible" />
+
+                <ImageView
+                    android:id="@+id/image3"
+                    android:layout_width="130px"
+                    android:layout_height="46px"
+                    android:layout_margin="3dp"
+                    android:layout_weight="1"
+                    android:scaleType="fitCenter"
+                    android:visibility="invisible" />
+
+                <ImageView
+                    android:id="@+id/image4"
+                    android:layout_width="130px"
+                    android:layout_height="46px"
+                    android:layout_margin="3dp"
+                    android:layout_weight="1"
+                    android:scaleType="fitCenter"
+                    android:visibility="invisible" />
+
+                <ImageView
+                    android:id="@+id/image5"
+                    android:layout_width="130px"
+                    android:layout_height="46px"
+                    android:layout_margin="3dp"
+                    android:layout_weight="1"
+                    android:scaleType="fitCenter"
+                    android:visibility="invisible" />
+
+
+            </LinearLayout>
+        </LinearLayout>
+
+
+    </android.support.v7.widget.CardView>
+</layout>
