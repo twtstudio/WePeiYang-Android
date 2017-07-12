@@ -11,6 +11,7 @@
         android:layout_height="wrap_content">
 
         <android.support.v7.widget.RecyclerView
+            android:layout_marginBottom="24dp"
             android:layout_marginLeft="12dp"
             android:id="@+id/waterfall_recyclerView"
             android:layout_width="match_parent"

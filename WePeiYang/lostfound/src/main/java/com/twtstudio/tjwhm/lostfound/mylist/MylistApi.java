@@ -1,6 +1,8 @@
 package com.twtstudio.tjwhm.lostfound.mylist;
 
 
+import com.twtstudio.tjwhm.lostfound.base.BaseBean;
+
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -14,4 +16,7 @@ public interface MylistApi {
     @GET("lostfound/user/{lostOrFound}")
     Observable<MylistBean> loadMylistData
             (@Path("lostOrFound")String lostOrFound, @Query("page")String page);
+
+    @GET("lostfound/inverse/{id}")
+    Observable<BaseBean> turnStatus(@Path("id") String id);
 }

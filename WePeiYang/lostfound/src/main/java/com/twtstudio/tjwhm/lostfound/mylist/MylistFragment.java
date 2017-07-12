@@ -73,6 +73,16 @@ public class MylistFragment extends Fragment implements MylistContract.MylistVie
         }
     }
 
+    @Override
+    public void turnStatus(int id) {
+        mylistPresenter.turnStatus(id);
+    }
+
+    @Override
+    public void turnStatusSuccessCallBack() {
+        mylistPresenter.loadMylistData(lostOrFound,1);
+    }
+
     private void initValues() {
         mylist_nodata.setVisibility(View.GONE);
         mylist_progress.setVisibility(View.VISIBLE);
@@ -80,7 +90,7 @@ public class MylistFragment extends Fragment implements MylistContract.MylistVie
         mylistBean.data = new ArrayList<>();
         layoutManager = new LinearLayoutManager(getActivity());
         mylist_recyclerView.setLayoutManager(layoutManager);
-        tableAdapter = new MylistTableAdapter(mylistBean, getActivity(),lostOrFound);
+        tableAdapter = new MylistTableAdapter(mylistBean, getActivity(),lostOrFound,this);
         mylist_recyclerView.setAdapter(tableAdapter);
     }
 

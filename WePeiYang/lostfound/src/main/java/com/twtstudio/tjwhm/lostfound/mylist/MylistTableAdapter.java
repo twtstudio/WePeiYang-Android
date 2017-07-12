@@ -8,7 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.twtstudio.tjwhm.lostfound.R;
@@ -28,14 +30,16 @@ import butterknife.ButterKnife;
 
 public class MylistTableAdapter extends RecyclerView.Adapter {
 
-    MylistBean mylistBean;
-    Context context;
-    String lostOrFound;
+    private MylistBean mylistBean;
+    private Context context;
+    private String lostOrFound;
+    private MylistContract.MylistView mylistView;
 
-    public MylistTableAdapter(MylistBean mylistBean, Context context, String lostOrFound) {
+    public MylistTableAdapter(MylistBean mylistBean, Context context, String lostOrFound, MylistContract.MylistView mylistView) {
         this.mylistBean = mylistBean;
         this.context = context;
         this.lostOrFound = lostOrFound;
+        this.mylistView = mylistView;
     }
 
     public class MylistViewHolder extends RecyclerView.ViewHolder {
@@ -57,6 +61,10 @@ public class MylistTableAdapter extends RecyclerView.Adapter {
         ImageView mylist_item_pencil;
         @BindView(R.id.mylist_item_pic)
         ImageView mylist_item_pic;
+        @BindView(R.id.mylist_status_linear)
+        LinearLayout mylist_status_linear;
+        @BindView(R.id.mylist_item_pencil_touch)
+        TextView mylist_item_pencil_touch;
 
         public MylistViewHolder(View itemView) {
             super(itemView);
@@ -103,6 +111,7 @@ public class MylistTableAdapter extends RecyclerView.Adapter {
                 viewHolder.mylist_item_status.setText("未找到");
             }
         }
+        viewHolder.mylist_status_linear.setOnClickListener(view -> mylistView.turnStatus(dataBean.id));
 
         Intent intent = new Intent();
         Bundle bundle = new Bundle();
@@ -112,7 +121,7 @@ public class MylistTableAdapter extends RecyclerView.Adapter {
             intent.setClass(context, DetailActivity.class);
             context.startActivity(intent);
         });
-        viewHolder.mylist_item_pencil.setOnClickListener(view -> {
+        viewHolder.mylist_item_pencil_touch.setOnClickListener(view -> {
             if (Objects.equals(lostOrFound, "lost")) {
                 bundle.putString("lostOrFound", "editLost");
             } else {

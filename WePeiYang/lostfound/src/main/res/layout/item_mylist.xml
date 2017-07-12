@@ -23,7 +23,7 @@
                 android:layout_marginBottom="12dp"
                 android:layout_marginLeft="12dp"
                 android:layout_marginTop="12dp"
-                android:scaleType="fitXY"/>
+                android:scaleType="fitXY" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -35,7 +35,7 @@
                     android:layout_height="wrap_content">
 
                     <LinearLayout
-                        android:id="@+id/mtlist_status_linear"
+                        android:id="@+id/mylist_status_linear"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
@@ -52,7 +52,7 @@
 
                         <RelativeLayout
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_marginStart="4dp"
                             android:layout_marginTop="12dp">
 
@@ -60,15 +60,18 @@
                                 android:id="@+id/mylist_item_back_grey"
                                 android:layout_width="16dp"
                                 android:layout_height="16dp"
+                                android:layout_alignParentBottom="true"
                                 android:src="@drawable/lost_back_grey" />
 
                             <ImageView
                                 android:id="@+id/mylist_item_back_blue"
                                 android:layout_width="16dp"
                                 android:layout_height="16dp"
+                                android:layout_alignParentBottom="true"
                                 android:src="@drawable/lost_back_blue" />
                         </RelativeLayout>
                     </LinearLayout>
+
 
                     <ImageView
                         android:id="@+id/mylist_item_pencil"
@@ -78,6 +81,13 @@
                         android:layout_marginEnd="24dp"
                         android:layout_marginTop="12dp"
                         android:src="@drawable/lost_pencil" />
+
+                    <TextView
+                        android:id="@+id/mylist_item_pencil_touch"
+                        android:layout_width="56dp"
+                        android:layout_height="30dp"
+                        android:layout_alignParentEnd="true" />
+
                 </RelativeLayout>
 
                 <TextView
@@ -86,8 +96,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="12dp"
                     android:text="@string/mylist_item_title"
-                    android:textStyle="bold"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
 
                 <LinearLayout
                     android:layout_width="match_parent"

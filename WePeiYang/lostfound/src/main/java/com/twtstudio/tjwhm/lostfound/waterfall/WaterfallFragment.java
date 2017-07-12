@@ -61,7 +61,7 @@ public class WaterfallFragment extends Fragment implements WaterfallContract.Wat
         water_refresh.setOnRefreshListener(this::refresh);
 
 
-        waterfall_recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+        waterfall_recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);

@@ -29,6 +29,7 @@ import com.twtstudio.tjwhm.lostfound.detail.DetailBean;
 import com.twtstudio.tjwhm.lostfound.detail.DetailContract;
 import com.twtstudio.tjwhm.lostfound.detail.DetailPresenterImpl;
 import com.twtstudio.tjwhm.lostfound.success.SuccessActivity;
+import com.twtstudio.tjwhm.lostfound.support.Utils;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.engine.impl.GlideEngine;
@@ -217,6 +218,10 @@ public class ReleaseActivity extends BaseActivity
 
     @Override
     public void setEditData(DetailBean detailBean) {
+        Glide.with(this)
+                .load(Utils.getPicUrl(detailBean.data.picture))
+                .asBitmap()
+                .into(release_choose_pic);
         release_title.setText(detailBean.data.title);
         release_time.setText(detailBean.data.time);
         release_place.setText(detailBean.data.place);
@@ -286,9 +291,7 @@ public class ReleaseActivity extends BaseActivity
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        System.out.println("abcdef" + String.valueOf(resultCode));
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 2 && requestCode != 0) {
+        if (requestCode == 2 && resultCode != 0) {
             selectedPic = Matisse.obtainResult(data);
             Glide.with(this).load(selectedPic.get(0)).into(release_choose_pic);
         }
@@ -316,6 +319,7 @@ public class ReleaseActivity extends BaseActivity
         }
         return imagePath;
     }
+
     private String getImagePath(Uri uri, String selection) {
         String path = null;
         Cursor cursor = getContentResolver().query(uri, null, selection, null, null);

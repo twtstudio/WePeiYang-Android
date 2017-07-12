@@ -5,7 +5,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
+import android.view.Window;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -13,6 +15,8 @@ import com.twtstudio.tjwhm.lostfound.R;
 import com.twtstudio.tjwhm.lostfound.base.BaseActivity;
 import com.twtstudio.tjwhm.lostfound.success.SuccessActivity;
 import com.twtstudio.tjwhm.lostfound.support.Utils;
+
+import java.util.Objects;
 
 import butterknife.BindView;
 
@@ -40,6 +44,8 @@ public class DetailActivity extends BaseActivity implements DetailContract.Detai
     TextView detail_phone;
     @BindView(R.id.detail_rematks)
     TextView detail_remarks;
+    @BindView(R.id.detail_layout_without_pic)
+    LinearLayout detail_layout_without_pic;
 
     DetailContract.DetailPresenter detailPresenter = new DetailPresenterImpl(this);
 
@@ -92,12 +98,6 @@ public class DetailActivity extends BaseActivity implements DetailContract.Detai
 
     @Override
     public void setDetailData(DetailBean detailData) {
-        Glide.with(this)
-                .load(Utils.getPicUrl(detailData.data.picture))
-                .asBitmap()
-                .placeholder(R.drawable.lost_detail_nopic)
-                .fitCenter()
-                .into(detail_pic);
 
         detail_title.setText(detailData.data.title);
         detail_time.setText(detailData.data.time);
@@ -106,6 +106,36 @@ public class DetailActivity extends BaseActivity implements DetailContract.Detai
         detail_name.setText(detailData.data.name);
         detail_phone.setText(detailData.data.phone);
         detail_remarks.setText(detailData.data.item_description);
+//        detail_pic.setMaxHeight(
+//                getWindow().findViewById(Window.ID_ANDROID_CONTENT).getHeight()
+//                        - detail_layout_without_pic.getHeight()
+//                        - toolbar.getHeight());
+//        detail_pic.setY(getWindow().findViewById(Window.ID_ANDROID_CONTENT).getHeight()
+//                - detail_layout_without_pic.getHeight()
+//                - toolbar.getHeight());
+
+        if (Objects.equals(detailData.data.picture, "")) {
+            Glide.with(this)
+                    .load(Utils.noPicForDetail())
+                    .asBitmap()
+                    .override(getWindow().findViewById(Window.ID_ANDROID_CONTENT).getWidth(),
+                            getWindow().findViewById(Window.ID_ANDROID_CONTENT).getHeight()
+                                    - detail_layout_without_pic.getHeight()
+                                    - toolbar.getHeight())
+                    .fitCenter()
+                    .into(detail_pic);
+        } else {
+            Glide.with(this)
+                    .load(Utils.getPicUrl(detailData.data.picture))
+                    .asBitmap()
+                    .override(getWindow().findViewById(Window.ID_ANDROID_CONTENT).getWidth(),
+                            getWindow().findViewById(Window.ID_ANDROID_CONTENT).getHeight()
+                                    - detail_layout_without_pic.getHeight()
+                                    - toolbar.getHeight())
+                    .fitCenter()
+                    .into(detail_pic);
+        }
+
         detail_phone.setOnClickListener(view -> {
             Uri uri = Uri.parse("tel:" + detailData.data.phone);
 

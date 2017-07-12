@@ -8,5 +8,7 @@
     android:background="?attr/colorPrimary"
     android:elevation="8dp"
     android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+    app:layout_collapseMode="pin"
+    app:layout_scrollFlags="scroll|enterAlways"
     app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-    tools:targetApi="lollipop"/>
+    tools:targetApi="lollipop" />
