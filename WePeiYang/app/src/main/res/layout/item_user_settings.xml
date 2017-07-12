@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="com.twtstudio.retrox.wepeiyangrd.home.user.PrefItemViewModel"/>
+            type="com.twt.service.home.user.PrefItemViewModel"/>
 
         <import type="android.view.View"/>
     </data>

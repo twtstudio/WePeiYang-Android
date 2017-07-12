@@ -3,7 +3,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.twtstudio.retrox.wepeiyangrd.home.news.OneListViewModel"/>
+            type="com.twt.service.home.news.OneListViewModel"/>
         <import type="me.tatarka.bindingcollectionadapter.LayoutManagers" />
     </data>
 <android.support.design.widget.CoordinatorLayout

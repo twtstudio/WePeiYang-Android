@@ -1,7 +1,5 @@
 package com.twtstudio.retrox.schedule.model;
 
-import android.app.job.JobScheduler;
-
 import com.orhanobut.logger.Logger;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
@@ -58,7 +56,7 @@ public class ClassTableProvider {
                     if (mAction1 != null) {
                         mAction1.call(classTable);
                     }
-                },new RxErrorHandler(mRxActivity));
+                },throwable -> new RxErrorHandler(mRxActivity).call(throwable.getCause()));
 
     }
     public void getData(boolean update,CalendarDay calendarDay){

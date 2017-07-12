@@ -1,17 +1,13 @@
 package com.twtstudio.retrox.news.explore.gallery;
 
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
-import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.orhanobut.logger.Logger;
 import com.twtstudio.retrox.news.R;
 import com.twtstudio.retrox.news.view.ProgressWebView;
 

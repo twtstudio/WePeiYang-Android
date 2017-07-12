@@ -4,7 +4,6 @@ package com.twtstudio.retrox.auth.login;
 
 import com.twt.wepeiyang.commons.network.ApiResponse;
 
-import okhttp3.ResponseBody;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 import rx.Observable;

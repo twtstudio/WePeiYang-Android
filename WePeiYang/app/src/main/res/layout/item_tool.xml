@@ -4,7 +4,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.twtstudio.retrox.wepeiyangrd.home.tools.ToolItemViewModel"/>
+            type="com.twt.service.home.tools.ToolItemViewModel"/>
     </data>
     <LinearLayout
         android:layout_margin="5dp"

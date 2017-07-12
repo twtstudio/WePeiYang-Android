@@ -1,21 +1,12 @@
 package com.twtstudio.retrox.gpa.client;
 
-import android.util.Log;
-
-import com.google.gson.JsonElement;
 import com.twt.wepeiyang.commons.network.UserAgent;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.HashMap;
-import java.util.List;
 
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.Response;
 import okhttp3.ResponseBody;
 import retrofit2.Callback;
 import retrofit2.Retrofit;

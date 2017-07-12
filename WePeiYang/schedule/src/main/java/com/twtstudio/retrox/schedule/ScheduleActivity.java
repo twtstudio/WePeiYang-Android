@@ -14,6 +14,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -191,6 +192,8 @@ public class ScheduleActivity extends RxAppCompatActivity implements ScheduleVie
         refresh.setOnRefreshListener(()-> {
             getScheduleDataAuto(true);
         });
+
+
     }
 
     private void getScheduleDataAuto(boolean refresh) {

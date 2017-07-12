@@ -24,6 +24,14 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        signingConfigs {
+            debug {
+                storeFile file('debug.keystore')
+                storePassword "android"
+                keyAlias "androiddebugkey"
+                keyPassword "android"
+            }
+        }
     }
     compileOptions {
         targetCompatibility 1.8
@@ -32,17 +40,15 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile 'com.android.support:appcompat-v7:25.1.0'
     compile 'com.android.support:support-v4:25.1.0'
-
-    compile ('com.alibaba.android:vlayout:1.0.4@aar') {
+    compile('com.alibaba.android:vlayout:1.0.4@aar') {
         transitive = true
     }
-
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
     compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
@@ -56,30 +62,33 @@ dependencies {
     compile 'commons-codec:commons-codec:1.6'
     compile 'com.github.bumptech.glide:glide:3.7.0'
     //rxcache
-    compile "com.github.VictorAlbertos.RxCache:runtime:1.7.0-1.x"
-    compile "io.reactivex:rxjava:1.2.5"
+    compile 'com.github.VictorAlbertos.RxCache:runtime:1.7.0-1.x'
+    compile 'io.reactivex:rxjava:1.2.5'
     compile 'com.github.VictorAlbertos.Jolyglot:gson:0.0.3'
-
     //logger
     compile 'com.orhanobut:logger:1.15'
-    compile 'com.tencent.bugly:crashreport_upgrade:latest.release'//其中latest.release指代最新版本号，也可以指定明确的版本号，例如1.2.0
-//    compile 'com.facebook.stetho:stetho:1.4.2'
-//    compile 'com.facebook.stetho:stetho-okhttp3:1.4.2'
-//    compile "com.facebook.stetho:stetho-js-rhino:1.4.1"
+    compile 'com.tencent.bugly:crashreport_upgrade:latest.release'
+    //其中latest.release指代最新版本号，也可以指定明确的版本号，例如1.2.0
 
+    //    compile 'com.facebook.stetho:stetho:1.4.2'
+
+    //    compile 'com.facebook.stetho:stetho-okhttp3:1.4.2'
+
+    //    compile "com.facebook.stetho:stetho-js-rhino:1.4.1"
     compile 'com.annimon:stream:1.1.4'
-
     compile 'com.orhanobut:hawk:2.0.1'
-
     compile project(':mvvmKit')
-
     compile 'com.tapadoo.android:alerter:1.0.3'
     compile 'com.github.GrenderG:Toasty:1.1.5'
-
     compile 'com.alibaba:arouter-api:1.2.1'
     compile 'com.github.piasy:BigImageViewer:1.2.9'
     compile 'com.github.piasy:GlideImageLoader:1.2.9'
     compile 'com.github.piasy:ProgressPieIndicator:1.2.9'
-
     testCompile 'junit:junit:4.12'
+    compile files('libs/SocialSDK_QQ_Simplify.jar')
+    compile files('libs/SocialSDK_Sina_Simplify.jar')
+    compile files('libs/SocialSDK_WeChat_Simplify.jar')
+    compile files('libs/umeng_social_api.jar')
+    compile files('libs/umeng_social_net.jar')
+    compile files('libs/umeng_social_tool.jar')
 }
