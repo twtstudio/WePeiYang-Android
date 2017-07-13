@@ -36,16 +36,16 @@ public class PopupWindowViewModel implements ViewModel {
         items2.clear();
         switch (selector) {
             case 1:
-                items.add(new PopupItemViewModel("推荐", true));
-                items2.add(new PopupItemViewModel("所有", true));
+                items.add(new PopupItemViewModel("推荐", true,mRxActivity,1));
+                items2.add(new PopupItemViewModel("所有", true,mRxActivity,1));
                 if (isNewCampus)
                     for (int i = 31; i <= 55; i++) {
                         final  int building=i;
                         if (i > 33 && i < 37 ||
                                 i > 37 && i < 43 || i == 47 || i > 51 && i < 55) continue;
                         if (i == 44 || i == 50)
-                            items2.add(new PopupItemViewModel(" ", false));
-                        items2.add(new PopupItemViewModel(Integer.toString(i) + "楼", false));
+                            items2.add(new PopupItemViewModel(" ", false,mRxActivity,2));
+                        items2.add(new PopupItemViewModel(Integer.toString(i) + "楼", false,mRxActivity,2));
 //                        Messenger.getDefault().register(mRxActivity,"getData",MainActivityViewModel.class,(viewModel)->{
 //                            viewModel.iniData(building,2,5, CommonPrefUtil.getStudentNumber());
 //                        });

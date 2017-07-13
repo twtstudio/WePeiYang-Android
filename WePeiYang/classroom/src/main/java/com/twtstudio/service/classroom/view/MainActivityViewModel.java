@@ -28,14 +28,14 @@ public class MainActivityViewModel {
 //        iniData(buiding,week,time,token);
     }
 
-    public void iniData(int buiding, int week, int time, String token) {
+    public void iniData(int buiding, int week, int time, String token,boolean update) {
+        items.clear();
         ClassRoomProvider.init(rxActivity)
                 .registerAction(this::processData)
                 .getFreeClassroom(buiding, week, time, token);
     }
 
     private void processData(FreeRoom2 freeRoom2) {
-        items.clear();
         for (FreeRoom2.FreeRoom freeRoom : freeRoom2.getData())
             items.add(new ItemViewModel(rxActivity, freeRoom));
     }

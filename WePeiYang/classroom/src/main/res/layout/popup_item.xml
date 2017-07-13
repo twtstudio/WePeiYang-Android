@@ -9,7 +9,9 @@
             type="com.twtstudio.service.classroom.view.PopupItemViewModel" />
 
         <import type="me.tatarka.bindingcollectionadapter.LayoutManagers" />
-        <import type="com.twtstudio.service.classroom.R"/>
+
+        <import type="com.twtstudio.service.classroom.R" />
+
         <import type="android.view.View" />
     </data>
 
@@ -18,15 +20,16 @@
         android:layout_width="match_parent"
         android:layout_height="24dp"
         android:clickable="true"
+        android:onClick="@{viewModel::onClick}"
         app:cardElevation="0dp">
 
         <TextView
             android:id="@+id/tv_date"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:gravity="center"
             android:text="@{viewModel.text}"
             android:textColor="@{viewModel.changeTextColor ? R.color.purple :R.color.default_text_color}"
-            android:gravity="center"
             android:textSize="16sp" />
     </android.support.v7.widget.CardView>
 </layout>

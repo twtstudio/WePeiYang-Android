@@ -4,8 +4,6 @@ import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Messenger;
-import android.support.v4.app.NotificationCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -25,12 +23,14 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.kelin.mvvmlight.messenger.Messenger;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
 import com.twtstudio.service.classroom.R;
 import com.twtstudio.service.classroom.R2;
 import com.twtstudio.service.classroom.databinding.ActivityClassroomQueryMainBinding;
 import com.twtstudio.service.classroom.databinding.ClassroomPopupWindowBinding;
+import com.twtstudio.service.classroom.model.TimeHelper;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -42,7 +42,7 @@ public class MainActivity extends RxAppCompatActivity {
     ClassroomPopupWindowBinding popupBinding;
     ActivityClassroomQueryMainBinding mainBinding;
     private Animation animation, animation2;
-    private int seletedTag=0;
+    private int seletedTag = 0;
     PopupWindow popupWindow;
     private boolean hasPop;
     @BindView(R2.id.appBar)
@@ -88,7 +88,7 @@ public class MainActivity extends RxAppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_classroom_query_main);
-        hasPop=false;
+        hasPop = false;
         Window window = this.getWindow();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window.setStatusBarColor(getResources().getColor(R.color.purple));
@@ -98,10 +98,10 @@ public class MainActivity extends RxAppCompatActivity {
         popupWindow = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         mainBinding = DataBindingUtil.setContentView(this, R.layout.activity_classroom_query_main);
 //        MainActivityViewModel viewModel = new MainActivityViewModel(this, 46, 2, 5, CommonPrefUtil.getStudentNumber());
-        MainActivityViewModel viewModel=new MainActivityViewModel(this);
-        viewModel.iniData(46, 2, 5, CommonPrefUtil.getStudentNumber());
+        MainActivityViewModel viewModel = new MainActivityViewModel(this);
+        viewModel.iniData(46, TimeHelper.getWeekInt(), TimeHelper.getTimeInt(), CommonPrefUtil.getStudentNumber(),true);
         mainBinding.setViewModel(viewModel);
-        com.kelin.mvvmlight.messenger.Messenger.getDefault().send(viewModel,"setData");
+        com.kelin.mvvmlight.messenger.Messenger.getDefault().send(viewModel, "setData");
         ButterKnife.bind(this);
         popupBinding = popupBinding.inflate(inflater, (ViewGroup) mainBinding.getRoot(), false);
 //        setContentView(popupBinding.getRoot());
@@ -115,21 +115,30 @@ public class MainActivity extends RxAppCompatActivity {
         animation2 = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate2);//创建动画
         animation2.setInterpolator(new LinearInterpolator());//
         animation2.setFillAfter(!animation.getFillAfter());//
-        backButton.setOnClickListener((v)->{
+        backButton.setOnClickListener((v) -> {
             finish();
         });
-        popupWindow.setOnDismissListener(()->{
-            switch (seletedTag){
-                case 1: disimissPopupWindow(arrow1); break;
-                case 2: disimissPopupWindow(arrow2); break;
-                case 3: disimissPopupWindow(arrow3); break;
+        popupWindow.setOnDismissListener(() -> {
+            switch (seletedTag) {
+                case 1:
+                    disimissPopupWindow(arrow1);
+                    break;
+                case 2:
+                    disimissPopupWindow(arrow2);
+                    break;
+                case 3:
+                    disimissPopupWindow(arrow3);
+                    break;
             }
         });
         condition1.setOnClickListener((v) -> {
-            popupWindowViewModel.initData(true,1);
-            popupWindow.showAsDropDown(toparea);
-            disimissPopupWindow(arrow1);
-            seletedTag=1;
+            if (!hasPop) {
+                popupWindowViewModel.initData(true, 1);
+                popupWindow.showAsDropDown(toparea);
+            }
+
+            hasPop=!hasPop;
+            seletedTag = 1;
         });
 
     }
@@ -143,7 +152,13 @@ public class MainActivity extends RxAppCompatActivity {
 //            refreshData();
             imageView.startAnimation(animation);
         }
-        hasPop = !hasPop;
+//        hasPop = !hasPop;
+    }
+
+    @Override
+    protected void onDestroy() {
+        Messenger.getDefault().unregister(this);
+        super.onDestroy();
     }
 }
 

@@ -85,6 +85,7 @@ public class ClassRoomProvider {
 
                 },new RxErrorHandler(mRxActivity));
     }
+
     public ClassRoomProvider registerAction(Action1<FreeRoom2> action1) {
         this.mAction1 = action1;
         return this;
