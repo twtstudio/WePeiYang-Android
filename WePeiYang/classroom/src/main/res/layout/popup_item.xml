@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.twtstudio.service.classroom.view.PopupItemViewModel" />
+
+        <import type="me.tatarka.bindingcollectionadapter.LayoutManagers" />
+        <import type="com.twtstudio.service.classroom.R"/>
+        <import type="android.view.View" />
+    </data>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cv_s"
+        android:layout_width="match_parent"
+        android:layout_height="24dp"
+        android:clickable="true"
+        app:cardElevation="0dp">
+
+        <TextView
+            android:id="@+id/tv_date"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@{viewModel.text}"
+            android:textColor="@{viewModel.changeTextColor ? R.color.purple :R.color.default_text_color}"
+            android:gravity="center"
+            android:textSize="16sp" />
+    </android.support.v7.widget.CardView>
+</layout>

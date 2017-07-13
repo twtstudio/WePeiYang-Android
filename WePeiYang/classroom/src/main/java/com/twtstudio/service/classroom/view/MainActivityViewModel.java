@@ -2,7 +2,6 @@ package com.twtstudio.service.classroom.view;
 
 import android.databinding.ObservableArrayList;
 
-import com.kelin.mvvmlight.base.*;
 import com.kelin.mvvmlight.base.ViewModel;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 import com.twtstudio.service.classroom.BR;
@@ -23,18 +22,21 @@ public class MainActivityViewModel {
     public final ItemViewSelector itemView = ItemViewClassSelector.builder()
             .put(ItemViewModel.class, BR.viewModel, R.layout.list_item)
             .build();
-    MainActivityViewModel(RxAppCompatActivity rxAppCompatActivity,int buiding,  int week,  int time,  String token){
-        this.rxActivity=rxAppCompatActivity;
-        iniData(buiding,week,time,token);
+
+    MainActivityViewModel(RxAppCompatActivity rxAppCompatActivity) {
+        this.rxActivity = rxAppCompatActivity;
+//        iniData(buiding,week,time,token);
     }
-    private void iniData(int buiding,  int week,  int time,  String token){
+
+    public void iniData(int buiding, int week, int time, String token) {
         ClassRoomProvider.init(rxActivity)
                 .registerAction(this::processData)
-                .getFreeClassroom(buiding,week,time,token);
+                .getFreeClassroom(buiding, week, time, token);
     }
-    private void processData(FreeRoom2 freeRoom2){
+
+    private void processData(FreeRoom2 freeRoom2) {
         items.clear();
-        for(FreeRoom2.FreeRoom freeRoom:freeRoom2.getData())
-        items.add(new ItemViewModel(freeRoom));
+        for (FreeRoom2.FreeRoom freeRoom : freeRoom2.getData())
+            items.add(new ItemViewModel(rxActivity, freeRoom));
     }
 }

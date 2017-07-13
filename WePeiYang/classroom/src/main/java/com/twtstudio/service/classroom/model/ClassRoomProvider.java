@@ -37,7 +37,9 @@ public class ClassRoomProvider {
                 .compose(mRxActivity.bindToLifecycle())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(freeRoom2 -> {
-
+                    if (mAction1 != null) {
+                        mAction1.call(freeRoom2);
+                    }
                 },new RxErrorHandler(mRxActivity));
 
     }
