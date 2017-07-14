@@ -35,13 +35,14 @@ public interface ReleaseContract {
 
         void successCallBack(BaseBean baseBean);
 
-        void updateEditData(Map<String, Object> map, String lostOrFound, int id);
 
         void successEditCallback(BaseBean baseBean);
 
         void delete(int id);
 
         void deleteSuccessCallBack(BaseBean baseBean);
+
+        void uploadEditDataWithPic(Map<String, Object> map, String lostOrFound, File file,int id);
     }
 
 }

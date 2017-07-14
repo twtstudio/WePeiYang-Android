@@ -106,13 +106,6 @@ public class DetailActivity extends BaseActivity implements DetailContract.Detai
         detail_name.setText(detailData.data.name);
         detail_phone.setText(detailData.data.phone);
         detail_remarks.setText(detailData.data.item_description);
-//        detail_pic.setMaxHeight(
-//                getWindow().findViewById(Window.ID_ANDROID_CONTENT).getHeight()
-//                        - detail_layout_without_pic.getHeight()
-//                        - toolbar.getHeight());
-//        detail_pic.setY(getWindow().findViewById(Window.ID_ANDROID_CONTENT).getHeight()
-//                - detail_layout_without_pic.getHeight()
-//                - toolbar.getHeight());
 
         if (Objects.equals(detailData.data.picture, "")) {
             Glide.with(this)

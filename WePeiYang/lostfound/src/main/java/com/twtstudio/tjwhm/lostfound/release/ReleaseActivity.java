@@ -199,7 +199,9 @@ public class ReleaseActivity extends BaseActivity
                 releasePresenter.uploadReleaseData(getUpdateMap(), lostOrFound);
             }
         } else if (view == release_confirm) {
-            releasePresenter.updateEditData(getUpdateMap(), lostOrFound, id);
+
+            File file = new File(handleImageOnKitKat(selectedPic.get(0)));
+            releasePresenter.uploadEditDataWithPic(getUpdateMap(), lostOrFound, file, id);
         } else if (view == release_delete) {
             releasePresenter.delete(id);
         }

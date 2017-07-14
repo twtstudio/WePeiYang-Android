@@ -35,13 +35,19 @@ public interface ReleaseApi {
 //                                              @Part("detail_type")int detail_type,
 //                                              @Part("card_number")String card_number,
 //                                              @Part("card_name")String card_name,
-                                              );
+    );
 
     @POST("lostfound/edit/{lostOrFound}/{id}")
     @FormUrlEncoded
     Observable<BaseBean> updateEdit(@FieldMap Map<String, Object> map,
                                     @Path("lostOrFound") String lostOrFound,
                                     @Path("id") String id);
+
+    @POST("lostfound/edit/{lostOrFound}/{id}")
+    @Multipart
+    Observable<BaseBean> updateEditWithPic(@Path("lostOrFound") String lostOrFound,
+                                           @Path("id") String id,
+                                           @Part List<MultipartBody.Part> partList);
 
     @DELETE("lostfound/{id}")
     Observable<BaseBean> delete(@Path("id") String id);

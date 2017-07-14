@@ -45,19 +45,19 @@ public class ReleasePresenterImpl implements ReleaseContract.ReleasePresenter {
         MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);//表单类型
         RequestBody imageBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
         builder.addFormDataPart("pic[]", file.getName(), imageBody);//imgfile 后台接收图片流的参数名
-        builder.addFormDataPart("title",String.valueOf(map.get("title")));
-        builder.addFormDataPart("time",String.valueOf(map.get("time")));
-        builder.addFormDataPart("place",String.valueOf(map.get("place")));
-        builder.addFormDataPart("detail_type",String.valueOf(map.get("detail_type")));
-        builder.addFormDataPart("card_number",String.valueOf(map.get("card_number")));
-        builder.addFormDataPart("card_name",String.valueOf(map.get("card_name")));
-        builder.addFormDataPart("name",String.valueOf(map.get("name")));
-        builder.addFormDataPart("phone",String.valueOf(map.get("phone")));
-        builder.addFormDataPart("item_description",String.valueOf(map.get("item_description")));
-        builder.addFormDataPart("other_tag","");
-        builder.addFormDataPart("duration",String.valueOf(map.get("duration")));
+        builder.addFormDataPart("title", String.valueOf(map.get("title")));
+        builder.addFormDataPart("time", String.valueOf(map.get("time")));
+        builder.addFormDataPart("place", String.valueOf(map.get("place")));
+        builder.addFormDataPart("detail_type", String.valueOf(map.get("detail_type")));
+        builder.addFormDataPart("card_number", String.valueOf(map.get("card_number")));
+        builder.addFormDataPart("card_name", String.valueOf(map.get("card_name")));
+        builder.addFormDataPart("name", String.valueOf(map.get("name")));
+        builder.addFormDataPart("phone", String.valueOf(map.get("phone")));
+        builder.addFormDataPart("item_description", String.valueOf(map.get("item_description")));
+        builder.addFormDataPart("other_tag", "");
+        builder.addFormDataPart("duration", String.valueOf(map.get("duration")));
         List<MultipartBody.Part> parts = builder.build().parts();
-        releaseApi.updateReleaseWithPic(lostOrFound,parts)
+        releaseApi.updateReleaseWithPic(lostOrFound, parts)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::successCallBack, new RxErrorHandler());
@@ -68,20 +68,6 @@ public class ReleasePresenterImpl implements ReleaseContract.ReleasePresenter {
         releaseView.successCallBack();
     }
 
-    @Override
-    public void updateEditData(Map<String, Object> map, String lostOrFound, int id) {
-        releaseApi = RetrofitProvider.getRetrofit().create(ReleaseApi.class);
-        String lof;
-        if (Objects.equals(lostOrFound, "editFound")) {
-            lof = "found";
-        } else {
-            lof = "lost";
-        }
-        releaseApi.updateEdit(map, lof, String.valueOf(id))
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::successEditCallback, new RxErrorHandler());
-    }
 
     @Override
     public void successEditCallback(BaseBean baseBean) {
@@ -100,6 +86,37 @@ public class ReleasePresenterImpl implements ReleaseContract.ReleasePresenter {
     @Override
     public void deleteSuccessCallBack(BaseBean baseBean) {
         releaseView.deleteSuccessCallBack();
+    }
+
+    @Override
+    public void uploadEditDataWithPic(Map<String, Object> map, String lostOrFound, File file, int id) {
+        releaseApi = RetrofitProvider.getRetrofit().create(ReleaseApi.class);
+
+        MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);//表单类型
+        RequestBody imageBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+        builder.addFormDataPart("pic[]", file.getName(), imageBody);//imgfile 后台接收图片流的参数名
+        builder.addFormDataPart("title", String.valueOf(map.get("title")));
+        builder.addFormDataPart("time", String.valueOf(map.get("time")));
+        builder.addFormDataPart("place", String.valueOf(map.get("place")));
+        builder.addFormDataPart("detail_type", String.valueOf(map.get("detail_type")));
+        builder.addFormDataPart("card_number", String.valueOf(map.get("card_number")));
+        builder.addFormDataPart("card_name", String.valueOf(map.get("card_name")));
+        builder.addFormDataPart("name", String.valueOf(map.get("name")));
+        builder.addFormDataPart("phone", String.valueOf(map.get("phone")));
+        builder.addFormDataPart("item_description", String.valueOf(map.get("item_description")));
+        builder.addFormDataPart("other_tag", "");
+        builder.addFormDataPart("duration", String.valueOf(map.get("duration")));
+        List<MultipartBody.Part> parts = builder.build().parts();
+        String lof;
+        if (Objects.equals(lostOrFound, "editLost")) {
+            lof = "lost";
+        } else {
+            lof = "found";
+        }
+        releaseApi.updateEditWithPic(lof, String.valueOf(id), parts)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::successEditCallback, new RxErrorHandler());
     }
 
 

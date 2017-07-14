@@ -5,7 +5,11 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
@@ -23,7 +27,10 @@ import butterknife.BindView;
  **/
 
 public class WaterfallActivity extends BaseActivity {
-
+    @BindView(R.id.waterfall_type_recyclerview)
+    RecyclerView waterfall_type_recyclerview;
+    @BindView(R.id.waterfall_type)
+    ImageView waterfall_type;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.waterfall_tabLayout)
@@ -42,6 +49,8 @@ public class WaterfallActivity extends BaseActivity {
 //    CardView waterfall_fab_card_lost;
 //    @BindView(R.id.waterfall_fab_card_found)
 //    CardView waterfall_fab_card_found;
+
+    StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
 
     @Override
     protected int getLayoutResourceId() {
@@ -86,9 +95,9 @@ public class WaterfallActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        WaterfallFragment lostFrag = WaterfallFragment.newInstance("lost");
         WaterfallPagerAdapter waterfallPagerAdapter = new WaterfallPagerAdapter(getSupportFragmentManager());
-        waterfallPagerAdapter.add(WaterfallFragment.newInstance("lost"), "丢失");
+        waterfallPagerAdapter.add(lostFrag, "丢失");
         waterfallPagerAdapter.add(WaterfallFragment.newInstance("found"), "捡到");
         waterfall_pager.setAdapter(waterfallPagerAdapter);
         waterfall_tabLayout.setupWithViewPager(waterfall_pager);
@@ -132,6 +141,10 @@ public class WaterfallActivity extends BaseActivity {
 //            startActivity(intent);
 //            waterfall_fab_menu.collapse();
 //        });
+
+        waterfall_type.setOnClickListener(view -> Toast.makeText(this, "222", Toast.LENGTH_SHORT).show());
+        waterfall_type_recyclerview.setAdapter(new WaterfallTypeTableAdapter(this, this));
+        waterfall_type_recyclerview.setLayoutManager(layoutManager);
     }
 
 }
