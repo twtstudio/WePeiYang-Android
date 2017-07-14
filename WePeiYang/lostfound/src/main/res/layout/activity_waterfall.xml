@@ -28,17 +28,30 @@
 
             <android.support.design.widget.TabLayout
                 android:id="@+id/waterfall_tabLayout"
-                android:layout_width="300dp"
+                android:layout_width="325dp"
                 android:layout_height="wrap_content"
                 android:background="@color/white" />
 
-            <ImageView
-                android:id="@+id/waterfall_type"
-                android:layout_width="48dp"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:backgroundTint="@color/white"
-                android:src="@drawable/lost_place" />
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/waterfall_type_grey"
+                    android:layout_width="24dp"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:backgroundTint="@color/white"
+                    android:src="@drawable/lost_types_grey" />
+
+                <ImageView
+                    android:id="@+id/waterfall_type_blue"
+                    android:layout_width="24dp"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:backgroundTint="@color/white"
+                    android:src="@drawable/lost_types_blue" />
+            </RelativeLayout>
         </LinearLayout>
     </android.support.design.widget.AppBarLayout>
 

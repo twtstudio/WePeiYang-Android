@@ -47,6 +47,7 @@ public class WaterfallTypeTableAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         WaterfallTypesViewHolder viewHolder = (WaterfallTypesViewHolder) holder;
         viewHolder.waterfall_type_item.setText(Utils.getType(position + 1));
+        viewHolder.itemView.setOnClickListener(view -> waterfallActivity.setWaterfallType(position + 1));
     }
 
     @Override

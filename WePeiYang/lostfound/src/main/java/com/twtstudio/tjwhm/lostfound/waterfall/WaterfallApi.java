@@ -13,4 +13,7 @@ public interface WaterfallApi {
     @GET("lostfound/{lostOrFound}")
     Observable<WaterfallBean> loadWaterData
             (@Path("lostOrFound") String lostOrFound,@Query("page") String page);
+    @GET("lostfound/{lostOrFound}")
+    Observable<WaterfallBean> loadWaterfallDataWithType
+            (@Path("lostOrFound") String lostOrFound,@Query("page")String page,@Query("detail_type")String type);
 }

@@ -10,6 +10,9 @@ import android.widget.Toast;
 
 import com.twtstudio.tjwhm.lostfound.R;
 import com.twtstudio.tjwhm.lostfound.base.BaseActivity;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareListener;
+import com.umeng.socialize.bean.SHARE_MEDIA;
 
 import java.util.Objects;
 
@@ -55,7 +58,7 @@ public class SuccessActivity extends BaseActivity implements View.OnClickListene
         setOnClickListenerForViews();
         Bundle bundle = getIntent().getExtras();
         String shareOrSuccess = bundle.getString("index");
-        if(Objects.equals(shareOrSuccess, "share")){
+        if (Objects.equals(shareOrSuccess, "share")) {
             success_cardView.setVisibility(View.GONE);
         }
     }
@@ -69,6 +72,10 @@ public class SuccessActivity extends BaseActivity implements View.OnClickListene
         } else if (view == share_wechatzone) {
             Toast.makeText(this, "share_wechatzone", Toast.LENGTH_SHORT).show();
         } else if (view == share_qqfriends) {
+            new ShareAction(SuccessActivity.this).setPlatform(SHARE_MEDIA.QQ)
+                    .withText("hello")
+                    .setCallback(umShareListener)
+                    .share();
             Toast.makeText(this, "share_qqfriends", Toast.LENGTH_SHORT).show();
         } else if (view == share_qzone) {
             Toast.makeText(this, "share_qzone", Toast.LENGTH_SHORT).show();
@@ -81,4 +88,31 @@ public class SuccessActivity extends BaseActivity implements View.OnClickListene
         share_qqfriends.setOnClickListener(this);
         share_qzone.setOnClickListener(this);
     }
+
+    private UMShareListener umShareListener = new UMShareListener() {
+        @Override
+        public void onStart(SHARE_MEDIA platform) {
+            //分享开始的回调
+        }
+        @Override
+        public void onResult(SHARE_MEDIA platform) {
+        //    Log.d("plat","platform"+platform);
+
+            Toast.makeText(SuccessActivity.this, platform + " 分享成功啦", Toast.LENGTH_SHORT).show();
+
+        }
+
+        @Override
+        public void onError(SHARE_MEDIA platform, Throwable t) {
+            Toast.makeText(SuccessActivity.this,platform + " 分享失败啦", Toast.LENGTH_SHORT).show();
+            if(t!=null){
+           //     Log.d("throw","throw:"+t.getMessage());
+            }
+        }
+
+        @Override
+        public void onCancel(SHARE_MEDIA platform) {
+            Toast.makeText(SuccessActivity.this,platform + " 分享取消了", Toast.LENGTH_SHORT).show();
+        }
+    };
 }

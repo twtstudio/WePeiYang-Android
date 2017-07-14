@@ -30,7 +30,7 @@ public class WaterfallFragment extends Fragment implements WaterfallContract.Wat
     private WaterfallTableAdapter tableAdapter;
     private StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL);
     private WaterfallBean waterfallBean = new WaterfallBean();
-    WaterfallContract.WaterfallPresenter waterfallPresenter = new WaterfallPresenterImpl(this);
+    private WaterfallContract.WaterfallPresenter waterfallPresenter = new WaterfallPresenterImpl(this);
     private int page = 1;
     private boolean isLoading = false;
     private boolean isRefresh = false;
@@ -84,12 +84,19 @@ public class WaterfallFragment extends Fragment implements WaterfallContract.Wat
         this.waterfallBean.message = waterfallBean.message;
         if (isRefresh) {
             this.waterfallBean.data.clear();
+            System.out.println("WaterfallFragment.setWaterfallData"+"zzzzzz");
         }
         this.waterfallBean.data.addAll(waterfallBean.data);
         tableAdapter.notifyDataSetChanged();
         water_refresh.setRefreshing(false);
         isLoading = false;
         isRefresh = false;
+    }
+
+    @Override
+    public void loadWaterfallDataWithType(int type) {
+        isRefresh = true;
+        waterfallPresenter.loadWaterfallDataWithType(lostOrFound,page,type);
     }
 
     @Override

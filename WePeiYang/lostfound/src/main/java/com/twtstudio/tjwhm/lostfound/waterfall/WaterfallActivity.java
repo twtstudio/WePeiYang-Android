@@ -5,11 +5,13 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
@@ -21,6 +23,7 @@ import com.twtstudio.tjwhm.lostfound.release.ReleaseActivity;
 import com.twtstudio.tjwhm.lostfound.search.SearchActivity;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * Created by tjwhm on 2017/7/2.
@@ -29,8 +32,12 @@ import butterknife.BindView;
 public class WaterfallActivity extends BaseActivity {
     @BindView(R.id.waterfall_type_recyclerview)
     RecyclerView waterfall_type_recyclerview;
-    @BindView(R.id.waterfall_type)
-    ImageView waterfall_type;
+    @BindView(R.id.waterfall_type_grey)
+    ImageView waterfall_type_grey;
+    @BindView(R.id.waterfall_type_blue)
+    ImageView waterfall_type_blue;
+    @BindView(R.id.waterfall_cardview_types)
+    CardView waterfall_cardview_types;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.waterfall_tabLayout)
@@ -45,12 +52,12 @@ public class WaterfallActivity extends BaseActivity {
     FloatingActionButton waterfall_fab_lost;
     @BindView(R.id.waterfall_fab_found)
     FloatingActionButton waterfall_fab_found;
-//    @BindView(R.id.waterfall_fab_card_lost)
-//    CardView waterfall_fab_card_lost;
-//    @BindView(R.id.waterfall_fab_card_found)
-//    CardView waterfall_fab_card_found;
+    @BindView(R.id.waterfall_types_all)
+    TextView waterfall_types_all;
 
     StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+    WaterfallFragment lostFragment;
+    WaterfallFragment foundFragment;
 
     @Override
     protected int getLayoutResourceId() {
@@ -95,56 +102,58 @@ public class WaterfallActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        WaterfallFragment lostFrag = WaterfallFragment.newInstance("lost");
+        lostFragment = WaterfallFragment.newInstance("lost");
+        foundFragment = WaterfallFragment.newInstance("found");
         WaterfallPagerAdapter waterfallPagerAdapter = new WaterfallPagerAdapter(getSupportFragmentManager());
-        waterfallPagerAdapter.add(lostFrag, "丢失");
-        waterfallPagerAdapter.add(WaterfallFragment.newInstance("found"), "捡到");
+        waterfallPagerAdapter.add(lostFragment, "丢失");
+        waterfallPagerAdapter.add(foundFragment, "捡到");
         waterfall_pager.setAdapter(waterfallPagerAdapter);
         waterfall_tabLayout.setupWithViewPager(waterfall_pager);
         waterfall_tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         waterfall_tabLayout.setSelectedTabIndicatorColor(Color.parseColor("#00a1e9"));
+        waterfall_type_recyclerview.setAdapter(new WaterfallTypeTableAdapter(this, this));
+        waterfall_type_recyclerview.setLayoutManager(layoutManager);
+        waterfall_type_blue.setVisibility(View.GONE);
+        waterfall_cardview_types.setVisibility(View.GONE);
+    }
+
+    public void setWaterfallType(int type) {
+        lostFragment.loadWaterfallDataWithType(type);
+        foundFragment.loadWaterfallDataWithType(type);
+    }
+
+    @OnClick({R.id.waterfall_type_blue, R.id.waterfall_fab_login,
+            R.id.waterfall_fab_found, R.id.waterfall_fab_lost,
+            R.id.waterfall_type_grey,R.id.waterfall_types_all})
+    public void submit(View view) {
         Bundle bundle = new Bundle();
         Intent intent = new Intent();
-
-        waterfall_fab_login.setOnClickListener(view -> {
+        if (view == waterfall_fab_login) {
             intent.setClass(this, LoginActivity.class);
             startActivity(intent);
             waterfall_fab_menu.collapse();
-        });
-        waterfall_fab_lost.setOnClickListener(view -> {
+        } else if (view == waterfall_fab_found) {
             bundle.putString("lostOrFound", "lost");
             intent.putExtras(bundle);
             intent.setClass(this, ReleaseActivity.class);
             startActivity(intent);
             waterfall_fab_menu.collapse();
-        });
-        waterfall_fab_found.setOnClickListener(view -> {
+        } else if (view == waterfall_fab_lost) {
             bundle.putString("lostOrFound", "found");
             intent.putExtras(bundle);
             intent.setClass(this, ReleaseActivity.class);
             startActivity(intent);
             waterfall_fab_menu.collapse();
-        });
-
-//
-//        waterfall_fab_card_lost.setOnClickListener(view -> {
-//            bundle.putString("lostOrFound", "lost");
-//            intent.putExtras(bundle);
-//            intent.setClass(this, ReleaseActivity.class);
-//            startActivity(intent);
-//            waterfall_fab_menu.collapse();
-//        });
-//        waterfall_fab_card_found.setOnClickListener(view -> {
-//            bundle.putString("lostOrFound", "found");
-//            intent.putExtras(bundle);
-//            intent.setClass(this, ReleaseActivity.class);
-//            startActivity(intent);
-//            waterfall_fab_menu.collapse();
-//        });
-
-        waterfall_type.setOnClickListener(view -> Toast.makeText(this, "222", Toast.LENGTH_SHORT).show());
-        waterfall_type_recyclerview.setAdapter(new WaterfallTypeTableAdapter(this, this));
-        waterfall_type_recyclerview.setLayoutManager(layoutManager);
+        } else if (view == waterfall_type_grey) {
+            waterfall_type_blue.setVisibility(View.VISIBLE);
+            waterfall_type_grey.setVisibility(View.GONE);
+            waterfall_cardview_types.setVisibility(View.VISIBLE);
+        } else if (view == waterfall_type_blue) {
+            waterfall_type_grey.setVisibility(View.VISIBLE);
+            waterfall_type_blue.setVisibility(View.GONE);
+            waterfall_cardview_types.setVisibility(View.GONE);
+        }else if(view==waterfall_types_all){
+            setWaterfallType(-1);
+        }
     }
-
 }
