@@ -1,7 +1,6 @@
 package com.twtstudio.retrox.bike.bike.ui.data;
 
 import android.content.Context;
-import android.content.Intent;
 import android.widget.Toast;
 
 import com.alibaba.android.arouter.launcher.ARouter;

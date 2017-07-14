@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="com.twtstudio.retrox.wepeiyangrd.home.common.CommonFragViewModel" />
+            type="com.twt.service.home.common.CommonFragViewModel" />
 
         <import type="me.tatarka.bindingcollectionadapter.LayoutManagers" />
 

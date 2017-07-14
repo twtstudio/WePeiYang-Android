@@ -11,8 +11,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -27,9 +29,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.haozhang.lib.SlantedTextView;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
+import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
 import com.twtstudio.retrox.schedule.model.ClassTable;
 import com.twtstudio.retrox.schedule.model.ClassTableProvider;
 
@@ -101,6 +103,8 @@ public class ScheduleActivity extends RxAppCompatActivity implements ScheduleVie
     RelativeLayout mRlSaturday;
     @BindView(R2.id.rl_sunday)
     RelativeLayout mRlSunday;
+    @BindView(R2.id.refresh)
+    SwipeRefreshLayout refresh;
 
 
     private String currentTerm;//当前学期
@@ -131,6 +135,12 @@ public class ScheduleActivity extends RxAppCompatActivity implements ScheduleVie
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule);
+        //判断默认显示的Activity
+        if (CommonPrefUtil.getIsNewSchedule()) {
+            Intent intent = new Intent(this, ScheduleNewActivity.class);
+            startActivity(intent);
+            finish();
+        }
         mUnbinder = ButterKnife.bind(this);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -178,14 +188,22 @@ public class ScheduleActivity extends RxAppCompatActivity implements ScheduleVie
             items.add(i, new WeekItem(i + 1, false));
 
         }
+
+        refresh.setOnRefreshListener(()-> {
+            getScheduleDataAuto(true);
+        });
+
+
     }
 
     private void getScheduleDataAuto(boolean refresh) {
-        showProgress();
+        //showProgress();
         ClassTableProvider.init(this)
                 .registerAction(classTable -> {
                     hideProgress();
+                    this.refresh.setRefreshing(false);
                     bindData(classTable);
+
                 })
                 .getData(refresh);
     }
@@ -229,7 +247,7 @@ public class ScheduleActivity extends RxAppCompatActivity implements ScheduleVie
         mClassTable = classTable;
 
 //        //修复初始情况的课程不可用bug,
-        currentWeek = TimeHelper.getWeekInt(Long.parseLong(classTable.data.term_start));
+        currentWeek = TimeHelper.getWeekInt(Long.parseLong(classTable.data.term_start), Calendar.getInstance());
         changeWeek(currentWeek);
         if (classTable.data.term.length() > 1) {
             currentTerm = classTable.data.term.substring(0, classTable.data.term.length() - 1);
@@ -278,18 +296,27 @@ public class ScheduleActivity extends RxAppCompatActivity implements ScheduleVie
                             mRlSaturday.removeAllViews();
                             mRlSunday.removeAllViews();
 
-                            initSchedule(mClassTable, week_num);
+                            initSchedule(mClassTable, week_num,false);
                         }
                     }
                     recyclerPopupWindow = null;
                 });
             }
         });
-        initSchedule(classTable, currentWeek);
+        initSchedule(classTable, currentWeek,true);
     }
 
-    private void initSchedule(ClassTable classTable, int week) {
+    private void initSchedule(ClassTable classTable, int week,boolean isUpdate) {
         hasClass = new boolean[7][12];
+        if(isUpdate) {
+            mRlMonday.removeAllViews();
+            mRlTuesday.removeAllViews();
+            mRlWednesday.removeAllViews();
+            mRlThursday.removeAllViews();
+            mRlFriday.removeAllViews();
+            mRlSaturday.removeAllViews();
+            mRlSunday.removeAllViews();
+        }
 
         //绘制课程信息
         Set<ClassTable.Data.Course> coursesNotThisWeek = new HashSet<>(); //非当前周的课程
@@ -524,9 +551,13 @@ public class ScheduleActivity extends RxAppCompatActivity implements ScheduleVie
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             finish();
-        } else if (item.getItemId() == R.id.refresh) {
-            //refresh
-            getScheduleDataAuto(true);
+        } else if (item.getItemId() == R.id.schedule_switch) {
+            //switch
+            Intent intent = new Intent(this, ScheduleNewActivity.class);
+            startActivity(intent);
+            CommonPrefUtil.setIsNewSchedule(true);
+            finish();
+
         }
         return super.onOptionsItemSelected(item);
     }

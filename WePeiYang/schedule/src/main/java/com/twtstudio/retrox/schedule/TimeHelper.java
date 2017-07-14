@@ -1,6 +1,7 @@
 package com.twtstudio.retrox.schedule;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -9,16 +10,17 @@ import java.util.Date;
 public class TimeHelper {
 
     //test
-    public static int getWeekInt(long startUnix){
-        long i = System.currentTimeMillis()/1000  - startUnix;
+    public static int getWeekInt(long startUnix, Calendar calendar){
+        long i = calendar.getTimeInMillis()/1000  - startUnix;
         int day = (int) (i/86400);
+        if(day<0) return -1;
         int week =  day/7 + 1;
         //有人过了那个周数就想看下学期hhh
-        if (week > 20){
-            return 1;
-        }else {
+//        if (week > 20){
+//            return week;
+//        }else {
             return week;
-        }
+//        }
     }
 
 

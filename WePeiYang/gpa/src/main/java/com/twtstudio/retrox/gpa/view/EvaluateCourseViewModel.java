@@ -2,7 +2,6 @@ package com.twtstudio.retrox.gpa.view;
 
 import android.content.Intent;
 import android.databinding.ObservableField;
-import android.widget.Toast;
 
 import com.kelin.mvvmlight.base.ViewModel;
 import com.kelin.mvvmlight.command.ReplyCommand;

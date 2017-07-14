@@ -19,7 +19,7 @@ public class AuthSelfProvider {
 
         //贼简单的一个缓存逻辑
         AuthSelfBean cacheAuthSelfBean = Hawk.get("authSelfBean");
-        if (cacheAuthSelfBean != null) {
+        if (cacheAuthSelfBean != null && action1 != null) {
             action1.call(cacheAuthSelfBean);
         }
 
@@ -27,6 +27,8 @@ public class AuthSelfProvider {
         authApi.getAuthSelf().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(authSelfBean -> {
+
+
                     /**
                      * 进行一些数据持久化处理
                      */

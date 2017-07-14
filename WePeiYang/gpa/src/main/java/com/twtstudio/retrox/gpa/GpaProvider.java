@@ -1,24 +1,17 @@
 package com.twtstudio.retrox.gpa;
 
-import android.content.Context;
 import android.widget.Toast;
 
 import com.kelin.mvvmlight.messenger.Messenger;
 import com.orhanobut.logger.Logger;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 import com.twt.wepeiyang.commons.cache.CacheProvider;
-import com.twt.wepeiyang.commons.network.ApiErrorHandler;
-import com.twt.wepeiyang.commons.network.ApiResponse;
 import com.twt.wepeiyang.commons.network.RetrofitProvider;
 import com.twt.wepeiyang.commons.network.RxErrorHandler;
 
 import io.rx_cache.DynamicKey;
 import io.rx_cache.EvictDynamicKey;
 import io.rx_cache.Reply;
-import io.rx_cache.internal.RxCache;
-import io.victoralbertos.jolyglot.GsonSpeaker;
-import rx.Notification;
-import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
@@ -49,7 +42,7 @@ public class GpaProvider {
      * default: not refresh the cache
      */
     public void getData() {
-        getData(false);
+        getData(true);
     }
 
     /**
@@ -79,7 +72,7 @@ public class GpaProvider {
                             Toast.makeText(mActivity, "数据出现问题,可尝试关闭退学或在GPA界面手动刷新...", Toast.LENGTH_SHORT).show();
                         }
                     }
-                }, new RxErrorHandler(mActivity));
+                }, throwable -> new RxErrorHandler(mActivity).call(throwable.getCause()));
 
     }
 

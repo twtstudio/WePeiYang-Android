@@ -3,7 +3,6 @@ package com.twtstudio.retrox.gpa;
 import android.databinding.BindingAdapter;
 import android.databinding.ObservableList;
 import android.graphics.Color;
-import android.view.ViewGroup;
 
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
@@ -19,7 +18,6 @@ import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.kelin.mvvmlight.base.ViewModel;
 import com.twtstudio.retrox.gpa.view.TermCourseViewModel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 

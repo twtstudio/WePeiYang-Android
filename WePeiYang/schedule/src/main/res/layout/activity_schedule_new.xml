@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.twtstudio.retrox.schedule.view.ScheduleNewViewModel" />
+
+        <import type="me.tatarka.bindingcollectionadapter.LayoutManagers" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/refresh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+
+                <android.support.design.widget.AppBarLayout
+                    android:id="@+id/appbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/schedule_primary_color">
+
+
+                    <android.support.v7.widget.Toolbar
+                        android:id="@+id/toolbar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:minHeight="?attr/actionBarSize"
+                        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+                        <TextView
+                            android:id="@+id/tv_date"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:gravity="center"
+                            android:lines="1"
+                            android:textColor="@color/myTextPrimaryColorWhite"
+                            android:textSize="20sp" />
+                    </android.support.v7.widget.Toolbar>
+                </android.support.design.widget.AppBarLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="38dp"
+                        android:layout_marginTop="11dp"
+                        android:background="@color/background_gray"
+                        android:orientation="horizontal">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@color/white"
+                            android:id="@+id/linear"
+                            android:orientation="horizontal"
+                            android:layout_marginBottom="1dp">
+                        <TextView
+                            style="@style/weekIndicatorStyle"
+                            android:text="一" />
+
+                        <TextView
+                            style="@style/weekIndicatorStyle"
+                            android:text="二" />
+
+                        <TextView
+                            style="@style/weekIndicatorStyle"
+                            android:text="三" />
+
+                        <TextView
+                            style="@style/weekIndicatorStyle"
+                            android:text="四" />
+
+                        <TextView
+                            style="@style/weekIndicatorStyle"
+                            android:text="五" />
+
+                        <TextView
+                            style="@style/weekIndicatorStyle"
+                            android:text="六" />
+
+                        <TextView
+                            style="@style/weekIndicatorStyle"
+                            android:text="日" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <android.support.design.widget.CoordinatorLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/coodinator"
+                    android:layout_weight="1">
+
+                    <com.ldf.calendar.view.MonthPager
+                        android:id="@+id/calendar_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="270dp"
+                        android:background="#fff">
+
+                    </com.ldf.calendar.view.MonthPager>
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/list"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="bottom"
+                        android:layout_marginBottom="45dp"
+                        android:background="@color/white"
+                        android:clipChildren="false"
+                        android:clipToPadding="false"
+                        bind:itemView="@{viewModel.itemView}"
+                        bind:items="@{viewModel.items}"
+                        bind:layoutManager="@{LayoutManagers.linear()}"
+                        bind:layout_behavior="com.twtstudio.retrox.schedule.behavior.RecyclerViewBehavior" />
+
+                </android.support.design.widget.CoordinatorLayout>
+            </LinearLayout>
+        </android.support.v4.widget.SwipeRefreshLayout>
+    </FrameLayout>
+</layout>

@@ -6,14 +6,14 @@ android {
     compileSdkVersion 25
     buildToolsVersion "25.0.1"
     defaultConfig {
-        applicationId "com.twtstudio.retrox.wepeiyangrd"
+        applicationId "com.twt.service"
         minSdkVersion 19
         targetSdkVersion 25
-        versionCode 10
-        versionName "3.1"
+        versionCode 19
+        versionName "3.1.2"
         multiDexEnabled true
         ndk {
-            abiFilters 'armeabi'
+            abiFilters 'armeabi','x86'
         }
         javaCompileOptions {
             annotationProcessorOptions {
@@ -29,7 +29,7 @@ android {
     }
     dexOptions {
 //        incremental true
-        javaMaxHeapSize "4g"
+        javaMaxHeapSize "2g"
     }
     dataBinding {
         enabled true

@@ -434,3 +434,77 @@ GpaProvider.init(mContext)
    ```
 
    ​
+
+
+
+## 友盟分享使用
+
+具体调用方法参见：[友盟官方文档](http://dev.umeng.com/social/android/share-detail)
+
+
+
+### 注意事项：
+
+1. **最后在分享所在的Activity里复写onActivityResult方法,注意不可在fragment中实现，如果在fragment中调用分享，在fragment依赖的Activity中实现，如果不实现onActivityResult方法，会导致分享或回调无法正常进行**
+
+```java
+@Override
+  protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
+
+    }
+
+```
+
+2. 在实例化ShareAction时setCallBack()方法推荐传入Common包中的**ShareListener**
+
+   1. 不需要自定义回调
+
+   ```java
+   new ShareAction(MainActivity.this).setPlatform(SHARE_MEDIA.WEIXIN)
+        .withMedia(web)
+        .setCallback(new ShareListener(MainActivity.this))
+        .share();
+   ```
+
+   2. 自定义回调时（ShareListener的构造方法可以传入UMShareListener作为第二个参数）
+
+   ```java
+   new ShareAction(MainActivity.this).setPlatform(SHARE_MEDIA.WEIXIN)
+           .withMedia(web)
+           .setCallback(new ShareListener(MainActivity.this, new UMShareListener() {
+               @Override
+               public void onStart(SHARE_MEDIA share_media) {
+
+               }
+
+               @Override
+               public void onResult(SHARE_MEDIA share_media) {
+
+               }
+
+               @Override
+               public void onError(SHARE_MEDIA share_media, Throwable throwable) {
+
+               }
+
+               @Override
+               public void onCancel(SHARE_MEDIA share_media) {
+
+               }
+           }))
+           .share();
+   ```
+
+3. QQ分享，不允许只分享文字信息。
+
+
+
+## 在单独开发某个模块时
+
+需要引入Commons模块并对工程进行一些配置
+
+[根据官方文档配置](http://dev.umeng.com/social/android/quick-integration#3)【只需要看3.1.4 —— 3.1.6】
+
+发起分享时与平时相同。

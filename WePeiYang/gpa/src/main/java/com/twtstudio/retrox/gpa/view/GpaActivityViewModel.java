@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
-import android.widget.Toast;
 
 import com.kelin.mvvmlight.base.ViewModel;
 import com.kelin.mvvmlight.command.ReplyCommand;
@@ -17,9 +16,7 @@ import com.twtstudio.retrox.gpa.GpaBean;
 import com.twtstudio.retrox.gpa.GpaProvider;
 import com.twtstudio.retrox.gpa.R;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 
 import me.tatarka.bindingcollectionadapter.ItemViewSelector;
 import me.tatarka.bindingcollectionadapter.collections.MergeObservableList;
@@ -117,7 +114,7 @@ public class GpaActivityViewModel implements ViewModel {
     }
 
     public void getGpaData(){
-        getGpaData(false);
+        getGpaData(true);
     }
 
     public void setTermIndex(int index){

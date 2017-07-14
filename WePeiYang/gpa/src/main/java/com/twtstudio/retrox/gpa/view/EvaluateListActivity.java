@@ -1,14 +1,12 @@
 package com.twtstudio.retrox.gpa.view;
 
 import android.annotation.TargetApi;
-import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
 import android.transition.ChangeBounds;
 import android.transition.Fade;
@@ -20,7 +18,6 @@ import com.twtstudio.retrox.gpa.R;
 import com.twtstudio.retrox.gpa.databinding.GpaActivityEvaluateListBinding;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by tjliqy on 2017/6/2.
