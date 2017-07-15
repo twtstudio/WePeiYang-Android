@@ -26,11 +26,20 @@ android {
             // but continue the build even when errors are found:
             abortOnError false
         }
+        productFlavors {
+            dev {
+                // Enable pre-dexing to produce an APK that can be tested on
+                // Android 5.0+ without the time-consuming DEX build processes.
+                minSdkVersion 21
+            }
+            prod {
+                // The actual minSdkVersion for the production version.
+                minSdkVersion 19
+            }
+        }
+
     }
-    dexOptions {
-//        incremental true
-        javaMaxHeapSize "2g"
-    }
+
     dataBinding {
         enabled true
     }
@@ -70,6 +79,23 @@ dependencies {
     compile project(':yellowpages')
     compile project(':party')
     compile project(":classroomquery")
+
+//    compile 'com.twtstudio.retrox:commons:1.0.1'
+//    compile 'com.twtstudio.retrox:mvvmkit:1.0.0-SNAPSHOT'
+//    compile 'com.twtstudio.retrox:party:1.0.0-SNAPSHOT'
+//    compile 'com.twtstudio.retrox:auth:1.0.0-SNAPSHOT'
+//    compile 'com.twtstudio.retrox:classroomcore:1.0.0-SNAPSHOT'
+//    compile 'com.twtstudio.retrox:fragmentation:1.0.0-SNAPSHOT'
+//    compile 'com.twtstudio.retrox:bike:1.0.0-SNAPSHOT'
+//    compile 'com.twtstudio.retrox:gpa:1.0.1'
+//    compile 'com.twtstudio.retrox:schedule:1.0.0-SNAPSHOT'
+//    compile 'com.twtstudio.retrox:one:1.0.0-SNAPSHOT'
+//    compile 'com.twtstudio.retrox:tjulibrary:1.0.0-SNAPSHOT'
+//    compile 'com.twtstudio.retrox:news:1.0.0-SNAPSHOT'
+//    compile 'com.twtstudio.retrox:fellowsearch:1.0.0-SNAPSHOT'
+//    compile 'com.twtstudio.retrox:yellowpages:1.0.1-SNAPSHOT'
+//    compile 'com.twtstudio.retrox:classroomquery:1.0.0-SNAPSHOT'
+
 
     compile 'com.wanjian:cockroach:0.0.5'
 
