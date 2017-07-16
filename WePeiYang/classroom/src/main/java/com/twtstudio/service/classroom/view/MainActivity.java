@@ -1,21 +1,22 @@
 package com.twtstudio.service.classroom.view;
 
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -30,6 +31,7 @@ import com.twtstudio.service.classroom.R;
 import com.twtstudio.service.classroom.R2;
 import com.twtstudio.service.classroom.databinding.ActivityClassroomQueryMainBinding;
 import com.twtstudio.service.classroom.databinding.ClassroomPopupWindowBinding;
+import com.twtstudio.service.classroom.model.ClassRoomProvider;
 import com.twtstudio.service.classroom.model.TimeHelper;
 
 import butterknife.BindView;
@@ -38,25 +40,14 @@ import butterknife.ButterKnife;
 @Route(path = "/classroom/main")
 public class MainActivity extends RxAppCompatActivity {
 
-    PopupWindowViewModel popupWindowViewModel = new PopupWindowViewModel(this);
+    PopupWindowViewModel popupWindowViewModel;
+    MainActivityViewModel viewModel = new MainActivityViewModel(this);
     ClassroomPopupWindowBinding popupBinding;
     ActivityClassroomQueryMainBinding mainBinding;
     private Animation animation, animation2;
     private int seletedTag = 0;
     PopupWindow popupWindow;
     private boolean hasPop;
-    @BindView(R2.id.appBar)
-    Toolbar appBar;
-    @BindView(R2.id.backButton)
-    Button backButton;
-    @BindView(R2.id.textview)
-    TextView textview;
-    @BindView(R2.id.collectButton)
-    Button collectButton;
-    @BindView(R2.id.positionButton)
-    Button positionButton;
-    @BindView(R2.id.frame1)
-    FrameLayout frame1;
     @BindView(R2.id.condition1)
     TextView condition1;
     @BindView(R2.id.arrow1)
@@ -98,26 +89,28 @@ public class MainActivity extends RxAppCompatActivity {
         popupWindow = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         mainBinding = DataBindingUtil.setContentView(this, R.layout.activity_classroom_query_main);
 //        MainActivityViewModel viewModel = new MainActivityViewModel(this, 46, 2, 5, CommonPrefUtil.getStudentNumber());
-        MainActivityViewModel viewModel = new MainActivityViewModel(this);
-        viewModel.iniData(46, TimeHelper.getWeekInt(), TimeHelper.getTimeInt(), CommonPrefUtil.getStudentNumber(),true);
+        setSupportActionBar(mainBinding.toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (CommonPrefUtil.getIsNewCampus())
+            viewModel.iniData(46, TimeHelper.getWeekInt(), TimeHelper.getTimeInt(), CommonPrefUtil.getStudentNumber(), true);
+        else
+            viewModel.iniData(23, TimeHelper.getWeekInt(), TimeHelper.getTimeInt(), CommonPrefUtil.getStudentNumber(), true);
         mainBinding.setViewModel(viewModel);
         com.kelin.mvvmlight.messenger.Messenger.getDefault().send(viewModel, "setData");
         ButterKnife.bind(this);
         popupBinding = popupBinding.inflate(inflater, (ViewGroup) mainBinding.getRoot(), false);
 //        setContentView(popupBinding.getRoot());
+        popupWindowViewModel = new PopupWindowViewModel(viewModel);
         popupBinding.setViewModel(popupWindowViewModel);
         popupWindow.setContentView(popupBinding.getRoot());
+        String uid = CommonPrefUtil.getUserId();
         popupWindow.setOutsideTouchable(true);
-
         animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate);//创建动画
         animation.setInterpolator(new LinearInterpolator());//
         animation.setFillAfter(!animation.getFillAfter());//
         animation2 = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate2);//创建动画
         animation2.setInterpolator(new LinearInterpolator());//
         animation2.setFillAfter(!animation.getFillAfter());//
-        backButton.setOnClickListener((v) -> {
-            finish();
-        });
         popupWindow.setOnDismissListener(() -> {
             switch (seletedTag) {
                 case 1:
@@ -133,26 +126,69 @@ public class MainActivity extends RxAppCompatActivity {
         });
         condition1.setOnClickListener((v) -> {
             if (!hasPop) {
-                popupWindowViewModel.initData(true, 1);
+                popupWindowViewModel.initData(CommonPrefUtil.getIsNewCampus(), 1);
                 popupWindow.showAsDropDown(toparea);
+                arrow1.startAnimation(animation);
             }
-
-            hasPop=!hasPop;
+            hasPop = !hasPop;
             seletedTag = 1;
         });
+        condition2.setOnClickListener((v) -> {
+            if (!hasPop) {
+                popupWindowViewModel.initData(CommonPrefUtil.getIsNewCampus(), 2);
+                popupWindow.showAsDropDown(toparea);
+                arrow2.startAnimation(animation);
+            }
+            hasPop = !hasPop;
+            seletedTag = 2;
+        });
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            ClassRoomProvider.init(this).registerAction((freeRoom2) -> {
+                swipeRefreshLayout.setRefreshing(false);
+            }).getFreeClassroom(viewModel.building, viewModel.week, viewModel.time, CommonPrefUtil.getStudentNumber());
 
+        });
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_roomquery, menu);
+        return true;
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+        } else if (item.getItemId() == R.id.room_collected) {
+            Intent intent = new Intent(MainActivity.this, CollectedPage.class);
+            startActivity(intent);
+        } else if (item.getItemId() == R.id.campus_choose) {
+            Intent intent = new Intent(MainActivity.this, RoomqueryChooseCampus.class);
+            startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public void disimissPopupWindow(ImageView imageView) {
         if (hasPop) {
-            popupWindow.dismiss();
             imageView.startAnimation(animation2);
+            popupWindow.dismiss();
         }
-        if (!hasPop) {
-//            refreshData();
-            imageView.startAnimation(animation);
-        }
+//        else  if (!hasPop) {
+////            refreshData();
+//            imageView.startAnimation(animation2);
+//        }
 //        hasPop = !hasPop;
+    }
+
+    @Override
+    protected void onResume() {
+        if (CommonPrefUtil.getIsNewCampus())
+            viewModel.iniData(46, TimeHelper.getWeekInt(), TimeHelper.getTimeInt(), CommonPrefUtil.getStudentNumber(), true);
+        else
+            viewModel.iniData(23, TimeHelper.getWeekInt(), TimeHelper.getTimeInt(), CommonPrefUtil.getStudentNumber(), true);
+        viewModel.condition1.set("教学楼");
+        viewModel.condition2.set("时间段");
+        super.onResume();
     }
 
     @Override

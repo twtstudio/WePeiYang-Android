@@ -67,5 +67,7 @@ public class FreeRoom2 {
             }
         }
 
-
+    public int getErrorcode() {
+        return errorcode;
+    }
 }

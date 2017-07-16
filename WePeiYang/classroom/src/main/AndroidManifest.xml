@@ -15,7 +15,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.AppBar" />
+        <activity android:name=".view.CollectedPage" />
+        <activity android:name=".view.RoomqueryChooseCampus"></activity>
     </application>
 
 </manifest>

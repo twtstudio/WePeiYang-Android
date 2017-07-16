@@ -17,7 +17,7 @@
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
+        android:layout_marginTop="8dp"
         android:background="@color/White"
         app:cardElevation="1dp">
 
@@ -38,7 +38,7 @@
                     android:layout_width="250dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
-                    android:layout_weight="10"
+                    android:layout_weight="1"
                     android:clickable="true"
                     android:gravity="left"
                     android:text="@{viewModel.classroom}"
@@ -46,11 +46,11 @@
 
                 <Button
                     android:id="@+id/clickButton"
-                    android:layout_width="30dp"
-                    android:layout_height="32dp"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
                     android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:background="@drawable/classroom_icon_uncollected" />
+                    android:onClick="@{viewModel::onClick}"
+                    android:background="@{viewModel.isCollected ? @drawable/classroomicon_collected : @drawable/classroom_icon_uncollected}" />
 
 
             </LinearLayout>
@@ -135,7 +135,10 @@
                     android:src="@drawable/classroom_tag_yinshuiji"
                     android:visibility="@{viewModel.isVisible5 ? View.VISIBLE: View.GONE}" />
 
-
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{viewModel.time}"/>
             </LinearLayout>
         </LinearLayout>
 

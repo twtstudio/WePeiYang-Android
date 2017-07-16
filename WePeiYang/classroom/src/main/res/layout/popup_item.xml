@@ -12,24 +12,35 @@
 
         <import type="com.twtstudio.service.classroom.R" />
 
-        <import type="android.view.View" />
     </data>
 
     <android.support.v7.widget.CardView
         android:id="@+id/cv_s"
         android:layout_width="match_parent"
-        android:layout_height="24dp"
-        android:clickable="true"
+        android:layout_marginTop="4dp"
+        android:layout_height="wrap_content"
+        android:clickable="@{viewModel.isOnClickable}"
         android:onClick="@{viewModel::onClick}"
         app:cardElevation="0dp">
 
-        <TextView
-            android:id="@+id/tv_date"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="@{viewModel.text}"
-            android:textColor="@{viewModel.changeTextColor ? R.color.purple :R.color.default_text_color}"
-            android:textSize="16sp" />
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="1dp"
+            android:background="@{viewModel.changePaddingColor ? @color/purple:@color/White}"
+            android:padding="1dp">
+
+            <TextView
+                android:id="@+id/tv_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/white_color"
+                android:gravity="center"
+                android:textColor="@{viewModel.changeTextColor ? @color/purple: @color/default_text_color}"
+                android:text="@{viewModel.text}"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                android:textSize="16sp" />
+        </FrameLayout>
     </android.support.v7.widget.CardView>
 </layout>

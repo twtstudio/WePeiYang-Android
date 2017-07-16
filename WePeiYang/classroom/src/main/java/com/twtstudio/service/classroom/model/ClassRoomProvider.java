@@ -40,7 +40,7 @@ public class ClassRoomProvider {
                     if (mAction1 != null) {
                         mAction1.call(freeRoom2);
                     }
-                },new RxErrorHandler(mRxActivity));
+                },throwable -> new RxErrorHandler(mRxActivity).call(throwable.getCause()));
 
     }
     public void getAllCollectedClassroom(String token,int week){
@@ -55,7 +55,7 @@ public class ClassRoomProvider {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(collectedRoom2 -> {
 
-                },new RxErrorHandler(mRxActivity));
+                },throwable -> new RxErrorHandler(mRxActivity).call(throwable.getCause()));
     }
     public void collect(String buiding, String token){
         CacheProvider.getRxCache().using(ClassRoomCacheApi.class)
@@ -69,7 +69,7 @@ public class ClassRoomProvider {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(collectApiResponseClassRoomApiReaponse -> {
 
-                },new RxErrorHandler(mRxActivity));
+                },throwable -> new RxErrorHandler(mRxActivity).call(throwable.getCause()));
     }
     public void cancelCollect(String token,String building){
         CacheProvider.getRxCache().using(ClassRoomCacheApi.class)
@@ -83,7 +83,7 @@ public class ClassRoomProvider {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(collectApiResponseClassRoomApiReaponse -> {
 
-                },new RxErrorHandler(mRxActivity));
+                },throwable -> new RxErrorHandler(mRxActivity).call(throwable.getCause()));
     }
 
     public ClassRoomProvider registerAction(Action1<FreeRoom2> action1) {
