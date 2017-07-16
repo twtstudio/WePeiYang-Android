@@ -66,12 +66,14 @@ public class SuccessActivity extends BaseActivity implements View.OnClickListene
     @Override
     public void onClick(View view) {
 
-        // TODO: 2017/7/4 将点击事件换为真正的分享
         if (view == share_wechatfriends) {
             Toast.makeText(this, "share_wechatfriends", Toast.LENGTH_SHORT).show();
         } else if (view == share_wechatzone) {
             Toast.makeText(this, "share_wechatzone", Toast.LENGTH_SHORT).show();
         } else if (view == share_qqfriends) {
+
+            // TODO: 2017/7/17 点击分享提示没有key
+
             new ShareAction(SuccessActivity.this).setPlatform(SHARE_MEDIA.QQ)
                     .withText("hello")
                     .setCallback(umShareListener)

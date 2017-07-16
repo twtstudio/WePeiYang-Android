@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
@@ -165,6 +166,7 @@ public class WaterfallActivity extends BaseActivity {
             waterfall_type_grey.setVisibility(View.VISIBLE);
             waterfall_type_blue.setVisibility(View.GONE);
             waterfall_cardview_types.setVisibility(View.GONE);
+            waterfall_fab_menu.collapse();
         }
     }
 }
