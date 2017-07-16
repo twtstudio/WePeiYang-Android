@@ -9,6 +9,7 @@
     tools:context="com.twtstudio.tjwhm.lostfound.waterfall.WaterfallActivity">
 
 
+
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -22,7 +23,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:background="@color/white"
             android:orientation="horizontal">
 
@@ -33,20 +34,23 @@
                 android:background="@color/white" />
 
             <RelativeLayout
-                android:layout_width="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <ImageView
+                    android:layout_centerInParent="true"
                     android:id="@+id/waterfall_type_grey"
-                    android:layout_width="24dp"
+                    android:layout_width="18dp"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
                     android:backgroundTint="@color/white"
                     android:src="@drawable/lost_types_grey" />
 
                 <ImageView
+                    android:layout_centerInParent="true"
                     android:id="@+id/waterfall_type_blue"
-                    android:layout_width="24dp"
+                    android:layout_width="18dp"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
                     android:backgroundTint="@color/white"
@@ -56,14 +60,13 @@
     </android.support.design.widget.AppBarLayout>
 
     <include
-
         android:id="@+id/waterfall_cardview_types"
         layout="@layout/waterfall_cardview_types"
         android:layout_width="144dp"
         android:layout_height="wrap_content"
         android:layout_gravity="end|top"
         android:layout_marginEnd="8dp"
-        android:layout_marginTop="128dp" />
+        android:layout_marginTop="108dp" />
 
 
     <android.support.v4.view.ViewPager
@@ -153,5 +156,9 @@
 
 
     </com.getbase.floatingactionbutton.FloatingActionsMenu>
-
+    <TextView
+        android:id="@+id/waterfall_cover"
+        android:background="#00000000"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 </android.support.design.widget.CoordinatorLayout>

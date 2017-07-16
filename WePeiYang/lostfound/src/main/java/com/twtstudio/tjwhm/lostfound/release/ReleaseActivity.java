@@ -4,8 +4,11 @@ import android.content.ContentUris;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
@@ -35,6 +38,7 @@ import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.engine.impl.GlideEngine;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -192,15 +196,29 @@ public class ReleaseActivity extends BaseActivity
 
         if (view == release_confirm && (Objects.equals(lostOrFound, "lost") || Objects.equals(lostOrFound, "found"))) {
             if (selectedPic.size() != 0) {
-                File file = new File(handleImageOnKitKat(selectedPic.get(0)));
+//                File file = new File(handleImageOnKitKat(selectedPic.get(0)));
+                Bitmap bitmap = zipThePic(handleImageOnKitKat(selectedPic.get(0)));
+                String bmPath = "";
+                try {
+                    bmPath = saveImg(bitmap, "a");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                File file = new File(bmPath);
                 releasePresenter.uploadReleaseDataWithPic(getUpdateMap(), lostOrFound, file);
 
             } else {
                 releasePresenter.uploadReleaseData(getUpdateMap(), lostOrFound);
             }
         } else if (view == release_confirm) {
-
-            File file = new File(handleImageOnKitKat(selectedPic.get(0)));
+            Bitmap bitmap = zipThePic(handleImageOnKitKat(selectedPic.get(0)));
+            String bmPath = "";
+            try {
+                bmPath = saveImg(bitmap, "a");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            File file = new File(bmPath);
             releasePresenter.uploadEditDataWithPic(getUpdateMap(), lostOrFound, file, id);
         } else if (view == release_delete) {
             releasePresenter.delete(id);
@@ -333,5 +351,60 @@ public class ReleaseActivity extends BaseActivity
             cursor.close();
         }
         return path;
+    }
+
+    private Bitmap zipThePic(String filePath) {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(filePath, options);
+        int height = options.outHeight;
+        int width = options.outWidth;
+        int inSampleSize = 1;
+        int reqHeight = 800;
+        int reqWidth = 480;
+        if (height > reqHeight || width > reqWidth) {
+            final int heightRatio = Math.round((float) height / (float) reqHeight);
+            final int widthRatio = Math.round((float) width / (float) reqWidth);
+            inSampleSize = heightRatio < widthRatio ? heightRatio : widthRatio;
+        }
+        options.inSampleSize = calculateInSampleSize(options, 480, 800);
+        options.inJustDecodeBounds = false;
+        Bitmap bitmap = BitmapFactory.decodeFile(filePath, options);
+        return bitmap;
+    }
+
+    private static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
+        final int height = options.outHeight;
+        final int width = options.outWidth;
+        int inSampleSize = 1;
+
+        if (height > reqHeight || width > reqWidth) {
+            final int heightRatio = Math.round((float) height / (float) reqHeight);
+            final int widthRatio = Math.round((float) width / (float) reqWidth);
+            inSampleSize = heightRatio < widthRatio ? heightRatio : widthRatio;
+        }
+        return inSampleSize;
+    }
+
+    private static String saveImg(Bitmap b, String name) throws Exception {
+
+        String path = Environment.getExternalStorageDirectory() + "/" + "BJLiuJian/YaSuoTuPian";
+        File dirFile = new File(path);
+        File mediaFile = new File(path + File.separator + name + ".jpg");
+        if (mediaFile.exists()) {
+            mediaFile.delete();
+        }
+        if (!new File(path).exists()) {
+            new File(path).mkdirs();
+        }
+        mediaFile.createNewFile();
+        FileOutputStream fos = new FileOutputStream(mediaFile);
+        b.compress(Bitmap.CompressFormat.PNG, 100, fos);
+        fos.flush();
+        fos.close();
+        b.recycle();
+        b = null;
+        System.gc();
+        return mediaFile.getPath();
     }
 }

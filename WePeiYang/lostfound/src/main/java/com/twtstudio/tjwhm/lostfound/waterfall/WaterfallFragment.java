@@ -10,6 +10,7 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.twtstudio.tjwhm.lostfound.R;
 
@@ -17,6 +18,8 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.facebook.common.internal.Ints.max;
 
 /**
  * Created by tjwhm on 2017/7/3.
@@ -27,6 +30,8 @@ public class WaterfallFragment extends Fragment implements WaterfallContract.Wat
     SwipeRefreshLayout water_refresh;
     @BindView(R.id.waterfall_recyclerView)
     RecyclerView waterfall_recyclerView;
+    @BindView(R.id.waterfall_no_res)
+    LinearLayout waterfall_no_res;
     private WaterfallTableAdapter tableAdapter;
     private StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL);
     private WaterfallBean waterfallBean = new WaterfallBean();
@@ -35,6 +40,7 @@ public class WaterfallFragment extends Fragment implements WaterfallContract.Wat
     private boolean isLoading = false;
     private boolean isRefresh = false;
     String lostOrFound;
+    int type = -1;
 
     public static WaterfallFragment newInstance(String type) {
 
@@ -54,7 +60,7 @@ public class WaterfallFragment extends Fragment implements WaterfallContract.Wat
         waterfallBean.data = new ArrayList<>();
         tableAdapter = new WaterfallTableAdapter(waterfallBean, getActivity());
         waterfall_recyclerView.setAdapter(tableAdapter);
-
+        waterfall_no_res.setVisibility(View.GONE);
         Bundle bundle = getArguments();
         lostOrFound = bundle.getString("index");
 
@@ -66,12 +72,20 @@ public class WaterfallFragment extends Fragment implements WaterfallContract.Wat
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 int totalCount = layoutManager.getItemCount();
-                int[] lastPositions = new int[2];
-                layoutManager.findLastVisibleItemPositions(lastPositions);
-                if (!isLoading && totalCount < (lastPositions[1]) + 2) {
-                    ++page;
-                    isLoading = true;
-                    waterfallPresenter.loadWaterfallData(lostOrFound, page);
+                int[] lastPositions = new int[layoutManager.getSpanCount()];
+                layoutManager.findLastCompletelyVisibleItemPositions(lastPositions);
+
+                int lastPosition = max(lastPositions);
+                if (!isLoading && totalCount < lastPosition + 2 && lastPosition != -1) {
+                    if (type == -1) {
+                        ++page;
+                        isLoading = true;
+                        waterfallPresenter.loadWaterfallData(lostOrFound, page);
+                    } else {
+                        ++page;
+                        isLoading = true;
+                        waterfallPresenter.loadWaterfallDataWithType(lostOrFound, page, type);
+                    }
                 }
             }
         });
@@ -80,11 +94,15 @@ public class WaterfallFragment extends Fragment implements WaterfallContract.Wat
 
     @Override
     public void setWaterfallData(WaterfallBean waterfallBean) {
+        if (waterfallBean.data.size() == 0 && page == 1) {
+            waterfall_no_res.setVisibility(View.VISIBLE);
+        } else {
+            waterfall_no_res.setVisibility(View.GONE);
+        }
         this.waterfallBean.error_code = waterfallBean.error_code;
         this.waterfallBean.message = waterfallBean.message;
         if (isRefresh) {
             this.waterfallBean.data.clear();
-            System.out.println("WaterfallFragment.setWaterfallData"+"zzzzzz");
         }
         this.waterfallBean.data.addAll(waterfallBean.data);
         tableAdapter.notifyDataSetChanged();
@@ -95,8 +113,10 @@ public class WaterfallFragment extends Fragment implements WaterfallContract.Wat
 
     @Override
     public void loadWaterfallDataWithType(int type) {
+        this.type = type;
+        page = 1;
         isRefresh = true;
-        waterfallPresenter.loadWaterfallDataWithType(lostOrFound,page,type);
+        waterfallPresenter.loadWaterfallDataWithType(lostOrFound, page, type);
     }
 
     @Override
@@ -110,5 +130,6 @@ public class WaterfallFragment extends Fragment implements WaterfallContract.Wat
         isRefresh = true;
         page = 1;
         waterfallPresenter.loadWaterfallData(lostOrFound, page);
+        type = -1;
     }
 }

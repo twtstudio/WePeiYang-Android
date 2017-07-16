@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -19,15 +21,16 @@ import com.twtstudio.tjwhm.lostfound.support.Utils;
 import java.util.Objects;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * Created by tjwhm & liuyuesen on 2017/7/5.
  **/
 
 public class DetailActivity extends BaseActivity implements DetailContract.DetailView {
+
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-
     @BindView(R.id.detail_pic)
     ImageView detail_pic;
     @BindView(R.id.detail_title)
@@ -46,6 +49,8 @@ public class DetailActivity extends BaseActivity implements DetailContract.Detai
     TextView detail_remarks;
     @BindView(R.id.detail_layout_without_pic)
     LinearLayout detail_layout_without_pic;
+    AlertDialog.Builder builder;
+    DetailBean detailData;
 
     DetailContract.DetailPresenter detailPresenter = new DetailPresenterImpl(this);
 
@@ -98,6 +103,7 @@ public class DetailActivity extends BaseActivity implements DetailContract.Detai
 
     @Override
     public void setDetailData(DetailBean detailData) {
+        this.detailData = detailData;
 
         detail_title.setText(detailData.data.title);
         detail_time.setText(detailData.data.time);
@@ -107,7 +113,7 @@ public class DetailActivity extends BaseActivity implements DetailContract.Detai
         detail_phone.setText(detailData.data.phone);
         detail_remarks.setText(detailData.data.item_description);
 
-        if (Objects.equals(detailData.data.picture, "")) {
+        if (Objects.equals(detailData.data.picture, "") || detailData.data.picture == null) {
             Glide.with(this)
                     .load(Utils.noPicForDetail())
                     .asBitmap()
@@ -136,5 +142,26 @@ public class DetailActivity extends BaseActivity implements DetailContract.Detai
 
             startActivity(intent);
         });
+        if (detailData.data.picture != null && !Objects.equals(detailData.data.picture, "")) {
+            detail_pic.setOnClickListener(this::showPicDialog);
+        }
+    }
+
+    private void showPicDialog(View view) {
+        builder = new AlertDialog.Builder(this);
+
+        LinearLayout picDialog = (LinearLayout) getLayoutInflater().inflate(R.layout.dialog_detail_pic, null);
+
+        builder.setView(picDialog);
+        AlertDialog dialog = builder.create();
+        ImageView detail_dialog_pic = ButterKnife.findById(picDialog, R.id.detail_bigpic);
+
+        if (detail_dialog_pic != null) {
+            Glide.with(this)
+                    .load(Utils.getPicUrl(detailData.data.picture))
+                    .into(detail_dialog_pic);
+
+        }
+        dialog.show();
     }
 }
