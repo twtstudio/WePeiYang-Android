@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.twtstudio.tjwhm.lostfound">
+
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <application
         android:name=".lostfoundApp"
         android:allowBackup="true"
@@ -18,11 +20,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".mylist.MylistActivity"/>
-        <activity android:name=".search.SearchActivity"/>
-        <activity android:name=".release.ReleaseActivity"/>
-        <activity android:name=".success.SuccessActivity"/>
-        <activity android:name=".detail.DetailActivity"/>
+        <activity android:name=".mylist.MylistActivity" />
+        <activity android:name=".search.SearchActivity" />
+        <activity android:name=".release.ReleaseActivity">
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
+        </activity>
+        <activity android:name=".success.SuccessActivity" />
+        <activity android:name=".detail.DetailActivity" />
     </application>
 
 </manifest>

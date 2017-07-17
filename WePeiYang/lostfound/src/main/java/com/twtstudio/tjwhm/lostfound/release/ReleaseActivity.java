@@ -1,6 +1,7 @@
 package com.twtstudio.tjwhm.lostfound.release;
 
 import android.content.ContentUris;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.database.Cursor;
@@ -17,6 +18,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -165,6 +167,8 @@ public class ReleaseActivity extends BaseActivity
                 .imageEngine(new GlideEngine())
                 .theme(R.style.Matisse_Zhihu)
                 .forResult(2));
+        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
     private void initSpinner() {
@@ -192,6 +196,9 @@ public class ReleaseActivity extends BaseActivity
         });
         release_confirm.setOnClickListener(this);
         release_delete.setOnClickListener(this);
+
+        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(release_title.getWindowToken(),0);
     }
 
     @Override
