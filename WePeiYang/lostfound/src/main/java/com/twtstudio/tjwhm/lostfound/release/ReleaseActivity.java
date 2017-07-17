@@ -37,9 +37,11 @@ import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.engine.impl.GlideEngine;
 
+import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -198,28 +200,65 @@ public class ReleaseActivity extends BaseActivity
         if (view == release_confirm && (Objects.equals(lostOrFound, "lost") || Objects.equals(lostOrFound, "found"))) {
             if (selectedPic.size() != 0) {
 //                File file = new File(handleImageOnKitKat(selectedPic.get(0)));
-                Bitmap bitmap = zipThePic(handleImageOnKitKat(selectedPic.get(0)));
-                String bmPath = "";
+//                Bitmap bitmap = zipThePic(handleImageOnKitKat(selectedPic.get(0)));
+//                String bmPath = "";
+//                try {
+//                    bmPath = saveImg(bitmap, "a");
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//                File file = new File(bmPath);
+                File file1;
+                File file = null;
                 try {
-                    bmPath = saveImg(bitmap, "a");
-                } catch (Exception e) {
+                    file1 = File.createTempFile("pic", ".jpg");
+                    String outputFile = file1.getPath();
+                    file = getFile(zipThePic(handleImageOnKitKat(selectedPic.get(0))), outputFile);
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
-                File file = new File(bmPath);
                 releasePresenter.uploadReleaseDataWithPic(getUpdateMap(), lostOrFound, file);
 
             } else {
                 releasePresenter.uploadReleaseData(getUpdateMap(), lostOrFound);
             }
         } else if (view == release_confirm) {
-            Bitmap bitmap = zipThePic(handleImageOnKitKat(selectedPic.get(0)));
-            String bmPath = "";
+//            Bitmap bitmap = zipThePic(handleImageOnKitKat(selectedPic.get(0)));
+//            String bmPath = "";
+//            try {
+//                bmPath = saveImg(bitmap, "a");
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//            File file = new File(bmPath);
+
+//            File file = new File("");
+//            OutputStream output = null;
+//            try {
+//                output = new FileOutputStream(file);
+//            } catch (FileNotFoundException e) {
+//                e.printStackTrace();
+//            }
+//            BufferedOutputStream bufferedOutput = null;
+//            if (output != null) {
+//                bufferedOutput = new BufferedOutputStream(output);
+//            }
+//            try {
+//                assert bufferedOutput != null;
+//                bufferedOutput.write(zipThePic(handleImageOnKitKat(selectedPic.get(0))));
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+
+            File file1;
+            File file = null;
             try {
-                bmPath = saveImg(bitmap, "a");
-            } catch (Exception e) {
+                file1 = File.createTempFile("pic", ".jpg");
+                String outputFile = file1.getPath();
+                file = getFile(zipThePic(handleImageOnKitKat(selectedPic.get(0))), outputFile);
+            } catch (IOException e) {
                 e.printStackTrace();
             }
-            File file = new File(bmPath);
             releasePresenter.uploadEditDataWithPic(getUpdateMap(), lostOrFound, file, id);
         } else if (view == release_delete) {
             releasePresenter.delete(id);
@@ -354,7 +393,7 @@ public class ReleaseActivity extends BaseActivity
         return path;
     }
 
-    private Bitmap zipThePic(String filePath) {
+    private byte[] zipThePic(String filePath) {
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
         BitmapFactory.decodeFile(filePath, options);
@@ -374,9 +413,8 @@ public class ReleaseActivity extends BaseActivity
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 60, baos);
-        byte[] b = baos.toByteArray();
 
-        return bitmap;
+        return baos.toByteArray();
     }
 
     private static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
@@ -412,5 +450,27 @@ public class ReleaseActivity extends BaseActivity
         b = null;
         System.gc();
         return mediaFile.getPath();
+    }
+
+    private File getFile(byte[] b, String outputFile) {
+        BufferedOutputStream stream = null;
+        File file = null;
+        try {
+            file = new File(outputFile);
+            FileOutputStream fstream = new FileOutputStream(file);
+            stream = new BufferedOutputStream(fstream);
+            stream.write(b);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (stream != null) {
+                try {
+                    stream.close();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        }
+        return file;
     }
 }
