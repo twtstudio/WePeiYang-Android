@@ -1,11 +1,13 @@
 package com.twtstudio.service.classroom.view;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -25,6 +27,7 @@ import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.kelin.mvvmlight.messenger.Messenger;
+import com.orhanobut.hawk.Hawk;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
 import com.twtstudio.service.classroom.R;
@@ -79,6 +82,33 @@ public class MainActivity extends RxAppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_classroom_query_main);
+        if(!CommonPrefUtil.getHasChosenCampus()){
+            AlertDialog.Builder builder = new AlertDialog.Builder(this)
+                    .setTitle("选择校区")
+                    .setMessage("请选择你所在的校区")
+                    .setPositiveButton("北洋园校区", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            CommonPrefUtil.setIsNewCampus(true);
+                            CommonPrefUtil.setHasChosenCampus(true);
+                            viewModel.iniData(46, TimeHelper.getWeekInt(), TimeHelper.getTimeInt(), CommonPrefUtil.getStudentNumber(), true);
+                            dialog.dismiss();
+                        }
+                    })
+                    .setNeutralButton("卫津路校区", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            CommonPrefUtil.setIsNewCampus(false);
+                            CommonPrefUtil.setHasChosenCampus(true);
+                            viewModel.iniData(23, TimeHelper.getWeekInt(), TimeHelper.getTimeInt(), CommonPrefUtil.getStudentNumber(), true);
+                            dialog.dismiss();
+                        }
+                    });
+            builder.create().show();
+        }
+
+
+
         hasPop = false;
         Window window = this.getWindow();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -193,6 +223,7 @@ public class MainActivity extends RxAppCompatActivity {
 
     @Override
     protected void onDestroy() {
+        PopupItemViewModel.resetBuildingAndTime();
         Messenger.getDefault().unregister(this);
         super.onDestroy();
     }

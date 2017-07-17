@@ -10,6 +10,9 @@ import com.twtstudio.service.classroom.R;
 import com.twtstudio.service.classroom.model.ClassRoomProvider;
 import com.twtstudio.service.classroom.model.FreeRoom2;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import me.tatarka.bindingcollectionadapter.ItemViewSelector;
 import me.tatarka.bindingcollectionadapter.itemviews.ItemViewClassSelector;
 
@@ -44,8 +47,9 @@ public class MainActivityViewModel {
         this.week = week;
         this.time = time;
         this.token = token;
-        if (update)
+        if (update) {
             items.clear();
+        }
         ClassRoomProvider.init(rxActivity)
                 .registerAction(this::processData)
                 .getFreeClassroom(building, week, time, token);
@@ -58,7 +62,7 @@ public class MainActivityViewModel {
         isLoading.set(false);
         if (freeRoom2.getData() != null)
             for (FreeRoom2.FreeRoom freeRoom : freeRoom2.getData())
-                items.add(new ItemViewModel(rxActivity, freeRoom, this));
+                items.add(new ItemViewModel(rxActivity, freeRoom, this, freeRoom2.getTime()));
     }
 
     public void setCollected(String building) {
@@ -72,5 +76,4 @@ public class MainActivityViewModel {
     public void getCollected() {
         ClassRoomProvider.init(rxActivity).getAllCollectedClassroom(token, week);
     }
-
 }

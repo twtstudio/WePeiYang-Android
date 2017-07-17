@@ -18,6 +18,7 @@ public class FreeRoom2 {
         private int errorcode;
         private String msg;
         private List<FreeRoom> data;
+        private int time;
         public List<FreeRoom> getData(){
             return  this.data;
         }
@@ -67,7 +68,15 @@ public class FreeRoom2 {
             }
         }
 
+    public int getTime() {
+        return time;
+    }
+
     public int getErrorcode() {
         return errorcode;
+    }
+
+    public void setTime(int time) {
+        this.time = time;
     }
 }

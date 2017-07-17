@@ -75,10 +75,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:gravity="right" />
+                    android:gravity="right"
+                    android:text="@{viewModel.time}"/>
+
             </LinearLayout>
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="7dp"
@@ -88,58 +90,60 @@
 
                 <ImageView
                     android:id="@+id/image1"
-                    android:layout_width="130px"
-                    android:layout_height="46px"
+                    android:layout_width="65dp"
+                    android:layout_height="23dp"
                     android:layout_margin="3dp"
-                    android:layout_weight="1"
                     android:scaleType="fitCenter"
                     app:placeholderImageRes="@{viewModel.resid1}"/>
 
                 <ImageView
                     android:id="@+id/image2"
-                    android:layout_width="130px"
-                    android:layout_height="46px"
+                    android:layout_width="65dp"
+                    android:layout_height="23dp"
                     android:layout_margin="3dp"
-                    android:layout_weight="1"
+                    android:layout_toRightOf="@id/image1"
                     android:scaleType="fitCenter"
                     android:src="@drawable/classroom_tag_fan"
                     android:visibility="@{viewModel.isVisible2 ? View.VISIBLE: View.GONE}" />
 
                 <ImageView
                     android:id="@+id/image3"
-                    android:layout_width="130px"
-                    android:layout_height="46px"
+                    android:layout_width="65dp"
+                    android:layout_height="23dp"
                     android:layout_margin="3dp"
-                    android:layout_weight="1"
+                    android:layout_toRightOf="@id/image2"
                     android:scaleType="fitCenter"
                     android:src="@drawable/classroomtag_electricityt"
                     android:visibility="@{viewModel.isVisible3 ? View.VISIBLE: View.GONE}" />
 
                 <ImageView
                     android:id="@+id/image4"
-                    android:layout_width="130px"
-                    android:layout_height="46px"
+                    android:layout_width="65dp"
+                    android:layout_height="23dp"
                     android:layout_margin="3dp"
-                    android:layout_weight="1"
                     android:scaleType="fitCenter"
+                    android:layout_toRightOf="@id/image3"
                     android:src="@drawable/classroom_tag_heat"
                     android:visibility="@{viewModel.isVisible4 ? View.VISIBLE: View.GONE}" />
 
                 <ImageView
                     android:id="@+id/image5"
-                    android:layout_width="130px"
-                    android:layout_height="46px"
+                    android:layout_width="65dp"
+                    android:layout_height="23dp"
                     android:layout_margin="3dp"
-                    android:layout_weight="1"
                     android:scaleType="fitCenter"
+                    android:layout_toRightOf="@id/image4"
                     android:src="@drawable/classroom_tag_yinshuiji"
                     android:visibility="@{viewModel.isVisible5 ? View.VISIBLE: View.GONE}" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@{viewModel.time}"/>
-            </LinearLayout>
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_toRightOf="@id/image5"-->
+                    <!--android:layout_alignParentEnd="true"-->
+                    <!--android:layout_marginEnd="12dp"-->
+                    <!--/>-->
+            </RelativeLayout>
         </LinearLayout>
 
 

@@ -5,6 +5,9 @@ import android.databinding.ObservableField;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.Toast;
 
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
@@ -13,6 +16,8 @@ import com.twtstudio.service.classroom.model.FreeRoom2;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+
+import es.dmoral.toasty.Toasty;
 
 import static com.twt.wepeiyang.commons.utils.App.getApplicationContext;
 
@@ -36,16 +41,18 @@ public class ItemViewModel implements com.kelin.mvvmlight.base.ViewModel {
     RxAppCompatActivity rxAppCompatActivity;
     MainActivityViewModel viewModel;
     FreeRoom2.FreeRoom freeRoom;
-
-    ItemViewModel(RxAppCompatActivity rxAppCompatActivity, FreeRoom2.FreeRoom freeRoom, MainActivityViewModel viewModel) {
+    Animation zoomIn,zoomOut;
+    ItemViewModel(RxAppCompatActivity rxAppCompatActivity, FreeRoom2.FreeRoom freeRoom, MainActivityViewModel viewModel,int freeRoomTime) {
+        zoomIn= AnimationUtils.loadAnimation(rxAppCompatActivity,R.anim.zoom_in);
+        zoomOut=AnimationUtils.loadAnimation(rxAppCompatActivity,R.anim.zoom_out);
         SimpleDateFormat df = new SimpleDateFormat("HH:mm");
         this.rxAppCompatActivity = rxAppCompatActivity;
         this.viewModel = viewModel;
-        if (viewModel.time >= 1 && viewModel.time <= 12)
-            if (viewModel.time % 2 == 1)
-                time.set("第" + viewModel.time + "节-" + "第" + (viewModel.time + 1) + "节");
+        if (freeRoomTime >= 1 && freeRoomTime <= 12)
+            if (freeRoomTime % 2 == 1)
+                time.set("第" + freeRoomTime + "节-" + "第" + (freeRoomTime + 1) + "节");
             else
-                time.set("第" + (viewModel.time - 1) + "节-" + "第" + viewModel.time + "节");
+                time.set("第" + (freeRoomTime - 1) + "节-" + "第" + freeRoomTime + "节");
         else time.set(df.format(Calendar.getInstance()));
         if(CommonPrefUtil.getIsNewCampus())
             campus.set("北洋园校区");
@@ -79,13 +86,18 @@ public class ItemViewModel implements com.kelin.mvvmlight.base.ViewModel {
         isCollected.set(!isCollected.get());
 
         if (isCollected.get()) {
+            v.startAnimation(zoomIn);
             viewModel.setCollected(freeRoom.getRoom());
-        } else
+        } else {
+            v.startAnimation(zoomOut);
             viewModel.cancelCollected(freeRoom.getRoom());
+            Toasty.normal(rxAppCompatActivity,"已取消收藏",Toast.LENGTH_SHORT).show();
+        }
     }
 
     @BindingConversion
     public static Drawable convertResIdToDrawable(int resId) {
         return ContextCompat.getDrawable(getApplicationContext(), resId);
     }
+
 }

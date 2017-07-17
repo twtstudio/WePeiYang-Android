@@ -38,6 +38,7 @@ public class ClassRoomProvider {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(freeRoom2 -> {
                     if (mAction1 != null) {
+                        freeRoom2.setTime(time);
                         mAction1.call(freeRoom2);
                     }
                 },throwable -> new RxErrorHandler(mRxActivity).call(throwable.getCause()));

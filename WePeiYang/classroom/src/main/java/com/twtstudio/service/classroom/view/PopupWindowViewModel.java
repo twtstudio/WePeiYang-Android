@@ -79,7 +79,7 @@ public class PopupWindowViewModel implements ViewModel {
                     filterBeans.clear();
                     filterBeans.add(new FilterBean("推荐", false, 1, false, true, true));
                     filterBeans.add(new FilterBean("所有", false, 1, false, false, true));
-                    if (isNewCampus)
+                    if (isNewCampus) {
 //                        for (int i = 31; i <= 55; i++) {
 //                            if (i > 33 && i < 37 ||
 //                                    i > 37 && i < 43 || i == 47 || i > 51 && i < 55) continue;
@@ -91,15 +91,21 @@ public class PopupWindowViewModel implements ViewModel {
 ////                            viewModel.iniData(building,2,5, CommonPrefUtil.getStudentNumber());
 ////                        });
 //                        }
+                        filterBeans.add(new FilterBean("45楼", false, 1, false, true, false));
+                        filterBeans.add(new FilterBean("46楼", true, 1, true, true, false));
                         for (int i = 31; i <= 55; i++) {
-                            if ((i-31)%5 == 0&&i!=31)  filterBeans.add(new FilterBean(" ", false, 2, false, false, false));
+                            if ((i - 31) % 5 == 0 && i != 31)
+                                filterBeans.add(new FilterBean(" ", false, 2, false, false, false));
                             if (i == 46)
                                 filterBeans.add(new FilterBean(Integer.toString(i) + "楼", true, 1, true, false, false));
                             else
                                 filterBeans.add(new FilterBean(Integer.toString(i) + "楼", false, 1, true, false, false));
 
                         }
+                    }
                         else{
+                        filterBeans.add(new FilterBean("23楼", true, 1, true, true, false));
+                        filterBeans.add(new FilterBean("26楼", false, 1, true, true, false));
                         for (int i = 1; i <= 30; i++) {
                             if ((i-1) % 5 == 0&&i!=1)  filterBeans.add(new FilterBean(" ", false, 2, false, false, false));
                             if (i == 23)
@@ -124,13 +130,16 @@ public class PopupWindowViewModel implements ViewModel {
     }
 
     public void updateData(FilterBean bean, List<FilterBean> filterBeans) {
-        int i;
-        i = -1;
+        int i,j;
+        i = -1;j=-1;
         for (FilterBean filterBean : filterBeans) {
             if (!filterBean.isTopLine)
                 i++;
-            else
+            else {
+                j++;
+                items.set(j, new PopupItemViewModel(viewModel, filterBean, filterBeans, this));
                 continue;
+            };
             if (filterBean == bean) continue;
             if (filterBean.hasClicked) {
                 items2.set(i, new PopupItemViewModel(viewModel, filterBean, filterBeans, this));
@@ -139,5 +148,6 @@ public class PopupWindowViewModel implements ViewModel {
 
         }
     }
+
 }
 
