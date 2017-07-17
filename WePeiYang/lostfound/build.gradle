@@ -76,7 +76,9 @@ dependencies {
     compile 'io.reactivex:rxjava:1.1.0'
 
     //FloatingActionButton
-    compile 'com.getbase:floatingactionbutton:1.9.0'
+//    compile 'com.getbase:floatingactionbutton:1.9.0'
+    compile 'com.github.clans:fab:1.6.4'
+
 
     //Matisse
     compile 'com.zhihu.android:matisse:0.4.3'

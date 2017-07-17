@@ -160,8 +160,9 @@ public class DetailActivity extends BaseActivity implements DetailContract.Detai
             Glide.with(this)
                     .load(Utils.getPicUrl(detailData.data.picture))
                     .into(detail_dialog_pic);
-
+            detail_dialog_pic.setOnClickListener(view1 -> dialog.hide());
         }
+
         dialog.show();
     }
 }

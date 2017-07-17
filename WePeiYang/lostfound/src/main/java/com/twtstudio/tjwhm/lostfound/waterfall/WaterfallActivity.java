@@ -11,11 +11,11 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.getbase.floatingactionbutton.FloatingActionButton;
-import com.getbase.floatingactionbutton.FloatingActionsMenu;
+import com.github.clans.fab.FloatingActionButton;
+import com.github.clans.fab.FloatingActionMenu;
 import com.twtstudio.retrox.auth.login.LoginActivity;
 import com.twtstudio.tjwhm.lostfound.R;
 import com.twtstudio.tjwhm.lostfound.base.BaseActivity;
@@ -48,7 +48,7 @@ public class WaterfallActivity extends BaseActivity {
     @BindView(R.id.waterfall_fab_login)
     FloatingActionButton waterfall_fab_login;
     @BindView(R.id.waterfall_fab_menu)
-    FloatingActionsMenu waterfall_fab_menu;
+    FloatingActionMenu waterfall_fab_menu;
     @BindView(R.id.waterfall_fab_lost)
     FloatingActionButton waterfall_fab_lost;
     @BindView(R.id.waterfall_fab_found)
@@ -57,6 +57,8 @@ public class WaterfallActivity extends BaseActivity {
     TextView waterfall_types_all;
     @BindView(R.id.waterfall_cover)
     TextView waterfall_cover;
+    @BindView(R.id.waterfall_type)
+    RelativeLayout waterfall_type;
 
     StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
     WaterfallFragment lostFragment;
@@ -78,7 +80,7 @@ public class WaterfallActivity extends BaseActivity {
         super.setToolbarMenuClickEvent();
         toolbar.setOnMenuItemClickListener(item -> {
             int itemId = item.getItemId();
-            waterfall_fab_menu.collapse();
+            waterfall_fab_menu.close(true);
             if (itemId == R.id.waterfall_search) {
                 Intent intent = new Intent();
                 intent.setClass(WaterfallActivity.this, SearchActivity.class);
@@ -129,26 +131,26 @@ public class WaterfallActivity extends BaseActivity {
     @OnClick({R.id.waterfall_type_blue, R.id.waterfall_fab_login,
             R.id.waterfall_fab_found, R.id.waterfall_fab_lost,
             R.id.waterfall_type_grey, R.id.waterfall_types_all,
-            R.id.waterfall_cover})
+            R.id.waterfall_cover, R.id.waterfall_type})
     public void submit(View view) {
         Bundle bundle = new Bundle();
         Intent intent = new Intent();
         if (view == waterfall_fab_login) {
             intent.setClass(this, LoginActivity.class);
             startActivity(intent);
-            waterfall_fab_menu.collapse();
+            waterfall_fab_menu.close(true);
         } else if (view == waterfall_fab_lost) {
             bundle.putString("lostOrFound", "lost");
             intent.putExtras(bundle);
             intent.setClass(this, ReleaseActivity.class);
             startActivity(intent);
-            waterfall_fab_menu.collapse();
+            waterfall_fab_menu.close(true);
         } else if (view == waterfall_fab_found) {
             bundle.putString("lostOrFound", "found");
             intent.putExtras(bundle);
             intent.setClass(this, ReleaseActivity.class);
             startActivity(intent);
-            waterfall_fab_menu.collapse();
+            waterfall_fab_menu.close(true);
         } else if (view == waterfall_type_grey) {
             waterfall_type_blue.setVisibility(View.VISIBLE);
             waterfall_type_grey.setVisibility(View.GONE);
@@ -166,7 +168,20 @@ public class WaterfallActivity extends BaseActivity {
             waterfall_type_grey.setVisibility(View.VISIBLE);
             waterfall_type_blue.setVisibility(View.GONE);
             waterfall_cardview_types.setVisibility(View.GONE);
-            waterfall_fab_menu.collapse();
+            waterfall_fab_menu.close(true);
+        } else if (view == waterfall_type) {
+            if (waterfall_type_grey.getVisibility() == View.VISIBLE) {
+                waterfall_type_blue.setVisibility(View.VISIBLE);
+                waterfall_type_grey.setVisibility(View.GONE);
+                waterfall_cardview_types.setVisibility(View.VISIBLE);
+                waterfall_cover.setVisibility(View.VISIBLE);
+            } else if (waterfall_type_blue.getVisibility() == View.VISIBLE) {
+                waterfall_type_grey.setVisibility(View.VISIBLE);
+                waterfall_type_blue.setVisibility(View.GONE);
+                waterfall_cardview_types.setVisibility(View.GONE);
+                waterfall_cover.setVisibility(View.GONE);
+
+            }
         }
     }
 }
