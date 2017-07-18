@@ -54,8 +54,8 @@ public class PopupItemViewModel implements com.kelin.mvvmlight.base.ViewModel {
                     building = 23;
                 viewModel.condition2.set(text.get());
                 if (text.get().equals("全天")) {
-                    for (int i = 1; i <= 12; i += 2)
-                        viewModel.iniData(building, TimeHelper.getWeekInt(), i, CommonPrefUtil.getStudentNumber(), true);
+//                    for (int i = 1; i <= 12; i += 2)
+//                        viewModel.iniData(building, TimeHelper.getWeekInt(), i, CommonPrefUtil.getStudentNumber());
                     time = -1;
                 } else {
                     if (text.get().equals("现在")) time = TimeHelper.getTimeInt();
@@ -65,11 +65,12 @@ public class PopupItemViewModel implements com.kelin.mvvmlight.base.ViewModel {
                 break;
         }
         if (time == -1)
-            for (int i = 1; i <= 12; i += 2)
-                viewModel.iniData(building, TimeHelper.getWeekInt(), i, CommonPrefUtil.getStudentNumber(), true);
+            viewModel.getAllDayRoom(building);
+//            for (int i = 1; i <= 12; i += 2)
+//                viewModel.iniData(building, TimeHelper.getWeekInt(), i, CommonPrefUtil.getStudentNumber());
         else {
             if (time == 0) time = TimeHelper.getTimeInt();
-            viewModel.iniData(building, TimeHelper.getWeekInt(), time, CommonPrefUtil.getStudentNumber(), true);
+            viewModel.iniData(building, TimeHelper.getWeekInt(), time, CommonPrefUtil.getStudentNumber());
         }
         for (FilterBean filterBean : filterBeans) {
             if (filterBean == this.filterBean) continue;

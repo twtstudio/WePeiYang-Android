@@ -3,8 +3,13 @@ package com.twtstudio.service.classroom.view;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableField;
 
+import com.annimon.stream.Collector;
+import com.annimon.stream.Collectors;
+import com.annimon.stream.Stream;
 import com.kelin.mvvmlight.base.ViewModel;
+import com.kelin.mvvmlight.command.ReplyCommand;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
+import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
 import com.twtstudio.service.classroom.BR;
 import com.twtstudio.service.classroom.R;
 import com.twtstudio.service.classroom.model.ClassRoomProvider;
@@ -40,16 +45,14 @@ public class MainActivityViewModel {
 //        iniData(buiding,week,time,token);
     }
 
-    public void iniData(int building, int week, int time, String token, boolean update) {
+    public void iniData(int building, int week, int time, String token) {
         this.isError.set(false);
         this.isLoading.set(true);
         this.building = building;
         this.week = week;
         this.time = time;
         this.token = token;
-        if (update) {
-            items.clear();
-        }
+        items.clear();
         ClassRoomProvider.init(rxActivity)
                 .registerAction(this::processData)
                 .getFreeClassroom(building, week, time, token);
@@ -63,6 +66,7 @@ public class MainActivityViewModel {
         if (freeRoom2.getData() != null)
             for (FreeRoom2.FreeRoom freeRoom : freeRoom2.getData())
                 items.add(new ItemViewModel(rxActivity, freeRoom, this, freeRoom2.getTime()));
+
     }
 
     public void setCollected(String building) {
@@ -75,5 +79,27 @@ public class MainActivityViewModel {
 
     public void getCollected() {
         ClassRoomProvider.init(rxActivity).getAllCollectedClassroom(token, week);
+    }
+    //获取全天教室情况
+    public void getAllDayRoom(int building){
+        List<ItemViewModel> itemViewModels=new ArrayList<>();
+        isError.set(false);
+        isLoading.set(true);
+        for(int i=1;i<=12;i+=2)
+            ClassRoomProvider.init(rxActivity)
+                    .registerAction(freeRoom2 -> {
+                        if (freeRoom2 != null)
+                            if (freeRoom2.getErrorcode() == 1)
+                                isError.set(true);
+                        if (freeRoom2.getData() != null)
+                            for (FreeRoom2.FreeRoom freeRoom : freeRoom2.getData())
+                                itemViewModels.add(new ItemViewModel(rxActivity, freeRoom, this, freeRoom2.getTime()));
+                        items.clear();
+                        items.addAll(Stream.of(itemViewModels)
+                                .sorted((p1, p2) -> p1.freeRoomTime.compareTo(p2.freeRoomTime))
+                                .collect(Collectors.toList()));
+                        isLoading.set(false);
+                    })
+                    .getFreeClassroom(building, week,i, token);
     }
 }

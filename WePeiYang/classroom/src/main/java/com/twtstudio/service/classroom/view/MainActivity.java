@@ -91,7 +91,7 @@ public class MainActivity extends RxAppCompatActivity {
                         public void onClick(DialogInterface dialog, int which) {
                             CommonPrefUtil.setIsNewCampus(true);
                             CommonPrefUtil.setHasChosenCampus(true);
-                            viewModel.iniData(46, TimeHelper.getWeekInt(), TimeHelper.getTimeInt(), CommonPrefUtil.getStudentNumber(), true);
+                            viewModel.iniData(46, TimeHelper.getWeekInt(), TimeHelper.getTimeInt(), CommonPrefUtil.getStudentNumber());
                             dialog.dismiss();
                         }
                     })
@@ -100,7 +100,7 @@ public class MainActivity extends RxAppCompatActivity {
                         public void onClick(DialogInterface dialog, int which) {
                             CommonPrefUtil.setIsNewCampus(false);
                             CommonPrefUtil.setHasChosenCampus(true);
-                            viewModel.iniData(23, TimeHelper.getWeekInt(), TimeHelper.getTimeInt(), CommonPrefUtil.getStudentNumber(), true);
+                            viewModel.iniData(23, TimeHelper.getWeekInt(), TimeHelper.getTimeInt(), CommonPrefUtil.getStudentNumber());
                             dialog.dismiss();
                         }
                     });
@@ -121,10 +121,10 @@ public class MainActivity extends RxAppCompatActivity {
 //        MainActivityViewModel viewModel = new MainActivityViewModel(this, 46, 2, 5, CommonPrefUtil.getStudentNumber());
         setSupportActionBar(mainBinding.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        if (CommonPrefUtil.getIsNewCampus())
-            viewModel.iniData(46, TimeHelper.getWeekInt(), TimeHelper.getTimeInt(), CommonPrefUtil.getStudentNumber(), true);
-        else
-            viewModel.iniData(23, TimeHelper.getWeekInt(), TimeHelper.getTimeInt(), CommonPrefUtil.getStudentNumber(), true);
+//        if (CommonPrefUtil.getIsNewCampus())
+//            viewModel.iniData(46, TimeHelper.getWeekInt(), TimeHelper.getTimeInt(), CommonPrefUtil.getStudentNumber());
+//        else
+//            viewModel.iniData(23, TimeHelper.getWeekInt(), TimeHelper.getTimeInt(), CommonPrefUtil.getStudentNumber());
         mainBinding.setViewModel(viewModel);
         com.kelin.mvvmlight.messenger.Messenger.getDefault().send(viewModel, "setData");
         ButterKnife.bind(this);
@@ -212,10 +212,11 @@ public class MainActivity extends RxAppCompatActivity {
 
     @Override
     protected void onResume() {
+
         if (CommonPrefUtil.getIsNewCampus())
-            viewModel.iniData(46, TimeHelper.getWeekInt(), TimeHelper.getTimeInt(), CommonPrefUtil.getStudentNumber(), true);
+            viewModel.iniData(46, TimeHelper.getWeekInt(), TimeHelper.getTimeInt(), CommonPrefUtil.getStudentNumber());
         else
-            viewModel.iniData(23, TimeHelper.getWeekInt(), TimeHelper.getTimeInt(), CommonPrefUtil.getStudentNumber(), true);
+            viewModel.iniData(23, TimeHelper.getWeekInt(), TimeHelper.getTimeInt(), CommonPrefUtil.getStudentNumber());
         viewModel.condition1.set("教学楼");
         viewModel.condition2.set("时间段");
         super.onResume();

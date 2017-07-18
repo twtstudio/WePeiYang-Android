@@ -38,9 +38,10 @@ public class ItemViewModel implements com.kelin.mvvmlight.base.ViewModel {
     public final ObservableField<Boolean> isVisible3 = new ObservableField<>(false);
     public final ObservableField<Boolean> isVisible4 = new ObservableField<>(false);
     public final ObservableField<Boolean> isCollected = new ObservableField<>(false);
+    public Integer freeRoomTime=0;
+    FreeRoom2.FreeRoom freeRoom;
     RxAppCompatActivity rxAppCompatActivity;
     MainActivityViewModel viewModel;
-    FreeRoom2.FreeRoom freeRoom;
     Animation zoomIn,zoomOut;
     ItemViewModel(RxAppCompatActivity rxAppCompatActivity, FreeRoom2.FreeRoom freeRoom, MainActivityViewModel viewModel,int freeRoomTime) {
         zoomIn= AnimationUtils.loadAnimation(rxAppCompatActivity,R.anim.zoom_in);
@@ -48,6 +49,7 @@ public class ItemViewModel implements com.kelin.mvvmlight.base.ViewModel {
         SimpleDateFormat df = new SimpleDateFormat("HH:mm");
         this.rxAppCompatActivity = rxAppCompatActivity;
         this.viewModel = viewModel;
+        this.freeRoomTime=freeRoomTime;
         if (freeRoomTime >= 1 && freeRoomTime <= 12)
             if (freeRoomTime % 2 == 1)
                 time.set("第" + freeRoomTime + "节-" + "第" + (freeRoomTime + 1) + "节");
