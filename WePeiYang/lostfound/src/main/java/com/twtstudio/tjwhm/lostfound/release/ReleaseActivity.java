@@ -206,15 +206,6 @@ public class ReleaseActivity extends BaseActivity
 
         if (view == release_confirm && (Objects.equals(lostOrFound, "lost") || Objects.equals(lostOrFound, "found"))) {
             if (selectedPic.size() != 0) {
-//                File file = new File(handleImageOnKitKat(selectedPic.get(0)));
-//                Bitmap bitmap = zipThePic(handleImageOnKitKat(selectedPic.get(0)));
-//                String bmPath = "";
-//                try {
-//                    bmPath = saveImg(bitmap, "a");
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//                File file = new File(bmPath);
                 File file1;
                 File file = null;
                 try {
@@ -230,33 +221,6 @@ public class ReleaseActivity extends BaseActivity
                 releasePresenter.uploadReleaseData(getUpdateMap(), lostOrFound);
             }
         } else if (view == release_confirm) {
-//            Bitmap bitmap = zipThePic(handleImageOnKitKat(selectedPic.get(0)));
-//            String bmPath = "";
-//            try {
-//                bmPath = saveImg(bitmap, "a");
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//            File file = new File(bmPath);
-
-//            File file = new File("");
-//            OutputStream output = null;
-//            try {
-//                output = new FileOutputStream(file);
-//            } catch (FileNotFoundException e) {
-//                e.printStackTrace();
-//            }
-//            BufferedOutputStream bufferedOutput = null;
-//            if (output != null) {
-//                bufferedOutput = new BufferedOutputStream(output);
-//            }
-//            try {
-//                assert bufferedOutput != null;
-//                bufferedOutput.write(zipThePic(handleImageOnKitKat(selectedPic.get(0))));
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-
             File file1;
             File file = null;
             try {

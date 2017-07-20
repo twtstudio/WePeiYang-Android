@@ -8,8 +8,8 @@
     android:orientation="vertical"
     tools:context="com.twtstudio.tjwhm.lostfound.waterfall.WaterfallActivity">
 
-
     <android.support.design.widget.AppBarLayout
+        android:id="@+id/waterfall_appbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -56,25 +56,33 @@
                     android:backgroundTint="@color/white"
                     android:src="@drawable/lost_types_blue" />
             </RelativeLayout>
+
         </LinearLayout>
     </android.support.design.widget.AppBarLayout>
 
-    <include
-        android:id="@+id/waterfall_cardview_types"
-        layout="@layout/waterfall_cardview_types"
-        android:layout_width="168dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end|top"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="108dp"
-        android:animateLayoutChanges="true" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <include
+            android:layout_marginTop="8dp"
+            android:id="@+id/waterfall_cardview_types"
+            layout="@layout/waterfall_cardview_types"
+            android:layout_width="168dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/waterfall_pager"
+            android:layout_gravity="end"
+            android:layout_marginEnd="8dp"
+            android:animateLayoutChanges="true" />
 
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/waterfall_pager"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        <android.support.v4.view.ViewPager
+            android:id="@+id/waterfall_pager"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
 
     <com.github.clans.fab.FloatingActionMenu
 

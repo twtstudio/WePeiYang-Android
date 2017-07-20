@@ -15,6 +15,7 @@
         app:cardCornerRadius="4dp">
 
         <TextView
+            android:maxLines="1"
             android:id="@+id/release_item_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

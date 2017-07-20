@@ -1,7 +1,12 @@
 package com.twtstudio.tjwhm.lostfound.success;
 
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -11,8 +16,10 @@ import android.widget.Toast;
 import com.twtstudio.tjwhm.lostfound.R;
 import com.twtstudio.tjwhm.lostfound.base.BaseActivity;
 import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.media.UMImage;
 
 import java.util.Objects;
 
@@ -67,20 +74,29 @@ public class SuccessActivity extends BaseActivity implements View.OnClickListene
     public void onClick(View view) {
 
         if (view == share_wechatfriends) {
-            Toast.makeText(this, "share_wechatfriends", Toast.LENGTH_SHORT).show();
-        } else if (view == share_wechatzone) {
-            Toast.makeText(this, "share_wechatzone", Toast.LENGTH_SHORT).show();
-        } else if (view == share_qqfriends) {
-
-            // TODO: 2017/7/17 点击分享提示没有key
-
-            new ShareAction(SuccessActivity.this).setPlatform(SHARE_MEDIA.QQ)
+            new ShareAction(SuccessActivity.this).setPlatform(SHARE_MEDIA.WEIXIN)
                     .withText("hello")
                     .setCallback(umShareListener)
                     .share();
-            Toast.makeText(this, "share_qqfriends", Toast.LENGTH_SHORT).show();
+
+        } else if (view == share_wechatzone) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_WIFI_STATE},
+                    1);
+
+        } else if (view == share_qqfriends) {
+
+            UMImage image = new UMImage(SuccessActivity.this, R.drawable.lost_search);
+            new ShareAction(SuccessActivity.this).setPlatform(SHARE_MEDIA.QQ)
+                    .withText("hello")
+                    .withMedia(image)
+                    .setCallback(umShareListener)
+                    .share();
         } else if (view == share_qzone) {
-            Toast.makeText(this, "share_qzone", Toast.LENGTH_SHORT).show();
+            new ShareAction(SuccessActivity.this).setPlatform(SHARE_MEDIA.QZONE)
+                    .withText("hello")
+                    .setCallback(umShareListener)
+                    .share();
         }
     }
 
@@ -96,9 +112,10 @@ public class SuccessActivity extends BaseActivity implements View.OnClickListene
         public void onStart(SHARE_MEDIA platform) {
             //分享开始的回调
         }
+
         @Override
         public void onResult(SHARE_MEDIA platform) {
-        //    Log.d("plat","platform"+platform);
+            //    Log.d("plat","platform"+platform);
 
             Toast.makeText(SuccessActivity.this, platform + " 分享成功啦", Toast.LENGTH_SHORT).show();
 
@@ -106,15 +123,38 @@ public class SuccessActivity extends BaseActivity implements View.OnClickListene
 
         @Override
         public void onError(SHARE_MEDIA platform, Throwable t) {
-            Toast.makeText(SuccessActivity.this,platform + " 分享失败啦", Toast.LENGTH_SHORT).show();
-            if(t!=null){
-           //     Log.d("throw","throw:"+t.getMessage());
+            Toast.makeText(SuccessActivity.this, platform + " 分享失败啦", Toast.LENGTH_SHORT).show();
+            if (t != null) {
+                //     Log.d("throw","throw:"+t.getMessage());
             }
         }
 
         @Override
         public void onCancel(SHARE_MEDIA platform) {
-            Toast.makeText(SuccessActivity.this,platform + " 分享取消了", Toast.LENGTH_SHORT).show();
+            Toast.makeText(SuccessActivity.this, platform + " 分享取消了", Toast.LENGTH_SHORT).show();
         }
     };
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 1 && grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            //授权成功
+            Toast.makeText(this, "aa", Toast.LENGTH_SHORT).show();
+
+            new ShareAction(SuccessActivity.this).setPlatform(SHARE_MEDIA.WEIXIN_CIRCLE)
+                    .withText("hello")
+                    .setCallback(umShareListener)
+                    .share();
+        } else {
+            Toast.makeText(this, "fail", Toast.LENGTH_SHORT).show();
+            //授权失败
+        }
+    }
 }

@@ -25,13 +25,14 @@
                 android:textStyle="normal" />
 
             <EditText
-                android:layout_gravity="center"
                 android:id="@+id/release_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_marginStart="8dp"
                 android:background="@null"
                 android:hint="不超过11字"
+                android:imeOptions="actionNext"
                 android:textSize="12sp" />
         </LinearLayout>
 
@@ -61,14 +62,15 @@
                 android:textStyle="normal" />
 
             <EditText
-                android:layout_gravity="center"
-                android:gravity="center_vertical"
                 android:id="@+id/release_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_marginStart="8dp"
                 android:background="@null"
+                android:gravity="center_vertical"
                 android:hint="输入详细时间"
+                android:imeOptions="actionNext"
                 android:textSize="12sp" />
 
         </LinearLayout>
@@ -97,13 +99,14 @@
                 android:textStyle="normal" />
 
             <EditText
-                android:layout_gravity="center"
                 android:id="@+id/release_place"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_marginStart="8dp"
                 android:background="@null"
                 android:hint="请填写校区及详细地点"
+                android:imeOptions="actionNext"
                 android:textSize="12sp" />
         </LinearLayout>
     </LinearLayout>
