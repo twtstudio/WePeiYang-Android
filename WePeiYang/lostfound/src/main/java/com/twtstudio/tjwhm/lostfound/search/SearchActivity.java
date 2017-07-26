@@ -23,6 +23,8 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 
+import static com.facebook.common.internal.Ints.max;
+
 /**
  * Created by tjwhm on 2017/7/2.
  **/
@@ -45,6 +47,10 @@ public class SearchActivity extends BaseActivity implements SearchContract.Searc
     ProgressBar search_progress;
     @BindView(R.id.search_no_res)
     LinearLayout search_no_res;
+
+    int page = 1;
+    String keyword;
+    boolean isLoading = false;
 
 
     @Override
@@ -90,7 +96,8 @@ public class SearchActivity extends BaseActivity implements SearchContract.Searc
             public boolean onQueryTextSubmit(String query) {
                 search_progress.setVisibility(View.VISIBLE);
                 waterfallBean.data.clear();
-                searchPresenter.loadSearchData(query);
+                keyword = query;
+                searchPresenter.loadSearchData(keyword, page);
                 hideInputKeyboard();
                 return true;
             }
@@ -101,6 +108,23 @@ public class SearchActivity extends BaseActivity implements SearchContract.Searc
             }
         });
 
+        search_recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int totalCount = layoutManager.getItemCount();
+                int[] lastPositions = new int[layoutManager.getSpanCount()];
+                layoutManager.findLastCompletelyVisibleItemPositions(lastPositions);
+
+                int lastPosition = max(lastPositions);
+                if (!isLoading && totalCount < lastPosition + 2 && lastPosition != -1) {
+                    ++page;
+                    isLoading = true;
+                    searchPresenter.loadSearchData(keyword, page);
+
+                }
+            }
+        });
     }
 
     private void initValues() {
@@ -132,11 +156,18 @@ public class SearchActivity extends BaseActivity implements SearchContract.Searc
         this.waterfallBean.message = waterfallBean.message;
         this.waterfallBean.data.addAll(waterfallBean.data);
         tableAdapter.notifyDataSetChanged();
-        if(waterfallBean.data.size()==0){
+        if (waterfallBean.data.size() == 0 && page == 1) {
             search_no_res.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             search_no_res.setVisibility(View.GONE);
         }
         search_progress.setVisibility(View.GONE);
+        isLoading = false;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
     }
 }

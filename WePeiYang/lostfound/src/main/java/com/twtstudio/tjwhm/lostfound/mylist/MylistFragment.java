@@ -30,12 +30,14 @@ public class MylistFragment extends Fragment implements MylistContract.MylistVie
     ProgressBar mylist_progress;
     @BindView(R.id.mylist_nodata)
     LinearLayout mylist_nodata;
+    boolean isloading = false;
 
     private MylistTableAdapter tableAdapter;
     private LinearLayoutManager layoutManager;
     private MylistBean mylistBean;
     private String lostOrFound;
     MylistContract.MylistPresenter mylistPresenter = new MylistPresenterImpl(this);
+    int page = 1;
 
     public static MylistFragment newInstance(String type) {
 
@@ -54,8 +56,20 @@ public class MylistFragment extends Fragment implements MylistContract.MylistVie
         Bundle bundle = getArguments();
         lostOrFound = bundle.getString("index");
         initValues();
-        // TODO: 2017/7/7 做我的列表的下拉加载下一页 
-        mylistPresenter.loadMylistData(lostOrFound, 1);
+
+        mylist_recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int totalCount = layoutManager.getItemCount();
+                int lastVisibleItem = layoutManager.findLastCompletelyVisibleItemPosition();
+                if (!isloading && totalCount < (lastVisibleItem + 2)) {
+                    ++page;
+                    isloading = true;
+                    mylistPresenter.loadMylistData(lostOrFound, page);
+                }
+            }
+        });
         return view;
     }
 
@@ -63,14 +77,15 @@ public class MylistFragment extends Fragment implements MylistContract.MylistVie
     public void setMylistData(MylistBean mylistBean) {
         this.mylistBean.error_code = mylistBean.error_code;
         this.mylistBean.message = mylistBean.message;
-        this.mylistBean.data = mylistBean.data;
+        this.mylistBean.data.addAll(mylistBean.data);
         tableAdapter.notifyDataSetChanged();
         mylist_progress.setVisibility(View.GONE);
-        if (this.mylistBean.data.size() == 0) {
+        if (this.mylistBean.data.size() == 0 && page == 1) {
             mylist_nodata.setVisibility(View.VISIBLE);
         } else {
             mylist_nodata.setVisibility(View.GONE);
         }
+        isloading = false;
     }
 
     @Override
@@ -80,7 +95,7 @@ public class MylistFragment extends Fragment implements MylistContract.MylistVie
 
     @Override
     public void turnStatusSuccessCallBack() {
-        mylistPresenter.loadMylistData(lostOrFound,1);
+        mylistPresenter.loadMylistData(lostOrFound, 1);
     }
 
     private void initValues() {
@@ -90,14 +105,17 @@ public class MylistFragment extends Fragment implements MylistContract.MylistVie
         mylistBean.data = new ArrayList<>();
         layoutManager = new LinearLayoutManager(getActivity());
         mylist_recyclerView.setLayoutManager(layoutManager);
-        tableAdapter = new MylistTableAdapter(mylistBean, getActivity(),lostOrFound,this);
+        tableAdapter = new MylistTableAdapter(mylistBean, getActivity(), lostOrFound, this);
         mylist_recyclerView.setAdapter(tableAdapter);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        // TODO: 2017/7/7 做我的列表的下拉加载下一页
-        mylistPresenter.loadMylistData(lostOrFound,1);
+        page = 1;
+        mylistBean.data = new ArrayList<>();
+        tableAdapter.notifyDataSetChanged();
+        mylistPresenter.loadMylistData(lostOrFound, page);
+
     }
 }

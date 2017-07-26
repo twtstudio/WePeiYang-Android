@@ -12,5 +12,5 @@ import rx.Observable;
 
 public interface SearchApi {
     @GET("lostfound/search")
-    Observable<WaterfallBean> loadSearchData(@Query("keyword") String keyword);
+    Observable<WaterfallBean> loadSearchData(@Query("keyword") String keyword, @Query("page") String page);
 }

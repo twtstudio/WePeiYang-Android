@@ -13,7 +13,7 @@ public interface SearchContract {
     }
 
     public interface SearchPresenter extends BaseContract.BasePresenter {
-        void loadSearchData(String keyword);
+        void loadSearchData(String keyword,int page);
         void setSearchData(WaterfallBean waterfallBean);
     }
 }

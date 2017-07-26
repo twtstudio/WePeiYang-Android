@@ -20,9 +20,9 @@ public class SearchPresenterImpl implements SearchContract.SearchPresenter {
     }
 
     @Override
-    public void loadSearchData(String keyword) {
+    public void loadSearchData(String keyword, int page) {
         searchApi = RetrofitProvider.getRetrofit().create(SearchApi.class);
-        searchApi.loadSearchData(keyword)
+        searchApi.loadSearchData(keyword, String.valueOf(page))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::setSearchData, new RxErrorHandler());
