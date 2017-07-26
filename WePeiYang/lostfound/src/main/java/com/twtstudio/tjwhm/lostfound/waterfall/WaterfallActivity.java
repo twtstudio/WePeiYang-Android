@@ -2,6 +2,7 @@ package com.twtstudio.tjwhm.lostfound.waterfall;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -59,7 +60,7 @@ public class WaterfallActivity extends BaseActivity {
     TextView waterfall_cover;
     @BindView(R.id.waterfall_type)
     RelativeLayout waterfall_type;
-
+    int type = -1;
     StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
     WaterfallFragment lostFragment;
     WaterfallFragment foundFragment;
@@ -116,7 +117,7 @@ public class WaterfallActivity extends BaseActivity {
         waterfall_tabLayout.setupWithViewPager(waterfall_pager);
         waterfall_tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         waterfall_tabLayout.setSelectedTabIndicatorColor(Color.parseColor("#00a1e9"));
-        waterfall_type_recyclerview.setAdapter(new WaterfallTypeTableAdapter(this, this));
+        setWaterfallType(type);
         waterfall_type_recyclerview.setLayoutManager(layoutManager);
         waterfall_type_blue.setVisibility(View.GONE);
         waterfall_cardview_types.setVisibility(View.GONE);
@@ -126,6 +127,12 @@ public class WaterfallActivity extends BaseActivity {
     public void setWaterfallType(int type) {
         lostFragment.loadWaterfallDataWithType(type);
         foundFragment.loadWaterfallDataWithType(type);
+        waterfall_type_recyclerview.setAdapter(new WaterfallTypeTableAdapter(this, this, type));
+        if (type == -1) {
+            waterfall_types_all.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+        } else {
+            waterfall_types_all.setTypeface(Typeface.DEFAULT);
+        }
     }
 
     @OnClick({R.id.waterfall_type_blue, R.id.waterfall_fab_login,
@@ -180,8 +187,14 @@ public class WaterfallActivity extends BaseActivity {
                 waterfall_type_blue.setVisibility(View.GONE);
                 waterfall_cardview_types.setVisibility(View.GONE);
                 waterfall_cover.setVisibility(View.GONE);
-
             }
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setWaterfallType(type);
+        waterfall_cardview_types.setVisibility(View.GONE);
     }
 }

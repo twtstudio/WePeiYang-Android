@@ -25,6 +25,11 @@
                 android:textStyle="normal" />
 
             <EditText
+
+                android:imeOptions="actionNext"
+                android:lines="1"
+                android:maxLines="1"
+                android:singleLine="true"
                 android:layout_gravity="center"
                 android:id="@+id/release_contact_name"
                 android:textSize="12sp"
@@ -61,6 +66,11 @@
                 android:textStyle="normal" />
 
             <EditText
+
+                android:imeOptions="actionNext"
+                android:lines="1"
+                android:maxLines="1"
+                android:singleLine="true"
                 android:layout_gravity="center"
                 android:id="@+id/release_phone"
                 android:layout_width="match_parent"

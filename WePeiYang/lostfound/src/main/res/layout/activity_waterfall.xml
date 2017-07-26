@@ -60,6 +60,7 @@
         </LinearLayout>
     </android.support.design.widget.AppBarLayout>
 
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -77,13 +78,18 @@
             android:layout_marginEnd="8dp"
             android:animateLayoutChanges="true" />
 
-
         <android.support.v4.view.ViewPager
             android:id="@+id/waterfall_pager"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-    </RelativeLayout>
 
+        <TextView
+            android:layout_below="@id/waterfall_cardview_types"
+            android:id="@+id/waterfall_cover"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#00000000" />
+    </RelativeLayout>
     <com.github.clans.fab.FloatingActionMenu
 
         android:id="@+id/waterfall_fab_menu"
@@ -129,9 +135,4 @@
             app:fab_size="mini" />
     </com.github.clans.fab.FloatingActionMenu>
 
-    <TextView
-        android:id="@+id/waterfall_cover"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#00000000" />
 </android.support.design.widget.CoordinatorLayout>

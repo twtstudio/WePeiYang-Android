@@ -27,6 +27,7 @@
                 android:textStyle="normal" />
 
             <EditText
+
                 android:id="@+id/release_card_num_noname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -34,6 +35,10 @@
                 android:layout_marginStart="8dp"
                 android:background="@null"
                 android:hint="请输入卡号"
+                android:imeOptions="actionNext"
+                android:lines="1"
+                android:maxLines="1"
+                android:singleLine="true"
                 android:textSize="12sp" />
         </LinearLayout>
 

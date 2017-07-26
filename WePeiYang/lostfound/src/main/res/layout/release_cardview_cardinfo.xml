@@ -34,9 +34,14 @@
                 android:background="@null"
                 android:gravity="center_vertical"
                 android:hint="输入卡或者证件上的姓名"
+                android:imeOptions="actionNext"
+                android:lines="1"
+                android:maxLines="1"
+                android:singleLine="true"
                 android:textSize="12sp" />
 
         </LinearLayout>
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="2dp"
@@ -70,6 +75,10 @@
                 android:layout_marginStart="8dp"
                 android:background="@null"
                 android:hint="请输入卡号"
+                android:imeOptions="actionNext"
+                android:lines="1"
+                android:maxLines="1"
+                android:singleLine="true"
                 android:textSize="12sp" />
         </LinearLayout>
 

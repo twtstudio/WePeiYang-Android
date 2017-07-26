@@ -1,5 +1,6 @@
 package com.twtstudio.tjwhm.lostfound.release;
 
+import android.app.ProgressDialog;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
@@ -107,6 +108,7 @@ public class ReleaseActivity extends BaseActivity
     int id;
     int selectedItemPosition = 0;
     List<Uri> selectedPic = new ArrayList<>();
+    ProgressDialog progressDialog;
 
 
     @Override
@@ -215,9 +217,11 @@ public class ReleaseActivity extends BaseActivity
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                progressDialog = ProgressDialog.show(ReleaseActivity.this,"","正在上传");
                 releasePresenter.uploadReleaseDataWithPic(getUpdateMap(), lostOrFound, file);
 
             } else {
+                progressDialog = ProgressDialog.show(ReleaseActivity.this,"","正在上传");
                 releasePresenter.uploadReleaseData(getUpdateMap(), lostOrFound);
             }
         } else if (view == release_confirm) {
@@ -230,8 +234,12 @@ public class ReleaseActivity extends BaseActivity
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
+            progressDialog = ProgressDialog.show(ReleaseActivity.this,"","正在上传");
             releasePresenter.uploadEditDataWithPic(getUpdateMap(), lostOrFound, file, id);
         } else if (view == release_delete) {
+
+            progressDialog = ProgressDialog.show(ReleaseActivity.this,"","正在删除");
             releasePresenter.delete(id);
         }
     }
@@ -319,6 +327,7 @@ public class ReleaseActivity extends BaseActivity
             release_cardinfo.setVisibility(View.GONE);
         }
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

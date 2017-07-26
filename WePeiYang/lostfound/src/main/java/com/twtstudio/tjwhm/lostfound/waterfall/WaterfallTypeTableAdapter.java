@@ -1,6 +1,7 @@
 package com.twtstudio.tjwhm.lostfound.waterfall;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,10 +21,12 @@ import butterknife.ButterKnife;
 public class WaterfallTypeTableAdapter extends RecyclerView.Adapter {
     WaterfallActivity waterfallActivity;
     Context context;
+    int selectedItem = -1;
 
-    public WaterfallTypeTableAdapter(WaterfallActivity waterfallActivity, Context context) {
+    public WaterfallTypeTableAdapter(WaterfallActivity waterfallActivity, Context context,int selectedItem) {
         this.waterfallActivity = waterfallActivity;
         this.context = context;
+        this.selectedItem = selectedItem;
     }
 
     public class WaterfallTypesViewHolder extends RecyclerView.ViewHolder {
@@ -47,6 +50,11 @@ public class WaterfallTypeTableAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         WaterfallTypesViewHolder viewHolder = (WaterfallTypesViewHolder) holder;
         viewHolder.waterfall_type_item.setText(Utils.getType(position + 1));
+        viewHolder.waterfall_type_item.setTypeface(Typeface.DEFAULT);
+        if (position == selectedItem - 1) {
+            viewHolder.waterfall_type_item.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+
+        }
         viewHolder.itemView.setOnClickListener(view -> waterfallActivity.setWaterfallType(position + 1));
     }
 
