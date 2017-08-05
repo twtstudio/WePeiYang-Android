@@ -56,4 +56,8 @@ public class TimeHelper {
         else if(hours>=18) return hours-17+8;
         else return -1;
     }
+    public static int getDayOfWeek(){
+        Calendar calendar=Calendar.getInstance();
+        return calendar.get(Calendar.DAY_OF_WEEK)-1;
+    }
 }

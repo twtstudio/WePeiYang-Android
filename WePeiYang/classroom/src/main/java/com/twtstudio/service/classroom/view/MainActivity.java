@@ -172,10 +172,19 @@ public class MainActivity extends RxAppCompatActivity {
             hasPop = !hasPop;
             seletedTag = 2;
         });
+        condition3.setOnClickListener((v) -> {
+            if (!hasPop) {
+                popupWindowViewModel.initData(CommonPrefUtil.getIsNewCampus(), 3);
+                popupWindow.showAsDropDown(toparea);
+                arrow3.startAnimation(animation);
+            }
+            hasPop = !hasPop;
+            seletedTag = 3;
+        });
         swipeRefreshLayout.setOnRefreshListener(() -> {
             ClassRoomProvider.init(this).registerAction((freeRoom2) -> {
                 swipeRefreshLayout.setRefreshing(false);
-            }).getFreeClassroom(viewModel.building, viewModel.week, viewModel.time, CommonPrefUtil.getStudentNumber());
+            }).getFreeClassroom(viewModel.building, viewModel.week,TimeHelper.getDayOfWeek(), viewModel.time, CommonPrefUtil.getStudentNumber());
 
         });
     }
@@ -219,6 +228,7 @@ public class MainActivity extends RxAppCompatActivity {
             viewModel.iniData(23, TimeHelper.getWeekInt(), TimeHelper.getTimeInt(), CommonPrefUtil.getStudentNumber());
         viewModel.condition1.set("教学楼");
         viewModel.condition2.set("时间段");
+        viewModel.condition3.set("筛选");
         super.onResume();
     }
 

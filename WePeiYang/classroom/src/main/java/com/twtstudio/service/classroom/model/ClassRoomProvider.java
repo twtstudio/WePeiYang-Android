@@ -23,13 +23,15 @@ public class ClassRoomProvider {
     private RxAppCompatActivity mRxActivity;
 
     private Action1<FreeRoom2> mAction1;
-    ClassRoomProvider(RxAppCompatActivity mRxActivity){
-        this.mRxActivity=mRxActivity;
+
+    ClassRoomProvider(RxAppCompatActivity mRxActivity) {
+        this.mRxActivity = mRxActivity;
     }
-    public void getFreeClassroom(int buiding,  int week,  int time,  String token){
+
+    public void getFreeClassroom(int buiding, int week, int day, int time, String token) {
         CacheProvider.getRxCache().using(ClassRoomCacheApi.class)
                 .getFreeRoomAuto(RetrofitProvider.getRetrofit().create(ClassRoomApi.class)
-                .getFreeClassroom(buiding,week,time,token), new DynamicKey("Classroom/getClassroom"), new EvictDynamicKey(true))
+                        .getFreeClassroom(buiding,day, week, time, token), new DynamicKey("Classroom/getClassroom"), new EvictDynamicKey(true))
                 .subscribeOn(Schedulers.io())
                 .doOnNext(reply -> Logger.d(reply.toString()))
                 .map(Reply::getData)
@@ -41,13 +43,14 @@ public class ClassRoomProvider {
                         freeRoom2.setTime(time);
                         mAction1.call(freeRoom2);
                     }
-                },throwable -> new RxErrorHandler(mRxActivity).call(throwable.getCause()));
+                }, throwable -> new RxErrorHandler(mRxActivity).call(throwable.getCause()));
 
     }
-    public void getAllCollectedClassroom(String token,int week){
+
+    public void getAllCollectedClassroom(String token, int week) {
         CacheProvider.getRxCache().using(ClassRoomCacheApi.class)
                 .getAllCollectedClassroomAuto(RetrofitProvider.getRetrofit().create(ClassRoomApi.class)
-                        .getAllCollectedClassroom(token,week), new DynamicKey("Classroom/showCollection"), new EvictDynamicKey(true))
+                        .getAllCollectedClassroom(token, week), new DynamicKey("Classroom/showCollection"), new EvictDynamicKey(true))
                 .subscribeOn(Schedulers.io())
                 .doOnNext(reply -> Logger.d(reply.toString()))
                 .map(Reply::getData)
@@ -56,12 +59,13 @@ public class ClassRoomProvider {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(collectedRoom2 -> {
 
-                },throwable -> new RxErrorHandler(mRxActivity).call(throwable.getCause()));
+                }, throwable -> new RxErrorHandler(mRxActivity).call(throwable.getCause()));
     }
-    public void collect(String buiding, String token){
+
+    public void collect(String buiding, String token) {
         CacheProvider.getRxCache().using(ClassRoomCacheApi.class)
                 .collectAuto(RetrofitProvider.getRetrofit().create(ClassRoomApi.class)
-                        .collect(buiding,token), new DynamicKey("Classroom/roomCollection"), new EvictDynamicKey(true))
+                        .collect(buiding, token), new DynamicKey("Classroom/roomCollection"), new EvictDynamicKey(true))
                 .subscribeOn(Schedulers.io())
                 .doOnNext(reply -> Logger.d(reply.toString()))
                 .map(Reply::getData)
@@ -70,9 +74,10 @@ public class ClassRoomProvider {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(collectApiResponseClassRoomApiReaponse -> {
 
-                },throwable -> new RxErrorHandler(mRxActivity).call(throwable.getCause()));
+                }, throwable -> new RxErrorHandler(mRxActivity).call(throwable.getCause()));
     }
-    public void cancelCollect(String token,String building){
+
+    public void cancelCollect(String token, String building) {
         CacheProvider.getRxCache().using(ClassRoomCacheApi.class)
                 .cancelCollectAuto(RetrofitProvider.getRetrofit().create(ClassRoomApi.class)
                         .cancelCollect(token, building), new DynamicKey("Classroom/removeCollection"), new EvictDynamicKey(true))
@@ -84,14 +89,15 @@ public class ClassRoomProvider {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(collectApiResponseClassRoomApiReaponse -> {
 
-                },throwable -> new RxErrorHandler(mRxActivity).call(throwable.getCause()));
+                }, throwable -> new RxErrorHandler(mRxActivity).call(throwable.getCause()));
     }
 
     public ClassRoomProvider registerAction(Action1<FreeRoom2> action1) {
         this.mAction1 = action1;
         return this;
     }
-    public static ClassRoomProvider init(RxAppCompatActivity rxAppCompatActivity){
+
+    public static ClassRoomProvider init(RxAppCompatActivity rxAppCompatActivity) {
         return new ClassRoomProvider(rxAppCompatActivity);
     }
 }

@@ -27,7 +27,7 @@ public class PopupWindowViewModel implements ViewModel {
             .put(PopupItemViewModel.class, BR.viewModel, R.layout.popup_item)
             .build();
     private boolean hasDisplayeds[] = new boolean[3];
-    private static boolean changeCampus=true; //储存上一次执行时的校区(true为新校区,false为老校区)
+    private static boolean changeCampus = true; //储存上一次执行时的校区(true为新校区,false为老校区)
     MainActivityViewModel viewModel;
     private List<FilterBean> filterBeans = new ArrayList<>();
     private List<FilterBean> filterBeans2 = new ArrayList<>();
@@ -35,15 +35,15 @@ public class PopupWindowViewModel implements ViewModel {
 
     PopupWindowViewModel(MainActivityViewModel viewModel) {
         this.viewModel = viewModel;
-        for(int i=0;i<3;i++)
-            hasDisplayeds[i]=false;
+        for (int i = 0; i < 3; i++)
+            hasDisplayeds[i] = false;
     }
 
     public void initData(boolean isNewCampus, int selector) {
-        if(changeCampus!=isNewCampus){
-            for(int i=0;i<3;i++)
-                hasDisplayeds[i]=false;
-            changeCampus=isNewCampus;
+        if (changeCampus != isNewCampus) {
+            for (int i = 0; i < 3; i++)
+                hasDisplayeds[i] = false;
+            changeCampus = isNewCampus;
         }
         processData(isNewCampus, selector);
         items.clear();
@@ -67,6 +67,12 @@ public class PopupWindowViewModel implements ViewModel {
                         items2.add(new PopupItemViewModel(viewModel, filterBean, filterBeans2, this));
                 }
                 hasDisplayeds[1] = true;
+                break;
+            case 3:
+                for (FilterBean filterBean : filterBeans3) {
+                    items2.add(new PopupItemViewModel(viewModel, filterBean, filterBeans3, this));
+                }
+                hasDisplayeds[2] = true;
                 break;
         }
 
@@ -102,12 +108,12 @@ public class PopupWindowViewModel implements ViewModel {
                                 filterBeans.add(new FilterBean(Integer.toString(i) + "楼", false, 1, true, false, false));
 
                         }
-                    }
-                        else{
+                    } else {
                         filterBeans.add(new FilterBean("23楼", true, 1, true, true, false));
                         filterBeans.add(new FilterBean("26楼", false, 1, true, true, false));
                         for (int i = 1; i <= 30; i++) {
-                            if ((i-1) % 5 == 0&&i!=1)  filterBeans.add(new FilterBean(" ", false, 2, false, false, false));
+                            if ((i - 1) % 5 == 0 && i != 1)
+                                filterBeans.add(new FilterBean(" ", false, 2, false, false, false));
                             if (i == 23)
                                 filterBeans.add(new FilterBean(Integer.toString(i) + "楼", true, 1, true, false, false));
                             else
@@ -126,12 +132,24 @@ public class PopupWindowViewModel implements ViewModel {
                     }
                 }
                 break;
+            case 3:
+                if (!hasDisplayeds[2]) {
+                    filterBeans3.clear();
+                    filterBeans3.add(new FilterBean("全部", true, 3, true, false, true));
+                    filterBeans3.add(new FilterBean("空闲", false, 3, true, false, false));
+                    filterBeans3.add(new FilterBean("电源", false, 3, true, false, false));
+                    filterBeans3.add(new FilterBean("饮水机", false, 3, true, false, false));
+                    filterBeans3.add(new FilterBean("暖气", false, 3, true, false, false));
+                }
+                break;
         }
+
     }
 
     public void updateData(FilterBean bean, List<FilterBean> filterBeans) {
-        int i,j;
-        i = -1;j=-1;
+        int i, j;
+        i = -1;
+        j = -1;
         for (FilterBean filterBean : filterBeans) {
             if (!filterBean.isTopLine)
                 i++;
@@ -139,7 +157,8 @@ public class PopupWindowViewModel implements ViewModel {
                 j++;
                 items.set(j, new PopupItemViewModel(viewModel, filterBean, filterBeans, this));
                 continue;
-            };
+            }
+            ;
             if (filterBean == bean) continue;
             if (filterBean.hasClicked) {
                 items2.set(i, new PopupItemViewModel(viewModel, filterBean, filterBeans, this));

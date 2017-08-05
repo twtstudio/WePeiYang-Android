@@ -14,7 +14,7 @@ public interface ClassRoomApi {
     Observable<CollectedRoom2> getAllCollectedClassroom(@Query("userId") String token, @Query("week") int week);
 
     @GET("Classroom/getClassroom")
-    Observable<FreeRoom2> getFreeClassroom(@Query("building") int buiding, @Query("week") int week, @Query("time") int time, @Query("userId") String token);
+    Observable<FreeRoom2> getFreeClassroom(@Query("building") int buiding, @Query("week") int week,@Query("day") int day, @Query("time") int time, @Query("userId") String token);
 
     @GET("Classroom/roomCollection")
     Observable<ClassRoomApiReaponse<collectApiResponse>> collect(@Query("building") String buiding, @Query("userId") String token);
