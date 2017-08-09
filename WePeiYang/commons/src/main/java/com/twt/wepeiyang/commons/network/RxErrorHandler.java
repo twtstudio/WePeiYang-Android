@@ -59,7 +59,7 @@ public class RxErrorHandler implements Action1<Throwable> {
                 String message = errJsonObject.getString("message");
                 Logger.e("错误码：" + errcode + "  message:" + message);
                 postThrowable(new ApiException(errcode,message));
-                Toasty.error(mContext, "错误：" + message +" TAT...", Toast.LENGTH_SHORT).show();
+                Toasty.error(mContext, "错误：" + message, Toast.LENGTH_SHORT).show();
                 handleApiError(errcode);
             } catch (IOException | JSONException e) {
                 e.printStackTrace();
@@ -97,6 +97,13 @@ public class RxErrorHandler implements Action1<Throwable> {
                     ((Activity) mContext).finish();
                 }
                 Intent intent = new Intent(mContext,clazz);
+
+                /**
+                 * try to solve the problem :
+                 * android.util.AndroidRuntimeException:Calling startActivity() from outside of an Activity context requires the FLAG_ACTIVITY_NEW_TASK flag.
+                 * Is this really what you want?
+                 */
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(intent);
                 Logger.e("请重新登录");
                 break;

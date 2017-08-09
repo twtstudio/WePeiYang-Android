@@ -32,10 +32,6 @@ android {
                 // Android 5.0+ without the time-consuming DEX build processes.
                 minSdkVersion 21
             }
-            prod {
-                // The actual minSdkVersion for the production version.
-                minSdkVersion 19
-            }
         }
 
     }
@@ -114,3 +110,52 @@ dependencies {
     compile 'de.hdodenhof:circleimageview:2.1.0'
 
 }
+
+public class BuildTimeListener implements TaskExecutionListener,BuildListener{
+
+    private Clock clock
+    private times = []
+
+    @Override
+    void buildStarted(Gradle gradle) {
+
+    }
+
+    @Override
+    void settingsEvaluated(Settings settings) {
+
+    }
+
+    @Override
+    void projectsLoaded(Gradle gradle) {
+
+    }
+
+    @Override
+    void projectsEvaluated(Gradle gradle) {
+
+    }
+
+    @Override
+    void buildFinished(BuildResult result) {
+        println "Task spend time:"
+        for (time in times) {
+            if (time[0] >= 50) {
+                printf "%7sms  %s\n", time
+            }
+        }
+    }
+
+    @Override
+    void beforeExecute(Task task) {
+        clock = new Clock()
+    }
+
+    @Override
+    void afterExecute(Task task, TaskState state) {
+        def ms = clock.timeInMs
+        times.add([ms,task.path])
+    }
+}
+
+project.gradle.addListener(new BuildTimeListener())
