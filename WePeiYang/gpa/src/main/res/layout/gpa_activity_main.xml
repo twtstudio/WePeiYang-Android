@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:bind="http://schemas.android.com/apk/res-auto">
+        xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
         <variable
             name="viewModel"
             type="com.twtstudio.retrox.gpa.view.GpaActivityViewModel"/>
-        <import type="me.tatarka.bindingcollectionadapter.LayoutManagers"/>
+        <import type="me.tatarka.bindingcollectionadapter2.LayoutManagers"/>
         <import type="android.view.View"/>
     </data>
 
@@ -25,15 +25,15 @@
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:elevation="3dp"
-                bind:titleTextColor="@color/white_color"
+                app:titleTextColor="@color/white_color"
                 android:layout_width="match_parent"
                 android:layout_height="?android:attr/actionBarSize"
-                bind:layout_scrollFlags="scroll|enterAlways"/>
+                app:layout_scrollFlags="scroll|enterAlways"/>
         </android.support.design.widget.AppBarLayout>
 
         <LinearLayout
             android:orientation="vertical"
-            bind:layout_behavior="@string/appbar_scrolling_view_behavior"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -42,7 +42,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="您还有课程未评价，点此评价"
-            bind:clickCommand="@{viewModel.evaluateClick}"
+            app:clickCommand="@{viewModel.evaluateClick}"
             android:visibility="@{viewModel.isNeedEvaluate ? View.VISIBLE : View.GONE}"
             android:layout_marginTop="0dp"
             android:gravity="center"
@@ -50,9 +50,9 @@
             android:textColor="#f67c01"/>
 
         <android.support.v7.widget.RecyclerView
-            bind:items="@{viewModel.mMergeObservableList}"
-            bind:itemView="@{viewModel.itemView}"
-            bind:layoutManager="@{LayoutManagers.linear()}"
+            app:items="@{viewModel.mMergeObservableList}"
+            app:itemBinding="@{viewModel.onItemBind}"
+            app:layoutManager="@{LayoutManagers.linear()}"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             />
