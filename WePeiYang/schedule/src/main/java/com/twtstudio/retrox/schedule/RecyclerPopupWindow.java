@@ -41,6 +41,8 @@ public class RecyclerPopupWindow extends PopupWindow implements RecyclerPopupWin
             }
         }
         if (prePosition == -1){
+            if(currentWeek==-1)
+                currentWeek=1;
             prePosition = currentWeek - 1;
 
             //todo 这里出现了数组越界问题 暂时做了捕获处理
