@@ -65,13 +65,13 @@ public class ReleasePresenterImpl implements ReleaseContract.ReleasePresenter {
 
     @Override
     public void successCallBack(BaseBean baseBean) {
-        releaseView.successCallBack();
+        releaseView.successCallBack(baseBean);
     }
 
 
     @Override
     public void successEditCallback(BaseBean baseBean) {
-        releaseView.successCallBack();
+        releaseView.successCallBack(baseBean);
     }
 
     @Override

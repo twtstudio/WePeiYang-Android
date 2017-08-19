@@ -31,6 +31,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.twtstudio.tjwhm.lostfound.R;
 import com.twtstudio.tjwhm.lostfound.base.BaseActivity;
+import com.twtstudio.tjwhm.lostfound.base.BaseBean;
 import com.twtstudio.tjwhm.lostfound.detail.DetailBean;
 import com.twtstudio.tjwhm.lostfound.detail.DetailContract;
 import com.twtstudio.tjwhm.lostfound.detail.DetailPresenterImpl;
@@ -169,7 +170,7 @@ public class ReleaseActivity extends BaseActivity
                 .imageEngine(new GlideEngine())
                 .theme(R.style.Matisse_Zhihu)
                 .forResult(2));
-        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
@@ -199,8 +200,8 @@ public class ReleaseActivity extends BaseActivity
         release_confirm.setOnClickListener(this);
         release_delete.setOnClickListener(this);
 
-        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(release_title.getWindowToken(),0);
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(release_title.getWindowToken(), 0);
     }
 
     @Override
@@ -217,11 +218,11 @@ public class ReleaseActivity extends BaseActivity
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                progressDialog = ProgressDialog.show(ReleaseActivity.this,"","正在上传");
+                progressDialog = ProgressDialog.show(ReleaseActivity.this, "", "正在上传");
                 releasePresenter.uploadReleaseDataWithPic(getUpdateMap(), lostOrFound, file);
 
             } else {
-                progressDialog = ProgressDialog.show(ReleaseActivity.this,"","正在上传");
+                progressDialog = ProgressDialog.show(ReleaseActivity.this, "", "正在上传");
                 releasePresenter.uploadReleaseData(getUpdateMap(), lostOrFound);
             }
         } else if (view == release_confirm) {
@@ -235,20 +236,27 @@ public class ReleaseActivity extends BaseActivity
                 e.printStackTrace();
             }
 
-            progressDialog = ProgressDialog.show(ReleaseActivity.this,"","正在上传");
+            progressDialog = ProgressDialog.show(ReleaseActivity.this, "", "正在上传");
             releasePresenter.uploadEditDataWithPic(getUpdateMap(), lostOrFound, file, id);
         } else if (view == release_delete) {
 
-            progressDialog = ProgressDialog.show(ReleaseActivity.this,"","正在删除");
+            progressDialog = ProgressDialog.show(ReleaseActivity.this, "", "正在删除");
             releasePresenter.delete(id);
         }
     }
 
     @Override
-    public void successCallBack() {
+    public void successCallBack(BaseBean baseBean) {
         Intent intent = new Intent();
         Bundle bundle = new Bundle();
         bundle.putString("shareOrSuccess", "success");
+        bundle.putString("lostOrFound",lostOrFound);
+        bundle.putString("imageUrl", Utils.getPicUrl(baseBean.data.get(0).picture));
+        bundle.putString("id", String.valueOf(baseBean.data.get(0).id));
+        bundle.putString("time", baseBean.data.get(0).time);
+        bundle.putString("place", baseBean.data.get(0).place);
+        bundle.putString("type", Utils.getType(baseBean.data.get(0).detail_type));
+        bundle.putString("title",baseBean.data.get(0).title);
         intent.putExtras(bundle);
         intent.setClass(this, SuccessActivity.class);
         startActivity(intent);

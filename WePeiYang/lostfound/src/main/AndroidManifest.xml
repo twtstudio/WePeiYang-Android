@@ -19,7 +19,7 @@
     <!--友盟需要的一些权限-->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
     <application
 
@@ -47,8 +47,10 @@
         </activity>
         <activity android:name=".mylist.MylistActivity" />
         <activity android:name=".search.SearchActivity" />
-        <activity android:name=".release.ReleaseActivity">
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
+        <activity
+            android:name=".release.ReleaseActivity"
+            android:windowSoftInputMode="stateAlwaysHidden">
+
         </activity>
         <activity android:name=".success.SuccessActivity" />
         <activity android:name=".detail.DetailActivity" />

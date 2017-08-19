@@ -13,7 +13,7 @@ import java.util.Map;
 
 public interface ReleaseContract {
     public interface ReleaseView extends BaseContract.BaseView {
-        void successCallBack();
+        void successCallBack(BaseBean baseBean);
 
         void setEditData(DetailBean detailBean);
 

@@ -51,6 +51,7 @@ public class DetailActivity extends BaseActivity implements DetailContract.Detai
     LinearLayout detail_layout_without_pic;
     AlertDialog.Builder builder;
     DetailBean detailData;
+    String lostOrFound;
 
     DetailContract.DetailPresenter detailPresenter = new DetailPresenterImpl(this);
 
@@ -78,7 +79,14 @@ public class DetailActivity extends BaseActivity implements DetailContract.Detai
             if (itemId == R.id.detail_share) {
                 Intent intent = new Intent();
                 Bundle bundle = new Bundle();
+                bundle.putString("imageUrl", Utils.getPicUrl(detailData.data.picture));
                 bundle.putString("index", "share");
+                bundle.putString("lostOrFound", lostOrFound);
+                bundle.putString("id", String.valueOf(detailData.data.id));
+                bundle.putString("time", detailData.data.time);
+                bundle.putString("place", detailData.data.place);
+                bundle.putString("type", Utils.getType(detailData.data.detail_type));
+                bundle.putString("title",detailData.data.title);
                 intent.putExtras(bundle);
                 intent.setClass(this, SuccessActivity.class);
                 startActivity(intent);
@@ -97,6 +105,7 @@ public class DetailActivity extends BaseActivity implements DetailContract.Detai
         super.onCreate(savedInstanceState);
         Bundle bundle = getIntent().getExtras();
         int id = bundle.getInt("id");
+        lostOrFound = bundle.getString("lostOrFound");
         detailPresenter.loadDetailData(id);
 
     }

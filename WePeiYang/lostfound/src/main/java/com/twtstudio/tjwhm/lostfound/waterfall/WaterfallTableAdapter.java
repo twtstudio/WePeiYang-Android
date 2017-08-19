@@ -26,10 +26,12 @@ public class WaterfallTableAdapter extends RecyclerView.Adapter {
 
     WaterfallBean waterfallBean;
     Context context;
+    String lostOrFound;
 
-    public WaterfallTableAdapter(WaterfallBean waterfallBean, Context context) {
+    public WaterfallTableAdapter(WaterfallBean waterfallBean, Context context, String lostOrFound) {
         this.waterfallBean = waterfallBean;
         this.context = context;
+        this.lostOrFound = lostOrFound;
     }
 
     public class WaterfallViewHolder extends RecyclerView.ViewHolder {
@@ -74,9 +76,7 @@ public class WaterfallTableAdapter extends RecyclerView.Adapter {
         viewHolder.waterfall_item_time.setText(dataBean.time);
         viewHolder.waterfall_item_place.setText(dataBean.place);
 
-        viewHolder.itemView.setOnClickListener(view -> {
-           startDetailActivity(dataBean.id);
-        });
+        viewHolder.itemView.setOnClickListener(view -> startDetailActivity(dataBean.id));
     }
 
     @Override
@@ -87,9 +87,10 @@ public class WaterfallTableAdapter extends RecyclerView.Adapter {
         return waterfallBean.data.size();
     }
 
-    private void startDetailActivity(int id){
+    private void startDetailActivity(int id) {
         Bundle bundle = new Bundle();
-        bundle.putInt("id",id);
+        bundle.putInt("id", id);
+        bundle.putString("lostOrFound", lostOrFound);
         Intent intent = new Intent();
         intent.putExtras(bundle);
         intent.setClass(context, DetailActivity.class);

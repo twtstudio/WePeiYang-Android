@@ -20,6 +20,7 @@ import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
+import com.umeng.socialize.media.UMWeb;
 
 import java.util.Objects;
 
@@ -42,6 +43,9 @@ public class SuccessActivity extends BaseActivity implements View.OnClickListene
     ImageView share_qqfriends;
     @BindView(R.id.share_qzone)
     ImageView share_qzone;
+    UMImage image;
+    UMWeb web;
+    String lostOrFound;
 
     @Override
     protected int getLayoutResourceId() {
@@ -65,6 +69,32 @@ public class SuccessActivity extends BaseActivity implements View.OnClickListene
         setOnClickListenerForViews();
         Bundle bundle = getIntent().getExtras();
         String shareOrSuccess = bundle.getString("index");
+        String imageUrl = bundle.getString("imageUrl");
+        String id = bundle.getString("id");
+        String time = bundle.getString("time");
+        String place = bundle.getString("place");
+        String type = bundle.getString("type");
+        String title = bundle.getString("title");
+        lostOrFound = bundle.getString("lostOrFound");
+        if (imageUrl != null) {
+            image = new UMImage(SuccessActivity.this, imageUrl);
+        }
+        web = new UMWeb("http://open.twtstudio.com/lostfound/detail.html#" + id);
+        web.setThumb(image);
+        web.setTitle(title);
+        if (Objects.equals(lostOrFound, "lost")) {
+            if (!Objects.equals(type, "其他")) {
+                web.setDescription("我不小心在" + place + "把我的" + type + "弄丢了嘤嘤嘤，拜托大家快来帮我找到它！\n");
+            } else {
+                web.setDescription("我不小心在" + place + "把我的东西弄丢了嘤嘤嘤，拜托大家快来帮我找到它！\n");
+            }
+        } else {
+            if (!Objects.equals(type, "其他")) {
+                web.setDescription("又丢东西了吗？我在" + place + "捡到了" + type + "，快来把它接回家吧～\n");
+            } else {
+                web.setDescription("又丢东西了吗？我在" + place + "捡到了东西，快来把它接回家吧～\n");
+            }
+        }
         if (Objects.equals(shareOrSuccess, "share")) {
             success_cardView.setVisibility(View.GONE);
         }
@@ -75,7 +105,7 @@ public class SuccessActivity extends BaseActivity implements View.OnClickListene
 
         if (view == share_wechatfriends) {
             new ShareAction(SuccessActivity.this).setPlatform(SHARE_MEDIA.WEIXIN)
-                    .withText("hello")
+                    .withMedia(web)
                     .setCallback(umShareListener)
                     .share();
 
@@ -84,17 +114,20 @@ public class SuccessActivity extends BaseActivity implements View.OnClickListene
                     new String[]{Manifest.permission.ACCESS_WIFI_STATE},
                     1);
 
+            new ShareAction(SuccessActivity.this).setPlatform(SHARE_MEDIA.WEIXIN_CIRCLE)
+                    .withMedia(web)
+                    .setCallback(umShareListener)
+                    .share();
+
         } else if (view == share_qqfriends) {
 
-            UMImage image = new UMImage(SuccessActivity.this, R.drawable.lost_search);
             new ShareAction(SuccessActivity.this).setPlatform(SHARE_MEDIA.QQ)
-                    .withText("hello")
-                    .withMedia(image)
+                    .withMedia(web)
                     .setCallback(umShareListener)
                     .share();
         } else if (view == share_qzone) {
             new ShareAction(SuccessActivity.this).setPlatform(SHARE_MEDIA.QZONE)
-                    .withText("hello")
+                    .withMedia(web)
                     .setCallback(umShareListener)
                     .share();
         }

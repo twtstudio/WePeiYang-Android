@@ -130,7 +130,7 @@ public class SearchActivity extends BaseActivity implements SearchContract.Searc
     private void initValues() {
         waterfallBean = new WaterfallBean();
         waterfallBean.data = new ArrayList<>();
-        tableAdapter = new WaterfallTableAdapter(waterfallBean, this);
+        tableAdapter = new WaterfallTableAdapter(waterfallBean, this,"unknown");
         layoutManager = new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL);
         search_recyclerView.setLayoutManager(layoutManager);
         search_recyclerView.setAdapter(tableAdapter);

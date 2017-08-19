@@ -58,11 +58,12 @@ public class WaterfallFragment extends Fragment implements WaterfallContract.Wat
         ButterKnife.bind(this, view);
         waterfall_recyclerView.setLayoutManager(layoutManager);
         waterfallBean.data = new ArrayList<>();
-        tableAdapter = new WaterfallTableAdapter(waterfallBean, getActivity());
-        waterfall_recyclerView.setAdapter(tableAdapter);
         waterfall_no_res.setVisibility(View.GONE);
         Bundle bundle = getArguments();
         lostOrFound = bundle.getString("index");
+        System.out.println("zzzaa"+lostOrFound);
+        tableAdapter = new WaterfallTableAdapter(waterfallBean, getActivity(),lostOrFound);
+        waterfall_recyclerView.setAdapter(tableAdapter);
 
         water_refresh.setOnRefreshListener(this::refresh);
 
