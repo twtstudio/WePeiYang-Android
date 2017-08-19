@@ -117,7 +117,6 @@ public class WaterfallActivity extends BaseActivity {
         waterfall_tabLayout.setupWithViewPager(waterfall_pager);
         waterfall_tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         waterfall_tabLayout.setSelectedTabIndicatorColor(Color.parseColor("#00a1e9"));
-//        setWaterfallType(type);
         waterfall_type_recyclerview.setLayoutManager(layoutManager);
         waterfall_type_blue.setVisibility(View.GONE);
         waterfall_cardview_types.setVisibility(View.GONE);
@@ -194,7 +193,6 @@ public class WaterfallActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        setWaterfallType(type);
         waterfall_cardview_types.setVisibility(View.GONE);
     }
 }

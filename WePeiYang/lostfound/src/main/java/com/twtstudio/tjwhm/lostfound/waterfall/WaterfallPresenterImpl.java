@@ -37,12 +37,11 @@ public class WaterfallPresenterImpl implements WaterfallContract.WaterfallPresen
         if (type == -1) {
             loadWaterfallData(lostOrFound, page);
         } else {
-            System.out.println("abcdef"+String.valueOf(page)+"ttt"+String.valueOf(type));
             waterfallApi = RetrofitProvider.getRetrofit().create(WaterfallApi.class);
-            waterfallApi.loadWaterfallDataWithType(lostOrFound,String.valueOf(page),String.valueOf(type))
+            waterfallApi.loadWaterfallDataWithType(lostOrFound, String.valueOf(page), String.valueOf(type))
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(this::setWaterfallData,new RxErrorHandler());
+                    .subscribe(this::setWaterfallData, new RxErrorHandler());
         }
     }
 

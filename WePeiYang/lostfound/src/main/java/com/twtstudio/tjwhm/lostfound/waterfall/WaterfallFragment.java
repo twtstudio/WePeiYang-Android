@@ -35,12 +35,13 @@ public class WaterfallFragment extends Fragment implements WaterfallContract.Wat
     private WaterfallTableAdapter tableAdapter;
     private StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL);
     private WaterfallBean waterfallBean = new WaterfallBean();
-    private WaterfallContract.WaterfallPresenter waterfallPresenter = new WaterfallPresenterImpl(this);
     private int page = 1;
     private boolean isLoading = false;
     private boolean isRefresh = false;
     String lostOrFound;
     int type = -1;
+
+    private WaterfallContract.WaterfallPresenter waterfallPresenter = new WaterfallPresenterImpl(this);
 
     public static WaterfallFragment newInstance(String type) {
 
@@ -61,10 +62,8 @@ public class WaterfallFragment extends Fragment implements WaterfallContract.Wat
         waterfall_no_res.setVisibility(View.GONE);
         Bundle bundle = getArguments();
         lostOrFound = bundle.getString("index");
-        System.out.println("zzzaa"+lostOrFound);
-        tableAdapter = new WaterfallTableAdapter(waterfallBean, getActivity(),lostOrFound);
+        tableAdapter = new WaterfallTableAdapter(waterfallBean, getActivity(), lostOrFound);
         waterfall_recyclerView.setAdapter(tableAdapter);
-
         water_refresh.setOnRefreshListener(this::refresh);
 
 

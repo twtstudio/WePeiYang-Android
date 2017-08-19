@@ -71,7 +71,6 @@ public class SuccessActivity extends BaseActivity implements View.OnClickListene
         String shareOrSuccess = bundle.getString("index");
         String imageUrl = bundle.getString("imageUrl");
         String id = bundle.getString("id");
-        String time = bundle.getString("time");
         String place = bundle.getString("place");
         String type = bundle.getString("type");
         String title = bundle.getString("title");
@@ -102,7 +101,7 @@ public class SuccessActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     public void onClick(View view) {
-
+// TODO: 2017/8/19 微信好友和朋友圈的分享功能
         if (view == share_wechatfriends) {
             new ShareAction(SuccessActivity.this).setPlatform(SHARE_MEDIA.WEIXIN)
                     .withMedia(web)

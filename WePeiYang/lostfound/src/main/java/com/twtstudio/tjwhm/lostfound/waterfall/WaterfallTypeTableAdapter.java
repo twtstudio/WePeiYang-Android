@@ -23,7 +23,7 @@ public class WaterfallTypeTableAdapter extends RecyclerView.Adapter {
     Context context;
     int selectedItem = -1;
 
-    public WaterfallTypeTableAdapter(WaterfallActivity waterfallActivity, Context context,int selectedItem) {
+    public WaterfallTypeTableAdapter(WaterfallActivity waterfallActivity, Context context, int selectedItem) {
         this.waterfallActivity = waterfallActivity;
         this.context = context;
         this.selectedItem = selectedItem;
