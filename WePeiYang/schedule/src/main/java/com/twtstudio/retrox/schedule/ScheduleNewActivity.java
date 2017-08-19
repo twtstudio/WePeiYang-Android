@@ -85,27 +85,34 @@ public class ScheduleNewActivity extends RxAppCompatActivity {
         mbinding.linear.setPadding(padding, 0, padding, 0);
         monthPager.setOnTouchListener((v, event) -> {
             refresh.setEnabled(false);
-            refresh.requestDisallowInterceptTouchEvent(false);
             return false;
 
         });
         int[] location1 = new int[2];
+        refresh.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                rvToDoList.dispatchTouchEvent(event);
+                return false;
+            }
+        });
         rvToDoList.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_MOVE:
-                        rvToDoList.getLocationInWindow(location1);
-                        refresh.requestDisallowInterceptTouchEvent(false);
-//                        int i = Utils.dpi2px(context, 100);
-//                        Log.d("scroll", Integer.toString(location1[1]));
-                        if (location1[1] < metrics.heightPixels / 1.8) {
-                            refresh.setEnabled(false);
-                            return false;
-                        }
+
                         break;
                     case MotionEvent.ACTION_UP:
-                        refresh.setEnabled(true);
+                        rvToDoList.getLocationInWindow(location1);
+//                        int i = Utils.dpi2px(context, 100);
+//                        Log.d("scroll", Integer.toString(location1[1]));
+                        if (location1[1] > metrics.heightPixels / 2) {
+                            refresh.setEnabled(true);
+                        }
+                        else
+                            refresh.setEnabled(false);
+
                 }
                 return false;
             }
@@ -115,17 +122,18 @@ public class ScheduleNewActivity extends RxAppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_MOVE:
-                        rvToDoList.getLocationInWindow(location1);
-                        refresh.requestDisallowInterceptTouchEvent(false);
-//                        int i = Utils.dpi2px(context, 100);
-//                        Log.d("scroll", Integer.toString(location1[1]));
-                        if (location1[1] < metrics.heightPixels / 1.8) {
-                            refresh.setEnabled(false);
-                            return false;
-                        }
+
                         break;
                     case MotionEvent.ACTION_UP:
-                        refresh.setEnabled(true);
+                        rvToDoList.getLocationInWindow(location1);
+//                        int i = Utils.dpi2px(context, 100);
+//                        Log.d("scroll", Integer.toString(location1[1]));
+                        if (location1[1] > metrics.heightPixels / 2) {
+                            refresh.setEnabled(true);
+                        }
+                        else
+                            refresh.setEnabled(false);
+
                 }
                 return false;
             }
