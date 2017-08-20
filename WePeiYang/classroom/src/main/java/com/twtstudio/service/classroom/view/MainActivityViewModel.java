@@ -18,7 +18,9 @@ import com.twtstudio.service.classroom.model.TimeHelper;
 
 import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.SplittableRandom;
 
 import me.tatarka.bindingcollectionadapter.ItemViewSelector;
 import me.tatarka.bindingcollectionadapter.itemviews.ItemViewClassSelector;
@@ -40,12 +42,14 @@ public class MainActivityViewModel {
             .build();
     public static int building, week, time;
     private int day;
-    private static String filterCondition=" ";
+    private static String filterCondition = " ";
+    private List<String> filterConditions = new ArrayList<>();
     String token;
     boolean update;
 
     MainActivityViewModel(RxAppCompatActivity rxAppCompatActivity) {
         this.rxActivity = rxAppCompatActivity;
+        this.filterCondition = " ";
         building = week = time = 0;
 //        iniData(buiding,week,time,token);
     }
@@ -57,7 +61,8 @@ public class MainActivityViewModel {
         this.week = week;
         this.time = time;
         this.day = TimeHelper.getDayOfWeek();
-        this.filterCondition = " ";
+        filterConditions.clear();
+        filterConditions.add(filterCondition);
         this.token = token;
         items.clear();
         ClassRoomProvider.init(rxActivity)
@@ -72,7 +77,6 @@ public class MainActivityViewModel {
         this.week = week;
         this.time = time;
         this.day = TimeHelper.getDayOfWeek();
-        this.filterCondition = filterCondition;
         this.token = token;
         items.clear();
         ClassRoomProvider.init(rxActivity)
@@ -81,15 +85,28 @@ public class MainActivityViewModel {
     }
 
     private void processData(FreeRoom2 freeRoom2) {
+        List<FreeRoom2.FreeRoom> freeRooms = new ArrayList<>();
+        List<FreeRoom2.FreeRoom> tmpFreeRooms = new ArrayList<>();
         if (freeRoom2 != null)
             if (freeRoom2.getErrorcode() == 1)
                 isError.set(true);
         isLoading.set(false);
-        if (freeRoom2.getData() != null)
-            for (FreeRoom2.FreeRoom freeRoom : freeRoom2.getData())
-                if (filterFreeRoom(freeRoom, filterCondition))
-                    items.add(new ItemViewModel(rxActivity, freeRoom, this, freeRoom2.getTime()));
+        if (freeRoom2.getData() != null) {
 
+            for (FreeRoom2.FreeRoom freeRoom : freeRoom2.getData())
+                freeRooms.add(freeRoom);
+            for (String filterCondition : filterConditions) {
+                tmpFreeRooms.clear();
+                for (FreeRoom2.FreeRoom freeRoom : freeRooms)
+                    if (filterFreeRoom(freeRoom, filterCondition)) {
+                        tmpFreeRooms.add(freeRoom);
+                    }
+                freeRooms.clear();
+                freeRooms.addAll(tmpFreeRooms);
+            }
+            for (FreeRoom2.FreeRoom freeRoom : freeRooms)
+                items.add(new ItemViewModel(rxActivity, freeRoom, this, freeRoom2.getTime()));
+        }
     }
 
     public void setCollected(String building) {
@@ -104,8 +121,33 @@ public class MainActivityViewModel {
         ClassRoomProvider.init(rxActivity).getAllCollectedClassroom(token, week);
     }
 
+    public void addFilterCondition(String filterCondition) {
+            filterConditions.add(filterCondition);
+    }
+    public boolean isFilterConditionRepeated(String filterCondition){
+        //判断list中是否已有此项条件
+        for (String condition : filterConditions)
+            if (condition.equals(filterCondition))
+                return false;
+        return true;
+    }
+    public void removeFilterCondition(String filterCondition) {
+        Iterator<String> sListIterator = filterConditions.iterator();
+        while(sListIterator.hasNext()){
+            String e = sListIterator.next();
+            if(e.equals(filterCondition)){
+                sListIterator.remove();
+            }
+        }
+    }
+
+    //将筛选条件重置为初始状态，即筛选条件为全部时的状态
+    public void resetFilterCondition() {
+        filterConditions.clear();
+    }
+
     //获取全天教室情况
-    public void getAllDayRoom(int building,String filterCondition) {
+    public void getAllDayRoom(int building, String filterCondition) {
         List<ItemViewModel> itemViewModels = new ArrayList<>();
         isError.set(false);
         isLoading.set(true);
@@ -145,4 +187,5 @@ public class MainActivityViewModel {
             else return false;
         return true;
     }
+
 }

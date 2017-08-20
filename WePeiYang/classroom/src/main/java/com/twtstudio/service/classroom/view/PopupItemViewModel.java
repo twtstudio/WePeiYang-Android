@@ -23,7 +23,7 @@ public class PopupItemViewModel implements com.kelin.mvvmlight.base.ViewModel {
     public final ObservableField<Boolean> changeTextColor = new ObservableField<>(false);
     public final ObservableField<Boolean> changePaddingColor = new ObservableField<>(false);
     public final ObservableField<Boolean> isOnClickable = new ObservableField<>();
-    private String filterCondition= " ";
+    private String filterCondition = " ";
     private int tag = 0;
     private static int building = 0;
     private static int time = 0;
@@ -43,6 +43,8 @@ public class PopupItemViewModel implements com.kelin.mvvmlight.base.ViewModel {
     }
 
     public void onClick(View view) {
+        filterBean.changePaddingColor = true;
+        filterBean.hasClicked = true;
         if (CommonPrefUtil.getIsNewCampus() && building == 0)
             building = 46;
         else if (building == 0)
@@ -56,8 +58,8 @@ public class PopupItemViewModel implements com.kelin.mvvmlight.base.ViewModel {
                 case 2:
                     viewModel.condition2.set(text.get());
                     if (text.get().equals("全天")) {
-    //                    for (int i = 1; i <= 12; i += 2)
-    //                        viewModel.iniData(building, TimeHelper.getWeekInt(), i, CommonPrefUtil.getStudentNumber());
+                        //                    for (int i = 1; i <= 12; i += 2)
+                        //                        viewModel.iniData(building, TimeHelper.getWeekInt(), i, CommonPrefUtil.getStudentNumber());
                         time = -1;
                     } else {
                         if (text.get().equals("现在")) time = TimeHelper.getTimeInt();
@@ -66,37 +68,49 @@ public class PopupItemViewModel implements com.kelin.mvvmlight.base.ViewModel {
                     }
                     break;
                 case 3:
-                    viewModel.condition3.set(text.get());
-                    if(text.get().equals("暖气"))
-                        filterCondition="heating";
-                     else if(text.get().equals("饮水机"))
-                        filterCondition="water_dispenser";
-                    else if(text.get().equals("电源"))
-                        filterCondition="power_pack";
-                    else if(text.get().equals("空闲"))
-                        filterCondition="empty";
+                    viewModel.condition3.set(text.get() + "...");
+                    if (text.get().equals("暖气"))
+                        filterCondition = "heating";
+                    else if (text.get().equals("饮水机"))
+                        filterCondition = "water_dispenser";
+                    else if (text.get().equals("电源"))
+                        filterCondition = "power_pack";
+                    else if (text.get().equals("空闲"))
+                        filterCondition = "empty";
                     else
-                        filterCondition=" ";
+                        viewModel.resetFilterCondition();
+                    if (viewModel.isFilterConditionRepeated(filterCondition))
+                        viewModel.addFilterCondition(filterCondition);
+                    else {
+                        viewModel.removeFilterCondition(filterCondition);
+                        filterBean.changePaddingColor = false;
+                        filterBean.hasClicked = false;
+                        viewModel.condition3.set("筛选");
+                    }
                     break;
             }
         } catch (NumberFormatException e) {
             e.printStackTrace();
         }
         if (time == -1)
-            viewModel.getAllDayRoom(building,filterCondition);
+            viewModel.getAllDayRoom(building, filterCondition);
 //            for (int i = 1; i <= 12; i += 2)
 //                viewModel.iniData(building, TimeHelper.getWeekInt(), i, CommonPrefUtil.getStudentNumber());
         else {
             if (time == 0) time = TimeHelper.getTimeInt();
-            viewModel.iniData(building, TimeHelper.getWeekInt(), time, CommonPrefUtil.getStudentNumber(),filterCondition);
+            viewModel.iniData(building, TimeHelper.getWeekInt(), time, CommonPrefUtil.getStudentNumber(), filterCondition);
         }
-        for (FilterBean filterBean : filterBeans) {
-            if (filterBean == this.filterBean) continue;
-            filterBean.changePaddingColor = false;
-        }
+        if (tag == 3 && !text.get().equals("全部"))
+            for (FilterBean filterBean : filterBeans) {
+                if (filterBean.text.equals("全部"))
+                    filterBean.changePaddingColor = false;
+            }
+        else
+            for (FilterBean filterBean : filterBeans) {
+                if (filterBean == this.filterBean) continue;
+                filterBean.changePaddingColor = false;
+            }
 
-        filterBean.changePaddingColor = true;
-        filterBean.hasClicked = true;
         changePaddingColor.set(filterBean.changePaddingColor);
         popupViewModel.updateData(filterBean, filterBeans);
     }
