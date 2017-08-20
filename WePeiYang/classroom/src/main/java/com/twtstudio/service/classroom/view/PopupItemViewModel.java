@@ -43,6 +43,10 @@ public class PopupItemViewModel implements com.kelin.mvvmlight.base.ViewModel {
     }
 
     public void onClick(View view) {
+        if (CommonPrefUtil.getIsNewCampus() && building == 0)
+            building = 46;
+        else if (building == 0)
+            building = 23;
         try {
             switch (tag) {
                 case 1:
@@ -50,10 +54,6 @@ public class PopupItemViewModel implements com.kelin.mvvmlight.base.ViewModel {
                     building = Integer.parseInt(text.get().length() < 3 ? text.get().substring(0, 1) : text.get().substring(0, 2));
                     break;
                 case 2:
-                    if (CommonPrefUtil.getIsNewCampus() && building == 0)
-                        building = 46;
-                    else if (building == 0)
-                        building = 23;
                     viewModel.condition2.set(text.get());
                     if (text.get().equals("全天")) {
     //                    for (int i = 1; i <= 12; i += 2)

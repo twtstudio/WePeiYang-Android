@@ -49,6 +49,7 @@ public class MainActivity extends RxAppCompatActivity {
     ActivityClassroomQueryMainBinding mainBinding;
     private Animation animation, animation2;
     private int seletedTag = 0;
+    private boolean campusHasChanged=true;
     PopupWindow popupWindow;
     private boolean hasPop;
     @BindView(R2.id.condition1)
@@ -202,6 +203,7 @@ public class MainActivity extends RxAppCompatActivity {
             startActivity(intent);
         } else if (item.getItemId() == R.id.campus_choose) {
             Intent intent = new Intent(MainActivity.this, RoomqueryChooseCampus.class);
+            campusHasChanged=true;
             startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
@@ -221,14 +223,10 @@ public class MainActivity extends RxAppCompatActivity {
 
     @Override
     protected void onResume() {
-
-        if (CommonPrefUtil.getIsNewCampus())
-            viewModel.iniData(46, TimeHelper.getWeekInt(), TimeHelper.getTimeInt(), CommonPrefUtil.getStudentNumber());
-        else
-            viewModel.iniData(23, TimeHelper.getWeekInt(), TimeHelper.getTimeInt(), CommonPrefUtil.getStudentNumber());
-        viewModel.condition1.set("教学楼");
-        viewModel.condition2.set("时间段");
-        viewModel.condition3.set("筛选");
+        if(campusHasChanged) {
+            initData();
+            campusHasChanged=false;
+        }
         super.onResume();
     }
 
@@ -237,6 +235,15 @@ public class MainActivity extends RxAppCompatActivity {
         PopupItemViewModel.resetBuildingAndTime();
         Messenger.getDefault().unregister(this);
         super.onDestroy();
+    }
+    private void initData(){
+        if (CommonPrefUtil.getIsNewCampus())
+            viewModel.iniData(46, TimeHelper.getWeekInt(), TimeHelper.getTimeInt(), CommonPrefUtil.getStudentNumber());
+        else
+            viewModel.iniData(23, TimeHelper.getWeekInt(), TimeHelper.getTimeInt(), CommonPrefUtil.getStudentNumber());
+        viewModel.condition1.set("教学楼");
+        viewModel.condition2.set("时间段");
+        viewModel.condition3.set("筛选");
     }
 }
 
