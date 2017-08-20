@@ -200,7 +200,7 @@ public class ScheduleActivity extends RxAppCompatActivity implements ScheduleVie
         //showProgress();
         ClassTableProvider.init(this)
                 .registerAction(classTable -> {
-                    hideProgress();
+//                    hideProgress();
                     this.refresh.setRefreshing(false);
                     bindData(classTable);
 
