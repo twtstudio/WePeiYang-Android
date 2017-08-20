@@ -14,7 +14,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
-import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -189,7 +188,7 @@ public class ScheduleActivity extends RxAppCompatActivity implements ScheduleVie
 
         }
 
-        refresh.setOnRefreshListener(()-> {
+        refresh.setOnRefreshListener(() -> {
             getScheduleDataAuto(true);
         });
 
@@ -197,7 +196,7 @@ public class ScheduleActivity extends RxAppCompatActivity implements ScheduleVie
     }
 
     private void getScheduleDataAuto(boolean refresh) {
-        //showProgress();
+//        showProgress();
         ClassTableProvider.init(this)
                 .registerAction(classTable -> {
 //                    hideProgress();
@@ -248,8 +247,10 @@ public class ScheduleActivity extends RxAppCompatActivity implements ScheduleVie
 
 //        //修复初始情况的课程不可用bug,
         currentWeek = TimeHelper.getWeekInt(Long.parseLong(classTable.data.term_start), Calendar.getInstance());
-        changeWeek(currentWeek);
-        if (classTable.data.term.length() > 1) {
+        if (currentWeek >= 0){
+            changeWeek(currentWeek);
+        }
+        if (classTable.data.term.length() > 1 && currentWeek >= 0) {
             currentTerm = classTable.data.term.substring(0, classTable.data.term.length() - 1);
 //            tvScheduleTerm.setText(currentTerm + "学期课表");
         } else {
@@ -296,19 +297,19 @@ public class ScheduleActivity extends RxAppCompatActivity implements ScheduleVie
                             mRlSaturday.removeAllViews();
                             mRlSunday.removeAllViews();
 
-                            initSchedule(mClassTable, week_num,false);
+                            initSchedule(mClassTable, week_num, false);
                         }
                     }
                     recyclerPopupWindow = null;
                 });
             }
         });
-        initSchedule(classTable, currentWeek,true);
+        initSchedule(classTable, currentWeek, true);
     }
 
-    private void initSchedule(ClassTable classTable, int week,boolean isUpdate) {
+    private void initSchedule(ClassTable classTable, int week, boolean isUpdate) {
         hasClass = new boolean[7][12];
-        if(isUpdate) {
+        if (isUpdate) {
             mRlMonday.removeAllViews();
             mRlTuesday.removeAllViews();
             mRlWednesday.removeAllViews();

@@ -21,6 +21,7 @@ android {
     }
     dataBinding {
         enabled true
+//        version '2.3.3'
     }
     buildTypes {
         release {
@@ -42,9 +43,14 @@ dependencies {
     compile 'com.github.PhilJay:MPAndroidChart:v3.0.1'
     annotationProcessor 'com.alibaba:arouter-compiler:1.1.2'
 
+    compile 'me.tatarka.bindingcollectionadapter2:bindingcollectionadapter:2.1.0'
+    compile 'me.tatarka.bindingcollectionadapter2:bindingcollectionadapter-recyclerview:2.1.0'
 
-    compile project(':commons')
-    compile project(':mvvmKit')
+    compile (project(':commons'))
+    compile (project(':mvvmKit'))
+//            {
+//        exclude group: 'me.tatarka.bindingcollectionadapter', module: 'bindingcollectionadapter'
+//    }
 
     testCompile 'junit:junit:4.12'
 }

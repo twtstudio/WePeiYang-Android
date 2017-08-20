@@ -14,6 +14,8 @@ import com.twtstudio.retrox.gpa.R;
 import java.util.ArrayList;
 
 import me.tatarka.bindingcollectionadapter.ItemView;
+import me.tatarka.bindingcollectionadapter2.ItemBinding;
+
 /**
  * Created by tjliqy on 2017/6/2.
  */
@@ -37,7 +39,7 @@ public class EvaluateListViewModel implements ViewModel {
 
 
 //    public final ObservableList<ViewModel> mViewModels = new ObservableArrayList<>();
-    public final ItemView itemView = ItemView.of(BR.viewModel, R.layout.gpa_item_evaluate);
+    public final ItemBinding itemView = ItemBinding.of(BR.viewModel, R.layout.gpa_item_evaluate);
 
     void removeItem(int i){
         items.remove(i);

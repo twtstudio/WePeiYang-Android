@@ -36,13 +36,14 @@ public class CourseHelper {
 
     /**
      * 获取今天的课程
+     *
      * @param classTable 传入classtable
-     * @param adjust 是否用"无"填充并且去掉同名不同时课程
+     * @param adjust     是否用"无"填充并且去掉同名不同时课程
      * @return {分为普通课程和空课程} ,空课程属性 ：课程名为"无"，isAvaiableCurrentWeek = false; coursecolor =R.color.myWindowBackgroundGray;
      */
-    public List<ClassTable.Data.Course> getTodayCourses(ClassTable classTable , boolean adjust) {
+    public List<ClassTable.Data.Course> getTodayCourses(ClassTable classTable, boolean adjust) {
         startUnix = Long.parseLong(classTable.data.term_start);
-        int presentWeek = TimeHelper.getWeekInt(startUnix,calendar);
+        int presentWeek = TimeHelper.getWeekInt(startUnix, calendar);
         List<ClassTable.Data.Course> courseList =
                 Stream.of(classTable.data.data)
 //                        isAvailableCurrentWeek是检测课程是不是到期的，就是超出预计学习时间（周数）
@@ -53,18 +54,18 @@ public class CourseHelper {
 
         for (int i = 0; i < courseList.size(); i++) {
             //反正也越界不了hhh
-            if (!courseList.get(i).isAvaiableCurrentWeek){
+            if (!courseList.get(i).isAvaiableCurrentWeek) {
                 courseList.get(i).coursecolor = R.color.myWindowBackgroundGray;
-            }else {
+            } else {
                 courseList.get(i).coursecolor = classColors[i];
             }
         }
 
-        if (adjust){
+        if (adjust) {
             return adjustCourseList(courseList);
         }
         courseList = Stream.of(courseList)
-                .sorted((c1,c2)-> (getTodayStart(c1.arrange) - getTodayStart(c2.arrange)))
+                .sorted((c1, c2) -> (getTodayStart(c1.arrange) - getTodayStart(c2.arrange)))
                 .collect(Collectors.toList());
         return courseList;
     }
@@ -72,9 +73,9 @@ public class CourseHelper {
     public List<ClassTable.Data.Course> getTomorrowCourses(ClassTable classTable) {
         long mystartUnix = Long.parseLong(classTable.data.term_start);
         //计算明天的
-        mystartUnix = mystartUnix - 24*60*60*1000;
+        mystartUnix = mystartUnix - 24 * 60 * 60 * 1000;
 
-        int presentWeek = TimeHelper.getWeekInt(mystartUnix,calendar);
+        int presentWeek = TimeHelper.getWeekInt(mystartUnix, calendar);
         List<ClassTable.Data.Course> courseList =
                 Stream.of(classTable.data.data)
 //                        isAvailableCurrentWeek是检测课程是不是到期的，就是超出预计学习时间（周数）
@@ -85,22 +86,22 @@ public class CourseHelper {
 
         for (int i = 0; i < courseList.size(); i++) {
             //反正也越界不了hhh
-            if (!courseList.get(i).isAvaiableCurrentWeek){
+            if (!courseList.get(i).isAvaiableCurrentWeek) {
                 courseList.get(i).coursecolor = R.color.myWindowBackgroundGray;
-            }else {
+            } else {
                 courseList.get(i).coursecolor = classColors[i];
             }
         }
 
         courseList = Stream.of(courseList)
-                .sorted((c1,c2)-> (getTomorrowStart(c1.arrange) - getTomorrowStart(c2.arrange)))
+                .sorted((c1, c2) -> (getTomorrowStart(c1.arrange) - getTomorrowStart(c2.arrange)))
                 .collect(Collectors.toList());
 
         return courseList;
     }
 
     private boolean checkIsThisWeekForTomorrow(ClassTable.Data.Course course) {
-        int week = TimeHelper.getWeekInt(startUnix - 24*60*60*1000,calendar);
+        int week = TimeHelper.getWeekInt(startUnix - 24 * 60 * 60 * 1000, calendar);
         for (ClassTable.Data.Course.Arrange arrange : course.arrange) {
             if (arrange.week.equals("单双周") ||
                     (arrange.week.equals("单周") && week % 2 == 1) ||
@@ -111,7 +112,7 @@ public class CourseHelper {
         return false;
     }
 
-    private boolean checkIsTomorrow (ClassTable.Data.Course course) {
+    private boolean checkIsTomorrow(ClassTable.Data.Course course) {
         int today = getTomorrowNumber();
         for (ClassTable.Data.Course.Arrange arrange : course.arrange) {
             if (Integer.parseInt(arrange.day) == today) {
@@ -127,7 +128,7 @@ public class CourseHelper {
         if (day == Calendar.SUNDAY) {
             return 1;
         } else {
-            return (day );
+            return (day);
         }
     }
 
@@ -161,20 +162,20 @@ public class CourseHelper {
     }
 
     private boolean checkIsThisWeek(ClassTable.Data.Course course) {
-        int week = TimeHelper.getWeekInt(startUnix,calendar);
+        int week = TimeHelper.getWeekInt(startUnix, calendar);
         for (ClassTable.Data.Course.Arrange arrange : course.arrange) {
             if (course.isAvaiableCurrentWeek && (arrange.week.equals("单双周") ||
                     (arrange.week.equals("单周") && week % 2 == 1) ||
                     (arrange.week.equals("双周") && week % 2 == 0))) {
                 return true;
-            }
+            } else return false;
         }
         return false;
     }
 
-    private List<ClassTable.Data.Course> adjustCourseList(List<ClassTable.Data.Course> courseList){
+    private List<ClassTable.Data.Course> adjustCourseList(List<ClassTable.Data.Course> courseList) {
         courseList = Stream.of(courseList)
-                .sorted((c1,c2)-> (getTodayStart(c1.arrange) - getTodayStart(c2.arrange)))
+                .sorted((c1, c2) -> (getTodayStart(c1.arrange) - getTodayStart(c2.arrange)))
                 .collect(Collectors.toList());
         List<ClassTable.Data.Course> todayList = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
@@ -185,21 +186,21 @@ public class CourseHelper {
             todayList.add(course1);
         }
         for (ClassTable.Data.Course course : courseList) {
-            int start = getTodayStart(course.arrange)/2;
-            int length = getTodayLength(course.arrange)/2;
-            if (todayList.get(start).coursename.equals("无")){
+            int start = getTodayStart(course.arrange) / 2;
+            int length = getTodayLength(course.arrange) / 2;
+            if (todayList.get(start).coursename.equals("无")) {
                 todayList.remove(start);
-                todayList.add(start,course);
-                if (length == 2){
-                    todayList.remove(start+1);
-                    todayList.add(start+1,course);//某些四节课长的大课？没有测试
+                todayList.add(start, course);
+                if (length == 2) {
+                    todayList.remove(start + 1);
+                    todayList.add(start + 1, course);//某些四节课长的大课？没有测试
                 }
-            }else if (!todayList.get(start).isAvaiableCurrentWeek){
+            } else if (!todayList.get(start).isAvaiableCurrentWeek) {
                 todayList.remove(start);
-                todayList.add(start,course);
-                if (length == 2){
-                    todayList.remove(start+1);
-                    todayList.add(start+1,course);
+                todayList.add(start, course);
+                if (length == 2) {
+                    todayList.remove(start + 1);
+                    todayList.add(start + 1, course);
                 }
             }
         }
@@ -214,18 +215,18 @@ public class CourseHelper {
         return todayList;
     }
 
-    public int getTodayStart(List<ClassTable.Data.Course.Arrange> courseArrange){
+    public int getTodayStart(List<ClassTable.Data.Course.Arrange> courseArrange) {
         for (ClassTable.Data.Course.Arrange arrange : courseArrange) {
-            if (Integer.parseInt(arrange.day) == getTodayNumber()){
+            if (Integer.parseInt(arrange.day) == getTodayNumber()) {
                 return Integer.parseInt(arrange.start);
             }
         }
         return -1;
     }
 
-    public int getTomorrowStart(List<ClassTable.Data.Course.Arrange> courseArrange){
+    public int getTomorrowStart(List<ClassTable.Data.Course.Arrange> courseArrange) {
         for (ClassTable.Data.Course.Arrange arrange : courseArrange) {
-            if (Integer.parseInt(arrange.day) == getTomorrowNumber()){
+            if (Integer.parseInt(arrange.day) == getTomorrowNumber()) {
                 return Integer.parseInt(arrange.start);
             }
         }
@@ -233,61 +234,61 @@ public class CourseHelper {
     }
 
 
-    public int getTodayEnd(List<ClassTable.Data.Course.Arrange> courseArrange){
+    public int getTodayEnd(List<ClassTable.Data.Course.Arrange> courseArrange) {
         for (ClassTable.Data.Course.Arrange arrange : courseArrange) {
-            if (Integer.parseInt(arrange.day) == getTodayNumber()){
+            if (Integer.parseInt(arrange.day) == getTodayNumber()) {
                 return Integer.parseInt(arrange.end);
             }
         }
         return -1;
     }
 
-    private int getTodayLength(List<ClassTable.Data.Course.Arrange> courseArrange){
+    private int getTodayLength(List<ClassTable.Data.Course.Arrange> courseArrange) {
         return getTodayStart(courseArrange) - getTodayEnd(courseArrange) + 1; //弄成2的倍数
     }
 
-    public static String getTodayLocation(List<ClassTable.Data.Course.Arrange> courseArrange){
+    public static String getTodayLocation(List<ClassTable.Data.Course.Arrange> courseArrange) {
         for (ClassTable.Data.Course.Arrange arrange : courseArrange) {
-            if (Integer.parseInt(arrange.day) == getTodayNumber()){
+            if (Integer.parseInt(arrange.day) == getTodayNumber()) {
                 return arrange.room;
             }
         }
         return "无法查询地点";
     }
 
-    public static String getTomorrowLocation(List<ClassTable.Data.Course.Arrange> courseArrange){
+    public static String getTomorrowLocation(List<ClassTable.Data.Course.Arrange> courseArrange) {
         for (ClassTable.Data.Course.Arrange arrange : courseArrange) {
-            if (Integer.parseInt(arrange.day) == getTomorrowNumber()){
+            if (Integer.parseInt(arrange.day) == getTomorrowNumber()) {
                 return arrange.room;
             }
         }
         return "无法查询地点";
     }
 
-    public static String getTimeByStartInt(String start){
+    public static String getTimeByStartInt(String start) {
 
         int s = Integer.parseInt(start);
-        if (1 == s){
+        if (1 == s) {
             return "8:30";
-        }else if (2 == s){
+        } else if (2 == s) {
             return "9:20";
-        }else if (3 == s){
+        } else if (3 == s) {
             return "10:25";
-        }else if (4 == s){
+        } else if (4 == s) {
             return "11:15";
-        }else if (5 == s){
+        } else if (5 == s) {
             return "1:30";
-        }else if (6 == s){
+        } else if (6 == s) {
             return "2:20";
-        }else if (7 == s){
+        } else if (7 == s) {
             return "3:25";
-        }else if (8 == s){
+        } else if (8 == s) {
             return "4:15";
-        }else if (9 == s){
+        } else if (9 == s) {
             return "6:30";
-        }else if (10 == s){
+        } else if (10 == s) {
             return "7:20";
-        }else {
+        } else {
             return "";
         }
     }
