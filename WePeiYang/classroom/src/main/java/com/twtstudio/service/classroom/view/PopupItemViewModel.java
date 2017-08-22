@@ -6,8 +6,9 @@ import android.graphics.drawable.ColorDrawable;
 import android.view.View;
 
 import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
+import com.twtstudio.service.classroom.utils.StringHelper;
 import com.twtstudio.service.classroom.model.FilterBean;
-import com.twtstudio.service.classroom.model.TimeHelper;
+import com.twtstudio.service.classroom.utils.TimeHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +54,7 @@ public class PopupItemViewModel implements com.kelin.mvvmlight.base.ViewModel {
             switch (tag) {
                 case 1:
                     viewModel.condition1.set(text.get());
-                    building = Integer.parseInt(text.get().length() < 3 ? text.get().substring(0, 1) : text.get().substring(0, 2));
+                    building = StringHelper.getBuildingInt(text.get());
                     break;
                 case 2:
                     viewModel.condition2.set(text.get());

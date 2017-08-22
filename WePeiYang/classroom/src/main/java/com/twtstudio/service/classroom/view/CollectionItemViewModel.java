@@ -10,12 +10,12 @@ import com.kelin.mvvmlight.command.ReplyCommand;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
 import com.twtstudio.service.classroom.R;
+import com.twtstudio.service.classroom.utils.StringHelper;
 import com.twtstudio.service.classroom.model.ClassRoomProvider;
 import com.twtstudio.service.classroom.model.FreeRoom2;
-import com.twtstudio.service.classroom.model.TimeHelper;
+import com.twtstudio.service.classroom.utils.TimeHelper;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 
 import es.dmoral.toasty.Toasty;
 
@@ -23,7 +23,7 @@ import es.dmoral.toasty.Toasty;
  * Created by DefaultAccount on 2017/8/21.
  */
 
-public class CollectionItemViewModel implements com.kelin.mvvmlight.base.ViewModel  {
+public class CollectionItemViewModel implements com.kelin.mvvmlight.base.ViewModel {
     public final ObservableField<String> classroom = new ObservableField<>();
     public final ObservableField<String> campus = new ObservableField<>();
     public final ObservableField<String> time = new ObservableField<>();
@@ -37,23 +37,29 @@ public class CollectionItemViewModel implements com.kelin.mvvmlight.base.ViewMod
     public final ObservableField<Boolean> isVisible3 = new ObservableField<>(false);
     public final ObservableField<Boolean> isVisible4 = new ObservableField<>(false);
     public final ObservableField<Boolean> isCollected = new ObservableField<>(false);
-    public Integer freeRoomTime=0;
+    public Integer freeRoomTime = 0;
     FreeRoom2.FreeRoom freeRoom;
     RxAppCompatActivity rxAppCompatActivity;
-    Animation zoomIn,zoomOut;
-    public ReplyCommand tvClickCommand=new ReplyCommand(()->{
-        ClassRoomProvider.init(rxAppCompatActivity).registerAction((freeRoom2)->{
-
-        }).getFreeClassroom(46, TimeHelper.getWeekInt(),TimeHelper.getDayOfWeek(),TimeHelper.getTimeInt(),CommonPrefUtil.getStudentNumber());
+    Animation zoomIn, zoomOut;
+    public ReplyCommand tvClickCommand = new ReplyCommand(() -> {
+        ClassRoomProvider.init(rxAppCompatActivity).registerAction((freeRoom2) -> {
+            for (FreeRoom2.FreeRoom freeRoom : freeRoom2.getData())
+                if (freeRoom.getRoom().equals(freeRoom))
+                    if (freeRoom.getState().equals("空闲"))
+                        resid1.set(R.drawable.classroom_tag_empty);
+                    else if (freeRoom.getState().equals("上课中"))
+                        resid1.set(R.drawable.classroom_tag_inclass);
+        }).getFreeClassroom(StringHelper.getBuildingInt(freeRoom.getRoom()), TimeHelper.getWeekInt(), TimeHelper.getDayOfWeek(), TimeHelper.getTimeInt(), CommonPrefUtil.getStudentNumber());
     });
 
-    CollectionItemViewModel(RxAppCompatActivity rxAppCompatActivity, FreeRoom2.FreeRoom freeRoom, MainActivityViewModel viewModel,int freeRoomTime) {
-        zoomIn= AnimationUtils.loadAnimation(rxAppCompatActivity, R.anim.zoom_in);
-        zoomOut=AnimationUtils.loadAnimation(rxAppCompatActivity,R.anim.zoom_out);
+    CollectionItemViewModel(RxAppCompatActivity rxAppCompatActivity, FreeRoom2.FreeRoom freeRoom) {
+        zoomIn = AnimationUtils.loadAnimation(rxAppCompatActivity, R.anim.zoom_in);
+        zoomOut = AnimationUtils.loadAnimation(rxAppCompatActivity, R.anim.zoom_out);
+        this.freeRoom = freeRoom;
         SimpleDateFormat df = new SimpleDateFormat("HH:mm");
         this.rxAppCompatActivity = rxAppCompatActivity;
-        this.freeRoomTime=freeRoomTime;
-        if(CommonPrefUtil.getIsNewCampus())
+        this.freeRoomTime = freeRoomTime;
+        if (CommonPrefUtil.getIsNewCampus())
             campus.set("北洋园校区");
         else
             campus.set("卫津路校区");
@@ -62,10 +68,10 @@ public class CollectionItemViewModel implements com.kelin.mvvmlight.base.ViewMod
 
     private void initData(FreeRoom2.FreeRoom freeRoom) {
 //        Uri uri1=Uri.parse("android.resource://" + rxAppCompatActivity.getApplicationContext().getPackageName() + "/" +R.drawable.classroom_tag_empty);
-        if (freeRoom.getState().equals("空闲"))
-            resid1.set(R.drawable.classroom_tag_empty);
-        else if (freeRoom.getState().equals("上课中"))
-            resid1.set(R.drawable.classroom_tag_inclass);
+//        if (freeRoom.getState().equals("空闲"))
+//            resid1.set(R.drawable.classroom_tag_empty);
+//        else if (freeRoom.getState().equals("上课中"))
+//            resid1.set(R.drawable.classroom_tag_inclass);
         if (freeRoom.getState().equals("上课中"))
             resid1.set(R.drawable.classroom_tag_inclass);
         if (freeRoom.getState().equals("即将上课"))
@@ -88,7 +94,7 @@ public class CollectionItemViewModel implements com.kelin.mvvmlight.base.ViewMod
             v.startAnimation(zoomIn);
         } else {
             v.startAnimation(zoomOut);
-            Toasty.normal(rxAppCompatActivity,"已取消收藏", Toast.LENGTH_SHORT).show();
+            Toasty.normal(rxAppCompatActivity, "已取消收藏", Toast.LENGTH_SHORT).show();
         }
     }
 

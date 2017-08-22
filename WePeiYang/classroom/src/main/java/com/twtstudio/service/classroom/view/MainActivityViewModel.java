@@ -7,20 +7,18 @@ import com.annimon.stream.Collector;
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
 import com.kelin.mvvmlight.base.ViewModel;
-import com.kelin.mvvmlight.command.ReplyCommand;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
-import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
 import com.twtstudio.service.classroom.BR;
 import com.twtstudio.service.classroom.R;
+import com.twtstudio.service.classroom.database.DBManager;
+import com.twtstudio.service.classroom.database.RoomCollection;
 import com.twtstudio.service.classroom.model.ClassRoomProvider;
 import com.twtstudio.service.classroom.model.FreeRoom2;
-import com.twtstudio.service.classroom.model.TimeHelper;
+import com.twtstudio.service.classroom.utils.TimeHelper;
 
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.SplittableRandom;
 
 import me.tatarka.bindingcollectionadapter.ItemViewSelector;
 import me.tatarka.bindingcollectionadapter.itemviews.ItemViewClassSelector;
@@ -104,38 +102,42 @@ public class MainActivityViewModel {
                 freeRooms.clear();
                 freeRooms.addAll(tmpFreeRooms);
             }
-            for (FreeRoom2.FreeRoom freeRoom : freeRooms)
+            for (FreeRoom2.FreeRoom freeRoom : freeRooms) {
+                freeRoom.setCollection(isCollection(freeRoom));
                 items.add(new ItemViewModel(rxActivity, freeRoom, this, freeRoom2.getTime()));
+            }
         }
     }
 
-    public void setCollected(String building) {
-        ClassRoomProvider.init(rxActivity).collect(building, token);
-    }
-
-    public void cancelCollected(String building) {
-        ClassRoomProvider.init(rxActivity).cancelCollect(token, building);
-    }
-
-    public void getCollected() {
-        ClassRoomProvider.init(rxActivity).getAllCollectedClassroom(token, week);
-    }
+//    public void setCollected(String building) {
+//        ClassRoomProvider.init(rxActivity).collect(building, token);
+//    }
+//
+//    public void cancelCollected(String building) {
+//        ClassRoomProvider.init(rxActivity).cancelCollect(token, building);
+//    }
+//
+//    public void getCollected() {
+//        ClassRoomProvider.init(rxActivity).getAllCollectedClassroom(token, week);
+//    }
 
     public void addFilterCondition(String filterCondition) {
-            filterConditions.add(filterCondition);
+        filterConditions.add(filterCondition);
     }
-    public boolean isFilterConditionRepeated(String filterCondition){
+
+    public boolean isFilterConditionRepeated(String filterCondition) {
         //判断list中是否已有此项条件
         for (String condition : filterConditions)
             if (condition.equals(filterCondition))
                 return false;
         return true;
     }
+
     public void removeFilterCondition(String filterCondition) {
         Iterator<String> sListIterator = filterConditions.iterator();
-        while(sListIterator.hasNext()){
+        while (sListIterator.hasNext()) {
             String e = sListIterator.next();
-            if(e.equals(filterCondition)){
+            if (e.equals(filterCondition)) {
                 sListIterator.remove();
             }
         }
@@ -159,8 +161,10 @@ public class MainActivityViewModel {
                                 isError.set(true);
                         if (freeRoom2.getData() != null)
                             for (FreeRoom2.FreeRoom freeRoom : freeRoom2.getData())
-                                if (filterFreeRoom(freeRoom, filterCondition))
+                                if (filterFreeRoom(freeRoom, filterCondition)) {
+                                    freeRoom.setCollection(isCollection(freeRoom));
                                     itemViewModels.add(new ItemViewModel(rxActivity, freeRoom, this, freeRoom2.getTime()));
+                                }
                         items.clear();
                         items.addAll(Stream.of(itemViewModels)
                                 .sorted((p1, p2) -> p1.freeRoomTime.compareTo(p2.freeRoomTime))
@@ -168,6 +172,13 @@ public class MainActivityViewModel {
                         isLoading.set(false);
                     })
                     .getFreeClassroom(building, week, day, i, token);
+    }
+
+    private boolean isCollection(FreeRoom2.FreeRoom freeRoom) {
+        List<RoomCollection> roomCollections = DBManager.getInstance(rxActivity).queryRoomCollectionListByRoom(freeRoom.getRoom());
+        if (roomCollections.isEmpty())
+            return false;
+        return true;
     }
 
     private boolean filterFreeRoom(FreeRoom2.FreeRoom freeRoom, String filterCondition) {

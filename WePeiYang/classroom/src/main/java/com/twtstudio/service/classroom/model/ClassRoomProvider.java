@@ -6,11 +6,17 @@ import com.twt.wepeiyang.commons.cache.CacheProvider;
 import com.twt.wepeiyang.commons.network.RetrofitProvider;
 import com.twt.wepeiyang.commons.network.RxErrorHandler;
 import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
+import com.twtstudio.service.classroom.database.DBManager;
+import com.twtstudio.service.classroom.database.RoomCollection;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import io.rx_cache.DynamicKey;
 import io.rx_cache.EvictDynamicKey;
 import io.rx_cache.Reply;
 import retrofit2.Retrofit;
+import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
@@ -31,7 +37,7 @@ public class ClassRoomProvider {
     public void getFreeClassroom(int buiding, int week, int day, int time, String token) {
         CacheProvider.getRxCache().using(ClassRoomCacheApi.class)
                 .getFreeRoomAuto(RetrofitProvider.getRetrofit().create(ClassRoomApi.class)
-                        .getFreeClassroom(buiding,day, week, time, token), new DynamicKey("Classroom/getClassroom"), new EvictDynamicKey(true))
+                        .getFreeClassroom(buiding, day, week, time, token), new DynamicKey("Classroom/getClassroom"), new EvictDynamicKey(true))
                 .subscribeOn(Schedulers.io())
                 .doOnNext(reply -> Logger.d(reply.toString()))
                 .map(Reply::getData)
@@ -47,50 +53,88 @@ public class ClassRoomProvider {
 
     }
 
-    public void getAllCollectedClassroom(String token, int week) {
-        CacheProvider.getRxCache().using(ClassRoomCacheApi.class)
-                .getAllCollectedClassroomAuto(RetrofitProvider.getRetrofit().create(ClassRoomApi.class)
-                        .getAllCollectedClassroom(token, week), new DynamicKey("Classroom/showCollection"), new EvictDynamicKey(true))
+    public void getAllCollectedClassroom() {
+        Observable.just(CommonPrefUtil.getStudentNumber())
                 .subscribeOn(Schedulers.io())
-                .doOnNext(reply -> Logger.d(reply.toString()))
-                .map(Reply::getData)
-                .doOnNext(CollectedRoom2::getData)
-                .compose(mRxActivity.bindToLifecycle())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(collectedRoom2 -> {
+                .subscribe((studentNumber) -> {
+                    List<RoomCollection> tmpRoomCollections = DBManager.getInstance(mRxActivity).queryRoomCollectionList();
+                    List<RoomCollection> roomCollections = new ArrayList<>();
+                    for (RoomCollection roomCollection : tmpRoomCollections) {
 
-                }, throwable -> new RxErrorHandler(mRxActivity).call(throwable.getCause()));
+                    }
+                });
     }
 
-    public void collect(String buiding, String token) {
-        CacheProvider.getRxCache().using(ClassRoomCacheApi.class)
-                .collectAuto(RetrofitProvider.getRetrofit().create(ClassRoomApi.class)
-                        .collect(buiding, token), new DynamicKey("Classroom/roomCollection"), new EvictDynamicKey(true))
-                .subscribeOn(Schedulers.io())
-                .doOnNext(reply -> Logger.d(reply.toString()))
-                .map(Reply::getData)
-                .doOnNext(ClassRoomApiReaponse<collectApiResponse>::getData)
-                .compose(mRxActivity.bindToLifecycle())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(collectApiResponseClassRoomApiReaponse -> {
 
-                }, throwable -> new RxErrorHandler(mRxActivity).call(throwable.getCause()));
+    public void addCollectedClassRoom(RoomCollection roomCollection) {
+        Observable.just(roomCollection)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe((collection) -> {
+                    collection.setUid(CommonPrefUtil.getStudentNumber());
+                    collection.setCollection(true);
+                    DBManager.getInstance(mRxActivity).insertRoomCollection(collection);
+                });
     }
 
-    public void cancelCollect(String token, String building) {
-        CacheProvider.getRxCache().using(ClassRoomCacheApi.class)
-                .cancelCollectAuto(RetrofitProvider.getRetrofit().create(ClassRoomApi.class)
-                        .cancelCollect(token, building), new DynamicKey("Classroom/removeCollection"), new EvictDynamicKey(true))
+    public void deleteCollectedClassRoom(RoomCollection roomCollection) {
+        Observable.just(roomCollection)
                 .subscribeOn(Schedulers.io())
-                .doOnNext(reply -> Logger.d(reply.toString()))
-                .map(Reply::getData)
-                .doOnNext(ClassRoomApiReaponse::getData)
-                .compose(mRxActivity.bindToLifecycle())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(collectApiResponseClassRoomApiReaponse -> {
-
-                }, throwable -> new RxErrorHandler(mRxActivity).call(throwable.getCause()));
+                .subscribe((collection) -> {
+                    if (collection.getUid().equals(CommonPrefUtil.getStudentNumber())) {
+//                        DBManager.getInstance(mRxActivity).deleteRoomCollection(collection);
+                        List<RoomCollection> roomCollections= DBManager
+                                .getInstance(mRxActivity).queryRoomCollectionListByRoom(collection.getRoom());
+                        DBManager.getInstance(mRxActivity).deleteRoomCollection(roomCollections);
+                    }
+                });
     }
+//    public void getAllCollectedClassroom(String token, int week) {
+//        CacheProvider.getRxCache().using(ClassRoomCacheApi.class)
+//                .getAllCollectedClassroomAuto(RetrofitProvider.getRetrofit().create(ClassRoomApi.class)
+//                        .getAllCollectedClassroom(token, week), new DynamicKey("Classroom/showCollection"), new EvictDynamicKey(true))
+//                .subscribeOn(Schedulers.io())
+//                .doOnNext(reply -> Logger.d(reply.toString()))
+//                .map(Reply::getData)
+//                .doOnNext(CollectedRoom2::getData)
+//                .compose(mRxActivity.bindToLifecycle())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(collectedRoom2 -> {
+//
+//                }, throwable -> new RxErrorHandler(mRxActivity).call(throwable.getCause()));
+//    }
+
+//    public void collect(String buiding, String token) {
+//        CacheProvider.getRxCache().using(ClassRoomCacheApi.class)
+//                .collectAuto(RetrofitProvider.getRetrofit().create(ClassRoomApi.class)
+//                        .collect(buiding, token), new DynamicKey("Classroom/roomCollection"), new EvictDynamicKey(true))
+//                .subscribeOn(Schedulers.io())
+//                .doOnNext(reply -> Logger.d(reply.toString()))
+//                .map(Reply::getData)
+//                .doOnNext(ClassRoomApiReaponse<collectApiResponse>::getData)
+//                .compose(mRxActivity.bindToLifecycle())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(collectApiResponseClassRoomApiReaponse -> {
+//
+//                }, throwable -> new RxErrorHandler(mRxActivity).call(throwable.getCause()));
+//    }
+//
+//    public void cancelCollect(String token, String building) {
+//        CacheProvider.getRxCache().using(ClassRoomCacheApi.class)
+//                .cancelCollectAuto(RetrofitProvider.getRetrofit().create(ClassRoomApi.class)
+//                        .cancelCollect(token, building), new DynamicKey("Classroom/removeCollection"), new EvictDynamicKey(true))
+//                .subscribeOn(Schedulers.io())
+//                .doOnNext(reply -> Logger.d(reply.toString()))
+//                .map(Reply::getData)
+//                .doOnNext(ClassRoomApiReaponse::getData)
+//                .compose(mRxActivity.bindToLifecycle())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(collectApiResponseClassRoomApiReaponse -> {
+//
+//                }, throwable -> new RxErrorHandler(mRxActivity).call(throwable.getCause()));
+//    }
 
     public ClassRoomProvider registerAction(Action1<FreeRoom2> action1) {
         this.mAction1 = action1;

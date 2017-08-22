@@ -12,6 +12,9 @@ import android.widget.Toast;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
 import com.twtstudio.service.classroom.R;
+import com.twtstudio.service.classroom.database.DBManager;
+import com.twtstudio.service.classroom.database.RoomCollection;
+import com.twtstudio.service.classroom.model.ClassRoomProvider;
 import com.twtstudio.service.classroom.model.FreeRoom2;
 
 import java.text.SimpleDateFormat;
@@ -38,25 +41,28 @@ public class ItemViewModel implements com.kelin.mvvmlight.base.ViewModel {
     public final ObservableField<Boolean> isVisible3 = new ObservableField<>(false);
     public final ObservableField<Boolean> isVisible4 = new ObservableField<>(false);
     public final ObservableField<Boolean> isCollected = new ObservableField<>(false);
-    public Integer freeRoomTime=0;
+    public Integer freeRoomTime = 0;
     FreeRoom2.FreeRoom freeRoom;
     RxAppCompatActivity rxAppCompatActivity;
     MainActivityViewModel viewModel;
-    Animation zoomIn,zoomOut;
-    ItemViewModel(RxAppCompatActivity rxAppCompatActivity, FreeRoom2.FreeRoom freeRoom, MainActivityViewModel viewModel,int freeRoomTime) {
-        zoomIn= AnimationUtils.loadAnimation(rxAppCompatActivity,R.anim.zoom_in);
-        zoomOut=AnimationUtils.loadAnimation(rxAppCompatActivity,R.anim.zoom_out);
-        SimpleDateFormat df = new SimpleDateFormat("HH:mm");
+    Animation zoomIn, zoomOut;
+    RoomCollection roomCollection;
+
+    ItemViewModel(RxAppCompatActivity rxAppCompatActivity, FreeRoom2.FreeRoom freeRoom, MainActivityViewModel viewModel, int freeRoomTime) {
+        zoomIn = AnimationUtils.loadAnimation(rxAppCompatActivity, R.anim.zoom_in);
+        zoomOut = AnimationUtils.loadAnimation(rxAppCompatActivity, R.anim.zoom_out);
         this.rxAppCompatActivity = rxAppCompatActivity;
         this.viewModel = viewModel;
-        this.freeRoomTime=freeRoomTime;
+        this.freeRoomTime = freeRoomTime;
         if (freeRoomTime >= 1 && freeRoomTime <= 12)
             if (freeRoomTime % 2 == 1)
                 time.set("第" + freeRoomTime + "节-" + "第" + (freeRoomTime + 1) + "节");
             else
                 time.set("第" + (freeRoomTime - 1) + "节-" + "第" + freeRoomTime + "节");
-        else time.set(df.format(Calendar.getInstance()));
-        if(CommonPrefUtil.getIsNewCampus())
+        else
+            time.set(Calendar.getInstance().getTime().getHours()+":"+Calendar.getInstance().getTime().getMinutes());
+//        String test=df.format(Calendar.getInstance()).toString();
+        if (CommonPrefUtil.getIsNewCampus())
             campus.set("北洋园校区");
         else
             campus.set("卫津路校区");
@@ -81,19 +87,22 @@ public class ItemViewModel implements com.kelin.mvvmlight.base.ViewModel {
         if (freeRoom.getPower_pack()) isVisible3.set(true);
         classroom.set(freeRoom.getRoom());
         isCollected.set(freeRoom.isCollected());
-
+        roomCollection = freeRoom.toRoomCollection();
     }
 
     public void onClick(View v) {
         isCollected.set(!isCollected.get());
 
-        if (isCollected.get()) {
+        if (isCollected.get() && roomCollection != null) {
             v.startAnimation(zoomIn);
-            viewModel.setCollected(freeRoom.getRoom());
+            roomCollection.setCollection(true);
+            ClassRoomProvider.init(rxAppCompatActivity).addCollectedClassRoom(roomCollection);
+//            viewModel.setCollected(freeRoom.getRoom());
         } else {
             v.startAnimation(zoomOut);
-            viewModel.cancelCollected(freeRoom.getRoom());
-            Toasty.normal(rxAppCompatActivity,"已取消收藏",Toast.LENGTH_SHORT).show();
+            ClassRoomProvider.init(rxAppCompatActivity).deleteCollectedClassRoom(roomCollection);
+//            viewModel.cancelCollected(freeRoom.getRoom());
+            Toasty.normal(rxAppCompatActivity, "已取消收藏", Toast.LENGTH_SHORT).show();
         }
     }
 

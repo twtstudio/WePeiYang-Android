@@ -8,8 +8,12 @@ import com.kelin.mvvmlight.base.ViewModel;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 import com.twtstudio.service.classroom.BR;
 import com.twtstudio.service.classroom.R;
+import com.twtstudio.service.classroom.database.DBManager;
+import com.twtstudio.service.classroom.database.RoomCollection;
 import com.twtstudio.service.classroom.model.ClassRoomProvider;
 import com.twtstudio.service.classroom.model.CollectedRoom2;
+
+import java.util.List;
 
 import me.tatarka.bindingcollectionadapter.ItemViewSelector;
 import me.tatarka.bindingcollectionadapter.itemviews.ItemViewClassSelector;
@@ -23,14 +27,15 @@ public class CollectedPageViewModel {
     public final ObservableField<Boolean> error=new ObservableField<>(false);
     public final ObservableArrayList<ViewModel> items = new ObservableArrayList<>();
     public final ItemViewSelector itemView = ItemViewClassSelector.builder()
-            .put(ItemViewModel.class, BR.viewModel, R.layout.list_item)
+            .put(CollectionItemViewModel.class, BR.viewModel, R.layout.list_item)
             .build();
+    List<RoomCollection> roomCollections;
     CollectedPageViewModel(RxAppCompatActivity rxActivity){
+//        roomCollections=dbManager.queryRoomCollectionList();
         this.rxActivity=rxActivity;
     }
-    public void getCollected(String token,int week){
-        ClassRoomProvider.init(rxActivity).registerAction((freeRoom2)->{
-            if(freeRoom2.getData().isEmpty()) error.set(true);
-        }).getAllCollectedClassroom(token,week);
+    public void getCollections(){
+//        for (RoomCollection roomCollection:roomCollections)
+//            items.add(new CollectionItemViewModel(rxActivity,roomCollection.toFreeRoom()));
     }
 }

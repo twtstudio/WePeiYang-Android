@@ -13,7 +13,7 @@
         <import type="com.twtstudio.service.classroom.R" />
 
     </data>
-
+    <!--android:background="@{viewModel.changePaddingColor ? @color/purple:@color/White}"-->
     <android.support.v7.widget.CardView
         android:id="@+id/cv_s"
         android:layout_marginLeft="2dp"

@@ -1,6 +1,4 @@
-package com.twtstudio.service.classroom.model;
-
-import android.util.TimeUtils;
+package com.twtstudio.service.classroom.utils;
 
 import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
 
@@ -51,10 +49,10 @@ public class TimeHelper {
 //            case 21:
 //                break;
 //        }
-        if(hours<12) return hours-7;
-        else if(hours>=12&&hours<18) return hours-12+4;
-        else if(hours>=18) return hours-17+8;
-        else return 0;
+        if(hours<12&&hours>=8) return hours-7;
+        if(hours>=12&&hours<18) return hours-12+4;
+        if(hours>=18&&hours<23) return hours-17+8;
+        return -1;
     }
     public static int getDayOfWeek(){
         Calendar calendar=Calendar.getInstance();

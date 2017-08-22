@@ -26,8 +26,6 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.kelin.mvvmlight.messenger.Messenger;
-import com.orhanobut.hawk.Hawk;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
 import com.twtstudio.service.classroom.R;
@@ -35,7 +33,7 @@ import com.twtstudio.service.classroom.R2;
 import com.twtstudio.service.classroom.databinding.ActivityClassroomQueryMainBinding;
 import com.twtstudio.service.classroom.databinding.ClassroomPopupWindowBinding;
 import com.twtstudio.service.classroom.model.ClassRoomProvider;
-import com.twtstudio.service.classroom.model.TimeHelper;
+import com.twtstudio.service.classroom.utils.TimeHelper;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -233,7 +231,6 @@ public class MainActivity extends RxAppCompatActivity {
     @Override
     protected void onDestroy() {
         PopupItemViewModel.resetBuildingAndTime();
-        Messenger.getDefault().unregister(this);
         super.onDestroy();
     }
     private void initData(){

@@ -1,18 +1,14 @@
 package com.twtstudio.service.classroom.view;
 
-import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.Window;
 
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
-import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
 import com.twtstudio.service.classroom.R;
 import com.twtstudio.service.classroom.databinding.ActivityRoomqueryCollectedPageBinding;
-import com.twtstudio.service.classroom.model.TimeHelper;
 
 public class CollectedPage extends RxAppCompatActivity {
     CollectedPageViewModel viewModel=new CollectedPageViewModel(this);
@@ -25,7 +21,7 @@ public class CollectedPage extends RxAppCompatActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_roomquery_collected_page);
         setSupportActionBar(binding.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        viewModel.getCollected(CommonPrefUtil.getStudentNumber(), TimeHelper.getWeekInt());
+        viewModel.getCollections();
         binding.setViewModel(viewModel);
         Window window = this.getWindow();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
