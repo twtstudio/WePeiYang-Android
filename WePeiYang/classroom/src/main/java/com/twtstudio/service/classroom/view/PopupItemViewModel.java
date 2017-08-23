@@ -106,8 +106,9 @@ public class PopupItemViewModel implements com.kelin.mvvmlight.base.ViewModel {
             for (FilterBean filterBean : filterBeans) {
                 if (filterBean.text.equals("全部")) {
                     filterBean.changePaddingColor = false;
-                } else if (!this.filterBean.hasClicked&&filterBean.hasClicked)
-                    viewModel.condition3.set(filterBean.text+"...");
+                }
+                if (!this.filterBean.hasClicked && filterBean.hasClicked)
+                    viewModel.condition3.set(filterBean.text + "...");
             }
         else
             for (FilterBean filterBean : filterBeans) {

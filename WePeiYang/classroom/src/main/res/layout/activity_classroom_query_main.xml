@@ -187,6 +187,13 @@
                 <!--android:layout_gravity="center"-->
                 <!--android:visibility="@{viewModel.isLoading?View.VISIBLE:View.GONE}"/>-->
             <TextView
+                android:id="@+id/noneTextView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="没有符合条件的自习室"
+                android:visibility="@{viewModel.isEmpty?View.VISIBLE:View.GONE}" />
+            <TextView
                 android:id="@+id/wrongTextView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

@@ -34,6 +34,7 @@ public class MainActivityViewModel {
     public final ObservableField<String> condition3 = new ObservableField<>("筛选");
     public final ObservableField<Boolean> isError = new ObservableField<>(false);
     public final ObservableField<Boolean> isLoading = new ObservableField<>(true);
+    public final ObservableField<Boolean> isEmpty = new ObservableField<>(false);//没有符合条件的教学楼时为true
     public final ObservableArrayList<ViewModel> items = new ObservableArrayList<>();
     public final ItemViewSelector itemView = ItemViewClassSelector.builder()
             .put(ItemViewModel.class, BR.viewModel, R.layout.list_item)
@@ -83,6 +84,7 @@ public class MainActivityViewModel {
         List<FreeRoom2.FreeRoom> tmpFreeRooms = new ArrayList<>();
         isError.set(false);
         isLoading.set(false);
+        isEmpty.set(false);
         if (freeRoom2 != null)
             if (freeRoom2.getErrorcode() == 1)
                 isError.set(true);
@@ -99,10 +101,13 @@ public class MainActivityViewModel {
                 freeRooms.clear();
                 freeRooms.addAll(tmpFreeRooms);
             }
-            for (FreeRoom2.FreeRoom freeRoom : freeRooms) {
-                freeRoom.setCollection(isCollection(freeRoom));
-                items.add(new ItemViewModel(rxActivity, freeRoom, this, freeRoom2.getTime()));
-            }
+            if (freeRooms.isEmpty())
+                isEmpty.set(true);
+            else
+                for (FreeRoom2.FreeRoom freeRoom : freeRooms) {
+                    freeRoom.setCollection(isCollection(freeRoom));
+                    items.add(new ItemViewModel(rxActivity, freeRoom, this, freeRoom2.getTime()));
+                }
         }
     }
 
@@ -149,22 +154,47 @@ public class MainActivityViewModel {
     public void getAllDayRoom(int building, String filterCondition) {
         List<ItemViewModel> itemViewModels = new ArrayList<>();
         isError.set(false);
+        isEmpty.set(false);
         for (int i = 1; i <= 12; i += 2)
             ClassRoomProvider.init(rxActivity)
                     .registerAction(freeRoom2 -> {
+                        List<FreeRoom2.FreeRoom> freeRooms = new ArrayList<>();
+                        List<FreeRoom2.FreeRoom> tmpFreeRooms = new ArrayList<>();
+                        isError.set(false);
+                        isLoading.set(false);
+                        isEmpty.set(false);
                         if (freeRoom2 != null)
                             if (freeRoom2.getErrorcode() == 1)
                                 isError.set(true);
-                        if (freeRoom2.getData() != null)
+                        if (freeRoom2.getData() != null) {
+
                             for (FreeRoom2.FreeRoom freeRoom : freeRoom2.getData())
-                                if (filterFreeRoom(freeRoom, filterCondition)) {
+                                freeRooms.add(freeRoom);
+                            for (String condition : filterConditions) {
+                                tmpFreeRooms.clear();
+                                for (FreeRoom2.FreeRoom freeRoom : freeRooms)
+                                    if (filterFreeRoom(freeRoom, condition)) {
+                                        tmpFreeRooms.add(freeRoom);
+                                    }
+                                freeRooms.clear();
+                                freeRooms.addAll(tmpFreeRooms);
+                            }
+                            if (freeRooms.isEmpty())
+                                isEmpty.set(true);
+                            else
+                                for (FreeRoom2.FreeRoom freeRoom : freeRooms) {
                                     freeRoom.setCollection(isCollection(freeRoom));
                                     itemViewModels.add(new ItemViewModel(rxActivity, freeRoom, this, freeRoom2.getTime()));
                                 }
-                        items.clear();
-                        items.addAll(Stream.of(itemViewModels)
-                                .sorted((p1, p2) -> p1.freeRoomTime.compareTo(p2.freeRoomTime))
-                                .collect(Collectors.toList()));
+                        }
+                        if (itemViewModels.isEmpty())
+                            isEmpty.set(true);
+                        else {
+                            items.clear();
+                            items.addAll(Stream.of(itemViewModels)
+                                    .sorted((p1, p2) -> p1.freeRoomTime.compareTo(p2.freeRoomTime))
+                                    .collect(Collectors.toList()));
+                        }
                         isLoading.set(false);
                     })
                     .getFreeClassroom(building, week, day, i, token);
@@ -194,8 +224,12 @@ public class MainActivityViewModel {
             else return false;
         return true;
     }
-    public void onRefresh(){
+
+    public void onRefresh() {
         isLoading.set(true);
-        iniData(building,week,time,token);
+        if (condition2.get().equals("全天"))
+            getAllDayRoom(building, filterCondition);
+        else
+            iniData(building, week, time, token);
     }
 }
