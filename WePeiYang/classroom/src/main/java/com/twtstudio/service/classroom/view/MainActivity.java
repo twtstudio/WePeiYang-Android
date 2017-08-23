@@ -245,6 +245,7 @@ public class MainActivity extends RxAppCompatActivity {
             building=23;
         viewModel.iniData(building, TimeHelper.getWeekInt(), TimeHelper.getTimeInt(), CommonPrefUtil.getStudentNumber());
         viewModel.condition1.set(Integer.toString(building)+"楼");
+        viewModel.condition2.set("现在");
     }
     private void initConditionText(){
         viewModel.condition1.set("教学楼");
