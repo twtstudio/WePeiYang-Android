@@ -46,14 +46,14 @@ public class CollectionItemViewModel implements com.kelin.mvvmlight.base.ViewMod
     public ReplyCommand tvClickCommand = new ReplyCommand(() -> {
         ClassRoomProvider.init(rxAppCompatActivity).registerAction((freeRoom2) -> {
             for (FreeRoom2.FreeRoom freeRoom : freeRoom2.getData()) {
-                if (freeRoom.getRoom().equals(freeRoom.getRoom()))
+                if (freeRoom.getRoom().equals(this.freeRoom.getRoom()))
                     if (freeRoom.getState().equals("空闲"))
                         resid1.set(R.drawable.classroom_tag_empty);
                     else if (freeRoom.getState().equals("上课中"))
                         resid1.set(R.drawable.classroom_tag_inclass);
                 isTextVisible.set(false);
             }
-        }).getFreeClassroom(46, TimeHelper.getWeekInt(), TimeHelper.getDayOfWeek(), TimeHelper.getTimeInt(), CommonPrefUtil.getStudentNumber());
+        }).getFreeClassroom(StringHelper.getBuildingInt(freeRoom.getRoom()), TimeHelper.getWeekInt(), TimeHelper.getDayOfWeek(), TimeHelper.getTimeInt(), CommonPrefUtil.getStudentNumber());
     });
 
     CollectionItemViewModel(RxAppCompatActivity rxAppCompatActivity, FreeRoom2.FreeRoom freeRoom) {
@@ -61,7 +61,7 @@ public class CollectionItemViewModel implements com.kelin.mvvmlight.base.ViewMod
         zoomOut = AnimationUtils.loadAnimation(rxAppCompatActivity, R.anim.zoom_out);
         this.freeRoom = freeRoom;
         this.rxAppCompatActivity = rxAppCompatActivity;
-        if (CommonPrefUtil.getIsNewCampus())
+        if (StringHelper.getBuildingInt(freeRoom.getRoom())>30)
             campus.set("北洋园校区");
         else
             campus.set("卫津路校区");

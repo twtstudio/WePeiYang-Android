@@ -229,6 +229,8 @@ public class MainActivityViewModel {
         isLoading.set(true);
         if (condition2.get().equals("全天"))
             getAllDayRoom(building, filterCondition);
+        else if(condition2.get().equals("现在"))
+            iniData(building,TimeHelper.getWeekInt(),TimeHelper.getTimeInt(),token);
         else
             iniData(building, week, time, token);
     }
