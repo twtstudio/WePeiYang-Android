@@ -41,7 +41,6 @@
                 android:layout_height="wrap_content"
                 android:paddingBottom="8dp"
                 android:layout_marginTop="1dp"
-                android:layout_marginBottom="2dp"
                 android:background="@color/white_color"
                 bind:itemView="@{viewModel.itemView2}"
                 bind:items="@{viewModel.items2}"

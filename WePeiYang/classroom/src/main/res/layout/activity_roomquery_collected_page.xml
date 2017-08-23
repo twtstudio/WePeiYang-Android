@@ -13,18 +13,18 @@
         <import type="android.view.View" />
     </data>
 
-    <FrameLayout
+    <LinearLayout
         android:id="@+id/mainFrame"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true">
+        android:orientation="vertical">
 
         <android.support.design.widget.AppBarLayout
             android:id="@+id/appbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/purple">
+            android:background="@color/purple"
+            android:elevation="4dp">
 
 
             <android.support.v7.widget.Toolbar
@@ -40,35 +40,29 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
+                    android:lines="1"
                     android:text="我的收藏"
                     android:textColor="@color/white_color"
-                    android:lines="1"
                     android:textSize="20sp" />
             </android.support.v7.widget.Toolbar>
         </android.support.design.widget.AppBarLayout>
 
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/background_gray"
+            bind:itemView="@{viewModel.itemView}"
+            bind:items="@{viewModel.items}"
+            bind:layoutManager="@{LayoutManagers.linear()}" />
         <TextView
             android:id="@+id/wrongTextView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="哎呀，网络出错了呢！"
-            android:visibility="@{viewModel.error ?View.GONE:View.VISIBLE}" />
-
-        <android.support.v4.widget.SwipeRefreshLayout
-            android:id="@+id/swipeRefreshLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recyclerView1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                bind:itemView="@{viewModel.itemView}"
-                bind:items="@{viewModel.items}"
-                bind:layoutManager="@{LayoutManagers.linear()}" />
-        </android.support.v4.widget.SwipeRefreshLayout>
+            android:text="暂无收藏"
+            android:visibility="@{viewModel.error ?View.VISIBLE:View.GONE}" />
 
 
-    </FrameLayout>
+    </LinearLayout>
 </layout>

@@ -97,7 +97,7 @@ public class PopupWindowViewModel implements ViewModel {
 ////                            viewModel.iniData(building,2,5, CommonPrefUtil.getStudentNumber());
 ////                        });
 //                        }
-                        filterBeans.add(new FilterBean("45楼", false, 1, false, true, false));
+                        filterBeans.add(new FilterBean("45楼", false, 1, true, true, false));
                         filterBeans.add(new FilterBean("46楼", true, 1, true, true, false));
                         for (int i = 31; i <= 55; i++) {
                             if ((i - 31) % 5 == 0 && i != 31)

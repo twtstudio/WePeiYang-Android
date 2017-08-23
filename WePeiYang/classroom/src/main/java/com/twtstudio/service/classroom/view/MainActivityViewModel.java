@@ -29,11 +29,11 @@ import me.tatarka.bindingcollectionadapter.itemviews.ItemViewClassSelector;
 
 public class MainActivityViewModel {
     private RxAppCompatActivity rxActivity;
-    public final ObservableField<String> condition1 = new ObservableField<>("教学楼");
-    public final ObservableField<String> condition2 = new ObservableField<>("时间段");
+    public final ObservableField<String> condition1 = new ObservableField<>();
+    public final ObservableField<String> condition2 = new ObservableField<>("现在");
     public final ObservableField<String> condition3 = new ObservableField<>("筛选");
-    public final ObservableField<Boolean> isError = new ObservableField<>();
-    public final ObservableField<Boolean> isLoading = new ObservableField<>();
+    public final ObservableField<Boolean> isError = new ObservableField<>(false);
+    public final ObservableField<Boolean> isLoading = new ObservableField<>(true);
     public final ObservableArrayList<ViewModel> items = new ObservableArrayList<>();
     public final ItemViewSelector itemView = ItemViewClassSelector.builder()
             .put(ItemViewModel.class, BR.viewModel, R.layout.list_item)
@@ -53,8 +53,6 @@ public class MainActivityViewModel {
     }
 
     public void iniData(int building, int week, int time, String token) {
-        this.isError.set(false);
-        this.isLoading.set(true);
         this.building = building;
         this.week = week;
         this.time = time;
@@ -69,8 +67,6 @@ public class MainActivityViewModel {
     }
 
     public void iniData(int building, int week, int time, String token, String filterCondition) {
-        this.isError.set(false);
-        this.isLoading.set(true);
         this.building = building;
         this.week = week;
         this.time = time;
@@ -85,10 +81,11 @@ public class MainActivityViewModel {
     private void processData(FreeRoom2 freeRoom2) {
         List<FreeRoom2.FreeRoom> freeRooms = new ArrayList<>();
         List<FreeRoom2.FreeRoom> tmpFreeRooms = new ArrayList<>();
+        isError.set(false);
+        isLoading.set(false);
         if (freeRoom2 != null)
             if (freeRoom2.getErrorcode() == 1)
                 isError.set(true);
-        isLoading.set(false);
         if (freeRoom2.getData() != null) {
 
             for (FreeRoom2.FreeRoom freeRoom : freeRoom2.getData())
@@ -152,7 +149,6 @@ public class MainActivityViewModel {
     public void getAllDayRoom(int building, String filterCondition) {
         List<ItemViewModel> itemViewModels = new ArrayList<>();
         isError.set(false);
-        isLoading.set(true);
         for (int i = 1; i <= 12; i += 2)
             ClassRoomProvider.init(rxActivity)
                     .registerAction(freeRoom2 -> {
@@ -198,5 +194,8 @@ public class MainActivityViewModel {
             else return false;
         return true;
     }
-
+    public void onRefresh(){
+        isLoading.set(true);
+        iniData(building,week,time,token);
+    }
 }

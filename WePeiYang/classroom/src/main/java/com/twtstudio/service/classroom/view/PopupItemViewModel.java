@@ -1,5 +1,6 @@
 package com.twtstudio.service.classroom.view;
 
+import android.databinding.BindingAdapter;
 import android.databinding.BindingConversion;
 import android.databinding.ObservableField;
 import android.graphics.drawable.ColorDrawable;
@@ -44,6 +45,7 @@ public class PopupItemViewModel implements com.kelin.mvvmlight.base.ViewModel {
     }
 
     public void onClick(View view) {
+        viewModel.isLoading.set(true);
         filterBean.changePaddingColor = true;
         filterBean.hasClicked = true;
         if (CommonPrefUtil.getIsNewCampus() && building == 0)
@@ -86,7 +88,6 @@ public class PopupItemViewModel implements com.kelin.mvvmlight.base.ViewModel {
                         viewModel.removeFilterCondition(filterCondition);
                         filterBean.changePaddingColor = false;
                         filterBean.hasClicked = false;
-                        viewModel.condition3.set("筛选");
                     }
                     break;
             }
@@ -103,8 +104,10 @@ public class PopupItemViewModel implements com.kelin.mvvmlight.base.ViewModel {
         }
         if (tag == 3 && !text.get().equals("全部"))
             for (FilterBean filterBean : filterBeans) {
-                if (filterBean.text.equals("全部"))
+                if (filterBean.text.equals("全部")) {
                     filterBean.changePaddingColor = false;
+                } else if (!this.filterBean.hasClicked&&filterBean.hasClicked)
+                    viewModel.condition3.set(filterBean.text+"...");
             }
         else
             for (FilterBean filterBean : filterBeans) {
@@ -121,8 +124,9 @@ public class PopupItemViewModel implements com.kelin.mvvmlight.base.ViewModel {
         time = 0;
     }
 
-    @BindingConversion
-    public static ColorDrawable convertColorToDrawable(int color) {
-        return new ColorDrawable(color);
-    }
+//    @BindingConversion
+//    public static ColorDrawable convertColorToDrawable(int color) {
+//        return new ColorDrawable(color);
+//    }
+
 }

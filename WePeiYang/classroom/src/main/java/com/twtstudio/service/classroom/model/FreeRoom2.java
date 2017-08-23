@@ -115,4 +115,8 @@ public class FreeRoom2 {
     public void setTime(int time) {
         this.time = time;
     }
+
+    public void setData(List<FreeRoom> data) {
+        this.data = data;
+    }
 }

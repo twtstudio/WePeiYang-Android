@@ -34,4 +34,5 @@ public class CollectedPage extends RxAppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+
 }

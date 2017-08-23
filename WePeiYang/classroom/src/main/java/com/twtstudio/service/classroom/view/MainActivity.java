@@ -23,6 +23,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
@@ -51,15 +52,15 @@ public class MainActivity extends RxAppCompatActivity {
     PopupWindow popupWindow;
     private boolean hasPop;
     @BindView(R2.id.condition1)
-    TextView condition1;
+    RelativeLayout condition1;
     @BindView(R2.id.arrow1)
     ImageView arrow1;
     @BindView(R2.id.condition2)
-    TextView condition2;
+    RelativeLayout condition2;
     @BindView(R2.id.arrow2)
     ImageView arrow2;
     @BindView(R2.id.condition3)
-    TextView condition3;
+    RelativeLayout condition3;
     @BindView(R2.id.arrow3)
     ImageView arrow3;
     @BindView(R2.id.mainTable)
@@ -134,6 +135,7 @@ public class MainActivity extends RxAppCompatActivity {
         popupWindow.setContentView(popupBinding.getRoot());
         String uid = CommonPrefUtil.getUserId();
         popupWindow.setOutsideTouchable(true);
+        popupWindow.setElevation(8);
         animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate);//创建动画
         animation.setInterpolator(new LinearInterpolator());//
         animation.setFillAfter(!animation.getFillAfter());//
@@ -180,12 +182,12 @@ public class MainActivity extends RxAppCompatActivity {
             hasPop = !hasPop;
             seletedTag = 3;
         });
-        swipeRefreshLayout.setOnRefreshListener(() -> {
-            ClassRoomProvider.init(this).registerAction((freeRoom2) -> {
-                swipeRefreshLayout.setRefreshing(false);
-            }).getFreeClassroom(viewModel.building, viewModel.week,TimeHelper.getDayOfWeek(), viewModel.time, CommonPrefUtil.getStudentNumber());
-
-        });
+//        swipeRefreshLayout.setOnRefreshListener(() -> {
+//            ClassRoomProvider.init(this).registerAction((freeRoom2) -> {
+//                swipeRefreshLayout.setRefreshing(false);
+//            }).getFreeClassroom(viewModel.building, viewModel.week,TimeHelper.getDayOfWeek(), viewModel.time, CommonPrefUtil.getStudentNumber());
+//
+//        });
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -225,6 +227,8 @@ public class MainActivity extends RxAppCompatActivity {
             initData();
             campusHasChanged=false;
         }
+        else
+            viewModel.onRefresh();
         super.onResume();
     }
 
@@ -234,10 +238,15 @@ public class MainActivity extends RxAppCompatActivity {
         super.onDestroy();
     }
     private void initData(){
+        int building;
         if (CommonPrefUtil.getIsNewCampus())
-            viewModel.iniData(46, TimeHelper.getWeekInt(), TimeHelper.getTimeInt(), CommonPrefUtil.getStudentNumber());
+            building=46;
         else
-            viewModel.iniData(23, TimeHelper.getWeekInt(), TimeHelper.getTimeInt(), CommonPrefUtil.getStudentNumber());
+            building=23;
+        viewModel.iniData(building, TimeHelper.getWeekInt(), TimeHelper.getTimeInt(), CommonPrefUtil.getStudentNumber());
+        viewModel.condition1.set(Integer.toString(building)+"楼");
+    }
+    private void initConditionText(){
         viewModel.condition1.set("教学楼");
         viewModel.condition2.set("时间段");
         viewModel.condition3.set("筛选");

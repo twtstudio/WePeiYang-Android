@@ -59,8 +59,11 @@ public class ItemViewModel implements com.kelin.mvvmlight.base.ViewModel {
                 time.set("第" + freeRoomTime + "节-" + "第" + (freeRoomTime + 1) + "节");
             else
                 time.set("第" + (freeRoomTime - 1) + "节-" + "第" + freeRoomTime + "节");
-        else
-            time.set(Calendar.getInstance().getTime().getHours()+":"+Calendar.getInstance().getTime().getMinutes());
+        else {
+            int hours = Calendar.getInstance().getTime().getHours();
+            int minutes = Calendar.getInstance().getTime().getMinutes();
+            time.set(hours + ":" + (minutes < 10 ? "0" + minutes : minutes));
+        }
 //        String test=df.format(Calendar.getInstance()).toString();
         if (CommonPrefUtil.getIsNewCampus())
             campus.set("北洋园校区");

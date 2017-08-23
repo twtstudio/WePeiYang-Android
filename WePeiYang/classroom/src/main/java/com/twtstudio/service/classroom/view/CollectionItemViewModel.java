@@ -10,6 +10,7 @@ import com.kelin.mvvmlight.command.ReplyCommand;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
 import com.twtstudio.service.classroom.R;
+import com.twtstudio.service.classroom.database.RoomCollection;
 import com.twtstudio.service.classroom.utils.StringHelper;
 import com.twtstudio.service.classroom.model.ClassRoomProvider;
 import com.twtstudio.service.classroom.model.FreeRoom2;
@@ -41,24 +42,25 @@ public class CollectionItemViewModel implements com.kelin.mvvmlight.base.ViewMod
     FreeRoom2.FreeRoom freeRoom;
     RxAppCompatActivity rxAppCompatActivity;
     Animation zoomIn, zoomOut;
+    RoomCollection roomCollection;
     public ReplyCommand tvClickCommand = new ReplyCommand(() -> {
         ClassRoomProvider.init(rxAppCompatActivity).registerAction((freeRoom2) -> {
-            for (FreeRoom2.FreeRoom freeRoom : freeRoom2.getData())
-                if (freeRoom.getRoom().equals(freeRoom))
+            for (FreeRoom2.FreeRoom freeRoom : freeRoom2.getData()) {
+                if (freeRoom.getRoom().equals(freeRoom.getRoom()))
                     if (freeRoom.getState().equals("空闲"))
                         resid1.set(R.drawable.classroom_tag_empty);
                     else if (freeRoom.getState().equals("上课中"))
                         resid1.set(R.drawable.classroom_tag_inclass);
-        }).getFreeClassroom(StringHelper.getBuildingInt(freeRoom.getRoom()), TimeHelper.getWeekInt(), TimeHelper.getDayOfWeek(), TimeHelper.getTimeInt(), CommonPrefUtil.getStudentNumber());
+                isTextVisible.set(false);
+            }
+        }).getFreeClassroom(46, TimeHelper.getWeekInt(), TimeHelper.getDayOfWeek(), TimeHelper.getTimeInt(), CommonPrefUtil.getStudentNumber());
     });
 
     CollectionItemViewModel(RxAppCompatActivity rxAppCompatActivity, FreeRoom2.FreeRoom freeRoom) {
         zoomIn = AnimationUtils.loadAnimation(rxAppCompatActivity, R.anim.zoom_in);
         zoomOut = AnimationUtils.loadAnimation(rxAppCompatActivity, R.anim.zoom_out);
         this.freeRoom = freeRoom;
-        SimpleDateFormat df = new SimpleDateFormat("HH:mm");
         this.rxAppCompatActivity = rxAppCompatActivity;
-        this.freeRoomTime = freeRoomTime;
         if (CommonPrefUtil.getIsNewCampus())
             campus.set("北洋园校区");
         else
@@ -72,28 +74,33 @@ public class CollectionItemViewModel implements com.kelin.mvvmlight.base.ViewMod
 //            resid1.set(R.drawable.classroom_tag_empty);
 //        else if (freeRoom.getState().equals("上课中"))
 //            resid1.set(R.drawable.classroom_tag_inclass);
-        if (freeRoom.getState().equals("上课中"))
-            resid1.set(R.drawable.classroom_tag_inclass);
-        if (freeRoom.getState().equals("即将上课"))
-            resid1.set(R.drawable.classroom_tag_willhaveclass);
-        if (freeRoom.getState().equals("即将下课"))
-            resid1.set(R.drawable.classroom_tag_willbeempty);
+//        if (freeRoom.getState().equals("上课中"))
+//            resid1.set(R.drawable.classroom_tag_inclass);
+//        if (freeRoom.getState().equals("即将上课"))
+//            resid1.set(R.drawable.classroom_tag_willhaveclass);
+//        if (freeRoom.getState().equals("即将下课"))
+//            resid1.set(R.drawable.classroom_tag_willbeempty);
         this.freeRoom = freeRoom;
         if (freeRoom.getHeating()) isVisible4.set(true);
         if (freeRoom.getWater_dispenser()) isVisible5.set(true);
         if (freeRoom.getPower_pack()) isVisible3.set(true);
         classroom.set(freeRoom.getRoom());
         isCollected.set(freeRoom.isCollected());
-
+        roomCollection = freeRoom.toRoomCollection();
     }
 
     public void onClick(View v) {
         isCollected.set(!isCollected.get());
 
-        if (isCollected.get()) {
+        if (isCollected.get() && roomCollection != null) {
             v.startAnimation(zoomIn);
+            roomCollection.setCollection(true);
+            ClassRoomProvider.init(rxAppCompatActivity).addCollectedClassRoom(roomCollection);
+//            viewModel.setCollected(freeRoom.getRoom());
         } else {
             v.startAnimation(zoomOut);
+            ClassRoomProvider.init(rxAppCompatActivity).deleteCollectedClassRoom(roomCollection);
+//            viewModel.cancelCollected(freeRoom.getRoom());
             Toasty.normal(rxAppCompatActivity, "已取消收藏", Toast.LENGTH_SHORT).show();
         }
     }

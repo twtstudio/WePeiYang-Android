@@ -30,6 +30,7 @@ public class ClassRoomProvider {
 
     private Action1<FreeRoom2> mAction1;
 
+
     ClassRoomProvider(RxAppCompatActivity mRxActivity) {
         this.mRxActivity = mRxActivity;
     }
@@ -58,11 +59,16 @@ public class ClassRoomProvider {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe((studentNumber) -> {
-                    List<RoomCollection> tmpRoomCollections = DBManager.getInstance(mRxActivity).queryRoomCollectionList();
-                    List<RoomCollection> roomCollections = new ArrayList<>();
-                    for (RoomCollection roomCollection : tmpRoomCollections) {
-
+                    List<RoomCollection> roomCollections = DBManager.getInstance(mRxActivity).queryRoomCollectionList();
+                    List<FreeRoom2.FreeRoom> freeRooms = new ArrayList<>();
+                    FreeRoom2 freeRoom2 = new FreeRoom2();
+                    if (roomCollections != null) {
+                        for (RoomCollection roomCollection : roomCollections)
+                            freeRooms.add(roomCollection.toFreeRoom());
+                        freeRoom2.setData(freeRooms);
                     }
+                    if(!freeRoom2.getData().isEmpty())
+                        this.mAction1.call(freeRoom2);
                 });
     }
 
@@ -85,8 +91,9 @@ public class ClassRoomProvider {
                 .subscribe((collection) -> {
                     if (collection.getUid().equals(CommonPrefUtil.getStudentNumber())) {
 //                        DBManager.getInstance(mRxActivity).deleteRoomCollection(collection);
-                        List<RoomCollection> roomCollections= DBManager
+                        List<RoomCollection> roomCollections = DBManager
                                 .getInstance(mRxActivity).queryRoomCollectionListByRoom(collection.getRoom());
+                        collection.setCollection(false);
                         DBManager.getInstance(mRxActivity).deleteRoomCollection(roomCollections);
                     }
                 });

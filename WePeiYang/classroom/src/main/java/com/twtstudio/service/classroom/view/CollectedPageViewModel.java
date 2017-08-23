@@ -12,6 +12,7 @@ import com.twtstudio.service.classroom.database.DBManager;
 import com.twtstudio.service.classroom.database.RoomCollection;
 import com.twtstudio.service.classroom.model.ClassRoomProvider;
 import com.twtstudio.service.classroom.model.CollectedRoom2;
+import com.twtstudio.service.classroom.model.FreeRoom2;
 
 import java.util.List;
 
@@ -24,10 +25,10 @@ import me.tatarka.bindingcollectionadapter.itemviews.ItemViewClassSelector;
 
 public class CollectedPageViewModel {
     private RxAppCompatActivity rxActivity;
-    public final ObservableField<Boolean> error=new ObservableField<>(false);
+    public final ObservableField<Boolean> error=new ObservableField<>(true);
     public final ObservableArrayList<ViewModel> items = new ObservableArrayList<>();
     public final ItemViewSelector itemView = ItemViewClassSelector.builder()
-            .put(CollectionItemViewModel.class, BR.viewModel, R.layout.list_item)
+            .put(CollectionItemViewModel.class, BR.viewModel, R.layout.activity_classroom_collected_list_item)
             .build();
     List<RoomCollection> roomCollections;
     CollectedPageViewModel(RxAppCompatActivity rxActivity){
@@ -37,5 +38,12 @@ public class CollectedPageViewModel {
     public void getCollections(){
 //        for (RoomCollection roomCollection:roomCollections)
 //            items.add(new CollectionItemViewModel(rxActivity,roomCollection.toFreeRoom()));
+        ClassRoomProvider.init(rxActivity).registerAction(freeRoom2 -> {
+            error.set(false);
+            for(FreeRoom2.FreeRoom freeRoom:freeRoom2.getData()) {
+                items.add(new CollectionItemViewModel(rxActivity, freeRoom));
+            }
+        }).getAllCollectedClassroom();
+
     }
 }

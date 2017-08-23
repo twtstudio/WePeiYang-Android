@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">ClassRoom</string>
-    <string name="show_status"><u>显示状态</u></string>
+    <string name="show_status"><u>获取状态</u></string>
 </resources>
