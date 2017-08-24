@@ -34,7 +34,8 @@ public class MainActivityViewModel {
     public final ObservableField<String> condition3 = new ObservableField<>("筛选");
     public final ObservableField<Boolean> isError = new ObservableField<>(false);
     public final ObservableField<Boolean> isLoading = new ObservableField<>(true);
-    public final ObservableField<Boolean> isEmpty = new ObservableField<>(false);//没有符合条件的教学楼时为true
+    public final ObservableField<Boolean> isEmpty = new ObservableField<>(false);
+    public final ObservableField<Boolean> isHttpError = new ObservableField<>(false);//没有符合条件的教学楼时为true
     public final ObservableArrayList<ViewModel> items = new ObservableArrayList<>();
     public final ItemViewSelector itemView = ItemViewClassSelector.builder()
             .put(ItemViewModel.class, BR.viewModel, R.layout.list_item)
@@ -64,7 +65,7 @@ public class MainActivityViewModel {
         items.clear();
         ClassRoomProvider.init(rxActivity)
                 .registerAction(this::processData)
-                .getFreeClassroom(building, week, day, time, token);
+                .getFreeClassroom(building, week, day, time, token,this);
     }
 
     public void iniData(int building, int week, int time, String token, String filterCondition) {
@@ -76,7 +77,7 @@ public class MainActivityViewModel {
         items.clear();
         ClassRoomProvider.init(rxActivity)
                 .registerAction(this::processData)
-                .getFreeClassroom(building, week, day, time, token);
+                .getFreeClassroom(building, week, day, time, token,this);
     }
 
     private void processData(FreeRoom2 freeRoom2) {
@@ -85,6 +86,7 @@ public class MainActivityViewModel {
         isError.set(false);
         isLoading.set(false);
         isEmpty.set(false);
+        isHttpError.set(false);
         if (freeRoom2 != null)
             if (freeRoom2.getErrorcode() == 1)
                 isError.set(true);
@@ -153,8 +155,6 @@ public class MainActivityViewModel {
     //获取全天教室情况
     public void getAllDayRoom(int building, String filterCondition) {
         List<ItemViewModel> itemViewModels = new ArrayList<>();
-        isError.set(false);
-        isEmpty.set(false);
         for (int i = 1; i <= 12; i += 2)
             ClassRoomProvider.init(rxActivity)
                     .registerAction(freeRoom2 -> {
@@ -163,6 +163,7 @@ public class MainActivityViewModel {
                         isError.set(false);
                         isLoading.set(false);
                         isEmpty.set(false);
+                        isHttpError.set(false);
                         if (freeRoom2 != null)
                             if (freeRoom2.getErrorcode() == 1)
                                 isError.set(true);
@@ -197,7 +198,7 @@ public class MainActivityViewModel {
                         }
                         isLoading.set(false);
                     })
-                    .getFreeClassroom(building, week, day, i, token);
+                    .getFreeClassroom(building, week, day, i, token,this);
     }
 
     private boolean isCollection(FreeRoom2.FreeRoom freeRoom) {

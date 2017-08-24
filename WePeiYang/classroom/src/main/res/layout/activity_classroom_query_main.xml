@@ -200,6 +200,13 @@
                 android:gravity="center"
                 android:text="暂不支持查询此教学楼"
                 android:visibility="@{viewModel.isError?View.VISIBLE:View.GONE}" />
+            <TextView
+                android:id="@+id/httpErrorTextView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="哎呀，网络出错了呢！"
+                android:visibility="@{viewModel.isHttpError?View.VISIBLE:View.GONE}" />
 
             <android.support.v4.widget.SwipeRefreshLayout
                 android:id="@+id/swipeRefreshLayout"

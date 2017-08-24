@@ -4,10 +4,10 @@ import com.orhanobut.logger.Logger;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 import com.twt.wepeiyang.commons.cache.CacheProvider;
 import com.twt.wepeiyang.commons.network.RetrofitProvider;
-import com.twt.wepeiyang.commons.network.RxErrorHandler;
 import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
 import com.twtstudio.service.classroom.database.DBManager;
 import com.twtstudio.service.classroom.database.RoomCollection;
+import com.twtstudio.service.classroom.view.MainActivityViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +35,28 @@ public class ClassRoomProvider {
         this.mRxActivity = mRxActivity;
     }
 
+    public void getFreeClassroom(int buiding, int week, int day, int time, String token, MainActivityViewModel viewModel) {
+        CacheProvider.getRxCache().using(ClassRoomCacheApi.class)
+                .getFreeRoomAuto(RetrofitProvider.getRetrofit().create(ClassRoomApi.class)
+                        .getFreeClassroom(buiding, day, week, time, token), new DynamicKey("Classroom/getClassroom"), new EvictDynamicKey(true))
+                .subscribeOn(Schedulers.io())
+                .doOnNext(reply -> Logger.d(reply.toString()))
+                .map(Reply::getData)
+                .doOnNext(FreeRoom2::getData)
+                .compose(mRxActivity.bindToLifecycle())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(freeRoom2 -> {
+                    if (mAction1 != null) {
+                        freeRoom2.setTime(time);
+                        mAction1.call(freeRoom2);
+                    }
+                }, throwable -> {
+                    RxErrorHandler rxErrorHandler=new RxErrorHandler(mRxActivity);
+                    rxErrorHandler.call(throwable.getCause());
+                    rxErrorHandler.showHttpErrorOnMainActivity(viewModel,throwable.getCause());
+                });
+
+    }
     public void getFreeClassroom(int buiding, int week, int day, int time, String token) {
         CacheProvider.getRxCache().using(ClassRoomCacheApi.class)
                 .getFreeRoomAuto(RetrofitProvider.getRetrofit().create(ClassRoomApi.class)
@@ -53,7 +75,6 @@ public class ClassRoomProvider {
                 }, throwable -> new RxErrorHandler(mRxActivity).call(throwable.getCause()));
 
     }
-
     public void getAllCollectedClassroom() {
         Observable.just(CommonPrefUtil.getStudentNumber())
                 .subscribeOn(Schedulers.io())
@@ -67,7 +88,7 @@ public class ClassRoomProvider {
                             freeRooms.add(roomCollection.toFreeRoom());
                         freeRoom2.setData(freeRooms);
                     }
-                    if(!freeRoom2.getData().isEmpty())
+                    if (!freeRoom2.getData().isEmpty())
                         this.mAction1.call(freeRoom2);
                 });
     }
