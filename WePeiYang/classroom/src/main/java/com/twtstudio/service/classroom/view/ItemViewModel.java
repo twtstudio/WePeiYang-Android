@@ -16,6 +16,7 @@ import com.twtstudio.service.classroom.database.DBManager;
 import com.twtstudio.service.classroom.database.RoomCollection;
 import com.twtstudio.service.classroom.model.ClassRoomProvider;
 import com.twtstudio.service.classroom.model.FreeRoom2;
+import com.twtstudio.service.classroom.utils.TimeHelper;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -54,16 +55,24 @@ public class ItemViewModel implements com.kelin.mvvmlight.base.ViewModel {
         this.rxAppCompatActivity = rxAppCompatActivity;
         this.viewModel = viewModel;
         this.freeRoomTime = freeRoomTime;
-        if (freeRoomTime >= 1 && freeRoomTime <= 12)
-            if (freeRoomTime % 2 == 1)
-                time.set("第" + freeRoomTime + "节-" + "第" + (freeRoomTime + 1) + "节");
-            else
-                time.set("第" + (freeRoomTime - 1) + "节-" + "第" + freeRoomTime + "节");
-        else {
+//        if (freeRoomTime >= 1 && freeRoomTime <= 12)
+//            if (freeRoomTime % 2 == 1)
+//                time.set("第" + freeRoomTime + "节-" + "第" + (freeRoomTime + 1) + "节");
+//            else
+//                time.set("第" + (freeRoomTime - 1) + "节-" + "第" + freeRoomTime + "节");
+//        else {
+//            int hours = Calendar.getInstance().getTime().getHours();
+//            int minutes = Calendar.getInstance().getTime().getMinutes();
+//            time.set(hours + ":" + (minutes < 10 ? "0" + minutes : minutes));
+//        }
+        if (freeRoomTime == TimeHelper.getTimeInt()) {
             int hours = Calendar.getInstance().getTime().getHours();
             int minutes = Calendar.getInstance().getTime().getMinutes();
             time.set(hours + ":" + (minutes < 10 ? "0" + minutes : minutes));
-        }
+        } else if (freeRoomTime % 2 == 1)
+            time.set("第" + freeRoomTime + "节-" + "第" + (freeRoomTime + 1) + "节");
+        else
+            time.set("第" + (freeRoomTime - 1) + "节-" + "第" + freeRoomTime + "节");
 //        String test=df.format(Calendar.getInstance()).toString();
         if (CommonPrefUtil.getIsNewCampus())
             campus.set("北洋园校区");

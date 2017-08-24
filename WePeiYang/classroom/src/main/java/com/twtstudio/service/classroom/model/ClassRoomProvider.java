@@ -79,6 +79,7 @@ public class ClassRoomProvider {
         Observable.just(CommonPrefUtil.getStudentNumber())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .compose(mRxActivity.bindToLifecycle())
                 .subscribe((studentNumber) -> {
                     List<RoomCollection> roomCollections = DBManager.getInstance(mRxActivity).queryRoomCollectionList();
                     List<FreeRoom2.FreeRoom> freeRooms = new ArrayList<>();
@@ -98,6 +99,7 @@ public class ClassRoomProvider {
         Observable.just(roomCollection)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .compose(mRxActivity.bindToLifecycle())
                 .subscribe((collection) -> {
                     collection.setUid(CommonPrefUtil.getStudentNumber());
                     collection.setCollection(true);
@@ -109,6 +111,7 @@ public class ClassRoomProvider {
         Observable.just(roomCollection)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .compose(mRxActivity.bindToLifecycle())
                 .subscribe((collection) -> {
                     if (collection.getUid().equals(CommonPrefUtil.getStudentNumber())) {
 //                        DBManager.getInstance(mRxActivity).deleteRoomCollection(collection);

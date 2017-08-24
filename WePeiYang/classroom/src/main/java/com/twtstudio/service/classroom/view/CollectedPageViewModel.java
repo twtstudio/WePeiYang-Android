@@ -25,7 +25,7 @@ import me.tatarka.bindingcollectionadapter.itemviews.ItemViewClassSelector;
 
 public class CollectedPageViewModel {
     private RxAppCompatActivity rxActivity;
-    public final ObservableField<Boolean> error=new ObservableField<>(true);
+    public final ObservableField<Boolean> showError=new ObservableField<>(true);
     public final ObservableArrayList<ViewModel> items = new ObservableArrayList<>();
     public final ItemViewSelector itemView = ItemViewClassSelector.builder()
             .put(CollectionItemViewModel.class, BR.viewModel, R.layout.activity_classroom_collected_list_item)
@@ -39,7 +39,7 @@ public class CollectedPageViewModel {
 //        for (RoomCollection roomCollection:roomCollections)
 //            items.add(new CollectionItemViewModel(rxActivity,roomCollection.toFreeRoom()));
         ClassRoomProvider.init(rxActivity).registerAction(freeRoom2 -> {
-            error.set(false);
+            showError.set(false);
             for(FreeRoom2.FreeRoom freeRoom:freeRoom2.getData()) {
                 items.add(new CollectionItemViewModel(rxActivity, freeRoom));
             }

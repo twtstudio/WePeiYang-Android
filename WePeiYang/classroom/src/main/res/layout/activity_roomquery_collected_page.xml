@@ -46,7 +46,14 @@
                     android:textSize="20sp" />
             </android.support.v7.widget.Toolbar>
         </android.support.design.widget.AppBarLayout>
-
+        <TextView
+            android:id="@+id/wrongTextView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="暂无收藏"
+            android:visibility="@{viewModel.showError?View.VISIBLE:View.GONE}"
+            />
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView1"
             android:layout_width="match_parent"
@@ -55,13 +62,7 @@
             bind:itemView="@{viewModel.itemView}"
             bind:items="@{viewModel.items}"
             bind:layoutManager="@{LayoutManagers.linear()}" />
-        <TextView
-            android:id="@+id/wrongTextView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="暂无收藏"
-            android:visibility="@{viewModel.error ?View.VISIBLE:View.GONE}" />
+
 
 
     </LinearLayout>
