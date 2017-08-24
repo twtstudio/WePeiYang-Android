@@ -188,16 +188,16 @@ public class ScheduleActivity extends RxAppCompatActivity implements ScheduleVie
 
         }
 
-        refresh.setOnRefreshListener(()-> {
+        refresh.setOnRefreshListener(() -> {
             getScheduleDataAuto(true);
         });
     }
 
     private void getScheduleDataAuto(boolean refresh) {
-        //showProgress();
+//        showProgress();
         ClassTableProvider.init(this)
                 .registerAction(classTable -> {
-                    hideProgress();
+//                    hideProgress();
                     this.refresh.setRefreshing(false);
                     bindData(classTable);
 
@@ -296,19 +296,19 @@ public class ScheduleActivity extends RxAppCompatActivity implements ScheduleVie
                             mRlSaturday.removeAllViews();
                             mRlSunday.removeAllViews();
 
-                            initSchedule(mClassTable, week_num,false);
+                            initSchedule(mClassTable, week_num, false);
                         }
                     }
                     recyclerPopupWindow = null;
                 });
             }
         });
-        initSchedule(classTable, currentWeek,true);
+        initSchedule(classTable, currentWeek, true);
     }
 
-    private void initSchedule(ClassTable classTable, int week,boolean isUpdate) {
+    private void initSchedule(ClassTable classTable, int week, boolean isUpdate) {
         hasClass = new boolean[7][12];
-        if(isUpdate) {
+        if (isUpdate) {
             mRlMonday.removeAllViews();
             mRlTuesday.removeAllViews();
             mRlWednesday.removeAllViews();

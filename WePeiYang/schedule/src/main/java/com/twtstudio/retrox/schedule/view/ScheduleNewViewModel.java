@@ -5,6 +5,7 @@ import android.databinding.BindingAdapter;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableField;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.DisplayMetrics;
 import android.util.Log;
 
 import com.kelin.mvvmlight.base.ViewModel;
@@ -42,6 +43,7 @@ public class ScheduleNewViewModel {
     public final CourseHelper courseHelper = new CourseHelper();
 
     public ScheduleNewViewModel(RxAppCompatActivity rxActivity, CalendarDay calendarDay) {
+
         this.rxActivity = rxActivity;
         initData(calendarDay);
     }

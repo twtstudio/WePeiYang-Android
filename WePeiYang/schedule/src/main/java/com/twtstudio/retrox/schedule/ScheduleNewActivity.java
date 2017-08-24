@@ -9,13 +9,13 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.ldf.calendar.Utils;
 import com.ldf.calendar.component.CalendarAttr;
 import com.ldf.calendar.component.CalendarViewAdapter;
 import com.ldf.calendar.interf.OnSelectDateListener;
@@ -49,6 +49,7 @@ public class ScheduleNewActivity extends RxAppCompatActivity {
     private Context context;
     private CalendarDate currentDate;
     private boolean initiated = false;
+    private int padding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,23 +75,66 @@ public class ScheduleNewActivity extends RxAppCompatActivity {
         rvToDoList = mbinding.list;
         rvToDoList.setHasFixedSize(true);
         refresh.setProgressViewOffset(true, 120, 150);
+        DisplayMetrics metrics = new DisplayMetrics();
+
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) mbinding.calendarView.getLayoutParams();
+        padding = metrics.widthPixels / 20;
+        params.setMargins(padding, 0, padding, 0);
+        mbinding.calendarView.setLayoutParams(params);
+        mbinding.linear.setPadding(padding, 0, padding, 0);
         monthPager.setOnTouchListener((v, event) -> {
-                    refresh.setEnabled(false);
-                    return false;
+            refresh.setEnabled(false);
+            return false;
+
+        });
+        int[] location1 = new int[2];
+        refresh.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                rvToDoList.dispatchTouchEvent(event);
+                return false;
+            }
         });
         rvToDoList.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                int[] location1 = new int[2];
-                rvToDoList.getLocationInWindow(location1);
-//                int i = Utils.dpi2px(context, 100);
-//                Log.d("scroll", Integer.toString(i));
-                if (location1[1] < Utils.dpi2px(context, 350)) {
-                    refresh.setEnabled(false);
-                    return false;
-                }
-                refresh.setEnabled(true);
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_MOVE:
 
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        rvToDoList.getLocationInWindow(location1);
+//                        int i = Utils.dpi2px(context, 100);
+//                        Log.d("scroll", Integer.toString(location1[1]));
+                        if (location1[1] > metrics.heightPixels / 2) {
+                            refresh.setEnabled(true);
+                        }
+                        else
+                            refresh.setEnabled(false);
+
+                }
+                return false;
+            }
+        });
+        mbinding.coodinator.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_MOVE:
+
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        rvToDoList.getLocationInWindow(location1);
+//                        int i = Utils.dpi2px(context, 100);
+//                        Log.d("scroll", Integer.toString(location1[1]));
+                        if (location1[1] > metrics.heightPixels / 2) {
+                            refresh.setEnabled(true);
+                        }
+                        else
+                            refresh.setEnabled(false);
+
+                }
                 return false;
             }
         });
@@ -135,14 +179,13 @@ public class ScheduleNewActivity extends RxAppCompatActivity {
     }
 
 
-
     private void initCurrentDate() {
         currentDate = new CalendarDate();
     }
 
     private void initCalendarView() {
         initListener();
-        CustomDayView customDayView = new CustomDayView(context, R.layout.custom_day);
+        CustomDayView customDayView = new CustomDayView(context, R.layout.custom_day, this);
         calendarAdapter = new CalendarViewAdapter(
                 context,
                 onSelectDateListener,
@@ -203,11 +246,11 @@ public class ScheduleNewActivity extends RxAppCompatActivity {
             @Override
             public void onPageSelected(int position) {
                 mCurrentPage = position;
-                currentCalendars=calendarAdapter.getPagers();
+                currentCalendars = calendarAdapter.getPagers();
                 if (currentCalendars.get(position % currentCalendars.size()) instanceof Calendar) {
                     CalendarDate date = currentCalendars.get(position % currentCalendars.size()).getSeedDate();
                     currentDate = date;
-                    Log.d("position",Integer.toString(position));
+                    Log.d("position", Integer.toString(position));
                     refreshClickDate(currentDate);
 
                 }
@@ -221,7 +264,6 @@ public class ScheduleNewActivity extends RxAppCompatActivity {
     }
 
 
-
     private void refreshMonthPager() {
         CalendarDate today = new CalendarDate();
         calendarAdapter.notifyDataChanged(today);
@@ -229,9 +271,8 @@ public class ScheduleNewActivity extends RxAppCompatActivity {
     }
 
 
-
     private void onRfreshData() {
-       ClassTableProvider.init(this).registerAction(this::onRfreshing)
+        ClassTableProvider.init(this).registerAction(this::onRfreshing)
                 .getData(true);
 
 

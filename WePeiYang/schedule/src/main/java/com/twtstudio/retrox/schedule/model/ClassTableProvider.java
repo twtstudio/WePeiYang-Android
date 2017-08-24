@@ -25,7 +25,7 @@ public class ClassTableProvider {
     private RxAppCompatActivity mRxActivity;
 
     private Action1<ClassTable> mAction1;
-    private Action2<ClassTable,CalendarDay> mAction2;
+    private Action2<ClassTable, CalendarDay> mAction2;
 
     private ClassTableProvider(RxAppCompatActivity rxActivity) {
         mRxActivity = rxActivity;
@@ -34,14 +34,16 @@ public class ClassTableProvider {
     public void getData() {
         getData(false);
     }
-    public void getData(CalendarDay calendarDay){
-        getData(false,calendarDay);
+
+    public void getData(CalendarDay calendarDay) {
+        getData(false, calendarDay);
     }
+
     public void getData(boolean update) {
 
         CacheProvider.getRxCache().using(ScheduleCacheApi.class)
                 .getClassTableAuto(RetrofitProvider.getRetrofit().create(ScheduleApi.class)
-                .getClassTable(), new DynamicKey("classTable"), new EvictDynamicKey(update))
+                        .getClassTable(), new DynamicKey("classTable"), new EvictDynamicKey(update))
                 .subscribeOn(Schedulers.io())
                 .doOnNext(reply -> Logger.d(reply.toString()))
                 .map(Reply::getData)
@@ -56,10 +58,14 @@ public class ClassTableProvider {
                     if (mAction1 != null) {
                         mAction1.call(classTable);
                     }
-                },throwable -> new RxErrorHandler(mRxActivity).call(throwable.getCause()));
+                }, throwable -> {
+                    if (throwable.getCause() != null)
+                        new RxErrorHandler(mRxActivity).call(throwable.getCause());
+                });
 
     }
-    public void getData(boolean update,CalendarDay calendarDay){
+
+    public void getData(boolean update, CalendarDay calendarDay) {
         CacheProvider.getRxCache().using(ScheduleCacheApi.class)
                 .getClassTableAuto(RetrofitProvider.getRetrofit().create(ScheduleApi.class)
                         .getClassTable(), new DynamicKey("classTable"), new EvictDynamicKey(update))
@@ -75,9 +81,12 @@ public class ClassTableProvider {
                     CommonPrefUtil.setStartUnix(Long.valueOf(classTable.data.term_start));
 
                     if (mAction2 != null) {
-                        mAction2.call(classTable,calendarDay);
+                        mAction2.call(classTable, calendarDay);
                     }
-                },new RxErrorHandler(mRxActivity));
+                }, throwable -> {
+                    if (throwable.getCause() != null)
+                        new RxErrorHandler(mRxActivity).call(throwable.getCause());
+                });
 
     }
 
@@ -89,7 +98,8 @@ public class ClassTableProvider {
         this.mAction1 = action1;
         return this;
     }
-    public ClassTableProvider registerAction2(Action2<ClassTable,CalendarDay> action2) {
+
+    public ClassTableProvider registerAction2(Action2<ClassTable, CalendarDay> action2) {
         this.mAction2 = action2;
         return this;
     }

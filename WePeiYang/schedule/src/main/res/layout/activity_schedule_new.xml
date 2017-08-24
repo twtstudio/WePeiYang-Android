@@ -67,15 +67,19 @@
                         android:layout_marginTop="11dp"
                         android:background="@color/background_gray"
                         android:orientation="horizontal">
-
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@color/white"
+                            android:id="@+id/linear"
+                            android:orientation="horizontal"
+                            android:layout_marginBottom="1dp">
                         <TextView
                             style="@style/weekIndicatorStyle"
-                            android:paddingLeft="8dp"
                             android:text="一" />
 
                         <TextView
                             style="@style/weekIndicatorStyle"
-                            android:paddingLeft="8dp"
                             android:text="二" />
 
                         <TextView
@@ -92,26 +96,25 @@
 
                         <TextView
                             style="@style/weekIndicatorStyle"
-                            android:paddingRight="10dp"
                             android:text="六" />
 
                         <TextView
                             style="@style/weekIndicatorStyle"
-                            android:paddingRight="10dp"
                             android:text="日" />
+                        </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
 
                 <android.support.design.widget.CoordinatorLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:id="@+id/coodinator"
                     android:layout_weight="1">
 
                     <com.ldf.calendar.view.MonthPager
                         android:id="@+id/calendar_view"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="270dp"
-                        android:layout_marginLeft="3dp"
                         android:background="#fff">
 
                     </com.ldf.calendar.view.MonthPager>
