@@ -57,6 +57,7 @@ public class WePeiYangApp extends MultiDexApplication {
     {
         //友盟社会化分享的KEY（目前只有QQ的）
         Config.DEBUG = true;
+
         PlatformConfig.setWeixin("wx967daebe835fbeac", "5bb696d9ccd75a38c8a0bfe0675559b3");
         PlatformConfig.setQQZone("1104743406", "Hbj7yk7xd1bgrMPG");
         PlatformConfig.setSinaWeibo("3921700954", "04b48b094faeb16683c32669824ebdad", "http://sns.whalecloud.com");

@@ -191,8 +191,6 @@ public class ScheduleActivity extends RxAppCompatActivity implements ScheduleVie
         refresh.setOnRefreshListener(() -> {
             getScheduleDataAuto(true);
         });
-
-
     }
 
     private void getScheduleDataAuto(boolean refresh) {
@@ -247,10 +245,11 @@ public class ScheduleActivity extends RxAppCompatActivity implements ScheduleVie
 
 //        //修复初始情况的课程不可用bug,
         currentWeek = TimeHelper.getWeekInt(Long.parseLong(classTable.data.term_start), Calendar.getInstance());
-        if (currentWeek >= 0){
-            changeWeek(currentWeek);
+        if (currentWeek < 0 ){
+            currentWeek = 0;
         }
-        if (classTable.data.term.length() > 1 && currentWeek >= 0) {
+        changeWeek(currentWeek);
+        if (classTable.data.term.length() > 1) {
             currentTerm = classTable.data.term.substring(0, classTable.data.term.length() - 1);
 //            tvScheduleTerm.setText(currentTerm + "学期课表");
         } else {

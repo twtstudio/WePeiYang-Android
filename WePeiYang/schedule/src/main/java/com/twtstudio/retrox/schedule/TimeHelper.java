@@ -27,11 +27,13 @@ public class TimeHelper {
     public static String getWeekString(int week){
         String[] cDay = {"零","一","二","三","四","五","六","七","八","九"};
         String sWeek = "";
-        if (week/10 != 0){
+        if (week/10 != 0 || week == 0){
             if (week/10 != 1){
                 sWeek += cDay[week/10];
             }
-            sWeek += "十";
+            if (week != 0){
+                sWeek += "十";
+            }
         }
         if (week%10 != 0) {
             sWeek += cDay[week % 10];
