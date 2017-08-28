@@ -16,13 +16,18 @@ public class TimeHelper {
         if(day<0) return -1;
         int week =  day/7 + 1;
         //有人过了那个周数就想看下学期hhh
-//        if (week > 20){
-//            return week;
-//        }else {
+        if (week > 20){
+            return -1;
+        }else {
             return week;
-//        }
+        }
     }
-
+    public static int getRealWeekInt(long startUnix,Calendar calendar){
+        long i = calendar.getTimeInMillis()/1000  - startUnix;
+        int day = (int) (i/86400);
+        int week =  day/7 + 1;
+        return week;
+    }
 
     public static String getWeekString(int week){
         String[] cDay = {"零","一","二","三","四","五","六","七","八","九"};

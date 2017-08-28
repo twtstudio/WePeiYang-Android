@@ -17,9 +17,12 @@ public class CourseIsEmptyViewModel implements ViewModel {
 
     CourseIsEmptyViewModel(CalendarDay calendarDay, ClassTable classTable) {
         long startUnix = Long.parseLong(classTable.data.term_start);
-        int presentWeek = TimeHelper.getWeekInt(startUnix, calendarDay.getCalendar());
+        int presentWeek = TimeHelper.getRealWeekInt(startUnix, calendarDay.getCalendar());
         if (presentWeek > 20)
             text.set("这个学期已经过去了");
+        else if(presentWeek<0){
+            text.set("这个学期还未开始");
+        }
         else {
             if (calendarDay.equals(CalendarDay.today()))
                 day = "今日";
