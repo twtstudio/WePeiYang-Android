@@ -245,6 +245,8 @@ public class MainActivity extends RxAppCompatActivity {
         else
             building=23;
         viewModel.condition1.set(building+"楼");
+        viewModel.condition2.set("现在");
+        viewModel.condition3.set("全部");
         viewModel.refreshData(building);
     }
     private void initConditionText(){

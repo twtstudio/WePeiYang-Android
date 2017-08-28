@@ -243,6 +243,8 @@ public class MainActivityViewModel {
     public void refreshData(int building) {
         int week = TimeHelper.getWeekInt();
         String token = CommonPrefUtil.getStudentNumber();
+        if(condition3.get().equals("全部"))
+            resetFilterCondition();
         if (condition2.get().equals("全天"))
             getAllDayRoom(building, filterCondition);
         else if (condition2.get().equals("现在")) {
