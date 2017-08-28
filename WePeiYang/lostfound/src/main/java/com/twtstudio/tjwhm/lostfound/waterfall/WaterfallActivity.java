@@ -194,5 +194,12 @@ public class WaterfallActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         waterfall_cardview_types.setVisibility(View.GONE);
+        waterfall_type_recyclerview.setAdapter(new WaterfallTypeTableAdapter(this, this, type));
+
+        if (type == -1) {
+            waterfall_types_all.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+        } else {
+            waterfall_types_all.setTypeface(Typeface.DEFAULT);
+        }
     }
 }
