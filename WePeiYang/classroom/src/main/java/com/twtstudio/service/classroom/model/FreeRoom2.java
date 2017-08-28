@@ -24,6 +24,7 @@ public class FreeRoom2 {
         private String msg;
         private List<FreeRoom> data;
         private int time;
+        private int building;
         public List<FreeRoom> getData(){
             return  this.data;
         }
@@ -118,5 +119,13 @@ public class FreeRoom2 {
 
     public void setData(List<FreeRoom> data) {
         this.data = data;
+    }
+
+    public void setBuilding(int building) {
+        this.building = building;
+    }
+
+    public int getBuilding() {
+        return building;
     }
 }

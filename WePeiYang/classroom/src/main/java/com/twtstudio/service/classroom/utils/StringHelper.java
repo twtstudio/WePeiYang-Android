@@ -8,12 +8,17 @@ import java.util.regex.Pattern;
  */
 
 public class StringHelper {
-    public static int getBuildingInt(String text){
-        String regEx="楼\\D*\\d*\\D*";
-        Pattern p = Pattern.compile(regEx);
-        Matcher m = p.matcher(text);
-        System.out.println(m);
-        int after=Integer.valueOf(m.replaceAll("").trim());
+    public static int getBuildingInt(String text) {
+        int after= 0;
+        try {
+            String regEx="楼.*";
+            Pattern p = Pattern.compile(regEx);
+            Matcher m = p.matcher(text);
+            System.out.println(m);
+            after = Integer.valueOf(m.replaceAll("").trim());
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
         return after;
     }
 }

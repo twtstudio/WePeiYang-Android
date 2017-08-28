@@ -48,12 +48,14 @@ public class ClassRoomProvider {
                 .subscribe(freeRoom2 -> {
                     if (mAction1 != null) {
                         freeRoom2.setTime(time);
+                        freeRoom2.setBuilding(buiding);
                         mAction1.call(freeRoom2);
                     }
                 }, throwable -> {
                     RxErrorHandler rxErrorHandler=new RxErrorHandler(mRxActivity);
                     rxErrorHandler.call(throwable.getCause());
                     rxErrorHandler.showHttpErrorOnMainActivity(viewModel,throwable.getCause());
+                    rxErrorHandler.stopLoading(viewModel);
                 });
 
     }
@@ -70,6 +72,7 @@ public class ClassRoomProvider {
                 .subscribe(freeRoom2 -> {
                     if (mAction1 != null) {
                         freeRoom2.setTime(time);
+                        freeRoom2.setBuilding(buiding);
                         mAction1.call(freeRoom2);
                     }
                 }, throwable -> new RxErrorHandler(mRxActivity).call(throwable.getCause()));

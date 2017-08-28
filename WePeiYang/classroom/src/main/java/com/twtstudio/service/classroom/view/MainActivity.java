@@ -142,6 +142,7 @@ public class MainActivity extends RxAppCompatActivity {
         animation2 = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate2);//创建动画
         animation2.setInterpolator(new LinearInterpolator());//
         animation2.setFillAfter(!animation.getFillAfter());//
+
         popupWindow.setOnDismissListener(() -> {
             switch (seletedTag) {
                 case 1:
@@ -243,9 +244,8 @@ public class MainActivity extends RxAppCompatActivity {
             building=46;
         else
             building=23;
-        viewModel.iniData(building, TimeHelper.getWeekInt(), TimeHelper.getTimeInt(), CommonPrefUtil.getStudentNumber());
-        viewModel.condition1.set(Integer.toString(building)+"楼");
-        viewModel.condition2.set("现在");
+        viewModel.condition1.set(building+"楼");
+        viewModel.refreshData(building);
     }
     private void initConditionText(){
         viewModel.condition1.set("教学楼");

@@ -181,11 +181,11 @@
             android:layout_alignParentTop="true"
             >
 
-            <!--<ProgressBar-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_gravity="center"-->
-                <!--android:visibility="@{viewModel.isLoading?View.VISIBLE:View.GONE}"/>-->
+            <ProgressBar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="@{viewModel.isLoading?View.VISIBLE:View.GONE}"/>
             <TextView
                 android:id="@+id/noneTextView"
                 android:layout_width="match_parent"
@@ -222,7 +222,8 @@
                     android:layout_height="wrap_content"
                     bind:itemView="@{viewModel.itemView}"
                     bind:items="@{viewModel.items}"
-                    bind:layoutManager="@{LayoutManagers.linear()}"/>
+                    bind:layoutManager="@{LayoutManagers.linear()}"
+                    bind:onLoadMoreCommand="@{viewModel.loadMoreCommand}"/>
             </android.support.v4.widget.SwipeRefreshLayout>
 
 

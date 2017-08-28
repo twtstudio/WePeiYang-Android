@@ -61,8 +61,6 @@ public class PopupItemViewModel implements com.kelin.mvvmlight.base.ViewModel {
                 case 2:
                     viewModel.condition2.set(text.get());
                     if (text.get().equals("全天")) {
-                        //                    for (int i = 1; i <= 12; i += 2)
-                        //                        viewModel.iniData(building, TimeHelper.getWeekInt(), i, CommonPrefUtil.getStudentNumber());
                         time = -1;
                     } else {
                         if (text.get().equals("现在")) time = TimeHelper.getTimeInt();
@@ -82,7 +80,7 @@ public class PopupItemViewModel implements com.kelin.mvvmlight.base.ViewModel {
                         filterCondition = "empty";
                     else
                         viewModel.resetFilterCondition();
-                    if (viewModel.isFilterConditionRepeated(filterCondition))
+                    if (!viewModel.isFilterConditionRepeated(filterCondition))
                         viewModel.addFilterCondition(filterCondition);
                     else {
                         viewModel.removeFilterCondition(filterCondition);
@@ -95,12 +93,12 @@ public class PopupItemViewModel implements com.kelin.mvvmlight.base.ViewModel {
             e.printStackTrace();
         }
         if (time == -1)
-            viewModel.getAllDayRoom(building, filterCondition);
+            viewModel.getAllDayRoom(building,filterCondition);
 //            for (int i = 1; i <= 12; i += 2)
 //                viewModel.iniData(building, TimeHelper.getWeekInt(), i, CommonPrefUtil.getStudentNumber());
         else {
             if (time == 0) time = TimeHelper.getTimeInt();
-            viewModel.iniData(building, TimeHelper.getWeekInt(), time, CommonPrefUtil.getStudentNumber(), filterCondition);
+            viewModel.iniData(building, TimeHelper.getWeekInt(), time, CommonPrefUtil.getStudentNumber());
         }
         if (tag == 3 && !text.get().equals("全部"))
             for (FilterBean filterBean : filterBeans) {
@@ -111,6 +109,7 @@ public class PopupItemViewModel implements com.kelin.mvvmlight.base.ViewModel {
                     viewModel.condition3.set(filterBean.text + "...");
             }
         else
+            //用于设置单选的显示效果
             for (FilterBean filterBean : filterBeans) {
                 if (filterBean == this.filterBean) continue;
                 filterBean.changePaddingColor = false;

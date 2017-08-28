@@ -65,7 +65,7 @@ public class ItemViewModel implements com.kelin.mvvmlight.base.ViewModel {
 //            int minutes = Calendar.getInstance().getTime().getMinutes();
 //            time.set(hours + ":" + (minutes < 10 ? "0" + minutes : minutes));
 //        }
-        if (freeRoomTime == TimeHelper.getTimeInt()) {
+        if (viewModel.condition2.get().equals("现在") && freeRoomTime == TimeHelper.getTimeInt()){
             int hours = Calendar.getInstance().getTime().getHours();
             int minutes = Calendar.getInstance().getTime().getMinutes();
             time.set(hours + ":" + (minutes < 10 ? "0" + minutes : minutes));

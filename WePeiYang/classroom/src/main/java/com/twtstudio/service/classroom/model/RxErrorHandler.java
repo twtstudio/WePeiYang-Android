@@ -3,7 +3,9 @@ package com.twtstudio.service.classroom.model;
 import android.content.Context;
 
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
+import com.twtstudio.service.classroom.view.MainActivity;
 import com.twtstudio.service.classroom.view.MainActivityViewModel;
+import com.twtstudio.service.classroom.view.OnLoadMoreItemViewModel;
 
 import java.io.IOException;
 
@@ -19,11 +21,19 @@ public class RxErrorHandler extends com.twt.wepeiyang.commons.network.RxErrorHan
     public RxErrorHandler(Context context) {
         mContext = context;
     }
-    public void showHttpErrorOnMainActivity(MainActivityViewModel viewModel, Throwable throwable){
-        if(throwable instanceof IOException || throwable instanceof HttpException) {
+
+    public void showHttpErrorOnMainActivity(MainActivityViewModel viewModel, Throwable throwable) {
+        if (throwable instanceof IOException || throwable instanceof HttpException) {
             viewModel.isHttpError.set(true);
             viewModel.isLoading.set(true);
             viewModel.isLoading.set(false);
         }
+    }
+
+    public void stopLoading(MainActivityViewModel viewModel) {
+        viewModel.onLoadMoreError = true;
+        if (!viewModel.items.isEmpty())
+            viewModel.items.remove(viewModel.items.size() - 1);
+        viewModel.items.add(new OnLoadMoreItemViewModel(false, true));
     }
 }
