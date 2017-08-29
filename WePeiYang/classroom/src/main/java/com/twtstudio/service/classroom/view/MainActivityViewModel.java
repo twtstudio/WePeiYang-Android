@@ -68,7 +68,10 @@ public class MainActivityViewModel {
                             items.remove(items.size() - 1);
                         items.add(new OnLoadMoreItemViewModel(false, false));
                         if (!onLoadMoreError) {
-                            items.add(new OnLoadMoreItemViewModel(true, false));
+                            if (items.size() > 1)
+                                items.add(new OnLoadMoreItemViewModel(true, false));
+                            else
+                                isError.set(true);
                         }
                         onLoadMoreError = false;
                     }
@@ -243,12 +246,12 @@ public class MainActivityViewModel {
     public void refreshData(int building) {
         int week = TimeHelper.getWeekInt();
         String token = CommonPrefUtil.getStudentNumber();
-        if(condition3.get().equals("全部"))
+        if (condition3.get().equals("全部"))
             resetFilterCondition();
         if (condition2.get().equals("全天"))
             getAllDayRoom(building, filterCondition);
         else if (condition2.get().equals("现在")) {
-            this.time = TimeHelper.getTimeInt();
+            int time = TimeHelper.getTimeInt();
             iniData(building, week, time, token);
         } else
             iniData(building, week, time, token);

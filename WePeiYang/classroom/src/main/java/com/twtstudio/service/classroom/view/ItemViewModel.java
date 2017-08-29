@@ -55,16 +55,6 @@ public class ItemViewModel implements com.kelin.mvvmlight.base.ViewModel {
         this.rxAppCompatActivity = rxAppCompatActivity;
         this.viewModel = viewModel;
         this.freeRoomTime = freeRoomTime;
-//        if (freeRoomTime >= 1 && freeRoomTime <= 12)
-//            if (freeRoomTime % 2 == 1)
-//                time.set("第" + freeRoomTime + "节-" + "第" + (freeRoomTime + 1) + "节");
-//            else
-//                time.set("第" + (freeRoomTime - 1) + "节-" + "第" + freeRoomTime + "节");
-//        else {
-//            int hours = Calendar.getInstance().getTime().getHours();
-//            int minutes = Calendar.getInstance().getTime().getMinutes();
-//            time.set(hours + ":" + (minutes < 10 ? "0" + minutes : minutes));
-//        }
         if (viewModel.condition2.get().equals("现在") && freeRoomTime == TimeHelper.getTimeInt()){
             int hours = Calendar.getInstance().getTime().getHours();
             int minutes = Calendar.getInstance().getTime().getMinutes();

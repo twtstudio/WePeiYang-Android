@@ -69,7 +69,10 @@ public class PopupItemViewModel implements com.kelin.mvvmlight.base.ViewModel {
                     }
                     break;
                 case 3:
-                    viewModel.condition3.set(text.get() + "...");
+                    if (text.get().equals("全部"))
+                        viewModel.condition3.set(text.get());
+                    else
+                        viewModel.condition3.set(text.get() + "...");
                     if (text.get().equals("暖气"))
                         filterCondition = "heating";
                     else if (text.get().equals("饮水机"))
@@ -93,7 +96,7 @@ public class PopupItemViewModel implements com.kelin.mvvmlight.base.ViewModel {
             e.printStackTrace();
         }
         if (time == -1)
-            viewModel.getAllDayRoom(building,filterCondition);
+            viewModel.getAllDayRoom(building, filterCondition);
 //            for (int i = 1; i <= 12; i += 2)
 //                viewModel.iniData(building, TimeHelper.getWeekInt(), i, CommonPrefUtil.getStudentNumber());
         else {
@@ -106,7 +109,10 @@ public class PopupItemViewModel implements com.kelin.mvvmlight.base.ViewModel {
                     filterBean.changePaddingColor = false;
                 }
                 if (!this.filterBean.hasClicked && filterBean.hasClicked)
-                    viewModel.condition3.set(filterBean.text + "...");
+                    if (filterBean.text.equals("全部"))
+                        viewModel.condition3.set(filterBean.text);
+                    else
+                        viewModel.condition3.set(filterBean.text + "...");
             }
         else
             //用于设置单选的显示效果

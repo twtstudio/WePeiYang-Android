@@ -69,17 +69,6 @@ public class CollectionItemViewModel implements com.kelin.mvvmlight.base.ViewMod
     }
 
     private void initData(FreeRoom2.FreeRoom freeRoom) {
-//        Uri uri1=Uri.parse("android.resource://" + rxAppCompatActivity.getApplicationContext().getPackageName() + "/" +R.drawable.classroom_tag_empty);
-//        if (freeRoom.getState().equals("空闲"))
-//            resid1.set(R.drawable.classroom_tag_empty);
-//        else if (freeRoom.getState().equals("上课中"))
-//            resid1.set(R.drawable.classroom_tag_inclass);
-//        if (freeRoom.getState().equals("上课中"))
-//            resid1.set(R.drawable.classroom_tag_inclass);
-//        if (freeRoom.getState().equals("即将上课"))
-//            resid1.set(R.drawable.classroom_tag_willhaveclass);
-//        if (freeRoom.getState().equals("即将下课"))
-//            resid1.set(R.drawable.classroom_tag_willbeempty);
         this.freeRoom = freeRoom;
         if (freeRoom.getHeating()) isVisible4.set(true);
         if (freeRoom.getWater_dispenser()) isVisible5.set(true);

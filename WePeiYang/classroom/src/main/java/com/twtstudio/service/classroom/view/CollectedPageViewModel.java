@@ -32,12 +32,9 @@ public class CollectedPageViewModel {
             .build();
     List<RoomCollection> roomCollections;
     CollectedPageViewModel(RxAppCompatActivity rxActivity){
-//        roomCollections=dbManager.queryRoomCollectionList();
         this.rxActivity=rxActivity;
     }
     public void getCollections(){
-//        for (RoomCollection roomCollection:roomCollections)
-//            items.add(new CollectionItemViewModel(rxActivity,roomCollection.toFreeRoom()));
         ClassRoomProvider.init(rxActivity).registerAction(freeRoom2 -> {
             showError.set(false);
             for(FreeRoom2.FreeRoom freeRoom:freeRoom2.getData()) {

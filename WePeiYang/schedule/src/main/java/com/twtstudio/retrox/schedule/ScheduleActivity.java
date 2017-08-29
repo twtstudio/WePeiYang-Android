@@ -405,7 +405,7 @@ public class ScheduleActivity extends RxAppCompatActivity implements ScheduleVie
                         }
 //                        glSchedule.addView(v, params);
                         for (int t = startTime - 1; t < endTime; t++) {
-                            hasClass[day][t] = true;
+                            hasClass[day-1][t] = true;
                         }
                     } else {
                         // 多节课程逻辑
@@ -479,7 +479,7 @@ public class ScheduleActivity extends RxAppCompatActivity implements ScheduleVie
                     }
 //                    glSchedule.addView(v, params);
                     for (int t = startTime - 1; t < endTime; t++) {
-                        hasClass[day][t] = true;
+                        hasClass[day-1][t] = true;
                     }
                 } else {
                     //  多节课程逻辑
@@ -529,7 +529,7 @@ public class ScheduleActivity extends RxAppCompatActivity implements ScheduleVie
     private boolean hasClassThisWeek(int day, int startTime, int endTime) {
         try {
             for (int t = startTime - 1; t < endTime; t++) {
-                if (hasClass[day][t]) {
+                if (hasClass[day-1][t]) {
                     return true;
                 }
             }

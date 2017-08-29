@@ -48,7 +48,7 @@ public class MainActivity extends RxAppCompatActivity {
     ActivityClassroomQueryMainBinding mainBinding;
     private Animation animation, animation2;
     private int seletedTag = 0;
-    private boolean campusHasChanged=true;
+    private boolean isNewCampus=CommonPrefUtil.getIsNewCampus();
     PopupWindow popupWindow;
     private boolean hasPop;
     @BindView(R2.id.condition1)
@@ -63,18 +63,6 @@ public class MainActivity extends RxAppCompatActivity {
     RelativeLayout condition3;
     @BindView(R2.id.arrow3)
     ImageView arrow3;
-    @BindView(R2.id.mainTable)
-    LinearLayout mainTable;
-    @BindView(R2.id.card)
-    CardView card;
-    @BindView(R2.id.wrongTextView)
-    TextView wrongTextView;
-    @BindView(R2.id.recyclerView1)
-    RecyclerView recyclerView1;
-    @BindView(R2.id.swipeRefreshLayout)
-    SwipeRefreshLayout swipeRefreshLayout;
-    @BindView(R2.id.mainFrame)
-    FrameLayout mainFrame;
     @BindView(R2.id.toparea)
     LinearLayout toparea;
 
@@ -121,10 +109,7 @@ public class MainActivity extends RxAppCompatActivity {
 //        MainActivityViewModel viewModel = new MainActivityViewModel(this, 46, 2, 5, CommonPrefUtil.getStudentNumber());
         setSupportActionBar(mainBinding.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//        if (CommonPrefUtil.getIsNewCampus())
-//            viewModel.iniData(46, TimeHelper.getWeekInt(), TimeHelper.getTimeInt(), CommonPrefUtil.getStudentNumber());
-//        else
-//            viewModel.iniData(23, TimeHelper.getWeekInt(), TimeHelper.getTimeInt(), CommonPrefUtil.getStudentNumber());
+        initData();
         mainBinding.setViewModel(viewModel);
         com.kelin.mvvmlight.messenger.Messenger.getDefault().send(viewModel, "setData");
         ButterKnife.bind(this);
@@ -183,12 +168,6 @@ public class MainActivity extends RxAppCompatActivity {
             hasPop = !hasPop;
             seletedTag = 3;
         });
-//        swipeRefreshLayout.setOnRefreshListener(() -> {
-//            ClassRoomProvider.init(this).registerAction((freeRoom2) -> {
-//                swipeRefreshLayout.setRefreshing(false);
-//            }).getFreeClassroom(viewModel.building, viewModel.week,TimeHelper.getDayOfWeek(), viewModel.time, CommonPrefUtil.getStudentNumber());
-//
-//        });
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -204,7 +183,6 @@ public class MainActivity extends RxAppCompatActivity {
             startActivity(intent);
         } else if (item.getItemId() == R.id.campus_choose) {
             Intent intent = new Intent(MainActivity.this, RoomqueryChooseCampus.class);
-            campusHasChanged=true;
             startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
@@ -215,18 +193,14 @@ public class MainActivity extends RxAppCompatActivity {
             imageView.startAnimation(animation2);
             popupWindow.dismiss();
         }
-//        else  if (!hasPop) {
-////            refreshData();
-//            imageView.startAnimation(animation2);
-//        }
-//        hasPop = !hasPop;
     }
 
     @Override
     protected void onResume() {
-        if(campusHasChanged) {
+        if(isNewCampus!=CommonPrefUtil.getIsNewCampus()) {
+            PopupItemViewModel.resetBuildingAndTime();
             initData();
-            campusHasChanged=false;
+            isNewCampus=CommonPrefUtil.getIsNewCampus();
         }
         else
             viewModel.onRefresh();
@@ -248,11 +222,6 @@ public class MainActivity extends RxAppCompatActivity {
         viewModel.condition2.set("现在");
         viewModel.condition3.set("全部");
         viewModel.refreshData(building);
-    }
-    private void initConditionText(){
-        viewModel.condition1.set("教学楼");
-        viewModel.condition2.set("时间段");
-        viewModel.condition3.set("筛选");
     }
 }
 

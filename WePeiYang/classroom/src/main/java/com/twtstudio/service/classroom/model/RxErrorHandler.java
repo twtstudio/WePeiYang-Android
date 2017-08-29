@@ -32,8 +32,9 @@ public class RxErrorHandler extends com.twt.wepeiyang.commons.network.RxErrorHan
 
     public void stopLoading(MainActivityViewModel viewModel) {
         viewModel.onLoadMoreError = true;
-        if (!viewModel.items.isEmpty())
+        if (!viewModel.items.isEmpty() && viewModel.items.size() > 6) {
             viewModel.items.remove(viewModel.items.size() - 1);
-        viewModel.items.add(new OnLoadMoreItemViewModel(false, true));
+            viewModel.items.add(new OnLoadMoreItemViewModel(false, true));
+        }
     }
 }

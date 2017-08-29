@@ -4,5 +4,6 @@
     <item
         android:id="@+id/schedule_switch"
         android:icon="@drawable/ic_switch"
+        android:title="@string/menu_schedule_switch"
         app:showAsAction="always"/>
 </menu>

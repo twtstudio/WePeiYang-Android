@@ -4,9 +4,11 @@
     <item
         android:id="@+id/room_collected"
         android:icon="@drawable/classroom_icon_collecte"
+        android:title="@string/menu_room_collected"
         app:showAsAction="always"/>
     <item
         android:id="@+id/campus_choose"
         android:icon="@drawable/classroom_icon_gps"
+        android:title="@string/menu_campus_choose"
         app:showAsAction="always"/>
 </menu>
