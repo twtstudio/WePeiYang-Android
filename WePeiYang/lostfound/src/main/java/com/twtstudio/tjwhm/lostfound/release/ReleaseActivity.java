@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -36,6 +37,7 @@ import com.twtstudio.tjwhm.lostfound.detail.DetailBean;
 import com.twtstudio.tjwhm.lostfound.detail.DetailContract;
 import com.twtstudio.tjwhm.lostfound.detail.DetailPresenterImpl;
 import com.twtstudio.tjwhm.lostfound.success.SuccessActivity;
+import com.twtstudio.tjwhm.lostfound.support.PermissionsUtils;
 import com.twtstudio.tjwhm.lostfound.support.Utils;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
@@ -160,16 +162,11 @@ public class ReleaseActivity extends BaseActivity
         drawRecyclerView(selectedItemPosition);
         onTypeItemSelected(selectedItemPosition);
 
-        release_choose_pic.setOnClickListener(view -> Matisse.from(ReleaseActivity.this)
-                .choose(MimeType.of(MimeType.JPEG, MimeType.PNG, MimeType.GIF))
-                .countable(true)
-                .maxSelectable(1)
-                .gridExpectedSize(getResources().getDimensionPixelSize(R.dimen.grid_expected_size))
-                .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
-                .thumbnailScale(0.85f)
-                .imageEngine(new GlideEngine())
-                .theme(R.style.Matisse_Zhihu)
-                .forResult(2));
+        release_choose_pic.setOnClickListener(view ->
+                PermissionsUtils.requestPermission(this, PermissionsUtils.CODE_READ_EXTERNAL_STORAGE, mPermissionGrant)
+
+
+        );
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_NOT_ALWAYS);
     }
@@ -250,13 +247,13 @@ public class ReleaseActivity extends BaseActivity
         Intent intent = new Intent();
         Bundle bundle = new Bundle();
         bundle.putString("shareOrSuccess", "success");
-        bundle.putString("lostOrFound",lostOrFound);
+        bundle.putString("lostOrFound", lostOrFound);
         bundle.putString("imageUrl", Utils.getPicUrl(baseBean.data.get(0).picture));
         bundle.putString("id", String.valueOf(baseBean.data.get(0).id));
         bundle.putString("time", baseBean.data.get(0).time);
         bundle.putString("place", baseBean.data.get(0).place);
         bundle.putString("type", Utils.getType(baseBean.data.get(0).detail_type));
-        bundle.putString("title",baseBean.data.get(0).title);
+        bundle.putString("title", baseBean.data.get(0).title);
         intent.putExtras(bundle);
         intent.setClass(this, SuccessActivity.class);
         startActivity(intent);
@@ -460,5 +457,59 @@ public class ReleaseActivity extends BaseActivity
             }
         }
         return file;
+    }
+
+    private PermissionsUtils.PermissionGrant mPermissionGrant = requestCode -> {
+        switch (requestCode) {
+            case PermissionsUtils.CODE_RECORD_AUDIO:
+                Toast.makeText(ReleaseActivity.this, "Result Permission Grant CODE_RECORD_AUDIO", Toast.LENGTH_SHORT).show();
+                break;
+            case PermissionsUtils.CODE_GET_ACCOUNTS:
+                Toast.makeText(ReleaseActivity.this, "Result Permission Grant CODE_GET_ACCOUNTS", Toast.LENGTH_SHORT).show();
+                break;
+            case PermissionsUtils.CODE_READ_PHONE_STATE:
+                Toast.makeText(ReleaseActivity.this, "Result Permission Grant CODE_READ_PHONE_STATE", Toast.LENGTH_SHORT).show();
+                break;
+            case PermissionsUtils.CODE_CALL_PHONE:
+                Toast.makeText(ReleaseActivity.this, "Result Permission Grant CODE_CALL_PHONE", Toast.LENGTH_SHORT).show();
+                break;
+            case PermissionsUtils.CODE_CAMERA:
+                Toast.makeText(ReleaseActivity.this, "Result Permission Grant CODE_CAMERA", Toast.LENGTH_SHORT).show();
+                break;
+            case PermissionsUtils.CODE_ACCESS_FINE_LOCATION:
+                Toast.makeText(ReleaseActivity.this, "Result Permission Grant CODE_ACCESS_FINE_LOCATION", Toast.LENGTH_SHORT).show();
+                break;
+            case PermissionsUtils.CODE_ACCESS_COARSE_LOCATION:
+                Toast.makeText(ReleaseActivity.this, "Result Permission Grant CODE_ACCESS_COARSE_LOCATION", Toast.LENGTH_SHORT).show();
+                break;
+            case PermissionsUtils.CODE_READ_EXTERNAL_STORAGE:
+                openSeletPic();
+                break;
+            case PermissionsUtils.CODE_WRITE_EXTERNAL_STORAGE:
+                Toast.makeText(ReleaseActivity.this, "Result Permission Grant CODE_WRITE_EXTERNAL_STORAGE", Toast.LENGTH_SHORT).show();
+                break;
+            default:
+                break;
+        }
+    };
+
+    public void onRequestPermissionsResult(final int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+
+        PermissionsUtils.requestPermissionsResult(this, requestCode, permissions, grantResults, mPermissionGrant);
+
+    }
+
+    public void openSeletPic() {
+        Matisse.from(ReleaseActivity.this)
+                .choose(MimeType.of(MimeType.JPEG, MimeType.PNG, MimeType.GIF))
+                .countable(true)
+                .maxSelectable(1)
+                .gridExpectedSize(getResources().getDimensionPixelSize(R.dimen.grid_expected_size))
+                .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
+                .thumbnailScale(0.85f)
+                .imageEngine(new GlideEngine())
+                .theme(R.style.Matisse_Zhihu)
+                .forResult(2);
     }
 }

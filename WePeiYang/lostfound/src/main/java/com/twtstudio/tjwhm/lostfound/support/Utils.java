@@ -1,10 +1,14 @@
 package com.twtstudio.tjwhm.lostfound.support;
 
+import android.Manifest;
+
 /**
  * Created by tjwhm on 2017/7/7.
  **/
 
 public class Utils {
+    public static final String PERMISSION_READ_EXTERNAL_STORAGE = Manifest.permission.READ_EXTERNAL_STORAGE;
+
     public static String getType(int i) {
 
         if (i == 1) {
