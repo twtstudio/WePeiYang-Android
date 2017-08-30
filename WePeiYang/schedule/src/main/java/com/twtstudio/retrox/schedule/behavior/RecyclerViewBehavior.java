@@ -91,8 +91,8 @@ public class RecyclerViewBehavior extends CoordinatorLayout.Behavior<RecyclerVie
                 // 这是一个很重要的方法，通常放在View.computeScroll()中，用来判断是否滚动是否结束。
                 if (scroller.computeScrollOffset()) {
                     int delta = scroller.getCurrY() - child.getTop();
+//                    Log.d("delta","delta"+Integer.toString(delta)+" "+Integer.toString(child.getTop())+" scroll "+Integer.toString(scroller.getCurrY()));
                     child.offsetTopAndBottom(delta);
-
                     saveTop(child.getTop());
                     parent.dispatchDependentViewsChanged(child);
 
@@ -100,7 +100,8 @@ public class RecyclerViewBehavior extends CoordinatorLayout.Behavior<RecyclerVie
                 } else {
                     MonthPager monthPager = (MonthPager) parent.getChildAt(0);
                     if(monthPager.getTop() < 0) {
-                        if(monthPager.getTop() +  monthPager.getTopMovableDistance() > 0) {
+                        if(monthPager.getTop() +  monthPager.getTopMovableDistance() > 0&&(- monthPager.getTop()
+                                -  monthPager.getTopMovableDistance())>0) {
                             monthPager.offsetTopAndBottom(- monthPager.getTop()
                                     -  monthPager.getTopMovableDistance());
                         }
