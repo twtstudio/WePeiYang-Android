@@ -226,6 +226,7 @@ public class PermissionsUtils {
         if (requestCode == CODE_READ_EXTERNAL_STORAGE) {
             releaseActivity = (ReleaseActivity) activity;
             releaseActivity.openSeletPic();
+            return;
         }
         if (requestCode == CODE_MULTI_PERMISSION) {
             requestMultiResult(activity, permissions, grantResults, permissionGrant);

@@ -31,6 +31,7 @@ public class MylistFragment extends Fragment implements MylistContract.MylistVie
     @BindView(R.id.mylist_nodata)
     LinearLayout mylist_nodata;
     boolean isloading = false;
+    boolean needClear = false;
 
     private MylistTableAdapter tableAdapter;
     private LinearLayoutManager layoutManager;
@@ -75,6 +76,9 @@ public class MylistFragment extends Fragment implements MylistContract.MylistVie
 
     @Override
     public void setMylistData(MylistBean mylistBean) {
+        if(needClear){
+            this.mylistBean.data.clear();
+        }
         this.mylistBean.error_code = mylistBean.error_code;
         this.mylistBean.message = mylistBean.message;
         this.mylistBean.data.addAll(mylistBean.data);
@@ -95,6 +99,7 @@ public class MylistFragment extends Fragment implements MylistContract.MylistVie
 
     @Override
     public void turnStatusSuccessCallBack() {
+        needClear = true;
         mylistPresenter.loadMylistData(lostOrFound, 1);
     }
 

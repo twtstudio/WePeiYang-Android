@@ -1,6 +1,7 @@
 package com.twtstudio.tjwhm.lostfound.mylist;
 
 import com.twtstudio.tjwhm.lostfound.base.BaseBean;
+import com.twtstudio.tjwhm.lostfound.base.CallbackBean;
 
 /**
  * Created by tjwhm on 2017/7/7.
@@ -23,6 +24,6 @@ public interface MylistContract {
 
         void turnStatus(int id);
 
-        void turnStatusSuccessCallBack(BaseBean baseBean);
+        void turnStatusSuccessCallBack(CallbackBean callbackBean);
     }
 }
