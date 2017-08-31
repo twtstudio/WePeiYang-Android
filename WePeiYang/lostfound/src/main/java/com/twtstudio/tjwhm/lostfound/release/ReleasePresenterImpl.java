@@ -3,6 +3,7 @@ package com.twtstudio.tjwhm.lostfound.release;
 import com.twt.wepeiyang.commons.network.RetrofitProvider;
 import com.twt.wepeiyang.commons.network.RxErrorHandler;
 import com.twtstudio.tjwhm.lostfound.base.BaseBean;
+import com.twtstudio.tjwhm.lostfound.base.CallbackBean;
 
 import java.io.File;
 import java.util.List;

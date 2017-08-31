@@ -228,7 +228,9 @@ public class ReleaseActivity extends BaseActivity
             try {
                 file1 = File.createTempFile("pic", ".jpg");
                 String outputFile = file1.getPath();
-                file = getFile(zipThePic(handleImageOnKitKat(selectedPic.get(0))), outputFile);
+                if (selectedPic.size() != 0) {
+                    file = getFile(zipThePic(handleImageOnKitKat(selectedPic.get(0))), outputFile);
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -332,7 +334,6 @@ public class ReleaseActivity extends BaseActivity
             release_cardinfo.setVisibility(View.GONE);
         }
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

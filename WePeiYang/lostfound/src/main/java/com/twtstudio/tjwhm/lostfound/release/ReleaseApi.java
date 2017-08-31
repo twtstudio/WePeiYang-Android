@@ -1,6 +1,7 @@
 package com.twtstudio.tjwhm.lostfound.release;
 
 import com.twtstudio.tjwhm.lostfound.base.BaseBean;
+import com.twtstudio.tjwhm.lostfound.base.CallbackBean;
 
 import java.util.List;
 import java.util.Map;
@@ -46,8 +47,8 @@ public interface ReleaseApi {
     @POST("lostfound/edit/{lostOrFound}/{id}")
     @Multipart
     Observable<BaseBean> updateEditWithPic(@Path("lostOrFound") String lostOrFound,
-                                           @Path("id") String id,
-                                           @Part List<MultipartBody.Part> partList);
+                                               @Path("id") String id,
+                                               @Part List<MultipartBody.Part> partList);
 
     @DELETE("lostfound/{id}")
     Observable<BaseBean> delete(@Path("id") String id);

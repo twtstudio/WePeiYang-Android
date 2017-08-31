@@ -33,7 +33,7 @@ public class BaseBean {
         public String time;
         public String phone;
         public int detail_type;
-        public int isback;
+//        public int isback;
         public String picture;
     }
 }

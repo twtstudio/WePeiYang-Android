@@ -30,7 +30,7 @@ public class MylistFragment extends Fragment implements MylistContract.MylistVie
     ProgressBar mylist_progress;
     @BindView(R.id.mylist_nodata)
     LinearLayout mylist_nodata;
-    boolean isloading = false;
+    boolean isLoading = false;
     boolean needClear = false;
 
     private MylistTableAdapter tableAdapter;
@@ -64,9 +64,9 @@ public class MylistFragment extends Fragment implements MylistContract.MylistVie
                 super.onScrolled(recyclerView, dx, dy);
                 int totalCount = layoutManager.getItemCount();
                 int lastVisibleItem = layoutManager.findLastCompletelyVisibleItemPosition();
-                if (!isloading && totalCount < (lastVisibleItem + 2)) {
+                if (!isLoading && totalCount < (lastVisibleItem + 2)) {
                     ++page;
-                    isloading = true;
+                    isLoading = true;
                     mylistPresenter.loadMylistData(lostOrFound, page);
                 }
             }
@@ -76,7 +76,7 @@ public class MylistFragment extends Fragment implements MylistContract.MylistVie
 
     @Override
     public void setMylistData(MylistBean mylistBean) {
-        if(needClear){
+        if (needClear) {
             this.mylistBean.data.clear();
         }
         this.mylistBean.error_code = mylistBean.error_code;
@@ -89,7 +89,8 @@ public class MylistFragment extends Fragment implements MylistContract.MylistVie
         } else {
             mylist_nodata.setVisibility(View.GONE);
         }
-        isloading = false;
+        isLoading = false;
+        needClear = false;
     }
 
     @Override

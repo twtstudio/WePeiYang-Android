@@ -57,17 +57,17 @@
                             android:layout_marginTop="12dp">
 
                             <ImageView
+                                android:layout_centerInParent="true"
                                 android:id="@+id/mylist_item_back_grey"
                                 android:layout_width="16dp"
                                 android:layout_height="16dp"
-                                android:layout_alignParentBottom="true"
                                 android:src="@drawable/lost_back_grey" />
 
                             <ImageView
+                                android:layout_centerInParent="true"
                                 android:id="@+id/mylist_item_back_blue"
                                 android:layout_width="16dp"
                                 android:layout_height="16dp"
-                                android:layout_alignParentBottom="true"
                                 android:src="@drawable/lost_back_blue" />
                         </RelativeLayout>
                     </LinearLayout>
