@@ -89,6 +89,11 @@
 
 
                 >
+                <ProgressBar
+                    android:layout_width="65dp"
+                    android:layout_height="23dp"
+                    android:layout_margin="3dp"
+                    android:visibility="@{viewModel.isLoading ? View.VISIBLE: View.GONE}"/>
                 <TextView
                     android:id="@+id/tv_showstatus"
                     android:layout_width="65dp"

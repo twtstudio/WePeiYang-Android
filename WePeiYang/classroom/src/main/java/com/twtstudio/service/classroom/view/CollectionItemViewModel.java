@@ -32,6 +32,7 @@ public class CollectionItemViewModel implements com.kelin.mvvmlight.base.ViewMod
     public final ObservableField<Integer> resid2 = new ObservableField<>();
     public final ObservableField<Integer> resid3 = new ObservableField<>();
     public final ObservableField<Integer> resid4 = new ObservableField<>();
+    public final ObservableField<Boolean> isLoading=new ObservableField<>(false);
     public final ObservableField<Boolean> isTextVisible = new ObservableField<>(true); //是否显示tv_showstatus
     public final ObservableField<Boolean> isVisible5 = new ObservableField<>(false);
     public final ObservableField<Boolean> isVisible2 = new ObservableField<>(false);
@@ -44,14 +45,16 @@ public class CollectionItemViewModel implements com.kelin.mvvmlight.base.ViewMod
     Animation zoomIn, zoomOut;
     RoomCollection roomCollection;
     public ReplyCommand tvClickCommand = new ReplyCommand(() -> {
+        isTextVisible.set(false);
+        isLoading.set(true);
         ClassRoomProvider.init(rxAppCompatActivity).registerAction((freeRoom2) -> {
+            isLoading.set(false);
             for (FreeRoom2.FreeRoom freeRoom : freeRoom2.getData()) {
                 if (freeRoom.getRoom().equals(this.freeRoom.getRoom()))
                     if (freeRoom.getState().equals("空闲"))
                         resid1.set(R.drawable.classroom_tag_empty);
                     else if (freeRoom.getState().equals("上课中"))
                         resid1.set(R.drawable.classroom_tag_inclass);
-                isTextVisible.set(false);
             }
         }).getFreeClassroom(StringHelper.getBuildingInt(freeRoom.getRoom()), TimeHelper.getWeekInt(), TimeHelper.getDayOfWeek(), TimeHelper.getTimeInt(), CommonPrefUtil.getStudentNumber());
     });
