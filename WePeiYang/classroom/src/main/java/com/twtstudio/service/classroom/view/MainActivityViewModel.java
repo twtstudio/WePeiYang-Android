@@ -58,23 +58,26 @@ public class MainActivityViewModel {
     public final ReplyCommand<Integer> loadMoreCommand = new ReplyCommand<>(
             (count) -> {
                 if (onLoadMore) {
-                    int page = count / limit + 1;
-                    time = page + page - 1;
-                    if (time > 12)
-                        onLoadMore = false;
-                    else {
-                        getData(building, TimeHelper.getWeekInt(), time, CommonPrefUtil.getStudentNumber());
-                        if (!items.isEmpty())
-                            items.remove(items.size() - 1);
-                        items.add(new OnLoadMoreItemViewModel(false, false));
-                        if (!onLoadMoreError) {
+                    if (!onLoadMoreError) {
+                        int page = count / limit + 1;
+                        time = page + page - 1;
+                        if (time > 12)
+                            onLoadMore = false;
+                        else {
+                            getData(building, TimeHelper.getWeekInt(), time, CommonPrefUtil.getStudentNumber());
+                            if (!items.isEmpty())
+                                items.remove(items.size() - 1);
+                            items.add(new OnLoadMoreItemViewModel(false, false));
+
                             if (items.size() > 1)
                                 items.add(new OnLoadMoreItemViewModel(true, false));
                             else
                                 isError.set(true);
                         }
+                    } else {
                         onLoadMoreError = false;
                     }
+
                 }
             });
 
