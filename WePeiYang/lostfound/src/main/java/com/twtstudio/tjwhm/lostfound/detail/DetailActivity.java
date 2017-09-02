@@ -86,7 +86,7 @@ public class DetailActivity extends BaseActivity implements DetailContract.Detai
                 bundle.putString("time", detailData.data.time);
                 bundle.putString("place", detailData.data.place);
                 bundle.putString("type", Utils.getType(detailData.data.detail_type));
-                bundle.putString("title",detailData.data.title);
+                bundle.putString("title", detailData.data.title);
                 intent.putExtras(bundle);
                 intent.setClass(this, SuccessActivity.class);
                 startActivity(intent);
@@ -107,13 +107,11 @@ public class DetailActivity extends BaseActivity implements DetailContract.Detai
         int id = bundle.getInt("id");
         lostOrFound = bundle.getString("lostOrFound");
         detailPresenter.loadDetailData(id);
-
     }
 
     @Override
     public void setDetailData(DetailBean detailData) {
         this.detailData = detailData;
-
         detail_title.setText(detailData.data.title);
         detail_time.setText(detailData.data.time);
         detail_place.setText(detailData.data.place);
@@ -171,7 +169,6 @@ public class DetailActivity extends BaseActivity implements DetailContract.Detai
                     .into(detail_dialog_pic);
             detail_dialog_pic.setOnClickListener(view1 -> dialog.hide());
         }
-
         dialog.show();
     }
 }

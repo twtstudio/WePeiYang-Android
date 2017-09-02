@@ -17,7 +17,8 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 /**
- * Created by tjwhm on 2017/7/6.
+ * Created by tjwhm on 2017/7/6 15:55.
+ * Happy coding!
  **/
 
 public class ReleasePresenterImpl implements ReleaseContract.ReleasePresenter {
