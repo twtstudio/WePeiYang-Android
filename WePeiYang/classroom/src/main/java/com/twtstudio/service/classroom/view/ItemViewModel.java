@@ -77,8 +77,6 @@ public class ItemViewModel implements com.kelin.mvvmlight.base.ViewModel {
             resid1.set(R.drawable.classroom_tag_empty);
         else if (freeRoom.getState().equals("上课中"))
             resid1.set(R.drawable.classroom_tag_inclass);
-        if (freeRoom.getState().equals("上课中"))
-            resid1.set(R.drawable.classroom_tag_inclass);
         if (freeRoom.getState().equals("即将上课"))
             resid1.set(R.drawable.classroom_tag_willhaveclass);
         if (freeRoom.getState().equals("即将下课"))

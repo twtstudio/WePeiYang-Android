@@ -44,6 +44,7 @@
                     android:clickable="true"
                     android:gravity="left"
                     android:text="@{viewModel.classroom}"
+                    android:layout_margin="3dp"
                     android:textSize="25dip" />
 
                 <Button
@@ -70,6 +71,7 @@
                     android:layout_weight="10"
                     android:gravity="left"
                     android:text="@{viewModel.campus}"
+                    android:layout_margin="3dp"
                     android:textSize="15dip" />
 
                 <TextView
@@ -99,7 +101,7 @@
                     android:layout_width="65dp"
                     android:layout_height="23dp"
                     android:layout_margin="3dp"
-                    android:gravity="center"
+                    android:gravity="left"
                     android:text="@string/show_status"
                     android:textColor="@color/colorPrimary"
                     android:clickable="true"
