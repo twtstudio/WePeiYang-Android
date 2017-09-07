@@ -28,41 +28,34 @@ public class TimeHelper {
                 break;
             case 9:
                 if(minutes<=15) return 1;
-                else if(minutes>=20) return 2;
-                break;
+                else  return 2;
             case 10:
                 if(minutes<=5) return 2;
-                else if(minutes>=25) return 3;
-                break;
+                else  return 3;
             case 11:
                 if(minutes<=10) return 3;
-                else if(minutes>=15) return 4;
-                break;
+                else return 4;
             case 13:
                 if(minutes>=30) return 5;
                 break;
             case 14:
                 if(minutes<=15) return 5;
-                else if(minutes>=20) return 6;
-                break;
+                else  return 6;
             case 15:
                 if(minutes<=5) return 6;
-                else if(minutes>=25) return 7;
-                break;
+                else  return 7;
             case 16:
                 if(minutes<=10) return 7;
-                else if(minutes>=15) return 8;
-                break;
+                else  return 8;
             case 18:
                 if(minutes>=30) return 9;
                 break;
             case 19:
                 if(minutes<=15) return 9;
-                else if(minutes>=20) return 10;
-                break;
+                else  return 10;
             case 20:
                 if(minutes<=5) return 10;
-                else if(minutes>=10&&minutes<=55) return 11;
+                else if(minutes<=55) return 11;
                 break;
             case 21:
                 if(minutes<=45) return 12;
@@ -79,4 +72,5 @@ public class TimeHelper {
         Calendar calendar=Calendar.getInstance();
         return calendar.get(Calendar.DAY_OF_WEEK)-1;
     }
+
 }
