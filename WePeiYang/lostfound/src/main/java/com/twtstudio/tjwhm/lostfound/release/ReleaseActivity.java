@@ -234,11 +234,9 @@ public class ReleaseActivity extends BaseActivity
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
             progressDialog = ProgressDialog.show(ReleaseActivity.this, "", "正在上传");
             releasePresenter.uploadEditDataWithPic(getUpdateMap(), lostOrFound, file, id);
         } else if (view == release_delete) {
-
             progressDialog = ProgressDialog.show(ReleaseActivity.this, "", "正在删除");
             releasePresenter.delete(id);
         }

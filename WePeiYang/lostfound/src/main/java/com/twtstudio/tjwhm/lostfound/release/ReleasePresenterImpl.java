@@ -94,9 +94,12 @@ public class ReleasePresenterImpl implements ReleaseContract.ReleasePresenter {
     public void uploadEditDataWithPic(Map<String, Object> map, String lostOrFound, File file, int id) {
         releaseApi = RetrofitProvider.getRetrofit().create(ReleaseApi.class);
 
-        MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);//表单类型
-        RequestBody imageBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
-        builder.addFormDataPart("pic[]", file.getName(), imageBody);//imgfile 后台接收图片流的参数名
+        MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);
+        if(file!=null) {//表单类型
+            RequestBody imageBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+            builder.addFormDataPart("pic[]", file.getName(), imageBody);
+        }
+        //imgfile 后台接收图片流的参数名
         builder.addFormDataPart("title", String.valueOf(map.get("title")));
         builder.addFormDataPart("time", String.valueOf(map.get("time")));
         builder.addFormDataPart("place", String.valueOf(map.get("place")));

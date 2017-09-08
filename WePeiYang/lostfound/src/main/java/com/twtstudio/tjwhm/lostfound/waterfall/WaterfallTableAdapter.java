@@ -95,5 +95,6 @@ public class WaterfallTableAdapter extends RecyclerView.Adapter {
         intent.putExtras(bundle);
         intent.setClass(context, DetailActivity.class);
         context.startActivity(intent);
+
     }
 }

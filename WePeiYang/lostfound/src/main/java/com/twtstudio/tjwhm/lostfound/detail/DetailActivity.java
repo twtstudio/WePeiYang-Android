@@ -171,4 +171,5 @@ public class DetailActivity extends BaseActivity implements DetailContract.Detai
         }
         dialog.show();
     }
+
 }
