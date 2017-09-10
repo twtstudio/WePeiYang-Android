@@ -78,7 +78,8 @@ dependencies {
     compile project(':fellowsearch')
     compile project(':yellowpages')
     compile project(':party')
-    compile project(":classroomquery")
+//    compile project(":classroomquery")
+    compile project(':classroom')
 
 //    compile 'com.twtstudio.retrox:commons:1.0.1'
 //    compile 'com.twtstudio.retrox:mvvmkit:1.0.0-SNAPSHOT'

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.twtstudio.service.classroom.view.OnLoadMoreItemViewModel" />
+        <import type="android.view.View"/>
+    </data>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="4dp"
+            android:gravity="center"
+            android:text="加载失败"
+            android:visibility="@{viewModel.showError?View.VISIBLE:View.GONE}"
+            />
+        <ProgressBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:visibility="@{viewModel.showProgressBar?View.VISIBLE:View.GONE}"
+            />
+    </FrameLayout>
+</layout>

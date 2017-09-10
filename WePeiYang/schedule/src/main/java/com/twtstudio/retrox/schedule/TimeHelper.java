@@ -13,7 +13,7 @@ public class TimeHelper {
     public static int getWeekInt(long startUnix, Calendar calendar){
         long i = calendar.getTimeInMillis()/1000  - startUnix;
         int day = (int) (i/86400);
-        if(day<0) return -1;
+        if(day<0) return 1;
         int week =  day/7 + 1;
         //有人过了那个周数就想看下学期hhh
         if (week > 20){

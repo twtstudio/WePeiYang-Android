@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.twtstudio.service.classroom.view.CollectionItemViewModel" />
+
+        <import type="me.tatarka.bindingcollectionadapter.LayoutManagers" />
+        <import type="android.view.View"/>
+    </data>
+
+    <android.support.v7.widget.CardView
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:background="@color/White"
+        app:cardElevation="1dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="15dp"
+            android:paddingBottom="10dp"
+            android:paddingTop="5dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/classroomItem"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:gravity="left"
+                    android:text="@{viewModel.classroom}"
+                    android:layout_margin="3dp"
+                    android:textSize="25dip" />
+
+                <Button
+                    android:id="@+id/clickButton"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center"
+                    android:onClick="@{viewModel::onClick}"
+                    android:background="@{viewModel.isCollected ? @drawable/classroomicon_collected : @drawable/classroom_icon_uncollected}" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="3dp">
+
+                <TextView
+                    android:id="@+id/xiaoquItem"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="10"
+                    android:gravity="left"
+                    android:text="@{viewModel.campus}"
+                    android:layout_margin="3dp"
+                    android:textSize="15dip" />
+
+                <TextView
+                    android:id="@+id/time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="@{viewModel.time}"/>
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="7dp"
+
+
+                >
+                <ProgressBar
+                    android:layout_width="65dp"
+                    android:layout_height="23dp"
+                    android:layout_margin="3dp"
+                    android:visibility="@{viewModel.isLoading ? View.VISIBLE: View.GONE}"/>
+                <TextView
+                    android:id="@+id/tv_showstatus"
+                    android:layout_width="65dp"
+                    android:layout_height="23dp"
+                    android:layout_margin="3dp"
+                    android:gravity="left"
+                    android:text="@string/show_status"
+                    android:textColor="@color/colorPrimary"
+                    android:clickable="true"
+                    app:clickCommand="@{viewModel.tvClickCommand}"
+                    android:visibility="@{viewModel.isTextVisible ? View.VISIBLE: View.GONE}"/>
+                <ImageView
+                    android:id="@+id/image1"
+                    android:layout_width="65dp"
+                    android:layout_height="23dp"
+                    android:layout_margin="3dp"
+                    android:scaleType="fitCenter"
+                    app:placeholderImageRes="@{viewModel.resid1}"/>
+
+                <ImageView
+                    android:id="@+id/image2"
+                    android:layout_width="65dp"
+                    android:layout_height="23dp"
+                    android:layout_margin="3dp"
+                    android:layout_toRightOf="@id/image1"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/classroom_tag_fan"
+                    android:visibility="@{viewModel.isVisible2 ? View.VISIBLE: View.GONE}" />
+
+                <ImageView
+                    android:id="@+id/image3"
+                    android:layout_width="65dp"
+                    android:layout_height="23dp"
+                    android:layout_margin="3dp"
+                    android:layout_toRightOf="@id/image2"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/classroomtag_electricityt"
+                    android:visibility="@{viewModel.isVisible3 ? View.VISIBLE: View.GONE}" />
+
+                <ImageView
+                    android:id="@+id/image4"
+                    android:layout_width="65dp"
+                    android:layout_height="23dp"
+                    android:layout_margin="3dp"
+                    android:scaleType="fitCenter"
+                    android:layout_toRightOf="@id/image3"
+                    android:src="@drawable/classroom_tag_heat"
+                    android:visibility="@{viewModel.isVisible4 ? View.VISIBLE: View.GONE}" />
+
+                <ImageView
+                    android:id="@+id/image5"
+                    android:layout_width="65dp"
+                    android:layout_height="23dp"
+                    android:layout_margin="3dp"
+                    android:scaleType="fitCenter"
+                    android:layout_toRightOf="@id/image4"
+                    android:src="@drawable/classroom_tag_yinshuiji"
+                    android:visibility="@{viewModel.isVisible5 ? View.VISIBLE: View.GONE}" />
+
+                <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_toRightOf="@id/image5"-->
+                <!--android:layout_alignParentEnd="true"-->
+                <!--android:layout_marginEnd="12dp"-->
+                <!--/>-->
+            </RelativeLayout>
+        </LinearLayout>
+
+
+    </android.support.v7.widget.CardView>
+</layout>
