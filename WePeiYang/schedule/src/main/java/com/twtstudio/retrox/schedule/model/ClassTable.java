@@ -43,6 +43,7 @@ public class ClassTable {
                 public String room;//上课地点
             }
 
+
             public Week week;//从第几周至第几周上课
 
             public static class Week implements Serializable {

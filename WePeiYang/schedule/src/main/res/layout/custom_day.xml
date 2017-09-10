@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/relative"
+    android:orientation="vertical"
+    android:layout_width="0dp"
+    android:layout_height="45dp"
+    android:gravity="center">
+    <View
+        android:id="@+id/today_background"
+        android:layout_width="33dp"
+        android:layout_height="33dp"
+        android:background="@drawable/today_background"
+        android:layout_centerInParent="true"
+        android:visibility="gone"/>
+    <View
+        android:id="@+id/selected_background"
+        android:layout_width="33dp"
+        android:layout_height="33dp"
+        android:background="@drawable/selected_background"
+        android:layout_centerInParent="true"
+        android:visibility="gone"/>
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:textSize="15sp"
+        android:text="19"/>
+</RelativeLayout>

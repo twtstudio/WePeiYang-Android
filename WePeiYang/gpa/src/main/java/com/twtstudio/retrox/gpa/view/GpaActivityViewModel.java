@@ -19,8 +19,11 @@ import com.twtstudio.retrox.gpa.R;
 import java.util.ArrayList;
 
 import me.tatarka.bindingcollectionadapter.ItemViewSelector;
-import me.tatarka.bindingcollectionadapter.collections.MergeObservableList;
+
 import me.tatarka.bindingcollectionadapter.itemviews.ItemViewClassSelector;
+import me.tatarka.bindingcollectionadapter2.ItemBinding;
+import me.tatarka.bindingcollectionadapter2.OnItemBind;
+import me.tatarka.bindingcollectionadapter2.collections.MergeObservableList;
 
 /**
  * Created by retrox on 2017/1/28.
@@ -56,11 +59,27 @@ public class GpaActivityViewModel implements ViewModel {
 
     public final ReplyCommand evaluateClick = new ReplyCommand(this::onEvaluateClick);
 
-    public final ItemViewSelector itemView = ItemViewClassSelector.builder()
-            .put(GpaChartViewModel.class, BR.viewModel, R.layout.gpa_item_chart)
-            .put(TermBriefViewModel.class,BR.viewModel,R.layout.gpa_item_term_brief)
-            .put(TermDetailViewModel.class,BR.viewModel,R.layout.gpa_item_term)
-            .build();
+//    public final ItemBinding itemBinding = ItemBinding.of();
+
+    public final OnItemBind<ViewModel> onItemBind = new OnItemBind<ViewModel>() {
+        @Override
+        public void onItemBind(ItemBinding itemBinding, int position, ViewModel item) {
+            if (item instanceof GpaChartViewModel){
+                itemBinding.set(BR.viewModel,R.layout.gpa_item_chart);
+            }else if (item instanceof TermBriefViewModel){
+                itemBinding.set(BR.viewModel,R.layout.gpa_item_term_brief);
+            }else if (item instanceof TermDetailViewModel){
+                itemBinding.set(BR.viewModel,R.layout.gpa_item_term);
+            }
+//            itemBinding.set(BR.item, position == 0 ? R.layout.item_header : R.layout.item);
+        }
+    };
+
+//    public final ItemViewSelector itemView = ItemViewClassSelector.builder()
+//            .put(GpaChartViewModel.class, BR.viewModel, R.layout.gpa_item_chart)
+//            .put(TermBriefViewModel.class,BR.viewModel,R.layout.gpa_item_term_brief)
+//            .put(TermDetailViewModel.class,BR.viewModel,R.layout.gpa_item_term)
+//            .build();
 
     ArrayList<GpaBean.Term.Course> unEvaluatedCourses;
 
@@ -114,7 +133,7 @@ public class GpaActivityViewModel implements ViewModel {
     }
 
     public void getGpaData(){
-        getGpaData(false);
+        getGpaData(true);
     }
 
     public void setTermIndex(int index){

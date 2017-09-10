@@ -8,9 +8,9 @@
     <color name="divider_color">#eeeeee</color>
     <color name="bike_background">#ebeff0</color>
     <color name="white">#ffffff</color>
-    <color name="schedule_primary_color">#ff9801</color>
+    <color name="schedule_primary_color">#fed22c</color>
     <color name="schedule_dark_primary_color">#f67c01</color>
-
+    <color name="calendar_selected_color">#889abc</color>
     <color name="schedule_orange">#fcc780</color>
     <color name="schedule_green">#acd87a</color>
     <color name="schedule_red">#fba890</color>

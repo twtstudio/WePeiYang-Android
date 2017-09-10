@@ -116,7 +116,8 @@ public class ClassroomViewModel implements ViewModel{
     private void jumpToDetail(){
         Class clazz = null ;
         try {
-            clazz = Class.forName("course.labs.classroomquery.homePage.MainActivity");
+//            clazz = Class.forName("course.labs.classroomquery.homePage.MainActivity");
+            clazz = Class.forName("com.twtstudio.service.classroom.view.MainActivity");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }

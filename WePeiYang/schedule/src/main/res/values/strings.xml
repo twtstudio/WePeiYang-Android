@@ -9,5 +9,15 @@
     <string name="sunday">日</string>
     <string name="schedule">课程表</string>
     <string name="schedule_transition">schedule_transition</string>
+    <string name="menu_schedule_switch">切换视图</string>
+    <string-array name="dayOfWeek">
+        <item>日</item>
+        <item>一</item>
+        <item>二</item>
+        <item>三</item>
+        <item>四</item>
+        <item>五</item>
+        <item>六</item>
+    </string-array>
 
 </resources>

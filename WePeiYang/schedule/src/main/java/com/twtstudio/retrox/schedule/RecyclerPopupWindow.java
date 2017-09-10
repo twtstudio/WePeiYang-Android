@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.PopupWindow;
 
 
+import com.tencent.bugly.crashreport.CrashReport;
+
 import java.util.List;
 
 /**
@@ -39,8 +41,16 @@ public class RecyclerPopupWindow extends PopupWindow implements RecyclerPopupWin
             }
         }
         if (prePosition == -1){
+            if(currentWeek==-1)
+                currentWeek=1;
             prePosition = currentWeek - 1;
-            items.get(currentWeek - 1).setActive(true);
+
+            //todo 这里出现了数组越界问题 暂时做了捕获处理
+            try {
+                items.get(currentWeek - 1).setActive(true);
+            }catch (Exception e){
+                CrashReport.postCatchedException(e);
+            }
         }
     }
 

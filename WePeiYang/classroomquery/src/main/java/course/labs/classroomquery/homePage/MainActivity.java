@@ -72,7 +72,7 @@ import rx.Observable;
 import rx.Observer;
 import rx.functions.Func1;
 
-@Route(path = "/classroom/main")
+//@Route(path = "/classroom/main")
 public class MainActivity extends AppCompatActivity implements ViewModel{
     private GradientDrawable drawable;
 

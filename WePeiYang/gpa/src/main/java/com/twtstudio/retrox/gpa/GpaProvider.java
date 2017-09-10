@@ -42,7 +42,7 @@ public class GpaProvider {
      * default: not refresh the cache
      */
     public void getData() {
-        getData(false);
+        getData(true);
     }
 
     /**

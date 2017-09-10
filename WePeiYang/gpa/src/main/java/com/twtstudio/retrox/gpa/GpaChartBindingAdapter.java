@@ -78,7 +78,7 @@ public class GpaChartBindingAdapter {
                 String s = " ";
                 try {
                     s = xVals.get((int) value);
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                     CrashReport.postCatchedException(e);
                 }
@@ -102,7 +102,9 @@ public class GpaChartBindingAdapter {
         }
 
 
-        LineDataSet dataSet = new LineDataSet(yVals,"加权成绩: "+String.valueOf(gpaData.stat.total.score));
+        LineDataSet dataSet = new LineDataSet(yVals, "加权成绩: " + String.valueOf(gpaData.stat.total.score)
+                + "   GPA:" + String.valueOf(gpaData.stat.total.gpa)
+                + "   总学分:" + String.valueOf(gpaData.stat.total.credit));
 //        LineDataSet xdataSet = new LineDataSet()
 
         dataSet.setDrawFilled(true);
