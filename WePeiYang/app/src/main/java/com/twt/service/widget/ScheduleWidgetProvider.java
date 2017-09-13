@@ -13,6 +13,7 @@ import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
 import com.orhanobut.hawk.Hawk;
 import com.orhanobut.logger.Logger;
+import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.twt.wepeiyang.commons.cache.CacheProvider;
 import com.twt.wepeiyang.commons.network.RetrofitProvider;
 import com.twt.wepeiyang.commons.network.RxErrorHandler;
@@ -116,6 +117,7 @@ public class ScheduleWidgetProvider extends AppWidgetProvider {
                     //存入学期开始时间
                     CommonPrefUtil.setStartUnix(Long.valueOf(classTable.data.term_start));
 
+                    helper.setCalendar(CalendarDay.today());
                     List<ClassTable.Data.Course> courseList = helper.getTodayCourses(classTable, true);
                     //去除无用课程
                     courseList = Stream.of(courseList)

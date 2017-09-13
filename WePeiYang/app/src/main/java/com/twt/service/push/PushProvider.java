@@ -1,5 +1,6 @@
 package com.twt.service.push;
 
+import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 import com.twtstudio.retrox.schedule.model.ClassTable;
 import com.twtstudio.retrox.schedule.model.ClassTableProvider;
@@ -39,12 +40,15 @@ public class PushProvider {
                                     "第一门是" + course.coursename + "\n在第" + courseHelper.getTodayStart(course.arrange) + "节开始\n" +
                                     "位置：" + CourseHelper.getTodayLocation(course.arrange)));
                         }
-                    }).getData();
+                    }).getData(CalendarDay.today());
         } else if (hours >= 21) {
+            calendar.add(Calendar.DAY_OF_YEAR, 1);
             // FIXME: 2017/2/24 秘制明日课程问题
             ClassTableProvider.init(activity)
                     .registerAction(classTable -> {
-                        List<ClassTable.Data.Course> courses = new CourseHelper().getTomorrowCourses(classTable);
+                        final CourseHelper courseHelper = new CourseHelper();
+                        courseHelper.setCalendar(CalendarDay.from(calendar));
+                        List<ClassTable.Data.Course> courses = courseHelper.getTodayCourses(classTable, false);
                         List<ClassTable.Data.Course> courseList = trimCourses(courses);
                         if (courseList.size() == 0) {
                             action1.call(new CoursePushBean("明日课程", "明天没课！\n做点有趣的事情吧"));
@@ -54,7 +58,7 @@ public class PushProvider {
                                     "第一门是" + course.coursename + "\n在第" + courseHelper.getTomorrowStart(course.arrange) + "节开始\n" +
                                     "位置：" + CourseHelper.getTomorrowLocation(course.arrange)));
                         }
-                    }).getData();
+                    }).getData(CalendarDay.from(calendar));
         }
 
     }

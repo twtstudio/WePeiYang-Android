@@ -83,7 +83,13 @@ public class ClassTableProvider {
                     if (mAction2 != null) {
                         mAction2.call(classTable, calendarDay);
                     }
-                },throwable -> new RxErrorHandler(mRxActivity).call(throwable.getCause()));
+                    if (mAction1 != null) {
+                        mAction1.call(classTable);
+                    }
+                }, throwable -> {
+                    if (throwable.getCause() != null)
+                        new RxErrorHandler(mRxActivity).call(throwable.getCause());
+                });
 
     }
 
