@@ -45,7 +45,7 @@ public class ReleaseTableAdapter extends RecyclerView.Adapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view;
-        view = LayoutInflater.from(context).inflate(R.layout.item_release_type, parent, false);
+        view = LayoutInflater.from(context).inflate(R.layout.lf_item_release_type, parent, false);
 
         return new ReleaseViewHolder(view);
     }

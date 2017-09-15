@@ -43,7 +43,7 @@
             android:layout_width="44dp"
             android:layout_height="44dp"
             android:layout_centerHorizontal="true"
-            android:indeterminateDrawable="@drawable/progressbar" />
+            android:indeterminateDrawable="@drawable/lf_progressbar" />
 
         <LinearLayout
             android:id="@+id/search_no_res"
@@ -57,7 +57,7 @@
             <ImageView
                 android:layout_width="128dp"
                 android:layout_height="128dp"
-                android:src="@drawable/lost_no_search_result" />
+                android:src="@drawable/lf_no_search_result" />
 
             <TextView
                 android:layout_width="wrap_content"

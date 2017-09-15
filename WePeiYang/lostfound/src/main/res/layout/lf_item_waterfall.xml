@@ -42,7 +42,7 @@
                     android:layout_width="12dp"
                     android:layout_height="12dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/lost_type" />
+                    android:src="@drawable/lf_type" />
 
                 <TextView
                     android:id="@+id/waterfall_item_type"
@@ -62,7 +62,7 @@
                     android:layout_gravity="center"
                     android:layout_width="12dp"
                     android:layout_height="12dp"
-                    android:src="@drawable/lost_time" />
+                    android:src="@drawable/lf_time" />
 
                 <TextView
                     android:id="@+id/waterfall_item_time"
@@ -82,7 +82,7 @@
                     android:layout_gravity="center"
                     android:layout_width="12dp"
                     android:layout_height="12dp"
-                    android:src="@drawable/lost_place" />
+                    android:src="@drawable/lf_place" />
 
                 <TextView
                     android:gravity="center_vertical"

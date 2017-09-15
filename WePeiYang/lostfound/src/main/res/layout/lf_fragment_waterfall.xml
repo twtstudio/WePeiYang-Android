@@ -30,7 +30,7 @@
         <ImageView
             android:layout_width="128dp"
             android:layout_height="128dp"
-            android:src="@drawable/lost_no_search_result" />
+            android:src="@drawable/lf_no_search_result" />
 
         <TextView
             android:layout_width="wrap_content"

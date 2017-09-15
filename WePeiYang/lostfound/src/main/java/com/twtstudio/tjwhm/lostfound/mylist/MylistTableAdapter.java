@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.twtstudio.tjwhm.lostfound.R;
@@ -75,7 +74,7 @@ public class MylistTableAdapter extends RecyclerView.Adapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view;
-        view = LayoutInflater.from(context).inflate(R.layout.item_mylist, parent, false);
+        view = LayoutInflater.from(context).inflate(R.layout.lf_item_mylist, parent, false);
         return new MylistViewHolder(view);
     }
 
@@ -91,7 +90,7 @@ public class MylistTableAdapter extends RecyclerView.Adapter {
         Glide.with(context)
                 .load(Utils.getPicUrl(dataBean.picture))
                 .asBitmap()
-                .placeholder(R.drawable.lost_waterfall_nopic)
+                .placeholder(R.drawable.lf_waterfall_nopic)
                 .into(viewHolder.mylist_item_pic);
 
         if (dataBean.isback == 1) {

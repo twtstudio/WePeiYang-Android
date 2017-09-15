@@ -14,7 +14,7 @@
         android:layout_height="wrap_content">
 
         <include
-            layout="@layout/common_toolbar"
+            layout="@layout/lf_common_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_collapseMode="pin"
@@ -45,7 +45,7 @@
                     android:layout_centerInParent="true"
                     android:background="@color/white"
                     android:backgroundTint="@color/white"
-                    android:src="@drawable/lost_types_grey" />
+                    android:src="@drawable/lf_types_grey" />
 
                 <ImageView
                     android:id="@+id/waterfall_type_blue"
@@ -54,7 +54,7 @@
                     android:layout_centerInParent="true"
                     android:background="@color/white"
                     android:backgroundTint="@color/white"
-                    android:src="@drawable/lost_types_blue" />
+                    android:src="@drawable/lf_types_blue" />
             </RelativeLayout>
 
         </LinearLayout>
@@ -69,7 +69,7 @@
         <include
             android:layout_marginTop="8dp"
             android:id="@+id/waterfall_cardview_types"
-            layout="@layout/waterfall_cardview_types"
+            layout="@layout/lf_waterfall_cardview_types"
             android:layout_width="168dp"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"

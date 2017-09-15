@@ -1,6 +1,5 @@
 package com.twtstudio.tjwhm.lostfound.waterfall;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -56,7 +55,7 @@ public class WaterfallFragment extends Fragment implements WaterfallContract.Wat
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_waterfall, container, false);
+        View view = inflater.inflate(R.layout.lf_fragment_waterfall, container, false);
         ButterKnife.bind(this, view);
         waterfall_recyclerView.setLayoutManager(layoutManager);
         waterfallBean.data = new ArrayList<>();

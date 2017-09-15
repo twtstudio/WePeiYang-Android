@@ -26,7 +26,7 @@ public class MylistActivity extends BaseActivity {
     TabLayout mylist_tabLayout;
     @Override
     protected int getLayoutResourceId() {
-        return R.layout.activity_mylist;
+        return R.layout.lf_activity_mylist;
     }
 
     @Override

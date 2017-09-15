@@ -55,7 +55,7 @@ public class SearchActivity extends BaseActivity implements SearchContract.Searc
 
     @Override
     protected int getLayoutResourceId() {
-        return R.layout.activity_search;
+        return R.layout.lf_activity_search;
     }
 
     @Override

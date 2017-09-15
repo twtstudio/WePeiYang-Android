@@ -42,7 +42,7 @@ public class WaterfallTypeTableAdapter extends RecyclerView.Adapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view;
-        view = LayoutInflater.from(context).inflate(R.layout.item_waterfall_type, parent, false);
+        view = LayoutInflater.from(context).inflate(R.layout.lf_item_waterfall_type, parent, false);
         return new WaterfallTypesViewHolder(view);
     }
 

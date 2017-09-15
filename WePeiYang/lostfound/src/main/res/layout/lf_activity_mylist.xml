@@ -6,7 +6,7 @@
     android:orientation="vertical">
 
     <include
-        layout="@layout/common_toolbar"
+        layout="@layout/lf_common_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

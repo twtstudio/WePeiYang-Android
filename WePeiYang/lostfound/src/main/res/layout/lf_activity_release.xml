@@ -15,7 +15,7 @@
             android:orientation="vertical">
 
             <include
-                layout="@layout/common_toolbar"
+                layout="@layout/lf_common_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -40,7 +40,7 @@
                     android:id="@+id/release_choose_pic"
                     android:layout_width="128dp"
                     android:layout_height="128dp"
-                    android:src="@drawable/lost_choose_pic" />
+                    android:src="@drawable/lf_choose_pic" />
             </android.support.v7.widget.CardView>
 
             <TextView
@@ -52,7 +52,7 @@
                 android:textColor="@color/colorPrimary" />
 
             <include
-                layout="@layout/release_cardview_info"
+                layout="@layout/lf_release_cardview_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
@@ -75,7 +75,7 @@
 
             <include
                 android:id="@+id/release_cardinfo"
-                layout="@layout/release_cardview_cardinfo"
+                layout="@layout/lf_release_cardview_cardinfo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
@@ -84,7 +84,7 @@
 
             <include
                 android:id="@+id/release_cardinfo_noname"
-                layout="@layout/release_cardview_cardinfo_noname"
+                layout="@layout/lf_release_cardview_cardinfo_noname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
@@ -100,7 +100,7 @@
                 android:textColor="@color/colorPrimary" />
 
             <include
-                layout="@layout/release_cardview_contact"
+                layout="@layout/lf_release_cardview_contact"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
@@ -116,7 +116,7 @@
                 android:textColor="@color/colorPrimary" />
 
             <include
-                layout="@layout/release_cardview_moreinfo"
+                layout="@layout/lf_release_cardview_moreinfo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
@@ -132,7 +132,7 @@
                 android:textColor="@color/colorPrimary" />
 
             <include
-                layout="@layout/release_cardview_publish"
+                layout="@layout/lf_release_cardview_publish"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
@@ -140,7 +140,7 @@
                 android:layout_marginTop="8dp" />
 
             <include
-                layout="@layout/release_cardview_confirm"
+                layout="@layout/lf_release_cardview_confirm"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
@@ -148,7 +148,7 @@
                 android:layout_marginTop="16dp" />
 
             <include
-                layout="@layout/release_cardview_delete"
+                layout="@layout/lf_release_cardview_delete"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"

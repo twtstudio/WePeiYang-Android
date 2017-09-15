@@ -5,7 +5,7 @@
     android:orientation="vertical">
 
     <include
-        layout="@layout/common_toolbar"
+        layout="@layout/lf_common_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
@@ -58,7 +58,7 @@
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="10dp"
                         android:scaleType="centerInside"
-                        android:src="@drawable/lost_time" />
+                        android:src="@drawable/lf_time" />
 
                     <TextView
                         android:id="@+id/detail_time"
@@ -80,7 +80,7 @@
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="10dp"
                         android:scaleType="centerInside"
-                        android:src="@drawable/lost_place" />
+                        android:src="@drawable/lf_place" />
 
                     <TextView
                         android:id="@+id/detail_place"
@@ -102,7 +102,7 @@
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="10dp"
                         android:scaleType="centerInside"
-                        android:src="@drawable/lost_type" />
+                        android:src="@drawable/lf_type" />
 
                     <TextView
                         android:id="@+id/detail_type"
@@ -124,7 +124,7 @@
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="10dp"
                         android:scaleType="centerInside"
-                        android:src="@drawable/lost_indi_blue" />
+                        android:src="@drawable/lf_indi_blue" />
 
                     <TextView
                         android:id="@+id/detail_name"
@@ -146,7 +146,7 @@
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="10dp"
                         android:scaleType="centerInside"
-                        android:src="@drawable/lost_contact" />
+                        android:src="@drawable/lf_contact" />
 
                     <TextView
                         android:id="@+id/detail_phone"
@@ -168,7 +168,7 @@
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="10dp"
                         android:scaleType="centerInside"
-                        android:src="@drawable/lost_remarks" />
+                        android:src="@drawable/lf_remarks" />
 
                     <TextView
                         android:id="@+id/detail_rematks"

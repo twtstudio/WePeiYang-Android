@@ -67,7 +67,7 @@ public class WaterfallActivity extends BaseActivity {
 
     @Override
     protected int getLayoutResourceId() {
-        return R.layout.activity_waterfall;
+        return R.layout.lf_activity_waterfall;
     }
 
     @Override
@@ -102,7 +102,7 @@ public class WaterfallActivity extends BaseActivity {
 
     @Override
     protected int getToolbarMenu() {
-        return R.menu.waterfall_menu;
+        return R.menu.lf_waterfall_menu;
     }
 
     @Override

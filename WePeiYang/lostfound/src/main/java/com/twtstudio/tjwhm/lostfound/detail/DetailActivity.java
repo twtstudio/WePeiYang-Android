@@ -57,7 +57,7 @@ public class DetailActivity extends BaseActivity implements DetailContract.Detai
 
     @Override
     protected int getLayoutResourceId() {
-        return R.layout.activity_detail;
+        return R.layout.lf_activity_detail;
     }
 
     @Override
@@ -68,7 +68,7 @@ public class DetailActivity extends BaseActivity implements DetailContract.Detai
 
     @Override
     protected int getToolbarMenu() {
-        return R.menu.detail_menu;
+        return R.menu.lf_detail_menu;
     }
 
     @Override
@@ -157,7 +157,7 @@ public class DetailActivity extends BaseActivity implements DetailContract.Detai
     private void showPicDialog(View view) {
         builder = new AlertDialog.Builder(this);
 
-        LinearLayout picDialog = (LinearLayout) getLayoutInflater().inflate(R.layout.dialog_detail_pic, null);
+        LinearLayout picDialog = (LinearLayout) getLayoutInflater().inflate(R.layout.lf_dialog_detail_pic, null);
 
         builder.setView(picDialog);
         AlertDialog dialog = builder.create();

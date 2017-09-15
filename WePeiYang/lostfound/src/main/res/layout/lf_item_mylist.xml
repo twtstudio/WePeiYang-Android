@@ -61,14 +61,14 @@
                                 android:id="@+id/mylist_item_back_grey"
                                 android:layout_width="16dp"
                                 android:layout_height="16dp"
-                                android:src="@drawable/lost_back_grey" />
+                                android:src="@drawable/lf_back_grey" />
 
                             <ImageView
                                 android:layout_centerInParent="true"
                                 android:id="@+id/mylist_item_back_blue"
                                 android:layout_width="16dp"
                                 android:layout_height="16dp"
-                                android:src="@drawable/lost_back_blue" />
+                                android:src="@drawable/lf_back_blue" />
                         </RelativeLayout>
                     </LinearLayout>
 
@@ -80,7 +80,7 @@
                         android:layout_alignParentEnd="true"
                         android:layout_marginEnd="24dp"
                         android:layout_marginTop="12dp"
-                        android:src="@drawable/lost_pencil" />
+                        android:src="@drawable/lf_pencil" />
 
                     <TextView
                         android:id="@+id/mylist_item_pencil_touch"
@@ -109,7 +109,7 @@
                         android:layout_height="12dp"
                         android:layout_gravity="center"
                         android:layout_marginStart="12dp"
-                        android:src="@drawable/lost_type" />
+                        android:src="@drawable/lf_type" />
 
                     <TextView
                         android:id="@+id/mylist_item_type"
@@ -129,7 +129,7 @@
                         android:layout_height="12dp"
                         android:layout_gravity="center"
                         android:layout_marginStart="12dp"
-                        android:src="@drawable/lost_time" />
+                        android:src="@drawable/lf_time" />
 
                     <TextView
                         android:id="@+id/mylist_item_time"
@@ -149,7 +149,7 @@
                         android:layout_height="12dp"
                         android:layout_gravity="center"
                         android:layout_marginStart="12dp"
-                        android:src="@drawable/lost_place" />
+                        android:src="@drawable/lf_place" />
 
                     <TextView
                         android:id="@+id/mylist_item_place"

@@ -8,7 +8,7 @@
     android:background="@color/backgroundGrey">
 
     <include
-        layout="@layout/common_toolbar"
+        layout="@layout/lf_common_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
@@ -30,7 +30,7 @@
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:layout_gravity="center"
-                android:src="@drawable/lost_success" />
+                android:src="@drawable/lf_success" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -67,7 +67,7 @@
                 android:id="@+id/share_wechatfriends"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:src="@drawable/lost_wechatfriends" />
+                android:src="@drawable/lf_wechatfriends" />
 
             <TextView
                 android:layout_marginTop="8dp"
@@ -81,7 +81,7 @@
                 android:layout_marginTop="24dp"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:src="@drawable/lost_qzone" />
+                android:src="@drawable/lf_qzone" />
 
             <TextView
                 android:layout_marginTop="8dp"
@@ -103,7 +103,7 @@
                 android:id="@+id/share_wechatzone"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:src="@drawable/lost_wechatzone" />
+                android:src="@drawable/lf_wechatzone" />
 
             <TextView
                 android:layout_marginTop="8dp"
@@ -124,7 +124,7 @@
                 android:id="@+id/share_qqfriends"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:src="@drawable/lost_qqfriends" />
+                android:src="@drawable/lf_qqfriends" />
 
             <TextView
                 android:layout_marginTop="8dp"

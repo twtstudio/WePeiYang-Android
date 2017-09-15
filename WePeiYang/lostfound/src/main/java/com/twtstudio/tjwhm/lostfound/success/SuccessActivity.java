@@ -49,7 +49,7 @@ public class SuccessActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     protected int getLayoutResourceId() {
-        return R.layout.activity_success;
+        return R.layout.lf_activity_success;
     }
 
     @Override

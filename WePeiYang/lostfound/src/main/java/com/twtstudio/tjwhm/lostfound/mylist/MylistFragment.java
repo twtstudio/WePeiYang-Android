@@ -52,7 +52,7 @@ public class MylistFragment extends Fragment implements MylistContract.MylistVie
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_mylist, container, false);
+        View view = inflater.inflate(R.layout.lf_fragment_mylist, container, false);
         ButterKnife.bind(this, view);
         Bundle bundle = getArguments();
         lostOrFound = bundle.getString("index");

@@ -116,7 +116,7 @@ public class ReleaseActivity extends BaseActivity
 
     @Override
     protected int getLayoutResourceId() {
-        return R.layout.activity_release;
+        return R.layout.lf_activity_release;
     }
 
     @Override

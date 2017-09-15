@@ -55,7 +55,7 @@ public class WaterfallTableAdapter extends RecyclerView.Adapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view;
-        view = LayoutInflater.from(context).inflate(R.layout.item_waterfall, parent, false);
+        view = LayoutInflater.from(context).inflate(R.layout.lf_item_waterfall, parent, false);
 
         return new WaterfallViewHolder(view);
     }
@@ -69,7 +69,7 @@ public class WaterfallTableAdapter extends RecyclerView.Adapter {
         Glide.with(context)
                 .load(Utils.getPicUrl(dataBean.picture))
                 .asBitmap()
-                .placeholder(R.drawable.lost_waterfall_nopic)
+                .placeholder(R.drawable.lf_waterfall_nopic)
                 .into(viewHolder.waterfall_item_pic);
         viewHolder.waterfall_item_title.setText(dataBean.title);
         viewHolder.waterfall_item_type.setText(Utils.getType(dataBean.detail_type));
