@@ -11,6 +11,7 @@ import com.twtstudio.retrox.schedule.TimeHelper;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -102,12 +103,13 @@ public class CourseHelper {
 
     private boolean checkIsThisWeekForTomorrow(ClassTable.Data.Course course) {
         int week = TimeHelper.getWeekInt(startUnix - 24 * 60 * 60 * 1000, calendar);
-        for (ClassTable.Data.Course.Arrange arrange : course.arrange) {
+        for (Iterator<ClassTable.Data.Course.Arrange> iterator = course.arrange.iterator(); iterator.hasNext(); ) {
+            ClassTable.Data.Course.Arrange arrange = iterator.next();
             if (arrange.week.equals("单双周") ||
                     (arrange.week.equals("单周") && week % 2 == 1) ||
                     (arrange.week.equals("双周") && week % 2 == 0)) {
                 return true;
-            }
+            } else iterator.remove();
         }
         return false;
     }
@@ -163,12 +165,13 @@ public class CourseHelper {
 
     private boolean checkIsThisWeek(ClassTable.Data.Course course) {
         int week = TimeHelper.getWeekInt(startUnix, calendar);
-        for (ClassTable.Data.Course.Arrange arrange : course.arrange) {
+        for (Iterator<ClassTable.Data.Course.Arrange> iterator = course.arrange.iterator(); iterator.hasNext(); ) {
+            ClassTable.Data.Course.Arrange arrange = iterator.next();
             if (course.isAvaiableCurrentWeek && (arrange.week.equals("单双周") ||
                     (arrange.week.equals("单周") && week % 2 == 1) ||
                     (arrange.week.equals("双周") && week % 2 == 0))) {
                 return true;
-            } else return false;
+            } else iterator.remove();
         }
         return false;
     }
