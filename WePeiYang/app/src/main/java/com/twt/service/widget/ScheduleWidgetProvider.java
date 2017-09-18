@@ -138,6 +138,7 @@ public class ScheduleWidgetProvider extends AppWidgetProvider {
                 .map(dateFormate::format)
                 .subscribe(stringBuilder::append);
         stringBuilder.append("  ");
+        CourseHelper.setCalendar(CalendarDay.today());
         String s = "星期" + TimeHelper.getChineseCharacter(CourseHelper.getTodayNumber());
         stringBuilder.append(s);
         return stringBuilder.toString();

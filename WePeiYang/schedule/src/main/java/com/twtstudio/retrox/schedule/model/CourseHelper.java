@@ -18,7 +18,7 @@ import java.util.List;
  * Created by retrox on 2017/2/6.
  */
 
-public class CourseHelper {
+public class  CourseHelper {
 
     private static int[] classColors = new int[]{R.color.schedule_green,
             R.color.schedule_orange,
@@ -124,7 +124,7 @@ public class CourseHelper {
         return false;
     }
 
-    public static int getTomorrowNumber() {
+    public synchronized static int getTomorrowNumber() {
         Calendar calendar = Calendar.getInstance();
         int day = calendar.get(Calendar.DAY_OF_WEEK);
         if (day == Calendar.SUNDAY) {
@@ -144,7 +144,7 @@ public class CourseHelper {
         }
     }
 
-    public static int getTodayNumber() {
+    public  static synchronized int getTodayNumber() {
         int day = calendar.get(Calendar.DAY_OF_WEEK);
         if (day == Calendar.SUNDAY) {
             return 7;
@@ -250,7 +250,7 @@ public class CourseHelper {
         return getTodayStart(courseArrange) - getTodayEnd(courseArrange) + 1; //弄成2的倍数
     }
 
-    public static String getTodayLocation(List<ClassTable.Data.Course.Arrange> courseArrange) {
+    public static synchronized String getTodayLocation(List<ClassTable.Data.Course.Arrange> courseArrange) {
         for (ClassTable.Data.Course.Arrange arrange : courseArrange) {
             if (Integer.parseInt(arrange.day) == getTodayNumber()) {
                 return arrange.room;
@@ -259,7 +259,7 @@ public class CourseHelper {
         return "无法查询地点";
     }
 
-    public static String getTomorrowLocation(List<ClassTable.Data.Course.Arrange> courseArrange) {
+    public static  synchronized String getTomorrowLocation(List<ClassTable.Data.Course.Arrange> courseArrange) {
         for (ClassTable.Data.Course.Arrange arrange : courseArrange) {
             if (Integer.parseInt(arrange.day) == getTomorrowNumber()) {
                 return arrange.room;
@@ -296,7 +296,7 @@ public class CourseHelper {
         }
     }
 
-    public static void setCalendar(CalendarDay calendarDay) {
+    public static  synchronized void setCalendar(CalendarDay calendarDay) {
         calendarDay.copyTo(calendar);
     }
 }

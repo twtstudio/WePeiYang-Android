@@ -9,6 +9,7 @@ import android.preference.PreferenceManager;
 import com.kelin.mvvmlight.base.ViewModel;
 import com.kelin.mvvmlight.command.ReplyCommand;
 import com.orhanobut.logger.Logger;
+import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 import com.twtstudio.retrox.schedule.ScheduleActivity;
 import com.twtstudio.retrox.schedule.TimeHelper;
@@ -60,6 +61,7 @@ public class ScheduleViewModel implements ViewModel {
     }
 
     private void handleClassTable(ClassTable classTable) {
+        CourseHelper.setCalendar(CalendarDay.today());
         List<ClassTable.Data.Course> courseList = new CourseHelper().getTodayCourses(classTable, true);
         for (ClassTable.Data.Course course : courseList) {
             items.add(new CourseBriefViewModel(course));
