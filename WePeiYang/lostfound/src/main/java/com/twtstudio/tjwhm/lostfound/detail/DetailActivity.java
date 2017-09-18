@@ -122,7 +122,7 @@ public class DetailActivity extends BaseActivity implements DetailContract.Detai
 
         if (Objects.equals(detailData.data.picture, "") || detailData.data.picture == null) {
             Glide.with(this)
-                    .load(Utils.noPicForDetail())
+                    .load(R.drawable.lf_detail_nopic)
                     .asBitmap()
                     .override(getWindow().findViewById(Window.ID_ANDROID_CONTENT).getWidth(),
                             getWindow().findViewById(Window.ID_ANDROID_CONTENT).getHeight()
@@ -134,6 +134,7 @@ public class DetailActivity extends BaseActivity implements DetailContract.Detai
             Glide.with(this)
                     .load(Utils.getPicUrl(detailData.data.picture))
                     .asBitmap()
+//                    .placeholder(R.drawable.lf_detail_nopic)
                     .override(getWindow().findViewById(Window.ID_ANDROID_CONTENT).getWidth(),
                             getWindow().findViewById(Window.ID_ANDROID_CONTENT).getHeight()
                                     - detail_layout_without_pic.getHeight()
