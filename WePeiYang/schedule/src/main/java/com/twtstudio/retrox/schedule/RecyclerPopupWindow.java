@@ -63,7 +63,7 @@ public class RecyclerPopupWindow extends PopupWindow implements RecyclerPopupWin
      * @param window_height 窗口高度
      */
     public void showPopupWindow(Context context, View anchor, int window_width, int window_height) {
-        View contentView = LayoutInflater.from(context).inflate(R.layout.popup_window, null);
+        View contentView = LayoutInflater.from(context).inflate(R.layout.schedule_popup_window, null);
         popupWindow = new PopupWindow(contentView, window_width, window_height, true);
         //点击window外让window消失必须设置背景,但是不能够提供其他伴随操作，比如让其他控件的隐藏，消失等
         popupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));

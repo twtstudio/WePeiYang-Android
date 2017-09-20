@@ -16,8 +16,6 @@ import com.twtstudio.service.classroom.model.ClassRoomProvider;
 import com.twtstudio.service.classroom.model.FreeRoom2;
 import com.twtstudio.service.classroom.utils.TimeHelper;
 
-import java.text.SimpleDateFormat;
-
 import es.dmoral.toasty.Toasty;
 
 /**
@@ -60,8 +58,8 @@ public class CollectionItemViewModel implements com.kelin.mvvmlight.base.ViewMod
     });
 
     CollectionItemViewModel(RxAppCompatActivity rxAppCompatActivity, FreeRoom2.FreeRoom freeRoom) {
-        zoomIn = AnimationUtils.loadAnimation(rxAppCompatActivity, R.anim.zoom_in);
-        zoomOut = AnimationUtils.loadAnimation(rxAppCompatActivity, R.anim.zoom_out);
+        zoomIn = AnimationUtils.loadAnimation(rxAppCompatActivity, R.anim.classroom_zoom_in);
+        zoomOut = AnimationUtils.loadAnimation(rxAppCompatActivity, R.anim.classroom_zoom_out);
         this.freeRoom = freeRoom;
         this.rxAppCompatActivity = rxAppCompatActivity;
         if (StringHelper.getBuildingInt(freeRoom.getRoom())>30)

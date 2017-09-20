@@ -6,10 +6,7 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,12 +16,10 @@ import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
@@ -33,7 +28,7 @@ import com.twtstudio.service.classroom.R;
 import com.twtstudio.service.classroom.R2;
 import com.twtstudio.service.classroom.databinding.ActivityClassroomQueryMainBinding;
 import com.twtstudio.service.classroom.databinding.ClassroomPopupWindowBinding;
-import com.twtstudio.service.classroom.model.ClassRoomProvider;
+import com.twtstudio.service.classroom.utils.PrefUtil;
 import com.twtstudio.service.classroom.utils.TimeHelper;
 
 import butterknife.BindView;
@@ -48,7 +43,7 @@ public class MainActivity extends RxAppCompatActivity {
     ActivityClassroomQueryMainBinding mainBinding;
     private Animation animation, animation2;
     private int seletedTag = 0;
-    private boolean isNewCampus=CommonPrefUtil.getIsNewCampus();
+    private boolean isNewCampus= PrefUtil.getIsNewCampus();
     PopupWindow popupWindow;
     private boolean hasPop;
     @BindView(R2.id.condition1)
@@ -70,15 +65,15 @@ public class MainActivity extends RxAppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_classroom_query_main);
-        if(!CommonPrefUtil.getHasChosenCampus()){
+        if(!PrefUtil.getHasChosenCampus()){
             AlertDialog.Builder builder = new AlertDialog.Builder(this)
                     .setTitle("选择校区")
                     .setMessage("请选择你所在的校区")
                     .setPositiveButton("北洋园校区", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            CommonPrefUtil.setIsNewCampus(true);
-                            CommonPrefUtil.setHasChosenCampus(true);
+                            PrefUtil.setIsNewCampus(true);
+                            PrefUtil.setHasChosenCampus(true);
                             viewModel.iniData(46, TimeHelper.getWeekInt(), TimeHelper.getTimeInt(), CommonPrefUtil.getStudentNumber());
                             dialog.dismiss();
                         }
@@ -86,8 +81,8 @@ public class MainActivity extends RxAppCompatActivity {
                     .setNeutralButton("卫津路校区", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            CommonPrefUtil.setIsNewCampus(false);
-                            CommonPrefUtil.setHasChosenCampus(true);
+                            PrefUtil.setIsNewCampus(false);
+                            PrefUtil.setHasChosenCampus(true);
                             viewModel.iniData(23, TimeHelper.getWeekInt(), TimeHelper.getTimeInt(), CommonPrefUtil.getStudentNumber());
                             dialog.dismiss();
                         }
@@ -121,10 +116,10 @@ public class MainActivity extends RxAppCompatActivity {
         String uid = CommonPrefUtil.getUserId();
         popupWindow.setOutsideTouchable(true);
         popupWindow.setElevation(8);
-        animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate);//创建动画
+        animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.classroom_rotate);//创建动画
         animation.setInterpolator(new LinearInterpolator());//
         animation.setFillAfter(!animation.getFillAfter());//
-        animation2 = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate2);//创建动画
+        animation2 = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.classroom_rotate2);//创建动画
         animation2.setInterpolator(new LinearInterpolator());//
         animation2.setFillAfter(!animation.getFillAfter());//
 
@@ -143,7 +138,7 @@ public class MainActivity extends RxAppCompatActivity {
         });
         condition1.setOnClickListener((v) -> {
             if (!hasPop) {
-                popupWindowViewModel.initData(CommonPrefUtil.getIsNewCampus(), 1);
+                popupWindowViewModel.initData(PrefUtil.getIsNewCampus(), 1);
                 popupWindow.showAsDropDown(toparea);
                 arrow1.startAnimation(animation);
             }
@@ -152,7 +147,7 @@ public class MainActivity extends RxAppCompatActivity {
         });
         condition2.setOnClickListener((v) -> {
             if (!hasPop) {
-                popupWindowViewModel.initData(CommonPrefUtil.getIsNewCampus(), 2);
+                popupWindowViewModel.initData(PrefUtil.getIsNewCampus(), 2);
                 popupWindow.showAsDropDown(toparea);
                 arrow2.startAnimation(animation);
             }
@@ -161,7 +156,7 @@ public class MainActivity extends RxAppCompatActivity {
         });
         condition3.setOnClickListener((v) -> {
             if (!hasPop) {
-                popupWindowViewModel.initData(CommonPrefUtil.getIsNewCampus(), 3);
+                popupWindowViewModel.initData(PrefUtil.getIsNewCampus(), 3);
                 popupWindow.showAsDropDown(toparea);
                 arrow3.startAnimation(animation);
             }
@@ -197,10 +192,10 @@ public class MainActivity extends RxAppCompatActivity {
 
     @Override
     protected void onResume() {
-        if(isNewCampus!=CommonPrefUtil.getIsNewCampus()) {
+        if(isNewCampus!=PrefUtil.getIsNewCampus()) {
             PopupItemViewModel.resetBuildingAndTime();
             initData();
-            isNewCampus=CommonPrefUtil.getIsNewCampus();
+            isNewCampus=PrefUtil.getIsNewCampus();
         }
         else
             viewModel.onRefresh();
@@ -214,7 +209,7 @@ public class MainActivity extends RxAppCompatActivity {
     }
     private void initData(){
         int building;
-        if (CommonPrefUtil.getIsNewCampus())
+        if (PrefUtil.getIsNewCampus())
             building=46;
         else
             building=23;

@@ -28,6 +28,7 @@ import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
 import com.twtstudio.retrox.schedule.databinding.ActivityScheduleNewBinding;
 import com.twtstudio.retrox.schedule.model.ClassTable;
 import com.twtstudio.retrox.schedule.model.ClassTableProvider;
+import com.twtstudio.retrox.schedule.utils.PrefUtil;
 import com.twtstudio.retrox.schedule.view.ScheduleNewViewModel;
 
 import java.util.ArrayList;
@@ -56,7 +57,7 @@ public class ScheduleNewActivity extends RxAppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule_new);
         //判断默认显示的Activity
-        if (!CommonPrefUtil.getIsNewSchedule()) {
+        if (!PrefUtil.getIsNewSchedule()) {
             Intent intent = new Intent(this, ScheduleActivity.class);
             startActivity(intent);
             finish();
@@ -160,7 +161,7 @@ public class ScheduleNewActivity extends RxAppCompatActivity {
             //switch
             Intent intent = new Intent(this, ScheduleActivity.class);
             startActivity(intent);
-            CommonPrefUtil.setIsNewSchedule(false);
+            PrefUtil.setIsNewSchedule(false);
             finish();
 
 
@@ -185,7 +186,7 @@ public class ScheduleNewActivity extends RxAppCompatActivity {
 
     private void initCalendarView() {
         initListener();
-        CustomDayView customDayView = new CustomDayView(context, R.layout.custom_day, this);
+        CustomDayView customDayView = new CustomDayView(context, R.layout.schedule_custom_day, this);
         calendarAdapter = new CalendarViewAdapter(
                 context,
                 onSelectDateListener,

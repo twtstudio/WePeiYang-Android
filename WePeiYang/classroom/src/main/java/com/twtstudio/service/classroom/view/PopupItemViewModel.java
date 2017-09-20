@@ -7,6 +7,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.view.View;
 
 import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
+import com.twtstudio.service.classroom.utils.PrefUtil;
 import com.twtstudio.service.classroom.utils.StringHelper;
 import com.twtstudio.service.classroom.model.FilterBean;
 import com.twtstudio.service.classroom.utils.TimeHelper;
@@ -48,7 +49,7 @@ public class PopupItemViewModel implements com.kelin.mvvmlight.base.ViewModel {
         viewModel.isLoading.set(true);
         filterBean.changePaddingColor = true;
         filterBean.hasClicked = true;
-        if (CommonPrefUtil.getIsNewCampus() && building == 0)
+        if (PrefUtil.getIsNewCampus() && building == 0)
             building = 46;
         else if (building == 0)
             building = 23;

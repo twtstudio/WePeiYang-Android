@@ -12,17 +12,15 @@ import android.widget.Toast;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
 import com.twtstudio.service.classroom.R;
-import com.twtstudio.service.classroom.database.DBManager;
 import com.twtstudio.service.classroom.database.RoomCollection;
 import com.twtstudio.service.classroom.model.ClassRoomProvider;
 import com.twtstudio.service.classroom.model.FreeRoom2;
 import com.twtstudio.service.classroom.utils.TimeHelper;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import es.dmoral.toasty.Toasty;
-
+import com.twtstudio.service.classroom.utils.PrefUtil;
 import static com.twt.wepeiyang.commons.utils.App.getApplicationContext;
 
 /**
@@ -50,8 +48,8 @@ public class ItemViewModel implements com.kelin.mvvmlight.base.ViewModel {
     RoomCollection roomCollection;
 
     ItemViewModel(RxAppCompatActivity rxAppCompatActivity, FreeRoom2.FreeRoom freeRoom, MainActivityViewModel viewModel, int freeRoomTime) {
-        zoomIn = AnimationUtils.loadAnimation(rxAppCompatActivity, R.anim.zoom_in);
-        zoomOut = AnimationUtils.loadAnimation(rxAppCompatActivity, R.anim.zoom_out);
+        zoomIn = AnimationUtils.loadAnimation(rxAppCompatActivity, R.anim.classroom_zoom_in);
+        zoomOut = AnimationUtils.loadAnimation(rxAppCompatActivity, R.anim.classroom_zoom_out);
         this.rxAppCompatActivity = rxAppCompatActivity;
         this.viewModel = viewModel;
         this.freeRoomTime = freeRoomTime;
@@ -64,7 +62,7 @@ public class ItemViewModel implements com.kelin.mvvmlight.base.ViewModel {
         else
             time.set("第" + (freeRoomTime - 1) + "节-" + "第" + freeRoomTime + "节");
 //        String test=df.format(Calendar.getInstance()).toString();
-        if (CommonPrefUtil.getIsNewCampus())
+        if (PrefUtil.getIsNewCampus())
             campus.set("北洋园校区");
         else
             campus.set("卫津路校区");

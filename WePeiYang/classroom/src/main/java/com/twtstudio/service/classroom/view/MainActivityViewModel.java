@@ -44,7 +44,7 @@ public class MainActivityViewModel {
     public final ObservableField<Boolean> isHttpError = new ObservableField<>(false);//没有符合条件的教学楼时为true
     public final ObservableArrayList<ViewModel> items = new ObservableArrayList<>();
     public final ItemViewSelector itemView = ItemViewClassSelector.builder()
-            .put(ItemViewModel.class, BR.viewModel, R.layout.list_item)
+            .put(ItemViewModel.class, BR.viewModel, R.layout.classroom_list_item)
             .put(OnLoadMoreItemViewModel.class, BR.viewModel, R.layout.activity_classroom_on_load_more_item)
             .build();
     public static int building, week, time;

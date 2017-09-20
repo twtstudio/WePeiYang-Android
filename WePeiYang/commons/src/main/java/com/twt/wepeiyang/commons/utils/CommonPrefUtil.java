@@ -23,9 +23,6 @@ public class CommonPrefUtil {
     private static final String BIKE_CARD_ID = "bike_id";
     private static final String STARTUNIX = "start_unix";
     private static final String STUDENT_NUMBER = "student_number";
-    private static final String IS_NEW_SCHEDULE="is_new_schedule";
-    private static final String IS_NEW_CAMPUS="is_new_campus";
-    private static final String HAS_CHOSEN_CAMPUS="has_chosen_campus";
     public static final String IS_BIND_TJU = "is_bind_tju";
     public static final String IS_BIND_LIBRARY = "is_bind_library";
     public static final String IS_BIND_BIKE = "pref_is_bind_bike";
@@ -150,25 +147,6 @@ public class CommonPrefUtil {
     public static String getUserId(){
         return Hawk.get(USER_ID,"");
     }
-    public static void setIsNewSchedule(boolean isNewSchedule){
-        Hawk.put(IS_NEW_SCHEDULE,isNewSchedule);
-    }
-    public static boolean getIsNewSchedule() {
-        return Hawk.get(IS_NEW_SCHEDULE,true);
-    }
-    public static void setIsNewCampus(boolean isNewCampus){
-        Hawk.put(IS_NEW_CAMPUS,isNewCampus);
-    }
 
-    public static boolean getIsNewCampus() {
-        return Hawk.get(IS_NEW_CAMPUS,true);
-    }
 
-    public static void setHasChosenCampus(boolean hasChosenCampus) {
-        Hawk.put(HAS_CHOSEN_CAMPUS,hasChosenCampus);
-    }
-
-    public static boolean getHasChosenCampus() {
-        return  Hawk.get(HAS_CHOSEN_CAMPUS,false);
-    }
 }

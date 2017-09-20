@@ -28,7 +28,7 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@{viewModel.changePaddingColor ? @drawable/shape_corner : @drawable/white_background}"
+            android:background="@{viewModel.changePaddingColor ? @drawable/classroom_shape_corner : @drawable/classroom_white_background}"
             android:padding="1dp">
 
             <TextView

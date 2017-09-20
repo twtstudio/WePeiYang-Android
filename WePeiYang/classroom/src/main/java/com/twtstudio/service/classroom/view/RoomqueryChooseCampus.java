@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
 import com.twtstudio.service.classroom.R;
 import com.twtstudio.service.classroom.R2;
+import com.twtstudio.service.classroom.utils.PrefUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -44,17 +45,17 @@ public class RoomqueryChooseCampus extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window.setStatusBarColor(getResources().getColor(R.color.purple));
         }
-        if(CommonPrefUtil.getIsNewCampus())
+        if(PrefUtil.getIsNewCampus())
             imageView2.setVisibility(View.VISIBLE);
         else
             imageView.setVisibility(View.VISIBLE);
         card1.setOnClickListener((v)->{
-            CommonPrefUtil.setIsNewCampus(false);
+            PrefUtil.setIsNewCampus(false);
             imageView.setVisibility(View.VISIBLE);
             imageView2.setVisibility(View.INVISIBLE);
         });
         card2.setOnClickListener((v)->{
-            CommonPrefUtil.setIsNewCampus(true);
+            PrefUtil.setIsNewCampus(true);
             imageView.setVisibility(View.INVISIBLE);
             imageView2.setVisibility(View.VISIBLE);
         });

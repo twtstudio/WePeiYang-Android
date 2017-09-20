@@ -66,8 +66,8 @@ public class ScheduleDetailsActivity extends AppCompatActivity {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && mColorTag) {
             //api21
-            setTint(getResources().getDrawable(R.drawable.circle_24dp), mToolBarColor);
-            mSharedElement.setBackground(getResources().getDrawable(R.drawable.circle_24dp));
+            setTint(getResources().getDrawable(R.drawable.schedule_circle_24dp), mToolBarColor);
+            mSharedElement.setBackground(getResources().getDrawable(R.drawable.schedule_circle_24dp));
             setUpAnimations();
         } else {
             mSharedElement.setVisibility(View.GONE);

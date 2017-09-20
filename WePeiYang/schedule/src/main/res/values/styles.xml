@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <style name="Popwindow_Anim_Down">
-        <item name="android:windowEnterAnimation">@anim/down_in</item>
+        <item name="android:windowEnterAnimation">@anim/schedule_down_in</item>
         <!-- 指定显示的动画xml -->
 
-        <item name="android:windowExitAnimation">@anim/down_out</item>
+        <item name="android:windowExitAnimation">@anim/schedule_down_out</item>
         <!-- 指定消失的动画xml -->
     </style>
     <style name="Theme.FloatingWindow.Popup" parent="Theme.AppCompat.Light.NoActionBar" >

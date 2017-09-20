@@ -34,7 +34,7 @@ public class ScheduleNewViewModel {
     public final ItemViewSelector itemView = ItemViewClassSelector.builder()
             .put(SelectedCoursesInfoViewModel.class, BR.viewModel, R.layout.item_selected_courses)
             .put(SelectedDateInfoViewModel.class,BR.viewModel,R.layout.item_selected_date)
-            .put(CourseIsEmptyViewModel.class,BR.viewModel,R.layout.item_course_is_empty)
+            .put(CourseIsEmptyViewModel.class,BR.viewModel,R.layout.schedule_item_course_is_empty)
             .build();
     public final ObservableField<String> today = new ObservableField<>();
 

@@ -21,7 +21,7 @@
                 android:layout_height="24dp"
                 android:layout_gravity="center"
                 android:transitionName="@string/schedule_transition"
-                android:background="@drawable/circle_24dp"/>
+                android:background="@drawable/schedule_circle_24dp"/>
 
     </android.support.v7.widget.Toolbar>
     <android.support.v7.widget.RecyclerView

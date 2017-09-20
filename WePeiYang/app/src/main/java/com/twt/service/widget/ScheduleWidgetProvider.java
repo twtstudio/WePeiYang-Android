@@ -62,6 +62,7 @@ public class ScheduleWidgetProvider extends AppWidgetProvider {
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
+        CourseHelper.setCalendar(CalendarDay.today());
         for (int appWidgetId : appWidgetIds) {
 
             Intent intent = new Intent(context, HomeActivity.class);
@@ -138,7 +139,6 @@ public class ScheduleWidgetProvider extends AppWidgetProvider {
                 .map(dateFormate::format)
                 .subscribe(stringBuilder::append);
         stringBuilder.append("  ");
-        CourseHelper.setCalendar(CalendarDay.today());
         String s = "星期" + TimeHelper.getChineseCharacter(CourseHelper.getTodayNumber());
         stringBuilder.append(s);
         return stringBuilder.toString();

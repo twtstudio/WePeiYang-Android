@@ -20,11 +20,11 @@ import me.tatarka.bindingcollectionadapter.itemviews.ItemViewClassSelector;
 public class PopupWindowViewModel implements ViewModel {
     public final ObservableArrayList<ViewModel> items = new ObservableArrayList<>();
     public final ItemViewSelector itemView = ItemViewClassSelector.builder()
-            .put(PopupItemViewModel.class, BR.viewModel, R.layout.popup_item)
+            .put(PopupItemViewModel.class, BR.viewModel, R.layout.classroom_popup_item)
             .build();
     public final ObservableArrayList<ViewModel> items2 = new ObservableArrayList<>();
     public final ItemViewSelector itemView2 = ItemViewClassSelector.builder()
-            .put(PopupItemViewModel.class, BR.viewModel, R.layout.popup_item)
+            .put(PopupItemViewModel.class, BR.viewModel, R.layout.classroom_popup_item)
             .build();
     private boolean hasDisplayeds[] = new boolean[3];
     private static boolean changeCampus = true; //储存上一次执行时的校区(true为新校区,false为老校区)

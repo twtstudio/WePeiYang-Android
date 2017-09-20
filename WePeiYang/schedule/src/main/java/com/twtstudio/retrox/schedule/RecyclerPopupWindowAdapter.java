@@ -40,7 +40,7 @@ public class RecyclerPopupWindowAdapter extends RecyclerView.Adapter<RecyclerPop
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        int layout = viewType == TYPE_INACTIVE ? R.layout.item_inactive : R.layout.item_active;
+        int layout = viewType == TYPE_INACTIVE ? R.layout.schedule_item_inactive : R.layout.schedule_item_active;
         View itemView = LayoutInflater.from(parent.getContext()).inflate(layout, parent, false);
         return new MyViewHolder(itemView, onItemClickListener);
     }

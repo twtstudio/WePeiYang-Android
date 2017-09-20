@@ -32,7 +32,7 @@ public class MultiCourseActivity extends AppCompatActivity {
 
         getIntentData();
         setUpWindow();
-        setContentView(R.layout.activity_multi_course);
+        setContentView(R.layout.schedule_activity_multi_course);
 
 
         mCardView1 = (CardView) findViewById(R.id.multi_course_one_card);

@@ -33,6 +33,7 @@ import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
 import com.twtstudio.retrox.schedule.model.ClassTable;
 import com.twtstudio.retrox.schedule.model.ClassTableProvider;
+import com.twtstudio.retrox.schedule.utils.PrefUtil;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -135,7 +136,7 @@ public class ScheduleActivity extends RxAppCompatActivity implements ScheduleVie
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule);
         //判断默认显示的Activity
-        if (CommonPrefUtil.getIsNewSchedule()) {
+        if (PrefUtil.getIsNewSchedule()) {
             Intent intent = new Intent(this, ScheduleNewActivity.class);
             startActivity(intent);
             finish();
@@ -555,7 +556,7 @@ public class ScheduleActivity extends RxAppCompatActivity implements ScheduleVie
             //switch
             Intent intent = new Intent(this, ScheduleNewActivity.class);
             startActivity(intent);
-            CommonPrefUtil.setIsNewSchedule(true);
+            PrefUtil.setIsNewSchedule(true);
             finish();
 
         }

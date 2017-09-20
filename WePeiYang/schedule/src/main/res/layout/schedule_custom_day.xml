@@ -9,14 +9,14 @@
         android:id="@+id/today_background"
         android:layout_width="33dp"
         android:layout_height="33dp"
-        android:background="@drawable/today_background"
+        android:background="@drawable/schedule_today_background"
         android:layout_centerInParent="true"
         android:visibility="gone"/>
     <View
         android:id="@+id/selected_background"
         android:layout_width="33dp"
         android:layout_height="33dp"
-        android:background="@drawable/selected_background"
+        android:background="@drawable/schedule_selected_background"
         android:layout_centerInParent="true"
         android:visibility="gone"/>
     <TextView
