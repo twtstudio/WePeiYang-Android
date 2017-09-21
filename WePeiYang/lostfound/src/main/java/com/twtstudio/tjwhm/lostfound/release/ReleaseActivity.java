@@ -31,6 +31,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.twtstudio.tjwhm.lostfound.R;
+import com.twtstudio.tjwhm.lostfound.R2;
 import com.twtstudio.tjwhm.lostfound.base.BaseActivity;
 import com.twtstudio.tjwhm.lostfound.base.BaseBean;
 import com.twtstudio.tjwhm.lostfound.detail.DetailBean;
@@ -65,41 +66,41 @@ import butterknife.BindView;
 public class ReleaseActivity extends BaseActivity
         implements View.OnClickListener, ReleaseContract.ReleaseView {
 
-    @BindView(R.id.toolbar)
+    @BindView(R2.id.toolbar)
     Toolbar toolbar;
-    @BindView(R.id.release_choose_pic)
+    @BindView(R2.id.release_choose_pic)
     ImageView release_choose_pic;
-    @BindView(R.id.release_title)
+    @BindView(R2.id.release_title)
     EditText release_title;
-    @BindView(R.id.release_time)
+    @BindView(R2.id.release_time)
     EditText release_time;
-    @BindView(R.id.release_place)
+    @BindView(R2.id.release_place)
     EditText release_place;
-    @BindView(R.id.release_contact_name)
+    @BindView(R2.id.release_contact_name)
     EditText release_contact_name;
-    @BindView(R.id.release_phone)
+    @BindView(R2.id.release_phone)
     EditText release_phone;
-    @BindView(R.id.release_remark)
+    @BindView(R2.id.release_remark)
     EditText release_remark;
-    @BindView(R.id.release_publish_spinner)
+    @BindView(R2.id.release_publish_spinner)
     Spinner release_publish_spinner;
-    @BindView(R.id.release_publish_res)
+    @BindView(R2.id.release_publish_res)
     TextView release_publish_res;
-    @BindView(R.id.release_confirm)
+    @BindView(R2.id.release_confirm)
     CardView release_confirm;
-    @BindView(R.id.release_delete)
+    @BindView(R2.id.release_delete)
     CardView release_delete;
-    @BindView(R.id.release_type_recycleriew)
+    @BindView(R2.id.release_type_recycleriew)
     RecyclerView release_type_recyclerview;
-    @BindView(R.id.release_cardinfo)
+    @BindView(R2.id.release_cardinfo)
     CardView release_cardinfo;
-    @BindView(R.id.release_cardinfo_noname)
+    @BindView(R2.id.release_cardinfo_noname)
     CardView release_cardinfo_noname;
-    @BindView(R.id.release_card_num)
+    @BindView(R2.id.release_card_num)
     EditText release_card_num;
-    @BindView(R.id.release_card_name)
+    @BindView(R2.id.release_card_name)
     EditText release_card_name;
-    @BindView(R.id.release_card_num_noname)
+    @BindView(R2.id.release_card_num_noname)
     EditText release_card_num_noname;
 
     int duration = 1;

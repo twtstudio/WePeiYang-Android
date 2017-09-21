@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.twtstudio.tjwhm.lostfound.R;
+import com.twtstudio.tjwhm.lostfound.R2;
 import com.twtstudio.tjwhm.lostfound.detail.DetailActivity;
 import com.twtstudio.tjwhm.lostfound.support.Utils;
 
@@ -35,15 +36,15 @@ public class WaterfallTableAdapter extends RecyclerView.Adapter {
     }
 
     public class WaterfallViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.waterfall_item_pic)
+        @BindView(R2.id.waterfall_item_pic)
         ImageView waterfall_item_pic;
-        @BindView(R.id.waterfall_item_title)
+        @BindView(R2.id.waterfall_item_title)
         TextView waterfall_item_title;
-        @BindView(R.id.waterfall_item_type)
+        @BindView(R2.id.waterfall_item_type)
         TextView waterfall_item_type;
-        @BindView(R.id.waterfall_item_time)
+        @BindView(R2.id.waterfall_item_time)
         TextView waterfall_item_time;
-        @BindView(R.id.waterfall_item_place)
+        @BindView(R2.id.waterfall_item_place)
         TextView waterfall_item_place;
 
         public WaterfallViewHolder(View itemView) {

@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.twtstudio.tjwhm.lostfound.R;
+import com.twtstudio.tjwhm.lostfound.R2;
 
 import java.util.ArrayList;
 
@@ -26,11 +27,11 @@ import static com.facebook.common.internal.Ints.max;
  **/
 
 public class WaterfallFragment extends Fragment implements WaterfallContract.WaterfallView {
-    @BindView(R.id.waterfall_refresh)
+    @BindView(R2.id.waterfall_refresh)
     SwipeRefreshLayout water_refresh;
-    @BindView(R.id.waterfall_recyclerView)
+    @BindView(R2.id.waterfall_recyclerView)
     RecyclerView waterfall_recyclerView;
-    @BindView(R.id.waterfall_no_res)
+    @BindView(R2.id.waterfall_no_res)
     LinearLayout waterfall_no_res;
     private WaterfallTableAdapter tableAdapter;
     private StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL);

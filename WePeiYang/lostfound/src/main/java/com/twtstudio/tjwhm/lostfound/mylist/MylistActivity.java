@@ -8,6 +8,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 
 import com.twtstudio.tjwhm.lostfound.R;
+import com.twtstudio.tjwhm.lostfound.R2;
 import com.twtstudio.tjwhm.lostfound.base.BaseActivity;
 
 import butterknife.BindView;
@@ -18,11 +19,11 @@ import butterknife.BindView;
 
 public class MylistActivity extends BaseActivity {
 
-    @BindView(R.id.toolbar)
+    @BindView(R2.id.toolbar)
     Toolbar toolbar;
-    @BindView(R.id.mylist_pager)
+    @BindView(R2.id.mylist_pager)
     ViewPager mylist_pager;
-    @BindView(R.id.mylist_tabLayout)
+    @BindView(R2.id.mylist_tabLayout)
     TabLayout mylist_tabLayout;
     @Override
     protected int getLayoutResourceId() {

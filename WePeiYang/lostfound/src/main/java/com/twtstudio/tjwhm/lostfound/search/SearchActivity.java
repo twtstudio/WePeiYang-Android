@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.twtstudio.tjwhm.lostfound.R;
+import com.twtstudio.tjwhm.lostfound.R2;
 import com.twtstudio.tjwhm.lostfound.base.BaseActivity;
 import com.twtstudio.tjwhm.lostfound.waterfall.WaterfallBean;
 import com.twtstudio.tjwhm.lostfound.waterfall.WaterfallTableAdapter;
@@ -37,15 +38,15 @@ public class SearchActivity extends BaseActivity implements SearchContract.Searc
     private StaggeredGridLayoutManager layoutManager;
     SearchContract.SearchPresenter searchPresenter;
 
-    @BindView(R.id.search_toolbar)
+    @BindView(R2.id.search_toolbar)
     Toolbar toolbar;
-    @BindView(R.id.search_searview)
+    @BindView(R2.id.search_searview)
     SearchView searchView;
-    @BindView(R.id.search_recyclerView)
+    @BindView(R2.id.search_recyclerView)
     RecyclerView search_recyclerView;
-    @BindView(R.id.search_progress)
+    @BindView(R2.id.search_progress)
     ProgressBar search_progress;
-    @BindView(R.id.search_no_res)
+    @BindView(R2.id.search_no_res)
     LinearLayout search_no_res;
 
     int page = 1;

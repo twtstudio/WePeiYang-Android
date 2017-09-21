@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.twtstudio.tjwhm.lostfound.R;
+import com.twtstudio.tjwhm.lostfound.R2;
 
 import java.util.ArrayList;
 
@@ -24,11 +25,11 @@ import butterknife.ButterKnife;
 
 public class MylistFragment extends Fragment implements MylistContract.MylistView {
 
-    @BindView(R.id.mylist_recyclerView)
+    @BindView(R2.id.mylist_recyclerView)
     RecyclerView mylist_recyclerView;
-    @BindView(R.id.mylist_progress)
+    @BindView(R2.id.mylist_progress)
     ProgressBar mylist_progress;
-    @BindView(R.id.mylist_nodata)
+    @BindView(R2.id.mylist_nodata)
     LinearLayout mylist_nodata;
     boolean isLoading = false;
     boolean needClear = false;

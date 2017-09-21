@@ -19,6 +19,7 @@ import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 import com.twtstudio.retrox.auth.login.LoginActivity;
 import com.twtstudio.tjwhm.lostfound.R;
+import com.twtstudio.tjwhm.lostfound.R2;
 import com.twtstudio.tjwhm.lostfound.base.BaseActivity;
 import com.twtstudio.tjwhm.lostfound.mylist.MylistActivity;
 import com.twtstudio.tjwhm.lostfound.release.ReleaseActivity;
@@ -32,33 +33,33 @@ import butterknife.OnClick;
  **/
 
 public class WaterfallActivity extends BaseActivity {
-    @BindView(R.id.waterfall_type_recyclerview)
+    @BindView(R2.id.waterfall_type_recyclerview)
     RecyclerView waterfall_type_recyclerview;
-    @BindView(R.id.waterfall_type_grey)
+    @BindView(R2.id.waterfall_type_grey)
     ImageView waterfall_type_grey;
-    @BindView(R.id.waterfall_type_blue)
+    @BindView(R2.id.waterfall_type_blue)
     ImageView waterfall_type_blue;
-    @BindView(R.id.waterfall_cardview_types)
+    @BindView(R2.id.waterfall_cardview_types)
     CardView waterfall_cardview_types;
-    @BindView(R.id.toolbar)
+    @BindView(R2.id.toolbar)
     Toolbar toolbar;
-    @BindView(R.id.waterfall_tabLayout)
+    @BindView(R2.id.waterfall_tabLayout)
     TabLayout waterfall_tabLayout;
-    @BindView(R.id.waterfall_pager)
+    @BindView(R2.id.waterfall_pager)
     ViewPager waterfall_pager;
-    @BindView(R.id.waterfall_fab_login)
+    @BindView(R2.id.waterfall_fab_login)
     FloatingActionButton waterfall_fab_login;
-    @BindView(R.id.waterfall_fab_menu)
+    @BindView(R2.id.waterfall_fab_menu)
     FloatingActionMenu waterfall_fab_menu;
-    @BindView(R.id.waterfall_fab_lost)
+    @BindView(R2.id.waterfall_fab_lost)
     FloatingActionButton waterfall_fab_lost;
-    @BindView(R.id.waterfall_fab_found)
+    @BindView(R2.id.waterfall_fab_found)
     FloatingActionButton waterfall_fab_found;
-    @BindView(R.id.waterfall_types_all)
+    @BindView(R2.id.waterfall_types_all)
     TextView waterfall_types_all;
-    @BindView(R.id.waterfall_cover)
+    @BindView(R2.id.waterfall_cover)
     TextView waterfall_cover;
-    @BindView(R.id.waterfall_type)
+    @BindView(R2.id.waterfall_type)
     RelativeLayout waterfall_type;
     int type = -1;
     StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
@@ -134,10 +135,10 @@ public class WaterfallActivity extends BaseActivity {
         }
     }
 
-    @OnClick({R.id.waterfall_type_blue, R.id.waterfall_fab_login,
-            R.id.waterfall_fab_found, R.id.waterfall_fab_lost,
-            R.id.waterfall_type_grey, R.id.waterfall_types_all,
-            R.id.waterfall_cover, R.id.waterfall_type})
+    @OnClick({R2.id.waterfall_type_blue, R2.id.waterfall_fab_login,
+            R2.id.waterfall_fab_found, R2.id.waterfall_fab_lost,
+            R2.id.waterfall_type_grey, R2.id.waterfall_types_all,
+            R2.id.waterfall_cover, R2.id.waterfall_type})
     public void submit(View view) {
         Bundle bundle = new Bundle();
         Intent intent = new Intent();

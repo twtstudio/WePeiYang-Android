@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.twtstudio.tjwhm.lostfound.R;
+import com.twtstudio.tjwhm.lostfound.R2;
 import com.twtstudio.tjwhm.lostfound.base.BaseActivity;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareAPI;
@@ -31,17 +32,17 @@ import butterknife.BindView;
  **/
 
 public class SuccessActivity extends BaseActivity implements View.OnClickListener {
-    @BindView(R.id.toolbar)
+    @BindView(R2.id.toolbar)
     Toolbar toolbar;
-    @BindView(R.id.success_cardView)
+    @BindView(R2.id.success_cardView)
     CardView success_cardView;
-    @BindView(R.id.share_wechatfriends)
+    @BindView(R2.id.share_wechatfriends)
     ImageView share_wechatfriends;
-    @BindView(R.id.share_wechatzone)
+    @BindView(R2.id.share_wechatzone)
     ImageView share_wechatzone;
-    @BindView(R.id.share_qqfriends)
+    @BindView(R2.id.share_qqfriends)
     ImageView share_qqfriends;
-    @BindView(R.id.share_qzone)
+    @BindView(R2.id.share_qzone)
     ImageView share_qzone;
     UMImage image;
     UMWeb web;

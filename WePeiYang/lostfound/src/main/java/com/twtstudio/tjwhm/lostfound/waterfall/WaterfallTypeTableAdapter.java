@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.twtstudio.tjwhm.lostfound.R;
+import com.twtstudio.tjwhm.lostfound.R2;
 import com.twtstudio.tjwhm.lostfound.support.Utils;
 
 import butterknife.BindView;
@@ -30,7 +31,7 @@ public class WaterfallTypeTableAdapter extends RecyclerView.Adapter {
     }
 
     public class WaterfallTypesViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.waterfall_type_item)
+        @BindView(R2.id.waterfall_type_item)
         TextView waterfall_type_item;
 
         public WaterfallTypesViewHolder(View itemView) {

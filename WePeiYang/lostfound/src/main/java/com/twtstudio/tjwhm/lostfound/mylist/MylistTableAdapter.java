@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.twtstudio.tjwhm.lostfound.R;
+import com.twtstudio.tjwhm.lostfound.R2;
 import com.twtstudio.tjwhm.lostfound.detail.DetailActivity;
 import com.twtstudio.tjwhm.lostfound.release.ReleaseActivity;
 import com.twtstudio.tjwhm.lostfound.support.Utils;
@@ -42,27 +43,27 @@ public class MylistTableAdapter extends RecyclerView.Adapter {
     }
 
     public class MylistViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.mylist_item_status)
+        @BindView(R2.id.mylist_item_status)
         TextView mylist_item_status;
-        @BindView(R.id.mylist_item_title)
+        @BindView(R2.id.mylist_item_title)
         TextView mylist_item_title;
-        @BindView(R.id.mylist_item_type)
+        @BindView(R2.id.mylist_item_type)
         TextView mylist_item_type;
-        @BindView(R.id.mylist_item_time)
+        @BindView(R2.id.mylist_item_time)
         TextView mylist_item_time;
-        @BindView(R.id.mylist_item_place)
+        @BindView(R2.id.mylist_item_place)
         TextView mylist_item_place;
-        @BindView(R.id.mylist_item_back_blue)
+        @BindView(R2.id.mylist_item_back_blue)
         ImageView mylist_item_back_blue;
-        @BindView(R.id.mylist_item_back_grey)
+        @BindView(R2.id.mylist_item_back_grey)
         ImageView mylist_item_back_grey;
-        @BindView(R.id.mylist_item_pencil)
+        @BindView(R2.id.mylist_item_pencil)
         ImageView mylist_item_pencil;
-        @BindView(R.id.mylist_item_pic)
+        @BindView(R2.id.mylist_item_pic)
         ImageView mylist_item_pic;
-        @BindView(R.id.mylist_status_linear)
+        @BindView(R2.id.mylist_status_linear)
         LinearLayout mylist_status_linear;
-        @BindView(R.id.mylist_item_pencil_touch)
+        @BindView(R2.id.mylist_item_pencil_touch)
         TextView mylist_item_pencil_touch;
 
         public MylistViewHolder(View itemView) {

@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.twtstudio.tjwhm.lostfound.R;
+import com.twtstudio.tjwhm.lostfound.R2;
 import com.twtstudio.tjwhm.lostfound.support.Utils;
 
 import butterknife.BindView;
@@ -31,9 +32,9 @@ public class ReleaseTableAdapter extends RecyclerView.Adapter {
     }
 
     public class ReleaseViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.release_item_type)
+        @BindView(R2.id.release_item_type)
         TextView release_item_type;
-        @BindView(R.id.release_item_cardview)
+        @BindView(R2.id.release_item_cardview)
         CardView release_item_cardview;
 
         public ReleaseViewHolder(View itemView) {

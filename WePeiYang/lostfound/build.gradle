@@ -1,12 +1,13 @@
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
 apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'com.jakewharton.butterknife'
 
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
 
     defaultConfig {
-        applicationId "com.twtstudio.tjwhm.lostfound"
+//        applicationId "com.twtstudio.tjwhm.lostfound"
         minSdkVersion 19
         targetSdkVersion 26
         versionCode 1

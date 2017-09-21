@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.twtstudio.tjwhm.lostfound.R;
+import com.twtstudio.tjwhm.lostfound.R2;
 import com.twtstudio.tjwhm.lostfound.base.BaseActivity;
 import com.twtstudio.tjwhm.lostfound.success.SuccessActivity;
 import com.twtstudio.tjwhm.lostfound.support.Utils;
@@ -29,25 +30,25 @@ import butterknife.ButterKnife;
 
 public class DetailActivity extends BaseActivity implements DetailContract.DetailView {
 
-    @BindView(R.id.toolbar)
+    @BindView(R2.id.toolbar)
     Toolbar toolbar;
-    @BindView(R.id.detail_pic)
+    @BindView(R2.id.detail_pic)
     ImageView detail_pic;
-    @BindView(R.id.detail_title)
+    @BindView(R2.id.detail_title)
     TextView detail_title;
-    @BindView(R.id.detail_time)
+    @BindView(R2.id.detail_time)
     TextView detail_time;
-    @BindView(R.id.detail_place)
+    @BindView(R2.id.detail_place)
     TextView detail_place;
-    @BindView(R.id.detail_type)
+    @BindView(R2.id.detail_type)
     TextView detail_type;
-    @BindView(R.id.detail_name)
+    @BindView(R2.id.detail_name)
     TextView detail_name;
-    @BindView(R.id.detail_phone)
+    @BindView(R2.id.detail_phone)
     TextView detail_phone;
-    @BindView(R.id.detail_rematks)
+    @BindView(R2.id.detail_rematks)
     TextView detail_remarks;
-    @BindView(R.id.detail_layout_without_pic)
+    @BindView(R2.id.detail_layout_without_pic)
     LinearLayout detail_layout_without_pic;
     AlertDialog.Builder builder;
     DetailBean detailData;
