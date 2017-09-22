@@ -36,7 +36,14 @@
             android:layout_alignParentRight="true"
             android:src="@drawable/ic_refresh" />
     </RelativeLayout>
-
+    <TextView
+        android:id="@+id/widget_empty_list"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:gravity="center"
+        android:text="今天没课！"
+        android:textSize="18sp"
+        android:visibility="gone"/>
     <ListView
         android:id="@+id/widget_listview"
         android:layout_width="match_parent"
