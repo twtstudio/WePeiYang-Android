@@ -35,11 +35,11 @@ public class WidgetListFactory implements RemoteViewsService.RemoteViewsFactory 
     public void onCreate() {
 //        getData(false);
         CourseHelper.setCalendar(CalendarDay.today());
-        if (courseList.size() == 0) {
-            ClassTable.Data.Course course = new ClassTable.Data.Course();
-            course.coursename = "今天没课！！！";
-            courseList.add(course);
-        }
+//        if (courseList.size() == 0) {
+//            ClassTable.Data.Course course = new ClassTable.Data.Course();
+//            course.coursename = "今天没课！！！";
+//            courseList.add(course);
+//        }
     }
 
     @Override
