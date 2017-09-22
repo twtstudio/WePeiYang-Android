@@ -109,10 +109,6 @@
         app:menu_labels_singleLine="true"
         app:menu_labels_textColor="@color/black_color">
 
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/waterfall_fab_login"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/waterfall_fab_lost"

@@ -17,7 +17,6 @@ import android.widget.TextView;
 
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
-import com.twtstudio.retrox.auth.login.LoginActivity;
 import com.twtstudio.tjwhm.lostfound.R;
 import com.twtstudio.tjwhm.lostfound.R2;
 import com.twtstudio.tjwhm.lostfound.base.BaseActivity;
@@ -47,8 +46,6 @@ public class WaterfallActivity extends BaseActivity {
     TabLayout waterfall_tabLayout;
     @BindView(R2.id.waterfall_pager)
     ViewPager waterfall_pager;
-    @BindView(R2.id.waterfall_fab_login)
-    FloatingActionButton waterfall_fab_login;
     @BindView(R2.id.waterfall_fab_menu)
     FloatingActionMenu waterfall_fab_menu;
     @BindView(R2.id.waterfall_fab_lost)
@@ -135,18 +132,14 @@ public class WaterfallActivity extends BaseActivity {
         }
     }
 
-    @OnClick({R2.id.waterfall_type_blue, R2.id.waterfall_fab_login,
+    @OnClick({R2.id.waterfall_type_blue,
             R2.id.waterfall_fab_found, R2.id.waterfall_fab_lost,
             R2.id.waterfall_type_grey, R2.id.waterfall_types_all,
             R2.id.waterfall_cover, R2.id.waterfall_type})
     public void submit(View view) {
         Bundle bundle = new Bundle();
         Intent intent = new Intent();
-        if (view == waterfall_fab_login) {
-            intent.setClass(this, LoginActivity.class);
-            startActivity(intent);
-            waterfall_fab_menu.close(true);
-        } else if (view == waterfall_fab_lost) {
+        if (view == waterfall_fab_lost) {
             bundle.putString("lostOrFound", "lost");
             intent.putExtras(bundle);
             intent.setClass(this, ReleaseActivity.class);
