@@ -42,6 +42,8 @@ public class ToolsAdapter extends DelegateAdapter.Adapter<ToolsAdapter.ToolItemH
         toolItemList.add(new ToolItem("/fellowSearch/main",R.drawable.ic_main_fellow_search,"老乡查询"));
         toolItemList.add(new ToolItem("/yellowPage/main",R.drawable.ic_main_yellowpage,"黄页"));
         toolItemList.add(new ToolItem("/classroom/main",R.drawable.ic_main_classroom_query,"自习室查询"));
+        toolItemList.add(new ToolItem("/lostfound/main",R.drawable.ic_main_classroom_query,"失物招领"));
+
     }
 
     @Override

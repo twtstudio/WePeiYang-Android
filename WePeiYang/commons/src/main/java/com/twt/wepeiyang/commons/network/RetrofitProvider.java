@@ -51,6 +51,9 @@ public class RetrofitProvider {
                 .build();
     }
 
+
+
+
     private static class SingletonHolder {
         private static final RetrofitProvider INSTANCE = new RetrofitProvider();
     }

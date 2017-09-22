@@ -29,8 +29,8 @@ public class AuthSelfProvider {
                 .subscribe(authSelfBean -> {
 
 
-                    /**
-                     * 进行一些数据持久化处理
+                    /*
+                      进行一些数据持久化处理
                      */
                     CommonPrefUtil.setStudentNumber(authSelfBean.studentid);
                     CommonPrefUtil.setIsBindLibrary(authSelfBean.accounts.lib);

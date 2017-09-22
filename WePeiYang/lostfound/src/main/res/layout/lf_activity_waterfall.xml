@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/backgroundGrey"
+    android:orientation="vertical"
+    tools:context="com.twtstudio.tjwhm.lostfound.waterfall.WaterfallActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/waterfall_appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <include
+            layout="@layout/lf_common_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_collapseMode="pin"
+            app:layout_scrollFlags="scroll|enterAlways" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@color/white"
+            android:orientation="horizontal">
+
+            <android.support.design.widget.TabLayout
+                android:id="@+id/waterfall_tabLayout"
+                android:layout_width="325dp"
+                android:layout_height="wrap_content"
+                android:background="@color/white" />
+
+            <RelativeLayout
+                android:id="@+id/waterfall_type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal">
+
+                <ImageView
+                    android:id="@+id/waterfall_type_grey"
+                    android:layout_width="18dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:background="@color/white"
+                    android:backgroundTint="@color/white"
+                    android:src="@drawable/lf_types_grey" />
+
+                <ImageView
+                    android:id="@+id/waterfall_type_blue"
+                    android:layout_width="18dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:background="@color/white"
+                    android:backgroundTint="@color/white"
+                    android:src="@drawable/lf_types_blue" />
+            </RelativeLayout>
+
+        </LinearLayout>
+    </android.support.design.widget.AppBarLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <include
+            android:layout_marginTop="8dp"
+            android:id="@+id/waterfall_cardview_types"
+            layout="@layout/lf_waterfall_cardview_types"
+            android:layout_width="168dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/waterfall_pager"
+            android:layout_gravity="end"
+            android:layout_marginEnd="8dp"
+            android:animateLayoutChanges="true" />
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/waterfall_pager"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_below="@id/waterfall_cardview_types"
+            android:id="@+id/waterfall_cover"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#00000000" />
+    </RelativeLayout>
+    <com.github.clans.fab.FloatingActionMenu
+
+        android:id="@+id/waterfall_fab_menu"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="24dp"
+        android:layout_marginEnd="16dp"
+        app:menu_backgroundColor="#00000000"
+        app:menu_colorNormal="@color/colorPrimary"
+        app:menu_colorPressed="@color/colorPrimary"
+        app:menu_fab_size="normal"
+        app:menu_labels_colorNormal="#eeeeee"
+        app:menu_labels_colorPressed="#999999"
+        app:menu_labels_ellipsize="end"
+        app:menu_labels_singleLine="true"
+        app:menu_labels_textColor="@color/black_color">
+
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/waterfall_fab_lost"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_lost_fab_lost"
+            app:fab_colorNormal="#eeeeee"
+            app:fab_colorPressed="#999999"
+            app:fab_label="丢失"
+            app:fab_size="mini" />
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/waterfall_fab_found"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_lost_fab_found"
+            app:fab_colorNormal="#eeeeee"
+            app:fab_colorPressed="#999999"
+            app:fab_label="捡到"
+            app:fab_size="mini" />
+    </com.github.clans.fab.FloatingActionMenu>
+
+</android.support.design.widget.CoordinatorLayout>

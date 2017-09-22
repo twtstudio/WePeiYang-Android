@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.twtstudio.tjwhm.lostfound">
+
+    <!--<uses-permission android:name="android.permission.INTERNET" />-->
+    <!--&lt;!&ndash;允许程序设置内置sd卡的写权限&ndash;&gt;-->
+    <!--<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />-->
+    <!--<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />-->
+    <!--&lt;!&ndash;允许程序获取网络状态&ndash;&gt;-->
+    <!--<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />-->
+    <!--&lt;!&ndash;允许程序访问WiFi网络信息&ndash;&gt;-->
+    <!--<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />-->
+    <!--&lt;!&ndash;允许程序读写手机状态和身份&ndash;&gt;-->
+    <!--<uses-permission android:name="android.permission.READ_PHONE_STATE" />-->
+    <!--&lt;!&ndash;允许程序访问CellID或WiFi热点来获取粗略的位置&ndash;&gt;-->
+    <!--<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />-->
+    <!--<uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />-->
+    <!--<uses-permission android:name="android.permission.READ_LOGS" />-->
+
+    <!--&lt;!&ndash;友盟需要的一些权限&ndash;&gt;-->
+    <!--<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />-->
+    <!--<uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />-->
+    <!--<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />-->
+
+    <application
+        android:allowBackup="true"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+
+        <activity android:name=".waterfall.WaterfallActivity"/>
+        <activity android:name=".mylist.MylistActivity" />
+        <activity android:name=".search.SearchActivity" />
+        <activity
+            android:name=".release.ReleaseActivity"
+            android:windowSoftInputMode="stateAlwaysHidden">
+
+        </activity>
+        <activity android:name=".success.SuccessActivity" />
+        <activity android:name=".detail.DetailActivity" />
+    </application>
+
+</manifest>
