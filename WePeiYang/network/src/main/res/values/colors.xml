@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#00a1e9</color>
+    <color name="colorPrimaryDark">#00a1e9</color>
+    <color name="colorAccent">#00a1e9</color>
+    <color name="main_net">#00a1e9</color>
+    <color name="main_net_unselected">#c8ccd3</color>
+    <color name="net_black">#000000</color>
+    <color name="net_white">#ffffff</color>
+    <color name="net_background">#eeeeee</color>
+    <color name="net_switch">#cccccc</color>
+    <color name="net_hint_gray">#c8ccd3</color>
+    <color name="net_main_word">#333333</color>
+    <color name="widget_word">#2e2e2e</color>
+    <color name="net_common_word">#666666</color>
+    <color name="net_sub_word">#999999</color>
+    <color name="net_icon_background">#13a8df</color>
+    <color name="net_hint_blue">#86daff</color>
+
+
+</resources>

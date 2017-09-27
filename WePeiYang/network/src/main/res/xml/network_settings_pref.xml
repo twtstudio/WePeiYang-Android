@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <SwitchPreference
+        android:key="@string/pref_auto_connect_wlan"
+        android:title="打开微北洋时自动连接校园网">
+
+    </SwitchPreference>
+    <SwitchPreference
+        android:key="@string/pref_auto_logout"
+        android:title="注销登录时自动断开wlan开关">
+
+    </SwitchPreference>
+    <ListPreference
+        android:key="@string/pref_default_connect_order"
+        android:title="默认连接顺序"
+        android:summary="选择默认连接顺序"
+        android:entries="@array/default_connection_order"
+        android:entryValues="@array/default_connection_value"
+        android:defaultValue="@string/pref_default_value"
+        android:dialogTitle="@null">
+
+    </ListPreference>
+</PreferenceScreen>

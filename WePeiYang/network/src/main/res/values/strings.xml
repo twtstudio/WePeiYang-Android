@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">一键上网</string>
+    <string name="wlan_name">热点名称：</string>
+    <string name="username">姓名：</string>
+    <string name="studentid">学号：</string>
+    <string name="status">状态：</string>
+    <string name="item_account_tv1">本月流量（共</string>
+    <string name="item_account_tv2">）</string>
+    <string name="item_account_usagedata">已用流量：</string>
+    <string name="item_account_leftdata">剩余流量：</string>
+    <string name="item_account_pay">账户与流量充值（当前余额：</string>
+    <string name="pref_auto_connect_wlan">pref_auto_connect_wlan</string>
+    <string name="pref_auto_logout">pref_auto_logout</string>
+    <string name="pref_default_connect_order">pref_default_connect_order</string>
+    <string name="pref_default_value">0</string>
+    <string name="item_spy_time">上线时间：</string>
+    <string name="item_spy_ip">IP地址：</string>
+    <string name="widget_wlan_status">WLAN状态：</string>
+    <string name="widget_wifi_name">已接入校园网：</string>
+    <string name="widget_wifi_status">接入状态：</string>
+</resources>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="192dp"
+    android:background="@color/white_color"
+    android:orientation="vertical">
+    <TextView
+        android:id="@+id/dialog_wifi_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="36dp"
+        android:layout_marginTop="33dp"
+        android:text="登录状态异常"
+        android:textSize="21dp"
+        />
+    <TextView
+        android:id="@+id/dialog_wifi_subtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="36dp"
+        android:layout_marginTop="78dp"
+        android:text="当前在线IP数目已达上限"
+        android:textColor="@color/net_hint_gray"
+        android:textSize="14sp"
+        />
+    <TextView
+        android:id="@+id/dialog_wifi_subtitle2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="36dp"
+        android:layout_below="@id/dialog_wifi_subtitle"
+        android:text="当前在线IP数目已达上限"
+        android:textColor="@color/net_hint_gray"
+        android:textSize="14sp"
+        />
+    <Button
+        android:id="@+id/dialog_wifi_ok2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:background="@null"
+        android:text="好的"
+        android:textColor="@color/net_hint_blue"
+        android:textSize="18sp"/>
+
+</RelativeLayout>

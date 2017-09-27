@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingBottom="3dp"
+    android:orientation="vertical">
+    <ImageView
+        android:id="@+id/tab_iv"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:padding="3dp"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/network_tab_wifi3"
+        />
+    <TextView
+        android:id="@+id/tab_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="账户"
+        android:layout_gravity="center_horizontal"
+        android:textColor="@color/network_change_color_tv"
+        android:textSize="13sp"
+        />
+</LinearLayout>

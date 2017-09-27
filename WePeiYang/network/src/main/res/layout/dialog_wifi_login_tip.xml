@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="192dp"
+    android:orientation="vertical"
+    android:background="@color/white_color">
+    <TextView
+        android:id="@+id/dialog_tv1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="42dp"
+        android:layout_marginLeft="44dp"
+        android:text="账户名或密码错误"
+        android:textSize="21sp"
+        />
+    <TextView
+        android:id="@+id/dialog_tv2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="44dp"
+        android:layout_below="@id/dialog_tv1"
+        android:text="请重新输入"
+        android:textSize="21sp"
+        />
+
+    <Button
+        android:id="@+id/dialog_wifi_ok"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:text="好的"
+        android:textColor="@color/net_hint_blue"
+        android:textSize="18dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true" />
+
+</RelativeLayout>

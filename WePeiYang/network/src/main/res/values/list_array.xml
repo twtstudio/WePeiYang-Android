@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="default_connection_order">
+        <item>tjuwlan优先</item>
+        <item>tju_lib优先</item>
+    </string-array>
+    <string-array name="default_connection_value">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+</resources>

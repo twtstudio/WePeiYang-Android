@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="192dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/network_dialog_background"
+    android:orientation="vertical">
+    <TextView
+        android:id="@+id/dialog_wifi_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="36dp"
+        android:layout_marginTop="30dp"
+        android:text="登录自服务验证"
+        android:textColor="@color/net_main_word"
+        android:textSize="18sp"
+        />
+    <TextView
+        android:id="@+id/dialog_wifi_studentid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="36dp"
+        android:layout_below="@id/dialog_wifi_title"
+        android:text="3016000000"
+        android:textSize="18sp"
+        android:textColor="@color/net_hint_gray"
+        />
+    <ImageView
+        android:id="@+id/dialog_wifi_vertify_iv"
+        android:layout_width="99dp"
+        android:layout_height="43dp"
+        android:layout_marginLeft="36dp"
+        android:layout_below="@id/dialog_wifi_studentid"/>
+    <EditText
+        android:id="@+id/dialog_wifi_vertify_et"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="32dp"
+        android:layout_below="@id/dialog_wifi_vertify_iv"
+        android:hint="请输入上方验证码"
+        android:textSize="14sp"
+        app:theme="@style/EditTextStyle"
+        android:textCursorDrawable="@drawable/network_cursor_et"
+        android:textColorHint="@color/net_hint_gray"
+        />
+
+    <Button
+        android:id="@+id/dialog_wifi_ok"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:text="确认"
+        android:textColor="@color/net_hint_blue"
+        android:textSize="18dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true" />
+    <Button
+        android:id="@+id/dialog_wifi_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:text="取消"
+        android:textColor="@color/net_hint_blue"
+        android:textSize="18dp"
+        android:layout_alignParentBottom="true"
+        android:layout_toStartOf="@+id/dialog_wifi_ok" />
+
+
+
+</RelativeLayout>

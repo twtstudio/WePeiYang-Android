@@ -1,0 +1,98 @@
+apply plugin: 'com.android.application'
+apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'com.antfortune.freeline'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.1"
+    defaultConfig {
+        applicationId "com.twt.service"
+        minSdkVersion 19
+        targetSdkVersion 25
+        versionCode 19
+<<<<<<< HEAD
+        versionName "3.1.2"
+        multiDexEnabled true
+        ndk {
+            abiFilters 'armeabi','x86'
+=======
+        versionName "3.1"
+        multiDexEnabled true
+        ndk {
+            abiFilters 'armeabi'
+            abiFilters 'x86'
+>>>>>>> pr/1
+        }
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [ moduleName : project.getName() ]
+            }
+        }
+        lintOptions {
+            checkReleaseBuilds false
+            // Or, if you prefer, you can continue to check for errors in release builds,
+            // but continue the build even when errors are found:
+            abortOnError false
+        }
+    }
+    dexOptions {
+//        incremental true
+        javaMaxHeapSize "4g"
+    }
+    dataBinding {
+        enabled true
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    configurations.all {
+        resolutionStrategy.force 'com.google.code.findbugs:jsr305:3.0.1'
+    }
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }
+
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    //module
+    compile project(':mvvmKit')
+//    compile project(':navigationbottom')
+    compile project(':fragmentation')
+    compile project(':commons')
+    compile project(':gpa')
+    compile project(':bike')
+    compile project(':schedule')
+    compile project(':one')
+    compile project(':tjulibrary')
+    compile project(':classroomcore')
+    compile project(':news')
+    compile project(':auth')
+    compile project(':fellowsearch')
+    compile project(':yellowpages')
+    compile project(':party')
+    compile project(":classroomquery")
+
+    compile 'com.wanjian:cockroach:0.0.5'
+
+    compile 'com.jakewharton:butterknife:8.5.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
+
+    annotationProcessor 'com.alibaba:arouter-compiler:1.1.2'
+
+//    compile 'us.feras.mdv:markdownview:1.1.0'
+    compile 'com.github.mukeshsolanki:MarkdownView-Android:1.0.3'
+
+
+    compile 'com.android.support:multidex:1.0.1'
+    compile 'agency.tango.android:material-intro-screen:0.0.5'
+    compile 'com.github.shem8:material-login:2.1.1'
+    compile 'de.hdodenhof:circleimageview:2.1.0'
+
+}
