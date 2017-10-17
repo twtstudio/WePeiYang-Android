@@ -12,20 +12,32 @@ if (isReleaseBuild()) {
     println 'RELEASE BUILD'
     // 下面的库地址指向的是我们私有仓库的Releases 仓库
     mavenRepositoryUrl = hasProperty('RELEASE_REPOSITORY_URL') ? RELEASE_REPOSITORY_URL
-            : "http://localhost:30810/nexus/content/repositories/releases"
+            : "https://nexus.twtstudio.com/repository/maven-releases/"
 } else {
     println 'SNAPSHOTS BUILD'
     // 下面的库地址指向的是我们私有仓库的snapshots 仓库
     mavenRepositoryUrl = hasProperty('SNAPSHOT_REPOSITORY_URL') ? SNAPSHOT_REPOSITORY_URL
-            : "http://localhost:30810/nexus/content/repositories/snapshots"
+            : "https://nexus.twtstudio.com/repository/maven-snapshots/"
 }
+
+def getLocalProperty(String name) {
+    def localProperties = new Properties()
+    InputStream inputStream = project.rootProject.file('local.properties').newDataInputStream()
+    localProperties.load(inputStream)
+    String s = localProperties.get(name).toString()
+    if (s == null){
+        s = ''
+    }
+    return s
+}
+
 // NEXUS_USERNAME等变量在我们主项目的gradle.properties中可以找到
 def getRepositoryUsername() {
-    return hasProperty('NEXUS_USERNAME') ? NEXUS_USERNAME : ""
+    return getLocalProperty('NEXUS_USERNAME')
 }
 
 def getRepositoryPassword() {
-    return hasProperty('NEXUS_PASSWORD') ? NEXUS_PASSWORD : ""
+    return getLocalProperty('NEXUS_PASSWORD')
 }
 // 根据我们在likelib下gradle.properties中声明的版本名称,来分辨是Release版本还是 snapshots版本
 def isReleaseBuild() {

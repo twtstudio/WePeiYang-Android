@@ -9,7 +9,7 @@ android {
     defaultConfig {
 //        applicationId "com.twtstudio.tjwhm.lostfound"
         minSdkVersion 19
-        targetSdkVersion 26
+        targetSdkVersion 25
         versionCode 1
         versionName "1.0"
 
