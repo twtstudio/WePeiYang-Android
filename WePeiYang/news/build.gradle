@@ -50,7 +50,7 @@ dependencies {
 //    compile 'com.gjiazhe:PanoramaImageView:1.0'
 
 
-    compile project(':mvvmKit')
+    compile 'com.twt.service:mvvmkit:1.1.0'
     compile project(':commons')
     compile project(':fragmentation')
 

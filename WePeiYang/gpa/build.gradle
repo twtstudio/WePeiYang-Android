@@ -47,7 +47,7 @@ dependencies {
     compile 'me.tatarka.bindingcollectionadapter2:bindingcollectionadapter-recyclerview:2.1.0'
 
     compile (project(':commons'))
-    compile (project(':mvvmKit'))
+    compile 'com.twt.service:mvvmkit:1.1.0'
 //            {
 //        exclude group: 'me.tatarka.bindingcollectionadapter', module: 'bindingcollectionadapter'
 //    }
