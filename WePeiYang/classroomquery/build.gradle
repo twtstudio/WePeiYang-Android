@@ -39,5 +39,5 @@ dependencies {
 
     compile project(':commons')
 //    compile project(':mvvmKit')
-    compile 'com.twt.service:mvvmkit:1.1.0'
+    compile 'com.twt.service:mvvmkit:1.2.0'
 }

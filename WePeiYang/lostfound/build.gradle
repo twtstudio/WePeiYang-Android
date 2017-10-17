@@ -47,7 +47,7 @@ dependencies {
     compile 'com.alibaba:arouter-api:1.1.2'
     testCompile 'junit:junit:4.12'
 
-    compile 'com.twt.service:mvvmkit:1.1.0'
+    compile 'com.twt.service:mvvmkit:1.2.0'
     compile project(':auth')
     compile project(':commons')
     compile 'com.android.support:design:22.2.0'

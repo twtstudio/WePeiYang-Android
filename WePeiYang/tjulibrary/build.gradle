@@ -37,7 +37,7 @@ dependencies {
     })
 
     compile project(':commons')
-    compile 'com.twt.service:mvvmkit:1.1.0'
+    compile 'com.twt.service:mvvmkit:1.2.0'
 
     testCompile 'junit:junit:4.12'
 }
