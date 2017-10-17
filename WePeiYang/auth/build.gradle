@@ -1,5 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'me.tatarka.retrolambda'
+apply from: '../maven_push.gradle'
 
 
 android {
@@ -32,6 +33,8 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
-    compile project(':commons')
+//    compile project(':commons')
+    compile 'com.twt.service:commons:1.2.0'
     compile 'com.twt.service:mvvmkit:1.2.0'
+
 }

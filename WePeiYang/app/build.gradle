@@ -68,23 +68,43 @@ dependencies {
     //module
     compile 'com.twt.service:mvvmkit:1.2.0'
 //    compile project(':navigationbottom')
-    compile project(':fragmentation')
-    compile project(':commons')
-    compile project(':gpa')
-    compile project(':bike')
-    compile project(':schedule')
-    compile project(':one')
-    compile project(':tjulibrary')
-    compile project(':classroomcore')
-    compile project(':news')
-    compile project(':auth')
-    compile project(':fellowsearch')
-    compile project(':yellowpages')
-    compile project(':party')
+//    compile project(':fragmentation')
+    compile 'com.twt.service:fragmentation:1.1.0'
+//    compile project(':commons')
+    compile 'com.twt.service:commons:1.2.0'
+
+//    compile project(':gpa')
+    compile 'com.twt.service:gpa:1.1.0'
+//    compile project(':bike')
+    compile 'com.twt.service:bike:1.1.0'
+//    compile project(':schedule')
+    compile 'com.twt.service:schedule:1.0.0'
+//    compile project(':one')
+    compile 'com.twt.service:one:1.0.0'
+//    compile project(':tjulibrary')
+    compile 'com.twt.service:tjulibrary:1.1.0'
+//    compile project(':classroomcore')
+    compile 'com.twt.service:classroomcore:1.0.0'
+//    compile project(':news')
+    compile 'com.twt.service:news:1.1.0'
+//    compile project(':auth')
+    compile 'com.twt.service:auth:1.1.0'
+//    compile project(':fellowsearch')
+    compile 'com.twt.service:fellowsearch:1.0.0'
+//    compile project(':yellowpages')
+    compile 'com.twt.service:yellowpages:1.0.0'
+//    compile project(':party')
+    compile 'com.twt.service:party:1.0.0'
 //    compile project(":classroomquery")
-    compile project(':classroom')
-    compile project(':lostfound')
-    compile project(':network')
+    compile 'com.twt.service:classroomquery:1.0.0'
+//    compile project(':classroom')
+    compile 'com.twt.service:classroom:1.0.1'
+    compile 'com.twt.service:lostfound:1.0.1'
+
+//    compile project(':lostfound')
+//    compile project(':network')
+    compile 'com.twt.service:network:1.0.1'
+
 
 //    compile 'com.twtstudio.retrox:commons:1.0.1'
 //    compile 'com.twtstudio.retrox:mvvmkit:1.0.0-SNAPSHOT'

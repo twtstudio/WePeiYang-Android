@@ -2,6 +2,8 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'com.jakewharton.butterknife'
+apply from: '../maven_push.gradle'
+
 
 
 android {
@@ -51,8 +53,11 @@ dependencies {
 
 
     compile 'com.twt.service:mvvmkit:1.2.0'
-    compile project(':commons')
-    compile project(':fragmentation')
+//    compile project(':commons')
+    compile 'com.twt.service:commons:1.2.0'
+
+//    compile project(':fragmentation')
+    compile 'com.twt.service:fragmentation:1.1.0'
 
 
     testCompile 'junit:junit:4.12'

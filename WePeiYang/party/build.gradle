@@ -1,5 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.jakewharton.butterknife'
+apply from: '../maven_push.gradle'
+
 
 android {
     compileSdkVersion 25
@@ -47,5 +49,6 @@ dependencies {
     compile 'com.sothree.slidinguppanel:library:3.3.0'
     compile 'com.getbase:floatingactionbutton:1.10.1'
 
-    compile project(':commons')
+//    compile project(':commons')
+    compile 'com.twt.service:commons:1.2.0'
 }

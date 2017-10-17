@@ -1,5 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'me.tatarka.retrolambda'
+apply from: '../maven_push.gradle'
+
 
 android {
     compileSdkVersion 25
@@ -46,7 +48,8 @@ dependencies {
     compile 'me.tatarka.bindingcollectionadapter2:bindingcollectionadapter:2.1.0'
     compile 'me.tatarka.bindingcollectionadapter2:bindingcollectionadapter-recyclerview:2.1.0'
 
-    compile (project(':commons'))
+//    compile (project(':commons'))
+    compile 'com.twt.service:commons:1.2.0'
     compile 'com.twt.service:mvvmkit:1.2.0'
 //            {
 //        exclude group: 'me.tatarka.bindingcollectionadapter', module: 'bindingcollectionadapter'

@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'com.jakewharton.butterknife'
+apply from: '../maven_push.gradle'
 
 
 android {
@@ -67,7 +68,8 @@ dependencies {
     compile 'com.github.florent37:glidepalette:1.0.6'
     compile 'de.greenrobot:eventbus:2.4.0'
 
-    compile project(':commons')
+//    compile project(':commons')
+    compile 'com.twt.service:commons:1.2.0'
     compile 'com.twt.service:mvvmkit:1.2.0'
 
     testCompile 'junit:junit:4.12'
