@@ -6,16 +6,19 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/main_net</item>
-        <item name="windowActionBar">false</item>
 
     </style>
-    <style name="EditTextStyle" parent="Theme.AppCompat.Light">
-        <item name="colorControlActivated">@color/net_switch</item>
-        <item name="colorControlNormal">@color/net_switch</item>
+    <style name="NetworkEditTextStyle" parent="Theme.AppCompat.Light">
+        <item name="colorControlActivated">@color/main_net</item>
+        <item name="colorControlNormal">@color/widget_word</item>
     </style>
     <style name="Dialog" parent="Theme.AppCompat.Dialog.Alert">
         <item name="android:windowFrame">@null</item>
         <item name="android:windowNoTitle">true</item>
+    </style>
+    <style name="NetworkCheckboxStyle" parent="@android:style/Widget.CompoundButton.CheckBox">
+        <item name="android:button">@drawable/network_checkbox_selector</item>
+
     </style>
 
 </resources>

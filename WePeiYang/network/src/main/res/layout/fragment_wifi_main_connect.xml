@@ -48,7 +48,7 @@
                         android:id="@+id/item_wifi_net2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{viewModel.wlan}"
+                        android:text="@{@string/wlan_name+viewModel.wlan}"
                         android:textColor="@color/net_main_word"
                         android:textSize="16dp"
                         tools:text="热点名称：tju" />
@@ -79,7 +79,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="30dp"
-                    android:text="@{viewModel.studentId}"
+                    android:text="@{@string/studentid+viewModel.studentId}"
                     android:textColor="@color/net_main_word"
                     android:textSize="16dp"
                     tools:text="学号：000" />
@@ -109,6 +109,21 @@
                 android:textColor="@color/net_white"
                 android:textSize="14dp"
                 app:clickCommand="@{viewModel.onLogoutCommand}" />
+
+            <Button
+                android:id="@+id/fragment_wifi_self_service_bt"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginTop="18dp"
+                android:background="@drawable/network_button_selector"
+                android:text="自服务"
+                android:textColor="@color/net_white"
+                android:textSize="14sp"
+                app:clickCommand="@{viewModel.onSelfServiceCommand}"
+                 />
         </LinearLayout>
     </android.support.v4.widget.SwipeRefreshLayout>
 

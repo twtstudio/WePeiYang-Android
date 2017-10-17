@@ -1,21 +1,25 @@
 package com.twt.service.network.command;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
+import android.net.Uri;
 import android.net.wifi.WifiManager;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.kelin.mvvmlight.base.ViewModel;
 import com.kelin.mvvmlight.command.ReplyCommand;
+import com.twt.service.network.R;
 import com.twt.service.network.WifiStatusClass;
 import com.twt.service.network.api.Api;
 import com.twt.service.network.api.ApiPostClient;
 import com.twt.service.network.modle.RequestParam;
-import com.twt.service.network.R;
 import com.twt.service.network.view.wifi.WiFiConnectFragment;
 
 import java.io.IOException;
@@ -36,6 +40,8 @@ public class WiFiLoginViewModel implements ViewModel {
     public static String NAME = null;
     public static String PASSWORD = null;
     private String action = "login";
+    private String action_logout = "logout";
+    public static int ajax = 1;
     private SharedPreferences mSharedPreferences;
     private SharedPreferences.Editor editor;
 
@@ -44,6 +50,8 @@ public class WiFiLoginViewModel implements ViewModel {
     public final ObservableBoolean isChecked = new ObservableBoolean();
 
     public final ReplyCommand onLoginCommand = new ReplyCommand(() -> loginPost());
+    public final ReplyCommand onLogoutCommand = new ReplyCommand(()->onLogout());
+    public final ReplyCommand onSelfServiceCommand = new ReplyCommand(() -> onSelfService());
 
     public WiFiLoginViewModel(Fragment fragment) {
         this.mFragment = fragment;
@@ -103,7 +111,7 @@ public class WiFiLoginViewModel implements ViewModel {
         requestParam.put("save_me", "1");
         requestParam.put("ajax", "1");
         Api api = ApiPostClient.getRetrofit().create(Api.class);
-        api.loginPost(username.get(), password.get(), action, "25", requestParam, "1")
+        api.loginPost(username.get(), password.get(), action, requestParam)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -145,6 +153,59 @@ public class WiFiLoginViewModel implements ViewModel {
                         }
                     }
                 });
+    }
+
+    private void onLogout(){
+        Api api = ApiPostClient.getRetrofit().create(Api.class);
+        api.logoutPost(username.get(), password.get(), action_logout, ajax)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<ResponseBody>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(ResponseBody responseBody) {
+                        try {
+                            Toast.makeText(mFragment.getContext(), responseBody.string().trim(), Toast.LENGTH_SHORT).show();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                });
+
+    }
+
+    public void onSelfService() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mFragment.getContext())
+                .setTitle("是否要打开浏览器？")
+                .setPositiveButton("是", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent();
+                        intent.setAction("android.intent.action.VIEW");
+                        Uri uri = Uri.parse("http://202.113.4.11:8800/");
+                        intent.setData(uri);
+                        mFragment.getContext().startActivity(intent);
+                    }
+                })
+                .setNegativeButton("否", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        builder.create().show();
+
     }
 
     public void initCheck() {

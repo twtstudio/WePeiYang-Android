@@ -8,7 +8,7 @@
     </SwitchPreference>
     <SwitchPreference
         android:key="@string/pref_auto_logout"
-        android:title="注销登录时自动断开wlan开关">
+        android:title="注销登录时自动断开WLAN开关">
 
     </SwitchPreference>
     <ListPreference

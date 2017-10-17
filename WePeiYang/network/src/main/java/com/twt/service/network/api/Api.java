@@ -8,7 +8,6 @@ import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
-import retrofit2.http.Query;
 import rx.Observable;
 
 /**
@@ -39,7 +38,7 @@ public interface Api {
 
     @FormUrlEncoded
     @POST("include/auth_action.php")
-    Observable<ResponseBody> loginPost(@Field("username") String username, @Field("password") String password, @Field("action") String action, @Field("ac_id") String acId, @FieldMap RequestParam requestParam, @Query("ajax") String ajax);
+    Observable<ResponseBody> loginPost(@Field("username") String username, @Field("password") String password, @Field("action") String action, @FieldMap RequestParam requestParam);
 
     @GET("http://119.75.213.61/")
     Observable<ResponseBody> baidu();

@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTabHost;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -16,7 +15,6 @@ import android.widget.TabHost;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.kelin.mvvmlight.messenger.Messenger;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
-
 import com.twt.service.network.R;
 import com.twt.service.network.R2;
 import com.twt.service.network.WifiStatusClass;
@@ -71,24 +69,6 @@ public class NetActivity extends RxAppCompatActivity {
         initWlan();
         initTab2();
         WidgetUpdateManager.sendUpdateMsg(this);
-        String name = wifiStatusClass.getWifiInfo();
-        switch (name) {
-            case "\"" + "TwT_Studio" + "\"":
-                Log.d("wwww", "gatewaytwt:" + wifiStatusClass.getGateway());
-                break;
-            case "\"" + "tjuwlan" + "\"":
-                String gate = wifiStatusClass.getGateway();
-                if (gate.equals("172.23.0.1")) {
-                    Log.d("wwww", "gateway:successful");
-                } else {
-                    Log.d("wwww", "gateway:没输出");
-                }
-                Log.d("wwww", "gatewaytju:" + gate);
-                break;
-            default:
-                Log.d("wwww", "gateway:" + "null");
-                break;
-        }
     }
 
 
@@ -97,18 +77,18 @@ public class NetActivity extends RxAppCompatActivity {
         getMenuInflater().inflate(R.menu.toolbar_menu_set, menu);
         return true;
     }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            Intent home = new Intent(Intent.ACTION_MAIN);
-            home.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            home.addCategory(Intent.CATEGORY_HOME);
-            startActivity(home);
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
-    }
+// 直接返回Home
+//    @Override
+//    public boolean onKeyDown(int keyCode, KeyEvent event) {
+//        if (keyCode == KeyEvent.KEYCODE_BACK) {
+//            Intent home = new Intent(Intent.ACTION_MAIN);
+//            home.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//            home.addCategory(Intent.CATEGORY_HOME);
+//            startActivity(home);
+//            return true;
+//        }
+//        return super.onKeyDown(keyCode, event);
+//    }
 
     private void initWlan() {
         Log.d("ffff", "initwlan");

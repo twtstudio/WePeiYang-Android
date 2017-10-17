@@ -39,7 +39,7 @@
         android:layout_below="@id/dialog_wifi_vertify_iv"
         android:hint="请输入上方验证码"
         android:textSize="14sp"
-        app:theme="@style/EditTextStyle"
+        app:theme="@style/NetworkEditTextStyle"
         android:textCursorDrawable="@drawable/network_cursor_et"
         android:textColorHint="@color/net_hint_gray"
         />
