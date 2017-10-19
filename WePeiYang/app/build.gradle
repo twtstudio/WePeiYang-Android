@@ -99,9 +99,10 @@ dependencies {
     compile 'com.twt.service:classroomquery:1.0.0'
 //    compile project(':classroom')
     compile 'com.twt.service:classroom:1.0.1'
-    compile 'com.twt.service:lostfound:1.0.1'
 
-//    compile project(':lostfound')
+    compile project(':lostfound')
+//    compile 'com.twt.service:lostfound:1.0.1'
+
 //    compile project(':network')
     compile 'com.twt.service:network:1.0.1'
 
