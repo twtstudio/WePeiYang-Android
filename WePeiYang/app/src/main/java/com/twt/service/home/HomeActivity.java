@@ -45,7 +45,7 @@ public class HomeActivity extends BaseActivity {
     public static final int THIRD = 2;
     public static final int FOURTH = 3;
 
-    private SupportFragment[] mFragments = new SupportFragment[4];
+    private Fragment[] mFragments = new Fragment[4];
 
     private BottomBar mBottomBar;
 
@@ -64,7 +64,7 @@ public class HomeActivity extends BaseActivity {
         }
         setContentView(R.layout.activity_home);
 
-        if (savedInstanceState == null) {
+//        if (savedInstanceState == null) {
             mFragments[FIRST] = CommonFragment.newInstance();
             mFragments[SECOND] = NewsFragment.newInstance();
             mFragments[THIRD] = new ExploreFragment();
@@ -76,14 +76,7 @@ public class HomeActivity extends BaseActivity {
 //                    mFragments[THIRD],
 //                    mFragments[FOURTH]);
 
-        } else {
-
-            mFragments[FIRST] = findFragment(CommonFragment.class);
-            mFragments[SECOND] = findFragment(NewsFragment.class);
-            mFragments[THIRD] = findFragment(ToolsFragment.class);
-            mFragments[FOURTH] = findFragment(UserFragment.class);
-
-        }
+//        }
 
         viewPager = (ViewPager) findViewById(R.id.fl_container);
         viewPager.setAdapter(new FragmentAdapter(getSupportFragmentManager()));

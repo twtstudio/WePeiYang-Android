@@ -1,5 +1,6 @@
 package com.twtstudio.retrox.gpa;
 
+import android.content.Context;
 import android.widget.Toast;
 
 import com.kelin.mvvmlight.messenger.Messenger;
@@ -30,13 +31,18 @@ public class GpaProvider {
     public static final String TOKEN_GPA_LOAD_FINISHED = "token_gpa_load_finished";
 
     //绑定生命周期用
-    private RxAppCompatActivity mActivity;
+    private Context mContext;
 
     private Action1<GpaBean> action;
 
     private GpaProvider(RxAppCompatActivity activity) {
-        mActivity = activity;
+        mContext = activity;
     }
+
+    private GpaProvider(Context context) {
+        mContext = context;
+    }
+
 
     /**
      * default: not refresh the cache
@@ -60,7 +66,7 @@ public class GpaProvider {
                 .doOnNext(gpaBeanReply -> Logger.d(gpaBeanReply.toString()))
                 .map(Reply::getData)
                 .map(MyGpaBean::getData)
-                .compose(mActivity.bindToLifecycle())
+//                .compose(mActivity.bindToLifecycle())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(gpaBean -> {
                     //提供模块内的刷新服务，因为数据的bus是不能跨module的
@@ -69,15 +75,19 @@ public class GpaProvider {
                         if (gpaBean.data.size()!=0){
                             action.call(gpaBean);
                         }else {
-                            Toast.makeText(mActivity, "数据出现问题,可尝试关闭退学或在GPA界面手动刷新...", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(mContext, "数据出现问题,可尝试关闭退学或在GPA界面手动刷新...", Toast.LENGTH_SHORT).show();
                         }
                     }
-                }, throwable -> new RxErrorHandler(mActivity).call(throwable.getCause()));
+                }, throwable -> new RxErrorHandler(mContext).call(throwable.getCause()));
 
     }
 
     public static GpaProvider init(RxAppCompatActivity rxActivity) {
         return new GpaProvider(rxActivity);
+    }
+
+    public static GpaProvider init(Context context) {
+        return new GpaProvider(context);
     }
 
     public GpaProvider registerAction(Action1<GpaBean> action) {
