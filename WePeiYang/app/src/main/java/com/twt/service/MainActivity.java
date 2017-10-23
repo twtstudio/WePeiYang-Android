@@ -34,10 +34,6 @@ public class MainActivity extends BaseActivity {
         viewModel.onLoginClickCommand.execute();
     }
 
-    private void test1() {
-        BaseFragment fragment = new BaseFragment();
-        OneInfoViewModel viewModel = new OneInfoViewModel(fragment);
-    }
 
     private void test2() {
 //        Intent intent = new Intent(this, BikeActivity.class);

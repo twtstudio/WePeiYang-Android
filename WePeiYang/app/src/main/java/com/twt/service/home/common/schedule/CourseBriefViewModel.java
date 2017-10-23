@@ -1,5 +1,6 @@
 package com.twt.service.home.common.schedule;
 
+import android.arch.lifecycle.MutableLiveData;
 import android.databinding.ObservableField;
 import android.databinding.ObservableInt;
 
@@ -14,25 +15,25 @@ import com.twtstudio.retrox.schedule.model.CourseHelper;
 
 public class CourseBriefViewModel implements ViewModel {
 
-    public final ObservableField<String> courseName = new ObservableField<>();
+    public final MutableLiveData<String> courseName = new MutableLiveData<>();
 
-    public final ObservableInt cardColor = new ObservableInt();
+    public final MutableLiveData<Integer> cardColor = new MutableLiveData<>();
 
-    public final ObservableInt textColor = new ObservableInt();
+    public final MutableLiveData<Integer> textColor = new MutableLiveData<>();
 
     public CourseBriefViewModel(ClassTable.Data.Course course) {
         String name = course.coursename;
         int color = course.coursecolor;
         if (!name.equals("无")) {
-            this.courseName.set(name + "@" + CourseHelper.getTodayLocation(course.arrange));
+            this.courseName.setValue(name + "@" + CourseHelper.getTodayLocation(course.arrange));
         } else {
-            this.courseName.set(name);
+            this.courseName.setValue(name);
         }
-        this.cardColor.set(ResourceHelper.getColor(color));
+        this.cardColor.setValue(ResourceHelper.getColor(color));
         if (color == com.twtstudio.retrox.schedule.R.color.myWindowBackgroundGray) {
-            textColor.set(ResourceHelper.getColor(com.twtstudio.retrox.schedule.R.color.schedule_gray));
+            textColor.setValue(ResourceHelper.getColor(com.twtstudio.retrox.schedule.R.color.schedule_gray));
         } else {
-            textColor.set(ResourceHelper.getColor(com.twtstudio.retrox.schedule.R.color.white_color));
+            textColor.setValue(ResourceHelper.getColor(com.twtstudio.retrox.schedule.R.color.white_color));
         }
     }
 

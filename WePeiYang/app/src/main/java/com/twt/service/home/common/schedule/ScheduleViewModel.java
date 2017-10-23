@@ -1,5 +1,7 @@
 package com.twt.service.home.common.schedule;
 
+import android.arch.lifecycle.AndroidViewModel;
+import android.arch.lifecycle.MutableLiveData;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.databinding.ObservableArrayList;
@@ -8,6 +10,7 @@ import android.preference.PreferenceManager;
 
 import com.kelin.mvvmlight.base.ViewModel;
 import com.kelin.mvvmlight.command.ReplyCommand;
+import com.orhanobut.hawk.Hawk;
 import com.orhanobut.logger.Logger;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
@@ -22,6 +25,7 @@ import com.twt.service.R;
 
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
@@ -33,13 +37,15 @@ import rx.Observable;
  * Created by retrox on 2017/2/7.
  */
 
-public class ScheduleViewModel implements ViewModel {
+public class ScheduleViewModel extends AndroidViewModel implements ViewModel {
 
     private RxAppCompatActivity rxAppCompatActivity;
 
-    public final ObservableField<String> title = new ObservableField<>();
+    public final MutableLiveData<String> title = new MutableLiveData<>();
 
-    public final ObservableArrayList<ViewModel> items = new ObservableArrayList<>();
+    public final List<ViewModel> items = new ArrayList<>();
+
+    public final MutableLiveData<List<ViewModel>> liveItems = new MutableLiveData<>();
 
     public final ItemView itemView = ItemView.of(BR.viewModel, R.layout.item_common_course);
 
@@ -49,6 +55,7 @@ public class ScheduleViewModel implements ViewModel {
 
 
     public ScheduleViewModel(RxAppCompatActivity rxActivity) {
+        super(rxActivity.getApplication());
         this.rxAppCompatActivity = rxActivity;
         getTodayString();
         getData();
@@ -66,6 +73,8 @@ public class ScheduleViewModel implements ViewModel {
         for (ClassTable.Data.Course course : courseList) {
             items.add(new CourseBriefViewModel(course));
         }
+        liveItems.setValue(items);
+        Hawk.put("itemstest",items);
         Logger.d(items);
     }
 
@@ -78,7 +87,7 @@ public class ScheduleViewModel implements ViewModel {
         stringBuilder.append("  ");
         String s = "星期" + TimeHelper.getChineseCharacter(new CourseHelper().getTodayNumber());
         stringBuilder.append(s);
-        title.set(stringBuilder.toString());
+        title.setValue(stringBuilder.toString());
     }
 
     private void jumpTodayDetail() {

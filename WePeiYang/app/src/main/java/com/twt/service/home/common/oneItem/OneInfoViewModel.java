@@ -1,7 +1,10 @@
 package com.twt.service.home.common.oneItem;
 
+import android.app.Application;
+import android.arch.lifecycle.AndroidViewModel;
+import android.arch.lifecycle.MutableLiveData;
 import android.databinding.ObservableBoolean;
-import android.databinding.ObservableField;
+import android.support.annotation.NonNull;
 
 import com.kelin.mvvmlight.base.ViewModel;
 import com.twt.service.api.ApiClient;
@@ -19,21 +22,17 @@ import rx.schedulers.Schedulers;
  * Created by retrox on 2017/1/16.
  */
 
-public class OneInfoViewModel implements ViewModel {
-
-    /**
-     * 用于绑定fragment的生命周期，还有context的提供
-     */
-    private BaseFragment mFragment;
+public class OneInfoViewModel extends AndroidViewModel implements ViewModel {
+    
 
     /**
      * fields 与UI绑定的可变数据源
      */
-    public final ObservableField<String> imageUrl = new ObservableField<>();
+    public final MutableLiveData<String> imageUrl = new MutableLiveData<>();
 
-    public final ObservableField<String> content = new ObservableField<>();
+    public final MutableLiveData<String> content = new MutableLiveData<>();
 
-    public final ObservableField<String> author = new ObservableField<>();
+    public final MutableLiveData<String> author = new MutableLiveData<>();
 
     public static final SimpleDateFormat dateFormate = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
 
@@ -44,9 +43,8 @@ public class OneInfoViewModel implements ViewModel {
         public final ObservableBoolean progressRefreshing = new ObservableBoolean(true);
     }
 
-    public OneInfoViewModel(BaseFragment fragment) {
-        mFragment = fragment;
-        getData();
+    public OneInfoViewModel(@NonNull Application application) {
+        super(application);
     }
 
     /**
@@ -59,16 +57,16 @@ public class OneInfoViewModel implements ViewModel {
                         .map(Calendar::getTime)
                         .map(dateFormate::format)
                         .flatMap(s -> ApiClient.getService().getOneHpInfo(s))
-                        .compose(mFragment.bindToLifecycle())
+//                        .compose(mFragment.bindToLifecycle())
                         .materialize().share();
 
         oneInfoOb.filter(Notification::isOnNext)
                 .map(Notification::getValue)
                 .map(oneInfoBean -> oneInfoBean.hpEntity)
                 .doOnNext(hpEntityBean -> {
-                    imageUrl.set(hpEntityBean.strOriginalImgUrl);
-                    content.set(hpEntityBean.strContent);
-                    author.set(hpEntityBean.strAuthor);
+                    imageUrl.setValue(hpEntityBean.strOriginalImgUrl);
+                    content.setValue(hpEntityBean.strContent);
+                    author.setValue(hpEntityBean.strAuthor);
                 })
                 .subscribe();
 

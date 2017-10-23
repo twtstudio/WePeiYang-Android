@@ -3,4 +3,4 @@
 //include ':auth', ':mvvmKit', ':commons', ':lostfound', ':lfapp','classroom','network','circleprogress'
 //include ':devpeiyang'
 include ':app'
-include ':gpa'
+//include ':gpa'

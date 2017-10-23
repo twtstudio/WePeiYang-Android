@@ -64,8 +64,8 @@ public class CommonFragViewModel implements ViewModel {
 
         boolean isDisplayGpa = sharedPreferences.getBoolean(mFragment.getString(R.string.pref_is_display_gpa), false);
         if (isDisplayGpa) {
-            mGpaItemViewModel = new GpaItemViewModel((BaseActivity) mFragment.getActivity());
-            viewModelList.add(mGpaItemViewModel);
+//            mGpaItemViewModel = new GpaItemViewModel((BaseActivity) mFragment.getActivity());
+//            viewModelList.add(mGpaItemViewModel);
         }
 
         if (CommonPrefUtil.getIsBindLibrary()) {

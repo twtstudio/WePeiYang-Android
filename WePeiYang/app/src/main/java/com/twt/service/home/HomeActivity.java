@@ -18,6 +18,7 @@ import android.transition.Fade;
 import android.view.View;
 
 import com.orhanobut.logger.Logger;
+import com.twt.service.home.common.CommonFragmentNew;
 import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
 import com.twtstudio.retrox.news.explore.ExploreFragment;
 import com.twt.service.R;
@@ -45,7 +46,7 @@ public class HomeActivity extends BaseActivity {
     public static final int THIRD = 2;
     public static final int FOURTH = 3;
 
-    private Fragment[] mFragments = new Fragment[4];
+    private SupportFragment[] mFragments = new SupportFragment[4];
 
     private BottomBar mBottomBar;
 
@@ -64,8 +65,8 @@ public class HomeActivity extends BaseActivity {
         }
         setContentView(R.layout.activity_home);
 
-//        if (savedInstanceState == null) {
-            mFragments[FIRST] = CommonFragment.newInstance();
+        if (savedInstanceState == null) {
+            mFragments[FIRST] = new CommonFragmentNew();
             mFragments[SECOND] = NewsFragment.newInstance();
             mFragments[THIRD] = new ExploreFragment();
             mFragments[FOURTH] = UserFragment.newInstance();
@@ -76,7 +77,14 @@ public class HomeActivity extends BaseActivity {
 //                    mFragments[THIRD],
 //                    mFragments[FOURTH]);
 
-//        }
+        } else {
+
+            mFragments[FIRST] = findFragment(CommonFragment.class);
+            mFragments[SECOND] = findFragment(NewsFragment.class);
+            mFragments[THIRD] = findFragment(ToolsFragment.class);
+            mFragments[FOURTH] = findFragment(UserFragment.class);
+
+        }
 
         viewPager = (ViewPager) findViewById(R.id.fl_container);
         viewPager.setAdapter(new FragmentAdapter(getSupportFragmentManager()));

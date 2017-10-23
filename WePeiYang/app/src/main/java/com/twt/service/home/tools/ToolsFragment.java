@@ -34,14 +34,9 @@ public class ToolsFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_tools, container, false);
+        binding.recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 4));
         binding.setViewModel(new ToolsFragViewModel(getContext()));
         return binding.getRoot();
     }
 
-    @Override
-    public void onLazyInitView(@Nullable Bundle savedInstanceState) {
-        super.onLazyInitView(savedInstanceState);
-        binding.recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 4));
-
-    }
 }
