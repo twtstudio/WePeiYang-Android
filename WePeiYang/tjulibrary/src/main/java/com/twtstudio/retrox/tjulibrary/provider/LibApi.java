@@ -4,6 +4,7 @@ import com.twt.wepeiyang.commons.network.ApiResponse;
 
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -29,5 +30,11 @@ public interface LibApi {
 
     @GET("auth/unbind/lib")
     Observable<ApiResponse<String>> unbindLib();
+
+    @GET("library/book")
+    Observable<ResponseBody> searchLibBook(@Query("title") String name, @Query("page") Integer page);
+
+    @GET("library/book/{id}")
+    Observable<ResponseBody> getBookDetail(@Path("id") String id);
 
 }

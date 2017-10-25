@@ -2,5 +2,5 @@
 //include /*':preapp',*/ ':lib',  ':gpa', ':schedule', ':fragmentation', ':bike', ':one', ':news', ':tjulibrary', ':classroomcore', ':fellowsearch', ':yellowpages', ':classroomquery'
 //include ':auth', ':mvvmKit', ':commons', ':lostfound', ':lfapp','classroom','network','circleprogress'
 //include ':devpeiyang'
-include ':app'
+include ':app',':tjulibrary'
 //include ':gpa'

@@ -6,7 +6,7 @@ apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 26
-    buildToolsVersion "26.0.1"
+    buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "com.twt.service"
         minSdkVersion 19
@@ -28,13 +28,16 @@ android {
             // but continue the build even when errors are found:
             abortOnError false
         }
+        flavorDimensions "dev"
         productFlavors {
             dev {
+                dimension "dev"
                 // Enable pre-dexing to produce an APK that can be tested on
                 // Android 5.0+ without the time-consuming DEX build processes.
                 minSdkVersion 21
             }
             common {
+                dimension "dev"
                 minSdkVersion 19
             }
         }
@@ -55,7 +58,15 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    packagingOptions {
+        exclude 'android/databinding/DataBindingComponent.java'
+        exclude 'android/databinding/DynamicUtil.java'
+
+    }
     configurations.all {
+//        exclude group: 'me.tatarka.bindingcollectionadapter'
+//        exclude group: 'com.twt.service'
+
         resolutionStrategy {
             force 'com.google.code.findbugs:jsr305:3.0.1'
         }
@@ -94,15 +105,17 @@ dependencies {
     compile 'com.twt.service:commons:1.2.0'
 
 //    compile project(':gpa')
-    compile 'com.twt.service:gpa:1.1.1-SNAPSHOT'
+    compile ('com.twt.service:gpa:1.1.1-SNAPSHOT') {
+        exclude group:'me.tatarka.bindingcollectionadapter'
+    }
 //    compile project(':bike')
     compile 'com.twt.service:bike:1.1.0'
 //    compile project(':schedule')
     compile 'com.twt.service:schedule:1.0.0'
 //    compile project(':one')
     compile 'com.twt.service:one:1.0.0'
-//    compile project(':tjulibrary')
-    compile 'com.twt.service:tjulibrary:1.1.0'
+    compile project(':tjulibrary')
+//    compile 'com.twt.service:tjulibrary:1.1.0'
 //    compile project(':classroomcore')
     compile 'com.twt.service:classroomcore:1.0.0'
 //    compile project(':news')

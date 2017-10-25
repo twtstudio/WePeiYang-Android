@@ -12,7 +12,6 @@ import com.twtstudio.retrox.classroomcore.home.ClassroomViewModel;
 import com.twtstudio.retrox.tjulibrary.home.HomeLibItemViewModel;
 import com.twt.service.BR;
 import com.twt.service.R;
-import com.twt.service.base.BaseActivity;
 import com.twt.service.base.BaseFragment;
 import com.twt.service.home.common.gpaItem.GpaItemViewModel;
 import com.twt.service.home.common.oneItem.OneInfoViewModel;

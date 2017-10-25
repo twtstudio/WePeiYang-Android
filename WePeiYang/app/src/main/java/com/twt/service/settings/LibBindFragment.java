@@ -52,9 +52,9 @@ public class LibBindFragment extends SlideFragment {
                 canMoveForward = true;
                 Toast.makeText(this.getContext(), "图书馆已绑定,点击底部右侧对勾开始新旅程", Toast.LENGTH_SHORT).show();
             } else if (integer == 50002) {
-                Toast.makeText(this.getContext(), "图书馆密码错误TAT...", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this.getContext(), "图书馆密码错误", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(this.getContext(), "未知错误TAT...", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this.getContext(), "未知错误", Toast.LENGTH_SHORT).show();
             }
             CommonPrefUtil.setIsBindLibrary(true);
             new AuthSelfProvider().getUserData();

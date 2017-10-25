@@ -39,7 +39,6 @@ class ScheduleItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 //            board.invalidate()
             it?.apply {
                 for (vm in it) {
-                    Log.d("schedule", vm.toString())
                     val view = inflater.inflate(R.layout.item_common_course, board, false)
                     CourseItemHolder(view).apply {
                         bind(owner, vm)
