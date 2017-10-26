@@ -21,7 +21,7 @@
             android:layout_width="26dp"
             android:layout_height="26dp"
             android:layout_gravity="center_vertical"
-            android:src="@{viewModel.obBookDrawable}"
+            android:id="@+id/ic_item_book"
             tools:src="@drawable/lib_book" />
 
         <LinearLayout
@@ -34,7 +34,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{viewModel.name}"
+                android:id="@+id/tv_item_book_name"
                 android:textSize="16sp"
                 tools:text="从你的全世界路过" />
 
@@ -44,7 +44,7 @@
                 android:layout_marginTop="3dp"
                 android:fontFamily="sans-serif-light"
                 android:maxLines="1"
-                android:text="@{viewModel.retrunTime}"
+                android:id="@+id/tv_item_book_return"
                 android:textSize="16sp"
                 tools:text="2017/4/18 到期" />
 

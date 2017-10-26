@@ -30,4 +30,18 @@ public class Info {
     public String credit;
     public List<Book> books;
 
+    @Override
+    public String toString() {
+        return "Info{" +
+                "card='" + card + '\'' +
+                ", name='" + name + '\'' +
+                ", status='" + status + '\'' +
+                ", expire='" + expire + '\'' +
+                ", type='" + type + '\'' +
+                ", borrowAmount=" + borrowAmount +
+                ", borrowLimit=" + borrowLimit +
+                ", credit='" + credit + '\'' +
+                ", books=" + books +
+                '}';
+    }
 }

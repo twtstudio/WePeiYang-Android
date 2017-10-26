@@ -1,134 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:bind="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="4dp"
+    bind:cardBackgroundColor="@color/white_color"
+    bind:cardElevation="0dp">
 
-    <data>
-        <variable
-            name="viewModel"
-            type="com.twtstudio.retrox.tjulibrary.home.HomeLibItemViewModel"/>
-
-        <import type="android.view.View"/>
-
-    </data>
-
-    <android.support.v7.widget.CardView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        bind:cardElevation="0dp"
-        bind:cardBackgroundColor="@color/white_color">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:paddingLeft="20dp">
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/lib_library" />
+
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:paddingLeft="20dp">
+                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
+                android:text="图书馆"
+                android:textSize="18sp" />
+        </LinearLayout>
 
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_gravity="center_vertical"
-                    android:src="@drawable/lib_library" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginStart="20dp"
-                    android:text="图书馆"
-                    android:textSize="18sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:paddingLeft="20dp">
-
-                <FrameLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:src="@{viewModel.obDrawable}"
-                        tools:src="@drawable/lib_warning"
-                        android:visibility="@{viewModel.isProgressing ? View.GONE : View.VISIBLE}"
-                        tools:visibility="visible" />
-
-                    <ProgressBar
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:visibility="@{viewModel.isProgressing ? View.VISIBLE : View.GONE}"
-                        tools:visibility="gone" />
-                </FrameLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginStart="20dp"
-                    android:fontFamily="sans-serif-light"
-                    android:textSize="16sp"
-                    android:text="@{viewModel.message}"
-                    tools:text="续借完成" />
-            </LinearLayout>
-
-            <LinearLayout
-                bind:viewModels="@{viewModel.viewModels}"
-                bind:itemView="@{viewModel.itemView}"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:orientation="vertical">
-
-            </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:paddingLeft="20dp">
 
             <FrameLayout
-                android:visibility="@{viewModel.haveBooks ? View.VISIBLE : View.GONE }"
-                android:layout_width="match_parent"
-                android:layout_height="38dp"
-                android:paddingLeft="27dp"
-                android:paddingRight="27dp">
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
 
-                <Button
-                    style="?android:attr/borderlessButtonStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="start"
-                    android:fontFamily="sans-serif-light"
-                    android:text="刷新"
-                    bind:clickCommand="@{viewModel.refreshClick}"
-                    android:textColor="@color/colorPrimary" />
+                <ImageView
+                    android:id="@+id/ic_home_lib_state"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    tools:src="@drawable/lib_warning"
+                    tools:visibility="visible" />
 
-                <Button
-                    style="?android:attr/borderlessButtonStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center_horizontal"
-                    android:fontFamily="sans-serif"
-                    android:text="一键续借"
-                    bind:clickCommand="@{viewModel.renewMyBooks}"
-                    android:textColor="@color/colorPrimary" />
-
-                <Button
-                    style="?android:attr/borderlessButtonStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="end"
-                    android:fontFamily="sans-serif"
-                    tools:text="显示更多(2)"
-                    android:text="@{viewModel.loadMoreBtnMsg}"
-                    bind:clickCommand="@{viewModel.loadMore}"
-                    android:clickable="@{viewModel.loadMoreBtnClickable}"
-                    android:textColor="@{viewModel.loadMoreBtnClickable?@color/colorPrimary:@color/common_lv1}" />
+                <ProgressBar
+                    android:id="@+id/progress_home_lib_state"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    tools:visibility="gone" />
             </FrameLayout>
+
+            <TextView
+                android:id="@+id/tv_home_lib_state"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
+                android:fontFamily="sans-serif-light"
+                android:textSize="16sp"
+                tools:text="续借完成" />
         </LinearLayout>
-    </android.support.v7.widget.CardView>
-</layout>
+
+        <LinearLayout
+            android:id="@+id/ll_home_lib_books"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="vertical">
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="38dp"
+            android:paddingLeft="27dp"
+            android:paddingRight="27dp">
+
+            <Button
+                android:id="@+id/btn_home_lib_refresh"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="start"
+                android:fontFamily="sans-serif-light"
+                android:textSize="14sp"
+                android:text="刷新"
+                android:textColor="@color/colorPrimary" />
+
+            <Button
+                android:id="@+id/btn_home_lib_renew"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:fontFamily="sans-serif"
+                android:textSize="14sp"
+                android:text="一键续借"
+                android:textColor="@color/colorPrimary" />
+
+            <Button
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="end"
+                android:fontFamily="sans-serif"
+                tools:text="显示更多(2)" />
+        </FrameLayout>
+    </LinearLayout>
+</android.support.v7.widget.CardView>
+

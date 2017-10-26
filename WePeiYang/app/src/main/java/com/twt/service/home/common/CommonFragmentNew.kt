@@ -30,7 +30,7 @@ class CommonFragmentNew : BaseFragment() {
 //        val scheduleViewModel = ViewModelProviders.of(this).get(ScheduleViewModel::class.java)
         val scheduleViewModel = ScheduleViewModel(this.activity as RxAppCompatActivity?)
         //todo 修改课程表暴露的接口 （重载）
-        val list = listOf<ViewModel>(scheduleViewModel,viewmodel)
+        val list = listOf<Any>(scheduleViewModel,viewmodel,"LIB")
         tadapter = CommonPageAdapter(list,this.activity,this)
         recyclerview.apply {
             layoutManager = LinearLayoutManager(this.context)

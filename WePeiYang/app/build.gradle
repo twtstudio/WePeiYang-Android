@@ -28,16 +28,16 @@ android {
             // but continue the build even when errors are found:
             abortOnError false
         }
-        flavorDimensions "dev"
+//        flavorDimensions "dev"
         productFlavors {
             dev {
-                dimension "dev"
+//                dimension "dev"
                 // Enable pre-dexing to produce an APK that can be tested on
                 // Android 5.0+ without the time-consuming DEX build processes.
                 minSdkVersion 21
             }
             common {
-                dimension "dev"
+//                dimension "dev"
                 minSdkVersion 19
             }
         }
@@ -114,7 +114,7 @@ dependencies {
     compile 'com.twt.service:schedule:1.0.0'
 //    compile project(':one')
     compile 'com.twt.service:one:1.0.0'
-    compile project(':tjulibrary')
+    compile project( path: ':tjulibrary', configuration: 'default')
 //    compile 'com.twt.service:tjulibrary:1.1.0'
 //    compile project(':classroomcore')
     compile 'com.twt.service:classroomcore:1.0.0'

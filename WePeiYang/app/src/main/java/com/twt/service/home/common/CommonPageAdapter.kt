@@ -16,12 +16,13 @@ import com.twt.service.home.common.schedule.ScheduleViewModel
 import com.twtstudio.retrox.bike.homeitem.BikeHomeItemViewModel
 import com.twtstudio.retrox.gpa.view.GpaActivity
 import com.twtstudio.retrox.tjulibrary.home.HomeLibItemViewModel
+import com.twtstudio.retrox.tjulibrary.homeitem.HomeLibItemComponent
 
 /**
  * Created by retrox on 22/10/2017.
  */
 
-class CommonPageAdapter(val list: List<ViewModel>, val context: Context, val owner: LifecycleOwner) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class CommonPageAdapter(val list: List<Any>, val context: Context, val owner: LifecycleOwner) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
         const val GPA = 1
@@ -36,7 +37,8 @@ class CommonPageAdapter(val list: List<ViewModel>, val context: Context, val own
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val viewHolder = when (viewType) {
             GPA -> GpaItemViewHolder(inflater.inflate(R.layout.item_common_gpa, parent, false))
-            SCHEDULE -> ScheduleItemViewHolder(inflater.inflate(R.layout.item_common_schedule,parent,false))
+            SCHEDULE -> ScheduleItemViewHolder(inflater.inflate(R.layout.item_common_schedule, parent, false))
+            LIBRARY -> HomeLibItemComponent(owner, inflater.inflate(R.layout.item_common_lib, parent, false))
             else -> null
         }
         return viewHolder!!
@@ -47,12 +49,15 @@ class CommonPageAdapter(val list: List<ViewModel>, val context: Context, val own
             is GpaItemViewHolder -> {
                 holder.bind(owner, list[position] as? GpaItemViewModel)
                 holder.cardView.setOnClickListener {
-                    val intent = Intent(context,GpaActivity::class.java)
+                    val intent = Intent(context, GpaActivity::class.java)
                     context.startActivity(intent)
                 }
             }
             is ScheduleItemViewHolder -> {
                 holder.bind(owner, list[position] as ScheduleViewModel)
+            }
+            is HomeLibItemComponent -> {
+                holder.onBind()
             }
         }
     }
@@ -66,6 +71,7 @@ class CommonPageAdapter(val list: List<ViewModel>, val context: Context, val own
             is GpaItemViewModel -> return GPA
             is ScheduleViewModel -> return SCHEDULE
             is HomeLibItemViewModel -> return LIBRARY
+            "LIB" -> return LIBRARY
             is BikeHomeItemViewModel -> return BIKE
             else -> 0
         }
