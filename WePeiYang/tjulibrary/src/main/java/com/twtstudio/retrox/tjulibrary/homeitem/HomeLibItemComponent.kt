@@ -29,12 +29,18 @@ class HomeLibItemComponent(private val lifecycleOwner: LifecycleOwner, itemView:
     private val stateImage: ImageView = itemView.findViewById(R.id.ic_home_lib_state)
     private val stateProgressBar: ProgressBar = itemView.findViewById(R.id.progress_home_lib_state)
     private val stateMessage: TextView = itemView.findViewById(R.id.tv_home_lib_state)
-    private val loadingState = MutableLiveData<Int>()
-    private val message = MutableLiveData<String>()
     private val bookContainer: LinearLayout = itemView.findViewById(R.id.ll_home_lib_books)
     private val refreshBtn: Button = itemView.findViewById(R.id.btn_home_lib_refresh)
     private val renewBooksBtn: Button = itemView.findViewById(R.id.btn_home_lib_renew)
+    private val loadMoreBooksBtn: Button = itemView.findViewById(R.id.btn_home_lib_more)
 
+    private val loadMoreBtnText = MutableLiveData<String>()
+    private val loadingState = MutableLiveData<Int>()
+    private val message = MutableLiveData<String>()
+    private var isExpanded = false
+
+
+    private val bookItemViewContainer = mutableListOf<View>()
     private val libApi = RetrofitProvider.getRetrofit().create(LibApi::class.java)
 
 
@@ -69,6 +75,13 @@ class HomeLibItemComponent(private val lifecycleOwner: LifecycleOwner, itemView:
                 }
             }
         }
+
+        loadMoreBtnText.bind(lifecycleOwner) {
+            loadMoreBooksBtn.text = it
+            if (it == NO_MORE_BOOKS) {
+                loadMoreBooksBtn.isEnabled = false
+            }
+        }
     }
 
     fun onBind() {
@@ -76,6 +89,24 @@ class HomeLibItemComponent(private val lifecycleOwner: LifecycleOwner, itemView:
             refresh()
         }
         refresh()
+        renewBooksBtn.setOnClickListener {
+            bookContainer.removeAllViews()
+        }
+        loadMoreBooksBtn.setOnClickListener { view: View ->
+            if (isExpanded) {
+                (bookContainer.childCount-1 downTo 0 )
+                        .filter { it >= 3 }
+                        .forEach { bookContainer.removeViewAt(it) }
+                loadMoreBtnText.value = "显示剩余(${bookItemViewContainer.size - 3})"
+                isExpanded = false
+            } else {
+                (0 until bookItemViewContainer.size)
+                        .filter { it >= 3 }
+                        .forEach { bookContainer.addView(bookItemViewContainer[it]) }
+                loadMoreBtnText.value = "折叠显示"
+                isExpanded = true
+            }
+        }
     }
 
     private fun refresh() {
@@ -93,6 +124,7 @@ class HomeLibItemComponent(private val lifecycleOwner: LifecycleOwner, itemView:
                 return@async
             }
             bookContainer.removeAllViews()
+            bookItemViewContainer.clear()
 
             val inflater = LayoutInflater.from(this@HomeLibItemComponent.context)
 
@@ -100,7 +132,21 @@ class HomeLibItemComponent(private val lifecycleOwner: LifecycleOwner, itemView:
                 val view = inflater.inflate(R.layout.item_common_book, bookContainer, false)
                 val bookItem = BookItemComponent(lifecycleOwner = lifecycleOwner, itemView = view)
                 bookItem.bindBook(it)
-                bookContainer.addView(view)
+                bookItemViewContainer.add(view)
+            }
+
+            if (bookItemViewContainer.size <= 3) {
+                bookItemViewContainer.forEach {
+                    bookContainer.addView(it)
+                }
+                loadMoreBtnText.value = NO_MORE_BOOKS // 无更多书显示，用常量限制，可以观测该值然后设置按钮可用性
+            } else {
+                bookItemViewContainer.forEachIndexed { index, view ->
+                    if (index < 3) {
+                        bookContainer.addView(view)
+                    }
+                }
+                loadMoreBtnText.value = "显示剩余(${bookItemViewContainer.size - 3})"
             }
 
         }.invokeOnCompletion { throwable: Throwable? ->
@@ -139,6 +185,7 @@ class HomeLibItemComponent(private val lifecycleOwner: LifecycleOwner, itemView:
         const val OK = 0
         const val PROGRESSING = 1
         const val WARNING = 2
+        const val NO_MORE_BOOKS = "无更多书显示"
     }
 
 

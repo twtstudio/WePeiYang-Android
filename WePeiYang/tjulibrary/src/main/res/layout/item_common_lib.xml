@@ -108,11 +108,15 @@
                 android:textColor="@color/colorPrimary" />
 
             <Button
+                android:id="@+id/btn_home_lib_more"
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="end"
                 android:fontFamily="sans-serif"
+                android:text="无更多书显示"
+                android:textSize="14sp"
+                android:textColor="@color/colorPrimary"
                 tools:text="显示更多(2)" />
         </FrameLayout>
     </LinearLayout>
