@@ -32,10 +32,11 @@ buildscript {
         mavenLocal()
         jcenter()
         google()
+        maven { url "https://nexus.twtstudio.com/repository/maven-public/" }
     }
     dependencies {
         //2.2.3 ok 2.3.1 bug?
-        classpath 'com.github.typ0520:fastdex-gradle:0.7.1'
+//        classpath 'com.github.typ0520:fastdex-gradle:0.7.1'
         classpath 'com.android.tools.build:gradle:2.3.3'
         classpath 'me.tatarka:gradle-retrolambda:3.6.1'
         classpath 'com.jakewharton:butterknife-gradle-plugin:8.5.1'
