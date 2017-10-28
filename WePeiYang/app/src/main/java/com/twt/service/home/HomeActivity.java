@@ -110,8 +110,8 @@ public class HomeActivity extends BaseActivity {
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        CommonFragment fragment = (CommonFragment) mFragments[FIRST];
-        fragment.refreshList();
+//        CommonFragment fragment = (CommonFragment) mFragments[FIRST];
+//        fragment.refreshList();
         Logger.d("On new Intent!!!!");
     }
 
