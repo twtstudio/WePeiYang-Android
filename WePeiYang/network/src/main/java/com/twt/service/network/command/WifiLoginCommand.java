@@ -92,7 +92,6 @@ public class WifiLoginCommand {
                             } else {
                                 AlertDialog.Builder errorDialog = new AlertDialog.Builder(mFragment.getContext())
                                         .setTitle(string)
-                                        .setMessage("请重新登录")
                                         .setNegativeButton("我知道了", (dialog, which) -> dialog.dismiss());
                                 errorDialog.create().show();
                             }

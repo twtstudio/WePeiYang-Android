@@ -2,16 +2,14 @@ package com.twt.service.network.command;
 
 import android.content.Context;
 
-import com.kelin.mvvmlight.base.ViewModel;
-
 /**
  * Created by chen on 2017/7/11.
  */
 
-public class SpyViewModel implements ViewModel {
+public class SpyCommand {
     public Context mContext;
 
-    public SpyViewModel(Context context) {
+    public SpyCommand(Context context) {
         this.mContext = context;
     }
 

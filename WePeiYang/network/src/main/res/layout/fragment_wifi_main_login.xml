@@ -124,7 +124,6 @@
                     android:textColor="@color/net_white"
                     android:textSize="14sp" />
 
-
             </LinearLayout>
 
             <Button
@@ -139,7 +138,6 @@
                 android:text="自服务"
                 android:textColor="@color/net_white"
                 android:textSize="14sp" />
-
 
         </LinearLayout>
 

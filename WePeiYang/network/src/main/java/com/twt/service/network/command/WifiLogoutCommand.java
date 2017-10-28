@@ -1,6 +1,5 @@
 package com.twt.service.network.command;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -93,22 +92,14 @@ public class WifiLogoutCommand {
     public void onSelfService() {
         AlertDialog.Builder builder = new AlertDialog.Builder(mFragment.getContext())
                 .setTitle("是否要打开浏览器？")
-                .setPositiveButton("是", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = new Intent();
-                        intent.setAction("android.intent.action.VIEW");
-                        Uri uri = Uri.parse("http://202.113.4.11:8800/");
-                        intent.setData(uri);
-                        mFragment.getContext().startActivity(intent);
-                    }
+                .setPositiveButton("是", (dialog, which) -> {
+                    Intent intent = new Intent();
+                    intent.setAction("android.intent.action.VIEW");
+                    Uri uri = Uri.parse("http://202.113.4.11:8800/");
+                    intent.setData(uri);
+                    mFragment.getContext().startActivity(intent);
                 })
-                .setNegativeButton("否", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
+                .setNegativeButton("否", (dialog, which) -> dialog.dismiss());
         builder.create().show();
     }
 

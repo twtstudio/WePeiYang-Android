@@ -8,13 +8,13 @@ import com.kelin.mvvmlight.base.ViewModel;
  * Created by chen on 2017/7/14.
  */
 
-public class AccountDetailViewModel implements ViewModel {
+public class AccountDetailCommand implements ViewModel {
     private Fragment mFragment;
-    public String sum ;
-    public String used ;
-    public String rest ;
+    private String sum ;
+    private String used ;
+    private String rest ;
 
-    public AccountDetailViewModel(Fragment fragment) {
+    public AccountDetailCommand(Fragment fragment) {
         this.mFragment=fragment;
     }
 

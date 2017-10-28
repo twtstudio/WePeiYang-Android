@@ -2,12 +2,6 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-    <data>
-        <variable
-            name="viewModel"
-            type="com.twt.service.network.command.AccountDetailViewModel">
-        </variable>
-    </data>
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -38,7 +32,6 @@
                     android:id="@+id/item_account_tv1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{viewModel.sum}"
                     android:textSize="16dp"
                     android:paddingLeft="4dp"
                     tools:text="本月流量（）"
@@ -81,7 +74,6 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{viewModel.used}"
                         android:textSize="16dp"
                         tools:text="已用流量：0b"
                         />
@@ -89,7 +81,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingTop="16dp"
-                        android:text="@{viewModel.rest}"
                         android:textSize="16dp"
                         tools:text="剩余流量：0000"
                         />

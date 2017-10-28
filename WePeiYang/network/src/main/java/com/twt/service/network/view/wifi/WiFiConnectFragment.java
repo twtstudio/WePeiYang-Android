@@ -1,7 +1,6 @@
 package com.twt.service.network.view.wifi;
 
 import android.content.Context;
-import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,9 +12,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.twt.service.network.R;
-import com.twt.service.network.command.WiFiConnectViewModel;
 import com.twt.service.network.command.WifiLogoutCommand;
-import com.twt.service.network.databinding.FragmentWifiMainConnectBinding;
 
 /**
  * Created by chen on 2017/7/12.
@@ -39,7 +36,7 @@ public class WiFiConnectFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_wifi_main_connect1, container, false);
+        View view = inflater.inflate(R.layout.fragment_wifi_main_connect, container, false);
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.fragment_wifi_ll);
         mLogoutBt = (Button) view.findViewById(R.id.fragment_wifi_bt_unconnected);
@@ -60,18 +57,8 @@ public class WiFiConnectFragment extends Fragment {
     }
 
     public void onLog() {
-        mLogoutBt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mWifiLogoutCommand.onLogout();
-            }
-        });
-        mSelfService.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mWifiLogoutCommand.onSelfService();
-            }
-        });
+        mLogoutBt.setOnClickListener(view -> mWifiLogoutCommand.onLogout());
+        mSelfService.setOnClickListener(view -> mWifiLogoutCommand.onSelfService());
     }
 
     public void initSwipe() {

@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="com.twt.service.network.command.AccountViewModel" />
+            type="com.twt.service.network.command.AccountCommand" />
 
         <import type="me.tatarka.bindingcollectionadapter.LayoutManagers" />
 

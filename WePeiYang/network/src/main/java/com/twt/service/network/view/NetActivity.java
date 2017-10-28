@@ -50,7 +50,7 @@ public class NetActivity extends RxAppCompatActivity {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_net_main1);
+        setContentView(R.layout.activity_net_main);
         mUnbinder = ButterKnife.bind(this);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
