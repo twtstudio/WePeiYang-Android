@@ -102,8 +102,8 @@ dependencies {
     compile 'com.twt.service:lostfound:1.0.1'
 
 //    compile project(':lostfound')
-//    compile project(':network')
-    compile 'com.twt.service:network:1.0.1'
+    compile project(':network')
+//    compile 'com.twt.service:network:1.0.1'
 
 
 //    compile 'com.twtstudio.retrox:commons:1.0.1'

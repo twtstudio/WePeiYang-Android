@@ -1,6 +1,5 @@
 package com.twt.service.network.command;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -8,16 +7,16 @@ import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.kelin.mvvmlight.base.ViewModel;
-import com.kelin.mvvmlight.command.ReplyCommand;
 import com.twt.service.network.R;
 import com.twt.service.network.WifiStatusClass;
 import com.twt.service.network.api.Api;
 import com.twt.service.network.api.ApiPostClient;
-import com.twt.service.network.modle.LoginBean;
 import com.twt.service.network.view.wifi.WifiFragment;
+
+import java.io.IOException;
 
 import okhttp3.ResponseBody;
 import rx.Subscriber;
@@ -25,51 +24,43 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 import static android.content.Context.MODE_PRIVATE;
-import static com.twt.service.network.view.set.SetActivity.SetFragment.dis;
 
 /**
- * Created by chen on 2017/7/12.
+ * Created by cdc on 17-10-28.
  */
 
-public class WiFiConnectViewModel implements ViewModel {
-    private Fragment mFragment;
+public class WifiLogoutCommand {
+    private WifiStatusClass mWifiStatusCLass;
     private SharedPreferences mSharedPreferences;
     private SharedPreferences.Editor mEditor;
-    private WifiStatusClass wifiInfo;
+    private Fragment mFragment;
+    private TextView mWifiName;
+    private TextView mStudentID;
+    private TextView mIPAddress;
+    private String action_logout = "logout";
+    private static int ajax = 1;
 
-    public static int ajax = 1;
-    public String action = "logout";
-
-    //public final ObservableField<String> wlan = new ObservableField<>();
-    public String wlan;
-    public String username;
-    public String studentId;
-    public String onlineStatus;
-    private String passWord;
-
-    public WiFiConnectViewModel(Fragment fragment) {
+    public WifiLogoutCommand(Fragment fragment, TextView wifiName, TextView studentID, TextView ipAddress) {
         this.mFragment = fragment;
-        init();
-    }
-
-    public final ReplyCommand onLogoutCommand = new ReplyCommand(() -> logoutTry());
-    public final ReplyCommand onSelfServiceCommand = new ReplyCommand(()->{onSelfService();});
-
-    public void init() {
-        wifiInfo = new WifiStatusClass(mFragment.getActivity());
-        //wlan.set(wifiInfo.getWifiInfo());
-        wlan = wifiInfo.getWifiInfo();
+        this.mWifiName = wifiName;
+        this.mStudentID = studentID;
+        this.mIPAddress = ipAddress;
+        this.mWifiStatusCLass = new WifiStatusClass(mFragment.getActivity());
         mSharedPreferences = mFragment.getContext().getSharedPreferences("autoDis", MODE_PRIVATE);
         mEditor = mSharedPreferences.edit();
-        studentId = WifiLoginCommand.NAME;
-        passWord = WifiLoginCommand.PASSWORD;
     }
 
-    public void logoutTry() {
-        mEditor.putString("disConnection", dis);
-        mEditor.commit();
+    public void setText() {
+        String wifiname = mWifiStatusCLass.getWifiInfo();
+        String wifiIP = mWifiStatusCLass.getIPAddress();
+        mWifiName.setText("热点名称：" + wifiname);
+        mStudentID.setText("学号：" + WifiLoginCommand.NAME);
+        mIPAddress.setText("IP地址："+wifiIP);
+    }
+
+    public void onLogout() {
         Api api = ApiPostClient.getRetrofit().create(Api.class);
-        api.logoutPost(studentId, passWord, action, ajax)
+        api.logoutPost(WifiLoginCommand.NAME, WifiLoginCommand.PASSWORD, action_logout, ajax)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -86,18 +77,20 @@ public class WiFiConnectViewModel implements ViewModel {
 
                     @Override
                     public void onNext(ResponseBody responseBody) {
-                        Toast.makeText(mFragment.getContext(), "网络已断开", Toast.LENGTH_SHORT).show();
+                        try {
+                            Toast.makeText(mFragment.getContext(), responseBody.string().trim(), Toast.LENGTH_SHORT).show();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                         mFragment.getFragmentManager().beginTransaction()
                                 .replace(R.id.main_net_content, new WifiFragment(), null)
                                 .commit();
                         initDis();
                     }
                 });
-
-
     }
 
-    private void onSelfService(){
+    public void onSelfService() {
         AlertDialog.Builder builder = new AlertDialog.Builder(mFragment.getContext())
                 .setTitle("是否要打开浏览器？")
                 .setPositiveButton("是", new DialogInterface.OnClickListener() {
@@ -123,9 +116,8 @@ public class WiFiConnectViewModel implements ViewModel {
         if (mSharedPreferences.getString("disConnection", null) != null) {
             Log.d("ffff", "receive" + mSharedPreferences.getString("disConnection", null));
             if (mSharedPreferences.getString("disConnection", null) == "1") {
-                wifiInfo.closeWifi();
+                mWifiStatusCLass.closeWifi();
             }
         }
     }
-
 }

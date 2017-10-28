@@ -1,8 +1,10 @@
 package com.twt.service.network.view.widget;
 
 import android.content.Context;
+import android.net.wifi.WifiManager;
 import android.widget.Toast;
 
+import com.orhanobut.hawk.Hawk;
 import com.twt.service.network.WifiStatusClass;
 import com.twt.service.network.api.Api;
 import com.twt.service.network.api.ApiPostClient;
@@ -21,6 +23,7 @@ import rx.schedulers.Schedulers;
 
 public class WidgetNetwork {
     private Context mContext;
+    private WifiManager mWifiManager;
     private WifiStatusClass mWifiStatusClass;
     private final static String action = "login";
     private final static String action1 = "logout";
@@ -28,6 +31,7 @@ public class WidgetNetwork {
 
     public WidgetNetwork(Context context) {
         this.mContext = context;
+
         mWifiStatusClass = new WifiStatusClass(context);
     }
 
@@ -94,9 +98,44 @@ public class WidgetNetwork {
 
                     @Override
                     public void onNext(ResponseBody responseBody) {
-                        Toast.makeText(context, "网络已断开", Toast.LENGTH_SHORT).show();
+                        try {
+                            Toast.makeText(context, responseBody.string().trim(), Toast.LENGTH_SHORT).show();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
                 });
+    }
+
+    //获取IP地址
+    public String getIPAddress(){
+        return mWifiStatusClass.getIPAddress();
+    }
+
+    //获取是否连接校园网的状态
+    public boolean getWifiStatus(){
+        String name = mWifiStatusClass.getWifiInfo();
+        switch (name) {
+            case "\"" + "tjuwlan" + "\"":
+                return true;
+            case "\"" + "tju_lib" + "\"":
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    //获取无线名称（包括校园网和其他网络）
+    public String getWifiName(){
+        String name = mWifiStatusClass.getWifiInfo();
+        switch (name) {
+            case "\"" + "tjuwlan" + "\"":
+                return "tjuwlan";
+            case "\"" + "tju_lib" + "\"":
+                return "tju_lib";
+            default:
+                return name;
+        }
     }
 
 }
