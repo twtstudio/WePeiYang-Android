@@ -28,11 +28,19 @@ public class Book {
     public String loanTime;
     public String returnTime;
 
+    /**
+     * 距离还书日期还有多少天
+     * @return
+     */
     public int timeLeft(){
         return BookTimeHelper.getBetweenDays(returnTime);
 //        return 20;
     }
 
+    /**
+     * 看是否超过还书日期
+     * @return
+     */
     public boolean isOverTime(){
         return this.timeLeft() < 0;
     }

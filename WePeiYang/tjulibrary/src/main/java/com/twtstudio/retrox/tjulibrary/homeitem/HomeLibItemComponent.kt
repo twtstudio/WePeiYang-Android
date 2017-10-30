@@ -3,6 +3,8 @@ package com.twtstudio.retrox.tjulibrary.homeitem
 import android.app.Activity
 import android.arch.lifecycle.LifecycleOwner
 import android.arch.lifecycle.MutableLiveData
+import android.content.DialogInterface
+import android.support.v7.app.AlertDialog
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +18,7 @@ import com.twtstudio.retrox.tjulibrary.extension.bind
 import com.twtstudio.retrox.tjulibrary.provider.*
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
+import okhttp3.ResponseBody
 import org.jetbrains.anko.coroutines.experimental.bg
 import org.json.JSONException
 import org.json.JSONObject
@@ -43,11 +46,10 @@ class HomeLibItemComponent(private val lifecycleOwner: LifecycleOwner, itemView:
     private var isExpanded = false
 
     //对应barcode和book做查询
-    val bookHashMap = HashMap<String, Book>()
+    private val bookHashMap = HashMap<String, Book>()
 
     private val bookItemViewContainer = mutableListOf<View>() //缓存的LinearLayout里面的view 折叠提高效率用
     private val libApi = RetrofitProvider.getRetrofit().create(LibApi::class.java)
-
 
     fun render(): View = itemView
 
@@ -92,10 +94,11 @@ class HomeLibItemComponent(private val lifecycleOwner: LifecycleOwner, itemView:
     fun onBind() {
         refreshBtn.setOnClickListener {
             refresh(true)
+//            test()
         }
         refresh()
         renewBooksBtn.setOnClickListener {
-            renewBooks()
+            renewBooksClick()
         }
         loadMoreBooksBtn.setOnClickListener { view: View ->
             if (isExpanded) {
@@ -112,6 +115,19 @@ class HomeLibItemComponent(private val lifecycleOwner: LifecycleOwner, itemView:
                 loadMoreBtnText.value = "折叠显示"
                 isExpanded = true
             }
+        }
+    }
+
+    private fun test() {
+        async(UI) {
+            val data: List<Histroy>? = bg { libApi.libUserHistroy.map { it.data }.toBlocking().first() }.await()
+            Logger.d(data)
+
+            val search: ResponseBody? = bg { libApi.searchLibBook("Gradle for Android中文版",0).toBlocking().first() }.await()
+            Logger.d(search?.string())
+
+            val detail: ResponseBody? = bg { libApi.getBookDetail("TD002505117").toBlocking().first() }.await()
+            Logger.d(detail?.string())
         }
     }
 
@@ -164,6 +180,19 @@ class HomeLibItemComponent(private val lifecycleOwner: LifecycleOwner, itemView:
 
     }
 
+    private fun renewBooksClick() {
+        val activity = context as? Activity
+        activity?.let {
+            val builder = AlertDialog.Builder(activity)
+                    .setIcon(R.drawable.lib_library)
+                    .setTitle("确定要一键续借?")
+                    .setMessage("每本书最多续借两次，续借可延期至今天后一个月，珍惜机会...")
+                    .setPositiveButton("我就要续借") { _, _ -> renewBooks() }
+                    .setNegativeButton("算了算了") { dialog, _ -> dialog.dismiss() }
+            builder.create().show()
+        }
+    }
+
     private fun renewBooks() {
         loadingState.value = PROGRESSING
         async(UI) {
@@ -175,20 +204,18 @@ class HomeLibItemComponent(private val lifecycleOwner: LifecycleOwner, itemView:
                 val builder = StringBuilder()
                 for (result in data) {
                     if (result.error == 1) {
-                        loadingState.value = WARNING
                         builder.append(bookHashMap[result.barcode]?.title).append(" : ").append("续借次数超过两次，请归还重新借阅\n")
                     }
                 }
-                builder.append("续借完成\n")
                 refresh(true)
                 val str = builder.toString()
-                message.value = str
 
-                val activity = context as? Activity
+                val activity = this@HomeLibItemComponent.context as? Activity
                 activity?.let {
                     //调用alerter
                     Alerter.create(activity)
                             .setTitle("续借操作完成")
+                            .setDuration(30000L)
                             .setText(str)
                             .show()
                 }
@@ -196,10 +223,10 @@ class HomeLibItemComponent(private val lifecycleOwner: LifecycleOwner, itemView:
         }.invokeOnCompletion(this::handleException)
     }
 
-    private fun handleException(throwable: Throwable?){
+    private fun handleException(throwable: Throwable?) {
         //错误处理时候的卡片显示状况
         throwable?.let {
-            Logger.e(throwable,"主页图书馆模块错误")
+            Logger.e(throwable, "主页图书馆模块错误")
             when (throwable) {
                 is HttpException -> {
                     try {
