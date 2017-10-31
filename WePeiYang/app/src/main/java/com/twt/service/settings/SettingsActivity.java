@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
+import android.preference.SwitchPreference;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +16,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.tencent.bugly.crashreport.CrashReport;
+import com.twt.service.update.UpdateManager;
 import com.twt.wepeiyang.commons.cache.CacheProvider;
 import com.twt.wepeiyang.commons.network.RetrofitProvider;
 import com.twt.wepeiyang.commons.network.RxErrorHandler;
@@ -422,6 +424,26 @@ public class SettingsActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     return false;
+                }
+            });
+
+            Preference checkUpdate = findPreference(getString(R.string.pref_check_update));
+            checkUpdate.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    UpdateManager.getInstance().checkUpdate(getActivity());
+                    return true;
+                }
+            });
+
+            SwitchPreference isAutoCheckUpdate = (SwitchPreference) findPreference(getString(R.string.pref_is_auto_check_update));
+            isAutoCheckUpdate.setChecked(UpdateManager.getInstance().getIsAutoCheck());
+            isAutoCheckUpdate.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newValue) {
+                    Boolean value = (Boolean) newValue;
+                    UpdateManager.getInstance().setIsAutoCheck(value);
+                    return true;
                 }
             });
         }

@@ -59,6 +59,13 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="关于微北洋">
+        <SwitchPreference
+            android:title="自动更新"
+            android:key="@string/pref_is_auto_check_update"/>
+        <Preference
+            android:key="@string/pref_check_update"
+            android:title="检查更新"
+            android:summary="瞅瞅微北洋有没有新版本"/>
         <Preference
             android:key="@string/pref_dev_talking"
             android:summary="微北洋开发血泪史"
