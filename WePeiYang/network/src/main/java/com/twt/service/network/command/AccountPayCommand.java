@@ -5,7 +5,6 @@ import android.support.v4.app.Fragment;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.kelin.mvvmlight.base.ViewModel;
 import com.twt.service.network.R;
 import com.twt.service.network.dialog.AccountPayDialog;
 import com.twt.service.network.dialog.SpyVertifyDialog;
@@ -14,7 +13,7 @@ import com.twt.service.network.dialog.SpyVertifyDialog;
  * Created by chen on 2017/7/14.
  */
 
-public class AccountPayCommand implements ViewModel {
+public class AccountPayCommand{
     private String restRMb;
     private Button mBuyCommand;
     private Fragment mFragment;

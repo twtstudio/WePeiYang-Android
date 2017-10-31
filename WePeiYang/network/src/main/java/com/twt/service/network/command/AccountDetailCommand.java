@@ -2,13 +2,11 @@ package com.twt.service.network.command;
 
 import android.support.v4.app.Fragment;
 
-import com.kelin.mvvmlight.base.ViewModel;
-
 /**
  * Created by chen on 2017/7/14.
  */
 
-public class AccountDetailCommand implements ViewModel {
+public class AccountDetailCommand{
     private Fragment mFragment;
     private String sum ;
     private String used ;
