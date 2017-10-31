@@ -19,6 +19,7 @@ import android.view.View;
 
 import com.orhanobut.logger.Logger;
 import com.twt.service.home.common.CommonFragmentNew;
+import com.twt.service.update.UpdateManager;
 import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
 import com.twtstudio.retrox.news.explore.ExploreFragment;
 import com.twt.service.R;
@@ -128,6 +129,10 @@ public class HomeActivity extends BaseActivity {
      * 检查微北洋用户许可状态
      */
     private void initView() {
+
+        if (UpdateManager.getInstance().getIsAutoCheck()){
+            UpdateManager.getInstance().checkUpdate(this,false);
+        }
 
         checkTosDialog = new AlertDialog.Builder(this)
                 .setCancelable(false)

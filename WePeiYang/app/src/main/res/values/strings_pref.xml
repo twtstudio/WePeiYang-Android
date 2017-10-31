@@ -14,4 +14,6 @@
     <string name="pref_dev_talking">pref_dev_talking</string>
     <string name="pref_feedback">pref_feedback</string>
     <string name="perf_contact_me">pref_contact_me</string>
+    <string name="pref_is_auto_check_update">pref_is_auto_check_update</string>
+    <string name="pref_check_update">pref_check_update</string>
 </resources>

@@ -3,13 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-
-        <variable
-            name="viewModel"
-            type="com.twt.service.network.command.WiFiConnectViewModel" />
-    </data>
-
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/fragment_wifi_ll"
         android:layout_width="match_parent"
@@ -48,7 +41,6 @@
                         android:id="@+id/item_wifi_net2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{@string/wlan_name+viewModel.wlan}"
                         android:textColor="@color/net_main_word"
                         android:textSize="16dp"
                         tools:text="热点名称：tju" />
@@ -68,7 +60,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:text="@{viewModel.username}"
                     android:textColor="@color/net_main_word"
                     android:textSize="16dp"
                     android:visibility="gone"
@@ -79,21 +70,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="30dp"
-                    android:text="@{@string/studentid+viewModel.studentId}"
                     android:textColor="@color/net_main_word"
                     android:textSize="16dp"
                     tools:text="学号：000" />
 
                 <TextView
-                    android:id="@+id/item_wifi_account2"
+                    android:id="@+id/item_wifi_ip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="@{viewModel.onlineStatus}"
+                    android:layout_marginTop="30dp"
                     android:textColor="@color/net_main_word"
                     android:textSize="16dp"
-                    android:visibility="gone"
-                    tools:text="状态：" />
+                    tools:text="IP地址：" />
 
             </LinearLayout>
 
@@ -107,8 +95,7 @@
                 android:background="@drawable/network_button_selector"
                 android:text="注销"
                 android:textColor="@color/net_white"
-                android:textSize="14dp"
-                app:clickCommand="@{viewModel.onLogoutCommand}" />
+                android:textSize="14dp" />
 
             <Button
                 android:id="@+id/fragment_wifi_self_service_bt"
@@ -121,9 +108,7 @@
                 android:background="@drawable/network_button_selector"
                 android:text="自服务"
                 android:textColor="@color/net_white"
-                android:textSize="14sp"
-                app:clickCommand="@{viewModel.onSelfServiceCommand}"
-                 />
+                android:textSize="14sp" />
         </LinearLayout>
     </android.support.v4.widget.SwipeRefreshLayout>
 

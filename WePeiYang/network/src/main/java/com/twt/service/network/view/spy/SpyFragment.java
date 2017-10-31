@@ -1,8 +1,6 @@
 package com.twt.service.network.view.spy;
 
 import android.content.Context;
-import android.databinding.DataBindingUtil;
-import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,8 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.twt.service.network.modle.StatusBean;
 import com.twt.service.network.R;
+import com.twt.service.network.modle.StatusBean;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenu;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuCreator;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuItem;
@@ -41,8 +39,7 @@ public class SpyFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        ViewDataBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_spy_main, container, false);
-        view = binding.getRoot();
+        View view = inflater.inflate(R.layout.fragment_spy_main, container, false);
         init(view);
         setSrlListener();
         setSmrvListener();

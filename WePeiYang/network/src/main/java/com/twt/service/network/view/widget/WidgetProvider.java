@@ -14,6 +14,7 @@ import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
+import com.orhanobut.hawk.Hawk;
 import com.twt.service.network.R;
 import com.twt.service.network.WifiStatusClass;
 import com.twt.service.network.api.Api;
@@ -36,9 +37,7 @@ public class WidgetProvider extends AppWidgetProvider {
     private WifiStatusClass wifiStatusClass;
     private WidgetNetwork mWidgetNetwork;
     private static boolean status = false;
-    private SharedPreferences mSharedPreferences;
     private SharedPreferences mSharedPreferences2;
-    private SharedPreferences.Editor mEditor;
     private SharedPreferences.Editor mEditor2;
     private String username = null;
     private String password = null;
@@ -89,12 +88,10 @@ public class WidgetProvider extends AppWidgetProvider {
         super.onReceive(context, intent);
         Log.d("oooo", "1234");
 
-        mSharedPreferences = context.getSharedPreferences("userinfo", Context.MODE_PRIVATE);
-        mEditor = mSharedPreferences.edit();
+        Hawk.init(context).build();
         mSharedPreferences2 = context.getSharedPreferences("switch", Context.MODE_PRIVATE);
         mEditor2 = mSharedPreferences2.edit();
         mWidgetNetwork = new WidgetNetwork(context);
-        WifiManager wifiManager = (WifiManager) context.getSystemService(context.WIFI_SERVICE);
 
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
         int resId = -1;
@@ -121,8 +118,8 @@ public class WidgetProvider extends AppWidgetProvider {
 
         }
 
-        username = mSharedPreferences.getString("username", null);
-        password = mSharedPreferences.getString("password", null);
+        username = Hawk.get("username");
+        password = Hawk.get("password");
         switchCheck = mSharedPreferences2.getString("checkswitch", null);
 
         if (resId == R.id.widget_net_log) {

@@ -3,11 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     >
-    <data>
-        <variable
-            name="viewModel"
-            type="com.twt.service.network.command.AccountPayViweModel" />
-    </data>
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -35,7 +30,6 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{viewModel.restRMB}"
                     android:textSize="16dp"
                     android:paddingLeft="4dp"
                     tools:text="账户与流量充值"
@@ -52,7 +46,6 @@
                 android:text="流量购买"
                 android:textSize="14sp"
                 android:textColor="@color/net_white"
-                app:clickCommand="@{viewModel.onBuyCommand}"
                 />
             <Button
                 android:layout_width="match_parent"
@@ -65,8 +58,7 @@
                 android:background="@drawable/network_login_button"
                 android:text="账户充值"
                 android:textSize="14sp"
-                android:textColor="@color/net_white"
-                app:clickCommand="@{viewModel.onPayCommand}"/>
+                android:textColor="@color/net_white" />
         </LinearLayout>
 
     </android.support.v7.widget.CardView>

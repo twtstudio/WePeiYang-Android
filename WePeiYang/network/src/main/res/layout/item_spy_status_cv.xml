@@ -2,11 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-    <data>
-        <variable
-            name="viewModel"
-            type="com.twt.service.network.command.SpyViewModel" />
-    </data>
+
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -32,7 +28,6 @@
                     android:id="@+id/item_spy_ip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{viewModel.ipAddress}"
                     android:textSize="18dp"
                     tools:text="IP地址："/>
             </LinearLayout>
@@ -61,7 +56,6 @@
                         android:id="@+id/item_spy_time2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{viewModel.startTime}"
                         android:textSize="18dp"
                         tools:text="777"
                         />
@@ -70,7 +64,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignLeft="@id/item_spy_time2"
-                        android:text="@{viewModel.exactTime}"
                         android:textSize="18dp"
                         tools:text="8888"/>
                 </LinearLayout>
@@ -94,8 +87,8 @@
                     android:id="@+id/item_spy_exacttimer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{viewModel.totalTime}"
-                    android:textSize="18dp" />
+                    android:textSize="18dp"
+                    tools:text="24h"/>
             </LinearLayout>
 
 

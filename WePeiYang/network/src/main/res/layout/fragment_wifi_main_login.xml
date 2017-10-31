@@ -2,13 +2,6 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:bind="http://schemas.android.com/apk/res-auto">
 
-    <data>
-
-        <variable
-            name="viewModel"
-            type="com.twt.service.network.command.WiFiLoginViewModel" />
-    </data>
-
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/fragment_wifi_ll"
         android:layout_width="match_parent"
@@ -49,7 +42,6 @@
                     android:hint="请输入用户名"
                     android:maxLines="1"
                     android:paddingTop="16dp"
-                    android:text="@={viewModel.username}"
                     android:textColorHint="@color/main_net_unselected"
                     android:textCursorDrawable="@null"
                     android:textSize="16sp"
@@ -64,7 +56,6 @@
                     android:hint="请输入密码"
                     android:inputType="textPassword"
                     android:maxLines="1"
-                    android:text="@={viewModel.password}"
                     android:textColorHint="@color/main_net_unselected"
                     android:textCursorDrawable="@null"
                     android:textSize="16sp"
@@ -85,7 +76,7 @@
                         android:layout_marginLeft="4dp"
                         android:background="@drawable/network_checkbox_selector"
                         android:button="@null"
-                        android:checked="@={viewModel.isChecked}" />
+                        />
 
                     <TextView
                         android:id="@+id/fragment_wifi_checktext"
@@ -118,8 +109,7 @@
                     android:background="@drawable/network_button_selector"
                     android:text="登录"
                     android:textColor="@color/net_white"
-                    android:textSize="14sp"
-                    bind:clickCommand="@{viewModel.onLoginCommand}" />
+                    android:textSize="14sp" />
 
                 <Button
                     android:id="@+id/fragment_wifi_logout_bt"
@@ -132,9 +122,7 @@
                     android:background="@drawable/network_button_selector"
                     android:text="注销"
                     android:textColor="@color/net_white"
-                    android:textSize="14sp"
-                    bind:clickCommand="@{viewModel.onLogoutCommand}" />
-
+                    android:textSize="14sp" />
 
             </LinearLayout>
 
@@ -149,9 +137,7 @@
                 android:background="@drawable/network_button_selector"
                 android:text="自服务"
                 android:textColor="@color/net_white"
-                android:textSize="14sp"
-                bind:clickCommand="@{viewModel.onSelfServiceCommand}" />
-
+                android:textSize="14sp" />
 
         </LinearLayout>
 

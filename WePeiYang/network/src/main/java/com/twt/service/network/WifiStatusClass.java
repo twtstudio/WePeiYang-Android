@@ -143,6 +143,12 @@ public class WifiStatusClass {
         return null;
     }
 
+    public String getIPAddress() {
+        long ipAddress = mDhcpInfo.ipAddress;
+        String ipAddress1 = intToIP(ipAddress);
+        return ipAddress1;
+    }
+
     private String longToGateway(long gateway) {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append(String.valueOf((int) gateway & 0xff));
@@ -153,6 +159,15 @@ public class WifiStatusClass {
         stringBuffer.append(".");
         stringBuffer.append(String.valueOf((int) (gateway >> 24) & 0xff));
         return stringBuffer.toString();
+    }
+
+    private String intToIP(long ip) {
+        return (ip & 0xff) + "." +
+                ((ip >> 8) & 0xff) + "." +
+
+                ((ip >> 16) & 0xFF) + "." +
+
+                (ip >> 24 & 0xFF);
     }
 
 
