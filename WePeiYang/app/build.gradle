@@ -2,6 +2,10 @@ apply plugin: 'com.android.application'
 apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'com.antfortune.freeline'
 
+Properties pro = new Properties()
+pro.load(project.rootProject.file('local.properties').newDataInputStream())
+print(pro.getProperty("keyAlias"))
+
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.1"
@@ -47,10 +51,25 @@ android {
         enabled true
     }
 
+    signingConfigs {
+        release {
+            try {
+                storeFile file(pro.getProperty("jksPath"))
+                storePassword pro.getProperty("storePassword")
+                keyAlias pro.getProperty("keyAlias")
+                keyPassword pro.getProperty("storePassword")
+            } catch (ex) {
+//                throw new InvalidUserDataException(ex.toString())
+                ex.printStackTrace()
+            }
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
     configurations.all {

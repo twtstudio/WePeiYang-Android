@@ -130,7 +130,7 @@ public class HomeActivity extends BaseActivity {
     private void initView() {
 
         if (UpdateManager.getInstance().getIsAutoCheck()){
-            UpdateManager.getInstance().checkUpdate(this);
+            UpdateManager.getInstance().checkUpdate(this,false);
         }
 
         checkTosDialog = new AlertDialog.Builder(this)

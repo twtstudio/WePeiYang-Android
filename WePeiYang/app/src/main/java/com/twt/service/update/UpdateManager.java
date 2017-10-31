@@ -33,12 +33,17 @@ public class UpdateManager {
     }
 
     public void checkUpdate(Activity activity) {
+        checkUpdate(activity,true);
+    }
+
+    public void checkUpdate(Activity activity,boolean toast) {
+
         api.checkUpdateInfo()
                 .map(updateBean -> updateBean.info)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(infoBean -> {
-                    if (BuildConfig.DEBUG) {
+                    if (BuildConfig.FLAVOR.equals("dev")) {
                         if (Integer.parseInt(infoBean.beta.versionCode) > BuildConfig.VERSION_CODE) {
                             new AlertDialog.Builder(activity).setTitle("微北洋有Beta新版啦")
                                     .setMessage("更新日志: " + infoBean.beta.content + "\n更新时间: " + infoBean.beta.time + "\nVersion: " + infoBean.beta.version)
@@ -51,7 +56,9 @@ public class UpdateManager {
                             })
                                     .show();
                         } else {
-                            Toast.makeText(activity,"已经是最新版啦",Toast.LENGTH_SHORT).show();
+                            if (toast) {
+                                Toast.makeText(activity,"已经是最新Beta版啦",Toast.LENGTH_SHORT).show();
+                            }
                         }
                     } else {
                         if (Integer.parseInt(infoBean.release.versionCode) > BuildConfig.VERSION_CODE) {
@@ -66,7 +73,9 @@ public class UpdateManager {
                             })
                                     .show();
                         } else {
-                            Toast.makeText(activity,"已经是最新版啦",Toast.LENGTH_SHORT).show();
+                            if (toast){
+                                Toast.makeText(activity,"已经是最新版啦",Toast.LENGTH_SHORT).show();
+                            }
                         }
                     }
                 }, throwable -> {
