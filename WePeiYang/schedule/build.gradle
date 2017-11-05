@@ -23,9 +23,6 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
     }
-    dataBinding {
-        enabled true
-    }
     buildTypes {
         release {
             minifyEnabled false
@@ -45,6 +42,8 @@ android {
         }
         collect { configuration ->
             configuration.exclude group: 'com.twtservice', module: 'commons'
+            configuration.exclude group: 'me.tatarka.bindingcollectionadapter2'
+            configuration.exclude group: 'me.tatarka.bindingcollectionadapter'
         }
         resolutionStrategy.eachDependency { DependencyResolveDetails details ->
             def requested = details.requested

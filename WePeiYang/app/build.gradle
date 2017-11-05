@@ -129,8 +129,8 @@ dependencies {
     }
 //    compile project(':bike')
     compile 'com.twt.service:bike:1.1.0'
-//    compile project(':schedule')
-    compile 'com.twt.service:schedule:1.0.0'
+    compile project(':schedule')
+//    compile 'com.twt.service:schedule:1.0.0'
 //    compile project(':one')
     compile 'com.twt.service:one:1.0.0'
     compile project( path: ':tjulibrary', configuration: 'default')

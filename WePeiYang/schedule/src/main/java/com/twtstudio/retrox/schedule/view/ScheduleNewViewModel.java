@@ -7,8 +7,6 @@ import android.databinding.ObservableArrayList;
 import com.kelin.mvvmlight.base.ViewModel;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
-import com.twtstudio.retrox.schedule.BR;
-import com.twtstudio.retrox.schedule.R;
 import com.twtstudio.retrox.schedule.ScheduleNewActivity;
 import com.twtstudio.retrox.schedule.model.ClassTable;
 import com.twtstudio.retrox.schedule.model.ClassTableProvider;
@@ -16,8 +14,6 @@ import com.twtstudio.retrox.schedule.model.CourseHelper;
 
 import java.util.List;
 
-import me.tatarka.bindingcollectionadapter.ItemViewSelector;
-import me.tatarka.bindingcollectionadapter.itemviews.ItemViewClassSelector;
 
 /**
  * Created by zhangyulong on 7/3/17.
