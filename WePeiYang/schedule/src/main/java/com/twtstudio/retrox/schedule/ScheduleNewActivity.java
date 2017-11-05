@@ -2,20 +2,24 @@ package com.twtstudio.retrox.schedule;
 
 import android.content.Context;
 import android.content.Intent;
-import android.databinding.DataBindingUtil;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import com.kelin.mvvmlight.base.ViewModel;
 import com.ldf.calendar.component.CalendarAttr;
 import com.ldf.calendar.component.CalendarViewAdapter;
 import com.ldf.calendar.interf.OnSelectDateListener;
@@ -24,24 +28,21 @@ import com.ldf.calendar.view.Calendar;
 import com.ldf.calendar.view.MonthPager;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
-import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
-import com.twtstudio.retrox.schedule.databinding.ActivityScheduleNewBinding;
 import com.twtstudio.retrox.schedule.model.ClassTable;
 import com.twtstudio.retrox.schedule.model.ClassTableProvider;
 import com.twtstudio.retrox.schedule.utils.PrefUtil;
+import com.twtstudio.retrox.schedule.view.ScheduleNewAdapter;
 import com.twtstudio.retrox.schedule.view.ScheduleNewViewModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class ScheduleNewActivity extends RxAppCompatActivity {
 
 
     ScheduleNewViewModel viewModel;
-    ActivityScheduleNewBinding mbinding;
-    RecyclerView rvToDoList;
     CoordinatorLayout content;
-    SwipeRefreshLayout refresh;
     private MonthPager monthPager;
     private ArrayList<Calendar> currentCalendars = new ArrayList<>();
     private CalendarViewAdapter calendarAdapter;
@@ -51,7 +52,14 @@ public class ScheduleNewActivity extends RxAppCompatActivity {
     private CalendarDate currentDate;
     private boolean initiated = false;
     private int padding;
-
+    private ScheduleNewAdapter listAdapter;
+    private TextView tvDate;
+    private RecyclerView rvCourseList;
+    private LinearLayout linear;
+    private SwipeRefreshLayout refresh;
+    private Toolbar toolbar;
+    private CoordinatorLayout coordinatorLayout;
+    private LinearLayoutManager linearLayoutManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,28 +70,35 @@ public class ScheduleNewActivity extends RxAppCompatActivity {
             startActivity(intent);
             finish();
         }
+        tvDate=(TextView) findViewById(R.id.tv_date);
+        monthPager=(MonthPager) findViewById(R.id.calendar_view);
+        rvCourseList=(RecyclerView) findViewById(R.id.list); 
+        linear=(LinearLayout) findViewById(R.id.linear); 
+        refresh=(SwipeRefreshLayout) findViewById(R.id.refresh); 
+        toolbar=(Toolbar) findViewById(R.id.toolbar);
+        listAdapter=new ScheduleNewAdapter(this,this);
+        coordinatorLayout=(CoordinatorLayout) findViewById(R.id.coordinator) ;
+        linearLayoutManager=new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         viewModel = new ScheduleNewViewModel(this, CalendarDay.today());
         context = this;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(getResources().getColor(R.color.schedule_primary_color));
         }
-        mbinding = DataBindingUtil.setContentView(this, R.layout.activity_schedule_new);
-        mbinding.setViewModel(viewModel);
-        monthPager = mbinding.calendarView;
-        refresh = mbinding.refresh;
-        setSupportActionBar(mbinding.toolbar);
+        setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        rvToDoList = mbinding.list;
-        rvToDoList.setHasFixedSize(true);
+        rvCourseList.setLayoutManager(linearLayoutManager);
+        rvCourseList.setAdapter(listAdapter);
+        rvCourseList.setHasFixedSize(true);
         refresh.setProgressViewOffset(true, 120, 150);
         DisplayMetrics metrics = new DisplayMetrics();
 
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) mbinding.calendarView.getLayoutParams();
+        CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) monthPager.getLayoutParams();
         padding = metrics.widthPixels / 20;
         params.setMargins(padding, 0, padding, 0);
-        mbinding.calendarView.setLayoutParams(params);
-        mbinding.linear.setPadding(padding, 0, padding, 0);
+        monthPager.setLayoutParams(params);
+        linear.setPadding(padding, 0, padding, 0);
         monthPager.setOnTouchListener((v, event) -> {
             refresh.setEnabled(false);
             return false;
@@ -93,11 +108,11 @@ public class ScheduleNewActivity extends RxAppCompatActivity {
         refresh.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                rvToDoList.dispatchTouchEvent(event);
+                rvCourseList.dispatchTouchEvent(event);
                 return false;
             }
         });
-        rvToDoList.setOnTouchListener(new View.OnTouchListener() {
+        rvCourseList.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
@@ -105,7 +120,7 @@ public class ScheduleNewActivity extends RxAppCompatActivity {
 
                         break;
                     case MotionEvent.ACTION_UP:
-                        rvToDoList.getLocationInWindow(location1);
+                        rvCourseList.getLocationInWindow(location1);
 //                        int i = Utils.dpi2px(context, 100);
 //                        Log.d("scroll", Integer.toString(location1[1]));
                         if (location1[1] > metrics.heightPixels / 2) {
@@ -118,7 +133,7 @@ public class ScheduleNewActivity extends RxAppCompatActivity {
                 return false;
             }
         });
-        mbinding.coodinator.setOnTouchListener(new View.OnTouchListener() {
+        coordinatorLayout.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
@@ -126,7 +141,7 @@ public class ScheduleNewActivity extends RxAppCompatActivity {
 
                         break;
                     case MotionEvent.ACTION_UP:
-                        rvToDoList.getLocationInWindow(location1);
+                        rvCourseList.getLocationInWindow(location1);
 //                        int i = Utils.dpi2px(context, 100);
 //                        Log.d("scroll", Integer.toString(location1[1]));
                         if (location1[1] > metrics.heightPixels / 2) {
@@ -223,7 +238,7 @@ public class ScheduleNewActivity extends RxAppCompatActivity {
     private void refreshClickDate(CalendarDate date) {
         CalendarDay calendarDay = CalendarDay.from(date.getYear(), date.getMonth() - 1, date.getDay());
         viewModel.initData(calendarDay);
-        mbinding.tvDate.setText(date.getYear() + "年" + date.getMonth() + "月");
+        tvDate.setText(date.getYear() + "年" + date.getMonth() + "月");
         currentDate = date;
 
     }
@@ -284,4 +299,8 @@ public class ScheduleNewActivity extends RxAppCompatActivity {
         refresh.setRefreshing(false);
     }
 
+
+    public void updateAdapter(List<ViewModel> viewModels){
+        listAdapter.refreshData(viewModels);
+    }
 }

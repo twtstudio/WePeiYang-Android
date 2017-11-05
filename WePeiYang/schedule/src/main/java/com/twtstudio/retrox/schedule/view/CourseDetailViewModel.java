@@ -1,7 +1,7 @@
 package com.twtstudio.retrox.schedule.view;
 
-import android.databinding.ObservableField;
-import android.databinding.ObservableInt;
+import android.arch.lifecycle.MutableLiveData;
+
 
 import com.kelin.mvvmlight.base.ViewModel;
 import com.twtstudio.retrox.schedule.ResourceHelper;
@@ -14,21 +14,21 @@ import com.twtstudio.retrox.schedule.model.CourseHelper;
 
 public class CourseDetailViewModel implements ViewModel {
 
-    public final ObservableField<String> courseName = new ObservableField<>();
+    public final MutableLiveData<String> courseName = new MutableLiveData<>();
 
-    public final ObservableInt cardColor = new ObservableInt();
+    public final MutableLiveData<Integer> cardColor = new MutableLiveData<>();
 
-    public final ObservableInt textColor = new ObservableInt();
+    public final MutableLiveData<Integer> textColor = new MutableLiveData<>();
 
-    public final ObservableField<String> teacherName = new ObservableField<>();
+    public final MutableLiveData<String> teacherName = new MutableLiveData<>();
 
-    public final ObservableField<String> credit = new ObservableField<>();
+    public final MutableLiveData<String> credit = new MutableLiveData<>();
 
-    public final ObservableField<String> location = new ObservableField<>();
+    public final MutableLiveData<String> location = new MutableLiveData<>();
 
     private final CourseHelper courseHelper = new CourseHelper();
 
-    public final ObservableField<String> timePeriod = new ObservableField<>();
+    public final MutableLiveData<String> timePeriod = new MutableLiveData<>();
 
     public CourseDetailViewModel(ClassTable.Data.Course course) {
         initData(course);
@@ -38,20 +38,20 @@ public class CourseDetailViewModel implements ViewModel {
         String name = course.coursename;
         int color = course.coursecolor;
         if (!name.equals("无")){
-            this.courseName.set(name);
-            this.location.set("@"+ CourseHelper.getTodayLocation(course.arrange));
+            this.courseName.setValue(name);
+            this.location.setValue("@"+ CourseHelper.getTodayLocation(course.arrange));
         }else {
-            this.courseName.set(name);
+            this.courseName.setValue(name);
         }
-        this.cardColor.set(ResourceHelper.getColor(color));
+        this.cardColor.setValue(ResourceHelper.getColor(color));
         if (color == com.twtstudio.retrox.schedule.R.color.myWindowBackgroundGray){
-            textColor.set(ResourceHelper.getColor(com.twtstudio.retrox.schedule.R.color.schedule_gray));
+            textColor.setValue(ResourceHelper.getColor(com.twtstudio.retrox.schedule.R.color.schedule_gray));
         }else {
-            textColor.set(ResourceHelper.getColor(com.twtstudio.retrox.schedule.R.color.white_color));
+            textColor.setValue(ResourceHelper.getColor(com.twtstudio.retrox.schedule.R.color.white_color));
         }
 
-        teacherName.set(course.teacher);
-        credit.set(course.credit+"学分");
-        timePeriod.set("第"+courseHelper.getTodayStart(course.arrange)+"-"+courseHelper.getTodayEnd(course.arrange)+"节");
+        teacherName.setValue(course.teacher);
+        credit.setValue(course.credit+"学分");
+        timePeriod.setValue("第"+courseHelper.getTodayStart(course.arrange)+"-"+courseHelper.getTodayEnd(course.arrange)+"节");
     }
 }

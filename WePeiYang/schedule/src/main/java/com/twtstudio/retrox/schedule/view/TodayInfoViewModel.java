@@ -1,6 +1,6 @@
 package com.twtstudio.retrox.schedule.view;
 
-import android.databinding.ObservableField;
+import android.arch.lifecycle.MutableLiveData;
 
 import com.kelin.mvvmlight.base.ViewModel;
 import com.twtstudio.retrox.schedule.TimeHelper;
@@ -19,11 +19,11 @@ import rx.Observable;
 
 public class TodayInfoViewModel implements ViewModel {
 
-    public final ObservableField<String> date = new ObservableField<>();
+    public final MutableLiveData<String> date = new MutableLiveData<>();
 
-    public final ObservableField<String> weekNumber = new ObservableField<>();
+    public final MutableLiveData<String> weekNumber = new MutableLiveData<>();
 
-    public final ObservableField<String> todayNumber = new ObservableField<>();
+    public final MutableLiveData<String> todayNumber = new MutableLiveData<>();
 
     public static final SimpleDateFormat dateFormate = new SimpleDateFormat("yyyy/MM/dd", Locale.CHINA);
 
@@ -35,9 +35,9 @@ public class TodayInfoViewModel implements ViewModel {
         Observable.just(Calendar.getInstance())
                 .map(Calendar::getTime)
                 .map(dateFormate::format)
-                .subscribe(date::set);
+                .subscribe(date::setValue);
         String s = "星期"+ TimeHelper.getChineseCharacter(CourseHelper.getTodayNumber());
-        todayNumber.set(s);
-        weekNumber.set("第"+TimeHelper.getWeekString(TimeHelper.getWeekInt(Long.parseLong(classTable.data.term_start),Calendar.getInstance()))+"周");
+        todayNumber.setValue(s);
+        weekNumber.setValue("第"+TimeHelper.getWeekString(TimeHelper.getWeekInt(Long.parseLong(classTable.data.term_start),Calendar.getInstance()))+"周");
     }
 }

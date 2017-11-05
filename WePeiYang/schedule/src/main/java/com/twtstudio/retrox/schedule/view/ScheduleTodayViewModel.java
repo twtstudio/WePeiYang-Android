@@ -4,16 +4,11 @@ import android.databinding.ObservableArrayList;
 
 import com.kelin.mvvmlight.base.ViewModel;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
-import com.twtstudio.retrox.schedule.BR;
-import com.twtstudio.retrox.schedule.R;
 import com.twtstudio.retrox.schedule.model.ClassTable;
 import com.twtstudio.retrox.schedule.model.ClassTableProvider;
 import com.twtstudio.retrox.schedule.model.CourseHelper;
 
 import java.util.List;
-
-import me.tatarka.bindingcollectionadapter.ItemViewSelector;
-import me.tatarka.bindingcollectionadapter.itemviews.ItemViewClassSelector;
 
 /**
  * Created by retrox on 2017/2/8.
@@ -25,12 +20,12 @@ public class ScheduleTodayViewModel {
 
     public final ObservableArrayList<ViewModel> items = new ObservableArrayList<>();
 
-    public final ItemViewSelector itemView = ItemViewClassSelector.builder()
-            .put(TodayInfoViewModel.class, BR.viewModel, R.layout.item_schedule_course_today_info)
-            .put(CourseDetailViewModel.class,BR.viewModel,R.layout.item_schedule_course_detail)
-            .put(ToScheduleActViewModel.class,BR.viewModel,R.layout.item_schedule_course_jump)
-            .put(CourseEmptyViewModel.class,BR.viewModel,R.layout.item_schedule_course_empty)
-            .build();
+//    public final ItemViewSelector itemView = ItemViewClassSelector.builder()
+//            .put(TodayInfoViewModel.class, BR.viewModel, R.layout.item_schedule_course_today_info)
+//            .put(CourseDetailViewModel.class,BR.viewModel,R.layout.item_schedule_course_detail)
+//            .put(ToScheduleActViewModel.class,BR.viewModel,R.layout.item_schedule_course_jump)
+//            .put(CourseEmptyViewModel.class,BR.viewModel,R.layout.item_schedule_course_empty)
+//            .build();
 
     public final CourseHelper courseHelper = new CourseHelper();
 
@@ -64,6 +59,8 @@ public class ScheduleTodayViewModel {
             }
         }
         items.add(new ToScheduleActViewModel(rxActivity));
+        if(rxActivity instanceof ScheduleTodayAct)
+            ((ScheduleTodayAct) rxActivity).updateAdapter(items);
     }
 
 }
