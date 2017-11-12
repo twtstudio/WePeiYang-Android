@@ -1,10 +1,8 @@
 package com.twt.service.home.common
 
 import android.arch.lifecycle.LifecycleOwner
-import android.arch.lifecycle.ViewModel
 import android.content.Context
 import android.content.Intent
-import android.databinding.ObservableArrayList
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -14,9 +12,9 @@ import com.twt.service.home.common.gpaItem.GpaItemViewModel
 import com.twt.service.home.common.schedule.ScheduleItemViewHolder
 import com.twt.service.home.common.schedule.ScheduleViewModel
 import com.twtstudio.retrox.bike.homeitem.BikeHomeItemViewModel
-import com.twtstudio.retrox.gpa.view.GpaActivity
 import com.twtstudio.retrox.tjulibrary.home.HomeLibItemViewModel
 import com.twtstudio.retrox.tjulibrary.homeitem.HomeLibItemComponent
+import xyz.rickygao.gpa2.view.GpaActivity
 
 /**
  * Created by retrox on 22/10/2017.
