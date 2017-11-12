@@ -1,5 +1,6 @@
 package xyz.rickygao.gpa2.view
 
+import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.Observer
 import android.graphics.Color
 import android.os.Bundle
@@ -7,18 +8,26 @@ import android.support.design.widget.Snackbar
 import android.support.v4.widget.NestedScrollView
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
+import android.view.LayoutInflater
+import android.widget.ImageButton
+import android.widget.TextSwitcher
 import android.widget.TextView
 import xyz.rickygao.gpa2.R
 import xyz.rickygao.gpa2.api.*
 
+
 class GpaActivity : AppCompatActivity() {
 
-    lateinit var toolbar: Toolbar
-    lateinit var nestedSv: NestedScrollView
+    private lateinit var inflater: LayoutInflater
+    private lateinit var toolbar: Toolbar
+    private lateinit var nestedSv: NestedScrollView
+    private val selectedTermLiveData = MutableLiveData<Int>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.gpa2_activity_gpa)
+
+        inflater = LayoutInflater.from(this)
 
         toolbar = findViewById(R.id.toolbar)
         toolbar.setTitleTextColor(Color.WHITE)
@@ -33,8 +42,6 @@ class GpaActivity : AppCompatActivity() {
 //            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 //            window.statusBarColor = Color.WHITE;
 //        }
-
-        GpaProvider.updateGpaLiveData()
 
         val scoreTv = findViewById<TextView>(R.id.tv_score)
         val gpaTv = findViewById<TextView>(R.id.tv_gpa)
@@ -51,7 +58,25 @@ class GpaActivity : AppCompatActivity() {
                     }
                 })
 
-        val lineChart = findViewById<GpaLineChartView>(R.id.cv_gpa_line)
+        val selectedTermTs = findViewById<TextSwitcher>(R.id.ts_selected_term).apply {
+            setFactory {
+                inflater.inflate(R.layout.gpa2_layout_selected_term, this@apply, false)
+            }
+        }
+        val prevBtn = findViewById<ImageButton>(R.id.btn_prev)
+        val nextBtn = findViewById<ImageButton>(R.id.btn_next)
+        prevBtn.setOnClickListener {
+            val cur = selectedTermLiveData.value ?: return@setOnClickListener
+            selectedTermLiveData.value = cur - 1
+        }
+        nextBtn.setOnClickListener {
+            val cur = selectedTermLiveData.value ?: return@setOnClickListener
+            selectedTermLiveData.value = cur + 1
+        }
+
+        val lineChart = findViewById<GpaLineChartView>(R.id.cv_gpa_line).apply {
+            onSelectDataListenner = { selectedTermLiveData.value = it }
+        }
         GpaProvider.gpaLiveData
                 .map(GpaBean::data)
                 .map {
@@ -68,6 +93,24 @@ class GpaActivity : AppCompatActivity() {
                     lineChart.dataWithDetails = it
                 })
 
+        selectedTermLiveData.observe(this, Observer {
+            it?.let {
+                val term = GpaProvider.gpaLiveData.value?.data ?: return@Observer
+                var realIndex = it % term.size
+                if (realIndex < 0)
+                    realIndex += term.size
+                selectedTermTs.setText(term[realIndex].name)
+                lineChart.selectedIndex = realIndex
+            }
+        })
 
+        GpaProvider.gpaLiveData
+                .map(GpaBean::data)
+                .observe(this, Observer {
+                    selectedTermLiveData.value = selectedTermLiveData.value ?: 0
+                })
+
+
+        GpaProvider.updateGpaLiveData()
     }
 }

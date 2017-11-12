@@ -38,7 +38,7 @@ class GpaLineChartView @JvmOverloads constructor(context: Context, attrs: Attrib
         const val SELECTED_POINT_RADIUS = 28F
         const val SELECTED_POINT_STROKE_WIDTH = 20F
         const val SELECTED_POINT_STROKE_COLOR = Color.WHITE
-        const val POPUP_BOX_COLOR = Color.WHITE
+        const val POPUP_BOX_COLOR = 0xDDFFFFFF.toInt()
         const val POPUP_BOX_TRI_WIDTH = 80F
         const val POPUP_BOX_TRI_HEIGHT = 40F
         const val POPUP_BOX_RECT_WIDTH = 320F
@@ -55,6 +55,8 @@ class GpaLineChartView @JvmOverloads constructor(context: Context, attrs: Attrib
         const val DEFAULT_FILL_COLOR = 0xFFF3AB9B.toInt()
         const val DEFAULT_POINT_COLOR = 0xFFEC826A.toInt()
     }
+
+    var onSelectDataListenner: ((Int) -> Unit)? = null
 
     private val linePaint = Paint().apply {
         style = Paint.Style.STROKE
@@ -296,10 +298,12 @@ class GpaLineChartView @JvmOverloads constructor(context: Context, attrs: Attrib
         event?.takeIf { it.action == MotionEvent.ACTION_DOWN }?.let {
             checkOnPoint(it.x, it.y) {
                 selectedIndex = it
+                onSelectDataListenner?.invoke(it)
             }
         }
         return super.onTouchEvent(event)
     }
+
 
     init {
         context.obtainStyledAttributes(attrs, R.styleable.GpaLineChartView, defStyle, 0).apply {
@@ -313,4 +317,5 @@ class GpaLineChartView @JvmOverloads constructor(context: Context, attrs: Attrib
             recycle()
         }
     }
+
 }

@@ -45,9 +45,8 @@
                     android:layout_marginStart="32dp"
                     android:layout_marginTop="16dp"
                     android:gravity="center"
-                    android:text="0"
                     android:textColor="#555"
-                    android:textSize="28sp"
+                    android:textSize="24sp"
                     app:layout_constraintEnd_toStartOf="@+id/tv_gpa"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -60,9 +59,8 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="16dp"
                     android:gravity="center"
-                    android:text="0"
                     android:textColor="#555"
-                    android:textSize="28sp"
+                    android:textSize="24sp"
                     app:layout_constraintEnd_toStartOf="@+id/tv_credit"
                     app:layout_constraintStart_toEndOf="@+id/tv_score"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -75,9 +73,8 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="16dp"
                     android:gravity="center"
-                    android:text="0"
                     android:textColor="#555"
-                    android:textSize="28sp"
+                    android:textSize="24sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/tv_gpa"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -93,6 +90,7 @@
                     android:gravity="center"
                     android:text="总加权"
                     android:textColor="#777"
+                    android:textSize="12sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/tv_label_gpa"
                     app:layout_constraintStart_toStartOf="parent"
@@ -109,6 +107,7 @@
                     android:gravity="center"
                     android:text="总绩点"
                     android:textColor="#777"
+                    android:textSize="12sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/tv_label_credit"
                     app:layout_constraintStart_toEndOf="@+id/tv_label_score"
@@ -125,6 +124,7 @@
                     android:gravity="center"
                     android:text="总学分"
                     android:textColor="#7F7F7F"
+                    android:textSize="12sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/tv_label_gpa"
@@ -136,7 +136,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginBottom="16dp"
                 android:layout_marginTop="16dp"
                 android:src="@drawable/gpa2_seperator" />
 
@@ -144,35 +143,34 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-
                 <ImageButton
                     android:id="@+id/btn_prev"
                     android:layout_width="16dp"
                     android:layout_height="16dp"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginTop="16dp"
                     android:background="#FFF"
                     android:contentDescription="Prev Term"
                     android:scaleType="fitCenter"
                     android:src="@drawable/gpa2_prev"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/ts_now_term"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/ts_selected_term"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/ts_now_term"
-                    android:layout_width="64dp"
+                <TextSwitcher
+                    android:id="@+id/ts_selected_term"
+                    android:layout_width="160dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
                     android:gravity="center"
-                    android:text="Term"
                     android:textColor="#777"
                     android:textSize="16sp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/btn_next"
-                    app:layout_constraintStart_toEndOf="@+id/btn_prev"
+                    app:layout_constraintEnd_toStartOf="parent"
+                    app:layout_constraintStart_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageButton
@@ -186,9 +184,8 @@
                     android:scaleType="fitCenter"
                     android:src="@drawable/gpa2_next"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/ts_now_term"
-                    app:layout_constraintTop_toBottomOf="parent" />
+                    app:layout_constraintStart_toEndOf="@+id/ts_selected_term"
+                    app:layout_constraintTop_toTopOf="parent" />
 
             </android.support.constraint.ConstraintLayout>
 
@@ -197,7 +194,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="320dp"
                 android:paddingBottom="160dp"
-                android:paddingTop="0dp" />
+                android:paddingTop="40dp" />
 
         </LinearLayout>
 
