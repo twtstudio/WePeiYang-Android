@@ -2,13 +2,14 @@ package xyz.rickygao.gpa2.view
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.Observer
-import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v4.widget.NestedScrollView
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.ImageButton
 import android.widget.TextSwitcher
 import android.widget.TextView
@@ -20,6 +21,8 @@ class GpaActivity : AppCompatActivity() {
 
     private lateinit var inflater: LayoutInflater
     private lateinit var toolbar: Toolbar
+    private lateinit var backBtn: ImageButton
+    private lateinit var tbSelectedTermTv: TextView
     private lateinit var nestedSv: NestedScrollView
     private val selectedTermLiveData = MutableLiveData<Int>()
 
@@ -27,21 +30,28 @@ class GpaActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.gpa2_activity_gpa)
 
+        // dark content color on status bar
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+
         inflater = LayoutInflater.from(this)
 
-        toolbar = findViewById(R.id.toolbar)
-        toolbar.setTitleTextColor(Color.WHITE)
+        toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+        tbSelectedTermTv = findViewById<TextView>(R.id.tv_toolbar_selected_term)
+        backBtn = findViewById<ImageButton>(R.id.btn_back).apply {
+            setOnClickListener {
+                onBackPressed()
+            }
+        }
+        backBtn = findViewById<ImageButton>(R.id.btn_refresh).apply {
+            setOnClickListener {
+                GpaProvider.updateGpaLiveData()
+            }
+        }
 
         nestedSv = findViewById(R.id.sv_nested)
-
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-//            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-//            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-//            window.statusBarColor = Color.WHITE;
-//        }
 
         val scoreTv = findViewById<TextView>(R.id.tv_score)
         val gpaTv = findViewById<TextView>(R.id.tv_gpa)
@@ -108,6 +118,9 @@ class GpaActivity : AppCompatActivity() {
                 if (realIndex < 0)
                     realIndex += term.size
                 selectedTermTs.setText(term[realIndex].name)
+
+                tbSelectedTermTv.text = term[realIndex].name
+
                 lineChart.selectedIndex = realIndex
 
                 radarChart.dataWithLabel = term[realIndex].data.map {
@@ -119,15 +132,6 @@ class GpaActivity : AppCompatActivity() {
         nestedSv.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener({ view, x, y, oldx, oldy ->
             radarChart.startRad = y.toDouble() / view.width * 2 * Math.PI
         }))
-
-
-        // TODO: Remove test rotate
-//        launch(UI) {
-//            while (true) {
-//                radarChart.startRad += Math.toRadians(1.0)
-//                delay(20)
-//            }
-//        }
 
         GpaProvider.updateGpaLiveData()
     }
