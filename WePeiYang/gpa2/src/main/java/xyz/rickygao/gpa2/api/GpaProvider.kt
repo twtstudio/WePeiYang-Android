@@ -32,7 +32,7 @@ object GpaProvider {
                 }
             }
 
-            remote.await()?.takeIf { it != gpaLiveData.value }?.let {
+            remote.await()?.takeIf { it.updated_at != gpaLiveData.value?.updated_at }?.let {
                 gpaLiveData.value = it
                 Hawk.put<GpaBean>(HAWK_KEY_GPA, it)
             }

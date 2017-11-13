@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <set xmlns:android="http://schemas.android.com/apk/res/android">
-    <!--TODO Animation-->
-    <translate
-        android:duration="2000"
-        android:fromXDelta="0%p"
-        android:toXDelta="50%p" />
+    <!--<translate-->
+    <!--android:duration="@android:integer/config_longAnimTime"-->
+    <!--android:fromXDelta="100%p"-->
+    <!--android:interpolator="@android:anim/accelerate_interpolator"-->
+    <!--android:toXDelta="0" />-->
+
+    <alpha
+        android:duration="@android:integer/config_longAnimTime"
+        android:fromAlpha="0.0"
+        android:toAlpha="1.0" />
 </set>

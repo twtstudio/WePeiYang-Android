@@ -167,6 +167,8 @@
                     android:layout_marginEnd="16dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
+                    android:inAnimation="@anim/gpa2_anim_term_in"
+                    android:outAnimation="@anim/gpa2_anim_term_out"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="parent"
                     app:layout_constraintStart_toEndOf="parent"

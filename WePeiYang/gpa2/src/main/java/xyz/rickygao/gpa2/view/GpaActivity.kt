@@ -12,9 +12,6 @@ import android.view.LayoutInflater
 import android.widget.ImageButton
 import android.widget.TextSwitcher
 import android.widget.TextView
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.delay
-import kotlinx.coroutines.experimental.launch
 import xyz.rickygao.gpa2.R
 import xyz.rickygao.gpa2.api.*
 
@@ -65,7 +62,6 @@ class GpaActivity : AppCompatActivity() {
             setFactory {
                 inflater.inflate(R.layout.gpa2_layout_selected_term, this@apply, false)
             }
-            // TODO: set Animation
         }
         val prevBtn = findViewById<ImageButton>(R.id.btn_prev)
         val nextBtn = findViewById<ImageButton>(R.id.btn_next)
@@ -120,13 +116,18 @@ class GpaActivity : AppCompatActivity() {
             }
         })
 
+        nestedSv.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener({ view, x, y, oldx, oldy ->
+            radarChart.startRad = y.toDouble() / view.width * 2 * Math.PI
+        }))
+
+
         // TODO: Remove test rotate
-        launch(UI) {
-            repeat(3600) {
-                radarChart.startRad += Math.toRadians(1.0)
-                delay(20)
-            }
-        }
+//        launch(UI) {
+//            while (true) {
+//                radarChart.startRad += Math.toRadians(1.0)
+//                delay(20)
+//            }
+//        }
 
         GpaProvider.updateGpaLiveData()
     }
