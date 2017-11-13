@@ -1,7 +1,8 @@
 <resources>
-    <declare-styleable name="GpaLineChartView">
+    <declare-styleable name="GpaChartView">
         <attr name="lineColor" format="color" />
         <attr name="fillColor" format="color" />
         <attr name="pointColor" format="color" />
+        <attr name="textColor" format="color" />
     </declare-styleable>
 </resources>

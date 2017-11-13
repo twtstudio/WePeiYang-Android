@@ -42,11 +42,11 @@
                     android:layout_width="96dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
-                    android:layout_marginStart="32dp"
+                    android:layout_marginStart="48dp"
                     android:layout_marginTop="16dp"
                     android:gravity="center"
                     android:textColor="#555"
-                    android:textSize="24sp"
+                    android:textSize="28sp"
                     app:layout_constraintEnd_toStartOf="@+id/tv_gpa"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -60,7 +60,7 @@
                     android:layout_marginTop="16dp"
                     android:gravity="center"
                     android:textColor="#555"
-                    android:textSize="24sp"
+                    android:textSize="28sp"
                     app:layout_constraintEnd_toStartOf="@+id/tv_credit"
                     app:layout_constraintStart_toEndOf="@+id/tv_score"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -74,7 +74,7 @@
                     android:layout_marginTop="16dp"
                     android:gravity="center"
                     android:textColor="#555"
-                    android:textSize="24sp"
+                    android:textSize="28sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/tv_gpa"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -85,12 +85,12 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
                     android:layout_marginEnd="8dp"
-                    android:layout_marginStart="32dp"
+                    android:layout_marginStart="48dp"
                     android:layout_marginTop="8dp"
                     android:gravity="center"
                     android:text="总加权"
                     android:textColor="#777"
-                    android:textSize="12sp"
+                    android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/tv_label_gpa"
                     app:layout_constraintStart_toStartOf="parent"
@@ -107,7 +107,7 @@
                     android:gravity="center"
                     android:text="总绩点"
                     android:textColor="#777"
-                    android:textSize="12sp"
+                    android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/tv_label_credit"
                     app:layout_constraintStart_toEndOf="@+id/tv_label_score"
@@ -124,7 +124,7 @@
                     android:gravity="center"
                     android:text="总学分"
                     android:textColor="#7F7F7F"
-                    android:textSize="12sp"
+                    android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/tv_label_gpa"
@@ -136,7 +136,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="16dp"
+                android:layout_marginBottom="4dp"
+                android:layout_marginTop="12dp"
                 android:src="@drawable/gpa2_seperator" />
 
             <android.support.constraint.ConstraintLayout
@@ -145,9 +146,10 @@
 
                 <ImageButton
                     android:id="@+id/btn_prev"
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
                     android:layout_marginBottom="16dp"
+                    android:layout_marginEnd="8dp"
                     android:layout_marginTop="16dp"
                     android:background="#FFF"
                     android:contentDescription="Prev Term"
@@ -165,9 +167,6 @@
                     android:layout_marginEnd="16dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
-                    android:gravity="center"
-                    android:textColor="#777"
-                    android:textSize="16sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="parent"
                     app:layout_constraintStart_toEndOf="parent"
@@ -175,10 +174,11 @@
 
                 <ImageButton
                     android:id="@+id/btn_next"
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="16dp"
                     android:background="#FFF"
                     android:contentDescription="Next Term"
                     android:scaleType="fitCenter"
@@ -195,6 +195,13 @@
                 android:layout_height="320dp"
                 android:paddingBottom="160dp"
                 android:paddingTop="40dp" />
+
+            <xyz.rickygao.gpa2.view.GpaRadarChartView
+                android:id="@+id/cv_gpa_radar"
+                android:layout_width="match_parent"
+                android:layout_height="320dp"
+                android:background="#F3AB9B"
+                android:padding="40dp" />
 
         </LinearLayout>
 

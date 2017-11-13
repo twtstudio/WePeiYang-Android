@@ -12,6 +12,9 @@ import android.view.LayoutInflater
 import android.widget.ImageButton
 import android.widget.TextSwitcher
 import android.widget.TextView
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.delay
+import kotlinx.coroutines.experimental.launch
 import xyz.rickygao.gpa2.R
 import xyz.rickygao.gpa2.api.*
 
@@ -62,6 +65,7 @@ class GpaActivity : AppCompatActivity() {
             setFactory {
                 inflater.inflate(R.layout.gpa2_layout_selected_term, this@apply, false)
             }
+            // TODO: set Animation
         }
         val prevBtn = findViewById<ImageButton>(R.id.btn_prev)
         val nextBtn = findViewById<ImageButton>(R.id.btn_next)
@@ -81,7 +85,7 @@ class GpaActivity : AppCompatActivity() {
                 .map(GpaBean::data)
                 .map {
                     it.map(Term::stat).map {
-                        GpaLineChartView.DataWithDetails(it.score, """
+                        GpaLineChartView.DataWithDetail(it.score, """
                             加权：${it.score}
                             绩点：${it.gpa}
                             学分：${it.credit}
@@ -90,8 +94,16 @@ class GpaActivity : AppCompatActivity() {
                 }
                 .observe(this, Observer {
                     it ?: return@Observer
-                    lineChart.dataWithDetails = it
+                    lineChart.dataWithDetail = it
                 })
+
+        GpaProvider.gpaLiveData
+                .observe(this, Observer {
+                    // attempt to refresh chart view
+                    selectedTermLiveData.value = selectedTermLiveData.value ?: 0
+                })
+
+        val radarChart = findViewById<GpaRadarChartView>(R.id.cv_gpa_radar)
 
         selectedTermLiveData.observe(this, Observer {
             it?.let {
@@ -101,15 +113,20 @@ class GpaActivity : AppCompatActivity() {
                     realIndex += term.size
                 selectedTermTs.setText(term[realIndex].name)
                 lineChart.selectedIndex = realIndex
+
+                radarChart.dataWithLabel = term[realIndex].data.map {
+                    GpaRadarChartView.DataWithLabel(it.score, it.name)
+                }
             }
         })
 
-        GpaProvider.gpaLiveData
-                .map(GpaBean::data)
-                .observe(this, Observer {
-                    selectedTermLiveData.value = selectedTermLiveData.value ?: 0
-                })
-
+        // TODO: Remove test rotate
+        launch(UI) {
+            repeat(3600) {
+                radarChart.startRad += Math.toRadians(1.0)
+                delay(20)
+            }
+        }
 
         GpaProvider.updateGpaLiveData()
     }

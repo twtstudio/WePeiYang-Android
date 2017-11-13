@@ -38,7 +38,7 @@ class GpaLineChartView @JvmOverloads constructor(context: Context, attrs: Attrib
         const val SELECTED_POINT_RADIUS = 28F
         const val SELECTED_POINT_STROKE_WIDTH = 20F
         const val SELECTED_POINT_STROKE_COLOR = Color.WHITE
-        const val POPUP_BOX_COLOR = 0xDDFFFFFF.toInt()
+        const val POPUP_BOX_COLOR = Color.WHITE
         const val POPUP_BOX_TRI_WIDTH = 80F
         const val POPUP_BOX_TRI_HEIGHT = 40F
         const val POPUP_BOX_RECT_WIDTH = 320F
@@ -120,9 +120,9 @@ class GpaLineChartView @JvmOverloads constructor(context: Context, attrs: Attrib
             selectedPointPaint.color = value
         }
 
-    data class DataWithDetails(val data: Double, val details: String)
+    data class DataWithDetail(val data: Double, val detail: String)
 
-    var dataWithDetails = listOf<DataWithDetails>(DataWithDetails(0.0, "Details"))
+    var dataWithDetail = listOf<DataWithDetail>(DataWithDetail(0.0, "Detail"))
         set(value) {
             field = value
             selectedIndex = selectedIndex // ha?
@@ -131,7 +131,7 @@ class GpaLineChartView @JvmOverloads constructor(context: Context, attrs: Attrib
 
     var selectedIndex = 0
         set(value) {
-            field = value.takeIf { it in 0..dataWithDetails.size } ?: 0
+            field = value.takeIf { it in 0..dataWithDetail.size } ?: 0
             invalidate()
         }
 
@@ -144,12 +144,12 @@ class GpaLineChartView @JvmOverloads constructor(context: Context, attrs: Attrib
     private val pointsY = ArrayList<Float>()
     private var detailTextLeft = 0F
     private var detailTextTop = 0F
-    private var detailsTextLayout: StaticLayout? = null
+    private var detailTextLayout: StaticLayout? = null
 
     private fun computePath() {
 
-        val minData = dataWithDetails.minBy(DataWithDetails::data)?.data ?: return
-        val maxData = dataWithDetails.maxBy(DataWithDetails::data)?.data ?: return
+        val minData = dataWithDetail.minBy(DataWithDetail::data)?.data ?: return
+        val maxData = dataWithDetail.maxBy(DataWithDetail::data)?.data ?: return
         val dataSpan = maxData - minData
         val minDataExtended = minData - dataSpan / 4F
         val maxDataExtended = maxData + dataSpan / 4F
@@ -157,17 +157,17 @@ class GpaLineChartView @JvmOverloads constructor(context: Context, attrs: Attrib
 
         val contentWidth = width - paddingLeft - paddingRight
         val contentHeight = height - paddingTop - paddingBottom
-        val widthStep = contentWidth.toFloat() / (dataWithDetails.size + 1)
+        val widthStep = contentWidth.toFloat() / (dataWithDetail.size + 1)
 
         pointsX.apply {
             clear()
-            (0 until dataWithDetails.size)
+            (0 until dataWithDetail.size)
                     .forEach { add(paddingLeft + widthStep * (it + 1)) }
         }
 
         pointsY.apply {
             clear()
-            dataWithDetails.withIndex()
+            dataWithDetail.withIndex()
                     .forEach { (_, e) ->
                         add(paddingTop + ((1 - ((e.data - minDataExtended) / dataSpanExtended)) * contentHeight).toFloat())
                     }
@@ -177,7 +177,7 @@ class GpaLineChartView @JvmOverloads constructor(context: Context, attrs: Attrib
             reset()
             var py = (paddingTop + contentHeight).toFloat()
             moveTo(0F, py)
-            (0 until dataWithDetails.size).forEach {
+            (0 until dataWithDetail.size).forEach {
                 val cx = pointsX[it] - widthStep / 2F
                 cubicTo(cx, py, cx, pointsY[it], pointsX[it], pointsY[it])
                 py = pointsY[it]
@@ -196,7 +196,7 @@ class GpaLineChartView @JvmOverloads constructor(context: Context, attrs: Attrib
 
         pointPath.apply {
             reset()
-            (0 until dataWithDetails.size)
+            (0 until dataWithDetail.size)
                     .filter { it != selectedIndex }
                     .forEach {
                         addCircle(
@@ -229,12 +229,15 @@ class GpaLineChartView @JvmOverloads constructor(context: Context, attrs: Attrib
             close()
 
 
-            val rectCenter = triCenter.takeIf { it - POPUP_BOX_RECT_WIDTH / 2F >= POPUP_BOX_MARGIN } ?:
-                    POPUP_BOX_MARGIN + POPUP_BOX_RECT_WIDTH / 2F
+            val rectCenter =
+                    if (triCenter - POPUP_BOX_RECT_WIDTH / 2F < POPUP_BOX_MARGIN) POPUP_BOX_MARGIN + POPUP_BOX_RECT_WIDTH / 2F
+                    else if (triCenter + POPUP_BOX_RECT_WIDTH / 2F > width - POPUP_BOX_MARGIN) width - POPUP_BOX_MARGIN - POPUP_BOX_RECT_WIDTH / 2F
+                    else triCenter
+
             val rectTop = triTop + POPUP_BOX_TRI_HEIGHT
 
-            detailsTextLayout = StaticLayout(
-                    dataWithDetails[selectedIndex].details,
+            detailTextLayout = StaticLayout(
+                    dataWithDetail[selectedIndex].detail,
                     detailsTextPaint,
                     (POPUP_BOX_RECT_WIDTH - POPUP_BOX_PADDING * 2).toInt(),
                     Layout.Alignment.ALIGN_NORMAL,
@@ -246,7 +249,7 @@ class GpaLineChartView @JvmOverloads constructor(context: Context, attrs: Attrib
                 detailTextTop = rectTop + POPUP_BOX_PADDING
             }
 
-            val rectHeight = detailsTextLayout?.height?.toFloat() ?: POPUP_BOX_RECT_HEIGHT
+            val rectHeight = detailTextLayout?.height?.toFloat() ?: POPUP_BOX_RECT_HEIGHT
 
             addRoundRect(
                     RectF(rectCenter - POPUP_BOX_RECT_WIDTH / 2F,
@@ -258,7 +261,6 @@ class GpaLineChartView @JvmOverloads constructor(context: Context, attrs: Attrib
                     Path.Direction.CCW
             )
         }
-
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -278,17 +280,18 @@ class GpaLineChartView @JvmOverloads constructor(context: Context, attrs: Attrib
 
             save()
             translate(detailTextLeft, detailTextTop)
-            detailsTextLayout?.draw(canvas)
+            detailTextLayout?.draw(canvas)
             restore()
         }
     }
 
-    private fun checkOnPoint(x: Float, y: Float, callback: (Int) -> Unit) {
-        (0 until dataWithDetails.size).forEach {
+    private fun checkClickOnPoint(x: Float, y: Float, callback: (Int) -> Unit) {
+        (0 until dataWithDetail.size).forEach {
             val dx = x - pointsX[it]
             val dy = y - pointsY[it]
             val d2 = dx * dx + dy * dy
-            if (d2 < POINT_RADIUS * POINT_RADIUS) {
+            // expand area of click on point
+            if (d2 < POINT_RADIUS * POINT_RADIUS * 4) {
                 callback(it)
             }
         }
@@ -296,7 +299,7 @@ class GpaLineChartView @JvmOverloads constructor(context: Context, attrs: Attrib
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         event?.takeIf { it.action == MotionEvent.ACTION_DOWN }?.let {
-            checkOnPoint(it.x, it.y) {
+            checkClickOnPoint(it.x, it.y) {
                 selectedIndex = it
                 onSelectDataListenner?.invoke(it)
             }
@@ -306,13 +309,13 @@ class GpaLineChartView @JvmOverloads constructor(context: Context, attrs: Attrib
 
 
     init {
-        context.obtainStyledAttributes(attrs, R.styleable.GpaLineChartView, defStyle, 0).apply {
+        context.obtainStyledAttributes(attrs, R.styleable.GpaChartView, defStyle, 0).apply {
 
-            lineColor = getColor(R.styleable.GpaLineChartView_lineColor, DEFAULT_LINE_COLOR)
+            lineColor = getColor(R.styleable.GpaChartView_lineColor, DEFAULT_LINE_COLOR)
 
-            fillColor = getColor(R.styleable.GpaLineChartView_fillColor, DEFAULT_FILL_COLOR)
+            fillColor = getColor(R.styleable.GpaChartView_fillColor, DEFAULT_FILL_COLOR)
 
-            pointColor = getColor(R.styleable.GpaLineChartView_pointColor, DEFAULT_POINT_COLOR)
+            pointColor = getColor(R.styleable.GpaChartView_pointColor, DEFAULT_POINT_COLOR)
 
             recycle()
         }
