@@ -85,6 +85,7 @@ class GpaRadarChartView @JvmOverloads constructor(context: Context, attrs: Attri
         val maxData = dataWithLabel.maxBy(DataWithLabel::data)?.data?.toFloat() ?: return
         val dataSpan = maxData - minData
         val minDataExtended = 0F
+//        val maxDataExtended = 100F
         val maxDataExtended = maxData + dataSpan / 4F
         val dataSpanExtended = maxDataExtended - minDataExtended
 

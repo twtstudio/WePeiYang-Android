@@ -2,19 +2,18 @@ package xyz.rickygao.gpa2.view
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.Observer
-import android.os.Build
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v4.widget.NestedScrollView
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.LayoutInflater
-import android.view.View
 import android.widget.ImageButton
 import android.widget.TextSwitcher
 import android.widget.TextView
 import xyz.rickygao.gpa2.R
 import xyz.rickygao.gpa2.api.*
+import xyz.rickygao.gpa2.ext.setLightStatusBarMode
 
 
 class GpaActivity : AppCompatActivity() {
@@ -30,9 +29,7 @@ class GpaActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.gpa2_activity_gpa)
 
-        // dark content color on status bar
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+        setLightStatusBarMode(true)
 
         inflater = LayoutInflater.from(this)
 
