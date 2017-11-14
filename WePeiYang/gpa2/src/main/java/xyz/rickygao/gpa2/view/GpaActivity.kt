@@ -162,7 +162,7 @@ class GpaActivity : AppCompatActivity() {
 
         // radar chart rotates while scrolling
         nestedSv.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener({ view, x, y, oldx, oldy ->
-            gpaRadarCv.startRad = y.toDouble() / view.width * Math.PI
+            gpaRadarCv.startRad = y.toDouble() / view.height * Math.PI
         }))
 
         // load data
