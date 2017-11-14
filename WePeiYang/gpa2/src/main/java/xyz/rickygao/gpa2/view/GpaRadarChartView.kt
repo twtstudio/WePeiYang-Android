@@ -199,13 +199,13 @@ class GpaRadarChartView @JvmOverloads constructor(context: Context, attrs: Attri
 
 
     init {
-        context.obtainStyledAttributes(attrs, R.styleable.GpaChartView, defStyle, 0).apply {
+        context.obtainStyledAttributes(attrs, R.styleable.GpaRadarChartView, defStyle, 0).apply {
 
-            lineColor = getColor(R.styleable.GpaChartView_lineColor, DEFAULT_LINE_COLOR)
+            lineColor = getColor(R.styleable.GpaRadarChartView_lineColor, DEFAULT_LINE_COLOR)
 
-            fillColor = getColor(R.styleable.GpaChartView_fillColor, DEFAULT_FILL_COLOR)
+            fillColor = getColor(R.styleable.GpaRadarChartView_fillColor, DEFAULT_FILL_COLOR)
 
-            textColor = getColor(R.styleable.GpaChartView_textColor, DEFAULT_TEXT_COLOR)
+            textColor = getColor(R.styleable.GpaRadarChartView_textColor, DEFAULT_TEXT_COLOR)
 
             recycle()
         }

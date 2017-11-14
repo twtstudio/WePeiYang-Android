@@ -6,9 +6,12 @@ import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v4.widget.NestedScrollView
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.view.LayoutInflater
 import android.widget.ImageButton
+import android.widget.RadioGroup
 import android.widget.TextSwitcher
 import android.widget.TextView
 import xyz.rickygao.gpa2.R
@@ -33,6 +36,7 @@ class GpaActivity : AppCompatActivity() {
 
         inflater = LayoutInflater.from(this)
 
+        // init toolbar
         toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
@@ -44,12 +48,13 @@ class GpaActivity : AppCompatActivity() {
         }
         backBtn = findViewById<ImageButton>(R.id.btn_refresh).apply {
             setOnClickListener {
-                GpaProvider.updateGpaLiveData()
+                GpaProvider.updateGpaLiveData(false)
             }
         }
 
         nestedSv = findViewById(R.id.sv_nested)
 
+        // init total
         val scoreTv = findViewById<TextView>(R.id.tv_score)
         val gpaTv = findViewById<TextView>(R.id.tv_gpa)
         val creditTv = findViewById<TextView>(R.id.tv_credit)
@@ -65,9 +70,10 @@ class GpaActivity : AppCompatActivity() {
                     }
                 })
 
+        // init term selector
         val selectedTermTs = findViewById<TextSwitcher>(R.id.ts_selected_term).apply {
             setFactory {
-                inflater.inflate(R.layout.gpa2_layout_selected_term, this@apply, false)
+                inflater.inflate(R.layout.gpa2_tv_selected_term, this@apply, false)
             }
         }
         val prevBtn = findViewById<ImageButton>(R.id.btn_prev)
@@ -81,7 +87,8 @@ class GpaActivity : AppCompatActivity() {
             selectedTermLiveData.value = cur + 1
         }
 
-        val lineChart = findViewById<GpaLineChartView>(R.id.cv_gpa_line).apply {
+        // init line chart
+        val gpaLineCv = findViewById<GpaLineChartView>(R.id.cv_gpa_line).apply {
             onSelectDataListenner = { selectedTermLiveData.value = it }
         }
         GpaProvider.gpaLiveData
@@ -97,39 +104,68 @@ class GpaActivity : AppCompatActivity() {
                 }
                 .observe(this, Observer {
                     it ?: return@Observer
-                    lineChart.dataWithDetail = it
+                    gpaLineCv.dataWithDetail = it
                 })
 
+        // init radar chart
+        val gpaRadarCv = findViewById<GpaRadarChartView>(R.id.cv_gpa_radar)
+
+        // init course list
+        val courseAdapter = CourseAdapter(inflater)
+        val courseRv = findViewById<RecyclerView>(R.id.rv_course).apply {
+            adapter = courseAdapter
+            layoutManager = LinearLayoutManager(this@GpaActivity)
+            isNestedScrollingEnabled = false
+        }
+
+        // init sort button
+        val sortRg = findViewById<RadioGroup>(R.id.rg_sort).apply {
+            setOnCheckedChangeListener { radioGroup, buttonId ->
+                courseAdapter.sortMode = when (buttonId) {
+                    R.id.rb_sort_by_credit -> CourseAdapter.SORT_BY_CREDIT_DESC
+                    R.id.rb_sort_by_score -> CourseAdapter.SORT_BY_SCORE_DESC
+                    else -> CourseAdapter.SORT_DEFAULT
+                }
+            }
+        }
+
+        // attempt to refresh chart view while new data coming
         GpaProvider.gpaLiveData
                 .observe(this, Observer {
-                    // attempt to refresh chart view
                     selectedTermLiveData.value = selectedTermLiveData.value ?: 0
                 })
 
-        val radarChart = findViewById<GpaRadarChartView>(R.id.cv_gpa_radar)
-
+        // observe selected term
         selectedTermLiveData.observe(this, Observer {
             it?.let {
                 val term = GpaProvider.gpaLiveData.value?.data ?: return@Observer
                 var realIndex = it % term.size
                 if (realIndex < 0)
                     realIndex += term.size
-                selectedTermTs.setText(term[realIndex].name)
+                val selectedTerm = term[realIndex]
+                selectedTermTs.setText(selectedTerm.name)
 
-                tbSelectedTermTv.text = term[realIndex].name
+                tbSelectedTermTv.text = selectedTerm.name
 
-                lineChart.selectedIndex = realIndex
+                gpaLineCv.selectedIndex = realIndex
 
-                radarChart.dataWithLabel = term[realIndex].data.map {
+                gpaRadarCv.dataWithLabel = selectedTerm.data.map {
                     GpaRadarChartView.DataWithLabel(it.score, it.name)
+                }
+
+
+                courseAdapter.courses = selectedTerm.data.mapTo(ArrayList(selectedTerm.data.size)) {
+                    CourseAdapter.Course(it.name, it.type, it.credit, it.score)
                 }
             }
         })
 
+        // radar chart rotates while scrolling
         nestedSv.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener({ view, x, y, oldx, oldy ->
-            radarChart.startRad = y.toDouble() / view.width * 2 * Math.PI
+            gpaRadarCv.startRad = y.toDouble() / view.width * Math.PI
         }))
 
+        // load data
         GpaProvider.updateGpaLiveData()
     }
 }

@@ -309,13 +309,13 @@ class GpaLineChartView @JvmOverloads constructor(context: Context, attrs: Attrib
 
 
     init {
-        context.obtainStyledAttributes(attrs, R.styleable.GpaChartView, defStyle, 0).apply {
+        context.obtainStyledAttributes(attrs, R.styleable.GpaLineChartView, defStyle, 0).apply {
 
-            lineColor = getColor(R.styleable.GpaChartView_lineColor, DEFAULT_LINE_COLOR)
+            lineColor = getColor(R.styleable.GpaLineChartView_lineColor, DEFAULT_LINE_COLOR)
 
-            fillColor = getColor(R.styleable.GpaChartView_fillColor, DEFAULT_FILL_COLOR)
+            fillColor = getColor(R.styleable.GpaLineChartView_fillColor, DEFAULT_FILL_COLOR)
 
-            pointColor = getColor(R.styleable.GpaChartView_pointColor, DEFAULT_POINT_COLOR)
+            pointColor = getColor(R.styleable.GpaLineChartView_pointColor, DEFAULT_POINT_COLOR)
 
             recycle()
         }

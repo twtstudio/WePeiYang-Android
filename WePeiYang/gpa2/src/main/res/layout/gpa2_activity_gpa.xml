@@ -17,12 +17,13 @@
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize">
+            android:layout_height="?attr/actionBarSize"
+            app:layout_scrollFlags="scroll|enterAlways">
 
             <ImageButton
                 android:id="@+id/btn_back"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:layout_gravity="start"
                 android:background="@drawable/back_black" />
 
@@ -31,13 +32,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:textColor="#FFF"
+                android:textColor="#000000"
                 android:textSize="18sp" />
 
             <ImageButton
                 android:id="@+id/btn_refresh"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:layout_gravity="end"
                 android:layout_marginEnd="16dp"
                 android:background="@drawable/refresh_black" />
@@ -56,178 +57,66 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#FFF"
             android:orientation="vertical">
 
-            <android.support.constraint.ConstraintLayout
+            <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:id="@+id/tv_score"
-                    android:layout_width="96dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginStart="48dp"
-                    android:layout_marginTop="16dp"
-                    android:gravity="center"
-                    android:textColor="#555"
-                    android:textSize="28sp"
-                    app:layout_constraintEnd_toStartOf="@+id/tv_gpa"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/tv_gpa"
-                    android:layout_width="96dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="16dp"
-                    android:gravity="center"
-                    android:textColor="#555"
-                    android:textSize="28sp"
-                    app:layout_constraintEnd_toStartOf="@+id/tv_credit"
-                    app:layout_constraintStart_toEndOf="@+id/tv_score"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/tv_credit"
-                    android:layout_width="96dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="32dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="16dp"
-                    android:gravity="center"
-                    android:textColor="#555"
-                    android:textSize="28sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/tv_gpa"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/tv_label_score"
-                    android:layout_width="96dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginStart="48dp"
-                    android:layout_marginTop="8dp"
-                    android:gravity="center"
-                    android:text="总加权"
-                    android:textColor="#777"
-                    android:textSize="14sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/tv_label_gpa"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_score" />
-
-                <TextView
-                    android:id="@+id/tv_label_gpa"
-                    android:layout_width="96dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:gravity="center"
-                    android:text="总绩点"
-                    android:textColor="#777"
-                    android:textSize="14sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/tv_label_credit"
-                    app:layout_constraintStart_toEndOf="@+id/tv_label_score"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_gpa" />
-
-                <TextView
-                    android:id="@+id/tv_label_credit"
-                    android:layout_width="96dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    android:layout_marginEnd="32dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:gravity="center"
-                    android:text="总学分"
-                    android:textColor="#777"
-                    android:textSize="14sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/tv_label_gpa"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_credit" />
-
-            </android.support.constraint.ConstraintLayout>
-
-            <ImageView
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginBottom="4dp"
-                android:layout_marginTop="12dp"
-                android:src="@drawable/gpa2_seperator" />
+                app:cardBackgroundColor="@color/gpa2_color_second"
+                app:cardElevation="8dp">
 
-            <android.support.constraint.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <ImageButton
-                    android:id="@+id/btn_prev"
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
-                    android:layout_marginBottom="16dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginTop="16dp"
-                    android:background="#FFF"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/gpa2_prev"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/ts_selected_term"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextSwitcher
-                    android:id="@+id/ts_selected_term"
-                    android:layout_width="160dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
-                    android:inAnimation="@anim/gpa2_anim_term_in"
-                    android:outAnimation="@anim/gpa2_anim_term_out"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="parent"
-                    app:layout_constraintStart_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:orientation="vertical">
 
-                <ImageButton
-                    android:id="@+id/btn_next"
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
-                    android:layout_marginBottom="16dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="16dp"
-                    android:background="#FFF"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/gpa2_next"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/ts_selected_term"
-                    app:layout_constraintTop_toTopOf="parent" />
 
-            </android.support.constraint.ConstraintLayout>
+                    <include layout="@layout/gpa2_component_total" />
 
-            <xyz.rickygao.gpa2.view.GpaLineChartView
-                android:id="@+id/cv_gpa_line"
+                    <ImageView
+                        android:layout_width="320dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="8dp"
+                        android:background="@color/gpa2_color_second"
+                        android:src="@drawable/gpa2_seperator" />
+
+                    <include layout="@layout/gpa2_component_term" />
+
+                    <xyz.rickygao.gpa2.view.GpaLineChartView
+                        android:id="@+id/cv_gpa_line"
+                        android:layout_width="match_parent"
+                        android:layout_height="320dp"
+                        android:background="@color/gpa2_color_second"
+                        android:paddingBottom="160dp"
+                        android:paddingTop="40dp"
+                        app:fillColor="@color/gpa2_color_first"
+                        app:lineColor="@color/gpa2_color_first_dark"
+                        app:pointColor="@color/gpa2_color_first_dark" />
+
+                    <xyz.rickygao.gpa2.view.GpaRadarChartView
+                        android:id="@+id/cv_gpa_radar"
+                        android:layout_width="match_parent"
+                        android:layout_height="320dp"
+                        android:background="@color/gpa2_color_first"
+                        android:padding="40dp"
+                        app:fillColor="@color/gpa2_color_second_alpha"
+                        app:lineColor="@color/gpa2_color_second"
+                        app:textColor="@color/gpa2_color_second" />
+
+                    <include layout="@layout/gpa2_component_sort" />
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_course"
                 android:layout_width="match_parent"
-                android:layout_height="320dp"
-                android:paddingBottom="160dp"
-                android:paddingTop="40dp" />
-
-            <xyz.rickygao.gpa2.view.GpaRadarChartView
-                android:id="@+id/cv_gpa_radar"
-                android:layout_width="match_parent"
-                android:layout_height="320dp"
-                android:background="#F3AB9B"
-                android:padding="40dp" />
+                android:layout_height="match_parent"
+                android:paddingBottom="16dp"
+                android:paddingTop="16dp" />
 
         </LinearLayout>
 

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gpa2_color_first">
+
+    <RadioGroup
+        android:id="@+id/rg_sort"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RadioButton
+            android:id="@+id/rb_sort_by_score"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/gpa2_bkg_sort_btn_left"
+            android:button="@null"
+            android:checked="true"
+            android:paddingBottom="8dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="8dp"
+            android:paddingTop="8dp"
+            android:text="成绩降序"
+            android:textColor="@color/gpa2_color_sort_btn_text"
+            android:textSize="16sp" />
+
+        <RadioButton
+            android:id="@+id/rb_sort_by_credit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/gpa2_bkg_sort_btn_right"
+            android:button="@null"
+            android:paddingBottom="8dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="12dp"
+            android:paddingTop="8dp"
+            android:text="学分降序"
+            android:textColor="@color/gpa2_color_sort_btn_text"
+            android:textSize="16sp" />
+
+    </RadioGroup>
+
+
+</android.support.constraint.ConstraintLayout>
