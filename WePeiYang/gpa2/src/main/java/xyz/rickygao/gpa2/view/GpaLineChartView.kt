@@ -13,7 +13,6 @@ import xyz.rickygao.gpa2.R
 /**
  * Created by rickygao on 2017/11/9.
  */
-
 // fix default value of kotlin's function parameter for java reflection
 class GpaLineChartView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0) : View(context, attrs, defStyle) {
 

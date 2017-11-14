@@ -13,8 +13,6 @@ import xyz.rickygao.gpa2.R
 /**
  * Created by rickygao on 2017/11/13.
  */
-
-
 class GpaRadarChartView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0) : View(context, attrs, defStyle) {
 
     companion object {

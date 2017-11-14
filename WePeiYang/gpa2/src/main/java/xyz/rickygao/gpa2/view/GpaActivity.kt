@@ -15,10 +15,16 @@ import android.widget.RadioGroup
 import android.widget.TextSwitcher
 import android.widget.TextView
 import xyz.rickygao.gpa2.R
-import xyz.rickygao.gpa2.api.*
+import xyz.rickygao.gpa2.api.GpaBean
+import xyz.rickygao.gpa2.api.GpaProvider
+import xyz.rickygao.gpa2.api.Stat
+import xyz.rickygao.gpa2.api.Term
+import xyz.rickygao.gpa2.ext.map
 import xyz.rickygao.gpa2.ext.setLightStatusBarMode
 
-
+/**
+ * Created by rickygao on 2017/11/9.
+ */
 class GpaActivity : AppCompatActivity() {
 
     private lateinit var inflater: LayoutInflater
@@ -112,15 +118,15 @@ class GpaActivity : AppCompatActivity() {
 
         // init course list
         val courseAdapter = CourseAdapter(inflater)
-        val courseRv = findViewById<RecyclerView>(R.id.rv_course).apply {
+        findViewById<RecyclerView>(R.id.rv_course).apply {
             adapter = courseAdapter
             layoutManager = LinearLayoutManager(this@GpaActivity)
             isNestedScrollingEnabled = false
         }
 
         // init sort button
-        val sortRg = findViewById<RadioGroup>(R.id.rg_sort).apply {
-            setOnCheckedChangeListener { radioGroup, buttonId ->
+        findViewById<RadioGroup>(R.id.rg_sort).apply {
+            setOnCheckedChangeListener { _, buttonId ->
                 courseAdapter.sortMode = when (buttonId) {
                     R.id.rb_sort_by_credit -> CourseAdapter.SORT_BY_CREDIT_DESC
                     R.id.rb_sort_by_score -> CourseAdapter.SORT_BY_SCORE_DESC
@@ -162,7 +168,7 @@ class GpaActivity : AppCompatActivity() {
 
         // radar chart rotates while scrolling
         nestedSv.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener({ view, x, y, oldx, oldy ->
-            gpaRadarCv.startRad = y.toDouble() / view.height * Math.PI
+            gpaRadarCv.startRad = y.toDouble() / view.height * 2 * Math.PI
         }))
 
         // load data

@@ -1,8 +1,6 @@
 package xyz.rickygao.gpa2.api
 
-import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.Transformations
 import com.orhanobut.hawk.Hawk
 import com.twt.wepeiyang.commons.network.RetrofitProvider
 import kotlinx.coroutines.experimental.android.UI
@@ -12,7 +10,6 @@ import org.jetbrains.anko.coroutines.experimental.bg
 /**
  * Created by rickygao on 2017/11/9.
  */
-
 object GpaProvider {
     private val api = RetrofitProvider.getRetrofit().create(GpaApi::class.java)
     val gpaLiveData by lazyOf(MutableLiveData<GpaBean>())
@@ -40,12 +37,4 @@ object GpaProvider {
         }
     }
 
-}
-
-fun <T, U> LiveData<T>.map(func: (T) -> U): LiveData<U> {
-    return Transformations.map(this, func)
-}
-
-fun <T, U> LiveData<T>.switchMap(func: (T) -> LiveData<U>): LiveData<U> {
-    return Transformations.switchMap(this, func)
 }
