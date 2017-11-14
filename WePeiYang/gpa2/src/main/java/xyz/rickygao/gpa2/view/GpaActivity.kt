@@ -95,6 +95,7 @@ class GpaActivity : AppCompatActivity() {
 
         // init line chart
         val gpaLineCv = findViewById<GpaLineChartView>(R.id.cv_gpa_line).apply {
+            dataWithDetail = listOf<GpaLineChartView.DataWithDetail>(GpaLineChartView.DataWithDetail(60.0, "还没有成绩喔"))
             onSelectDataListenner = { selectedTermLiveData.value = it }
         }
         GpaProvider.gpaLiveData

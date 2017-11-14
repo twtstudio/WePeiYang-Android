@@ -19,6 +19,7 @@ class GpaRadarChartView @JvmOverloads constructor(context: Context, attrs: Attri
         // fixed constant
         const val LINE_STROKE = 6F
         const val LABEL_TEXT_SIZE = 32F
+        const val EMPTY_DATA_TEXT = "Loading..."
 
         // default constant for attrs
         const val DEFAULT_LINE_COLOR = Color.WHITE
@@ -65,7 +66,7 @@ class GpaRadarChartView @JvmOverloads constructor(context: Context, attrs: Attri
 
     data class DataWithLabel(val data: Double, val label: String)
 
-    var dataWithLabel = listOf<DataWithLabel>(DataWithLabel(0.0, "Details"))
+    var dataWithLabel: List<DataWithLabel>? = null
         set(value) {
             field = value
             invalidate()
@@ -79,6 +80,22 @@ class GpaRadarChartView @JvmOverloads constructor(context: Context, attrs: Attri
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
 
+        val dataWithLabel = dataWithLabel.orEmpty()
+
+        val contentWidth = width - paddingLeft - paddingRight
+        val contentHeight = height - paddingTop - paddingBottom
+        val centerX = paddingLeft + contentWidth.toFloat() / 2F
+        val centerY = paddingTop + contentHeight.toFloat() / 2F
+
+        if (dataWithLabel.isEmpty())
+            canvas.drawText(
+                    EMPTY_DATA_TEXT,
+                    centerX - textPaint.measureText(EMPTY_DATA_TEXT),
+                    centerY + textPaint.fontMetrics.ascent,
+                    textPaint
+            )
+
+
         val minData = dataWithLabel.minBy(DataWithLabel::data)?.data?.toFloat() ?: return
         val maxData = dataWithLabel.maxBy(DataWithLabel::data)?.data?.toFloat() ?: return
         val dataSpan = maxData - minData
@@ -86,11 +103,6 @@ class GpaRadarChartView @JvmOverloads constructor(context: Context, attrs: Attri
 //        val maxDataExtended = 100F
         val maxDataExtended = maxData + dataSpan / 4F
         val dataSpanExtended = maxDataExtended - minDataExtended
-
-        val contentWidth = width - paddingLeft - paddingRight
-        val contentHeight = height - paddingTop - paddingBottom
-        val centerX = paddingLeft + contentWidth.toFloat() / 2F
-        val centerY = paddingTop + contentHeight.toFloat() / 2F
 
         val radarRadius = (if (contentWidth < contentHeight) contentWidth else contentHeight) / 2F * 0.75F
         val radStep = 2 * Math.PI / dataWithLabel.size
