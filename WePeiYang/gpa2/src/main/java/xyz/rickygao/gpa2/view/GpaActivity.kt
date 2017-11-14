@@ -95,7 +95,6 @@ class GpaActivity : AppCompatActivity() {
 
         // init line chart
         val gpaLineCv = findViewById<GpaLineChartView>(R.id.cv_gpa_line).apply {
-            dataWithDetail = listOf<GpaLineChartView.DataWithDetail>(GpaLineChartView.DataWithDetail(60.0, "还没有成绩喔"))
             onSelectDataListenner = { selectedTermLiveData.value = it }
         }
         GpaProvider.gpaLiveData
@@ -115,10 +114,14 @@ class GpaActivity : AppCompatActivity() {
                 })
 
         // init radar chart
-        val gpaRadarCv = findViewById<GpaRadarChartView>(R.id.cv_gpa_radar)
+        val gpaRadarCv = findViewById<GpaRadarChartView>(R.id.cv_gpa_radar).apply {
+            emptyText = "出了分再来吧！"
+        }
 
         // init course list
-        val courseAdapter = CourseAdapter(inflater)
+        val courseAdapter = CourseAdapter(inflater).apply {
+            sortMode = CourseAdapter.SORT_BY_SCORE_DESC
+        }
         findViewById<RecyclerView>(R.id.rv_course).apply {
             adapter = courseAdapter
             layoutManager = LinearLayoutManager(this@GpaActivity)
@@ -145,7 +148,10 @@ class GpaActivity : AppCompatActivity() {
         // observe selected term
         selectedTermLiveData.observe(this, Observer {
             it?.let {
-                val term = GpaProvider.gpaLiveData.value?.data ?: return@Observer
+                val term = GpaProvider.gpaLiveData.value?.data.orEmpty()
+
+                if (term.isEmpty()) return@Observer
+
                 var realIndex = it % term.size
                 if (realIndex < 0)
                     realIndex += term.size
@@ -159,7 +165,6 @@ class GpaActivity : AppCompatActivity() {
                 gpaRadarCv.dataWithLabel = selectedTerm.data.map {
                     GpaRadarChartView.DataWithLabel(it.score, it.name)
                 }
-
 
                 courseAdapter.courses = selectedTerm.data.mapTo(ArrayList(selectedTerm.data.size)) {
                     CourseAdapter.Course(it.name, it.type, it.credit, it.score)

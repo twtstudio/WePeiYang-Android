@@ -19,7 +19,6 @@ class GpaRadarChartView @JvmOverloads constructor(context: Context, attrs: Attri
         // fixed constant
         const val LINE_STROKE = 6F
         const val LABEL_TEXT_SIZE = 32F
-        const val EMPTY_DATA_TEXT = "Loading..."
 
         // default constant for attrs
         const val DEFAULT_LINE_COLOR = Color.WHITE
@@ -64,6 +63,13 @@ class GpaRadarChartView @JvmOverloads constructor(context: Context, attrs: Attri
             invalidate()
         }
 
+    var emptyText: String? = null
+        set(value) {
+            field = value
+            if (dataWithLabel.orEmpty().isNotEmpty())
+                invalidate()
+        }
+
     data class DataWithLabel(val data: Double, val label: String)
 
     var dataWithLabel: List<DataWithLabel>? = null
@@ -89,9 +95,9 @@ class GpaRadarChartView @JvmOverloads constructor(context: Context, attrs: Attri
 
         if (dataWithLabel.isEmpty())
             canvas.drawText(
-                    EMPTY_DATA_TEXT,
-                    centerX - textPaint.measureText(EMPTY_DATA_TEXT),
-                    centerY + textPaint.fontMetrics.ascent,
+                    emptyText,
+                    centerX - textPaint.measureText(emptyText) / 2,
+                    centerY,
                     textPaint
             )
 

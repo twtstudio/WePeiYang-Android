@@ -149,7 +149,6 @@ class GpaLineChartView @JvmOverloads constructor(context: Context, attrs: Attrib
 
         val dataWithDetail = dataWithDetail.orEmpty()
 
-
         val contentWidth = width - paddingLeft - paddingRight
         val contentHeight = height - paddingTop - paddingBottom
         val widthStep = contentWidth.toFloat() / (dataWithDetail.size + 1)
@@ -161,12 +160,6 @@ class GpaLineChartView @JvmOverloads constructor(context: Context, attrs: Attrib
         val maxDataExtended = maxData + dataSpan / 4F
         val dataSpanExtended = maxDataExtended - minDataExtended
 
-//        pointsX.apply {
-//            clear()
-//            (0 until dataWithDetail.size)
-//                    .forEach { add(paddingLeft + widthStep * (it + 1)) }
-//        }
-
         (0 until dataWithDetail.size).mapTo(pointsX.apply { clear() }) {
             paddingLeft + widthStep * (it + 1)
         }
@@ -174,14 +167,6 @@ class GpaLineChartView @JvmOverloads constructor(context: Context, attrs: Attrib
         dataWithDetail.mapTo(pointsY.apply { clear() }) {
             paddingTop + ((1 - ((it.data - minDataExtended) / dataSpanExtended)) * contentHeight).toFloat()
         }
-//        pointsY.apply {
-//            clear()
-//
-//            dataWithDetail.withIndex()
-//                    .forEach { (_, e) ->
-//                        add(paddingTop + ((1 - ((e.data - minDataExtended) / dataSpanExtended)) * contentHeight).toFloat())
-//                    }
-//        }
 
         linePath.apply {
             reset()
