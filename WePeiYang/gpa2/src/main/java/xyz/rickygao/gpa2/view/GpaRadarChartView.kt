@@ -19,6 +19,7 @@ class GpaRadarChartView @JvmOverloads constructor(context: Context, attrs: Attri
         // fixed constant
         const val LINE_STROKE = 6F
         const val LABEL_TEXT_SIZE = 32F
+        const val EMPTY_TEXT_SIZE = 64F
 
         // default constant for attrs
         const val DEFAULT_LINE_COLOR = Color.WHITE
@@ -93,13 +94,16 @@ class GpaRadarChartView @JvmOverloads constructor(context: Context, attrs: Attri
         val centerX = paddingLeft + contentWidth.toFloat() / 2F
         val centerY = paddingTop + contentHeight.toFloat() / 2F
 
-        if (dataWithLabel.isEmpty())
+        if (dataWithLabel.isEmpty()) {
+            textPaint.textSize = EMPTY_TEXT_SIZE
             canvas.drawText(
                     emptyText,
                     centerX - textPaint.measureText(emptyText) / 2,
                     centerY,
                     textPaint
             )
+            textPaint.textSize = LABEL_TEXT_SIZE
+        }
 
 
         val minData = dataWithLabel.minBy(DataWithLabel::data)?.data?.toFloat() ?: return

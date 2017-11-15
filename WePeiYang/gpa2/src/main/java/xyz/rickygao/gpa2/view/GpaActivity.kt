@@ -27,12 +27,17 @@ import xyz.rickygao.gpa2.ext.setLightStatusBarMode
  */
 class GpaActivity : AppCompatActivity() {
 
+    companion object {
+        const val EMPTY_TERM = "还没有学期"
+        const val RADAR_EMPTY_TEXT = "还没有数据"
+    }
+
     private lateinit var inflater: LayoutInflater
     private lateinit var toolbar: Toolbar
     private lateinit var backBtn: ImageButton
     private lateinit var tbSelectedTermTv: TextView
     private lateinit var nestedSv: NestedScrollView
-    private val selectedTermLiveData = MutableLiveData<Int>()
+    private val selectedTermLiveData = MutableLiveData<Int>().apply { value = 0 }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -115,7 +120,7 @@ class GpaActivity : AppCompatActivity() {
 
         // init radar chart
         val gpaRadarCv = findViewById<GpaRadarChartView>(R.id.cv_gpa_radar).apply {
-            emptyText = "出了分再来吧！"
+            emptyText = RADAR_EMPTY_TEXT
         }
 
         // init course list
@@ -142,7 +147,7 @@ class GpaActivity : AppCompatActivity() {
         // attempt to refresh chart view while new data coming
         GpaProvider.gpaLiveData
                 .observe(this, Observer {
-                    selectedTermLiveData.value = selectedTermLiveData.value ?: 0
+                    selectedTermLiveData.value = selectedTermLiveData.value
                 })
 
         // observe selected term
@@ -150,7 +155,10 @@ class GpaActivity : AppCompatActivity() {
             it?.let {
                 val term = GpaProvider.gpaLiveData.value?.data.orEmpty()
 
-                if (term.isEmpty()) return@Observer
+                if (term.isEmpty()) {
+                    selectedTermTs.setText(EMPTY_TERM)
+                    return@Observer
+                }
 
                 var realIndex = it % term.size
                 if (realIndex < 0)
