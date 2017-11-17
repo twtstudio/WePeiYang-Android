@@ -13,6 +13,7 @@ import xyz.rickygao.gpa2.R
 /**
  * Created by rickygao on 2017/11/13.
  */
+// @JvmOverloads annotation fixes default value of kotlin's function parameter for java reflection
 class GpaRadarChartView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0) : View(context, attrs, defStyle) {
 
     companion object {

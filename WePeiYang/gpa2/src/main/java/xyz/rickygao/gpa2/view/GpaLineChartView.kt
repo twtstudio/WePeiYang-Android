@@ -13,21 +13,22 @@ import xyz.rickygao.gpa2.R
 /**
  * Created by rickygao on 2017/11/9.
  */
-// fix default value of kotlin's function parameter for java reflection
+// @JvmOverloads annotation fixes default value of kotlin's function parameter for java reflection
 class GpaLineChartView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0) : View(context, attrs, defStyle) {
 
     /**
-     *         term 0    term 1    term 2
-     *   1/(n+1) |         |         |
-     * +---------+---------+---------+---------+-
-     * |                                       | paddingTop
-     * + - - - - - - - - - - - - - - - - - - - +- maxScoreExtended
-     * |          ________(*)________         /|
-     * | ________*                   *_______/ |  scoreSpanExtended
-     * |/                                      |
-     * + - - - - - - - - - - - - - - - - - - - +- minScoreExtended
-     * |                                       | paddingBottom
-     * +---------------------------------------+-
+     * padding                                     padding
+     *  Left   width  t0        t1        t2        Right
+     *  |   |  step   |         |         |         |   |
+     *  +---+---------+---------+---------+---------+---+-
+     *  |   |                                       |   | paddingTop
+     *  + - + - - - - - - - - - - - - - - - - - - - + - +- maxScoreExtended
+     *  |   |          ________(*)________          |  /|
+     *  | __+_________*                   *_________+_/ |  scoreSpanExtended
+     *  |/  |                                       |   |
+     *  + - + - - - - - - - - - - - - - - - - - - - + - +- minScoreExtended
+     *  |   |                                       |   | paddingBottom
+     *  +---+---------------------------------------+---+
      */
 
     companion object {
@@ -55,7 +56,7 @@ class GpaLineChartView @JvmOverloads constructor(context: Context, attrs: Attrib
         const val DEFAULT_POINT_COLOR = 0xFFEC826A.toInt()
     }
 
-    var onSelectDataListenner: ((Int) -> Unit)? = null
+    var onSelectionChangedListener: ((Int) -> Unit)? = null
 
     private val linePaint = Paint().apply {
         style = Paint.Style.STROKE
@@ -314,7 +315,7 @@ class GpaLineChartView @JvmOverloads constructor(context: Context, attrs: Attrib
         event?.takeIf { it.action == MotionEvent.ACTION_DOWN }?.let {
             checkClickOnPoint(it.x, it.y) {
                 selectedIndex = it
-                onSelectDataListenner?.invoke(it)
+                onSelectionChangedListener?.invoke(it)
             }
         }
         return super.onTouchEvent(event)

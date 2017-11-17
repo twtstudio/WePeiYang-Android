@@ -2,25 +2,23 @@ package xyz.rickygao.gpa2.view
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.Observer
+import android.graphics.Rect
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.v4.widget.NestedScrollView
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.view.LayoutInflater
-import android.widget.ImageButton
-import android.widget.RadioGroup
-import android.widget.TextSwitcher
-import android.widget.TextView
+import android.widget.*
 import xyz.rickygao.gpa2.R
 import xyz.rickygao.gpa2.api.GpaBean
 import xyz.rickygao.gpa2.api.GpaProvider
 import xyz.rickygao.gpa2.api.Stat
 import xyz.rickygao.gpa2.api.Term
+import xyz.rickygao.gpa2.ext.fitSystemWindowWithNavigationBar
+import xyz.rickygao.gpa2.ext.fitSystemWindowWithStatusBar
 import xyz.rickygao.gpa2.ext.map
-import xyz.rickygao.gpa2.ext.setLightStatusBarMode
 
 /**
  * Created by rickygao on 2017/11/9.
@@ -36,39 +34,81 @@ class GpaActivity : AppCompatActivity() {
     private lateinit var toolbar: Toolbar
     private lateinit var backBtn: ImageButton
     private lateinit var tbSelectedTermTv: TextView
+    private lateinit var refreshBtn: ImageButton
+
     private lateinit var nestedSv: NestedScrollView
+    private lateinit var containerLl: LinearLayout
+
+    private lateinit var scoreTv: TextView
+    private lateinit var gpaTv: TextView
+    private lateinit var creditTv: TextView
+
+    private lateinit var prevBtn: ImageButton
+    private lateinit var selectedTermTs: TextSwitcher
+    private lateinit var nextBtn: ImageButton
+
+    private lateinit var gpaLineCv: GpaLineChartView
+    private lateinit var gpaRadarCv: GpaRadarChartView
+
     private val selectedTermLiveData = MutableLiveData<Int>().apply { value = 0 }
+    private lateinit var courseAdapter: CourseAdapter
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.gpa2_activity_gpa)
 
-        setLightStatusBarMode(true)
 
         inflater = LayoutInflater.from(this)
 
         // init toolbar
-        toolbar = findViewById<Toolbar>(R.id.toolbar)
+        toolbar = findViewById<Toolbar>(R.id.toolbar).also {
+            fitSystemWindowWithStatusBar(it)
+        }
+//        setLightStatusBarMode(true)
+
         setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayShowTitleEnabled(false)
-        tbSelectedTermTv = findViewById<TextView>(R.id.tv_toolbar_selected_term)
+        supportActionBar?.apply {
+            setDisplayShowTitleEnabled(false)
+        }
+        tbSelectedTermTv = findViewById(R.id.tv_toolbar_selected_term)
         backBtn = findViewById<ImageButton>(R.id.btn_back).apply {
             setOnClickListener {
                 onBackPressed()
             }
         }
-        backBtn = findViewById<ImageButton>(R.id.btn_refresh).apply {
+        refreshBtn = findViewById<ImageButton>(R.id.btn_refresh).apply {
             setOnClickListener {
                 GpaProvider.updateGpaLiveData(false)
             }
         }
 
-        nestedSv = findViewById(R.id.sv_nested)
+        // init container layout
+        nestedSv = findViewById<NestedScrollView>(R.id.sv_nested).apply {
+            setOnScrollChangeListener(
+                    NestedScrollView.OnScrollChangeListener({ view, _, y, _, _ ->
+
+                        gpaRadarCv.startRad = y.toDouble() / view.height * 2 * Math.PI
+
+                        val visibleRect = Rect()
+                        val visibleRatio = if (selectedTermTs.getGlobalVisibleRect(visibleRect))
+                            (visibleRect.height().toFloat() / selectedTermTs.height)
+                        else
+                            0F
+                        tbSelectedTermTv.alpha = 1F - visibleRatio
+                    })
+            )
+        }
+        // radar chart rotates while scrolling
+
+        containerLl = findViewById<LinearLayout>(R.id.ll_container).also {
+            fitSystemWindowWithNavigationBar(it)
+        }
 
         // init total
-        val scoreTv = findViewById<TextView>(R.id.tv_score)
-        val gpaTv = findViewById<TextView>(R.id.tv_gpa)
-        val creditTv = findViewById<TextView>(R.id.tv_credit)
+        scoreTv = findViewById(R.id.tv_score)
+        gpaTv = findViewById(R.id.tv_gpa)
+        creditTv = findViewById(R.id.tv_credit)
         GpaProvider.gpaLiveData
                 .map(GpaBean::stat)
                 .map(Stat::total)
@@ -77,18 +117,17 @@ class GpaActivity : AppCompatActivity() {
                         scoreTv.text = it.score.toString()
                         gpaTv.text = it.gpa.toString()
                         creditTv.text = it.credit.toString()
-                        Snackbar.make(nestedSv, "加载成功", Snackbar.LENGTH_LONG).show()
                     }
                 })
 
         // init term selector
-        val selectedTermTs = findViewById<TextSwitcher>(R.id.ts_selected_term).apply {
+        selectedTermTs = findViewById<TextSwitcher>(R.id.ts_selected_term).apply {
             setFactory {
                 inflater.inflate(R.layout.gpa2_tv_selected_term, this@apply, false)
             }
         }
-        val prevBtn = findViewById<ImageButton>(R.id.btn_prev)
-        val nextBtn = findViewById<ImageButton>(R.id.btn_next)
+        prevBtn = findViewById<ImageButton>(R.id.btn_prev)
+        nextBtn = findViewById<ImageButton>(R.id.btn_next)
         prevBtn.setOnClickListener {
             val cur = selectedTermLiveData.value ?: return@setOnClickListener
             selectedTermLiveData.value = cur - 1
@@ -99,8 +138,8 @@ class GpaActivity : AppCompatActivity() {
         }
 
         // init line chart
-        val gpaLineCv = findViewById<GpaLineChartView>(R.id.cv_gpa_line).apply {
-            onSelectDataListenner = { selectedTermLiveData.value = it }
+        gpaLineCv = findViewById<GpaLineChartView>(R.id.cv_gpa_line).apply {
+            onSelectionChangedListener = { selectedTermLiveData.value = it }
         }
         GpaProvider.gpaLiveData
                 .map(GpaBean::data)
@@ -119,12 +158,14 @@ class GpaActivity : AppCompatActivity() {
                 })
 
         // init radar chart
-        val gpaRadarCv = findViewById<GpaRadarChartView>(R.id.cv_gpa_radar).apply {
+        gpaRadarCv = findViewById<GpaRadarChartView>(R.id.cv_gpa_radar).apply {
             emptyText = RADAR_EMPTY_TEXT
+        }.also {
+            fitSystemWindowWithNavigationBar(it)
         }
 
         // init course list
-        val courseAdapter = CourseAdapter(inflater).apply {
+        courseAdapter = CourseAdapter(inflater).apply {
             sortMode = CourseAdapter.SORT_BY_SCORE_DESC
         }
         findViewById<RecyclerView>(R.id.rv_course).apply {
@@ -157,6 +198,7 @@ class GpaActivity : AppCompatActivity() {
 
                 if (term.isEmpty()) {
                     selectedTermTs.setText(EMPTY_TERM)
+                    tbSelectedTermTv.text = EMPTY_TERM
                     return@Observer
                 }
 
@@ -180,12 +222,11 @@ class GpaActivity : AppCompatActivity() {
             }
         })
 
-        // radar chart rotates while scrolling
-        nestedSv.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener({ view, x, y, oldx, oldy ->
-            gpaRadarCv.startRad = y.toDouble() / view.height * 2 * Math.PI
-        }))
-
         // load data
         GpaProvider.updateGpaLiveData()
+
     }
+
+
 }
+
