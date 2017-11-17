@@ -156,7 +156,7 @@ class GpaLineChartView @JvmOverloads constructor(context: Context, attrs: Attrib
 
         val minData = dataWithDetail.minBy(DataWithDetail::data)?.data ?: 0.0
         val maxData = dataWithDetail.maxBy(DataWithDetail::data)?.data ?: 1.0
-        val dataSpan = if (maxData == minData) maxData - minData else 1.0
+        val dataSpan = if (maxData != minData) maxData - minData else 1.0
         val minDataExtended = minData - dataSpan / 4F
         val maxDataExtended = maxData + dataSpan / 4F
         val dataSpanExtended = maxDataExtended - minDataExtended
