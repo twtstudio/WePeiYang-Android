@@ -19,6 +19,7 @@ import xyz.rickygao.gpa2.api.Term
 import xyz.rickygao.gpa2.ext.fitSystemWindowWithNavigationBar
 import xyz.rickygao.gpa2.ext.fitSystemWindowWithStatusBar
 import xyz.rickygao.gpa2.ext.map
+import xyz.rickygao.gpa2.ext.setLightStatusBarMode
 
 /**
  * Created by rickygao on 2017/11/9.
@@ -65,7 +66,7 @@ class GpaActivity : AppCompatActivity() {
         toolbar = findViewById<Toolbar>(R.id.toolbar).also {
             fitSystemWindowWithStatusBar(it)
         }
-//        setLightStatusBarMode(true)
+        setLightStatusBarMode(true)
 
         setSupportActionBar(toolbar)
         supportActionBar?.apply {
@@ -85,21 +86,18 @@ class GpaActivity : AppCompatActivity() {
 
         // init container layout
         nestedSv = findViewById<NestedScrollView>(R.id.sv_nested).apply {
-            setOnScrollChangeListener(
-                    NestedScrollView.OnScrollChangeListener({ view, _, y, _, _ ->
+            setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { view, _, y, _, _ ->
+                // radar chart rotates while scrolling
+                gpaRadarCv.startRad = y.toDouble() / view.height * 2 * Math.PI
 
-                        gpaRadarCv.startRad = y.toDouble() / view.height * 2 * Math.PI
-
-                        val visibleRect = Rect()
-                        val visibleRatio = if (selectedTermTs.getGlobalVisibleRect(visibleRect))
-                            (visibleRect.height().toFloat() / selectedTermTs.height)
-                        else
-                            0F
-                        tbSelectedTermTv.alpha = 1F - visibleRatio
-                    })
-            )
+                // hide title text automatically
+                val visibleRect = Rect()
+                val visibleRatio = if (selectedTermTs.getGlobalVisibleRect(visibleRect))
+                    (visibleRect.height().toFloat() / selectedTermTs.height) else 0F
+                tbSelectedTermTv.alpha = 1F - visibleRatio
+                selectedTermTs.alpha = visibleRatio
+            })
         }
-        // radar chart rotates while scrolling
 
         containerLl = findViewById<LinearLayout>(R.id.ll_container).also {
             fitSystemWindowWithNavigationBar(it)
@@ -226,7 +224,6 @@ class GpaActivity : AppCompatActivity() {
         GpaProvider.updateGpaLiveData()
 
     }
-
 
 }
 

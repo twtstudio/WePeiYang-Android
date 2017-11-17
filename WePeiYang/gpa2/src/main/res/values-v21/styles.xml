@@ -7,10 +7,10 @@
         <item name="titleTextColor">#000000</item>
         <item name="colorControlNormal">#000000</item>
 
-        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentStatus">false</item>
         <item name="android:windowTranslucentNavigation">true</item>
         <!--<item name="android:statusBarColor">@color/gpa2_color_secondary</item>-->
-        <!--<item name="android:statusBarColor">@android:color/transparent</item>-->
+        <item name="android:statusBarColor">@android:color/transparent</item>
         <!--<item name="android:navigationBarColor">@android:color/transparent</item>-->
     </style>
 
