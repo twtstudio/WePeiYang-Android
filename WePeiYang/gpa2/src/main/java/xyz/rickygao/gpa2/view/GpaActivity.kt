@@ -1,7 +1,6 @@
 package xyz.rickygao.gpa2.view
 
 import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.Observer
 import android.graphics.Rect
 import android.os.Bundle
 import android.support.v4.widget.NestedScrollView
@@ -16,10 +15,7 @@ import xyz.rickygao.gpa2.api.GpaBean
 import xyz.rickygao.gpa2.api.GpaProvider
 import xyz.rickygao.gpa2.api.Stat
 import xyz.rickygao.gpa2.api.Term
-import xyz.rickygao.gpa2.ext.fitSystemWindowWithNavigationBar
-import xyz.rickygao.gpa2.ext.fitSystemWindowWithStatusBar
-import xyz.rickygao.gpa2.ext.map
-import xyz.rickygao.gpa2.ext.setLightStatusBarMode
+import xyz.rickygao.gpa2.ext.*
 
 /**
  * Created by rickygao on 2017/11/9.
@@ -66,7 +62,7 @@ class GpaActivity : AppCompatActivity() {
         toolbar = findViewById<Toolbar>(R.id.toolbar).also {
             fitSystemWindowWithStatusBar(it)
         }
-        setLightStatusBarMode(true)
+        enableLightStatusBarMode(true)
 
         setSupportActionBar(toolbar)
         supportActionBar?.apply {
@@ -110,13 +106,13 @@ class GpaActivity : AppCompatActivity() {
         GpaProvider.gpaLiveData
                 .map(GpaBean::stat)
                 .map(Stat::total)
-                .observe(this, Observer {
+                .bind(this) {
                     it?.let {
                         scoreTv.text = it.score.toString()
                         gpaTv.text = it.gpa.toString()
                         creditTv.text = it.credit.toString()
                     }
-                })
+                }
 
         // init term selector
         selectedTermTs = findViewById<TextSwitcher>(R.id.ts_selected_term).apply {
@@ -124,8 +120,8 @@ class GpaActivity : AppCompatActivity() {
                 inflater.inflate(R.layout.gpa2_tv_selected_term, this@apply, false)
             }
         }
-        prevBtn = findViewById<ImageButton>(R.id.btn_prev)
-        nextBtn = findViewById<ImageButton>(R.id.btn_next)
+        prevBtn = findViewById(R.id.btn_prev)
+        nextBtn = findViewById(R.id.btn_next)
         prevBtn.setOnClickListener {
             val cur = selectedTermLiveData.value ?: return@setOnClickListener
             selectedTermLiveData.value = cur - 1
@@ -150,10 +146,11 @@ class GpaActivity : AppCompatActivity() {
                             """.trimIndent())
                     }
                 }
-                .observe(this, Observer {
-                    it ?: return@Observer
-                    gpaLineCv.dataWithDetail = it
-                })
+                .bind(this) {
+                    it?.let {
+                        gpaLineCv.dataWithDetail = it
+                    }
+                }
 
         // init radar chart
         gpaRadarCv = findViewById<GpaRadarChartView>(R.id.cv_gpa_radar).apply {
@@ -185,19 +182,19 @@ class GpaActivity : AppCompatActivity() {
 
         // attempt to refresh chart view while new data coming
         GpaProvider.gpaLiveData
-                .observe(this, Observer {
+                .bind(this) {
                     selectedTermLiveData.value = selectedTermLiveData.value
-                })
+                }
 
         // observe selected term
-        selectedTermLiveData.observe(this, Observer {
+        selectedTermLiveData.bind(this) {
             it?.let {
                 val term = GpaProvider.gpaLiveData.value?.data.orEmpty()
 
                 if (term.isEmpty()) {
                     selectedTermTs.setText(EMPTY_TERM)
                     tbSelectedTermTv.text = EMPTY_TERM
-                    return@Observer
+                    return@bind
                 }
 
                 var realIndex = it % term.size
@@ -218,7 +215,7 @@ class GpaActivity : AppCompatActivity() {
                     CourseAdapter.Course(it.name, it.type, it.credit, it.score)
                 }
             }
-        })
+        }
 
         // load data
         GpaProvider.updateGpaLiveData()

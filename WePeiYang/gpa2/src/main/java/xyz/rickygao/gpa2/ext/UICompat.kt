@@ -10,7 +10,7 @@ import android.view.WindowManager
  * Created by rickygao on 2017/11/14.
  */
 @SuppressLint("PrivateApi")
-fun Activity.setLightStatusBarMode(enable: Boolean): String {
+fun Activity.enableLightStatusBarMode(enable: Boolean): String {
 
     // for MIUI
     try {
@@ -58,24 +58,28 @@ fun Activity.setLightStatusBarMode(enable: Boolean): String {
     return "None"
 }
 
-fun Activity.getStatusBarHeight() = resources
-        .getIdentifier("status_bar_height", "dimen", "android")
-        .takeIf { it > 0 }?.let {
-    resources.getDimensionPixelSize(it)
-} ?: 0
+val Activity.statusBarHeight: Int
+    get() = resources
+            .getIdentifier("status_bar_height", "dimen", "android")
+            .takeIf { it > 0 }?.let {
+        resources.getDimensionPixelSize(it)
+    } ?: 0
 
-fun Activity.getNavigationBarHeight() = resources
-        .getIdentifier("navigation_bar_height", "dimen", "android")
-        .takeIf { it > 0 }?.let {
-    resources.getDimensionPixelSize(it)
-} ?: 0
+val Activity.navigationBarHeight
+    get() = resources
+            .getIdentifier("navigation_bar_height", "dimen", "android")
+            .takeIf { it > 0 }?.let {
+        resources.getDimensionPixelSize(it)
+    } ?: 0
 
 fun Activity.fitSystemWindowWithStatusBar(view: View) = with(view) {
-    setPadding(paddingLeft, paddingTop + getStatusBarHeight(), paddingRight, paddingBottom)
-    layoutParams.height += getStatusBarHeight()
+    setPadding(paddingLeft, paddingTop + statusBarHeight, paddingRight, paddingBottom)
+    if (layoutParams.height > 0)
+        layoutParams.height += statusBarHeight
 }
 
 fun Activity.fitSystemWindowWithNavigationBar(view: View) = with(view) {
-    setPadding(paddingLeft, paddingTop, paddingRight, paddingBottom + getNavigationBarHeight())
-    layoutParams.height += getNavigationBarHeight()
+    setPadding(paddingLeft, paddingTop, paddingRight, paddingBottom + navigationBarHeight)
+    if (layoutParams.height > 0)
+        layoutParams.height += navigationBarHeight
 }
