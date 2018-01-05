@@ -79,7 +79,10 @@ public class UpdateManager {
                         }
                     }
                 }, throwable -> {
-                    new RxErrorHandler().call(throwable);
+                    if (toast) {
+                        // TODO: 05/01/2018 我觉得后台悄悄检查就别瞎鸡儿弹Toast了
+                        new RxErrorHandler().call(throwable);
+                    }
                 });
     }
 

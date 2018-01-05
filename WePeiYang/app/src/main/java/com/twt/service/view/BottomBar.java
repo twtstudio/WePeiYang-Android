@@ -87,12 +87,12 @@ public class BottomBar extends LinearLayout {
     }
 
     public void setCurrentItem(final int position) {
-        mTabLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                mTabLayout.getChildAt(position).performClick();
-            }
-        });
+//        mTabLayout.post(new Runnable() {
+//            @Override
+//            public void run() {
+//                mTabLayout.getChildAt(position).performClick();
+//            }
+//        });
     }
 
     public interface OnTabSelectedListener {

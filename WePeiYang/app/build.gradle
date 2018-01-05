@@ -141,7 +141,7 @@ dependencies {
     compile 'com.twt.service:classroomcore:1.0.0'
 //    compile project(':news')
     compile 'com.twt.service:news:1.1.0'
-//    compile project(':auth')
+    compile project(':auth')
     compile 'com.twt.service:auth:1.1.0'
 //    compile project(':fellowsearch')
     compile 'com.twt.service:fellowsearch:1.0.0'

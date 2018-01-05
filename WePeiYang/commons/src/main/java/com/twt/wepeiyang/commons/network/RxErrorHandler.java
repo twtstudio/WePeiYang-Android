@@ -29,6 +29,7 @@ import rx.schedulers.Schedulers;
 public class RxErrorHandler implements Action1<Throwable> {
 
     private Context mContext;
+    private static Toast toast;
 
     public RxErrorHandler(Context context) {
         mContext = context;
@@ -43,14 +44,16 @@ public class RxErrorHandler implements Action1<Throwable> {
 
         if (throwable instanceof IOException) {
             IOException error = (IOException) throwable;
-            Toasty.error(mContext, "网络错误", Toast.LENGTH_SHORT).show();
+//            Toasty.error(mContext, "网络错误", Toast.LENGTH_SHORT).show();
+            showToast(mContext,"网络错误");
             postThrowable(error);
             Logger.e(error, "error");
         } else if (throwable instanceof HttpException) {
             HttpException exception = (HttpException) throwable;
             postThrowable(exception);
             Logger.e(exception, "http_error");
-            Toasty.error(mContext,"错误码："+exception.response().code(),Toast.LENGTH_SHORT).show();
+//            Toasty.error(mContext, "错误码：" + exception.response().code(), Toast.LENGTH_SHORT).show();
+            showToast(mContext,"错误码：" + exception.response().code());
             try {
                 String errorJson = exception.response().errorBody().string();
                 Logger.e(errorJson);
@@ -58,8 +61,9 @@ public class RxErrorHandler implements Action1<Throwable> {
                 int errcode = errJsonObject.getInt("error_code");
                 String message = errJsonObject.getString("message");
                 Logger.e("错误码：" + errcode + "  message:" + message);
-                postThrowable(new ApiException(errcode,message));
-                Toasty.error(mContext, "错误：" + message, Toast.LENGTH_SHORT).show();
+                postThrowable(new ApiException(errcode, message));
+//                Toasty.error(mContext, "错误：" + message, Toast.LENGTH_SHORT).show();
+                showToast(mContext,"错误：" + message);
                 handleApiError(errcode);
             } catch (IOException | JSONException e) {
                 e.printStackTrace();
@@ -72,9 +76,10 @@ public class RxErrorHandler implements Action1<Throwable> {
 
     /**
      * post throwable to server
+     *
      * @param throwable
      */
-    private void postThrowable(Throwable throwable){
+    private void postThrowable(Throwable throwable) {
 //        BuglyLog.e("捕获的异常",throwable.getMessage(),throwable);
         CrashReport.postCatchedException(throwable);
     }
@@ -86,17 +91,18 @@ public class RxErrorHandler implements Action1<Throwable> {
             case 10002:
                 break;
             case 10004:
-                Toasty.warning(mContext, "请重新登录", Toast.LENGTH_SHORT).show();
+//                Toasty.warning(mContext, "请重新登录", Toast.LENGTH_SHORT).show();
+                showToast(mContext,"请重新登录");
                 Class clazz = null;
                 try {
                     clazz = Class.forName("com.twtstudio.retrox.auth.login.LoginActivity");
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 }
-                if (mContext instanceof Activity){
+                if (mContext instanceof Activity) {
                     ((Activity) mContext).finish();
                 }
-                Intent intent = new Intent(mContext,clazz);
+                Intent intent = new Intent(mContext, clazz);
 
                 /**
                  * try to solve the problem :
@@ -122,15 +128,26 @@ public class RxErrorHandler implements Action1<Throwable> {
                             } catch (IOException | JSONException e) {
                                 e.printStackTrace();
                             }
-                            Toasty.info(mContext, "刷新试试哦", Toast.LENGTH_SHORT).show();
+//                            Toasty.info(mContext, "刷新试试哦", Toast.LENGTH_SHORT).show();
+                            showToast(mContext,"刷新试试哦");
                         }, this);
                 break;
             case 20001:
-                Toasty.error(mContext,"绑定办公网啊哥",Toast.LENGTH_SHORT).show();
+//                Toasty.error(mContext, "绑定办公网啊哥", Toast.LENGTH_SHORT).show();
+                showToast(mContext,"绑定办公网啊哥");
                 break;
             default:
 
                 break;
         }
+    }
+
+    public static void showToast(Context context, String desc) {
+        if (toast == null) {
+            toast = Toast.makeText(context, desc, Toast.LENGTH_SHORT);
+        } else {
+            toast.setText(desc);
+        }
+        toast.show();
     }
 }

@@ -1,5 +1,7 @@
 package com.twt.wepeiyang.commons.network;
 
+import android.util.Log;
+
 import com.orhanobut.logger.Logger;
 
 import java.util.concurrent.TimeUnit;
@@ -24,7 +26,11 @@ public class RetrofitProvider {
     private RetrofitProvider() {
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(message -> {
             if (message.startsWith("{")){
-                Logger.json(message);
+                if (message.length() > 400) {
+                    Logger.d(message); // 要不太他了 没法看了fuck
+                }else {
+                    Logger.json(message);
+                }
             }else {
                 Platform.get().log(INFO, message, null);
             }
@@ -44,7 +50,7 @@ public class RetrofitProvider {
                 .build();
 
         mRetrofit = new Retrofit.Builder()
-                .baseUrl("https://open.twtstudio.com/api/v1/")
+                .baseUrl("http://open.twtstudio.com/api/v1/")
                 .client(client)
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
