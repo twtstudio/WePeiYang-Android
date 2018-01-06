@@ -59,7 +59,8 @@ afterEvaluate { project ->
                 pom.version = VERSION_NAME
 
                 // 授权验证,这里也就是你登陆搭建的私服服务器时候的用户名\密码
-                repository(url: mavenRepositoryUrl) {
+                // mavenLocal().getUrl() mavenRepositoryUrl
+                repository(url: mavenLocal().getUrl()) {
                     authentication(userName: getRepositoryUsername(), password: getRepositoryPassword())
                 }
 

@@ -4,6 +4,7 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import com.orhanobut.hawk.Hawk
 import com.twt.wepeiyang.commons.network.RetrofitProvider
+import com.twt.wepeiyang.commons.network.RxErrorHandler
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
 import org.jetbrains.anko.coroutines.experimental.bg
@@ -15,7 +16,7 @@ object LibRepository {
     private const val USER_INFO = "LIB_USER_INFO"
     private val libApi = RetrofitProvider.getRetrofit().create(LibApi::class.java)
 
-    fun getUserInfo(refresh: Boolean = false): LiveData<Info> {
+    fun getUserInfo(refresh: Boolean = false, errorHandler: (Throwable) -> Unit = RxErrorHandler()::call): LiveData<Info> {
         val livedata = MutableLiveData<Info>()
         async(UI) {
             if (!refresh) {
@@ -30,7 +31,8 @@ object LibRepository {
                 livedata.value = it
                 bg { Hawk.put(USER_INFO, networkData) }
             }
-
+        }.invokeOnCompletion {
+            it?.let { errorHandler(it) }
         }
         return livedata
     }

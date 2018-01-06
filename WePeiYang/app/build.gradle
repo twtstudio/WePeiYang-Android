@@ -121,8 +121,8 @@ dependencies {
 //    compile project(':navigationbottom')
 //    compile project(':fragmentation')
     compile 'com.twt.service:fragmentation:1.1.0'
-//    compile project(':commons')
-    compile 'com.twt.service:commons:1.2.0'
+    compile project(':commons')
+//    compile 'com.twt.service:commons:1.3.0'
 
     compile project(':gpa2')
 //    compile project(':gpa')

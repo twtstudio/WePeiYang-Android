@@ -12,7 +12,10 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.tencent.bugly.crashreport.CrashReport;
@@ -446,6 +449,44 @@ public class SettingsActivity extends AppCompatActivity {
                     return true;
                 }
             });
+
+            Preference proxySetting = findPreference(getString(R.string.pref_proxy_settings));
+            proxySetting.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    LayoutInflater inflater = LayoutInflater.from(getActivity());
+                    View dialogView = inflater.inflate(R.layout.dialog_proxy_setting,null,false);
+                    final EditText proxyIP = dialogView.findViewById(R.id.edit_proxy_ip);
+                    proxyIP.setText(CommonPrefUtil.getProxyAddress());
+//                    prxoyIP.setText();
+                    final EditText proxyPort = dialogView.findViewById(R.id.edit_proxy_port);
+                    proxyPort.setText(String.valueOf(CommonPrefUtil.getProxyPort()));
+
+                    AlertDialog dialog = new AlertDialog.Builder(getActivity()).setTitle("Proxy Settings")
+                            .setView(dialogView)
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    String ip = proxyIP.getText().toString();
+                                    String port = proxyPort.getText().toString();
+                                    CommonPrefUtil.setProxyAddress(ip);
+                                    CommonPrefUtil.setProxyPort(Integer.parseInt(port));
+                                    dialog.dismiss();
+                                }
+                            })
+                            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            })
+                            .create();
+                    dialog.show();
+                    return true;
+                }
+            });
+
+
         }
 
         private void processExitTju() {

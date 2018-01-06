@@ -148,5 +148,21 @@ public class CommonPrefUtil {
         return Hawk.get(USER_ID,"");
     }
 
+    public static void setProxyAddress(String address) {
+        Hawk.put("proxy_address",address);
+    }
+
+    public static String getProxyAddress(){
+        return Hawk.get("proxy_address");
+    }
+
+    public static void setProxyPort(int port) {
+        Hawk.put("proxy_port",port);
+    }
+
+    public static int getProxyPort(){
+        return Hawk.get("proxy_port",0);
+    }
+
 
 }
