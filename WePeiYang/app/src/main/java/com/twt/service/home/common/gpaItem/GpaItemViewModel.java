@@ -37,7 +37,7 @@ public class GpaItemViewModel extends AndroidViewModel implements ViewModel {
     public void getData() {
         GpaProvider.init(getApplication().getApplicationContext())
                 .registerAction(observableGpa::setValue)
-                .getData();
+                .getData(false);
     }
 
     private void jumpToDetail(View view) {

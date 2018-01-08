@@ -80,4 +80,19 @@
             android:summary="mobile@twtstudio.com"/>
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="别乱动(需要重启app)">
+        <SwitchPreference
+            android:defaultValue="true"
+            android:title="使用HTTPS"
+            android:key="@string/pref_use_https"/>
+        <SwitchPreference
+            android:defaultValue="false"
+            android:title="使用代理"
+            android:key="@string/pref_use_proxy"/>
+        <Preference
+            android:title="代理设置"
+            android:key="@string/pref_proxy_settings"/>
+
+    </PreferenceCategory>
+
 </PreferenceScreen>

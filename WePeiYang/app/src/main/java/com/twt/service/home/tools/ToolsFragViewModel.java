@@ -40,6 +40,7 @@ public class ToolsFragViewModel implements ViewModel {
 
     private void init() {
         itemList.add(new ToolItemViewModel(mContext, R.drawable.ic_main_schedule, "课程表", ScheduleActivity.class));
+        itemList.add(new ToolItemViewModel(mContext, R.drawable.ic_main_gpa, "新版GPA", xyz.rickygao.gpa2.view.GpaActivity.class));
         itemList.add(new ToolItemViewModel(mContext, R.drawable.ic_main_gpa, "GPA", GpaActivity.class));
         itemList.add(new ToolItemViewModel(mContext, R.drawable.ic_main_bike, "自行车", BikeActivity.class));
         itemList.add(new ToolItemViewModel(mContext, R.drawable.ic_main_party, "党建", PartyActivity.class));

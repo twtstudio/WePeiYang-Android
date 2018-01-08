@@ -69,7 +69,7 @@ public class HomeActivity extends BaseActivity {
         if (savedInstanceState == null) {
             mFragments[FIRST] = new CommonFragmentNew();
             mFragments[SECOND] = NewsFragment.newInstance();
-            mFragments[THIRD] = new ExploreFragment();
+            mFragments[THIRD] = ToolsFragment.newInstance();
             mFragments[FOURTH] = UserFragment.newInstance();
 
 //            loadMultipleRootFragment(R.id.fl_container, FOURTH, //坑

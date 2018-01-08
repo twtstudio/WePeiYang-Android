@@ -16,4 +16,8 @@
     <string name="perf_contact_me">pref_contact_me</string>
     <string name="pref_is_auto_check_update">pref_is_auto_check_update</string>
     <string name="pref_check_update">pref_check_update</string>
+    <string name="pref_use_https">pref_use_https</string>
+    <string name="pref_use_proxy">pref_use_proxy</string>
+    <string name="pref_proxy_settings">pref_proxy_settings</string>
+
 </resources>

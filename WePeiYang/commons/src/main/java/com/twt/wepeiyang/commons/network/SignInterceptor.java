@@ -1,5 +1,7 @@
 package com.twt.wepeiyang.commons.network;
 
+import android.util.Log;
+
 import com.annimon.stream.Stream;
 import com.orhanobut.logger.Logger;
 import com.twt.wepeiyang.commons.JniUtils;
@@ -42,7 +44,7 @@ public class SignInterceptor implements Interceptor {
                 .addHeader("Authorization", "Bearer{"+ CommonPrefUtil.getToken()+"}")
                 .url(newUrl);
 
-        Logger.d("token-->"+ CommonPrefUtil.getToken());
+        Log.i("SignInterceptor:","token-->"+ CommonPrefUtil.getToken());
 
         return chain.proceed(builder.build());
     }

@@ -123,7 +123,7 @@ class HomeLibItemComponent(private val lifecycleOwner: LifecycleOwner, itemView:
             val data: List<Histroy>? = bg { libApi.libUserHistroy.map { it.data }.toBlocking().first() }.await()
             Logger.d(data)
 
-            val search: ResponseBody? = bg { libApi.searchLibBook("Gradle for Android中文版",0).toBlocking().first() }.await()
+            val search: ResponseBody? = bg { libApi.searchLibBook("Gradle for Android中文版", 0).toBlocking().first() }.await()
             Logger.d(search?.string())
 
             val detail: ResponseBody? = bg { libApi.getBookDetail("TD002505117").toBlocking().first() }.await()
@@ -135,7 +135,7 @@ class HomeLibItemComponent(private val lifecycleOwner: LifecycleOwner, itemView:
         async(UI) {
             loadingState.value = PROGRESSING
 //            val data: Info? = bg { libApi.libUserInfo.map { it.data }.toBlocking().first() }.await()
-            val livedata = LibRepository.getUserInfo(isrefresh)
+            val livedata = LibRepository.getUserInfo(isrefresh, this@HomeLibItemComponent::handleException) // 还是要自己传入异常处理闭包 绝望
             livedata.bind(lifecycleOwner) { data ->
                 loadingState.value = OK
                 val size = data?.books?.size ?: 0
@@ -228,6 +228,21 @@ class HomeLibItemComponent(private val lifecycleOwner: LifecycleOwner, itemView:
         throwable?.let {
             Logger.e(throwable, "主页图书馆模块错误")
             when (throwable) {
+                is retrofit2.adapter.rxjava.HttpException -> {
+                    try {
+                        val errorJson = throwable.response().errorBody()!!.string()
+                        val errJsonObject = JSONObject(errorJson)
+                        val errcode = errJsonObject.getInt("error_code")
+                        val errmessage = errJsonObject.getString("message")
+                        loadingState.value = WARNING
+                        message.value = errmessage
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                    } catch (e: JSONException) {
+                        e.printStackTrace()
+                    }
+
+                } //我也很绝望 要兼容啊
                 is HttpException -> {
                     try {
                         val errorJson = throwable.response().errorBody()!!.string()
@@ -243,6 +258,7 @@ class HomeLibItemComponent(private val lifecycleOwner: LifecycleOwner, itemView:
                     }
 
                 }
+
                 is SocketTimeoutException -> {
                     loadingState.value = WARNING
                     this.message.value = "网络超时...很绝望"

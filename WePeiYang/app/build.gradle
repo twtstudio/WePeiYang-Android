@@ -121,8 +121,8 @@ dependencies {
 //    compile project(':navigationbottom')
 //    compile project(':fragmentation')
     compile 'com.twt.service:fragmentation:1.1.0'
-//    compile project(':commons')
-    compile 'com.twt.service:commons:1.2.0'
+    compile project(':commons')
+//    compile 'com.twt.service:commons:1.3.0'
 
     compile project(':gpa2')
 //    compile project(':gpa')
@@ -141,7 +141,7 @@ dependencies {
     compile 'com.twt.service:classroomcore:1.0.0'
 //    compile project(':news')
     compile 'com.twt.service:news:1.1.0'
-//    compile project(':auth')
+    compile project(':auth')
     compile 'com.twt.service:auth:1.1.0'
 //    compile project(':fellowsearch')
     compile 'com.twt.service:fellowsearch:1.0.0'
