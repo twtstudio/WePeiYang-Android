@@ -53,10 +53,10 @@ class CourseAdapter(val inflater: LayoutInflater) : RecyclerView.Adapter<CourseA
     override fun getItemCount(): Int = courses?.size ?: 0
 
     inner class CourseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val nameTv = itemView.findViewById<TextView>(R.id.tv_course_name)
-        val typeTv = itemView.findViewById<TextView>(R.id.tv_course_type)
-        val creditTv = itemView.findViewById<TextView>(R.id.tv_course_credit)
-        val scoreTv = itemView.findViewById<TextView>(R.id.tv_course_score)
+        private val nameTv = itemView.findViewById<TextView>(R.id.tv_course_name)
+        private val typeTv = itemView.findViewById<TextView>(R.id.tv_course_type)
+        private val creditTv = itemView.findViewById<TextView>(R.id.tv_course_credit)
+        private val scoreTv = itemView.findViewById<TextView>(R.id.tv_course_score)
 
         var course: Course? = null
             set(value) {
@@ -67,7 +67,7 @@ class CourseAdapter(val inflater: LayoutInflater) : RecyclerView.Adapter<CourseA
                     else -> "未知"
                 }
                 creditTv.text = "学分：${value?.credit}"
-                scoreTv.text = "成绩：${value?.score}"
+                scoreTv.text = "成绩：${value?.score?.takeIf { it > 0 } ?: "未评价"}"
             }
 
     }

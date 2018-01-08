@@ -207,9 +207,9 @@ class GpaActivity : AppCompatActivity() {
 
                 gpaLineCv.selectedIndex = realIndex
 
-                gpaRadarCv.dataWithLabel = selectedTerm.data.map {
-                    GpaRadarChartView.DataWithLabel(it.score, it.name)
-                }
+                gpaRadarCv.dataWithLabel = selectedTerm.data
+                        .filter { it.score > 0 }
+                        .map { GpaRadarChartView.DataWithLabel(it.score, it.name) }
 
                 courseAdapter.courses = selectedTerm.data.mapTo(ArrayList(selectedTerm.data.size)) {
                     CourseAdapter.Course(it.name, it.type, it.credit, it.score)
