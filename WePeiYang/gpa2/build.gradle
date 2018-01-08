@@ -40,6 +40,9 @@ android {
         }
 
     }
+    dataBinding {
+        enabled true
+    }
 }
 
 dependencies {
@@ -56,6 +59,10 @@ dependencies {
     annotationProcessor "android.arch.lifecycle:compiler:1.0.0"
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     compile "org.jetbrains.anko:anko-coroutines:$anko_version"
+    compile ('com.twt.service:gpa:1.1.1-SNAPSHOT') {
+        exclude group:'me.tatarka.bindingcollectionadapter'
+    }
+
 }
 repositories {
     mavenCentral()

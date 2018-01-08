@@ -30,14 +30,13 @@ class CourseAdapter(val inflater: LayoutInflater) : RecyclerView.Adapter<CourseA
             ensureCourses()
         }
 
-    fun ensureCourses() {
+    private fun ensureCourses() {
         when (sortMode) {
-            SORT_BY_CREDIT_DESC -> {
-                courses?.sortByDescending { it.credit }
-            }
-            SORT_BY_SCORE_DESC -> {
-                courses?.sortByDescending { it.score }
-            }
+            SORT_BY_CREDIT_DESC ->
+                courses?.sortByDescending(Course::credit)
+            SORT_BY_SCORE_DESC ->
+                courses?.sortByDescending(Course::score)
+            else -> return
         }
         notifyDataSetChanged()
     }
