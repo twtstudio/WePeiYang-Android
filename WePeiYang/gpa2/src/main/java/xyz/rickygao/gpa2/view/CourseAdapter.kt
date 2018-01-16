@@ -26,6 +26,7 @@ class CourseAdapter(val inflater: LayoutInflater) : RecyclerView.Adapter<CourseA
 
     var sortMode = SORT_DEFAULT
         set(value) {
+            if (field == value) return
             field = value
             ensureCourses()
         }
