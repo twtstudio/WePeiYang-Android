@@ -21,10 +21,8 @@ import com.orhanobut.logger.Logger;
 import com.twt.service.home.common.CommonFragmentNew;
 import com.twt.service.update.UpdateManager;
 import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
-import com.twtstudio.retrox.news.explore.ExploreFragment;
 import com.twt.service.R;
 import com.twt.service.base.BaseActivity;
-import com.twt.service.home.common.CommonFragment;
 import com.twt.service.home.news.NewsFragment;
 import com.twt.service.home.tools.ToolsFragment;
 import com.twt.service.home.user.UserFragment;
@@ -80,7 +78,7 @@ public class HomeActivity extends BaseActivity {
 
         } else {
 
-            mFragments[FIRST] = findFragment(CommonFragment.class);
+            mFragments[FIRST] = findFragment(CommonFragmentNew.class);
             mFragments[SECOND] = findFragment(NewsFragment.class);
             mFragments[THIRD] = findFragment(ToolsFragment.class);
             mFragments[FOURTH] = findFragment(UserFragment.class);
@@ -111,7 +109,6 @@ public class HomeActivity extends BaseActivity {
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-//        CommonFragment fragment = (CommonFragment) mFragments[FIRST];
 //        fragment.refreshList();
         Logger.d("On new Intent!!!!");
     }

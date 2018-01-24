@@ -12,7 +12,6 @@ import com.twt.service.home.common.gpaItem.GpaItemViewModel
 import com.twt.service.home.common.schedule.ScheduleItemViewHolder
 import com.twt.service.home.common.schedule.ScheduleViewModel
 import com.twtstudio.retrox.bike.homeitem.BikeHomeItemViewModel
-import com.twtstudio.retrox.tjulibrary.home.HomeLibItemViewModel
 import com.twtstudio.retrox.tjulibrary.homeitem.HomeLibItemComponent
 import xyz.rickygao.gpa2.view.GpaActivity
 
@@ -68,7 +67,6 @@ class CommonPageAdapter(val list: List<Any>, val context: Context, val owner: Li
         return when (list[position]) {
             is GpaItemViewModel -> return GPA
             is ScheduleViewModel -> return SCHEDULE
-            is HomeLibItemViewModel -> return LIBRARY
             "LIB" -> return LIBRARY
             is BikeHomeItemViewModel -> return BIKE
             else -> 0
