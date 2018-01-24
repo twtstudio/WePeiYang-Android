@@ -22,13 +22,14 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_gravity="start"
-                android:background="@drawable/back_black" />
+                android:background="@drawable/gpa2_back_black" />
 
             <TextView
                 android:id="@+id/tv_toolbar_selected_term"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:alpha="0.0"
                 android:textColor="?attr/titleTextColor"
                 android:textSize="18sp" />
 
@@ -52,7 +53,6 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
-            android:id="@+id/ll_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/gpa2_color_secondary"
@@ -68,7 +68,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
-
 
                     <include layout="@layout/gpa2_component_total" />
 

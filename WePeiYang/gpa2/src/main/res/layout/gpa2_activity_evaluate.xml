@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="xyz.rickygao.gpa2.view.GpaActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:elevation="0dp">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize">
+
+            <ImageButton
+                android:id="@+id/btn_back"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="start"
+                android:background="@drawable/gpa2_back_black" />
+
+            <TextView
+                android:id="@+id/tv_toolbar_selected_term"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="评价课程"
+                android:textColor="?attr/titleTextColor"
+                android:textSize="18sp" />
+
+            <ImageButton
+                android:id="@+id/btn_ok"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="end"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/gpa2_ok_black" />
+
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
+
+
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/sv_nested"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/gpa2_color_secondary"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/cl_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v4.widget.Space
+                android:id="@+id/center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_q1"
+                style="@style/Gpa2QTextViewStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="教学态度"
+                app:layout_constraintBottom_toBottomOf="@+id/rb_q1"
+                app:layout_constraintEnd_toStartOf="@+id/center"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/rb_q1" />
+
+            <RatingBar
+                android:id="@+id/rb_q1"
+                style="@style/Gpa2RatingBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="20dp"
+                app:layout_constraintBottom_toTopOf="@+id/rb_q2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/center"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_q2"
+                style="@style/Gpa2QTextViewStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="教学内容"
+                app:layout_constraintBottom_toBottomOf="@+id/rb_q2"
+                app:layout_constraintEnd_toStartOf="@+id/center"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/rb_q2" />
+
+            <RatingBar
+                android:id="@+id/rb_q2"
+                style="@style/Gpa2RatingBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="20dp"
+                app:layout_constraintBottom_toTopOf="@+id/rb_q3"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/center"
+                app:layout_constraintTop_toBottomOf="@+id/rb_q1" />
+
+            <TextView
+                android:id="@+id/tv_q3"
+                style="@style/Gpa2QTextViewStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="教学方法与手段"
+                app:layout_constraintBottom_toBottomOf="@+id/rb_q3"
+                app:layout_constraintEnd_toStartOf="@+id/center"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/rb_q3" />
+
+            <RatingBar
+                android:id="@+id/rb_q3"
+                style="@style/Gpa2RatingBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="20dp"
+                app:layout_constraintBottom_toTopOf="@+id/rb_q4"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/center"
+                app:layout_constraintTop_toBottomOf="@+id/rb_q2" />
+
+            <TextView
+                android:id="@+id/tv_q4"
+                style="@style/Gpa2QTextViewStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="教学效果"
+                app:layout_constraintBottom_toBottomOf="@+id/rb_q4"
+                app:layout_constraintEnd_toStartOf="@+id/center"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/rb_q4" />
+
+            <RatingBar
+                android:id="@+id/rb_q4"
+                style="@style/Gpa2RatingBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="20dp"
+                app:layout_constraintBottom_toTopOf="@+id/rb_q5"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/center"
+                app:layout_constraintTop_toBottomOf="@+id/rb_q3" />
+
+            <TextView
+                android:id="@+id/tv_q5"
+                style="@style/Gpa2QTextViewStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="总体评价"
+                app:layout_constraintBottom_toBottomOf="@+id/rb_q5"
+                app:layout_constraintEnd_toStartOf="@+id/center"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/rb_q5" />
+
+            <RatingBar
+                android:id="@+id/rb_q5"
+                style="@style/Gpa2RatingBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="40dp"
+                android:layout_marginTop="20dp"
+                app:layout_constraintBottom_toTopOf="@+id/tl_note"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/center"
+                app:layout_constraintTop_toBottomOf="@+id/rb_q4" />
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/tl_note"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:theme="@style/Gpa2Theme"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/et_note"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="top"
+                    android:hint="意见或建议"
+                    android:lines="8" />
+
+            </android.support.design.widget.TextInputLayout>
+
+        </android.support.constraint.ConstraintLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+</android.support.design.widget.CoordinatorLayout>
