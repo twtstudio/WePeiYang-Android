@@ -134,13 +134,13 @@ dependencies {
     compile project(':schedule')
 //    compile 'com.twt.service:schedule:1.0.0'
 //    compile project(':one')
-    compile 'com.twt.service:one:1.0.0'
+//    compile 'com.twt.service:one:1.0.0'
     compile project( path: ':tjulibrary', configuration: 'default')
 //    compile 'com.twt.service:tjulibrary:1.1.0'
 //    compile project(':classroomcore')
-    compile 'com.twt.service:classroomcore:1.0.0'
+//    compile 'com.twt.service:classroomcore:1.0.0'
 //    compile project(':news')
-    compile 'com.twt.service:news:1.1.0'
+//    compile 'com.twt.service:news:1.1.0'
     compile project(':auth')
     compile 'com.twt.service:auth:1.1.0'
 //    compile project(':fellowsearch')
@@ -150,9 +150,9 @@ dependencies {
 //    compile project(':party')
     compile 'com.twt.service:party:1.0.0'
 //    compile project(":classroomquery")
-    compile 'com.twt.service:classroomquery:1.0.0'
+//    compile 'com.twt.service:classroomquery:1.0.0'
 //    compile project(':classroom')
-    compile 'com.twt.service:classroom:1.0.1'
+//    compile 'com.twt.service:classroom:1.0.1'
     compile 'com.twt.service:lostfound:1.0.1'
 
 //    compile project(':lostfound')

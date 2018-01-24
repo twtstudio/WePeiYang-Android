@@ -3,10 +3,7 @@ package com.twt.service;
 import android.os.Bundle;
 import android.widget.Button;
 
-import com.twtstudio.retrox.auth.login.LoginViewModel;
 import com.twt.service.base.BaseActivity;
-import com.twt.service.base.BaseFragment;
-import com.twt.service.home.common.oneItem.OneInfoViewModel;
 
 
 public class MainActivity extends BaseActivity {
@@ -16,7 +13,6 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_classroom_query_main);
 
 
         mButton = (Button) findViewById(R.id.button);
@@ -28,10 +24,7 @@ public class MainActivity extends BaseActivity {
 
     private void test() {
 
-        LoginViewModel viewModel = new LoginViewModel(this);
-        viewModel.twtuName.set("test");
-        viewModel.twtpasswd.set("test");
-        viewModel.onLoginClickCommand.execute();
+
     }
 
 

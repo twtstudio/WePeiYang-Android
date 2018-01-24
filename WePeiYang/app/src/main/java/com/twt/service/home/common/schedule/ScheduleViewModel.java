@@ -17,7 +17,6 @@ import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 import com.twtstudio.retrox.schedule.ScheduleActivity;
 import com.twtstudio.retrox.schedule.TimeHelper;
 import com.twtstudio.retrox.schedule.view.ScheduleTodayAct;
-import com.twt.service.BR;
 import com.twtstudio.retrox.schedule.model.ClassTable;
 import com.twtstudio.retrox.schedule.model.ClassTableProvider;
 import com.twtstudio.retrox.schedule.model.CourseHelper;
@@ -46,8 +45,6 @@ public class ScheduleViewModel extends AndroidViewModel implements ViewModel {
     public final List<ViewModel> items = new ArrayList<>();
 
     public final MutableLiveData<List<ViewModel>> liveItems = new MutableLiveData<>();
-
-    public final ItemView itemView = ItemView.of(BR.viewModel, R.layout.item_common_course);
 
     public final ReplyCommand replyCommand = new ReplyCommand(this::jumpTodayDetail);
 
