@@ -9,10 +9,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.view.LayoutInflater
-import android.widget.ImageButton
-import android.widget.RadioGroup
-import android.widget.TextSwitcher
-import android.widget.TextView
+import android.widget.*
 import es.dmoral.toasty.Toasty
 import xyz.rickygao.gpa2.R
 import xyz.rickygao.gpa2.api.GpaBean
@@ -38,6 +35,7 @@ class GpaActivity : AppCompatActivity() {
     private lateinit var refreshBtn: ImageButton
 
     private lateinit var nestedSv: NestedScrollView
+    private lateinit var containerLl: LinearLayout
 
     private lateinit var scoreTv: TextView
     private lateinit var gpaTv: TextView
@@ -96,7 +94,9 @@ class GpaActivity : AppCompatActivity() {
                 tbSelectedTermTv.alpha = 1F - visibleRatio
                 selectedTermTs.alpha = visibleRatio
             })
-        }.also(this@GpaActivity::fitSystemWindowWithNavigationBar)
+        }
+        containerLl = findViewById<LinearLayout>(R.id.ll_container)
+                .also(this::fitSystemWindowWithNavigationBar)
 
         // init total
         scoreTv = findViewById(R.id.tv_score)

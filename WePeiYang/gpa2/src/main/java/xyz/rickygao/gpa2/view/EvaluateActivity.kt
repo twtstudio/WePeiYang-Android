@@ -3,6 +3,7 @@ package xyz.rickygao.gpa2.view
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.support.constraint.ConstraintLayout
 import android.support.design.widget.TextInputEditText
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
@@ -14,6 +15,7 @@ import xyz.rickygao.gpa2.api.Evaluate
 import xyz.rickygao.gpa2.api.GpaProvider
 import xyz.rickygao.gpa2.ext.bind
 import xyz.rickygao.gpa2.ext.enableLightStatusBarMode
+import xyz.rickygao.gpa2.ext.fitSystemWindowWithNavigationBar
 import xyz.rickygao.gpa2.ext.fitSystemWindowWithStatusBar
 
 /**
@@ -25,6 +27,9 @@ class EvaluateActivity : AppCompatActivity() {
     private lateinit var toolbar: Toolbar
     private lateinit var backBtn: ImageButton
     private lateinit var okBtn: ImageButton
+
+    private lateinit var containerCl: ConstraintLayout
+
     private lateinit var q1Rb: RatingBar
     private lateinit var q2Rb: RatingBar
     private lateinit var q3Rb: RatingBar
@@ -62,6 +67,10 @@ class EvaluateActivity : AppCompatActivity() {
                         noteEt.text.toString())
             }
         }
+
+        // init container
+        containerCl = findViewById<ConstraintLayout>(R.id.cl_container)
+                .also(this::fitSystemWindowWithNavigationBar)
 
         q1Rb = findViewById(R.id.rb_q1)
         q2Rb = findViewById(R.id.rb_q2)
