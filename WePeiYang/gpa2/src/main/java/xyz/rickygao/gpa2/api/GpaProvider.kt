@@ -10,6 +10,7 @@ import kotlinx.coroutines.experimental.async
 import org.apache.commons.codec.binary.Hex
 import org.apache.commons.codec.digest.DigestUtils
 import org.jetbrains.anko.coroutines.experimental.bg
+import xyz.rickygao.gpa2.ext.ConsumableMessage
 import java.util.*
 
 /**
@@ -18,11 +19,11 @@ import java.util.*
 object GpaProvider {
     private val api = RetrofitProvider.getRetrofit().create(GpaApi::class.java)
     val gpaLiveData = MutableLiveData<GpaBean>()
-    val successLiveData = MutableLiveData<String>()
-    val errorLiveData = MutableLiveData<String>()
+    val successLiveData = MutableLiveData<ConsumableMessage<String>>()
+    val errorLiveData = MutableLiveData<ConsumableMessage<String>>()
 
     private const val HAWK_KEY_GPA = "GPA"
-    fun updateGpaLiveData(useCache: Boolean = true) {
+    fun updateGpaLiveData(useCache: Boolean = true, silent: Boolean = false) {
         async(UI) {
             val remote = bg {
                 api.get().toBlocking().value()?.data
@@ -33,23 +34,25 @@ object GpaProvider {
                     Hawk.get<GpaBean?>(HAWK_KEY_GPA, null)
                 }.await()?.let {
                     gpaLiveData.value = it
-                    successLiveData.value = "从缓存中拿到了你的 GPA"
+                    if (!silent) successLiveData.value = ConsumableMessage("从缓存中拿到了你的 GPA")
                 }
             }
 
             remote.await()?.let {
                 if (it.updated_at != gpaLiveData.value?.updated_at) {
                     gpaLiveData.value = it
-                    successLiveData.value = "你的 GPA 有更新喔"
+                    if (!silent) successLiveData.value = ConsumableMessage("你的 GPA 有更新喔")
                     Hawk.put<GpaBean>(HAWK_KEY_GPA, it)
                 } else {
-                    successLiveData.value = "你的 GPA 不需要刷新啦"
+                    if (!silent) successLiveData.value = ConsumableMessage("你的 GPA 不需要刷新啦")
                 }
+
+                Unit
             }
 
         }.invokeOnCompletion {
             it?.let {
-                errorLiveData.value = "好像出了什么问题"
+                errorLiveData.value = ConsumableMessage("好像出了什么问题")
             }
         }
     }
@@ -86,11 +89,11 @@ object GpaProvider {
             }
 
             remote.await()?.let {
-                successLiveData.value = "评价成功，快回去刷新看看新的 GPA 吧"
+                successLiveData.value = ConsumableMessage("评价成功，快回去刷新看看新的 GPA 吧")
             }
         }.invokeOnCompletion {
             it?.let {
-                errorLiveData.value = "好像出了什么问题"
+                errorLiveData.value = ConsumableMessage("好像出了什么问题")
             }
         }
     }

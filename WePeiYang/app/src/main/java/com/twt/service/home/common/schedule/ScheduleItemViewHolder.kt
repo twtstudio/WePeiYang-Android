@@ -3,18 +3,14 @@ package com.twt.service.home.common.schedule
 import android.arch.lifecycle.LifecycleOwner
 import android.arch.lifecycle.Observer
 import android.content.Intent
-import android.databinding.Observable
 import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.kelin.mvvmlight.base.ViewModel
 import com.twt.service.R
-import com.twt.service.home.common.gpaItem.GpaItemViewModel
-import com.twtstudio.retrox.gpa.GpaChartBindingAdapter
 import com.twtstudio.retrox.schedule.ScheduleActivity
 
 /**

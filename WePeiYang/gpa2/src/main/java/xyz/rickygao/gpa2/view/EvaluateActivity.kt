@@ -13,7 +13,7 @@ import es.dmoral.toasty.Toasty
 import xyz.rickygao.gpa2.R
 import xyz.rickygao.gpa2.api.Evaluate
 import xyz.rickygao.gpa2.api.GpaProvider
-import xyz.rickygao.gpa2.ext.bind
+import xyz.rickygao.gpa2.ext.consume
 import xyz.rickygao.gpa2.ext.enableLightStatusBarMode
 import xyz.rickygao.gpa2.ext.fitSystemWindowWithNavigationBar
 import xyz.rickygao.gpa2.ext.fitSystemWindowWithStatusBar
@@ -79,14 +79,14 @@ class EvaluateActivity : AppCompatActivity() {
         q5Rb = findViewById(R.id.rb_q5)
         noteEt = findViewById(R.id.et_note)
 
-        GpaProvider.successLiveData.bind(this) {
+        GpaProvider.successLiveData.consume(this) {
             it?.let {
                 Toasty.success(this, it).show()
                 finish()
             }
         }
 
-        GpaProvider.errorLiveData.bind(this) {
+        GpaProvider.errorLiveData.consume(this) {
             it?.let {
                 Toasty.error(this, it).show()
             }
@@ -95,7 +95,7 @@ class EvaluateActivity : AppCompatActivity() {
 
 }
 
-internal fun startEvaluateActivty(packageContext: Context, evaluate: Evaluate) {
+internal fun startEvaluateActivity(packageContext: Context, evaluate: Evaluate) {
     val intent = Intent(packageContext, EvaluateActivity::class.java)
     intent.putExtra("evaluate", evaluate)
     packageContext.startActivity(intent)

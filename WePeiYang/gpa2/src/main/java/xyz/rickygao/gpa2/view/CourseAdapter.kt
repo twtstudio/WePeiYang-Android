@@ -12,10 +12,13 @@ import xyz.rickygao.gpa2.api.Evaluate
 /**
  * Created by rickygao on 2017/11/14.
  */
-class CourseAdapter(val context: Context, val inflater: LayoutInflater) : RecyclerView.Adapter<CourseAdapter.CourseViewHolder>() {
+class CourseAdapter(
+        val context: Context,
+        private val inflater: LayoutInflater
+) : RecyclerView.Adapter<CourseAdapter.CourseViewHolder>() {
 
     companion object {
-        const val SORT_DEFAULT = 0
+        const val SORT_BY_DEFAULT = 0
         const val SORT_BY_SCORE_DESC = 1
         const val SORT_BY_CREDIT_DESC = 2
     }
@@ -26,7 +29,7 @@ class CourseAdapter(val context: Context, val inflater: LayoutInflater) : Recycl
             ensureCourses()
         }
 
-    var sortMode = SORT_DEFAULT
+    var sortMode = SORT_BY_DEFAULT
         set(value) {
             if (field == value) return
             field = value
@@ -79,7 +82,7 @@ class CourseAdapter(val context: Context, val inflater: LayoutInflater) : Recycl
             } else {
                 scoreTv.text = "点按来评价"
                 itemView.setOnClickListener {
-                    startEvaluateActivty(context, course.evaluate)
+                    startEvaluateActivity(context, course.evaluate)
                 }
             }
             }

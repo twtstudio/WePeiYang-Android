@@ -8,16 +8,16 @@ import android.net.Uri;
 import com.bdpqchen.yellowpagesmodule.yellowpages.activity.HomeActivity;
 import com.kelin.mvvmlight.base.ViewModel;
 import com.kelin.mvvmlight.command.ReplyCommand;
-import com.twtstudio.retrox.bike.bike.ui.main.BikeActivity;
-import com.twtstudio.retrox.bike.read.home.BookHomeActivity;
-import com.twtstudio.retrox.gpa.view.GpaActivity;
-import com.twtstudio.retrox.schedule.ScheduleActivity;
 import com.twt.service.BR;
 import com.twt.service.R;
+import com.twtstudio.retrox.bike.bike.ui.main.BikeActivity;
+import com.twtstudio.retrox.bike.read.home.BookHomeActivity;
+import com.twtstudio.retrox.schedule.ScheduleActivity;
 import com.twtstudio.tjliqy.party.ui.home.PartyActivity;
 import com.twtstudio.tjwhm.lostfound.waterfall.WaterfallActivity;
 
 import me.tatarka.bindingcollectionadapter.ItemView;
+import xyz.rickygao.gpa2.view.GpaActivity;
 
 
 /**
@@ -25,23 +25,19 @@ import me.tatarka.bindingcollectionadapter.ItemView;
  */
 
 public class ToolsFragViewModel implements ViewModel {
-    private Context mContext;
-
     public final ObservableArrayList<ViewModel> itemList = new ObservableArrayList<>();
-
     public final ItemView itemView = ItemView.of(BR.viewModel, R.layout.item_tool);
-
+    private Context mContext;
     public final ReplyCommand feedbackClick = new ReplyCommand(this::feedback);
 
-    public ToolsFragViewModel(Context context) {
+    ToolsFragViewModel(Context context) {
         mContext = context;
         init();
     }
 
     private void init() {
         itemList.add(new ToolItemViewModel(mContext, R.drawable.ic_main_schedule, "课程表", ScheduleActivity.class));
-        itemList.add(new ToolItemViewModel(mContext, R.drawable.ic_main_gpa, "新版GPA", xyz.rickygao.gpa2.view.GpaActivity.class));
-        itemList.add(new ToolItemViewModel(mContext, R.drawable.ic_main_gpa, "GPA", GpaActivity.class));
+        itemList.add(new ToolItemViewModel(mContext, R.drawable.ic_main_gpa, "全新 GPA", GpaActivity.class));
         itemList.add(new ToolItemViewModel(mContext, R.drawable.ic_main_bike, "自行车", BikeActivity.class));
         itemList.add(new ToolItemViewModel(mContext, R.drawable.ic_main_party, "党建", PartyActivity.class));
         itemList.add(new ToolItemViewModel(mContext, R.drawable.ic_main_read, "阅读", BookHomeActivity.class));

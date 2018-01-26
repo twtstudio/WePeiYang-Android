@@ -172,7 +172,7 @@ class GpaActivity : AppCompatActivity() {
                 courseAdapter.sortMode = when (buttonId) {
                     R.id.rb_sort_by_credit -> CourseAdapter.SORT_BY_CREDIT_DESC
                     R.id.rb_sort_by_score -> CourseAdapter.SORT_BY_SCORE_DESC
-                    else -> CourseAdapter.SORT_DEFAULT
+                    else -> CourseAdapter.SORT_BY_DEFAULT
                 }
             }
         }
@@ -218,13 +218,13 @@ class GpaActivity : AppCompatActivity() {
         GpaProvider.updateGpaLiveData()
 
         // bind callback
-        GpaProvider.successLiveData.bind(this) {
+        GpaProvider.successLiveData.consume(this) {
             it?.let {
                 Toasty.success(this, it).show()
             }
         }
 
-        GpaProvider.errorLiveData.bind(this) {
+        GpaProvider.errorLiveData.consume(this) {
             it?.let {
                 Toasty.error(this, it).show()
             }
