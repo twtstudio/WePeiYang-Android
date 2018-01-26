@@ -10,11 +10,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
-import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
-import com.twtstudio.retrox.auth.login.LoginActivity;
 import com.twt.service.R;
 import com.twt.service.base.BaseActivity;
 import com.twt.service.home.HomeActivity;
+import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
+import com.twtstudio.retrox.auth.login.LoginActivity;
 
 import java.util.Arrays;
 
@@ -72,7 +72,7 @@ public class WelcomeActivity extends BaseActivity {
                         // the last Intent is what the shortcut really opened
                         new Intent[]{
                                 new Intent(Intent.ACTION_MAIN, Uri.EMPTY, this, HomeActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK),
-                                new Intent("com.twt.gpa.action.DYNAMIC_OPEN")
+                                new Intent("xyz.rickygao.gpa2.DYNAMIC_OPEN")
                                 // intent's action must be set
                         })
                 .build();

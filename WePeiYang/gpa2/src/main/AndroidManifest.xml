@@ -12,7 +12,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/Gpa2Theme">
             <intent-filter>
-                <action android:name="com.twt.schedule.action.DYNAMIC_OPEN" />
+                <action android:name="xyz.rickygao.gpa2.DYNAMIC_OPEN" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
