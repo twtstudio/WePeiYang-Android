@@ -1,15 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:bind="http://schemas.android.com/apk/res-auto">
-
-    <data>
-        <variable
-            name="viewModel"
-            type="com.twtstudio.retrox.bike.homeitem.BikeHomeItemViewModel"/>
-        <import type="android.view.View"/>
-    </data>
-<LinearLayout
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/bike_crad_background"
@@ -39,7 +31,7 @@
             android:text="自行车" />
 
         <ProgressBar
-            android:visibility="@{viewModel.isProgressing?View.VISIBLE:View.GONE}"
+            android:id="@+id/pb_back_card"
             android:layout_marginLeft="5dp"
             android:layout_gravity="center_vertical"
             android:layout_width="20dp"
@@ -69,7 +61,6 @@
             android:layout_marginLeft="10dp"
             android:gravity="center_vertical"
             android:textSize="16sp"
-            android:text="@{viewModel.moneyLeft}"
             tools:text="余额：9.40元" />
     </LinearLayout>
 
@@ -107,7 +98,6 @@ android:paddingLeft="20dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:textSize="16sp"
-                android:text="@{viewModel.lastLeavePostion}"
                 tools:text="33楼北侧1-2号桩" />
         </LinearLayout>
 
@@ -130,7 +120,6 @@ android:paddingLeft="20dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:textSize="16sp"
-                android:text="@{viewModel.lastLeaveTime}"
                 tools:text="2016/7/24 9:4:4" />
         </LinearLayout>
 
@@ -171,7 +160,6 @@ android:paddingLeft="20dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:textSize="16sp"
-                    android:text="@{viewModel.lastArrivePostion}"
                     tools:text="33楼北侧1-2号桩" />
             </LinearLayout>
 
@@ -193,7 +181,6 @@ android:paddingLeft="20dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:textSize="16sp"
-                    android:text="@{viewModel.lastArriveTime}"
                     tools:text="2016/7/24 9:4:4" />
             </LinearLayout>
 
@@ -227,7 +214,6 @@ android:paddingLeft="20dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="10dp"
-            android:text="@{viewModel.costMoney}"
             tools:text="本次:2.40元"
             android:textSize="16sp"/>
     </LinearLayout>
@@ -256,24 +242,23 @@ android:paddingLeft="20dp"
 
         <Button
             style="?android:attr/borderlessButtonStyle"
+            android:id="@+id/bt_bike_card_refresh"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
             android:fontFamily="sans-serif"
             android:text="刷新"
-            bind:clickCommand="@{viewModel.refreshClick}"
             android:textColor="@color/colorPrimary" />
 
         <Button
             style="?android:attr/borderlessButtonStyle"
+            android:id="@+id/bt_call_bike_center"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="end"
             android:fontFamily="sans-serif"
-            bind:clickCommand="@{viewModel.callBikeCenter}"
             android:text="拨打客服"
             android:textColor="@color/colorPrimary" />
     </FrameLayout>
 
 </LinearLayout>
-</layout>

@@ -7,11 +7,11 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.databinding.DataBindingUtil;
+import android.widget.ProgressBar;
 
 
 import com.twtstudio.retrox.bike.R;
 import com.twtstudio.retrox.bike.common.ui.BPActivity;
-import com.twtstudio.retrox.bike.databinding.ActivityBookDetailBinding;
 import com.twtstudio.retrox.bike.model.read.Detail;
 
 /**
@@ -20,15 +20,15 @@ import com.twtstudio.retrox.bike.model.read.Detail;
  * @TwtStudio Mobile Develope Team
  */
 
-public class BookDetailActivity extends BPActivity<BookDetailPresenter> implements BookDetailController,AdapterController{
-    private ActivityBookDetailBinding mBinding;
+public class BookDetailActivity extends BPActivity<BookDetailPresenter> implements BookDetailController, AdapterController {
     private RecyclerView mRecyclerView;
     private BookDetailAdapter mAdapter;
+    private ProgressBar mProgressBar;
     private String id;
 
     @Override
     protected BookDetailPresenter getPresenter() {
-        return new BookDetailPresenter(this,this);
+        return new BookDetailPresenter(this, this);
     }
 
     @Override
@@ -40,13 +40,13 @@ public class BookDetailActivity extends BPActivity<BookDetailPresenter> implemen
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_book_detail);
-        //setUpToolbar(mBinding.readDetailToolbar);
-        mRecyclerView = mBinding.bookDetailRcv;
+        setContentView(R.layout.activity_book_detail);
+        mProgressBar = (ProgressBar) findViewById(R.id.book_detail_progressbar);
+        mRecyclerView = (RecyclerView) findViewById(R.id.book_detail_rcv);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new BookDetailAdapter(this);
         mPresenter.getBookDetail(id);
-        mBinding.bookDetailProgressbar.setVisibility(View.VISIBLE);
+        mProgressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -57,8 +57,8 @@ public class BookDetailActivity extends BPActivity<BookDetailPresenter> implemen
     @Override
     public void onDetailGot(Detail detail) {
         mAdapter.setDetail(detail);
-        mBinding.bookDetailProgressbar.setVisibility(View.INVISIBLE);
-        if (mRecyclerView.getAdapter()==null){
+        mProgressBar.setVisibility(View.INVISIBLE);
+        if (mRecyclerView.getAdapter() == null) {
             mRecyclerView.setAdapter(mAdapter);
         }
     }

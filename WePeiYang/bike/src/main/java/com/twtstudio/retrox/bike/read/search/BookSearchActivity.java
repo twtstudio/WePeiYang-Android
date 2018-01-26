@@ -14,7 +14,6 @@ import android.widget.ProgressBar;
 
 import com.twtstudio.retrox.bike.R;
 import com.twtstudio.retrox.bike.common.ui.BPActivity;
-import com.twtstudio.retrox.bike.databinding.ActivityBookSearchBinding;
 import com.twtstudio.retrox.bike.model.read.SearchBook;
 
 import java.util.List;
@@ -29,7 +28,6 @@ import java.util.List;
 
 public class BookSearchActivity extends BPActivity<BookSearchPresenter> implements BookSearchViewController {
 
-    private ActivityBookSearchBinding mBinding;
     private SearchView mSearchView;
     private RecyclerView mRecyclerView;
     private Toolbar mToolbar;
@@ -54,14 +52,14 @@ public class BookSearchActivity extends BPActivity<BookSearchPresenter> implemen
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_book_search);
-        mBinding.setHint("输入你想查找的书名");
-        mProgressBar = mBinding.bookSearchProgressbar;
-        mSearchView = mBinding.readSearchView;
+        setContentView(R.layout.activity_book_search);
+        mProgressBar = (ProgressBar) findViewById(R.id.book_search_progressbar);
+        mSearchView = (SearchView) findViewById(R.id.read_search_view);
         mSearchView.setIconifiedByDefault(false);
-        mRecyclerView = mBinding.readSearchRecyclerview;
+        mSearchView.setQueryHint("输入你想查找的书名");
+        mRecyclerView = (RecyclerView) findViewById(R.id.read_search_recyclerview);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mToolbar = mBinding.readSearchToolbar;
+        mToolbar = (Toolbar) findViewById(R.id.read_search_toolbar);
         mAdapter = new BookSearchAdapter(this);
 
         setTitle("搜索图书");

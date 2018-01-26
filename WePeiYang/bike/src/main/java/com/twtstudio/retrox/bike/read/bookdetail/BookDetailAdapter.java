@@ -1,5 +1,6 @@
 package com.twtstudio.retrox.bike.read.bookdetail;
 
+import android.arch.lifecycle.LifecycleOwner;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -18,10 +19,6 @@ import com.bumptech.glide.Glide;
 import com.github.florent37.glidepalette.BitmapPalette;
 import com.github.florent37.glidepalette.GlidePalette;
 import com.twtstudio.retrox.bike.R;
-import com.twtstudio.retrox.bike.common.ui.BaseBindHolder;
-import com.twtstudio.retrox.bike.databinding.ItemBookDetailHeaderBinding;
-import com.twtstudio.retrox.bike.databinding.ItemBookDetailReviewBinding;
-import com.twtstudio.retrox.bike.databinding.ItemBookDetailStatusBinding;
 import com.twtstudio.retrox.bike.model.read.Detail;
 import com.twtstudio.retrox.bike.read.bookreview.AddReviewActivity;
 
@@ -34,7 +31,7 @@ import java.util.List;
  * @TwtStudio Mobile Develope Team
  */
 
-public class BookDetailAdapter extends RecyclerView.Adapter<BaseBindHolder> {
+public class BookDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context mContext;
     private Detail mDetail;
     private int status_count;
@@ -43,6 +40,7 @@ public class BookDetailAdapter extends RecyclerView.Adapter<BaseBindHolder> {
     private int TYPE_STATUS = 1;
     private int TYPE_REVIEW = 2;
     private AdapterController mActController;
+    private LifecycleOwner mOwner;
 
     private List<Object> mDataList = new ArrayList<>();
 
@@ -50,6 +48,7 @@ public class BookDetailAdapter extends RecyclerView.Adapter<BaseBindHolder> {
         mContext = context;
         BookDetailActivity activity = (BookDetailActivity) mContext;
         mActController = activity;
+        mOwner=activity;
     }
 
     public BookDetailAdapter(Context context, Detail detail) {
@@ -57,6 +56,7 @@ public class BookDetailAdapter extends RecyclerView.Adapter<BaseBindHolder> {
         setDetail(detail);
         BookDetailActivity activity = (BookDetailActivity) mContext;
         mActController = activity;
+        mOwner=activity;
     }
 
     public void setDetail(Detail detail) {
@@ -84,91 +84,90 @@ public class BookDetailAdapter extends RecyclerView.Adapter<BaseBindHolder> {
 
     }
 
-    static class sHeaderHolder extends BaseBindHolder {
-        private ItemBookDetailHeaderBinding mBinding;
-        private FrameLayout mFrame;
-        private ImageView mCoverImage;
-
-        public sHeaderHolder(View itemView) {
-            super(itemView);
-            mBinding = DataBindingUtil.bind(itemView);
-            mFrame = mBinding.itemBookDetailHeaderFrame;
-            mCoverImage = mBinding.itemBookDetailHeaderCover;
-        }
-
-        public ItemBookDetailHeaderBinding getBinding() {
-            return mBinding;
-        }
-    }
-
-    static class sStatusHolder extends BaseBindHolder {
-
-        private ItemBookDetailStatusBinding mBinding;
-
-        public sStatusHolder(View itemView) {
-            super(itemView);
-            mBinding = DataBindingUtil.bind(itemView);
-        }
-
-//        public void setStatus(Detail. status) {
-//            mBinding.setStatus(status);
+//    static class sHeaderHolder extends BaseBindHolder {
+//        private ItemBookDetailHeaderBinding mBinding;
+//        private FrameLayout mFrame;
+//        private ImageView mCoverImage;
+//
+//        public sHeaderHolder(View itemView) {
+//            super(itemView);
+//            mBinding = DataBindingUtil.bind(itemView);
+//            mFrame = mBinding.itemBookDetailHeaderFrame;
+//            mCoverImage = mBinding.itemBookDetailHeaderCover;
 //        }
-
-        public ItemBookDetailStatusBinding getBinding() {
-            return mBinding;
-        }
-    }
-
-
-    static class sReviewHolder extends BaseBindHolder {
-
-        private ItemBookDetailReviewBinding mBinding;
-        private ImageView likeImage;
-
-        public sReviewHolder(View itemView) {
-            super(itemView);
-            mBinding = DataBindingUtil.bind(itemView);
-            likeImage = mBinding.itemBookDetailIvLike;
-        }
-
-        public void setReview(Detail.ReviewBean.DataBean review) {
-            mBinding.setReview(review);
-        }
-
-        public ItemBookDetailReviewBinding getBinding() {
-            return mBinding;
-        }
-    }
+//
+//        public ItemBookDetailHeaderBinding getBinding() {
+//            return mBinding;
+//        }
+//    }
+//
+//    static class sStatusHolder extends BaseBindHolder {
+//
+//        private ItemBookDetailStatusBinding mBinding;
+//
+//        public sStatusHolder(View itemView) {
+//            super(itemView);
+//            mBinding = DataBindingUtil.bind(itemView);
+//        }
+//
+////        public void setStatus(Detail. status) {
+////            mBinding.setStatus(status);
+////        }
+//
+//        public ItemBookDetailStatusBinding getBinding() {
+//            return mBinding;
+//        }
+//    }
+//
+//
+//    static class sReviewHolder extends BaseBindHolder {
+//
+//        private ItemBookDetailReviewBinding mBinding;
+//        private ImageView likeImage;
+//
+//        public sReviewHolder(View itemView) {
+//            super(itemView);
+//            mBinding = DataBindingUtil.bind(itemView);
+//            likeImage = mBinding.itemBookDetailIvLike;
+//        }
+//
+//        public void setReview(Detail.ReviewBean.DataBean review) {
+//            mBinding.setReview(review);
+//        }
+//
+//        public ItemBookDetailReviewBinding getBinding() {
+//            return mBinding;
+//        }
+//    }
 
     @Override
-    public BaseBindHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == TYPE_HEADER) {
             View view = LayoutInflater.from(mContext).inflate(R.layout.item_book_detail_header, parent, false);
-            return new sHeaderHolder(view);
+            return new HeaderViewHolder(view);
         } else if (viewType == TYPE_STATUS) {
             View view = LayoutInflater.from(mContext).inflate(R.layout.item_book_detail_status, parent, false);
-            return new sStatusHolder(view);
+            return new StatusViewHolder(view);
         } else {
             View view = LayoutInflater.from(mContext).inflate(R.layout.item_book_detail_review, parent, false);
-            return new sReviewHolder(view);
+            return new ReviewViewHolder(view);
         }
     }
 
     @Override
-    public void onBindViewHolder(BaseBindHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         int type = getItemViewType(position);
         Object baseData = mDataList.get(position);
         if (type == TYPE_HEADER) {
-            sHeaderHolder headerHolder = (sHeaderHolder) holder;
-            ItemBookDetailHeaderBinding binding = headerHolder.getBinding();
+            HeaderViewHolder headerHolder = (HeaderViewHolder) holder;
             Detail detail = (Detail) baseData;
-            binding.setDetail(detail);
+            headerHolder.bind(mOwner,detail);
             Glide.with(mContext).load(detail.cover_url)
                     .placeholder(R.drawable.default_cover)
                     .error(R.drawable.default_cover)
                     .listener(GlidePalette.with(detail.cover_url)
                             .use(GlidePalette.Profile.MUTED_LIGHT)
-                            .intoBackground(headerHolder.mFrame)
+                            .intoBackground(headerHolder.getMFrame())
                             .intoCallBack(new BitmapPalette.CallBack() {
                                 @Override
                                 public void onPaletteLoaded(@Nullable Palette palette) {
@@ -179,8 +178,8 @@ public class BookDetailAdapter extends RecyclerView.Adapter<BaseBindHolder> {
                                     }
                                 }
                             }))
-                    .into(headerHolder.mCoverImage);
-            binding.bookDetailBtnAddreview.setOnClickListener(new View.OnClickListener() {
+                    .into(headerHolder.getMCoverImage());
+            headerHolder.getBtAddReview().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(mContext, AddReviewActivity.class);
@@ -188,40 +187,40 @@ public class BookDetailAdapter extends RecyclerView.Adapter<BaseBindHolder> {
                     mContext.startActivity(intent);
                 }
             });
-            binding.bookDetailBtnLove.setOnClickListener(new View.OnClickListener() {
+            headerHolder.getBtLove().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     mActController.onBookLike(detail.id);
                 }
             });
         } else if (type == TYPE_STATUS) {
-            sStatusHolder statusHolder = (sStatusHolder) holder;
-            statusHolder.mBinding.setStatus((Detail.HoldingBean.DataBean) baseData);
+            StatusViewHolder statusHolder = (StatusViewHolder) holder;
+            statusHolder.bind(mOwner,(Detail.HoldingBean.DataBean) baseData);
             //statusHolder.setStatus((Detail.statusItem) baseData);
         } else if (type == TYPE_REVIEW) {
-            sReviewHolder reviewHolder = (sReviewHolder) holder;
+            ReviewViewHolder reviewHolder = (ReviewViewHolder) holder;
             Detail.ReviewBean.DataBean data = (Detail.ReviewBean.DataBean) baseData;
-            reviewHolder.setReview(data);
+            reviewHolder.bind(mOwner,data);
             if (data.liked) {
-                reviewHolder.likeImage.setImageResource(R.mipmap.ic_book_like);
-                reviewHolder.likeImage.setClickable(false);
+                reviewHolder.getIvLike().setImageResource(R.mipmap.ic_book_like);
+                reviewHolder.getIvLike().setClickable(false);
             }else {
-                reviewHolder.likeImage.setOnClickListener(new View.OnClickListener() {
+                reviewHolder.getIvLike().setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        reviewHolder.likeImage.setImageResource(R.mipmap.ic_book_like);
+                        reviewHolder.getIvLike().setImageResource(R.mipmap.ic_book_like);
                         // TODO: 16-10-31 bookid??????这不科学
                         mActController.onReviewLike(data.review_id);
                         int x = Integer.parseInt(data.like_count);
                         x++;
-                        reviewHolder.mBinding.tvLike.setText(String.valueOf(x));
+                        reviewHolder.getTvLike().setText(String.valueOf(x));
                         v.setClickable(false);
 
                     }
                 });
             }
             if (position == getItemCount()-1){
-                reviewHolder.mBinding.divider.setVisibility(View.INVISIBLE);
+                reviewHolder.getVDivider().setVisibility(View.INVISIBLE);
             }
 
         }

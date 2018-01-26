@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by sunjuntao on 16/6/6.
  */
-public abstract class BaseBindingAdapter<T> extends RecyclerView.Adapter<BaseBindHolder> {
+public abstract class BaseBindingAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     protected List<T> mDataSet = new ArrayList<>();
     protected Context mContext;
 
