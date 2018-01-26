@@ -47,7 +47,7 @@ object GpaProvider {
                     if (!silent) successLiveData.value = ConsumableMessage("你的 GPA 已经是最新的了")
                 }
 
-                Unit
+                CommonPrefUtil.setGpaToken(it.session)
             }
 
         }.invokeOnCompletion {
