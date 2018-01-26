@@ -44,7 +44,7 @@ object GpaProvider {
                     if (!silent) successLiveData.value = ConsumableMessage("你的 GPA 有更新喔")
                     Hawk.put<GpaBean>(HAWK_KEY_GPA, it)
                 } else {
-                    if (!silent) successLiveData.value = ConsumableMessage("你的 GPA 不需要刷新啦")
+                    if (!silent) successLiveData.value = ConsumableMessage("你的 GPA 已经是最新的了")
                 }
 
                 Unit
@@ -52,7 +52,7 @@ object GpaProvider {
 
         }.invokeOnCompletion {
             it?.let {
-                errorLiveData.value = ConsumableMessage("好像出了什么问题")
+                errorLiveData.value = ConsumableMessage("好像出了什么问题，${it.message}")
             }
         }
     }
@@ -93,7 +93,7 @@ object GpaProvider {
             }
         }.invokeOnCompletion {
             it?.let {
-                errorLiveData.value = ConsumableMessage("好像出了什么问题")
+                errorLiveData.value = ConsumableMessage("好像出了什么问题，${it.message}")
             }
         }
     }
