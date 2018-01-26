@@ -71,7 +71,7 @@ public class WelcomeActivity extends BaseActivity {
                         // this dynamic shortcut set up a back stack using Intents, when pressing back, will go to MainActivity
                         // the last Intent is what the shortcut really opened
                         new Intent[]{
-                                new Intent(Intent.ACTION_MAIN, Uri.EMPTY, this, HomeActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK),
+//                                new Intent(Intent.ACTION_MAIN, Uri.EMPTY, this, HomeActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK),
                                 new Intent("xyz.rickygao.gpa2.DYNAMIC_OPEN")
                                 // intent's action must be set
                         })
