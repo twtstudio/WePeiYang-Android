@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.twt.service.R
 import com.twt.service.home.common.gpaItem.GpaItemViewHolder
-import com.twt.service.home.common.gpaItem.GpaItemViewModel
 import com.twt.service.home.common.schedule.ScheduleItemViewHolder
 import com.twt.service.home.common.schedule.ScheduleViewModel
 import com.twtstudio.retrox.bike.homeitem.BikeHomeItemViewModel
@@ -20,7 +19,11 @@ import xyz.rickygao.gpa2.view.GpaActivity
  * Created by retrox on 22/10/2017.
  */
 
-class CommonPageAdapter(val list: List<Any>, val context: Context, val owner: LifecycleOwner) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class CommonPageAdapter(
+        val list: List<Any>,
+        val context: Context,
+        private val owner: LifecycleOwner
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
         const val GPA = 1
@@ -34,7 +37,7 @@ class CommonPageAdapter(val list: List<Any>, val context: Context, val owner: Li
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val viewHolder = when (viewType) {
-            GPA -> GpaItemViewHolder(inflater.inflate(R.layout.item_common_gpa, parent, false))
+            GPA -> GpaItemViewHolder(inflater.inflate(R.layout.item_common_gpa, parent, false), owner)
             SCHEDULE -> ScheduleItemViewHolder(inflater.inflate(R.layout.item_common_schedule, parent, false))
             LIBRARY ->
                 HomeLibItemComponent(owner, inflater.inflate(R.layout.item_common_lib, parent, false))
@@ -47,7 +50,7 @@ class CommonPageAdapter(val list: List<Any>, val context: Context, val owner: Li
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is GpaItemViewHolder -> {
-                holder.bind(owner, list[position] as? GpaItemViewModel)
+                holder.update()
                 holder.cardView.setOnClickListener {
                     val intent = Intent(context, GpaActivity::class.java)
                     context.startActivity(intent)
@@ -71,7 +74,7 @@ class CommonPageAdapter(val list: List<Any>, val context: Context, val owner: Li
 
     override fun getItemViewType(position: Int): Int {
         return when (list[position]) {
-            is GpaItemViewModel -> return GPA
+            "GPA" -> return GPA
             is ScheduleViewModel -> return SCHEDULE
             "LIB" -> return LIBRARY
             is BikeHomeItemViewModel -> return BIKE

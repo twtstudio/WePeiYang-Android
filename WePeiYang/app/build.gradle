@@ -126,9 +126,9 @@ dependencies {
 
     compile project(':gpa2')
 //    compile project(':gpa')
-    compile ('com.twt.service:gpa:1.1.1-SNAPSHOT') {
-        exclude group:'me.tatarka.bindingcollectionadapter'
-    }
+//    compile ('com.twt.service:gpa:1.1.1-SNAPSHOT') {
+//        exclude group:'me.tatarka.bindingcollectionadapter'
+//    }
 //    compile project(':bike')
     compile 'com.twt.service:bike:1.1.0'
     compile project(':schedule')

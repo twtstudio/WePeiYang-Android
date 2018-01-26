@@ -6,6 +6,9 @@
         <item name="colorPrimaryDark">@color/gpa2_color_secondary</item>
         <item name="titleTextColor">#000000</item>
         <item name="colorControlNormal">#000000</item>
+        <item name="colorAccent">@color/gpa2_color_primary_dark</item>
+        <item name="colorControlActivated">@color/gpa2_color_primary_dark</item>
+        <item name="colorControlHighlight">@color/gpa2_color_primary_dark</item>
 
         <item name="android:windowTranslucentStatus">false</item>
         <item name="android:windowTranslucentNavigation">true</item>

@@ -6,9 +6,28 @@
         <item name="colorPrimaryDark">@color/gpa2_color_secondary</item>
         <item name="titleTextColor">#000000</item>
         <item name="colorControlNormal">#000000</item>
+        <item name="colorAccent">@color/gpa2_color_primary_dark</item>
+        <item name="colorControlActivated">@color/gpa2_color_primary_dark</item>
+        <item name="colorControlHighlight">@color/gpa2_color_primary_dark</item>
 
         <item name="android:windowTranslucentStatus">true</item>
-        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:windowTranslucentNavigation">false</item>
+    </style>
+
+    <style name="Gpa2RatingBarStyle" parent="Widget.AppCompat.RatingBar.Small">
+        <item name="android:numStars">5</item>
+        <item name="android:rating">3</item>
+        <item name="android:stepSize">1</item>
+        <item name="android:progressDrawable">@drawable/gpa2_ratingbar</item>
+        <item name="android:indeterminateDrawable">@drawable/gpa2_ratingbar</item>
+        <item name="android:minHeight">24dp</item>
+        <item name="android:maxHeight">24dp</item>
+        <item name="android:isIndicator">false</item>
+    </style>
+
+    <style name="Gpa2QTextViewStyle">
+        <item name="android:textSize">16sp</item>
+        <item name="android:gravity">center</item>
     </style>
 
 </resources>

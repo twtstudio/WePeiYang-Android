@@ -6,15 +6,23 @@
         android:allowBackup="true"
         android:label="@string/app_name"
         android:supportsRtl="true">
+
         <activity
             android:name=".view.GpaActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/Gpa2Theme">
             <intent-filter>
-                <action android:name="com.twt.schedule.action.DYNAMIC_OPEN" />
+                <action android:name="xyz.rickygao.gpa2.DYNAMIC_OPEN" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".view.EvaluateActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Gpa2Theme" />
+
     </application>
 
 </manifest>

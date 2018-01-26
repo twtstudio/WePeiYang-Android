@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.view.LayoutInflater
 import android.widget.*
+import es.dmoral.toasty.Toasty
 import xyz.rickygao.gpa2.R
 import xyz.rickygao.gpa2.api.GpaBean
 import xyz.rickygao.gpa2.api.GpaProvider
@@ -58,13 +59,13 @@ class GpaActivity : AppCompatActivity() {
 
         inflater = LayoutInflater.from(this)
 
+        enableLightStatusBarMode(true)
+
         // init toolbar
         toolbar = findViewById<Toolbar>(R.id.toolbar).also {
             fitSystemWindowWithStatusBar(it)
+            setSupportActionBar(it)
         }
-        enableLightStatusBarMode(true)
-
-        setSupportActionBar(toolbar)
         supportActionBar?.apply {
             setDisplayShowTitleEnabled(false)
         }
@@ -94,10 +95,8 @@ class GpaActivity : AppCompatActivity() {
                 selectedTermTs.alpha = visibleRatio
             })
         }
-
-        containerLl = findViewById<LinearLayout>(R.id.ll_container).also {
-            fitSystemWindowWithNavigationBar(it)
-        }
+        containerLl = findViewById<LinearLayout>(R.id.ll_container)
+                .also(this::fitSystemWindowWithNavigationBar)
 
         // init total
         scoreTv = findViewById(R.id.tv_score)
@@ -155,12 +154,10 @@ class GpaActivity : AppCompatActivity() {
         // init radar chart
         gpaRadarCv = findViewById<GpaRadarChartView>(R.id.cv_gpa_radar).apply {
             emptyText = RADAR_EMPTY_TEXT
-        }.also {
-            fitSystemWindowWithNavigationBar(it)
         }
 
         // init course list
-        courseAdapter = CourseAdapter(inflater).apply {
+        courseAdapter = CourseAdapter(this, inflater).apply {
             sortMode = CourseAdapter.SORT_BY_SCORE_DESC
         }
         findViewById<RecyclerView>(R.id.rv_course).apply {
@@ -175,7 +172,7 @@ class GpaActivity : AppCompatActivity() {
                 courseAdapter.sortMode = when (buttonId) {
                     R.id.rb_sort_by_credit -> CourseAdapter.SORT_BY_CREDIT_DESC
                     R.id.rb_sort_by_score -> CourseAdapter.SORT_BY_SCORE_DESC
-                    else -> CourseAdapter.SORT_DEFAULT
+                    else -> CourseAdapter.SORT_BY_DEFAULT
                 }
             }
         }
@@ -207,18 +204,31 @@ class GpaActivity : AppCompatActivity() {
 
                 gpaLineCv.selectedIndex = realIndex
 
-                gpaRadarCv.dataWithLabel = selectedTerm.data.map {
-                    GpaRadarChartView.DataWithLabel(it.score, it.name)
-                }
+                gpaRadarCv.dataWithLabel = selectedTerm.data
+                        .filter { it.score >= 0 }
+                        .map { GpaRadarChartView.DataWithLabel(it.score, it.name) }
 
                 courseAdapter.courses = selectedTerm.data.mapTo(ArrayList(selectedTerm.data.size)) {
-                    CourseAdapter.Course(it.name, it.type, it.credit, it.score)
+                    CourseAdapter.Course(it.name, it.type, it.credit, it.score, it.evaluate)
                 }
             }
         }
 
         // load data
         GpaProvider.updateGpaLiveData()
+
+        // bind callback
+        GpaProvider.successLiveData.consume(this) {
+            it?.let {
+                Toasty.success(this, it).show()
+            }
+        }
+
+        GpaProvider.errorLiveData.consume(this) {
+            it?.let {
+                Toasty.error(this, it).show()
+            }
+        }
 
     }
 
