@@ -11,6 +11,7 @@ import com.twt.service.home.common.gpaItem.GpaItemViewHolder
 import com.twt.service.home.common.schedule.ScheduleItemViewHolder
 import com.twt.service.home.common.schedule.ScheduleViewModel
 import com.twtstudio.retrox.bike.homeitem.BikeHomeItemViewModel
+import com.twtstudio.retrox.bike.homeitem.BikeHomeItemViewHolder
 import com.twtstudio.retrox.tjulibrary.homeitem.HomeLibItemComponent
 import xyz.rickygao.gpa2.view.GpaActivity
 
@@ -38,7 +39,9 @@ class CommonPageAdapter(
         val viewHolder = when (viewType) {
             GPA -> GpaItemViewHolder(inflater.inflate(R.layout.item_common_gpa, parent, false), owner)
             SCHEDULE -> ScheduleItemViewHolder(inflater.inflate(R.layout.item_common_schedule, parent, false))
-            LIBRARY -> HomeLibItemComponent(owner, inflater.inflate(R.layout.item_common_lib, parent, false))
+            LIBRARY ->
+                HomeLibItemComponent(owner, inflater.inflate(R.layout.item_common_lib, parent, false))
+            BIKE -> BikeHomeItemViewHolder(inflater.inflate(R.layout.item_bike_card,parent,false))
             else -> null
         }
         return viewHolder!!
@@ -58,6 +61,9 @@ class CommonPageAdapter(
             }
             is HomeLibItemComponent -> {
                 holder.onBind()
+            }
+            is BikeHomeItemViewHolder->{
+                holder.bind(owner,list[position] as BikeHomeItemViewModel)
             }
         }
     }
