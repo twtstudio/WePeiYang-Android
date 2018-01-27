@@ -14,7 +14,7 @@ import com.twt.service.R;
 import com.twt.service.base.BaseActivity;
 import com.twt.service.home.HomeActivity;
 import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
-import com.twtstudio.retrox.auth.login.LoginActivity;
+import com.twtstudio.retrox.auth.view.LoginActivity;
 
 import java.util.Arrays;
 

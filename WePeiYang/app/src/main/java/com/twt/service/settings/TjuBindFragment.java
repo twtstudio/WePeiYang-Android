@@ -8,12 +8,12 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.twt.service.R;
 import com.twt.wepeiyang.commons.network.RetrofitProvider;
 import com.twt.wepeiyang.commons.network.RxErrorHandler;
 import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
-import com.twtstudio.retrox.auth.login.AuthSelfProvider;
+import com.twtstudio.retrox.auth.api.AuthProvider;
 import com.twtstudio.retrox.auth.tju.TjuApi;
-import com.twt.service.R;
 
 import agency.tango.materialintroscreen.SlideFragment;
 import butterknife.BindView;
@@ -29,11 +29,11 @@ import rx.schedulers.Schedulers;
 
 public class TjuBindFragment extends SlideFragment {
 
-    private Unbinder unbinder;
     @BindView(R.id.tju_num)
     EditText numEdit;
     @BindView(R.id.tju_password)
     EditText passwordEdit;
+    private Unbinder unbinder;
     private boolean canMoveFuther = false;
 
     @OnClick(R.id.btn_tju_bind)
@@ -42,7 +42,7 @@ public class TjuBindFragment extends SlideFragment {
                 .bindTju(numEdit.getText().toString(), passwordEdit.getText().toString())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doAfterTerminate(() -> new AuthSelfProvider().getUserData())
+                .doAfterTerminate(() -> new AuthProvider().getUserData())
                 .subscribe(responseBody -> {
                     canMoveFuther = true;
                     Toast.makeText(this.getContext(), "绑定成功", Toast.LENGTH_SHORT).show();

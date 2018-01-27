@@ -129,8 +129,8 @@ dependencies {
 //    compile ('com.twt.service:gpa:1.1.1-SNAPSHOT') {
 //        exclude group:'me.tatarka.bindingcollectionadapter'
 //    }
-//    compile project(':bike')
-    compile 'com.twt.service:bike:1.1.0'
+    compile project(':bike')
+//    compile 'com.twt.service:bike:1.1.0'
     compile project(':schedule')
 //    compile 'com.twt.service:schedule:1.0.0'
 //    compile project(':one')
@@ -142,7 +142,7 @@ dependencies {
 //    compile project(':news')
 //    compile 'com.twt.service:news:1.1.0'
     compile project(':auth')
-    compile 'com.twt.service:auth:1.1.0'
+//    compile 'com.twt.service:auth:1.1.0'
 //    compile project(':fellowsearch')
     compile 'com.twt.service:fellowsearch:1.0.0'
 //    compile project(':yellowpages')

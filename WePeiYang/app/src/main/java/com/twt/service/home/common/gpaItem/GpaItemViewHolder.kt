@@ -13,7 +13,7 @@ import xyz.rickygao.gpa2.ext.bind
 import xyz.rickygao.gpa2.ext.map
 
 /**
- * Created by rickygao on 26/1/2018.
+ * Created by rickygao on 2018/1/26.
  */
 
 class GpaItemViewHolder(itemView: View, val lifecycleOwner: LifecycleOwner) : RecyclerView.ViewHolder(itemView) {

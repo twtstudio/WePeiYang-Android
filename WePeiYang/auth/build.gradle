@@ -1,22 +1,20 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
 apply plugin: 'me.tatarka.retrolambda'
 apply from: '../maven_push.gradle'
 
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion 26
+    buildToolsVersion "26.0.2"
 
     defaultConfig {
         minSdkVersion 19
-        targetSdkVersion 25
+        targetSdkVersion 26
         versionCode 1
         versionName "1.0"
 
 
-    }
-    dataBinding{
-        enabled true
     }
     buildTypes {
         release {
@@ -35,6 +33,9 @@ dependencies {
 
     compile project(':commons')
 //    compile 'com.twt.service:commons:1.2.0'
-    compile 'com.twt.service:mvvmkit:1.2.0'
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 
+}
+repositories {
+    mavenCentral()
 }

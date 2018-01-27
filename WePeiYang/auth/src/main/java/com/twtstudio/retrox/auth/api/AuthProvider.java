@@ -1,4 +1,4 @@
-package com.twtstudio.retrox.auth.login;
+package com.twtstudio.retrox.auth.api;
 
 import com.orhanobut.hawk.Hawk;
 import com.tencent.bugly.crashreport.CrashReport;
@@ -13,7 +13,7 @@ import rx.schedulers.Schedulers;
  * Created by retrox on 2017/2/20.
  */
 
-public class AuthSelfProvider {
+public class AuthProvider {
 
     public void getUserData(Action1<AuthSelfBean> action1) {
 
@@ -32,16 +32,16 @@ public class AuthSelfProvider {
                     /*
                       进行一些数据持久化处理
                      */
-                    CommonPrefUtil.setStudentNumber(authSelfBean.studentid);
-                    CommonPrefUtil.setIsBindLibrary(authSelfBean.accounts.lib);
-                    CommonPrefUtil.setIsBindTju(authSelfBean.accounts.tju);
+                    CommonPrefUtil.setStudentNumber(authSelfBean.getStudentid());
+                    CommonPrefUtil.setIsBindLibrary(authSelfBean.getAccounts().getLib());
+                    CommonPrefUtil.setIsBindTju(authSelfBean.getAccounts().getTju());
                     //user id
-                    CrashReport.setUserId(authSelfBean.twtuname);
+                    CrashReport.setUserId(authSelfBean.getTwtuname());
 
                     //放置缓存
                     Hawk.put("authSelfBean", authSelfBean);
 
-                    int dropOutMode = authSelfBean.dropout;
+                    int dropOutMode = authSelfBean.getDropout();
 
                     CommonPrefUtil.setDropOut(dropOutMode); //0=未操作，1=已退学，2=已复学
 

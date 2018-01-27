@@ -19,18 +19,18 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.tencent.bugly.crashreport.CrashReport;
+import com.twt.service.R;
+import com.twt.service.home.HomeActivity;
 import com.twt.service.update.UpdateManager;
 import com.twt.wepeiyang.commons.cache.CacheProvider;
 import com.twt.wepeiyang.commons.network.RetrofitProvider;
 import com.twt.wepeiyang.commons.network.RxErrorHandler;
 import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
-import com.twtstudio.retrox.auth.login.AuthApi;
-import com.twtstudio.retrox.auth.login.AuthSelfProvider;
+import com.twtstudio.retrox.auth.api.AuthApi;
+import com.twtstudio.retrox.auth.api.AuthProvider;
 import com.twtstudio.retrox.auth.tju.TjuApi;
 import com.twtstudio.retrox.bike.service.BikeServiceProvider;
 import com.twtstudio.retrox.tjulibrary.provider.TjuLibProvider;
-import com.twt.service.R;
-import com.twt.service.home.HomeActivity;
 
 import es.dmoral.toasty.Toasty;
 import rx.android.schedulers.AndroidSchedulers;
@@ -145,13 +145,13 @@ public class SettingsActivity extends AppCompatActivity {
                                                 .dropOut(which + 1)
                                                 .subscribeOn(Schedulers.io())
                                                 .observeOn(AndroidSchedulers.mainThread())
-                                                .subscribe(dropOutBean -> {
-                                                    if (!TextUtils.isEmpty(dropOutBean.data)) {
-                                                        Toast.makeText(mContext, dropOutBean.data, Toast.LENGTH_SHORT).show();
+                                                .subscribe(it -> {
+                                                    if (!TextUtils.isEmpty(it.getData())) {
+                                                        Toast.makeText(mContext, it.getData(), Toast.LENGTH_SHORT).show();
 
-                                                        if (dropOutBean.data.equals("欢迎回来上学 (〃∀〃)")) {
+                                                        if (it.getData().equals("欢迎回来上学 (〃∀〃)")) {
                                                             CommonPrefUtil.setDropOut(2);
-                                                        } else if (dropOutBean.data.equals("退学成功 d(`･∀･)b")) {
+                                                        } else if (it.getData().equals("退学成功 d(`･∀･)b")) {
                                                             CommonPrefUtil.setDropOut(1);
                                                         }
 
@@ -170,11 +170,11 @@ public class SettingsActivity extends AppCompatActivity {
                                                         //清空缓存 --- 课程表 GPA
                                                         CacheProvider.clearCache();
 
-                                                        new AuthSelfProvider().getUserData(null); //null做了处理的 刷新状态
+                                                        new AuthProvider().getUserData(null); //null做了处理的 刷新状态
                                                     }
                                                     dialog.dismiss();
                                                 }, throwable -> {
-                                                    new AuthSelfProvider().getUserData(null); //null做了处理的
+                                                    new AuthProvider().getUserData(null); //null做了处理的
                                                     new RxErrorHandler().call(throwable);
                                                     dialog.dismiss();
                                                 });
@@ -196,13 +196,13 @@ public class SettingsActivity extends AppCompatActivity {
                                                 .dropOut(0)
                                                 .subscribeOn(Schedulers.io())
                                                 .observeOn(AndroidSchedulers.mainThread())
-                                                .subscribe(dropOutBean -> {
-                                                    if (!TextUtils.isEmpty(dropOutBean.data)) {
-                                                        Toast.makeText(mContext, dropOutBean.data, Toast.LENGTH_SHORT).show();
+                                                .subscribe(it -> {
+                                                    if (!TextUtils.isEmpty(it.getData())) {
+                                                        Toast.makeText(mContext, it.getData(), Toast.LENGTH_SHORT).show();
 
-                                                        if (dropOutBean.data.equals("欢迎回来上学 (〃∀〃)")) {
+                                                        if (it.getData().equals("欢迎回来上学 (〃∀〃)")) {
                                                             CommonPrefUtil.setDropOut(2);
-                                                        } else if (dropOutBean.data.equals("退学成功 d(`･∀･)b")) {
+                                                        } else if (it.getData().equals("退学成功 d(`･∀･)b")) {
                                                             CommonPrefUtil.setDropOut(1);
                                                         }
 
@@ -221,11 +221,11 @@ public class SettingsActivity extends AppCompatActivity {
                                                         //清空缓存 --- 课程表 GPA
                                                         CacheProvider.clearCache();
 
-                                                        new AuthSelfProvider().getUserData(null); //null做了处理的 刷新状态
+                                                        new AuthProvider().getUserData(null); //null做了处理的 刷新状态
                                                     }
                                                     dialog.dismiss();
                                                 }, throwable -> {
-                                                    new AuthSelfProvider().getUserData(null); //null做了处理的
+                                                    new AuthProvider().getUserData(null); //null做了处理的
                                                     new RxErrorHandler().call(throwable);
                                                     dialog.dismiss();
                                                 });
@@ -286,7 +286,7 @@ public class SettingsActivity extends AppCompatActivity {
                                                 .unbindTju(CommonPrefUtil.getUserId())
                                                 .subscribeOn(Schedulers.io())
                                                 .observeOn(AndroidSchedulers.mainThread())
-                                                .doAfterTerminate(() -> new AuthSelfProvider().getUserData())
+                                                .doAfterTerminate(() -> new AuthProvider().getUserData())
                                                 .subscribe(responseBody -> {
                                                     Toasty.success(mContext, "解绑成功！请重启微北洋", Toast.LENGTH_SHORT).show();
                                                 }, new RxErrorHandler());

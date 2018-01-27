@@ -16,12 +16,12 @@ import android.widget.Toast;
 import com.kelin.mvvmlight.base.ViewModel;
 import com.kelin.mvvmlight.command.ReplyCommand;
 import com.orhanobut.logger.Logger;
-import com.twt.wepeiyang.commons.cache.CacheProvider;
-import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
-import com.twtstudio.retrox.auth.login.LoginActivity;
 import com.twt.service.BuildConfig;
 import com.twt.service.R;
 import com.twt.service.settings.SettingsActivity;
+import com.twt.wepeiyang.commons.cache.CacheProvider;
+import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
+import com.twtstudio.retrox.auth.view.LoginActivity;
 
 /**
  * Created by retrox on 2017/1/14.
@@ -33,25 +33,12 @@ public class PrefItemViewModel implements ViewModel {
     public static final int NIGHTMODE = 1;
     public static final int TJUOFFICAL = 2;
     public static final int EXIT = 3;
-
-
-    private Context mContext;
-
-    private int mMode = 0;
-
     public final ObservableBoolean preference = new ObservableBoolean(false);
-
     public final ObservableInt imageRes = new ObservableInt(0);
-
     public final ObservableField<String> title = new ObservableField<>();
-
     public ViewStyle viewStyle = new ViewStyle();
-
-    public class ViewStyle {
-        public final ObservableBoolean switchable = new ObservableBoolean(false);
-        public final ObservableBoolean isMargin = new ObservableBoolean(false);
-    }
-
+    private Context mContext;
+    private int mMode = 0;
     public ReplyCommand clickCommand = new ReplyCommand(this::onClick);
 
     public PrefItemViewModel(Context context, int mode) {
@@ -59,7 +46,6 @@ public class PrefItemViewModel implements ViewModel {
         mMode = mode;
         init();
     }
-
 
     private void init() {
 
@@ -137,6 +123,11 @@ public class PrefItemViewModel implements ViewModel {
                     }
                 });
         builder.create().show();
+    }
+
+    public class ViewStyle {
+        public final ObservableBoolean switchable = new ObservableBoolean(false);
+        public final ObservableBoolean isMargin = new ObservableBoolean(false);
     }
 
 }

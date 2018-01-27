@@ -11,10 +11,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
-import com.twtstudio.retrox.auth.login.AuthSelfProvider;
-import com.twtstudio.retrox.tjulibrary.provider.TjuLibProvider;
 import com.twt.service.R;
+import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
+import com.twtstudio.retrox.auth.api.AuthProvider;
+import com.twtstudio.retrox.tjulibrary.provider.TjuLibProvider;
 
 import agency.tango.materialintroscreen.SlideFragment;
 import butterknife.BindView;
@@ -28,13 +28,13 @@ import butterknife.Unbinder;
 
 public class LibBindFragment extends SlideFragment {
 
-    private Unbinder unbinder;
-    private boolean canMoveForward = false;
-    private Context mContext;
     @BindView(R.id.lib_password)
     TextInputEditText libPasswordEdit;
     @BindView(R.id.btn_lib_bind)
     Button button;
+    private Unbinder unbinder;
+    private boolean canMoveForward = false;
+    private Context mContext;
 
     @OnClick(R.id.btn_lib_bind)
     public void bind_lib(View view) {
@@ -57,7 +57,7 @@ public class LibBindFragment extends SlideFragment {
                 Toast.makeText(this.getContext(), "未知错误", Toast.LENGTH_SHORT).show();
             }
             CommonPrefUtil.setIsBindLibrary(true);
-            new AuthSelfProvider().getUserData();
+            new AuthProvider().getUserData();
         }, libPassWd);
     }
 
