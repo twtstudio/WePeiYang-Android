@@ -13,13 +13,13 @@ import com.twt.wepeiyang.commons.network.RetrofitProvider;
 import com.twt.wepeiyang.commons.network.RxErrorHandler;
 import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
 import com.twtstudio.retrox.auth.api.AuthProvider;
-import com.twtstudio.retrox.auth.tju.TjuApi;
 
 import agency.tango.materialintroscreen.SlideFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import kotlin.Unit;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -42,7 +42,7 @@ public class TjuBindFragment extends SlideFragment {
                 .bindTju(numEdit.getText().toString(), passwordEdit.getText().toString())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doAfterTerminate(() -> new AuthProvider().getUserData())
+                .doAfterTerminate(() -> AuthProvider.INSTANCE.authSelf(false, true, bean -> Unit.INSTANCE))
                 .subscribe(responseBody -> {
                     canMoveFuther = true;
                     Toast.makeText(this.getContext(), "绑定成功", Toast.LENGTH_SHORT).show();

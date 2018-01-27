@@ -9,6 +9,8 @@ import com.kelin.mvvmlight.command.ReplyCommand;
 import com.twt.service.R;
 import com.twtstudio.retrox.auth.api.AuthProvider;
 
+import kotlin.Unit;
+
 /**
  * Created by retrox on 2017/1/14.
  */
@@ -33,11 +35,11 @@ public class AvatarItemViewModel implements ViewModel {
     }
 
     public void getData() {
-        AuthProvider provider = new AuthProvider();
-        provider.getUserData(authSelfBean -> {
-            userName.set(authSelfBean.getTwtuname());
-            intro.set(authSelfBean.getRealname());
-            avatarUrl.set(authSelfBean.getAvatar());
+        AuthProvider.INSTANCE.authSelf(true, true, bean -> {
+            userName.set(bean.getTwtuname());
+            intro.set(bean.getRealname());
+            avatarUrl.set(bean.getAvatar());
+            return Unit.INSTANCE;
         });
     }
 }

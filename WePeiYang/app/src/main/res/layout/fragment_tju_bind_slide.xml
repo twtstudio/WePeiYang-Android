@@ -1,54 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="vertical"
     android:paddingLeft="16dp"
-    android:paddingRight="16dp"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:paddingRight="16dp">
 
 
     <ImageView
-        android:src="@drawable/ic_tju_icon"
         android:layout_width="184dp"
         android:layout_height="184dp"
-        android:layout_margin="50dp"
         android:layout_gravity="center_horizontal"
+        android:layout_margin="50dp"
+        android:src="@drawable/ic_tju_icon"
         />
 
     <TextView
-        android:text="办公网绑定"
-        android:layout_marginBottom="16dp"
-        android:textColor="@color/common_lv3"
-        android:layout_gravity="center_horizontal"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="16dp"
+        android:text="办公网绑定"
+        android:textColor="@color/common_lv3" />
 
     <android.support.design.widget.TextInputLayout
-        android:textColorHint="@color/common_lv2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:textColorHint="@color/common_lv2">
         <EditText
             android:id="@+id/tju_num"
-            android:textColor="@color/common_lv2"
-            android:textSize="16sp"
-            android:hint="办公网账号"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:hint="办公网账号"
+            android:textColor="@color/common_lv2"
+            android:textSize="16sp" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
-        android:textColorHint="@color/common_lv2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:textColorHint="@color/common_lv2">
         <EditText
-            android:textColor="@color/common_lv2"
-            android:textSize="16sp"
-            android:hint="办公网密码"
             android:id="@+id/tju_password"
-            android:inputType="textPassword"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:hint="办公网密码"
+            android:inputType="textPassword"
+            android:textColor="@color/common_lv2"
+            android:textSize="16sp" />
     </android.support.design.widget.TextInputLayout>
 
     <Button
@@ -57,7 +56,7 @@
         android:layout_height="43dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="40dp"
-        android:background="@drawable/login_button_selector"
+        android:background="@drawable/auth_login_button_selector"
         android:text="绑定"
         android:textColor="@color/white_color"
         android:textSize="18sp"

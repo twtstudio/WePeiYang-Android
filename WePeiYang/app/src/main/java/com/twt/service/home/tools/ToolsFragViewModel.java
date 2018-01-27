@@ -14,7 +14,6 @@ import com.twtstudio.retrox.bike.bike.ui.main.BikeActivity;
 import com.twtstudio.retrox.bike.read.home.BookHomeActivity;
 import com.twtstudio.retrox.schedule.ScheduleActivity;
 import com.twtstudio.tjliqy.party.ui.home.PartyActivity;
-import com.twtstudio.tjwhm.lostfound.waterfall.WaterfallActivity;
 
 import me.tatarka.bindingcollectionadapter.ItemView;
 import xyz.rickygao.gpa2.view.GpaActivity;
@@ -44,7 +43,7 @@ public class ToolsFragViewModel implements ViewModel {
         itemList.add(new ToolItemViewModel(mContext, R.drawable.ic_main_fellow_search, "老乡查询", com.example.caokun.fellowsearch.view.MainActivity.class));
         itemList.add(new ToolItemViewModel(mContext, R.drawable.ic_main_yellowpage, "黄页", HomeActivity.class));
 //        itemList.add(new ToolItemViewModel(mContext, R.drawable.ic_main_classroom_query, "自习室", com.twtstudio.service.classroom.view.MainActivity.class));
-        itemList.add(new ToolItemViewModel(mContext, R.drawable.ic_main_classroom_query, "失物招领", WaterfallActivity.class));
+//        itemList.add(new ToolItemViewModel(mContext, R.drawable.ic_main_classroom_query, "失物招领", WaterfallActivity.class));
     }
 
     private void feedback() {
