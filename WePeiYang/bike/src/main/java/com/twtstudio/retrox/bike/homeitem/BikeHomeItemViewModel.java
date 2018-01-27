@@ -7,9 +7,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.AlertDialog;
 import android.widget.Toast;
-
-import com.kelin.mvvmlight.base.ViewModel;
-import com.kelin.mvvmlight.command.ReplyCommand;
 import com.tapadoo.alerter.Alerter;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 import com.twtstudio.retrox.bike.R;
@@ -28,7 +25,7 @@ import rx.schedulers.Schedulers;
  * Created by retrox on 2017/2/24.
  */
 
-public class BikeHomeItemViewModel implements ViewModel {
+public class BikeHomeItemViewModel {
 
     //绑定生命周期和Alerter会用到
     private RxAppCompatActivity activity;

@@ -24,9 +24,7 @@ android {
             }
         }
     }
-    dataBinding {
-        enabled false
-    }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -96,7 +94,6 @@ dependencies {
 
 //    compile project(':commons')
     compile 'com.twt.service:commons:1.2.0'
-    compile 'com.twt.service:mvvmkit:1.2.0'
 
     compile "android.arch.lifecycle:runtime:1.0.3"
     compile "android.arch.lifecycle:extensions:1.0.0-rc1"

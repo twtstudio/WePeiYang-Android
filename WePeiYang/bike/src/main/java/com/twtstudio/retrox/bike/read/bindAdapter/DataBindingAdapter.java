@@ -1,6 +1,5 @@
 package com.twtstudio.retrox.bike.read.bindAdapter;
 
-import android.databinding.BindingAdapter;
 import android.text.TextUtils;
 import android.webkit.WebView;
 import android.widget.ImageView;
