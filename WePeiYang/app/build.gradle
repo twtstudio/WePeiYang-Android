@@ -52,9 +52,9 @@ android {
         }
     }
 
-    dataBinding {
-        enabled true
-    }
+//    dataBinding {
+//        enabled true
+//    }
 
     signingConfigs {
         release {
@@ -117,7 +117,7 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 
     //module
-    compile 'com.twt.service:mvvmkit:1.2.0'
+//    compile 'com.twt.service:mvvmkit:1.2.0'
 //    compile project(':navigationbottom')
 //    compile project(':fragmentation')
     compile 'com.twt.service:fragmentation:1.1.0'

@@ -13,7 +13,7 @@ import xyz.rickygao.gpa2.api.Evaluate
  * Created by rickygao on 2017/11/14.
  */
 class CourseAdapter(
-        val context: Context,
+        private val context: Context,
         private val inflater: LayoutInflater
 ) : RecyclerView.Adapter<CourseAdapter.CourseViewHolder>() {
 
@@ -52,9 +52,7 @@ class CourseAdapter(
         return CourseViewHolder(itemView)
     }
 
-    override fun onBindViewHolder(holder: CourseViewHolder, position: Int) {
-        holder.bind(courses.get(position))
-    }
+    override fun onBindViewHolder(holder: CourseViewHolder, position: Int) = holder.bind(courses.get(position))
 
     override fun getItemCount(): Int = courses.size
 
@@ -85,7 +83,7 @@ class CourseAdapter(
                     startEvaluateActivity(context, course.evaluate)
                 }
             }
-            }
+        }
 
     }
 

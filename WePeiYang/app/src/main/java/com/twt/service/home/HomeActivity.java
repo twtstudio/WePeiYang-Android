@@ -18,17 +18,17 @@ import android.transition.Fade;
 import android.view.View;
 
 import com.orhanobut.logger.Logger;
-import com.twt.service.home.common.CommonFragmentNew;
-import com.twt.service.update.UpdateManager;
-import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
 import com.twt.service.R;
 import com.twt.service.base.BaseActivity;
+import com.twt.service.home.common.CommonFragmentNew;
 import com.twt.service.home.news.NewsFragment;
 import com.twt.service.home.tools.ToolsFragment;
 import com.twt.service.home.user.UserFragment;
+import com.twt.service.update.UpdateManager;
 import com.twt.service.view.BottomBar;
 import com.twt.service.view.BottomBarTab;
 import com.twt.service.widget.WidgetUpdateManger;
+import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
 
 import me.yokeyword.fragmentation.SupportFragment;
 
@@ -67,8 +67,8 @@ public class HomeActivity extends BaseActivity {
         if (savedInstanceState == null) {
             mFragments[FIRST] = new CommonFragmentNew();
             mFragments[SECOND] = NewsFragment.newInstance();
-            mFragments[THIRD] = ToolsFragment.newInstance();
-            mFragments[FOURTH] = UserFragment.newInstance();
+            mFragments[THIRD] = ToolsFragment.Companion.newInstance();
+            mFragments[FOURTH] = UserFragment.Companion.newInstance();
 
 //            loadMultipleRootFragment(R.id.fl_container, FOURTH, //坑
 //                    mFragments[FIRST],

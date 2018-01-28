@@ -1,44 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:bind="http://schemas.android.com/apk/res-auto">
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
 
-    <data>
-        <variable
-            name="viewmodel"
-            type="com.twt.service.home.user.UserFragViewModel"/>
-        <import type="me.tatarka.bindingcollectionadapter.LayoutManagers" />
-
-        <import type="android.view.View" />
-    </data>
-    <android.support.design.widget.CoordinatorLayout
-        android:fitsSystemWindows="true"
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <android.support.design.widget.AppBarLayout
-            android:id="@+id/app_bar"
-            bind:elevation="0dp"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay"
+        app:elevation="0dp">
+
+        <android.support.v7.widget.Toolbar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:theme="@style/AppTheme.AppBarOverlay">
-            
-            <android.support.v7.widget.Toolbar
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/colorPrimary"
-                bind:title="Personal Information"
-                bind:titleTextColor="@color/white_color"
-                />
+            android:background="@color/colorPrimary"
+            app:title="Personal Information"
+            app:titleTextColor="@color/white_color" />
 
-        </android.support.design.widget.AppBarLayout>
+    </android.support.design.widget.AppBarLayout>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            bind:layoutManager="@{LayoutManagers.linear()}"
-            bind:itemView="@{viewmodel.itemView}"
-            bind:items="@{viewmodel.list}"
-            bind:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-    </android.support.design.widget.CoordinatorLayout>
-</layout>
+</android.support.design.widget.CoordinatorLayout>

@@ -21,7 +21,7 @@ object AuthProvider {
     val successLiveData = MutableLiveData<ConsumableMessage<String>>()
     val errorLiveData = MutableLiveData<ConsumableMessage<String>>()
 
-    const val LOGIN = 0
+    const val FROM_LOGIN = 0
     fun login(username: String, password: String, silent: Boolean = false) {
         async(UI) {
             val remote = bg {
@@ -33,18 +33,18 @@ object AuthProvider {
                 CommonPrefUtil.setIsLogin(true)
                 CommonPrefUtil.setIsFirstLogin(false)
 
-                if (!silent) successLiveData.value = ConsumableMessage("登录成功啦", from = LOGIN)
+                if (!silent) successLiveData.value = ConsumableMessage("登录成功啦", from = FROM_LOGIN)
             }
 
         }.invokeOnCompletion {
             it?.let {
-                if (!silent) errorLiveData.value = ConsumableMessage("好像出了什么问题，${it.message}", from = LOGIN)
+                if (!silent) errorLiveData.value = ConsumableMessage("好像出了什么问题，${it.message}", from = FROM_LOGIN)
             }
         }
     }
 
-    const val AUTH_SELF = 1
-    private const val HAWK_KEY_AUTH_SELF = "AUTH_SELF"
+    const val FROM_AUTH_SELF = 1
+    private const val HAWK_KEY_AUTH_SELF = "FROM_AUTH_SELF"
     fun authSelf(useCache: Boolean = true, silent: Boolean = false, block: (AuthSelfBean) -> Unit = {} /* TODO: if use LiveData remove here */) {
 
         async(UI) {
@@ -80,7 +80,7 @@ object AuthProvider {
                 CrashReport.setUserId(it.twtuname)
 
 
-                if (!silent) successLiveData.value = ConsumableMessage("成功拉取到个人状态", from = AUTH_SELF)
+                if (!silent) successLiveData.value = ConsumableMessage("成功拉取到个人状态", from = FROM_AUTH_SELF)
                 Hawk.put(HAWK_KEY_AUTH_SELF, it)
 
                 // TODO: if use LiveData remove here
@@ -89,7 +89,7 @@ object AuthProvider {
 
         }.invokeOnCompletion {
             it?.let {
-                if (!silent) errorLiveData.value = ConsumableMessage("好像出了什么问题，${it.message}", from = AUTH_SELF)
+                if (!silent) errorLiveData.value = ConsumableMessage("好像出了什么问题，${it.message}", from = FROM_AUTH_SELF)
             }
         }
 

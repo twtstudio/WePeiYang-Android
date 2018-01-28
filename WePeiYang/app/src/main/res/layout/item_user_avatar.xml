@@ -1,76 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:bind="http://schemas.android.com/apk/res-auto"
-        xmlns:android="http://schemas.android.com/apk/res/android">
-    <data>
-        <variable
-            name="viewModel"
-            type="com.twt.service.home.user.AvatarItemViewModel"/>
-    </data>
-<LinearLayout
-    android:orientation="vertical"
+
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="93dp"
-    android:layout_marginTop="10dp"
-    android:layout_marginBottom="10dp">
+    android:layout_height="wrap_content"
+    android:background="#FFFFFF"
+    android:padding="24dp">
 
-    <RelativeLayout
-                    android:background="#ffffff"
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp">
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/iv_avatar"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/imageView"
-            android:layout_width="58dp"
-            android:layout_height="58dp"
-            android:layout_marginStart="21dp"
-            android:layout_marginTop="17dp"
-            android:layout_marginBottom="17dp"
-            android:layout_alignParentStart="true"
-            bind:uri="@{viewModel.avatarUrl}"
-            bind:placeholderImageRes="@{viewModel.defultAvatar}"
-            android:layout_alignParentTop="true"/>
+    <TextView
+        android:id="@+id/tv_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:fontFamily="sans-serif-common"
+        android:maxLines="1"
+        android:textColor="#302a2a"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/tv_realname"
+        app:layout_constraintStart_toEndOf="@+id/iv_avatar"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="用户名" />
 
-        <ImageView
-            android:id="@+id/edit_icon"
-            android:visibility="gone"
-            android:layout_width="18dp"
-            android:layout_height="18dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="18dp"
-            android:src="@drawable/ic_edit"
-            android:tint="#c8ccd3"
-            bind:clickCommand="@{viewModel.onEditClick}"
-            />
+    <TextView
+        android:id="@+id/tv_realname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#999999"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/tv_username"
+        app:layout_constraintTop_toBottomOf="@+id/tv_username"
+        tools:text="真实姓名" />
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="22dp"
-            android:layout_marginStart="17dp"
-            android:maxLines="1"
-            android:layout_toEndOf="@id/imageView"
-            android:layout_toStartOf="@id/edit_icon"
-            android:textColor="#302a2a"
-            android:fontFamily="sans-serif-common"
-            android:textSize="18sp"
-            android:text="@{viewModel.userName}"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/textView"
-            android:layout_toEndOf="@id/imageView"
-            android:layout_toStartOf="@id/edit_icon"
-            android:textColor="#999999"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="17dp"
-            android:text="@{viewModel.intro}"/>
-
-
-
-
-    </RelativeLayout>
-</LinearLayout>
-</layout>
+</android.support.constraint.ConstraintLayout>

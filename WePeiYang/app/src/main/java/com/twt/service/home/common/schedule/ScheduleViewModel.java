@@ -4,24 +4,19 @@ import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.MutableLiveData;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.databinding.ObservableArrayList;
-import android.databinding.ObservableField;
 import android.preference.PreferenceManager;
 
 import com.kelin.mvvmlight.base.ViewModel;
 import com.kelin.mvvmlight.command.ReplyCommand;
-import com.orhanobut.hawk.Hawk;
-import com.orhanobut.logger.Logger;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
+import com.twt.service.R;
 import com.twtstudio.retrox.schedule.ScheduleActivity;
 import com.twtstudio.retrox.schedule.TimeHelper;
-import com.twtstudio.retrox.schedule.view.ScheduleTodayAct;
 import com.twtstudio.retrox.schedule.model.ClassTable;
 import com.twtstudio.retrox.schedule.model.ClassTableProvider;
 import com.twtstudio.retrox.schedule.model.CourseHelper;
-import com.twt.service.R;
-
+import com.twtstudio.retrox.schedule.view.ScheduleTodayAct;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -29,7 +24,6 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
-import me.tatarka.bindingcollectionadapter.ItemView;
 import rx.Observable;
 
 /**
@@ -38,17 +32,14 @@ import rx.Observable;
 
 public class ScheduleViewModel extends AndroidViewModel implements ViewModel {
 
-    private RxAppCompatActivity rxAppCompatActivity;
-
+    public static final SimpleDateFormat dateFormate = new SimpleDateFormat("yyyy/MM/dd", Locale.CHINA);
     public final MutableLiveData<String> title = new MutableLiveData<>();
 
     public final List<ViewModel> items = new ArrayList<>();
 
     public final MutableLiveData<List<ViewModel>> liveItems = new MutableLiveData<>();
-
+    private RxAppCompatActivity rxAppCompatActivity;
     public final ReplyCommand replyCommand = new ReplyCommand(this::jumpTodayDetail);
-
-    public static final SimpleDateFormat dateFormate = new SimpleDateFormat("yyyy/MM/dd", Locale.CHINA);
 
 
     public ScheduleViewModel(RxAppCompatActivity rxActivity) {
@@ -71,8 +62,8 @@ public class ScheduleViewModel extends AndroidViewModel implements ViewModel {
             items.add(new CourseBriefViewModel(course));
         }
         liveItems.setValue(items);
-        Hawk.put("itemstest",items);
-        Logger.d(items);
+//        Hawk.put("itemstest",items);
+//        Logger.d(items);
     }
 
     private void getTodayString() {

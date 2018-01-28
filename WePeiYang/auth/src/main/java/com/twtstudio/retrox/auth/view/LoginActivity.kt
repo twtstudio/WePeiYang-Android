@@ -33,14 +33,14 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
-        AuthProvider.successLiveData.consume(this, from = AuthProvider.LOGIN) {
+        AuthProvider.successLiveData.consume(this, from = AuthProvider.FROM_LOGIN) {
             it?.let {
                 Toasty.success(this, it).show()
                 AuthProvider.authSelf()
             }
         }
 
-        AuthProvider.successLiveData.consume(this, from = AuthProvider.AUTH_SELF) {
+        AuthProvider.successLiveData.consume(this, from = AuthProvider.FROM_AUTH_SELF) {
             it?.let {
                 Toasty.success(this, it).show()
                 val intent = Intent(
