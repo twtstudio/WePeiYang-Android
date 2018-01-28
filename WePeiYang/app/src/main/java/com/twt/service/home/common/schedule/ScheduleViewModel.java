@@ -6,8 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import com.kelin.mvvmlight.base.ViewModel;
-import com.kelin.mvvmlight.command.ReplyCommand;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 import com.twt.service.R;
@@ -39,7 +37,6 @@ public class ScheduleViewModel extends AndroidViewModel implements ViewModel {
 
     public final MutableLiveData<List<ViewModel>> liveItems = new MutableLiveData<>();
     private RxAppCompatActivity rxAppCompatActivity;
-    public final ReplyCommand replyCommand = new ReplyCommand(this::jumpTodayDetail);
 
 
     public ScheduleViewModel(RxAppCompatActivity rxActivity) {

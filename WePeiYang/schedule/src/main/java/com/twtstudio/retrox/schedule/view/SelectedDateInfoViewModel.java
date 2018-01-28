@@ -3,7 +3,6 @@ package com.twtstudio.retrox.schedule.view;
 import android.arch.lifecycle.MutableLiveData;
 import android.util.Log;
 
-import com.kelin.mvvmlight.base.ViewModel;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 
 /**

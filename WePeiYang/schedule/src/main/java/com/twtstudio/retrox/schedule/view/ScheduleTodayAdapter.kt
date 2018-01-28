@@ -5,7 +5,6 @@ import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import com.kelin.mvvmlight.base.ViewModel
 import com.twtstudio.retrox.schedule.R
 import java.util.ArrayList
 

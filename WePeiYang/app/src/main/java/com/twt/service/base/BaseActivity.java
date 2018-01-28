@@ -2,7 +2,6 @@ package com.twt.service.base;
 
 import android.arch.lifecycle.LifecycleActivity;
 
-import com.kelin.mvvmlight.messenger.Messenger;
 
 import me.yokeyword.fragmentation.SupportActivity;
 
@@ -15,6 +14,5 @@ public class BaseActivity extends SupportActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Messenger.getDefault().unregister(this);
     }
 }

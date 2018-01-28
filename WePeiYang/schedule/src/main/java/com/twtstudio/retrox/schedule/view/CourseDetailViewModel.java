@@ -3,7 +3,6 @@ package com.twtstudio.retrox.schedule.view;
 import android.arch.lifecycle.MutableLiveData;
 
 
-import com.kelin.mvvmlight.base.ViewModel;
 import com.twtstudio.retrox.schedule.ResourceHelper;
 import com.twtstudio.retrox.schedule.model.ClassTable;
 import com.twtstudio.retrox.schedule.model.CourseHelper;

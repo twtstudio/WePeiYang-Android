@@ -3,8 +3,6 @@ package com.twtstudio.retrox.schedule.view;
 import android.content.Context;
 import android.content.Intent;
 
-import com.kelin.mvvmlight.base.ViewModel;
-import com.kelin.mvvmlight.command.ReplyCommand;
 import com.twtstudio.retrox.schedule.ScheduleActivity;
 
 /**

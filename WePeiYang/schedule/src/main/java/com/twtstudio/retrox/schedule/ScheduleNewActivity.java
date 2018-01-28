@@ -19,7 +19,6 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.kelin.mvvmlight.base.ViewModel;
 import com.ldf.calendar.component.CalendarAttr;
 import com.ldf.calendar.component.CalendarViewAdapter;
 import com.ldf.calendar.interf.OnSelectDateListener;
@@ -33,6 +32,7 @@ import com.twtstudio.retrox.schedule.model.ClassTableProvider;
 import com.twtstudio.retrox.schedule.utils.PrefUtil;
 import com.twtstudio.retrox.schedule.view.ScheduleNewAdapter;
 import com.twtstudio.retrox.schedule.view.ScheduleNewViewModel;
+import com.twtstudio.retrox.schedule.view.ViewModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;

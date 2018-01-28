@@ -2,7 +2,6 @@ package com.twtstudio.retrox.schedule.view;
 
 import android.arch.lifecycle.MutableLiveData;
 
-import com.kelin.mvvmlight.base.ViewModel;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.twtstudio.retrox.schedule.TimeHelper;
 import com.twtstudio.retrox.schedule.model.ClassTable;

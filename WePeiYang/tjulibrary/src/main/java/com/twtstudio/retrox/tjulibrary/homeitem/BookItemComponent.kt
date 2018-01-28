@@ -4,6 +4,7 @@ import android.app.Activity
 import android.arch.lifecycle.LifecycleOwner
 import android.arch.lifecycle.MutableLiveData
 import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.support.v4.content.ContextCompat
 import android.support.v4.graphics.drawable.DrawableCompat
 import android.support.v7.widget.RecyclerView
@@ -43,7 +44,7 @@ class BookItemComponent(lifecycleOwner: LifecycleOwner,itemView: View) : Recycle
     }
 
     private fun setBookCoverDrawable(book: Book) {
-        var drawable = ContextCompat.getDrawable(mContext, R.drawable.lib_book)
+        var drawable: Drawable = ContextCompat.getDrawable(mContext, R.drawable.lib_book)!!
         val leftDays = book.timeLeft()
         when {
             leftDays > 20 -> DrawableCompat.setTint(drawable, Color.rgb(0, 167, 224)) //blue
@@ -61,7 +62,7 @@ class BookItemComponent(lifecycleOwner: LifecycleOwner,itemView: View) : Recycle
                 }
                 DrawableCompat.setTint(drawable, Color.rgb(160, 42, 42)) //red
             }
-            else -> drawable = ContextCompat.getDrawable(mContext, R.drawable.lib_warning)
+            else -> drawable = ContextCompat.getDrawable(mContext, R.drawable.lib_warning)!!
         }
         cover.setImageDrawable(drawable)
     }

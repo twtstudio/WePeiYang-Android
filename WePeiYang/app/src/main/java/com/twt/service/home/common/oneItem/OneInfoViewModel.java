@@ -3,12 +3,13 @@ package com.twt.service.home.common.oneItem;
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.MutableLiveData;
-import android.databinding.ObservableBoolean;
+
 import android.support.annotation.NonNull;
 
-import com.kelin.mvvmlight.base.ViewModel;
+
 import com.twt.service.api.ApiClient;
 import com.twt.service.base.BaseFragment;
+import com.twtstudio.retrox.schedule.view.ViewModel;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -36,12 +37,7 @@ public class OneInfoViewModel extends AndroidViewModel implements ViewModel {
 
     public static final SimpleDateFormat dateFormate = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
 
-    /**
-     * 这里暂时没啥乱用
-     */
-    public class ViewStyle {
-        public final ObservableBoolean progressRefreshing = new ObservableBoolean(true);
-    }
+
 
     public OneInfoViewModel(@NonNull Application application) {
         super(application);

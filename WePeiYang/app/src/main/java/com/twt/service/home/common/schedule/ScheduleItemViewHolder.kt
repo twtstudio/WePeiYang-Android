@@ -9,7 +9,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
-import com.kelin.mvvmlight.base.ViewModel
 import com.twt.service.R
 import com.twtstudio.retrox.schedule.ScheduleActivity
 

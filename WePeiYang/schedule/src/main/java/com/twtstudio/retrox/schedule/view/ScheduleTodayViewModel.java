@@ -1,13 +1,12 @@
 package com.twtstudio.retrox.schedule.view;
 
-import android.databinding.ObservableArrayList;
 
-import com.kelin.mvvmlight.base.ViewModel;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 import com.twtstudio.retrox.schedule.model.ClassTable;
 import com.twtstudio.retrox.schedule.model.ClassTableProvider;
 import com.twtstudio.retrox.schedule.model.CourseHelper;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,7 +17,7 @@ public class ScheduleTodayViewModel {
 
     private RxAppCompatActivity rxActivity;
 
-    public final ObservableArrayList<ViewModel> items = new ObservableArrayList<>();
+    public final ArrayList<ViewModel> items = new ArrayList<>();
 
 //    public final ItemViewSelector itemView = ItemViewClassSelector.builder()
 //            .put(TodayInfoViewModel.class, BR.viewModel, R.layout.item_schedule_course_today_info)
