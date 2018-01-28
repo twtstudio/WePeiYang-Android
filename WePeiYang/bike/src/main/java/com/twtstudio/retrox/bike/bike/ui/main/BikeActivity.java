@@ -18,7 +18,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.alibaba.android.arouter.facade.annotation.Route;
 import com.twtstudio.retrox.bike.R;
 import com.twtstudio.retrox.bike.R2;
 import com.twtstudio.retrox.bike.bike.BikeFragment;
@@ -38,7 +37,6 @@ import butterknife.Unbinder;
  * Created by jcy on 16-8-20.
  */
 
-@Route(path = "/bike/main")
 public class BikeActivity extends AppCompatActivity {
     @BindView(R2.id.toolbar_main_act)
     Toolbar mToolBar;

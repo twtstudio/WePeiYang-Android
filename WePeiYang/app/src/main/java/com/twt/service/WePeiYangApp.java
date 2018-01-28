@@ -3,7 +3,6 @@ package com.twt.service;
 import android.content.Context;
 import android.support.multidex.MultiDexApplication;
 
-import com.alibaba.android.arouter.launcher.ARouter;
 import com.github.piasy.biv.BigImageViewer;
 import com.github.piasy.biv.loader.glide.GlideImageLoader;
 import com.orhanobut.hawk.Hawk;
@@ -33,17 +32,6 @@ public class WePeiYangApp extends MultiDexApplication {
         Hawk.init(sContext).build();
 //        UMShareAPI.get(this);
         BigImageViewer.initialize(GlideImageLoader.with(this));
-
-        if (BuildConfig.DEBUG) {
-            ARouter.openDebug();
-            ARouter.openLog();
-        }
-        try {
-            ARouter.init(this);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
 
     }
 

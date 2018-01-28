@@ -7,7 +7,6 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.alibaba.android.arouter.facade.annotation.Route;
 import com.twtstudio.retrox.bike.R;
 import com.twtstudio.retrox.bike.R2;
 import com.twtstudio.retrox.bike.bike.ui.main.BikeActivity;
@@ -22,7 +21,6 @@ import butterknife.BindView;
  * Created by jcy on 2016/8/7.
  */
 
-@Route(path = "/bike/auth")
 public class BikeAuthActivity extends PActivity<BikeAuthPresenter> implements BikeAuthController {
 
     @BindView(R2.id.et_auth_bike)

@@ -1,14 +1,15 @@
 package com.twtstudio.retrox.bike.bike.ui.data;
 
 import android.content.Context;
+import android.content.Intent;
 import android.widget.Toast;
 
-import com.alibaba.android.arouter.launcher.ARouter;
 import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
 import com.twtstudio.retrox.bike.WePeiYangAppOld;
 import com.twtstudio.retrox.bike.api.BikeApiClient;
 import com.twtstudio.retrox.bike.api.BikeApiSubscriber;
 import com.twtstudio.retrox.bike.api.OnNextListener;
+import com.twtstudio.retrox.bike.bike.bikeAuth.BikeAuthActivity;
 import com.twtstudio.retrox.bike.common.Presenter;
 import com.twtstudio.retrox.bike.model.BikeUserInfo;
 
@@ -38,7 +39,8 @@ public class HomePresenter extends Presenter {
             }else {
                 CommonPrefUtil.setIsBindBike(false);
                 Toasty.warning(WePeiYangAppOld.getContext(),"请绑定自行车卡", Toast.LENGTH_SHORT).show();
-                ARouter.getInstance().build("/bike/auth").navigation();
+                Intent intent = new Intent(mContext, BikeAuthActivity.class);
+                mContext.startActivity(intent);
             }
         }
     };

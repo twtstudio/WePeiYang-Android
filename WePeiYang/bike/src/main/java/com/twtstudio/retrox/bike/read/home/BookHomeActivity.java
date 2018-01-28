@@ -14,7 +14,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.alibaba.android.arouter.facade.annotation.Route;
 import com.twtstudio.retrox.bike.R;
 import com.twtstudio.retrox.bike.R2;
 import com.twtstudio.retrox.bike.common.ui.BaseActivity;
@@ -33,7 +32,6 @@ import de.greenrobot.event.EventBus;
  * Created by tjliqy on 2016/10/27.
  */
 
-@Route(path = "/read/main")
 public class BookHomeActivity extends BaseActivity {
 
 
