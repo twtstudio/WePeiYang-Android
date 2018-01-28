@@ -1,8 +1,6 @@
 package com.twt.service.home.common.schedule;
 
 import android.arch.lifecycle.MutableLiveData;
-import android.databinding.ObservableField;
-import android.databinding.ObservableInt;
 
 import com.kelin.mvvmlight.base.ViewModel;
 import com.twtstudio.retrox.schedule.ResourceHelper;
