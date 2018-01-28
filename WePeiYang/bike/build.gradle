@@ -6,23 +6,20 @@ apply from: '../maven_push.gradle'
 
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion '26.0.2'
+    compileSdkVersion versions.compileSdk
+    buildToolsVersion versions.buildTools
 
     defaultConfig {
-        minSdkVersion 19
-        targetSdkVersion 26
+        minSdkVersion versions.minSdk
+        targetSdkVersion versions.targetSdk
         versionCode 1
-        versionName "1.0"
+        versionName '1.0'
 
-        ndk {
-            abiFilters 'armeabi'
-        }
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments = [ moduleName : project.getName() ]
-            }
-        }
+        testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
+
+//        ndk {
+//            abiFilters 'armeabi'
+//        }
     }
 
     buildTypes {
@@ -31,78 +28,44 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    compileOptions {
-        targetCompatibility 1.8
-        sourceCompatibility 1.8
-    }
-    configurations.all {
-//        exclude group: 'me.tatarka.bindingcollectionadapter'
-//        exclude group: 'com.twt.service'
 
+    configurations.all {
         resolutionStrategy {
             force 'com.google.code.findbugs:jsr305:3.0.1'
         }
-        collect { configuration ->
-            configuration.exclude group: 'com.twtservice', module: 'commons'
-            configuration.exclude group: 'me.tatarka.bindingcollectionadapter2'
-            configuration.exclude group: 'me.tatarka.bindingcollectionadapter'
-        }
-        resolutionStrategy.eachDependency { DependencyResolveDetails details ->
-            def requested = details.requested
-            if (requested.group == 'com.android.support') {
-//                &&!requested.name.startsWith("recyclerview-v7")
-                if (!requested.name.startsWith("multidex")) {
-                    details.useVersion '26.1.0'
-                }else if (requested.name.startsWith("recyclerview-v7")){
-                    details.useVersion '25.3.1'
-                }
-            }
-        }
+    }
 
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
     }
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:3.0.1', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
 
-    rootProject.ext.supportLibrarys.each { name, library ->
-        implementation library
+    implementation project(':commons')
+
+    [*supportLibraries, *lifecycleLibraries, 'kotlin-stdlib', 'butterknife'].each {
+        implementation dependenciesMap[it]
+    }
+    ['lifecycle-compiler', 'butterknife-compiler'].each {
+        annotationProcessor dependenciesMap[it]
     }
 
     implementation 'commons-io:commons-io:2.4'
-
     implementation 'com.afollestad.material-dialogs:core:0.9.0.1'
-    implementation 'com.jakewharton:butterknife:8.5.1'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
-
-    compile 'com.sothree.slidinguppanel:library:3.3.0'
-
-//    compile files('libs/AMap3DMap_3.4.0_AMapLocation_2.7.0_20160809.jar')
-//    compile 'com.amap.api:map3d:5.0.0'
-//    compile 'com.amap.api:map3d-native:5.0.0'
-//    compile 'com.amap.api:location:3.3.0'
-//    compile 'com.amap.api:map3d-native:latest.integration'
+    implementation 'com.sothree.slidinguppanel:library:3.3.0'
     implementation 'com.amap.api:map3d:5.0.0'
     implementation 'com.amap.api:location:3.7.0'
-
-
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.1'
-
     implementation 'de.hdodenhof:circleimageview:2.1.0'
-    implementation 'com.youth.banner:banner:1.4.1'  //最新版本
+    implementation 'com.youth.banner:banner:1.4.1'
     implementation 'com.github.florent37:glidepalette:1.0.6'
     implementation 'de.greenrobot:eventbus:2.4.0'
 
-//    compile project(':commons')
-    implementation project(':commons')
-
-    implementation "android.arch.lifecycle:runtime:1.0.3"
-    implementation "android.arch.lifecycle:extensions:1.0.0"
-    annotationProcessor "android.arch.lifecycle:compiler:1.0.0-rc1"
-
-    testCompile 'junit:junit:4.12'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-}
-repositories {
-    mavenCentral()
 }

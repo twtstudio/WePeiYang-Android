@@ -4,17 +4,16 @@ apply plugin: 'kotlin-android-extensions'
 apply from: '../maven_push.gradle'
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "26.0.2"
-
+    compileSdkVersion versions.compileSdk
+    buildToolsVersion versions.buildTools
 
     defaultConfig {
-        minSdkVersion 19
-        targetSdkVersion 26
+        minSdkVersion versions.minSdk
+        targetSdkVersion versions.targetSdk
         versionCode 1
-        versionName "1.0"
+        versionName '1.0'
 
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
 
     }
 
@@ -24,39 +23,35 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
     configurations.all {
         resolutionStrategy {
             force 'com.google.code.findbugs:jsr305:3.0.1'
         }
     }
+
+}
+
+kotlin {
+    experimental {
+        coroutines 'enable'
+    }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation('com.android.support.test.espresso:espresso-core:3.0.1', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-    rootProject.ext.supportLibrarys.each { name, library ->
-        implementation library
-    }
-
     implementation project(':commons')
-//    implementation 'com.twt.service:commons:1.2.0'
-    implementation "android.arch.lifecycle:runtime:1.0.3"
-    implementation "android.arch.lifecycle:extensions:1.0.0"
-    annotationProcessor "android.arch.lifecycle:compiler:1.0.0"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-    implementation "org.jetbrains.anko:anko-coroutines:$anko_version"
 
-}
-repositories {
-    mavenCentral()
-}
-kotlin {
-    experimental {
-        coroutines "enable"
+    [*supportLibraries, 'constraint-layout', *lifecycleLibraries, 'kotlin-stdlib', 'anko-coroutines'].each {
+        implementation dependenciesMap[it]
     }
+    ['lifecycle-compiler'].each {
+        annotationProcessor dependenciesMap[it]
+    }
+
 }

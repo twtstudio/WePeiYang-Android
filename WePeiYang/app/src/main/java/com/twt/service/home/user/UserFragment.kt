@@ -32,7 +32,8 @@ class UserFragment : BaseFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_user, container, false)
-        val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerView).apply {
+
+        view.findViewById<RecyclerView>(R.id.recyclerView).apply {
             layoutManager = LinearLayoutManager(context)
             adapter = UserAdapter(
                     listOf(
@@ -79,7 +80,6 @@ class UserFragment : BaseFragment() {
             )
 
             addItemDecoration(RecyclerViewDivider.Builder(this.context)
-                    .setStartSkipCount(1)
                     .setSize(2f)
                     .setColorRes(R.color.background_gray)
                     .build())

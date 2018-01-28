@@ -6,42 +6,44 @@ apply plugin: 'kotlin-android'
 
 Properties pro = new Properties()
 pro.load(project.rootProject.file('local.properties').newDataInputStream())
-print(pro.getProperty("keyAlias"))
+print(pro.getProperty('keyAlias'))
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion '26.0.2'
+    compileSdkVersion versions.compileSdk
+    buildToolsVersion versions.buildTools
+
     defaultConfig {
-        applicationId "com.twt.service"
-        minSdkVersion 19
-        targetSdkVersion 25
+        minSdkVersion versions.minSdk
+        targetSdkVersion versions.targetSdk
+        applicationId 'com.twt.service'
         versionCode 13
-        versionName "3.1.3"
+        versionName '3.1.3'
+
+        testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
+
         multiDexEnabled true
+
         ndk {
-            abiFilters 'armeabi','x86'
+            abiFilters 'armeabi', 'x86'
         }
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments = [ moduleName : project.getName() ]
-            }
-        }
+
         lintOptions {
             checkReleaseBuilds false
             // Or, if you prefer, you can continue to check for errors in release builds,
             // but continue the build even when errors are found:
             abortOnError false
         }
-        flavorDimensions "dev"
+
+        flavorDimensions 'dev'
         productFlavors {
             dev {
-                dimension "dev"
+                dimension 'dev'
                 // Enable pre-dexing to produce an APK that can be tested on
                 // Android 5.0+ without the time-consuming DEX build processes.
                 minSdkVersion 21
             }
             common {
-                dimension "dev"
+                dimension 'dev'
                 minSdkVersion 19
             }
         }
@@ -52,17 +54,13 @@ android {
         }
     }
 
-//    dataBinding {
-//        enabled true
-//    }
-
     signingConfigs {
         release {
             try {
-                storeFile file(pro.getProperty("jksPath"))
-                storePassword pro.getProperty("storePassword")
-                keyAlias pro.getProperty("keyAlias")
-                keyPassword pro.getProperty("storePassword")
+                storeFile file(pro.getProperty('jksPath'))
+                storePassword pro.getProperty('storePassword')
+                keyAlias pro.getProperty('keyAlias')
+                keyPassword pro.getProperty('storePassword')
             } catch (ex) {
 //                throw new InvalidUserDataException(ex.toString())
                 ex.printStackTrace()
@@ -79,119 +77,40 @@ android {
     }
 
     configurations.all {
-//        exclude group: 'me.tatarka.bindingcollectionadapter'
-//        exclude group: 'com.twt.service'
-
         resolutionStrategy {
             force 'com.google.code.findbugs:jsr305:3.0.1'
         }
-        collect { configuration ->
-            configuration.exclude group: 'com.twtservice', module: 'commons'
-        }
-        resolutionStrategy.eachDependency { DependencyResolveDetails details ->
-            def requested = details.requested
-            if (requested.group == 'com.android.support') {
-//                &&!requested.name.startsWith("recyclerview-v7")
-                if (!requested.name.startsWith("multidex")) {
-                    details.useVersion '26.1.0'
-                }else if (requested.name.startsWith("recyclerview-v7")){
-                    details.useVersion '25.3.1'
-                }
-            }
-        }
-
     }
+
     compileOptions {
         targetCompatibility 1.8
         sourceCompatibility 1.8
     }
-
 }
 
 dependencies {
-//    compile fileTree(include: ['*.jar'], dir: 'libs')
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:3.0.1', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
 
-    rootProject.ext.supportLibrarys.each { name, library ->
-        implementation library
+    [':commons', ':gpa2', ':bike', ':schedule', ':tjulibrary', ':auth'].each {
+        implementation project(it)
+    }
+    implementation 'com.twt.service:fragmentation:1.1.0'
+
+    [*supportLibraries, 'constraint-layout', 'multidex', *lifecycleLibraries, 'kotlin-stdlib', 'butterknife'].each {
+        implementation dependenciesMap[it]
+    }
+    ['lifecycle-compiler', 'butterknife-compiler'].each {
+        annotationProcessor dependenciesMap[it]
     }
 
-    implementation 'com.twt.service:fragmentation:1.1.0'
-    implementation project(':commons')
-
-    implementation project(':gpa2')
-
-    implementation project(':bike')
-    implementation project(':schedule')
-
-    implementation project(':tjulibrary')
-
-    implementation project(':auth')
-
-    implementation "android.arch.lifecycle:runtime:1.0.3"
-    implementation "android.arch.lifecycle:extensions:1.0.0"
-    annotationProcessor "android.arch.lifecycle:compiler:1.0.0"
-//    compile "io.reactivex.rxjava2:rxjava:2.1.3"
-
-    implementation 'com.jakewharton:butterknife:8.8.1'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
-
-//    compile 'us.feras.mdv:markdownview:1.1.0'
     implementation 'com.github.mukeshsolanki:MarkdownView-Android:1.0.3'
     implementation 'com.prolificinteractive:material-calendarview:1.4.3'
-
-    implementation 'com.android.support:multidex:1.0.2'
     implementation 'agency.tango.android:material-intro-screen:0.0.5'
     implementation 'com.github.shem8:material-login:2.1.1'
     implementation 'de.hdodenhof:circleimageview:2.1.0'
 
 }
-
-//class BuildTimeListener implements TaskExecutionListener,BuildListener{
-//
-//    private Clock clock
-//    private times = []
-//
-//    @Override
-//    void buildStarted(Gradle gradle) {
-//
-//    }
-//
-//    @Override
-//    void settingsEvaluated(Settings settings) {
-//
-//    }
-//
-//    @Override
-//    void projectsLoaded(Gradle gradle) {
-//
-//    }
-//
-//    @Override
-//    void projectsEvaluated(Gradle gradle) {
-//
-//    }
-//
-//    @Override
-//    void buildFinished(BuildResult result) {
-//        println "Task spend time:"
-//        for (time in times) {
-//            if (time[0] >= 50) {
-//                printf "%7sms  %s\n", time
-//            }
-//        }
-//    }
-//
-//    @Override
-//    void beforeExecute(Task task) {
-//        clock = new Clock()
-//    }
-//
-//    @Override
-//    void afterExecute(Task task, TaskState state) {
-//        def ms = clock.timeInMs
-//        times.add([ms,task.path])
-//    }
-//}
-//
-//project.gradle.addListener(new BuildTimeListener())

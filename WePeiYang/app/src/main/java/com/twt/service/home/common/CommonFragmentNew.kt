@@ -23,22 +23,24 @@ class CommonFragmentNew : BaseFragment() {
     lateinit var recyclerview: RecyclerView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+
+        val hostActivity = activity as RxAppCompatActivity
         val view = inflater.inflate(R.layout.fragment_commons_new, container, false)
         recyclerview = view.findViewById(R.id.recyclerView)
         //todo 修改课程表暴露的接口 （重载）
-        val scheduleViewModel = ScheduleViewModel(this.activity as RxAppCompatActivity?)
+        val scheduleViewModel = ScheduleViewModel(hostActivity)
 //        val animController = AnimationUtils.loadLayoutAnimation(activity,R.anim.layout_animation_from_bottom)
         recyclerview.apply {
             layoutManager = LinearLayoutManager(this.context)
 //            layoutAnimation = animController
             adapter = CommonPageAdapter(listOf(scheduleViewModel, "GPA", "LIB"),
-                    this@CommonFragmentNew.activity, this@CommonFragmentNew)
+                    hostActivity, this@CommonFragmentNew)
 //            scheduleLayoutAnimation()
         }
 
         PushProvider(this.activity as RxAppCompatActivity).apply {
             queryCourseMessage { coursePushBean ->
-                Alerter.create(this@CommonFragmentNew.activity)
+                Alerter.create(hostActivity)
                         .setTitle(coursePushBean.title)
                         .setText(coursePushBean.message)
                         .setDuration((3 * 1000).toLong())

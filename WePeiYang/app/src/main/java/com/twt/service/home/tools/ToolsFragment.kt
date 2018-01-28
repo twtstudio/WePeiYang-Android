@@ -1,5 +1,6 @@
 package com.twt.service.home.tools
 
+import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.GridLayoutManager
@@ -23,8 +24,8 @@ class ToolsFragment : BaseFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view: View = inflater.inflate(R.layout.fragment_tools, container, false)
-        val recyclerview: RecyclerView = view.findViewById(R.id.recyclerView)
-        recyclerview.layoutManager = GridLayoutManager(activity,4)
+        val recyclerView: RecyclerView = view.findViewById(R.id.recyclerView)
+        recyclerView.layoutManager = GridLayoutManager(activity,4)
         val itemList = listOf(
                 ToolItem(R.drawable.ic_main_schedule, "课程表", ScheduleActivity::class.java),
                 ToolItem(R.drawable.ic_main_gpa, "全新 GPA", GpaActivity::class.java),
@@ -34,7 +35,7 @@ class ToolsFragment : BaseFragment() {
 //                ToolItem(R.drawable.ic_main_fellow_search, "老乡查询", com.example.caokun.fellowsearch.view.MainActivity::class.java),
 //                ToolItem(R.drawable.ic_main_yellowpage, "黄页", HomeActivity::class.java)
         )
-        recyclerview.adapter = ToolsAdapter(activity,itemList)
+        recyclerView.adapter = ToolsAdapter(activity as Context, itemList)
         return view
 
     }

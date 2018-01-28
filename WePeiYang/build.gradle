@@ -1,86 +1,103 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
-    ext.kotlin_version = '1.2.10'
-    ext.anko_version = '0.10.1'
+
+    ext {
+        versions = [
+                minSdk      : 19,
+                targetSdk   : 27,
+                compileSdk  : 27,
+                buildTools  : '27.0.2',
+                support     : '27.0.2',
+                kotlin      : '1.2.21',
+                anko        : '0.10.1',
+                butterknife : '8.5.1'
+        ]
+
+        dependenciesMap = [
+                'mvvmkit'              : 'com.twt.service:mvvmkit:1.2.0',
+                'commons'              : 'com.twt.service:commons:1.2.0',
+                'network'              : 'com.twt.service:network:1.0.1',
+                'news'                 : 'com.twt.service:news:1.1.0',
+                'fragmentation'        : 'com.twt.service:fragmentation:1.1.0',
+                'circleprogress'       : 'com.twt.service:circleprogress:1.0.0',
+                'tjulibrary'           : 'com.twt.service:tjulibrary:1.1.0',
+                'one'                  : 'com.twt.service:one:1.0.0',
+                'yellowpages'          : 'com.twt.service:yellowpages:1.0.0',
+                'auth'                 : 'com.twt.service:auth:1.1.0',
+                'schedule'             : 'com.twt.service:schedule:1.0.0',
+                'party'                : 'com.twt.service:party:1.0.0',
+                'gpa'                  : 'com.twt.service:gpa:1.1.1-SNAPSHOT',
+                'bike'                 : 'com.twt.service:bike:1.1.0',
+                'classroom'            : 'com.twt.service:classroom:1.0.0',
+                'classroomquery'       : 'com.twt.service:classroomquery:1.0.0',
+                'fellowsearch'         : 'com.twt.service:fellowsearch:1.0.0',
+                'lostfound'            : 'com.twt.service:lostfound:1.0.1',
+
+                'appcompat-v7'         : "com.android.support:appcompat-v7:${versions.support}",
+                'support-v4'           : "com.android.support:support-v4:${versions.support}",
+                'recyclerview-v7'      : "com.android.support:recyclerview-v7:${versions.support}",
+                'cardview-v7'          : "com.android.support:cardview-v7:${versions.support}",
+                'design'               : "com.android.support:design:${versions.support}",
+
+                'multidex'             : 'com.android.support:multidex:1.0.2',
+                'constraint-layout'    : 'com.android.support.constraint:constraint-layout:1.0.2',
+
+                'lifecycle-runtime'    : 'android.arch.lifecycle:runtime:1.0.3',
+                'lifecycle-extensions' : 'android.arch.lifecycle:extensions:1.0.0',
+                'lifecycle-compiler'   : 'android.arch.lifecycle:compiler:1.0.0',
+
+                'kotlin-stdlib'        : "org.jetbrains.kotlin:kotlin-stdlib-jre7:${versions.kotlin}",
+                'anko-coroutines'      : "org.jetbrains.anko:anko-coroutines:${versions.anko}",
+
+                'butterknife'          : "com.jakewharton:butterknife:${versions.butterknife}",
+                'butterknife-compiler' : "com.jakewharton:butterknife-compiler:${versions.butterknife}",
+        ]
+
+        supportLibraries = [
+                'appcompat-v7',
+                'support-v4',
+                'recyclerview-v7',
+                'cardview-v7',
+                'design',
+        ]
+
+        lifecycleLibraries = [
+                'lifecycle-runtime',
+                'lifecycle-extensions',
+        ]
+    }
+
     repositories {
         mavenLocal()
         jcenter()
         google()
-        maven { url "https://nexus.twtstudio.com/repository/maven-public/" }
+        maven { url 'https://nexus.twtstudio.com/repository/maven-public/' }
     }
+
     dependencies {
-        //2.2.3 ok 2.3.1 bug?
-//        classpath 'com.github.typ0520:fastdex-gradle:0.7.1'
         classpath 'com.android.tools.build:gradle:3.0.1'
         classpath 'me.tatarka:gradle-retrolambda:3.6.1'
-        classpath 'com.jakewharton:butterknife-gradle-plugin:8.5.1'
+        classpath "com.jakewharton:butterknife-gradle-plugin:${versions.butterknife}"
         classpath 'com.antfortune.freeline:gradle:0.8.8'
-        classpath 'org.greenrobot:greendao-gradle-plugin:3.2.0'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath 'org.greenrobot:greendao-gradle-plugin:3.2.1'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}"
 
         //classpath 'com.antfortune.freeline:gradle:0.7.2'
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
     }
 }
+
 allprojects {
     repositories {
         jcenter()
+        mavenCentral()
         maven { url 'https://maven.google.com' }
         mavenLocal()
-        maven { url "http://dl.bintray.com/piasy/maven" }
-        maven { url "https://jitpack.io" }
-        maven { url "https://nexus.twtstudio.com/repository/maven-public/" }
+        maven { url 'http://dl.bintray.com/piasy/maven' }
+        maven { url 'https://jitpack.io' }
+        maven { url 'https://nexus.twtstudio.com/repository/maven-public/' }
     }
-
 }
+
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
-
-ext {
-
-    // SDK And Tools
-    minSdkVersion = 19
-    targetSdkVersion = 27
-    compileSdkVersion = 27
-    buildToolsVersion = '27.0.1'
-    supportLibraryVersion = '27.0.1'
-
-    supportLibrarys = [
-            'supportV7'         : "com.android.support:appcompat-v7:$supportLibraryVersion",
-            'supportV4'         : "com.android.support:support-v4:$supportLibraryVersion",
-            'supportRecyclerviewV7': "com.android.support:recyclerview-v7:$supportLibraryVersion",
-            'cardviewV7'        : "com.android.support:cardview-v7:$supportLibraryVersion",
-            'design'            : "com.android.support:design:$supportLibraryVersion"
-    ]
-
-    dependencies = [
-            'mvvmkit'           : 'com.twt.service:mvvmkit:1.2.0',
-            'commons'           : 'com.twt.service:commons:1.2.0',
-            'network'           : 'com.twt.service:network:1.0.1',
-            'news'              : 'com.twt.service:news:1.1.0',
-            'fragmentation'     : 'com.twt.service:fragmentation:1.1.0',
-            'circleprogress'    : 'com.twt.service:circleprogress:1.0.0',
-            'tjulibrary'        : 'com.twt.service:tjulibrary:1.1.0',
-            'one'               : 'com.twt.service:one:1.0.0',
-            'yellowpages'       : 'com.twt.service:yellowpages:1.0.0',
-            'auth'              : 'com.twt.service:auth:1.1.0',
-            'schedule'          : 'com.twt.service:schedule:1.0.0',
-            'party'             : 'com.twt.service:party:1.0.0',
-            'gpa'               : 'com.twt.service:gpa:1.1.1-SNAPSHOT',
-            'bike'              : 'com.twt.service:bike:1.1.0',
-            'classroom'         : 'com.twt.service:classroom:1.0.0',
-            'classroomquery'    : 'com.twt.service:classroomquery:1.0.0',
-            'fellowsearch'      : 'com.twt.service:fellowsearch:1.0.0',
-            'lostfound'         : 'com.twt.service:lostfound:1.0.1',
-            'multidex'          : 'com.android.support:multidex:1.0.2',
-            'supportV7'         : "com.android.support:appcompat-v7:$supportLibraryVersion",
-            'supportV4'         : "com.android.support:support-v4:$supportLibraryVersion",
-            'supportRecyclerviewV7': "com.android.support:recyclerview-v7:$supportLibraryVersion",
-            'cardviewV7'        : "com.android.support:cardview-v7:$supportLibraryVersion",
-            'design'            : "com.android.support:design:$supportLibraryVersion"
-    ]
-
-}
-
