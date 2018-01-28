@@ -2,14 +2,6 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <data>
-
-        <variable
-            name="viewModel"
-            type="com.twt.service.home.tools.ToolsFragViewModel" />
-    </data>
-
-
     <android.support.design.widget.CoordinatorLayout
         android:fitsSystemWindows="true"
         android:background="@color/background_gray"
@@ -56,12 +48,9 @@
             android:background="@color/white"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:itemView="@{viewModel.itemView}"
-            app:items="@{viewModel.itemList}"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
         <LinearLayout
-            app:clickCommand="@{viewModel.feedbackClick}"
             android:visibility="gone"
             android:orientation="vertical"
             android:layout_gravity="bottom"
