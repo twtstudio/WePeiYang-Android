@@ -12,7 +12,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import com.twt.service.BuildConfig
 import com.twt.service.R
 import com.twt.service.base.BaseFragment
 import com.twt.service.settings.SettingsActivity
@@ -32,7 +31,6 @@ class UserFragment : BaseFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_user, container, false)
-
         view.findViewById<RecyclerView>(R.id.recyclerView).apply {
             layoutManager = LinearLayoutManager(context)
             adapter = UserAdapter(
@@ -53,24 +51,20 @@ class UserFragment : BaseFragment() {
                                 val intent = Intent(context, SettingsActivity::class.java)
                                 context.startActivity(intent)
                             },
-                            UserItem.ActionItem(R.drawable.ic_settings_exit, "退出登录") {
+                            UserItem.ActionItem(R.drawable.ic_settings_exit, "登出") {
                                 AlertDialog.Builder(context)
-                                        .setMessage("是否要登出？")
-                                        .setPositiveButton("确定") { _, _ ->
+                                        .setMessage("真的要登出吗？")
+                                        .setPositiveButton("真的") { _, _ ->
                                             PreferenceManager.getDefaultSharedPreferences(context).edit().clear().apply()
                                             CommonPrefUtil.clearAll()
+                                            CacheProvider.clearCache()
 
-                                            // TODO: 27/03/2017 最后清理下缓存 debug不清理
-                                            if (!BuildConfig.DEBUG) {
-                                                CacheProvider.clearCache()
-                                            }
                                             val intent = Intent(context, LoginActivity::class.java)
 
-                                            //清除缓存
                                             context.startActivity(intent)
                                             (context as Activity).finish()
                                         }
-                                        .setNegativeButton("取消") { _, _ ->
+                                        .setNegativeButton("算了") { _, _ ->
                                             Toast.makeText(context, "真爱啊 TAT...", Toast.LENGTH_SHORT).show()
                                         }.create().show()
                             }
@@ -90,14 +84,8 @@ class UserFragment : BaseFragment() {
     }
 
     companion object {
-
-        fun newInstance(): UserFragment {
-
-            val args = Bundle()
-
-            val fragment = UserFragment()
-            fragment.arguments = args
-            return fragment
+        fun newInstance(): UserFragment = UserFragment().apply {
+            arguments = Bundle()
         }
     }
 }

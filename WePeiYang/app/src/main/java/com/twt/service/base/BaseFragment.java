@@ -1,7 +1,5 @@
 package com.twt.service.base;
 
-import android.arch.lifecycle.LifecycleFragment;
-
 import me.yokeyword.fragmentation.SupportFragment;
 
 /**

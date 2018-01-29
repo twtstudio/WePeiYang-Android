@@ -52,7 +52,7 @@ dependencies {
 
     implementation project(':commons')
 
-    [*supportLibraries, *lifecycleLibraries, 'kotlin-stdlib', 'anko-coroutines'].each {
+    [*supportLibraries, *archLibraries, 'kotlin-stdlib', 'anko-coroutines'].each {
         implementation dependenciesMap[it]
     }
     ['lifecycle-compiler'].each {

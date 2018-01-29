@@ -46,7 +46,7 @@ dependencies {
 
     implementation project(':commons')
 
-    [*supportLibraries, 'constraint-layout', *lifecycleLibraries, 'kotlin-stdlib', 'anko-coroutines'].each {
+    [*supportLibraries, 'constraint-layout', *archLibraries, 'kotlin-stdlib', 'anko-coroutines'].each {
         implementation dependenciesMap[it]
     }
     ['lifecycle-compiler'].each {

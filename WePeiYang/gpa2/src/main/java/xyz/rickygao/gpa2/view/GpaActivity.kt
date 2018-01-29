@@ -157,7 +157,7 @@ class GpaActivity : AppCompatActivity() {
         }
 
         // init course list
-        courseAdapter = CourseAdapter(this, inflater).apply {
+        courseAdapter = CourseAdapter(inflater).apply {
             sortMode = CourseAdapter.SORT_BY_SCORE_DESC
         }
         findViewById<RecyclerView>(R.id.rv_course).apply {

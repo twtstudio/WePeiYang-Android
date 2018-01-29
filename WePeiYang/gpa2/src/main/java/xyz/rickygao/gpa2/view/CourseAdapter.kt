@@ -1,6 +1,5 @@
 package xyz.rickygao.gpa2.view
 
-import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -13,7 +12,6 @@ import xyz.rickygao.gpa2.api.Evaluate
  * Created by rickygao on 2017/11/14.
  */
 class CourseAdapter(
-        private val context: Context,
         private val inflater: LayoutInflater
 ) : RecyclerView.Adapter<CourseAdapter.CourseViewHolder>() {
 
@@ -47,7 +45,7 @@ class CourseAdapter(
         notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): CourseViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CourseViewHolder {
         val itemView = inflater.inflate(R.layout.gpa2_item_course, parent, false)
         return CourseViewHolder(itemView)
     }
@@ -56,7 +54,7 @@ class CourseAdapter(
 
     override fun getItemCount(): Int = courses.size
 
-    inner class CourseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class CourseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val nameTv = itemView.findViewById<TextView>(R.id.tv_course_name)
         private val typeTv = itemView.findViewById<TextView>(R.id.tv_course_type)
         private val creditTv = itemView.findViewById<TextView>(R.id.tv_course_credit)
@@ -80,7 +78,7 @@ class CourseAdapter(
             } else {
                 scoreTv.text = "点按来评价"
                 itemView.setOnClickListener {
-                    startEvaluateActivity(context, course.evaluate)
+                    startEvaluateActivity(itemView.context, course.evaluate)
                 }
             }
         }

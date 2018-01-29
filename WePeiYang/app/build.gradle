@@ -95,12 +95,12 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-    [':commons', ':gpa2', ':bike', ':schedule', ':tjulibrary', ':auth'].each {
+    [':auth', ':bike', ':commons', ':gpa2', ':schedule', ':tjulibrary'].each {
         implementation project(it)
     }
     implementation 'com.twt.service:fragmentation:1.1.0'
 
-    [*supportLibraries, 'constraint-layout', 'multidex', *lifecycleLibraries, 'kotlin-stdlib', 'butterknife'].each {
+    [*supportLibraries, 'constraint-layout', 'multidex', *archLibraries, 'kotlin-stdlib', 'butterknife'].each {
         implementation dependenciesMap[it]
     }
     ['lifecycle-compiler', 'butterknife-compiler'].each {

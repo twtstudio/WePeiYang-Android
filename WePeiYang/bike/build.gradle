@@ -50,7 +50,7 @@ dependencies {
 
     implementation project(':commons')
 
-    [*supportLibraries, *lifecycleLibraries, 'kotlin-stdlib', 'butterknife'].each {
+    [*supportLibraries, *archLibraries, 'kotlin-stdlib', 'butterknife'].each {
         implementation dependenciesMap[it]
     }
     ['lifecycle-compiler', 'butterknife-compiler'].each {

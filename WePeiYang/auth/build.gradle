@@ -3,6 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply from: '../maven_push.gradle'
 
+
 android {
     compileSdkVersion versions.compileSdk
     buildToolsVersion versions.buildTools
@@ -47,7 +48,7 @@ dependencies {
 
     implementation project(':commons')
 
-    [*supportLibraries, 'constraint-layout', *lifecycleLibraries, 'kotlin-stdlib', 'anko-coroutines'].each {
+    [*supportLibraries, 'constraint-layout', *archLibraries, 'kotlin-stdlib', 'anko-coroutines'].each {
         implementation dependenciesMap[it]
     }
     ['lifecycle-compiler'].each {
