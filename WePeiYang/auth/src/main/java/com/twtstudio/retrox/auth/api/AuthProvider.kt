@@ -44,8 +44,8 @@ object AuthProvider {
     }
 
     const val FROM_AUTH_SELF = 1
-    private const val HAWK_KEY_AUTH_SELF = "FROM_AUTH_SELF"
-    fun authSelf(useCache: Boolean = true, silent: Boolean = false, block: (AuthSelfBean) -> Unit = {} /* TODO: if use LiveData remove here */) {
+    private const val HAWK_KEY_AUTH_SELF = "AUTH_SELF"
+    fun authSelf(useCache: Boolean = true, silent: Boolean = false) {
 
         async(UI) {
 
@@ -64,9 +64,6 @@ object AuthProvider {
                     CommonPrefUtil.setIsBindTju(it.accounts.tju)
                     CommonPrefUtil.setDropOut(it.dropout)
                     CrashReport.setUserId(it.twtuname)
-
-                    // TODO: if use LiveData remove here
-                    block(it)
                 }
             }
 
@@ -79,12 +76,8 @@ object AuthProvider {
                 CommonPrefUtil.setDropOut(it.dropout)
                 CrashReport.setUserId(it.twtuname)
 
-
                 if (!silent) successLiveData.value = ConsumableMessage("成功拉取到个人状态", from = FROM_AUTH_SELF)
                 Hawk.put(HAWK_KEY_AUTH_SELF, it)
-
-                // TODO: if use LiveData remove here
-                block(it)
             }
 
         }.invokeOnCompletion {

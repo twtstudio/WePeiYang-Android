@@ -39,7 +39,7 @@
                 android:layout_height="24dp"
                 android:layout_gravity="end"
                 android:layout_marginEnd="16dp"
-                android:background="@drawable/refresh_black" />
+                android:background="@drawable/gpa2_refresh_black" />
 
         </android.support.v7.widget.Toolbar>
 

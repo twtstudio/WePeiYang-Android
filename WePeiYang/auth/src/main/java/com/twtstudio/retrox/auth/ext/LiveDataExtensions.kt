@@ -22,7 +22,7 @@ fun <T> LiveData<ConsumableMessage<T>>.consume(lifecycleOwner: LifecycleOwner, f
             }
         })
 
-data class ConsumableMessage<out T>(val message: T, val from: Int = 0, var consumed: Boolean = false) {
+data class ConsumableMessage<out T>(val message: T, val from: Int = ANY, var consumed: Boolean = false) {
     companion object {
         const val ANY = -1
     }

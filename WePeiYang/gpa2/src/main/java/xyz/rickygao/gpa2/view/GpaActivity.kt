@@ -1,6 +1,5 @@
 package xyz.rickygao.gpa2.view
 
-import android.arch.lifecycle.MutableLiveData
 import android.graphics.Rect
 import android.os.Bundle
 import android.support.v4.widget.NestedScrollView
@@ -12,9 +11,7 @@ import android.view.LayoutInflater
 import android.widget.*
 import es.dmoral.toasty.Toasty
 import xyz.rickygao.gpa2.R
-import xyz.rickygao.gpa2.api.GpaBean
 import xyz.rickygao.gpa2.api.GpaProvider
-import xyz.rickygao.gpa2.api.Stat
 import xyz.rickygao.gpa2.api.Term
 import xyz.rickygao.gpa2.ext.*
 
@@ -48,8 +45,33 @@ class GpaActivity : AppCompatActivity() {
     private lateinit var gpaLineCv: GpaLineChartView
     private lateinit var gpaRadarCv: GpaRadarChartView
 
-    private val selectedTermLiveData = MutableLiveData<Int>().apply { value = 0 }
     private lateinit var courseAdapter: CourseAdapter
+    private var selectedTermIndex = 0
+        set(value) {
+            val term = GpaProvider.gpaLiveData.value?.data.orEmpty()
+            if (term.isEmpty()) {
+                selectedTermTs.setText(EMPTY_TERM)
+                tbSelectedTermTv.text = EMPTY_TERM
+                courseAdapter.courses = mutableListOf()
+                return
+            }
+
+            val realIndex = value.coerceIn(if (term.isNotEmpty()) term.indices else 0..0)
+            val selectedTerm = term[realIndex]
+
+            selectedTermTs.setText(selectedTerm.name)
+            tbSelectedTermTv.text = selectedTerm.name
+            gpaLineCv.selectedIndex = realIndex
+            gpaRadarCv.dataWithLabel = selectedTerm.data.asSequence()
+                    .filter { it.score >= 0 && it.evaluate == null }
+                    .map { GpaRadarChartView.DataWithLabel(it.score, it.name) }
+                    .toList()
+            courseAdapter.courses = selectedTerm.data.asSequence()
+                    .map { CourseAdapter.Course(it.name, it.type, it.credit, it.score, it.evaluate) }
+                    .toMutableList()
+
+            field = realIndex
+        }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -102,16 +124,6 @@ class GpaActivity : AppCompatActivity() {
         scoreTv = findViewById(R.id.tv_score)
         gpaTv = findViewById(R.id.tv_gpa)
         creditTv = findViewById(R.id.tv_credit)
-        GpaProvider.gpaLiveData
-                .map(GpaBean::stat)
-                .map(Stat::total)
-                .bind(this) {
-                    it?.let {
-                        scoreTv.text = it.score.toString()
-                        gpaTv.text = it.gpa.toString()
-                        creditTv.text = it.credit.toString()
-                    }
-                }
 
         // init term selector
         selectedTermTs = findViewById<TextSwitcher>(R.id.ts_selected_term).apply {
@@ -121,35 +133,13 @@ class GpaActivity : AppCompatActivity() {
         }
         prevBtn = findViewById(R.id.btn_prev)
         nextBtn = findViewById(R.id.btn_next)
-        prevBtn.setOnClickListener {
-            val cur = selectedTermLiveData.value ?: return@setOnClickListener
-            selectedTermLiveData.value = cur - 1
-        }
-        nextBtn.setOnClickListener {
-            val cur = selectedTermLiveData.value ?: return@setOnClickListener
-            selectedTermLiveData.value = cur + 1
-        }
+        prevBtn.setOnClickListener { --selectedTermIndex }
+        nextBtn.setOnClickListener { ++selectedTermIndex }
 
         // init line chart
         gpaLineCv = findViewById<GpaLineChartView>(R.id.cv_gpa_line).apply {
-            onSelectionChangedListener = { selectedTermLiveData.value = it }
+            onSelectionChangedListener = { selectedTermIndex = it }
         }
-        GpaProvider.gpaLiveData
-                .map(GpaBean::data)
-                .map {
-                    it.map(Term::stat).map {
-                        GpaLineChartView.DataWithDetail(it.score, """
-                            加权：${it.score}
-                            绩点：${it.gpa}
-                            学分：${it.credit}
-                            """.trimIndent())
-                    }
-                }
-                .bind(this) {
-                    it?.let {
-                        gpaLineCv.dataWithDetail = it
-                    }
-                }
 
         // init radar chart
         gpaRadarCv = findViewById<GpaRadarChartView>(R.id.cv_gpa_radar).apply {
@@ -177,47 +167,31 @@ class GpaActivity : AppCompatActivity() {
             }
         }
 
-        // attempt to refresh chart view while new data coming
-        GpaProvider.gpaLiveData
-                .bind(this) {
-                    selectedTermLiveData.value = selectedTermLiveData.value
-                }
-
-        // observe selected term
-        selectedTermLiveData.bind(this) {
-            it?.let {
-                val term = GpaProvider.gpaLiveData.value?.data.orEmpty()
-
-                if (term.isEmpty()) {
-                    selectedTermTs.setText(EMPTY_TERM)
-                    tbSelectedTermTv.text = EMPTY_TERM
-                    return@bind
-                }
-
-                var realIndex = it % term.size
-                if (realIndex < 0)
-                    realIndex += term.size
-                val selectedTerm = term[realIndex]
-                selectedTermTs.setText(selectedTerm.name)
-
-                tbSelectedTermTv.text = selectedTerm.name
-
-                gpaLineCv.selectedIndex = realIndex
-
-                gpaRadarCv.dataWithLabel = selectedTerm.data
-                        .filter { it.score >= 0 }
-                        .map { GpaRadarChartView.DataWithLabel(it.score, it.name) }
-
-                courseAdapter.courses = selectedTerm.data.mapTo(ArrayList(selectedTerm.data.size)) {
-                    CourseAdapter.Course(it.name, it.type, it.credit, it.score, it.evaluate)
-                }
-            }
-        }
-
         // load data
         GpaProvider.updateGpaLiveData()
 
         // bind callback
+        GpaProvider.gpaLiveData.bind(this) {
+            it?.stat?.total?.let {
+                scoreTv.text = it.score.toString()
+                gpaTv.text = it.gpa.toString()
+                creditTv.text = it.credit.toString()
+            }
+
+            it?.data.orEmpty().asSequence().map(Term::stat).map {
+                GpaLineChartView.DataWithDetail(it.score, """
+                        加权：${it.score}
+                        绩点：${it.gpa}
+                        学分：${it.credit}
+                        """.trimIndent())
+            }.toList().let {
+                gpaLineCv.dataWithDetail = it
+            }
+
+            // attempt to refresh chart view while new data coming
+            selectedTermIndex = selectedTermIndex
+        }
+
         GpaProvider.successLiveData.consume(this) {
             it?.let {
                 Toasty.success(this, it).show()

@@ -68,13 +68,13 @@ class GpaRadarChartView @JvmOverloads constructor(context: Context, attrs: Attri
     var emptyText: String? = null
         set(value) {
             field = value
-            if (dataWithLabel.orEmpty().isNotEmpty())
+            if (dataWithLabel.isEmpty())
                 invalidate()
         }
 
     data class DataWithLabel(val data: Double, val label: String)
 
-    var dataWithLabel: List<DataWithLabel>? = null
+    var dataWithLabel: List<DataWithLabel> = emptyList()
         set(value) {
             field = value
             invalidate()
@@ -87,8 +87,6 @@ class GpaRadarChartView @JvmOverloads constructor(context: Context, attrs: Attri
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-
-        val dataWithLabel = dataWithLabel.orEmpty()
 
         val contentWidth = width - paddingLeft - paddingRight
         val contentHeight = height - paddingTop - paddingBottom
@@ -141,6 +139,7 @@ class GpaRadarChartView @JvmOverloads constructor(context: Context, attrs: Attri
                         else
                             lineTo(centerX + pointsRx[it], centerY + pointsRy[it])
                     }
+
             close()
         }
 

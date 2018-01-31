@@ -19,7 +19,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
-import kotlin.Unit;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -42,7 +41,7 @@ public class TjuBindFragment extends SlideFragment {
                 .bindTju(numEdit.getText().toString(), passwordEdit.getText().toString())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doAfterTerminate(() -> AuthProvider.INSTANCE.authSelf(false, true, bean -> Unit.INSTANCE))
+                .doAfterTerminate(() -> AuthProvider.INSTANCE.authSelf(false, true))
                 .subscribe(responseBody -> {
                     canMoveFuther = true;
                     Toast.makeText(this.getContext(), "绑定成功", Toast.LENGTH_SHORT).show();

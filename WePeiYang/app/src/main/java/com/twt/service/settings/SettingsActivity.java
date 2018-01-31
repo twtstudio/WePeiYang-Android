@@ -32,7 +32,6 @@ import com.twtstudio.retrox.bike.service.BikeServiceProvider;
 import com.twtstudio.retrox.tjulibrary.provider.TjuLibProvider;
 
 import es.dmoral.toasty.Toasty;
-import kotlin.Unit;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -170,11 +169,11 @@ public class SettingsActivity extends AppCompatActivity {
                                                         //清空缓存 --- 课程表 GPA
                                                         CacheProvider.clearCache();
 
-                                                        AuthProvider.INSTANCE.authSelf(false, true, bean -> Unit.INSTANCE); //null做了处理的 刷新状态
+                                                        AuthProvider.INSTANCE.authSelf(false, true); //null做了处理的 刷新状态
                                                     }
                                                     dialog.dismiss();
                                                 }, throwable -> {
-                                                    AuthProvider.INSTANCE.authSelf(false, true, bean -> Unit.INSTANCE); //null做了处理的
+                                                    AuthProvider.INSTANCE.authSelf(false, true); //null做了处理的
                                                     new RxErrorHandler().call(throwable);
                                                     dialog.dismiss();
                                                 });
@@ -221,11 +220,11 @@ public class SettingsActivity extends AppCompatActivity {
                                                         //清空缓存 --- 课程表 GPA
                                                         CacheProvider.clearCache();
 
-                                                        AuthProvider.INSTANCE.authSelf(false, true, bean -> Unit.INSTANCE);//null做了处理的 刷新状态
+                                                        AuthProvider.INSTANCE.authSelf(false, true);//null做了处理的 刷新状态
                                                     }
                                                     dialog.dismiss();
                                                 }, throwable -> {
-                                                    AuthProvider.INSTANCE.authSelf(false, true, bean -> Unit.INSTANCE); //null做了处理的
+                                                    AuthProvider.INSTANCE.authSelf(false, true); //null做了处理的
                                                     new RxErrorHandler().call(throwable);
                                                     dialog.dismiss();
                                                 });
@@ -286,7 +285,7 @@ public class SettingsActivity extends AppCompatActivity {
                                                 .unbindTju(CommonPrefUtil.getUserId())
                                                 .subscribeOn(Schedulers.io())
                                                 .observeOn(AndroidSchedulers.mainThread())
-                                                .doAfterTerminate(() -> AuthProvider.INSTANCE.authSelf(false, true, bean -> Unit.INSTANCE))
+                                                .doAfterTerminate(() -> AuthProvider.INSTANCE.authSelf(false, true))
                                                 .subscribe(responseBody -> {
                                                     Toasty.success(mContext, "解绑成功！请重启微北洋", Toast.LENGTH_SHORT).show();
                                                 }, new RxErrorHandler());

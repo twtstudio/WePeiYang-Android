@@ -14,14 +14,16 @@ fun <T, U> LiveData<T>.switchMap(func: (T) -> LiveData<U>): LiveData<U> = Transf
 
 fun <T> LiveData<T>.bind(lifecycleOwner: LifecycleOwner, block: (T?) -> Unit) = observe(lifecycleOwner, Observer(block))
 
-fun <T> LiveData<ConsumableMessage<T>>.consume(lifecycleOwner: LifecycleOwner, block: (T?) -> Unit) =
+fun <T> LiveData<ConsumableMessage<T>>.consume(lifecycleOwner: LifecycleOwner, from: Int = ConsumableMessage.ANY, block: (T?) -> Unit) =
         observe(lifecycleOwner, Observer {
-            when (it?.consumed) {
-                false -> {
-                    block(it.message)
-                    it.consumed = true
-                }
+            if (it?.consumed == false && (ConsumableMessage.ANY == from || it.from == from)) {
+                block(it.message)
+                it.consumed = true
             }
         })
 
-data class ConsumableMessage<out T>(val message: T, var consumed: Boolean = false)
+data class ConsumableMessage<out T>(val message: T, val from: Int = ANY, var consumed: Boolean = false) {
+    companion object {
+        const val ANY = -1
+    }
+}

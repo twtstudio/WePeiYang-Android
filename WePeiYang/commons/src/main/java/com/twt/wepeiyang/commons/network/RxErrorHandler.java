@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.widget.Toast;
 
 import com.orhanobut.logger.Logger;
-import com.tencent.bugly.crashreport.BuglyLog;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.twt.wepeiyang.commons.utils.App;
 import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
@@ -28,8 +27,8 @@ import rx.schedulers.Schedulers;
 
 public class RxErrorHandler implements Action1<Throwable> {
 
-    private Context mContext;
     private static Toast toast;
+    private Context mContext;
 
     public RxErrorHandler(Context context) {
         mContext = context;
@@ -37,6 +36,15 @@ public class RxErrorHandler implements Action1<Throwable> {
 
     public RxErrorHandler() {
         mContext = App.getApplicationContext();
+    }
+
+    public static void showToast(Context context, String desc) {
+        if (toast == null) {
+            toast = Toast.makeText(context, desc, Toast.LENGTH_SHORT);
+        } else {
+            toast.setText(desc);
+        }
+        toast.show();
     }
 
     @Override
@@ -140,14 +148,5 @@ public class RxErrorHandler implements Action1<Throwable> {
 
                 break;
         }
-    }
-
-    public static void showToast(Context context, String desc) {
-        if (toast == null) {
-            toast = Toast.makeText(context, desc, Toast.LENGTH_SHORT);
-        } else {
-            toast.setText(desc);
-        }
-        toast.show();
     }
 }

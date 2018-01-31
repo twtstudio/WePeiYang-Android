@@ -122,7 +122,7 @@ class GpaLineChartView @JvmOverloads constructor(context: Context, attrs: Attrib
 
     data class DataWithDetail(val data: Double, val detail: String)
 
-    var dataWithDetail: List<DataWithDetail>? = null
+    var dataWithDetail: List<DataWithDetail> = emptyList()
         set(value) {
             field = value
             selectedIndex = selectedIndex // ha?
@@ -131,7 +131,7 @@ class GpaLineChartView @JvmOverloads constructor(context: Context, attrs: Attrib
 
     var selectedIndex = 0
         set(value) {
-            field = value.takeIf { it in 0..dataWithDetail.orEmpty().size } ?: 0
+            field = value.coerceIn(if (dataWithDetail.isNotEmpty()) dataWithDetail.indices else 0..0)
             invalidate()
         }
 

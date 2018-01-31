@@ -21,7 +21,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
-import kotlin.Unit;
 
 /**
  * Created by retrox on 01/03/2017.
@@ -58,7 +57,7 @@ public class LibBindFragment extends SlideFragment {
                 Toast.makeText(this.getContext(), "未知错误", Toast.LENGTH_SHORT).show();
             }
             CommonPrefUtil.setIsBindLibrary(true);
-            AuthProvider.INSTANCE.authSelf(false, true, bean -> Unit.INSTANCE);
+            AuthProvider.INSTANCE.authSelf(false, true);
         }, libPassWd);
     }
 
