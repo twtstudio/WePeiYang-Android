@@ -1,14 +1,12 @@
 package xyz.rickygao.gpa2.view
 
 import android.content.Context
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
-import android.graphics.Path
+import android.graphics.*
 import android.text.TextPaint
 import android.util.AttributeSet
 import android.view.View
 import xyz.rickygao.gpa2.R
+import xyz.rickygao.gpa2.ext.*
 
 /**
  * Created by rickygao on 2017/11/13.
@@ -82,16 +80,73 @@ class GpaRadarChartView @JvmOverloads constructor(context: Context, attrs: Attri
 
     private val linePath = Path()
     private val radarPath = Path()
-    private val pointsRx = ArrayList<Float>()
-    private val pointsRy = ArrayList<Float>()
+    private val rpoints = mutableListOf<PointF>()
+
+
+    private fun computePath() {
+
+        val contentWidth = (width - paddingLeft - paddingRight).toFloat()
+        val contentHeight = (height - paddingTop - paddingBottom).toFloat()
+        val centerX = paddingLeft + contentWidth / 2F
+        val centerY = paddingTop + contentHeight / 2F
+        val radarRadius = (if (contentWidth < contentHeight) contentWidth else contentHeight) / 2F * 0.75F
+        val radStep = 2 * Math.PI / dataWithLabel.size
+
+        val minData = dataWithLabel.minBy(DataWithLabel::data)?.data?.toFloat() ?: return
+        val maxData = dataWithLabel.maxBy(DataWithLabel::data)?.data?.toFloat() ?: return
+        val dataSpan = maxData - minData
+        val minDataExtended = 0F
+//        val maxDataExtended = 100F
+        val maxDataExtended = maxData + dataSpan / 4F
+        val dataSpanExtended = maxDataExtended - minDataExtended
+
+        dataWithLabel.asSequence()
+                .mapIndexed { index, _ -> startRad + radStep * index }
+                .mapTo(rpoints.apply { clear() }) {
+                    PointF(-Math.sin(it).toFloat() * radarRadius,
+                            -Math.cos(it).toFloat() * radarRadius)
+                }
+
+        linePath.reuse {
+
+            rpoints.forEach { (x, y) ->
+                moveTo(centerX, centerY)
+                rLineTo(x, y)
+            }
+
+            rpoints.forEach { (x, y) -> lineTo(centerX + x, centerY + y) }
+
+        }
+
+        radarPath.reuse {
+
+            dataWithLabel.asSequence()
+                    .map { (it.data - minDataExtended) / dataSpanExtended }
+                    .zip(rpoints.asSequence())
+                    .map { (ratio, rpoint) ->
+                        PointF(centerX + rpoint.x * ratio.toFloat(),
+                                centerY + rpoint.y * ratio.toFloat())
+                    }
+                    .forEachIndexed { index, point ->
+                        if (index == 0)
+                            moveTo(point)
+                        else
+                            lineTo(point)
+                    }
+
+            close()
+
+        }
+    }
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
 
-        val contentWidth = width - paddingLeft - paddingRight
-        val contentHeight = height - paddingTop - paddingBottom
-        val centerX = paddingLeft + contentWidth.toFloat() / 2F
-        val centerY = paddingTop + contentHeight.toFloat() / 2F
+        val contentWidth = (width - paddingLeft - paddingRight).toFloat()
+        val contentHeight = (height - paddingTop - paddingBottom).toFloat()
+        val centerX = paddingLeft + contentWidth / 2F
+        val centerY = paddingTop + contentHeight / 2F
+        val radarRadius = (if (contentWidth < contentHeight) contentWidth else contentHeight) / 2F * 0.75F
 
         if (dataWithLabel.isEmpty()) {
             textPaint.textSize = EMPTY_TEXT_SIZE
@@ -102,117 +157,45 @@ class GpaRadarChartView @JvmOverloads constructor(context: Context, attrs: Attri
                     textPaint
             )
             textPaint.textSize = LABEL_TEXT_SIZE
+            return
         }
 
-
-        val minData = dataWithLabel.minBy(DataWithLabel::data)?.data?.toFloat() ?: return
-        val maxData = dataWithLabel.maxBy(DataWithLabel::data)?.data?.toFloat() ?: return
-        val dataSpan = maxData - minData
-        val minDataExtended = 0F
-//        val maxDataExtended = 100F
-        val maxDataExtended = maxData + dataSpan / 4F
-        val dataSpanExtended = maxDataExtended - minDataExtended
-
-        val radarRadius = (if (contentWidth < contentHeight) contentWidth else contentHeight) / 2F * 0.75F
-        val radStep = 2 * Math.PI / dataWithLabel.size
-        pointsRx.clear()
-        pointsRy.clear()
-        (0 until dataWithLabel.size)
-                .forEach {
-                    pointsRx.add(-Math.sin(startRad + radStep * it).toFloat() * radarRadius)
-                    pointsRy.add(-Math.cos(startRad + radStep * it).toFloat() * radarRadius)
-                }
-
-        linePath.apply {
-            reset()
-
-            (0 until dataWithLabel.size)
-                    .forEach {
-                        moveTo(centerX, centerY)
-                        lineTo(centerX + pointsRx[it], centerY + pointsRy[it])
-                    }
-
-            (0 until dataWithLabel.size)
-                    .forEach {
-                        if (it == 0)
-                            moveTo(centerX + pointsRx[it], centerY + pointsRy[it])
-                        else
-                            lineTo(centerX + pointsRx[it], centerY + pointsRy[it])
-                    }
-
-            close()
-        }
-
-        radarPath.apply {
-            reset()
-
-            moveTo(centerX, centerY)
-            dataWithLabel.withIndex().forEach { (i, e) ->
-                val ratio = (e.data.toFloat() - minDataExtended) / dataSpanExtended
-                if (i == 0)
-                    moveTo(centerX + pointsRx[i] * ratio,
-                            centerY + pointsRy[i] * ratio)
-                else
-                    lineTo(centerX + pointsRx[i] * ratio,
-                            centerY + pointsRy[i] * ratio)
-            }
-
-            close()
-        }
+        computePath()
 
         canvas.apply {
             drawPath(linePath, linePaint)
             drawPath(radarPath, radarPaint)
 
-            dataWithLabel.withIndex()
-                    .forEach { (i, e) ->
-                        val textWidth = textPaint.measureText(e.label)
+            dataWithLabel.asSequence()
+                    .map { it.label }
+                    .zip(rpoints.asSequence())
+                    .forEach { (label, rpoint) ->
+                        val textWidth = textPaint.measureText(label)
+                        val zoom = 1.125F
+                        val threshold = 0.5F
 
-//                        val x =
-//                                // center
-//                                if(i == 0 || i * 2 == dataWithLabel.size)
-//                                    centerX + pointsRx[i] * 1.125F - textWidth / 2
-//                                // left
-//                                else if(i * 2 < dataWithLabel.size)
-//                                    centerX + pointsRx[i] * 1.125F - textWidth
-//                                // right
-//                                else
-//                                    centerX + pointsRx[i] * 1.125F
+                        // adjust position of drawing
+                        val xRatio = rpoint.x / radarRadius
+                        val x = when (xRatio) {
+                        /* left */ in -1F..-threshold ->
+                                centerX + rpoint.x * zoom - textWidth
+                        /* right */ in threshold..1F ->
+                                centerX + rpoint.x * zoom
+                        /* center */ else ->
+                                centerX + rpoint.x * zoom - textWidth * (0.5F - xRatio)
+                        }
 
-                        val x =
-                                // center
-                                if (Math.abs(pointsRx[i]) < radarRadius * 0.5)
-                                    centerX + pointsRx[i] * 1.125F - textWidth * (0.5F - pointsRx[i] / radarRadius * 1F)
-                                // left
-                                else if (pointsRx[i] < 0)
-                                    centerX + pointsRx[i] * 1.125F - textWidth
-                                // right
-                                else
-                                    centerX + pointsRx[i] * 1.125F
+                        val yRatio = rpoint.y / radarRadius
+                        val y = when (yRatio) {
+                        /* above */ in -1F..-threshold ->
+                                centerY + rpoint.y * zoom
+                        /* below */ in threshold..1F ->
+                                centerY + rpoint.y * zoom - textPaint.fontMetrics.ascent
+                        /* center */ else ->
+                                centerY + rpoint.y * zoom - textPaint.fontMetrics.ascent * (0.5F + yRatio)
+                        }
 
-//                        val y =
-//                                // center
-//                                if (dataWithLabel.size == i * 4 && i * 4 == dataWithLabel.size * 3)
-//                                    centerY + pointsRy[i] * 1.125F
-//                                // above
-//                                else if(i * 4 < dataWithLabel.size || i * 4 > dataWithLabel.size * 3)
-//                                    centerY + pointsRy[i] * 1.125F - textPaint.fontMetrics.ascent // all Font.Metrics relative to baseline
-//                                // below
-//                                else
-//                                    centerY + pointsRy[i] * 1.125F
-
-                        val y =
-                                // center
-                                if (Math.abs(pointsRy[i]) < radarRadius * 0.5)
-                                    centerY + pointsRy[i] * 1.125F - textPaint.fontMetrics.ascent * (0.5F + pointsRy[i] / radarRadius * 1F)
-                                // above
-                                else if (pointsRy[i] < 0)
-                                    centerY + pointsRy[i] * 1.125F
-                                // below
-                                else
-                                    centerY + pointsRy[i] * 1.125F - textPaint.fontMetrics.ascent // Font.Metrics are all relative to baseline
-
-                        drawText(e.label, x, y, textPaint)
+                        drawText(label, x, y, textPaint)
                     }
         }
     }

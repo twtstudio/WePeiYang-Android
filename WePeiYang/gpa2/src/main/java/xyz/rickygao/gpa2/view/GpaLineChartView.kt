@@ -9,6 +9,7 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import xyz.rickygao.gpa2.R
+import xyz.rickygao.gpa2.ext.*
 
 /**
  * Created by rickygao on 2017/11/9.
@@ -39,8 +40,8 @@ class GpaLineChartView @JvmOverloads constructor(context: Context, attrs: Attrib
         const val SELECTED_POINT_STROKE_WIDTH = 20F
         const val SELECTED_POINT_STROKE_COLOR = Color.WHITE
         const val POPUP_BOX_COLOR = Color.WHITE
-        const val POPUP_BOX_TRI_WIDTH = 80F
-        const val POPUP_BOX_TRI_HEIGHT = 40F
+        const val POPUP_BOX_TRI_WIDTH = 64F
+        const val POPUP_BOX_TRI_HEIGHT = 32F
         const val POPUP_BOX_RECT_WIDTH = 320F
         const val POPUP_BOX_RECT_HEIGHT = 320F
         const val POPUP_BOX_RECT_ROUND_RADIUS = 16F
@@ -96,7 +97,7 @@ class GpaLineChartView @JvmOverloads constructor(context: Context, attrs: Attrib
         isAntiAlias = true
     }
 
-    private val detailsTextPaint = TextPaint().apply {
+    private val detailTextPaint = TextPaint().apply {
         textSize = DETAILS_TEXT_SIZE
         isAntiAlias = true
     }
@@ -140,106 +141,118 @@ class GpaLineChartView @JvmOverloads constructor(context: Context, attrs: Attrib
     private val pointPath = Path()
     private val selectedPointPath = Path()
     private val popupBoxPath = Path()
-    private val pointsX = ArrayList<Float>()
-    private val pointsY = ArrayList<Float>()
+    //    private val pointsX = mutableListOf<Float>()
+//    private val pointsY = mutableListOf<Float>()
+    private val points = mutableListOf<PointF>()
     private var detailTextLeft = 0F
     private var detailTextTop = 0F
     private var detailTextLayout: StaticLayout? = null
 
     private fun computePath() {
 
-        val dataWithDetail = dataWithDetail.orEmpty()
+        val contentWidth = (width - paddingLeft - paddingRight).toFloat()
+        val contentHeight = (height - paddingTop - paddingBottom).toFloat()
+        val centerY = paddingTop + contentHeight / 2
+        val widthStep = contentWidth / (dataWithDetail.size + 1)
 
-        val contentWidth = width - paddingLeft - paddingRight
-        val contentHeight = height - paddingTop - paddingBottom
-        val widthStep = contentWidth.toFloat() / (dataWithDetail.size + 1)
+        points.clear()
+        if (dataWithDetail.isNotEmpty()) {
+            val minData = dataWithDetail.minBy(DataWithDetail::data)?.data!!
+            val maxData = dataWithDetail.maxBy(DataWithDetail::data)?.data!!
+            val dataSpan = maxData - minData
 
-        val minData = dataWithDetail.minBy(DataWithDetail::data)?.data ?: 0.0
-        val maxData = dataWithDetail.maxBy(DataWithDetail::data)?.data ?: 1.0
-        val dataSpan = if (maxData != minData) maxData - minData else 1.0
-        val minDataExtended = minData - dataSpan / 4F
-        val maxDataExtended = maxData + dataSpan / 4F
-        val dataSpanExtended = maxDataExtended - minDataExtended
+            if (dataSpan > 0F) {
+                // not all the same
+                val extension = dataSpan * 0.382F
+                val minDataExtended = minData - extension
+                val maxDataExtended = maxData + extension
+                val dataSpanExtended = maxDataExtended - minDataExtended
 
-        (0 until dataWithDetail.size).mapTo(pointsX.apply { clear() }) {
-            paddingLeft + widthStep * (it + 1)
-        }
+                dataWithDetail.asSequence()
+                        .map { (it.data - minDataExtended) / dataSpanExtended }
+                        .mapIndexedTo(points) { index, ratio ->
+                            PointF(paddingLeft + widthStep * (index + 1),
+                                    paddingTop + (1 - ratio.toFloat()) * contentHeight)
+                        }
 
-        dataWithDetail.mapTo(pointsY.apply { clear() }) {
-            paddingTop + ((1 - ((it.data - minDataExtended) / dataSpanExtended)) * contentHeight).toFloat()
-        }
+            } else {
 
-        linePath.apply {
-            reset()
-            var py = (paddingTop + contentHeight).toFloat()
-            moveTo(0F, py)
-            (0 until dataWithDetail.size).forEach {
-                val cx = pointsX[it] - widthStep / 2F
-                cubicTo(cx, py, cx, pointsY[it], pointsX[it], pointsY[it])
-                py = pointsY[it]
+                dataWithDetail.mapIndexedTo(points) { index, _ ->
+                    PointF(paddingLeft + widthStep * (index + 1), centerY)
+                }
+
             }
-            val cx = width - widthStep / 2F
-            cubicTo(cx, py, cx, paddingTop.toFloat(), width.toFloat(), paddingTop.toFloat())
+
         }
 
-        fillPath.apply {
-            reset()
+        linePath.reuse {
+
+            if (points.isNotEmpty()) {
+
+                val startPoint = PointF(0F, paddingTop + contentHeight)
+                val endPoint = PointF(width.toFloat(), paddingTop.toFloat())
+
+                moveTo(startPoint)
+                cubicThrough(listOf(startPoint, points.first()))
+                cubicThrough(points)
+                cubicThrough(listOf(points.last(), endPoint))
+
+            } else {
+
+                moveTo(0F, centerY)
+                lineTo(width.toFloat(), centerY)
+
+            }
+
+        }
+
+        fillPath.reuse {
+
             addPath(linePath)
             lineTo(width.toFloat(), height.toFloat())
             lineTo(0F, height.toFloat())
             close()
+
         }
 
-        pointPath.apply {
-            reset()
+        pointPath.reuse {
 
-
-            if (dataWithDetail.isEmpty())
-                return@apply // no need to draw
-
-            (0 until dataWithDetail.size)
-                    .filter { it != selectedIndex }
-                    .forEach {
+            points.asSequence()
+                    .filterIndexed { index, _ -> index != selectedIndex }
+                    .forEach { (x, y) ->
                         addCircle(
-                                pointsX[it] - LINE_STROKE / 4F,
-                                pointsY[it] - LINE_STROKE / 4F,
+                                x,
+                                y,
                                 POINT_RADIUS,
                                 Path.Direction.CCW
                         )
                     }
+
         }
 
-        selectedPointPath.apply {
-            reset()
-
-            if (dataWithDetail.isEmpty())
-                return@apply // no need to draw
+        selectedPointPath.reuse {
 
             addCircle(
-                    pointsX[selectedIndex] - LINE_STROKE / 4F,
-                    pointsY[selectedIndex] - LINE_STROKE / 4F,
+                    points[selectedIndex].x,
+                    points[selectedIndex].y,
                     SELECTED_POINT_RADIUS,
                     Path.Direction.CCW
             )
+
         }
 
-
-
-
-        popupBoxPath.apply {
-            reset()
+        popupBoxPath.reuse {
 
             if (dataWithDetail.isEmpty())
-                return@apply // no need to draw
+                return@reuse // no need to draw
 
-            val triCenter = pointsX[selectedIndex]
-            val triTop = pointsY[selectedIndex] + SELECTED_POINT_RADIUS + POPUP_BOX_MARGIN
+            val triCenter = points[selectedIndex].x
+            val triTop = points[selectedIndex].y + SELECTED_POINT_RADIUS + POPUP_BOX_MARGIN
 
             moveTo(triCenter, triTop)
             lineTo(triCenter - POPUP_BOX_TRI_WIDTH / 2F, triTop + POPUP_BOX_TRI_HEIGHT)
             lineTo(triCenter + POPUP_BOX_TRI_WIDTH / 2F, triTop + POPUP_BOX_TRI_HEIGHT)
             close()
-
 
             val rectCenter =
                     when {
@@ -252,7 +265,7 @@ class GpaLineChartView @JvmOverloads constructor(context: Context, attrs: Attrib
 
             detailTextLayout = StaticLayout(
                     dataWithDetail[selectedIndex].detail,
-                    detailsTextPaint,
+                    detailTextPaint,
                     (POPUP_BOX_RECT_WIDTH - POPUP_BOX_PADDING * 2).toInt(),
                     Layout.Alignment.ALIGN_NORMAL,
                     1.75F,
@@ -300,19 +313,19 @@ class GpaLineChartView @JvmOverloads constructor(context: Context, attrs: Attrib
     }
 
     private fun checkClickOnPoint(x: Float, y: Float, callback: (Int) -> Unit) {
-        (0 until dataWithDetail.orEmpty().size).forEach {
-            val dx = x - pointsX[it]
-            val dy = y - pointsY[it]
+        points.forEachIndexed { index, (px, py) ->
+            val dx = x - px
+            val dy = y - py
             val d2 = dx * dx + dy * dy
             // expand area of click on point
             if (d2 < POINT_RADIUS * POINT_RADIUS * 4) {
-                callback(it)
+                callback(index)
             }
         }
     }
 
-    override fun onTouchEvent(event: MotionEvent?): Boolean {
-        event?.takeIf { it.action == MotionEvent.ACTION_DOWN }?.let {
+    override fun onTouchEvent(event: MotionEvent): Boolean {
+        event.takeIf { it.action == MotionEvent.ACTION_DOWN }?.let {
             checkClickOnPoint(it.x, it.y) {
                 selectedIndex = it
                 onSelectionChangedListener?.invoke(it)
