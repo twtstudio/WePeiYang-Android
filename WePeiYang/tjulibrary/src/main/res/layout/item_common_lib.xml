@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="4dp"
-    bind:cardBackgroundColor="@color/white_color"
-    bind:cardElevation="0dp">
+    app:cardBackgroundColor="@color/white_color"
+    app:cardElevation="0dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -92,9 +92,9 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="start"
                 android:fontFamily="sans-serif-light"
-                android:textSize="14sp"
                 android:text="刷新"
-                android:textColor="@color/colorPrimary" />
+                android:textColor="@color/colorPrimary"
+                android:textSize="14sp" />
 
             <Button
                 android:id="@+id/btn_home_lib_renew"
@@ -103,9 +103,9 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center_horizontal"
                 android:fontFamily="sans-serif"
-                android:textSize="14sp"
                 android:text="一键续借"
-                android:textColor="@color/colorPrimary" />
+                android:textColor="@color/colorPrimary"
+                android:textSize="14sp" />
 
             <Button
                 android:id="@+id/btn_home_lib_more"
@@ -115,8 +115,8 @@
                 android:layout_gravity="end"
                 android:fontFamily="sans-serif"
                 android:text="无更多书显示"
-                android:textSize="14sp"
                 android:textColor="@color/colorPrimary"
+                android:textSize="14sp"
                 tools:text="显示更多(2)" />
         </FrameLayout>
     </LinearLayout>

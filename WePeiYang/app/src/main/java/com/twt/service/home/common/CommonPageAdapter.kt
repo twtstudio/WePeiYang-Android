@@ -2,7 +2,6 @@ package com.twt.service.home.common
 
 import android.arch.lifecycle.LifecycleOwner
 import android.content.Context
-import android.content.Intent
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -12,7 +11,6 @@ import com.twt.service.home.common.schedule.ScheduleItemViewHolder
 import com.twt.service.home.common.schedule.ScheduleViewModel
 import com.twtstudio.retrox.bike.homeitem.BikeHomeItemViewModel
 import com.twtstudio.retrox.tjulibrary.homeitem.HomeLibItemComponent
-import xyz.rickygao.gpa2.view.GpaActivity
 
 /**
  * Created by retrox on 22/10/2017.
@@ -38,8 +36,7 @@ class CommonPageAdapter(
         val viewHolder = when (viewType) {
             GPA -> GpaItemViewHolder(inflater.inflate(R.layout.item_common_gpa, parent, false), owner)
             SCHEDULE -> ScheduleItemViewHolder(inflater.inflate(R.layout.item_common_schedule, parent, false))
-            LIBRARY ->
-                HomeLibItemComponent(owner, inflater.inflate(R.layout.item_common_lib, parent, false))
+            LIBRARY -> HomeLibItemComponent(owner, inflater.inflate(R.layout.item_common_lib, parent, false))
 //            BIKE -> BikeHomeItemViewHolder(inflater.inflate(R.layout.item_bike_card,parent,false))
             else -> null
         }
@@ -49,11 +46,7 @@ class CommonPageAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is GpaItemViewHolder -> {
-                holder.update()
-                holder.cardView.setOnClickListener {
-                    val intent = Intent(context, GpaActivity::class.java)
-                    context.startActivity(intent)
-                }
+                holder.bind()
             }
             is ScheduleItemViewHolder -> {
                 holder.bind(owner, list[position] as ScheduleViewModel)

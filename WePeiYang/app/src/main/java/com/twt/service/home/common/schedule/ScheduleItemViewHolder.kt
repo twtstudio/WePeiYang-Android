@@ -27,7 +27,7 @@ class ScheduleItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
             itemView.context.startActivity(intent)
         }
         viewModel.title.observe(owner, Observer<String?> {
-            title.setText(it)
+            title.text = it
         })
         viewModel.liveItems.observe(owner, Observer<List<ViewModel>> {
 //            board.removeAllViews()
@@ -52,13 +52,13 @@ class ScheduleItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
             if (viewModel is CourseBriefViewModel) {
                 viewModel.apply {
                     cardColor.observe(owner, Observer<Int> {
-                        it?.let { it1 -> cardview.setCardBackgroundColor(it1) }
+                        it?.let(cardview::setCardBackgroundColor)
                     })
                     courseName.observe(owner, Observer<String> {
-                        it?.let { it1 -> textview.setText(it1) }
+                        it?.let { textview.text = it }
                     })
                     textColor.observe(owner, Observer<Int> {
-                        it?.let { it1 -> textview.setTextColor(it1) }
+                        it?.let(textview::setTextColor)
                     })
                 }
 

@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.*
 import es.dmoral.toasty.Toasty
 import xyz.rickygao.gpa2.R
@@ -59,6 +60,8 @@ class GpaActivity : AppCompatActivity() {
             val realIndex = value.coerceIn(if (term.isNotEmpty()) term.indices else 0..0)
             val selectedTerm = term[realIndex]
 
+            prevBtn.visibility = if (realIndex > 0) View.VISIBLE else View.INVISIBLE
+            nextBtn.visibility = if (realIndex < term.lastIndex) View.VISIBLE else View.INVISIBLE
             selectedTermTs.setText(selectedTerm.name)
             tbSelectedTermTv.text = selectedTerm.name
             gpaLineCv.selectedIndex = realIndex
