@@ -244,7 +244,7 @@ public class ScheduleActivity extends RxAppCompatActivity implements ScheduleVie
 
 //        //修复初始情况的课程不可用bug,
         currentWeek = TimeHelper.getWeekInt(Long.parseLong(classTable.data.term_start), Calendar.getInstance());
-        if (currentWeek < 0 ){
+        if (currentWeek < 0) {
             currentWeek = 0;
         }
         changeWeek(currentWeek);
@@ -404,11 +404,15 @@ public class ScheduleActivity extends RxAppCompatActivity implements ScheduleVie
                         }
 //                        glSchedule.addView(v, params);
                         for (int t = startTime - 1; t < endTime; t++) {
-                            hasClass[day-1][t] = true;
+                            hasClass[day - 1][t] = true;
                         }
                     } else {
                         // 多节课程逻辑
-                        addMultiClassLabel(day, startTime, endTime);
+                        int repeatedEndTime = getRepeatedClassEndTime(day, startTime, endTime);
+                        if (repeatedEndTime!=0&&repeatedEndTime < endTime)
+                            addMultiClassLabel(day, startTime, repeatedEndTime);
+                        else
+                            addMultiClassLabel(day, startTime, endTime);
                     }
                 } else {
                     course.isAvaiableCurrentWeek = false;
@@ -478,11 +482,15 @@ public class ScheduleActivity extends RxAppCompatActivity implements ScheduleVie
                     }
 //                    glSchedule.addView(v, params);
                     for (int t = startTime - 1; t < endTime; t++) {
-                        hasClass[day-1][t] = true;
+                        hasClass[day - 1][t] = true;
                     }
                 } else {
                     //  多节课程逻辑
-                    addMultiClassLabel(day, startTime, endTime);
+                    int repeatedEndTime = getRepeatedClassEndTime(day, startTime, endTime);
+                    if (repeatedEndTime!=0&&repeatedEndTime < endTime)
+                        addMultiClassLabel(day, startTime, repeatedEndTime);
+                    else
+                        addMultiClassLabel(day, startTime, endTime);
                 }
             }
         }
@@ -528,7 +536,7 @@ public class ScheduleActivity extends RxAppCompatActivity implements ScheduleVie
     private boolean hasClassThisWeek(int day, int startTime, int endTime) {
         try {
             for (int t = startTime - 1; t < endTime; t++) {
-                if (hasClass[day-1][t]) {
+                if (hasClass[day - 1][t]) {
                     return true;
                 }
             }
@@ -539,6 +547,20 @@ public class ScheduleActivity extends RxAppCompatActivity implements ScheduleVie
         return false;
     }
 
+    //获取重复课程的结束时间
+    private int getRepeatedClassEndTime(int day, int startTime, int endTime) {
+        try {
+            for (int t = endTime - 1; t >= startTime; t--) {
+                if (hasClass[day - 1][t]) {
+                    return t+1;
+                }
+            }
+        } catch (Exception e) {
+            CrashReport.postCatchedException(e);
+        }
+
+        return 0;
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -569,7 +591,7 @@ public class ScheduleActivity extends RxAppCompatActivity implements ScheduleVie
                 int sT = Integer.parseInt(arrange.start);
                 int eT = Integer.parseInt(arrange.end);
                 int d = Integer.parseInt(arrange.day);
-                if (d == day && sT >= startTime && eT <= endTime) {
+                if (d == day && sT >= startTime && (eT <= endTime || sT==startTime)) {
                     coursesInThisTime.add(course);
                 }
             }
