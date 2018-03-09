@@ -3,9 +3,10 @@ package com.twtstudio.retrox.auth.api
 import android.arch.lifecycle.MutableLiveData
 import com.orhanobut.hawk.Hawk
 import com.tencent.bugly.crashreport.CrashReport
-import com.twt.wepeiyang.commons.network.RetrofitProvider
+import com.twt.wepeiyang.commons.experimental.AuthSelfBean
+import com.twt.wepeiyang.commons.experimental.ConsumableMessage
+import com.twt.wepeiyang.commons.experimental.RealAuthService
 import com.twt.wepeiyang.commons.utils.CommonPrefUtil
-import com.twtstudio.retrox.auth.ext.ConsumableMessage
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
 import org.jetbrains.anko.coroutines.experimental.bg
@@ -16,7 +17,6 @@ import org.jetbrains.anko.coroutines.experimental.bg
 
 object AuthProvider {
 
-    private val api = RetrofitProvider.getRetrofit().create(AuthApi::class.java)
     val authSelfLiveData = MutableLiveData<AuthSelfBean>()
     val successLiveData = MutableLiveData<ConsumableMessage<String>>()
     val errorLiveData = MutableLiveData<ConsumableMessage<String>>()
@@ -25,7 +25,7 @@ object AuthProvider {
     fun login(username: String, password: String, silent: Boolean = false) {
         async(UI) {
             val remote = bg {
-                api.login(username, password).toBlocking().value()?.data
+                RealAuthService.getToken(username, password).execute().body()?.data
             }
 
             remote.await()?.let {
@@ -50,7 +50,7 @@ object AuthProvider {
         async(UI) {
 
             val remote = bg {
-                api.authSelf().toBlocking().value()
+                RealAuthService.authSelf().execute().body()
             }
 
             if (useCache) {

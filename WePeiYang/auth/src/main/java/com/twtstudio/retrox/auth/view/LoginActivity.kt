@@ -5,9 +5,9 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.Button
 import android.widget.EditText
+import com.twt.wepeiyang.commons.experimental.consume
 import com.twtstudio.retrox.auth.R
 import com.twtstudio.retrox.auth.api.AuthProvider
-import com.twtstudio.retrox.auth.ext.consume
 import es.dmoral.toasty.Toasty
 
 

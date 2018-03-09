@@ -3,11 +3,11 @@ package xyz.rickygao.gpa2.api
 import android.arch.lifecycle.MutableLiveData
 import com.orhanobut.hawk.Hawk
 import com.orhanobut.logger.Logger
+import com.twt.wepeiyang.commons.experimental.ConsumableMessage
 import com.twt.wepeiyang.commons.utils.CommonPrefUtil
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
 import org.jetbrains.anko.coroutines.experimental.bg
-import xyz.rickygao.gpa2.ext.ConsumableMessage
 
 /**
  * Created by rickygao on 2017/11/9.

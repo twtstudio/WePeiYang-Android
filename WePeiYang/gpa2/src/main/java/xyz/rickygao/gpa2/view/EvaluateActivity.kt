@@ -9,14 +9,14 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.widget.ImageButton
 import android.widget.RatingBar
+import com.twt.wepeiyang.commons.experimental.consume
+import com.twt.wepeiyang.commons.experimental.enableLightStatusBarMode
+import com.twt.wepeiyang.commons.experimental.fitSystemWindowWithNavigationBar
+import com.twt.wepeiyang.commons.experimental.fitSystemWindowWithStatusBar
 import es.dmoral.toasty.Toasty
 import xyz.rickygao.gpa2.R
 import xyz.rickygao.gpa2.api.Evaluate
 import xyz.rickygao.gpa2.api.GpaProvider
-import xyz.rickygao.gpa2.ext.consume
-import xyz.rickygao.gpa2.ext.enableLightStatusBarMode
-import xyz.rickygao.gpa2.ext.fitSystemWindowWithNavigationBar
-import xyz.rickygao.gpa2.ext.fitSystemWindowWithStatusBar
 
 /**
  * Created by rickygao on 2018/1/23.

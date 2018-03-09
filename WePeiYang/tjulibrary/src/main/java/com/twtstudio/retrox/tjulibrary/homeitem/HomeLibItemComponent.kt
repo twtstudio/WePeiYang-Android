@@ -3,7 +3,6 @@ package com.twtstudio.retrox.tjulibrary.homeitem
 import android.app.Activity
 import android.arch.lifecycle.LifecycleOwner
 import android.arch.lifecycle.MutableLiveData
-import android.content.DialogInterface
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -12,9 +11,9 @@ import android.widget.*
 import com.bumptech.glide.Glide
 import com.orhanobut.logger.Logger
 import com.tapadoo.alerter.Alerter
+import com.twt.wepeiyang.commons.experimental.bind
 import com.twt.wepeiyang.commons.network.RetrofitProvider
 import com.twtstudio.retrox.tjulibrary.R
-import com.twtstudio.retrox.tjulibrary.extension.bind
 import com.twtstudio.retrox.tjulibrary.provider.*
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
@@ -25,7 +24,7 @@ import org.json.JSONObject
 import retrofit2.HttpException
 import java.io.IOException
 import java.net.SocketTimeoutException
-import java.util.HashMap
+import java.util.*
 
 /**
  * Created by retrox on 26/10/2017.

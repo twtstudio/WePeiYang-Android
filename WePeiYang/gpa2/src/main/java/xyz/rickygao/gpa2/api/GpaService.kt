@@ -15,12 +15,14 @@ import retrofit2.http.POST
  * Created by rickygao on 2017/11/9.
  */
 interface GpaService {
+
     @GET("v1/gpa")
     fun get(): Call<CommonBody<GpaBean>>
 
     @FormUrlEncoded
     @POST("v1/gpa/evaluate")
     fun evaluate(@FieldMap params: Map<String, String>): Call<CommonBody<String>>
+
 }
 
 object RealGpaService : GpaService by ServiceFactory()

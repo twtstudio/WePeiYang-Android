@@ -11,16 +11,15 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import com.bumptech.glide.Glide
 import com.tapadoo.alerter.Alerter
+import com.twt.wepeiyang.commons.experimental.bind
 import com.twtstudio.retrox.tjulibrary.R
-import com.twtstudio.retrox.tjulibrary.extension.bind
 import com.twtstudio.retrox.tjulibrary.provider.Book
 
 /**
  * Created by retrox on 26/10/2017.
  */
-class BookItemComponent(lifecycleOwner: LifecycleOwner,itemView: View) : RecyclerView.ViewHolder(itemView) {
+class BookItemComponent(lifecycleOwner: LifecycleOwner, itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val mContext = itemView.context
     private val cover: ImageView = itemView.findViewById(R.id.ic_item_book)
     private val name: TextView = itemView.findViewById(R.id.tv_item_book_name)
@@ -39,7 +38,7 @@ class BookItemComponent(lifecycleOwner: LifecycleOwner,itemView: View) : Recycle
 
     fun render(): View = itemView
 
-    fun bindBook(book: Book){
+    fun bindBook(book: Book) {
         bookData.value = book
     }
 

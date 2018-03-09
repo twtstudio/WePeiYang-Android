@@ -10,11 +10,11 @@ import android.support.v7.widget.Toolbar
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
+import com.twt.wepeiyang.commons.experimental.*
 import es.dmoral.toasty.Toasty
 import xyz.rickygao.gpa2.R
 import xyz.rickygao.gpa2.api.GpaProvider
 import xyz.rickygao.gpa2.api.Term
-import xyz.rickygao.gpa2.ext.*
 
 /**
  * Created by rickygao on 2017/11/9.

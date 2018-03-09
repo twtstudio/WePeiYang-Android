@@ -9,7 +9,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.twt.service.R;
-import com.twt.wepeiyang.commons.network.RetrofitProvider;
 import com.twt.wepeiyang.commons.network.RxErrorHandler;
 import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
 import com.twtstudio.retrox.auth.api.AuthProvider;
@@ -37,7 +36,7 @@ public class TjuBindFragment extends SlideFragment {
 
     @OnClick(R.id.btn_tju_bind)
     public void bind(View view) {
-        RetrofitProvider.getRetrofit().create(TjuApi.class)
+        RealAuthApi.INSTANCE
                 .bindTju(numEdit.getText().toString(), passwordEdit.getText().toString())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

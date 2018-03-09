@@ -16,10 +16,10 @@ import com.twt.service.R
 import com.twt.service.base.BaseFragment
 import com.twt.service.settings.SettingsActivity
 import com.twt.wepeiyang.commons.cache.CacheProvider
+import com.twt.wepeiyang.commons.experimental.map
 import com.twt.wepeiyang.commons.utils.CommonPrefUtil
 import com.twt.wepeiyang.commons.view.RecyclerViewDivider
 import com.twtstudio.retrox.auth.api.AuthProvider
-import com.twtstudio.retrox.auth.ext.map
 import com.twtstudio.retrox.auth.view.LoginActivity
 
 

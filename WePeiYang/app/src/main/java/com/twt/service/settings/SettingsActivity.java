@@ -23,10 +23,8 @@ import com.twt.service.R;
 import com.twt.service.home.HomeActivity;
 import com.twt.service.update.UpdateManager;
 import com.twt.wepeiyang.commons.cache.CacheProvider;
-import com.twt.wepeiyang.commons.network.RetrofitProvider;
 import com.twt.wepeiyang.commons.network.RxErrorHandler;
 import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
-import com.twtstudio.retrox.auth.api.AuthApi;
 import com.twtstudio.retrox.auth.api.AuthProvider;
 import com.twtstudio.retrox.bike.service.BikeServiceProvider;
 import com.twtstudio.retrox.tjulibrary.provider.TjuLibProvider;
@@ -140,7 +138,7 @@ public class SettingsActivity extends AppCompatActivity {
 
                                         Toast.makeText(mContext, "正在办理...", Toast.LENGTH_SHORT).show();
 
-                                        RetrofitProvider.getRetrofit().create(AuthApi.class)
+                                        RealAuthApi.INSTANCE
                                                 .dropOut(which + 1)
                                                 .subscribeOn(Schedulers.io())
                                                 .observeOn(AndroidSchedulers.mainThread())
@@ -191,7 +189,7 @@ public class SettingsActivity extends AppCompatActivity {
                                     public void onClick(DialogInterface dialog, int which) {
                                         Toast.makeText(mContext, "正在办理...", Toast.LENGTH_SHORT).show();
 
-                                        RetrofitProvider.getRetrofit().create(AuthApi.class)
+                                        RealAuthApi.INSTANCE
                                                 .dropOut(0)
                                                 .subscribeOn(Schedulers.io())
                                                 .observeOn(AndroidSchedulers.mainThread())
@@ -281,7 +279,7 @@ public class SettingsActivity extends AppCompatActivity {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     if (CommonPrefUtil.getIsBindTju()) {
-                                        RetrofitProvider.getRetrofit().create(TjuApi.class)
+                                        RealAuthApi.INSTANCE
                                                 .unbindTju(CommonPrefUtil.getUserId())
                                                 .subscribeOn(Schedulers.io())
                                                 .observeOn(AndroidSchedulers.mainThread())

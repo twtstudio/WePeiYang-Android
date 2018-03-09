@@ -59,8 +59,11 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-    [*supportLibraries, 'kotlin-stdlib', 'anko-coroutines'].each {
+    [*supportLibraries, *archLibraries, 'kotlin-stdlib', 'anko-coroutines'].each {
         implementation dependenciesMap[it]
+    }
+    ['lifecycle-compiler'].each {
+        annotationProcessor dependenciesMap[it]
     }
 
     api 'com.github.bumptech.glide:glide:3.8.0'
