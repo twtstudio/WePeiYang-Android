@@ -5,14 +5,18 @@ import android.content.Context;
 
 import com.orhanobut.logger.Logger;
 
+import java.lang.ref.WeakReference;
+
 /**
  * Created by retrox on 2017/1/25.
  * 通过反射全局获取统一的app对象
  *
+ * @deprecated use Commons instead
  */
 
+@Deprecated
 public class App {
-    public static final Application INSTANCE;
+    private static final WeakReference<Application> INSTANCE_REFERENCE;
 
     static {
         Application app = null;
@@ -21,22 +25,22 @@ public class App {
             if (app == null)
                 throw new IllegalStateException("Static initialization of Applications must be on main thread.");
         } catch (final Exception e) {
-            Logger.e(e,"Failed to get current application from AppGlobals." + e.getMessage());
+            Logger.e(e, "Failed to get current application from AppGlobals." + e.getMessage());
             try {
                 app = (Application) Class.forName("android.app.ActivityThread").getMethod("currentApplication").invoke(null);
             } catch (final Exception ex) {
-                Logger.e(ex,"Failed to get current application from ActivityThread." + e.getMessage());
+                Logger.e(ex, "Failed to get current application from ActivityThread." + e.getMessage());
             }
         } finally {
-            INSTANCE = app;
+            INSTANCE_REFERENCE = new WeakReference<>(app);
         }
     }
 
-    public static Application getApplication(){
-        return INSTANCE;
+    public static Application getApplication() {
+        return INSTANCE_REFERENCE.get();
     }
 
-    public static Context getApplicationContext(){
-        return INSTANCE.getApplicationContext();
+    public static Context getApplicationContext() {
+        return INSTANCE_REFERENCE.get().getApplicationContext();
     }
 }

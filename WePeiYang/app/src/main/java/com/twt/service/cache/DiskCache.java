@@ -2,8 +2,8 @@ package com.twt.service.cache;
 
 
 import com.orhanobut.logger.Logger;
-import com.twt.service.WePeiYangApp;
 import com.twt.service.support.NetworkUtils;
+import com.twt.wepeiyang.commons.experimental.Commons;
 
 import java.io.Closeable;
 import java.io.File;
@@ -27,14 +27,11 @@ import rx.schedulers.Schedulers;
  */
 
 public class DiskCache implements ICache {
-    private static final String NAME = ".cache";
-
-    public static long OTHER_CACHE_TIME = 10 * 60 * 1000;
-    public static long WIFI_CACHE_TIME = 30 * 60 * 1000;
-
     public static final int GPA = 1;
     public static final int Secdule = 2;
-
+    private static final String NAME = ".cache";
+    public static long OTHER_CACHE_TIME = 10 * 60 * 1000;
+    public static long WIFI_CACHE_TIME = 30 * 60 * 1000;
     private static List<String> longTimeDataKey = new ArrayList<>();
 
     /**
@@ -49,7 +46,7 @@ public class DiskCache implements ICache {
     private File fileDir;
 
     public DiskCache() {
-        fileDir = WePeiYangApp.getContext().getCacheDir();
+        fileDir = Commons.INSTANCE.getApplicationContext().getCacheDir();
     }
 
 
@@ -133,7 +130,7 @@ public class DiskCache implements ICache {
         if (isLongTimeData(getKey(dataFile))) {
             isFailure = false;
         } else {
-            if (NetworkUtils.getNetworkType(WePeiYangApp.getContext()) == NetworkUtils.NetworkType.NETWORK_WIFI) {
+            if (NetworkUtils.getNetworkType(Commons.INSTANCE.getApplicationContext()) == NetworkUtils.NetworkType.NETWORK_WIFI) {
                 isFailure = existTime > WIFI_CACHE_TIME;
             } else {
                 isFailure = existTime > OTHER_CACHE_TIME;

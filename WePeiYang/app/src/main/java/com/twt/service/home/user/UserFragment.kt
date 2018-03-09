@@ -38,6 +38,7 @@ class UserFragment : BaseFragment() {
                             UserItem.AvatarItem(AuthProvider.authSelfLiveData.map {
                                 UserItem.AvatarBean(it.avatar, it.twtuname, it.realname)
                             }, R.drawable.ic_avatar),
+//                            UserItem.DividerItem,
                             UserItem.InfoItem(R.drawable.lib_library, "图书馆", AuthProvider.authSelfLiveData.map {
                                 if (it.accounts.lib) "已绑定" else "未绑定"
                             }),
@@ -47,6 +48,7 @@ class UserFragment : BaseFragment() {
                             UserItem.InfoItem(R.drawable.ic_tju_little_icon, "办公网", AuthProvider.authSelfLiveData.map {
                                 if (it.accounts.tju) "已绑定" else "未绑定"
                             }),
+//                            UserItem.DividerItem,
                             UserItem.ActionItem(R.drawable.ic_settings, "设置") {
                                 val intent = Intent(context, SettingsActivity::class.java)
                                 context.startActivity(intent)

@@ -7,6 +7,7 @@ import android.text.StaticLayout
 import android.text.TextPaint
 import android.util.AttributeSet
 import android.view.MotionEvent
+import android.view.SoundEffectConstants
 import android.view.View
 import xyz.rickygao.gpa2.R
 import xyz.rickygao.gpa2.ext.*
@@ -219,14 +220,7 @@ class GpaLineChartView @JvmOverloads constructor(context: Context, attrs: Attrib
 
             points.asSequence()
                     .filterIndexed { index, _ -> index != selectedIndex }
-                    .forEach { (x, y) ->
-                        addCircle(
-                                x,
-                                y,
-                                POINT_RADIUS,
-                                Path.Direction.CCW
-                        )
-                    }
+                    .forEach { (x, y) -> addCircle(x, y, POINT_RADIUS, Path.Direction.CCW) }
 
         }
 
@@ -320,8 +314,10 @@ class GpaLineChartView @JvmOverloads constructor(context: Context, attrs: Attrib
             // expand area of click on point
             if (d2 < POINT_RADIUS * POINT_RADIUS * 4) {
                 callback(index)
+                playSoundEffect(SoundEffectConstants.CLICK)
             }
         }
+        performClick()
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
@@ -331,9 +327,8 @@ class GpaLineChartView @JvmOverloads constructor(context: Context, attrs: Attrib
                 onSelectionChangedListener?.invoke(it)
             }
         }
-        return super.onTouchEvent(event)
+        return true
     }
-
 
     init {
         context.obtainStyledAttributes(attrs, R.styleable.GpaLineChartView, defStyle, 0).apply {

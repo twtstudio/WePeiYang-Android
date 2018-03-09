@@ -15,7 +15,7 @@ import xyz.rickygao.gpa2.view.GpaActivity
  * Created by rickygao on 2018/1/26.
  */
 
-class GpaItemViewHolder(itemView: View, val lifecycleOwner: LifecycleOwner) : RecyclerView.ViewHolder(itemView) {
+class GpaItemViewHolder(itemView: View, private val lifecycleOwner: LifecycleOwner) : RecyclerView.ViewHolder(itemView) {
 
     private val cardView: CardView = itemView.findViewById(R.id.card_item_gpa)
     private val scoreTv: TextView = itemView.findViewById(xyz.rickygao.gpa2.R.id.tv_score)

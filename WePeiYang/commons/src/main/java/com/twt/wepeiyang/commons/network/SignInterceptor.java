@@ -3,8 +3,7 @@ package com.twt.wepeiyang.commons.network;
 import android.util.Log;
 
 import com.annimon.stream.Stream;
-import com.orhanobut.logger.Logger;
-import com.twt.wepeiyang.commons.JniUtils;
+import com.twt.wepeiyang.commons.experimental.ServiceFactory;
 import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
 
 import org.apache.commons.codec.binary.Hex;
@@ -60,18 +59,18 @@ public class SignInterceptor implements Interceptor {
         String keys = Stream.of(keysList).map(s1 -> {
             if ("t".equals(s1)){
                 s1 += timestamp;
-            }else {
+            } else {
                 s1 += originUrl.queryParameter(s1);
             }
             return s1;
         }).reduce((value1, value2) -> value1 + value2).get();
 
-        String sign = new String(Hex.encodeHex(DigestUtils.sha(JniUtils.getInstance().getAppKey() + keys + JniUtils.getInstance().getAppSecret()))).toUpperCase();
+        String sign = new String(Hex.encodeHex(DigestUtils.sha(ServiceFactory.APP_KEY + keys + ServiceFactory.APP_SECRET))).toUpperCase();
 
         return originUrl.newBuilder()
                 .addQueryParameter("t", timestamp)
                 .addQueryParameter("sign", sign)
-                .addQueryParameter("app_key", JniUtils.getInstance().getAppKey())
+                .addQueryParameter("app_key", ServiceFactory.APP_KEY)
                 .build();
     }
 }

@@ -6,7 +6,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.orhanobut.logger.Logger;
-import com.twt.wepeiyang.commons.utils.App;
+import com.twt.wepeiyang.commons.experimental.Commons;
 import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
 
 import java.net.InetSocketAddress;
@@ -55,14 +55,14 @@ public class RetrofitProvider {
                 .retryOnConnectionFailure(true)
                 .connectTimeout(30, TimeUnit.SECONDS);
 
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(App.getApplicationContext());
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Commons.INSTANCE.getApplicationContext());
         boolean isUseProxy = sharedPreferences.getBoolean("pref_use_proxy", false);
         if (isUseProxy) {
             try {
                 clientbuilder.proxy(new Proxy(Proxy.Type.HTTP, new InetSocketAddress(CommonPrefUtil.getProxyAddress(), CommonPrefUtil.getProxyPort())));
             } catch (Exception e) {
                 Log.e("NetworkProxy", CommonPrefUtil.getProxyAddress() + ":" + CommonPrefUtil.getProxyPort());
-                Toast.makeText(App.getApplicationContext(), "老哥你代理配烂了... " + CommonPrefUtil.getProxyAddress() + ":" + CommonPrefUtil.getProxyPort(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(Commons.INSTANCE.getApplicationContext(), "老哥你代理配烂了... " + CommonPrefUtil.getProxyAddress() + ":" + CommonPrefUtil.getProxyPort(), Toast.LENGTH_SHORT).show();
             }
         }
 
@@ -85,12 +85,11 @@ public class RetrofitProvider {
         mRetrofit = builder.build();
     }
 
+    public static Retrofit getRetrofit() {
+        return SingletonHolder.INSTANCE.mRetrofit;
+    }
 
     private static class SingletonHolder {
         private static final RetrofitProvider INSTANCE = new RetrofitProvider();
-    }
-
-    public static Retrofit getRetrofit() {
-        return SingletonHolder.INSTANCE.mRetrofit;
     }
 }

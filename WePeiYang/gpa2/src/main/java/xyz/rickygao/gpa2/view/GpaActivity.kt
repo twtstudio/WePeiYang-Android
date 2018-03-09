@@ -81,7 +81,6 @@ class GpaActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.gpa2_activity_gpa)
 
-
         inflater = LayoutInflater.from(this)
 
         enableLightStatusBarMode(true)
@@ -147,6 +146,10 @@ class GpaActivity : AppCompatActivity() {
         // init radar chart
         gpaRadarCv = findViewById<GpaRadarChartView>(R.id.cv_gpa_radar).apply {
             emptyText = RADAR_EMPTY_TEXT
+            setOnLongClickListener {
+                (it as GpaRadarChartView).dataWithLabel = it.dataWithLabel.shuffled()
+                return@setOnLongClickListener true
+            }
         }
 
         // init course list

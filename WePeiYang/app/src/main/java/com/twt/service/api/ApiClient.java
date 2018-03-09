@@ -3,7 +3,7 @@ package com.twt.service.api;
 
 import com.annimon.stream.Stream;
 import com.orhanobut.logger.Logger;
-import com.twt.wepeiyang.commons.JniUtils;
+import com.twt.wepeiyang.commons.experimental.ServiceFactory;
 import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
 
 import org.apache.commons.codec.binary.Hex;
@@ -34,55 +34,6 @@ import static okhttp3.internal.platform.Platform.INFO;
  */
 
 public class ApiClient {
-
-    private Retrofit mRetrofit;
-
-    private Api mService;
-
-    public ApiClient() {
-
-        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(message -> {
-            if (message.startsWith("{")) {
-                Logger.json(message);
-            } else {
-                Platform.get().log(INFO, message, null);
-            }
-        });
-
-        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-
-        OkHttpClient client = new OkHttpClient.Builder()
-                .addInterceptor(loggingInterceptor)
-                .addInterceptor(sRequestInterceptor)
-                .retryOnConnectionFailure(false)
-                .connectTimeout(30, TimeUnit.SECONDS)
-                .build();
-
-//        Gson gson = new GsonBuilder()
-//                .registerTypeAdapterFactory(new ApiTypeAdapterFactory("data"))
-//                .create();
-
-        mRetrofit = new Retrofit.Builder()
-                .baseUrl("https://open.twtstudio.com/api/v1/")
-                .client(client)
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        mService = mRetrofit.create(Api.class);
-    }
-
-    private static class SingletonHolder {
-        private static final ApiClient INSTANCE = new ApiClient();
-    }
-
-    public static ApiClient getInstance() {
-        return SingletonHolder.INSTANCE;
-    }
-
-    public static Api getService() {
-        return SingletonHolder.INSTANCE.mService;
-    }
 
     protected static Interceptor sRequestInterceptor = new Interceptor() {
         @Override
@@ -125,14 +76,61 @@ public class ApiClient {
                 return s1;
             }).reduce((value1, value2) -> value1 + value2).get();
 
-            String sign = new String(Hex.encodeHex(DigestUtils.sha(JniUtils.getInstance().getAppKey() + keys + JniUtils.getInstance().getAppSecret()))).toUpperCase();
+            String sign = new String(Hex.encodeHex(DigestUtils.sha(ServiceFactory.APP_KEY + keys + ServiceFactory.APP_SECRET))).toUpperCase();
 
             return originUrl.newBuilder()
                     .addQueryParameter("t", timestamp)
                     .addQueryParameter("sign", sign)
-                    .addQueryParameter("app_key", JniUtils.getInstance().getAppKey())
+                    .addQueryParameter("app_key", ServiceFactory.APP_KEY)
                     .build();
         }
 
     };
+    private Retrofit mRetrofit;
+    private Api mService;
+
+    public ApiClient() {
+
+        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(message -> {
+            if (message.startsWith("{")) {
+                Logger.json(message);
+            } else {
+                Platform.get().log(INFO, message, null);
+            }
+        });
+
+        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+
+        OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(loggingInterceptor)
+                .addInterceptor(sRequestInterceptor)
+                .retryOnConnectionFailure(false)
+                .connectTimeout(30, TimeUnit.SECONDS)
+                .build();
+
+//        Gson gson = new GsonBuilder()
+//                .registerTypeAdapterFactory(new ApiTypeAdapterFactory("data"))
+//                .create();
+
+        mRetrofit = new Retrofit.Builder()
+                .baseUrl("https://open.twtstudio.com/api/v1/")
+                .client(client)
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        mService = mRetrofit.create(Api.class);
+    }
+
+    public static ApiClient getInstance() {
+        return SingletonHolder.INSTANCE;
+    }
+
+    public static Api getService() {
+        return SingletonHolder.INSTANCE.mService;
+    }
+
+    private static class SingletonHolder {
+        private static final ApiClient INSTANCE = new ApiClient();
+    }
 }

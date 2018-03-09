@@ -1,14 +1,12 @@
 package com.twtstudio.retrox.bike.utils;
 
-import android.content.Context;
-
 import com.amap.api.maps.model.BitmapDescriptorFactory;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.MarkerOptions;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.twt.wepeiyang.commons.experimental.Commons;
 import com.twtstudio.retrox.bike.R;
-import com.twtstudio.retrox.bike.WePeiYangAppOld;
 import com.twtstudio.retrox.bike.model.StationsBrief;
 import com.twtstudio.retrox.bike.model.StationsDetail;
 
@@ -27,21 +25,13 @@ import java.util.Map;
  */
 
 public class BikeStationUtils {
-    private Context mContext = WePeiYangAppOld.getContext();
     private List<MarkerOptions> mMarkerOptionsList = new ArrayList<>();
-    private Map<String,StationsDetail> mIdMap = new HashMap<>();
+    private Map<String, StationsDetail> mIdMap = new HashMap<>();
     private List<StationsDetail> mDetailList = new ArrayList<>();
 
 
-    private static class SingletonHolder{
-        private static final BikeStationUtils INSTANCE = new BikeStationUtils();
-    }
-    public static BikeStationUtils getInstance(){
-        return SingletonHolder.INSTANCE;
-    }
-
-    public BikeStationUtils() {
-        InputStream is = mContext.getResources().openRawResource(R.raw.detail);
+    private BikeStationUtils() {
+        InputStream is = Commons.INSTANCE.getApplicationContext().getResources().openRawResource(R.raw.detail);
         String detailJsonString = null;
         try {
             detailJsonString = IOUtils.toString(is);
@@ -53,29 +43,34 @@ public class BikeStationUtils {
         }.getType();
         mDetailList = gson.fromJson(detailJsonString, type);
         for (StationsDetail detail : mDetailList) {
-            mIdMap.put(String.valueOf(detail.id),detail);
+            mIdMap.put(String.valueOf(detail.id), detail);
         }
     }
 
-    public StationsDetail queryId(String id){
+    public static BikeStationUtils getInstance() {
+        return SingletonHolder.INSTANCE;
+    }
+
+    public StationsDetail queryId(String id) {
         StationsDetail detail = mIdMap.get(id);
         if (detail != null) {
             return detail;
-        }else {
+        } else {
             return new StationsDetail();
         }
     }
-    public StationsDetail queryId(int id){
-        StationsDetail detail= mIdMap.get(String.valueOf(id));
+
+    public StationsDetail queryId(int id) {
+        StationsDetail detail = mIdMap.get(String.valueOf(id));
         if (detail != null) {
             return detail;
-        }else {
+        } else {
             return new StationsDetail();
         }
     }
 
     public List<MarkerOptions> getStationsDetail() {
-        if (!mMarkerOptionsList.isEmpty()){
+        if (!mMarkerOptionsList.isEmpty()) {
             return mMarkerOptionsList;
         }
 
@@ -91,7 +86,7 @@ public class BikeStationUtils {
     }
 
     public List<MarkerOptions> getStationsBrief() {
-        InputStream is = mContext.getResources().openRawResource(R.raw.brief);
+        InputStream is = Commons.INSTANCE.getApplicationContext().getResources().openRawResource(R.raw.brief);
         String briefJsonString = null;
         try {
             briefJsonString = IOUtils.toString(is);
@@ -102,15 +97,19 @@ public class BikeStationUtils {
         List<StationsBrief> briefList = new ArrayList<>();
         Type type = new TypeToken<List<StationsBrief>>() {
         }.getType();
-        briefList = gson.fromJson(briefJsonString,type);
+        briefList = gson.fromJson(briefJsonString, type);
         List<MarkerOptions> markerOptionsList = new ArrayList<>();
         for (StationsBrief brief : briefList) {
             MarkerOptions markerOptions = new MarkerOptions()
-                    .position(new LatLng(brief.lat_c,brief.lng_c))
+                    .position(new LatLng(brief.lat_c, brief.lng_c))
                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.map_marker_selected))
                     .title(brief.name);
             markerOptionsList.add(markerOptions);
         }
         return markerOptionsList;
+    }
+
+    private static class SingletonHolder {
+        private static final BikeStationUtils INSTANCE = new BikeStationUtils();
     }
 }

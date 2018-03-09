@@ -2,15 +2,28 @@ package xyz.rickygao.gpa2.api
 
 import android.os.Parcel
 import android.os.Parcelable
+import com.twt.wepeiyang.commons.experimental.CommonBody
+import com.twt.wepeiyang.commons.experimental.ServiceFactory
+import retrofit2.Call
+import retrofit2.http.FieldMap
+import retrofit2.http.FormUrlEncoded
+import retrofit2.http.GET
+import retrofit2.http.POST
+
 
 /**
- * Created by rickygao on 2017/11/14.
+ * Created by rickygao on 2017/11/9.
  */
-data class Response<out T>(
-        val error_code: Int,
-        val message: String,
-        val data: T?
-)
+interface GpaService {
+    @GET("v1/gpa")
+    fun get(): Call<CommonBody<GpaBean>>
+
+    @FormUrlEncoded
+    @POST("v1/gpa/evaluate")
+    fun evaluate(@FieldMap params: Map<String, String>): Call<CommonBody<String>>
+}
+
+object RealGpaService : GpaService by ServiceFactory()
 
 data class GpaBean(
         val stat: Stat,

@@ -2,22 +2,17 @@ package xyz.rickygao.gpa2.api
 
 import android.arch.lifecycle.MutableLiveData
 import com.orhanobut.hawk.Hawk
-import com.twt.wepeiyang.commons.JniUtils
-import com.twt.wepeiyang.commons.network.RetrofitProvider
+import com.orhanobut.logger.Logger
 import com.twt.wepeiyang.commons.utils.CommonPrefUtil
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
-import org.apache.commons.codec.binary.Hex
-import org.apache.commons.codec.digest.DigestUtils
 import org.jetbrains.anko.coroutines.experimental.bg
 import xyz.rickygao.gpa2.ext.ConsumableMessage
-import java.util.*
 
 /**
  * Created by rickygao on 2017/11/9.
  */
 object GpaProvider {
-    private val api = RetrofitProvider.getRetrofit().create(GpaApi::class.java)
     val gpaLiveData = MutableLiveData<GpaBean>()
     val successLiveData = MutableLiveData<ConsumableMessage<String>>()
     val errorLiveData = MutableLiveData<ConsumableMessage<String>>()
@@ -26,7 +21,7 @@ object GpaProvider {
     fun updateGpaLiveData(useCache: Boolean = true, silent: Boolean = false) {
         async(UI) {
             val remote = bg {
-                api.get().toBlocking().value()?.data
+                RealGpaService.get().execute().body()?.data
             }
 
             if (useCache) {
@@ -52,7 +47,8 @@ object GpaProvider {
 
         }.invokeOnCompletion {
             it?.let {
-                errorLiveData.value = ConsumableMessage("好像出了什么问题，${it.message}")
+                Logger.e(it, "Gpa")
+                errorLiveData.value = ConsumableMessage("好像出了什么问题，${it.javaClass} ${it.message}")
             }
         }
     }
@@ -63,8 +59,7 @@ object GpaProvider {
 
                 val token = CommonPrefUtil.getGpaToken()
 
-                val params = sortedMapOf<String, String>(
-                        "t" to Calendar.getInstance().timeInMillis.toString(),
+                val params = sortedMapOf(
                         "token" to token,
                         "lesson_id" to evaluate.lesson_id,
                         "union_id" to evaluate.union_id,
@@ -77,15 +72,16 @@ object GpaProvider {
                         "q5" to q5.toString(),
                         "note" to note
                 ).apply {
-                    val paramsString = JniUtils.getInstance().appKey +
-                            entries.map { it.key + it.value }.reduce(String::plus) +
-                            JniUtils.getInstance().appSecret
-                    val sign = String(Hex.encodeHex(DigestUtils.sha1(paramsString))).toUpperCase()
-                    put("sign", sign)
-                    put("app_key", JniUtils.getInstance().appKey)
+                    //                    put("t", Calendar.getInstance().timeInMillis.toString())
+//                    val paramsString = JniUtils.getInstance().appKey +
+//                            entries.map { it.key + it.value }.reduce(String::plus) +
+//                            JniUtils.getInstance().appSecret
+//                    val sign = String(Hex.encodeHex(DigestUtils.sha1(paramsString))).toUpperCase()
+//                    put("sign", sign)
+//                    put("app_key", ServiceFactory.APP_KEY)
                 }
 
-                api.evaluate(params).toBlocking().value()?.data
+                RealGpaService.evaluate(params).execute()
             }
 
             remote.await()?.let {

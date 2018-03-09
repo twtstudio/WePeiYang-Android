@@ -2,7 +2,7 @@ package com.twtstudio.retrox.bike.utils;
 
 import android.graphics.drawable.Drawable;
 
-import com.twtstudio.retrox.bike.WePeiYangAppOld;
+import com.twt.wepeiyang.commons.experimental.Commons;
 
 
 /**
@@ -10,14 +10,14 @@ import com.twtstudio.retrox.bike.WePeiYangAppOld;
  */
 public class ResourceHelper {
     public static int getColor(int colorId) {
-        return WePeiYangAppOld.getContext().getResources().getColor(colorId);
+        return Commons.INSTANCE.getApplicationContext().getResources().getColor(colorId);
     }
 
     public static Drawable getDrawable(int drawableId) {
-        return WePeiYangAppOld.getContext().getResources().getDrawable(drawableId);
+        return Commons.INSTANCE.getApplicationContext().getResources().getDrawable(drawableId);
     }
 
     public static String getString(int stringId) {
-        return WePeiYangAppOld.getContext().getResources().getString(stringId);
+        return Commons.INSTANCE.getApplicationContext().getResources().getString(stringId);
     }
 }

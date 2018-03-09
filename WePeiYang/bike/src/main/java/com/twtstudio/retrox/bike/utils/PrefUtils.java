@@ -3,7 +3,7 @@ package com.twtstudio.retrox.bike.utils;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import com.twt.wepeiyang.commons.utils.App;
+import com.twt.wepeiyang.commons.experimental.Commons;
 import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
 
 /**
@@ -35,17 +35,12 @@ public class PrefUtils {
     private static final String PREF_SCHEDULE_START_DATE = "schedule_start_date";
 
     private static SharedPreferences getDefaultSharedPreferences() {
-        return PreferenceManager.getDefaultSharedPreferences(App.getApplicationContext());
-    }
-
-    public static void setToken(String token) {
-        if (token != null) {
-            getDefaultSharedPreferences().edit().putString(PREF_TOKEN, token ).apply();
-        }
+        return PreferenceManager.getDefaultSharedPreferences(Commons.INSTANCE.getApplicationContext());
     }
 
     /**
      * 已经迁移到新版到公共preference
+     *
      * @return
      */
     public static String getToken() {
@@ -54,55 +49,60 @@ public class PrefUtils {
         return "Bearer{" + token + "}";
     }
 
-    /**
-     * 已经迁移到新版到公共preference
-     * @return
-     */
-    public static String getTokenForBike(){
-        return CommonPrefUtil.getToken();
+    public static void setToken(String token) {
+        if (token != null) {
+            getDefaultSharedPreferences().edit().putString(PREF_TOKEN, token).apply();
+        }
     }
 
-
-    public static void setBikeToken(String token) {
-        getDefaultSharedPreferences().edit().putString(PREF_BIKE_TOKEN, token).apply();
-//        CommonPrefUtil.setIsBindBike(true);
+    /**
+     * 已经迁移到新版到公共preference
+     *
+     * @return
+     */
+    public static String getTokenForBike() {
+        return CommonPrefUtil.getToken();
     }
 
     public static String getBikeToken() {
         return getDefaultSharedPreferences().getString(PREF_BIKE_TOKEN, "nothing");
     }
 
-    public static void setCardSign(String sign) {
-        getDefaultSharedPreferences().edit().putString(PREF_BIKE_CARD_SIGN, sign).apply();
+    public static void setBikeToken(String token) {
+        getDefaultSharedPreferences().edit().putString(PREF_BIKE_TOKEN, token).apply();
+//        CommonPrefUtil.setIsBindBike(true);
     }
 
     public static String getCardSign() {
         return getDefaultSharedPreferences().getString(PREF_BIKE_CARD_SIGN, "");
     }
 
+    public static void setCardSign(String sign) {
+        getDefaultSharedPreferences().edit().putString(PREF_BIKE_CARD_SIGN, sign).apply();
+    }
+
+    public static String getCardId() {
+        return getDefaultSharedPreferences().getString(PREF_BIKE_CARD_ID, "");
+    }
+
     public static void setCardId(String id) {
-        getDefaultSharedPreferences().edit().putString(PREF_BIKE_CARD_ID,id).apply();
+        getDefaultSharedPreferences().edit().putString(PREF_BIKE_CARD_ID, id).apply();
     }
 
-    public static String getCardId(){
-        return getDefaultSharedPreferences().getString(PREF_BIKE_CARD_ID,"");
-    }
-
-
-    public static void setBikeIsBindState(boolean isBind){
-        getDefaultSharedPreferences().edit().putBoolean(PREF_BIKE_IS_BIND,isBind).apply();
+    public static void setBikeIsBindState(boolean isBind) {
+        getDefaultSharedPreferences().edit().putBoolean(PREF_BIKE_IS_BIND, isBind).apply();
     }
 
 
-    public static String getReadToken(){
-        return getDefaultSharedPreferences().getString(PREF_READ_TOKEN,"");
+    public static String getReadToken() {
+        return getDefaultSharedPreferences().getString(PREF_READ_TOKEN, "");
     }
 
-    public static void setReadToken(String readToken){
-        getDefaultSharedPreferences().edit().putString(PREF_READ_TOKEN,"Bearer {"+readToken+"}").apply();
+    public static void setReadToken(String readToken) {
+        getDefaultSharedPreferences().edit().putString(PREF_READ_TOKEN, "Bearer {" + readToken + "}").apply();
     }
 
-    public static void removeReadToken(){
+    public static void removeReadToken() {
         getDefaultSharedPreferences().edit().remove(PREF_READ_TOKEN).apply();
     }
 }

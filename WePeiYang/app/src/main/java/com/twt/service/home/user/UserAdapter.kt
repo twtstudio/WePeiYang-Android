@@ -22,6 +22,7 @@ class UserAdapter(
 ) : RecyclerView.Adapter<UserAdapter.UserItemViewHolder>() {
 
     companion object {
+        //        const val VIEW_TYPE_DIVIDER = -1
         const val VIEW_TYPE_AVATAR = 0
         const val VIEW_TYPE_INFO = 1
         const val VIEW_TYPE_ACTION = 2
@@ -104,6 +105,7 @@ class UserAdapter(
     }
 
     override fun getItemViewType(position: Int) = when (items[position]) {
+//        is UserItem.DividerItem -> VIEW_TYPE_DIVIDER
         is UserItem.AvatarItem -> VIEW_TYPE_AVATAR
         is UserItem.InfoItem -> VIEW_TYPE_INFO
         is UserItem.ActionItem -> VIEW_TYPE_ACTION
@@ -113,6 +115,8 @@ class UserAdapter(
 sealed class UserItem {
 
     data class AvatarBean(val avatar: String, val username: String, val realname: String)
+
+    //    object DividerItem: UserItem()
     class AvatarItem(val avatarSrc: LiveData<AvatarBean>, val defaultAvatarRes: Int) : UserItem()
     class InfoItem(val iconRes: Int, val label: String, val infoSrc: LiveData<String>) : UserItem()
     class ActionItem(val iconRes: Int, val label: String, val action: () -> Unit) : UserItem()

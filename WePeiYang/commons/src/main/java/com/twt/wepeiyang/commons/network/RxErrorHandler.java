@@ -7,7 +7,7 @@ import android.widget.Toast;
 
 import com.orhanobut.logger.Logger;
 import com.tencent.bugly.crashreport.CrashReport;
-import com.twt.wepeiyang.commons.utils.App;
+import com.twt.wepeiyang.commons.experimental.Commons;
 import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
 
 import org.json.JSONException;
@@ -35,7 +35,7 @@ public class RxErrorHandler implements Action1<Throwable> {
     }
 
     public RxErrorHandler() {
-        mContext = App.getApplicationContext();
+        mContext = Commons.INSTANCE.getApplicationContext();
     }
 
     public static void showToast(Context context, String desc) {
@@ -53,7 +53,7 @@ public class RxErrorHandler implements Action1<Throwable> {
         if (throwable instanceof IOException) {
             IOException error = (IOException) throwable;
 //            Toasty.error(mContext, "网络错误", Toast.LENGTH_SHORT).show();
-            showToast(mContext,"网络错误");
+            showToast(mContext, "网络错误");
             postThrowable(error);
             Logger.e(error, "error");
         } else if (throwable instanceof HttpException) {
@@ -61,7 +61,7 @@ public class RxErrorHandler implements Action1<Throwable> {
             postThrowable(exception);
             Logger.e(exception, "http_error");
 //            Toasty.error(mContext, "错误码：" + exception.response().code(), Toast.LENGTH_SHORT).show();
-            showToast(mContext,"错误码：" + exception.response().code());
+            showToast(mContext, "错误码：" + exception.response().code());
             try {
                 String errorJson = exception.response().errorBody().string();
                 Logger.e(errorJson);
@@ -71,7 +71,7 @@ public class RxErrorHandler implements Action1<Throwable> {
                 Logger.e("错误码：" + errcode + "  message:" + message);
                 postThrowable(new ApiException(errcode, message));
 //                Toasty.error(mContext, "错误：" + message, Toast.LENGTH_SHORT).show();
-                showToast(mContext,"错误：" + message);
+                showToast(mContext, "错误：" + message);
                 handleApiError(errcode);
             } catch (IOException | JSONException e) {
                 e.printStackTrace();
@@ -100,7 +100,7 @@ public class RxErrorHandler implements Action1<Throwable> {
                 break;
             case 10004:
 //                Toasty.warning(mContext, "请重新登录", Toast.LENGTH_SHORT).show();
-                showToast(mContext,"请重新登录");
+                showToast(mContext, "请重新登录");
                 Class clazz = null;
                 try {
                     clazz = Class.forName("com.twtstudio.retrox.auth.login.LoginActivity");
@@ -137,15 +137,14 @@ public class RxErrorHandler implements Action1<Throwable> {
                                 e.printStackTrace();
                             }
 //                            Toasty.info(mContext, "刷新试试哦", Toast.LENGTH_SHORT).show();
-                            showToast(mContext,"刷新试试哦");
+                            showToast(mContext, "刷新试试哦");
                         }, this);
                 break;
             case 20001:
 //                Toasty.error(mContext, "绑定办公网啊哥", Toast.LENGTH_SHORT).show();
-                showToast(mContext,"绑定办公网啊哥");
+                showToast(mContext, "绑定办公网啊哥");
                 break;
             default:
-
                 break;
         }
     }

@@ -4,8 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.widget.Toast;
 
+import com.twt.wepeiyang.commons.experimental.Commons;
 import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
-import com.twtstudio.retrox.bike.WePeiYangAppOld;
 import com.twtstudio.retrox.bike.api.BikeApiClient;
 import com.twtstudio.retrox.bike.api.BikeApiSubscriber;
 import com.twtstudio.retrox.bike.api.OnNextListener;
@@ -21,29 +21,29 @@ import es.dmoral.toasty.Toasty;
 
 public class HomePresenter extends Presenter {
     private HomeViewController mViewController;
-    public HomePresenter(Context context, HomeViewController viewController) {
-        super(context);
-        mViewController=viewController;
-    }
-
-    public void getBikeUserInfo(){
-        BikeApiClient.getInstance().getUserInfo(mContext,new BikeApiSubscriber(mContext,mBikeUserInfoListener));
-    }
-
     protected OnNextListener<BikeUserInfo> mBikeUserInfoListener = new OnNextListener<BikeUserInfo>() {
         @Override
         public void onNext(BikeUserInfo bikeUserInfo) {
             mViewController.setBikeUserInfo(bikeUserInfo);
-            if (bikeUserInfo.status == 1){
+            if (bikeUserInfo.status == 1) {
                 CommonPrefUtil.setIsBindBike(true);
-            }else {
+            } else {
                 CommonPrefUtil.setIsBindBike(false);
-                Toasty.warning(WePeiYangAppOld.getContext(),"请绑定自行车卡", Toast.LENGTH_SHORT).show();
+                Toasty.warning(Commons.INSTANCE.getApplicationContext(), "请绑定自行车卡", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(mContext, BikeAuthActivity.class);
                 mContext.startActivity(intent);
             }
         }
     };
+
+    public HomePresenter(Context context, HomeViewController viewController) {
+        super(context);
+        mViewController = viewController;
+    }
+
+    public void getBikeUserInfo() {
+        BikeApiClient.getInstance().getUserInfo(mContext, new BikeApiSubscriber(mContext, mBikeUserInfoListener));
+    }
 
     @Override
     public void onDestroy() {
