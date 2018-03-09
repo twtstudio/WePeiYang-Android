@@ -39,9 +39,6 @@
             android:value="d2d29ff7e7bef685451725cc52f2683f"/>
 
         <activity
-            android:name="com.twt.service.MainActivity" />
-
-        <activity
             android:name=".home.HomeActivity"
             android:launchMode="singleTop" />
 
