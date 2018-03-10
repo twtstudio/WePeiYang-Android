@@ -59,18 +59,16 @@ fun Activity.enableLightStatusBarMode(enable: Boolean): String {
 }
 
 val Activity.statusBarHeight
-    get() = resources
-            .getIdentifier("status_bar_height", "dimen", "android")
+    get() = resources.getIdentifier("status_bar_height", "dimen", "android")
             .takeIf { it > 0 }?.let {
-        resources.getDimensionPixelSize(it)
-    } ?: 0
+                resources.getDimensionPixelSize(it)
+            } ?: 0
 
 val Activity.navigationBarHeight
-    get() = resources
-            .getIdentifier("navigation_bar_height", "dimen", "android")
+    get() = resources.getIdentifier("navigation_bar_height", "dimen", "android")
             .takeIf { it > 0 }?.let {
-        resources.getDimensionPixelSize(it)
-    } ?: 0
+                resources.getDimensionPixelSize(it)
+            } ?: 0
 
 fun Activity.fitSystemWindowWithStatusBar(view: View) = with(view) {
     setPadding(paddingLeft, paddingTop + statusBarHeight, paddingRight, paddingBottom)

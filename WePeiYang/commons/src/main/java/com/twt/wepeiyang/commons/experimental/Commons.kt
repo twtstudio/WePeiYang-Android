@@ -7,9 +7,8 @@ import android.content.Intent
 import java.lang.ref.WeakReference
 
 /**
- * Created by rickygao on 2018/3/9.
+ * Initialize commons module with some necessary contexts in [block].
  */
-
 fun initCommons(block: Commons.() -> Unit) = Commons.block()
 
 object Commons {

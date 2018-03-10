@@ -5,12 +5,13 @@ import org.apache.commons.codec.binary.Hex
 import org.apache.commons.codec.digest.DigestUtils
 import java.util.*
 
-/**
- * Created by rickygao on 2018/3/5.
- */
 internal typealias ParamsMap = Map<String, String>
 
-// generate timestamp as a context
+/**
+ * Generate a time stamp and you can use it in the [block].
+ *
+ * @sample ParamsMap.timeStampAndSignature
+ */
 internal inline fun <T> usingTimeStamp(crossinline block: (String) -> T) = Calendar.getInstance().timeInMillis.toString().let(block)
 
 internal val ParamsMap.timeStampAndSignature
@@ -37,7 +38,11 @@ internal val FormBody.fieldMap: ParamsMap
         name(it) to value(it)
     }
 
-// hack FormBody to enable newBuilder just like many other immutable classes
+/**
+ * Hack FormBody to enable newBuilder just like many other immutable classes.
+ *
+ * @sample RequestBody.signed
+ */
 internal val FormBody.newBuilder
     get() = (0 until size()).associateTo(mutableMapOf()) {
         encodedName(it) to encodedValue(it)

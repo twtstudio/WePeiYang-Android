@@ -1,6 +1,7 @@
 package com.twt.wepeiyang.commons.experimental.network
 
 import com.orhanobut.logger.Logger
+import com.twt.wepeiyang.commons.experimental.network.ServiceFactory.BASE_URL
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -8,9 +9,15 @@ import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
 /**
- * Created by rickygao on 2018/3/5.
+ * A service factory can create network service easily using retrofit.
+ *
+ * Due to @property[BASE_URL] not including a version code, *version codes* should be included in
+ * service interfaces.
+ *
+ * @sample RealAuthService
+ * @see Retrofit
+ * @author rickygao
  */
-
 object ServiceFactory {
 
     internal const val TRUSTED_HOST = "open.twtstudio.com"
@@ -46,6 +53,11 @@ object ServiceFactory {
 
 }
 
+/**
+ * A common wrapper class of respond data from open.twtstudio.com/api.
+ *
+ * @see AuthService
+ */
 data class CommonBody<out T>(
         val error_code: Int,
         val message: String,
