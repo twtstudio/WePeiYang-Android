@@ -11,9 +11,9 @@ import java.util.*
 internal typealias ParamsMap = Map<String, String>
 
 // generate timestamp as a context
-internal inline fun <T> usingTimeStamp(crossinline block: (String) -> T): T = Calendar.getInstance().timeInMillis.toString().let(block)
+internal inline fun <T> usingTimeStamp(crossinline block: (String) -> T) = Calendar.getInstance().timeInMillis.toString().let(block)
 
-internal val ParamsMap.timeStampAndSignature: Pair<String, String>
+internal val ParamsMap.timeStampAndSignature
     get() = usingTimeStamp { t ->
         toSortedMap().apply {
             // put timestamp into params map
@@ -38,14 +38,14 @@ internal val FormBody.fieldMap: ParamsMap
     }
 
 // hack FormBody to enable newBuilder just like many other immutable classes
-internal val FormBody.newBuilder: FormBody.Builder
+internal val FormBody.newBuilder
     get() = (0 until size()).associateTo(mutableMapOf()) {
         encodedName(it) to encodedValue(it)
     }.asSequence().fold(FormBody.Builder()) { builder, (encodedName, encodedValue) ->
         builder.addEncoded(encodedName, encodedValue)
     }
 
-internal val HttpUrl.signed: HttpUrl
+internal val HttpUrl.signed
     get() = queryMap.timeStampAndSignature.let { (t, sign) ->
         newBuilder().addQueryParameter("t", t)
                 .addQueryParameter("sign", sign)
@@ -53,7 +53,7 @@ internal val HttpUrl.signed: HttpUrl
                 .build()
     }
 
-internal val RequestBody.signed: RequestBody
+internal val RequestBody.signed
     get() = when (this) {
         is FormBody -> fieldMap.timeStampAndSignature.let { (t, sign) ->
             newBuilder.add("t", t)
@@ -64,7 +64,7 @@ internal val RequestBody.signed: RequestBody
         else -> this
     }
 
-internal val Request.signed: Request
+internal val Request.signed
     get() = when (method()) {
         "GET" -> newBuilder().url(url().signed).get().build()
         "POST" -> newBuilder().post(body()?.signed).build() // the lint fucks down?

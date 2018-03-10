@@ -13,11 +13,11 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object ServiceFactory {
 
-    const val SERVER_HOST = "open.twtstudio.com"
-    private const val BASE_URL = "https://${SERVER_HOST}/api/"
+    internal const val TRUSTED_HOST = "open.twtstudio.com"
+    internal const val BASE_URL = "https://$TRUSTED_HOST/api/"
 
-    const val APP_KEY = "9GTdynvrCm1EKKFfVmTC"
-    const val APP_SECRET = "1aVhfAYBFUfqrdlcT621d9d6OzahMI"
+    internal const val APP_KEY = "9GTdynvrCm1EKKFfVmTC"
+    internal const val APP_SECRET = "1aVhfAYBFUfqrdlcT621d9d6OzahMI"
 //    const val FIR_API_TOKEN = "421d45c1fa7b7c4358667ffcedf4638e"
 
     private val loggingInterceptor = HttpLoggingInterceptor {
@@ -37,9 +37,9 @@ object ServiceFactory {
     val retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)
             .client(client)
+            .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
             .addCallAdapterFactory(CoroutineCallAdapterFactory())
-            .addConverterFactory(GsonConverterFactory.create())
             .build()
 
     inline operator fun <reified T> invoke(): T = retrofit.create(T::class.java)

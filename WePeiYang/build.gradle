@@ -47,7 +47,8 @@ buildscript {
                 'lifecycle-compiler'   : 'android.arch.lifecycle:compiler:1.1.0',
 
                 'kotlin-stdlib'        : "org.jetbrains.kotlin:kotlin-stdlib-jre7:${versions.kotlin}",
-                'anko-coroutines'      : "org.jetbrains.anko:anko-coroutines:${versions.anko}",
+                'kotlinx-coroutines'   : 'org.jetbrains.kotlinx:kotlinx-coroutines-android:0.22.5',
+                'anko'                 : "org.jetbrains.anko:anko:${versions.anko}",
 
                 'butterknife'          : "com.jakewharton:butterknife:${versions.butterknife}",
                 'butterknife-compiler' : "com.jakewharton:butterknife-compiler:${versions.butterknife}",

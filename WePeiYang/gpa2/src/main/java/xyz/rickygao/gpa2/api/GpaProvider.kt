@@ -20,9 +20,7 @@ object GpaProvider {
     private const val HAWK_KEY_GPA = "GPA"
     fun updateGpaLiveData(useCache: Boolean = true, silent: Boolean = false) {
         async(UI) {
-            val remote = bg {
-                RealGpaService.get().execute().body()?.data
-            }
+            val remote = RealGpaService.get()
 
             if (useCache) {
                 bg {
@@ -33,7 +31,7 @@ object GpaProvider {
                 }
             }
 
-            remote.await()?.let {
+            remote.await().data?.let {
                 if (it.updated_at != gpaLiveData.value?.updated_at) {
                     gpaLiveData.value = it
                     if (!silent) successLiveData.value = ConsumableMessage("你的 GPA 有更新喔")
@@ -55,38 +53,33 @@ object GpaProvider {
 
     fun postEvaluate(evaluate: Evaluate, q1: Int, q2: Int, q3: Int, q4: Int, q5: Int, note: String) {
         async(UI) {
-            val remote = bg {
-
-                val token = CommonPrefUtil.getGpaToken()
-
-                val params = sortedMapOf(
-                        "token" to token,
-                        "lesson_id" to evaluate.lesson_id,
-                        "union_id" to evaluate.union_id,
-                        "course_id" to evaluate.course_id,
-                        "term" to evaluate.term,
-                        "q1" to q1.toString(),
-                        "q2" to q2.toString(),
-                        "q3" to q3.toString(),
-                        "q4" to q4.toString(),
-                        "q5" to q5.toString(),
-                        "note" to note
-                ).apply {
-                    //                    put("t", Calendar.getInstance().timeInMillis.toString())
+            val params = sortedMapOf(
+                    "token" to CommonPrefUtil.getGpaToken(),
+                    "lesson_id" to evaluate.lesson_id,
+                    "union_id" to evaluate.union_id,
+                    "course_id" to evaluate.course_id,
+                    "term" to evaluate.term,
+                    "q1" to q1.toString(),
+                    "q2" to q2.toString(),
+                    "q3" to q3.toString(),
+                    "q4" to q4.toString(),
+                    "q5" to q5.toString(),
+                    "note" to note
+            )
+//                    .apply {
+//                    put("t", Calendar.getInstance().timeInMillis.toString())
 //                    val paramsString = JniUtils.getInstance().appKey +
 //                            entries.map { it.key + it.value }.reduce(String::plus) +
 //                            JniUtils.getInstance().appSecret
 //                    val sign = String(Hex.encodeHex(DigestUtils.sha1(paramsString))).toUpperCase()
 //                    put("sign", sign)
 //                    put("app_key", ServiceFactory.APP_KEY)
-                }
+//            }
 
-                RealGpaService.evaluate(params).execute()
-            }
-
-            remote.await()?.let {
+            RealGpaService.evaluate(params).await().let {
                 successLiveData.value = ConsumableMessage("评价成功，快回去刷新看看新的 GPA 吧")
             }
+
         }.invokeOnCompletion {
             it?.let {
                 errorLiveData.value = ConsumableMessage("好像出了什么问题，${it.message}")

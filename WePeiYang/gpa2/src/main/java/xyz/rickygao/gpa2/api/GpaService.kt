@@ -4,7 +4,7 @@ import android.os.Parcel
 import android.os.Parcelable
 import com.twt.wepeiyang.commons.experimental.network.CommonBody
 import com.twt.wepeiyang.commons.experimental.network.ServiceFactory
-import retrofit2.Call
+import kotlinx.coroutines.experimental.Deferred
 import retrofit2.http.FieldMap
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
@@ -17,11 +17,11 @@ import retrofit2.http.POST
 interface GpaService {
 
     @GET("v1/gpa")
-    fun get(): Call<CommonBody<GpaBean>>
+    fun get(): Deferred<CommonBody<GpaBean>>
 
     @FormUrlEncoded
     @POST("v1/gpa/evaluate")
-    fun evaluate(@FieldMap params: Map<String, String>): Call<CommonBody<String>>
+    fun evaluate(@FieldMap params: Map<String, String>): Deferred<CommonBody<String>>
 
 }
 

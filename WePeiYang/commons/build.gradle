@@ -59,7 +59,7 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-    [*supportLibraries, *archLibraries, 'kotlin-stdlib', 'anko-coroutines'].each {
+    [*supportLibraries, *archLibraries, 'kotlin-stdlib', 'kotlinx-coroutines', 'anko'].each {
         implementation dependenciesMap[it]
     }
     ['lifecycle-compiler'].each {
@@ -107,7 +107,4 @@ dependencies {
 //    compile files('libs/umeng_social_net.jar')
 //    compile files('libs/umeng_social_tool.jar')
 
-}
-repositories {
-    mavenCentral()
 }

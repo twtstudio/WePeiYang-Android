@@ -16,11 +16,10 @@ object Commons {
 
     private var applicationReference: WeakReference<Application>? = null
 
-    // can be invoked only once
     fun registerApplication(application: Application) {
         if (applicationReference == null || applicationReference?.get() == null) {
             applicationReference = WeakReference(application)
-        } else throw IllegalStateException("Application shouldn't be registered more than once.")
+        } else throw IllegalStateException("Application should be registered no more than once.")
     }
 
     val application: Application
