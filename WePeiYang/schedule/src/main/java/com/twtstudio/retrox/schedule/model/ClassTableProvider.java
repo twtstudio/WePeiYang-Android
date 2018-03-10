@@ -6,7 +6,7 @@ import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 import com.twt.wepeiyang.commons.cache.CacheProvider;
 import com.twt.wepeiyang.commons.network.RetrofitProvider;
 import com.twt.wepeiyang.commons.network.RxErrorHandler;
-import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
+import com.twt.wepeiyang.commons.utils.CommonPreferences;
 
 import io.rx_cache.DynamicKey;
 import io.rx_cache.EvictDynamicKey;
@@ -31,6 +31,10 @@ public class ClassTableProvider {
         mRxActivity = rxActivity;
     }
 
+    public static ClassTableProvider init(RxAppCompatActivity activity) {
+        return new ClassTableProvider(activity);
+    }
+
     public void getData() {
         getData(false);
     }
@@ -53,7 +57,7 @@ public class ClassTableProvider {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(classTable -> {
                     //存入学期开始时间
-                    CommonPrefUtil.setStartUnix(Long.valueOf(classTable.data.term_start));
+                    CommonPreferences.INSTANCE.setStartUnix(Long.valueOf(classTable.data.term_start));
 
                     if (mAction1 != null) {
                         mAction1.call(classTable);
@@ -78,7 +82,7 @@ public class ClassTableProvider {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(classTable -> {
                     //存入学期开始时间
-                    CommonPrefUtil.setStartUnix(Long.valueOf(classTable.data.term_start));
+                    CommonPreferences.INSTANCE.setStartUnix(Long.valueOf(classTable.data.term_start));
 
                     if (mAction2 != null) {
                         mAction2.call(classTable, calendarDay);
@@ -91,10 +95,6 @@ public class ClassTableProvider {
                         new RxErrorHandler(mRxActivity).call(throwable.getCause());
                 });
 
-    }
-
-    public static ClassTableProvider init(RxAppCompatActivity activity) {
-        return new ClassTableProvider(activity);
     }
 
     public ClassTableProvider registerAction(Action1<ClassTable> action1) {

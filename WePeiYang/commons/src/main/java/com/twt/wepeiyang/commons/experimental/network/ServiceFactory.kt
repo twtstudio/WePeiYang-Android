@@ -25,7 +25,6 @@ object ServiceFactory {
 
     internal const val APP_KEY = "9GTdynvrCm1EKKFfVmTC"
     internal const val APP_SECRET = "1aVhfAYBFUfqrdlcT621d9d6OzahMI"
-//    const val FIR_API_TOKEN = "421d45c1fa7b7c4358667ffcedf4638e"
 
     private val loggingInterceptor = HttpLoggingInterceptor {
         if (it.startsWith('{') && it.length < 400) Logger.json(it)

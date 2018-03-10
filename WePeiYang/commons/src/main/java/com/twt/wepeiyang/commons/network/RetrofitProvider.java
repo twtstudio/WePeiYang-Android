@@ -7,7 +7,7 @@ import android.widget.Toast;
 
 import com.orhanobut.logger.Logger;
 import com.twt.wepeiyang.commons.experimental.Commons;
-import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
+import com.twt.wepeiyang.commons.utils.CommonPreferences;
 
 import java.net.InetSocketAddress;
 import java.net.Proxy;
@@ -59,10 +59,10 @@ public class RetrofitProvider {
         boolean isUseProxy = sharedPreferences.getBoolean("pref_use_proxy", false);
         if (isUseProxy) {
             try {
-                clientbuilder.proxy(new Proxy(Proxy.Type.HTTP, new InetSocketAddress(CommonPrefUtil.getProxyAddress(), CommonPrefUtil.getProxyPort())));
+                clientbuilder.proxy(new Proxy(Proxy.Type.HTTP, new InetSocketAddress(CommonPreferences.INSTANCE.getProxyAddress(), CommonPreferences.INSTANCE.getProxyPort())));
             } catch (Exception e) {
-                Log.e("NetworkProxy", CommonPrefUtil.getProxyAddress() + ":" + CommonPrefUtil.getProxyPort());
-                Toast.makeText(Commons.INSTANCE.getApplicationContext(), "老哥你代理配烂了... " + CommonPrefUtil.getProxyAddress() + ":" + CommonPrefUtil.getProxyPort(), Toast.LENGTH_SHORT).show();
+                Log.e("NetworkProxy", CommonPreferences.INSTANCE.getProxyAddress() + ":" + CommonPreferences.INSTANCE.getProxyPort());
+                Toast.makeText(Commons.INSTANCE.getApplicationContext(), "老哥你代理配烂了... " + CommonPreferences.INSTANCE.getProxyAddress() + ":" + CommonPreferences.INSTANCE.getProxyPort(), Toast.LENGTH_SHORT).show();
             }
         }
 

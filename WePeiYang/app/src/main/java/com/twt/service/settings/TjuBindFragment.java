@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 import com.twt.service.R;
 import com.twt.wepeiyang.commons.network.RxErrorHandler;
-import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
+import com.twt.wepeiyang.commons.utils.CommonPreferences;
 import com.twtstudio.retrox.auth.api.AuthProvider;
 
 import agency.tango.materialintroscreen.SlideFragment;
@@ -51,7 +51,7 @@ public class TjuBindFragment extends SlideFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_tju_bind_slide, container, false);
-        canMoveFuther = CommonPrefUtil.getIsBindTju();
+        canMoveFuther = CommonPreferences.INSTANCE.isBindTju();
         unbinder = ButterKnife.bind(this, view);
 
         return view;

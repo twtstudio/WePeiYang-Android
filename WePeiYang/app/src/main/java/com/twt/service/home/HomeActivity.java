@@ -28,7 +28,7 @@ import com.twt.service.update.UpdateManager;
 import com.twt.service.view.BottomBar;
 import com.twt.service.view.BottomBarTab;
 import com.twt.service.widget.WidgetUpdateManger;
-import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
+import com.twt.wepeiyang.commons.utils.CommonPreferences;
 
 import me.yokeyword.fragmentation.SupportFragment;
 
@@ -56,7 +56,7 @@ public class HomeActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-//        CommonPrefUtil.setIsAcceptTos(false);//check
+//        CommonPreferences.setIsAcceptTos(false);//check
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -85,7 +85,7 @@ public class HomeActivity extends BaseActivity {
 
         }
 
-        viewPager = (ViewPager) findViewById(R.id.fl_container);
+        viewPager = findViewById(R.id.fl_container);
         viewPager.setAdapter(new FragmentAdapter(getSupportFragmentManager()));
         viewPager.setOffscreenPageLimit(4);
 
@@ -139,7 +139,7 @@ public class HomeActivity extends BaseActivity {
                 .setPositiveButton("同意", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        CommonPrefUtil.setIsAcceptTos(true);
+                        CommonPreferences.INSTANCE.setAcceptTos(true);
                         dialog.dismiss();
                     }
                 })
@@ -161,7 +161,7 @@ public class HomeActivity extends BaseActivity {
 
         checkTos();
 
-        mBottomBar = (BottomBar) findViewById(R.id.bottomBar);
+        mBottomBar = findViewById(R.id.bottomBar);
 
         //fake icons
         mBottomBar.addItem(new BottomBarTab(this, R.drawable.ic_common))
@@ -212,7 +212,7 @@ public class HomeActivity extends BaseActivity {
     }
 
     private void checkTos() {
-        if (!CommonPrefUtil.getIsAcceptTos() && !checkTosDialog.isShowing()) {
+        if (!CommonPreferences.INSTANCE.isAcceptTos() && !checkTosDialog.isShowing()) {
             checkTosDialog.show();
         }
     }

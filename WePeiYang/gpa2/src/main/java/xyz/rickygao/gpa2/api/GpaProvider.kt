@@ -4,7 +4,7 @@ import android.arch.lifecycle.MutableLiveData
 import com.orhanobut.hawk.Hawk
 import com.orhanobut.logger.Logger
 import com.twt.wepeiyang.commons.experimental.extensions.ConsumableMessage
-import com.twt.wepeiyang.commons.utils.CommonPrefUtil
+import com.twt.wepeiyang.commons.utils.CommonPreferences
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
 import org.jetbrains.anko.coroutines.experimental.bg
@@ -13,6 +13,7 @@ import org.jetbrains.anko.coroutines.experimental.bg
  * Created by rickygao on 2017/11/9.
  */
 object GpaProvider {
+
     val gpaLiveData = MutableLiveData<GpaBean>()
     val successLiveData = MutableLiveData<ConsumableMessage<String>>()
     val errorLiveData = MutableLiveData<ConsumableMessage<String>>()
@@ -40,7 +41,7 @@ object GpaProvider {
                     if (!silent) successLiveData.value = ConsumableMessage("你的 GPA 已经是最新的了")
                 }
 
-                CommonPrefUtil.setGpaToken(it.session)
+                CommonPreferences.gpaToken = it.session
             }
 
         }.invokeOnCompletion {
@@ -53,8 +54,8 @@ object GpaProvider {
 
     fun postEvaluate(evaluate: Evaluate, q1: Int, q2: Int, q3: Int, q4: Int, q5: Int, note: String) {
         async(UI) {
-            val params = sortedMapOf(
-                    "token" to CommonPrefUtil.getGpaToken(),
+            val params = mapOf(
+                    "token" to CommonPreferences.gpaToken,
                     "lesson_id" to evaluate.lesson_id,
                     "union_id" to evaluate.union_id,
                     "course_id" to evaluate.course_id,

@@ -24,7 +24,7 @@ import com.twt.service.home.HomeActivity;
 import com.twt.service.update.UpdateManager;
 import com.twt.wepeiyang.commons.cache.CacheProvider;
 import com.twt.wepeiyang.commons.network.RxErrorHandler;
-import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
+import com.twt.wepeiyang.commons.utils.CommonPreferences;
 import com.twtstudio.retrox.auth.api.AuthProvider;
 import com.twtstudio.retrox.bike.service.BikeServiceProvider;
 import com.twtstudio.retrox.tjulibrary.provider.TjuLibProvider;
@@ -97,7 +97,7 @@ public class SettingsActivity extends AppCompatActivity {
         public void onResume() {
             super.onResume();
             Preference isBindLib = findPreference(getString(R.string.pref_is_bind_lib));
-            isBindLib.setSummary(CommonPrefUtil.getIsBindLibrary() ? "已绑定" : "未绑定");
+            isBindLib.setSummary(CommonPreferences.INSTANCE.isBindLibrary() ? "已绑定" : "未绑定");
         }
 
         public void initPrefs() {
@@ -107,7 +107,7 @@ public class SettingsActivity extends AppCompatActivity {
              */
 
             Preference exitTjuPref = findPreference(getString(R.string.pref_is_exit_tju));
-            int dropOutMode = CommonPrefUtil.getDropOut();
+            int dropOutMode = CommonPreferences.INSTANCE.getDropOut();
             String dropOutSummary = "未操作";
             if (dropOutMode == 0) {
                 dropOutSummary = "未操作";
@@ -126,7 +126,7 @@ public class SettingsActivity extends AppCompatActivity {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
 
-                    if (CommonPrefUtil.getDropOut() == 0 || CommonPrefUtil.getDropOut() == 2) {
+                    if (CommonPreferences.INSTANCE.getDropOut() == 0 || CommonPreferences.INSTANCE.getDropOut() == 2) {
                         //退学
                         String[] items = {"我要打游戏！", "我要运动！", "我要睡觉！", "怎么样都好啦！"};
 
@@ -147,13 +147,13 @@ public class SettingsActivity extends AppCompatActivity {
                                                         Toast.makeText(mContext, it.getData(), Toast.LENGTH_SHORT).show();
 
                                                         if (it.getData().equals("欢迎回来上学 (〃∀〃)")) {
-                                                            CommonPrefUtil.setDropOut(2);
+                                                            CommonPreferences.INSTANCE.setDropOut(2);
                                                         } else if (it.getData().equals("退学成功 d(`･∀･)b")) {
-                                                            CommonPrefUtil.setDropOut(1);
+                                                            CommonPreferences.INSTANCE.setDropOut(1);
                                                         }
 
                                                         //刷新下状态 --
-                                                        int dropOutMode = CommonPrefUtil.getDropOut();
+                                                        int dropOutMode = CommonPreferences.INSTANCE.getDropOut();
                                                         String dropOutSummary = "未操作";
                                                         if (dropOutMode == 0) {
                                                             dropOutSummary = "未操作";
@@ -198,13 +198,13 @@ public class SettingsActivity extends AppCompatActivity {
                                                         Toast.makeText(mContext, it.getData(), Toast.LENGTH_SHORT).show();
 
                                                         if (it.getData().equals("欢迎回来上学 (〃∀〃)")) {
-                                                            CommonPrefUtil.setDropOut(2);
+                                                            CommonPreferences.INSTANCE.setDropOut(2);
                                                         } else if (it.getData().equals("退学成功 d(`･∀･)b")) {
-                                                            CommonPrefUtil.setDropOut(1);
+                                                            CommonPreferences.INSTANCE.setDropOut(1);
                                                         }
 
                                                         //刷新下状态 --
-                                                        int dropOutMode = CommonPrefUtil.getDropOut();
+                                                        int dropOutMode = CommonPreferences.INSTANCE.getDropOut();
                                                         String dropOutSummary = "未操作";
                                                         if (dropOutMode == 0) {
                                                             dropOutSummary = "未操作";
@@ -267,7 +267,7 @@ public class SettingsActivity extends AppCompatActivity {
 
 
             Preference isBindTju = findPreference(getString(R.string.pref_is_bind_tju));
-            isBindTju.setSummary(CommonPrefUtil.getIsBindTju() ? "已绑定" : "未绑定");
+            isBindTju.setSummary(CommonPreferences.INSTANCE.isBindTju() ? "已绑定" : "未绑定");
             isBindTju.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
@@ -278,9 +278,9 @@ public class SettingsActivity extends AppCompatActivity {
                             .setPositiveButton("解绑", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    if (CommonPrefUtil.getIsBindTju()) {
+                                    if (CommonPreferences.INSTANCE.isBindTju()) {
                                         RealAuthApi.INSTANCE
-                                                .unbindTju(CommonPrefUtil.getUserId())
+                                                .unbindTju(CommonPreferences.INSTANCE.getUserId())
                                                 .subscribeOn(Schedulers.io())
                                                 .observeOn(AndroidSchedulers.mainThread())
                                                 .doAfterTerminate(() -> AuthProvider.INSTANCE.authSelf(false, true))
@@ -304,7 +304,7 @@ public class SettingsActivity extends AppCompatActivity {
             });
 
             Preference isBindLib = findPreference(getString(R.string.pref_is_bind_lib));
-            isBindLib.setSummary(CommonPrefUtil.getIsBindLibrary() ? "已绑定" : "未绑定");
+            isBindLib.setSummary(CommonPreferences.INSTANCE.isBindLibrary() ? "已绑定" : "未绑定");
             isBindLib.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
@@ -315,11 +315,11 @@ public class SettingsActivity extends AppCompatActivity {
                             .setPositiveButton("解绑", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    if (CommonPrefUtil.getIsBindLibrary()) {
+                                    if (CommonPreferences.INSTANCE.isBindLibrary()) {
                                         new TjuLibProvider(mContext).unbindLibrary(s -> {
-                                            CommonPrefUtil.setIsBindLibrary(false);
+                                            CommonPreferences.INSTANCE.setBindLibrary(false);
                                             Toasty.success(mContext, "解绑成功！请重启微北洋", Toast.LENGTH_SHORT).show();
-                                            isBindLib.setSummary(CommonPrefUtil.getIsBindLibrary() ? "已绑定" : "未绑定");
+                                            isBindLib.setSummary(CommonPreferences.INSTANCE.isBindLibrary() ? "已绑定" : "未绑定");
                                             dialog.dismiss();
                                         });
                                     } else {
@@ -340,7 +340,7 @@ public class SettingsActivity extends AppCompatActivity {
             });
 
             Preference isBindBike = findPreference(getString(R.string.pref_is_bind_bike));
-            isBindBike.setSummary(CommonPrefUtil.getIsBindBike() ? "已绑定" : "未绑定");
+            isBindBike.setSummary(CommonPreferences.INSTANCE.isBindBike() ? "已绑定" : "未绑定");
             isBindBike.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
@@ -351,7 +351,7 @@ public class SettingsActivity extends AppCompatActivity {
                             .setPositiveButton("解绑", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    if (CommonPrefUtil.getIsBindBike()) {
+                                    if (CommonPreferences.INSTANCE.isBindBike()) {
                                         new BikeServiceProvider(mContext).unbind();
                                     } else {
                                         Toasty.warning(mContext, "你没绑定解绑啥？？？？？\n进入自行车模块完成绑定", Toast.LENGTH_SHORT).show();
@@ -454,10 +454,10 @@ public class SettingsActivity extends AppCompatActivity {
                     LayoutInflater inflater = LayoutInflater.from(getActivity());
                     View dialogView = inflater.inflate(R.layout.dialog_proxy_setting,null,false);
                     final EditText proxyIP = dialogView.findViewById(R.id.edit_proxy_ip);
-                    proxyIP.setText(CommonPrefUtil.getProxyAddress());
+                    proxyIP.setText(CommonPreferences.INSTANCE.getProxyAddress());
 //                    prxoyIP.setText();
                     final EditText proxyPort = dialogView.findViewById(R.id.edit_proxy_port);
-                    proxyPort.setText(String.valueOf(CommonPrefUtil.getProxyPort()));
+                    proxyPort.setText(String.valueOf(CommonPreferences.INSTANCE.getProxyPort()));
 
                     AlertDialog dialog = new AlertDialog.Builder(getActivity()).setTitle("Proxy Settings")
                             .setView(dialogView)
@@ -466,8 +466,8 @@ public class SettingsActivity extends AppCompatActivity {
                                 public void onClick(DialogInterface dialog, int which) {
                                     String ip = proxyIP.getText().toString();
                                     String port = proxyPort.getText().toString();
-                                    CommonPrefUtil.setProxyAddress(ip);
-                                    CommonPrefUtil.setProxyPort(Integer.parseInt(port));
+                                    CommonPreferences.INSTANCE.setProxyAddress(ip);
+                                    CommonPreferences.INSTANCE.setProxyPort(Integer.parseInt(port));
                                     dialog.dismiss();
                                 }
                             })

@@ -8,7 +8,7 @@ import android.widget.Toast;
 import com.orhanobut.logger.Logger;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.twt.wepeiyang.commons.experimental.Commons;
-import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
+import com.twt.wepeiyang.commons.utils.CommonPreferences;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -132,7 +132,7 @@ public class RxErrorHandler implements Action1<Throwable> {
                                 String s = body.string();
                                 JSONObject jsonObject = new JSONObject(s);
                                 String token = jsonObject.getString("data");
-                                CommonPrefUtil.setToken(token);
+                                CommonPreferences.INSTANCE.setToken(token);
                             } catch (IOException | JSONException e) {
                                 e.printStackTrace();
                             }

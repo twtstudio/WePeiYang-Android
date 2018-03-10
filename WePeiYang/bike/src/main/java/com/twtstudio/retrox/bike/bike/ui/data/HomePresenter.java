@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.widget.Toast;
 
 import com.twt.wepeiyang.commons.experimental.Commons;
-import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
+import com.twt.wepeiyang.commons.utils.CommonPreferences;
 import com.twtstudio.retrox.bike.api.BikeApiClient;
 import com.twtstudio.retrox.bike.api.BikeApiSubscriber;
 import com.twtstudio.retrox.bike.api.OnNextListener;
@@ -26,9 +26,9 @@ public class HomePresenter extends Presenter {
         public void onNext(BikeUserInfo bikeUserInfo) {
             mViewController.setBikeUserInfo(bikeUserInfo);
             if (bikeUserInfo.status == 1) {
-                CommonPrefUtil.setIsBindBike(true);
+                CommonPreferences.INSTANCE.setBindBike(true);
             } else {
-                CommonPrefUtil.setIsBindBike(false);
+                CommonPreferences.INSTANCE.setBindBike(false);
                 Toasty.warning(Commons.INSTANCE.getApplicationContext(), "请绑定自行车卡", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(mContext, BikeAuthActivity.class);
                 mContext.startActivity(intent);

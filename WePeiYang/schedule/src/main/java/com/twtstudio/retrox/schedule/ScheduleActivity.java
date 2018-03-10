@@ -29,7 +29,6 @@ import android.widget.Toast;
 
 import com.tencent.bugly.crashreport.CrashReport;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
-import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
 import com.twtstudio.retrox.schedule.model.ClassTable;
 import com.twtstudio.retrox.schedule.model.ClassTableProvider;
 import com.twtstudio.retrox.schedule.utils.PrefUtil;
@@ -46,6 +45,9 @@ import butterknife.Unbinder;
 
 public class ScheduleActivity extends RxAppCompatActivity implements ScheduleView {
 
+    private static final int NO_CLASS = 0;
+    private static final int CLASS_NOT_THIS_WEEK = 1;
+    private static final int CLASS_THIS_WEEK = 2;
     @BindView(R2.id.toolbar)
     Toolbar toolbar;
     @BindView(R2.id.tv_monday)
@@ -103,23 +105,18 @@ public class ScheduleActivity extends RxAppCompatActivity implements ScheduleVie
     RelativeLayout mRlSunday;
     @BindView(R2.id.refresh)
     SwipeRefreshLayout refresh;
-
-
-    private String currentTerm;//当前学期
-    private int currentWeek;// 当前周
-    private int griditemWidth;
-    private int currentDay;
     List<WeekItem> items;
-    private int[] classColors;
-    private RecyclerPopupWindow recyclerPopupWindow;
     /*classTypes说明：
     * 第一维表示星期几，
     * 第二维表示课程状态：0表示无课程， 1表示有课程但是本周不上, 2表示有课程且本周上课
     * */
     boolean[][] hasClass; //
-    private static final int NO_CLASS = 0;
-    private static final int CLASS_NOT_THIS_WEEK = 1;
-    private static final int CLASS_THIS_WEEK = 2;
+    private String currentTerm;//当前学期
+    private int currentWeek;// 当前周
+    private int griditemWidth;
+    private int currentDay;
+    private int[] classColors;
+    private RecyclerPopupWindow recyclerPopupWindow;
     private ClassTable mClassTable;
 
     private Unbinder mUnbinder;
@@ -359,8 +356,8 @@ public class ScheduleActivity extends RxAppCompatActivity implements ScheduleVie
                     if (!hasClassThisWeek(day, startTime, endTime)) {
                         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                         View v = inflater.inflate(R.layout.item_schedule, null, false);
-                        CardView cv = (CardView) v.findViewById(R.id.cv_s);
-                        TextView tv = (TextView) v.findViewById(R.id.tv_schedule_class);
+                        CardView cv = v.findViewById(R.id.cv_s);
+                        TextView tv = v.findViewById(R.id.tv_schedule_class);
                         tv.setText(course.coursename + "@" + arrange.room);
                         tv.setWidth(griditemWidth * 2 - 8);
                         tv.setHeight(griditemWidth * 2 * length - 8);
@@ -432,8 +429,8 @@ public class ScheduleActivity extends RxAppCompatActivity implements ScheduleVie
                 if (!hasClassThisWeek(day, startTime, endTime)) {
                     LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                     View v = inflater.inflate(R.layout.item_schedule, null, false);
-                    CardView cv = (CardView) v.findViewById(R.id.cv_s);
-                    TextView tv = (TextView) v.findViewById(R.id.tv_schedule_class);
+                    CardView cv = v.findViewById(R.id.cv_s);
+                    TextView tv = v.findViewById(R.id.tv_schedule_class);
                     tv.setText(course.coursename + "@" + arrange.room);
                     tv.setWidth(griditemWidth * 2 - 8);
                     tv.setHeight(griditemWidth * 2 * length - 8);

@@ -4,7 +4,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import com.twt.wepeiyang.commons.experimental.Commons;
-import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
+import com.twt.wepeiyang.commons.utils.CommonPreferences;
 
 /**
  * Created by Rex on 2015/8/3.
@@ -45,7 +45,7 @@ public class PrefUtils {
      */
     public static String getToken() {
 //        String token =  getDefaultSharedPreferences().getString(PREF_TOKEN, "");
-        String token = CommonPrefUtil.getToken();
+        String token = CommonPreferences.INSTANCE.getToken();
         return "Bearer{" + token + "}";
     }
 
@@ -61,7 +61,7 @@ public class PrefUtils {
      * @return
      */
     public static String getTokenForBike() {
-        return CommonPrefUtil.getToken();
+        return CommonPreferences.INSTANCE.getToken();
     }
 
     public static String getBikeToken() {
@@ -70,7 +70,7 @@ public class PrefUtils {
 
     public static void setBikeToken(String token) {
         getDefaultSharedPreferences().edit().putString(PREF_BIKE_TOKEN, token).apply();
-//        CommonPrefUtil.setIsBindBike(true);
+//        CommonPreferences.setIsBindBike(true);
     }
 
     public static String getCardSign() {

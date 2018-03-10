@@ -17,7 +17,7 @@ import com.twt.service.base.BaseFragment
 import com.twt.service.settings.SettingsActivity
 import com.twt.wepeiyang.commons.cache.CacheProvider
 import com.twt.wepeiyang.commons.experimental.extensions.map
-import com.twt.wepeiyang.commons.utils.CommonPrefUtil
+import com.twt.wepeiyang.commons.utils.CommonPreferences
 import com.twt.wepeiyang.commons.view.RecyclerViewDivider
 import com.twtstudio.retrox.auth.api.AuthProvider
 import com.twtstudio.retrox.auth.view.LoginActivity
@@ -43,7 +43,7 @@ class UserFragment : BaseFragment() {
                                 if (it.accounts.lib) "已绑定" else "未绑定"
                             }),
                             UserItem.InfoItem(R.drawable.bike_bike_icon, "自行车", MutableLiveData<String>().apply {
-                                value = if (CommonPrefUtil.getIsBindBike()) "已绑定" else "未绑定"
+                                value = if (CommonPreferences.isBindBike) "已绑定" else "未绑定"
                             }),
                             UserItem.InfoItem(R.drawable.ic_tju_little_icon, "办公网", AuthProvider.authSelfLiveData.map {
                                 if (it.accounts.tju) "已绑定" else "未绑定"
@@ -58,7 +58,7 @@ class UserFragment : BaseFragment() {
                                         .setMessage("真的要登出吗？")
                                         .setPositiveButton("真的") { _, _ ->
                                             PreferenceManager.getDefaultSharedPreferences(context).edit().clear().apply()
-                                            CommonPrefUtil.clearAll()
+                                            CommonPreferences.clear()
                                             CacheProvider.clearCache()
 
                                             val intent = Intent(context, LoginActivity::class.java)

@@ -12,7 +12,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.twt.service.R;
-import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
+import com.twt.wepeiyang.commons.utils.CommonPreferences;
 import com.twtstudio.retrox.auth.api.AuthProvider;
 import com.twtstudio.retrox.tjulibrary.provider.TjuLibProvider;
 
@@ -56,7 +56,7 @@ public class LibBindFragment extends SlideFragment {
             } else {
                 Toast.makeText(this.getContext(), "未知错误", Toast.LENGTH_SHORT).show();
             }
-            CommonPrefUtil.setIsBindLibrary(true);
+            CommonPreferences.INSTANCE.setBindLibrary(true);
             AuthProvider.INSTANCE.authSelf(false, true);
         }, libPassWd);
     }
@@ -65,7 +65,7 @@ public class LibBindFragment extends SlideFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_lib_bind_slide, container, false);
-        canMoveForward = CommonPrefUtil.getIsBindLibrary();
+        canMoveForward = CommonPreferences.INSTANCE.isBindLibrary();
         unbinder = ButterKnife.bind(this, view);
         mContext = this.getContext();
         return view;

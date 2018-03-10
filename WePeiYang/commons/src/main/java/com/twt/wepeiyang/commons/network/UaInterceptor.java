@@ -1,11 +1,10 @@
 package com.twt.wepeiyang.commons.network;
 
 import com.orhanobut.logger.Logger;
-import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
+import com.twt.wepeiyang.commons.utils.CommonPreferences;
 
 import java.io.IOException;
 
-import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -32,7 +31,7 @@ public class UaInterceptor implements Interceptor {
                 .addHeader("User-Agent",UserAgent.generate())
                 .url(originRequest.url());
 
-        Logger.d("token-->"+ CommonPrefUtil.getToken());
+        Logger.d("token-->" + CommonPreferences.INSTANCE.getToken());
 
         return chain.proceed(builder.build());
     }

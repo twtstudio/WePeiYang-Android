@@ -6,7 +6,7 @@ import com.tencent.bugly.crashreport.CrashReport
 import com.twt.wepeiyang.commons.experimental.extensions.ConsumableMessage
 import com.twt.wepeiyang.commons.experimental.network.AuthSelfBean
 import com.twt.wepeiyang.commons.experimental.network.RealAuthService
-import com.twt.wepeiyang.commons.utils.CommonPrefUtil
+import com.twt.wepeiyang.commons.utils.CommonPreferences
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
 import org.jetbrains.anko.coroutines.experimental.bg
@@ -29,9 +29,9 @@ object AuthProvider {
             }
 
             remote.await()?.let {
-                CommonPrefUtil.setToken(it.token)
-                CommonPrefUtil.setIsLogin(true)
-                CommonPrefUtil.setIsFirstLogin(false)
+                CommonPreferences.token = it.token
+                CommonPreferences.isLogin = true
+                CommonPreferences.isFirstLogin = false
 
                 if (!silent) successLiveData.value = ConsumableMessage("登录成功啦", from = FROM_LOGIN)
             }
@@ -59,10 +59,10 @@ object AuthProvider {
                 }.await()?.let {
                     authSelfLiveData.value = it
 
-                    CommonPrefUtil.setStudentNumber(it.studentid)
-                    CommonPrefUtil.setIsBindLibrary(it.accounts.lib)
-                    CommonPrefUtil.setIsBindTju(it.accounts.tju)
-                    CommonPrefUtil.setDropOut(it.dropout)
+                    CommonPreferences.studentNumber = it.studentid
+                    CommonPreferences.isBindLibrary = it.accounts.lib
+                    CommonPreferences.isBindTju = it.accounts.tju
+                    CommonPreferences.dropOut = it.dropout
                     CrashReport.setUserId(it.twtuname)
                 }
             }
@@ -70,10 +70,10 @@ object AuthProvider {
             remote.await()?.let {
                 authSelfLiveData.value = it
 
-                CommonPrefUtil.setStudentNumber(it.studentid)
-                CommonPrefUtil.setIsBindLibrary(it.accounts.lib)
-                CommonPrefUtil.setIsBindTju(it.accounts.tju)
-                CommonPrefUtil.setDropOut(it.dropout)
+                CommonPreferences.studentNumber = it.studentid
+                CommonPreferences.isBindLibrary = it.accounts.lib
+                CommonPreferences.isBindTju = it.accounts.tju
+                CommonPreferences.dropOut = it.dropout
                 CrashReport.setUserId(it.twtuname)
 
                 if (!silent) successLiveData.value = ConsumableMessage("成功拉取到个人状态", from = FROM_AUTH_SELF)

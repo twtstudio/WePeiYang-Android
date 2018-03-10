@@ -13,7 +13,7 @@ import android.support.annotation.Nullable;
 import com.twt.service.R;
 import com.twt.service.base.BaseActivity;
 import com.twt.service.home.HomeActivity;
-import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
+import com.twt.wepeiyang.commons.utils.CommonPreferences;
 import com.twtstudio.retrox.auth.view.LoginActivity;
 
 import java.util.Arrays;
@@ -29,8 +29,8 @@ public class WelcomeActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
 
-        boolean isLogin = CommonPrefUtil.getIsLogin();
-        boolean isFirstLogin = CommonPrefUtil.getIsFirstLogin();
+        boolean isLogin = CommonPreferences.INSTANCE.isLogin();
+        boolean isFirstLogin = CommonPreferences.INSTANCE.isFirstLogin();
 //        if (true) {
 //            Intent intent = new Intent(this, WelcomeSlideActivity.class);
 //            startActivity(intent);
@@ -63,7 +63,7 @@ public class WelcomeActivity extends BaseActivity {
                 .setIntent(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.twt.edu.cn")))
                 .build();
 
-        ShortcutInfo dynamicShortcut2 = new ShortcutInfo.Builder(this, "shortcut_dynamic")
+        ShortcutInfo dynamicShortcut2 = new ShortcutInfo.Builder(this, "gpa")
                 .setShortLabel("GPA")
                 .setLongLabel("GPA")
                 .setIcon(Icon.createWithResource(this, R.drawable.ic_main_gpa))
@@ -77,7 +77,7 @@ public class WelcomeActivity extends BaseActivity {
                         })
                 .build();
 
-        ShortcutInfo dynamicShortcut3 = new ShortcutInfo.Builder(this, "shortcut_dynamic_3")
+        ShortcutInfo dynamicShortcut3 = new ShortcutInfo.Builder(this, "schedule")
                 .setShortLabel("Schedule")
                 .setLongLabel("Schedule")
                 .setIcon(Icon.createWithResource(this, R.drawable.ic_main_schedule))

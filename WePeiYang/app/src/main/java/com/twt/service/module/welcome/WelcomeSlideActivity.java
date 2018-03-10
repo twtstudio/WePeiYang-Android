@@ -4,10 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
-import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
 import com.twt.service.home.HomeActivity;
 import com.twt.service.settings.LibBindFragment;
 import com.twt.service.settings.TjuBindFragment;
+import com.twt.wepeiyang.commons.utils.CommonPreferences;
 
 import agency.tango.materialintroscreen.MaterialIntroActivity;
 
@@ -24,12 +24,10 @@ public class WelcomeSlideActivity extends MaterialIntroActivity {
         addSlide(new ClassTableWelcomeFragment());
         addSlide(new BikeWelcomeFragment());
         addSlide(new BriefWelcomeFragment());
-        boolean isBindTju = CommonPrefUtil.getIsBindTju();
-        if (!isBindTju) {
+        if (!CommonPreferences.INSTANCE.isBindTju()) {
             addSlide(new TjuBindFragment());
         }
-        boolean isBindLib = CommonPrefUtil.getIsBindLibrary();
-        if (!isBindLib) {
+        if (!CommonPreferences.INSTANCE.isBindLibrary()) {
             addSlide(new LibBindFragment());
         }
     }

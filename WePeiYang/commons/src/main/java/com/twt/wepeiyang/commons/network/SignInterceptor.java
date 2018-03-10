@@ -4,7 +4,7 @@ import android.util.Log;
 
 import com.annimon.stream.Stream;
 import com.twt.wepeiyang.commons.experimental.network.ServiceFactory;
-import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
+import com.twt.wepeiyang.commons.utils.CommonPreferences;
 
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -40,10 +40,10 @@ public class SignInterceptor implements Interceptor {
 
         Request.Builder builder = originRequest.newBuilder()
 //                    .addHeader("User-Agent", UserAgent.generate())
-                .addHeader("Authorization", "Bearer{"+ CommonPrefUtil.getToken()+"}")
+                .addHeader("Authorization", "Bearer{" + CommonPreferences.INSTANCE.getToken() + "}")
                 .url(newUrl);
 
-        Log.i("SignInterceptor:","token-->"+ CommonPrefUtil.getToken());
+        Log.i("SignInterceptor:", "token-->" + CommonPreferences.INSTANCE.getToken());
 
         return chain.proceed(builder.build());
     }

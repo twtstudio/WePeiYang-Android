@@ -14,18 +14,18 @@ import com.annimon.stream.Stream;
 import com.orhanobut.hawk.Hawk;
 import com.orhanobut.logger.Logger;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
+import com.twt.service.R;
+import com.twt.service.home.HomeActivity;
 import com.twt.wepeiyang.commons.cache.CacheProvider;
 import com.twt.wepeiyang.commons.network.RetrofitProvider;
 import com.twt.wepeiyang.commons.network.RxErrorHandler;
-import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
+import com.twt.wepeiyang.commons.utils.CommonPreferences;
 import com.twtstudio.retrox.schedule.ScheduleActivity;
 import com.twtstudio.retrox.schedule.TimeHelper;
 import com.twtstudio.retrox.schedule.model.ClassTable;
 import com.twtstudio.retrox.schedule.model.CourseHelper;
 import com.twtstudio.retrox.schedule.model.ScheduleApi;
 import com.twtstudio.retrox.schedule.model.ScheduleCacheApi;
-import com.twt.service.R;
-import com.twt.service.home.HomeActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -45,8 +45,8 @@ import rx.android.schedulers.AndroidSchedulers;
 
 public class ScheduleWidgetProvider extends AppWidgetProvider {
 
-    private final CourseHelper helper = new CourseHelper();
     public static final SimpleDateFormat dateFormate = new SimpleDateFormat("yyyy/MM/dd", Locale.CHINA);
+    private final CourseHelper helper = new CourseHelper();
     private AppWidgetManager manager = null;
 
 
@@ -116,9 +116,9 @@ public class ScheduleWidgetProvider extends AppWidgetProvider {
                 .map(Reply::getData)
                 .subscribe(classTable -> {
                     //存入学期开始时间
-                    CommonPrefUtil.setStartUnix(Long.valueOf(classTable.data.term_start));
+                    CommonPreferences.INSTANCE.setStartUnix(Long.valueOf(classTable.data.term_start));
 
-                    helper.setCalendar(CalendarDay.today());
+                    CourseHelper.setCalendar(CalendarDay.today());
                     List<ClassTable.Data.Course> courseList = helper.getTodayCourses(classTable, true);
                     //去除无用课程
                     courseList = Stream.of(courseList)
