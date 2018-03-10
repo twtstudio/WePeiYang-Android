@@ -41,5 +41,4 @@ object Commons {
         applicationContext.startActivity(intent)
     } ?: throw IllegalStateException("Login activity should be registered.")
 
-
 }

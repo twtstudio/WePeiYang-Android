@@ -6,7 +6,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
-import com.twt.wepeiyang.commons.experimental.bind
+import com.twt.wepeiyang.commons.experimental.extensions.bind
 import com.twtstudio.retrox.bike.R
 
 /**

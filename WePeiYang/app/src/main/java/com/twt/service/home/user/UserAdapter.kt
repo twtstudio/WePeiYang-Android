@@ -10,7 +10,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.twt.service.R
-import com.twt.wepeiyang.commons.experimental.bind
+import com.twt.wepeiyang.commons.experimental.extensions.bind
 
 /**
  * Created by rickygao on 2018/1/28.

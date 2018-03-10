@@ -3,7 +3,7 @@ package xyz.rickygao.gpa2.api
 import android.arch.lifecycle.MutableLiveData
 import com.orhanobut.hawk.Hawk
 import com.orhanobut.logger.Logger
-import com.twt.wepeiyang.commons.experimental.ConsumableMessage
+import com.twt.wepeiyang.commons.experimental.extensions.ConsumableMessage
 import com.twt.wepeiyang.commons.utils.CommonPrefUtil
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async

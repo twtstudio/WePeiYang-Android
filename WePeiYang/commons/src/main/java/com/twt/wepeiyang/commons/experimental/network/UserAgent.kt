@@ -1,6 +1,7 @@
-package com.twt.wepeiyang.commons.experimental
+package com.twt.wepeiyang.commons.experimental.network
 
 import android.os.Build
+import com.twt.wepeiyang.commons.experimental.Commons
 import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response
@@ -18,6 +19,5 @@ internal val Request.uaed: Request
     get() = newBuilder().removeHeader("UserAgent").addHeader("UserAgent", generateUserAgent()).build()
 
 internal object UserAgentInterceptor : Interceptor {
-    override fun intercept(chain: Interceptor.Chain): Response =
-            chain.proceed(if (chain.request().trusted) chain.request().uaed else chain.request())
+    override fun intercept(chain: Interceptor.Chain): Response = chain.proceed(chain.request().uaed)
 }

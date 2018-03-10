@@ -9,10 +9,10 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.widget.ImageButton
 import android.widget.RatingBar
-import com.twt.wepeiyang.commons.experimental.consume
-import com.twt.wepeiyang.commons.experimental.enableLightStatusBarMode
-import com.twt.wepeiyang.commons.experimental.fitSystemWindowWithNavigationBar
-import com.twt.wepeiyang.commons.experimental.fitSystemWindowWithStatusBar
+import com.twt.wepeiyang.commons.experimental.extensions.consume
+import com.twt.wepeiyang.commons.experimental.extensions.enableLightStatusBarMode
+import com.twt.wepeiyang.commons.experimental.extensions.fitSystemWindowWithNavigationBar
+import com.twt.wepeiyang.commons.experimental.extensions.fitSystemWindowWithStatusBar
 import es.dmoral.toasty.Toasty
 import xyz.rickygao.gpa2.R
 import xyz.rickygao.gpa2.api.Evaluate

@@ -3,7 +3,7 @@ package com.twt.wepeiyang.commons.network;
 import android.util.Log;
 
 import com.annimon.stream.Stream;
-import com.twt.wepeiyang.commons.experimental.ServiceFactory;
+import com.twt.wepeiyang.commons.experimental.network.ServiceFactory;
 import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
 
 import org.apache.commons.codec.binary.Hex;

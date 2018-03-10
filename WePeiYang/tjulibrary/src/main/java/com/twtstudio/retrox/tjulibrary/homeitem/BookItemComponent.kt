@@ -12,7 +12,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import com.tapadoo.alerter.Alerter
-import com.twt.wepeiyang.commons.experimental.bind
+import com.twt.wepeiyang.commons.experimental.extensions.bind
 import com.twtstudio.retrox.tjulibrary.R
 import com.twtstudio.retrox.tjulibrary.provider.Book
 

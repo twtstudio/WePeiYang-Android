@@ -1,4 +1,4 @@
-package com.twt.wepeiyang.commons.experimental
+package com.twt.wepeiyang.commons.experimental.extensions
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -58,7 +58,7 @@ fun Activity.enableLightStatusBarMode(enable: Boolean): String {
     return "None"
 }
 
-val Activity.statusBarHeight: Int
+val Activity.statusBarHeight
     get() = resources
             .getIdentifier("status_bar_height", "dimen", "android")
             .takeIf { it > 0 }?.let {

@@ -5,7 +5,7 @@ import android.arch.lifecycle.MutableLiveData
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.TextView
-import com.twt.wepeiyang.commons.experimental.bind
+import com.twt.wepeiyang.commons.experimental.extensions.bind
 import com.twtstudio.retrox.bike.R
 import com.twtstudio.retrox.bike.model.read.Detail
 

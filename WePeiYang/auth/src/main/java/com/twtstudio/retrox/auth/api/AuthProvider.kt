@@ -3,9 +3,9 @@ package com.twtstudio.retrox.auth.api
 import android.arch.lifecycle.MutableLiveData
 import com.orhanobut.hawk.Hawk
 import com.tencent.bugly.crashreport.CrashReport
-import com.twt.wepeiyang.commons.experimental.AuthSelfBean
-import com.twt.wepeiyang.commons.experimental.ConsumableMessage
-import com.twt.wepeiyang.commons.experimental.RealAuthService
+import com.twt.wepeiyang.commons.experimental.extensions.ConsumableMessage
+import com.twt.wepeiyang.commons.experimental.network.AuthSelfBean
+import com.twt.wepeiyang.commons.experimental.network.RealAuthService
 import com.twt.wepeiyang.commons.utils.CommonPrefUtil
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async

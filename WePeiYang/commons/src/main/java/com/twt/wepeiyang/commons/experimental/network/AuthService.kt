@@ -1,4 +1,4 @@
-package com.twt.wepeiyang.commons.experimental
+package com.twt.wepeiyang.commons.experimental.network
 
 import retrofit2.Call
 import retrofit2.http.GET

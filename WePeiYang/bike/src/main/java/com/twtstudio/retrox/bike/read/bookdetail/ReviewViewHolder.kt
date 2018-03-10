@@ -8,7 +8,7 @@ import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
 import com.bumptech.glide.Glide
-import com.twt.wepeiyang.commons.experimental.bind
+import com.twt.wepeiyang.commons.experimental.extensions.bind
 import com.twtstudio.retrox.bike.R
 import com.twtstudio.retrox.bike.model.read.Detail
 import de.hdodenhof.circleimageview.CircleImageView
@@ -30,13 +30,13 @@ class ReviewViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         reviewData.value = review
         reviewData.bind(owner) {
             it?.apply {
-                ivReviewAvatar.setTag(null);
+                ivReviewAvatar.tag = null
                 Glide
-                        .with(ivReviewAvatar.getContext())
+                        .with(ivReviewAvatar.context)
                         .load(this.avatar).placeholder(R.drawable.default_cover)
                         .error(R.drawable.default_cover)
                         .into(ivReviewAvatar)
-                ivReviewAvatar.setTag(this.avatar)
+                ivReviewAvatar.tag = this.avatar
                 tvUserName.text = this.user_name
                 rbScore.rating = this.score.toFloat()
                 tvContent.text = this.content

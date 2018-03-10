@@ -8,7 +8,7 @@ import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
-import com.twt.wepeiyang.commons.experimental.bind
+import com.twt.wepeiyang.commons.experimental.extensions.bind
 import com.twtstudio.retrox.bike.R
 import com.twtstudio.retrox.bike.model.read.Detail
 
@@ -30,11 +30,11 @@ class HeaderViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         detailData.value = detail
         detailData.bind(owner) {
             it?.apply {
-                tvTitle.text = this?.title
-                tvAuthor.text = "作者: " + this?.author
-                tvPublisher.text = "出版社: " + this?.publisher
-                tvTime.text = "出版年份: " + this?.time
-                tvSummary.text = if (this?.summary != null) this?.summary else "no summary"
+                tvTitle.text = this.title
+                tvAuthor.text = "作者: " + this.author
+                tvPublisher.text = "出版社: " + this.publisher
+                tvTime.text = "出版年份: " + this.time
+                tvSummary.text = if (this.summary != null) this.summary else "no summary"
             }
         }
     }

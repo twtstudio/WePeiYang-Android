@@ -8,7 +8,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.bumptech.glide.Glide
-import com.twt.wepeiyang.commons.experimental.bind
+import com.twt.wepeiyang.commons.experimental.extensions.bind
 import com.twtstudio.retrox.bike.R
 import com.twtstudio.retrox.bike.model.read.SearchBook
 
@@ -28,19 +28,19 @@ class BookSearchViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         bookData.value = book
         bookData.bind(owner) {
             it?.apply {
-                ivCover.setTag(null);
+                ivCover.tag = null
                 Glide
-                        .with(ivCover.getContext())
+                        .with(ivCover.context)
                         .load(this.cover).placeholder(R.drawable.default_cover)
                         .error(R.drawable.default_cover)
                         .into(ivCover)
-                ivCover.setTag(this.cover)
+                ivCover.tag = this.cover
 
                 tvTitle.text = this.title
                 tvAuthor.text = "作者: " + this.author
                 tvPublisher.text = "出版社: " + this.publisher
                 tvYear.text = "出版日期: " + this.year
-                tvRate.text = "评分: " + if (this?.rate != null) this?.rate else "暂无"
+                tvRate.text = "评分: " + if (this.rate != null) this.rate else "暂无"
             }
         }
     }

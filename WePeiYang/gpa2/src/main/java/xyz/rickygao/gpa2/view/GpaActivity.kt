@@ -10,7 +10,7 @@ import android.support.v7.widget.Toolbar
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
-import com.twt.wepeiyang.commons.experimental.*
+import com.twt.wepeiyang.commons.experimental.extensions.*
 import es.dmoral.toasty.Toasty
 import xyz.rickygao.gpa2.R
 import xyz.rickygao.gpa2.api.GpaProvider

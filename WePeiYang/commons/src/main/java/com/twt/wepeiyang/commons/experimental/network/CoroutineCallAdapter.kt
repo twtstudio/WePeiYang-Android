@@ -1,4 +1,4 @@
-package com.twt.wepeiyang.commons.experimental
+package com.twt.wepeiyang.commons.experimental.network
 
 import kotlinx.coroutines.experimental.Deferred
 import retrofit2.CallAdapter

@@ -1,4 +1,4 @@
-package com.twt.wepeiyang.commons.experimental
+package com.twt.wepeiyang.commons.experimental.extensions
 
 import android.arch.lifecycle.LifecycleOwner
 import android.arch.lifecycle.LiveData
@@ -14,11 +14,11 @@ fun <T, U> LiveData<T>.switchMap(func: (T) -> LiveData<U>): LiveData<U> = Transf
 
 fun <T> LiveData<T>.bind(lifecycleOwner: LifecycleOwner, block: (T?) -> Unit) = observe(lifecycleOwner, Observer(block))
 
-fun <T> LiveData<ConsumableMessage<T>>.consume(lifecycleOwner: LifecycleOwner, from: Int = com.twt.wepeiyang.commons.experimental.ConsumableMessage.Companion.ANY, block: (T?) -> Unit) =
+fun <T> LiveData<ConsumableMessage<T>>.consume(lifecycleOwner: LifecycleOwner, from: Int = ConsumableMessage.ANY, block: (T?) -> Unit) =
         observe(lifecycleOwner, Observer {
-            if (it?.consumed == false && (com.twt.wepeiyang.commons.experimental.ConsumableMessage.Companion.ANY == from || it.from == from)) {
-                block(it.message)
+            if (it?.consumed == false && (ConsumableMessage.ANY == from || it.from == from)) {
                 it.consumed = true
+                block(it.message)
             }
         })
 

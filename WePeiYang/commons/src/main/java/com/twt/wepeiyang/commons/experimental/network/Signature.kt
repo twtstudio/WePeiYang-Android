@@ -1,4 +1,4 @@
-package com.twt.wepeiyang.commons.experimental
+package com.twt.wepeiyang.commons.experimental.network
 
 import okhttp3.*
 import org.apache.commons.codec.binary.Hex
@@ -72,6 +72,5 @@ internal val Request.signed: Request
     }
 
 internal object SignatureInterceptor : Interceptor {
-    override fun intercept(chain: Interceptor.Chain): Response =
-            chain.proceed(if (chain.request().trusted) chain.request().signed else chain.request())
+    override fun intercept(chain: Interceptor.Chain): Response = chain.proceed(chain.request().signed)
 }

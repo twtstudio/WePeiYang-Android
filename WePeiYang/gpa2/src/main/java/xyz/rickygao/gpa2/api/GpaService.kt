@@ -2,8 +2,8 @@ package xyz.rickygao.gpa2.api
 
 import android.os.Parcel
 import android.os.Parcelable
-import com.twt.wepeiyang.commons.experimental.CommonBody
-import com.twt.wepeiyang.commons.experimental.ServiceFactory
+import com.twt.wepeiyang.commons.experimental.network.CommonBody
+import com.twt.wepeiyang.commons.experimental.network.ServiceFactory
 import retrofit2.Call
 import retrofit2.http.FieldMap
 import retrofit2.http.FormUrlEncoded

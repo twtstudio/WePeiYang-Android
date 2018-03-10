@@ -3,7 +3,7 @@ package com.twt.service.api;
 
 import com.annimon.stream.Stream;
 import com.orhanobut.logger.Logger;
-import com.twt.wepeiyang.commons.experimental.ServiceFactory;
+import com.twt.wepeiyang.commons.experimental.network.ServiceFactory;
 import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
 
 import org.apache.commons.codec.binary.Hex;

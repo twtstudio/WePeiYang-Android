@@ -7,7 +7,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.TextView
 import com.twt.service.R
-import com.twt.wepeiyang.commons.experimental.bind
+import com.twt.wepeiyang.commons.experimental.extensions.bind
 import xyz.rickygao.gpa2.api.GpaProvider
 import xyz.rickygao.gpa2.view.GpaActivity
 
