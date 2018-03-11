@@ -5,7 +5,7 @@ import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.MarkerOptions;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.twt.wepeiyang.commons.experimental.Commons;
+import com.twt.wepeiyang.commons.experimental.CommonContext;
 import com.twtstudio.retrox.bike.R;
 import com.twtstudio.retrox.bike.model.StationsBrief;
 import com.twtstudio.retrox.bike.model.StationsDetail;
@@ -31,7 +31,7 @@ public class BikeStationUtils {
 
 
     private BikeStationUtils() {
-        InputStream is = Commons.INSTANCE.getApplicationContext().getResources().openRawResource(R.raw.detail);
+        InputStream is = CommonContext.INSTANCE.getApplicationContext().getResources().openRawResource(R.raw.detail);
         String detailJsonString = null;
         try {
             detailJsonString = IOUtils.toString(is);
@@ -86,7 +86,7 @@ public class BikeStationUtils {
     }
 
     public List<MarkerOptions> getStationsBrief() {
-        InputStream is = Commons.INSTANCE.getApplicationContext().getResources().openRawResource(R.raw.brief);
+        InputStream is = CommonContext.INSTANCE.getApplicationContext().getResources().openRawResource(R.raw.brief);
         String briefJsonString = null;
         try {
             briefJsonString = IOUtils.toString(is);

@@ -32,10 +32,10 @@ data class AuthSelfBean(
         val realname: String,
         val studentid: String,
         val avatar: String,
-        val accounts: AccountsBean,
+        val accounts: Accounts,
         val dropout: Int // 0: 未操作，1: 已退学，2: 已复学
 )
 
-data class AccountsBean(val tju: Boolean, val lib: Boolean)
+data class Accounts(val tju: Boolean, val lib: Boolean)
 
 data class Token(val token: String)

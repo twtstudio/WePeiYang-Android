@@ -3,10 +3,10 @@ package com.twtstudio.retrox.auth.api
 import android.arch.lifecycle.MutableLiveData
 import com.orhanobut.hawk.Hawk
 import com.tencent.bugly.crashreport.CrashReport
+import com.twt.wepeiyang.commons.experimental.CommonPreferences
 import com.twt.wepeiyang.commons.experimental.extensions.ConsumableMessage
 import com.twt.wepeiyang.commons.experimental.network.AuthSelfBean
 import com.twt.wepeiyang.commons.experimental.network.RealAuthService
-import com.twt.wepeiyang.commons.utils.CommonPreferences
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
 import org.jetbrains.anko.coroutines.experimental.bg
@@ -59,7 +59,8 @@ object AuthProvider {
                 }.await()?.let {
                     authSelfLiveData.value = it
 
-                    CommonPreferences.studentNumber = it.studentid
+                    CommonPreferences.twtuname = it.twtuname
+                    CommonPreferences.studentid = it.studentid
                     CommonPreferences.isBindLibrary = it.accounts.lib
                     CommonPreferences.isBindTju = it.accounts.tju
                     CommonPreferences.dropOut = it.dropout
@@ -70,7 +71,8 @@ object AuthProvider {
             remote.await()?.let {
                 authSelfLiveData.value = it
 
-                CommonPreferences.studentNumber = it.studentid
+                CommonPreferences.twtuname = it.twtuname
+                CommonPreferences.studentid = it.studentid
                 CommonPreferences.isBindLibrary = it.accounts.lib
                 CommonPreferences.isBindTju = it.accounts.tju
                 CommonPreferences.dropOut = it.dropout

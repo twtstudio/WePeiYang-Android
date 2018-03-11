@@ -1,11 +1,13 @@
 package com.twtstudio.retrox.auth.view
 
-import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ProgressBar
 import com.twt.wepeiyang.commons.experimental.extensions.consume
+import com.twt.wepeiyang.commons.experimental.startActivity
 import com.twtstudio.retrox.auth.R
 import com.twtstudio.retrox.auth.api.AuthProvider
 import es.dmoral.toasty.Toasty
@@ -17,9 +19,10 @@ import es.dmoral.toasty.Toasty
 
 class LoginActivity : AppCompatActivity() {
 
-    lateinit var usernameEt: EditText
-    lateinit var passwordEt: EditText
-    lateinit var loginBtn: Button
+    private lateinit var usernameEt: EditText
+    private lateinit var passwordEt: EditText
+    private lateinit var loginBtn: Button
+    private lateinit var loginPb: ProgressBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,15 +30,19 @@ class LoginActivity : AppCompatActivity() {
 
         usernameEt = findViewById(R.id.et_username)
         passwordEt = findViewById(R.id.et_password)
+        loginPb = findViewById(R.id.pb_login)
         loginBtn = findViewById<Button>(R.id.btn_login).apply {
             setOnClickListener {
                 AuthProvider.login(usernameEt.text.toString(), passwordEt.text.toString())
+                loginBtn.isEnabled = false
+                loginPb.visibility = View.VISIBLE
             }
         }
 
         AuthProvider.successLiveData.consume(this, from = AuthProvider.FROM_LOGIN) {
             it?.let {
                 Toasty.success(this, it).show()
+
                 AuthProvider.authSelf()
             }
         }
@@ -43,11 +50,9 @@ class LoginActivity : AppCompatActivity() {
         AuthProvider.successLiveData.consume(this, from = AuthProvider.FROM_AUTH_SELF) {
             it?.let {
                 Toasty.success(this, it).show()
-                val intent = Intent(
-                        this,
-                        Class.forName("com.twt.service.module.welcome.WelcomeSlideActivity")
-                )
-                startActivity(intent)
+                loginPb.visibility = View.INVISIBLE
+
+                startActivity(name = "welcome")
                 finish()
             }
         }
@@ -55,6 +60,8 @@ class LoginActivity : AppCompatActivity() {
         AuthProvider.errorLiveData.consume(this) {
             it?.let {
                 Toasty.error(this, it).show()
+                loginPb.visibility = View.INVISIBLE
+                loginBtn.isEnabled = true
             }
         }
 

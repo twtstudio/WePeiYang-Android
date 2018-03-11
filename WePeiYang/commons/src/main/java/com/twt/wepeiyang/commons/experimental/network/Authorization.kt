@@ -1,7 +1,7 @@
 package com.twt.wepeiyang.commons.experimental.network
 
-import com.twt.wepeiyang.commons.experimental.Commons
-import com.twt.wepeiyang.commons.utils.CommonPreferences
+import com.twt.wepeiyang.commons.experimental.CommonContext
+import com.twt.wepeiyang.commons.experimental.CommonPreferences
 import okhttp3.*
 import org.json.JSONObject
 import java.net.HttpURLConnection
@@ -32,7 +32,8 @@ object RealAuthenticator : Authenticator {
                         return response.request().newBuilder().header("Authorization", "Bearer{${it}}").build()
                     }
                 10004 ->
-                    Commons.startLoginActivity()
+                    CommonContext.startActivity(name = "login")
+            // 20001 -> Bind Tju
             }
         }
         return null

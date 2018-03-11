@@ -73,8 +73,9 @@ class UserAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserItemViewHolder = when (viewType) {
         VIEW_TYPE_AVATAR -> UserItemViewHolder.AvatarItemViewHolder(inflater.inflate(R.layout.item_user_avatar, parent, false))
         VIEW_TYPE_INFO -> UserItemViewHolder.InfoItemViewHolder(inflater.inflate(R.layout.item_user_info, parent, false))
-    /* VIEW_TYPE_ACTION */ else -> UserItemViewHolder.ActionItemViewHolder(inflater.inflate(R.layout.item_user_action, parent, false))
-    }
+        VIEW_TYPE_ACTION -> UserItemViewHolder.ActionItemViewHolder(inflater.inflate(R.layout.item_user_action, parent, false))
+        else -> null
+    }!!
 
     override fun getItemCount() = items.size
 

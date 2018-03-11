@@ -7,7 +7,8 @@ import com.github.piasy.biv.loader.glide.GlideImageLoader
 import com.orhanobut.hawk.Hawk
 import com.tencent.bugly.Bugly
 import com.tencent.bugly.crashreport.CrashReport
-import com.twt.wepeiyang.commons.experimental.initCommons
+import com.twt.service.welcome.WelcomeActivity
+import com.twt.wepeiyang.commons.experimental.CommonContext
 import com.twtstudio.retrox.auth.view.LoginActivity
 
 /**
@@ -19,9 +20,10 @@ class WePeiYangApp : MultiDexApplication() {
     override fun onCreate() {
         super.onCreate()
 
-        initCommons {
+        CommonContext.apply {
             registerApplication(this@WePeiYangApp)
-            registerLoginActivity(LoginActivity::class.java)
+            registerActivity("login", LoginActivity::class.java)
+            registerActivity("welcome", WelcomeActivity::class.java)
         }
 
         applicationContext.let {
@@ -32,6 +34,5 @@ class WePeiYangApp : MultiDexApplication() {
             BigImageViewer.initialize(GlideImageLoader.with(it))
         }
 
-        //        UMShareAPI.get(this);
     }
 }

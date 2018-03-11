@@ -1,6 +1,6 @@
 package com.twt.wepeiyang.commons.cache;
 
-import com.twt.wepeiyang.commons.experimental.Commons;
+import com.twt.wepeiyang.commons.experimental.CommonContext;
 
 import java.io.File;
 
@@ -17,7 +17,7 @@ public class CacheProvider {
 
     private CacheProvider() {
         mRxCache = new RxCache.Builder()
-                .persistence(Commons.INSTANCE.getApplicationContext().getCacheDir(), new GsonSpeaker());
+                .persistence(CommonContext.INSTANCE.getApplicationContext().getCacheDir(), new GsonSpeaker());
     }
 
     public static RxCache getRxCache() {
@@ -25,7 +25,7 @@ public class CacheProvider {
     }
 
     public static void clearCache() {
-        File[] files = Commons.INSTANCE.getApplicationContext().getCacheDir().listFiles();
+        File[] files = CommonContext.INSTANCE.getApplicationContext().getCacheDir().listFiles();
         for (File file : files) {
             file.delete();
         }

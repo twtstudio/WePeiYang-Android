@@ -3,7 +3,7 @@ package com.twt.service.cache;
 
 import com.orhanobut.logger.Logger;
 import com.twt.service.support.NetworkUtils;
-import com.twt.wepeiyang.commons.experimental.Commons;
+import com.twt.wepeiyang.commons.experimental.CommonContext;
 
 import java.io.Closeable;
 import java.io.File;
@@ -46,7 +46,7 @@ public class DiskCache implements ICache {
     private File fileDir;
 
     public DiskCache() {
-        fileDir = Commons.INSTANCE.getApplicationContext().getCacheDir();
+        fileDir = CommonContext.INSTANCE.getApplicationContext().getCacheDir();
     }
 
 
@@ -130,7 +130,7 @@ public class DiskCache implements ICache {
         if (isLongTimeData(getKey(dataFile))) {
             isFailure = false;
         } else {
-            if (NetworkUtils.getNetworkType(Commons.INSTANCE.getApplicationContext()) == NetworkUtils.NetworkType.NETWORK_WIFI) {
+            if (NetworkUtils.getNetworkType(CommonContext.INSTANCE.getApplicationContext()) == NetworkUtils.NetworkType.NETWORK_WIFI) {
                 isFailure = existTime > WIFI_CACHE_TIME;
             } else {
                 isFailure = existTime > OTHER_CACHE_TIME;

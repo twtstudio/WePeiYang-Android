@@ -23,8 +23,8 @@ import com.twt.service.R;
 import com.twt.service.home.HomeActivity;
 import com.twt.service.update.UpdateManager;
 import com.twt.wepeiyang.commons.cache.CacheProvider;
+import com.twt.wepeiyang.commons.experimental.CommonPreferences;
 import com.twt.wepeiyang.commons.network.RxErrorHandler;
-import com.twt.wepeiyang.commons.utils.CommonPreferences;
 import com.twtstudio.retrox.auth.api.AuthProvider;
 import com.twtstudio.retrox.bike.service.BikeServiceProvider;
 import com.twtstudio.retrox.tjulibrary.provider.TjuLibProvider;
@@ -280,7 +280,7 @@ public class SettingsActivity extends AppCompatActivity {
                                 public void onClick(DialogInterface dialog, int which) {
                                     if (CommonPreferences.INSTANCE.isBindTju()) {
                                         RealAuthApi.INSTANCE
-                                                .unbindTju(CommonPreferences.INSTANCE.getUserId())
+                                                .unbindTju(CommonPreferences.INSTANCE.getTwtuname())
                                                 .subscribeOn(Schedulers.io())
                                                 .observeOn(AndroidSchedulers.mainThread())
                                                 .doAfterTerminate(() -> AuthProvider.INSTANCE.authSelf(false, true))

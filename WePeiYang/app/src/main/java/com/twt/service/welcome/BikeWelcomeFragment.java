@@ -1,4 +1,4 @@
-package com.twt.service.module.welcome;
+package com.twt.service.welcome;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

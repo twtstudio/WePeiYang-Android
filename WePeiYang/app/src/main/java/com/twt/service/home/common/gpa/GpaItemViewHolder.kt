@@ -1,4 +1,4 @@
-package com.twt.service.home.common.gpaItem
+package com.twt.service.home.common.gpa
 
 import android.arch.lifecycle.LifecycleOwner
 import android.content.Intent
@@ -22,7 +22,7 @@ class GpaItemViewHolder(itemView: View, private val lifecycleOwner: LifecycleOwn
     private val gpaTv: TextView = itemView.findViewById(xyz.rickygao.gpa2.R.id.tv_gpa)
     private val creditTv: TextView = itemView.findViewById(xyz.rickygao.gpa2.R.id.tv_credit)
 
-    fun bind() {
+    init {
 
         cardView.setOnClickListener {
             val intent = Intent(itemView.context, GpaActivity::class.java)

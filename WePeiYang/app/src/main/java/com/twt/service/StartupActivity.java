@@ -1,4 +1,4 @@
-package com.twt.service.module.welcome;
+package com.twt.service;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
@@ -10,10 +10,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
-import com.twt.service.R;
 import com.twt.service.base.BaseActivity;
 import com.twt.service.home.HomeActivity;
-import com.twt.wepeiyang.commons.utils.CommonPreferences;
+import com.twt.wepeiyang.commons.experimental.CommonPreferences;
 import com.twtstudio.retrox.auth.view.LoginActivity;
 
 import java.util.Arrays;
@@ -22,7 +21,7 @@ import java.util.Arrays;
  * Created by retrox on 2017/1/20.
  */
 
-public class WelcomeActivity extends BaseActivity {
+public class StartupActivity extends BaseActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -32,7 +31,7 @@ public class WelcomeActivity extends BaseActivity {
         boolean isLogin = CommonPreferences.INSTANCE.isLogin();
         boolean isFirstLogin = CommonPreferences.INSTANCE.isFirstLogin();
 //        if (true) {
-//            Intent intent = new Intent(this, WelcomeSlideActivity.class);
+//            Intent intent = new Intent(this, WelcomeActivity.class);
 //            startActivity(intent);
 //        } else
         if (isLogin) {

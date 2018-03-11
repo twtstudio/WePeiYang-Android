@@ -1,7 +1,5 @@
 package xyz.rickygao.gpa2.view
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
 import android.support.design.widget.TextInputEditText
@@ -93,10 +91,4 @@ class EvaluateActivity : AppCompatActivity() {
         }
     }
 
-}
-
-internal fun startEvaluateActivity(packageContext: Context, evaluate: Evaluate) {
-    val intent = Intent(packageContext, EvaluateActivity::class.java)
-    intent.putExtra("evaluate", evaluate)
-    packageContext.startActivity(intent)
 }

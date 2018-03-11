@@ -1,4 +1,4 @@
-package com.twt.service.module.welcome;
+package com.twt.service.welcome;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,7 +7,7 @@ import android.support.annotation.Nullable;
 import com.twt.service.home.HomeActivity;
 import com.twt.service.settings.LibBindFragment;
 import com.twt.service.settings.TjuBindFragment;
-import com.twt.wepeiyang.commons.utils.CommonPreferences;
+import com.twt.wepeiyang.commons.experimental.CommonPreferences;
 
 import agency.tango.materialintroscreen.MaterialIntroActivity;
 
@@ -15,7 +15,7 @@ import agency.tango.materialintroscreen.MaterialIntroActivity;
  * Created by retrox on 12/03/2017.
  */
 
-public class WelcomeSlideActivity extends MaterialIntroActivity {
+public class WelcomeActivity extends MaterialIntroActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

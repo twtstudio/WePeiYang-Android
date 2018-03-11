@@ -6,7 +6,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.twt.service.R
-import com.twt.service.home.common.gpaItem.GpaItemViewHolder
+import com.twt.service.home.common.gpa.GpaItemViewHolder
 import com.twt.service.home.common.schedule.ScheduleItemViewHolder
 import com.twt.service.home.common.schedule.ScheduleViewModel
 import com.twtstudio.retrox.bike.homeitem.BikeHomeItemViewModel
@@ -32,22 +32,17 @@ class CommonPageAdapter(
 
     val inflater: LayoutInflater = LayoutInflater.from(context)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val viewHolder = when (viewType) {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder = when (viewType) {
             GPA -> GpaItemViewHolder(inflater.inflate(R.layout.item_common_gpa, parent, false), owner)
             SCHEDULE -> ScheduleItemViewHolder(inflater.inflate(R.layout.item_common_schedule, parent, false))
             LIBRARY -> HomeLibItemComponent(owner, inflater.inflate(R.layout.item_common_lib, parent, false))
 //            BIKE -> BikeHomeItemViewHolder(inflater.inflate(R.layout.item_bike_card,parent,false))
             else -> null
-        }
-        return viewHolder!!
-    }
+    }!!
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
-            is GpaItemViewHolder -> {
-                holder.bind()
-            }
+            is GpaItemViewHolder -> Unit
             is ScheduleItemViewHolder -> {
                 holder.bind(owner, list[position] as ScheduleViewModel)
             }

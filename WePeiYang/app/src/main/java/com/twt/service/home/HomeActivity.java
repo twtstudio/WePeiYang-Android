@@ -28,7 +28,7 @@ import com.twt.service.update.UpdateManager;
 import com.twt.service.view.BottomBar;
 import com.twt.service.view.BottomBarTab;
 import com.twt.service.widget.WidgetUpdateManger;
-import com.twt.wepeiyang.commons.utils.CommonPreferences;
+import com.twt.wepeiyang.commons.experimental.CommonPreferences;
 
 import me.yokeyword.fragmentation.SupportFragment;
 

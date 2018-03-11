@@ -1,4 +1,4 @@
-package com.twt.wepeiyang.commons.utils
+package com.twt.wepeiyang.commons.experimental
 
 import com.orhanobut.hawk.Hawk
 import kotlin.properties.ReadWriteProperty
@@ -28,7 +28,7 @@ object CommonPreferences {
 
     var startUnix by hawk("start_unix", 946656000L)
 
-    var studentNumber by hawk("student_number", "")
+    var studentid by hawk("student_number", "")
 
     var isBindTju by hawk("is_bind_tju", false)
 
@@ -42,7 +42,7 @@ object CommonPreferences {
 
     var dropOut by hawk("drop_out", 0)
 
-    var userId by hawk("user_id", "")
+    var twtuname by hawk("user_id", "")
 
     var proxyAddress by hawk("proxy_address", "")
 

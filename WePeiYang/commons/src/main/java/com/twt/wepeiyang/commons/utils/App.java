@@ -11,7 +11,7 @@ import java.lang.ref.WeakReference;
  * Created by retrox on 2017/1/25.
  * 通过反射全局获取统一的app对象
  *
- * @deprecated use Commons instead
+ * @deprecated use CommonContext instead
  */
 
 @Deprecated

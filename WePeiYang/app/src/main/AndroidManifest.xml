@@ -47,7 +47,7 @@
         <activity android:name=".settings.BindActivity" android:theme="@style/Theme.Intro"/>
 
         <activity
-            android:name=".module.welcome.WelcomeActivity"
+            android:name=".StartupActivity"
             android:exported="true"
             android:theme="@style/Splash">
             <intent-filter>
@@ -57,7 +57,9 @@
             </intent-filter>
 
         </activity>
-        <activity android:name=".module.welcome.WelcomeSlideActivity" android:theme="@style/Theme.Intro"/>
+        <activity
+            android:name=".welcome.WelcomeActivity"
+            android:theme="@style/Theme.Intro" />
         <activity
             android:name="com.tencent.bugly.beta.ui.BetaActivity"
             android:theme="@android:style/Theme.Translucent" />

@@ -4,9 +4,9 @@ import com.orhanobut.logger.Logger;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 import com.twt.wepeiyang.commons.cache.CacheProvider;
+import com.twt.wepeiyang.commons.experimental.CommonPreferences;
 import com.twt.wepeiyang.commons.network.RetrofitProvider;
 import com.twt.wepeiyang.commons.network.RxErrorHandler;
-import com.twt.wepeiyang.commons.utils.CommonPreferences;
 
 import io.rx_cache.DynamicKey;
 import io.rx_cache.EvictDynamicKey;

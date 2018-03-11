@@ -9,8 +9,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.twt.service.R;
+import com.twt.wepeiyang.commons.experimental.CommonPreferences;
 import com.twt.wepeiyang.commons.network.RxErrorHandler;
-import com.twt.wepeiyang.commons.utils.CommonPreferences;
 import com.twtstudio.retrox.auth.api.AuthProvider;
 
 import agency.tango.materialintroscreen.SlideFragment;

@@ -3,8 +3,8 @@ package com.twtstudio.retrox.bike.utils;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import com.twt.wepeiyang.commons.experimental.Commons;
-import com.twt.wepeiyang.commons.utils.CommonPreferences;
+import com.twt.wepeiyang.commons.experimental.CommonContext;
+import com.twt.wepeiyang.commons.experimental.CommonPreferences;
 
 /**
  * Created by Rex on 2015/8/3.
@@ -35,7 +35,7 @@ public class PrefUtils {
     private static final String PREF_SCHEDULE_START_DATE = "schedule_start_date";
 
     private static SharedPreferences getDefaultSharedPreferences() {
-        return PreferenceManager.getDefaultSharedPreferences(Commons.INSTANCE.getApplicationContext());
+        return PreferenceManager.getDefaultSharedPreferences(CommonContext.INSTANCE.getApplicationContext());
     }
 
     /**

@@ -7,8 +7,8 @@ import android.widget.Toast;
 
 import com.orhanobut.logger.Logger;
 import com.tencent.bugly.crashreport.CrashReport;
-import com.twt.wepeiyang.commons.experimental.Commons;
-import com.twt.wepeiyang.commons.utils.CommonPreferences;
+import com.twt.wepeiyang.commons.experimental.CommonContext;
+import com.twt.wepeiyang.commons.experimental.CommonPreferences;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -35,7 +35,7 @@ public class RxErrorHandler implements Action1<Throwable> {
     }
 
     public RxErrorHandler() {
-        mContext = Commons.INSTANCE.getApplicationContext();
+        mContext = CommonContext.INSTANCE.getApplicationContext();
     }
 
     public static void showToast(Context context, String desc) {

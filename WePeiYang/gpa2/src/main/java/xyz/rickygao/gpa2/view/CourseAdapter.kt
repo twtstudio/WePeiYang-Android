@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import org.jetbrains.anko.startActivity
 import xyz.rickygao.gpa2.R
 import xyz.rickygao.gpa2.api.Evaluate
 
@@ -45,12 +46,10 @@ class CourseAdapter(
         notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CourseViewHolder {
-        val itemView = inflater.inflate(R.layout.gpa2_item_course, parent, false)
-        return CourseViewHolder(itemView)
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+            CourseViewHolder(inflater.inflate(R.layout.gpa2_item_course, parent, false))
 
-    override fun onBindViewHolder(holder: CourseViewHolder, position: Int) = holder.bind(courses.get(position))
+    override fun onBindViewHolder(holder: CourseViewHolder, position: Int) = holder.bind(courses[position])
 
     override fun getItemCount(): Int = courses.size
 
@@ -65,9 +64,9 @@ class CourseAdapter(
 
             // TODO: Now types are unavailable (or deprecated?), fix it at the back end or remove it.
             typeTv.text = when (course.type) {
-                    0 -> "必修"
-                    else -> "未知"
-                }
+                0 -> "必修"
+                else -> "未知"
+            }
 
             creditTv.text = "学分：${course.credit}"
 
@@ -78,7 +77,7 @@ class CourseAdapter(
             } else {
                 scoreTv.text = "点按来评价"
                 itemView.setOnClickListener {
-                    startEvaluateActivity(itemView.context, course.evaluate)
+                    itemView.context.startActivity<EvaluateActivity>("evaluate" to course.evaluate)
                 }
             }
         }

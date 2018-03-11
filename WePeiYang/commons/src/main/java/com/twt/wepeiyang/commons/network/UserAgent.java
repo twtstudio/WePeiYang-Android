@@ -4,17 +4,17 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 
-import com.twt.wepeiyang.commons.experimental.Commons;
+import com.twt.wepeiyang.commons.experimental.CommonContext;
 
 /**
  * Created by sunjuntao on 16/1/10.
  */
 public class UserAgent {
     public static String getAppVersion() {
-        PackageManager packageManager = Commons.INSTANCE.getApplicationContext().getPackageManager();
+        PackageManager packageManager = CommonContext.INSTANCE.getApplicationContext().getPackageManager();
         PackageInfo packInfo = null;
         try {
-            packInfo = packageManager.getPackageInfo(Commons.INSTANCE.getApplicationContext().getPackageName(), 0);
+            packInfo = packageManager.getPackageInfo(CommonContext.INSTANCE.getApplicationContext().getPackageName(), 0);
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }

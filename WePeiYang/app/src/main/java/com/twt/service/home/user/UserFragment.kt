@@ -16,8 +16,8 @@ import com.twt.service.R
 import com.twt.service.base.BaseFragment
 import com.twt.service.settings.SettingsActivity
 import com.twt.wepeiyang.commons.cache.CacheProvider
+import com.twt.wepeiyang.commons.experimental.CommonPreferences
 import com.twt.wepeiyang.commons.experimental.extensions.map
-import com.twt.wepeiyang.commons.utils.CommonPreferences
 import com.twt.wepeiyang.commons.view.RecyclerViewDivider
 import com.twtstudio.retrox.auth.api.AuthProvider
 import com.twtstudio.retrox.auth.view.LoginActivity
@@ -39,14 +39,14 @@ class UserFragment : BaseFragment() {
                                 UserItem.AvatarBean(it.avatar, it.twtuname, it.realname)
                             }, R.drawable.ic_avatar),
 //                            UserItem.DividerItem,
+                            UserItem.InfoItem(R.drawable.ic_tju_little_icon, "办公网", AuthProvider.authSelfLiveData.map {
+                                if (it.accounts.tju) "已绑定" else "未绑定"
+                            }),
                             UserItem.InfoItem(R.drawable.lib_library, "图书馆", AuthProvider.authSelfLiveData.map {
                                 if (it.accounts.lib) "已绑定" else "未绑定"
                             }),
                             UserItem.InfoItem(R.drawable.bike_bike_icon, "自行车", MutableLiveData<String>().apply {
                                 value = if (CommonPreferences.isBindBike) "已绑定" else "未绑定"
-                            }),
-                            UserItem.InfoItem(R.drawable.ic_tju_little_icon, "办公网", AuthProvider.authSelfLiveData.map {
-                                if (it.accounts.tju) "已绑定" else "未绑定"
                             }),
 //                            UserItem.DividerItem,
                             UserItem.ActionItem(R.drawable.ic_settings, "设置") {
