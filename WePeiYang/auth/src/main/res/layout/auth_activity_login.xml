@@ -13,14 +13,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.4" />
+        app:layout_constraintGuide_percent="0.3" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline_2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.8" />
+        app:layout_constraintGuide_percent="0.7" />
 
     <ImageView
         android:id="@+id/iv_logo"
@@ -30,12 +30,15 @@
         app:layout_constraintBottom_toTopOf="@+id/tv_label"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />
 
     <TextView
         android:id="@+id/tv_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
         android:text="天外天账户登录"
         android:textColor="@color/common_lv3"
         app:layout_constraintBottom_toTopOf="@+id/guideline_1"
@@ -47,7 +50,8 @@
         android:id="@+id/iv_username"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginVertical="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
         android:src="@drawable/auth_username"
         android:tint="@color/common_lv3"
         app:layout_constraintBottom_toBottomOf="@+id/et_username"
@@ -61,19 +65,23 @@
         android:id="@+id/et_username"
         android:layout_width="240dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
         android:hint="用户名"
         android:inputType="textPersonName"
         android:lines="1"
         app:layout_constraintBottom_toTopOf="@+id/et_password"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/iv_username"
-        app:layout_constraintTop_toTopOf="@+id/guideline_1" />
+        app:layout_constraintTop_toTopOf="@+id/guideline_1"
+        app:layout_constraintVertical_chainStyle="packed" />
 
     <ImageView
         android:id="@+id/iv_password"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginVertical="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
         android:src="@drawable/auth_password"
         android:tint="@color/common_lv3"
         app:layout_constraintBottom_toBottomOf="@+id/et_password"
@@ -87,6 +95,8 @@
         android:id="@+id/et_password"
         android:layout_width="240dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
         android:hint="密码"
         android:inputType="textPassword"
         app:layout_constraintBottom_toTopOf="@+id/btn_login"
@@ -99,6 +109,8 @@
         android:id="@+id/btn_login"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="24dp"
         android:background="@drawable/auth_login_button_selector"
         android:text="登录"
         android:textColor="@color/white_color"
