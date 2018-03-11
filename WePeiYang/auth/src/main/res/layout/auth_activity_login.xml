@@ -43,7 +43,8 @@
             android:layout_centerVertical="true"
             android:layout_marginStart="5dp"
             android:layout_toEndOf="@+id/iv_username"
-            android:hint="用户名" />
+            android:hint="用户名"
+            android:singleLine="true"/>
 
     </RelativeLayout>
 
@@ -70,7 +71,8 @@
             android:layout_marginStart="5dp"
             android:layout_toEndOf="@+id/iv_password"
             android:hint="密码"
-            android:inputType="textPassword" />
+            android:inputType="textPassword"
+            android:singleLine="true"/>
 
     </RelativeLayout>
 
