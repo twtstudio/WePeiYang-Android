@@ -30,16 +30,12 @@ public class RecyclerViewDivider extends RecyclerView.ItemDecoration {
 
     public static final int HORIZONTAL = LinearLayout.HORIZONTAL;
     public static final int VERTICAL = LinearLayout.VERTICAL;
-
+    private final Rect mBounds = new Rect();
     /**
      * The divider drawable
      */
     private Drawable mDivider;
-
     private int mOrientation;
-
-    private final Rect mBounds = new Rect();
-
     private Builder mBuilder;
 
     private RecyclerViewDivider(Builder builder) {
@@ -200,6 +196,18 @@ public class RecyclerViewDivider extends RecyclerView.ItemDecoration {
             mDivider.draw(canvas);
         }
         canvas.restore();
+    }
+
+    /**
+     * Divider Style
+     */
+    @Retention(RetentionPolicy.SOURCE)
+    @IntDef({Style.BOTH, Style.START, Style.END, Style.BETWEEN})
+    public @interface Style {
+        int END = 0;
+        int START = 1;
+        int BOTH = 2;
+        int BETWEEN = 3;
     }
 
     /**
@@ -447,17 +455,5 @@ public class RecyclerViewDivider extends RecyclerView.ItemDecoration {
         public int getIntrinsicHeight() {
             return mBuilder.mSize;
         }
-    }
-
-    /**
-     * Divider Style
-     */
-    @Retention(RetentionPolicy.SOURCE)
-    @IntDef({Style.BOTH, Style.START, Style.END, Style.BETWEEN})
-    public @interface Style {
-        int END = 0;
-        int START = 1;
-        int BOTH = 2;
-        int BETWEEN = 3;
     }
 }

@@ -29,7 +29,7 @@ import java.util.*
 /**
  * Created by retrox on 26/10/2017.
  */
-class HomeLibItemComponent(private val lifecycleOwner: LifecycleOwner, itemView: View) : RecyclerView.ViewHolder(itemView) {
+class LibraryItemViewHolder(private val lifecycleOwner: LifecycleOwner, itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val context = itemView.context
     private val stateImage: ImageView = itemView.findViewById(R.id.ic_home_lib_state)
     private val stateProgressBar: ProgressBar = itemView.findViewById(R.id.progress_home_lib_state)
@@ -134,7 +134,7 @@ class HomeLibItemComponent(private val lifecycleOwner: LifecycleOwner, itemView:
         async(UI) {
             loadingState.value = PROGRESSING
 //            val data: Info? = bg { libApi.libUserInfo.map { it.data }.toBlocking().first() }.await()
-            val livedata = LibRepository.getUserInfo(isrefresh, this@HomeLibItemComponent::handleException) // 还是要自己传入异常处理闭包 绝望
+            val livedata = LibRepository.getUserInfo(isrefresh, this@LibraryItemViewHolder::handleException) // 还是要自己传入异常处理闭包 绝望
             livedata.bind(lifecycleOwner) { data ->
                 loadingState.value = OK
                 val size = data?.books?.size ?: 0
@@ -148,7 +148,7 @@ class HomeLibItemComponent(private val lifecycleOwner: LifecycleOwner, itemView:
                 bookContainer.removeAllViews()
                 bookItemViewContainer.clear()
 
-                val inflater = LayoutInflater.from(this@HomeLibItemComponent.context)
+                val inflater = LayoutInflater.from(this@LibraryItemViewHolder.context)
 
                 data?.books?.forEach {
                     bookHashMap[it.barcode] = it
@@ -209,7 +209,7 @@ class HomeLibItemComponent(private val lifecycleOwner: LifecycleOwner, itemView:
                 refresh(true)
                 val str = builder.toString()
 
-                val activity = this@HomeLibItemComponent.context as? Activity
+                val activity = this@LibraryItemViewHolder.context as? Activity
                 activity?.let {
                     //调用alerter
                     Alerter.create(activity)

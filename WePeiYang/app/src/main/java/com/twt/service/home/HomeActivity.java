@@ -20,7 +20,7 @@ import android.view.View;
 import com.orhanobut.logger.Logger;
 import com.twt.service.R;
 import com.twt.service.base.BaseActivity;
-import com.twt.service.home.common.CommonFragmentNew;
+import com.twt.service.home.common.CommonFragment;
 import com.twt.service.home.news.NewsFragment;
 import com.twt.service.home.tools.ToolsFragment;
 import com.twt.service.home.user.UserFragment;
@@ -65,7 +65,7 @@ public class HomeActivity extends BaseActivity {
         setContentView(R.layout.activity_home);
 
         if (savedInstanceState == null) {
-            mFragments[FIRST] = new CommonFragmentNew();
+            mFragments[FIRST] = new CommonFragment();
             mFragments[SECOND] = NewsFragment.newInstance();
             mFragments[THIRD] = ToolsFragment.Companion.newInstance();
             mFragments[FOURTH] = UserFragment.Companion.newInstance();
@@ -78,7 +78,7 @@ public class HomeActivity extends BaseActivity {
 
         } else {
 
-            mFragments[FIRST] = findFragment(CommonFragmentNew.class);
+            mFragments[FIRST] = findFragment(CommonFragment.class);
             mFragments[SECOND] = findFragment(NewsFragment.class);
             mFragments[THIRD] = findFragment(ToolsFragment.class);
             mFragments[FOURTH] = findFragment(UserFragment.class);

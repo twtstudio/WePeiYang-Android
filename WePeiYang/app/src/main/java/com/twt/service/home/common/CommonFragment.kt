@@ -18,7 +18,7 @@ import com.twtstudio.retrox.schedule.ScheduleActivity
 /**
  * Created by retrox on 22/10/2017.
  */
-class CommonFragmentNew : BaseFragment() {
+class CommonFragment : BaseFragment() {
 
     lateinit var recyclerview: RecyclerView
 
@@ -34,7 +34,7 @@ class CommonFragmentNew : BaseFragment() {
             layoutManager = LinearLayoutManager(this.context)
 //            layoutAnimation = animController
             adapter = CommonPageAdapter(listOf(scheduleViewModel, "GPA", "LIB"),
-                    hostActivity, this@CommonFragmentNew)
+                    hostActivity, this@CommonFragment)
 //            scheduleLayoutAnimation()
         }
 
@@ -45,7 +45,7 @@ class CommonFragmentNew : BaseFragment() {
                         .setText(coursePushBean.message)
                         .setDuration((3 * 1000).toLong())
                         .setOnClickListener {
-                            val intent = Intent(this@CommonFragmentNew.activity, ScheduleActivity::class.java)
+                            val intent = Intent(this@CommonFragment.activity, ScheduleActivity::class.java)
                             startActivity(intent)
                         }
                         .show()

@@ -32,7 +32,7 @@ public class TjuBindFragment extends SlideFragment {
     @BindView(R.id.tju_password)
     EditText passwordEdit;
     private Unbinder unbinder;
-    private boolean canMoveFuther = false;
+    private boolean canMoveFurther = false;
 
     @OnClick(R.id.btn_tju_bind)
     public void bind(View view) {
@@ -42,7 +42,7 @@ public class TjuBindFragment extends SlideFragment {
                 .observeOn(AndroidSchedulers.mainThread())
                 .doAfterTerminate(() -> AuthProvider.INSTANCE.authSelf(false, true))
                 .subscribe(responseBody -> {
-                    canMoveFuther = true;
+                    canMoveFurther = true;
                     Toast.makeText(this.getContext(), "绑定成功", Toast.LENGTH_SHORT).show();
                 }, new RxErrorHandler());
     }
@@ -51,7 +51,7 @@ public class TjuBindFragment extends SlideFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_tju_bind_slide, container, false);
-        canMoveFuther = CommonPreferences.INSTANCE.isBindTju();
+        canMoveFurther = CommonPreferences.INSTANCE.isBindTju();
         unbinder = ButterKnife.bind(this, view);
 
         return view;
@@ -70,7 +70,7 @@ public class TjuBindFragment extends SlideFragment {
 
     @Override
     public boolean canMoveFurther() {
-        return this.canMoveFuther;
+        return this.canMoveFurther;
     }
 
     @Override

@@ -1,44 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <agency.tango.materialintroscreen.parallax.ParallaxLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
 
     <TextView
-        app:layout_parallaxFactor="0.5"
-        android:text="CURRICULUM  SCHEDULE"
-        android:textSize="22sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        android:textColor="@color/colorAccent"
         android:fontFamily="sans-serif-medium"
         android:gravity="center_horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:text="CURRICULUM  SCHEDULE"
+        android:textColor="@color/colorAccent"
+        android:textSize="22sp"
+        app:layout_parallaxFactor="0.5" />
 
     <ImageView
-        app:layout_parallaxFactor="1.0"
-        android:layout_marginTop="60dp"
-        android:src="@drawable/ic_welcome_classtable"
-        android:layout_gravity="center"
-        android:visibility="visible"
         android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="60dp"
         android:scaleType="centerCrop"
-        android:layout_height="300dp" />
+        android:src="@drawable/ic_welcome_classtable"
+        android:visibility="visible"
+        app:layout_parallaxFactor="1.0" />
 
     <TextView
-        app:layout_parallaxFactor="1.0"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:gravity="center_horizontal"
-        android:layout_marginTop="60dp"
-        android:textSize="18sp"
-        android:textColor="@color/colorAccent"
-        android:fontFamily="sans-serif-regular"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
+        android:layout_marginTop="60dp"
+        android:fontFamily="sans-serif-regular"
+        android:gravity="center_horizontal"
         android:text="不只是传统课表，更有今日课程、首节课提醒等温馨功能，只为让你的学习生活更加便利"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:textColor="@color/colorAccent"
+        android:textSize="18sp"
+        app:layout_parallaxFactor="1.0" />
 
 </agency.tango.materialintroscreen.parallax.ParallaxLinearLayout>

@@ -33,7 +33,7 @@ public class LibBindFragment extends SlideFragment {
     @BindView(R.id.btn_lib_bind)
     Button button;
     private Unbinder unbinder;
-    private boolean canMoveForward = false;
+    private boolean canMoveFurther = false;
     private Context mContext;
 
     @OnClick(R.id.btn_lib_bind)
@@ -46,10 +46,10 @@ public class LibBindFragment extends SlideFragment {
         }
         new TjuLibProvider(this.getContext()).bindLibrary(integer -> {
             if (integer == -1) {
-                canMoveForward = true;
+                canMoveFurther = true;
                 Toast.makeText(this.getContext(), "图书馆绑定完成,点击底部右侧对勾开始新旅程", Toast.LENGTH_SHORT).show();
             } else if (integer == 50003) {
-                canMoveForward = true;
+                canMoveFurther = true;
                 Toast.makeText(this.getContext(), "图书馆已绑定,点击底部右侧对勾开始新旅程", Toast.LENGTH_SHORT).show();
             } else if (integer == 50002) {
                 Toast.makeText(this.getContext(), "图书馆密码错误", Toast.LENGTH_SHORT).show();
@@ -65,7 +65,7 @@ public class LibBindFragment extends SlideFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_lib_bind_slide, container, false);
-        canMoveForward = CommonPreferences.INSTANCE.isBindLibrary();
+        canMoveFurther = CommonPreferences.INSTANCE.isBindLibrary();
         unbinder = ButterKnife.bind(this, view);
         mContext = this.getContext();
         return view;
@@ -90,7 +90,7 @@ public class LibBindFragment extends SlideFragment {
     @Override
     public boolean canMoveFurther() {
         // TODO: 14/03/2017 强制绑定？？？
-//        return this.canMoveForward;
+//        return this.canMoveFurther;
         return true;
     }
 
