@@ -19,14 +19,11 @@ object CommonContext {
 
     val application: Application
         get() = applicationReference?.get()
-                ?: throw IllegalStateException("Application should be registered.")
-
-    val applicationContext: Context
-        get() = application
+                ?: throw IllegalStateException("Application should be registered in CommonContext.")
 
     val applicationVersion: String by lazy {
-        applicationContext.packageManager
-                .getPackageInfo(applicationContext.packageName, 0).versionName
+        this.application.packageManager
+                .getPackageInfo(this.application.packageName, 0).versionName
     }
 
     private var activityClasses: MutableMap<String, Class<out Activity>> = mutableMapOf()
@@ -35,10 +32,11 @@ object CommonContext {
         activityClasses[name] = clazz
     }
 
-    fun startActivity(context: Context = applicationContext, name: String, block: Intent.() -> Unit = {}) =
+    fun startActivity(context: Context = this.application, name: String, block: Intent.() -> Unit = {}) =
             activityClasses[name]?.let {
                 context.startActivity(Intent(context, it).apply(block))
-            } ?: throw IllegalStateException("Activity class $name should be registered.")
+            }
+                    ?: throw IllegalStateException("Activity $name should be registered in CommonContext.")
 
 }
 

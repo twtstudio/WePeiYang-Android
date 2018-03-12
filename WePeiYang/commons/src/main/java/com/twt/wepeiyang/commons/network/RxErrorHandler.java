@@ -35,7 +35,7 @@ public class RxErrorHandler implements Action1<Throwable> {
     }
 
     public RxErrorHandler() {
-        mContext = CommonContext.INSTANCE.getApplicationContext();
+        mContext = CommonContext.INSTANCE.getApplication();
     }
 
     public static void showToast(Context context, String desc) {

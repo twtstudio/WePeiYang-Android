@@ -55,14 +55,14 @@ public class RetrofitProvider {
                 .retryOnConnectionFailure(true)
                 .connectTimeout(30, TimeUnit.SECONDS);
 
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(CommonContext.INSTANCE.getApplicationContext());
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(CommonContext.INSTANCE.getApplication());
         boolean isUseProxy = sharedPreferences.getBoolean("pref_use_proxy", false);
         if (isUseProxy) {
             try {
                 clientbuilder.proxy(new Proxy(Proxy.Type.HTTP, new InetSocketAddress(CommonPreferences.INSTANCE.getProxyAddress(), CommonPreferences.INSTANCE.getProxyPort())));
             } catch (Exception e) {
                 Log.e("NetworkProxy", CommonPreferences.INSTANCE.getProxyAddress() + ":" + CommonPreferences.INSTANCE.getProxyPort());
-                Toast.makeText(CommonContext.INSTANCE.getApplicationContext(), "老哥你代理配烂了... " + CommonPreferences.INSTANCE.getProxyAddress() + ":" + CommonPreferences.INSTANCE.getProxyPort(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(CommonContext.INSTANCE.getApplication(), "老哥你代理配烂了... " + CommonPreferences.INSTANCE.getProxyAddress() + ":" + CommonPreferences.INSTANCE.getProxyPort(), Toast.LENGTH_SHORT).show();
             }
         }
 

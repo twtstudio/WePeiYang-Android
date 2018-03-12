@@ -46,7 +46,7 @@ public class DiskCache implements ICache {
     private File fileDir;
 
     public DiskCache() {
-        fileDir = CommonContext.INSTANCE.getApplicationContext().getCacheDir();
+        fileDir = CommonContext.INSTANCE.getApplication().getCacheDir();
     }
 
 
@@ -130,7 +130,7 @@ public class DiskCache implements ICache {
         if (isLongTimeData(getKey(dataFile))) {
             isFailure = false;
         } else {
-            if (NetworkUtils.getNetworkType(CommonContext.INSTANCE.getApplicationContext()) == NetworkUtils.NetworkType.NETWORK_WIFI) {
+            if (NetworkUtils.getNetworkType(CommonContext.INSTANCE.getApplication()) == NetworkUtils.NetworkType.NETWORK_WIFI) {
                 isFailure = existTime > WIFI_CACHE_TIME;
             } else {
                 isFailure = existTime > OTHER_CACHE_TIME;

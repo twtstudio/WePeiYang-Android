@@ -11,7 +11,7 @@ import android.widget.Toast;
 import com.twt.service.R;
 import com.twt.wepeiyang.commons.experimental.CommonPreferences;
 import com.twt.wepeiyang.commons.network.RxErrorHandler;
-import com.twtstudio.retrox.auth.api.AuthProvider;
+import com.twtstudio.retrox.auth.service.AuthProvider;
 
 import agency.tango.materialintroscreen.SlideFragment;
 import butterknife.BindView;
@@ -36,7 +36,7 @@ public class TjuBindFragment extends SlideFragment {
 
     @OnClick(R.id.btn_tju_bind)
     public void bind(View view) {
-        RealAuthApi.INSTANCE
+        RealBindAndDropOutService.INSTANCE
                 .bindTju(numEdit.getText().toString(), passwordEdit.getText().toString())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

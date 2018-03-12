@@ -25,7 +25,7 @@ import com.twt.service.update.UpdateManager;
 import com.twt.wepeiyang.commons.cache.CacheProvider;
 import com.twt.wepeiyang.commons.experimental.CommonPreferences;
 import com.twt.wepeiyang.commons.network.RxErrorHandler;
-import com.twtstudio.retrox.auth.api.AuthProvider;
+import com.twtstudio.retrox.auth.service.AuthProvider;
 import com.twtstudio.retrox.bike.service.BikeServiceProvider;
 import com.twtstudio.retrox.tjulibrary.provider.TjuLibProvider;
 
@@ -138,7 +138,7 @@ public class SettingsActivity extends AppCompatActivity {
 
                                         Toast.makeText(mContext, "正在办理...", Toast.LENGTH_SHORT).show();
 
-                                        RealAuthApi.INSTANCE
+                                        RealBindAndDropOutService.INSTANCE
                                                 .dropOut(which + 1)
                                                 .subscribeOn(Schedulers.io())
                                                 .observeOn(AndroidSchedulers.mainThread())
@@ -189,7 +189,7 @@ public class SettingsActivity extends AppCompatActivity {
                                     public void onClick(DialogInterface dialog, int which) {
                                         Toast.makeText(mContext, "正在办理...", Toast.LENGTH_SHORT).show();
 
-                                        RealAuthApi.INSTANCE
+                                        RealBindAndDropOutService.INSTANCE
                                                 .dropOut(0)
                                                 .subscribeOn(Schedulers.io())
                                                 .observeOn(AndroidSchedulers.mainThread())
@@ -279,7 +279,7 @@ public class SettingsActivity extends AppCompatActivity {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     if (CommonPreferences.INSTANCE.isBindTju()) {
-                                        RealAuthApi.INSTANCE
+                                        RealBindAndDropOutService.INSTANCE
                                                 .unbindTju(CommonPreferences.INSTANCE.getTwtuname())
                                                 .subscribeOn(Schedulers.io())
                                                 .observeOn(AndroidSchedulers.mainThread())

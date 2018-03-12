@@ -1,6 +1,8 @@
-package com.twt.wepeiyang.commons.experimental.network
+package com.twt.wepeiyang.commons.experimental.service
 
-import retrofit2.Call
+import com.twt.wepeiyang.commons.experimental.network.CommonBody
+import com.twt.wepeiyang.commons.experimental.network.ServiceFactory
+import kotlinx.coroutines.experimental.Deferred
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -11,16 +13,13 @@ import retrofit2.http.Query
 interface AuthService {
 
     @GET("v1/auth/token/get")
-    fun getToken(@Query("twtuname") twtuname: String, @Query("twtpasswd") twtpasswd: String): Call<CommonBody<Token>>
+    fun getToken(@Query("twtuname") twtuname: String, @Query("twtpasswd") twtpasswd: String): Deferred<CommonBody<Token>>
 
     @GET("v2/auth/self")
-    fun authSelf(): Call<AuthSelfBean>
+    fun authSelf(): Deferred<AuthSelfBean>
 
     @GET("v1/auth/token/refresh")
-    fun refreshToken(): Call<CommonBody<Token>>
-
-    @GET("v1/auth/dropout")
-    fun dropOut(@Query("mode") mode: Int): Call<CommonBody<String>>
+    fun refreshToken(): Deferred<CommonBody<Token>>
 
 }
 

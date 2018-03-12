@@ -31,7 +31,7 @@ public class BikeStationUtils {
 
 
     private BikeStationUtils() {
-        InputStream is = CommonContext.INSTANCE.getApplicationContext().getResources().openRawResource(R.raw.detail);
+        InputStream is = CommonContext.INSTANCE.getApplication().getResources().openRawResource(R.raw.detail);
         String detailJsonString = null;
         try {
             detailJsonString = IOUtils.toString(is);
@@ -86,7 +86,7 @@ public class BikeStationUtils {
     }
 
     public List<MarkerOptions> getStationsBrief() {
-        InputStream is = CommonContext.INSTANCE.getApplicationContext().getResources().openRawResource(R.raw.brief);
+        InputStream is = CommonContext.INSTANCE.getApplication().getResources().openRawResource(R.raw.brief);
         String briefJsonString = null;
         try {
             briefJsonString = IOUtils.toString(is);

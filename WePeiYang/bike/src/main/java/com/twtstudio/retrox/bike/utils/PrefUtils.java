@@ -35,7 +35,7 @@ public class PrefUtils {
     private static final String PREF_SCHEDULE_START_DATE = "schedule_start_date";
 
     private static SharedPreferences getDefaultSharedPreferences() {
-        return PreferenceManager.getDefaultSharedPreferences(CommonContext.INSTANCE.getApplicationContext());
+        return PreferenceManager.getDefaultSharedPreferences(CommonContext.INSTANCE.getApplication());
     }
 
     /**

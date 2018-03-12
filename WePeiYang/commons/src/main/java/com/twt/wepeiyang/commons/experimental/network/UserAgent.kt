@@ -7,10 +7,8 @@ import okhttp3.Request
 import okhttp3.Response
 
 /**
- * Created by rickygao on 2018/3/5.
+ * User-Agent's format: "$ApplicationName/$ApplicationVersion($Device; $OS $OSVersion)"
  */
-
-// ApplicationName/ApplicationVersion(DeviceModel; OS OSVersion)
 internal val userAgent = "WePeiYang/${CommonContext.applicationVersion} (${Build.BRAND} ${Build.PRODUCT}; Android ${Build.VERSION.SDK_INT})"
 
 internal val Request.uaed: Request

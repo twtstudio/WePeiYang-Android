@@ -17,7 +17,7 @@ public class CacheProvider {
 
     private CacheProvider() {
         mRxCache = new RxCache.Builder()
-                .persistence(CommonContext.INSTANCE.getApplicationContext().getCacheDir(), new GsonSpeaker());
+                .persistence(CommonContext.INSTANCE.getApplication().getCacheDir(), new GsonSpeaker());
     }
 
     public static RxCache getRxCache() {
@@ -25,7 +25,7 @@ public class CacheProvider {
     }
 
     public static void clearCache() {
-        File[] files = CommonContext.INSTANCE.getApplicationContext().getCacheDir().listFiles();
+        File[] files = CommonContext.INSTANCE.getApplication().getCacheDir().listFiles();
         for (File file : files) {
             file.delete();
         }

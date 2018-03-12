@@ -4,6 +4,7 @@ import android.arch.lifecycle.LifecycleOwner
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.Transformations
+import kotlinx.coroutines.experimental.Deferred
 
 /**
  * Created by rickygao on 2017/11/14.
@@ -26,4 +27,8 @@ data class ConsumableMessage<out T>(val message: T, val from: Int = ANY, var con
     companion object {
         const val ANY = -1
     }
+}
+
+suspend fun <T> Deferred<T>.awaitOrHandle(handler: (Exception) -> Unit) {
+    this.invokeOnCompletion { }
 }

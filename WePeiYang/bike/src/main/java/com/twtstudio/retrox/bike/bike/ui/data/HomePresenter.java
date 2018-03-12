@@ -29,7 +29,7 @@ public class HomePresenter extends Presenter {
                 CommonPreferences.INSTANCE.setBindBike(true);
             } else {
                 CommonPreferences.INSTANCE.setBindBike(false);
-                Toasty.warning(CommonContext.INSTANCE.getApplicationContext(), "请绑定自行车卡", Toast.LENGTH_SHORT).show();
+                Toasty.warning(CommonContext.INSTANCE.getApplication(), "请绑定自行车卡", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(mContext, BikeAuthActivity.class);
                 mContext.startActivity(intent);
             }

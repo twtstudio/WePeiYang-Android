@@ -11,10 +11,10 @@ import com.twt.wepeiyang.commons.experimental.CommonContext;
  */
 public class UserAgent {
     public static String getAppVersion() {
-        PackageManager packageManager = CommonContext.INSTANCE.getApplicationContext().getPackageManager();
+        PackageManager packageManager = CommonContext.INSTANCE.getApplication().getPackageManager();
         PackageInfo packInfo = null;
         try {
-            packInfo = packageManager.getPackageInfo(CommonContext.INSTANCE.getApplicationContext().getPackageName(), 0);
+            packInfo = packageManager.getPackageInfo(CommonContext.INSTANCE.getApplication().getPackageName(), 0);
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }

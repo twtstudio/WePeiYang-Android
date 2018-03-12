@@ -10,14 +10,14 @@ import com.twt.wepeiyang.commons.experimental.CommonContext;
  */
 public class ResourceHelper {
     public static int getColor(int colorId) {
-        return CommonContext.INSTANCE.getApplicationContext().getResources().getColor(colorId);
+        return CommonContext.INSTANCE.getApplication().getResources().getColor(colorId);
     }
 
     public static Drawable getDrawable(int drawableId) {
-        return CommonContext.INSTANCE.getApplicationContext().getResources().getDrawable(drawableId);
+        return CommonContext.INSTANCE.getApplication().getResources().getDrawable(drawableId);
     }
 
     public static String getString(int stringId) {
-        return CommonContext.INSTANCE.getApplicationContext().getResources().getString(stringId);
+        return CommonContext.INSTANCE.getApplication().getResources().getString(stringId);
     }
 }

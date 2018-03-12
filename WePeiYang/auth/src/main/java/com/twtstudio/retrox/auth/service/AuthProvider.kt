@@ -1,12 +1,12 @@
-package com.twtstudio.retrox.auth.api
+package com.twtstudio.retrox.auth.service
 
 import android.arch.lifecycle.MutableLiveData
 import com.orhanobut.hawk.Hawk
 import com.tencent.bugly.crashreport.CrashReport
 import com.twt.wepeiyang.commons.experimental.CommonPreferences
 import com.twt.wepeiyang.commons.experimental.extensions.ConsumableMessage
-import com.twt.wepeiyang.commons.experimental.network.AuthSelfBean
-import com.twt.wepeiyang.commons.experimental.network.RealAuthService
+import com.twt.wepeiyang.commons.experimental.service.AuthSelfBean
+import com.twt.wepeiyang.commons.experimental.service.RealAuthService
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
 import org.jetbrains.anko.coroutines.experimental.bg
@@ -24,11 +24,9 @@ object AuthProvider {
     const val FROM_LOGIN = 0
     fun login(username: String, password: String, silent: Boolean = false) {
         async(UI) {
-            val remote = bg {
-                RealAuthService.getToken(username, password).execute().body()?.data
-            }
+            val remote = RealAuthService.getToken(username, password)
 
-            remote.await()?.let {
+            remote.await().data?.let {
                 CommonPreferences.token = it.token
                 CommonPreferences.isLogin = true
                 CommonPreferences.isFirstLogin = false
@@ -49,9 +47,7 @@ object AuthProvider {
 
         async(UI) {
 
-            val remote = bg {
-                RealAuthService.authSelf().execute().body()
-            }
+            val remote = RealAuthService.authSelf()
 
             if (useCache) {
                 bg {
@@ -68,7 +64,7 @@ object AuthProvider {
                 }
             }
 
-            remote.await()?.let {
+            remote.await().let {
                 authSelfLiveData.value = it
 
                 CommonPreferences.twtuname = it.twtuname
