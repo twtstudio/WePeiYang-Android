@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:text="占位"
+        android:text="新闻以及其他模块正在重构中… 需要的话请用稳定版"
         android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
