@@ -39,9 +39,7 @@ object CommonContext {
     }
 
     fun startActivity(context: Context = this.application, name: String, block: Intent.() -> Unit = {}) =
-            activityClasses[name]?.let {
-                context.startActivity(Intent(context, it).apply(block))
-            }
+            activityClasses[name]?.let { context.startActivity(Intent(context, it).apply(block)) }
                     ?: throw IllegalStateException("Activity $name should be registered in CommonContext.")
 
 }

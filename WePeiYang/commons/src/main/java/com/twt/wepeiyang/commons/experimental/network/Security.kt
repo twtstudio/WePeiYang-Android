@@ -7,11 +7,11 @@ internal inline val Request.isTrusted: Boolean
     get() = url().host() == ServiceFactory.TRUSTED_HOST
 
 /**
- * A wrapped interceptor only applied to isTrusted request.
+ * A wrapped interceptor only applied to trusted request.
  *
  * @see ServiceFactory
  */
-internal inline val Interceptor.forTrusted: Interceptor
+internal val Interceptor.forTrusted: Interceptor
     get() = Interceptor {
         if (it.request().isTrusted) intercept(it)
         else it.proceed(it.request())
