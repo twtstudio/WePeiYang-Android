@@ -4,6 +4,9 @@ import android.app.Activity
 import android.app.Application
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
+import com.orhanobut.hawk.Hawk
+import org.jetbrains.anko.defaultSharedPreferences
 import java.lang.ref.WeakReference
 
 /**
@@ -15,6 +18,7 @@ object CommonContext {
 
     fun registerApplication(application: Application) {
         applicationReference = WeakReference(application)
+        Hawk.init(application).build()
     }
 
     val application: Application
@@ -22,9 +26,11 @@ object CommonContext {
                 ?: throw IllegalStateException("Application should be registered in CommonContext.")
 
     val applicationVersion: String by lazy {
-        this.application.packageManager
+        application.packageManager
                 .getPackageInfo(this.application.packageName, 0).versionName
     }
+
+    val defaultSharedPreferences: SharedPreferences by lazy { application.defaultSharedPreferences }
 
     private var activityClasses: MutableMap<String, Class<out Activity>> = mutableMapOf()
 

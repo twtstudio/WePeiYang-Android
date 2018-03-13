@@ -12,7 +12,7 @@ import android.support.annotation.Nullable;
 
 import com.twt.service.base.BaseActivity;
 import com.twt.service.home.HomeActivity;
-import com.twt.wepeiyang.commons.experimental.CommonPreferences;
+import com.twt.wepeiyang.commons.experimental.preferences.CommonPreferences;
 import com.twtstudio.retrox.auth.view.LoginActivity;
 
 import java.util.Arrays;

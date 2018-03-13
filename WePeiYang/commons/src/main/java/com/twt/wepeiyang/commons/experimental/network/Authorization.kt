@@ -2,7 +2,7 @@ package com.twt.wepeiyang.commons.experimental.network
 
 import com.orhanobut.logger.Logger
 import com.twt.wepeiyang.commons.experimental.CommonContext
-import com.twt.wepeiyang.commons.experimental.CommonPreferences
+import com.twt.wepeiyang.commons.experimental.preferences.CommonPreferences
 import com.twt.wepeiyang.commons.experimental.service.RealAuthService
 import kotlinx.coroutines.experimental.runBlocking
 import okhttp3.*

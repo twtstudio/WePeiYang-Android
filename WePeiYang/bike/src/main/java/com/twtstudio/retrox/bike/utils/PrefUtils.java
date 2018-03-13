@@ -4,7 +4,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import com.twt.wepeiyang.commons.experimental.CommonContext;
-import com.twt.wepeiyang.commons.experimental.CommonPreferences;
+import com.twt.wepeiyang.commons.experimental.preferences.CommonPreferences;
 
 /**
  * Created by Rex on 2015/8/3.

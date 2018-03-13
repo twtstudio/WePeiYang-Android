@@ -7,9 +7,4 @@ import me.yokeyword.fragmentation.SupportActivity;
  */
 
 public class BaseActivity extends SupportActivity {
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
 }

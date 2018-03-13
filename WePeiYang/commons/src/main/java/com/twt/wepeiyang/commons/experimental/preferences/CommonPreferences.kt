@@ -1,22 +1,9 @@
-package com.twt.wepeiyang.commons.experimental
+package com.twt.wepeiyang.commons.experimental.preferences
 
 import com.orhanobut.hawk.Hawk
-import kotlin.properties.ReadWriteProperty
-import kotlin.reflect.KProperty
-
-
-fun <T> hawk(key: String, default: T) = object : ReadWriteProperty<Any?, T> {
-
-    override operator fun getValue(thisRef: Any?, property: KProperty<*>): T = Hawk.get(key, default)
-
-    override operator fun setValue(thisRef: Any?, property: KProperty<*>, value: T) {
-        Hawk.put(key, value)
-    }
-
-}
 
 /**
- * A persistent preferences' holder using Hawk.
+ * A persistent preferences' holder using Hawk or defaultSharedPreferences.
  */
 object CommonPreferences {
 
@@ -47,6 +34,14 @@ object CommonPreferences {
     var proxyAddress by hawk("proxy_address", "")
 
     var proxyPort by hawk("proxy_port", 0)
+
+    var isDisplayGpa by shared("pref_is_display_gpa", true)
+
+    var isDisplayBike by shared("pref_is_display_bike", true)
+
+    var isShowTodayCourse by shared("pref_is_show_today_course", true)
+
+    var isAutoCheckUpdate by shared("pref_is_auto_check_update", true)
 
     fun clear() = Hawk.deleteAll()
 

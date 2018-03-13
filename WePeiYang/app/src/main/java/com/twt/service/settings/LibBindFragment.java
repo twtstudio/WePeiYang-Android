@@ -12,7 +12,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.twt.service.R;
-import com.twt.wepeiyang.commons.experimental.CommonPreferences;
+import com.twt.wepeiyang.commons.experimental.preferences.CommonPreferences;
 import com.twtstudio.retrox.auth.service.AuthProvider;
 import com.twtstudio.retrox.tjulibrary.provider.TjuLibProvider;
 

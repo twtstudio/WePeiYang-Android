@@ -16,8 +16,8 @@ import com.twt.service.R
 import com.twt.service.base.BaseFragment
 import com.twt.service.settings.SettingsActivity
 import com.twt.wepeiyang.commons.cache.CacheProvider
-import com.twt.wepeiyang.commons.experimental.CommonPreferences
 import com.twt.wepeiyang.commons.experimental.extensions.map
+import com.twt.wepeiyang.commons.experimental.preferences.CommonPreferences
 import com.twt.wepeiyang.commons.view.RecyclerViewDivider
 import com.twtstudio.retrox.auth.service.AuthProvider
 import com.twtstudio.retrox.auth.view.LoginActivity

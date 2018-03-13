@@ -1,10 +1,8 @@
 package com.twt.service
 
 import android.support.multidex.MultiDexApplication
-
 import com.github.piasy.biv.BigImageViewer
 import com.github.piasy.biv.loader.glide.GlideImageLoader
-import com.orhanobut.hawk.Hawk
 import com.tencent.bugly.Bugly
 import com.tencent.bugly.crashreport.CrashReport
 import com.twt.service.welcome.WelcomeActivity
@@ -30,7 +28,6 @@ class WePeiYangApp : MultiDexApplication() {
             Bugly.init(it, "8ceee186f2", false)
             CrashReport.setAppChannel(it, "公测分发")
             CrashReport.setIsDevelopmentDevice(it, BuildConfig.DEBUG)
-            Hawk.init(it).build()
             BigImageViewer.initialize(GlideImageLoader.with(it))
         }
 

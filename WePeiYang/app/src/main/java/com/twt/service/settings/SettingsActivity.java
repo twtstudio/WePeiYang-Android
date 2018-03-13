@@ -23,7 +23,7 @@ import com.twt.service.R;
 import com.twt.service.home.HomeActivity;
 import com.twt.service.update.UpdateManager;
 import com.twt.wepeiyang.commons.cache.CacheProvider;
-import com.twt.wepeiyang.commons.experimental.CommonPreferences;
+import com.twt.wepeiyang.commons.experimental.preferences.CommonPreferences;
 import com.twt.wepeiyang.commons.network.RxErrorHandler;
 import com.twtstudio.retrox.auth.service.AuthProvider;
 import com.twtstudio.retrox.bike.service.BikeServiceProvider;
@@ -409,7 +409,7 @@ public class SettingsActivity extends AppCompatActivity {
                 }
             });
 
-            Preference contact = findPreference(getString(R.string.perf_contact_me));
+            Preference contact = findPreference(getString(R.string.pref_contact_me));
             contact.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {

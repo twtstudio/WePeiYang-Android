@@ -1,23 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="pref_is_display_gpa">pref_is_display_gpa</string>
+    <string name="pref_is_display_bike">pref_is_display_bike</string>
+    <string name="pref_is_show_today_course">pref_is_show_today_course</string>
+    <string name="pref_is_auto_check_update">pref_is_auto_check_update</string>
+    <string name="pref_use_https">pref_use_https</string>
+    <string name="pref_use_proxy">pref_use_proxy</string>
     <string name="pref_is_bind_lib">pref_is_bind_lib</string>
     <string name="pref_is_bind_tju">pref_is_bind_tju</string>
     <string name="pref_is_bind_bike">pref_is_bind_bike</string>
     <string name="pref_like_buildings">pref_like_buildings</string>
-    <string name="pref_is_display_bike">pref_is_display_bike</string>
     <string name="pref_is_switch_news_source">pref_is_switch_news_source</string>
     <string name="pref_bind_settings">pref_bind_settings</string>
     <string name="pref_log_out">pref_log_out</string>
-    <string name="pref_is_show_today_course">pref_is_show_today_course</string>
     <string name="pref_is_exit_tju">pref_is_exit_tju</string>
     <string name="pref_dev_talking">pref_dev_talking</string>
     <string name="pref_feedback">pref_feedback</string>
-    <string name="perf_contact_me">pref_contact_me</string>
-    <string name="pref_is_auto_check_update">pref_is_auto_check_update</string>
+    <string name="pref_contact_me">pref_contact_me</string>
     <string name="pref_check_update">pref_check_update</string>
-    <string name="pref_use_https">pref_use_https</string>
-    <string name="pref_use_proxy">pref_use_proxy</string>
     <string name="pref_proxy_settings">pref_proxy_settings</string>
-
 </resources>

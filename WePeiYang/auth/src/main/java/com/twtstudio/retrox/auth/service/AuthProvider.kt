@@ -3,8 +3,8 @@ package com.twtstudio.retrox.auth.service
 import android.arch.lifecycle.MutableLiveData
 import com.orhanobut.hawk.Hawk
 import com.tencent.bugly.crashreport.CrashReport
-import com.twt.wepeiyang.commons.experimental.CommonPreferences
 import com.twt.wepeiyang.commons.experimental.extensions.ConsumableMessage
+import com.twt.wepeiyang.commons.experimental.preferences.CommonPreferences
 import com.twt.wepeiyang.commons.experimental.service.AuthSelfBean
 import com.twt.wepeiyang.commons.experimental.service.RealAuthService
 import kotlinx.coroutines.experimental.android.UI

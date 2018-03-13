@@ -17,7 +17,7 @@ import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.twt.service.R;
 import com.twt.service.home.HomeActivity;
 import com.twt.wepeiyang.commons.cache.CacheProvider;
-import com.twt.wepeiyang.commons.experimental.CommonPreferences;
+import com.twt.wepeiyang.commons.experimental.preferences.CommonPreferences;
 import com.twt.wepeiyang.commons.network.RetrofitProvider;
 import com.twt.wepeiyang.commons.network.RxErrorHandler;
 import com.twtstudio.retrox.schedule.ScheduleActivity;

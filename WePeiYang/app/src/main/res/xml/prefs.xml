@@ -20,8 +20,8 @@
     <PreferenceCategory android:title="主页设置">
 
         <SwitchPreference
-            android:key="@string/pref_is_display_gpa"
             android:defaultValue="false"
+            android:key="@string/pref_is_display_gpa"
             android:summaryOff="算了我拒绝看那种东西"
             android:summaryOn="老夫就是要刺激"
             android:title="主页显示GPA" />
@@ -60,12 +60,12 @@
 
     <PreferenceCategory android:title="关于微北洋">
         <SwitchPreference
-            android:title="自动更新"
-            android:key="@string/pref_is_auto_check_update"/>
+            android:key="@string/pref_is_auto_check_update"
+            android:title="自动更新" />
         <Preference
             android:key="@string/pref_check_update"
-            android:title="检查更新"
-            android:summary="瞅瞅微北洋有没有新版本"/>
+            android:summary="瞅瞅微北洋有没有新版本"
+            android:title="检查更新" />
         <Preference
             android:key="@string/pref_dev_talking"
             android:summary="微北洋开发血泪史"
@@ -75,23 +75,23 @@
             android:summary="到移动客户端版块，说出你的故事"
             android:title="意见反馈"/>
         <Preference
-            android:key="@string/perf_contact_me"
-            android:title="联系我"
-            android:summary="mobile@twtstudio.com"/>
+            android:key="@string/pref_contact_me"
+            android:summary="mobile@twtstudio.com"
+            android:title="联系我" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="别乱动(需要重启app)">
         <SwitchPreference
             android:defaultValue="true"
-            android:title="使用HTTPS"
-            android:key="@string/pref_use_https"/>
+            android:key="@string/pref_use_https"
+            android:title="使用HTTPS" />
         <SwitchPreference
             android:defaultValue="false"
-            android:title="使用代理"
-            android:key="@string/pref_use_proxy"/>
+            android:key="@string/pref_use_proxy"
+            android:title="使用代理" />
         <Preference
-            android:title="代理设置"
-            android:key="@string/pref_proxy_settings"/>
+            android:key="@string/pref_proxy_settings"
+            android:title="代理设置" />
 
     </PreferenceCategory>
 
