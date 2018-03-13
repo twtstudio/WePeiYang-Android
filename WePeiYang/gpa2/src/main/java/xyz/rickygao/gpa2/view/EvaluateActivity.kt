@@ -78,16 +78,12 @@ class EvaluateActivity : AppCompatActivity() {
         noteEt = findViewById(R.id.et_note)
 
         GpaProvider.successLiveData.consume(this) {
-            it?.let {
-                Toasty.success(this, it).show()
-                finish()
-            }
+            Toasty.success(this, it).show()
+            finish()
         }
 
         GpaProvider.errorLiveData.consume(this) {
-            it?.let {
-                Toasty.error(this, it).show()
-            }
+            Toasty.error(this, it).show()
         }
     }
 

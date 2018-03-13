@@ -40,29 +40,21 @@ class LoginActivity : AppCompatActivity() {
         }
 
         AuthProvider.successLiveData.consume(this, from = AuthProvider.FROM_LOGIN) {
-            it?.let {
-                Toasty.success(this, it).show()
-
-                AuthProvider.authSelf()
-            }
+            Toasty.success(this, it).show()
+            AuthProvider.authSelf()
         }
 
         AuthProvider.successLiveData.consume(this, from = AuthProvider.FROM_AUTH_SELF) {
-            it?.let {
-                Toasty.success(this, it).show()
-                loginPb.visibility = View.INVISIBLE
-
-                startActivity(name = "welcome")
-                finish()
-            }
+            Toasty.success(this, it).show()
+            loginPb.visibility = View.INVISIBLE
+            startActivity(name = "welcome")
+            finish()
         }
 
         AuthProvider.errorLiveData.consume(this) {
-            it?.let {
-                Toasty.error(this, it).show()
-                loginPb.visibility = View.INVISIBLE
-                loginBtn.isEnabled = true
-            }
+            Toasty.error(this, it).show()
+            loginPb.visibility = View.INVISIBLE
+            loginBtn.isEnabled = true
         }
 
     }

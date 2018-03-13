@@ -3,7 +3,7 @@ package com.twt.wepeiyang.commons.experimental.network
 import okhttp3.Interceptor
 import okhttp3.Request
 
-internal val Request.isTrusted: Boolean
+internal inline val Request.isTrusted: Boolean
     get() = url().host() == ServiceFactory.TRUSTED_HOST
 
 /**
@@ -11,7 +11,7 @@ internal val Request.isTrusted: Boolean
  *
  * @see ServiceFactory
  */
-internal val Interceptor.forTrusted: Interceptor
+internal inline val Interceptor.forTrusted: Interceptor
     get() = Interceptor {
         if (it.request().isTrusted) intercept(it)
         else it.proceed(it.request())

@@ -58,13 +58,13 @@ fun Activity.enableLightStatusBarMode(enable: Boolean): String {
     return "None"
 }
 
-val Activity.statusBarHeight
+inline val Activity.statusBarHeight
     get() = resources.getIdentifier("status_bar_height", "dimen", "android")
             .takeIf { it > 0 }?.let {
                 resources.getDimensionPixelSize(it)
             } ?: 0
 
-val Activity.navigationBarHeight
+inline val Activity.navigationBarHeight
     get() = resources.getIdentifier("navigation_bar_height", "dimen", "android")
             .takeIf { it > 0 }?.let {
                 resources.getDimensionPixelSize(it)

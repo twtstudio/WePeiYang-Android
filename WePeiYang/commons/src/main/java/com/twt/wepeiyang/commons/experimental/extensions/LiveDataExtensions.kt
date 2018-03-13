@@ -4,31 +4,39 @@ import android.arch.lifecycle.LifecycleOwner
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.Transformations
-import kotlinx.coroutines.experimental.Deferred
 
-/**
- * Created by rickygao on 2017/11/14.
- */
-fun <T, U> LiveData<T>.map(func: (T) -> U): LiveData<U> = Transformations.map(this, func)
+inline fun <T, U> LiveData<T>.map(crossinline func: (T) -> U): LiveData<U> =
+        Transformations.map(this, { func(it) })
 
-fun <T, U> LiveData<T>.switchMap(func: (T) -> LiveData<U>): LiveData<U> = Transformations.switchMap(this, func)
+inline fun <T, U> LiveData<T>.switchMap(crossinline func: (T) -> LiveData<U>): LiveData<U> =
+        Transformations.switchMap(this, { func(it) })
 
-fun <T> LiveData<T>.bind(lifecycleOwner: LifecycleOwner, block: (T?) -> Unit) = observe(lifecycleOwner, Observer(block))
+inline fun <T> LiveData<T>.bind(lifecycleOwner: LifecycleOwner, crossinline block: (T?) -> Unit) =
+        observe(lifecycleOwner, Observer { block(it) })
 
-fun <T> LiveData<ConsumableMessage<T>>.consume(lifecycleOwner: LifecycleOwner, from: Int = ConsumableMessage.ANY, block: (T?) -> Unit) =
+inline fun <T> LiveData<T>.bindNonNull(lifecycleOwner: LifecycleOwner, crossinline block: (T?) -> Unit) =
+        observe(lifecycleOwner, Observer { it?.let(block) })
+
+inline fun <T> LiveData<ConsumableMessage<T>>.consume(lifecycleOwner: LifecycleOwner, from: Int, crossinline block: (T) -> Unit) =
         observe(lifecycleOwner, Observer {
-            if (it?.consumed == false && (ConsumableMessage.ANY == from || it.from == from)) {
-                it.consumed = true
+            if (it?.isConsumed == false && it.from == from) {
+                it.isConsumed = true
                 block(it.message)
             }
         })
 
-data class ConsumableMessage<out T>(val message: T, val from: Int = ANY, var consumed: Boolean = false) {
-    companion object {
-        const val ANY = -1
-    }
+inline fun <T> LiveData<ConsumableMessage<T>>.consume(lifecycleOwner: LifecycleOwner, crossinline block: (T) -> Unit) =
+        observe(lifecycleOwner, Observer {
+            if (it?.isConsumed == false) {
+                it.isConsumed = true
+                block(it.message)
+            }
+        })
+
+data class ConsumableMessage<out T>(val message: T, val from: Int = FROM_ANY) {
+
+    var isConsumed: Boolean = false
+
 }
 
-suspend fun <T> Deferred<T>.awaitOrHandle(handler: (Exception) -> Unit) {
-    this.invokeOnCompletion { }
-}
+const val FROM_ANY = -1

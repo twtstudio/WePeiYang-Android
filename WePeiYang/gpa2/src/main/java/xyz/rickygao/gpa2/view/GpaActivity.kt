@@ -199,15 +199,11 @@ class GpaActivity : AppCompatActivity() {
         }
 
         GpaProvider.successLiveData.consume(this) {
-            it?.let {
-                Toasty.success(this, it).show()
-            }
+            Toasty.success(this, it).show()
         }
 
         GpaProvider.errorLiveData.consume(this) {
-            it?.let {
-                Toasty.error(this, it).show()
-            }
+            Toasty.error(this, it).show()
         }
 
     }

@@ -14,7 +14,7 @@ internal typealias ParamsMap = Map<String, String>
  */
 internal inline fun <T> usingTimeStamp(crossinline block: (String) -> T) = Calendar.getInstance().timeInMillis.toString().let(block)
 
-internal val ParamsMap.timeStampAndSignature
+internal inline val ParamsMap.timeStampAndSignature
     get() = usingTimeStamp { t ->
         toSortedMap().apply {
             // put timestamp into params map
@@ -28,12 +28,12 @@ internal val ParamsMap.timeStampAndSignature
         }
     }
 
-internal val HttpUrl.queryMap: ParamsMap
+internal inline val HttpUrl.queryMap: ParamsMap
     get() = (0 until querySize()).associate {
         queryParameterName(it) to queryParameterValue(it)
     }
 
-internal val FormBody.fieldMap: ParamsMap
+internal inline val FormBody.fieldMap: ParamsMap
     get() = (0 until size()).associate {
         name(it) to value(it)
     }
@@ -43,14 +43,14 @@ internal val FormBody.fieldMap: ParamsMap
  *
  * @sample RequestBody.signed
  */
-internal val FormBody.newBuilder
+internal inline val FormBody.newBuilder
     get() = (0 until size()).associateTo(mutableMapOf()) {
         encodedName(it) to encodedValue(it)
     }.asSequence().fold(FormBody.Builder()) { builder, (encodedName, encodedValue) ->
         builder.addEncoded(encodedName, encodedValue)
     }
 
-internal val HttpUrl.signed
+internal inline val HttpUrl.signed
     get() = queryMap.timeStampAndSignature.let { (t, sign) ->
         newBuilder().addQueryParameter("t", t)
                 .addQueryParameter("sign", sign)
@@ -58,7 +58,7 @@ internal val HttpUrl.signed
                 .build()
     }
 
-internal val RequestBody.signed
+internal inline val RequestBody.signed
     get() = when (this) {
         is FormBody -> fieldMap.timeStampAndSignature.let { (t, sign) ->
             newBuilder.add("t", t)
@@ -69,10 +69,11 @@ internal val RequestBody.signed
         else -> this
     }
 
-internal val Request.signed
+internal inline val Request.signed
     get() = when (method()) {
-        "GET" -> newBuilder().url(url().signed).get().build()
-        "POST" -> newBuilder().post(body()?.signed).build() // the lint fucks down?
+        "HEAD" -> this
+        "GET" -> newBuilder().url(url().signed).build()
+        "POST", "PUT", "PATCH", "DELETE" -> newBuilder().method(method(), body()?.signed).build()
         else -> this
     }
 

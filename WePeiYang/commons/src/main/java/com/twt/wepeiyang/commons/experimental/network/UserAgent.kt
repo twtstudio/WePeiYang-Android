@@ -11,7 +11,7 @@ import okhttp3.Response
  */
 internal val userAgent = "WePeiYang/${CommonContext.applicationVersion} (${Build.BRAND} ${Build.PRODUCT}; Android ${Build.VERSION.SDK_INT})"
 
-internal val Request.uaed: Request
+internal inline val Request.uaed: Request
     get() = newBuilder().header("User-Agent", userAgent).build()
 
 internal object UserAgentInterceptor : Interceptor {
