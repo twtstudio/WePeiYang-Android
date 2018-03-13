@@ -29,65 +29,59 @@ import com.twtstudio.retrox.auth.view.LoginActivity
 
 class UserFragment : BaseFragment() {
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_user, container, false)
-        view.findViewById<RecyclerView>(R.id.recyclerView).apply {
-            layoutManager = LinearLayoutManager(context)
-            adapter = UserAdapter(
-                    listOf(
-                            UserItem.AvatarItem(AuthProvider.authSelfLiveData.map {
-                                UserItem.AvatarBean(it.avatar, it.twtuname, it.realname)
-                            }, R.drawable.ic_avatar),
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
+            inflater.inflate(R.layout.fragment_user, container, false).apply {
+                findViewById<RecyclerView>(R.id.recyclerView).apply {
+                    layoutManager = LinearLayoutManager(context)
+                    adapter = UserAdapter(
+                            listOf(
+                                    UserItem.AvatarItem(AuthProvider.authSelfLiveData.map {
+                                        UserItem.AvatarBean(it.avatar, it.twtuname, it.realname)
+                                    }, R.drawable.ic_avatar),
 //                            UserItem.DividerItem,
-                            UserItem.InfoItem(R.drawable.ic_tju_little_icon, "办公网", AuthProvider.authSelfLiveData.map {
-                                if (it.accounts.tju) "已绑定" else "未绑定"
-                            }),
-                            UserItem.InfoItem(R.drawable.lib_library, "图书馆", AuthProvider.authSelfLiveData.map {
-                                if (it.accounts.lib) "已绑定" else "未绑定"
-                            }),
-                            UserItem.InfoItem(R.drawable.bike_bike_icon, "自行车", MutableLiveData<String>().apply {
-                                value = if (CommonPreferences.isBindBike) "已绑定" else "未绑定"
-                            }),
+                                    UserItem.InfoItem(R.drawable.ic_tju_little_icon, "办公网", AuthProvider.authSelfLiveData.map {
+                                        if (it.accounts.tju) "已绑定" else "未绑定"
+                                    }),
+                                    UserItem.InfoItem(R.drawable.lib_library, "图书馆", AuthProvider.authSelfLiveData.map {
+                                        if (it.accounts.lib) "已绑定" else "未绑定"
+                                    }),
+                                    UserItem.InfoItem(R.drawable.bike_bike_icon, "自行车", MutableLiveData<String>().apply {
+                                        value = if (CommonPreferences.isBindBike) "已绑定" else "未绑定"
+                                    }),
 //                            UserItem.DividerItem,
-                            UserItem.ActionItem(R.drawable.ic_settings, "设置") {
-                                val intent = Intent(context, SettingsActivity::class.java)
-                                context.startActivity(intent)
-                            },
-                            UserItem.ActionItem(R.drawable.ic_settings_exit, "登出") {
-                                AlertDialog.Builder(context)
-                                        .setMessage("真的要登出吗？")
-                                        .setPositiveButton("真的") { _, _ ->
-                                            PreferenceManager.getDefaultSharedPreferences(context).edit().clear().apply()
-                                            CommonPreferences.clear()
-                                            CacheProvider.clearCache()
+                                    UserItem.ActionItem(R.drawable.ic_settings, "设置") {
+                                        val intent = Intent(context, SettingsActivity::class.java)
+                                        context.startActivity(intent)
+                                    },
+                                    UserItem.ActionItem(R.drawable.ic_settings_exit, "登出") {
+                                        AlertDialog.Builder(context)
+                                                .setMessage("真的要登出吗？")
+                                                .setPositiveButton("真的") { _, _ ->
+                                                    PreferenceManager.getDefaultSharedPreferences(context).edit().clear().apply()
+                                                    CommonPreferences.clear()
+                                                    CacheProvider.clearCache()
 
-                                            val intent = Intent(context, LoginActivity::class.java)
+                                                    val intent = Intent(context, LoginActivity::class.java)
 
-                                            context.startActivity(intent)
-                                            (context as Activity).finish()
-                                        }
-                                        .setNegativeButton("算了") { _, _ ->
-                                            Toast.makeText(context, "真爱啊 TAT...", Toast.LENGTH_SHORT).show()
-                                        }.create().show()
-                            }
-                    ),
-                    inflater,
-                    this@UserFragment
-            )
+                                                    context.startActivity(intent)
+                                                    (context as Activity).finish()
+                                                }
+                                                .setNegativeButton("算了") { _, _ ->
+                                                    Toast.makeText(context, "真爱啊 TAT...", Toast.LENGTH_SHORT).show()
+                                                }.create().show()
+                                    }
+                            ),
+                            inflater,
+                            this@UserFragment
+                    )
 
-            addItemDecoration(RecyclerViewDivider.Builder(this.context)
-                    .setSize(2f)
-                    .setColorRes(R.color.background_gray)
-                    .build())
-        }
+                    addItemDecoration(RecyclerViewDivider.Builder(this.context)
+                            .setSize(2f)
+                            .setColorRes(R.color.background_gray)
+                            .build())
+                }
 
-        AuthProvider.authSelf(useCache = true, silent = true)
-        return view
-    }
+                AuthProvider.authSelf(useCache = true, silent = true)
+            }
 
-    companion object {
-        fun newInstance(): UserFragment = UserFragment().apply {
-            arguments = Bundle()
-        }
-    }
 }

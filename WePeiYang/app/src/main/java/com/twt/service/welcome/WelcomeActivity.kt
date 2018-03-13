@@ -46,6 +46,7 @@ abstract class SimpleSlideFragment : SlideFragment() {
     override fun buttonsColor() = R.color.colorAccent
 
     override fun canMoveFurther() = true
+
 }
 
 class GpaWelcomeFragment : SimpleSlideFragment() {
@@ -67,13 +68,11 @@ class BikeWelcomeFragment : SimpleSlideFragment() {
     override val resource: Int
         get() = R.layout.fragment_bike_welcome_slide
 
-
 }
 
 class BriefWelcomeFragment : SimpleSlideFragment() {
 
     override val resource: Int
         get() = R.layout.fragment_brief_welcome_slide
-
 
 }

@@ -20,40 +20,31 @@ import com.twtstudio.retrox.schedule.ScheduleActivity
  */
 class CommonFragment : BaseFragment() {
 
-    lateinit var recyclerview: RecyclerView
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
+            inflater.inflate(R.layout.fragment_commons_new, container, false).apply {
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+                val rxActivity = activity as RxAppCompatActivity
 
-        val hostActivity = activity as RxAppCompatActivity
-        val view = inflater.inflate(R.layout.fragment_commons_new, container, false)
-        recyclerview = view.findViewById(R.id.recyclerView)
-        //todo 修改课程表暴露的接口 （重载）
-        val scheduleViewModel = ScheduleViewModel(hostActivity)
-//        val animController = AnimationUtils.loadLayoutAnimation(activity,R.anim.layout_animation_from_bottom)
-        recyclerview.apply {
-            layoutManager = LinearLayoutManager(this.context)
-//            layoutAnimation = animController
-            adapter = CommonPageAdapter(listOf(scheduleViewModel, "GPA", "LIB"),
-                    hostActivity, this@CommonFragment)
-//            scheduleLayoutAnimation()
-        }
+                findViewById<RecyclerView>(R.id.recyclerView).apply {
+                    layoutManager = LinearLayoutManager(this.context)
+                    adapter = CommonPageAdapter(
+                            listOf(ScheduleViewModel(rxActivity), "GPA", "LIB"),
+                            inflater,
+                            this@CommonFragment
+                    )
+                }
 
-        PushProvider(this.activity as RxAppCompatActivity).apply {
-            queryCourseMessage { coursePushBean ->
-                Alerter.create(hostActivity)
-                        .setTitle(coursePushBean.title)
-                        .setText(coursePushBean.message)
-                        .setDuration((3 * 1000).toLong())
-                        .setOnClickListener {
-                            val intent = Intent(this@CommonFragment.activity, ScheduleActivity::class.java)
-                            startActivity(intent)
-                        }
-                        .show()
+                PushProvider(activity as RxAppCompatActivity).queryCourseMessage {
+                    Alerter.create(rxActivity)
+                            .setTitle(it.title)
+                            .setText(it.message)
+                            .setDuration((3 * 1000).toLong())
+                            .setOnClickListener {
+                                val intent = Intent(this@CommonFragment.activity, ScheduleActivity::class.java)
+                                startActivity(intent)
+                            }
+                            .show()
+                }
             }
-        }
-
-        return view
-    }
-
 
 }

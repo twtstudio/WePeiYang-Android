@@ -1,7 +1,6 @@
 package com.twt.service.home.common
 
 import android.arch.lifecycle.LifecycleOwner
-import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -16,8 +15,8 @@ import com.twtstudio.retrox.tjulibrary.homeitem.LibraryItemViewHolder
  */
 
 class CommonPageAdapter(
-        val list: List<Any>,
-        val context: Context,
+        private val list: List<Any>,
+        private val inflater: LayoutInflater,
         private val owner: LifecycleOwner
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -28,8 +27,6 @@ class CommonPageAdapter(
 //        const val BIKE = 4
 //        const val CLASSROOM = 5
     }
-
-    val inflater: LayoutInflater = LayoutInflater.from(context)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder = when (viewType) {
         GPA -> GpaItemViewHolder(inflater.inflate(R.layout.item_common_gpa, parent, false), owner)
