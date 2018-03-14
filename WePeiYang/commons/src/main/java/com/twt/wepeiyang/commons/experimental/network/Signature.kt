@@ -12,9 +12,10 @@ internal typealias ParamsMap = Map<String, String>
  *
  * @sample ParamsMap.timeStampAndSignature
  */
-internal inline fun <T> usingTimeStamp(crossinline block: (String) -> T) = Calendar.getInstance().timeInMillis.toString().let(block)
+internal inline fun <T> usingTimeStamp(crossinline block: (String) -> T) =
+        Calendar.getInstance().timeInMillis.toString().let(block)
 
-internal inline val ParamsMap.timeStampAndSignature
+internal inline val ParamsMap.timeStampAndSignature: Pair<String, String>
     get() = usingTimeStamp { t ->
         toSortedMap().apply {
             // put timestamp into params map
@@ -78,5 +79,6 @@ internal inline val Request.signed
     }
 
 internal object SignatureInterceptor : Interceptor {
-    override fun intercept(chain: Interceptor.Chain): Response = chain.proceed(chain.request().signed)
+    override fun intercept(chain: Interceptor.Chain): Response =
+            chain.proceed(chain.request().signed)
 }

@@ -9,8 +9,6 @@ object CommonPreferences {
 
     var token by hawk("token", "")
 
-    var gpaToken by hawk("gpa_token", "")
-
     var isLogin by hawk("is_login", false)
 
     var startUnix by hawk("start_unix", 946656000L)
@@ -34,14 +32,6 @@ object CommonPreferences {
     var proxyAddress by hawk("proxy_address", "")
 
     var proxyPort by hawk("proxy_port", 0)
-
-    var isDisplayGpa by shared("pref_is_display_gpa", true)
-
-    var isDisplayBike by shared("pref_is_display_bike", true)
-
-    var isShowTodayCourse by shared("pref_is_show_today_course", true)
-
-    var isAutoCheckUpdate by shared("pref_is_auto_check_update", true)
 
     fun clear() = Hawk.deleteAll()
 

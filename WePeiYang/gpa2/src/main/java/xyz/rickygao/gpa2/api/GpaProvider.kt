@@ -4,10 +4,10 @@ import android.arch.lifecycle.MutableLiveData
 import com.orhanobut.hawk.Hawk
 import com.orhanobut.logger.Logger
 import com.twt.wepeiyang.commons.experimental.extensions.ConsumableMessage
-import com.twt.wepeiyang.commons.experimental.preferences.CommonPreferences
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
 import org.jetbrains.anko.coroutines.experimental.bg
+import xyz.rickygao.gpa2.GpaPreferences
 
 /**
  * Created by rickygao on 2017/11/9.
@@ -41,7 +41,7 @@ object GpaProvider {
                     if (!silent) successLiveData.value = ConsumableMessage("你的 GPA 已经是最新的了")
                 }
 
-                CommonPreferences.gpaToken = it.session
+                GpaPreferences.gpaToken = it.session
             }
 
         }.invokeOnCompletion {
@@ -55,7 +55,7 @@ object GpaProvider {
     fun postEvaluate(evaluate: Evaluate, q1: Int, q2: Int, q3: Int, q4: Int, q5: Int, note: String) {
         async(UI) {
             val params = mapOf(
-                    "token" to CommonPreferences.gpaToken,
+                    "token" to GpaPreferences.gpaToken,
                     "lesson_id" to evaluate.lesson_id,
                     "union_id" to evaluate.union_id,
                     "course_id" to evaluate.course_id,

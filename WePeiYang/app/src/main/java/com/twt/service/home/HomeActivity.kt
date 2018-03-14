@@ -99,11 +99,13 @@ class HomeActivity : BaseActivity() {
                     finish()
                 }.create()
 
-        if (!CommonPreferences.isAcceptTos && !checkTosDialog.isShowing) checkTosDialog.show()
-        if (UpdateManager.getInstance().isAutoCheck) {
-            UpdateManager.getInstance().checkUpdate(this, false)
-        }
+        if (UpdateManager.getInstance().isAutoCheck) UpdateManager.getInstance().checkUpdate(this, false)
         WidgetUpdateManger.sendUpdateMsg(this)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (!CommonPreferences.isAcceptTos) checkTosDialog.show()
     }
 
 }

@@ -3,20 +3,18 @@ package com.twt.wepeiyang.commons.experimental.network
 import com.orhanobut.logger.Logger
 import com.twt.wepeiyang.commons.experimental.CommonContext
 import com.twt.wepeiyang.commons.experimental.preferences.CommonPreferences
-import com.twt.wepeiyang.commons.experimental.service.RealAuthService
-import kotlinx.coroutines.experimental.runBlocking
 import okhttp3.*
 import org.json.JSONObject
 import java.net.HttpURLConnection
 
+internal inline val Request.authorized
+    get() = if (header("Authorization") == null)
+        newBuilder().addHeader("Authorization", "Bearer{${CommonPreferences.token}}").build()
+    else this
+
 object AuthorizationInterceptor : Interceptor {
-    override fun intercept(chain: Interceptor.Chain): Response {
-        val request = if (chain.request().header("Authorization") == null)
-            chain.request().newBuilder()
-                    .addHeader("Authorization", "Bearer{${CommonPreferences.token}}")
-                    .build() else chain.request()
-        return chain.proceed(request)
-    }
+    override fun intercept(chain: Interceptor.Chain): Response =
+            chain.proceed(chain.request().authorized)
 }
 
 object RealAuthenticator : Authenticator {
@@ -26,14 +24,14 @@ object RealAuthenticator : Authenticator {
                     when (it) {
                         10001 ->
                             CommonPreferences.token
-                        10003 ->
-                            runBlocking {
-                                RealAuthService.refreshToken().await()
-                            }.data?.token?.let {
-                                CommonPreferences.token = it
-                                it
-                            }
-                        10004 -> {
+//                        10003 -> doesn't work?
+//                            runBlocking {
+//                                RealAuthService.refreshToken().await()
+//                            }.data?.token?.let {
+//                                CommonPreferences.token = it
+//                                it
+//                            }
+                        10003, 10004 -> {
                             CommonContext.startActivity(name = "login")
                             null
                         }
@@ -54,8 +52,9 @@ object RealAuthenticator : Authenticator {
 }
 
 object CodeCorrectionInterceptor : Interceptor {
-    override fun intercept(chain: Interceptor.Chain): Response = chain.proceed(chain.request()).run {
-        if (code() == HttpURLConnection.HTTP_BAD_REQUEST)
-            newBuilder().code(HttpURLConnection.HTTP_UNAUTHORIZED).build() else this
-    }
+    override fun intercept(chain: Interceptor.Chain): Response =
+            chain.proceed(chain.request()).run {
+                if (code() == HttpURLConnection.HTTP_BAD_REQUEST)
+                    newBuilder().code(HttpURLConnection.HTTP_UNAUTHORIZED).build() else this
+            }
 }

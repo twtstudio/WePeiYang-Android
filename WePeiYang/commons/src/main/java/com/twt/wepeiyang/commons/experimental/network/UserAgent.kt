@@ -15,5 +15,6 @@ internal inline val Request.uaed: Request
     get() = newBuilder().header("User-Agent", userAgent).build()
 
 internal object UserAgentInterceptor : Interceptor {
-    override fun intercept(chain: Interceptor.Chain): Response = chain.proceed(chain.request().uaed)
+    override fun intercept(chain: Interceptor.Chain): Response =
+            chain.proceed(chain.request().uaed)
 }

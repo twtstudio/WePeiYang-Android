@@ -15,8 +15,7 @@ fun Activity.enableLightStatusBarMode(enable: Boolean): String {
     // for MIUI
     try {
         val layoutParams = Class.forName("android.view.MiuiWindowManager\$LayoutParams")
-        val field = layoutParams.getField("EXTRA_FLAG_STATUS_BAR_DARK_MODE")
-        val darkModeFlag = field.getInt(layoutParams)
+        val darkModeFlag = layoutParams.getField("EXTRA_FLAG_STATUS_BAR_DARK_MODE").getInt(layoutParams)
         val extraFlagField = window::class.java.getMethod("setExtraFlags", Int::class.java, Int::class.java)
         extraFlagField.invoke(window, if (enable) darkModeFlag else 0, darkModeFlag)
 
