@@ -1,0 +1,10 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.twt.service.tjunet" >
+
+    <application>
+
+        <activity android:name=".view.NetWorkActivity" />
+
+    </application>
+
+</manifest>
