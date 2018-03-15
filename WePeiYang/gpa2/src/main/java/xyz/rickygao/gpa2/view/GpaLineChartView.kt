@@ -226,6 +226,9 @@ class GpaLineChartView @JvmOverloads constructor(context: Context, attrs: Attrib
 
         selectedPointPath.reuse {
 
+            if (points.isEmpty())
+                return@reuse
+
             addCircle(
                     points[selectedIndex].x,
                     points[selectedIndex].y,

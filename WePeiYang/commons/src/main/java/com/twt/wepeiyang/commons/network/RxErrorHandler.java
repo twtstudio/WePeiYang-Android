@@ -8,7 +8,7 @@ import android.widget.Toast;
 import com.orhanobut.logger.Logger;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.twt.wepeiyang.commons.experimental.CommonContext;
-import com.twt.wepeiyang.commons.experimental.preferences.CommonPreferences;
+import com.twt.wepeiyang.commons.experimental.pref.CommonPreferences;
 
 import org.json.JSONException;
 import org.json.JSONObject;

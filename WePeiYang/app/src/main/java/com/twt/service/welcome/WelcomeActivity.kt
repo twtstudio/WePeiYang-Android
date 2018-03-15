@@ -11,7 +11,7 @@ import com.twt.service.R
 import com.twt.service.home.HomeActivity
 import com.twt.service.settings.LibBindFragment
 import com.twt.service.settings.TjuBindFragment
-import com.twt.wepeiyang.commons.experimental.preferences.CommonPreferences
+import com.twt.wepeiyang.commons.experimental.pref.CommonPreferences
 
 
 class WelcomeActivity : MaterialIntroActivity() {

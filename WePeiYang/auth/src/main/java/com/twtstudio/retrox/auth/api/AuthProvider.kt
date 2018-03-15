@@ -1,19 +1,17 @@
-package com.twtstudio.retrox.auth.service
+package com.twtstudio.retrox.auth.api
 
 import android.arch.lifecycle.MutableLiveData
 import com.orhanobut.hawk.Hawk
 import com.tencent.bugly.crashreport.CrashReport
+import com.twt.wepeiyang.commons.experimental.api.AuthSelfBean
+import com.twt.wepeiyang.commons.experimental.api.RealAuthService
 import com.twt.wepeiyang.commons.experimental.extensions.ConsumableMessage
-import com.twt.wepeiyang.commons.experimental.preferences.CommonPreferences
-import com.twt.wepeiyang.commons.experimental.service.AuthSelfBean
-import com.twt.wepeiyang.commons.experimental.service.RealAuthService
+import com.twt.wepeiyang.commons.experimental.extensions.EmptyCoroutineExceptionHandler
+import com.twt.wepeiyang.commons.experimental.pref.CommonPreferences
+import kotlinx.coroutines.experimental.CoroutineExceptionHandler
 import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.launch
 import org.jetbrains.anko.coroutines.experimental.bg
-
-/**
- * Created by retrox on 2017/2/20.
- */
 
 object AuthProvider {
 
@@ -21,9 +19,13 @@ object AuthProvider {
     val successLiveData = MutableLiveData<ConsumableMessage<String>>()
     val errorLiveData = MutableLiveData<ConsumableMessage<String>>()
 
+    private val handler = CoroutineExceptionHandler { _, it ->
+        errorLiveData.value = ConsumableMessage("好像出了什么问题，${it.javaClass} ${it.message}")
+    }
+
     const val FROM_LOGIN = 0
     fun login(username: String, password: String, silent: Boolean = false) {
-        async(UI) {
+        launch(UI + if (silent) EmptyCoroutineExceptionHandler else handler) {
             val remote = RealAuthService.getToken(username, password)
 
             remote.await().data?.let {
@@ -44,9 +46,7 @@ object AuthProvider {
     const val FROM_AUTH_SELF = 1
     private const val HAWK_KEY_AUTH_SELF = "AUTH_SELF"
     fun authSelf(useCache: Boolean = true, silent: Boolean = false) {
-
-        async(UI) {
-
+        launch(UI + handler) {
             val remote = RealAuthService.authSelf()
 
             if (useCache) {
@@ -61,6 +61,7 @@ object AuthProvider {
                     CommonPreferences.isBindTju = it.accounts.tju
                     CommonPreferences.dropOut = it.dropout
                     CrashReport.setUserId(it.twtuname)
+
                 }
             }
 
@@ -78,12 +79,7 @@ object AuthProvider {
                 Hawk.put(HAWK_KEY_AUTH_SELF, it)
             }
 
-        }.invokeOnCompletion {
-            it?.let {
-                if (!silent) errorLiveData.value = ConsumableMessage("好像出了什么问题，${it.message}", from = FROM_AUTH_SELF)
-            }
         }
-
     }
 
 }

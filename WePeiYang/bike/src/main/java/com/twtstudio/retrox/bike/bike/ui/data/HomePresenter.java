@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.widget.Toast;
 
 import com.twt.wepeiyang.commons.experimental.CommonContext;
-import com.twt.wepeiyang.commons.experimental.preferences.CommonPreferences;
+import com.twt.wepeiyang.commons.experimental.pref.CommonPreferences;
 import com.twtstudio.retrox.bike.api.BikeApiClient;
 import com.twtstudio.retrox.bike.api.BikeApiSubscriber;
 import com.twtstudio.retrox.bike.api.OnNextListener;

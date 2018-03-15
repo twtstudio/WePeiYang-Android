@@ -2,7 +2,7 @@ package com.twt.wepeiyang.commons.experimental.network
 
 import com.orhanobut.logger.Logger
 import com.twt.wepeiyang.commons.experimental.CommonContext
-import com.twt.wepeiyang.commons.experimental.preferences.CommonPreferences
+import com.twt.wepeiyang.commons.experimental.pref.CommonPreferences
 import okhttp3.*
 import org.json.JSONObject
 import java.net.HttpURLConnection
@@ -37,7 +37,7 @@ object RealAuthenticator : Authenticator {
                         }
 //                        20001 -> Bind Tju
                         else -> {
-                            Logger.w("""
+                            Logger.d("""
                                 Unhandled error code $it, for
                                 Request: ${response.request()}
                                 Response: $response

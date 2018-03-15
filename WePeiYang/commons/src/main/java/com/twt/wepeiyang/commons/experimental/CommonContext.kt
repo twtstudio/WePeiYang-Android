@@ -26,8 +26,7 @@ object CommonContext {
                 ?: throw IllegalStateException("Application should be registered in CommonContext.")
 
     val applicationVersion: String by lazy {
-        application.packageManager
-                .getPackageInfo(this.application.packageName, 0).versionName
+        application.packageManager.getPackageInfo(application.packageName, 0).versionName
     }
 
     val defaultSharedPreferences: SharedPreferences by lazy { application.defaultSharedPreferences }

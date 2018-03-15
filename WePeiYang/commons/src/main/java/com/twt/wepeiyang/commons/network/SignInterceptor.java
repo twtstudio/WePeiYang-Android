@@ -4,7 +4,7 @@ import android.util.Log;
 
 import com.annimon.stream.Stream;
 import com.twt.wepeiyang.commons.experimental.network.ServiceFactory;
-import com.twt.wepeiyang.commons.experimental.preferences.CommonPreferences;
+import com.twt.wepeiyang.commons.experimental.pref.CommonPreferences;
 
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.digest.DigestUtils;

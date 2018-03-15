@@ -7,7 +7,7 @@ import android.widget.Toast;
 
 import com.orhanobut.logger.Logger;
 import com.twt.wepeiyang.commons.experimental.CommonContext;
-import com.twt.wepeiyang.commons.experimental.preferences.CommonPreferences;
+import com.twt.wepeiyang.commons.experimental.pref.CommonPreferences;
 
 import java.net.InetSocketAddress;
 import java.net.Proxy;

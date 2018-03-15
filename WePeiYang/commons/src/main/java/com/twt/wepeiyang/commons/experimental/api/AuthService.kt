@@ -1,4 +1,4 @@
-package com.twt.wepeiyang.commons.experimental.service
+package com.twt.wepeiyang.commons.experimental.api
 
 import com.twt.wepeiyang.commons.experimental.network.CommonBody
 import com.twt.wepeiyang.commons.experimental.network.ServiceFactory

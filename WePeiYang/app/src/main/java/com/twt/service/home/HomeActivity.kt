@@ -22,7 +22,7 @@ import com.twt.service.update.UpdateManager
 import com.twt.service.view.BottomBar
 import com.twt.service.view.BottomBarTab
 import com.twt.service.widget.WidgetUpdateManger
-import com.twt.wepeiyang.commons.experimental.preferences.CommonPreferences
+import com.twt.wepeiyang.commons.experimental.pref.CommonPreferences
 
 class HomeActivity : BaseActivity() {
 

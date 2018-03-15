@@ -2,10 +2,11 @@ package xyz.rickygao.gpa2.api
 
 import android.arch.lifecycle.MutableLiveData
 import com.orhanobut.hawk.Hawk
-import com.orhanobut.logger.Logger
 import com.twt.wepeiyang.commons.experimental.extensions.ConsumableMessage
+import com.twt.wepeiyang.commons.experimental.extensions.EmptyCoroutineExceptionHandler
+import kotlinx.coroutines.experimental.CoroutineExceptionHandler
 import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.launch
 import org.jetbrains.anko.coroutines.experimental.bg
 import xyz.rickygao.gpa2.GpaPreferences
 
@@ -18,9 +19,13 @@ object GpaProvider {
     val successLiveData = MutableLiveData<ConsumableMessage<String>>()
     val errorLiveData = MutableLiveData<ConsumableMessage<String>>()
 
+    private val handler = CoroutineExceptionHandler { _, it ->
+        errorLiveData.value = ConsumableMessage("好像出了什么问题，${it.javaClass} ${it.message}")
+    }
+
     private const val HAWK_KEY_GPA = "GPA"
     fun updateGpaLiveData(useCache: Boolean = true, silent: Boolean = false) {
-        async(UI) {
+        launch(UI + if (silent) EmptyCoroutineExceptionHandler else handler) {
             val remote = RealGpaService.get()
 
             if (useCache) {
@@ -43,17 +48,11 @@ object GpaProvider {
 
                 GpaPreferences.gpaToken = it.session
             }
-
-        }.invokeOnCompletion {
-            it?.let {
-                Logger.e(it, "Gpa")
-                errorLiveData.value = ConsumableMessage("好像出了什么问题，${it.javaClass} ${it.message}")
-            }
         }
     }
 
     fun postEvaluate(evaluate: Evaluate, q1: Int, q2: Int, q3: Int, q4: Int, q5: Int, note: String) {
-        async(UI) {
+        launch(UI + EmptyCoroutineExceptionHandler) {
             val params = mapOf(
                     "token" to GpaPreferences.gpaToken,
                     "lesson_id" to evaluate.lesson_id,
@@ -79,11 +78,6 @@ object GpaProvider {
 
             RealGpaService.evaluate(params).await().let {
                 successLiveData.value = ConsumableMessage("评价成功，快回去刷新看看新的 GPA 吧")
-            }
-
-        }.invokeOnCompletion {
-            it?.let {
-                errorLiveData.value = ConsumableMessage("好像出了什么问题，${it.message}")
             }
         }
     }

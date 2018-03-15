@@ -1,6 +1,6 @@
 package com.twt.service
 
-import com.twt.wepeiyang.commons.experimental.preferences.shared
+import com.twt.wepeiyang.commons.experimental.pref.shared
 
 object AppPreferences {
 

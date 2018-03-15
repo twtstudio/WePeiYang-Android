@@ -1,6 +1,7 @@
-package com.twt.wepeiyang.commons.experimental.preferences
+package com.twt.wepeiyang.commons.experimental.pref
 
 import com.orhanobut.hawk.Hawk
+import com.twt.wepeiyang.commons.experimental.CommonContext
 
 /**
  * A persistent preferences' holder using Hawk or defaultSharedPreferences.
@@ -33,6 +34,9 @@ object CommonPreferences {
 
     var proxyPort by hawk("proxy_port", 0)
 
-    fun clear() = Hawk.deleteAll()
+    fun clear() {
+        Hawk.deleteAll()
+        CommonContext.defaultSharedPreferences.edit().clear().apply()
+    }
 
 }

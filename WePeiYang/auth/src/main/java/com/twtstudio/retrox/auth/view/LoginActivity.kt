@@ -9,7 +9,7 @@ import android.widget.ProgressBar
 import com.twt.wepeiyang.commons.experimental.extensions.consume
 import com.twt.wepeiyang.commons.experimental.startActivity
 import com.twtstudio.retrox.auth.R
-import com.twtstudio.retrox.auth.service.AuthProvider
+import com.twtstudio.retrox.auth.api.AuthProvider
 import es.dmoral.toasty.Toasty
 
 
