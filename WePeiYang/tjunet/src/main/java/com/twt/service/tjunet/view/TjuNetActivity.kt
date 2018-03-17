@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.text.method.PasswordTransformationMethod
 import com.twt.service.tjunet.api.RealTjuNetService
+import com.twt.service.tjunet.api.TjuNetService
 import com.twt.service.tjunet.pref.TjuNetPreferences
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import es.dmoral.toasty.Toasty
@@ -61,6 +62,28 @@ class TjuNetActivity : AppCompatActivity() {
                     }
                     body?.string()?.let {
                         status.text = it
+                    }
+                }
+            }
+
+            button("IP") {
+                onClick {
+                    val result = RealTjuNetService.getIp().awaitAndHandle {
+                        Toasty.error(this@TjuNetActivity, "好像出了什么问题，${it.message}").show()
+                    }
+                    result?.data?.let {
+                        status.text = it.toString()
+                    }
+                }
+            }
+
+            button("Status") {
+                onClick {
+                    val result = RealTjuNetService.getStatus().awaitAndHandle {
+                        Toasty.error(this@TjuNetActivity, "好像出了什么问题，${it.message}").show()
+                    }
+                    result?.data?.let {
+                        status.text = it.toString()
                     }
                 }
             }
