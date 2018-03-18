@@ -12,6 +12,7 @@ import kotlin.collections.HashMap
  * Created by retrox on 2018/3/13.
  */
 interface TjuNetService {
+
     @FormUrlEncoded
     @POST("http://202.113.5.133/include/auth_action.php")
     fun logoutPost(@Field("username") username: String, @Field("password") password: String, @Field("action") action: String = "logout", @Field("ajax") ajax: Int = 1): Deferred<ResponseBody>
@@ -21,10 +22,10 @@ interface TjuNetService {
     fun loginPost(@Field("username") username: String, @Field("password") password: String, @Field("action") action: String = "login", @FieldMap requestParam: RequestParam = RequestParam): Deferred<ResponseBody>
 
     @GET("v1/network/login")
-    fun login(@Query("username") username: String, @Query("password") password: String): Deferred<ResponseBody>
+    fun login(@Query("username") username: String, @Query("password") password: String): Deferred<CommonBody<String>>
 
     @GET("v1/network/logout")
-    fun logoutTry(@Query("username") username: String, @Query("password") password: String): Deferred<ResponseBody>
+    fun logoutTry(@Query("username") username: String, @Query("password") password: String): Deferred<CommonBody<String>>
 
     @GET("v1/network/status")
     fun getStatus(): Deferred<CommonBody<Status>>

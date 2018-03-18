@@ -14,4 +14,6 @@ object TjuNetPreferences {
 
     var savePassword by hawk("tjunet_save_password", true)
 
+    var autoConnect by hawk("tjunet_auto_connecr",false)
+
 }

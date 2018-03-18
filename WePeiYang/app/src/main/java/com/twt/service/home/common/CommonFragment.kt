@@ -28,7 +28,7 @@ class CommonFragment : BaseFragment() {
                 findViewById<RecyclerView>(R.id.recyclerView).apply {
                     layoutManager = LinearLayoutManager(this.context)
                     adapter = CommonPageAdapter(
-                            listOf(ScheduleViewModel(rxActivity), "GPA", "LIB"),
+                            listOf(ScheduleViewModel(rxActivity), "GPA", "LIB", "NETWORK"),
                             inflater,
                             this@CommonFragment
                     )

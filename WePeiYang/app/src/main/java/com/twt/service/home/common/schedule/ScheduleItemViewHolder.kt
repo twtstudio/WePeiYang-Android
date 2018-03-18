@@ -33,6 +33,7 @@ class ScheduleItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 //            board.removeAllViews()
 //            board.invalidate()
             it?.apply {
+                board.removeAllViews()
                 for (vm in it) {
                     val view = inflater.inflate(R.layout.item_common_course, board, false)
                     CourseItemHolder(view).apply {

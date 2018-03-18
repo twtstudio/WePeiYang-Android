@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
-            app:title="Tools"
+            app:title="Tools22"
             app:titleTextColor="@color/white_color">
 
             <include

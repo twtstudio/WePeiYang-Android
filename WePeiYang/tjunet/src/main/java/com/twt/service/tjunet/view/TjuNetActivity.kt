@@ -2,6 +2,7 @@ package com.twt.service.tjunet.view
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.text.InputType
 import android.text.method.PasswordTransformationMethod
 import com.twt.service.tjunet.api.RealTjuNetService
 import com.twt.service.tjunet.api.TjuNetService
@@ -10,6 +11,7 @@ import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import es.dmoral.toasty.Toasty
 import org.jetbrains.anko.*
 import org.jetbrains.anko.appcompat.v7.toolbar
+import org.jetbrains.anko.sdk25.coroutines.onCheckedChange
 import org.jetbrains.anko.sdk25.coroutines.onClick
 
 /**
@@ -27,11 +29,25 @@ class TjuNetActivity : AppCompatActivity() {
                 hint = "用户名"
             }
             val password = editText(TjuNetPreferences.password) {
+                inputType = InputType.TYPE_TEXT_VARIATION_PASSWORD
                 transformationMethod = PasswordTransformationMethod.getInstance()
                 hint = "密码"
             }
+            checkBox("连接WiFi时自动登陆(Android 7.0前支持)") {
+                onCheckedChange { buttonView, isChecked ->
+                    TjuNetPreferences.autoConnect = isChecked
+                    if (isChecked) {
+                        Toasty.success(this@TjuNetActivity,"已设置自动登录").show()
+                    } else {
+                        Toasty.info(this@TjuNetActivity,"已关闭自动登录").show()
+                    }
+                }
+            }
+
             val status = textView {
-                text = "请登录"
+                text = "当前状态-> 欢迎使用一键上网"
+            }.lparams {
+                topMargin = dip(8)
             }
 
             button("Login") {
@@ -40,28 +56,28 @@ class TjuNetActivity : AppCompatActivity() {
                         this.username = username.text.toString()
                         this.password = password.text.toString()
                     }
-                    val body = RealTjuNetService.loginPost(
+                    val body = RealTjuNetService.login(
                             username = username.text.toString(),
                             password = password.text.toString()
                     ).awaitAndHandle {
                         Toasty.error(this@TjuNetActivity, "好像出了什么问题，${it.message}").show()
                     }
-                    body?.string()?.let {
-                        status.text = it
+                    body?.let {
+                        status.text = it.toString()
                     }
                 }
             }
 
-            button("Logout烂的") {
+            button("Logout") {
                 onClick {
-                    val body = RealTjuNetService.logoutPost(
+                    val body = RealTjuNetService.logoutTry(
                             username = username.text.toString(),
                             password = password.text.toString()
                     ).awaitAndHandle {
                         Toasty.error(this@TjuNetActivity, "好像出了什么问题，${it.message}").show()
                     }
-                    body?.string()?.let {
-                        status.text = it
+                    body?.let {
+                        status.text = it.toString()
                     }
                 }
             }

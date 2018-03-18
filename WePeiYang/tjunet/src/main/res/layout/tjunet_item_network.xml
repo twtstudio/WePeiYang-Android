@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="4dp"
+    app:cardBackgroundColor="@color/white_color"
+    app:cardElevation="0dp">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingEnd="20dp"
+        android:paddingStart="20dp"
+        android:paddingTop="8dp">
+
+        <ImageView
+            android:id="@+id/img_wlan"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/tjunet_ic_wlan"
+            android:tint="@color/colorAccent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/text_wlan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            tools:text="TjuWlan"
+            app:layout_constraintBottom_toBottomOf="@id/img_wlan"
+            app:layout_constraintStart_toEndOf="@id/img_wlan"
+            app:layout_constraintTop_toTopOf="@id/img_wlan" />
+
+        <ImageView
+            android:id="@+id/img_ip"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="15dp"
+            android:src="@drawable/tjunet_ic_ip"
+            app:layout_constraintEnd_toEndOf="@id/img_wlan"
+            app:layout_constraintStart_toStartOf="@id/img_wlan"
+            app:layout_constraintTop_toBottomOf="@id/img_wlan" />
+
+        <TextView
+            android:id="@+id/text_ip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            tools:text="172.23.168.17"
+            app:layout_constraintBottom_toBottomOf="@id/img_ip"
+            app:layout_constraintStart_toEndOf="@id/img_ip"
+            app:layout_constraintTop_toTopOf="@id/img_ip" />
+
+        <ImageView
+            android:id="@+id/img_status"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="15dp"
+            android:src="@drawable/tjunet_ic_status"
+            android:tint="@color/colorAccent"
+            app:layout_constraintEnd_toEndOf="@id/img_ip"
+            app:layout_constraintStart_toStartOf="@id/img_ip"
+            app:layout_constraintTop_toBottomOf="@id/img_ip" />
+
+        <TextView
+            android:id="@+id/text_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            tools:text="已连接"
+            app:layout_constraintBottom_toBottomOf="@id/img_status"
+            app:layout_constraintStart_toEndOf="@id/img_status"
+            app:layout_constraintTop_toTopOf="@id/img_status" />
+
+        <Button
+            android:id="@+id/btn_connect"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif"
+            android:text="连接"
+            android:textColor="@color/colorAccent"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toStartOf="@+id/btn_refresh"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/img_status" />
+
+        <Button
+            android:id="@+id/btn_refresh"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif"
+            android:text="刷新"
+            android:textColor="@color/colorAccent"
+            android:textSize="14sp"
+            app:layout_constraintBaseline_toBaselineOf="@id/btn_connect"
+            app:layout_constraintEnd_toStartOf="@+id/btn_disconnect"
+            app:layout_constraintStart_toEndOf="@id/btn_connect" />
+
+        <Button
+            android:id="@+id/btn_disconnect"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif"
+            android:text="断开"
+            android:textColor="@color/colorAccent"
+            android:textSize="14sp"
+            app:layout_constraintBaseline_toBaselineOf="@id/btn_refresh"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/btn_refresh" />
+
+    </android.support.constraint.ConstraintLayout>
+</android.support.v7.widget.CardView>

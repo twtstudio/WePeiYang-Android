@@ -8,6 +8,7 @@ import com.twt.service.R
 import com.twt.service.home.common.gpa.GpaItemViewHolder
 import com.twt.service.home.common.schedule.ScheduleItemViewHolder
 import com.twt.service.home.common.schedule.ScheduleViewModel
+import com.twt.service.tjunet.view.TjuNetViewComponent
 import com.twtstudio.retrox.tjulibrary.homeitem.LibraryItemViewHolder
 
 /**
@@ -26,12 +27,14 @@ class CommonPageAdapter(
         const val LIBRARY = 3
 //        const val BIKE = 4
 //        const val CLASSROOM = 5
+        const val NETWORK = 6
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder = when (viewType) {
         GPA -> GpaItemViewHolder(inflater.inflate(R.layout.item_common_gpa, parent, false), owner)
         SCHEDULE -> ScheduleItemViewHolder(inflater.inflate(R.layout.item_common_schedule, parent, false))
         LIBRARY -> LibraryItemViewHolder(owner, inflater.inflate(R.layout.item_common_lib, parent, false))
+        NETWORK -> TjuNetViewComponent.create(inflater, parent, owner)
 //            BIKE -> BikeHomeItemViewHolder(inflater.inflate(R.layout.item_bike_card,parent,false))
         else -> null
     }!!
@@ -45,6 +48,9 @@ class CommonPageAdapter(
             is LibraryItemViewHolder -> {
                 holder.onBind()
             }
+            is TjuNetViewComponent -> {
+                holder.bind()
+            }
 //            is BikeHomeItemViewHolder->{
 //                holder.bind(owner,list[position] as BikeHomeItemViewModel)
 //            }
@@ -57,6 +63,7 @@ class CommonPageAdapter(
         "GPA" -> GPA
         is ScheduleViewModel -> SCHEDULE
         "LIB" -> LIBRARY
+        "NETWORK" -> NETWORK
 //            is BikeHomeItemViewModel -> return BIKE
         else -> 0
     }

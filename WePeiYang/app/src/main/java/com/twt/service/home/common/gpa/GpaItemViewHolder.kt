@@ -6,6 +6,7 @@ import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.TextView
+import com.twt.service.AppPreferences
 import com.twt.service.R
 import com.twt.wepeiyang.commons.experimental.extensions.bind
 import xyz.rickygao.gpa2.api.GpaProvider
@@ -32,9 +33,16 @@ class GpaItemViewHolder(itemView: View, lifecycleOwner: LifecycleOwner) : Recycl
         GpaProvider.gpaLiveData
                 .bind(lifecycleOwner) {
                     it?.stat?.total?.let {
-                        scoreTv.text = it.score.toString()
-                        gpaTv.text = it.gpa.toString()
-                        creditTv.text = it.credit.toString()
+                        val fake = "***"
+                        if (AppPreferences.isDisplayGpa) {
+                            scoreTv.text = it.score.toString()
+                            gpaTv.text = it.gpa.toString()
+                            creditTv.text = it.credit.toString()
+                        } else {
+                            scoreTv.text = fake
+                            gpaTv.text = fake
+                            creditTv.text = fake
+                        }
                     }
                 }
 
