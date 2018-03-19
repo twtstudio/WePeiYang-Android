@@ -1,19 +1,17 @@
-package com.twt.service.tjunet.receiver
+package com.twt.service.tjunet.reconnect
 
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.net.wifi.WifiInfo
 import android.net.wifi.WifiManager
 import android.net.NetworkInfo
 import android.util.Log
 import com.twt.service.tjunet.api.RealTjuNetService
+import com.twt.service.tjunet.ext.fineSSID
 import com.twt.service.tjunet.pref.TjuNetPreferences
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import es.dmoral.toasty.Toasty
-import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
-import kotlinx.coroutines.experimental.launch
 
 
 /**
@@ -60,12 +58,4 @@ class AutoConnectReceiver : BroadcastReceiver() {
         }
     }
 
-    inline val String.fineSSID: String
-        get() {
-            val ssid = this
-            if (ssid.startsWith("\"") && ssid.endsWith("\"")) {
-
-                return ssid.substring(1, ssid.length - 1);
-            } else return ssid
-        }
 }

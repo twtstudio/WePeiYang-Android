@@ -1,10 +1,15 @@
 package com.twt.service
 
+import android.app.job.JobScheduler
+import android.content.Context
+import android.os.Build
 import android.support.multidex.MultiDexApplication
 import com.github.piasy.biv.BigImageViewer
 import com.github.piasy.biv.loader.glide.GlideImageLoader
 import com.tencent.bugly.Bugly
 import com.tencent.bugly.crashreport.CrashReport
+import com.twt.service.tjunet.pref.TjuNetPreferences
+import com.twt.service.tjunet.reconnect.ReconnectJob
 import com.twt.service.welcome.WelcomeActivity
 import com.twt.wepeiyang.commons.experimental.CommonContext
 import com.twtstudio.retrox.auth.view.LoginActivity
@@ -29,6 +34,16 @@ class WePeiYangApp : MultiDexApplication() {
             CrashReport.setAppChannel(it, "公测分发")
             CrashReport.setIsDevelopmentDevice(it, BuildConfig.DEBUG)
             BigImageViewer.initialize(GlideImageLoader.with(it))
+        }
+
+        /**
+         * emmmm 怎么弄得优雅一点？
+         * 此处@高瑞均
+         */
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            val jobinfo = ReconnectJob.getScheduler(this)
+            val jobService = getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
+            jobService.schedule(jobinfo)
         }
 
     }

@@ -75,7 +75,7 @@
                 android:resource="@xml/provider_paths"/>
         </provider>
 
-        <receiver android:name=".widget.ScheduleWidgetProvider" >
+        <receiver android:name=".widget.ScheduleWidgetProvider" android:label="@string/app_schedule_widget_name">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
                 <action android:name="com.twt.appwidget.refresh"/>

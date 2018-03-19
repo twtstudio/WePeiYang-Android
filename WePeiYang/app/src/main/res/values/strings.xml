@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">微北洋</string>
+    <string name="app_schedule_widget_name">微北洋课程表</string>
 </resources>

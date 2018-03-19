@@ -14,6 +14,8 @@ import android.widget.Button
 import android.widget.TextView
 import com.twt.service.tjunet.R
 import com.twt.service.tjunet.api.RealTjuNetService
+import com.twt.service.tjunet.ext.fineSSID
+import com.twt.service.tjunet.ext.stringIP
 import com.twt.service.tjunet.pref.TjuNetPreferences
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import es.dmoral.toasty.Toasty
@@ -155,24 +157,6 @@ class TjuNetViewComponent(itemView: View, private val owner: LifecycleOwner) : R
         }
         return "IP获取错误"
     }
-
-    inline val Int.stringIP: String
-        get() {
-            val ip = this
-            return (ip and 0xFF).toString() + "." +
-                    (ip shr 8 and 0xFF) + "." +
-                    (ip shr 16 and 0xFF) + "." +
-                    (ip shr 24 and 0xFF)
-        }
-
-    inline val String.fineSSID: String
-        get() {
-            val ssid = this
-            if (ssid.startsWith("\"") && ssid.endsWith("\"")) {
-
-                return ssid.substring(1, ssid.length - 1);
-            } else return ssid
-        }
 
     companion object {
         fun create(inflater: LayoutInflater, parent: ViewGroup, owner: LifecycleOwner): TjuNetViewComponent {
