@@ -81,7 +81,7 @@ class UserFragment : BaseFragment() {
                             .build())
                 }
 
-                AuthProvider.authSelf(useCache = true, silent = true)
+                AuthProvider.authSelf(useCache = true, quiet = true)
             }
 
 }

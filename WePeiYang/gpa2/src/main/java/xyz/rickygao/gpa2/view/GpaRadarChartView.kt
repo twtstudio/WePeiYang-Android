@@ -29,14 +29,17 @@ class GpaRadarChartView @JvmOverloads constructor(context: Context, attrs: Attri
     private val linePaint = Paint().apply {
         style = Paint.Style.STROKE
         strokeWidth = LINE_STROKE
+        isAntiAlias = true
     }
 
     private val radarPaint = Paint().apply {
         style = Paint.Style.FILL
+        isAntiAlias = true
     }
 
     private val textPaint = TextPaint().apply {
         textSize = LABEL_TEXT_SIZE
+        isAntiAlias = true
     }
 
     var lineColor

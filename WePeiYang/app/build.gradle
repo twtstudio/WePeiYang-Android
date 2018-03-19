@@ -91,6 +91,7 @@ android {
     }
 
     packagingOptions {
+        // both anko and we created a module named 'commons', so that a conflict occurred.
         exclude 'META-INF/commons_release.kotlin_module'
     }
 }
@@ -107,7 +108,7 @@ dependencies {
     }
     implementation 'com.twt.service:fragmentation:1.1.0'
 
-    [*supportLibraries, 'constraint-layout', 'multidex', *archLibraries, 'kotlin-stdlib', 'butterknife'].each {
+    [*supportLibraries, 'constraint-layout', 'multidex', *archLibraries, 'kotlin-stdlib', 'butterknife', 'anko'].each {
         implementation dependenciesMap[it]
     }
     ['lifecycle-compiler', 'butterknife-compiler'].each {

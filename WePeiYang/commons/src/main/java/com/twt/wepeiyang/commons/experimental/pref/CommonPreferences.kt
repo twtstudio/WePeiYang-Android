@@ -22,8 +22,6 @@ object CommonPreferences {
 
     var isBindBike by hawk("is_bind_bike", false)
 
-    var isFirstLogin by hawk("is_first_login", true)
-
     var isAcceptTos by hawk("is_accept_tos", false)
 
     var dropOut by hawk("drop_out", 0)

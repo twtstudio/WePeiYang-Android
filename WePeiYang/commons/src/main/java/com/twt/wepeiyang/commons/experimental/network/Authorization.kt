@@ -32,6 +32,7 @@ object RealAuthenticator : Authenticator {
 //                                it
 //                            }
                         10003, 10004 -> {
+                            CommonPreferences.isLogin = false
                             CommonContext.startActivity(name = "login")
                             null
                         }

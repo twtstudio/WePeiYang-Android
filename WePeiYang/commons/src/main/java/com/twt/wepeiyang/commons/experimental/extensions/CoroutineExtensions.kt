@@ -3,7 +3,7 @@ package com.twt.wepeiyang.commons.experimental.extensions
 import kotlinx.coroutines.experimental.CoroutineExceptionHandler
 import kotlinx.coroutines.experimental.Deferred
 
-suspend fun <T> Deferred<T>.awaitAndHandle(handler: (Throwable) -> Unit = {}): T? =
+suspend inline fun <T> Deferred<T>.awaitAndHandle(handler: (Throwable) -> Unit = {}): T? =
         try {
             await()
         } catch (t: Throwable) {
@@ -11,4 +11,4 @@ suspend fun <T> Deferred<T>.awaitAndHandle(handler: (Throwable) -> Unit = {}): T
             null
         }
 
-val EmptyCoroutineExceptionHandler = CoroutineExceptionHandler { _, t -> t.printStackTrace() }
+val QuietCoroutineExceptionHandler = CoroutineExceptionHandler { _, t -> t.printStackTrace() }

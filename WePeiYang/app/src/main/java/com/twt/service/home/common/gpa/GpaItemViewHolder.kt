@@ -46,7 +46,7 @@ class GpaItemViewHolder(itemView: View, lifecycleOwner: LifecycleOwner) : Recycl
                     }
                 }
 
-        GpaProvider.updateGpaLiveData(silent = true)
+        GpaProvider.updateGpaLiveData(quiet = true)
 
     }
 }

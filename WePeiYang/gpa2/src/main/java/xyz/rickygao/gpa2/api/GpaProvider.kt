@@ -3,7 +3,7 @@ package xyz.rickygao.gpa2.api
 import android.arch.lifecycle.MutableLiveData
 import com.orhanobut.hawk.Hawk
 import com.twt.wepeiyang.commons.experimental.extensions.ConsumableMessage
-import com.twt.wepeiyang.commons.experimental.extensions.EmptyCoroutineExceptionHandler
+import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
 import kotlinx.coroutines.experimental.CoroutineExceptionHandler
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
@@ -24,8 +24,8 @@ object GpaProvider {
     }
 
     private const val HAWK_KEY_GPA = "GPA"
-    fun updateGpaLiveData(useCache: Boolean = true, silent: Boolean = false) {
-        launch(UI + if (silent) EmptyCoroutineExceptionHandler else handler) {
+    fun updateGpaLiveData(useCache: Boolean = true, quiet: Boolean = false) {
+        launch(UI + if (quiet) QuietCoroutineExceptionHandler else handler) {
             val remote = RealGpaService.get()
 
             if (useCache) {
@@ -33,17 +33,17 @@ object GpaProvider {
                     Hawk.get<GpaBean?>(HAWK_KEY_GPA, null)
                 }.await()?.let {
                     gpaLiveData.value = it
-                    if (!silent) successLiveData.value = ConsumableMessage("从缓存中拿到了你的 GPA")
+                    if (!quiet) successLiveData.value = ConsumableMessage("从缓存中拿到了你的 GPA")
                 }
             }
 
             remote.await().data?.let {
                 if (it.updated_at != gpaLiveData.value?.updated_at) {
                     gpaLiveData.value = it
-                    if (!silent) successLiveData.value = ConsumableMessage("你的 GPA 有更新喔")
+                    if (!quiet) successLiveData.value = ConsumableMessage("你的 GPA 有更新喔")
                     Hawk.put<GpaBean>(HAWK_KEY_GPA, it)
                 } else {
-                    if (!silent) successLiveData.value = ConsumableMessage("你的 GPA 已经是最新的了")
+                    if (!quiet) successLiveData.value = ConsumableMessage("你的 GPA 已经是最新的了")
                 }
 
                 GpaPreferences.gpaToken = it.session
@@ -51,8 +51,8 @@ object GpaProvider {
         }
     }
 
-    fun postEvaluate(evaluate: Evaluate, q1: Int, q2: Int, q3: Int, q4: Int, q5: Int, note: String) {
-        launch(UI + EmptyCoroutineExceptionHandler) {
+    fun postEvaluate(evaluate: Evaluate, q1: Int, q2: Int, q3: Int, q4: Int, q5: Int, note: String, quiet: Boolean = false) {
+        launch(UI + if (quiet) QuietCoroutineExceptionHandler else handler) {
             val params = mapOf(
                     "token" to GpaPreferences.gpaToken,
                     "lesson_id" to evaluate.lesson_id,
