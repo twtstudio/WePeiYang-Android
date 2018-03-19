@@ -87,6 +87,8 @@
         <service android:name=".widget.WidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS"/>
 
+        <service android:name=".push.DebugProxyService"/>
+
         <meta-data
             android:name="UMENG_APPKEY"
             android:value="561cae6ae0f55abd990035bf" >

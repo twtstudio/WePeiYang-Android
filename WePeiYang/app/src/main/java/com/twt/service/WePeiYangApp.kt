@@ -2,12 +2,14 @@ package com.twt.service
 
 import android.app.job.JobScheduler
 import android.content.Context
+import android.content.Intent
 import android.os.Build
 import android.support.multidex.MultiDexApplication
 import com.github.piasy.biv.BigImageViewer
 import com.github.piasy.biv.loader.glide.GlideImageLoader
 import com.tencent.bugly.Bugly
 import com.tencent.bugly.crashreport.CrashReport
+import com.twt.service.push.DebugProxyService
 import com.twt.service.tjunet.pref.TjuNetPreferences
 import com.twt.service.tjunet.reconnect.ReconnectJob
 import com.twt.service.welcome.WelcomeActivity
@@ -44,6 +46,19 @@ class WePeiYangApp : MultiDexApplication() {
             val jobinfo = ReconnectJob.getScheduler(this)
             val jobService = getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
             jobService.schedule(jobinfo)
+        }
+
+        /**
+         * 用于调试API服务
+         * adb forward tcp:$yourLocalPort tcp:10086 然后在电脑本地使用Postman对该端口进行调试
+         * example: $yourLocalPort = 10080
+         * GET http://127.0.0.1:10080/api/v1/library/user/info
+         * 不需要自己带token和sign
+         * 暂不支持POST
+         */
+        if (BuildConfig.DEBUG) {
+            val intent = Intent(this,DebugProxyService::class.java)
+            startService(intent)
         }
 
     }
