@@ -122,6 +122,11 @@ class TjuNetViewComponent(itemView: View, private val owner: LifecycleOwner) : R
 
     fun bind() {
         refreshNetworkInfo()
+        itemView.setOnClickListener {
+            val intent = Intent(context,TjuNetActivity::class.java)
+            context.startActivity(intent)
+
+        }
         refreshBtn.setOnClickListener {
             status.text = "刷新中..."
             refreshNetworkInfo()
