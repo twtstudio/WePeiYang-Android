@@ -2,7 +2,6 @@ package com.twt.service.push;
 
 import android.text.TextUtils;
 
-import com.antfortune.freeline.router.ISchemaAction;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,6 +14,8 @@ import java.util.Map;
 public class EmbedHttpServer implements Runnable {
 	private int port;
 	private ServerSocket serverSocket;
+	private static String DESCRIPTION = "description";
+
 
 	public EmbedHttpServer(int port) {
 		this.port = port;
@@ -127,9 +128,9 @@ public class EmbedHttpServer implements Runnable {
 		Map<String, String> queries = new HashMap<>();
 		int queryIndex = description.indexOf("?");
 		if (queryIndex == -1) {
-			queries.put(ISchemaAction.DESCRIPTION, description);
+			queries.put(DESCRIPTION, description);
 		} else {
-			queries.put(ISchemaAction.DESCRIPTION, description.substring(0, queryIndex));
+			queries.put(DESCRIPTION, description.substring(0, queryIndex));
 			description = description.substring(queryIndex + 1);
 		}
 
