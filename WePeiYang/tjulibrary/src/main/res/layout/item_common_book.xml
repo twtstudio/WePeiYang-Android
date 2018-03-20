@@ -1,54 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="20dp"
+    android:layout_marginStart="20dp"
+    android:layout_marginTop="8dp"
+    android:orientation="horizontal">
 
+    <ImageView
+        android:id="@+id/ic_item_book"
+        android:layout_width="26dp"
+        android:layout_height="26dp"
+        android:layout_gravity="center_vertical"
+        tools:src="@drawable/lib_book" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="3dp"
         android:layout_marginLeft="20dp"
         android:layout_marginStart="20dp"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
-        <ImageView
-            android:layout_width="26dp"
-            android:layout_height="26dp"
-            android:layout_gravity="center_vertical"
-            android:id="@+id/ic_item_book"
-            tools:src="@drawable/lib_book" />
-
-        <LinearLayout
+        <TextView
+            android:id="@+id/tv_item_book_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginStart="20dp"
-            android:orientation="vertical">
+            android:textSize="16sp"
+            tools:text="从你的全世界路过" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/tv_item_book_name"
-                android:textSize="16sp"
-                tools:text="从你的全世界路过" />
+        <TextView
+            android:id="@+id/tv_item_book_return"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:fontFamily="sans-serif-light"
+            android:maxLines="1"
+            android:textSize="16sp"
+            tools:text="2017/4/18 到期" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
-                android:fontFamily="sans-serif-light"
-                android:maxLines="1"
-                android:id="@+id/tv_item_book_return"
-                android:textSize="16sp"
-                tools:text="2017/4/18 到期" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="2dp"
+            android:background="@color/common_lv4_divider" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="2dp"
-                android:background="@color/common_lv4_divider" />
-
-        </LinearLayout>
     </LinearLayout>
+</LinearLayout>
 
-</layout>

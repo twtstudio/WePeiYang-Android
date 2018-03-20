@@ -35,8 +35,13 @@ class GpaItemViewHolder(itemView: View, lifecycleOwner: LifecycleOwner) : Recycl
                     it?.stat?.total?.let {
                         val fake = "***"
                         if (AppPreferences.isDisplayGpa) {
-                            scoreTv.text = it.score.toString()
-                            gpaTv.text = it.gpa.toString()
+                            if (AppPreferences.isBoomGpa) {
+                                scoreTv.text = "100.0"
+                                gpaTv.text = "4.0"
+                            } else {
+                                scoreTv.text = it.score.toString()
+                                gpaTv.text = it.gpa.toString()
+                            }
                             creditTv.text = it.credit.toString()
                         } else {
                             scoreTv.text = fake

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="pref_is_display_gpa">pref_is_display_gpa</string>
+    <string name="pref_is_boom_gpa">pref_is_boom_gpa</string>
     <string name="pref_is_display_bike">pref_is_display_bike</string>
     <string name="pref_is_show_today_course">pref_is_show_today_course</string>
     <string name="pref_is_auto_check_update">pref_is_auto_check_update</string>

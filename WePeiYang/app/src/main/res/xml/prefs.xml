@@ -17,7 +17,7 @@
             android:title="是否显示今日课程页面" />
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="主页设置">
+    <PreferenceCategory android:title="主页设置（可能需要重启微北洋）">
 
         <SwitchPreference
             android:defaultValue="false"
@@ -25,6 +25,13 @@
             android:summaryOff="算了我拒绝看那种东西"
             android:summaryOn="老夫就是要刺激"
             android:title="主页显示GPA" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="@string/pref_is_boom_gpa"
+            android:summaryOff="装一下又不亏"
+            android:summaryOn="赶快截图分享到朋友圈吧"
+            android:title="GPA一键装逼" />
 
         <SwitchPreference
             android:defaultValue="false"
