@@ -1,6 +1,6 @@
 package xyz.rickygao.gpa2
 
-import com.twt.wepeiyang.commons.experimental.pref.hawk
+import com.twt.wepeiyang.commons.experimental.preference.hawk
 
 /**
  * Created by rickygao on 2018/3/14.

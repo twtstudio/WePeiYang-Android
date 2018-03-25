@@ -10,7 +10,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.twt.service.R
-import com.twt.wepeiyang.commons.experimental.extensions.bind
+import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
 
 /**
  * Created by rickygao on 2018/1/28.
@@ -83,19 +83,15 @@ class UserAdapter(
         val item = items[position]
         when {
             item is UserItem.AvatarItem && holder is UserItemViewHolder.AvatarItemViewHolder -> {
-                item.avatarSrc.bind(lifecycleOwner) {
-                    it?.let {
-                        holder.bind(it.avatar, it.username, it.realname, item.defaultAvatarRes)
-                    }
+                item.avatarSrc.bindNonNull(lifecycleOwner) {
+                    holder.bind(it.avatar, it.username, it.realname, item.defaultAvatarRes)
                 }
             }
 
             item is UserItem.InfoItem && holder is UserItemViewHolder.InfoItemViewHolder -> {
                 holder.bind(item.iconRes, item.label)
-                item.infoSrc.bind(lifecycleOwner) {
-                    it?.let {
-                        holder.update(it)
-                    }
+                item.infoSrc.bindNonNull(lifecycleOwner) {
+                    holder.update(it)
                 }
             }
 
@@ -119,6 +115,7 @@ sealed class UserItem {
 
     //    object DividerItem: UserItem()
     class AvatarItem(val avatarSrc: LiveData<AvatarBean>, val defaultAvatarRes: Int) : UserItem()
+
     class InfoItem(val iconRes: Int, val label: String, val infoSrc: LiveData<String>) : UserItem()
     class ActionItem(val iconRes: Int, val label: String, val action: () -> Unit) : UserItem()
 

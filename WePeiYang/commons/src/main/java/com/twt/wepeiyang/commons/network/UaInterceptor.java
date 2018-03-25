@@ -1,7 +1,7 @@
 package com.twt.wepeiyang.commons.network;
 
 import com.orhanobut.logger.Logger;
-import com.twt.wepeiyang.commons.experimental.pref.CommonPreferences;
+import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences;
 
 import java.io.IOException;
 

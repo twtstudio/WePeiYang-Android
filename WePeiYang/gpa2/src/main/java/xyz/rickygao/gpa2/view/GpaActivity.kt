@@ -10,11 +10,17 @@ import android.support.v7.widget.Toolbar
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
-import com.twt.wepeiyang.commons.experimental.extensions.*
+import com.twt.wepeiyang.commons.experimental.cache.CacheIndicator.REMOTE
+import com.twt.wepeiyang.commons.experimental.cache.State
+import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
+import com.twt.wepeiyang.commons.experimental.extensions.enableLightStatusBarMode
+import com.twt.wepeiyang.commons.experimental.extensions.fitSystemWindowWithNavigationBar
+import com.twt.wepeiyang.commons.experimental.extensions.fitSystemWindowWithStatusBar
 import es.dmoral.toasty.Toasty
+import org.jetbrains.anko.coroutines.experimental.asReference
 import xyz.rickygao.gpa2.R
-import xyz.rickygao.gpa2.api.GpaProvider
-import xyz.rickygao.gpa2.api.Term
+import xyz.rickygao.gpa2.service.GpaLiveData
+import xyz.rickygao.gpa2.service.Term
 
 /**
  * Created by rickygao on 2017/11/9.
@@ -49,7 +55,8 @@ class GpaActivity : AppCompatActivity() {
     private lateinit var courseAdapter: CourseAdapter
     private var selectedTermIndex = 0
         set(value) {
-            val term = GpaProvider.gpaLiveData.value?.data.orEmpty()
+            val term = GpaLiveData.value?.data.orEmpty()
+
             if (term.isEmpty()) {
                 selectedTermTs.setText(EMPTY_TERM)
                 tbSelectedTermTv.text = EMPTY_TERM
@@ -101,7 +108,14 @@ class GpaActivity : AppCompatActivity() {
         }
         refreshBtn = findViewById<ImageButton>(R.id.btn_refresh).apply {
             setOnClickListener {
-                GpaProvider.updateGpaLiveData(false)
+                val activity = this@GpaActivity.asReference()
+                GpaLiveData.refresh(REMOTE) {
+                    when (it) {
+                        is State.Success -> if (it.indicator == REMOTE) Toasty.success(activity(), "刷新完成").show()
+                        is State.Failure -> Toasty.error(activity(), "有一个错误，${it.throwable.message}！${it.javaClass.name}").show()
+                        is State.Refreshing -> Toasty.normal(activity(), "加载中...").show()
+                    }
+                }
             }
         }
 
@@ -173,18 +187,15 @@ class GpaActivity : AppCompatActivity() {
             }
         }
 
-        // load data
-        GpaProvider.updateGpaLiveData()
-
         // bind callback
-        GpaProvider.gpaLiveData.bind(this) {
-            it?.stat?.total?.let {
+        GpaLiveData.bindNonNull(this) {
+            it.stat.total.let {
                 scoreTv.text = it.score.toString()
                 gpaTv.text = it.gpa.toString()
                 creditTv.text = it.credit.toString()
             }
 
-            it?.data.orEmpty().asSequence().map(Term::stat).map {
+            it.data.asSequence().map(Term::stat).map {
                 GpaLineChartView.DataWithDetail(it.score, """
                         加权：${it.score}
                         绩点：${it.gpa}
@@ -198,15 +209,5 @@ class GpaActivity : AppCompatActivity() {
             selectedTermIndex = selectedTermIndex
         }
 
-        GpaProvider.successLiveData.consume(this) {
-            Toasty.success(this, it).show()
-        }
-
-        GpaProvider.errorLiveData.consume(this) {
-            Toasty.error(this, it).show()
-        }
-
     }
-
 }
-

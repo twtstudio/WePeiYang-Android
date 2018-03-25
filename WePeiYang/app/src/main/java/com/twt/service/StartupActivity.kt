@@ -9,7 +9,7 @@ import android.os.Build
 import android.os.Bundle
 import com.twt.service.base.BaseActivity
 import com.twt.service.home.HomeActivity
-import com.twt.wepeiyang.commons.experimental.pref.CommonPreferences
+import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
 import com.twtstudio.retrox.auth.view.LoginActivity
 import org.jetbrains.anko.shortcutManager
 import org.jetbrains.anko.startActivity

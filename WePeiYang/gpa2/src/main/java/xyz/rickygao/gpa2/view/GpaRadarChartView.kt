@@ -6,7 +6,7 @@ import android.text.TextPaint
 import android.util.AttributeSet
 import android.view.View
 import xyz.rickygao.gpa2.R
-import xyz.rickygao.gpa2.ext.*
+import xyz.rickygao.gpa2.extensions.*
 
 /**
  * Created by rickygao on 2017/11/13.

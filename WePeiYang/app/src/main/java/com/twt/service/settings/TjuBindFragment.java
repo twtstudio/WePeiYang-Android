@@ -9,7 +9,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.twt.service.R;
-import com.twt.wepeiyang.commons.experimental.pref.CommonPreferences;
+import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences;
 import com.twt.wepeiyang.commons.network.RxErrorHandler;
 import com.twtstudio.retrox.auth.api.AuthProvider;
 

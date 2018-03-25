@@ -2,7 +2,7 @@ package com.twt.wepeiyang.commons.experimental.network
 
 import com.orhanobut.logger.Logger
 import com.twt.wepeiyang.commons.experimental.CommonContext
-import com.twt.wepeiyang.commons.experimental.pref.CommonPreferences
+import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
 import okhttp3.*
 import org.json.JSONObject
 import java.net.HttpURLConnection

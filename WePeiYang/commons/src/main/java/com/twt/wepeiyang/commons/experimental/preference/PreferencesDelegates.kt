@@ -1,4 +1,4 @@
-package com.twt.wepeiyang.commons.experimental.pref
+package com.twt.wepeiyang.commons.experimental.preference
 
 import com.orhanobut.hawk.Hawk
 import com.twt.wepeiyang.commons.experimental.CommonContext

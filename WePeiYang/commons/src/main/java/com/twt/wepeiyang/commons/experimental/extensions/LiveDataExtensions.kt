@@ -14,7 +14,7 @@ inline fun <T, U> LiveData<T>.switchMap(crossinline func: (T) -> LiveData<U>): L
 inline fun <T> LiveData<T>.bind(lifecycleOwner: LifecycleOwner, crossinline block: (T?) -> Unit) =
         observe(lifecycleOwner, Observer { block(it) })
 
-inline fun <T> LiveData<T>.bindNonNull(lifecycleOwner: LifecycleOwner, crossinline block: (T?) -> Unit) =
+inline fun <T> LiveData<T>.bindNonNull(lifecycleOwner: LifecycleOwner, crossinline block: (T) -> Unit) =
         observe(lifecycleOwner, Observer { it?.let(block) })
 
 inline fun <T> LiveData<ConsumableMessage<T>>.consume(lifecycleOwner: LifecycleOwner, from: Int, crossinline block: (T) -> Unit) =

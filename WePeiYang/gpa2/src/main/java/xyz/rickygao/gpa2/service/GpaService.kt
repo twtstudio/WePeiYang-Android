@@ -1,14 +1,19 @@
-package xyz.rickygao.gpa2.api
+package xyz.rickygao.gpa2.service
 
 import android.os.Parcel
 import android.os.Parcelable
+import com.twt.wepeiyang.commons.experimental.cache.*
+import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import com.twt.wepeiyang.commons.experimental.network.CommonBody
 import com.twt.wepeiyang.commons.experimental.network.ServiceFactory
 import kotlinx.coroutines.experimental.Deferred
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.launch
 import retrofit2.http.FieldMap
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.POST
+import xyz.rickygao.gpa2.GpaPreferences
 
 
 /**
@@ -23,9 +28,42 @@ interface GpaService {
     @POST("v1/gpa/evaluate")
     fun evaluate(@FieldMap params: Map<String, String>): Deferred<CommonBody<String>>
 
+    companion object : GpaService by ServiceFactory()
 }
 
-object RealGpaService : GpaService by ServiceFactory()
+val GpaLocalCache = Cache.hawk<GpaBean>("GPA")
+val GpaRemoteCache = Cache.from(GpaService.Companion::get).map(CommonBody<GpaBean>::data)
+val GpaLiveData = RefreshableLiveData.use(GpaLocalCache, GpaRemoteCache)
+
+internal fun postEvaluate(evaluate: Evaluate, q1: Int, q2: Int, q3: Int, q4: Int, q5: Int, note: String, callback: suspend (String) -> (Unit)) {
+    launch(UI) {
+        val params = mapOf(
+                "token" to GpaPreferences.gpaToken,
+                "lesson_id" to evaluate.lesson_id,
+                "union_id" to evaluate.union_id,
+                "course_id" to evaluate.course_id,
+                "term" to evaluate.term,
+                "q1" to q1.toString(),
+                "q2" to q2.toString(),
+                "q3" to q3.toString(),
+                "q4" to q4.toString(),
+                "q5" to q5.toString(),
+                "note" to note
+        )
+
+//                    .apply {
+//                    put("t", Calendar.getInstance().timeInMillis.toString())
+//                    val paramsString = JniUtils.getInstance().appKey +
+//                            entries.map { it.key + it.value }.reduce(String::plus) +
+//                            JniUtils.getInstance().appSecret
+//                    val sign = String(Hex.encodeHex(DigestUtils.sha1(paramsString))).toUpperCase()
+//                    put("sign", sign)
+//                    put("app_key", ServiceFactory.APP_KEY)
+//            }
+
+        GpaService.evaluate(params).awaitAndHandle { callback(it.message.orEmpty()) }?.let { callback(it.message) }
+    }
+}
 
 data class GpaBean(
         val stat: Stat,

@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import org.jetbrains.anko.startActivity
 import xyz.rickygao.gpa2.R
-import xyz.rickygao.gpa2.api.Evaluate
+import xyz.rickygao.gpa2.service.Evaluate
 
 /**
  * Created by rickygao on 2017/11/14.

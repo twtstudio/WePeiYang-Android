@@ -8,8 +8,8 @@ import android.view.View
 import android.widget.TextView
 import com.twt.service.AppPreferences
 import com.twt.service.R
-import com.twt.wepeiyang.commons.experimental.extensions.bind
-import xyz.rickygao.gpa2.api.GpaProvider
+import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
+import xyz.rickygao.gpa2.service.GpaLiveData
 import xyz.rickygao.gpa2.view.GpaActivity
 
 /**
@@ -30,28 +30,25 @@ class GpaItemViewHolder(itemView: View, lifecycleOwner: LifecycleOwner) : Recycl
             itemView.context.startActivity(intent)
         }
 
-        GpaProvider.gpaLiveData
-                .bind(lifecycleOwner) {
-                    it?.stat?.total?.let {
-                        val fake = "***"
-                        if (AppPreferences.isDisplayGpa) {
-                            if (AppPreferences.isBoomGpa) {
-                                scoreTv.text = "100.0"
-                                gpaTv.text = "4.0"
-                            } else {
-                                scoreTv.text = it.score.toString()
-                                gpaTv.text = it.gpa.toString()
-                            }
-                            creditTv.text = it.credit.toString()
-                        } else {
-                            scoreTv.text = fake
-                            gpaTv.text = fake
-                            creditTv.text = fake
-                        }
+        GpaLiveData.bindNonNull(lifecycleOwner) {
+            it.stat.total.let {
+                val fake = "***"
+                if (AppPreferences.isDisplayGpa) {
+                    if (AppPreferences.isBoomGpa) {
+                        scoreTv.text = "100.0"
+                        gpaTv.text = "4.0"
+                    } else {
+                        scoreTv.text = it.score.toString()
+                        gpaTv.text = it.gpa.toString()
                     }
+                    creditTv.text = it.credit.toString()
+                } else {
+                    scoreTv.text = fake
+                    gpaTv.text = fake
+                    creditTv.text = fake
                 }
-
-        GpaProvider.updateGpaLiveData(quiet = true)
+            }
+        }
 
     }
 }

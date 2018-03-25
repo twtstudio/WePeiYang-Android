@@ -23,7 +23,7 @@ import com.twt.service.R;
 import com.twt.service.home.HomeActivity;
 import com.twt.service.update.UpdateManager;
 import com.twt.wepeiyang.commons.cache.CacheProvider;
-import com.twt.wepeiyang.commons.experimental.pref.CommonPreferences;
+import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences;
 import com.twt.wepeiyang.commons.network.RxErrorHandler;
 import com.twtstudio.retrox.auth.api.AuthProvider;
 import com.twtstudio.retrox.bike.service.BikeServiceProvider;

@@ -1,4 +1,4 @@
-package com.twt.wepeiyang.commons.experimental.api
+package com.twt.wepeiyang.commons.experimental.service
 
 import com.twt.wepeiyang.commons.experimental.network.CommonBody
 import com.twt.wepeiyang.commons.experimental.network.ServiceFactory
@@ -21,9 +21,9 @@ interface AuthService {
     @GET("v1/auth/token/refresh")
     fun refreshToken(): Deferred<CommonBody<Token>>
 
-}
+    companion object : AuthService by ServiceFactory()
 
-object RealAuthService : AuthService by ServiceFactory()
+}
 
 data class AuthSelfBean(
         val twtid: Int,

@@ -7,14 +7,14 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.widget.ImageButton
 import android.widget.RatingBar
-import com.twt.wepeiyang.commons.experimental.extensions.consume
 import com.twt.wepeiyang.commons.experimental.extensions.enableLightStatusBarMode
 import com.twt.wepeiyang.commons.experimental.extensions.fitSystemWindowWithNavigationBar
 import com.twt.wepeiyang.commons.experimental.extensions.fitSystemWindowWithStatusBar
 import es.dmoral.toasty.Toasty
+import org.jetbrains.anko.coroutines.experimental.asReference
 import xyz.rickygao.gpa2.R
-import xyz.rickygao.gpa2.api.Evaluate
-import xyz.rickygao.gpa2.api.GpaProvider
+import xyz.rickygao.gpa2.service.Evaluate
+import xyz.rickygao.gpa2.service.postEvaluate
 
 /**
  * Created by rickygao on 2018/1/23.
@@ -60,9 +60,13 @@ class EvaluateActivity : AppCompatActivity() {
 
         okBtn = findViewById<ImageButton>(R.id.btn_ok).apply {
             setOnClickListener {
-                GpaProvider.postEvaluate(evaluate, q1Rb.rating.toInt(), q2Rb.rating.toInt(),
+                val activity = this@EvaluateActivity.asReference()
+                postEvaluate(evaluate, q1Rb.rating.toInt(), q2Rb.rating.toInt(),
                         q3Rb.rating.toInt(), q4Rb.rating.toInt(), q5Rb.rating.toInt(),
-                        noteEt.text.toString())
+                        noteEt.text.toString()) {
+                    Toasty.info(activity(), it).show()
+                    finish()
+                }
             }
         }
 
@@ -76,15 +80,6 @@ class EvaluateActivity : AppCompatActivity() {
         q4Rb = findViewById(R.id.rb_q4)
         q5Rb = findViewById(R.id.rb_q5)
         noteEt = findViewById(R.id.et_note)
-
-        GpaProvider.successLiveData.consume(this) {
-            Toasty.success(this, it).show()
-            finish()
-        }
-
-        GpaProvider.errorLiveData.consume(this) {
-            Toasty.error(this, it).show()
-        }
     }
 
 }

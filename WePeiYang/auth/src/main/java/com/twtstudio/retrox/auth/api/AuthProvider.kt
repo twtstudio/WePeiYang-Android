@@ -3,11 +3,11 @@ package com.twtstudio.retrox.auth.api
 import android.arch.lifecycle.MutableLiveData
 import com.orhanobut.hawk.Hawk
 import com.tencent.bugly.crashreport.CrashReport
-import com.twt.wepeiyang.commons.experimental.api.AuthSelfBean
-import com.twt.wepeiyang.commons.experimental.api.RealAuthService
 import com.twt.wepeiyang.commons.experimental.extensions.ConsumableMessage
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
-import com.twt.wepeiyang.commons.experimental.pref.CommonPreferences
+import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
+import com.twt.wepeiyang.commons.experimental.service.AuthSelfBean
+import com.twt.wepeiyang.commons.experimental.service.AuthService
 import kotlinx.coroutines.experimental.CoroutineExceptionHandler
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
@@ -26,7 +26,7 @@ object AuthProvider {
     const val FROM_LOGIN = 0
     fun login(username: String, password: String, quiet: Boolean = false) {
         launch(UI + if (quiet) QuietCoroutineExceptionHandler else handler) {
-            val remote = RealAuthService.getToken(username, password)
+            val remote = AuthService.getToken(username, password)
 
             remote.await().data?.let {
                 CommonPreferences.token = it.token
@@ -46,7 +46,7 @@ object AuthProvider {
     private const val HAWK_KEY_AUTH_SELF = "AUTH_SELF"
     fun authSelf(useCache: Boolean = true, quiet: Boolean = false) {
         launch(UI + handler) {
-            val remote = RealAuthService.authSelf()
+            val remote = AuthService.authSelf()
 
             if (useCache) {
                 bg {

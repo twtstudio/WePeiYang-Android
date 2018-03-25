@@ -4,7 +4,7 @@ import com.orhanobut.logger.Logger;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 import com.twt.wepeiyang.commons.cache.CacheProvider;
-import com.twt.wepeiyang.commons.experimental.pref.CommonPreferences;
+import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences;
 import com.twt.wepeiyang.commons.network.RetrofitProvider;
 import com.twt.wepeiyang.commons.network.RxErrorHandler;
 

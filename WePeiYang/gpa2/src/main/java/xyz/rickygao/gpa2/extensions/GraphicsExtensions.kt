@@ -1,4 +1,4 @@
-package xyz.rickygao.gpa2.ext
+package xyz.rickygao.gpa2.extensions
 
 import android.graphics.Path
 import android.graphics.PointF

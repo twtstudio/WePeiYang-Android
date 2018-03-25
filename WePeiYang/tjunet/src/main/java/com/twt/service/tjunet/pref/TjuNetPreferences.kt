@@ -1,7 +1,7 @@
 package com.twt.service.tjunet.pref
 
-import com.twt.wepeiyang.commons.experimental.pref.CommonPreferences
-import com.twt.wepeiyang.commons.experimental.pref.hawk
+import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
+import com.twt.wepeiyang.commons.experimental.preference.hawk
 
 /**
  * Created by retrox on 2018/3/13.
