@@ -6,11 +6,14 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ProgressBar
-import com.twt.wepeiyang.commons.experimental.extensions.consume
+import com.twt.wepeiyang.commons.experimental.cache.CacheIndicator.REMOTE
+import com.twt.wepeiyang.commons.experimental.cache.RefreshState
 import com.twt.wepeiyang.commons.experimental.startActivity
 import com.twtstudio.retrox.auth.R
-import com.twtstudio.retrox.auth.api.AuthProvider
+import com.twtstudio.retrox.auth.api.authSelfLiveData
+import com.twtstudio.retrox.auth.api.login
 import es.dmoral.toasty.Toasty
+import org.jetbrains.anko.coroutines.experimental.asReference
 
 
 /**
@@ -33,28 +36,36 @@ class LoginActivity : AppCompatActivity() {
         loginPb = findViewById(R.id.pb_login)
         loginBtn = findViewById<Button>(R.id.btn_login).apply {
             setOnClickListener {
-                AuthProvider.login(usernameEt.text.toString(), passwordEt.text.toString())
                 loginBtn.isEnabled = false
                 loginPb.visibility = View.VISIBLE
+
+                val activity = this@LoginActivity.asReference()
+                login(usernameEt.text.toString(), passwordEt.text.toString()) {
+                    when (it) {
+                        is RefreshState.Success ->
+                            authSelfLiveData.refresh(REMOTE) {
+                                when (it) {
+                                    is RefreshState.Success -> {
+                                        Toasty.success(activity(), "登录成功").show()
+                                        startActivity(name = "welcome")
+                                        finish()
+                                    }
+                                    is RefreshState.Failure -> {
+                                        Toasty.error(activity(), "发生错误 ${it.throwable.message}！${it.javaClass.name}").show()
+                                        loginPb.visibility = View.INVISIBLE
+                                        loginBtn.isEnabled = true
+                                    }
+                                }
+                            }
+
+                        is RefreshState.Failure -> {
+                            Toasty.error(activity(), "发生错误 ${it.throwable.message}！${it.javaClass.name}").show()
+                            loginPb.visibility = View.INVISIBLE
+                            loginBtn.isEnabled = true
+                        }
+                    }
+                }
             }
-        }
-
-        AuthProvider.successLiveData.consume(this, from = AuthProvider.FROM_LOGIN) {
-            Toasty.success(this, it).show()
-            AuthProvider.authSelf()
-        }
-
-        AuthProvider.successLiveData.consume(this, from = AuthProvider.FROM_AUTH_SELF) {
-            Toasty.success(this, it).show()
-            loginPb.visibility = View.INVISIBLE
-            startActivity(name = "welcome")
-            finish()
-        }
-
-        AuthProvider.errorLiveData.consume(this) {
-            Toasty.error(this, it).show()
-            loginPb.visibility = View.INVISIBLE
-            loginBtn.isEnabled = true
         }
 
     }

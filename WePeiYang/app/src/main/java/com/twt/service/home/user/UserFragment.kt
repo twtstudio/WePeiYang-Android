@@ -19,7 +19,7 @@ import com.twt.wepeiyang.commons.cache.CacheProvider
 import com.twt.wepeiyang.commons.experimental.extensions.map
 import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
 import com.twt.wepeiyang.commons.view.RecyclerViewDivider
-import com.twtstudio.retrox.auth.api.AuthProvider
+import com.twtstudio.retrox.auth.api.authSelfLiveData
 import com.twtstudio.retrox.auth.view.LoginActivity
 
 
@@ -35,14 +35,14 @@ class UserFragment : BaseFragment() {
                     layoutManager = LinearLayoutManager(context)
                     adapter = UserAdapter(
                             listOf(
-                                    UserItem.AvatarItem(AuthProvider.authSelfLiveData.map {
+                                    UserItem.AvatarItem(authSelfLiveData.map {
                                         UserItem.AvatarBean(it.avatar, it.twtuname, it.realname)
                                     }, R.drawable.ic_avatar),
 //                            UserItem.DividerItem,
-                                    UserItem.InfoItem(R.drawable.ic_tju_little_icon, "办公网", AuthProvider.authSelfLiveData.map {
+                                    UserItem.InfoItem(R.drawable.ic_tju_little_icon, "办公网", authSelfLiveData.map {
                                         if (it.accounts.tju) "已绑定" else "未绑定"
                                     }),
-                                    UserItem.InfoItem(R.drawable.lib_library, "图书馆", AuthProvider.authSelfLiveData.map {
+                                    UserItem.InfoItem(R.drawable.lib_library, "图书馆", authSelfLiveData.map {
                                         if (it.accounts.lib) "已绑定" else "未绑定"
                                     }),
                                     UserItem.InfoItem(R.drawable.bike_bike_icon, "自行车", MutableLiveData<String>().apply {
@@ -80,8 +80,6 @@ class UserFragment : BaseFragment() {
                             .setColorRes(R.color.background_gray)
                             .build())
                 }
-
-                AuthProvider.authSelf(useCache = true, quiet = true)
             }
 
 }

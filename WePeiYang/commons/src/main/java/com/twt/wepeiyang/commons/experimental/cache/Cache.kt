@@ -64,3 +64,4 @@ fun <V : Any> Cache.Companion.hawk(key: String): Cache<V> = object : Cache<V> {
             async(CommonPool) { if (!Hawk.put<V>(key, value)) throw RuntimeException("Failed to set value $value for key $key.") }
 
 }
+

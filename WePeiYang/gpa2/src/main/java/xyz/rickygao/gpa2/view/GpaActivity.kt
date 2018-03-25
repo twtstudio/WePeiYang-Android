@@ -11,13 +11,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
 import com.twt.wepeiyang.commons.experimental.cache.CacheIndicator.REMOTE
-import com.twt.wepeiyang.commons.experimental.cache.State
+import com.twt.wepeiyang.commons.experimental.cache.simpleCallback
 import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
 import com.twt.wepeiyang.commons.experimental.extensions.enableLightStatusBarMode
 import com.twt.wepeiyang.commons.experimental.extensions.fitSystemWindowWithNavigationBar
 import com.twt.wepeiyang.commons.experimental.extensions.fitSystemWindowWithStatusBar
-import es.dmoral.toasty.Toasty
-import org.jetbrains.anko.coroutines.experimental.asReference
 import xyz.rickygao.gpa2.R
 import xyz.rickygao.gpa2.service.GpaLiveData
 import xyz.rickygao.gpa2.service.Term
@@ -108,14 +106,7 @@ class GpaActivity : AppCompatActivity() {
         }
         refreshBtn = findViewById<ImageButton>(R.id.btn_refresh).apply {
             setOnClickListener {
-                val activity = this@GpaActivity.asReference()
-                GpaLiveData.refresh(REMOTE) {
-                    when (it) {
-                        is State.Success -> if (it.indicator == REMOTE) Toasty.success(activity(), "刷新完成").show()
-                        is State.Failure -> Toasty.error(activity(), "有一个错误，${it.throwable.message}！${it.javaClass.name}").show()
-                        is State.Refreshing -> Toasty.normal(activity(), "加载中...").show()
-                    }
-                }
+                GpaLiveData.refresh(REMOTE, callback = simpleCallback())
             }
         }
 
