@@ -13,7 +13,6 @@ import retrofit2.http.FieldMap
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.POST
-import xyz.rickygao.gpa2.GpaPreferences
 
 
 /**
@@ -38,7 +37,7 @@ val GpaLiveData = RefreshableLiveData.use(GpaLocalCache, GpaRemoteCache)
 internal fun postEvaluate(evaluate: Evaluate, q1: Int, q2: Int, q3: Int, q4: Int, q5: Int, note: String, callback: suspend (String) -> (Unit)) {
     launch(UI) {
         val params = mapOf(
-                "token" to GpaPreferences.gpaToken,
+                "token" to GpaLiveData.value?.session.orEmpty(),
                 "lesson_id" to evaluate.lesson_id,
                 "union_id" to evaluate.union_id,
                 "course_id" to evaluate.course_id,
