@@ -10,5 +10,6 @@ public interface ScheduleView {
     void showProgress();
     void hideProgress();
     void bindData(ClassTable classTable);
+    //试试能不能改
 
 }
