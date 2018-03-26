@@ -46,16 +46,18 @@ interface AbsClasstableProvider {
     /**
      * 传入周数获取当周的课程表
      */
-    fun getCourseByWeek(week: Int): List<List<Course>>
+    fun getCourseByWeek(week: Int): List<Course>
 
     /**
      * 传入时间戳获取当周的课程表
      */
-    fun getCourseByWeekWithTime(unixTime: Long): List<List<Course>>
+    fun getCourseByWeekWithTime(unixTime: Long): List<Course>
 
     /**
      * 获取当前周数
      */
     fun getCurrentWeek(): Int
+
+    fun getWeekByTime(unixTime: Long): Int
 
 }
