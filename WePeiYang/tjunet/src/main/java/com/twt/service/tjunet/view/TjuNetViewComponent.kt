@@ -44,7 +44,6 @@ class TjuNetViewComponent(itemView: View, private val owner: LifecycleOwner) : R
     private val logoutBtn: Button = itemView.findViewById(R.id.btn_disconnect)
     private val wifiManager = context.applicationContext.getSystemService(Context.WIFI_SERVICE) as? WifiManager
     private val connectivityManager = context.applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager
-    private val connectionInfo = wifiManager?.connectionInfo
 
     private fun refreshNetworkInfo() {
         val networkInfo = connectivityManager?.activeNetworkInfo
@@ -63,6 +62,7 @@ class TjuNetViewComponent(itemView: View, private val owner: LifecycleOwner) : R
                 loginBtn.setClickableState(false)
             }
             ConnectivityManager.TYPE_WIFI -> {
+                val connectionInfo = wifiManager?.connectionInfo
                 connectionInfo?.let {
                     wlanName.text = it.ssid.fineSSID
                     ipText.text = it.ipAddress.stringIP
