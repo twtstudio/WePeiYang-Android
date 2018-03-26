@@ -1,8 +1,10 @@
 package com.twtstudio.retrox.auth.view
 
+import android.content.Context
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ProgressBar
@@ -38,6 +40,7 @@ class LoginActivity : AppCompatActivity() {
             setOnClickListener {
                 loginBtn.isEnabled = false
                 loginPb.visibility = View.VISIBLE
+                hideSoftInputMethod()
 
                 val activity = this@LoginActivity.asReference()
                 login(usernameEt.text.toString(), passwordEt.text.toString()) {
@@ -68,5 +71,12 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
+    }
+
+    private fun hideSoftInputMethod() {
+        val inputMethManager = getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+        inputMethManager?.apply {
+            hideSoftInputFromWindow(window.decorView.windowToken, 0)
+        }
     }
 }

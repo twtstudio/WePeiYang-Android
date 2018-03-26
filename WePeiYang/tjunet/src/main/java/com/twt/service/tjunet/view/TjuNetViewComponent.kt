@@ -3,6 +3,7 @@ package com.twt.service.tjunet.view
 import android.arch.lifecycle.LifecycleOwner
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.net.ConnectivityManager
 import android.net.wifi.WifiManager
 import android.support.v7.widget.RecyclerView
@@ -17,10 +18,12 @@ import com.twt.service.tjunet.api.RealTjuNetService
 import com.twt.service.tjunet.ext.fineSSID
 import com.twt.service.tjunet.ext.stringIP
 import com.twt.service.tjunet.pref.TjuNetPreferences
+import com.twt.wepeiyang.commons.experimental.color.getColorCompat
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import es.dmoral.toasty.Toasty
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
+import org.jetbrains.anko.textColor
 import java.net.Inet4Address
 import java.net.NetworkInterface
 import java.net.NetworkInterface.getNetworkInterfaces
@@ -56,12 +59,16 @@ class TjuNetViewComponent(itemView: View, private val owner: LifecycleOwner) : R
                 wlanName.text = "数据网络"
                 ipText.text = getMobileIpAddress()
                 status.text = "未连接"
+                logoutBtn.setClickableState(false)
+                loginBtn.setClickableState(false)
             }
             ConnectivityManager.TYPE_WIFI -> {
                 connectionInfo?.let {
                     wlanName.text = it.ssid.fineSSID
                     ipText.text = it.ipAddress.stringIP
                     refreshLoginState()
+                    logoutBtn.setClickableState(true)
+                    loginBtn.setClickableState(true)
                 }
             }
         }
@@ -161,6 +168,16 @@ class TjuNetViewComponent(itemView: View, private val owner: LifecycleOwner) : R
             e.printStackTrace()
         }
         return "IP获取错误"
+    }
+
+    fun Button.setClickableState(clickable: Boolean) {
+        if (clickable) {
+            this.isClickable = true
+            this.textColor = getColorCompat(R.color.colorAccent)
+        } else {
+            this.isClickable = false
+            this.textColor = Color.GRAY
+        }
     }
 
     companion object {

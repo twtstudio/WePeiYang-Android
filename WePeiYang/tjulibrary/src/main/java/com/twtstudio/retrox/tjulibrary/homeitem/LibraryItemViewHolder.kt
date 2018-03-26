@@ -3,8 +3,12 @@ package com.twtstudio.retrox.tjulibrary.homeitem
 import android.app.Activity
 import android.arch.lifecycle.LifecycleOwner
 import android.arch.lifecycle.MutableLiveData
+import android.content.res.Resources
+import android.graphics.Color
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
@@ -19,6 +23,7 @@ import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
 import okhttp3.ResponseBody
 import org.jetbrains.anko.coroutines.experimental.bg
+import org.jetbrains.anko.textColor
 import org.json.JSONException
 import org.json.JSONObject
 import retrofit2.HttpException
@@ -38,6 +43,8 @@ class LibraryItemViewHolder(private val lifecycleOwner: LifecycleOwner, itemView
     private val refreshBtn: Button = itemView.findViewById(R.id.btn_home_lib_refresh)
     private val renewBooksBtn: Button = itemView.findViewById(R.id.btn_home_lib_renew)
     private val loadMoreBooksBtn: Button = itemView.findViewById(R.id.btn_home_lib_more)
+
+    private val colorAccent = ContextCompat.getColor(context,R.color.colorAccent)
 
     private val loadMoreBtnText = MutableLiveData<String>()
     private val loadingState = MutableLiveData<Int>()
@@ -86,6 +93,12 @@ class LibraryItemViewHolder(private val lifecycleOwner: LifecycleOwner, itemView
             loadMoreBooksBtn.text = it
             if (it == NO_MORE_BOOKS) {
                 loadMoreBooksBtn.isEnabled = false
+                loadMoreBooksBtn.isClickable = false
+                loadMoreBooksBtn.textColor = GRAY
+            } else {
+                loadMoreBooksBtn.isEnabled = true
+                loadMoreBooksBtn.isClickable = true
+                loadMoreBooksBtn.textColor = colorAccent
             }
         }
     }
@@ -140,9 +153,13 @@ class LibraryItemViewHolder(private val lifecycleOwner: LifecycleOwner, itemView
                 val size = data?.books?.size ?: 0
                 if (size != 0) {
                     message.value = "一共借了${size}本书"
+                    renewBooksBtn.isClickable = true
+                    renewBooksBtn.textColor = colorAccent
                 } else {
                     message.value = "还没有从图书馆借书呢"
                     renewBooksBtn.isClickable = false
+                    renewBooksBtn.textColor = GRAY
+                    loadMoreBtnText.value = NO_MORE_BOOKS
                     return@bind
                 }
                 bookContainer.removeAllViews()
@@ -275,6 +292,7 @@ class LibraryItemViewHolder(private val lifecycleOwner: LifecycleOwner, itemView
         const val PROGRESSING = 1
         const val WARNING = 2
         const val NO_MORE_BOOKS = "无更多书显示"
+        const val GRAY = Color.GRAY
     }
 
 

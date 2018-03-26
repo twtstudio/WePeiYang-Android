@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.support.multidex.MultiDexApplication
+import android.util.Log
 import com.github.piasy.biv.BigImageViewer
 import com.github.piasy.biv.loader.glide.GlideImageLoader
 import com.tencent.bugly.Bugly
@@ -57,8 +58,13 @@ class WePeiYangApp : MultiDexApplication() {
          * 暂不支持POST
          */
         if (BuildConfig.DEBUG) {
-            val intent = Intent(this,DebugProxyService::class.java)
-            startService(intent)
+            try {
+                val intent = Intent(this,DebugProxyService::class.java)
+                startService(intent)
+            } catch (e: Exception) {
+                Log.e("DebugServer","DebugApiServer 启动失败")
+                e.printStackTrace()
+            }
         }
 
     }
