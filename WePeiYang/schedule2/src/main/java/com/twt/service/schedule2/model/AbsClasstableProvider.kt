@@ -8,7 +8,7 @@ interface AbsClasstableProvider {
     /**
      * 根据时间戳获取当天课程
      */
-    fun getCoursebyDay(unixTime: Long): List<Course>
+    fun getCourseByDay(unixTime: Long): List<Course>
 
     /**
      * 根据时间戳获取第二天课程

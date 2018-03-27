@@ -14,6 +14,9 @@ fun AbsClasstableProvider.getRealWeekInt(startUnix: Long, weekUnix: Long): Int {
     return day / 7 + 1
 }
 
+/**
+ * 获取一周中的第几天 周一 -> 1
+ */
 fun AbsClasstableProvider.getDayOfWeek(startUnix: Long, dayUnix: Long): Int {
     val weeks = getRealWeekInt(startUnix, dayUnix) - 1 // 比如说我现在是第四周 我完全度过的是前三周 所以要减1
     val weekTime = weeks * 60 * 60 * 24 * 7
@@ -25,6 +28,9 @@ fun AbsClasstableProvider.getDayOfWeek(startUnix: Long, dayUnix: Long): Int {
 val AbsClasstableProvider.currentUnixTime
     get() = Calendar.getInstance().timeInMillis / 1000
 
+/**
+ * 是不是偶数啊 判断单双周用
+ */
 val Int.even
     get() = this % 2 == 0
 

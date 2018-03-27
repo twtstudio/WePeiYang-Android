@@ -12,7 +12,7 @@ import org.mockito.Mockito.mock
  */
 class ExtTest {
     val startUnix: Long = 1520179200L
-    val currentUnix: Long = 1522082777L //第四周
+    val currentUnix: Long = 1522082777L //第四周 周二
 
     val classtable = mock(AbsClasstableProvider::class.java)
 

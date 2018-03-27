@@ -1,6 +1,7 @@
 package com.twt.service.schedule2.model
 
 import com.twt.service.schedule2.extensions.currentUnixTime
+import com.twt.service.schedule2.extensions.getDayOfWeek
 import com.twt.service.schedule2.extensions.getRealWeekInt
 
 /**
@@ -11,12 +12,14 @@ class TjuClassTable(val classtable: Classtable) : AbsClasstableProvider {
     val termStart: Long = classtable.termStart
     val courses: List<Course> = classtable.courses
 
-    override fun getCoursebyDay(unixTime: Long): List<Course> {
-        TODO()
-//        val courses = getCourseByWeekWithTime(unixTime)
-//        courses.asIterable().filter {
-//            it.isContainDay()
-//        }
+    override fun getCourseByDay(unixTime: Long): List<Course> {
+        val dayOfWeek = getDayOfWeek(termStart, unixTime)
+//        val weekInt = getWeekByTime(unixTime)
+        val coursesLocal = getCourseByWeekWithTime(unixTime)
+        val list = coursesLocal.asSequence().filter {
+            it.isContainDay(dayOfWeek)
+        }.onEach { it.available = true }.toList()
+        return list
     }
 
     override fun getCourseNextDay(unixTime: Long): List<Course> {
