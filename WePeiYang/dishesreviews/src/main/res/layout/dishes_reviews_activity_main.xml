@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,23 +7,21 @@
     android:orientation="vertical"
     tools:context="com.twtstudio.service.dishesreviews.MainActivity">
     <include layout="@layout/dishes_reviews_toolbar"/>
-    <com.twtstudio.service.dishesreviews.ext.CustomViewPager
+    <com.twtstudio.service.dishesreviews.base.CustomViewPager
         android:id="@+id/vp_main"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_weight="1">
 
-    </com.twtstudio.service.dishesreviews.ext.CustomViewPager>
+    </com.twtstudio.service.dishesreviews.base.CustomViewPager>
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_gravity="bottom"
-        app:layout_behavior=".ext.BottomNavigationBehavior"
         app:itemBackground="@color/white"
         app:itemIconTint="@color/dishes_reviews_selector_item_color"
         app:itemTextColor="@color/dishes_reviews_selector_item_color"
         app:menu="@menu/dishes_reviews_bottom_navigation_home" />
 
-</android.support.design.widget.CoordinatorLayout>
+</LinearLayout>
