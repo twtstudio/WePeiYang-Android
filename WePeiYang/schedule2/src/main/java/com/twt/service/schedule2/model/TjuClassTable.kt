@@ -14,11 +14,11 @@ class TjuClassTable(val classtable: Classtable) : AbsClasstableProvider {
 
     override fun getCourseByDay(unixTime: Long): List<Course> {
         val dayOfWeek = getDayOfWeek(termStart, unixTime)
-//        val weekInt = getWeekByTime(unixTime)
         val coursesLocal = getCourseByWeekWithTime(unixTime)
-        val list = coursesLocal.asSequence().filter {
-            it.isContainDay(dayOfWeek)
-        }.onEach { it.available = true }.toList()
+        val list = coursesLocal.onEach {
+            it.dayAvailable = it.isContainDay(dayOfWeek)
+        }.filter { it.dayAvailable }
+
         return list
     }
 
@@ -47,10 +47,9 @@ class TjuClassTable(val classtable: Classtable) : AbsClasstableProvider {
     }
 
     override fun getCourseByWeek(week: Int): List<Course> {
-        courses.forEach {
-            it.available = it.isWeekAvailable(week)
+        return courses.onEach {
+            it.weekAvailable = it.isWeekAvailable(week)
         }
-        return courses
     }
 
     override fun getCourseByWeekWithTime(unixTime: Long): List<Course> {

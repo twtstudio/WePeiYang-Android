@@ -2,6 +2,8 @@ package com.twt.service.schedule2
 
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.twt.service.schedule2.extensions.todayAvailable
+import com.twt.service.schedule2.extensions.todayUnavailable
 import com.twt.service.schedule2.model.Classtable
 import com.twt.service.schedule2.model.TjuClassTable
 import com.twt.wepeiyang.commons.experimental.network.CommonBody
@@ -12,7 +14,7 @@ import org.junit.Assert.*
 /**
  * Created by retrox on 2018/3/27.
  */
-class TjuClasstableTest {
+class TjuClasstableTest1 {
     val gson: Gson = Gson()
     val classtableType = object : TypeToken<CommonBody<Classtable>>() {}.type
     val dayOfInt = 86400L
@@ -22,7 +24,7 @@ class TjuClasstableTest {
 
     @Before
     fun init() {
-        classtable = gson.fromJson(ConstantData.Schedule2, classtableType)
+        classtable = gson.fromJson(ConstantData.Schedule3, classtableType)
         assertNotNull(classtable.data)
         tjuClassTable = TjuClassTable(classtable = classtable.data!!)
     }
@@ -31,8 +33,8 @@ class TjuClasstableTest {
     fun testWeek4Day2() {
         val currentUnix: Long = 1522082777L // 4周 周二
         val todayCourses = tjuClassTable.getCourseByDay(currentUnix)
-        assertEquals(todayCourses.filter { it.available }.size, 3)
-        assertEquals(todayCourses.filter { !it.available }.size, 1)
+        assertEquals(3,todayCourses.todayAvailable.size)
+        assertEquals(4,todayCourses.todayUnavailable.size)
     }
 
     @Test
@@ -40,48 +42,48 @@ class TjuClasstableTest {
         val currentUnix = 1522082777L - dayOfInt // 4周周一
         val todayCourses = tjuClassTable.getCourseByDay(currentUnix)
 
-        assertEquals(todayCourses.filter { it.available }.size, 4)
-        assertEquals(todayCourses.filter { !it.available }.size, 0)
+        assertEquals(3,todayCourses.todayAvailable.size)
+        assertEquals(1,todayCourses.todayUnavailable.size)
     }
 
     @Test
     fun testWeek4Day3() {
         val currentUnix = 1522082777L + dayOfInt // 4周周3
         val todayCourses = tjuClassTable.getCourseByDay(currentUnix)
-        assertEquals(todayCourses.filter { it.available }.size, 5)
-        assertEquals(todayCourses.filter { !it.available }.size, 0)
+        assertEquals(4,todayCourses.todayAvailable.size)
+        assertEquals(3,todayCourses.todayUnavailable.size)
     }
 
     @Test
     fun testWeek4Day4() {
         val currentUnix = 1522082777L + dayOfInt*2 // 4周周4
         val todayCourses = tjuClassTable.getCourseByDay(currentUnix)
-        assertEquals(todayCourses.filter { it.available }.size, 3)
-        assertEquals(todayCourses.filter { !it.available }.size, 1)
+        assertEquals(4,todayCourses.todayAvailable.size)
+        assertEquals(3,todayCourses.todayUnavailable.size)
     }
 
     @Test
     fun testWeek4Day5() {
         val currentUnix = 1522082777L + dayOfInt*3 // 4周周5
         val todayCourses = tjuClassTable.getCourseByDay(currentUnix)
-        assertEquals(todayCourses.filter { it.available }.size, 1)
-        assertEquals(todayCourses.filter { !it.available }.size, 0)
+        assertEquals(1,todayCourses.todayAvailable.size)
+        assertEquals(2,todayCourses.todayUnavailable.size)
     }
 
     @Test
     fun testWeek4Day6() {
         val currentUnix = 1522082777L + dayOfInt*4 // 4周周6
         val todayCourses = tjuClassTable.getCourseByDay(currentUnix)
-        assertEquals(todayCourses.filter { it.available }.size, 0)
-        assertEquals(todayCourses.filter { !it.available }.size, 0)
+        assertEquals(todayCourses.todayAvailable.size, 0)
+        assertEquals(todayCourses.todayUnavailable.size, 0)
     }
 
     @Test
     fun testWeek4Day7() {
         val currentUnix = 1522082777L + dayOfInt*5 // 4周周6
         val todayCourses = tjuClassTable.getCourseByDay(currentUnix)
-        assertEquals(todayCourses.filter { it.available }.size, 0)
-        assertEquals(todayCourses.filter { !it.available }.size, 0)
+        assertEquals(todayCourses.todayAvailable.size, 0)
+        assertEquals(todayCourses.todayUnavailable.size, 0)
     }
 
 }
