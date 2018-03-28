@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--横向渐变色-->
+    <gradient
+        android:angle="180"
+        android:endColor="@color/colorPrimary"
+        android:startColor="@color/colorPrimaryDark" />
+</shape>
