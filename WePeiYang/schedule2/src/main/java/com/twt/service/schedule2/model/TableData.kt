@@ -12,15 +12,46 @@ data class Course(val coursetype: String = "",
                   val teacher: String = "",
                   val week: Week,
                   val coursename: String = "",
-                  val arrange: MutableList<Arrange>,
+                  @SerializedName("arrange") val arrangeBackup: List<Arrange>,
                   val campus: String = "",
                   val coursenature: String = "",
                   val credit: String = "",
                   val courseid: String = "",
                   val type: CourseType = CourseType.SINGLE,
                   var weekAvailable: Boolean = false,
-                  var dayAvailable: Boolean = false,
-                  val next: MutableList<Course> = LinkedList()) {
+                  var dayAvailable: Boolean = false) {
+
+    private var nextList: MutableList<Course>? = null
+    val next: MutableList<Course>
+        get() = if (nextList != null) nextList!! else {
+            nextList = LinkedList()
+            nextList!!
+        }
+
+    var realArrange: MutableList<Arrange>? = null
+    val arrange: MutableList<Arrange>
+    get() {
+        if (realArrange == null) {
+            refresh()
+        }
+        return realArrange!!
+    }
+
+    /**
+     * 重置课程状态 因为有些东西是Mutable的 就很蛋疼
+     */
+    fun refresh() {
+        weekAvailable = false
+        dayAvailable = false
+        next.removeAll { true }
+        if (realArrange == null) {
+            realArrange = mutableListOf()
+        }
+        realArrange?.apply {
+            removeAll { true }
+            addAll(arrangeBackup)
+        }
+    }
 
     /**
      * 检查是不是这周有课

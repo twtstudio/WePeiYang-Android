@@ -43,11 +43,13 @@ class SerializationTest(val jsonString: String) {
         val data = classtable.data!!
         assertNotNull(data.term)
         assertNotNull(data.courses)
-        val courses = data.courses!!
+        val courses = data.courses
         assertThat(courses.size, greaterThan(0))
+        assertNotNull(courses[0].arrangeBackup)
+        courses[0].arrange.addAll(courses[0].arrangeBackup)
         assertNotNull(courses[0].coursename)
         assertNotNull(courses[0].arrange)
-        assertNotNull(courses[0].arrange!![0])
+        assertNotNull(courses[0].arrange[0])
     }
 
     companion object {

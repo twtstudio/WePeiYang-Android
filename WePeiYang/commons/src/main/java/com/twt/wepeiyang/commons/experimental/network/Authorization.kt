@@ -3,6 +3,7 @@ package com.twt.wepeiyang.commons.experimental.network
 import com.orhanobut.logger.Logger
 import com.twt.wepeiyang.commons.experimental.CommonContext
 import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
+import es.dmoral.toasty.Toasty
 import okhttp3.*
 import org.json.JSONObject
 import java.net.HttpURLConnection
@@ -37,6 +38,10 @@ object RealAuthenticator : Authenticator {
                             null
                         }
 //                        20001 -> Bind Tju
+                        30002 -> {
+                            //todo: 统一化错误处理
+                            Toasty.error(CommonContext.application,"账号或密码错误").show()
+                        }
                         else -> {
                             Logger.d("""
                                 Unhandled error code $it, for

@@ -94,7 +94,9 @@ fun MutableList<Arrange>.trim(dayOfWeek: Int) {
 }
 
 fun Arrange.checkConflict(arrange: Arrange): Boolean {
-    if (week != arrange.week) return false
+//    if (week == "单周" && arrange.week == "双周") return false
+//    if (week == "双周" && arrange.week == "单周") return false
+//    蛋疼 如果单双周就不能用这个直接判断了
     if (day != arrange.day) return false
     return arrange.start in start..end || start in arrange.start..arrange.end
 }
@@ -105,7 +107,7 @@ fun Arrange.checkConflict(arrange: Arrange): Boolean {
  * @param dayUnix 时间的时间戳
  * @return 返回合并后的课程 列表中为直接显示的课程 里面存在链表存放着冲突的课程
  */
-fun AbsClasstableProvider.mergeCourses(vararg courseList: MutableList<Course>, dayUnix: Long): List<Course> {
+fun AbsClasstableProvider.mergeCourses(vararg courseList: List<Course>, dayUnix: Long): List<Course> {
     val dayOfWeek = getDayOfWeek(dayUnix = dayUnix)
     val availableCourses = courseList.map { it.todayAvailable }
             .reduce { acc, list ->
