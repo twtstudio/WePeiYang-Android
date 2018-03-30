@@ -1,18 +1,13 @@
 package com.twtstudio.service.dishesreviews
 
-import android.content.res.ColorStateList
-import android.graphics.PorterDuff
-import android.os.Build
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
-import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.TextView
-import com.twtstudio.service.dishesreviews.base.CustomViewPager
+import com.twtstudio.service.dishesreviews.ext.CustomViewPager
 
 
 /**
