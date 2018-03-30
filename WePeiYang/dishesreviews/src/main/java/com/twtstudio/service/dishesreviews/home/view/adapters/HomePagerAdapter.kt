@@ -1,4 +1,4 @@
-package com.twtstudio.service.dishesreviews.home.view
+package com.twtstudio.service.dishesreviews.home.view.adapters
 
 import android.arch.lifecycle.LifecycleOwner
 import android.content.Context
@@ -8,7 +8,7 @@ import com.twtstudio.service.dishesreviews.R
 import com.twtstudio.service.dishesreviews.base.BaseListAdapter
 import com.twtstudio.service.dishesreviews.home.view.viewholders.ADViewHolder
 import com.twtstudio.service.dishesreviews.home.view.viewholders.BannerViewHolder
-import com.twtstudio.service.dishesreviews.home.view.viewholders.DinningHallViewHolder
+import com.twtstudio.service.dishesreviews.home.view.viewholders.DinningHallsViewHolder
 import com.twtstudio.service.dishesreviews.home.view.viewholders.ReviewsViewHolder
 
 /**
@@ -24,15 +24,17 @@ class HomePagerAdapter(list: List<Any>, context: Context, owner: LifecycleOwner)
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): RecyclerView.ViewHolder = when (viewType) {
         BANNER -> BannerViewHolder(inflater.inflate(R.layout.dishes_reviews_item_home_banner, parent, false), owner)
-        DINNING_HALL -> DinningHallViewHolder(inflater.inflate(R.layout.dishes_reviews_item_home_dinning_hall,parent,false),owner)
-        AD-> ADViewHolder(inflater.inflate(R.layout.dishes_reviews_item_home_ad,parent,false),owner)
+        DINNING_HALL -> DinningHallsViewHolder(inflater.inflate(R.layout.dishes_reviews_item_home_dinning_halls,parent,false),owner)
+        AD -> ADViewHolder(inflater.inflate(R.layout.dishes_reviews_item_home_ad,parent,false),owner)
         REVIEWS -> ReviewsViewHolder(inflater.inflate(R.layout.dishes_reviews_item_home_reviews,parent,false),owner)
         else -> null
     }!!
 
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
-
+        when(holder){
+            is DinningHallsViewHolder-> holder.bind()
+        }
     }
 
     override fun getItemViewType(position: Int): Int {
