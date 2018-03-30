@@ -7,7 +7,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.twtstudio.service.dishesreviews.R
 import com.twtstudio.service.dishesreviews.base.BaseItemViewHolder
-import com.twtstudio.service.dishesreviews.home.view.adapters.DinningHallsAdapter
+import com.twtstudio.service.dishesreviews.home.view.adapters.DinningHallAdapter
 
 /**
  * Created by zhangyulong on 18-3-23.
@@ -23,7 +23,7 @@ class DinningHallsViewHolder(itemView: View, lifecycleOwner: LifecycleOwner) : B
     override fun bind() {
         recyclerView.apply() {
             layoutManager = GridLayoutManager(itemView.context, 4)
-            adapter = DinningHallsAdapter(emptyList(),itemView.context, lifecycleOwner)
+            adapter = DinningHallAdapter(emptyList(),itemView.context, lifecycleOwner)
         }
     }
 }
