@@ -57,7 +57,7 @@
     <TextView
         android:id="@+id/item_titile2"
         android:layout_width="wrap_content"
-        android:layout_height="13dp"
+        android:layout_height="14dp"
         android:layout_marginTop="6dp"
         android:ellipsize="end"
         android:text="营业时间："
@@ -92,7 +92,7 @@
         android:id="@+id/item_tag"
         android:layout_width="60dp"
         android:layout_height="24dp"
-        android:background="@drawable/dishes_reviews_textview_border"
+        android:background="@drawable/dishes_reviews_textview_border_primary"
         android:ellipsize="end"
         android:gravity="center"
         android:text="服务好"
