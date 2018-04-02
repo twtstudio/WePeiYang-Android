@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="109dp"
+    app:elevation="4dp">
+
+
+    <ImageView
+        android:id="@+id/item_icon"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:layout_marginStart="10dp"
+        android:src="@mipmap/ic_launcher_round"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/item_name"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="14dp"
+        android:ellipsize="end"
+        android:text="水煮鱼"
+        android:textColor="@color/searchItemText1"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@id/item_icon"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/item_location"
+        android:layout_width="170dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:ellipsize="end"
+        android:lines="1"
+        android:text="竹园餐厅(学四)二层①号窗口"
+        android:textColor="@color/searchItemText1"
+        android:textSize="12sp"
+        app:layout_constraintLeft_toLeftOf="@id/item_name"
+        app:layout_constraintTop_toBottomOf="@id/item_name" />
+
+    <TextView
+        android:id="@+id/item_titile1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:ellipsize="end"
+        android:text="综合评分："
+        android:textColor="@color/searchItemText1"
+        android:textSize="12sp"
+        app:layout_constraintLeft_toLeftOf="@id/item_location"
+        app:layout_constraintTop_toBottomOf="@id/item_location" />
+
+    <TextView
+        android:id="@+id/item_titile2"
+        android:layout_width="wrap_content"
+        android:layout_height="13dp"
+        android:layout_marginTop="6dp"
+        android:ellipsize="end"
+        android:text="营业时间："
+        android:textColor="@color/searchItemText1"
+        android:textSize="12sp"
+        app:layout_constraintLeft_toLeftOf="@id/item_titile1"
+        app:layout_constraintTop_toBottomOf="@id/item_titile1" />
+
+    <TextView
+        android:id="@+id/item_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="29dp"
+        android:ellipsize="end"
+        android:text="晚餐"
+        android:textColor="@color/searchItemText1"
+        android:textSize="12sp"
+        app:layout_constraintStart_toEndOf="@id/item_titile2"
+        app:layout_constraintTop_toTopOf="@id/item_titile2" />
+
+    <RatingBar
+        style="@style/DishesRatingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="29dp"
+        android:isIndicator="true"
+        android:rating="2"
+        app:layout_constraintStart_toEndOf="@id/item_titile1"
+        app:layout_constraintTop_toTopOf="@id/item_titile1" />
+
+    <TextView
+        android:id="@+id/item_tag"
+        android:layout_width="60dp"
+        android:layout_height="24dp"
+        android:background="@drawable/dishes_reviews_textview_border"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:text="服务好"
+        android:textColor="@color/searchItemText2"
+        android:textSize="14sp"
+        app:layout_constraintLeft_toLeftOf="@id/item_time"
+        app:layout_constraintTop_toTopOf="@id/item_name" />
+
+</android.support.constraint.ConstraintLayout>
