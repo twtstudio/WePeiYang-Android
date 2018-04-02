@@ -7,4 +7,5 @@
     <color name="clearlyWhite">#fefefe</color>
     <color name="searchItemText1">#565656</color>
     <color name="searchItemText2">#fe770b</color>
+    <color name="colorTextViewBorderGrey">#989898</color>
 </resources>

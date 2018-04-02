@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/title1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="2dp"
+        android:text="就餐时间"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/title2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:text="综合打分"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="@id/title1"
+        app:layout_constraintTop_toBottomOf="@id/title1" />
+
+    <TextView
+        android:id="@+id/title3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:layout_marginTop="24dp"
+        android:text="标签快评"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@id/title2"
+        app:layout_constraintTop_toBottomOf="@id/title2" />
+
+    <CheckedTextView
+        android:id="@+id/tv_time_breakfast"
+        android:layout_width="60dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="40dp"
+        android:background="@drawable/dishes_reviews_checktextview_background"
+        android:checked="true"
+        android:gravity="center_vertical"
+        android:text="早餐"
+        android:textAlignment="center"
+        android:textColor="@color/dishes_reviews_selector_evaluate_checktv_textcolor"
+        android:textSize="14sp"
+        app:layout_constraintStart_toEndOf="@id/title1" />
+
+    <CheckedTextView
+        android:id="@+id/tv_time_lunch"
+        android:layout_width="60dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="13dp"
+
+        android:background="@drawable/dishes_reviews_checktextview_background"
+        android:gravity="center_vertical"
+        android:text="午餐"
+        android:textAlignment="center"
+        android:textColor="@color/dishes_reviews_selector_evaluate_checktv_textcolor"
+        android:textSize="14sp"
+        app:layout_constraintStart_toEndOf="@id/tv_time_breakfast" />
+
+    <CheckedTextView
+        android:id="@+id/tv_time_dinner"
+        android:layout_width="60dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="13dp"
+        android:background="@drawable/dishes_reviews_checktextview_background"
+        android:gravity="center_vertical"
+        android:text="晚餐"
+        android:textAlignment="center"
+        android:textColor="@color/dishes_reviews_selector_evaluate_checktv_textcolor"
+
+        android:textSize="14sp"
+        app:layout_constraintStart_toEndOf="@id/tv_time_lunch" />
+
+    <RatingBar
+        android:id="@+id/ratingbar_evaluate"
+        style="@style/DishesRatingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="2dp"
+        android:isIndicator="true"
+        android:rating="2"
+        app:layout_constraintStart_toEndOf="@id/title2"
+        app:layout_constraintTop_toTopOf="@id/title2" />
+
+    <CheckedTextView
+        android:id="@+id/tv_tag_1"
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        android:layout_marginStart="40dp"
+        android:background="@drawable/dishes_reviews_checktextview_background"
+        android:gravity="center_vertical"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:text="服务好"
+        android:textAlignment="center"
+        android:textColor="@color/dishes_reviews_selector_evaluate_checktv_textcolor"
+
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@id/title3"
+        app:layout_constraintStart_toEndOf="@id/title3"
+        app:layout_constraintTop_toTopOf="@id/title3" />
+
+    <CheckedTextView
+        android:id="@+id/tv_tag_2"
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        android:layout_marginStart="13dp"
+        android:background="@drawable/dishes_reviews_checktextview_background"
+        android:gravity="center_vertical"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:text="酸"
+        android:textAlignment="center"
+        android:textColor="@color/dishes_reviews_selector_evaluate_checktv_textcolor"
+        android:textSize="14sp"
+        app:layout_constraintStart_toEndOf="@id/tv_tag_1"
+        app:layout_constraintTop_toTopOf="@id/tv_tag_1" />
+
+    <CheckedTextView
+        android:id="@+id/tv_tag_3"
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        android:layout_marginStart="13dp"
+        android:background="@drawable/dishes_reviews_checktextview_background"
+        android:gravity="center_vertical"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:text="环境好"
+        android:textAlignment="center"
+        android:textColor="@color/dishes_reviews_selector_evaluate_checktv_textcolor"
+        android:textSize="14sp"
+        app:layout_constraintStart_toEndOf="@id/tv_tag_2"
+        app:layout_constraintTop_toTopOf="@id/tv_tag_2" />
+
+</android.support.constraint.ConstraintLayout>
