@@ -5,4 +5,6 @@
     <color name="colorAccent">#f3740b</color>
     <color name="white">#fff</color>
     <color name="clearlyWhite">#fefefe</color>
+    <color name="searchItemText1">#565656</color>
+    <color name="searchItemText2">#fe770b</color>
 </resources>
