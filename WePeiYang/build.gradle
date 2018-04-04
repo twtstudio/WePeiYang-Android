@@ -6,9 +6,9 @@ buildscript {
                 minSdk      : 19,
                 targetSdk   : 27,
                 compileSdk  : 27,
-                buildTools  : '27.0.2',
+                buildTools  : '27.0.3',
                 support     : '27.0.2',
-                kotlin      : '1.2.30',
+                kotlin      : '1.2.31',
                 anko        : '0.10.1',
                 butterknife : '8.5.1',
                 retrolambda : '3.7.0',
@@ -45,6 +45,8 @@ buildscript {
 
                 'lifecycle-extensions' : 'android.arch.lifecycle:extensions:1.1.0',
                 'lifecycle-compiler'   : 'android.arch.lifecycle:compiler:1.1.0',
+                'room'                 : 'android.arch.persistence.room:runtime:1.0.0',
+                'room-compiler'        : 'android.arch.persistence.room:compiler:1.0.0',
 
                 'kotlin-stdlib'        : "org.jetbrains.kotlin:kotlin-stdlib-jre7:${versions.kotlin}",
                 'kotlinx-coroutines'   : 'org.jetbrains.kotlinx:kotlinx-coroutines-android:0.22.5',
@@ -63,7 +65,7 @@ buildscript {
         ]
 
         archLibraries = [
-                'lifecycle-extensions',
+                'lifecycle-extensions','room'
         ]
     }
 
@@ -75,10 +77,10 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.1'
+        classpath 'com.android.tools.build:gradle:3.1.0'
         classpath "me.tatarka:gradle-retrolambda:${versions.retrolambda}"
         classpath "com.jakewharton:butterknife-gradle-plugin:${versions.butterknife}"
-        classpath 'com.antfortune.freeline:gradle:0.8.8'
+//        classpath 'com.antfortune.freeline:gradle:0.8.9-SNAPSHOT'
         classpath 'org.greenrobot:greendao-gradle-plugin:3.2.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}"
 
