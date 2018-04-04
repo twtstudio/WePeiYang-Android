@@ -7,6 +7,9 @@ interface AbsClasstableProvider {
 
     /**
      * 根据时间戳获取当天课程
+     * 列表里面返回的课程是可以直接显示在课表上面的 无论是彩色课程(weekAvail = false) 还是白色课程(weekAvail = true)
+     * 检查next链表来处理冲突课程
+     * 返回的列表需要进行Merge
      */
     fun getCourseByDay(unixTime: Long): List<Course>
 

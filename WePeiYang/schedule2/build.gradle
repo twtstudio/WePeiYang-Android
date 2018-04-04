@@ -1,5 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 26
@@ -31,8 +32,12 @@ dependencies {
 //    implementation 'com.android.support:appcompat-v7:26.1.0'
     implementation project(':commons')
 
-    [*supportLibraries, 'kotlin-stdlib', 'kotlinx-coroutines'].each {
+    [*supportLibraries, 'kotlin-stdlib', 'kotlinx-coroutines', *archLibraries].each {
         implementation dependenciesMap[it]
+    }
+
+    ['room-compiler'].each {
+        kapt dependenciesMap[it]
     }
 
     testImplementation 'junit:junit:4.12'

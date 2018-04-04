@@ -84,6 +84,9 @@ fun List<Course>.findConflict(course: Course): Course? {
     return null
 }
 
+/**
+ * 根据星期几来筛选掉其他的Arrange 一般在获取当天课程的时候用
+ */
 fun MutableList<Arrange>.trim(dayOfWeek: Int) {
     this.retainAll {
         it.day == dayOfWeek

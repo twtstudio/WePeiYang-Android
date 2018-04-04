@@ -2,6 +2,7 @@ package com.twt.service.schedule2
 
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.twt.service.schedule2.extensions.findConflict
 import com.twt.service.schedule2.extensions.mergeCourses
 import com.twt.service.schedule2.model.Classtable
 import com.twt.service.schedule2.model.TjuClassTable
@@ -119,6 +120,17 @@ class ClassMergeTest {
         val mergedClasses = tjuClassTable.mergeCourses(todayCourse, dayUnix = currentUnix)
         assertEquals(5, mergedClasses.size)
         assertEquals(1, mergedClasses.filter { it.next.size > 0 }.size)
+    }
+
+    @Test fun testConflict() {
+        val currentUnix = week5Day1 + dayOfInt
+        val todayCourse = tjuClassTable.getCourseByDay(currentUnix)
+        val mergedClasses = tjuClassTable.mergeCourses(todayCourse, dayUnix = currentUnix)
+        val course = mergedClasses[2]
+        println(course)
+        val conflictCouse = tjuClassTable.courses.findConflict(course)
+        println(conflictCouse)
+        assertNotNull(conflictCouse)
     }
 
 }

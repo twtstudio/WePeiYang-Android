@@ -1,7 +1,12 @@
 package com.twt.service.schedule2.model
 
+import android.arch.persistence.room.Ignore
+import android.arch.persistence.room.TypeConverter
+import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
+import com.google.gson.reflect.TypeToken
 import com.twt.service.schedule2.extensions.even
+import java.lang.reflect.Type
 import java.util.*
 import kotlin.math.absoluteValue
 
@@ -30,12 +35,12 @@ data class Course(val coursetype: String = "",
 
     var realArrange: MutableList<Arrange>? = null
     val arrange: MutableList<Arrange>
-    get() {
-        if (realArrange == null) {
-            refresh()
+        get() {
+            if (realArrange == null) {
+                refresh()
+            }
+            return realArrange!!
         }
-        return realArrange!!
-    }
 
     /**
      * 重置课程状态 因为有些东西是Mutable的 就很蛋疼
@@ -85,15 +90,47 @@ data class Classtable(val week: Int = 0,
                       val term: String = "")
 
 
-data class Arrange(val week: String = "",
-                   val start: Int = 0,
-                   val end: Int = 0,
-                   val day: Int = 0,
-                   val room: String = "")
+data class Arrange @Ignore constructor(val week: String = "",/*单双周 单周 双周*/
+                   val start: Int = 0,/*第几节开始*/
+                   val end: Int = 0,/*第几节结束*/
+                   val day: Int = 0,/*周几*/
+                   val room: String = ""/*上课地点*/)
 
-data class Week(val start: Int = 0,
-                val end: Int = 0)
+data class Week @Ignore constructor(val start: Int = 0,
+                 val end: Int = 0)
 
 enum class CourseType {
     SINGLE, MULTIPLE
+}
+
+class ArrangeListTypeConverter {
+    val gson: Gson = Gson()
+    val type: Type = object : TypeToken<List<Arrange>>() {}.type
+
+    @TypeConverter
+    fun stringToArranleList(json: String): List<Arrange> {
+        return gson.fromJson(json, type)
+    }
+
+    @TypeConverter
+    fun arrangeListToString(arrangeList: List<Arrange>): String {
+        return gson.toJson(arrangeList, type)
+    }
+
+}
+
+class WeekTypeConverter {
+    val gson: Gson = Gson()
+    val type: Type = object : TypeToken<Week>() {}.type
+
+    @TypeConverter
+    fun stringToWeek(json: String): Week {
+        return gson.fromJson(json, type)
+    }
+
+    @TypeConverter
+    fun weekToString(week: Week): String {
+        return gson.toJson(week, type)
+    }
+
 }

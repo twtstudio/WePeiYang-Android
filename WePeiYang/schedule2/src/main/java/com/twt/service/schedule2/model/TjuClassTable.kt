@@ -1,9 +1,6 @@
 package com.twt.service.schedule2.model
 
-import com.twt.service.schedule2.extensions.currentUnixTime
-import com.twt.service.schedule2.extensions.getDayOfWeek
-import com.twt.service.schedule2.extensions.getRealWeekInt
-import com.twt.service.schedule2.extensions.trim
+import com.twt.service.schedule2.extensions.*
 
 /**
  * Created by retrox on 2018/3/26.
@@ -12,6 +9,8 @@ class TjuClassTable(val classtable: Classtable) : AbsClasstableProvider {
 
     val termStart: Long = classtable.termStart
     val courses: List<Course> = classtable.courses
+    val dayOfInt = 86400
+
 
     override fun getCourseByDay(unixTime: Long): List<Course> {
         val dayOfWeek = getDayOfWeek(termStart, unixTime)
@@ -27,17 +26,11 @@ class TjuClassTable(val classtable: Classtable) : AbsClasstableProvider {
         return list
     }
 
-    override fun getCourseNextDay(unixTime: Long): List<Course> {
-        TODO()
-    }
+    override fun getCourseNextDay(unixTime: Long): List<Course> = getCourseByDay(unixTime + dayOfInt)
 
-    override fun getTodayCourse(): List<Course> {
-        TODO()
-    }
+    override fun getTodayCourse(): List<Course> = getCourseByDay(currentUnixTime)
 
-    override fun getTomorrowCourse(): List<Course> {
-        TODO()
-    }
+    override fun getTomorrowCourse(): List<Course> = getCourseNextDay(currentUnixTime)
 
     override fun getCourseByTime(unixTime: Long): Course? {
         TODO()
@@ -47,9 +40,7 @@ class TjuClassTable(val classtable: Classtable) : AbsClasstableProvider {
         TODO()
     }
 
-    override fun checkCourseConflict(course: Course): Course? {
-        TODO()
-    }
+    override fun checkCourseConflict(course: Course): Course? = courses.findConflict(course)
 
     override fun getCourseByWeek(week: Int): List<Course> {
         return courses.onEach { it.refresh() } // 去除Arrange被Trim的情况
