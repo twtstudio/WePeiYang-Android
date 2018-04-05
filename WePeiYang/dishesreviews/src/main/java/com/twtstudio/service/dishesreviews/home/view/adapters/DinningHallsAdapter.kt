@@ -8,7 +8,7 @@ import com.twtstudio.service.dishesreviews.R
 import com.twtstudio.service.dishesreviews.base.BaseListAdapter
 import com.twtstudio.service.dishesreviews.home.view.viewholders.DinningHallViewHolder
 
-class DinningHallsAdapter(list: List<Any>, context: Context, owner: LifecycleOwner) : BaseListAdapter(list, context, owner) {
+class DinningHallAdapter(list: List<Any>, context: Context, owner: LifecycleOwner) : BaseListAdapter(list, context, owner) {
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): RecyclerView.ViewHolder {
         return DinningHallViewHolder(inflater.inflate(R.layout.dishes_reviews_item_home_dinning_hall,parent,false),owner)
     }
