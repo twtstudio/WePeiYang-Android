@@ -8,7 +8,7 @@ import com.twtstudio.service.dishesreviews.base.BaseItemViewHolder
 /**
  * Created by zhangyulong on 18-3-23.
  */
-class ReviewsViewHolder(itemView: View, lifecycleOwner: LifecycleOwner) : BaseItemViewHolder(itemView, lifecycleOwner) {
+class ReviewsViewsHolder(itemView: View, lifecycleOwner: LifecycleOwner) : BaseItemViewHolder(itemView, lifecycleOwner) {
     override fun bind(viewModel: ViewModel) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
