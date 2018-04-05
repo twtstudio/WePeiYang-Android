@@ -28,6 +28,8 @@ object CommonPreferences {
 
     var twtuname by hawk("user_id", "")
 
+    var realName by hawk("user_realname","")
+
     var proxyAddress by hawk("proxy_address", "")
 
     var proxyPort by hawk("proxy_port", 0)

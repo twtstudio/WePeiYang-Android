@@ -2,7 +2,7 @@ package com.twtstudio.tjliqy.party.api;
 
 import android.util.Log;
 
-import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
+import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences;
 import com.twtstudio.tjliqy.party.bean.CourseDetailInfo;
 import com.twtstudio.tjliqy.party.bean.QuizInfo;
 import com.twtstudio.tjliqy.party.bean.Status;
@@ -23,7 +23,7 @@ public class ApiClient {
     static {
         Retrofit retrofit = new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl("http://www.twt.edu.cn/")
+                .baseUrl("https://www.twt.edu.cn/")
                 .build();
         api = retrofit.create(Api.class);
     }
@@ -33,8 +33,8 @@ public class ApiClient {
                 .baseUrl("http://open.twtstudio.com/api/v2/")
                 .build();
         Api api = retrofit.create(Api.class);
-        Log.d("2333", "loadUserInfomation: "+CommonPrefUtil.getToken());
-        String token = CommonPrefUtil.getToken();
+        Log.d("2333", "loadUserInfomation: "+CommonPreferences.INSTANCE.getToken());
+        String token = CommonPreferences.INSTANCE.getToken();
 //        token = token.split("\\}")[0];
         Log.d("lqy",token);
         Call<UserInfomation> call = api.getInfomation(token);

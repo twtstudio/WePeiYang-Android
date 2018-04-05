@@ -90,13 +90,13 @@ data class Classtable(val week: Int = 0,
                       val term: String = "")
 
 
-data class Arrange @Ignore constructor(val week: String = "",/*单双周 单周 双周*/
+data class Arrange (val week: String = "",/*单双周 单周 双周*/
                    val start: Int = 0,/*第几节开始*/
                    val end: Int = 0,/*第几节结束*/
                    val day: Int = 0,/*周几*/
                    val room: String = ""/*上课地点*/)
 
-data class Week @Ignore constructor(val start: Int = 0,
+data class Week (val start: Int = 0,
                  val end: Int = 0)
 
 enum class CourseType {

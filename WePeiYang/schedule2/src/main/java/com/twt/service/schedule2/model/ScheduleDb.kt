@@ -18,7 +18,7 @@ object ScheduleDb {
         return Room.databaseBuilder(CommonContext.application.applicationContext, T::class.java, "ScheduleDB").build()
     }
 
-    @Database(entities = [CustomCourse::class, Arrange::class, Week::class], version = 1, exportSchema = false)
+    @Database(entities = [CustomCourse::class], version = 1, exportSchema = false)
     @TypeConverters(ArrangeListTypeConverter::class,WeekTypeConverter::class)
     abstract class ScheduleDataBase : RoomDatabase() {
         public abstract fun customCourseDao(): CustomCourseDao

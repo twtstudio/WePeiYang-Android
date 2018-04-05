@@ -1,6 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'me.tatarka.retrolambda'
-apply plugin: 'com.antfortune.freeline'
+//apply plugin: 'com.antfortune.freeline'
 apply plugin: 'kotlin-android'
 //apply plugin: 'fastdex.app'
 
@@ -48,10 +48,10 @@ android {
             }
         }
 
-        freeline {
-            hack true
-            productFlavor 'dev'
-        }
+//        freeline {
+//            hack true
+//            productFlavor 'dev'
+//        }
     }
 
     signingConfigs {
@@ -105,11 +105,12 @@ kotlin {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     testImplementation 'junit:junit:4.12'
+    testImplementation "org.mockito:mockito-core:2.16.0"
     androidTestImplementation('com.android.support.test.espresso:espresso-core:3.0.1', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-    [':auth', ':bike', ':commons', ':gpa2', ':schedule', ':tjulibrary', ':tjunet'].each {
+    [':auth', ':bike', ':commons', ':gpa2', ':schedule', ':tjulibrary', ':tjunet', ':party'].each {
         implementation project(it)
     }
     implementation 'com.twt.service:fragmentation:1.1.0'

@@ -7,8 +7,8 @@ import com.twt.service.schedule2.model.*
 data class CustomCourse(
         val name: String,
         val teacher: String,
-        @TypeConverters(ArrangeListTypeConverter::class) val arrange: List<Arrange>,
-        @TypeConverters(WeekTypeConverter::class) val week: Week
+        val arrange: List<Arrange>,
+        val week: Week
 )
 
 @Dao

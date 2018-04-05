@@ -18,6 +18,7 @@ val authSelfLiveData = RefreshableLiveData.use(authSelfLocalCache, authSelfRemot
     CommonPreferences.isBindLibrary = it.accounts.lib
     CommonPreferences.isBindTju = it.accounts.tju
     CommonPreferences.dropOut = it.dropout
+    CommonPreferences.realName = it.realname
     CrashReport.setUserId(it.twtuname)
 }
 
