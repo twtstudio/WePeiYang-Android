@@ -1,2 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.twt.service.schedule2" />
+    package="com.twt.service.schedule2" >
+    <application>
+        <activity android:name=".view.custom.AddCustomCourseActivity"/>
+    </application>
+</manifest>

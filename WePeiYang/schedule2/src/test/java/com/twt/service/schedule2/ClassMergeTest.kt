@@ -1,15 +1,12 @@
 package com.twt.service.schedule2
 
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import com.twt.service.schedule2.extensions.findConflict
 import com.twt.service.schedule2.extensions.mergeCourses
 import com.twt.service.schedule2.model.Classtable
-import com.twt.service.schedule2.model.TjuClassTable
+import com.twt.service.schedule2.model.CommonClassTable
 import com.twt.wepeiyang.commons.experimental.network.CommonBody
 import org.junit.Assert
 import org.junit.Assert.*
-import org.junit.Before
 import org.junit.Test
 
 /**
@@ -20,7 +17,7 @@ class ClassMergeTest {
     val dayOfInt = 86400L
 
     val classtable: CommonBody<Classtable> = TableProvider.classtable
-    val tjuClassTable: TjuClassTable = TableProvider.tjuClassTable
+    val tjuClassTable: CommonClassTable = TableProvider.tjuClassTable
 
     @Test
     fun testMergeWeek4Day2() {

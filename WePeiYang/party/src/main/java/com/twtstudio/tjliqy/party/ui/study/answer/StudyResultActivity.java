@@ -51,7 +51,7 @@ public class StudyResultActivity extends BaseActivity implements StudyResultView
     @Override
     public void preInitView() {
         Intent intent = getIntent();
-        courseId = intent.getIntExtra("course-id", 0);
+        courseId = intent.getIntExtra("course_id", 0);
         rightAnswer = intent.getIntArrayExtra("right_answer");
         exerciseAnswer = intent.getIntArrayExtra("exercise_answer");
         presenter = new StudyPresenterImpl(this, new StudyInteractorImpl());

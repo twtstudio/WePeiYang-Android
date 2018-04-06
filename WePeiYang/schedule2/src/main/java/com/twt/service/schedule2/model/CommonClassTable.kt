@@ -4,8 +4,9 @@ import com.twt.service.schedule2.extensions.*
 
 /**
  * Created by retrox on 2018/3/26.
+ * 按照标准的TJU课表返回格式即可用次工具类处理
  */
-class TjuClassTable(val classtable: Classtable) : AbsClasstableProvider {
+class CommonClassTable(val classtable: Classtable) : AbsClasstableProvider {
 
     val termStart: Long = classtable.termStart
     val courses: List<Course> = classtable.courses

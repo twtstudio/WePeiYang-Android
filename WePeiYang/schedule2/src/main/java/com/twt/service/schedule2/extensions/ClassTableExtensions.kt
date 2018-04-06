@@ -11,7 +11,7 @@ import java.util.*
  * 课程表相关拓展
  */
 
-val termStart: Long = 1520179200L // 测试时暂时不从SP中读取
+val termStart: Long = 1520179200L // 测试时暂时不从SP中读取 todo: SP存取
 
 fun AbsClasstableProvider.getRealWeekInt(startUnix: Long = termStart, weekUnix: Long): Int {
     val span = weekUnix - startUnix
