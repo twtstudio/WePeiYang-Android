@@ -3,8 +3,10 @@ package com.twt.service.schedule2.extensions
 import com.twt.service.schedule2.model.AbsClasstableProvider
 import com.twt.service.schedule2.model.Arrange
 import com.twt.service.schedule2.model.Course
+import com.twt.service.schedule2.model.Week
 import java.time.DayOfWeek
 import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  * Created by retrox on 2018/3/26.
@@ -85,9 +87,71 @@ fun List<Course>.findConflict(course: Course): Course? {
 }
 
 /**
+ * 把一天的课程 添加上空课
+ */
+fun List<Course>.flatDay(dayOfWeek: Int): List<Course> {
+    val emptyCourse = Course(coursename = "空", week = Week(0, 0), arrangeBackup = listOf()) // 用来标识空课程
+    val trimedList = this.onEach { it.arrange.trim(dayOfWeek) }.sortedBy { it.arrange[0].start }
+    val realList = mutableListOf<Course>()
+    val totalCourseNumber = 12
+    trimedList.forEachIndexed { index, course ->
+        val start = course.arrange[0].start
+        val end = course.arrange[0].end
+
+        if (index == 0) {
+            for (i in 1 until start) {
+                realList.add(emptyCourse)
+            }
+            realList.add(course)
+        } else {
+            val lastStart = trimedList[index - 1].arrange[0].start
+            val lastEnd = trimedList[index - 1].arrange[0].end
+            if (start - lastEnd > 0) {
+                for (i in lastEnd + 1 until start) {
+                    realList.add(emptyCourse)
+                }
+            }
+            realList.add(course)
+        }
+
+        if (index == trimedList.size - 1 && end < totalCourseNumber) { // 最后一个 并且还要添加emptyCourse
+            for (i in end + 1..totalCourseNumber) {
+                realList.add(emptyCourse)
+            }
+        }
+
+    }
+    return realList
+}
+
+/**
+ * 应该在最后的Merge之后用
+ * @see AbsClasstableProvider.getCourseByDay 就是说 这个方法里面本身包含MergeCourses操作的时候
+ * 才可以使用此方法来获取当周课程
+ */
+fun AbsClasstableProvider.getWeekCourseFlated(weekInt: Int, startUnix: Long = termStart): List<List<Course>> {
+    val wrapperList = mutableListOf<List<Course>>()
+    val offset = 3600L // 加一个偏移量... 因为按照0点计算不保险
+    val dayOfSeconds = 86400L
+    val startUnixWithOffset = startUnix + offset
+    val dayUnixList = mutableListOf<Long>() // 一周内每天的时间戳
+    for (i in 0..6) {
+        dayUnixList.add(startUnixWithOffset + dayOfSeconds * i)
+    }
+    dayUnixList.mapIndexed { index, l ->
+        val dayOfWeek = index + 1
+        this.getCourseByDay(l).flatDay(dayOfWeek)
+    }.forEach {
+        wrapperList.add(it)
+    }
+    return wrapperList
+}
+
+/**
  * 根据星期几来筛选掉其他的Arrange 一般在获取当天课程的时候用
  */
 fun MutableList<Arrange>.trim(dayOfWeek: Int) {
+    if (this.size < 2) return
     this.retainAll {
         it.day == dayOfWeek
     }

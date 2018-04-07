@@ -1,6 +1,7 @@
 package com.twt.service.schedule2
 
 import com.twt.service.schedule2.extensions.findConflict
+import com.twt.service.schedule2.extensions.flatDay
 import com.twt.service.schedule2.extensions.mergeCourses
 import com.twt.service.schedule2.model.Classtable
 import com.twt.service.schedule2.model.CommonClassTable
@@ -26,6 +27,10 @@ class ClassMergeTest {
         val mergedClasses = tjuClassTable.mergeCourses(todayCourses, dayUnix = currentUnix)
         Assert.assertEquals(5, mergedClasses.size)
         Assert.assertEquals(1, mergedClasses.filter { it.next.size > 0 }.size)
+
+        val flat = mergedClasses.flatDay(2)
+        assertEquals(2, flat.filter { it.coursename == "空" }.size)
+
     }
 
     @Test
@@ -35,15 +40,25 @@ class ClassMergeTest {
         val mergedClasses = tjuClassTable.mergeCourses(todayCourses, dayUnix = currentUnix)
         Assert.assertEquals(5, mergedClasses.size)
         Assert.assertEquals(3, mergedClasses.filter { it.next.size > 0 }.size)
+
+        val flat = mergedClasses.flatDay(3)
+        assertEquals(0, flat.filter { it.coursename == "空" }.size)
+
     }
 
     @Test
     fun testMergeWeek4Day1() {
-        val currentUnix: Long = 1522082777L - dayOfInt // 4周 周二
+        val currentUnix: Long = 1522082777L - dayOfInt // 4周 周1
         val todayCourses = tjuClassTable.getCourseByDay(currentUnix)
         val mergedClasses = tjuClassTable.mergeCourses(todayCourses, dayUnix = currentUnix)
         Assert.assertEquals(4, mergedClasses.size)
         Assert.assertEquals(1, mergedClasses.filter { it.next.size > 0 }.size)
+
+        val flat = mergedClasses.flatDay(1)
+        assertEquals("空", flat[0].coursename)
+        assertEquals("空", flat[1].coursename)
+        assertEquals(4, flat.filter { it.coursename == "空" }.size)
+
     }
 
     @Test
@@ -103,7 +118,7 @@ class ClassMergeTest {
 
     @Test
     fun testWeek5Day3() {
-        val currentUnix = week5Day1 + dayOfInt*2
+        val currentUnix = week5Day1 + dayOfInt * 2
         val todayCourse = tjuClassTable.getCourseByDay(currentUnix)
         val mergedClasses = tjuClassTable.mergeCourses(todayCourse, dayUnix = currentUnix)
         assertEquals(5, mergedClasses.size)
@@ -112,14 +127,15 @@ class ClassMergeTest {
 
     @Test
     fun testWeek5Day4() {
-        val currentUnix = week5Day1 + dayOfInt*3
+        val currentUnix = week5Day1 + dayOfInt * 3
         val todayCourse = tjuClassTable.getCourseByDay(currentUnix)
         val mergedClasses = tjuClassTable.mergeCourses(todayCourse, dayUnix = currentUnix)
         assertEquals(5, mergedClasses.size)
         assertEquals(1, mergedClasses.filter { it.next.size > 0 }.size)
     }
 
-    @Test fun testConflict() {
+    @Test
+    fun testConflict() {
         val currentUnix = week5Day1 + dayOfInt
         val todayCourse = tjuClassTable.getCourseByDay(currentUnix)
         val mergedClasses = tjuClassTable.mergeCourses(todayCourse, dayUnix = currentUnix)

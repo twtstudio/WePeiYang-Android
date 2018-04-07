@@ -22,7 +22,6 @@ data class Course(val coursetype: String = "",
                   val coursenature: String = "",
                   val credit: String = "",
                   val courseid: String = "",
-                  val type: CourseType = CourseType.SINGLE,
                   var weekAvailable: Boolean = false,
                   var dayAvailable: Boolean = false) {
 
