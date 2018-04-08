@@ -1334,4 +1334,63 @@ object ConstantData {
    }
 }
         """.trim()
+
+    val auditCourseJson1 = """
+        {
+   "error_code": -1,
+   "message": "",
+   "data": [
+      {
+         "course_id": 53,
+         "course_name": "[蹭]数据库原理（双语）",
+         "college": "软件学院",
+         "semester": "1",
+         "year": "2018",
+         "infos": [
+            {
+               "id": 417,
+               "course_id": "53",
+               "course_name": "[蹭数据库原理（双语）",
+               "course_id_in_tju": "3665",
+               "start_week": "1",
+               "end_week": "16",
+               "start_time": "1",
+               "course_length": "2",
+               "week_day": "3",
+               "week_type": "3",
+               "building": "45",
+               "room": "B307",
+               "teacher_type": "副教授",
+               "teacher": "王征"
+            }
+         ]
+      },
+      {
+         "course_id": 81,
+         "course_name": "[蹭]C++面向对象程序设计",
+         "college": "软件学院",
+         "semester": "1",
+         "year": "2018",
+         "infos": [
+            {
+               "id": 498,
+               "course_id": "81",
+               "course_name": "[蹭C++面向对象程序设计",
+               "course_id_in_tju": "4416",
+               "start_week": "1",
+               "end_week": "16",
+               "start_time": "2",
+               "course_length": "2",
+               "week_day": "3",
+               "week_type": "3",
+               "building": "46",
+               "room": "A119",
+               "teacher_type": "",
+               "teacher": "Eliza"
+            }
+         ]
+      }
+   ]
+}
+        """.trim()
 }

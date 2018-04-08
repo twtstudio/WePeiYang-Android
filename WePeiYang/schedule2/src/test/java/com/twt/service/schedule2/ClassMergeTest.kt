@@ -3,8 +3,10 @@ package com.twt.service.schedule2
 import com.twt.service.schedule2.extensions.findConflict
 import com.twt.service.schedule2.extensions.flatDay
 import com.twt.service.schedule2.extensions.mergeCourses
-import com.twt.service.schedule2.model.Classtable
-import com.twt.service.schedule2.model.CommonClassTable
+import com.twt.service.schedule2.extensions.termStart
+import com.twt.service.schedule2.model.*
+import com.twt.service.schedule2.model.custom.CustomCourse
+import com.twt.service.schedule2.model.custom.CustomCourseManager
 import com.twt.wepeiyang.commons.experimental.network.CommonBody
 import org.junit.Assert
 import org.junit.Assert.*
@@ -17,8 +19,22 @@ class ClassMergeTest {
 
     val dayOfInt = 86400L
 
-    val classtable: CommonBody<Classtable> = TableProvider.classtable
-    val tjuClassTable: CommonClassTable = TableProvider.tjuClassTable
+    val tjuClassTable: AbsClasstableProvider = TableProvider.tjuClassTable
+    val mergedClassTableProvider: AbsClasstableProvider
+
+    init {
+        val arrange1 = Arrange("单双周",5,6,3,"学校")
+        val week = Week(1,18)
+        val course1 = createCourse("给女朋友买零食","开心的我", listOf(arrange1),week,"必须要去.... ")
+
+        val customCourseList = mutableListOf<CustomCourse>(course1).asSequence()
+                .map(CustomCourseManager.customCourseMapper)
+                .toList()
+        val classtable = Classtable(courses = customCourseList,termStart = termStart)
+        val realClasstableProvider = CommonClassTable(classtable)
+
+        mergedClassTableProvider = MergedClassTableProvider(TableProvider.tjuClassTable,TableProvider.auditClasstable, realClasstableProvider)
+    }
 
     @Test
     fun testMergeWeek4Day2() {
@@ -31,6 +47,7 @@ class ClassMergeTest {
         val flat = mergedClasses.flatDay(2)
         assertEquals(2, flat.filter { it.coursename == "空" }.size)
 
+        println("我永远喜欢十元")
     }
 
     @Test
@@ -141,9 +158,21 @@ class ClassMergeTest {
         val mergedClasses = tjuClassTable.mergeCourses(todayCourse, dayUnix = currentUnix)
         val course = mergedClasses[2]
         println(course)
-        val conflictCouse = tjuClassTable.courses.findConflict(course)
+        val conflictCouse = tjuClassTable.getCourseByWeek(3).findConflict(course)
         println(conflictCouse)
         assertNotNull(conflictCouse)
+    }
+
+    @Test fun testTotalMerge() {
+        val currentUnix = week5Day1 + dayOfInt * 2
+        val todayCourse = mergedClassTableProvider.getCourseByDay(currentUnix)
+        assertEquals(5, todayCourse.size)
+        assertEquals(5, todayCourse.filter { it.next.size > 0 }.size)
+    }
+
+    fun createCourse(name: String, teacher: String, arrange: List<Arrange>, week: Week,ext: String = ""): CustomCourse {
+        val customCourse = CustomCourse(name, teacher,ext, arrange, week)
+        return customCourse
     }
 
 }

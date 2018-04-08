@@ -6,8 +6,10 @@ import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
 import android.util.Log
 import com.twt.service.schedule2.model.Arrange
+import com.twt.service.schedule2.model.MergedClassTableProvider
 import com.twt.service.schedule2.model.ScheduleDb
 import com.twt.service.schedule2.model.Week
+import com.twt.service.schedule2.model.audit.AuditCourseManager
 import com.twt.service.schedule2.model.custom.*
 
 import org.junit.After
@@ -60,6 +62,10 @@ class DatabaseTest {
         val deleteResult = customCourseDao.deleteCourses(course1)
         assertEquals(1,deleteResult)
         assertEquals(1,customCourseDao.loadAllCourses().size)
+    }
+
+    @Test fun testMergeProvider() {
+
     }
 
     @After @Throws(IOException::class) fun close() {
