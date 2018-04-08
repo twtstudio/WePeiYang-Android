@@ -3,6 +3,9 @@ package com.twt.service.schedule2.model.custom
 import com.twt.service.schedule2.extensions.termStart
 import com.twt.service.schedule2.model.*
 
+/**
+ * 建议在协程中异步调用
+ */
 object CustomCourseManager {
 
     fun addCustomCourse(name: String, teacher: String, arrange: List<Arrange>, week: Week, ext: String = "") {
@@ -12,6 +15,20 @@ object CustomCourseManager {
 
     fun addCustomCourse(customCourse: CustomCourse, dao: CustomCourseDao = ScheduleDb.customCourseDao) {
         dao.insertCourse(customCourse)
+    }
+
+    fun deleteCustomCourse(customCourse: CustomCourse, dao: CustomCourseDao = ScheduleDb.customCourseDao) {
+        dao.deleteCourses(customCourse)
+    }
+
+    /**
+     * 别乱调用... 要不凉了啊
+     */
+    fun deleteAllCustomCourse(dao: CustomCourseDao = ScheduleDb.customCourseDao) {
+        val courses = dao.loadAllCourses()
+        courses.forEach {
+            dao.deleteCourses(it)
+        }
     }
 
     val customCourseMapper: (CustomCourse) -> Course = {

@@ -5,6 +5,7 @@ import com.twt.service.schedule2.model.AbsClasstableProvider
 import com.twt.service.schedule2.model.Classtable
 import com.twt.service.schedule2.model.CommonClassTable
 import com.twt.service.schedule2.model.ScheduleDb
+import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 
 object AuditCourseManager {
 
@@ -17,4 +18,15 @@ object AuditCourseManager {
         return realClasstableProvider
     }
 
+    suspend fun refreshAuditClasstable(dao: AuditCourseDao = ScheduleDb.auditCourseDao) {
+        val auditCourse = AuditApi.getMyAudit().awaitAndHandle{ it.printStackTrace() }?.data ?: throw IllegalStateException()
+        deleteAuditCoursesLocal(dao)
+        val array = auditCourse.toTypedArray()
+        dao.insertAuditCourses(*array)
+    }
+
+    private fun deleteAuditCoursesLocal(dao: AuditCourseDao = ScheduleDb.auditCourseDao) {
+        val courses = dao.loadAllAuditCourses().toTypedArray()
+        dao.deleteAuditCourse(*courses)
+    }
 }
