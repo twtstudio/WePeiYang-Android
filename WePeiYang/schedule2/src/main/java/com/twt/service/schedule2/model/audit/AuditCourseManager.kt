@@ -9,6 +9,9 @@ import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 
 object AuditCourseManager {
 
+    /**
+     * 从数据库拉取蹭课信息
+     */
     fun getAuditClasstableProvider(dao: AuditCourseDao = ScheduleDb.auditCourseDao): AbsClasstableProvider {
         val auditCourseList = dao.loadAllAuditCourses().asSequence()
                 .map { it.convertToCourse() }
@@ -18,6 +21,9 @@ object AuditCourseManager {
         return realClasstableProvider
     }
 
+    /**
+     * 网络拉取课程刷新信息 并且更新数据库
+     */
     suspend fun refreshAuditClasstable(dao: AuditCourseDao = ScheduleDb.auditCourseDao) {
         val auditCourse = AuditApi.getMyAudit().awaitAndHandle{ it.printStackTrace() }?.data ?: throw IllegalStateException()
         deleteAuditCoursesLocal(dao)

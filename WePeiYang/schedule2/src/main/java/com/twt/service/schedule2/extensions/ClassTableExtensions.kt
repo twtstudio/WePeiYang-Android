@@ -1,9 +1,6 @@
 package com.twt.service.schedule2.extensions
 
-import com.twt.service.schedule2.model.AbsClasstableProvider
-import com.twt.service.schedule2.model.Arrange
-import com.twt.service.schedule2.model.Course
-import com.twt.service.schedule2.model.Week
+import com.twt.service.schedule2.model.*
 import java.time.DayOfWeek
 import java.util.*
 import kotlin.collections.ArrayList
@@ -13,7 +10,16 @@ import kotlin.collections.ArrayList
  * 课程表相关拓展
  */
 
-val termStart: Long = 1520179200L // 测试时暂时不从SP中读取 todo: SP存取
+val termStart: Long  // 测试时暂时不从SP中读取 todo: SP存取
+    get() {
+        var result = 1520179200L
+        try {
+            result = SchedulePref.termStart // 因为要兼容测试无法获取Pref的情况
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return result
+    }
 
 fun AbsClasstableProvider.getRealWeekInt(startUnix: Long = termStart, weekUnix: Long): Int {
     val span = weekUnix - startUnix
@@ -90,7 +96,15 @@ fun List<Course>.findConflict(course: Course): Course? {
  * 把一天的课程 添加上空课
  */
 fun List<Course>.flatDay(dayOfWeek: Int): List<Course> {
-    val emptyCourse = Course(coursename = "空", week = Week(0, 0), arrangeBackup = listOf()) // 用来标识空课程
+
+    fun createEmptyCourse(start: Int, end: Int, day: Int = dayOfWeek) = Course(
+            coursename = "空",
+            week = Week(0, 0),
+            arrangeBackup = listOf(Arrange(week = "单双周", start = start, end = end, day = day))
+    )
+    // 用来标识空课程
+    // 用空课程中的start和end来标识数据 因为需要-> 点击空白课程获取数据用 + 当前视图的week参数
+
     val trimedList = this.onEach { it.arrange.trim(dayOfWeek) }.sortedBy { it.arrange[0].start }
     val realList = mutableListOf<Course>()
     val totalCourseNumber = 12
@@ -100,7 +114,7 @@ fun List<Course>.flatDay(dayOfWeek: Int): List<Course> {
 
         if (index == 0) {
             for (i in 1 until start) {
-                realList.add(emptyCourse)
+                realList.add(createEmptyCourse(start = i, end = i))
             }
             realList.add(course)
         } else {
@@ -108,7 +122,7 @@ fun List<Course>.flatDay(dayOfWeek: Int): List<Course> {
             val lastEnd = trimedList[index - 1].arrange[0].end
             if (start - lastEnd > 0) {
                 for (i in lastEnd + 1 until start) {
-                    realList.add(emptyCourse)
+                    realList.add(createEmptyCourse(start = i, end = i))
                 }
             }
             realList.add(course)
@@ -116,7 +130,7 @@ fun List<Course>.flatDay(dayOfWeek: Int): List<Course> {
 
         if (index == trimedList.size - 1 && end < totalCourseNumber) { // 最后一个 并且还要添加emptyCourse
             for (i in end + 1..totalCourseNumber) {
-                realList.add(emptyCourse)
+                realList.add(createEmptyCourse(start = i, end = i))
             }
         }
 

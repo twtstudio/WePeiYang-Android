@@ -1,6 +1,7 @@
 package com.twt.service.schedule2.model.school
 
 import com.twt.service.schedule2.model.Classtable
+import com.twt.service.schedule2.model.SchedulePref
 import com.twt.wepeiyang.commons.experimental.cache.Cache
 import com.twt.wepeiyang.commons.experimental.cache.hawk
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
@@ -37,6 +38,7 @@ suspend fun TjuCourseApi.Companion.refresh(mustRefresh: Boolean = false): Classt
                 ?: tjuCourseCache.get().await()
         classtable?.let {
             tjuCourseCache.set(it)
+            SchedulePref.termStart = it.termStart
         }
         return classtable ?: throw IllegalStateException("凉了啊...无法获取课程表,稍后再试")
     } else {
@@ -45,6 +47,7 @@ suspend fun TjuCourseApi.Companion.refresh(mustRefresh: Boolean = false): Classt
             val classtable = deferredClasstable.awaitAndHandle(handler)?.data
             classtable?.let {
                 tjuCourseCache.set(it)
+                SchedulePref.termStart = it.termStart
             }
         }
         // 到这里的话 缓存不应该是空 如果真的是空我们只能抛出异常（我去你妈的吧）

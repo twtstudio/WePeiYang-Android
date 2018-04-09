@@ -7,7 +7,8 @@ import kotlinx.coroutines.experimental.Deferred
 import retrofit2.http.GET
 
 interface AuditApi {
-    @GET fun getMyAudit(userNumber: String = CommonPreferences.studentid): Deferred<CommonBody<List<AuditCourse>>>
+    @GET
+    fun getMyAudit(userNumber: String = CommonPreferences.studentid): Deferred<CommonBody<List<AuditCourse>>>
 
     companion object : AuditApi by ServiceFactory()
 }
