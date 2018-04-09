@@ -57,7 +57,6 @@
         android:layout_width="60dp"
         android:layout_height="24dp"
         android:layout_marginStart="13dp"
-
         android:background="@drawable/dishes_reviews_checktextview_background"
         android:gravity="center_vertical"
         android:text="午餐"
@@ -76,7 +75,6 @@
         android:text="晚餐"
         android:textAlignment="center"
         android:textColor="@color/dishes_reviews_selector_evaluate_checktv_textcolor"
-
         android:textSize="14sp"
         app:layout_constraintStart_toEndOf="@id/tv_time_lunch" />
 
@@ -104,7 +102,6 @@
         android:text="服务好"
         android:textAlignment="center"
         android:textColor="@color/dishes_reviews_selector_evaluate_checktv_textcolor"
-
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="@id/title3"
         app:layout_constraintStart_toEndOf="@id/title3"
