@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/info_icon"
+        android:layout_width="83dp"
+        android:layout_height="83dp"
+        android:layout_marginBottom="13dp"
+        android:layout_marginStart="13dp"
+        android:layout_marginTop="13dp"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/info_tv_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="16dp"
+        android:text="Oceanoxy"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/info_tv_article"
+        app:layout_constraintStart_toEndOf="@id/info_icon"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/info_tv_article"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="被评论12篇,被赞36次"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@id/info_tv_username"
+        app:layout_constraintTop_toBottomOf="@id/info_tv_username" />
+</android.support.constraint.ConstraintLayout>
