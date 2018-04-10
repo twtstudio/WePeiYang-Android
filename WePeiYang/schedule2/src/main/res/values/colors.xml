@@ -16,5 +16,6 @@
     <color name="schedule_green4">#7dd893</color>
     <color name="schedule_blue2">#8c9bee</color>
     <color name="schedule_gray">#cfcfcf</color>
+    <color name="schedule_background_gray">#eeeeee</color>
     <color name="schedule_multi_background">#b8b3ae</color>
 </resources>

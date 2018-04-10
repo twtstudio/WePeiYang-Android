@@ -110,6 +110,11 @@ fun List<Course>.flatDay(dayOfWeek: Int): List<Course> {
     val trimedList = this.onEach { it.arrange.trim(dayOfWeek) }.sortedBy { it.arrange[0].start }
     val realList = mutableListOf<Course>()
     val totalCourseNumber = 12
+    if(trimedList.isEmpty()&& dayOfWeek!= 6 && dayOfWeek!= 7) {
+        for (i in 1..totalCourseNumber) {
+            realList.add(createEmptyCourse(i,i))
+        }
+    }
     trimedList.forEachIndexed { index, course ->
         val start = course.arrange[0].start
         val end = course.arrange[0].end

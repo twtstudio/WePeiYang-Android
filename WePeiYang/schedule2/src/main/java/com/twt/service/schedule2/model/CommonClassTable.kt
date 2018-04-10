@@ -26,9 +26,6 @@ class CommonClassTable(val classtable: Classtable) : AbsClasstableProvider {
         }.onEach {
             it.dayAvailable = it.isContainDay(dayOfWeek)
             it.weekAvailable = it.isWeekAvailable(weekInt = week)
-            if (!it.weekAvailable) {
-                it.courseColor = R.color.schedule_gray
-            }
         }.filter { it.dayAvailable }
 
         return list

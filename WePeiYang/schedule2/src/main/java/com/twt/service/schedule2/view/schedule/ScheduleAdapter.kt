@@ -76,11 +76,24 @@ class ScheduleAdapter(val context: Context) : RecyclerView.Adapter<ScheduleAdapt
                 if (course.next.size > 0) {
                     text += "\n Next: "
                     course.next.forEach {
+                        if (!it.weekAvailable) {
+                            text += "[非本周]"
+                        }
+                        if (it.coursetype == "蹭课") {
+                            text += "[蹭课]"
+                        }
                         text += it.coursename + "\n"
                     }
                 }
                 textView.text = text
-                cardView.setCardBackgroundColor(CommonContext.application.resources.getColor(course.courseColor))
+                if (course.weekAvailable) {
+                    textView.setTextColor(Color.WHITE)
+                    cardView.setCardBackgroundColor(CommonContext.application.resources.getColor(course.courseColor))
+                } else {
+                    cardView.setCardBackgroundColor(CommonContext.application.resources.getColor(R.color.schedule_background_gray))
+                    textView.setTextColor(CommonContext.application.resources.getColor(R.color.schedule_gray))
+                }
+//                if (course)
             }
         }
     }

@@ -12,7 +12,7 @@ import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
 
 class ScheduleActivity : AppCompatActivity() {
     lateinit var recyclerView: RecyclerView
-    val classtableProvider by lazyOf(TotalCourseManager.getTotalCourseManager(refreshAudit = true))
+    val classtableProvider by lazyOf(TotalCourseManager.getTotalCourseManager(refreshTju = false,refreshAudit = false))
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,7 +28,6 @@ class ScheduleActivity : AppCompatActivity() {
 
             recyclerView.layoutManager = layoutManager
             recyclerView.adapter = adapter
-            recyclerView.isNestedScrollingEnabled = false
 
         }
     }
