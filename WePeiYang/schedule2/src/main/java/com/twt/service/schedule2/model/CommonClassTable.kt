@@ -1,5 +1,6 @@
 package com.twt.service.schedule2.model
 
+import com.twt.service.schedule2.R
 import com.twt.service.schedule2.extensions.*
 
 /**
@@ -17,11 +18,17 @@ class CommonClassTable(val classtable: Classtable) : AbsClasstableProvider {
         val dayOfWeek = getDayOfWeek(termStart, unixTime)
         val week = getWeekByTime(unixTime)
         val coursesLocal = getCourseByWeekWithTime(unixTime)
-        val list = coursesLocal.onEach {
+        val list = coursesLocal.map {
+            it.copy() // 妈的巨坑 辣鸡代码 Debug心态都崩了
+            // 这个东西需要进行一次软拷贝 因为arrange字段是Mutable 所以在多次查询的时候就会烂 GG
+        }.onEach {
             it.arrange.trim(dayOfWeek)
         }.onEach {
             it.dayAvailable = it.isContainDay(dayOfWeek)
             it.weekAvailable = it.isWeekAvailable(weekInt = week)
+            if (!it.weekAvailable) {
+                it.courseColor = R.color.schedule_gray
+            }
         }.filter { it.dayAvailable }
 
         return list

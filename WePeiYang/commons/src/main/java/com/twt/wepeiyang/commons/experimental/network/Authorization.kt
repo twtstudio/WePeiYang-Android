@@ -40,7 +40,7 @@ object RealAuthenticator : Authenticator {
 //                        20001 -> Bind Tju
                         30002 -> {
                             //todo: 统一化错误处理
-                            Toasty.error(CommonContext.application,"账号或密码错误").show()
+//                            Toasty.error(CommonContext.application,"账号或密码错误").show()
                         }
                         else -> {
                             Logger.d("""

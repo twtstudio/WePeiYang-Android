@@ -13,7 +13,7 @@ import kotlin.math.absoluteValue
 data class Course(val coursetype: String = "",
                   val college: String = "",
                   val ext: String = "",
-                  val classid: String = "",
+                  val classid: Int = 0,
                   val teacher: String = "",
                   val week: Week,
                   val coursename: String = "",
@@ -22,8 +22,10 @@ data class Course(val coursetype: String = "",
                   val coursenature: String = "",
                   val credit: String = "",
                   val courseid: String = "",
-                  var weekAvailable: Boolean = false,
-                  var dayAvailable: Boolean = false) {
+                  var courseColor: Int = 0,
+                  var weekAvailable: Boolean = false, // 是不是灰色
+                  var dayAvailable: Boolean = false) // 今天有没有课
+{
 
     private var nextList: MutableList<Course>? = null
     val next: MutableList<Course>

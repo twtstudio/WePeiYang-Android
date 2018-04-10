@@ -1,5 +1,6 @@
 package com.twt.service.schedule2.model
 
+import com.twt.service.schedule2.R
 import com.twt.service.schedule2.extensions.currentUnixTime
 import com.twt.service.schedule2.extensions.findConflict
 import com.twt.service.schedule2.extensions.mergeCourses
@@ -9,6 +10,20 @@ class MergedClassTableProvider(
         val auditClassTable: AbsClasstableProvider,
         val customCourseTable: AbsClasstableProvider
 ) : AbsClasstableProvider {
+
+    private val classColors = intArrayOf(
+            R.color.schedule_green,
+            R.color.schedule_orange,
+            R.color.schedule_blue,
+            R.color.schedule_green2,
+            R.color.schedule_pink,
+            R.color.schedule_blue2,
+            R.color.schedule_green3,
+            R.color.schedule_purple,
+            R.color.schedule_red,
+            R.color.schedule_green4,
+            R.color.schedule_purple2
+    )
 
     val totalCoursesList = getCourseByWeek(3) // 姑且就当做第三周吧 反正只是CheckConfict用
 
@@ -40,12 +55,18 @@ class MergedClassTableProvider(
     override fun checkCourseConflict(course: Course): Course? = totalCoursesList.findConflict(course)
 
     override fun getCourseByWeek(week: Int): List<Course> {
-        return mutableListOf<Course>().apply {
+        val list = mutableListOf<Course>().apply {
             addAll(tjuClassTable.getCourseByWeek(week))
             addAll(auditClassTable.getCourseByWeek(week))
             addAll(customCourseTable.getCourseByWeek(week))
             // 其他getCourseByWeek的时候就已经做了refresh操作
         }
+        val size = classColors.size
+        list.forEachIndexed { index, course ->
+            val color = classColors[index % size]
+            course.courseColor = color
+        } // 上色
+        return list
     }
 
     override fun getCourseByWeekWithTime(unixTime: Long): List<Course> {

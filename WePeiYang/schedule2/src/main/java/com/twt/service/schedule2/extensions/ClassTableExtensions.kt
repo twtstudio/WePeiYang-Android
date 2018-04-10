@@ -101,7 +101,9 @@ fun List<Course>.flatDay(dayOfWeek: Int): List<Course> {
             coursename = "空",
             week = Week(0, 0),
             arrangeBackup = listOf(Arrange(week = "单双周", start = start, end = end, day = day))
-    )
+    ).apply {
+        refresh()
+    }
     // 用来标识空课程
     // 用空课程中的start和end来标识数据 因为需要-> 点击空白课程获取数据用 + 当前视图的week参数
 
@@ -147,7 +149,7 @@ fun AbsClasstableProvider.getWeekCourseFlated(weekInt: Int, startUnix: Long = te
     val wrapperList = mutableListOf<List<Course>>()
     val offset = 3600L // 加一个偏移量... 因为按照0点计算不保险
     val dayOfSeconds = 86400L
-    val startUnixWithOffset = startUnix + offset
+    val startUnixWithOffset = startUnix + offset + weekInt * dayOfSeconds * 7
     val dayUnixList = mutableListOf<Long>() // 一周内每天的时间戳
     for (i in 0..6) {
         dayUnixList.add(startUnixWithOffset + dayOfSeconds * i)
