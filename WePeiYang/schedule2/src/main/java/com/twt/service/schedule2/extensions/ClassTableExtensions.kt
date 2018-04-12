@@ -155,7 +155,7 @@ fun AbsClasstableProvider.getWeekCourseFlated(weekInt: Int, startUnix: Long = te
     val wrapperList = mutableListOf<List<Course>>()
     val offset = 3600L // 加一个偏移量... 因为按照0点计算不保险
     val dayOfSeconds = 86400L
-    val startUnixWithOffset = startUnix + offset + weekInt * dayOfSeconds * 7
+    val startUnixWithOffset = startUnix + offset + (weekInt-1) * dayOfSeconds * 7
     val dayUnixList = mutableListOf<Long>() // 一周内每天的时间戳
     for (i in 0..6) {
         dayUnixList.add(startUnixWithOffset + dayOfSeconds * i)

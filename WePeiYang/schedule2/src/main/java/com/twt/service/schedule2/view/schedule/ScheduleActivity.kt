@@ -21,18 +21,21 @@ class ScheduleActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         recyclerView = findViewById(R.id.rec_main)
+        val adapter = ScheduleAdapter(this)
+        val layoutManager = GridLayoutManager(this,12,LinearLayoutManager.HORIZONTAL,false)
+        recyclerView.layoutManager = layoutManager
+        recyclerView.adapter = adapter
+        val decoration = ScheduleDecoration()
+        recyclerView.addItemDecoration(decoration)
+
         classtableProvider.bindNonNull(this) {
-            val result = it.getWeekCourseFlated(it.getCurrentWeek())
-            val adapter = ScheduleAdapter(this)
+            val week = it.getCurrentWeek()
+            val result = it.getWeekCourseFlated(week)
+            decoration.week = week
             adapter.refreshCourseListFlat(result)
 
-            val layoutManager = GridLayoutManager(this,12,LinearLayoutManager.HORIZONTAL,false)
             layoutManager.spanSizeLookup = CourseSpanSizeLookup(adapter.courseList)
-
-            recyclerView.layoutManager = layoutManager
-            recyclerView.adapter = adapter
-            recyclerView.clipChildren = false
-            recyclerView.addItemDecoration(ScheduleDecoration())
+            recyclerView.invalidateItemDecorations()
 
         }
     }

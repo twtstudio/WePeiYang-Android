@@ -68,6 +68,7 @@ class ScheduleAdapter(val context: Context) : RecyclerView.Adapter<ScheduleAdapt
             else -> ScheduleDisplayType.SEVENDAYS
         }
         notifyDataSetChanged()
+
     }
 
 
