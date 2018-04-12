@@ -95,7 +95,7 @@ fun List<Course>.findConflict(course: Course): Course? {
 /**
  * 把一天的课程 添加上空课
  */
-fun List<Course>.flatDay(dayOfWeek: Int): List<Course> {
+fun List<Course>.flatDay(dayOfWeek: Int, forceFill: Boolean = false): List<Course> {
 
     fun createEmptyCourse(start: Int, end: Int, day: Int = dayOfWeek) = Course(
             coursename = "空",
@@ -110,9 +110,10 @@ fun List<Course>.flatDay(dayOfWeek: Int): List<Course> {
     val trimedList = this.onEach { it.arrange.trim(dayOfWeek) }.sortedBy { it.arrange[0].start }
     val realList = mutableListOf<Course>()
     val totalCourseNumber = 12
-    if(trimedList.isEmpty()&& dayOfWeek!= 6 && dayOfWeek!= 7) {
+    if ((trimedList.isEmpty() && dayOfWeek != 6 && dayOfWeek != 7) || (trimedList.isEmpty()&&forceFill)) {
+        // 万一出现了这种周六日只有其中一天有课的 就需要强制填充... 避免出现奇怪的现象
         for (i in 1..totalCourseNumber) {
-            realList.add(createEmptyCourse(i,i))
+            realList.add(createEmptyCourse(i, i))
         }
     }
     trimedList.forEachIndexed { index, course ->
@@ -159,9 +160,11 @@ fun AbsClasstableProvider.getWeekCourseFlated(weekInt: Int, startUnix: Long = te
     for (i in 0..6) {
         dayUnixList.add(startUnixWithOffset + dayOfSeconds * i)
     }
+    // 周六日其中一个有课才要Force填充
+    val willForceFill: Boolean = !(this.getCourseByDay(dayUnixList[5]).isEmpty() && this.getCourseByDay(dayUnixList[6]).isEmpty())
     dayUnixList.mapIndexed { index, l ->
         val dayOfWeek = index + 1
-        this.getCourseByDay(l).flatDay(dayOfWeek)
+        this.getCourseByDay(l).flatDay(dayOfWeek, forceFill = willForceFill)
     }.forEach {
         wrapperList.add(it)
     }

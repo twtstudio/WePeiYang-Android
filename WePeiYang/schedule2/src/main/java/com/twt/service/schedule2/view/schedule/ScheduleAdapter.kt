@@ -1,5 +1,6 @@
 package com.twt.service.schedule2.view.schedule
 
+import android.app.Activity
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.Color
@@ -15,17 +16,28 @@ import android.widget.TextView
 import com.twt.service.schedule2.R
 import com.twt.service.schedule2.model.Course
 import com.twt.wepeiyang.commons.experimental.CommonContext
+import android.util.DisplayMetrics
+import android.widget.FrameLayout
+
 
 /**
  * 使用GridLayoutManager (HORIZONTAL) span = 12
  */
 class ScheduleAdapter(val context: Context) : RecyclerView.Adapter<ScheduleAdapter.CourseViewHolder>() {
     val courseList = mutableListOf<Course>()
+    var firstColumnSize = 1
+    val firstRowIndexList = mutableListOf<Int>()
+    var displayType = ScheduleDisplayType.SEVENDAYS
 
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): CourseViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CourseViewHolder {
         val inflater = LayoutInflater.from(context)
         val view = inflater.inflate(R.layout.schedule_item_course, parent, false)
+        if (viewType == ScheduleDisplayType.SEVENDAYS) {
+            view.flatViewHolder(7,parent)
+        } else {
+            view.flatViewHolder(5,parent)
+        }
         return CourseViewHolder(view)
     }
 
@@ -38,19 +50,22 @@ class ScheduleAdapter(val context: Context) : RecyclerView.Adapter<ScheduleAdapt
         holder.bind(course)
     }
 
-    fun refreshCourseList(courses: List<Course>) {
-        courseList.removeAll { true }
-        courseList.addAll(courses)
-        notifyDataSetChanged()
-    }
-
     /**
      * 传入二维列表
      */
     fun refreshCourseListFlat(courses: List<List<Course>>) {
         courseList.removeAll { true }
+        if (courses.isNotEmpty()) {
+            firstColumnSize = courses[0].size
+        }
         courses.forEach {
+            firstRowIndexList.add(courseList.size)
             courseList.addAll(it)
+        }
+        displayType = when (firstRowIndexList.size) {
+            5 -> ScheduleDisplayType.FIVEDAYS
+            7 -> ScheduleDisplayType.SEVENDAYS
+            else -> ScheduleDisplayType.SEVENDAYS
         }
         notifyDataSetChanged()
     }
@@ -93,8 +108,39 @@ class ScheduleAdapter(val context: Context) : RecyclerView.Adapter<ScheduleAdapt
                     cardView.setCardBackgroundColor(CommonContext.application.resources.getColor(R.color.schedule_background_gray))
                     textView.setTextColor(CommonContext.application.resources.getColor(R.color.schedule_gray))
                 }
-//                if (course)
             }
+        }
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return displayType
+    }
+
+
+    private fun getScreenWidth(): Int {
+        val dm = DisplayMetrics()
+        (context as Activity).windowManager.defaultDisplay.getMetrics(dm)
+        //宽度 dm.widthPixels
+        //高度 dm.heightPixels
+        return dm.widthPixels
+    }
+
+    private fun View.flatViewHolder(spanSize: Int, parent: ViewGroup) {
+        val availableWidth = parent.width - parent.paddingStart
+        val perItemWith = availableWidth / spanSize
+        val layoutParams: GridLayoutManager.LayoutParams = this.layoutParams as GridLayoutManager.LayoutParams
+        layoutParams.width = perItemWith - layoutParams.marginStart - layoutParams.marginEnd
+        this.layoutParams = layoutParams
+
+    }
+
+    /**
+     * 五天填充还是七天填充
+     */
+    class ScheduleDisplayType {
+        companion object {
+            val FIVEDAYS = 0
+            val SEVENDAYS = 1
         }
     }
 
@@ -102,10 +148,7 @@ class ScheduleAdapter(val context: Context) : RecyclerView.Adapter<ScheduleAdapt
 
 class CourseSpanSizeLookup(val courses: List<Course>) : GridLayoutManager.SpanSizeLookup() {
     override fun getSpanSize(position: Int): Int {
-        if(courses[position].arrange.size == 0) {
-            println(courses[position])
-        }
-        val span = courses[position].arrange[0].let { it.end - it.start +1 }
+        val span = courses[position].arrange[0].let { it.end - it.start + 1 }
         return span
     }
 }

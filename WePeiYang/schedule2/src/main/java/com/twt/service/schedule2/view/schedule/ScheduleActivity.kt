@@ -9,6 +9,7 @@ import com.twt.service.schedule2.R
 import com.twt.service.schedule2.extensions.getWeekCourseFlated
 import com.twt.service.schedule2.model.total.TotalCourseManager
 import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
+import kotlinx.android.synthetic.main.schedule_act_main.*
 
 class ScheduleActivity : AppCompatActivity() {
     lateinit var recyclerView: RecyclerView
@@ -17,6 +18,8 @@ class ScheduleActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.schedule_act_main)
+        setSupportActionBar(toolbar)
+
         recyclerView = findViewById(R.id.rec_main)
         classtableProvider.bindNonNull(this) {
             val result = it.getWeekCourseFlated(it.getCurrentWeek())
@@ -28,6 +31,8 @@ class ScheduleActivity : AppCompatActivity() {
 
             recyclerView.layoutManager = layoutManager
             recyclerView.adapter = adapter
+            recyclerView.clipChildren = false
+            recyclerView.addItemDecoration(ScheduleDecoration())
 
         }
     }
