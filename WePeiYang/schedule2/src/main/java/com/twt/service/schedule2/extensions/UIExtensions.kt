@@ -1,8 +1,10 @@
 package com.twt.service.schedule2.extensions
 
+import android.app.Activity
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Point
+import android.support.v7.app.AppCompatActivity
 
 /**
  * Canvas绘制时候的图层隔离
@@ -35,3 +37,4 @@ fun Canvas.textCenter(strings: List<String>, paint: Paint, x: Float, y: Float, a
         this.drawText(strings[i], x, y + yAxis, paint)
     }
 }
+

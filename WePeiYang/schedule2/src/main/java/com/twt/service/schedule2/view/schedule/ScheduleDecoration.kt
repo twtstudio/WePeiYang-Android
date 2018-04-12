@@ -3,9 +3,10 @@ package com.twt.service.schedule2.view.schedule
 import android.graphics.*
 import android.support.v7.widget.RecyclerView
 import android.view.View
-import com.twt.service.schedule2.extensions.layer
-import com.twt.service.schedule2.extensions.termStart
-import com.twt.service.schedule2.extensions.textCenter
+import com.twt.service.schedule2.extensions.*
+import com.twt.service.schedule2.model.AbsClasstableProvider
+import com.twt.service.schedule2.model.Classtable
+import com.twt.service.schedule2.model.CommonClassTable
 import com.twt.service.schedule2.model.Week
 import java.text.SimpleDateFormat
 import java.util.*
@@ -22,6 +23,11 @@ class ScheduleDecoration : RecyclerView.ItemDecoration() {
         isAntiAlias = true
         textAlign = Paint.Align.CENTER
     }
+
+    /**
+     * 用一些无关课程的方法
+     */
+    val mockClasstableProvider: AbsClasstableProvider = CommonClassTable(Classtable(courses = listOf()))
 
     override fun onDrawOver(canvas: Canvas, parent: RecyclerView, state: RecyclerView.State) {
         super.onDrawOver(canvas, parent, state)
@@ -43,6 +49,7 @@ class ScheduleDecoration : RecyclerView.ItemDecoration() {
 
         }
         layer {
+            // 绘制上侧栏
             canvas.drawRect(0F, 0F, parentWidth, topMargin, backGroundPaint)
             canvas.drawLine(0f, topMargin, parentWidth, topMargin, Paint().apply {
                 color = Color.rgb(230, 235, 238)
@@ -62,11 +69,18 @@ class ScheduleDecoration : RecyclerView.ItemDecoration() {
 
             val (month, days) = getWeekDaysString(spanSize)
             val y = topMargin / 2
+            val todayInt = mockClasstableProvider.getDayOfWeek(dayUnix = mockClasstableProvider.currentUnixTime)
             canvas.textCenter(month.split("\n"), textPaint, monthLabelWidth / 2, y, Paint.Align.CENTER)
             days.forEachIndexed { index, string ->
                 val strList = string.split("\n")
                 val x = monthLabelWidth + (index + 0.5).toFloat() * perItemWidth
-                canvas.textCenter(strList,textPaint,x,y,Paint.Align.CENTER)
+                if (index + 1 == todayInt) {
+                    // 绘制当前的星期 比如说 今天是星期四
+                    canvas.drawRect(x - perItemWidth/2,y - topMargin/2,x+perItemWidth/2,y + topMargin/2,Paint().apply {
+                        color = Color.rgb(201,243,242)
+                    })
+                }
+                canvas.textCenter(strList, textPaint, x, y, Paint.Align.CENTER)
             }
 
         }

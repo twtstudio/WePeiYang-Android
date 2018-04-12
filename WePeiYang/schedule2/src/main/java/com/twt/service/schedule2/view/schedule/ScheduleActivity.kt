@@ -8,7 +8,9 @@ import android.support.v7.widget.RecyclerView
 import com.twt.service.schedule2.R
 import com.twt.service.schedule2.extensions.getWeekCourseFlated
 import com.twt.service.schedule2.model.total.TotalCourseManager
+import com.twt.service.schedule2.view.detail.CourseDetailBottomFragment
 import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
+import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.schedule_act_main.*
 
 class ScheduleActivity : AppCompatActivity() {
@@ -25,6 +27,9 @@ class ScheduleActivity : AppCompatActivity() {
         val layoutManager = GridLayoutManager(this,12,LinearLayoutManager.HORIZONTAL,false)
         recyclerView.layoutManager = layoutManager
         recyclerView.adapter = adapter
+        adapter.clickListener = {
+            CourseDetailBottomFragment.showCourseDetailBottomSheet(this,it)
+        }
         val decoration = ScheduleDecoration()
         recyclerView.addItemDecoration(decoration)
 

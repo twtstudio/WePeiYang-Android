@@ -29,6 +29,10 @@ class ScheduleAdapter(val context: Context) : RecyclerView.Adapter<ScheduleAdapt
     val firstRowIndexList = mutableListOf<Int>()
     var displayType = ScheduleDisplayType.SEVENDAYS
 
+    /**
+     * 外部的点击事件统一传递
+     */
+    var clickListener: (Course) -> Unit = {}
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CourseViewHolder {
         val inflater = LayoutInflater.from(context)
@@ -48,6 +52,9 @@ class ScheduleAdapter(val context: Context) : RecyclerView.Adapter<ScheduleAdapt
     override fun onBindViewHolder(holder: CourseViewHolder, position: Int) {
         val course = courseList[position]
         holder.bind(course)
+        holder.cardView.setOnClickListener {
+            clickListener.invoke(course)
+        }
     }
 
     /**
@@ -89,7 +96,7 @@ class ScheduleAdapter(val context: Context) : RecyclerView.Adapter<ScheduleAdapt
                     text += "[蹭课]"
                 }
                 text += "${course.coursename}\n@${course.arrange[0].room} "
-                if (course.next.size > 0) {
+                if (course.next.size > 0 && false) {
                     text += "\n Next: "
                     course.next.forEach {
                         if (!it.weekAvailable) {
