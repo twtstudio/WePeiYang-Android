@@ -59,6 +59,8 @@ object TotalCourseManager {
             )
 
             mergedClassTableProvider.value = finalClasstableProvider
+        }.invokeOnCompletion {
+            it?.apply { printStackTrace() }
         }
 
         return mergedClassTableProvider

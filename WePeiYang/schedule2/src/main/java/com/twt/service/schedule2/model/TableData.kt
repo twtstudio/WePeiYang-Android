@@ -23,6 +23,7 @@ data class Course(val coursetype: String = "",
                   val credit: String = "",
                   val courseid: String = "",
                   var courseColor: Int = 0,
+                  var statusMessage: String? = "", // [蹭课] [非本周] 什么的
                   var weekAvailable: Boolean = false, // 是不是灰色
                   var dayAvailable: Boolean = false) // 今天有没有课
 {

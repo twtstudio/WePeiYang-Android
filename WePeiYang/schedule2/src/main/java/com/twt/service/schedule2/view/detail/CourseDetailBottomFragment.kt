@@ -13,8 +13,7 @@ import android.view.View
 import com.twt.service.schedule2.R
 import com.twt.service.schedule2.model.Course
 
-@SuppressLint("ValidFragment")
-class CourseDetailBottomFragment() : BottomSheetDialogFragment() {
+class CourseDetailBottomFragment : BottomSheetDialogFragment() {
     companion object {
         private const val TAG_SHARE_BS_DIALOG_FRAGMENT = "CourseDetailBottomFragment"
         private val cacheFragment = CourseDetailBottomFragment()

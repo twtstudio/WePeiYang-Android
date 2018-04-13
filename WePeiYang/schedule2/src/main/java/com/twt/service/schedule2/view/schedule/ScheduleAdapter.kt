@@ -18,6 +18,7 @@ import com.twt.service.schedule2.model.Course
 import com.twt.wepeiyang.commons.experimental.CommonContext
 import android.util.DisplayMetrics
 import android.widget.FrameLayout
+import com.haozhang.lib.SlantedTextView
 
 
 /**
@@ -90,22 +91,43 @@ class ScheduleAdapter(val context: Context) : RecyclerView.Adapter<ScheduleAdapt
                 cardView.visibility = View.VISIBLE
                 var text = ""
                 if (!course.weekAvailable) {
-                    text += "[这周不上]"
+                    text += "[非本周]"
                 }
                 if (course.coursetype == "蹭课") {
                     text += "[蹭课]"
                 }
+                if (course.ext == "重修") {
+                    text += "[光荣重修！]"
+                }
+                course.statusMessage = String(text.toByteArray()) // 拷贝一个（不过按理说不拷贝也可以吧）
+
                 text += "${course.coursename}\n@${course.arrange[0].room} "
-                if (course.next.size > 0 && false) {
-                    text += "\n Next: "
+                /**
+                 * 渲染多节角标
+                 */
+                if (course.next.size > 0) {
+                    val view = LayoutInflater.from(cardView.context).inflate(R.layout.schedule_item_course_slant,cardView,false)
+                    val slantedTextView: SlantedTextView = view.findViewById(R.id.tv_course_slant)
+                    cardView.addView(view)
+                }
+                /**
+                 * 渲染Next列表里面的课程信息
+                 */
+                if (course.next.size > 0) {
                     course.next.forEach {
+                        var tempText = ""
                         if (!it.weekAvailable) {
-                            text += "[非本周]"
+                            tempText += "[非本周]"
+                        } else {
+                            tempText += "[冲突]"
                         }
                         if (it.coursetype == "蹭课") {
-                            text += "[蹭课]"
+                            tempText += "[蹭课]"
                         }
-                        text += it.coursename + "\n"
+                        if (it.ext == "重修") {
+                            tempText += "[光荣重修！]"
+                        }
+                        it.statusMessage = tempText
                     }
                 }
                 textView.text = text
