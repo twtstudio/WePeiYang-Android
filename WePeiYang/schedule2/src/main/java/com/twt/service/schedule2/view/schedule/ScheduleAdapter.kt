@@ -67,7 +67,9 @@ class ScheduleAdapter(val context: Context) : RecyclerView.Adapter<ScheduleAdapt
             firstColumnSize = courses[0].size
         }
         courses.forEach {
-            firstRowIndexList.add(courseList.size)
+            if (it.isNotEmpty()) {
+                firstRowIndexList.add(courseList.size)
+            }
             courseList.addAll(it)
         }
         displayType = when (firstRowIndexList.size) {
@@ -147,13 +149,7 @@ class ScheduleAdapter(val context: Context) : RecyclerView.Adapter<ScheduleAdapt
     }
 
 
-    private fun getScreenWidth(): Int {
-        val dm = DisplayMetrics()
-        (context as Activity).windowManager.defaultDisplay.getMetrics(dm)
-        //宽度 dm.widthPixels
-        //高度 dm.heightPixels
-        return dm.widthPixels
-    }
+
 
     private fun View.flatViewHolder(spanSize: Int, parent: ViewGroup) {
         val availableWidth = parent.width - parent.paddingStart

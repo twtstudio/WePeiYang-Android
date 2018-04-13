@@ -60,7 +60,7 @@ fun AuditCourse.convertToCourse(): Course {
             else -> "这是什么玩意？？？？"
         }
         val arrange = Arrange(
-                room = it.room,
+                room = "${it.building}楼${it.room}",
                 start = (it.startTime - 1) * 2 + 1, // 因为蹭课API的返回节数 是算的大节 但是课程表Course算的是小节 为了复用我们要转换一下 Fuck
                 end = (it.startTime - 1) * 2  + it.courseLength,
                 day = it.weekDay,

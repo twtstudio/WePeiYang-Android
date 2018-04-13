@@ -3,5 +3,6 @@
     <application>
         <activity android:name=".view.custom.AddCustomCourseActivity"/>
         <activity android:name=".view.schedule.ScheduleActivity" android:exported="true"/>
+        <activity android:name=".view.week.WeekTestActivity" android:exported="true"/>
     </application>
 </manifest>

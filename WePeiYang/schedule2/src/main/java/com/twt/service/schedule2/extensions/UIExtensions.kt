@@ -5,6 +5,7 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Point
 import android.support.v7.app.AppCompatActivity
+import android.util.DisplayMetrics
 
 /**
  * Canvas绘制时候的图层隔离
@@ -38,3 +39,18 @@ fun Canvas.textCenter(strings: List<String>, paint: Paint, x: Float, y: Float, a
     }
 }
 
+fun Activity.getScreenWidth(): Int {
+    val dm = DisplayMetrics()
+    windowManager.defaultDisplay.getMetrics(dm)
+    //宽度 dm.widthPixels
+    //高度 dm.heightPixels
+    return dm.widthPixels
+}
+
+fun Activity.getScreenHeight(): Int {
+    val dm = DisplayMetrics()
+    windowManager.defaultDisplay.getMetrics(dm)
+    //宽度 dm.widthPixels
+    //高度 dm.heightPixels
+    return dm.heightPixels
+}

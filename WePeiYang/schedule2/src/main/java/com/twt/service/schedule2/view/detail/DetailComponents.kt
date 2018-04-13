@@ -23,7 +23,11 @@ class CourseInfoComponent(itemView: View) : RecyclerView.ViewHolder(itemView) {
         courseNameTextView.text = course.coursename
         courseTypeTextView.text = "${course.coursenature} - ${course.coursetype}"
         courseTeacherTextView.text = course.teacher
-        courseCreditTextView.text = "${course.credit}学分"
+        if (course.credit.contains(".")) {
+            courseCreditTextView.text = "${course.credit}学分"
+        } else {
+            courseCreditTextView.text = "${course.credit}"
+        }
         courseStatusTextView.text = course.statusMessage
     }
 

@@ -52,6 +52,7 @@ dependencies {
 
     implementation 'com.haozhang.libary:android-slanted-textview:1.2'
     implementation "org.jetbrains.anko:anko-commons:${versions.anko}"
+    implementation 'com.zhihu.android:matisse:0.4.3'
 
 
     testImplementation 'junit:junit:4.12'
