@@ -42,7 +42,7 @@ dependencies {
 //    implementation 'com.android.support:appcompat-v7:26.1.0'
     implementation project(':commons')
 
-    [*supportLibraries, 'kotlin-stdlib', 'kotlinx-coroutines', *archLibraries, 'constraint-layout'].each {
+    [*supportLibraries, 'kotlin-stdlib', 'kotlinx-coroutines', *archLibraries, 'constraint-layout', 'anko'].each {
         implementation dependenciesMap[it]
     }
 
@@ -51,6 +51,8 @@ dependencies {
     }
 
     implementation 'com.haozhang.libary:android-slanted-textview:1.2'
+    implementation "org.jetbrains.anko:anko-commons:${versions.anko}"
+
 
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.hamcrest:hamcrest-junit:2.0.0.0'

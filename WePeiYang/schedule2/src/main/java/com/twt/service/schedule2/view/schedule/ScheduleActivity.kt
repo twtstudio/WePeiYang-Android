@@ -13,6 +13,7 @@ import com.twt.service.schedule2.view.detail.MultiCourseDetailFragment
 import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
 import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.schedule_act_main.*
+import org.jetbrains.anko.alert
 
 class ScheduleActivity : AppCompatActivity() {
     lateinit var recyclerView: RecyclerView
