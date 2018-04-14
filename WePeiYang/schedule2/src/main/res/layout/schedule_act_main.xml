@@ -1,22 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:layout_scrollFlags="scroll"
         app:elevation="0dp">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
+        <android.support.design.widget.CollapsingToolbarLayout
+            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:title="课程表"
-            app:titleTextColor="@color/white_color">
+            android:layout_height="match_parent"
+            app:title=" ">
 
-        </android.support.v7.widget.Toolbar>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rec_week_select"
+                app:layout_collapseMode="parallax"
+                android:layout_marginTop="56dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin"
+                app:title="课程表"
+                app:titleTextColor="@color/white_color">
+
+            </android.support.v7.widget.Toolbar>
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+
 
     </android.support.design.widget.AppBarLayout>
 
@@ -29,12 +47,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rec_main"
-            android:paddingTop="40dp"
-            android:paddingStart="30dp"
-            android:layout_width="match_parent"
-            android:layout_height="1000dp" />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rec_main"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                android:layout_width="match_parent"
+                android:layout_height="1000dp"
+                android:paddingStart="30dp"
+                android:paddingTop="40dp" />
 
         </FrameLayout>
     </android.support.v4.widget.NestedScrollView>

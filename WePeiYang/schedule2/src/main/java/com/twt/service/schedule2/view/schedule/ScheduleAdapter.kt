@@ -6,6 +6,7 @@ import android.content.res.Resources
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.support.v4.content.res.ResourcesCompat
+import android.support.v7.util.DiffUtil
 import android.support.v7.widget.CardView
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -39,9 +40,9 @@ class ScheduleAdapter(val context: Context) : RecyclerView.Adapter<ScheduleAdapt
         val inflater = LayoutInflater.from(context)
         val view = inflater.inflate(R.layout.schedule_item_course, parent, false)
         if (viewType == ScheduleDisplayType.SEVENDAYS) {
-            view.flatViewHolder(7,parent)
+            view.flatViewHolder(7, parent)
         } else {
-            view.flatViewHolder(5,parent)
+            view.flatViewHolder(5, parent)
         }
         return CourseViewHolder(view)
     }
@@ -60,9 +61,15 @@ class ScheduleAdapter(val context: Context) : RecyclerView.Adapter<ScheduleAdapt
 
     /**
      * 传入二维列表
+     * 内置DiffUtil的处理
      */
     fun refreshCourseListFlat(courses: List<List<Course>>) {
+        val courseListOld: List<Course> = ArrayList<Course>(courseList) // 拷贝之前的列表
+        // 一些刷新之前的恢复操作
         courseList.removeAll { true }
+        firstRowIndexList.removeAll { true }
+        firstColumnSize = 1
+
         if (courses.isNotEmpty()) {
             firstColumnSize = courses[0].size
         }
@@ -72,12 +79,15 @@ class ScheduleAdapter(val context: Context) : RecyclerView.Adapter<ScheduleAdapt
             }
             courseList.addAll(it)
         }
+        // 到这里 数据源已经被更改了 所以我们需要用DiffUtil来处理一下
+        val diffResult = DiffUtil.calculateDiff(
+                CourseListDiffCallback(oldItems = courseListOld, newItems = courseList))
         displayType = when (firstRowIndexList.size) {
             5 -> ScheduleDisplayType.FIVEDAYS
             7 -> ScheduleDisplayType.SEVENDAYS
             else -> ScheduleDisplayType.SEVENDAYS
         }
-        notifyDataSetChanged()
+        diffResult.dispatchUpdatesTo(this)
 
     }
 
@@ -108,7 +118,7 @@ class ScheduleAdapter(val context: Context) : RecyclerView.Adapter<ScheduleAdapt
                  * 渲染多节角标
                  */
                 if (course.next.size > 0) {
-                    val view = LayoutInflater.from(cardView.context).inflate(R.layout.schedule_item_course_slant,cardView,false)
+                    val view = LayoutInflater.from(cardView.context).inflate(R.layout.schedule_item_course_slant, cardView, false)
                     val slantedTextView: SlantedTextView = view.findViewById(R.id.tv_course_slant)
                     cardView.addView(view)
                 }
@@ -149,8 +159,6 @@ class ScheduleAdapter(val context: Context) : RecyclerView.Adapter<ScheduleAdapt
     }
 
 
-
-
     private fun View.flatViewHolder(spanSize: Int, parent: ViewGroup) {
         val availableWidth = parent.width - parent.paddingStart
         val perItemWith = availableWidth / spanSize
@@ -177,5 +185,27 @@ class CourseSpanSizeLookup(val courses: List<Course>) : GridLayoutManager.SpanSi
         val span = courses[position].arrange[0].let { it.end - it.start + 1 }
         return span
     }
+}
+
+class CourseListDiffCallback(val oldItems: List<Course>, val newItems: List<Course>) : DiffUtil.Callback() {
+    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+        val oldItem = oldItems[oldItemPosition]
+        val newItem = newItems[newItemPosition]
+        return oldItem == newItem
+    }
+
+    override fun getOldListSize() = oldItems.size
+
+    override fun getNewListSize() = newItems.size
+
+    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+        val oldItem = oldItems[oldItemPosition]
+        val newItem = newItems[newItemPosition]
+        val arrangeEqual = oldItem.arrange == newItem.arrange
+        val nextListEqual = oldItem.next == newItem.next
+        val bodyEqual = oldItem == newItem
+        return (arrangeEqual && nextListEqual && bodyEqual)
+    }
+
 }
 

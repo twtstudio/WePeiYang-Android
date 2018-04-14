@@ -32,6 +32,8 @@ object TotalCourseManager {
     fun getTotalCourseManager(refreshTju: Boolean = false, refreshAudit: Boolean = false, refreshCustom: Boolean = false): LiveData<MergedClassTableProvider> {
 
         if (!refreshTju && !refreshAudit && !refreshCustom && (mergedClassTableProvider.value != null)) {
+            val valueToRefresh = mergedClassTableProvider.value
+            mergedClassTableProvider.value = valueToRefresh
             return mergedClassTableProvider
         }
         async(UI) {

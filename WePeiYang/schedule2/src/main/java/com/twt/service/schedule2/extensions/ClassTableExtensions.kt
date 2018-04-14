@@ -110,7 +110,7 @@ fun List<Course>.flatDay(dayOfWeek: Int, forceFill: Boolean = false): List<Cours
     val trimedList = this.onEach { it.arrange.trim(dayOfWeek) }.sortedBy { it.arrange[0].start }
     val realList = mutableListOf<Course>()
     val totalCourseNumber = 12
-    if ((trimedList.isEmpty() && dayOfWeek != 6 && dayOfWeek != 7) || (trimedList.isEmpty()&&forceFill)) {
+    if ((trimedList.isEmpty() && dayOfWeek != 6 && dayOfWeek != 7) || (trimedList.isEmpty() && forceFill)) {
         // 万一出现了这种周六日只有其中一天有课的 就需要强制填充... 避免出现奇怪的现象
         for (i in 1..totalCourseNumber) {
             realList.add(createEmptyCourse(i, i))
@@ -155,7 +155,7 @@ fun AbsClasstableProvider.getWeekCourseFlated(weekInt: Int, startUnix: Long = te
     val wrapperList = mutableListOf<List<Course>>()
     val offset = 3600L // 加一个偏移量... 因为按照0点计算不保险
     val dayOfSeconds = 86400L
-    val startUnixWithOffset = startUnix + offset + (weekInt-1) * dayOfSeconds * 7
+    val startUnixWithOffset = startUnix + offset + (weekInt - 1) * dayOfSeconds * 7
     val dayUnixList = mutableListOf<Long>() // 一周内每天的时间戳
     for (i in 0..6) {
         dayUnixList.add(startUnixWithOffset + dayOfSeconds * i)
@@ -169,6 +169,38 @@ fun AbsClasstableProvider.getWeekCourseFlated(weekInt: Int, startUnix: Long = te
         wrapperList.add(it)
     }
     return wrapperList
+}
+
+/**
+ * 生成对应周的BooleanMatrix 用来提供显示周数的自定义view
+ * @param weekInt 周数
+ * @param startUnix 学期开始
+ * @return Boolean二维矩阵
+ */
+fun AbsClasstableProvider.getWeekCourseMatrix(weekInt: Int, startUnix: Long = termStart): List<List<Boolean>> {
+    val booleanMatrix = mutableListOf<MutableList<Boolean>>()
+    for (i in 0 until 7) {
+        val child = mutableListOf<Boolean>()
+        for (y in 0 until 7) {
+            child.add(false)
+        }
+        booleanMatrix.add(child)
+    }
+
+    val offset = 3600L // 加一个偏移量... 因为按照0点计算不保险
+    val dayOfSeconds = 86400L
+    val startUnixWithOffset = startUnix + offset + (weekInt - 1) * dayOfSeconds * 7
+    val dayUnixList = mutableListOf<Long>() // 一周内每天的时间戳
+    for (i in 0..6) {
+        dayUnixList.add(startUnixWithOffset + dayOfSeconds * i)
+    }
+    dayUnixList.forEachIndexed { index, l ->
+        this.getCourseByDay(l).filter { it.weekAvailable }.forEach {
+            val yCourseIndex = it.arrange[0].start/2 // 如果是第一节 1/2 = 0 第三节 3/2 = 1 正好对应点阵
+            booleanMatrix[index][yCourseIndex] = true
+        }
+    }
+    return booleanMatrix
 }
 
 /**

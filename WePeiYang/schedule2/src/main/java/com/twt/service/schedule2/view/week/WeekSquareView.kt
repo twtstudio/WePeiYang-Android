@@ -14,7 +14,7 @@ import java.util.*
 
 class WeekSquareView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0) : View(context, attrs, defStyle) {
 
-    val defaultBooleans: List<List<Boolean>>
+    private val defaultBooleans: List<List<Boolean>>
         get() {
             val list = mutableListOf<MutableList<Boolean>>()
             for (i in 0 until 7) {
@@ -26,38 +26,55 @@ class WeekSquareView @JvmOverloads constructor(context: Context, attrs: Attribut
             }
             return list
         }
-    var data: WeekSquareData = WeekSquareData(1, defaultBooleans)
 
-    val backGroundPaint = Paint().apply {
+    private val selectedBackGroundPaint = Paint().apply {
+        color = Color.WHITE
+    }
+
+    private val backGroundPaint = Paint().apply {
         color = Color.parseColor("#E6F7F5")
     }
-    val pointPaintTrue = Paint().apply {
+    private val pointPaintTrue = Paint().apply {
         color = getColorCompat(R.color.colorPrimary)
     }
-    val pointPaintFalse = Paint().apply {
+    private val pointPaintFalse = Paint().apply {
         color = Color.parseColor("#D0D8D8")
     }
 
-    val textPaint = Paint().apply {
+    private val textPaint = Paint().apply {
         color = Color.BLACK
         textSize = 30f
         isAntiAlias = true
         textAlign = Paint.Align.CENTER
     }
-    val textPaintBig = Paint().apply {
+    private val textPaintBig = Paint().apply {
         color = getColorCompat(R.color.colorPrimary)
         textSize = 60f
         isAntiAlias = true
         textAlign = Paint.Align.CENTER
     }
 
+    /**
+     * 配置数据
+     */
+    var data: WeekSquareData = WeekSquareData(1, defaultBooleans)
+        set(value) {
+            field = value
+            invalidate()
+        }
+
     override fun onDraw(canvas: Canvas) {
         val padding = height / 5 // 核心点矩阵的左右下边距均为五分之一高度
-        canvas.drawRect(0F, 0F, width.toFloat(), height.toFloat(), backGroundPaint)
+        if (data.currentWeekText.contains("选中")) {
+            canvas.drawRect(0F, 0F, width.toFloat(), height.toFloat(), selectedBackGroundPaint)
+        } else {
+            canvas.drawRect(0F, 0F, width.toFloat(), height.toFloat(), backGroundPaint)
+        }
 
+        // 文字绘制见Hencoder第三期 -> 练习题中对于文字的measure
         layer {
             val text1 = "第"
-            val text2 = "5"
+            val text2 = data.weekInt.toString()
             val text3 = "周"
             val measuredText1 = textPaint.measureText(text1)
             val measuredText2 = textPaintBig.measureText(text2)
@@ -71,8 +88,11 @@ class WeekSquareView @JvmOverloads constructor(context: Context, attrs: Attribut
             canvas.drawText(text3, xBase + (measuredText3 + measuredText2) / 2, yBase, textPaint)
 
         }
+
+        // padding表示点阵的左右下边距 上面的边距略大一些 差不多是 Height * 1/2 - padding
+        // 差不多就是这个意思 反正就是上面下面画文字 中间画点阵（一个两层循环里面drawCircle即可）
         layer {
-            val xBase = padding
+            val xBase = padding // xBase是点阵左上角的参考点 结合yBase margin（点阵圆心间的距离）来画
             val yBase = height / 2 - padding * 3 / 4
             val pointMargin = (width - padding * 2) / 5
             for (x in 0 until 5) {
@@ -90,11 +110,27 @@ class WeekSquareView @JvmOverloads constructor(context: Context, attrs: Attribut
         }
 
         layer {
-            val text = "本周"
-            canvas.textCenter(listOf(text), textPaint, (width / 2).toFloat(), (height - padding / 2).toFloat(), Paint.Align.CENTER)
+            if (data.currentWeekText != "") {
+                val text = data.currentWeekText
+                canvas.textCenter(listOf(text), textPaint, (width / 2).toFloat(), (height - padding / 2).toFloat(), Paint.Align.CENTER)
+            }
         }
 
     }
 
-    data class WeekSquareData(val weekInt: Int, val booleanPoints: List<List<Boolean>>)
+    data class WeekSquareData(val weekInt: Int = 1, val booleanPoints: List<List<Boolean>>, val currentWeekText: String = "") {
+        companion object {
+            fun generateDefaultMatrix(): List<List<Boolean>> {
+                val list = mutableListOf<MutableList<Boolean>>()
+                for (i in 0 until 7) {
+                    val child = mutableListOf<Boolean>()
+                    for (x in 0 until 7) {
+                        child.add(Random().nextBoolean())
+                    }
+                    list.add(child)
+                }
+                return list
+            }
+        }
+    }
 }
