@@ -97,14 +97,6 @@ fun createCourseDetailList(course: Course): List<Any> {
     list.add(CourseDetailViewModel(R.drawable.ic_schedule_search, "在蹭课功能中搜索相似课程"))
     list.add(CourseDetailViewModel(R.drawable.ic_schedule_event, "添加自定义课程/事件"))
     list.add(CourseDetailViewModel(R.drawable.ic_schedule_homework, "添加课程作业/考试"))
-    list.add("自定义2 test")
-    list.add(CourseDetailViewModel(R.drawable.ic_schedule_search, "在蹭课功能中搜索相似课程"))
-    list.add(CourseDetailViewModel(R.drawable.ic_schedule_event, "添加自定义课程/事件"))
-    list.add(CourseDetailViewModel(R.drawable.ic_schedule_homework, "添加课程作业/考试"))
-    list.add("自定义3 test")
-    list.add(CourseDetailViewModel(R.drawable.ic_schedule_search, "在蹭课功能中搜索相似课程"))
-    list.add(CourseDetailViewModel(R.drawable.ic_schedule_event, "添加自定义课程/事件"))
-    list.add(CourseDetailViewModel(R.drawable.ic_schedule_homework, "添加课程作业/考试"))
     list.add("帮助")
     list.add(CourseDetailViewModel(R.drawable.ic_schedule_info, "如何使用课程表的自定义功能",{
         it.context.alert {
