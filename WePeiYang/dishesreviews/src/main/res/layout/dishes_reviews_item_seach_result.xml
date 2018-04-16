@@ -43,7 +43,7 @@
         app:layout_constraintTop_toBottomOf="@id/item_name" />
 
     <TextView
-        android:id="@+id/item_title1"
+        android:id="@+id/item_titile1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="7dp"
@@ -55,7 +55,7 @@
         app:layout_constraintTop_toBottomOf="@id/item_location" />
 
     <TextView
-        android:id="@+id/item_title2"
+        android:id="@+id/item_titile2"
         android:layout_width="wrap_content"
         android:layout_height="14dp"
         android:layout_marginTop="6dp"
@@ -63,8 +63,8 @@
         android:text="营业时间："
         android:textColor="@color/searchItemText1"
         android:textSize="12sp"
-        app:layout_constraintLeft_toLeftOf="@id/item_title1"
-        app:layout_constraintTop_toBottomOf="@id/item_title1" />
+        app:layout_constraintLeft_toLeftOf="@id/item_titile1"
+        app:layout_constraintTop_toBottomOf="@id/item_titile1" />
 
     <TextView
         android:id="@+id/item_time"
@@ -75,8 +75,8 @@
         android:text="晚餐"
         android:textColor="@color/searchItemText1"
         android:textSize="12sp"
-        app:layout_constraintStart_toEndOf="@id/item_title2"
-        app:layout_constraintTop_toTopOf="@id/item_title2" />
+        app:layout_constraintStart_toEndOf="@id/item_titile2"
+        app:layout_constraintTop_toTopOf="@id/item_titile2" />
 
     <RatingBar
         style="@style/DishesRatingBar"
@@ -85,8 +85,8 @@
         android:layout_marginStart="29dp"
         android:isIndicator="true"
         android:rating="2"
-        app:layout_constraintStart_toEndOf="@id/item_title1"
-        app:layout_constraintTop_toTopOf="@id/item_title1" />
+        app:layout_constraintStart_toEndOf="@id/item_titile1"
+        app:layout_constraintTop_toTopOf="@id/item_titile1" />
 
     <TextView
         android:id="@+id/item_tag"

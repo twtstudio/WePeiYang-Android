@@ -31,7 +31,6 @@ dependencies {
         annotationProcessor dependenciesMap[it]
     }
     implementation "$dependenciesMap.commons"
-    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 }
 repositories {
     mavenCentral()
