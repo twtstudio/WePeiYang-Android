@@ -6,6 +6,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 
 /**
  * A service factory can create network service easily using retrofit.
@@ -33,6 +34,9 @@ object ServiceFactory {
             .addInterceptor(SignatureInterceptor.forTrusted)
             .addInterceptor(AuthorizationInterceptor.forTrusted)
             .authenticator(RealAuthenticator)
+            .connectTimeout(20,TimeUnit.SECONDS)
+            .readTimeout(20,TimeUnit.SECONDS)
+            .writeTimeout(20,TimeUnit.SECONDS)
             .addNetworkInterceptor(loggingInterceptor)
             .addNetworkInterceptor(CodeCorrectionInterceptor.forTrusted)
             .build()

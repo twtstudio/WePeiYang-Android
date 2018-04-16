@@ -18,14 +18,10 @@ import com.twt.service.schedule2.view.week.WeekSquareView
 import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
 import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.schedule_act_main.*
-import kotlinx.coroutines.experimental.CommonPool
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.async
-import org.jetbrains.anko.alert
 
 class ScheduleActivity : AppCompatActivity() {
     lateinit var recyclerView: RecyclerView
-    val classtableProvider by lazyOf(TotalCourseManager.getTotalCourseManager(refreshTju = false, refreshAudit = true))
+    val classtableProvider by lazyOf(TotalCourseManager.getTotalCourseManager(refreshTju = false, refreshAudit = false))
     var currentWeek = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,7 +53,7 @@ class ScheduleActivity : AppCompatActivity() {
         val weekSelectAdapter = WeekSelectAdapter(this)
         val weekSelectRecyclerView: RecyclerView = findViewById(R.id.rec_week_select)
         weekSelectAdapter.clickListener = {
-            Toasty.success(this,"current: $it").show()
+//            Toasty.success(this,"current: $it").show()
             currentWeek = it
             TotalCourseManager.getTotalCourseManager(refreshTju = false, refreshAudit = false)
         }

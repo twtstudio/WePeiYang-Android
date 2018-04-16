@@ -23,16 +23,16 @@ class WeekSelectAdapter(val context: Context) : RecyclerView.Adapter<WeekSelectA
         notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): WeekSelectViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WeekSelectViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.schedule_item_week_select, parent, false)
         return WeekSelectViewHolder(view)
     }
 
     override fun getItemCount(): Int = weekSquareDataList.size
 
-    override fun onBindViewHolder(holder: WeekSelectViewHolder?, position: Int) {
+    override fun onBindViewHolder(holder: WeekSelectViewHolder, position: Int) {
         val data = weekSquareDataList[position]
-        holder?.apply {
+        holder.apply {
             bind(data)
             weekSquareView.setOnClickListener {
                 clickListener.invoke(data.weekInt)
