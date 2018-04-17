@@ -82,6 +82,46 @@ data class Course(val coursetype: String = "",
      */
     fun isContainDay(dayInt: Int) = arrange.any { it.day == dayInt }
 
+    /**
+     * 刷新课程的状态信息
+     * 因为之前是在Adapter里面渲染的 就导致了 DiffUtil的问题
+     */
+    fun refreshStatusMessage() {
+        this.statusMessage = "" // 初始化
+        var text = ""
+        if (!this.weekAvailable) {
+            text += "[非本周]"
+        }
+        if (this.coursetype == "蹭课") {
+            text += "[蹭课]"
+        }
+        if (this.ext == "重修") {
+            text += "[光荣重修！]"
+        }
+        this.statusMessage = text
+
+        /**
+         * 渲染Next列表里面的课程信息
+         */
+        if (this.next.size > 0) {
+            this.next.forEach {
+                var tempText = ""
+                if (!it.weekAvailable) {
+                    tempText += "[非本周]"
+                } else {
+                    tempText += "[冲突]"
+                }
+                if (it.coursetype == "蹭课") {
+                    tempText += "[蹭课]"
+                }
+                if (it.ext == "重修") {
+                    tempText += "[光荣重修！]"
+                }
+                it.statusMessage = tempText
+            }
+        }
+    }
+
 }
 
 
@@ -92,14 +132,14 @@ data class Classtable(val week: Int = 0,
                       val term: String = "")
 
 
-data class Arrange (val week: String = "",/*单双周 单周 双周*/
+data class Arrange(val week: String = "",/*单双周 单周 双周*/
                    val start: Int = 0,/*第几节开始*/
                    val end: Int = 0,/*第几节结束*/
                    val day: Int = 0,/*周几*/
                    val room: String = ""/*上课地点*/)
 
-data class Week (val start: Int = 0,
-                 val end: Int = 0)
+data class Week(val start: Int = 0,
+                val end: Int = 0)
 
 enum class CourseType {
     SINGLE, MULTIPLE

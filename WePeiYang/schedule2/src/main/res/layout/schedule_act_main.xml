@@ -28,9 +28,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
+                app:contentInsetLeft="0dp"
+                app:contentInsetStart="0dp"
                 app:title="课程表"
                 app:titleTextColor="@color/white_color">
 
+                <include layout="@layout/schedule_toolbar_head1"/>
             </android.support.v7.widget.Toolbar>
 
         </android.support.design.widget.CollapsingToolbarLayout>

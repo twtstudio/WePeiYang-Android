@@ -18,6 +18,7 @@ import com.twt.service.schedule2.R
 import com.twt.service.schedule2.model.Course
 import com.twt.wepeiyang.commons.experimental.CommonContext
 import android.util.DisplayMetrics
+import android.util.Log
 import android.widget.FrameLayout
 import com.haozhang.lib.SlantedTextView
 
@@ -79,6 +80,9 @@ class ScheduleAdapter(val context: Context) : RecyclerView.Adapter<ScheduleAdapt
             }
             courseList.addAll(it)
         }
+        courseList.forEach {
+            it.refreshStatusMessage()
+        }
         // 到这里 数据源已经被更改了 所以我们需要用DiffUtil来处理一下
         val diffResult = DiffUtil.calculateDiff(
                 CourseListDiffCallback(oldItems = courseListOld, newItems = courseList))
@@ -102,18 +106,23 @@ class ScheduleAdapter(val context: Context) : RecyclerView.Adapter<ScheduleAdapt
             } else {
                 cardView.visibility = View.VISIBLE
                 var text = ""
-                if (!course.weekAvailable) {
-                    text += "[非本周]"
-                }
-                if (course.coursetype == "蹭课") {
-                    text += "[蹭课]"
-                }
-                if (course.ext == "重修") {
-                    text += "[光荣重修！]"
-                }
-                course.statusMessage = String(text.toByteArray()) // 拷贝一个（不过按理说不拷贝也可以吧）
-
+                text += course.statusMessage
                 text += "${course.coursename}\n@${course.arrange[0].room} "
+
+                /**
+                 * 因为Rec的view是存在着缓存 在后面私自addView后 就会加到缓存里面去
+                 * 但是不知道谁会取出这个缓存 使用就会存在蜜汁多节课程角标的问题
+                 * 因此我们查看Cardview的子view 来处理这个问题
+                 */
+                if (cardView.childCount > 1) {
+                    for (i in 0 until cardView.childCount) {
+                        val view = cardView.getChildAt(i)
+                        if (view is FrameLayout) {
+                            cardView.removeView(view)
+                            Log.e("ScheduleAdapter","duplicated slantedTextview")
+                        }
+                    }
+                }
                 /**
                  * 渲染多节角标
                  */
@@ -121,26 +130,6 @@ class ScheduleAdapter(val context: Context) : RecyclerView.Adapter<ScheduleAdapt
                     val view = LayoutInflater.from(cardView.context).inflate(R.layout.schedule_item_course_slant, cardView, false)
                     val slantedTextView: SlantedTextView = view.findViewById(R.id.tv_course_slant)
                     cardView.addView(view)
-                }
-                /**
-                 * 渲染Next列表里面的课程信息
-                 */
-                if (course.next.size > 0) {
-                    course.next.forEach {
-                        var tempText = ""
-                        if (!it.weekAvailable) {
-                            tempText += "[非本周]"
-                        } else {
-                            tempText += "[冲突]"
-                        }
-                        if (it.coursetype == "蹭课") {
-                            tempText += "[蹭课]"
-                        }
-                        if (it.ext == "重修") {
-                            tempText += "[光荣重修！]"
-                        }
-                        it.statusMessage = tempText
-                    }
                 }
                 textView.text = text
                 if (course.weekAvailable) {
@@ -191,6 +180,7 @@ class CourseListDiffCallback(val oldItems: List<Course>, val newItems: List<Cour
     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
         val oldItem = oldItems[oldItemPosition]
         val newItem = newItems[newItemPosition]
+//        Log.e("Diff","CourseItemSame?: ${oldItem.coursename} - ${newItem.coursename} = ${oldItem == newItem}")
         return oldItem == newItem
     }
 
@@ -204,6 +194,7 @@ class CourseListDiffCallback(val oldItems: List<Course>, val newItems: List<Cour
         val arrangeEqual = oldItem.arrange == newItem.arrange
         val nextListEqual = oldItem.next == newItem.next
         val bodyEqual = oldItem == newItem
+//        Log.e("Diff","CourseContentSame?: ${oldItem.coursename} - ${newItem.coursename} = ${(arrangeEqual && nextListEqual && bodyEqual)}")
         return (arrangeEqual && nextListEqual && bodyEqual)
     }
 

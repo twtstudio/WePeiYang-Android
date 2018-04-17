@@ -6,6 +6,7 @@ import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.widget.ImageView
 import com.twt.service.schedule2.R
 import com.twt.service.schedule2.extensions.getScreenHeight
 import com.twt.service.schedule2.extensions.getWeekCourseFlated
@@ -60,8 +61,13 @@ class ScheduleActivity : AppCompatActivity() {
         weekSelectRecyclerView.adapter = weekSelectAdapter
         weekSelectRecyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         val weekSquareDataList = generateDefaultWeekMatrix()
-
         weekSelectAdapter.refreshWeekSquareData(weekSquareDataList)
+
+        val refreshBtn: ImageView = findViewById(R.id.iv_toolbar_refresh)
+        refreshBtn.setOnClickListener {
+            Toasty.info(this,"刷新课程表与蹭课信息 因为办公网响应较慢... ").show()
+            TotalCourseManager.getTotalCourseManager(refreshTju = true, refreshAudit = true)
+        }
 
         classtableProvider.bindNonNull(this) {
             var week = 0
@@ -97,7 +103,6 @@ class ScheduleActivity : AppCompatActivity() {
                         currentWeekText = btmText
                 ))
             }
-
             weekSelectAdapter.refreshWeekSquareData(weekSquareDataList)
 
         }
