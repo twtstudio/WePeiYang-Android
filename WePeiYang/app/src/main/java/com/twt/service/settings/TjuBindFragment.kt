@@ -5,11 +5,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import butterknife.BindView
 import butterknife.ButterKnife
-import butterknife.OnClick
 import butterknife.Unbinder
 import com.twt.service.R
 import com.twt.wepeiyang.commons.experimental.cache.CacheIndicator.REMOTE
@@ -26,28 +25,33 @@ import rx.schedulers.Schedulers
 
 class TjuBindFragment : SlideFragment() {
 
-    @BindView(R.id.tju_num)
+
     private lateinit var numEdit: EditText
-    @BindView(R.id.tju_password)
     private lateinit var passwordEdit: EditText
+    lateinit var button: Button
     private lateinit var unbinder: Unbinder
 
-    @OnClick(R.id.btn_tju_bind)
-    fun bind(view: View) {
-        RealBindAndDropOutService
-                .bindTju(numEdit.text.toString(), passwordEdit.text.toString())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doAfterTerminate { authSelfLiveData.refresh(REMOTE) }
-                .subscribe(Action1 {
-                    Toast.makeText(this.context, "绑定成功", Toast.LENGTH_SHORT).show()
-                }, RxErrorHandler())
-    }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) =
-            inflater.inflate(R.layout.fragment_tju_bind_slide, container, false).also {
-                unbinder = ButterKnife.bind(this, it)
-            }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+
+        val view: View = inflater.inflate(R.layout.fragment_tju_bind_slide, container, false).also {
+            unbinder = ButterKnife.bind(this, it)
+        }
+        button = view.findViewById(R.id.btn_tju_bind)
+        numEdit = view.findViewById(R.id.tju_num)
+        passwordEdit = view.findViewById(R.id.tju_password)
+        button.setOnClickListener({
+            RealBindAndDropOutService
+                    .bindTju(numEdit.text.toString(), passwordEdit.text.toString())
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .doAfterTerminate { authSelfLiveData.refresh(REMOTE) }
+                    .subscribe(Action1 {
+                        Toast.makeText(this.context, "绑定成功", Toast.LENGTH_SHORT).show()
+                    }, RxErrorHandler())
+        })
+        return view
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()
