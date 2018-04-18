@@ -93,7 +93,7 @@ fun createCourseDetailList(course: Course): List<Any> {
     }
     list.add("其他信息")
     list.add(CourseDetailViewModel(R.drawable.ic_schedule_other, "逻辑班号：${course.classid}\n课程编号：${course.courseid}"))
-    list.add("自定义")
+    list.add("自定义（开发中 敬请期待）")
     list.add(CourseDetailViewModel(R.drawable.ic_schedule_search, "在蹭课功能中搜索相似课程"))
     list.add(CourseDetailViewModel(R.drawable.ic_schedule_event, "添加自定义课程/事件"))
     list.add(CourseDetailViewModel(R.drawable.ic_schedule_homework, "添加课程作业/考试"))

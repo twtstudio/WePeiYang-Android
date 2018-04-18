@@ -46,7 +46,7 @@ class HomeActivity : BaseActivity() {
             enterTransition = Fade()
             reenterTransition = Fade()
             decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-            statusBarColor = Color.TRANSPARENT
+//            statusBarColor =
         }
 
         fragments = listOf(CommonFragment(), NewsFragment(), ToolsFragment(), UserFragment())

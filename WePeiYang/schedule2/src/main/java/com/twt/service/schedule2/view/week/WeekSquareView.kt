@@ -7,6 +7,7 @@ import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.View
 import com.twt.service.schedule2.R
+import com.twt.service.schedule2.extensions.dp2px
 import com.twt.service.schedule2.extensions.layer
 import com.twt.service.schedule2.extensions.textCenter
 import com.twt.wepeiyang.commons.experimental.color.getColorCompat
@@ -43,13 +44,13 @@ class WeekSquareView @JvmOverloads constructor(context: Context, attrs: Attribut
 
     private val textPaint = Paint().apply {
         color = Color.BLACK
-        textSize = 30f
+        textSize = dp2px(10f)
         isAntiAlias = true
         textAlign = Paint.Align.CENTER
     }
     private val textPaintBig = Paint().apply {
         color = getColorCompat(R.color.colorPrimary)
-        textSize = 60f
+        textSize = dp2px(20f)
         isAntiAlias = true
         textAlign = Paint.Align.CENTER
     }
@@ -101,9 +102,9 @@ class WeekSquareView @JvmOverloads constructor(context: Context, attrs: Attribut
                     val pointX = xBase + (pointMargin / 2) + x * pointMargin
                     val pointY = yBase + (pointMargin / 2) + y * pointMargin
                     if (list[y]) {
-                        canvas.drawCircle(pointX.toFloat(), pointY.toFloat(), 10f, pointPaintTrue)
+                        canvas.drawCircle(pointX.toFloat(), pointY.toFloat(), dp2px(3.3f), pointPaintTrue)
                     } else {
-                        canvas.drawCircle(pointX.toFloat(), pointY.toFloat(), 10f, pointPaintFalse)
+                        canvas.drawCircle(pointX.toFloat(), pointY.toFloat(), dp2px(3.3f), pointPaintFalse)
                     }
                 }
             }

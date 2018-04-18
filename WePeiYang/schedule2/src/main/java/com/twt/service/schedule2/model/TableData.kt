@@ -126,6 +126,7 @@ data class Course(val coursetype: String = "",
 
 
 data class Classtable(val week: Int = 0,
+                      val cache: Boolean = true,
                       @SerializedName("data") val courses: List<Course>,
                       @SerializedName("term_start") val termStart: Long = 0L,
                       @SerializedName("updated_at") val updatedAt: String = "",

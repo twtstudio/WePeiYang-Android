@@ -11,7 +11,8 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:fontFamily="sans-serif-medium"
-        android:textColor="@color/colorPrimary"
+        tools:textColor="@color/colorPrimary"
+        android:textColor="?attr/colorPrimary"
         android:textSize="12sp"
         tools:text="上课地点" />
 

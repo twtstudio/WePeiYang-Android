@@ -19,7 +19,7 @@ class ScheduleDecoration : RecyclerView.ItemDecoration() {
     }
     val textPaint = Paint().apply {
         color = rgbPercent(0.46f, 0.55f, 0.62f)
-        textSize = 32f
+        textSize = dp2px(11f)
         isAntiAlias = true
         textAlign = Paint.Align.CENTER
     }

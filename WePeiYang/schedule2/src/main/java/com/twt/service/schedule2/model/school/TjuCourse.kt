@@ -21,7 +21,8 @@ interface TjuCourseApi {
 
 }
 
-val tjuCourseCache = Cache.hawk<Classtable>("schedule2_tju_classtable")
+val classtableCacheKey = "schedule2_tju_classtable"
+val tjuCourseCache = Cache.hawk<Classtable>(classtableCacheKey)
 
 /**
  * 获取TJU课程表的逻辑
@@ -40,7 +41,7 @@ suspend fun TjuCourseApi.Companion.refresh(mustRefresh: Boolean = false): Classt
             tjuCourseCache.set(it)
             SchedulePref.termStart = it.termStart
         }
-        return classtable ?: throw IllegalStateException("凉了啊...无法获取课程表,稍后再试")
+        return classtable ?: throw IllegalStateException("凉了啊...无法获取课程表,稍后再试（怕是办公网崩了）多刷新试试")
     } else {
         // 这种情况也要静默刷新一下 成功就刷
         async(CommonPool) {

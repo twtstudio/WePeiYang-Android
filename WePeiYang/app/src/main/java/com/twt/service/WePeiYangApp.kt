@@ -11,11 +11,11 @@ import com.github.piasy.biv.loader.glide.GlideImageLoader
 import com.tencent.bugly.Bugly
 import com.tencent.bugly.crashreport.CrashReport
 import com.twt.service.push.DebugProxyService
-import com.twt.service.tjunet.pref.TjuNetPreferences
 import com.twt.service.tjunet.reconnect.ReconnectJob
 import com.twt.service.welcome.WelcomeActivity
 import com.twt.wepeiyang.commons.experimental.CommonContext
 import com.twtstudio.retrox.auth.view.LoginActivity
+import io.multimoon.colorful.*
 
 /**
  * Created by retrox on 2016/11/25.
@@ -39,6 +39,12 @@ class WePeiYangApp : MultiDexApplication() {
             BigImageViewer.initialize(GlideImageLoader.with(it))
         }
 
+        val defaults: Defaults = Defaults(
+                primaryColor = ThemeColor.LIME,
+                accentColor = ThemeColor.BLUE,
+                useDarkTheme = false,
+                translucent = false)
+        initColorful(this, defaults)
         /**
          * emmmm 怎么弄得优雅一点？
          * 此处@高瑞均

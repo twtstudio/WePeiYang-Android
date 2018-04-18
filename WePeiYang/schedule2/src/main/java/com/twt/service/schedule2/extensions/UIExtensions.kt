@@ -1,11 +1,11 @@
 package com.twt.service.schedule2.extensions
 
 import android.app.Activity
+import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
-import android.graphics.Point
-import android.support.v7.app.AppCompatActivity
 import android.util.DisplayMetrics
+import com.twt.wepeiyang.commons.experimental.CommonContext
 
 /**
  * Canvas绘制时候的图层隔离
@@ -53,4 +53,30 @@ fun Activity.getScreenHeight(): Int {
     //宽度 dm.widthPixels
     //高度 dm.heightPixels
     return dm.heightPixels
+}
+
+/**
+ * This method converts dp unit to equivalent pixels, depending on device density.
+ *
+ * @param dp A value in dp (density independent pixels) unit. Which we need to convert into pixels
+ * @param context Context to get resources and device specific display metrics
+ * @return A float value to represent px equivalent to dp depending on device density
+ */
+fun dp2px(dp: Float, context: Context = CommonContext.application.applicationContext): Float {
+    val resources = context.getResources()
+    val metrics = resources.getDisplayMetrics()
+    return dp * (metrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT)
+}
+
+/**
+ * This method converts device specific pixels to density independent pixels.
+ *
+ * @param px A value in px (pixels) unit. Which we need to convert into db
+ * @param context Context to get resources and device specific display metrics
+ * @return A float value to represent dp equivalent to px value
+ */
+fun px2dp(px: Float, context: Context = CommonContext.application.applicationContext): Float {
+    val resources = context.getResources()
+    val metrics = resources.getDisplayMetrics()
+    return px / (metrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT)
 }

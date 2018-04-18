@@ -1,5 +1,6 @@
 package com.twt.service.schedule2.view.schedule
 
+import android.arch.lifecycle.LiveData
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DefaultItemAnimator
@@ -8,22 +9,52 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.widget.ImageView
 import com.twt.service.schedule2.R
+import com.twt.service.schedule2.extensions.RefreshCallback
 import com.twt.service.schedule2.extensions.getScreenHeight
 import com.twt.service.schedule2.extensions.getWeekCourseFlated
 import com.twt.service.schedule2.extensions.getWeekCourseMatrix
+import com.twt.service.schedule2.model.MergedClassTableProvider
 import com.twt.service.schedule2.model.total.TotalCourseManager
 import com.twt.service.schedule2.view.detail.CourseDetailBottomFragment
 import com.twt.service.schedule2.view.detail.MultiCourseDetailFragment
 import com.twt.service.schedule2.view.week.WeekSelectAdapter
 import com.twt.service.schedule2.view.week.WeekSquareView
+import com.twt.wepeiyang.commons.experimental.cache.CacheIndicator
+import com.twt.wepeiyang.commons.experimental.cache.RefreshState
 import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
 import es.dmoral.toasty.Toasty
+import io.multimoon.colorful.CAppCompatActivity
 import kotlinx.android.synthetic.main.schedule_act_main.*
+import java.net.SocketTimeoutException
 
 class ScheduleActivity : AppCompatActivity() {
     lateinit var recyclerView: RecyclerView
-    val classtableProvider by lazyOf(TotalCourseManager.getTotalCourseManager(refreshTju = false, refreshAudit = false))
     var currentWeek = -1
+
+    val refreshCallback: RefreshCallback = {
+        when(it) {
+            is RefreshState.Success -> {
+                if (it.message == CacheIndicator.REMOTE) {
+                    Toasty.success(this,"成功拉取课程表数据").show()
+                }
+            }
+            is RefreshState.Failure -> {
+                val throwable = it.throwable
+                when(throwable) {
+                    is IllegalStateException -> throwable.message?.let {
+                        Toasty.error(this,it).show()
+                    }
+                    is SocketTimeoutException -> {
+                        Toasty.success(this,"虽然从服务器拉取数据失败了，但是我们机智的为你保存了一份本地课表ʕ•ٹ•ʔ")
+                    }
+                    else -> throwable.printStackTrace()
+                }
+            }
+            is RefreshState.Refreshing -> {
+                Toasty.info(this,"正在尝试刷新课程表数据").show()
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,9 +96,26 @@ class ScheduleActivity : AppCompatActivity() {
 
         val refreshBtn: ImageView = findViewById(R.id.iv_toolbar_refresh)
         refreshBtn.setOnClickListener {
-            Toasty.info(this,"刷新课程表与蹭课信息 因为办公网响应较慢... ").show()
-            TotalCourseManager.getTotalCourseManager(refreshTju = true, refreshAudit = true)
+            CourseRefreshBottomFragment.showCourseDetailBottomSheet(this, refreshCallback)
         }
+
+        val classtableProvider: LiveData<MergedClassTableProvider> = TotalCourseManager.getTotalCourseManager(
+                refreshTju = false,
+                refreshAudit = false,
+                refreshCallback = {
+                    // 这里不想让它多弹出Toast
+                    when(it) {
+                        is RefreshState.Failure -> {
+                            val throwable = it.throwable
+                            when(throwable) {
+                                is IllegalStateException -> throwable.message?.let {
+                                    Toasty.error(this,it).show()
+                                }
+                            }
+                        }
+                    }
+                }
+        )
 
         classtableProvider.bindNonNull(this) {
             var week = 0

@@ -34,6 +34,7 @@ object ServiceFactory {
             .addInterceptor(SignatureInterceptor.forTrusted)
             .addInterceptor(AuthorizationInterceptor.forTrusted)
             .authenticator(RealAuthenticator)
+            .retryOnConnectionFailure(false)
             .connectTimeout(20,TimeUnit.SECONDS)
             .readTimeout(20,TimeUnit.SECONDS)
             .writeTimeout(20,TimeUnit.SECONDS)
