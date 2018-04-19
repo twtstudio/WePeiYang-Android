@@ -1,26 +1,25 @@
 package com.twt.service.schedule2.view.schedule
 
-import android.app.Activity
 import android.content.Context
-import android.content.res.Resources
 import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
-import android.support.v4.content.res.ResourcesCompat
 import android.support.v7.util.DiffUtil
 import android.support.v7.widget.CardView
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.style.AbsoluteSizeSpan
+import android.text.style.TypefaceSpan
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.widget.TextView
+import com.haozhang.lib.SlantedTextView
 import com.twt.service.schedule2.R
 import com.twt.service.schedule2.model.Course
 import com.twt.wepeiyang.commons.experimental.CommonContext
-import android.util.DisplayMetrics
-import android.util.Log
-import android.widget.FrameLayout
-import com.haozhang.lib.SlantedTextView
 
 
 /**
@@ -109,6 +108,11 @@ class ScheduleAdapter(val context: Context) : RecyclerView.Adapter<ScheduleAdapt
                 text += course.statusMessage
                 text += "${course.coursename}\n@${course.arrange[0].room} "
 
+                val stringSpan = SpannableString(course.coursename +"\n"+ course.arrange[0].room)
+                stringSpan.setSpan(TypefaceSpan("sans-serif-medium"),0,course.coursename.length,Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                stringSpan.setSpan(AbsoluteSizeSpan(15,true),0,course.coursename.length,Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                stringSpan.setSpan(TypefaceSpan("sans-serif-regular"),course.coursename.length + 1,stringSpan.length,Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                stringSpan.setSpan(AbsoluteSizeSpan(12,true),course.coursename.length + 1,stringSpan.length,Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
                 /**
                  * 因为Rec的view是存在着缓存 在后面私自addView后 就会加到缓存里面去
                  * 但是不知道谁会取出这个缓存 使用就会存在蜜汁多节课程角标的问题
@@ -131,7 +135,7 @@ class ScheduleAdapter(val context: Context) : RecyclerView.Adapter<ScheduleAdapt
                     val slantedTextView: SlantedTextView = view.findViewById(R.id.tv_course_slant)
                     cardView.addView(view)
                 }
-                textView.text = text
+                textView.text = stringSpan
                 if (course.weekAvailable) {
                     textView.setTextColor(Color.WHITE)
                     cardView.setCardBackgroundColor(CommonContext.application.resources.getColor(course.courseColor))

@@ -10,7 +10,7 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         tools:slantedBackgroundColor="@color/colorPrimary"
-        app:slantedBackgroundColor="?attr/colorPrimary"
+        app:slantedBackgroundColor="#33ffffff"
         app:slantedLength="12dp"
         android:alpha="0.8"
         android:layout_gravity="right|top"
