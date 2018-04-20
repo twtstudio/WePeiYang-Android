@@ -108,11 +108,12 @@ class ScheduleAdapter(val context: Context) : RecyclerView.Adapter<ScheduleAdapt
                 text += course.statusMessage
                 text += "${course.coursename}\n@${course.arrange[0].room} "
 
-                val stringSpan = SpannableString(course.coursename +"\n"+ course.arrange[0].room)
-                stringSpan.setSpan(TypefaceSpan("sans-serif-medium"),0,course.coursename.length,Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-                stringSpan.setSpan(AbsoluteSizeSpan(15,true),0,course.coursename.length,Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-                stringSpan.setSpan(TypefaceSpan("sans-serif-regular"),course.coursename.length + 1,stringSpan.length,Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-                stringSpan.setSpan(AbsoluteSizeSpan(12,true),course.coursename.length + 1,stringSpan.length,Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                val stringSpan = SpannableString(course.coursename + "\n \n" + course.arrange[0].room)
+                stringSpan.setSpan(TypefaceSpan("sans-serif-medium"), 0, course.coursename.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                stringSpan.setSpan(AbsoluteSizeSpan(14, true), 0, course.coursename.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                stringSpan.setSpan(AbsoluteSizeSpan(2, true), course.coursename.length, course.coursename.length + 3, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                stringSpan.setSpan(TypefaceSpan("sans-serif-regular"), course.coursename.length + 3, stringSpan.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                stringSpan.setSpan(AbsoluteSizeSpan(12, true), course.coursename.length + 3, stringSpan.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
                 /**
                  * 因为Rec的view是存在着缓存 在后面私自addView后 就会加到缓存里面去
                  * 但是不知道谁会取出这个缓存 使用就会存在蜜汁多节课程角标的问题
@@ -123,7 +124,7 @@ class ScheduleAdapter(val context: Context) : RecyclerView.Adapter<ScheduleAdapt
                         val view = cardView.getChildAt(i)
                         if (view is FrameLayout) {
                             cardView.removeView(view)
-                            Log.e("ScheduleAdapter","duplicated slantedTextview")
+                            Log.e("ScheduleAdapter", "duplicated slantedTextview")
                         }
                     }
                 }
