@@ -196,7 +196,7 @@ fun AbsClasstableProvider.getWeekCourseMatrix(weekInt: Int, startUnix: Long = te
     }
     dayUnixList.forEachIndexed { index, l ->
         this.getCourseByDay(l).filter { it.weekAvailable }.forEach {
-            val yCourseIndex = it.arrange[0].start/2 // 如果是第一节 1/2 = 0 第三节 3/2 = 1 正好对应点阵
+            val yCourseIndex = it.arrange[0].start / 2 // 如果是第一节 1/2 = 0 第三节 3/2 = 1 正好对应点阵
             booleanMatrix[index][yCourseIndex] = true
         }
     }
@@ -225,6 +225,34 @@ fun Arrange.checkConflict(arrange: Arrange): Boolean {
 }
 
 /**
+ * 解决同一个列表里面的 彩色课程冲突
+ * 做法是拷贝一个列表 然后对它遍历进行findConflict，但是因为自己和自己冲突，所以要写一个while循环
+ * 目的是 拿到冲突的课程对，然后对传入的list做操作
+ * 把冲突课程放在适当的next位置去
+ */
+fun MutableList<Course>.resoleInside(dayOfWeek: Int): MutableList<Course> {
+    println("Resolve")
+    val copyList = this.toMutableList()
+    val removeList = mutableListOf<Course>()
+    this.forEach {
+        while (copyList.findConflict(it, dayOfWeek) != null) {
+            val conflict = copyList.findConflict(it, dayOfWeek)!!
+            if (conflict.coursename == it.coursename) {
+                copyList.remove(conflict)
+            } else {
+                val baseCourse = this.find { course -> course == it }
+                removeList.add(conflict)
+                baseCourse?.next?.add(conflict)
+            }
+            copyList.remove(conflict)
+        }
+
+    }
+    this.removeAll(removeList)
+    return this
+}
+
+/**
  * 来自多个课程列表的课程合并
  * @param courseList 可变参数 输入多个课程列表
  * @param dayUnix 时间的时间戳
@@ -232,12 +260,15 @@ fun Arrange.checkConflict(arrange: Arrange): Boolean {
  */
 fun AbsClasstableProvider.mergeCourses(vararg courseList: List<Course>, dayUnix: Long): List<Course> {
     val dayOfWeek = getDayOfWeek(dayUnix = dayUnix)
-    val availableCourses = courseList.map { it.todayAvailable }
+    val availableCourses = courseList.map { it.todayAvailable }.map { it.resoleInside(dayOfWeek) }
             .reduce { acc, list ->
                 list.forEach { course ->
                     val conflictFatherCourse = acc.findConflict(course, dayOfWeek)
                     if (conflictFatherCourse != null) {
                         conflictFatherCourse.next.add(course)
+                        if (course.next.isNotEmpty()) {
+                            conflictFatherCourse.next.addAll(course.next)
+                        }
                     } else {
                         acc.add(course)
                     }

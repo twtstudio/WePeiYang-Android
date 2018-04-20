@@ -70,6 +70,7 @@ object TotalCourseManager {
             refreshCallback.invoke(RefreshState.Success(CacheIndicator.REMOTE))
             mergedClassTableProvider.value = finalClasstableProvider
         }.invokeOnCompletion {
+            it?.printStackTrace()
             it?.apply {
                 refreshCallback.invoke(RefreshState.Failure(this))
             }

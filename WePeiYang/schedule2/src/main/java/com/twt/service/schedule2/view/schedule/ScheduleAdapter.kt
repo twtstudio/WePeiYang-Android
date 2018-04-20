@@ -132,8 +132,21 @@ class ScheduleAdapter(val context: Context) : RecyclerView.Adapter<ScheduleAdapt
                  * 渲染多节角标
                  */
                 if (course.next.size > 0) {
+                    var fuckConflict = false
+                    course.next.forEach {
+                        if (it.statusMessage?.contains("冲突") == true) {
+                            fuckConflict = true
+                        }
+                    }
                     val view = LayoutInflater.from(cardView.context).inflate(R.layout.schedule_item_course_slant, cardView, false)
                     val slantedTextView: SlantedTextView = view.findViewById(R.id.tv_course_slant)
+                    if (fuckConflict) {
+                        slantedTextView.setSlantedBackgroundColor(Color.parseColor("#33000000"))
+                        slantedTextView.text = "冲突"
+                    } else {
+                        slantedTextView.setSlantedBackgroundColor(Color.parseColor("#33ffffff"))
+                        slantedTextView.text = "多节"
+                    }
                     cardView.addView(view)
                 }
                 textView.text = stringSpan
