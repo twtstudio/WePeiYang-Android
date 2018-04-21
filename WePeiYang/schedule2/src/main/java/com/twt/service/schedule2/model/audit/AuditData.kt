@@ -1,5 +1,6 @@
 package com.twt.service.schedule2.model.audit
 
+import android.arch.lifecycle.LiveData
 import android.arch.persistence.room.*
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
@@ -28,6 +29,9 @@ interface AuditCourseDao {
 
     @Query("SELECT * FROM table_audit_course")
     fun loadAllAuditCourses(): List<AuditCourse>
+
+    @Query("SELECT * FROM table_audit_course")
+    fun loadAllAuditCoursesLiveData(): LiveData<List<AuditCourse>>
 }
 
 data class InfoItem(@SerializedName("course_id") val courseId: String,

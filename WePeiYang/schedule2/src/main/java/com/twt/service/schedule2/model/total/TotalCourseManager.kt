@@ -52,7 +52,11 @@ object TotalCourseManager {
 
             val auditClasstableProvider: Deferred<AbsClasstableProvider> = async(CommonPool) {
                 if (refreshAudit) {
-                    AuditCourseManager.refreshAuditClasstable()
+                    try {
+                        AuditCourseManager.refreshAuditClasstable() // 这里在网络请求失败的时候会抛出一个异常 需要捕获一下
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
                 }
                 AuditCourseManager.getAuditClasstableProvider()
             }

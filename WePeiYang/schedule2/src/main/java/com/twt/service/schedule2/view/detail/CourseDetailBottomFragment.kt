@@ -11,7 +11,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import com.twt.service.schedule2.R
+import com.twt.service.schedule2.extensions.getChineseCharacter
 import com.twt.service.schedule2.model.Course
+import com.twt.service.schedule2.view.adapter.withItems
+import org.jetbrains.anko.alert
 
 class CourseDetailBottomFragment : BottomSheetDialogFragment() {
     companion object {
@@ -44,12 +47,43 @@ class CourseDetailBottomFragment : BottomSheetDialogFragment() {
 
         val recyclerView = view.findViewById<RecyclerView>(R.id.rcv_sheet)
         val layoutManager = LinearLayoutManager(context)
-        val adapter = CourseDetailAdapter(context!!)
+//        val adapter = CourseDetailAdapter(context!!)
 
         recyclerView.layoutManager = layoutManager
-        recyclerView.adapter = adapter
+//        recyclerView.adapter = adapter
 
-        adapter.refreshDataList(createCourseDetailList(course))
+//        adapter.refreshDataList(createCourseDetailList(course))
+
+        recyclerView.withItems {
+            courseInfo(course = course)
+            indicatorText("上课信息")
+
+            val week = course.week
+            course.arrangeBackup.forEach {
+                iconLabel(CourseDetailViewModel(R.drawable.ic_schedule_location, "${week.start}-${week.end}周，${it.week}上课，每周${getChineseCharacter(it.day)}第${it.start}-${it.end}节\n${it.room}"))
+            }
+
+            indicatorText("其他信息")
+            iconLabel(CourseDetailViewModel(R.drawable.ic_schedule_other, "逻辑班号：${course.classid}\n课程编号：${course.courseid}"))
+            indicatorText("自定义（开发中 敬请期待）")
+            iconLabel(CourseDetailViewModel(R.drawable.ic_schedule_search, "在蹭课功能中搜索相似课程"))
+            iconLabel(CourseDetailViewModel(R.drawable.ic_schedule_event, "添加自定义课程/事件"))
+            iconLabel(CourseDetailViewModel(R.drawable.ic_schedule_homework, "添加课程作业/考试"))
+            indicatorText("帮助")
+
+            iconLabel(CourseDetailViewModel(R.drawable.ic_schedule_info, "如何使用课程表的自定义功能", {
+                it.context.alert {
+                    title = "课程表使用帮助"
+                    message = "蹭课，自定义课程，作业考试添加还没有完全完成,所以不可点击。\n周数切换最近就会添加上去 \n\n" +
+                            "多节：在此课程方格中存在多节课程，可能是冲突，也可能是非本周（一般都是非本周），多节课程点击弹出的底部栏可以通过左右滑动来查看不同的课程详情\n\n" +
+                            "[非本周]：课程表体现为灰白色课程，有这个课程但是这周不上\n\n" +
+                            "[蹭课]：来自于我选择的蹭课\n\n" +
+                            "[冲突]：在同一个时间段内有两门课程或者时间（不同于非本周），冲突一般来自于蹭课冲突或者自定义课程和已有课程冲突，" +
+                            "当然也可能是重修课补修课的冲突，遇见此类课程要格外留意，避免漏掉课程耽误学习\n\n" +
+                            "为什么会出现多个同名课程？ 因为教务系统在同一课程由不同老师教授（或者其他迷之情况的时候）会把一门课程拆分成多个课程返回，微北洋遵照教务系统的返回数据"
+                }.show()
+            }))
+        }
         recyclerView.post {
             // post方法才可以保证child被测量 否则拿到的都是0
             val arrangeSize = course.arrangeBackup.size

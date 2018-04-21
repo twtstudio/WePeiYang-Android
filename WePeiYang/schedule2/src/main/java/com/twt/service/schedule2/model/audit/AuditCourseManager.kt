@@ -22,6 +22,11 @@ object AuditCourseManager {
     }
 
     /**
+     * 获取蹭课数据的LiveData
+     */
+    fun getAuditListLive(dao: AuditCourseDao = ScheduleDb.auditCourseDao) = dao.loadAllAuditCoursesLiveData()
+
+    /**
      * 网络拉取课程刷新信息 并且更新数据库
      */
     suspend fun refreshAuditClasstable(dao: AuditCourseDao = ScheduleDb.auditCourseDao) {
