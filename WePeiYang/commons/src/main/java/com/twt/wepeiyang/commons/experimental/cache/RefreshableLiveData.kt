@@ -2,6 +2,7 @@ package com.twt.wepeiyang.commons.experimental.cache
 
 import android.arch.lifecycle.LiveData
 import android.content.Context
+import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import es.dmoral.toasty.Toasty
 import kotlinx.coroutines.experimental.Job
@@ -55,7 +56,7 @@ fun <V : Any> RefreshableLiveData.Companion.use(local: Cache<V>, remote: Cache<V
 
             override fun refresh(vararg indicators: CacheIndicator, callback: suspend (RefreshState<CacheIndicator>) -> Unit) {
                 if (running?.isActive == true) return
-                running = launch(UI) {
+                running = launch(UI + QuietCoroutineExceptionHandler) {
 
                     callback(RefreshState.Refreshing())
 

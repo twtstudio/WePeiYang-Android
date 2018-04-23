@@ -7,9 +7,10 @@ import com.twt.service.schedule2.extensions.todayUnavailable
 import com.twt.service.schedule2.model.Classtable
 import com.twt.service.schedule2.model.CommonClassTable
 import com.twt.wepeiyang.commons.experimental.network.CommonBody
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Test
-import org.junit.Assert.*
 
 /**
  * Created by retrox on 2018/3/27.

@@ -12,6 +12,7 @@ import com.twt.service.schedule2.model.Course
 import com.twt.service.schedule2.view.adapter.Item
 import com.twt.service.schedule2.view.adapter.ItemController
 import org.jetbrains.anko.alert
+import org.jetbrains.anko.layoutInflater
 
 class CourseInfoComponent(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val courseNameTextView: TextView = itemView.findViewById(R.id.tv_course_name)
@@ -44,8 +45,8 @@ class CourseInfoComponent(itemView: View) : RecyclerView.ViewHolder(itemView) {
 class CourseInfoItem(var course: Course) : Item {
 
     private companion object Controller : ItemController {
-        override fun onCreateViewHolder(parent: ViewGroup, inflater: LayoutInflater): RecyclerView.ViewHolder {
-            val view = inflater.inflate(R.layout.schedule_item_course_info, parent, false)
+        override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
+            val view = parent.context.layoutInflater.inflate(R.layout.schedule_item_course_info, parent, false)
             return CourseInfoViewHolder(view)
         }
 
@@ -96,8 +97,8 @@ class CourseIndicatorComponent(itemView: View) : RecyclerView.ViewHolder(itemVie
 
 class IndicatorTextItem(val text: String) : Item {
     private companion object Controller : ItemController {
-        override fun onCreateViewHolder(parent: ViewGroup, inflater: LayoutInflater): RecyclerView.ViewHolder {
-            val view = inflater.inflate(R.layout.schedule_item_indicator, parent, false)
+        override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
+            val view = parent.context.layoutInflater.inflate(R.layout.schedule_item_indicator, parent, false)
             return IndicatorTextViewHolder(view)
         }
 
@@ -141,8 +142,8 @@ class CourseDetailComponent(itemView: View) : RecyclerView.ViewHolder(itemView) 
 
 class IconLabelItem(val model: CourseDetailViewModel) : Item {
     companion object Controller : ItemController {
-        override fun onCreateViewHolder(parent: ViewGroup, inflater: LayoutInflater): RecyclerView.ViewHolder {
-            val view = inflater.inflate(R.layout.schedule_item_detail, parent, false)
+        override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
+            val view = parent.context.layoutInflater.inflate(R.layout.schedule_item_detail, parent, false)
             return IconLabelViewHolder(view)
         }
 

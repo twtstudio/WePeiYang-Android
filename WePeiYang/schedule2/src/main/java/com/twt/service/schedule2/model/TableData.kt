@@ -1,6 +1,5 @@
 package com.twt.service.schedule2.model
 
-import android.arch.persistence.room.Ignore
 import android.arch.persistence.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
@@ -8,7 +7,6 @@ import com.google.gson.reflect.TypeToken
 import com.twt.service.schedule2.extensions.even
 import java.lang.reflect.Type
 import java.util.*
-import kotlin.math.absoluteValue
 
 data class Course(val coursetype: String = "",
                   val college: String = "",
@@ -151,7 +149,7 @@ class ArrangeListTypeConverter {
     val type: Type = object : TypeToken<List<Arrange>>() {}.type
 
     @TypeConverter
-    fun stringToArranleList(json: String): List<Arrange> {
+    fun stringToArrangeList(json: String): List<Arrange> {
         return gson.fromJson(json, type)
     }
 

@@ -8,7 +8,7 @@ buildscript {
                 compileSdk  : 27,
                 buildTools  : '27.0.3',
                 support     : '27.1.1',
-                kotlin      : '1.2.31',
+                kotlin      : '1.2.40',
                 anko        : '0.10.1',
                 butterknife : '8.5.1',
                 retrolambda : '3.7.0',
