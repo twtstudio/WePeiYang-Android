@@ -1,9 +1,7 @@
 package com.twt.service.schedule2.extensions
 
 import com.twt.service.schedule2.model.*
-import java.time.DayOfWeek
 import java.util.*
-import kotlin.collections.ArrayList
 
 /**
  * Created by retrox on 2018/3/26.
@@ -231,7 +229,7 @@ fun Arrange.checkConflict(arrange: Arrange): Boolean {
  * 把冲突课程放在适当的next位置去
  */
 fun MutableList<Course>.resoleInside(dayOfWeek: Int): MutableList<Course> {
-    println("Resolve")
+//    println("Resolve")
     val copyList = this.toMutableList()
     val removeList = mutableListOf<Course>()
     this.forEach {

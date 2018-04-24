@@ -72,6 +72,7 @@ class MultiCourseDetailFragment : ViewPagerBottomSheetDialogFragment() {
             if (fragment == null) {
                 fragment = cacheFragment
             }
+            if (fragment.isAdded) return
             fragment.refreshCourse(course = course)
             fragment.show(fragmentManager, TAG_SHARE_BS_DIALOG_FRAGMENT)
         }

@@ -1,12 +1,11 @@
 package com.twt.service.schedule2.view.schedule
 
 import android.arch.lifecycle.LiveData
+import android.graphics.Color
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.DefaultItemAnimator
-import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.*
+import android.view.View
+import android.widget.FrameLayout
 import android.widget.ImageView
 import com.twt.service.schedule2.R
 import com.twt.service.schedule2.extensions.RefreshCallback
@@ -15,6 +14,7 @@ import com.twt.service.schedule2.extensions.getWeekCourseFlated
 import com.twt.service.schedule2.extensions.getWeekCourseMatrix
 import com.twt.service.schedule2.model.MergedClassTableProvider
 import com.twt.service.schedule2.model.total.TotalCourseManager
+import com.twt.service.schedule2.view.custom.CustomSettingBottomFragment
 import com.twt.service.schedule2.view.detail.CourseDetailBottomFragment
 import com.twt.service.schedule2.view.detail.MultiCourseDetailFragment
 import com.twt.service.schedule2.view.week.WeekSelectAdapter
@@ -24,34 +24,37 @@ import com.twt.wepeiyang.commons.experimental.cache.RefreshState
 import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
 import es.dmoral.toasty.Toasty
 import io.multimoon.colorful.CAppCompatActivity
-import kotlinx.android.synthetic.main.schedule_act_main.*
+import org.jetbrains.anko.matchParent
+import org.jetbrains.anko.textColor
+import org.jetbrains.anko.textView
+import org.jetbrains.anko.wrapContent
 import java.net.SocketTimeoutException
 
-class ScheduleActivity : AppCompatActivity() {
+class ScheduleActivity : CAppCompatActivity() {
     lateinit var recyclerView: RecyclerView
     var currentWeek = -1
 
     val refreshCallback: RefreshCallback = {
-        when(it) {
+        when (it) {
             is RefreshState.Success -> {
                 if (it.message == CacheIndicator.REMOTE) {
-                    Toasty.success(this,"成功拉取课程表数据").show()
+                    Toasty.success(this, "成功拉取课程表数据").show()
                 }
             }
             is RefreshState.Failure -> {
                 val throwable = it.throwable
-                when(throwable) {
+                when (throwable) {
                     is IllegalStateException -> throwable.message?.let {
-                        Toasty.error(this,it).show()
+                        Toasty.error(this, it).show()
                     }
                     is SocketTimeoutException -> {
-                        Toasty.success(this,"虽然从服务器拉取数据失败了，但是我们机智的为你保存了一份本地课表ʕ•ٹ•ʔ")
+                        Toasty.success(this, "虽然从服务器拉取数据失败了，但是我们机智的为你保存了一份本地课表ʕ•ٹ•ʔ")
                     }
                     else -> throwable.printStackTrace()
                 }
             }
             is RefreshState.Refreshing -> {
-                Toasty.info(this,"正在尝试刷新课程表数据").show()
+                Toasty.info(this, "正在尝试刷新课程表数据").show()
             }
         }
     }
@@ -59,7 +62,24 @@ class ScheduleActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.schedule_act_main)
+        val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
+
+        val frameLayout = findViewById<FrameLayout>(R.id.fl_container)
+
+        val view = frameLayout.textView {
+            text = "辣鸡办公网😭🌚🌚🌚🌚🌚🌚"
+            textColor = Color.BLACK
+            textSize = 16f
+        }.apply {
+            layoutParams = FrameLayout.LayoutParams(matchParent, wrapContent)
+            visibility = View.GONE
+        }
+
+        val addButton = findViewById<ImageView>(R.id.iv_toolbar_add)
+        addButton.setOnClickListener {
+            CustomSettingBottomFragment.showCustomSettingsBottomSheet(this)
+        }
 
         recyclerView = findViewById(R.id.rec_main)
         val layoutParams = recyclerView.layoutParams
@@ -85,7 +105,6 @@ class ScheduleActivity : AppCompatActivity() {
         val weekSelectAdapter = WeekSelectAdapter(this)
         val weekSelectRecyclerView: RecyclerView = findViewById(R.id.rec_week_select)
         weekSelectAdapter.clickListener = {
-//            Toasty.success(this,"current: $it").show()
             currentWeek = it
             TotalCourseManager.getTotalCourseManager(refreshTju = false, refreshAudit = false)
         }
@@ -104,12 +123,12 @@ class ScheduleActivity : AppCompatActivity() {
                 refreshAudit = false,
                 refreshCallback = {
                     // 这里不想让它多弹出Toast
-                    when(it) {
+                    when (it) {
                         is RefreshState.Failure -> {
                             val throwable = it.throwable
-                            when(throwable) {
+                            when (throwable) {
                                 is IllegalStateException -> throwable.message?.let {
-                                    Toasty.error(this,it).show()
+                                    Toasty.error(this, it).show()
                                 }
                             }
                         }
@@ -119,8 +138,8 @@ class ScheduleActivity : AppCompatActivity() {
 
         classtableProvider.bindNonNull(this) {
             var week = 0
-            if ( currentWeek == -1) {
-               week = it.getCurrentWeek()
+            if (currentWeek == -1) {
+                week = it.getCurrentWeek()
             } else {
                 week = currentWeek
             }

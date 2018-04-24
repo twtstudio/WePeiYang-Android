@@ -1,13 +1,15 @@
 package com.twt.service.schedule2.view.schedule
 
-import android.graphics.*
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.Rect
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.twt.service.schedule2.extensions.*
 import com.twt.service.schedule2.model.AbsClasstableProvider
 import com.twt.service.schedule2.model.Classtable
 import com.twt.service.schedule2.model.CommonClassTable
-import com.twt.service.schedule2.model.Week
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -97,17 +99,6 @@ class ScheduleDecoration : RecyclerView.ItemDecoration() {
 //            position in firstRowIndexList -> outRect.set(0,topMargin,0,0) // 第一行上边
 //            else -> outRect.set(0,0,0,0)
 //        }
-    }
-
-
-    private fun getFirstColunmSize(recyclerView: RecyclerView): Int {
-        val adapter = recyclerView.adapter as ScheduleAdapter
-        return adapter.firstColumnSize
-    }
-
-    private fun getFirstRowIndexList(recyclerView: RecyclerView): List<Int> {
-        val adapter = recyclerView.adapter as ScheduleAdapter
-        return adapter.firstRowIndexList
     }
 
     private fun rgbPercent(red: Float, green: Float, blue: Float): Int {

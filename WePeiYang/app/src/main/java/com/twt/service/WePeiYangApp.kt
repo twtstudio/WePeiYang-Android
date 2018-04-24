@@ -14,8 +14,10 @@ import com.twt.service.push.DebugProxyService
 import com.twt.service.tjunet.reconnect.ReconnectJob
 import com.twt.service.welcome.WelcomeActivity
 import com.twt.wepeiyang.commons.experimental.CommonContext
+import com.twt.wepeiyang.commons.experimental.theme.CustomTheme
 import com.twtstudio.retrox.auth.view.LoginActivity
-import io.multimoon.colorful.*
+import io.multimoon.colorful.Defaults
+import io.multimoon.colorful.initColorful
 
 /**
  * Created by retrox on 2016/11/25.
@@ -40,10 +42,11 @@ class WePeiYangApp : MultiDexApplication() {
         }
 
         val defaults: Defaults = Defaults(
-                primaryColor = ThemeColor.LIME,
-                accentColor = ThemeColor.BLUE,
+                primaryColor = CustomTheme.customPeppaPink,
+                accentColor = CustomTheme.customPeppaPink,
                 useDarkTheme = false,
-                translucent = false)
+                translucent = false,
+                customTheme = 0)
         initColorful(this, defaults)
         /**
          * emmmm 怎么弄得优雅一点？

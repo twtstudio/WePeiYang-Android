@@ -5,6 +5,8 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.util.DisplayMetrics
+import android.view.View
+import android.view.ViewGroup
 import com.twt.wepeiyang.commons.experimental.CommonContext
 
 /**
@@ -79,4 +81,15 @@ fun px2dp(px: Float, context: Context = CommonContext.application.applicationCon
     val resources = context.getResources()
     val metrics = resources.getDisplayMetrics()
     return px / (metrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT)
+}
+
+inline fun <T : View> T.viewGrouplparams(
+        width: Int = android.view.ViewGroup.LayoutParams.WRAP_CONTENT,
+        height: Int = android.view.ViewGroup.LayoutParams.WRAP_CONTENT,
+        init: ViewGroup.LayoutParams.() -> Unit
+): T {
+    val layoutParams = ViewGroup.MarginLayoutParams(width, height)
+    layoutParams.init()
+    this.layoutParams = layoutParams
+    return this
 }

@@ -24,6 +24,8 @@ object TotalCourseManager {
      */
     private val mergedClassTableProvider: MutableLiveData<MergedClassTableProvider> = MutableLiveData()
 
+    fun invalidate() = getTotalCourseManager() //只刷新课程表（比如说修改了课程表的格式）
+
     /**
      * 如果什么都不刷新的话 并且有缓存 那就直接返回内存缓存
      * @param refreshCustom 刷新自定义课程，建议在添加自定义课程之后 做一次刷新

@@ -1,21 +1,16 @@
 package com.twt.service.schedule2.view.schedule
 
-import android.annotation.SuppressLint
 import android.app.Dialog
 import android.support.design.widget.BottomSheetBehavior
 import android.support.design.widget.BottomSheetDialogFragment
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import com.twt.service.schedule2.R
 import com.twt.service.schedule2.extensions.RefreshCallback
-import com.twt.service.schedule2.model.Course
 import com.twt.service.schedule2.view.detail.CourseDetailAdapter
-import com.twt.wepeiyang.commons.experimental.cache.CacheIndicator
-import com.twt.wepeiyang.commons.experimental.cache.RefreshState
 
 class CourseRefreshBottomFragment : BottomSheetDialogFragment() {
     companion object {
@@ -29,6 +24,7 @@ class CourseRefreshBottomFragment : BottomSheetDialogFragment() {
             if (fragment == null) {
                 fragment = cacheFragment
             }
+            if (fragment.isAdded) return
             fragment.refreshCallback = refreshCallback
             fragment.show(fragmentManager, TAG_SHARE_BS_DIALOG_FRAGMENT)
         }

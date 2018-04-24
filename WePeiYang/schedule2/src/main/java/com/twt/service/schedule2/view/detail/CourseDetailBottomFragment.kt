@@ -1,18 +1,18 @@
 package com.twt.service.schedule2.view.detail
 
-import android.annotation.SuppressLint
 import android.app.Dialog
 import android.support.design.widget.BottomSheetBehavior
 import android.support.design.widget.BottomSheetDialogFragment
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import com.twt.service.schedule2.R
 import com.twt.service.schedule2.extensions.getChineseCharacter
 import com.twt.service.schedule2.model.Course
+import com.twt.service.schedule2.view.adapter.iconLabel
+import com.twt.service.schedule2.view.adapter.indicatorText
 import com.twt.service.schedule2.view.adapter.withItems
 import org.jetbrains.anko.alert
 
@@ -28,6 +28,7 @@ class CourseDetailBottomFragment : BottomSheetDialogFragment() {
             if (fragment == null) {
                 fragment = cacheFragment
             }
+            if (fragment.isAdded) return
             fragment.course = course
             fragment.show(fragmentManager, TAG_SHARE_BS_DIALOG_FRAGMENT)
         }

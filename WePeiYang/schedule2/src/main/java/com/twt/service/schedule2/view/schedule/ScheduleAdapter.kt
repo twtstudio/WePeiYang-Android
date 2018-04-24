@@ -19,6 +19,7 @@ import android.widget.TextView
 import com.haozhang.lib.SlantedTextView
 import com.twt.service.schedule2.R
 import com.twt.service.schedule2.model.Course
+import com.twt.service.schedule2.model.SchedulePref
 import com.twt.wepeiyang.commons.experimental.CommonContext
 
 
@@ -27,9 +28,9 @@ import com.twt.wepeiyang.commons.experimental.CommonContext
  */
 class ScheduleAdapter(val context: Context) : RecyclerView.Adapter<ScheduleAdapter.CourseViewHolder>() {
     val courseList = mutableListOf<Course>()
-    var firstColumnSize = 1
-    val firstRowIndexList = mutableListOf<Int>()
-    var displayType = ScheduleDisplayType.SEVENDAYS
+    private var firstColumnSize = 1
+    private val firstRowIndexList = mutableListOf<Int>()
+    var displayType = ScheduleDisplayType.SEVENDAYS // Schedule的显示模式 是五天模式还是七天模式
 
     /**
      * 外部的点击事件统一传递
@@ -89,6 +90,10 @@ class ScheduleAdapter(val context: Context) : RecyclerView.Adapter<ScheduleAdapt
             5 -> ScheduleDisplayType.FIVEDAYS
             7 -> ScheduleDisplayType.SEVENDAYS
             else -> ScheduleDisplayType.SEVENDAYS
+        }
+        // 如果关闭了课程表自动折叠
+        if (!SchedulePref.autoCollapseSchedule) {
+            displayType = ScheduleDisplayType.SEVENDAYS
         }
         diffResult.dispatchUpdatesTo(this)
 
