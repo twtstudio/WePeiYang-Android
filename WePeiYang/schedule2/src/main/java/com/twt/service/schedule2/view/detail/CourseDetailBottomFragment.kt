@@ -11,9 +11,9 @@ import android.view.View
 import com.twt.service.schedule2.R
 import com.twt.service.schedule2.extensions.getChineseCharacter
 import com.twt.service.schedule2.model.Course
+import com.twt.service.schedule2.view.adapter.CourseDetailViewModel
 import com.twt.service.schedule2.view.adapter.iconLabel
-import com.twt.service.schedule2.view.adapter.indicatorText
-import com.twt.service.schedule2.view.adapter.withItems
+import com.twt.service.schedule2.view.adapter.refreshItems
 import org.jetbrains.anko.alert
 
 class CourseDetailBottomFragment : BottomSheetDialogFragment() {
@@ -55,7 +55,7 @@ class CourseDetailBottomFragment : BottomSheetDialogFragment() {
 
 //        adapter.refreshDataList(createCourseDetailList(course))
 
-        recyclerView.withItems {
+        recyclerView.refreshItems {
             courseInfo(course = course)
             indicatorText("上课信息")
 

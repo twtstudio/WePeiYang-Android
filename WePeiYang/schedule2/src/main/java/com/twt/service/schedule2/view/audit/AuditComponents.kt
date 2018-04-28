@@ -130,3 +130,5 @@ class AuditCourseItem(val auditCourse: AuditCourse) : Item {
 }
 
 fun MutableList<Item>.auditCourseItem(auditCourse: AuditCourse) = add(AuditCourseItem(auditCourse))
+
+//class

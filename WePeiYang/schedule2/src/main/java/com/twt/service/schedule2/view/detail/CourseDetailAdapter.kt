@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.twt.service.schedule2.model.Classtable
 import com.twt.service.schedule2.model.Course
+import com.twt.service.schedule2.view.adapter.CourseDetailViewModel
 import com.twt.service.schedule2.view.schedule.CourseRefreshStatusComponent
 
 class CourseDetailAdapter(val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {

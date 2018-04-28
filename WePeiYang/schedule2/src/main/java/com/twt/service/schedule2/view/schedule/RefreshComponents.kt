@@ -1,6 +1,5 @@
 package com.twt.service.schedule2.view.schedule
 
-import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -11,11 +10,8 @@ import com.twt.service.schedule2.R
 import com.twt.service.schedule2.extensions.RefreshCallback
 import com.twt.service.schedule2.model.Classtable
 import com.twt.service.schedule2.model.school.classtableCacheKey
-import com.twt.service.schedule2.model.school.tjuCourseCache
 import com.twt.service.schedule2.model.total.TotalCourseManager
-import com.twt.service.schedule2.view.detail.CourseDetailViewModel
-import com.twt.wepeiyang.commons.experimental.cache.CacheIndicator
-import com.twt.wepeiyang.commons.experimental.cache.RefreshState
+import com.twt.service.schedule2.view.adapter.CourseDetailViewModel
 import org.jetbrains.anko.alert
 import java.text.SimpleDateFormat
 import java.util.*

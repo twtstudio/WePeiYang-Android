@@ -26,7 +26,12 @@ public final class BottomSheetUtils {
 
         @Override
         public void onPageSelected(int position) {
-            viewPager.post(behavior::invalidateScrollingChild);
+            viewPager.post(new Runnable() {
+                @Override
+                public void run() {
+                    behavior.invalidateScrollingChild();
+                }
+            });
         }
     }
 

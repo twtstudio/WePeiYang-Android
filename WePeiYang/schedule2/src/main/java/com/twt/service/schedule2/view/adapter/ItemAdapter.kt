@@ -53,6 +53,11 @@ fun RecyclerView.refreshItems(init: MutableList<Item>.() -> Unit) {
 
 class ItemManager(private val delegated: MutableList<Item> = mutableListOf()) : MutableList<Item> {
     var observer: RecyclerView.Adapter<RecyclerView.ViewHolder>? = null
+    val itemListSnapshot: List<Item> get() = delegated
+
+    init {
+        ensureControllers(delegated)
+    }
 
     companion object ItemControllerManager {
         private var viewType = 0
@@ -125,6 +130,7 @@ class ItemManager(private val delegated: MutableList<Item> = mutableListOf()) : 
 
     override fun addAll(elements: Collection<Item>) =
             delegated.addAll(elements).also {
+                ensureControllers(elements)
                 if (it) observer?.notifyItemRangeInserted(size, elements.size)
             }
 
@@ -182,6 +188,8 @@ class ItemManager(private val delegated: MutableList<Item> = mutableListOf()) : 
         ensureControllers(elements)
         result.dispatchUpdatesTo(observer)
     }
+
+    fun refreshItems(init: MutableList<Item>.() -> Unit) = refreshItems(mutableListOf<Item>().apply(init))
 
 }
 

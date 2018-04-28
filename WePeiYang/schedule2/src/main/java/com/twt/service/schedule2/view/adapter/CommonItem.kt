@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.twt.service.schedule2.R
-import com.twt.service.schedule2.view.detail.CourseDetailViewModel
 import org.jetbrains.anko.layoutInflater
 
 class IndicatorTextItem(val text: String) : Item {
@@ -65,3 +64,7 @@ class IconLabelItem(val model: CourseDetailViewModel) : Item {
 }
 
 fun MutableList<Item>.iconLabel(model: CourseDetailViewModel) = add(IconLabelItem(model))
+
+fun MutableList<Item>.iconLabel(init: CourseDetailViewModel.() -> Unit) = iconLabel(CourseDetailViewModel().apply(init))
+
+data class CourseDetailViewModel(var imgResId: Int = 0, var content: String = "", var clickBlock: (View) -> Unit = {})
