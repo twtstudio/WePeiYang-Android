@@ -24,10 +24,7 @@ import com.twt.wepeiyang.commons.experimental.cache.RefreshState
 import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
 import es.dmoral.toasty.Toasty
 import io.multimoon.colorful.CAppCompatActivity
-import org.jetbrains.anko.matchParent
-import org.jetbrains.anko.textColor
-import org.jetbrains.anko.textView
-import org.jetbrains.anko.wrapContent
+import org.jetbrains.anko.*
 import java.net.SocketTimeoutException
 
 class ScheduleActivity : CAppCompatActivity() {
@@ -74,6 +71,16 @@ class ScheduleActivity : CAppCompatActivity() {
         }.apply {
             layoutParams = FrameLayout.LayoutParams(matchParent, wrapContent)
             visibility = View.GONE
+        }
+
+        with(frameLayout) {
+            textView { }
+        }
+
+        frameLayout.verticalLayout {
+            textView().lparams(width = matchParent, height = matchParent) {
+                //                gravity = Gravity.CENTER_HORIZONTAL
+            }
         }
 
         val addButton = findViewById<ImageView>(R.id.iv_toolbar_add)

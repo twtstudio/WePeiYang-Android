@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tv_audit_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="?attr/colorPrimary"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="数据库原理（双语）"
+        tools:textColor="@color/colorPrimary" />
+
+    <TextView
+        android:id="@+id/tv_audit_teacher"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="?attr/colorPrimary"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_audit_name"
+        tools:text="王征-副教授"
+        tools:textColor="@color/colorPrimary" />
+
+    <TextView
+        android:id="@+id/tv_audit_college"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="sans-serif-regular"
+        android:textColor="?attr/colorPrimary"
+        android:textSize="16sp"
+        app:layout_constraintBaseline_toBaselineOf="@id/tv_audit_teacher"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="软件学院"
+        tools:textColor="@color/colorPrimary" />
+
+    <TextView
+        android:id="@+id/tv_audit_week"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        android:textColor="@color/black_color"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_audit_teacher"
+        tools:text="第9-16周 单双周" />
+
+    <TextView
+        android:id="@+id/tv_audit_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:textColor="@color/black_color"
+        android:textSize="16sp"
+        app:layout_constraintBaseline_toBaselineOf="@id/tv_audit_week"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="45楼119" />
+
+    <TextView
+        android:id="@+id/tv_audit_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        android:textColor="@color/black_color"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_audit_week"
+        tools:text="周三 1-2节" />
+
+    <TextView
+        android:id="@+id/tv_audit_conflict"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:textSize="16sp"
+        app:layout_constraintBaseline_toBaselineOf="@id/tv_audit_time"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="[冲突课程：软件测试]"
+        tools:textColor="#B2430E" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/common_lv4_divider"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_audit_time" />
+</android.support.constraint.ConstraintLayout>

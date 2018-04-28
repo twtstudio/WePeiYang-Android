@@ -71,9 +71,27 @@ fun List<Course>.findConflict(course: Course, dayOfWeek: Int): Course? {
     this.filter { it.arrange.any { it.day == dayOfWeek } }.onEach {
         it.arrange.trim(dayOfWeek)
     }.onEach {
-        if (it.arrange[0].checkConflict(courseArrange)) return it
+        if (it.arrange[0].checkConflict(courseArrange) && course != it) return it
     }
     return null
+}
+
+fun List<Course>.findConflictList(course: Course, dayOfWeek: Int): List<Course> {
+    val conflictList = mutableListOf<Course>()
+    // 先检查今天有没有课 如果有那么就筛选一次Arrange
+    if (!course.arrange.any { it.day == dayOfWeek }) {
+        return conflictList
+    } else {
+        course.arrange.trim(dayOfWeek)
+    }
+    val courseArrange = course.arrange[0]
+
+    this.filter { it.arrange.any { it.day == dayOfWeek } }.onEach {
+        it.arrange.trim(dayOfWeek)
+    }.onEach {
+        if (it.arrange[0].checkConflict(courseArrange)) conflictList.add(it)
+    }
+    return conflictList
 }
 
 /**
