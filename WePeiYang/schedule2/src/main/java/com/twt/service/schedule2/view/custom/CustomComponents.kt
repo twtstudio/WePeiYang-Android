@@ -17,6 +17,8 @@ class SingleTextItem(val text: String) : Item {
 
     var builder: (TextView.() -> Unit)? = null
 
+    var onClick: ((View) -> Unit)? = null
+
     companion object Controller : ItemController {
         override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
             lateinit var textView: TextView
@@ -48,9 +50,10 @@ class SingleTextItem(val text: String) : Item {
             holder as ViewHolder
             holder.textView.text = item.text
             item.builder?.invoke(holder.textView)
+            item.onClick?.invoke(holder.itemView)
         }
 
-        class ViewHolder(itemView: View?, val textView: TextView) : RecyclerView.ViewHolder(itemView)
+        private class ViewHolder(itemView: View, val textView: TextView) : RecyclerView.ViewHolder(itemView)
 
     }
 
@@ -66,3 +69,4 @@ class SingleTextItem(val text: String) : Item {
 
 fun MutableList<Item>.singleText(text: String) = add(SingleTextItem(text))
 fun MutableList<Item>.singleText(text: String, builder: (TextView.() -> Unit)) = add(SingleTextItem(text).apply { this.builder = builder })
+

@@ -47,6 +47,7 @@ import org.jetbrains.anko.textColor
 class AuditActivity : CAppCompatActivity() {
     lateinit var recyclerView: RecyclerView
     lateinit var viewGroup: ViewGroup
+    lateinit var autocomplete: Autocomplete<String>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.schedule_act_audit)
@@ -163,7 +164,7 @@ class AuditActivity : CAppCompatActivity() {
 
                 }
             }
-        }, 20L)
+        }, 20L) // 数据库总是比蹭热门快... 那就等等吧
 
 
         refreshData()
@@ -176,14 +177,12 @@ class AuditActivity : CAppCompatActivity() {
                 viewGroup.visibility = View.INVISIBLE
                 val manager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                 manager.hideSoftInputFromWindow(editText.windowToken, 0)
-
-                Toasty.success(this, editText.text.toString()).show()
                 return@setOnEditorActionListener true
             }
             return@setOnEditorActionListener false
         }
         AuditCourseManager.refreshAuditSearchDatabase()
-        Autocomplete.on<String>(editText).with(object : AutocompletePolicy {
+        autocomplete = Autocomplete.on<String>(editText).with(object : AutocompletePolicy {
             override fun shouldShowPopup(text: Spannable?, cursorPos: Int): Boolean = (text?.length) ?: 0 > 0
 
             override fun shouldDismissPopup(text: Spannable?, cursorPos: Int): Boolean = text?.length == 0
@@ -191,7 +190,7 @@ class AuditActivity : CAppCompatActivity() {
             override fun getQuery(text: Spannable): CharSequence = text
 
             override fun onDismiss(text: Spannable?) {}
-        }).with(ColorDrawable(Color.WHITE)).with(4f).with(AutoCompletePresenter(this, this)).build()
+        }).with(ColorDrawable(Color.WHITE)).with(4f).with(AutoCompletePresenter(this, this, editText)).build()
     }
 
     private fun refreshData() {
@@ -212,7 +211,10 @@ class AuditActivity : CAppCompatActivity() {
                 AnimationUtil.reveal(viewGroup, object : AnimationUtil.AnimationListener {
                     override fun onAnimationStart(view: View?): Boolean = true
 
-                    override fun onAnimationEnd(view: View?): Boolean = true
+                    override fun onAnimationEnd(view: View?): Boolean {
+                        autocomplete.showPopup("null")
+                        return true
+                    }
 
                     override fun onAnimationCancel(view: View?): Boolean = true
 
@@ -236,20 +238,40 @@ class AuditActivity : CAppCompatActivity() {
         } else super.onBackPressed()
     }
 
-    class AutoCompletePresenter(context: Context, private val lifecycleOwner: LifecycleOwner) : RecyclerViewPresenter<String>(context) {
+    class AutoCompletePresenter(context: Context, private val lifecycleOwner: LifecycleOwner, private val editText: EditText) : RecyclerViewPresenter<String>(context) {
         private val itemManager = ItemManager()
         private val adapter = ItemAdapter(itemManager)
         override fun instantiateAdapter(): RecyclerView.Adapter<*> {
-            val liveData = AuditCourseManager.getSearchSuggestions("")
+            val liveData = AuditCourseManager.getSearchSuggestions("null")
             liveData.bindNonNull(lifecycleOwner) {
                 //                Log.e("Auto", it.toString())
+                /**
+                 * 非空情况下再做自动提示的刷新
+                 * 因为传来的数据是纯字符串 所以需要加些东西 前缀‘-’表示indicator 后缀‘college’表示学院
+                 */
                 if (it.isNotEmpty()) {
                     itemManager.refreshAll {
                         it.forEach {
-                            if (it.startsWith("-")) {
-                                indicatorText(it.removePrefix("-"))
-                            } else {
-                                singleText(it.trim())
+                            when {
+                                it.startsWith("-") -> indicatorText(it.removePrefix("-"))
+                                it.endsWith("college") -> {
+                                    val realText = it.removeSuffix("college")
+                                    singleText(realText) {
+                                        (parent as? View)?.setOnClickListener {
+                                            editText.setText("#$realText") // 完善自动学院搜索
+                                        }
+                                    }
+                                }
+                                else -> {
+                                    val realText = it.trim()
+                                    singleText(realText) {
+                                        (parent as? View)?.setOnClickListener {
+                                            editText.setText(realText)
+                                            editText.onEditorAction(EditorInfo.IME_ACTION_SEARCH) // 触发搜索事件
+                                            editText.setText("") //清空
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
@@ -259,13 +281,23 @@ class AuditActivity : CAppCompatActivity() {
         }
 
         override fun onQuery(query: CharSequence?) {
-            AuditCourseManager.getSearchSuggestions("%${query.toString()}%")
+            if (query.isNullOrBlank() || query == "null") showHelpMessage()
+            AuditCourseManager.getSearchSuggestions(query.toString())
         }
 
         override fun getPopupDimensions(): PopupDimensions {
             val dimensions = super.getPopupDimensions()
             dimensions.width = matchParent
             return dimensions
+        }
+
+        private fun showHelpMessage() {
+            itemManager.refreshAll {
+                indicatorText("提示")
+                singleText("") {
+                    text = "输入 ‘#’ 来获取学院提示\n输入 '#'+学院名 来获取学院课程\n点击学院名可获取该学院课程\n点击课程名可查询该课程"
+                }
+            }
         }
 
     }

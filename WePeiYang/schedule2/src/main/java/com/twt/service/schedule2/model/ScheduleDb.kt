@@ -15,7 +15,7 @@ object ScheduleDb {
 
     val MIGRATION_1_2 = object : Migration(1, 2) {
         override fun migrate(database: SupportSQLiteDatabase) {
-            database.execSQL("CREATE TABLE IF NOT EXISTS `table_college_course` (`id` INTEGER NOT NULL, `name` TEXT NOT NULL, PRIMARY KEY(`id`))")
+            database.execSQL("CREATE TABLE IF NOT EXISTS `table_college_course` (`id` INTEGER NOT NULL, `name` TEXT NOT NULL, `collegeName` TEXT NOT NULL, PRIMARY KEY(`id`))")
             database.execSQL("CREATE TABLE IF NOT EXISTS `table_college` (`collegeName` TEXT NOT NULL, `collegeId` INTEGER NOT NULL, PRIMARY KEY(`collegeId`))")
         }
     }

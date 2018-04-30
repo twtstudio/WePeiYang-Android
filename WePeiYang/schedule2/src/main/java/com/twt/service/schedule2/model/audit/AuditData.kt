@@ -47,6 +47,10 @@ interface AuditCourseDao {
 
     @Query("SELECT * FROM table_college_course WHERE name LIKE :courseName")
     fun searchCollegeCourses(courseName: String): List<CollegeCourse>
+
+    @Query("SELECT * FROM table_college_course WHERE collegeName LIKE :collegeName")
+    fun searchCoursesByCollege(collegeName: String): List<CollegeCourse>
+
 }
 
 data class InfoItem(@SerializedName("course_id") val courseId: String,
@@ -68,7 +72,9 @@ data class InfoItem(@SerializedName("course_id") val courseId: String,
  * 这个东西就是用来对所有课程建表 然后自动提示的
  */
 @Entity(primaryKeys = ["id"], tableName = "table_college_course")
-data class CollegeCourse(@SerializedName("course_id") val id: Int, @SerializedName("course_name") val name: String)
+data class CollegeCourse(@SerializedName("course_id") val id: Int, @SerializedName("course_name") val name: String) {
+    var collegeName = ""
+}
 
 @Entity(primaryKeys = ["collegeId"], tableName = "table_college")
 data class AuditCollegeData(

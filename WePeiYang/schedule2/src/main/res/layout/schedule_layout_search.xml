@@ -25,7 +25,7 @@
         android:layout_marginEnd="12dp"
         android:layout_marginStart="12dp"
         android:backgroundTint="@color/transparent"
-        android:hint="Search Some Fuck"
+        android:hint="搜索你喜欢的课程/学院 "
         android:imeOptions="actionSearch"
         android:inputType="text"
         android:textColor="@color/white_color"

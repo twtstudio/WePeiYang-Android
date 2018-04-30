@@ -53,16 +53,42 @@ object AuditCourseManager {
         async(UI + QuietCoroutineExceptionHandler) {
             val suggestions = async(CommonPool) {
                 val suggestions = mutableListOf<String>()
-                val collegeList = dao.searchCollege(keyWord)
-                if (collegeList.isNotEmpty()) {
-                    suggestions.add("-学院")
-                    suggestions.addAll(collegeList.map { it.collegeName })
+                if (keyWord.isBlank()) return@async suggestions
+                /**
+                 * 定义 # 开头的搜索是查询学院对应的课程
+                 */
+                if (!keyWord.startsWith("#")) {
+                    val collegeList = dao.searchCollege("%${keyWord}%")  // 通配符来模糊搜索
+                    if (collegeList.isNotEmpty()) {
+                        suggestions.add("-学院")
+                        suggestions.addAll(collegeList.map { it.collegeName + "college" })
+                    }
+
+                    /**
+                     * 这是一个搜索优化 当输入空白的时候 只会出现全部的学院 而不是出现课程
+                     */
+                    if (keyWord.isNotBlank()) {
+                        val courseList = dao.searchCollegeCourses("%${keyWord}%")
+                        if (courseList.isNotEmpty()) {
+                            suggestions.add("-课程")
+                            suggestions.addAll(courseList.map { it.name })
+                        }
+                    }
+                } else {
+                    val realKeyWord = keyWord.removePrefix("#")
+                    val courseList = if (realKeyWord.isNotBlank()) dao.searchCoursesByCollege("%$realKeyWord%") else listOf()
+                    if (courseList.isNotEmpty()) {
+                        suggestions.add("-课程")
+                        suggestions.addAll(courseList.map { it.name })
+                    } else {
+                        suggestions.add("-提示: 请输入正确的学院名，或使用下方建议")
+                        val collegeList = dao.loadAllColleges()  // 通配符来模糊搜索
+                        if (collegeList.isNotEmpty()) {
+                            suggestions.addAll(collegeList.map { it.collegeName + "college" })
+                        }
+                    }
                 }
-                val courseList = dao.searchCollegeCourses(keyWord)
-                if (courseList.isNotEmpty()) {
-                    suggestions.add("-课程")
-                    suggestions.addAll(courseList.map { it.name })
-                }
+
                 suggestions
             }
             suggestionLiveData.value = suggestions.await()
@@ -76,8 +102,10 @@ object AuditCourseManager {
             val auditCollegeDataList = AuditApi.getAuditCollege().awaitAndHandle { it.printStackTrace() }?.data
                     ?: throw IllegalStateException("刷新课程表搜索提示失败")
             dao.insertColleges(auditCollegeDataList)
-            auditCollegeDataList.forEach {
-                dao.insertCollegeCourses(it.collegeCourses)
+            auditCollegeDataList.forEach { data: AuditCollegeData ->
+                dao.insertCollegeCourses(data.collegeCourses.onEach {
+                    it.collegeName = data.collegeName
+                })
             }
         }
     }
