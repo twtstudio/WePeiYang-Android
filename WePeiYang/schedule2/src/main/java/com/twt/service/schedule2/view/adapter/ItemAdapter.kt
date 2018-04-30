@@ -40,7 +40,7 @@ fun RecyclerView.withItems(items: List<Item>) {
 
 fun RecyclerView.withItems(init: MutableList<Item>.() -> Unit) = withItems(mutableListOf<Item>().apply(init))
 
-fun RecyclerView.refreshItems(init: MutableList<Item>.() -> Unit) {
+fun RecyclerView.refreshAll(init: MutableList<Item>.() -> Unit) {
     val list = mutableListOf<Item>().apply(init)
     var adapter = this.adapter as? ItemAdapter
     if (adapter == null) {
@@ -48,7 +48,7 @@ fun RecyclerView.refreshItems(init: MutableList<Item>.() -> Unit) {
         this.adapter = adapter
     }
     val manager = adapter.itemManager
-    manager.refreshItems(list)
+    manager.refreshAll(list)
 }
 
 class ItemManager(private val delegated: MutableList<Item> = mutableListOf()) : MutableList<Item> {
@@ -165,7 +165,7 @@ class ItemManager(private val delegated: MutableList<Item> = mutableListOf()) : 
                 observer?.notifyItemChanged(index)
             }
 
-    fun refreshItems(elements: List<Item>) {
+    fun refreshAll(elements: List<Item>) {
         val diffCallback = object : DiffUtil.Callback() {
             override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
                 val oldItem = delegated[oldItemPosition]
@@ -189,7 +189,13 @@ class ItemManager(private val delegated: MutableList<Item> = mutableListOf()) : 
         result.dispatchUpdatesTo(observer)
     }
 
-    fun refreshItems(init: MutableList<Item>.() -> Unit) = refreshItems(mutableListOf<Item>().apply(init))
+    fun refreshAll(init: MutableList<Item>.() -> Unit) = refreshAll(mutableListOf<Item>().apply(init))
+
+    fun autoRefresh(init: MutableList<Item>.() -> Unit) {
+        val snapshot = this.itemListSnapshot.toMutableList()
+        snapshot.apply(init)
+        refreshAll(snapshot)
+    }
 
 }
 

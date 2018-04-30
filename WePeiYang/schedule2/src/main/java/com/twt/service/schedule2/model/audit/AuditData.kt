@@ -32,6 +32,21 @@ interface AuditCourseDao {
 
     @Query("SELECT * FROM table_audit_course")
     fun loadAllAuditCoursesLiveData(): LiveData<List<AuditCourse>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertColleges(colleges: List<AuditCollegeData>)
+
+    @Query("SELECT * FROM table_college")
+    fun loadAllColleges(): List<AuditCollegeData>
+
+    @Query("SELECT * FROM table_college WHERE collegeName LIKE :collegeName")
+    fun searchCollege(collegeName: String): List<AuditCollegeData>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertCollegeCourses(collegeCourses: List<CollegeCourse>)
+
+    @Query("SELECT * FROM table_college_course WHERE name LIKE :courseName")
+    fun searchCollegeCourses(courseName: String): List<CollegeCourse>
 }
 
 data class InfoItem(@SerializedName("course_id") val courseId: String,
@@ -50,6 +65,23 @@ data class InfoItem(@SerializedName("course_id") val courseId: String,
                     val id: Int)
 
 /**
+ * 这个东西就是用来对所有课程建表 然后自动提示的
+ */
+@Entity(primaryKeys = ["id"], tableName = "table_college_course")
+data class CollegeCourse(@SerializedName("course_id") val id: Int, @SerializedName("course_name") val name: String)
+
+@Entity(primaryKeys = ["collegeId"], tableName = "table_college")
+data class AuditCollegeData(
+        @SerializedName("college_name") val collegeName: String,
+        @SerializedName("college_id") val collegeId: Int
+) {
+    @Ignore
+    @SerializedName("college_courses")
+    val collegeCourses: List<CollegeCourse> = mutableListOf()
+
+}
+
+/**
  * 将蹭课Course转化成普通Course来兼容通用Model
  */
 fun AuditCourse.convertToCourse(): Course {
@@ -66,7 +98,7 @@ fun AuditCourse.convertToCourse(): Course {
         val arrange = Arrange(
                 room = "${it.building}楼${it.room}",
                 start = (it.startTime - 1) * 2 + 1, // 因为蹭课API的返回节数 是算的大节 但是课程表Course算的是小节 为了复用我们要转换一下 Fuck
-                end = (it.startTime - 1) * 2  + it.courseLength,
+                end = (it.startTime - 1) * 2 + it.courseLength,
                 day = it.weekDay,
                 week = weekType
         )

@@ -42,7 +42,9 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
 //    implementation 'com.android.support:appcompat-v7:26.1.0'
-    implementation project(':commons')
+    implementation (project(':commons')) {
+        exclude group: 'io.reactivex', module: 'rxjava'
+    }
 
     [*supportLibraries, 'kotlin-stdlib', 'kotlinx-coroutines', *archLibraries, 'constraint-layout', 'anko'].each {
         implementation dependenciesMap[it]
@@ -57,6 +59,7 @@ dependencies {
     implementation 'com.zhihu.android:matisse:0.4.3'
     implementation "org.jetbrains.anko:anko-constraint-layout:${versions.anko}"
     implementation project(':vpbs')
+    implementation 'com.otaliastudios:autocomplete:1.1.0'
 
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.hamcrest:hamcrest-junit:2.0.0.0'

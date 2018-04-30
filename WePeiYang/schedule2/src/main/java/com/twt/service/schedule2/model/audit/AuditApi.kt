@@ -8,7 +8,6 @@ import com.twt.wepeiyang.commons.experimental.network.ServiceFactory
 import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.Deferred
-import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -19,6 +18,9 @@ interface AuditApi {
 
     @GET("v1/auditClass/popular")
     fun getPopluarAudit(): Deferred<CommonBody<List<AuditPopluar>>>
+
+    @GET("v1/auditClass/college")
+    fun getAuditCollege(@Query("with_class") withClass: Int = 1): Deferred<CommonBody<List<AuditCollegeData>>>
 
     companion object : AuditApi by ServiceFactory()
 }

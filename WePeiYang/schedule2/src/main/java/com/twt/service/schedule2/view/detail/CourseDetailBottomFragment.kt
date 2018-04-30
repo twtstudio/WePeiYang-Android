@@ -13,7 +13,7 @@ import com.twt.service.schedule2.extensions.getChineseCharacter
 import com.twt.service.schedule2.model.Course
 import com.twt.service.schedule2.view.adapter.CourseDetailViewModel
 import com.twt.service.schedule2.view.adapter.iconLabel
-import com.twt.service.schedule2.view.adapter.refreshItems
+import com.twt.service.schedule2.view.adapter.refreshAll
 import org.jetbrains.anko.alert
 
 class CourseDetailBottomFragment : BottomSheetDialogFragment() {
@@ -55,7 +55,7 @@ class CourseDetailBottomFragment : BottomSheetDialogFragment() {
 
 //        adapter.refreshDataList(createCourseDetailList(course))
 
-        recyclerView.refreshItems {
+        recyclerView.refreshAll {
             courseInfo(course = course)
             indicatorText("上课信息")
 

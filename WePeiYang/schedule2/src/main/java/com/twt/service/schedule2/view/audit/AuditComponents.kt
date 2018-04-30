@@ -3,7 +3,6 @@ package com.twt.service.schedule2.view.audit
 import android.graphics.Color
 import android.support.constraint.ConstraintLayout.LayoutParams.PARENT_ID
 import android.support.v7.widget.RecyclerView
-import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
@@ -12,7 +11,6 @@ import com.twt.service.schedule2.R
 import com.twt.service.schedule2.extensions.findConflictList
 import com.twt.service.schedule2.extensions.getChineseCharacter
 import com.twt.service.schedule2.model.audit.AuditCourse
-import com.twt.service.schedule2.model.audit.AuditPopluar
 import com.twt.service.schedule2.model.audit.convertToCourse
 import com.twt.service.schedule2.model.total.TotalCourseManager
 import com.twt.service.schedule2.view.adapter.Item
@@ -20,7 +18,7 @@ import com.twt.service.schedule2.view.adapter.ItemController
 import org.jetbrains.anko.*
 import org.jetbrains.anko.constraint.layout.constraintLayout
 
-class ButtonItem(val popluar: AuditPopluar) : Item {
+class ButtonItem(val text: String) : Item {
 
     var builder: (Button.() -> Unit)? = null
 
@@ -32,16 +30,13 @@ class ButtonItem(val popluar: AuditPopluar) : Item {
                 button = button {
                     text = "按钮"
                     id = View.generateViewId()
-                    // 设置无边框
-                    val typedValue = TypedValue()
-                    context.theme.resolveAttribute(android.R.attr.borderlessButtonStyle, typedValue, true)
-                    backgroundResource = typedValue.resourceId
+
                 }.lparams(width = wrapContent, height = wrapContent) {
                     startToStart = PARENT_ID
                     topToTop = PARENT_ID
                     bottomToBottom = PARENT_ID
                     leftMargin = dip(16)
-                    verticalMargin = dip(14)
+                    verticalMargin = dip(4)
                 }
             }.apply {
                 layoutParams = RecyclerView.LayoutParams(matchParent, wrapContent)
@@ -52,7 +47,7 @@ class ButtonItem(val popluar: AuditPopluar) : Item {
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: Item) {
             holder as ViewHolder
             item as ButtonItem
-            holder.button.text = item.popluar.course.name
+            holder.button.text = item.text
             item.builder?.invoke(holder.button)
         }
 
@@ -62,10 +57,13 @@ class ButtonItem(val popluar: AuditPopluar) : Item {
     override val controller: ItemController
         get() = Controller
 
+    override fun areItemsTheSame(newItem: Item): Boolean = newItem is ButtonItem
+
+    override fun areContentsTheSame(newItem: Item): Boolean = areItemsTheSame(newItem)
 }
 
-fun MutableList<Item>.buttonItem(auditPopluar: AuditPopluar) = add(ButtonItem(auditPopluar))
-fun MutableList<Item>.buttonItem(auditPopluar: AuditPopluar, builder: (Button.() -> Unit)) = add(ButtonItem(auditPopluar).apply { this.builder = builder })
+fun MutableList<Item>.buttonItem(text: String) = add(ButtonItem(text))
+fun MutableList<Item>.buttonItem(text: String, builder: (Button.() -> Unit)) = add(ButtonItem(text).apply { this.builder = builder })
 
 class AuditCourseItem(val auditCourse: AuditCourse) : Item {
 
@@ -116,7 +114,9 @@ class AuditCourseItem(val auditCourse: AuditCourse) : Item {
 
     }
 
-    override fun areItemsTheSame(newItem: Item): Boolean {
+    override fun areItemsTheSame(newItem: Item): Boolean = newItem is AuditCourseItem
+
+    override fun areContentsTheSame(newItem: Item): Boolean {
         if (newItem is AuditCourseItem) {
             return newItem.auditCourse == auditCourse
         }

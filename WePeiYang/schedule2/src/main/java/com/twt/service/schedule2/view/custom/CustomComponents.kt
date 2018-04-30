@@ -56,6 +56,12 @@ class SingleTextItem(val text: String) : Item {
 
     override val controller: ItemController = Controller
 
+    override fun areItemsTheSame(newItem: Item): Boolean = newItem is SingleTextItem
+
+    override fun areContentsTheSame(newItem: Item): Boolean {
+        if (newItem !is SingleTextItem) return false
+        return newItem.text == this.text
+    }
 }
 
 fun MutableList<Item>.singleText(text: String) = add(SingleTextItem(text))
