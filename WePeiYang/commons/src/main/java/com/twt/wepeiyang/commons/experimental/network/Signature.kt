@@ -73,8 +73,8 @@ internal inline val RequestBody.signed
 internal inline val Request.signed
     get() = when (method()) {
         "HEAD" -> this
-        "GET" -> newBuilder().url(url().signed).build()
-        "POST", "PUT", "PATCH", "DELETE" -> newBuilder().method(method(), body()?.signed).build()
+        "GET", "DELETE" -> newBuilder().url(url().signed).build()
+        "POST", "PUT", "PATCH" -> newBuilder().method(method(), body()?.signed).build()
         else -> this
     }
 

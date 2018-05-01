@@ -25,20 +25,26 @@ import com.otaliastudios.autocomplete.Autocomplete
 import com.otaliastudios.autocomplete.AutocompletePolicy
 import com.otaliastudios.autocomplete.RecyclerViewPresenter
 import com.twt.service.schedule2.R
+import com.twt.service.schedule2.model.audit.AuditApi
 import com.twt.service.schedule2.model.audit.AuditCourseManager
 import com.twt.service.schedule2.model.audit.auditPopluarLiveData
 import com.twt.service.schedule2.view.adapter.*
 import com.twt.service.schedule2.view.audit.search.AnimationUtil
+import com.twt.service.schedule2.view.audit.search.SearchResultActivity
 import com.twt.service.schedule2.view.custom.SingleTextItem
 import com.twt.service.schedule2.view.custom.singleText
 import com.twt.wepeiyang.commons.experimental.cache.CacheIndicator
 import com.twt.wepeiyang.commons.experimental.color.getColorCompat
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
+import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
+import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
 import es.dmoral.toasty.Toasty
 import io.multimoon.colorful.CAppCompatActivity
 import kotlinx.coroutines.experimental.CommonPool
+import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
+import org.jetbrains.anko.alert
 import org.jetbrains.anko.backgroundColor
 import org.jetbrains.anko.matchParent
 import org.jetbrains.anko.textColor
@@ -107,7 +113,7 @@ class AuditActivity : CAppCompatActivity() {
                             imgResId = R.drawable.ic_schedule_event
                             content = viewmodel.course.name
                             clickBlock = {
-                                Toasty.success(this@AuditActivity, "${viewmodel.course}").show()
+                                SearchResultActivity.searchCourse(this@AuditActivity, content)
                             }
                             textConfig = {
                                 textColor = Color.BLACK
@@ -153,12 +159,38 @@ class AuditActivity : CAppCompatActivity() {
                     removeAll { it is SingleTextItem && it.text == "我的蹭课" }
 
                     singleText("我的蹭课", titleTextBuilder)
-                    it.forEach {
-                        auditCourseItem(it)
-                        if (it.infos.size > 1) {
-                            for (i in 1 until it.infos.size) {
-                                val additional = it.copy(infos = listOf(it.infos[i]))
-                                auditCourseItem(additional)
+                    it.forEach { auditCourse ->
+                        auditCourseItem(auditCourse) {
+                            alert {
+                                title = "取消蹭课"
+                                message = "是否取消该节蹭课：${auditCourse.courseName}"
+                                positiveButton("取消蹭课") {
+                                    async(UI + QuietCoroutineExceptionHandler) {
+                                        val result = AuditApi.cancelAudit(CommonPreferences.studentid, auditCourse.infos[0].id.toString()).awaitAndHandle { it.printStackTrace() }?.message
+                                                ?: "出现错误"
+                                        Toasty.info(this@AuditActivity, "${auditCourse.courseName} -> $result").show()
+                                    }
+                                }
+                            }.show()
+                        }
+                        if (auditCourse.infos.size > 1) {
+                            for (i in 1 until auditCourse.infos.size) {
+                                val additional = auditCourse.copy(infos = listOf(auditCourse.infos[i]))
+                                auditCourseItem(additional) {
+                                    alert {
+                                        title = "取消蹭课"
+                                        message = "是否取消该节蹭课：${additional.courseName}"
+                                        positiveButton("取消蹭课") {
+                                            async(UI + QuietCoroutineExceptionHandler) {
+                                                val result = AuditApi.cancelAudit(CommonPreferences.studentid, additional.infos[0].id.toString()).awaitAndHandle { it.printStackTrace() }?.message
+                                                        ?: "出现错误"
+                                                Toasty.info(this@AuditActivity, "${additional.courseName} -> $result").show()
+                                            }.invokeOnCompletion {
+                                                it?.printStackTrace()
+                                            }
+                                        }
+                                    }.show()
+                                }
                             }
                         }
                     }
@@ -168,6 +200,10 @@ class AuditActivity : CAppCompatActivity() {
         }, 20L) // 数据库总是比蹭热门快... 那就等等吧
 
 
+    }
+
+    override fun onResume() {
+        super.onResume()
         refreshData()
     }
 
@@ -215,6 +251,8 @@ class AuditActivity : CAppCompatActivity() {
                     override fun onAnimationEnd(view: View?): Boolean {
                         searchEditText.setText(null)
                         searchEditText.requestFocus()
+                        val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                        inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
                         autocomplete.showPopup("null")
                         return true
                     }
@@ -270,6 +308,7 @@ class AuditActivity : CAppCompatActivity() {
                                     singleText(realText) {
                                         (parent as? View)?.setOnClickListener {
                                             editText.setText(realText)
+                                            SearchResultActivity.searchCourse(context, realText)
                                             editText.onEditorAction(EditorInfo.IME_ACTION_SEARCH) // 触发搜索事件
                                             editText.setText("") //清空
                                         }

@@ -182,6 +182,11 @@ class ScheduleActivity : CAppCompatActivity() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        TotalCourseManager.getTotalCourseManager(refreshAudit = true, refreshCustom = true)
+    }
+
     private fun generateDefaultWeekMatrix(): MutableList<WeekSquareView.WeekSquareData> {
         return mutableListOf<WeekSquareView.WeekSquareData>().apply {
             for (i in 1..25) {

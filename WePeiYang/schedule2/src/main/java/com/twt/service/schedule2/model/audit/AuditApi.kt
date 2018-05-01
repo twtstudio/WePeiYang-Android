@@ -9,8 +9,7 @@ import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.Deferred
 import kotlinx.coroutines.experimental.async
-import retrofit2.http.GET
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface AuditApi {
     @GET("v1/auditClass/audit")
@@ -24,6 +23,13 @@ interface AuditApi {
 
     @GET("v1/auditClass/search")
     fun searchCourse(@Query("name") courseName: String): Deferred<CommonBody<List<AuditSearchCourse>>>
+
+    @POST("v1/auditClass/audit")
+    @FormUrlEncoded
+    fun audit(@Field("user_number") userNumber: String, @Field("course_id") courseId: Int, @Field("info_ids") infoIds: String): Deferred<CommonBody<String>>
+
+    @DELETE("v1/auditClass/audit")
+    fun cancelAudit(@Query("user_number") userNumber: String, @Query("ids") ids: String): Deferred<CommonBody<String>>
 
     companion object : AuditApi by ServiceFactory()
 }

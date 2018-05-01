@@ -3,13 +3,10 @@ package com.twt.service.push
 import android.util.Log
 import com.twt.wepeiyang.commons.experimental.network.ServiceFactory
 import okhttp3.FormBody
-import okhttp3.MediaType
 import okhttp3.Request
-import okhttp3.RequestBody
 import retrofit2.HttpException
 import java.io.InputStream
-import java.nio.charset.Charset
-import java.util.HashMap
+import java.util.*
 
 /**
  * Created by retrox on 2018/3/19.
@@ -42,6 +39,7 @@ class DebugProxyServer : EmbedHttpServer(10086) {
                 request = Request.Builder().url(baseUrl + path).post(requestBody).build()
             }
             "DELETE" -> {
+                val formString = String(input.readBytes())
                 request = Request.Builder().url(baseUrl + path).delete().build()
             }
             else -> {

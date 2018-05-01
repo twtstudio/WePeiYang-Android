@@ -67,6 +67,8 @@ fun MutableList<Item>.buttonItem(text: String, builder: (Button.() -> Unit)) = a
 
 class AuditCourseItem(val auditCourse: AuditCourse) : Item {
 
+    var clickBlock: ((View) -> Unit)? = null
+
     companion object Controller : ItemController {
         override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
             val view = parent.context.layoutInflater.inflate(R.layout.schedule_item_audit_course, parent, false)
@@ -90,7 +92,7 @@ class AuditCourseItem(val auditCourse: AuditCourse) : Item {
                 auditTime.text = "周${getChineseCharacter(course.arrange[0].day)} ${course.arrange[0].start}-${course.arrange[0].end}节"
                 auditLocation.text = course.arrange[0].room
                 val conflictCourse = cachedScheduleManager?.getCourseByWeek(3)?.findConflictList(course, course.arrange[0].day)?.toMutableList()
-                conflictCourse?.removeAll { it.coursename == course.coursename }
+                conflictCourse?.removeAll { it.coursename == course.coursename && it.teacher == course.teacher }
 
                 if (conflictCourse != null && conflictCourse.isNotEmpty()) {
                     auditConflict.text = "[冲突课程：${conflictCourse[0].coursename}]"
@@ -99,10 +101,14 @@ class AuditCourseItem(val auditCourse: AuditCourse) : Item {
                     auditConflict.text = "[没有冲突]"
                     auditConflict.textColor = Color.parseColor("#17A04D")
                 }
+                item.clickBlock?.apply {
+                    container.setOnClickListener(this)
+                }
             }
         }
 
         private class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+            val container = itemView
             val auditName: TextView = itemView.findViewById(R.id.tv_audit_name)
             val auditTeacher: TextView = itemView.findViewById(R.id.tv_audit_teacher)
             val auditCollege: TextView = itemView.findViewById(R.id.tv_audit_college)
@@ -130,5 +136,7 @@ class AuditCourseItem(val auditCourse: AuditCourse) : Item {
 }
 
 fun MutableList<Item>.auditCourseItem(auditCourse: AuditCourse) = add(AuditCourseItem(auditCourse))
+fun MutableList<Item>.auditCourseItem(auditCourse: AuditCourse, clickBlock: (View) -> Unit) = add(AuditCourseItem(auditCourse).apply { this.clickBlock = clickBlock })
+
 
 //class

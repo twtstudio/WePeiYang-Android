@@ -55,15 +55,15 @@ fun createRefreshList(refreshCallback: RefreshCallback = {}): List<Any> {
         TotalCourseManager.getTotalCourseManager(refreshTju = true, refreshAudit = true, refreshCustom = true, refreshCallback = refreshCallback)
     }))
     list.add("其他刷新设置")
-    list.add(CourseDetailViewModel(R.drawable.ic_schedule_refresh, "仅刷新办公网"){
+    list.add(CourseDetailViewModel(R.drawable.ic_schedule_refresh, "仅刷新办公网", {
         TotalCourseManager.getTotalCourseManager(refreshTju = true, refreshAudit = false, refreshCustom = false, refreshCallback = refreshCallback)
-    })
-    list.add(CourseDetailViewModel(R.drawable.ic_schedule_refresh, "仅刷新蹭课"){
+    }))
+    list.add(CourseDetailViewModel(R.drawable.ic_schedule_refresh, "仅刷新蹭课", {
         TotalCourseManager.getTotalCourseManager(refreshTju = false, refreshAudit = true, refreshCustom = false, refreshCallback = refreshCallback)
-    })
-    list.add(CourseDetailViewModel(R.drawable.ic_schedule_refresh, "仅刷新自定义课程"){
+    }))
+    list.add(CourseDetailViewModel(R.drawable.ic_schedule_refresh, "仅刷新自定义课程", {
         TotalCourseManager.getTotalCourseManager(refreshTju = false, refreshAudit = false, refreshCustom = true, refreshCallback = refreshCallback)
-    })
+    }))
     list.add("重要帮助")
     list.add(CourseDetailViewModel(R.drawable.ic_schedule_info, "课程表刷新帮助(重要)/FAQ",{
         it.context.alert {

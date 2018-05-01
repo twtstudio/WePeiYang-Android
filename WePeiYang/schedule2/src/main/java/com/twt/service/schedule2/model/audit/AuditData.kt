@@ -28,6 +28,16 @@ data class AuditSearchCourse(
         val info: List<InfoItem> // 上面字段就是info 蜜汁后台
 ) {
     data class CollegeBean(val id: Int, val name: String)
+
+    fun convertToAuditCourse() = AuditCourse(
+            college = college.name,
+            courseId = id,
+            courseName = name,
+            year = year,
+            semester = semester,
+            infos = info
+    )
+
 }
 
 @Dao

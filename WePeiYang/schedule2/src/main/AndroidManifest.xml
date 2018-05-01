@@ -13,5 +13,6 @@
         <activity
             android:name=".view.audit.AuditActivity"
             android:exported="true" />
+        <activity android:name=".view.audit.search.SearchResultActivity" />
     </application>
 </manifest>
