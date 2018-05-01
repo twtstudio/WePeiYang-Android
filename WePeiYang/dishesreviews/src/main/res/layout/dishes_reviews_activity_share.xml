@@ -141,7 +141,7 @@
             android:layout_marginTop="20dp"
             android:text="扫描二维码查看更多信息"
             android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@id/tv_title4"
+            app:layout_constraintBottom_toTopOf="@+id/tv_title4"
             app:layout_constraintStart_toEndOf="@id/img_qrcode"
             app:layout_constraintTop_toTopOf="parent" />
 
