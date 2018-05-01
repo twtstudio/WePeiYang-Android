@@ -51,7 +51,7 @@ class WePeiYangApp : MultiDexApplication() {
 
         /**
          * 用于调试API服务
-         * adb forward tcp:$yourLocalPort tcp:10086 然后在电脑本地使用Postman对该端口进行调试
+         * adb forward tcp:10080 tcp:10086 然后在电脑本地使用Postman对该端口进行调试
          * example: $yourLocalPort = 10080
          * GET http://127.0.0.1:10080/api/v1/library/user/info
          * 不需要自己带token和sign

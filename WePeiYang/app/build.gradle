@@ -10,7 +10,6 @@ print(pro.getProperty('keyAlias'))
 
 android {
     compileSdkVersion versions.compileSdk
-    buildToolsVersion versions.buildTools
 
     defaultConfig {
         minSdkVersion versions.minSdk
@@ -94,6 +93,7 @@ android {
         // both anko and we created a module named 'commons', so that a conflict occurred.
         exclude 'META-INF/commons_release.kotlin_module'
     }
+    buildToolsVersion '27.0.3'
 }
 
 kotlin {

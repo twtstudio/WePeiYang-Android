@@ -46,7 +46,6 @@ object ServiceFactory {
             .build()
 
     inline operator fun <reified T> invoke(): T = retrofit.create(T::class.java)
-
 }
 
 /**
