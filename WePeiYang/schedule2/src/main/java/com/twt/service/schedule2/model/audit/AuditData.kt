@@ -18,6 +18,18 @@ data class AuditCourse(val college: String,
                        val semester: String,
                        val infos: List<InfoItem>)
 
+data class AuditSearchCourse(
+        val id: Int,
+        @SerializedName("course_id") val courseId: Int,
+        val name: String,
+        val year: String,
+        val semester: String,
+        val college: CollegeBean,
+        val info: List<InfoItem> // 上面字段就是info 蜜汁后台
+) {
+    data class CollegeBean(val id: Int, val name: String)
+}
+
 @Dao
 interface AuditCourseDao {
 

@@ -1,6 +1,7 @@
 package com.twt.service.schedule2.view.custom
 
 import android.app.Dialog
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.Typeface
@@ -16,6 +17,7 @@ import android.view.View
 import com.twt.service.schedule2.R
 import com.twt.service.schedule2.model.SchedulePref
 import com.twt.service.schedule2.model.total.TotalCourseManager
+import com.twt.service.schedule2.view.audit.AuditActivity
 import com.twt.service.schedule2.view.theme.colorCircleView
 import com.twt.service.schedule2.view.theme.spreadChainLayout
 import com.twt.wepeiyang.commons.experimental.color.getColorCompat
@@ -64,6 +66,28 @@ class CustomSettingBottomFragment : BottomSheetDialogFragment() {
                         margin = dip(16)
                     }
 
+                }
+
+                indicator("自定义课程/蹭课")
+
+                constraintLayout {
+                    backgroundColor = Color.WHITE
+
+                    textView {
+                        text = "进入自定义课程设置"
+                        textSize = 14f
+                        textColor = Color.BLACK
+                    }.lparams(width = wrapContent, height = wrapContent) {
+                        startToStart = PARENT_ID
+                        topToTop = PARENT_ID
+                        bottomToBottom = PARENT_ID
+                        leftMargin = dip(16)
+                    }
+                }.lparams(width = matchParent, height = dip(48)).apply {
+                    setOnClickListener {
+                        val intent = Intent(activity, AuditActivity::class.java)
+                        activity?.startActivity(intent)
+                    }
                 }
 
                 indicator("课程表界面设置")

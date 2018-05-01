@@ -48,6 +48,7 @@ class AuditActivity : CAppCompatActivity() {
     lateinit var recyclerView: RecyclerView
     lateinit var viewGroup: ViewGroup
     lateinit var autocomplete: Autocomplete<String>
+    lateinit var searchEditText: EditText
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.schedule_act_audit)
@@ -62,8 +63,8 @@ class AuditActivity : CAppCompatActivity() {
         searchReturnImg.setOnClickListener {
             viewGroup.visibility = View.INVISIBLE
         }
-        val editText: EditText = findViewById(R.id.et_search)
-        setUpSearchView(editText)
+        searchEditText = findViewById(R.id.et_search)
+        setUpSearchView(searchEditText)
 
         val titleText: TextView = findViewById(R.id.tv_toolbar_title)
         titleText.apply {
@@ -212,6 +213,8 @@ class AuditActivity : CAppCompatActivity() {
                     override fun onAnimationStart(view: View?): Boolean = true
 
                     override fun onAnimationEnd(view: View?): Boolean {
+                        searchEditText.setText(null)
+                        searchEditText.requestFocus()
                         autocomplete.showPopup("null")
                         return true
                     }

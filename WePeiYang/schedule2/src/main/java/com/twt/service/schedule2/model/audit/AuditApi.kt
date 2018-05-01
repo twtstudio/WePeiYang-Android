@@ -22,6 +22,9 @@ interface AuditApi {
     @GET("v1/auditClass/college")
     fun getAuditCollege(@Query("with_class") withClass: Int = 1): Deferred<CommonBody<List<AuditCollegeData>>>
 
+    @GET("v1/auditClass/search")
+    fun searchCourse(@Query("name") courseName: String): Deferred<CommonBody<List<AuditSearchCourse>>>
+
     companion object : AuditApi by ServiceFactory()
 }
 
