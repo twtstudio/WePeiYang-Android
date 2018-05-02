@@ -3,8 +3,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_marginTop="8dp"
     android:layout_height="146dp">
-    <TextView
+
+    <com.youth.banner.Banner
+        android:id="@+id/banner_ad"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="home_banner"/>
+        android:layout_height="match_parent"></com.youth.banner.Banner>
 </android.support.constraint.ConstraintLayout>

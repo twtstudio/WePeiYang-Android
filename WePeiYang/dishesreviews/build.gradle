@@ -30,7 +30,10 @@ dependencies {
     ['lifecycle-compiler'].each {
         annotationProcessor dependenciesMap[it]
     }
-    implementation "$dependenciesMap.commons"
+//    implementation "$dependenciesMap.commons"
+    implementation project(':commons')
+
+    implementation 'com.youth.banner:banner:1.4.10'
 }
 repositories {
     mavenCentral()
