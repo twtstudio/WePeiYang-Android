@@ -8,8 +8,8 @@
 
     <ImageView
         android:id="@+id/iv_delicious_comment"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
         android:src="@drawable/dishes_reviews_delicious_comment" />
     <TextView
         android:id="@+id/tv_delicious_comment"
@@ -17,12 +17,13 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
         android:layout_toRightOf="@id/iv_delicious_comment"
-        android:textSize="20sp"
+        android:textSize="16sp"
+        android:textColor="@color/searchItemText1"
         android:text="@string/text_delicious_comment"/>
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="18dp"
+        android:layout_marginTop="16dp"
         android:layout_below="@id/iv_delicious_comment"></android.support.v7.widget.RecyclerView>
 </RelativeLayout>

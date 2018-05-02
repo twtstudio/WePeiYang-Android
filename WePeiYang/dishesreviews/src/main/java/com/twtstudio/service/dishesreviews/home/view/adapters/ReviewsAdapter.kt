@@ -9,6 +9,7 @@ import com.twtstudio.service.dishesreviews.base.BaseListAdapter
 import com.twtstudio.service.dishesreviews.home.view.viewholders.ReviewViewHolder
 
 class ReviewsAdapter(list: List<Any>, context: Context, owner: LifecycleOwner) : BaseListAdapter(list, context, owner) {
+
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): RecyclerView.ViewHolder {
         return ReviewViewHolder(inflater.inflate(R.layout.dishes_reviews_item_home_review,parent,false),owner)
     }
