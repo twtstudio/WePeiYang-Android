@@ -12,11 +12,11 @@
     <Button
         android:id="@+id/bt_delicious_comment"
         android:layout_width="44dp"
-        android:layout_height="16dp"
+        android:layout_height="20dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="18dp"
         android:background="@drawable/dishes_reviews_shape_bt_delicious_comment"
-        android:text="@string/text_delicious_comment"
+        android:text="@string/text_delicious_index"
         android:gravity="center"
         android:textColor="@color/white"
         android:textSize="8dp"
