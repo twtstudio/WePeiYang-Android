@@ -2,6 +2,7 @@ package com.twtstudio.service.dishesreviews.home.model
 
 import android.content.Context
 import android.widget.ImageView
+import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.youth.banner.loader.ImageLoader
 
