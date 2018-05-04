@@ -9,6 +9,7 @@
     <color name="searchItemText2">#fe770b</color>
     <color name="colorTextViewBorderGrey">#989898</color>
     <color name="colorTextGray1">#707070</color>
+    <color name="colorTextGray2">#989898</color>
     <color name="colorAdTextBackground">#f0989898</color>
     <color name="dishesActivityBackground">#EFEFF3</color>
 </resources>

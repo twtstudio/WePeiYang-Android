@@ -1,5 +1,6 @@
 package com.twtstudio.service.dishesreviews
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v7.app.AppCompatActivity
@@ -8,6 +9,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
 import com.twtstudio.service.dishesreviews.ext.CustomViewPager
+import com.twtstudio.service.dishesreviews.home.view.SearchActivity
 
 
 /**
@@ -57,6 +59,7 @@ class MainActivity : AppCompatActivity() {
                                     viewPager.currentItem = item.order
                                     tvTitle.text = getString(R.string.text_account)
                                     menu?.findItem(R.id.menu_search)?.setVisible(false)
+
                                 }
                             }
                             invalidateOptionsMenu()
@@ -83,6 +86,10 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             android.R.id.home -> finish()
+            R.id.menu_search-> {
+                val intent=Intent(this,SearchActivity::class.java)
+                startActivity(intent)
+            }
         }
         return super.onOptionsItemSelected(item)
     }
