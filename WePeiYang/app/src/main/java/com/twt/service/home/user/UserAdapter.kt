@@ -47,9 +47,10 @@ class UserAdapter(
             private val labelTv = itemView.findViewById<TextView>(R.id.tv_label)
             private val infoTv = itemView.findViewById<TextView>(R.id.tv_info)
 
-            fun bind(iconRes: Int, label: String) {
+            fun bind(iconRes: Int, label: String, action: () -> Unit) {
                 iconIv.setImageResource(iconRes)
                 labelTv.text = label
+                itemView.setOnClickListener { action() }
             }
 
             fun update(info: String) {
@@ -89,7 +90,7 @@ class UserAdapter(
             }
 
             item is UserItem.InfoItem && holder is UserItemViewHolder.InfoItemViewHolder -> {
-                holder.bind(item.iconRes, item.label)
+                holder.bind(item.iconRes, item.label, item.action)
                 item.infoSrc.bindNonNull(lifecycleOwner) {
                     holder.update(it)
                 }
@@ -116,7 +117,7 @@ sealed class UserItem {
     //    object DividerItem: UserItem()
     class AvatarItem(val avatarSrc: LiveData<AvatarBean>, val defaultAvatarRes: Int) : UserItem()
 
-    class InfoItem(val iconRes: Int, val label: String, val infoSrc: LiveData<String>) : UserItem()
+    class InfoItem(val iconRes: Int, val label: String, val infoSrc: LiveData<String>, val action: () -> Unit) : UserItem()
     class ActionItem(val iconRes: Int, val label: String, val action: () -> Unit) : UserItem()
 
 }

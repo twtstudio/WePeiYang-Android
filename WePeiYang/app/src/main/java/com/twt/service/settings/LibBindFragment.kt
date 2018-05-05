@@ -31,15 +31,17 @@ class LibBindFragment : SlideFragment() {
         }
         libPasswordEdit = view.findViewById(R.id.lib_password)
         button = view.findViewById(R.id.btn_lib_bind)
-        button.setOnClickListener({TjuLibProvider(context).bindLibrary({ integer ->
-            when (integer) {
-                -1 -> Toast.makeText(this.context, "图书馆绑定完成，点击底部右侧对勾开始新旅程", Toast.LENGTH_SHORT).show()
-                50003 -> Toast.makeText(this.context, "图书馆已绑定，点击底部右侧对勾开始新旅程", Toast.LENGTH_SHORT).show()
-                50002 -> Toast.makeText(this.context, "图书馆密码错误", Toast.LENGTH_SHORT).show()
-                else -> Toast.makeText(this.context, "未知错误", Toast.LENGTH_SHORT).show()
-            }
-            authSelfLiveData.refresh(REMOTE)
-        }, libPasswordEdit.text.toString().takeIf(String::isNotEmpty) ?: "000000")})
+        button.setOnClickListener({
+            TjuLibProvider(context).bindLibrary({ integer ->
+                when (integer) {
+                    -1 -> Toast.makeText(this.context, "图书馆绑定完成，点击底部右侧对勾开始新旅程", Toast.LENGTH_SHORT).show()
+                    50003 -> Toast.makeText(this.context, "图书馆已绑定，点击底部右侧对勾开始新旅程", Toast.LENGTH_SHORT).show()
+                    50002 -> Toast.makeText(this.context, "图书馆密码错误", Toast.LENGTH_SHORT).show()
+                    else -> Toast.makeText(this.context, "未知错误", Toast.LENGTH_SHORT).show()
+                }
+                authSelfLiveData.refresh(REMOTE)
+            }, libPasswordEdit.text.toString().takeIf(String::isNotEmpty) ?: "000000")
+        })
         return view
     }
 

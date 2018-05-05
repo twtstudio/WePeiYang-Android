@@ -13,7 +13,7 @@ import butterknife.Unbinder;
 /**
  * Created by dell on 2016/7/19.
  */
-public abstract  class BaseFragment extends Fragment {
+public abstract class BaseFragment extends Fragment {
 
     public abstract int getContentViewId();
 
@@ -30,8 +30,8 @@ public abstract  class BaseFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(getContentViewId(),container,false);
-        mUnbinder = ButterKnife.bind(this,view);
+        View view = inflater.inflate(getContentViewId(), container, false);
+        mUnbinder = ButterKnife.bind(this, view);
         preInitView();
         initView();
         afterInitView();
