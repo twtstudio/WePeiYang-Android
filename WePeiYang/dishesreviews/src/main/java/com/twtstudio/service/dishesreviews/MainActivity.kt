@@ -9,7 +9,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
 import com.twtstudio.service.dishesreviews.ext.CustomViewPager
-import com.twtstudio.service.dishesreviews.home.view.SearchActivity
+import com.twtstudio.service.dishesreviews.search.view.SearchActivity
 
 
 /**
@@ -87,7 +87,7 @@ class MainActivity : AppCompatActivity() {
         when (item?.itemId) {
             android.R.id.home -> finish()
             R.id.menu_search-> {
-                val intent=Intent(this,SearchActivity::class.java)
+                val intent=Intent(this, SearchActivity::class.java)
                 startActivity(intent)
             }
         }
