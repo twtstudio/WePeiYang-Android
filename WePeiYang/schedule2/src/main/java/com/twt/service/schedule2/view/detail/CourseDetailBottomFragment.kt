@@ -14,6 +14,7 @@ import com.twt.service.schedule2.model.Course
 import com.twt.service.schedule2.view.adapter.CourseDetailViewModel
 import com.twt.service.schedule2.view.adapter.iconLabel
 import com.twt.service.schedule2.view.adapter.refreshAll
+import com.twt.service.schedule2.view.audit.search.SearchResultActivity
 import org.jetbrains.anko.alert
 
 class CourseDetailBottomFragment : BottomSheetDialogFragment() {
@@ -67,7 +68,9 @@ class CourseDetailBottomFragment : BottomSheetDialogFragment() {
             indicatorText("其他信息")
             iconLabel(CourseDetailViewModel(R.drawable.ic_schedule_other, "逻辑班号：${course.classid}\n课程编号：${course.courseid}"))
             indicatorText("自定义（开发中 敬请期待）")
-            iconLabel(CourseDetailViewModel(R.drawable.ic_schedule_search, "在蹭课功能中搜索相似课程"))
+            iconLabel(CourseDetailViewModel(R.drawable.ic_schedule_search, "在蹭课功能中搜索相似课程", clickBlock = {
+                SearchResultActivity.searchCourse(it.context, course.coursename)
+            }))
             iconLabel(CourseDetailViewModel(R.drawable.ic_schedule_event, "添加自定义课程/事件"))
             iconLabel(CourseDetailViewModel(R.drawable.ic_schedule_homework, "添加课程作业/考试"))
             indicatorText("帮助")

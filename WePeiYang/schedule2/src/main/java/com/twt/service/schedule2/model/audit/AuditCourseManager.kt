@@ -12,6 +12,7 @@ import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.launch
 
 object AuditCourseManager {
 
@@ -50,7 +51,7 @@ object AuditCourseManager {
      * 返回字符串带 '-' 表示列表中的指示器
      */
     fun getSearchSuggestions(keyWord: String, dao: AuditCourseDao = ScheduleDb.auditCourseDao): LiveData<List<String>> {
-        async(UI + QuietCoroutineExceptionHandler) {
+        launch(UI + QuietCoroutineExceptionHandler) {
             val suggestions = async(CommonPool) {
                 val suggestions = mutableListOf<String>()
                 if (keyWord.isBlank()) return@async suggestions

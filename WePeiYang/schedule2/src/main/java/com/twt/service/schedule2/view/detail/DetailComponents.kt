@@ -12,6 +12,7 @@ import com.twt.service.schedule2.model.Course
 import com.twt.service.schedule2.view.adapter.CourseDetailViewModel
 import com.twt.service.schedule2.view.adapter.Item
 import com.twt.service.schedule2.view.adapter.ItemController
+import com.twt.service.schedule2.view.audit.search.SearchResultActivity
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.layoutInflater
 
@@ -161,7 +162,9 @@ fun createCourseDetailList(course: Course): List<Any> {
     list.add("其他信息")
     list.add(CourseDetailViewModel(R.drawable.ic_schedule_other, "逻辑班号：${course.classid}\n课程编号：${course.courseid}"))
     list.add("自定义（开发中 敬请期待）")
-    list.add(CourseDetailViewModel(R.drawable.ic_schedule_search, "在蹭课功能中搜索相似课程"))
+    list.add(CourseDetailViewModel(R.drawable.ic_schedule_search, "在蹭课功能中搜索相似课程", clickBlock = {
+        SearchResultActivity.searchCourse(it.context, course.coursename)
+    }))
     list.add(CourseDetailViewModel(R.drawable.ic_schedule_event, "添加自定义课程/事件"))
     list.add(CourseDetailViewModel(R.drawable.ic_schedule_homework, "添加课程作业/考试"))
     list.add("帮助")

@@ -41,6 +41,7 @@ import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.CoroutineExceptionHandler
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.launch
 import org.jetbrains.anko.alert
 
 class SearchResultActivity : CAppCompatActivity() {
@@ -107,6 +108,7 @@ class SearchResultActivity : CAppCompatActivity() {
     private fun searchCourse(courseName: String?) {
         val exceptionHandler = CoroutineExceptionHandler({ _, throwable ->
             itemManager.refreshAll {
+                throwable.printStackTrace()
                 indicatorText("出现错误")
                 singleText("出现了些错误，点击重试") {
                     (parent as View).setOnClickListener {
@@ -119,7 +121,7 @@ class SearchResultActivity : CAppCompatActivity() {
          * 蹭课搜索以及搜索的错误处理 / 还没有验证
          */
         courseName?.apply {
-            async(exceptionHandler + UI) {
+            launch(exceptionHandler + UI) {
                 val result = AuditApi.searchCourse(courseName).awaitAndHandle { it.printStackTrace() }?.data
                         ?: throw IllegalStateException("蹭课查询失败")
                 itemManager.refreshAll {
@@ -137,17 +139,6 @@ class SearchResultActivity : CAppCompatActivity() {
                             }
                         }
 
-                    }
-                }
-            }.invokeOnCompletion {
-                it?.apply {
-                    itemManager.refreshAll {
-                        indicatorText("出现错误")
-                        singleText("出现了些错误，点击重试") {
-                            (parent as View).setOnClickListener {
-                                searchCourse(courseName)
-                            }
-                        }
                     }
                 }
             }
