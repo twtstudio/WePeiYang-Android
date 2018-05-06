@@ -1,22 +1,16 @@
 package com.twtstudio.service.dishesreviews.home.view.viewholders
 
 import android.arch.lifecycle.LifecycleOwner
-import android.content.res.Resources
-import android.support.v7.widget.GridLayoutManager
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
-import com.davemorrissey.labs.subscaleview.decoder.ImageDecoder
 import com.twtstudio.service.dishesreviews.R
 import com.twtstudio.service.dishesreviews.base.BaseItemViewHolder
-import kotlinx.android.synthetic.main.dishes_reviews_item_home_dinning_hall.view.*
 
 class DinningHallViewHolder(itemView: View, lifecycleOwner: LifecycleOwner) : BaseItemViewHolder(itemView, lifecycleOwner) {
     private val imageView = itemView.findViewById<ImageView>(R.id.iv_dinning_hall)
     private val textView = itemView.findViewById<TextView>(R.id.tv_dinning_hall)
-    fun bind(position: Int) {
+    override fun bind(position: Int) {
         when (position) {
             0 -> {
                 textView.text = "学一食堂"

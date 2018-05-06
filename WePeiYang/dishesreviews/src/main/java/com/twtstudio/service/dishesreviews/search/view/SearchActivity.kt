@@ -5,11 +5,14 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.SearchView
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
+import android.widget.TextView
 import com.twtstudio.service.dishesreviews.R
 
 class SearchActivity : AppCompatActivity(){
     private lateinit var toolbar: Toolbar
     private lateinit var searchView: SearchView
+    private lateinit var tvResult: TextView
+    private var resultNo = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.dishes_reviews_activity_search)
@@ -24,6 +27,9 @@ class SearchActivity : AppCompatActivity(){
         searchView=findViewById<SearchView>(R.id.sv).apply {
             setIconified(false)
             setOnCloseListener {  true} //禁止关闭搜索框
+        }
+        tvResult = findViewById<TextView>(R.id.tv_result).apply {
+            text = "搜索结果—共${resultNo}条"
         }
     }
 
