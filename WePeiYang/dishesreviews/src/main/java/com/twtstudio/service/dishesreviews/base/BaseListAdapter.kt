@@ -15,7 +15,6 @@ abstract class BaseListAdapter(
         internal val owner: LifecycleOwner
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     val inflater: LayoutInflater = LayoutInflater.from(context)
-
     override abstract fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): RecyclerView.ViewHolder
 
     override abstract fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int)

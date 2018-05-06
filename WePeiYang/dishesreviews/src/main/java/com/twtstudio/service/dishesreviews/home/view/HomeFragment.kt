@@ -19,7 +19,9 @@ class HomeFragment : LazyFragment() {
             adapter= HomePagerAdapter(listOf(HomePagerAdapter.BANNER,
                     HomePagerAdapter.DINNING_HALL,
                     HomePagerAdapter.AD,
-                    HomePagerAdapter.REVIEWS), context, this@HomeFragment)
+                    HomePagerAdapter.REVIEWS
+            ), context, this@HomeFragment)
+
         }
 
     }
