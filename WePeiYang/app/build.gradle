@@ -16,8 +16,8 @@ android {
         minSdkVersion versions.minSdk
         targetSdkVersion versions.targetSdk
         applicationId 'com.twt.service'
-        versionCode 23
-        versionName '3.2.3'
+        versionCode 24
+        versionName '3.2.4'
 
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
 

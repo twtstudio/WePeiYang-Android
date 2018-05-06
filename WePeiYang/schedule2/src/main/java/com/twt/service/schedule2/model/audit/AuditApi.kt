@@ -26,10 +26,10 @@ interface AuditApi {
 
     @POST("v1/auditClass/audit")
     @FormUrlEncoded
-    fun audit(@Field("user_number") userNumber: String, @Field("course_id") courseId: Int, @Field("info_ids") infoIds: String): Deferred<CommonBody<String>>
+    fun audit(@Field("user_number") userNumber: String, @Field("course_id") courseId: Int, @Field("info_ids") infoIds: String): Deferred<CommonBody<Any>>
 
     @DELETE("v1/auditClass/audit")
-    fun cancelAudit(@Query("user_number") userNumber: String, @Query("ids") ids: String): Deferred<CommonBody<String>>
+    fun cancelAudit(@Query("user_number") userNumber: String, @Query("ids") ids: String): Deferred<CommonBody<Any>>
 
     companion object : AuditApi by ServiceFactory()
 }

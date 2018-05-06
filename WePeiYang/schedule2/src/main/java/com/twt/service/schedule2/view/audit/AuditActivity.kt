@@ -44,6 +44,7 @@ import io.multimoon.colorful.CAppCompatActivity
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.launch
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.backgroundColor
 import org.jetbrains.anko.matchParent
@@ -163,12 +164,13 @@ class AuditActivity : CAppCompatActivity() {
                         auditCourseItem(auditCourse) {
                             alert {
                                 title = "取消蹭课"
-                                message = "是否取消该节蹭课：${auditCourse.courseName}"
+                                message = "是否取消该课程蹭课（所有时段）：${auditCourse.courseName}"
                                 positiveButton("取消蹭课") {
-                                    async(UI + QuietCoroutineExceptionHandler) {
-                                        val result = AuditApi.cancelAudit(CommonPreferences.studentid, auditCourse.infos[0].id.toString()).awaitAndHandle { it.printStackTrace() }?.message
+                                    launch(UI + QuietCoroutineExceptionHandler) {
+                                        val result = AuditApi.cancelAudit(CommonPreferences.studentid, auditCourse.courseId.toString()).awaitAndHandle { it.printStackTrace() }?.message
                                                 ?: "出现错误"
                                         Toasty.info(this@AuditActivity, "${auditCourse.courseName} -> $result").show()
+                                        refreshData()
                                     }
                                 }
                             }.show()
@@ -179,14 +181,13 @@ class AuditActivity : CAppCompatActivity() {
                                 auditCourseItem(additional) {
                                     alert {
                                         title = "取消蹭课"
-                                        message = "是否取消该节蹭课：${additional.courseName}"
+                                        message = "是否取消该课程蹭课（所有时段）：${additional.courseName}"
                                         positiveButton("取消蹭课") {
-                                            async(UI + QuietCoroutineExceptionHandler) {
-                                                val result = AuditApi.cancelAudit(CommonPreferences.studentid, additional.infos[0].id.toString()).awaitAndHandle { it.printStackTrace() }?.message
+                                            launch(UI + QuietCoroutineExceptionHandler) {
+                                                val result = AuditApi.cancelAudit(CommonPreferences.studentid, additional.courseId.toString()).awaitAndHandle { it.printStackTrace() }?.message
                                                         ?: "出现错误"
                                                 Toasty.info(this@AuditActivity, "${additional.courseName} -> $result").show()
-                                            }.invokeOnCompletion {
-                                                it?.printStackTrace()
+                                                refreshData()
                                             }
                                         }
                                     }.show()
