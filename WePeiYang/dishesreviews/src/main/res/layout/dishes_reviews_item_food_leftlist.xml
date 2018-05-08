@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <CheckedTextView
+        android:id="@+id/ch_tv"
+        android:layout_width="76dp"
+        android:layout_height="53dp"
+        android:gravity="center"
+        android:text="窗口1"
+        android:textAlignment="center"
+        android:textColor="@color/colorTextGray1" />
+</LinearLayout>

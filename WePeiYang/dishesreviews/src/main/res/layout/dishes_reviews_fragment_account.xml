@@ -2,7 +2,7 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <ImageView
         android:id="@+id/img_dish"
@@ -13,7 +13,7 @@
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="340dp"
-        android:layout_height="match_parent"
+        android:layout_height="238dp"
         android:layout_marginTop="80dp"
         android:background="@color/dishesActivityBackground"
         app:layout_constraintEnd_toEndOf="parent"
@@ -75,12 +75,25 @@
             app:layout_constraintStart_toEndOf="@id/icon1"
             app:layout_constraintTop_toTopOf="@id/icon1" />
 
+
+        <TextView
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginEnd="24dp"
+            android:background="@drawable/dishes_reviews_textview_round"
+            android:gravity="center"
+            android:text="2"
+            android:textColor="@color/white"
+            android:textSize="10sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/icon1" />
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="24dp"
             android:background="@color/colorTextViewBorderGrey"
             app:layout_constraintTop_toBottomOf="@id/icon1" />
 
@@ -88,9 +101,11 @@
             android:id="@+id/icon2"
             android:layout_width="16dp"
             android:layout_height="16dp"
+            android:layout_marginBottom="32dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="48dp"
             android:src="@drawable/dishes_reviews_heart_empty"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/icon1" />
 
@@ -99,41 +114,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
-            android:text="我的点赞"
+            android:text="我的收藏"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="@id/icon2"
             app:layout_constraintStart_toEndOf="@id/icon2"
             app:layout_constraintTop_toTopOf="@id/icon2" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:background="@color/colorTextViewBorderGrey"
-            app:layout_constraintTop_toBottomOf="@id/icon2" />
-
-        <ImageView
-            android:id="@+id/icon3"
+        <TextView
             android:layout_width="16dp"
             android:layout_height="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="32dp"
-            android:src="@drawable/dishes_reviews_heart_empty"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/icon2" />
+            android:layout_marginEnd="24dp"
+            android:background="@drawable/dishes_reviews_textview_round"
+            android:gravity="center"
+            android:text="2"
+            android:textColor="@color/white"
+            android:textSize="10sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/icon2" />
 
-        <TextView
-            android:id="@+id/title3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:text="我的收藏"
-            android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="@id/icon3"
-            app:layout_constraintStart_toEndOf="@id/icon3"
-            app:layout_constraintTop_toTopOf="@id/icon3" />
 
     </android.support.constraint.ConstraintLayout>
 </android.support.constraint.ConstraintLayout>
