@@ -91,7 +91,7 @@ data class Top10Food(
 data class GoodComment(
         val comment_id: Int = 0, //12
         val food_id: Int = 0, //5
-        val commenter_id: Int = 0, //1
+        val commenter_id: Int = 0, //15
         val commenter_name: Any = Any(), //null
         val food_time: String = "", //早餐
         val food_score: Int = 0, //4
