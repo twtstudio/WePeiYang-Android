@@ -10,11 +10,11 @@ import com.twtstudio.service.dishesreviews.home.view.viewholders.ReviewViewHolde
 
 class ReviewsAdapter(list: List<Any>, context: Context, owner: LifecycleOwner) : BaseListAdapter(list, context, owner) {
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return ReviewViewHolder(inflater.inflate(R.layout.dishes_reviews_item_home_review,parent,false),owner)
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

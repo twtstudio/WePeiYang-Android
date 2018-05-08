@@ -7,11 +7,11 @@ import android.view.ViewGroup
 import com.twtstudio.service.dishesreviews.base.BaseMutableListAdapter
 
 class LabelAdapter(list: MutableList<Any>, context: Context, owner: LifecycleOwner) : BaseMutableListAdapter(list, context, owner) {
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
