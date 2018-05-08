@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="130dp"
+    android:background="?attr/colorPrimary"
+    tools:background="@color/colorPrimary">
+
+    <TextView
+        android:id="@+id/tv_refresh_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="@color/white"
+        android:textSize="22sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="课程表数据状态"
+        tools:text="课程表状态" />
+
+    <TextView
+        android:id="@+id/tv_refresh_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@id/tv_refresh_status"
+        app:layout_constraintTop_toBottomOf="@id/tv_refresh_status"
+        tools:text="办公网刷新：2018-03-04T12:14:51+08:00" />
+
+    <TextView
+        android:id="@+id/tv_refresh_cache"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@id/tv_refresh_time"
+        app:layout_constraintTop_toBottomOf="@id/tv_refresh_time"
+        tools:text="是否来自服务器缓存：true" />
+
+    <TextView
+        android:id="@+id/tv_refresh_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@id/tv_refresh_cache"
+        app:layout_constraintTop_toBottomOf="@id/tv_refresh_cache"
+        tools:text="学期开始：2018-3-4" />
+
+</android.support.constraint.ConstraintLayout>

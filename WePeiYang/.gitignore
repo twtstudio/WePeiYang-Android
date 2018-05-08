@@ -3,11 +3,14 @@
 /.idea
 *.iml
 .DS_Store
-/build
+build/
 /captures
 jni.c
 *.apk
-/freeline
+freeline/
 freeline.py
+.settings
+.classpath
+.project
 
 /freeline_project_description.json

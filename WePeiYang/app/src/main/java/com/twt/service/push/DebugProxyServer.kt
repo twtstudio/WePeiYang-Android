@@ -2,13 +2,11 @@ package com.twt.service.push
 
 import android.util.Log
 import com.twt.wepeiyang.commons.experimental.network.ServiceFactory
-import okhttp3.MediaType
+import okhttp3.FormBody
 import okhttp3.Request
-import okhttp3.RequestBody
 import retrofit2.HttpException
 import java.io.InputStream
-import java.nio.charset.Charset
-import java.util.HashMap
+import java.util.*
 
 /**
  * Created by retrox on 2018/3/19.
@@ -28,11 +26,20 @@ class DebugProxyServer : EmbedHttpServer(10086) {
                 request = Request.Builder().url(baseUrl + path).get().build()
             }
             "POST" -> {
-                val mediaType = MediaType.parse("application/x-www-form-urlencoded")
-                val requestBody = RequestBody.create(mediaType, input.readBytes())
+                val builder = FormBody.Builder()
+                val formString = String(input.readBytes())
+                formString.split("&").forEach {
+                    val pair = it.split("=")
+                    val key = pair.getOrElse(0) {""}
+                    val value = pair.getOrElse(1) {""}
+                    builder.add(key,value)
+                }
+                val requestBody = builder.build()
+
                 request = Request.Builder().url(baseUrl + path).post(requestBody).build()
             }
             "DELETE" -> {
+                val formString = String(input.readBytes())
                 request = Request.Builder().url(baseUrl + path).delete().build()
             }
             else -> {

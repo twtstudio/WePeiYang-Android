@@ -11,6 +11,7 @@ import com.twt.service.base.BaseFragment
 import com.twt.service.tjunet.view.TjuNetActivity
 import com.twtstudio.retrox.bike.bike.ui.main.BikeActivity
 import com.twtstudio.retrox.schedule.ScheduleActivity
+import com.twtstudio.tjliqy.party.ui.home.PartyActivity
 import xyz.rickygao.gpa2.view.GpaActivity
 
 /**
@@ -24,11 +25,11 @@ class ToolsFragment : BaseFragment() {
                 findViewById<RecyclerView>(R.id.recyclerView).apply {
                     layoutManager = GridLayoutManager(context, 4)
                     adapter = ToolsAdapter(context, listOf(
-                            ToolItem(R.drawable.ic_main_schedule, "课程表", ScheduleActivity::class.java),
+                            ToolItem(R.drawable.ic_main_schedule, "课程表", com.twt.service.schedule2.view.schedule.ScheduleActivity::class.java),
                             ToolItem(R.drawable.ic_main_gpa, "全新 GPA", GpaActivity::class.java),
                             ToolItem(R.drawable.ic_main_bike, "自行车", BikeActivity::class.java),
-//                ToolItem(R.drawable.ic_main_party, "党建", PartyActivity::class.java),
-//                            ToolItem(R.drawable.ic_main_read, "阅读", BookHomeActivity::class.java),
+                            ToolItem(R.drawable.ic_main_party, "党建", PartyActivity::class.java),
+                            ToolItem(R.drawable.ic_main_read, "旧版课程表", ScheduleActivity::class.java),
                             ToolItem(R.drawable.ic_main_network, "上网", TjuNetActivity::class.java)
 //                ToolItem(R.drawable.ic_main_fellow_search, "老乡查询", com.example.caokun.fellowsearch.view.MainActivity::class.java),
 //                ToolItem(R.drawable.ic_main_yellowpage, "黄页", HomeActivity::class.java)

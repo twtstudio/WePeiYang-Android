@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.haozhang.lib.SlantedTextView
+        android:id="@+id/tv_course_slant"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        tools:slantedBackgroundColor="@color/colorPrimary"
+        app:slantedBackgroundColor="#33ffffff"
+        app:slantedLength="12dp"
+        android:alpha="0.8"
+        android:layout_gravity="right|top"
+        app:slantedMode="right"
+        app:slantedText="多节"
+        app:slantedTextColor="@color/white_color"
+        app:slantedTextSize="10sp"/>
+
+</FrameLayout>

@@ -10,11 +10,6 @@
             android:name=".MultiCourseActivity"
             android:theme="@style/Theme.FloatingWindow.Popup" />
         <activity android:name=".ScheduleActivity">
-            <intent-filter>
-                <action android:name="com.twt.schedule.action.DYNAMIC_OPEN" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
         </activity>
         <activity android:name=".ScheduleDetailsActivity" />
         <activity

@@ -94,22 +94,8 @@ class SettingsActivity : AppCompatActivity() {
             //            }else {
             //                isChangeSourceEnabled.setEnabled(false);
             //            }
-            //清空缓存 --- 课程表 GPA
+
             //null做了处理的 刷新状态
-
-            //清空缓存 --- 课程表 GPA
-            //null做了处理的 刷新状态
-
-            //清空缓存 --- 课程表 GPA
-            //null做了处理的 刷新状态
-
-            //清空缓存 --- 课程表 GPA
-            //清空缓存 --- 课程表 GPA
-
-            //清空缓存 --- 课程表 GPA
-
-            //清空缓存 --- 课程表 GPA
-
             //清空缓存 --- 课程表 GPA
             //退学
             when (dropOutMode) {
@@ -118,10 +104,6 @@ class SettingsActivity : AppCompatActivity() {
                 2 -> dropOutSummary = "已复学"
             }
             exitTjuPref.summary = "退学状态: $dropOutSummary"
-
-            /**
-             * 这个代码有些冗杂 ... 因为一些内部类的调用关系没有理清楚但是先这样子吧
-             */
 
             /**
              * 这个代码有些冗杂 ... 因为一些内部类的调用关系没有理清楚但是先这样子吧
@@ -155,12 +137,6 @@ class SettingsActivity : AppCompatActivity() {
                                                     2 -> dropOutSummary = "已复学"
                                                 }
                                                 exitTjuPref.summary = "退学状态: $dropOutSummary"
-
-                                                //清空缓存 --- 课程表 GPA
-
-                                                //清空缓存 --- 课程表 GPA
-
-                                                //清空缓存 --- 课程表 GPA
 
                                                 //清空缓存 --- 课程表 GPA
                                                 CacheProvider.clearCache()
@@ -207,13 +183,6 @@ class SettingsActivity : AppCompatActivity() {
                                                 //清空缓存 --- 课程表 GPA
                                                 //null做了处理的 刷新状态
 
-                                                //清空缓存 --- 课程表 GPA
-                                                //null做了处理的 刷新状态
-
-                                                //清空缓存 --- 课程表 GPA
-                                                //null做了处理的 刷新状态
-
-                                                //清空缓存 --- 课程表 GPA
                                                 CacheProvider.clearCache()
 
                                                 authSelfLiveData.refresh(REMOTE)

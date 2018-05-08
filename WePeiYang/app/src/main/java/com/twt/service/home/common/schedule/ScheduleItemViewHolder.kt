@@ -10,7 +10,7 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.twt.service.R
-import com.twtstudio.retrox.schedule.ScheduleActivity
+import com.twt.service.schedule2.view.schedule.ScheduleActivity
 
 /**
  * Created by retrox on 23/10/2017.

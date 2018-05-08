@@ -2,7 +2,7 @@ package com.twtstudio.tjliqy.party;
 
 import android.content.Context;
 
-import com.twt.wepeiyang.commons.utils.App;
+import com.twt.wepeiyang.commons.experimental.CommonContext;
 
 /**
  * Created by sunjuntao on 15/11/15.
@@ -10,7 +10,7 @@ import com.twt.wepeiyang.commons.utils.App;
 public class WePeiYangAppOld {
 
     public static Context getContext() {
-        return App.getApplicationContext();
+        return CommonContext.INSTANCE.getApplication().getApplicationContext();
     }
 
 }

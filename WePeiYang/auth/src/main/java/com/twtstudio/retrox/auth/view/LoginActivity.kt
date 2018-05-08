@@ -74,8 +74,8 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun hideSoftInputMethod() {
-        val inputMethManager = getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
-        inputMethManager?.apply {
+        val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+        inputMethodManager?.apply {
             hideSoftInputFromWindow(window.decorView.windowToken, 0)
         }
     }

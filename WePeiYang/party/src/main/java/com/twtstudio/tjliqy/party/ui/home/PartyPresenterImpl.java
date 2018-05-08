@@ -2,7 +2,7 @@ package com.twtstudio.tjliqy.party.ui.home;
 
 import android.util.Log;
 
-import com.twt.wepeiyang.commons.utils.CommonPrefUtil;
+import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences;
 import com.twtstudio.tjliqy.party.R;
 import com.twtstudio.tjliqy.party.bean.StatusIdBean;
 import com.twtstudio.tjliqy.party.bean.UserInfomation;
@@ -40,7 +40,9 @@ public class PartyPresenterImpl implements PartyPresenter, OnGetPersonalStatusCa
     @Override
     public void onGetUserInfomation(UserInfomation infomation) {
         if (infomation==null){
-            PrefUtils.setPrefUserNumber(CommonPrefUtil.getStudentNumber());
+            PrefUtils.setPrefUserNumber(CommonPreferences.INSTANCE.getStudentid());
+            PrefUtils.setPrefUserRealName(CommonPreferences.INSTANCE.getRealName());
+            view.gotInformation();
             return;
             // FIXME: 29/04/2017 不知道哪里的空指针
         }

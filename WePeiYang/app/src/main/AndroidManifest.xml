@@ -45,7 +45,7 @@
 
         <activity android:name=".settings.SettingsActivity" android:theme="@style/AppThemeActionBar"/>
 
-        <activity android:name=".settings.BindActivity" android:theme="@style/Theme.Intro"/>
+        <activity android:name=".settings.BindActivity" />
 
         <activity
             android:name=".StartupActivity"
@@ -66,6 +66,7 @@
             android:theme="@android:style/Theme.Translucent" />
         <activity android:name=".settings.DevTalkActivity"/>
 
+        <activity android:name=".settings.SingleBindActivity" />
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.twt.service.fileProvider"

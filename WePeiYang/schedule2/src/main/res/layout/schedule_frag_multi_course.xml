@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical">
+
+    <android.support.design.widget.TabLayout
+        app:tabTextColor="@color/white_color"
+        app:tabIndicatorColor="#b2ffffff"
+        app:tabSelectedTextColor="@color/white_color"
+        tools:background="@color/colorPrimary"
+        android:background="?attr/colorPrimary"
+        android:id="@+id/tl_multi_sheet_root"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <com.twt.service.schedule2.view.detail.WrapContentViewPager
+        android:id="@+id/vp_multi_sheet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>
+

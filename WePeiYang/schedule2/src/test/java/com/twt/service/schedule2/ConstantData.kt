@@ -1334,4 +1334,443 @@ object ConstantData {
    }
 }
         """.trim()
+
+    val auditCourseJson1 = """
+        {
+   "error_code": -1,
+   "message": "",
+   "data": [
+      {
+         "course_id": 53,
+         "course_name": "[蹭]数据库原理（双语）",
+         "college": "软件学院",
+         "semester": "1",
+         "year": "2018",
+         "infos": [
+            {
+               "id": 417,
+               "course_id": "53",
+               "course_name": "[蹭数据库原理（双语）",
+               "course_id_in_tju": "3665",
+               "start_week": "1",
+               "end_week": "16",
+               "start_time": "1",
+               "course_length": "2",
+               "week_day": "3",
+               "week_type": "3",
+               "building": "45",
+               "room": "B307",
+               "teacher_type": "副教授",
+               "teacher": "王征"
+            }
+         ]
+      },
+      {
+         "course_id": 81,
+         "course_name": "[蹭]C++面向对象程序设计",
+         "college": "软件学院",
+         "semester": "1",
+         "year": "2018",
+         "infos": [
+            {
+               "id": 498,
+               "course_id": "81",
+               "course_name": "[蹭C++面向对象程序设计",
+               "course_id_in_tju": "4416",
+               "start_week": "1",
+               "end_week": "16",
+               "start_time": "2",
+               "course_length": "2",
+               "week_day": "3",
+               "week_type": "3",
+               "building": "46",
+               "room": "A119",
+               "teacher_type": "",
+               "teacher": "Eliza"
+            }
+         ]
+      }
+   ]
+}
+        """.trim()
+
+    //王彦文课表
+    val Schedule4 = """
+        {
+   "error_code": -1,
+   "message": "",
+   "data": {
+      "term": "17182",
+      "data": [
+         {
+            "classid": "28",
+            "courseid": "2111141",
+            "coursename": "毛泽东思想和中国特色社会主义理论体系概论",
+            "coursetype": "思想政治理论",
+            "coursenature": "必修",
+            "credit": "6.0",
+            "teacher": "王岚",
+            "arrange": [
+               {
+                  "week": "单双周",
+                  "day": "3",
+                  "start": "9",
+                  "end": "11",
+                  "room": "45楼B302"
+               }
+            ],
+            "week": {
+               "start": "1",
+               "end": "16"
+            },
+            "college": "马克思主义学院",
+            "campus": "北洋园校区",
+            "ext": ""
+         },
+         {
+            "classid": "23",
+            "courseid": "2010739",
+            "coursename": "力学的发展与科研",
+            "coursetype": "研究与创新",
+            "coursenature": "选修",
+            "credit": "1.0",
+            "teacher": "夏振炎",
+            "arrange": [
+               {
+                  "week": "单双周",
+                  "day": "2",
+                  "start": "5",
+                  "end": "6",
+                  "room": "37楼513"
+               }
+            ],
+            "week": {
+               "start": "1",
+               "end": "8"
+            },
+            "college": "机械学院",
+            "campus": "北洋园校区",
+            "ext": ""
+         },
+         {
+            "classid": "17",
+            "courseid": "2010313",
+            "coursename": "振动模态分析与结构动态设计",
+            "coursetype": "专业选修",
+            "coursenature": "选修",
+            "credit": "2.0",
+            "teacher": "曹树谦",
+            "arrange": [
+               {
+                  "week": "单双周",
+                  "day": "2",
+                  "start": "5",
+                  "end": "6",
+                  "room": "37楼513"
+               },
+               {
+                  "week": "单双周",
+                  "day": "4",
+                  "start": "9",
+                  "end": "10",
+                  "room": "37楼513"
+               }
+            ],
+            "week": {
+               "start": "9",
+               "end": "16"
+            },
+            "college": "机械学院",
+            "campus": "北洋园校区",
+            "ext": ""
+         },
+         {
+            "classid": "26",
+            "courseid": "2010835",
+            "coursename": "实验应力分析",
+            "coursetype": "专业核心",
+            "coursenature": "必修",
+            "credit": "2.5",
+            "teacher": "陈金龙",
+            "arrange": [
+               {
+                  "week": "单双周",
+                  "day": "2",
+                  "start": "3",
+                  "end": "4",
+                  "room": "37楼511"
+               },
+               {
+                  "week": "单周",
+                  "day": "4",
+                  "start": "1",
+                  "end": "2",
+                  "room": "37楼501"
+               }
+            ],
+            "week": {
+               "start": "1",
+               "end": "8"
+            },
+            "college": "机械学院",
+            "campus": "北洋园校区",
+            "ext": ""
+         },
+         {
+            "classid": "66",
+            "courseid": "2010840",
+            "coursename": "弹性力学",
+            "coursetype": "专业核心",
+            "coursenature": "必修",
+            "credit": "6.0",
+            "teacher": "王建山",
+            "arrange": [
+               {
+                  "week": "单双周",
+                  "day": "1",
+                  "start": "3",
+                  "end": "4",
+                  "room": "45楼B410"
+               },
+               {
+                  "week": "单双周",
+                  "day": "2",
+                  "start": "3",
+                  "end": "4",
+                  "room": "46楼A403"
+               },
+               {
+                  "week": "单双周",
+                  "day": "4",
+                  "start": "1",
+                  "end": "2",
+                  "room": "45楼B410"
+               }
+            ],
+            "week": {
+               "start": "1",
+               "end": "16"
+            },
+            "college": "机械学院",
+            "campus": "北洋园校区",
+            "ext": "重修"
+         },
+         {
+            "classid": "25",
+            "courseid": "2010834",
+            "coursename": "实验流体力学",
+            "coursetype": "专业核心",
+            "coursenature": "必修",
+            "credit": "2.5",
+            "teacher": "姜楠",
+            "arrange": [
+               {
+                  "week": "单周",
+                  "day": "1",
+                  "start": "1",
+                  "end": "2",
+                  "room": "37楼507"
+               },
+               {
+                  "week": "单双周",
+                  "day": "3",
+                  "start": "3",
+                  "end": "4",
+                  "room": "37楼507"
+               }
+            ],
+            "week": {
+               "start": "1",
+               "end": "16"
+            },
+            "college": "机械学院",
+            "campus": "北洋园校区",
+            "ext": ""
+         },
+         {
+            "classid": "16",
+            "courseid": "2010264",
+            "coursename": "结构力学",
+            "coursetype": "专业核心",
+            "coursenature": "必修",
+            "credit": "3.0",
+            "teacher": "崔玉红",
+            "arrange": [
+               {
+                  "week": "单双周",
+                  "day": "1",
+                  "start": "3",
+                  "end": "4",
+                  "room": "37楼507"
+               },
+               {
+                  "week": "单周",
+                  "day": "3",
+                  "start": "5",
+                  "end": "6",
+                  "room": "37楼513"
+               }
+            ],
+            "week": {
+               "start": "1",
+               "end": "16"
+            },
+            "college": "机械学院",
+            "campus": "北洋园校区",
+            "ext": ""
+         },
+         {
+            "classid": "15",
+            "courseid": "2010263",
+            "coursename": "有限元法",
+            "coursetype": "专业核心",
+            "coursenature": "必修",
+            "credit": "3.0",
+            "teacher": "马驰",
+            "arrange": [
+               {
+                  "week": "双周",
+                  "day": "2",
+                  "start": "1",
+                  "end": "2",
+                  "room": "37楼515"
+               },
+               {
+                  "week": "单双周",
+                  "day": "4",
+                  "start": "3",
+                  "end": "4",
+                  "room": "37楼515"
+               }
+            ],
+            "week": {
+               "start": "1",
+               "end": "16"
+            },
+            "college": "机械学院",
+            "campus": "北洋园校区",
+            "ext": ""
+         },
+         {
+            "classid": "3657",
+            "courseid": "2010835",
+            "coursename": "实验应力分析",
+            "coursetype": "专业核心",
+            "coursenature": "必修",
+            "credit": "2.5",
+            "teacher": "李林安",
+            "arrange": [
+               {
+                  "week": "单双周",
+                  "day": "2",
+                  "start": "3",
+                  "end": "4",
+                  "room": "37楼511"
+               },
+               {
+                  "week": "单周",
+                  "day": "4",
+                  "start": "1",
+                  "end": "2",
+                  "room": "37楼501"
+               }
+            ],
+            "week": {
+               "start": "9",
+               "end": "16"
+            },
+            "college": "机械学院",
+            "campus": "北洋园校区",
+            "ext": ""
+         },
+         {
+            "classid": "21",
+            "courseid": "2010507",
+            "coursename": "工程测试及传感技术",
+            "coursetype": "学科基础",
+            "coursenature": "选修",
+            "credit": "2.5",
+            "teacher": "李林安",
+            "arrange": [
+               {
+                  "week": "单周",
+                  "day": "2",
+                  "start": "1",
+                  "end": "2",
+                  "room": "37楼515"
+               },
+               {
+                  "week": "单双周",
+                  "day": "4",
+                  "start": "5",
+                  "end": "6",
+                  "room": "37楼515"
+               }
+            ],
+            "week": {
+               "start": "1",
+               "end": "16"
+            },
+            "college": "机械学院",
+            "campus": "北洋园校区",
+            "ext": ""
+         },
+         {
+            "classid": "20",
+            "courseid": "2010500",
+            "coursename": "气体动力学",
+            "coursetype": "学科基础",
+            "coursenature": "选修",
+            "credit": "2.0",
+            "teacher": "曹伟",
+            "arrange": [
+               {
+                  "week": "单双周",
+                  "day": "1",
+                  "start": "7",
+                  "end": "8",
+                  "room": "37楼513"
+               }
+            ],
+            "week": {
+               "start": "1",
+               "end": "16"
+            },
+            "college": "机械学院",
+            "campus": "北洋园校区",
+            "ext": ""
+         },
+         {
+            "classid": "19",
+            "courseid": "2010499",
+            "coursename": "粘性流体力学",
+            "coursetype": "学科基础",
+            "coursenature": "选修",
+            "credit": "2.0",
+            "teacher": "刘正先",
+            "arrange": [
+               {
+                  "week": "单双周",
+                  "day": "5",
+                  "start": "3",
+                  "end": "4",
+                  "room": "37楼513"
+               }
+            ],
+            "week": {
+               "start": "1",
+               "end": "16"
+            },
+            "college": "机械学院",
+            "campus": "北洋园校区",
+            "ext": ""
+         }
+      ],
+      "cache": true,
+      "week": 6,
+      "term_start": 1520179200,
+      "updated_at": "2018-04-19T19:10:50+08:00"
+   }
+}
+        """
 }

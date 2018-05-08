@@ -1,9 +1,6 @@
 package com.twt.service.schedule2.extensions
 
-import com.twt.service.schedule2.model.AbsClasstableProvider
-import com.twt.service.schedule2.model.Arrange
-import com.twt.service.schedule2.model.Course
-import java.time.DayOfWeek
+import com.twt.service.schedule2.model.*
 import java.util.*
 
 /**
@@ -11,7 +8,16 @@ import java.util.*
  * 课程表相关拓展
  */
 
-val termStart: Long = 1520179200L // 测试时暂时不从SP中读取
+val termStart: Long  // 测试时暂时不从SP中读取 todo: SP存取
+    get() {
+        var result = 1520179200L
+        try {
+            result = SchedulePref.termStart // 因为要兼容测试无法获取Pref的情况
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return result
+    }
 
 fun AbsClasstableProvider.getRealWeekInt(startUnix: Long = termStart, weekUnix: Long): Int {
     val span = weekUnix - startUnix
@@ -65,9 +71,27 @@ fun List<Course>.findConflict(course: Course, dayOfWeek: Int): Course? {
     this.filter { it.arrange.any { it.day == dayOfWeek } }.onEach {
         it.arrange.trim(dayOfWeek)
     }.onEach {
-        if (it.arrange[0].checkConflict(courseArrange)) return it
+        if (it.arrange[0].checkConflict(courseArrange) && course != it) return it
     }
     return null
+}
+
+fun List<Course>.findConflictList(course: Course, dayOfWeek: Int): List<Course> {
+    val conflictList = mutableListOf<Course>()
+    // 先检查今天有没有课 如果有那么就筛选一次Arrange
+    if (!course.arrange.any { it.day == dayOfWeek }) {
+        return conflictList
+    } else {
+        course.arrange.trim(dayOfWeek)
+    }
+    val courseArrange = course.arrange[0]
+
+    this.filter { it.arrange.any { it.day == dayOfWeek } }.onEach {
+        it.arrange.trim(dayOfWeek)
+    }.onEach {
+        if (it.arrange[0].checkConflict(courseArrange)) conflictList.add(it)
+    }
+    return conflictList
 }
 
 /**
@@ -84,7 +108,122 @@ fun List<Course>.findConflict(course: Course): Course? {
     return null
 }
 
+/**
+ * 把一天的课程 添加上空课
+ */
+fun List<Course>.flatDay(dayOfWeek: Int, forceFill: Boolean = false): List<Course> {
+
+    fun createEmptyCourse(start: Int, end: Int, day: Int = dayOfWeek) = Course(
+            coursename = "空",
+            week = Week(0, 0),
+            arrangeBackup = listOf(Arrange(week = "单双周", start = start, end = end, day = day))
+    ).apply {
+        refresh()
+    }
+    // 用来标识空课程
+    // 用空课程中的start和end来标识数据 因为需要-> 点击空白课程获取数据用 + 当前视图的week参数
+
+    val trimedList = this.onEach { it.arrange.trim(dayOfWeek) }.sortedBy { it.arrange[0].start }
+    val realList = mutableListOf<Course>()
+    val totalCourseNumber = 12
+    if ((trimedList.isEmpty() && dayOfWeek != 6 && dayOfWeek != 7) || (trimedList.isEmpty() && forceFill)) {
+        // 万一出现了这种周六日只有其中一天有课的 就需要强制填充... 避免出现奇怪的现象
+        for (i in 1..totalCourseNumber) {
+            realList.add(createEmptyCourse(i, i))
+        }
+    }
+    trimedList.forEachIndexed { index, course ->
+        val start = course.arrange[0].start
+        val end = course.arrange[0].end
+
+        if (index == 0) {
+            for (i in 1 until start) {
+                realList.add(createEmptyCourse(start = i, end = i))
+            }
+            realList.add(course)
+        } else {
+            val lastStart = trimedList[index - 1].arrange[0].start
+            val lastEnd = trimedList[index - 1].arrange[0].end
+            if (start - lastEnd > 0) {
+                for (i in lastEnd + 1 until start) {
+                    realList.add(createEmptyCourse(start = i, end = i))
+                }
+            }
+            realList.add(course)
+        }
+
+        if (index == trimedList.size - 1 && end < totalCourseNumber) { // 最后一个 并且还要添加emptyCourse
+            for (i in end + 1..totalCourseNumber) {
+                realList.add(createEmptyCourse(start = i, end = i))
+            }
+        }
+
+    }
+    return realList
+}
+
+/**
+ * 应该在最后的Merge之后用
+ * @see AbsClasstableProvider.getCourseByDay 就是说 这个方法里面本身包含MergeCourses操作的时候
+ * 才可以使用此方法来获取当周课程
+ */
+fun AbsClasstableProvider.getWeekCourseFlated(weekInt: Int, startUnix: Long = termStart): List<List<Course>> {
+    val wrapperList = mutableListOf<List<Course>>()
+    val offset = 3600L // 加一个偏移量... 因为按照0点计算不保险
+    val dayOfSeconds = 86400L
+    val startUnixWithOffset = startUnix + offset + (weekInt - 1) * dayOfSeconds * 7
+    val dayUnixList = mutableListOf<Long>() // 一周内每天的时间戳
+    for (i in 0..6) {
+        dayUnixList.add(startUnixWithOffset + dayOfSeconds * i)
+    }
+    // 周六日其中一个有课才要Force填充
+    val willForceFill: Boolean = !(this.getCourseByDay(dayUnixList[5]).isEmpty() && this.getCourseByDay(dayUnixList[6]).isEmpty())
+    dayUnixList.mapIndexed { index, l ->
+        val dayOfWeek = index + 1
+        this.getCourseByDay(l).flatDay(dayOfWeek, forceFill = willForceFill)
+    }.forEach {
+        wrapperList.add(it)
+    }
+    return wrapperList
+}
+
+/**
+ * 生成对应周的BooleanMatrix 用来提供显示周数的自定义view
+ * @param weekInt 周数
+ * @param startUnix 学期开始
+ * @return Boolean二维矩阵
+ */
+fun AbsClasstableProvider.getWeekCourseMatrix(weekInt: Int, startUnix: Long = termStart): List<List<Boolean>> {
+    val booleanMatrix = mutableListOf<MutableList<Boolean>>()
+    for (i in 0 until 7) {
+        val child = mutableListOf<Boolean>()
+        for (y in 0 until 7) {
+            child.add(false)
+        }
+        booleanMatrix.add(child)
+    }
+
+    val offset = 3600L // 加一个偏移量... 因为按照0点计算不保险
+    val dayOfSeconds = 86400L
+    val startUnixWithOffset = startUnix + offset + (weekInt - 1) * dayOfSeconds * 7
+    val dayUnixList = mutableListOf<Long>() // 一周内每天的时间戳
+    for (i in 0..6) {
+        dayUnixList.add(startUnixWithOffset + dayOfSeconds * i)
+    }
+    dayUnixList.forEachIndexed { index, l ->
+        this.getCourseByDay(l).filter { it.weekAvailable }.forEach {
+            val yCourseIndex = it.arrange[0].start / 2 // 如果是第一节 1/2 = 0 第三节 3/2 = 1 正好对应点阵
+            booleanMatrix[index][yCourseIndex] = true
+        }
+    }
+    return booleanMatrix
+}
+
+/**
+ * 根据星期几来筛选掉其他的Arrange 一般在获取当天课程的时候用
+ */
 fun MutableList<Arrange>.trim(dayOfWeek: Int) {
+    if (this.size < 2) return
     this.retainAll {
         it.day == dayOfWeek
     }
@@ -102,6 +241,34 @@ fun Arrange.checkConflict(arrange: Arrange): Boolean {
 }
 
 /**
+ * 解决同一个列表里面的 彩色课程冲突
+ * 做法是拷贝一个列表 然后对它遍历进行findConflict，但是因为自己和自己冲突，所以要写一个while循环
+ * 目的是 拿到冲突的课程对，然后对传入的list做操作
+ * 把冲突课程放在适当的next位置去
+ */
+fun MutableList<Course>.resoleInside(dayOfWeek: Int): MutableList<Course> {
+//    println("Resolve")
+    val copyList = this.toMutableList()
+    val removeList = mutableListOf<Course>()
+    this.forEach {
+        while (copyList.findConflict(it, dayOfWeek) != null) {
+            val conflict = copyList.findConflict(it, dayOfWeek)!!
+            if (conflict.coursename == it.coursename) {
+                copyList.remove(conflict)
+            } else {
+                val baseCourse = this.find { course -> course == it }
+                removeList.add(conflict)
+                baseCourse?.next?.add(conflict)
+            }
+            copyList.remove(conflict)
+        }
+
+    }
+    this.removeAll(removeList)
+    return this
+}
+
+/**
  * 来自多个课程列表的课程合并
  * @param courseList 可变参数 输入多个课程列表
  * @param dayUnix 时间的时间戳
@@ -109,12 +276,15 @@ fun Arrange.checkConflict(arrange: Arrange): Boolean {
  */
 fun AbsClasstableProvider.mergeCourses(vararg courseList: List<Course>, dayUnix: Long): List<Course> {
     val dayOfWeek = getDayOfWeek(dayUnix = dayUnix)
-    val availableCourses = courseList.map { it.todayAvailable }
+    val availableCourses = courseList.map { it.todayAvailable }.map { it.resoleInside(dayOfWeek) }
             .reduce { acc, list ->
                 list.forEach { course ->
                     val conflictFatherCourse = acc.findConflict(course, dayOfWeek)
                     if (conflictFatherCourse != null) {
                         conflictFatherCourse.next.add(course)
+                        if (course.next.isNotEmpty()) {
+                            conflictFatherCourse.next.addAll(course.next)
+                        }
                     } else {
                         acc.add(course)
                     }
