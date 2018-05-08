@@ -53,12 +53,12 @@ class MainActivity : AppCompatActivity() {
                                     tvTitle.text = getString(R.string.app_name)
                                 }
                                 R.id.action_fast_comment -> {
-                                    menu?.findItem(R.id.menu_search)?.setVisible(false)
+                                    menu.findItem(R.id.menu_search)?.setVisible(false)
                                 }
                                 R.id.action_account -> {
                                     viewPager.currentItem = item.order
                                     tvTitle.text = getString(R.string.text_account)
-                                    menu?.findItem(R.id.menu_search)?.setVisible(false)
+                                    menu.findItem(R.id.menu_search)?.setVisible(false)
 
                                 }
                             }

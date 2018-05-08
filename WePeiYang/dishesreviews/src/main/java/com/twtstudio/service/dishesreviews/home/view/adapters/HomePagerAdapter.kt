@@ -22,7 +22,7 @@ class HomePagerAdapter(list: List<Any>, context: Context, owner: LifecycleOwner)
         const val REVIEWS = 4
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): RecyclerView.ViewHolder = when (viewType) {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder = when (viewType) {
         BANNER -> BannerViewHolder(inflater.inflate(R.layout.dishes_reviews_item_home_banner, parent, false), owner)
         DINNING_HALL -> DinningHallsViewHolder(inflater.inflate(R.layout.dishes_reviews_item_home_dinning_halls,parent,false),owner)
         AD -> ADViewHolder(inflater.inflate(R.layout.dishes_reviews_item_home_ad,parent,false),owner)
@@ -31,7 +31,7 @@ class HomePagerAdapter(list: List<Any>, context: Context, owner: LifecycleOwner)
     }!!
 
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when(holder){
             is DinningHallsViewHolder-> holder.bind()
         }
