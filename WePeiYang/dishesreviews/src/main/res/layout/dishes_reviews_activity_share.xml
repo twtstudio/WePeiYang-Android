@@ -10,14 +10,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:text="竹园餐厅-水煮鱼"
         android:textColor="@color/white"
         android:textSize="20sp" />
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="324dp"
-        android:layout_height="300dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp"
         android:background="@color/white">
@@ -112,57 +112,50 @@
             android:text="￥12"
             android:textColor="@color/colorPrimary"
             android:textSize="24sp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/tv_title2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/img_dish" />
-    </android.support.constraint.ConstraintLayout>
-
-    <android.support.constraint.ConstraintLayout
-        android:layout_width="324dp"
-        android:layout_height="100dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="50dp">
-
-        <ImageView
-            android:id="@+id/img_qrcode"
-            android:layout_width="88dp"
-            android:layout_height="88dp"
-            android:layout_marginStart="6dp"
-            android:src="@drawable/ic_launcher_background"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tv_title3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="26sp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="24dp"
             android:text="扫描二维码查看更多信息"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/tv_title4"
-            app:layout_constraintStart_toEndOf="@id/img_qrcode"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="@id/tv_title2"
+            app:layout_constraintTop_toBottomOf="@id/tv_title2" />
 
         <TextView
             android:id="@+id/tv_title4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:layout_marginStart="26sp"
+            android:layout_marginBottom="28dp"
+            android:layout_marginTop="2dp"
             android:text="天外天-好吃"
-            android:textSize="16sp"
+            android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/img_qrcode"
+            app:layout_constraintStart_toStartOf="@id/tv_title3"
             app:layout_constraintTop_toBottomOf="@id/tv_title3" />
+
+        <ImageView
+            android:id="@+id/img_qrcode"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="6dp"
+            android:src="@drawable/ic_launcher_background"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_title2" />
     </android.support.constraint.ConstraintLayout>
+
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="72dp"
         android:text="Powered by TWTstudio"
         android:textColor="@color/white"
         android:textSize="12sp" />
