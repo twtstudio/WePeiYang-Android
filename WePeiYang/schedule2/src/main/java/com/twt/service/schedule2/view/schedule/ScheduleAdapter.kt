@@ -171,6 +171,9 @@ class ScheduleAdapter(val context: Context) : RecyclerView.Adapter<ScheduleAdapt
     }
 
 
+    /**
+     * 均分各个块的宽度 来做到水平填充
+     */
     private fun View.flatViewHolder(spanSize: Int, parent: ViewGroup) {
         val availableWidth = parent.width - parent.paddingStart
         val perItemWith = availableWidth / spanSize

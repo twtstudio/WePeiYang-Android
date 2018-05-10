@@ -1,7 +1,9 @@
-package com.twt.service.schedule2.view.adapter
+package com.twt.wepeiyang.commons.ui.rec
 
 import android.support.v7.util.DiffUtil
+import android.support.v7.util.ListUpdateCallback
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.ViewGroup
 
 interface Item {
@@ -51,7 +53,7 @@ fun RecyclerView.refreshAll(init: MutableList<Item>.() -> Unit) {
     manager.refreshAll(list)
 }
 
-class ItemManager(private val delegated: MutableList<Item> = mutableListOf()) : MutableList<Item> {
+class ItemManager(private val delegated: MutableList<Item> = mutableListOf()) : MutableList<Item> by delegated {
     var observer: RecyclerView.Adapter<RecyclerView.ViewHolder>? = null
     val itemListSnapshot: List<Item> get() = delegated
 
@@ -60,7 +62,7 @@ class ItemManager(private val delegated: MutableList<Item> = mutableListOf()) : 
     }
 
     companion object ItemControllerManager {
-        private var viewType = 0
+        private var viewType = 0 // companion object保证了单例 因此ViewType肯定是从0开始
 
         // controller to view type
         private val c2vt = mutableMapOf<ItemController, Int>()
@@ -68,6 +70,9 @@ class ItemManager(private val delegated: MutableList<Item> = mutableListOf()) : 
         // view type to controller
         private val vt2c = mutableMapOf<Int, ItemController>()
 
+        /**
+         * 检查Item(对应的controller)是否已经被注册，如果没有，那就注册一个ViewType
+         */
         private fun ensureController(item: Item) {
             val controller = item.controller
             if (!c2vt.contains(controller)) {
@@ -77,18 +82,27 @@ class ItemManager(private val delegated: MutableList<Item> = mutableListOf()) : 
             }
         }
 
+        /**
+         * 对于一个Collection的ViewType注册，先进行一次去重
+         */
         private fun ensureControllers(items: Collection<Item>): Unit =
-                items.distinctBy(Item::controller).forEach(::ensureController)
+                items.distinctBy(Item::controller).forEach(ItemControllerManager::ensureController)
 
+        /**
+         * 根据ItemController获取对应的Item -> 代理Adapter.getItemViewType
+         */
         fun getViewType(controller: ItemController): Int = c2vt[controller]
                 ?: throw IllegalStateException("ItemController $controller is not ensured")
 
+        /**
+         * 根据ViewType获取ItemController -> 代理OnCreateViewHolder相关逻辑
+         */
         fun getController(viewType: Int): ItemController = vt2c[viewType]
                 ?: throw IllegalStateException("ItemController $viewType is unused")
     }
 
 
-    override val size: Int get() = delegated.size
+/*    override val size: Int get() = delegated.size
 
     override fun contains(element: Item) = delegated.contains(element)
 
@@ -108,7 +122,7 @@ class ItemManager(private val delegated: MutableList<Item> = mutableListOf()) : 
 
     override fun listIterator(index: Int) = delegated.listIterator(index)
 
-    override fun subList(fromIndex: Int, toIndex: Int) = delegated.subList(fromIndex, toIndex)
+    override fun subList(fromIndex: Int, toIndex: Int) = delegated.subList(fromIndex, toIndex)*/
 
     override fun add(element: Item) =
             delegated.add(element).also {
@@ -166,10 +180,12 @@ class ItemManager(private val delegated: MutableList<Item> = mutableListOf()) : 
             }
 
     fun refreshAll(elements: List<Item>) {
+        val tag = "refresh diff"
         val diffCallback = object : DiffUtil.Callback() {
             override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
                 val oldItem = delegated[oldItemPosition]
                 val newItem = elements[newItemPosition]
+                log(tag, "items the same: old-> $oldItemPosition new-> $newItemPosition diff: ${oldItem.areItemsTheSame(newItem)}")
                 return oldItem.areItemsTheSame(newItem)
             }
 
@@ -179,6 +195,7 @@ class ItemManager(private val delegated: MutableList<Item> = mutableListOf()) : 
             override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
                 val oldItem = delegated[oldItemPosition]
                 val newItem = elements[newItemPosition]
+                Log.e(tag, "content the same: old-> $oldItemPosition new-> $newItemPosition diff: ${oldItem.areContentsTheSame(newItem)}")
                 return oldItem.areContentsTheSame(newItem)
             }
         }
@@ -186,6 +203,24 @@ class ItemManager(private val delegated: MutableList<Item> = mutableListOf()) : 
         delegated.clear()
         delegated.addAll(elements)
         ensureControllers(elements)
+        result.dispatchUpdatesTo(object : ListUpdateCallback {
+            override fun onChanged(position: Int, count: Int, payload: Any?) {
+                log(tag, "change: pos:$position count:$count payload:$payload")
+            }
+
+            override fun onMoved(fromPosition: Int, toPosition: Int) {
+                log(tag, "move: from pos: $fromPosition  to pos: $toPosition")
+            }
+
+            override fun onInserted(position: Int, count: Int) {
+                log(tag, "insert: pos: $position count: $count")
+            }
+
+            override fun onRemoved(position: Int, count: Int) {
+                log(tag, "remove: pos:$position count:$count")
+            }
+
+        })
         result.dispatchUpdatesTo(observer)
     }
 
@@ -198,4 +233,9 @@ class ItemManager(private val delegated: MutableList<Item> = mutableListOf()) : 
     }
 
 }
+
+internal fun log(tag: String, message: String) {
+    Log.e(tag, message)
+}
+
 

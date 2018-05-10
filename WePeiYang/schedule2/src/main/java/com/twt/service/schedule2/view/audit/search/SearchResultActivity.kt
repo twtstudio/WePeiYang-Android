@@ -26,8 +26,6 @@ import com.twt.service.schedule2.model.audit.AuditApi
 import com.twt.service.schedule2.model.audit.AuditCourse
 import com.twt.service.schedule2.model.audit.AuditCourseManager
 import com.twt.service.schedule2.model.audit.AuditSearchCourse
-import com.twt.service.schedule2.view.adapter.ItemAdapter
-import com.twt.service.schedule2.view.adapter.ItemManager
 import com.twt.service.schedule2.view.adapter.indicatorText
 import com.twt.service.schedule2.view.audit.AuditActivity
 import com.twt.service.schedule2.view.audit.auditCourseItem
@@ -35,6 +33,8 @@ import com.twt.service.schedule2.view.custom.singleText
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
+import com.twt.wepeiyang.commons.ui.rec.ItemAdapter
+import com.twt.wepeiyang.commons.ui.rec.ItemManager
 import es.dmoral.toasty.Toasty
 import io.multimoon.colorful.CAppCompatActivity
 import kotlinx.coroutines.experimental.CommonPool

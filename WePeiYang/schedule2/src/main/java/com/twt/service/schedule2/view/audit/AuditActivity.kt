@@ -39,6 +39,9 @@ import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineException
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
 import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
+import com.twt.wepeiyang.commons.ui.rec.Item
+import com.twt.wepeiyang.commons.ui.rec.ItemAdapter
+import com.twt.wepeiyang.commons.ui.rec.ItemManager
 import es.dmoral.toasty.Toasty
 import io.multimoon.colorful.CAppCompatActivity
 import kotlinx.coroutines.experimental.CommonPool
@@ -124,6 +127,16 @@ class AuditActivity : CAppCompatActivity() {
                     }
 
                     buttonItem("展开热门课程") {
+                        fun refreshBtnState() {
+                            if (popularCount != 10) {
+                                popularCount = 10
+                                text = "收缩热门课程"
+                            } else {
+                                popularCount = 3
+                                text = "展开热门课程"
+                            }
+                        }
+                        refreshBtnState()
                         textColor = getColorCompat(R.color.colorPrimary)
                         textSize = 14f
                         // 设置无边框
@@ -132,15 +145,11 @@ class AuditActivity : CAppCompatActivity() {
                         setBackgroundResource(typedValue.resourceId)
 
                         setOnClickListener {
-                            if (popularCount != 10) {
-                                popularCount = 10
-                                text = "收缩热门课程"
-                            } else {
-                                popularCount = 3
-                                text = "展开热门课程"
-                            }
+                            refreshBtnState()
                             auditPopluarLiveData.refresh(CacheIndicator.LOCAL)
                         }
+
+
                     }
 
                     spaceItem("pop_below", 16) {

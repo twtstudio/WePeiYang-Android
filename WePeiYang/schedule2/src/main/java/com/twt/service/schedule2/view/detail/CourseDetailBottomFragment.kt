@@ -13,8 +13,8 @@ import com.twt.service.schedule2.extensions.getChineseCharacter
 import com.twt.service.schedule2.model.Course
 import com.twt.service.schedule2.view.adapter.CourseDetailViewModel
 import com.twt.service.schedule2.view.adapter.iconLabel
-import com.twt.service.schedule2.view.adapter.refreshAll
 import com.twt.service.schedule2.view.audit.search.SearchResultActivity
+import com.twt.wepeiyang.commons.ui.rec.refreshAll
 import org.jetbrains.anko.alert
 
 class CourseDetailBottomFragment : BottomSheetDialogFragment() {
