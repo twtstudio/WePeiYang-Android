@@ -5,7 +5,6 @@
     android:layout_height="109dp"
     app:elevation="4dp">
 
-
     <ImageView
         android:id="@+id/item_icon"
         android:layout_width="90dp"
@@ -91,14 +90,40 @@
     <TextView
         android:id="@+id/item_tag"
         android:layout_width="60dp"
-        android:layout_height="24dp"
+        android:layout_height="20dp"
         android:background="@drawable/dishes_reviews_textview_border_primary"
         android:ellipsize="end"
         android:gravity="center"
         android:text="服务好"
         android:textColor="@color/searchItemText2"
-        android:textSize="14sp"
+        android:textSize="12sp"
         app:layout_constraintLeft_toLeftOf="@id/item_time"
         app:layout_constraintTop_toTopOf="@id/item_name" />
 
+    <android.support.v7.widget.CardView
+        android:layout_width="48dp"
+        android:layout_height="match_parent"
+        app:cardBackgroundColor="@color/colorPrimaryAlpha"
+        app:cardCornerRadius="2dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="10dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/dishes_revews_ic_action_comment" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:text="点评"
+            android:textColor="@color/white"
+            android:textSize="10sp" />
+    </android.support.v7.widget.CardView>
 </android.support.constraint.ConstraintLayout>

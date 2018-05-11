@@ -21,9 +21,7 @@ class HomeFragment : LazyFragment() {
                     HomePagerAdapter.AD,
                     HomePagerAdapter.REVIEWS
             ), context, this@HomeFragment)
-
         }
-
     }
 
 
