@@ -17,7 +17,7 @@ class CanteenFragment : Fragment() {
         set(value) {
             leftAdapter.notifyDataSetChanged()
         }
-    var rightList: MutableList<String> = mutableListOf()
+    var rightList: MutableList<CanteenBean> = mutableListOf()
         set(value) {
             rightAdapter.notifyDataSetChanged()
         }
@@ -25,6 +25,9 @@ class CanteenFragment : Fragment() {
     lateinit var rightRec: RecyclerView
     lateinit var leftAdapter: LeftAdapter
     lateinit var rightAdapter: RightAdapter
+    var mSuspensionHeight = 20
+    var mcurrentPos = 0
+    var rightLayoutManager = LinearLayoutManager(this.context)
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? = LayoutInflater.from(activity).inflate(R.layout.dishes_reviews_item_canteen_fragment, container, false)
 
 
@@ -38,7 +41,7 @@ class CanteenFragment : Fragment() {
         leftAdapter = LeftAdapter(leftList, this.context!!, leftcallback)
         rightAdapter = RightAdapter(rightList, this.context!!)
         leftRec.layoutManager = LinearLayoutManager(this.context)
-        rightRec.layoutManager = LinearLayoutManager(this.context)
+        rightRec.layoutManager = rightLayoutManager
         leftRec.adapter = leftAdapter
         rightRec.adapter = rightAdapter
 
@@ -47,10 +50,13 @@ class CanteenFragment : Fragment() {
         leftList.add("窗口1")
         leftList.add("窗口2")
         leftList.add("窗口3")
-        var templist: MutableList<String> = mutableListOf()
+        leftList.add("窗口4")
+        var templist: MutableList<CanteenBean> = mutableListOf()
         for (i in 0..20) {
-            templist.add(i.toString())
+            templist.add(CanteenBean("窗口" + ((i / 5) + 1), "菜品" + i))
         }
+        templist.removeAt(20)
         rightList.addAll(templist)
+        rightRec.addItemDecoration(FoodItemDecoration(this.context!!, rightList).apply { leftAdapter = this@CanteenFragment.leftAdapter }, 0)
     }
 }

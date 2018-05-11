@@ -20,5 +20,9 @@ class CanteenActivity : AppCompatActivity() {
         setContentView(R.layout.dishes_reviews_activity_canteen)
         fragments.add(CanteenFragment())
         vp_stairs.adapter = fpAdapter
+        tab_stairs.setupWithViewPager(vp_stairs)//这里面有代码会removeAllTabs，必须放前面
+        tab_stairs.removeAllTabs()
+        tab_stairs.addTab(tab_stairs.newTab().apply { text = "一层" })
+
     }
 }
