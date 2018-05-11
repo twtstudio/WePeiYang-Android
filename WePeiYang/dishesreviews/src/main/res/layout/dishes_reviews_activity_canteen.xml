@@ -66,6 +66,7 @@
     <!--android:layout_marginRight="12dp"-->
     <!--android:layout_marginTop="20dp"-->
     <!--app:layout_constraintTop_toBottomOf="@id/card_info" />-->
+
     <android.support.design.widget.TabLayout
         android:id="@+id/tab_stairs"
         android:layout_width="match_parent"
@@ -73,14 +74,24 @@
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
         android:layout_marginTop="20dp"
-        app:layout_constraintTop_toBottomOf="@id/card_info" />
+        android:background="@color/white"
+        android:elevation="2dp"
+        app:layout_constraintTop_toBottomOf="@id/card_info"
+        app:tabMinWidth="20dp"
+        app:tabSelectedTextColor="@color/colorPrimary"
+        app:tabTextColor="@color/colorTextGray2" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/vp_stairs"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginStart="12dp"
+        android:background="@color/white"
+        android:elevation="3px"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tab_stairs">
 
     </android.support.v4.view.ViewPager>
