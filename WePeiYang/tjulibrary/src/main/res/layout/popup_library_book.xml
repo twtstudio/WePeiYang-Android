@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="@color/white_color"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="2dp">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_book_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:fontFamily="sans-serif-regular"
+                android:textColor="@color/black_color"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Wireshark网络分析的艺术" />
+
+            <TextView
+                android:id="@+id/tv_book_author"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:fontFamily="sans-serif-regular"
+                android:gravity="start"
+                android:textColor="@color/black_color"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="@id/tv_book_name"
+                app:layout_constraintTop_toBottomOf="@id/tv_book_name"
+                tools:text="林沛满著" />
+
+            <View
+                android:id="@+id/view_line"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="8dp"
+                android:background="#96444444"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_book_author" />
+
+            <TextView
+                android:id="@+id/tv_location_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:fontFamily="sans-serif-regular"
+                android:textColor="@color/black_color"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="@id/view_line"
+                app:layout_constraintTop_toBottomOf="@id/view_line"
+                tools:text="北洋园工学阅览区" />
+
+            <TextView
+                android:id="@+id/tv_location_detail"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:fontFamily="sans-serif-regular"
+                android:textColor="@color/black_color"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="@id/view_line"
+                app:layout_constraintStart_toStartOf="@id/view_line"
+                app:layout_constraintTop_toBottomOf="@id/tv_location_name"
+                tools:text="TP393.02/L14" />
+
+            <com.twt.wepeiyang.commons.ui.view.ColorCircleView
+                android:id="@+id/circle_book_in"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="11dp"
+                app:circleColor="#3BCBFF"
+                app:drawCircleBounds="false"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_location_detail"
+                app:radiusPadding="0" />
+
+            <TextView
+                android:id="@+id/tv_book_in"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="借入"
+                android:textColor="#444444"
+                android:textSize="14sp"
+                app:layout_constraintStart_toEndOf="@id/circle_book_in"
+                app:layout_constraintTop_toBottomOf="@id/tv_location_detail"
+                tools:text="借入" />
+
+            <TextView
+                android:id="@+id/tv_book_in_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:fontFamily="sans-serif-light"
+                android:textColor="#444444"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="@id/tv_book_in"
+                app:layout_constraintTop_toBottomOf="@id/tv_book_in"
+                tools:text="2018-06-02" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="0dp"
+                android:background="#96444444"
+                app:layout_constraintBottom_toTopOf="@id/circle_book_out"
+                app:layout_constraintEnd_toEndOf="@id/circle_book_in"
+                app:layout_constraintStart_toStartOf="@id/circle_book_in"
+                app:layout_constraintTop_toBottomOf="@id/circle_book_in" />
+
+            <com.twt.wepeiyang.commons.ui.view.ColorCircleView
+                android:id="@+id/circle_book_out"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginTop="47dp"
+                app:circleColor="#FF5D64"
+                app:drawCircleBounds="false"
+                app:layout_constraintStart_toStartOf="@id/circle_book_in"
+                app:layout_constraintTop_toBottomOf="@id/circle_book_in"
+                app:radiusPadding="0" />
+
+            <TextView
+                android:id="@+id/tv_book_out"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="归还"
+                android:textColor="#444444"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@id/circle_book_out"
+                app:layout_constraintStart_toEndOf="@id/circle_book_out"
+                tools:text="归还" />
+
+            <TextView
+                android:id="@+id/tv_book_out_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="4dp"
+                android:fontFamily="sans-serif-light"
+                android:textColor="#444444"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@id/tv_book_out"
+                app:layout_constraintTop_toBottomOf="@id/tv_book_out"
+                tools:text="2018-06-02" />
+        </android.support.constraint.ConstraintLayout>
+
+
+    </android.support.v7.widget.CardView>
+
+    <Button
+        android:id="@+id/btn_book_borrow"
+        style="@style/Base.Widget.AppCompat.Button.Borderless"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="12dp"
+        android:fontFamily="sans-serif-regular"
+        android:text="尝试续借"
+        android:textColor="#3BCBFF"
+        android:textSize="18sp" />
+</LinearLayout>

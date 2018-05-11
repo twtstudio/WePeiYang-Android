@@ -233,7 +233,7 @@ public class BlurPopupWindow extends FrameLayout {
 
         mWindowManager.addView(this, params);
 
-        ObjectAnimator showAnimator = createShowAnimator();
+        Animator showAnimator = createShowAnimator();
         if (showAnimator != null) {
             mAnimating = true;
             showAnimator.addListener(new AnimatorListenerAdapter() {
@@ -259,7 +259,7 @@ public class BlurPopupWindow extends FrameLayout {
             return;
         }
         onDismiss();
-        ObjectAnimator animator = createDismissAnimator();
+        Animator animator = createDismissAnimator();
         if (animator == null) {
             mWindowManager.removeView(this);
         } else {
@@ -314,11 +314,11 @@ public class BlurPopupWindow extends FrameLayout {
         }
     }
 
-    protected ObjectAnimator createShowAnimator() {
+    protected Animator createShowAnimator() {
         return ObjectAnimator.ofFloat(mContentLayout, "alpha", 0, 1.f).setDuration(getAnimationDuration());
     }
 
-    protected ObjectAnimator createDismissAnimator() {
+    protected Animator createDismissAnimator() {
         return ObjectAnimator.ofFloat(mContentLayout, "alpha", mContentLayout.getAlpha(), 0).setDuration(getAnimationDuration());
     }
 

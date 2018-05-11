@@ -18,11 +18,11 @@ import com.twt.service.schedule2.R
 import com.twt.service.schedule2.model.SchedulePref
 import com.twt.service.schedule2.model.total.TotalCourseManager
 import com.twt.service.schedule2.view.audit.AuditActivity
-import com.twt.service.schedule2.view.theme.colorCircleView
 import com.twt.service.schedule2.view.theme.spreadChainLayout
 import com.twt.wepeiyang.commons.experimental.color.getColorCompat
 import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
 import com.twt.wepeiyang.commons.experimental.theme.CustomTheme
+import com.twt.wepeiyang.commons.ui.view.colorCircleView
 import es.dmoral.toasty.Toasty
 import io.multimoon.colorful.Colorful
 import org.jetbrains.anko.*

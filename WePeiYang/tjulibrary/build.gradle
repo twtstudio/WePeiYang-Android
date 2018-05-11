@@ -2,6 +2,7 @@ apply plugin: 'com.android.library'
 //apply plugin: 'me.tatarka.retrolambda'
 apply from: '../maven_push.gradle'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 
 
 android {
@@ -52,7 +53,7 @@ dependencies {
 
     implementation project(':commons')
 
-    [*supportLibraries, *archLibraries, 'kotlin-stdlib', 'kotlinx-coroutines', 'anko'].each {
+    [*supportLibraries, *archLibraries, 'kotlin-stdlib', 'kotlinx-coroutines', 'anko', 'constraint-layout'].each {
         implementation dependenciesMap[it]
     }
     ['lifecycle-compiler'].each {

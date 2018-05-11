@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ColorCircleView">
+        <attr name="drawCircleBounds" format="boolean" />
+        <attr name="radiusPadding" format="float" />
+        <attr name="circleColor" format="color" />
+    </declare-styleable>
+</resources>
