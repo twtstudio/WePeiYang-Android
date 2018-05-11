@@ -1,6 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
 
-</android.support.constraint.ConstraintLayout>
+    <TextView
+        android:id="@+id/tv_user_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="18dp"
+        android:textSize="12sp"
+        android:textColor="@color/colorTextGray1"
+        tools:text="UserName" />
+
+    <TextView
+        android:id="@+id/tv_date"
+        android:layout_below="@+id/tv_user_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:textSize="8sp"
+        android:textColor="@color/colorTextViewBorderGrey"
+        android:layout_alignLeft="@+id/tv_user_name"
+        tools:text="2018年1月1日" />
+
+    <LinearLayout
+        android:id="@+id/ll_images"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/tv_date"
+        android:layout_marginTop="12dp">
+
+        <ImageView
+            android:id="@+id/iv_1"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            tools:src="@drawable/dishes_reviews_action_collect" />
+
+        <ImageView
+            android:id="@+id/iv_2"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            tools:src="@drawable/dishes_reviews_action_collect" />
+
+        <ImageView
+            android:id="@+id/iv_3"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            tools:src="@drawable/dishes_reviews_action_collect" />
+
+        <ImageView
+            android:id="@+id/iv_4"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            tools:src="@drawable/dishes_reviews_action_collect" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_comment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ll_images"
+        android:layout_marginTop="12dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="8dp"
+        android:maxLines="2"
+        android:ellipsize="end"
+        android:textSize="10sp"
+        android:layout_alignLeft="@+id/tv_user_name"
+        tools:text="鲜鱼一尾宰杀治净沥干后骨肉分开，鱼骨剁成块，鱼肉片成鱼片，分别加盐抓匀腌制一会儿；2.八角、山柰、小茴香、干辣椒、花椒粒、桂皮、草果、香叶、白蔻等香料适量用清水浸泡十几分钟后沥干水分备用；3.蒜、姜切碎... ... 黄瓜去皮洗净切成片（也可以用豆芽或莴笋尖）；. 川味水煮鱼片的做法步骤4." />
+
+    <RatingBar
+        android:id="@+id/ratingbar_evaluate"
+        style="@style/DishesRatingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="13dp"
+        android:layout_alignTop="@id/tv_user_name"
+        android:layout_alignBottom="@id/tv_user_name"
+        android:layout_marginRight="16dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="2dp"
+        android:isIndicator="false"
+        android:rating="2" />
+</RelativeLayout>
