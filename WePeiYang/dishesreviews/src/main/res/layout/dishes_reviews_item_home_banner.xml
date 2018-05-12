@@ -8,20 +8,23 @@
     <com.youth.banner.Banner
         android:id="@+id/banner_ad"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></com.youth.banner.Banner>
-    <Button
-        android:id="@+id/bt_delicious_comment"
-        android:layout_width="44dp"
-        android:layout_height="20dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="18dp"
-        android:background="@drawable/dishes_reviews_shape_bt_delicious_comment"
-        android:text="@string/text_delicious_index"
-        android:gravity="center"
-        android:textColor="@color/white"
-        android:textSize="8dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="match_parent"
+        app:indicator_drawable_selected="@color/white"
+        app:indicator_drawable_unselected="@color/translucentWhite"
+        app:indicator_width="12dp"></com.youth.banner.Banner>
+    <!--<Button-->
+    <!--android:id="@+id/bt_delicious_comment"-->
+    <!--android:layout_width="44dp"-->
+    <!--android:layout_height="20dp"-->
+    <!--android:layout_marginLeft="16dp"-->
+    <!--android:layout_marginTop="18dp"-->
+    <!--android:background="@drawable/dishes_reviews_shape_bt_delicious_comment"-->
+    <!--android:text="@string/text_delicious_index"-->
+    <!--android:gravity="center"-->
+    <!--android:textColor="@color/white"-->
+    <!--android:textSize="8dp"-->
+    <!--app:layout_constraintLeft_toLeftOf="parent"-->
+    <!--app:layout_constraintTop_toTopOf="parent" />-->
     <TextView
         android:id="@+id/tv_top"
         android:layout_width="69dp"

@@ -4,10 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
+
     <ImageView
         android:id="@+id/iv_dish"
         android:layout_width="96dp"
-        android:layout_height="77dp" />
+        android:layout_height="129dp" />
     <TextView
         android:id="@+id/tv_dish_name"
         android:layout_below="@+id/iv_dish"
@@ -23,7 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="12dp"
-        android:layout_marginTop="18dp"
+        android:layout_marginTop="16dp"
         android:textSize="12sp"
         android:textColor="@color/colorTextGray1"
         tools:text="UserName"/>
@@ -37,14 +38,55 @@
         android:textColor="@color/colorTextViewBorderGrey"
         android:layout_alignLeft="@+id/tv_user_name"
         tools:text="2018年1月1日"/>
+
+    <LinearLayout
+        android:id="@+id/ll_images"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:orientation="horizontal"
+        android:layout_below="@id/tv_date"
+        android:layout_toRightOf="@id/iv_dish"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_alignLeft="@id/tv_user_name">
+
+        <ImageView
+            android:id="@+id/iv_1"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            tools:src="@drawable/dishes_reviews_action_collect" />
+
+        <ImageView
+            android:id="@+id/iv_2"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            tools:src="@drawable/dishes_reviews_action_collect" />
+
+        <ImageView
+            android:id="@+id/iv_3"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            tools:src="@drawable/dishes_reviews_action_collect" />
+
+        <ImageView
+            android:id="@+id/iv_4"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            tools:src="@drawable/dishes_reviews_action_collect" />
+    </LinearLayout>
     <TextView
         android:id="@+id/tv_comment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_date"
-        android:layout_marginTop="12dp"
+        android:layout_below="@+id/ll_images"
+        android:layout_marginTop="4dp"
         android:layout_alignParentRight="true"
         android:layout_marginRight="8dp"
+        android:layout_marginBottom="12dp"
         android:maxLines="2"
         android:ellipsize="end"
         android:textSize="10sp"
