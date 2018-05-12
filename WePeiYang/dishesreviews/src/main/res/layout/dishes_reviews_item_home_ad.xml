@@ -10,7 +10,10 @@
     <com.youth.banner.Banner
         android:id="@+id/banner_ad"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></com.youth.banner.Banner>
+        android:layout_height="match_parent"
+        app:indicator_drawable_selected="@color/white"
+        app:indicator_drawable_unselected="@color/translucentWhite"
+        app:indicator_width="12dp"></com.youth.banner.Banner>
 
     <TextView
         android:layout_width="wrap_content"

@@ -6,4 +6,8 @@
     <string name="text_delicious_comment">好吃点评</string>
     <string name="text_delicious_index">好吃指数</string>
     <string name="ad">广告</string>
+    <string-array name="campus_array">
+        <item>北洋园校区</item>
+        <item>卫津路校区</item>
+    </string-array>
 </resources>

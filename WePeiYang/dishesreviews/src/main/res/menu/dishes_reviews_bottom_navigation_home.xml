@@ -8,12 +8,12 @@
         android:icon="@drawable/dishes_reviews_ic_action_home_selector"
         android:orderInCategory="0"
         app:showAsAction="ifRoom" />
-    <item
-        android:id="@+id/action_fast_comment"
-        android:enabled="true"
-        android:title="@string/text_fast_comment"
-        android:icon="@drawable/dishes_revews_ic_action_comment"
-        app:showAsAction="ifRoom" />
+    <!--<item-->
+    <!--android:id="@+id/action_fast_comment"-->
+    <!--android:enabled="true"-->
+    <!--android:title="@string/text_fast_comment"-->
+    <!--android:icon="@drawable/dishes_revews_ic_action_comment"-->
+    <!--app:showAsAction="ifRoom" />-->
     <item
         android:id="@+id/action_account"
         android:enabled="true"
