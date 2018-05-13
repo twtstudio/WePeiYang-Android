@@ -219,5 +219,6 @@
         android:layout_marginTop="78dp"
         android:text="Powered by TWTstudio"
         android:textColor="@color/white"
+        android:layout_marginBottom="28dp"
         android:textSize="12sp" />
 </LinearLayout>

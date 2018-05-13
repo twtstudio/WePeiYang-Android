@@ -14,4 +14,5 @@
     <color name="colorTextGray2">#989898</color>
     <color name="colorAdTextBackground">#f0989898</color>
     <color name="dishesActivityBackground">#EFEFF3</color>
+    <color name="grayBackground">#eeeeee</color>
 </resources>

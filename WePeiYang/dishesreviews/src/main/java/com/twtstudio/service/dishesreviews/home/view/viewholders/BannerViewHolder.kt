@@ -27,6 +27,7 @@ class BannerViewHolder(itemView: View, lifecycleOwner: LifecycleOwner) : BaseIte
 
             }
             setDelayTime(BANNER_DELAY_TIME)
+
             start()
         }
     }

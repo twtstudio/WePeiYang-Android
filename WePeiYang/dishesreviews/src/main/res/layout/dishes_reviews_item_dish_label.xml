@@ -2,9 +2,11 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:layout_marginRight="12dp"
     xmlns:tools="http://schemas.android.com/tools">
 
     <TextView
+        android:id="@+id/tv_label"
         android:layout_width="52dp"
         android:layout_height="20dp"
         android:background="@drawable/dishes_reviews_shape_label_border"

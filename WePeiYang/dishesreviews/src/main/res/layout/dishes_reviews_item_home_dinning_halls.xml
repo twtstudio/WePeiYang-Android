@@ -4,7 +4,8 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:paddingBottom="18dp"
-    android:paddingTop="18dp">
+    android:paddingTop="18dp"
+    android:background="@color/grayBackground">
 
     <Spinner
         android:id="@+id/sp_campus"

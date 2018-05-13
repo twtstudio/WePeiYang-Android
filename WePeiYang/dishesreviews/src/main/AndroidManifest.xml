@@ -19,6 +19,8 @@
         <activity android:name=".search.view.SearchActivity"/>
         <activity android:name=".dish.view.DishActivity" />
         <activity android:name=".canteen.CanteenActivity" />
+        <activity android:name=".share.ShareActivity" />
+        <activity android:name=".evaluate.EvaluateActivity" />
     </application>
 
 </manifest>
