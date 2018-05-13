@@ -35,10 +35,7 @@ class MainActivity : AppCompatActivity() {
             title = ""
         }
         setSupportActionBar(toolbar)
-        getSupportActionBar()?.apply {
-            setDisplayHomeAsUpEnabled(true)
-            setHomeAsUpIndicator(R.drawable.dishes_reviews_ic_action_back)
-        }
+        setDisplayHomeAsUpEnabled(true)
         tvTitle = findViewById<TextView>(R.id.tv_toolbar_title).apply {
             text = getString(R.string.app_name)
         }
@@ -51,15 +48,16 @@ class MainActivity : AppCompatActivity() {
                                 R.id.action_home -> {
                                     viewPager.currentItem = item.order
                                     tvTitle.text = getString(R.string.app_name)
+                                    setDisplayHomeAsUpEnabled(true)
                                 }
 //                                R.id.action_fast_comment -> {
 //                                    menu.findItem(R.id.menu_search)?.setVisible(false)
 //                                }
                                 R.id.action_account -> {
                                     viewPager.currentItem = item.order
-                                    tvTitle.text = getString(R.string.text_account)
+                                    tvTitle.text = getText(R.string.text_account)
                                     menu.findItem(R.id.menu_search)?.setVisible(false)
-
+                                    setDisplayHomeAsUpEnabled(false)
                                 }
                             }
                             invalidateOptionsMenu()
@@ -92,5 +90,12 @@ class MainActivity : AppCompatActivity() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun setDisplayHomeAsUpEnabled(showHomeAsUp: Boolean) {
+        getSupportActionBar()?.apply {
+            setDisplayHomeAsUpEnabled(showHomeAsUp)
+            setHomeAsUpIndicator(R.drawable.dishes_reviews_ic_action_back)
+        }
     }
 }

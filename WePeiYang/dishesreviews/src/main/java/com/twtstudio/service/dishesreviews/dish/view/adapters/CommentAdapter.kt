@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import com.twtstudio.service.dishesreviews.R
 import com.twtstudio.service.dishesreviews.base.BaseListAdapter
 import com.twtstudio.service.dishesreviews.dish.view.viewholders.CommentViewHolder
+import com.twtstudio.service.dishesreviews.model.Comment
 
 class CommentAdapter(list: List<Any>, context: Context, owner: LifecycleOwner) : BaseListAdapter(list, context, owner) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -14,6 +15,6 @@ class CommentAdapter(list: List<Any>, context: Context, owner: LifecycleOwner) :
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-
+        (holder as CommentViewHolder).bind(list.get(position) as Comment)
     }
 }

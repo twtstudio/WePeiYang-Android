@@ -2,7 +2,7 @@
     <string name="app_name">菜品点评</string>
     <string name="text_home">首页</string>
     <string name="text_fast_comment">快速评价</string>
-    <string name="text_account">个人中心</string>
+    <string name="text_account">我的</string>
     <string name="text_delicious_comment">好吃点评</string>
     <string name="text_delicious_index">好吃指数</string>
     <string name="ad">广告</string>
