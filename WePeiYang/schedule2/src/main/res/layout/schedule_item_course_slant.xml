@@ -5,12 +5,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.haozhang.lib.SlantedTextView
+    <com.twt.service.schedule2.view.schedule.SlantedTextView
         android:id="@+id/tv_course_slant"
         android:layout_width="30dp"
         android:layout_height="30dp"
         tools:slantedBackgroundColor="@color/colorPrimary"
-        app:slantedBackgroundColor="#33ffffff"
         app:slantedLength="12dp"
         android:alpha="0.8"
         android:layout_gravity="right|top"

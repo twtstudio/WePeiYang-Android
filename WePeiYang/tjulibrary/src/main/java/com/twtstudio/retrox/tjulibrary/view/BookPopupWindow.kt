@@ -16,6 +16,7 @@ import com.twt.wepeiyang.commons.ui.spanned
 import com.twtstudio.retrox.tjulibrary.R
 import com.twtstudio.retrox.tjulibrary.provider.Book
 import es.dmoral.toasty.Toasty
+import kotlinx.android.synthetic.main.popup_library_book.view.*
 import org.jetbrains.anko.dip
 import org.jetbrains.anko.horizontalMargin
 import org.jetbrains.anko.layoutInflater
@@ -38,7 +39,7 @@ class BookPopupWindow(val book: Book, mContext: Context) : BlurPopupWindow(mCont
             tv_book_name.text = book.title
             tv_book_author.text = book.author
             tv_location_name.text = book.local
-            tv_location_detail.text = book.callno.toString()
+            tv_location_detail.text = book.callno
             tv_book_in_time.text = book.loanTime
             tv_book_out_time.text = if (!book.isOverTime) "${book.returnTime} (剩余${book.timeLeft()}天)" else "${book.returnTime} (<span style=\"color:#FF5D64\";>已过期</span>)".spanned
             btn_book_borrow.setOnClickListener {

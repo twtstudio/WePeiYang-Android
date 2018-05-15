@@ -1,8 +1,11 @@
 package com.twt.service.schedule2.view.schedule
 
 import android.arch.lifecycle.LiveData
-import android.graphics.Color
+import android.content.Intent
+import android.graphics.*
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.support.v7.widget.*
 import android.view.View
 import android.widget.FrameLayout
@@ -26,6 +29,7 @@ import es.dmoral.toasty.Toasty
 import io.multimoon.colorful.CAppCompatActivity
 import org.jetbrains.anko.*
 import java.net.SocketTimeoutException
+
 
 class ScheduleActivity : CAppCompatActivity() {
     lateinit var recyclerView: RecyclerView
@@ -180,6 +184,46 @@ class ScheduleActivity : CAppCompatActivity() {
             weekSelectAdapter.refreshWeekSquareData(weekSquareDataList)
 
         }
+    }
+
+    fun shareSchedule() {
+        val bitmap = Bitmap.createBitmap(recyclerView.width, recyclerView.height, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(bitmap)
+        canvas.drawColor(-0x1)
+        recyclerView.invalidate()
+        recyclerView.draw(canvas)
+        canvas.apply {
+            val width = canvas.width.toFloat()
+            val height = canvas.height.toFloat()
+
+            drawText("Made For you ❤️ ", width - dip(8), height - dip(32), Paint().apply {
+                isAntiAlias = true
+                textSize = dip(16).toFloat()
+                textAlign = Paint.Align.RIGHT
+                typeface = Typeface.create("sans-serif-regular", Typeface.NORMAL)
+            })
+            drawText("WePeiYang  ", width - dip(8), height - dip(16), Paint().apply {
+                isAntiAlias = true
+                textSize = dip(12).toFloat()
+                textAlign = Paint.Align.RIGHT
+                typeface = Typeface.create("sans-serif-light", Typeface.NORMAL)
+            })
+        }
+
+        val url = MediaStore.Images.Media.insertImage(contentResolver, bitmap, "课程表分享", null)
+        val uri = Uri.parse(url)
+        val intent = Intent(Intent.ACTION_SEND).apply {
+            type = "image/*"
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION
+            putExtra(Intent.EXTRA_STREAM, uri)
+            intent.putExtra("Kdescription", "这是我的萌萌哒课程表！");
+        }
+        Toasty.success(ctx, "图片保存在 Pictures 文件夹").show()
+        startActivity(Intent.createChooser(intent, "课程表分享"));
+
+        val mediaScanIntent = Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE)
+        mediaScanIntent.data = uri
+        ctx.sendBroadcast(mediaScanIntent)
     }
 
     override fun onResume() {
