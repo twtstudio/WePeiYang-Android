@@ -33,6 +33,7 @@ class HomePagerAdapter(list: List<Any>, context: Context, owner: LifecycleOwner)
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when(holder){
+            is BannerViewHolder -> holder.bind()
             is DinningHallsViewHolder-> holder.bind()
             is ReviewsViewHolder -> holder.bind()
         }

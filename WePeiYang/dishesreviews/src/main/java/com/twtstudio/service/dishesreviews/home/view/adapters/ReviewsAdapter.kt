@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import com.twtstudio.service.dishesreviews.R
 import com.twtstudio.service.dishesreviews.base.BaseListAdapter
 import com.twtstudio.service.dishesreviews.home.view.viewholders.ReviewViewHolder
-import com.twtstudio.service.dishesreviews.model.Comment
+import com.twtstudio.service.dishesreviews.model.GoodComment
 
 class ReviewsAdapter(list: List<Any>, context: Context, owner: LifecycleOwner) : BaseListAdapter(list, context, owner) {
 
@@ -16,6 +16,6 @@ class ReviewsAdapter(list: List<Any>, context: Context, owner: LifecycleOwner) :
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        (holder as ReviewViewHolder).bind(list.get(position) as Comment)
+        (holder as ReviewViewHolder).bind(list.get(position) as GoodComment)
     }
 }
