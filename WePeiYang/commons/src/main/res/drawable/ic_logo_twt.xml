@@ -1,0 +1,42 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportHeight="34"
+    android:viewportWidth="34">
+    <path
+        android:fillAlpha="0.8"
+        android:fillColor="#00A1E9"
+        android:fillType="nonZero"
+        android:pathData="M2.6681,22.4768a5.781,5.6266 0,1 0,11.562 0a5.781,5.6266 0,1 0,-11.562 0z"
+        android:strokeAlpha="0.8"
+        android:strokeColor="#00000000"
+        android:strokeWidth="1" />
+    <path
+        android:fillColor="#00A1E9"
+        android:fillType="nonZero"
+        android:pathData="M19.5664,12.0892a5.781,5.6266 0,1 0,11.562 0a5.781,5.6266 0,1 0,-11.562 0z"
+        android:strokeAlpha="0.8"
+        android:strokeColor="#00000000"
+        android:strokeWidth="1" />
+    <path
+        android:fillColor="#00A1E9"
+        android:fillType="nonZero"
+        android:pathData="M6.2257,13.8204a8.4491,8.2235 0,1 0,16.8983 0a8.4491,8.2235 0,1 0,-16.8983 0z"
+        android:strokeAlpha="0.8"
+        android:strokeColor="#00000000"
+        android:strokeWidth="1" />
+    <path
+        android:fillColor="#00A1E9"
+        android:fillType="nonZero"
+        android:pathData="M5.0394,17.644L22.0165,7.3096A5.6266,5.6266 103.67,0 1,29.7483 9.1901L29.7483,9.1901A5.6266,5.6266 103.67,0 1,27.8678 16.9219L10.8907,27.2564A5.6266,5.6266 103.67,0 1,3.1589 25.3758L3.1589,25.3758A5.6266,5.6266 103.67,0 1,5.0394 17.644z"
+        android:strokeAlpha="0.8"
+        android:strokeColor="#00000000"
+        android:strokeWidth="1" />
+    <path
+        android:fillColor="#00A1E9"
+        android:fillType="nonZero"
+        android:pathData="M21.7462,6.6119C23.735,5.5462 26.1381,5.4006 28.2569,6.2177C30.3757,7.0347 31.9726,8.7226 32.5834,10.7907C33.7119,9.6177 34.0864,7.97 33.5659,6.4682C33.0453,4.9665 31.7088,3.8389 30.0597,3.5102C28.4107,3.1815 26.6996,3.7017 25.5711,4.8747C22.9424,2.3915 18.6622,2.3728 16.0089,4.8329C17.9151,5.0329 19.7191,5.7439 21.2044,6.8805C21.3956,6.8049 21.5762,6.7154 21.7462,6.6119Z"
+        android:strokeAlpha="0.8"
+        android:strokeColor="#00000000"
+        android:strokeWidth="1" />
+</vector>
