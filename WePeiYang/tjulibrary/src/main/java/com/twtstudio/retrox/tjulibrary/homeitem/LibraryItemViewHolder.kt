@@ -3,12 +3,10 @@ package com.twtstudio.retrox.tjulibrary.homeitem
 import android.app.Activity
 import android.arch.lifecycle.LifecycleOwner
 import android.arch.lifecycle.MutableLiveData
-import android.content.res.Resources
 import android.graphics.Color
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.*

@@ -1,27 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.twt.service">
+    package="com.twt.service">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <!--允许程序设置内置sd卡的写权限-->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- 允许程序设置内置sd卡的写权限 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <!--允许程序获取网络状态-->
+    <!-- 允许程序获取网络状态 -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <!--允许程序访问WiFi网络信息-->
+    <!-- 允许程序访问WiFi网络信息 -->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <!--允许程序读写手机状态和身份-->
+    <!-- 允许程序读写手机状态和身份 -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <!--允许程序访问CellID或WiFi热点来获取粗略的位置-->
+    <!-- 允许程序访问CellID或WiFi热点来获取粗略的位置 -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_LOGS" />
 
-    <!--友盟需要的一些权限-->
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <!-- 友盟需要的一些权限 -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
 
-
-    <!--上网功能的权限-->
+    <!-- 上网功能的权限 -->
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
@@ -29,34 +28,33 @@
         android:name=".WePeiYangApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:roundIcon="@mipmap/ic_launcher_round"
         android:label="@string/app_name"
         android:largeHeap="true"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="d2d29ff7e7bef685451725cc52f2683f"/>
+            android:value="d2d29ff7e7bef685451725cc52f2683f" />
 
         <activity
             android:name=".home.HomeActivity"
             android:launchMode="singleTop" />
-
-        <activity android:name=".settings.SettingsActivity" android:theme="@style/AppThemeActionBar"/>
-
-        <activity android:name=".settings.BindActivity" android:theme="@style/Theme.Intro"/>
-
+        <activity
+            android:name=".settings.SettingsActivity"
+            android:theme="@style/AppThemeActionBar" />
+        <activity
+            android:name=".settings.BindActivity"
+            android:theme="@style/Theme.Intro" />
         <activity
             android:name=".StartupActivity"
             android:exported="true"
             android:theme="@style/Splash">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".welcome.WelcomeActivity"
@@ -64,7 +62,7 @@
         <activity
             android:name="com.tencent.bugly.beta.ui.BetaActivity"
             android:theme="@android:style/Theme.Translucent" />
-        <activity android:name=".settings.DevTalkActivity"/>
+        <activity android:name=".settings.DevTalkActivity" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -73,27 +71,33 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/provider_paths"/>
+                android:resource="@xml/provider_paths" />
         </provider>
 
-        <receiver android:name=".widget.ScheduleWidgetProvider" android:label="@string/app_schedule_widget_name">
+        <receiver
+            android:name=".widget.ScheduleWidgetProvider"
+            android:label="@string/app_schedule_widget_name">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-                <action android:name="com.twt.appwidget.refresh"/>
+                <action android:name="com.twt.appwidget.refresh" />
             </intent-filter>
-            <meta-data android:name="android.appwidget.provider"
-                android:resource="@xml/schedule_widget_provider"/>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/schedule_widget_provider" />
         </receiver>
 
-        <service android:name=".widget.WidgetService"
-            android:permission="android.permission.BIND_REMOTEVIEWS"/>
-
-        <service android:name=".push.DebugProxyService"/>
+        <service
+            android:name=".widget.WidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
+        <service android:name=".push.DebugProxyService" />
 
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="561cae6ae0f55abd990035bf" >
-        </meta-data>
+            android:value="561cae6ae0f55abd990035bf" />
+
+        <activity android:name=".home.news.View.WebActivity" />
+        <activity android:name=".home.news.WebActivity"></activity>
     </application>
 
 </manifest>

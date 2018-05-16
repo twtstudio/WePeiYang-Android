@@ -104,12 +104,13 @@ kotlin {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation('com.android.support.test.espresso:espresso-core:3.0.1', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-    [':auth', ':bike', ':commons', ':gpa2', ':schedule', ':tjulibrary', ':tjunet'].each {
+    [':auth', ':bike', ':commons', ':gpa2', ':schedule', ':tjulibrary', ':tjunet',':news2'].each {
         implementation project(it)
     }
     implementation 'com.twt.service:fragmentation:1.1.0'
@@ -127,4 +128,12 @@ dependencies {
     implementation 'com.github.shem8:material-login:2.1.1'
     implementation 'de.hdodenhof:circleimageview:2.1.0'
 
+
+    //banner
+    implementation 'com.github.pinguo-zhouwei:MZBannerView:v2.0.0'
+
+    //glide
+    //compile 'com.github.bumptech.glide:glide:3.6.1'
 }
+
+apply plugin: 'kotlin-android-extensions'

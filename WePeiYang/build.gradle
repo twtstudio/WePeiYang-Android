@@ -8,7 +8,7 @@ buildscript {
                 compileSdk  : 27,
                 buildTools  : '27.0.2',
                 support     : '27.0.2',
-                kotlin      : '1.2.30',
+                kotlin      : '1.2.41',
                 anko        : '0.10.1',
                 butterknife : '8.5.1',
                 retrolambda : '3.7.0',
@@ -72,6 +72,7 @@ buildscript {
         jcenter()
         google()
         maven { url 'https://nexus.twtstudio.com/repository/maven-public/' }
+        maven { url 'https://jitpack.io' }
     }
 
     dependencies {
