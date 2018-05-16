@@ -54,57 +54,60 @@ data class DishesHomeBean(
         val goodComment: List<GoodComment> = listOf()
 )
 
-data class Canteen(
-        val canteen_id: Int = 0, //2
-        val canteen_name: String = "", //兰
-        val canteen_phone: Int = 0, //12345456
-        val canteen_address: String = "", //兰园
-        val canteen_time: String = "", //123
-        val canteen_floor: Int = 0, //2
-        val created_at: String = "", //2018-04-12 10:39:33
-        val updated_at: String = "", //2018-04-12 10:39:33
-        val deleted_at: Any = Any(), //null
-        val canteen_picture_address: Any = Any() //null
-)
 
 data class Top10Food(
-        val food_id: Int = 0, //4
-        val food_statement: Any = Any(), //null
-        val food_name: String = "", //HD
-        val food_time: Any = Any(), //null
+        val food_id: Int = 0, //19
+        val food_statement: String = "", //中国名菜
+        val food_name: String = "", //辣炒牛肉
+        val food_time: String = "", //晚餐
         val food_price: Int = 0, //10
-        val food_picture_address: String = "", //desktop
-        val canteen_id: Int = 0, //2
-        val canteen_name: Any = Any(), //null
+        val food_picture_address: String = "", //null
+        val canteen_id: Int = 0, //19
+        val canteen_name: String = "", //棠园
         val food_floor: String = "", //1
-        val food_window: Int = 0, //10
-        val food_comment_number: Int = 0, //2
-        val food_praise_number: Int = 0, //18
-        val food_total_score: Any = Any(), //null
-        val food_score: Int = 0, //6
-        val food_collect_number: Int = 0, //1
-        val created_at: String = "", //2018-04-10 14:35:52
+        val food_window: Int = 0, //1
+        val food_comment_number: Int = 0, //1
+        val food_praise_number: Int = 0, //0
+        val food_total_score: Int = 0, //5
+        val food_score: Int = 0, //5
+        val food_collect_number: Any = Any(), //null
+        val created_at: String = "", //2018-05-05 12:40:11
         val deleted_at: Any = Any(), //null
-        val updated_at: String = "" //2018-04-26 00:46:53
+        val updated_at: String = "" //2018-05-05 14:01:22
 )
 
 data class GoodComment(
-        val comment_id: Int = 0, //12
-        val food_id: Int = 0, //5
-        val commenter_id: Int = 0, //15
-        val commenter_name: Any = Any(), //null
-        val food_time: String = "", //早餐
-        val food_score: Int = 0, //4
+        val comment_id: Int = 0, //36
+        val food_name: String = "", //null
+        val food_id: Int = 0, //15
+        val commenter_id: Int = 0, //1
+        val commenter_name: String = "", //Dean
+        val food_time: String = "", //午餐
+        val food_score: Int = 0, //5
         val comment_content: String = "", //这个东西太和我的胃口了
-        val comment_praise_number: Int = 0, //0
+        val comment_praise_number: Int = 0, //1
         val comment_is_anonymous: Int = 0, //0
-        val picture_address1: Any = Any(), //null
-        val picture_address2: Any = Any(), //null
-        val picture_address3: Any = Any(), //null
-        val picture_address4: Any = Any(), //null
-        val created_at: String = "", //2018-05-03 00:08:56
+        val picture_address1: String = "",
+        val picture_address2: String = "",
+        val picture_address3: String = "",
+        val picture_address4: String = "",
+        val created_at: String = "", //2018-05-05 13:05:05
         val deleted_at: Any = Any(), //null
-        val updated_at: String = "" //2018-05-03 00:08:56
+        val updated_at: String = "", //2018-05-05 14:35:39
+        val isCurrentUserPraised: Boolean = false //true
+)
+
+data class Canteen(
+        val canteen_id: Int = 0, //18
+        val canteen_name: String = "", //竹园
+        val canteen_phone: Int = 0, //1425367987
+        val canteen_address: String = "", //天大北洋园
+        val canteen_time: String = "", //bantian
+        val canteen_floor: Int = 0, //2
+        val created_at: String = "", //2018-05-05 12:19:54
+        val updated_at: String = "", //2018-05-05 12:19:54
+        val deleted_at: Any = Any(), //null
+        val canteen_picture_address: String = "" //null
 )
 /////////////////////////////////////Home/////////////////////////////////////
 
