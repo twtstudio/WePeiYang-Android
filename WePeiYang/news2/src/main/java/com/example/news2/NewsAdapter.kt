@@ -26,7 +26,7 @@ class NewsAdapter(val context: Context, val lifecycleOwner: LifecycleOwner) : Re
 
     val list: MutableList<RecyclerViewData> = mutableListOf()
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (position == 0) {
             holder as MyBannerViewHolder
             newsBannerLiveData.bind(lifecycleOwner) {
@@ -68,7 +68,7 @@ class NewsAdapter(val context: Context, val lifecycleOwner: LifecycleOwner) : Re
 
     override fun getItemCount(): Int = list.size
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): RecyclerView.ViewHolder? {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         //val view: View = LayoutInflater.from(context).inflate(R.layout.news_noimage_layout, parent, false)
         return getViewHolderByViewType(viewType, parent)//NewsItemViewHolder(context, view)
     }
@@ -86,11 +86,11 @@ class NewsAdapter(val context: Context, val lifecycleOwner: LifecycleOwner) : Re
     }
 
     @SuppressLint("ResourceType")
-    fun getViewHolderByViewType(viewType: Int, parent: ViewGroup?): RecyclerView.ViewHolder? {
+    private fun getViewHolderByViewType(viewType: Int, parent: ViewGroup?): RecyclerView.ViewHolder {
         var holder: RecyclerView.ViewHolder? = null
-        var viewNoImageLayout: View = LayoutInflater.from(context).inflate(R.layout.news_noimage_layout, parent, false)
-        var viewImageLayout: View = LayoutInflater.from(context).inflate(R.layout.news_image_layout, parent, false)
-        var bannerLayout: View = LayoutInflater.from(context).inflate(R.layout.news_banner, parent, false)
+        val viewNoImageLayout: View = LayoutInflater.from(context).inflate(R.layout.news_noimage_layout, parent, false)
+        val viewImageLayout: View = LayoutInflater.from(context).inflate(R.layout.news_image_layout, parent, false)
+        val bannerLayout: View = LayoutInflater.from(context).inflate(R.layout.news_banner, parent, false)
         viewImageLayout.setOnClickListener(this)
         viewNoImageLayout.setOnClickListener(this)
         if (viewType == IMAGE) {
@@ -100,11 +100,11 @@ class NewsAdapter(val context: Context, val lifecycleOwner: LifecycleOwner) : Re
         } else if (viewType == NOIMAGE) {
             holder = NoImageViewHolder(viewNoImageLayout)
         }
-        return holder
+        return holder!!
     }
 
     override fun onClick(v: View) {
-        var intent = Intent(context, WebActivity::class.java)
+        val intent = Intent(context, WebActivity::class.java)
         intent.putExtra("recyclerViewUrl", v.getTag() as Int)
         context.startActivity(intent)
     }
@@ -136,7 +136,7 @@ class NewsAdapter(val context: Context, val lifecycleOwner: LifecycleOwner) : Re
         lateinit var image: ImageView
         lateinit var view: View
         override fun onBind(context: Context?, int: Int, carousel: Carousel) {
-            if (carousel != null && context != null) {
+            if (context != null) {
                 view.setTag(carousel.index)
                 view.setOnClickListener {
                     var intent = Intent(myContext, WebActivity::class.java)

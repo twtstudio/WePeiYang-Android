@@ -77,7 +77,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.2'
+        classpath 'com.android.tools.build:gradle:3.2.0-alpha14'
         classpath "me.tatarka:gradle-retrolambda:${versions.retrolambda}"
         classpath "com.jakewharton:butterknife-gradle-plugin:${versions.butterknife}"
 //        classpath 'com.antfortune.freeline:gradle:0.8.9-SNAPSHOT'
