@@ -13,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
+import com.twt.service.schedule2.BuildConfig
 import com.twt.service.schedule2.R
 import com.twt.service.schedule2.extensions.RefreshCallback
 import com.twt.service.schedule2.extensions.getScreenHeight
@@ -30,6 +31,7 @@ import com.twt.wepeiyang.commons.experimental.cache.RefreshState
 import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
 import es.dmoral.toasty.Toasty
 import io.multimoon.colorful.CAppCompatActivity
+import me.ele.uetool.UETool
 import org.jetbrains.anko.*
 import java.net.SocketTimeoutException
 
@@ -65,6 +67,7 @@ class ScheduleActivity : CAppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (BuildConfig.DEBUG) UETool.showUETMenu()
         setContentView(R.layout.schedule_act_main)
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
@@ -78,16 +81,6 @@ class ScheduleActivity : CAppCompatActivity() {
         }.apply {
             layoutParams = FrameLayout.LayoutParams(matchParent, wrapContent)
             visibility = View.GONE
-        }
-
-        with(frameLayout) {
-            textView { }
-        }
-
-        frameLayout.verticalLayout {
-            textView().lparams(width = matchParent, height = matchParent) {
-                //                gravity = Gravity.CENTER_HORIZONTAL
-            }
         }
 
         val addButton = findViewById<ImageView>(R.id.iv_toolbar_add)
@@ -187,9 +180,19 @@ class ScheduleActivity : CAppCompatActivity() {
             weekSelectAdapter.refreshWeekSquareData(weekSquareDataList)
 
             if (currentWeek == -1) {
-                weekSelectRecyclerView.scrollToPosition(it.getCurrentWeek() + 1) // 因为往后挪一个效果更好hhh
-            }
+                val smoothScroller = object : LinearSmoothScroller(ctx) {
+                    override fun getVerticalSnapPreference(): Int {
+                        return LinearSmoothScroller.SNAP_TO_START
+                    }
 
+                    override fun getHorizontalSnapPreference(): Int {
+                        return SNAP_TO_START
+                    }
+                }
+                smoothScroller.targetPosition = it.getCurrentWeek() - 1 // 从0开始的程序员世界
+//                weekSelectRecyclerView.layoutManager.startSmoothScroll(smoothScroller)
+                weekSelectRecyclerView.scrollToPosition(it.getCurrentWeek() - 1)
+            }
         }
     }
 

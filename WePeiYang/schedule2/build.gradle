@@ -61,6 +61,9 @@ dependencies {
     implementation project(':vpbs')
     implementation 'com.otaliastudios:autocomplete:1.1.0'
 
+    debugImplementation 'me.ele:uetool:1.0.12'
+    releaseImplementation 'me.ele:uetool-no-op:1.0.12'
+
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.hamcrest:hamcrest-junit:2.0.0.0'
     testImplementation "org.mockito:mockito-core:2.16.0"
