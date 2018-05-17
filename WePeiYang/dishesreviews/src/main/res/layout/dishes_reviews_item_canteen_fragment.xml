@@ -2,11 +2,12 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/background_gray">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_left"
-        android:layout_width="68dp"
+        android:layout_width="76dp"
         android:layout_height="match_parent" />
 
 
@@ -14,6 +15,7 @@
         android:id="@+id/recycler_right"
         android:layout_width="0dp"
         android:layout_height="match_parent"
+        android:background="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/recycler_left" />
 
