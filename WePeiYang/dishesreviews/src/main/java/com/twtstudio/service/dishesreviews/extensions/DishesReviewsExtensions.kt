@@ -4,7 +4,7 @@ import android.content.Context
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 
-fun ImageView.displayImage(context: Context, path: Any, scaleType: ImageView.ScaleType = ImageView.ScaleType.CENTER_INSIDE) {
+fun ImageView.displayImage(context: Context, path: Any, scaleType: ImageView.ScaleType = ImageView.ScaleType.CENTER) {
     Glide.with(context)
             .load(path)
             .fitCenter()
