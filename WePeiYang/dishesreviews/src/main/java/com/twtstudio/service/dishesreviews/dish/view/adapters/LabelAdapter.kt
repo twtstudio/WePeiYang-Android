@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import com.twtstudio.service.dishesreviews.R
 import com.twtstudio.service.dishesreviews.base.BaseListAdapter
 import com.twtstudio.service.dishesreviews.dish.view.viewholders.LabelViewHolder
-import com.twtstudio.service.dishesreviews.model.FoodMark
 
 class LabelAdapter(list: List<Any>, context: Context, owner: LifecycleOwner) : BaseListAdapter(list, context, owner) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -15,6 +14,6 @@ class LabelAdapter(list: List<Any>, context: Context, owner: LifecycleOwner) : B
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        (holder as LabelViewHolder).bind(list.get(position) as FoodMark)
+        (holder as LabelViewHolder).bind(list.get(position) as String)
     }
 }

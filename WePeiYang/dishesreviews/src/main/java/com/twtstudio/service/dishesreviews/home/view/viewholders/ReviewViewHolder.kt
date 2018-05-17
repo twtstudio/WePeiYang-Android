@@ -6,8 +6,10 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
+import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
 import com.twtstudio.service.dishesreviews.R
 import com.twtstudio.service.dishesreviews.base.BaseItemViewHolder
+import com.twtstudio.service.dishesreviews.dish.model.DishesFoodProvider
 import com.twtstudio.service.dishesreviews.dish.view.DishActivity
 import com.twtstudio.service.dishesreviews.extensions.displayImage
 import com.twtstudio.service.dishesreviews.model.GoodComment
@@ -30,6 +32,9 @@ class ReviewViewHolder(itemView: View, lifecycleOwner: LifecycleOwner) : BaseIte
         tvDishName.text = comment.food_name
         tvDate.text = comment.updated_at
         tvComment.text = comment.comment_content
+        DishesFoodProvider.getDishesFood(comment.food_id).bindNonNull(lifecycleOwner) {
+            ivDish.displayImage(itemView.context, it.foodInfo.food_picture_address, ImageView.ScaleType.CENTER)
+        }
         iv1.displayImage(itemView.context, comment.picture_address1)
         iv2.displayImage(itemView.context, comment.picture_address2)
         iv3.displayImage(itemView.context, comment.picture_address3)
