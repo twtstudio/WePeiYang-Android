@@ -20,6 +20,8 @@ class RightAdapter(var list: List<Any>, val context: Context) : RecyclerView.Ada
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is MyLeftHolder) {
             holder.tv_name.text = ((list[position] as CanteenBean).foodName)
+            holder.view.setOnClickListener {
+            }
         }
     }
 

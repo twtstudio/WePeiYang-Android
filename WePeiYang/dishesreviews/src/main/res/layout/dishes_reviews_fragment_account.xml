@@ -60,7 +60,7 @@
             android:layout_height="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="32dp"
-            android:src="@drawable/dishes_reviews_heart_empty"
+            android:src="@drawable/dishes_reviews_action_comment2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/info_icon" />
 
@@ -70,15 +70,15 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:text="我的点评"
-            android:textSize="12sp"
+            android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="@id/icon1"
             app:layout_constraintStart_toEndOf="@id/icon1"
             app:layout_constraintTop_toTopOf="@id/icon1" />
 
 
         <TextView
-            android:layout_width="16dp"
-            android:layout_height="16dp"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
             android:layout_marginEnd="24dp"
             android:background="@drawable/dishes_reviews_textview_round"
             android:gravity="center"
@@ -104,7 +104,7 @@
             android:layout_marginBottom="32dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="48dp"
-            android:src="@drawable/dishes_reviews_heart_empty"
+            android:src="@drawable/dishes_reviews_action_collect"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/icon1" />
@@ -115,14 +115,14 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:text="我的收藏"
-            android:textSize="12sp"
+            android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="@id/icon2"
             app:layout_constraintStart_toEndOf="@id/icon2"
             app:layout_constraintTop_toTopOf="@id/icon2" />
 
         <TextView
-            android:layout_width="16dp"
-            android:layout_height="16dp"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
             android:layout_marginEnd="24dp"
             android:background="@drawable/dishes_reviews_textview_round"
             android:gravity="center"

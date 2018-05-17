@@ -1,11 +1,12 @@
 package com.twtstudio.service.dishesreviews.canteen
 
 import android.content.Context
+import android.graphics.Color
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CheckedTextView
+import android.widget.TextView
 import com.twtstudio.service.dishesreviews.R
 
 /**
@@ -25,6 +26,7 @@ class LeftAdapter(var list: List<Any>, val context: Context, val block: (Int) ->
 
             holder.chtv.apply {
                 text = list[position] as String
+                holder.view.setBackgroundColor(if (selectedPos == position) resources.getColor(R.color.white) else Color.parseColor("#F8F8F8"))
                 setTextColor(if (selectedPos == position) resources.getColor(R.color.black_color) else resources.getColor(R.color.colorTextGray1))
                 setOnClickListener {
                     block(position)
@@ -45,7 +47,7 @@ class LeftAdapter(var list: List<Any>, val context: Context, val block: (Int) ->
     }
 
     inner class MyLeftHolder(val view: View) : RecyclerView.ViewHolder(view) {
-        val chtv = view.findViewById<CheckedTextView>(R.id.ch_tv)
+        val chtv = view.findViewById<TextView>(R.id.ch_tv)
     }
 
 
