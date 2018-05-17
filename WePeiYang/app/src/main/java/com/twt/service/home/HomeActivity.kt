@@ -12,10 +12,10 @@ import android.support.v4.view.ViewPager
 import android.support.v7.app.AlertDialog
 import android.transition.Fade
 import android.view.View
+import com.example.news2.NewsTwoFragment
 import com.twt.service.R
 import com.twt.service.base.BaseActivity
 import com.twt.service.home.common.CommonFragment
-import com.twt.service.home.news.NewsFragment
 import com.twt.service.home.tools.ToolsFragment
 import com.twt.service.home.user.UserFragment
 import com.twt.service.update.UpdateManager
@@ -49,7 +49,7 @@ class HomeActivity : BaseActivity() {
 //            statusBarColor =
         }
 
-        fragments = listOf(CommonFragment(), NewsFragment(), ToolsFragment(), UserFragment())
+        fragments = listOf(CommonFragment(), NewsTwoFragment(), ToolsFragment(), UserFragment())
 
         viewPager = findViewById<ViewPager>(R.id.fl_container).apply {
             adapter = object : FragmentPagerAdapter(supportFragmentManager) {
