@@ -22,6 +22,9 @@ interface DishesService {
     @GET("/v1/food/food")
     fun getFood(@Query("foodId") foodId: Int): Deferred<CommonBody<DishesFoodBean>>
 
+    @GET("/v1/food/user/my_comment")
+    fun getAccount(@Query("userId") userId: String): Deferred<CommonBody<DishesAccountBean>>
+
     @FormUrlEncoded
     @POST("/v1/food/comment")
     fun evaluate(@FieldMap fields: Map<String, String>): Deferred<CommonBody<DishesEvaluateBean>>
@@ -231,7 +234,30 @@ data class FoodRecommend(
 data class DishesFoodBean(
         val foodInfo: FoodInfo = FoodInfo(),
         val foodMark: FoodMark = FoodMark(),
+        val isPraisedFood: Boolean = false, //true
+        val isCollectedFood: Boolean = false, //true
         val comment: List<Comment> = listOf()
+)
+
+data class FoodInfo(
+        val food_id: Int = 0, //15
+        val food_statement: String = "", //中国名菜
+        val food_name: String = "", //鱼香鸡丝
+        val food_time: String = "", //晚餐
+        val food_price: Int = 0, //10
+        val food_picture_address: String = "", //null
+        val canteen_id: Int = 0, //15
+        val canteen_name: String = "", //梅园
+        val food_floor: String = "", //1
+        val food_window: Int = 0, //1
+        val food_comment_number: Int = 0, //3
+        val food_praise_number: Int = 0, //1
+        val food_total_score: Int = 0, //15
+        val food_score: Int = 0, //5
+        val food_collect_number: Int = 0, //1
+        val created_at: String = "", //2018-05-05 12:35:21
+        val deleted_at: Any = Any(), //null
+        val updated_at: String = "" //2018-05-05 14:34:02
 )
 
 data class FoodMark(
@@ -241,44 +267,25 @@ data class FoodMark(
 )
 
 data class Comment(
-        val comment_id: Int = 0, //32
-        val food_id: Int = 0, //11
-        val commenter_id: Int = 0, //2
-        val commenter_name: Any = Any(), //null
-        val food_time: String = "", //早餐
-        val food_score: Int = 0, //4
+        val comment_id: Int = 0, //36
+        val food_id: Int = 0, //15
+        val commenter_id: Int = 0, //1
+        val commenter_name: String = "", //Dean
+        val food_time: String = "", //午餐
+        val food_score: Int = 0, //5
         val comment_content: String = "", //这个东西太和我的胃口了
-        val comment_praise_number: Int = 0, //0
+        val comment_praise_number: Int = 0, //1
         val comment_is_anonymous: Int = 0, //0
-        val picture_address1: Any = Any(), //null
-        val picture_address2: Any = Any(), //null
-        val picture_address3: Any = Any(), //null
-        val picture_address4: Any = Any(), //null
-        val created_at: String = "", //2018-05-03 20:27:18
+        val picture_address1: String = "",
+        val picture_address2: String = "",
+        val picture_address3: String = "",
+        val picture_address4: String = "",
+        val created_at: String = "", //2018-05-05 13:05:05
         val deleted_at: Any = Any(), //null
-        val updated_at: String = "" //2018-05-03 20:27:18
+        val updated_at: String = "", //2018-05-05 14:35:39
+        val isCurrentUserPraised: Boolean = false //true
 )
 
-data class FoodInfo(
-        val food_id: Int = 0, //11
-        val food_statement: String = "", //中国名菜
-        val food_name: String = "", //鱼香鸡丝
-        val food_time: String = "", //晚餐
-        val food_price: Int = 0, //10
-        val food_picture_address: String = "", //null
-        val canteen_id: Int = 0, //6
-        val canteen_name: String = "", //梅园
-        val food_floor: String = "", //1
-        val food_window: Int = 0, //1
-        val food_comment_number: Int = 0, //3
-        val food_praise_number: Int = 0, //0
-        val food_total_score: Int = 0, //12
-        val food_score: Int = 0, //4
-        val food_collect_number: Any = Any(), //null
-        val created_at: String = "", //2018-05-03 20:20:49
-        val deleted_at: Any = Any(), //null
-        val updated_at: String = "" //2018-05-03 20:27:21
-)
 /////////////////////////////////////菜品页/////////////////////////////////////
 
 /////////////////////////////////////评价页/////////////////////////////////////
@@ -371,3 +378,31 @@ data class DishesLikeBean(
 //		val collect_id: Int = 0 //10
 //)
 /////////////////////////////////////收藏菜品/////////////////////////////////////
+
+/////////////////////////////////////个人主页 我的评论/////////////////////////////////////
+
+
+data class DishesAccountBean(
+        val commentNumber: Int = 0, //4
+        val comment: List<MyComment> = listOf()
+)
+
+data class MyComment(
+        val comment_id: Int = 0, //15
+        val food_id: Int = 0, //5
+        val commenter_id: Int = 0, //1
+        val commenter_name: Any = Any(), //null
+        val food_time: String = "", //早餐
+        val food_score: Int = 0, //4
+        val comment_content: String = "", //这个东西太和我的胃口了
+        val comment_praise_number: Int = 0, //0
+        val comment_is_anonymous: Int = 0, //0
+        val picture_address1: Any = Any(), //null
+        val picture_address2: Any = Any(), //null
+        val picture_address3: Any = Any(), //null
+        val picture_address4: Any = Any(), //null
+        val created_at: String = "", //2018-05-03 00:13:26
+        val deleted_at: Any = Any(), //null
+        val updated_at: String = "" //2018-05-03 00:13:26
+)
+/////////////////////////////////////个人主页 我的评论/////////////////////////////////////

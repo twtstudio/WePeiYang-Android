@@ -64,7 +64,7 @@
             android:layout_weight="1"
             tools:src="@drawable/dishes_reviews_action_collect" />
     </LinearLayout>
-
+    <!--TODO 改成可展开的-->
     <TextView
         android:id="@+id/tv_comment"
         android:layout_width="wrap_content"

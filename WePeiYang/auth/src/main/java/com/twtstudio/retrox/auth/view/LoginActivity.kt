@@ -10,7 +10,6 @@ import android.widget.EditText
 import android.widget.ProgressBar
 import com.twt.wepeiyang.commons.experimental.cache.CacheIndicator.REMOTE
 import com.twt.wepeiyang.commons.experimental.cache.RefreshState
-import com.twt.wepeiyang.commons.experimental.startActivity
 import com.twtstudio.retrox.auth.R
 import com.twtstudio.retrox.auth.api.authSelfLiveData
 import com.twtstudio.retrox.auth.api.login
@@ -50,7 +49,8 @@ class LoginActivity : AppCompatActivity() {
                                 when (it) {
                                     is RefreshState.Success -> {
                                         Toasty.success(activity(), "登录成功").show()
-                                        startActivity(name = "welcome")
+                                        //TODO 整合菜品点评到微北洋里时取消注释
+                                        //startActivity(name = "welcome")
                                         finish()
                                     }
                                     is RefreshState.Failure -> {

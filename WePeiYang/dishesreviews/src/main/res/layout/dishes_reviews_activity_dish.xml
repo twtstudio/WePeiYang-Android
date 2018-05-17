@@ -32,7 +32,7 @@
         app:layout_constraintTop_toTopOf="@id/img_bg">
 
         <TextView
-            android:id="@+id/tv_dish"
+            android:id="@+id/tv_dish_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
@@ -50,6 +50,7 @@
             tool:text="竹园餐厅 2楼" />
 
         <RatingBar
+            android:id="@+id/rb_score"
             style="@style/DishesRatingBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
