@@ -13,6 +13,7 @@ class SearchActivity : AppCompatActivity(){
     private lateinit var searchView: SearchView
     private lateinit var tvResult: TextView
     private var resultNo = 0
+    private lateinit var keyWord: String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.dishes_reviews_activity_search)
@@ -26,7 +27,18 @@ class SearchActivity : AppCompatActivity(){
         }
         searchView=findViewById<SearchView>(R.id.sv).apply {
             setIconified(false)
+            setFocusableInTouchMode(true)
             setOnCloseListener {  true} //禁止关闭搜索框
+//            setOnQueryTextListener(object:SearchView.OnQueryTextListener{
+//                override fun onQueryTextSubmit(query: String?): Boolean {
+//                    return false
+//                }
+//
+//                override fun onQueryTextChange(newText: String?): Boolean {
+//                    return false
+//                }
+//            })
+//            keyWord
         }
         tvResult = findViewById<TextView>(R.id.tv_result).apply {
             text = "搜索结果—共${resultNo}条"

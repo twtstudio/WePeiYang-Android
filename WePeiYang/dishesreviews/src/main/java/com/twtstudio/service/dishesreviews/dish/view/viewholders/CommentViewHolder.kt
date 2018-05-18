@@ -16,6 +16,7 @@ class CommentViewHolder(itemView: View, lifecycleOwner: LifecycleOwner) : BaseIt
     private val iv2 = itemView.findViewById<ImageView>(R.id.iv_2)
     private val iv3 = itemView.findViewById<ImageView>(R.id.iv_3)
     private val iv4 = itemView.findViewById<ImageView>(R.id.iv_4)
+    private val tvComment = itemView.findViewById<TextView>(R.id.tv_comment)
     fun bind(comment: Comment) {
         tvUserName.text = comment.commenter_name
         tvDate.text = comment.updated_at
@@ -23,5 +24,6 @@ class CommentViewHolder(itemView: View, lifecycleOwner: LifecycleOwner) : BaseIt
         iv2.displayImage(itemView.context, comment.picture_address2)
         iv3.displayImage(itemView.context, comment.picture_address3)
         iv4.displayImage(itemView.context, comment.picture_address4)
+        tvComment.text = comment.comment_content
     }
 }

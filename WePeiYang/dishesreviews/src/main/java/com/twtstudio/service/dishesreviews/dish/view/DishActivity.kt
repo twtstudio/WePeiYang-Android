@@ -44,7 +44,7 @@ class DishActivity : AppCompatActivity() {
     private lateinit var labelAdapter: LabelAdapter
     private var commentList: MutableList<Comment> = mutableListOf()
         set(value) {
-            labelAdapter.notifyDataSetChanged()
+            commentAdapter.notifyDataSetChanged()
         }
     private lateinit var commentAdapter: CommentAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -86,6 +86,7 @@ class DishActivity : AppCompatActivity() {
         llComment = findViewById<LinearLayout>(R.id.ll_comment).apply {
             setOnClickListener {
                 val intent = Intent(this@DishActivity, EvaluateActivity::class.java)
+                intent.putExtra("FoodId", foodId)
                 startActivity(intent)
             }
         }
@@ -95,15 +96,18 @@ class DishActivity : AppCompatActivity() {
                 startActivity(intent)
             }
         }
-
         DishesFoodProvider.getDishesFood(foodId).bindNonNull(this) {
             tvTitle.text = it.foodInfo.food_name
             tvDishName.text = it.foodInfo.food_name
             tvLocation.text = it.foodInfo.canteen_name
             ivBg.displayImage(this, it.foodInfo.food_picture_address, ImageView.ScaleType.CENTER)
-            commentList.addAll(it.comment)
             setTag(it.foodMark)
+            commentList.clear()
+            commentList.addAll(it.comment)
+            commentAdapter.notifyDataSetChanged()
+            labelAdapter.notifyDataSetChanged()
         }
+
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -115,6 +119,7 @@ class DishActivity : AppCompatActivity() {
 
     //TODO 标签逻辑有问题
     private fun setTag(foodMark: FoodMark) {
+        labelList.clear()
         when {
             foodMark.spicy > 0 -> labelList.add("辣")
             foodMark.attitude > 0 -> labelList.add("服务好")

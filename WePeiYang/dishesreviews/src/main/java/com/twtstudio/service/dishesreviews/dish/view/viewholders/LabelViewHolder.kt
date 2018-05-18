@@ -9,6 +9,6 @@ import com.twtstudio.service.dishesreviews.base.BaseItemViewHolder
 class LabelViewHolder(itemView: View, lifecycleOwner: LifecycleOwner) : BaseItemViewHolder(itemView, lifecycleOwner) {
     private val tvLabel = itemView.findViewById<TextView>(R.id.tv_label)
     fun bind(tag: String) {
-
+        tvLabel.text = tag
     }
 }
