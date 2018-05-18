@@ -11,7 +11,8 @@
         android:layout_width="76dp"
         android:layout_height="76dp"
         android:layout_marginStart="10dp"
-        android:src="@mipmap/ic_launcher_round"
+        android:scaleType="centerCrop"
+        android:src="@drawable/dishes_reviews_test_food"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -19,14 +20,14 @@
     <TextView
         android:id="@+id/tv_name"
         android:layout_width="80dp"
-        android:layout_height="18dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="4dp"
         android:ellipsize="end"
         android:gravity="center_vertical"
-        android:text="水煮鱼"
+        android:text="烤紫薯精"
         android:textColor="@color/searchItemText1"
-        android:textSize="14sp"
+        android:textSize="12sp"
         app:layout_constraintStart_toEndOf="@id/img_icon"
         app:layout_constraintTop_toTopOf="@id/img_icon" />
 
@@ -34,9 +35,9 @@
         android:id="@+id/tv_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="¥12"
+        android:text="¥99"
         android:textColor="@color/colorPrimary"
-        android:textSize="16sp"
+        android:textSize="14sp"
         app:layout_constraintStart_toStartOf="@id/tv_name"
         app:layout_constraintTop_toBottomOf="@id/tv_name" />
 
@@ -49,16 +50,16 @@
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
         android:isIndicator="true"
-        android:rating="2"
+        android:rating="5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/tv_name" />
 
     <ImageView
         android:id="@+id/img_like"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_marginTop="4dp"
-        android:src="@drawable/dishes_reviews_heart_empty"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/dishes_reviews_like"
         app:layout_constraintStart_toStartOf="@id/tv_price"
         app:layout_constraintTop_toBottomOf="@id/tv_price" />
 
@@ -67,18 +68,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="2dp"
-        android:text="12"
-        android:textSize="14sp"
+        android:text="99"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="@id/img_like"
         app:layout_constraintStart_toEndOf="@id/img_like"
         app:layout_constraintTop_toTopOf="@id/img_like" />
 
     <ImageView
         android:id="@+id/img_comment"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
         android:layout_marginStart="8dp"
 
-        android:src="@drawable/dishes_reviews_heart_empty"
+        android:src="@drawable/dishes_reviews_action_comment2"
         app:layout_constraintStart_toEndOf="@id/tv_likenum"
         app:layout_constraintTop_toTopOf="@id/img_like" />
 
@@ -87,16 +89,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="2dp"
-        android:text="12"
-        android:textSize="14sp"
+        android:text="99"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="@id/img_comment"
         app:layout_constraintStart_toEndOf="@id/img_comment"
         app:layout_constraintTop_toTopOf="@id/img_comment" />
 
     <ImageView
         android:id="@+id/img_collect"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:src="@drawable/dishes_reviews_heart_empty"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:src="@drawable/dishes_reviews_action_collect"
         app:layout_constraintEnd_toEndOf="@id/ratingbar"
         app:layout_constraintTop_toTopOf="@id/tv_commentnum" />
 </android.support.constraint.ConstraintLayout>

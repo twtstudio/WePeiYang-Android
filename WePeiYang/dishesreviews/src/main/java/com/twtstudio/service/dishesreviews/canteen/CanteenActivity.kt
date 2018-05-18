@@ -10,22 +10,34 @@ import kotlinx.android.synthetic.main.dishes_reviews_toolbar.*
 
 class CanteenActivity : AppCompatActivity() {
 
-    var fragments: MutableList<CanteenFragment> = mutableListOf()
+    var fragments: MutableList<Pair<CanteenFragment, String>> = mutableListOf()
     var fpAdapter: FragmentPagerAdapter = object : FragmentPagerAdapter(supportFragmentManager) {
-        override fun getItem(position: Int): Fragment = fragments[position]
+
+        override fun getItem(position: Int): Fragment = fragments[position].first
         override fun getCount(): Int = fragments.size
+        override fun getPageTitle(position: Int): CharSequence? {
+            return fragments[position].second
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.dishes_reviews_activity_canteen)
         tv_toolbar_title.text = intent.getStringExtra("CanteenName")
-        fragments.add(CanteenFragment())
+        fragments.add(CanteenFragment() to "一层")
+        fragments.add(CanteenFragment() to "二层")
         vp_stairs.adapter = fpAdapter
-        tab_stairs.apply {
-            setupWithViewPager(vp_stairs)//这里面有代码会removeAllTabs，必须放前面
-            removeAllTabs()
-            addTab(tab_stairs.newTab().apply { text = "一层" })
-        }
+        vp_stairs.offscreenPageLimit = 2
+        tab_stairs.setupWithViewPager(vp_stairs)
+        tab_stairs.setIndicator(135, 130)
+//        for (i in 0 until tab_stairs.childCount) {
+//            tab_stairs.getChildAt(i).isClickable = false
+//        }
+
+        //这里面有代码会removeAllTabs，必须放前面
+//            //removeAllTabs()
+//            addTab(tab_stairs.newTab().apply { text = "一层" })
+//            addTab(tab_stairs.newTab().apply { text = "二层" })
+//        }
     }
 }

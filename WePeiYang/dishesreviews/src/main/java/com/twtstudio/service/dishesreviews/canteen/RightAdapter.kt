@@ -1,12 +1,14 @@
 package com.twtstudio.service.dishesreviews.canteen
 
 import android.content.Context
+import android.content.Intent
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.twtstudio.service.dishesreviews.R
+import com.twtstudio.service.dishesreviews.dish.view.DishActivity
 
 /**
  * Created by SGXM on 2018/5/6.
@@ -20,6 +22,9 @@ class RightAdapter(var list: List<Any>, val context: Context) : RecyclerView.Ada
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is MyLeftHolder) {
             holder.tv_name.text = ((list[position] as CanteenBean).foodName)
+            holder.view.setOnClickListener {
+                context.startActivity(Intent(context, DishActivity::class.java))
+            }
         }
     }
 

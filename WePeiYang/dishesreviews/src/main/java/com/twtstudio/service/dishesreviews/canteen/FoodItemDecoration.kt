@@ -17,10 +17,10 @@ import android.view.View
 class FoodItemDecoration(val context: Context, var mDatas: MutableList<CanteenBean>) : RecyclerView.ItemDecoration() {
     var onDrawOverLastTitle = "#"
     var leftAdapter: LeftAdapter? = null
-    var mTitlePaddingLeft = 32
+    var mTitlePaddingLeft = 36
     var mTitleHeight = 100
     val mPaint = Paint().apply {
-        color = Color.YELLOW
+        color = Color.WHITE
     }
     val mTextPaint = TextPaint().apply {
         color = Color.BLACK
@@ -48,7 +48,7 @@ class FoodItemDecoration(val context: Context, var mDatas: MutableList<CanteenBe
         super.onDraw(c, parent, state)
         val left = parent.paddingLeft
         val right = parent.width - parent.paddingRight
-        val childCount = parent.childCount
+        val childCount = parent.childCount//只会绘制当前屏幕内显示的item，count为4
         for (i in 0 until childCount) {
             val child = parent.getChildAt(i)
             val params = child.layoutParams as RecyclerView.LayoutParams
@@ -59,7 +59,7 @@ class FoodItemDecoration(val context: Context, var mDatas: MutableList<CanteenBe
                 if (position == 0) {//等于0肯定要有title的
                     drawTextArea(c, left.toFloat(), right.toFloat(), child, params, position)
                 } else {//其他的通过判断
-                    if (null != mDatas[position].tag && !mDatas[position].tag.equals(mDatas[position - 1].tag)) {
+                    if (!mDatas[position].tag.equals(mDatas[position - 1].tag)) {
                         //不为空 且跟前一个tag不一样了，说明是新的分类，也要title
                         drawTextArea(c, left.toFloat(), right.toFloat(), child, params, position)
                     } else {
@@ -84,6 +84,6 @@ class FoodItemDecoration(val context: Context, var mDatas: MutableList<CanteenBe
 
     private fun drawTextArea(canvas: Canvas, left: Float, right: Float, view: View, recLayoutParams: RecyclerView.LayoutParams, pos: Int) {
         canvas.drawRect(left, 1f * (view.top - recLayoutParams.topMargin - mTitleHeight), right, 1f * (view.top - recLayoutParams.topMargin), mPaint)
-        canvas.drawText(mDatas[pos].tag, view.paddingLeft + mTitlePaddingLeft * 1f, view.top - mTitleHeight * 0.35f, mTextPaint)
+        canvas.drawText(mDatas[pos].tag, view.paddingLeft + mTitlePaddingLeft * 1f, view.top - mTitleHeight * 0.4f, mTextPaint)
     }
 }
