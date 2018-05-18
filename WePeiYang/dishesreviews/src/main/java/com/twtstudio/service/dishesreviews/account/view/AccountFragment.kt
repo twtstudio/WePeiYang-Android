@@ -4,6 +4,8 @@ package com.twtstudio.service.dishesreviews.account.view
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import com.twt.wepeiyang.commons.experimental.cache.CacheIndicator
+import com.twt.wepeiyang.commons.experimental.cache.simpleCallback
 import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
 import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
 import com.twtstudio.service.dishesreviews.R
@@ -28,8 +30,11 @@ class AccountFragment : LazyFragment() {
         tvArticle = view.findViewById<TextView>(R.id.info_tv_article)
         imgInfoIcon = view.findViewById<ImageView>(R.id.info_icon)
         tvUserName.text = CommonPreferences.twtuname
-        AccountProvider.getAccount(CommonPreferences.studentid).bindNonNull(this) {
+        AccountProvider.getAccount(CommonPreferences.studentid).apply {
+            refresh(CacheIndicator.LOCAL, CacheIndicator.REMOTE, callback = context!!.simpleCallback())
+            bindNonNull(this@AccountFragment) {
             tvArticle.text = "评论${it.commentNumber}篇"
+            }
         }
     }
 
