@@ -18,6 +18,7 @@ import com.twt.wepeiyang.commons.ui.spanned
 import com.twtstudio.retrox.tjulibrary.R
 import com.twtstudio.retrox.tjulibrary.home.LibraryViewModel
 import com.twtstudio.retrox.tjulibrary.provider.Book
+import kotlinx.android.synthetic.main.popup_library_book.view.*
 import org.jetbrains.anko.dip
 import org.jetbrains.anko.horizontalMargin
 import org.jetbrains.anko.layoutInflater

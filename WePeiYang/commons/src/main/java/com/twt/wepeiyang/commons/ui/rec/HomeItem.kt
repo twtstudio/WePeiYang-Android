@@ -4,6 +4,7 @@ import android.support.annotation.LayoutRes
 import android.view.View
 import android.view.ViewGroup
 import com.twt.wepeiyang.commons.R
+import kotlinx.android.synthetic.main.item_base_home_item.view.*
 import org.jetbrains.anko.layoutInflater
 
 /**
