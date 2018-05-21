@@ -185,7 +185,7 @@ class ItemManager(private val delegated: MutableList<Item> = mutableListOf()) : 
             override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
                 val oldItem = delegated[oldItemPosition]
                 val newItem = elements[newItemPosition]
-                log(tag, "items the same: old-> $oldItemPosition new-> $newItemPosition diff: ${oldItem.areItemsTheSame(newItem)}")
+//                log(tag, "items the same: old-> $oldItemPosition new-> $newItemPosition diff: ${oldItem.areItemsTheSame(newItem)}")
                 return oldItem.areItemsTheSame(newItem)
             }
 
@@ -195,7 +195,7 @@ class ItemManager(private val delegated: MutableList<Item> = mutableListOf()) : 
             override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
                 val oldItem = delegated[oldItemPosition]
                 val newItem = elements[newItemPosition]
-                Log.e(tag, "content the same: old-> $oldItemPosition new-> $newItemPosition diff: ${oldItem.areContentsTheSame(newItem)}")
+//                Log.e(tag, "content the same: old-> $oldItemPosition new-> $newItemPosition diff: ${oldItem.areContentsTheSame(newItem)}")
                 return oldItem.areContentsTheSame(newItem)
             }
         }

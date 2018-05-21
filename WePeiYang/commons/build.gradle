@@ -59,7 +59,7 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-    [*supportLibraries, *archLibraries, 'kotlin-stdlib', 'kotlinx-coroutines', 'anko'].each {
+    [*supportLibraries, *archLibraries, 'kotlin-stdlib', 'kotlinx-coroutines', 'anko', 'constraint-layout'].each {
         implementation dependenciesMap[it]
     }
     ['lifecycle-compiler'].each {

@@ -82,7 +82,6 @@ class LibraryItemViewHolder(private val lifecycleOwner: LifecycleOwner, itemView
                     stateProgressBar.visibility = View.INVISIBLE
                     Glide.with(context).load(R.drawable.lib_warning).into(stateImage)
 
-
                 }
             }
         }

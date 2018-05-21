@@ -4,6 +4,7 @@ import android.animation.Animator
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
+import android.arch.lifecycle.LifecycleOwner
 import android.content.Context
 import android.os.Vibrator
 import android.view.Gravity
@@ -11,18 +12,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.FrameLayout
+import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
 import com.twt.wepeiyang.commons.ui.blur.BlurPopupWindow
 import com.twt.wepeiyang.commons.ui.spanned
 import com.twtstudio.retrox.tjulibrary.R
+import com.twtstudio.retrox.tjulibrary.home.LibraryViewModel
 import com.twtstudio.retrox.tjulibrary.provider.Book
-import es.dmoral.toasty.Toasty
-import kotlinx.android.synthetic.main.popup_library_book.view.*
 import org.jetbrains.anko.dip
 import org.jetbrains.anko.horizontalMargin
 import org.jetbrains.anko.layoutInflater
 
 @SuppressLint("ViewConstructor")
-class BookPopupWindow(val book: Book, mContext: Context) : BlurPopupWindow(mContext) {
+class BookPopupWindow(val book: Book, mContext: Context, val lifecycleOwner: LifecycleOwner) : BlurPopupWindow(mContext) {
     lateinit var view: View
     override fun createContentView(parent: ViewGroup): View = parent.context.layoutInflater
             .inflate(R.layout.popup_library_book, parent, false).apply {
@@ -32,20 +33,27 @@ class BookPopupWindow(val book: Book, mContext: Context) : BlurPopupWindow(mCont
                 }
             }.also { view = it }
 
+    @SuppressLint("MissingPermission")
     override fun onShow() {
         val vibrator = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-        vibrator.vibrate(30L)
-        view.apply {
-            tv_book_name.text = book.title
-            tv_book_author.text = book.author
-            tv_location_name.text = book.local
-            tv_location_detail.text = book.callno
-            tv_book_in_time.text = book.loanTime
-            tv_book_out_time.text = if (!book.isOverTime) "${book.returnTime} (剩余${book.timeLeft()}天)" else "${book.returnTime} (<span style=\"color:#FF5D64\";>已过期</span>)".spanned
-            btn_book_borrow.setOnClickListener {
-                Toasty.info(context, "还没有做").show()
+        //想要给弹窗加入动态的功能 绑定到LiveData上
+        LibraryViewModel.infoLiveData.bindNonNull(lifecycleOwner) {
+            vibrator.vibrate(30L)
+            val liveBook = it.books.find { it.barcode == book.barcode } ?: book
+            view.apply {
+                tv_book_name.text = liveBook.title
+                tv_book_author.text = liveBook.author
+                tv_location_name.text = liveBook.local
+                tv_location_detail.text = liveBook.callno
+                tv_book_in_time.text = liveBook.loanTime
+                tv_book_out_time.text = if (!liveBook.isOverTime) "${liveBook.returnTime} (剩余${liveBook.timeLeft()}天)" else "${liveBook.returnTime} (<span style=\"color:#FF5D64\";>已过期</span>)".spanned
+                btn_book_borrow.setOnClickListener {
+                    LibraryViewModel.renewBook(it.context, liveBook)
+                }
             }
         }
+
+
     }
 
     override fun createShowAnimator(): Animator {

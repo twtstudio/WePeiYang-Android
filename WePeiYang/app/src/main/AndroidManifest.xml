@@ -37,6 +37,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+        <activity
+            android:name=".home.HomeNewActivity"
+            android:exported="true" />
+
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="d2d29ff7e7bef685451725cc52f2683f"/>

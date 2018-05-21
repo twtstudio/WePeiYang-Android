@@ -21,7 +21,7 @@ import com.twtstudio.retrox.tjulibrary.view.BookPopupWindow
 /**
  * Created by retrox on 26/10/2017.
  */
-class BookItemComponent(lifecycleOwner: LifecycleOwner, itemView: View) : RecyclerView.ViewHolder(itemView) {
+class BookItemComponent(val lifecycleOwner: LifecycleOwner, itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val mContext = itemView.context
     private val cover: ImageView = itemView.findViewById(R.id.ic_item_book)
     private val name: TextView = itemView.findViewById(R.id.tv_item_book_name)
@@ -36,7 +36,7 @@ class BookItemComponent(lifecycleOwner: LifecycleOwner, itemView: View) : Recycl
                 returntimeText.text = "应还日期: ${this.returnTime}"
                 itemView.setOnLongClickListener {
 
-                    val pop = BookPopupWindow(book, mContext)
+                    val pop = BookPopupWindow(book, mContext, lifecycleOwner)
                     pop.show()
 
                     true

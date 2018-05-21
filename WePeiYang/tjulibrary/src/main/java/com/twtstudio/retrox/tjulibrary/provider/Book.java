@@ -2,6 +2,8 @@ package com.twtstudio.retrox.tjulibrary.provider;
 
 import com.twtstudio.retrox.tjulibrary.home.BookTimeHelper;
 
+import java.util.Objects;
+
 /**
  * Created by retrox on 2017/2/21.
  */
@@ -47,5 +49,26 @@ public class Book {
 
     public boolean willBeOver(){
         return this.timeLeft() < 7 && !isOverTime();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Book book = (Book) o;
+        return Objects.equals(barcode, book.barcode) &&
+                Objects.equals(title, book.title) &&
+                Objects.equals(author, book.author) &&
+                Objects.equals(callno, book.callno) &&
+                Objects.equals(local, book.local) &&
+                Objects.equals(type, book.type) &&
+                Objects.equals(loanTime, book.loanTime) &&
+                Objects.equals(returnTime, book.returnTime);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(barcode, title, author, callno, local, type, loanTime, returnTime);
     }
 }
