@@ -19,6 +19,7 @@ import com.twt.wepeiyang.commons.ui.view.ColorCircleView
 import com.twtstudio.retrox.tjulibrary.R
 import com.twtstudio.retrox.tjulibrary.provider.Book
 import com.twtstudio.retrox.tjulibrary.view.BookPopupWindow
+import kotlinx.android.synthetic.main.item_library_book_new.view.*
 import org.jetbrains.anko.*
 import kotlin.properties.Delegates
 
@@ -114,11 +115,11 @@ class BookItem(val book: Book, val lifecycleOwner: LifecycleOwner) : Item {
                     else -> colorCircleView.color = Color.parseColor("#FF5D64") //red
                 }
                 rootView.setOnClickListener {
-                    val pop = BookPopupWindow(item.book, it.context, item.lifecycleOwner)
+                    val pop = BookPopupWindow(item.book, it.context)
                     pop.show()
                 }
                 rootView.setOnLongClickListener {
-                    val pop = BookPopupWindow(item.book, it.context, item.lifecycleOwner)
+                    val pop = BookPopupWindow(item.book, it.context)
                     pop.show()
                     true
                 }

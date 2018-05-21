@@ -4,7 +4,9 @@ import android.animation.Animator
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
+import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleOwner
+import android.arch.lifecycle.LifecycleRegistry
 import android.content.Context
 import android.os.Vibrator
 import android.view.Gravity
@@ -24,7 +26,10 @@ import org.jetbrains.anko.horizontalMargin
 import org.jetbrains.anko.layoutInflater
 
 @SuppressLint("ViewConstructor")
-class BookPopupWindow(val book: Book, mContext: Context, val lifecycleOwner: LifecycleOwner) : BlurPopupWindow(mContext) {
+class BookPopupWindow(val book: Book, mContext: Context) : BlurPopupWindow(mContext), LifecycleOwner {
+    private val lifecycleRegistry = LifecycleRegistry(this)
+
+    override fun getLifecycle(): Lifecycle = lifecycleRegistry
     lateinit var view: View
     override fun createContentView(parent: ViewGroup): View = parent.context.layoutInflater
             .inflate(R.layout.popup_library_book, parent, false).apply {
@@ -36,9 +41,10 @@ class BookPopupWindow(val book: Book, mContext: Context, val lifecycleOwner: Lif
 
     @SuppressLint("MissingPermission")
     override fun onShow() {
+        lifecycleRegistry.markState(Lifecycle.State.STARTED)
         val vibrator = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
         //想要给弹窗加入动态的功能 绑定到LiveData上
-        LibraryViewModel.infoLiveData.bindNonNull(lifecycleOwner) {
+        LibraryViewModel.infoLiveData.bindNonNull(this) {
             vibrator.vibrate(30L)
             val liveBook = it.books.find { it.barcode == book.barcode } ?: book
             view.apply {
@@ -54,7 +60,11 @@ class BookPopupWindow(val book: Book, mContext: Context, val lifecycleOwner: Lif
             }
         }
 
+    }
 
+    override fun onDismiss() {
+        super.onDismiss()
+        lifecycleRegistry.markState(Lifecycle.State.DESTROYED)
     }
 
     override fun createShowAnimator(): Animator {

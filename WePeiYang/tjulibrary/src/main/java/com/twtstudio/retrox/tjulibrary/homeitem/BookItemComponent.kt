@@ -36,7 +36,7 @@ class BookItemComponent(val lifecycleOwner: LifecycleOwner, itemView: View) : Re
                 returntimeText.text = "应还日期: ${this.returnTime}"
                 itemView.setOnLongClickListener {
 
-                    val pop = BookPopupWindow(book, mContext, lifecycleOwner)
+                    val pop = BookPopupWindow(book, mContext)
                     pop.show()
 
                     true
