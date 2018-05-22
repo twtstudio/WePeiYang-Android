@@ -13,7 +13,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
-import com.twt.service.schedule2.BuildConfig
 import com.twt.service.schedule2.R
 import com.twt.service.schedule2.extensions.RefreshCallback
 import com.twt.service.schedule2.extensions.getScreenHeight
@@ -31,7 +30,6 @@ import com.twt.wepeiyang.commons.experimental.cache.RefreshState
 import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
 import es.dmoral.toasty.Toasty
 import io.multimoon.colorful.CAppCompatActivity
-import me.ele.uetool.UETool
 import org.jetbrains.anko.*
 import java.net.SocketTimeoutException
 
@@ -67,7 +65,7 @@ class ScheduleActivity : CAppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (BuildConfig.DEBUG) UETool.showUETMenu()
+//        if (BuildConfig.DEBUG) UETool.showUETMenu()
         setContentView(R.layout.schedule_act_main)
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)

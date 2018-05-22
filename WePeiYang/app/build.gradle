@@ -130,4 +130,7 @@ dependencies {
     implementation 'com.github.shem8:material-login:2.1.1'
     implementation 'de.hdodenhof:circleimageview:2.1.0'
 
+    debugImplementation 'me.ele:uetool:1.0.12'
+    releaseImplementation 'me.ele:uetool-no-op:1.0.12'
+
 }

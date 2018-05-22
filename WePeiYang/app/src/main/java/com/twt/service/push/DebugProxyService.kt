@@ -31,6 +31,7 @@ class DebugProxyService: Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         server.start()
+        server.registerRoute(this)
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val notification = NotificationCompat.Builder(this, "debug")
                 .setContentTitle("微北洋网络调试")
