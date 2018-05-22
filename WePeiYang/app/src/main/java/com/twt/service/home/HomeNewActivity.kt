@@ -9,6 +9,7 @@ import android.view.WindowManager
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.twt.service.R
+import com.twt.service.schedule2.view.home.homeScheduleItem
 import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
 import com.twt.wepeiyang.commons.experimental.extensions.enableLightStatusBarMode
 import com.twt.wepeiyang.commons.ui.rec.withItems
@@ -38,6 +39,7 @@ class HomeNewActivity : AppCompatActivity() {
             addItemDecoration(RecyclerViewDivider.Builder(this@HomeNewActivity).setSize(4f).setColor(Color.TRANSPARENT).build())
         }
         rec.withItems {
+            homeScheduleItem(this@HomeNewActivity)
             gpaHomeItem(this@HomeNewActivity)
             libraryHomeItem(this@HomeNewActivity)
         }
