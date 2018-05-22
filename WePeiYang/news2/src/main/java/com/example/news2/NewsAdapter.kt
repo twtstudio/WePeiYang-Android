@@ -139,14 +139,14 @@ class NewsAdapter(val context: Context, val lifecycleOwner: LifecycleOwner) : Re
             if (context != null) {
                 view.setTag(carousel.index)
                 view.setOnClickListener {
-                    var intent = Intent(myContext, WebActivity::class.java)
+                    val intent = Intent(myContext, WebActivity::class.java)
                     intent.putExtra("bannerUrl", view.getTag() as String)
                     myContext.startActivity(intent)
                 }
                 title.setTag(carousel.index)
                 title.text = carousel.subject
                 title.setOnClickListener {
-                    var intent = Intent(myContext, WebActivity::class.java)
+                    val intent = Intent(myContext, WebActivity::class.java)
                     intent.putExtra("bannerUrl", view.getTag() as String)
                     myContext.startActivity(intent)
                 }

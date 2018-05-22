@@ -54,7 +54,7 @@ class LibraryHomeItem(val owner: LifecycleOwner) : Item {
                 itemManager.refreshAll {
                     if (collasped) {
                         info.books.take(3).forEach {
-                            book(it, lifecycleOwner)
+                            book(it)
                         }
                         if (info.books.size > 3) {
                             libsingleText("${info.books.size - 3}本书被折叠 点击显示") {
@@ -63,10 +63,14 @@ class LibraryHomeItem(val owner: LifecycleOwner) : Item {
                                     LibraryViewModel.infoLiveData.refresh(CacheIndicator.LOCAL)
                                 }
                             }
+                        } else libsingleText("无更多书显示 点击刷新") {
+                            setOnClickListener {
+                                LibraryViewModel.infoLiveData.refresh(CacheIndicator.LOCAL)
+                            }
                         }
                     } else {
                         info.books.forEach {
-                            book(it, lifecycleOwner)
+                            book(it)
                         }
                         libsingleText("点击折叠图书") {
                             setOnClickListener {
@@ -84,7 +88,7 @@ class LibraryHomeItem(val owner: LifecycleOwner) : Item {
             }
         }
 
-        fun MutableList<Item>.book(book: Book, lifecycleOwner: LifecycleOwner) = add(BookItem(book, lifecycleOwner))
+        fun MutableList<Item>.book(book: Book) = add(BookItem(book))
 
         private class MyViewHolder(itemView: View, val homeItem: HomeItem, val recyclerView: RecyclerView) : RecyclerView.ViewHolder(itemView)
 
@@ -96,7 +100,7 @@ class LibraryHomeItem(val owner: LifecycleOwner) : Item {
 
 fun MutableList<Item>.libraryHomeItem(owner: LifecycleOwner) = add(LibraryHomeItem(owner))
 
-class BookItem(val book: Book, val lifecycleOwner: LifecycleOwner) : Item {
+class BookItem(val book: Book) : Item {
     companion object Controller : ItemController {
         override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
             val view = parent.context.layoutInflater.inflate(R.layout.item_library_book_new, parent, false)
@@ -110,8 +114,8 @@ class BookItem(val book: Book, val lifecycleOwner: LifecycleOwner) : Item {
                 bookName.text = item.book.title
                 bookReturn.text = "还书日期：${item.book.returnTime}"
                 when (item.book.timeLeft()) {
-                    in 8..40 -> colorCircleView.color = Color.parseColor("#3BCBFF")
-                    in 3..7 -> colorCircleView.color = Color.parseColor("#FFC017")
+                    in 8..40 -> colorCircleView.color = Color.parseColor("#3BCBFF") // blue
+                    in 3..7 -> colorCircleView.color = Color.parseColor("#FFC017") // yellow
                     else -> colorCircleView.color = Color.parseColor("#FF5D64") //red
                 }
                 rootView.setOnClickListener {
