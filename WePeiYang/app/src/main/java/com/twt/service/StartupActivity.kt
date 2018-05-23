@@ -9,6 +9,7 @@ import android.os.Build
 import android.os.Bundle
 import com.twt.service.base.BaseActivity
 import com.twt.service.home.HomeActivity
+import com.twt.service.home.HomeNewActivity
 import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
 import com.twtstudio.retrox.auth.view.LoginActivity
 import org.jetbrains.anko.shortcutManager
@@ -25,7 +26,9 @@ class StartupActivity : BaseActivity() {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) createDynamicShortcuts()
 
-        if (CommonPreferences.isLogin) startActivity<HomeActivity>() else startActivity<LoginActivity>()
+        if (CommonPreferences.isLogin) {
+            if (BuildConfig.DEBUG) startActivity<HomeNewActivity>() else startActivity<HomeActivity>()
+        } else startActivity<LoginActivity>()
 
         finish()
     }

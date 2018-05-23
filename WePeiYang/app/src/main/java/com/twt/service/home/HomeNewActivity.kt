@@ -17,6 +17,7 @@ import com.twt.wepeiyang.commons.view.RecyclerViewDivider
 import com.twtstudio.retrox.auth.api.authSelfLiveData
 import com.twtstudio.retrox.tjulibrary.home.libraryHomeItem
 import io.multimoon.colorful.CAppCompatActivity
+import org.jetbrains.anko.startActivity
 import pub.devrel.easypermissions.EasyPermissions
 import xyz.rickygao.gpa2.view.gpaHomeItem
 
@@ -32,7 +33,11 @@ class HomeNewActivity : CAppCompatActivity() {
             addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
             statusBarColor = Color.parseColor("#F5F5F5")
         }
-        val imageView = findViewById<ImageView>(R.id.iv_toolbar_avatar)
+        val imageView = findViewById<ImageView>(R.id.iv_toolbar_avatar).apply {
+            setOnClickListener {
+                startActivity<HomeActivity>()
+            }
+        }
         authSelfLiveData.bindNonNull(this) {
             Glide.with(this).load(it.avatar).into(imageView)
         }

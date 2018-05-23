@@ -10,6 +10,7 @@ import android.text.Spanned
 import android.text.style.AbsoluteSizeSpan
 import android.text.style.TypefaceSpan
 import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -69,12 +70,29 @@ class ScheduleHomeItem(val lifecycleOwner: LifecycleOwner) : Item {
                 val date = Date(unixTime * 1000L)
                 val dateString = dateFormat.format(date)
 
-                val flatList = it.getCourseByDay(unixTime).flatDay(it.getDayOfWeek(dayUnix = unixTime)).toMutableList()
+                val flatList = it.getCourseByDay(unixTime).flatDay(it.getDayOfWeek(dayUnix = unixTime), forceFill = true).toMutableList()
                 val resultList = flatList.flatTwice()
 
-                val count = resultList.count { it.coursename != "空" }
+                val count = resultList.count { it.coursename != "空" && it.weekAvailable }
 
-                holder.linearLayout.withCourses(resultList)
+                if (count > 0) {
+                    holder.linearLayout.withCourses(resultList)
+                    holder.homeItem.setContentView(holder.linearLayout)
+                } else {
+                    holder.homeItem.contentContainer.apply {
+                        removeAllViewsInLayout()
+                        textView {
+                            text = "今天没有课\n 做点有趣的事情吧！"
+                            textSize = 16f
+                            gravity = Gravity.CENTER_HORIZONTAL
+                        }.apply {
+                            layoutParams = FrameLayout.LayoutParams(wrapContent, wrapContent).apply {
+                                gravity = Gravity.CENTER
+                                margin = dip(16)
+                            }
+                        }
+                    }
+                }
                 holder.homeItem.apply {
                     itemName.text = dateString
                     val contentTextPrefix = if (displayTomorrow) "<span style=\"color:#E70C57\";>明天 </span>" else "今天"
@@ -94,15 +112,15 @@ class ScheduleHomeItem(val lifecycleOwner: LifecycleOwner) : Item {
          * 之前的EmptyCourse是代表一个小节课程的 但是现在在主页 需要变成大课程
          */
         private fun MutableList<Course>.flatTwice(): List<Course> {
-            val removeList = mutableListOf<Course>()
+            val removeList = mutableSetOf<Course>()
             this.forEachIndexed { index, course ->
-                if (course.coursename == "空" && index != (this.size - 1) && this[index + 1].coursename == "空") {
+                if (course.coursename == "空" && this[index] !in removeList && index != (this.size - 1) && this[index + 1].coursename == "空") {
                     removeList.add(this[index + 1])
                 }
             }
             // 处理晚上三节课 剩下一节空课程 那节空课程就tm不要再显示了
             if (this.last().coursename == "空" && this.getOrNull(size - 2)?.coursename != "空") {
-                this.removeAt(size - 1)
+                removeList.add(this[size - 1])
             }
             this.removeAll(removeList)
             return this

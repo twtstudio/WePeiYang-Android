@@ -33,7 +33,7 @@ class LibraryHomeItem(val owner: LifecycleOwner) : Item {
                 layoutManager = LinearLayoutManager(parent.context)
                 adapter = ItemAdapter(ItemManager())
                 itemAnimator = DefaultItemAnimator()
-                layoutParams = FrameLayout.LayoutParams(wrapContent, matchParent).apply {
+                layoutParams = FrameLayout.LayoutParams(matchParent, matchParent).apply {
                     horizontalPadding = dip(16)
                 }
             }
@@ -53,6 +53,7 @@ class LibraryHomeItem(val owner: LifecycleOwner) : Item {
             LibraryViewModel.infoLiveData.bindNonNull(item.owner) { info ->
                 itemManager.refreshAll {
                     if (collasped) {
+                        if (info.books == null) info.books = listOf()
                         info.books.take(3).forEach {
                             book(it)
                         }
@@ -162,7 +163,7 @@ class LibSingleTextItem(val text: String, val builder: TextView.() -> Unit = {})
                 }
             }.apply {
                 layoutParams = FrameLayout.LayoutParams(matchParent, wrapContent).apply {
-                    bottomMargin = dip(8)
+                    verticalMargin = dip(8)
                 }
             }
             return ViewHolder(view, textView)
