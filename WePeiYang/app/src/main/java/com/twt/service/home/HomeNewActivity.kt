@@ -1,8 +1,8 @@
 package com.twt.service.home
 
+import android.Manifest
 import android.graphics.Color
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.WindowManager
@@ -16,12 +16,16 @@ import com.twt.wepeiyang.commons.ui.rec.withItems
 import com.twt.wepeiyang.commons.view.RecyclerViewDivider
 import com.twtstudio.retrox.auth.api.authSelfLiveData
 import com.twtstudio.retrox.tjulibrary.home.libraryHomeItem
+import io.multimoon.colorful.CAppCompatActivity
+import pub.devrel.easypermissions.EasyPermissions
 import xyz.rickygao.gpa2.view.gpaHomeItem
 
 
-class HomeNewActivity : AppCompatActivity() {
+class HomeNewActivity : CAppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        EasyPermissions.requestPermissions(this, "微北洋需要外部存储来提供必要的缓存", 0, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
+
         setContentView(R.layout.activity_home_new)
         enableLightStatusBarMode(true)
         window.apply {

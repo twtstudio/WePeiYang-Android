@@ -1,8 +1,8 @@
 package com.twt.service.home
 
+import android.Manifest
 import android.content.Intent
 import android.content.pm.ActivityInfo
-import android.graphics.Color
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -23,6 +23,7 @@ import com.twt.service.view.BottomBar
 import com.twt.service.view.BottomBarTab
 import com.twt.service.widget.WidgetUpdateManger
 import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
+import pub.devrel.easypermissions.EasyPermissions
 
 class HomeActivity : BaseActivity() {
 
@@ -39,6 +40,7 @@ class HomeActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
+        EasyPermissions.requestPermissions(this, "微北洋需要外部存储来提供必要的缓存", 0, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
 
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 

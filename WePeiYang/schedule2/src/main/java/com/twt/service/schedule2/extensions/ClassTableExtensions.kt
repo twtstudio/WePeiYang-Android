@@ -242,7 +242,8 @@ fun Arrange.checkConflict(arrange: Arrange): Boolean {
 
 /**
  * 解决同一个列表里面的 彩色课程冲突
- * 做法是拷贝一个列表 然后对它遍历进行findConflict，但是因为自己和自己冲突，所以要写一个while循环
+ * 做法是拷贝一个列表 然后对它遍历进行findConflict，但是因为自己和自己冲突，所以要用findConflictList来返回冲突列表
+ * 然后去掉自己 把另外一个课程挂在自己的next链表 同时把那个冲突课程移除今日课程
  * 目的是 拿到冲突的课程对，然后对传入的list做操作
  * 把冲突课程放在适当的next位置去
  */
@@ -250,19 +251,12 @@ fun MutableList<Course>.resoleInside(dayOfWeek: Int): MutableList<Course> {
 //    println("Resolve")
     val copyList = this.toMutableList()
     val removeList = mutableListOf<Course>()
-    this.forEach {
-        while (copyList.findConflict(it, dayOfWeek) != null) {
-            val conflict = copyList.findConflict(it, dayOfWeek)!!
-            if (conflict.coursename == it.coursename) {
-                copyList.remove(conflict)
-            } else {
-                val baseCourse = this.find { course -> course == it }
-                removeList.add(conflict)
-                baseCourse?.next?.add(conflict)
-            }
-            copyList.remove(conflict)
-        }
-
+    this.forEach { course ->
+        if (removeList.contains(course)) return@forEach
+        val conflictList = copyList.findConflictList(course, dayOfWeek).toMutableList()
+        conflictList.removeAll { it == course }
+        if (conflictList.isNotEmpty()) removeList.addAll(conflictList)
+        course.next.addAll(conflictList)
     }
     this.removeAll(removeList)
     return this
