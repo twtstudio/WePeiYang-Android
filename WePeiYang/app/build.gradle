@@ -46,7 +46,7 @@ android {
             }
             common {
                 dimension 'dev'
-                minSdkVersion 19
+                minSdkVersion 21
             }
         }
 
