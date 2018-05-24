@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.twt.service.push;
+package com.twt.wepeiyang.commons.experimental.hack;
 
 import android.app.Activity;
 import android.app.ActivityManager;

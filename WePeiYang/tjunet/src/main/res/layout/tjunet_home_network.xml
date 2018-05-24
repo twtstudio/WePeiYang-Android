@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingEnd="32dp"
+    android:paddingStart="32dp">
+
+    <TextView
+        android:id="@+id/tv_big_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:textColor="#444444"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="TJU-WLAN" />
+
+    <TextView
+        android:id="@+id/tv_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:fontFamily="sans-serif-light"
+        android:textColor="#444444"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="@id/tv_big_title"
+        app:layout_constraintTop_toBottomOf="@id/tv_big_title"
+        tools:text="IP 172.23.198.41" />
+
+    <com.twt.wepeiyang.commons.ui.view.ColorCircleView
+        android:id="@+id/color_circle"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_marginBottom="12dp"
+        android:layout_marginTop="8dp"
+        app:drawCircleBounds="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@id/tv_content"
+        app:layout_constraintTop_toBottomOf="@id/tv_content" />
+
+    <TextView
+        android:id="@+id/tv_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:fontFamily="sans-serif-light"
+        android:textColor="#444444"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@id/color_circle"
+        app:layout_constraintStart_toEndOf="@id/color_circle"
+        app:layout_constraintTop_toTopOf="@id/color_circle"
+        tools:text="Not Connected" />
+
+</android.support.constraint.ConstraintLayout>
