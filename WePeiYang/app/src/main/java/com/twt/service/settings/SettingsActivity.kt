@@ -1,6 +1,5 @@
 package com.twt.service.settings
 
-import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -10,9 +9,7 @@ import android.preference.SwitchPreference
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.text.TextUtils
-import android.view.LayoutInflater
 import android.view.MenuItem
-import android.widget.EditText
 import android.widget.Toast
 import com.tencent.bugly.crashreport.CrashReport
 import com.twt.service.R
@@ -340,39 +337,40 @@ class SettingsActivity : AppCompatActivity() {
                 true
             }
 
-            val proxySetting = findPreference(getString(R.string.pref_proxy_settings))
-            proxySetting.setOnPreferenceClickListener {
-                val inflater = LayoutInflater.from(activity)
-                val dialogView = inflater.inflate(R.layout.dialog_proxy_setting, null, false)
-                val proxyIP = dialogView.findViewById<EditText>(R.id.edit_proxy_ip)
-                proxyIP.setText(CommonPreferences.proxyAddress)
-                //                    prxoyIP.setText();
-                val proxyPort = dialogView.findViewById<EditText>(R.id.edit_proxy_port)
-                proxyPort.setText((CommonPreferences.proxyPort).toString())
-
-                val dialog = AlertDialog.Builder(activity).setTitle("Proxy Settings")
-                        .setView(dialogView)
-                        .setPositiveButton("OK") { dialog, _ ->
-                            CommonPreferences.proxyAddress = proxyIP.text.toString()
-                            CommonPreferences.proxyPort = proxyPort.text.toString().toInt()
-                            dialog.dismiss()
-                        }
-                        .setNegativeButton("Cancel", object : DialogInterface.OnClickListener {
-                            override fun onClick(dialog: DialogInterface, which: Int) {
-                                dialog.dismiss()
-                            }
-                        })
-                        .create()
-                dialog.show()
-                true
+            val addGroup = findPreference(getString(R.string.pref_add_group))
+            addGroup.setOnPreferenceClickListener {
+                joinQQGroup("DqYP6KYECBOV36yk1_RBE6iVjXbKVv0R")
             }
-
-
         }
 
         private fun processExitTju() {
             // TODO: 23/03/2017 退学逻辑
         }
+
+        /****************
+         *
+         * 发起添加群流程。群号：微北洋用户大佬群(738068756) 的 key 为： DqYP6KYECBOV36yk1_RBE6iVjXbKVv0R
+         * 调用 joinQQGroup(DqYP6KYECBOV36yk1_RBE6iVjXbKVv0R) 即可发起手Q客户端申请加群 微北洋用户大佬群(738068756)
+         *
+         * @param key 由官网生成的key
+         * @return 返回true表示呼起手Q成功，返回fals表示呼起失败
+         */
+        fun joinQQGroup(key: String): Boolean {
+            val intent = Intent()
+            intent.data = Uri.parse("mqqopensdkapi://bizAgent/qm/qr?url=http%3A%2F%2Fqm.qq.com%2Fcgi-bin%2Fqm%2Fqr%3Ffrom%3Dapp%26p%3Dandroid%26k%3D$key")
+            // 此Flag可根据具体产品需要自定义，如设置，则在加群界面按返回，返回手Q主界面，不设置，按返回会返回到呼起产品界面
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            try {
+                startActivity(intent)
+                return true
+            } catch (e: Exception) {
+                // 未安装手Q或安装的版本不支持
+                Toast.makeText(activity, "未安装手Q或安装的版本不支持", Toast.LENGTH_SHORT).show()
+                return false
+            }
+
+        }
+
     }
 
 

@@ -121,6 +121,9 @@ class ScheduleHomeItem(val lifecycleOwner: LifecycleOwner) : Item {
             // 处理晚上三节课 剩下一节空课程 那节空课程就tm不要再显示了
             if (this.last().coursename == "空" && this.getOrNull(size - 2)?.coursename != "空") {
                 removeList.add(this[size - 1])
+            } else if (this.getOrNull(size - 2)?.coursename == "空") {
+                // emmm 最后两节都是空课也算了吧
+                removeList.add(this[size - 2])
             }
             this.removeAll(removeList)
             return this

@@ -26,6 +26,7 @@
     <!--上网功能的权限-->
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:name=".WePeiYangApp"
@@ -40,6 +41,7 @@
         <activity
             android:name=".home.HomeNewActivity"
             android:exported="true" />
+        <activity android:name=".home.user.FragmentActivity" />
 
         <meta-data
             android:name="com.amap.api.v2.apikey"

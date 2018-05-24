@@ -2,6 +2,7 @@ package com.twt.service.push
 
 import android.content.Context
 import android.util.Log
+import com.twt.wepeiyang.commons.experimental.hack.Restarter
 import com.twt.wepeiyang.commons.experimental.network.ServiceFactory
 import me.ele.uetool.UETool
 import okhttp3.FormBody

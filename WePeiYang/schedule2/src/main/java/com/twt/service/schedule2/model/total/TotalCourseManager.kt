@@ -22,7 +22,12 @@ object TotalCourseManager {
     /**
      * 做一个内存缓存
      */
-    private val mergedClassTableProvider: MutableLiveData<MergedClassTableProvider> = MutableLiveData()
+    private val mergedClassTableProvider: MutableLiveData<MergedClassTableProvider> = object : MutableLiveData<MergedClassTableProvider>() {
+        override fun onActive() {
+            super.onActive()
+            invalidate()
+        }
+    }
 
     fun invalidate() = getTotalCourseManager() //只刷新课程表（比如说修改了课程表的格式）
 

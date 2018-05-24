@@ -6,6 +6,7 @@ import android.arch.lifecycle.MutableLiveData
 import android.content.Intent
 import android.os.Bundle
 import android.preference.PreferenceManager
+import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -13,7 +14,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.twt.service.R
-import com.twt.service.base.BaseFragment
 import com.twt.service.settings.RealBindAndDropOutService
 import com.twt.service.settings.SettingsActivity
 import com.twt.service.settings.SingleBindActivity
@@ -36,7 +36,7 @@ import rx.schedulers.Schedulers
  * Created by retrox on 2016/12/12.
  */
 
-class UserFragment : BaseFragment() {
+class UserFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
             inflater.inflate(R.layout.fragment_user, container, false).apply {
@@ -128,7 +128,7 @@ class UserFragment : BaseFragment() {
 
                     addItemDecoration(RecyclerViewDivider.Builder(this.context)
                             .setSize(2f)
-                            .setColorRes(R.color.background_gray)
+                            .setColorRes(R.color.transparent)
                             .build())
                 }
             }
