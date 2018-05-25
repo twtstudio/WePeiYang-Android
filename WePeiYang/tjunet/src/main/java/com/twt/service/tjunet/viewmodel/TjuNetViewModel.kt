@@ -78,7 +78,7 @@ object TjuNetViewModel {
         }
     }
 
-    private fun login(context: Context) {
+    fun login(context: Context) {
         launch(UI + QuietCoroutineExceptionHandler) {
             if (TjuNetPreferences.password == "") {
                 Toasty.info(context, "请前往上网功能页面登陆以保存您的密码").show()
@@ -90,7 +90,9 @@ object TjuNetViewModel {
                     username = TjuNetPreferences.username,
                     password = TjuNetPreferences.password
             ).awaitAndHandle {
-                Toasty.error(context, "好像出了什么问题，${it.message}").show()
+                statusLiveData.repost {
+                    copy(connected = false, message = "好像出了什么问题 ${it.message}")
+                }
             }
             body?.let {
                 if (body.data?.startsWith("login_ok") == true) {
@@ -100,13 +102,15 @@ object TjuNetViewModel {
         }
     }
 
-    private fun logout(context: Context) {
+    fun logout(context: Context) {
         launch(UI + QuietCoroutineExceptionHandler) {
             val body = RealTjuNetService.logoutTry(
                     username = TjuNetPreferences.username,
                     password = TjuNetPreferences.password
             ).awaitAndHandle {
-                Toasty.error(context, "好像出了什么问题，${it.message}").show()
+                statusLiveData.repost {
+                    copy(connected = false, message = "好像出了什么问题 ${it.message}")
+                }
             }
             body?.let {
                 refreshNetworkInfo()
@@ -132,6 +136,14 @@ object TjuNetViewModel {
             e.printStackTrace()
         }
         return "IP获取错误"
+    }
+
+    fun <T> MutableLiveData<T>.repost(init: T.() -> T) {
+        val value = this.value
+        val res = value?.init()
+        res?.let {
+            this.postValue(it)
+        }
     }
 
 }

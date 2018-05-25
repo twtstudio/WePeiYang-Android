@@ -9,6 +9,7 @@ import android.view.WindowManager
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.twt.service.R
+import com.twt.service.home.other.homeOthers
 import com.twt.service.home.user.FragmentActivity
 import com.twt.service.schedule2.view.home.homeScheduleItem
 import com.twt.service.tjunet.view.homeTjuNetItem
@@ -54,6 +55,7 @@ class HomeNewActivity : CAppCompatActivity() {
             gpaHomeItem(this@HomeNewActivity)
             libraryHomeItem(this@HomeNewActivity)
             homeTjuNetItem(this@HomeNewActivity)
+            homeOthers()
         }
     }
 }

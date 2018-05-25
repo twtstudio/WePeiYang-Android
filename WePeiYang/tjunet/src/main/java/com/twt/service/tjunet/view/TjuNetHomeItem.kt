@@ -43,6 +43,21 @@ class TjuNetHomeItem(val lifecycleOwner: LifecycleOwner) : Item {
                     tv_content.text = it.ip
                     color_circle.color = if (it.connected) Color.parseColor("#3BCBFF") else Color.parseColor("#FF5D64")
                     tv_status.text = it.message
+                    btn_action.apply {
+                        if (!it.connected) {
+                            text = "刷新/登录校园网"
+                            setOnClickListener {
+                                TjuNetViewModel.refreshNetworkInfo()
+                                TjuNetViewModel.login(context)
+                            }
+                        } else {
+                            text = "断开校园网"
+                            setOnClickListener {
+                                TjuNetViewModel.refreshNetworkInfo()
+                                TjuNetViewModel.logout(context)
+                            }
+                        }
+                    }
                 }
             }
         }
