@@ -8,7 +8,6 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import com.twt.service.base.BaseActivity
-import com.twt.service.home.HomeActivity
 import com.twt.service.home.HomeNewActivity
 import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
 import com.twtstudio.retrox.auth.view.LoginActivity
@@ -27,7 +26,7 @@ class StartupActivity : BaseActivity() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) createDynamicShortcuts()
 
         if (CommonPreferences.isLogin) {
-            if (BuildConfig.DEBUG) startActivity<HomeNewActivity>() else startActivity<HomeActivity>()
+            startActivity<HomeNewActivity>()
         } else startActivity<LoginActivity>()
 
         finish()
