@@ -53,7 +53,6 @@ fun <V : Any> RefreshableLiveData.Companion.use(local: Cache<V>, remote: Cache<V
         object : RefreshableLiveData<V, CacheIndicator>() {
 
             private var running: Job? = null
-
             override fun refresh(vararg indicators: CacheIndicator, callback: suspend (RefreshState<CacheIndicator>) -> Unit) {
                 if (running?.isActive == true) return
                 running = launch(UI + QuietCoroutineExceptionHandler) {
