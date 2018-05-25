@@ -7,7 +7,7 @@ import android.preference.Preference
 import android.preference.PreferenceFragment
 import android.preference.SwitchPreference
 import android.support.v7.app.AlertDialog
-import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.Toolbar
 import android.text.TextUtils
 import android.view.MenuItem
 import android.widget.Toast
@@ -22,6 +22,7 @@ import com.twtstudio.retrox.auth.api.authSelfLiveData
 import com.twtstudio.retrox.bike.service.BikeServiceProvider
 import com.twtstudio.retrox.tjulibrary.provider.TjuLibProvider
 import es.dmoral.toasty.Toasty
+import io.multimoon.colorful.CAppCompatActivity
 import rx.android.schedulers.AndroidSchedulers
 import rx.functions.Action1
 import rx.schedulers.Schedulers
@@ -30,12 +31,13 @@ import rx.schedulers.Schedulers
  * Created by retrox on 2017/2/21.
  */
 
-class SettingsActivity : AppCompatActivity() {
+class SettingsActivity : CAppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_setting)
 
+        setSupportActionBar(findViewById<Toolbar>(R.id.toolbar))
         title = "偏好设置"
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)

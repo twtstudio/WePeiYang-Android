@@ -18,8 +18,8 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
-            app:title="Tools22"
+            android:background="?attr/colorPrimary"
+            app:title="Tools"
             app:titleTextColor="@color/white_color">
 
             <include
