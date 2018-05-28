@@ -8,6 +8,7 @@ import android.widget.TextView
 import com.twtstudio.service.dishesreviews.R
 import com.twtstudio.service.dishesreviews.base.BaseItemViewHolder
 import com.twtstudio.service.dishesreviews.canteen.CanteenActivity
+import com.twtstudio.service.dishesreviews.extensions.DishPreferences
 
 class DinningHallViewHolder(itemView: View, lifecycleOwner: LifecycleOwner) : BaseItemViewHolder(itemView, lifecycleOwner) {
     private val imageView = itemView.findViewById<ImageView>(R.id.iv_dinning_hall)
@@ -15,93 +16,60 @@ class DinningHallViewHolder(itemView: View, lifecycleOwner: LifecycleOwner) : Ba
     override fun bind(position: Int) {
         when (position) {
             0 -> {
-                imageView.apply {
-                    setImageResource(R.drawable.dishes_reviews_mei)
-                    setOnClickListener {
-                        val intent = Intent(context, CanteenActivity::class.java)
-                        intent.putExtra("CanteenName", "学一食堂")
-                        context.startActivity(intent)
-                    }
-                }
-                textView.text = "学一食堂"
+                if (DishPreferences.isNewCampus)
+                    setView("学一食堂", R.drawable.dishes_reviews_mei)
+                else
+                    setView("学二食堂", R.drawable.dishes_reviews_xue2)
             }
             1 -> {
-                imageView.apply {
-                    setImageResource(R.drawable.dishes_reviews_lan)
-                    setOnClickListener {
-                        val intent = Intent(context, CanteenActivity::class.java)
-                        intent.putExtra("CanteenName", "学二食堂")
-                        context.startActivity(intent)
-                    }
-                }
-                textView.text = "学二食堂"
+                if (DishPreferences.isNewCampus)
+                    setView("学二食堂", R.drawable.dishes_reviews_lan)
+                else
+                    setView("学三食堂", R.drawable.dishes_reviews_xue3)
             }
             2 -> {
-                imageView.apply {
-                    setImageResource(R.drawable.dishes_reviews_tang)
-                    setOnClickListener {
-                        val intent = Intent(context, CanteenActivity::class.java)
-                        intent.putExtra("CanteenName", "学三食堂")
-                        context.startActivity(intent)
-                    }
-                }
-                textView.text = "学三食堂"
+                if (DishPreferences.isNewCampus)
+                    setView("学三食堂", R.drawable.dishes_reviews_tang)
+                else
+                    setView("学四食堂", R.drawable.dishes_reviews_xue4)
             }
             3 -> {
-                imageView.apply {
-                    setImageResource(R.drawable.dishes_reviews_zhu)
-                    setOnClickListener {
-                        val intent = Intent(context, CanteenActivity::class.java)
-                        intent.putExtra("CanteenName", "学四食堂")
-                        context.startActivity(intent)
-                    }
-                }
-                textView.text = "学四食堂"
+                if (DishPreferences.isNewCampus)
+                    setView("学四食堂", R.drawable.dishes_reviews_zhu)
+                else
+                    setView("学五食堂", R.drawable.dishes_reviews_xue5)
             }
             4 -> {
-                imageView.apply {
-                    setImageResource(R.drawable.dishes_reviews_tao)
-                    setOnClickListener {
-                        val intent = Intent(context, CanteenActivity::class.java)
-                        intent.putExtra("CanteenName", "学五食堂")
-                        context.startActivity(intent)
-                    }
-                }
-                textView.text = "学五食堂"
+                if (DishPreferences.isNewCampus)
+                    setView("学五食堂", R.drawable.dishes_reviews_tao)
+                else
+                    setView("清真食堂", R.drawable.dishes_reviews_qingzhen)
             }
             5 -> {
-                imageView.apply {
-                    setImageResource(R.drawable.dishes_reviews_ju)
-                    setOnClickListener {
-                        val intent = Intent(context, CanteenActivity::class.java)
-                        intent.putExtra("CanteenName", "学六食堂")
-                        context.startActivity(intent)
-                    }
-                }
-                textView.text = "学六食堂"
+                setView("学六食堂", R.drawable.dishes_reviews_ju)
             }
             6 -> {
-                imageView.apply {
-                    setImageResource(R.drawable.dishes_reviews_liu)
-                    setOnClickListener {
-                        val intent = Intent(context, CanteenActivity::class.java)
-                        intent.putExtra("CanteenName", "留园食堂")
-                        context.startActivity(intent)
-                    }
-                }
-                textView.text = "留园食堂"
+                setView("留园食堂", R.drawable.dishes_reviews_liu)
             }
             7 -> {
-                imageView.apply {
-                    setImageResource(R.drawable.dishes_reviews_qing)
-                    setOnClickListener {
-                        val intent = Intent(context, CanteenActivity::class.java)
-                        intent.putExtra("CanteenName", "青园食堂")
-                        context.startActivity(intent)
-                    }
-                }
-                textView.text = "青园食堂"
+                setView("青园食堂", R.drawable.dishes_reviews_qing)
             }
         }
+    }
+
+    private fun setView(canteenName: String, imgRes: Int) {
+        imageView.apply {
+            setImageResource(imgRes)
+            setOnClickListener {
+                startCanteenActivity(canteenName, imgRes)
+            }
+        }
+        textView.text = canteenName
+    }
+
+    private fun startCanteenActivity(canteenName: String, imgRes: Int) {
+        val intent = Intent(itemView.context, CanteenActivity::class.java)
+        intent.putExtra("CanteenName", canteenName)
+        itemView.context.startActivity(intent)
     }
 }
