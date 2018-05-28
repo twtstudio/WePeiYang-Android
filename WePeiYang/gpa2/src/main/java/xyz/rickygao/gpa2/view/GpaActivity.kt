@@ -17,6 +17,7 @@ import com.twt.wepeiyang.commons.experimental.extensions.enableLightStatusBarMod
 import com.twt.wepeiyang.commons.experimental.extensions.fitSystemWindowWithNavigationBar
 import com.twt.wepeiyang.commons.experimental.extensions.fitSystemWindowWithStatusBar
 import xyz.rickygao.gpa2.R
+import xyz.rickygao.gpa2.service.GpaBean
 import xyz.rickygao.gpa2.service.GpaLiveData
 import xyz.rickygao.gpa2.service.Term
 
@@ -34,6 +35,7 @@ class GpaActivity : AppCompatActivity() {
     private lateinit var toolbar: Toolbar
     private lateinit var backBtn: ImageButton
     private lateinit var tbSelectedTermTv: TextView
+    private lateinit var toggleBtn: ToggleButton
     private lateinit var refreshBtn: ImageButton
 
     private lateinit var nestedSv: NestedScrollView
@@ -104,6 +106,11 @@ class GpaActivity : AppCompatActivity() {
                 onBackPressed()
             }
         }
+        toggleBtn = findViewById<ToggleButton>(R.id.btn_toggle).apply {
+            setOnCheckedChangeListener { _, _ ->
+                GpaLiveData.value?.let(::bindGpaBean)
+            }
+        }
         refreshBtn = findViewById<ImageButton>(R.id.btn_refresh).apply {
             setOnClickListener {
                 GpaLiveData.refresh(REMOTE, callback = simpleCallback())
@@ -146,6 +153,10 @@ class GpaActivity : AppCompatActivity() {
         // init line chart
         gpaLineCv = findViewById<GpaLineChartView>(R.id.cv_gpa_line).apply {
             onSelectionChangedListener = { selectedTermIndex = it }
+            setOnLongClickListener {
+                toggleBtn.isChecked = !toggleBtn.isChecked
+                return@setOnLongClickListener true
+            }
         }
 
         // init radar chart
@@ -158,7 +169,7 @@ class GpaActivity : AppCompatActivity() {
         }
 
         // init course list
-        courseAdapter = CourseAdapter(inflater).apply {
+        courseAdapter = CourseAdapter().apply {
             sortMode = CourseAdapter.SORT_BY_SCORE_DESC
         }
         findViewById<RecyclerView>(R.id.rv_course).apply {
@@ -179,26 +190,30 @@ class GpaActivity : AppCompatActivity() {
         }
 
         // bind callback
-        GpaLiveData.bindNonNull(this) {
-            it.stat.total.let {
-                scoreTv.text = it.score.toString()
-                gpaTv.text = it.gpa.toString()
-                creditTv.text = it.credit.toString()
-            }
+        GpaLiveData.bindNonNull(this, ::bindGpaBean)
 
-            it.data.asSequence().map(Term::stat).map {
-                GpaLineChartView.DataWithDetail(it.score, """
+    }
+
+    private fun bindGpaBean(gpaBean: GpaBean) {
+        gpaBean.stat.total.let {
+            scoreTv.text = it.score.toString()
+            gpaTv.text = it.gpa.toString()
+            creditTv.text = it.credit.toString()
+        }
+
+        gpaBean.data.asSequence().let {
+            if (toggleBtn.isChecked) it.filter { it.name != "第二课堂" } else it
+        }.map(Term::stat).map {
+            GpaLineChartView.DataWithDetail(it.score, """
                         加权：${it.score}
                         绩点：${it.gpa}
                         学分：${it.credit}
                         """.trimIndent())
-            }.toList().let {
-                gpaLineCv.dataWithDetail = it
-            }
-
-            // attempt to refresh chart view while new data coming
-            selectedTermIndex = selectedTermIndex
+        }.toList().let {
+            gpaLineCv.dataWithDetail = it
         }
 
+        // attempt to refresh chart view while new data coming
+        selectedTermIndex = selectedTermIndex
     }
 }
