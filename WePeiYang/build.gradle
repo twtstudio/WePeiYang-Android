@@ -65,7 +65,8 @@ buildscript {
         ]
 
         archLibraries = [
-                'lifecycle-extensions','room'
+                'lifecycle-extensions',
+                'room',
         ]
     }
 

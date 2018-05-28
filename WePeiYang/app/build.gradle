@@ -56,6 +56,11 @@ android {
 //        }
     }
 
+    kotlin {
+        experimental {
+            coroutines "enable"
+        }
+    }
     signingConfigs {
         release {
             try {

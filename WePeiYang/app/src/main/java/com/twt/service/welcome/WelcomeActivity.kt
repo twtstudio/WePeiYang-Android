@@ -8,7 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.twt.service.R
-import com.twt.service.home.HomeActivity
+import com.twt.service.home.HomeNewActivity
 import com.twt.service.settings.LibBindFragment
 import com.twt.service.settings.TjuBindFragment
 import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
@@ -28,7 +28,7 @@ class WelcomeActivity : MaterialIntroActivity() {
 
     override fun onFinish() {
         super.onFinish()
-        val intent = Intent(this, HomeActivity::class.java)
+        val intent = Intent(this, HomeNewActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         startActivity(intent)
     }

@@ -1,10 +1,10 @@
 package xyz.rickygao.gpa2.view
 
 import android.support.v7.widget.RecyclerView
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import org.jetbrains.anko.layoutInflater
 import org.jetbrains.anko.startActivity
 import xyz.rickygao.gpa2.R
 import xyz.rickygao.gpa2.service.Evaluate
@@ -12,9 +12,7 @@ import xyz.rickygao.gpa2.service.Evaluate
 /**
  * Created by rickygao on 2017/11/14.
  */
-class CourseAdapter(
-        private val inflater: LayoutInflater
-) : RecyclerView.Adapter<CourseAdapter.CourseViewHolder>() {
+class CourseAdapter : RecyclerView.Adapter<CourseAdapter.CourseViewHolder>() {
 
     companion object {
         const val SORT_BY_DEFAULT = 0
@@ -47,7 +45,7 @@ class CourseAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-            CourseViewHolder(inflater.inflate(R.layout.gpa2_item_course, parent, false))
+            CourseViewHolder(parent.context.layoutInflater.inflate(R.layout.gpa2_item_course, parent, false))
 
     override fun onBindViewHolder(holder: CourseViewHolder, position: Int) = holder.bind(courses[position])
 

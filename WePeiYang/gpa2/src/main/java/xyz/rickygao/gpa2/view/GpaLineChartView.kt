@@ -190,8 +190,8 @@ class GpaLineChartView @JvmOverloads constructor(context: Context, attrs: Attrib
 
             if (points.isNotEmpty()) {
 
-                val startPoint = PointF(0F, paddingTop + contentHeight)
-                val endPoint = PointF(width.toFloat(), paddingTop.toFloat())
+                val startPoint = PointF(0F, (points.first().y * 1.2F).coerceAtMost(paddingTop + contentHeight))
+                val endPoint = PointF(width.toFloat(), (points.last().y * 0.8F).coerceAtLeast(paddingTop.toFloat()))
 
                 moveTo(startPoint)
                 cubicThrough(listOf(startPoint, points.first()))
@@ -309,7 +309,7 @@ class GpaLineChartView @JvmOverloads constructor(context: Context, attrs: Attrib
         }
     }
 
-    private fun checkClickOnPoint(x: Float, y: Float, callback: (Int) -> Unit) {
+    private inline fun checkClickOnPoint(x: Float, y: Float, callback: (Int) -> Unit) {
         points.forEachIndexed { index, (px, py) ->
             val dx = x - px
             val dy = y - py
@@ -328,9 +328,10 @@ class GpaLineChartView @JvmOverloads constructor(context: Context, attrs: Attrib
             checkClickOnPoint(it.x, it.y) {
                 selectedIndex = it
                 onSelectionChangedListener?.invoke(it)
+                return true
             }
         }
-        return true
+        return super.onTouchEvent(event)
     }
 
     init {

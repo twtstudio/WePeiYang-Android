@@ -2,10 +2,15 @@ package com.twt.wepeiyang.commons.experimental.network
 
 import com.orhanobut.logger.Logger
 import com.twt.wepeiyang.commons.experimental.CommonContext
+import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
+import com.twt.wepeiyang.commons.experimental.hack.Restarter
 import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
-import es.dmoral.toasty.Toasty
+import com.twt.wepeiyang.commons.experimental.service.AuthService
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.launch
 import okhttp3.*
 import org.json.JSONObject
+import java.io.IOException
 import java.net.HttpURLConnection
 
 internal inline val Request.authorized
@@ -20,41 +25,47 @@ object AuthorizationInterceptor : Interceptor {
 
 object RealAuthenticator : Authenticator {
     override fun authenticate(route: Route, response: Response): Request? =
-            if (response.request().isTrusted)
-                JSONObject(response.body()?.string()).getInt("error_code").let {
-                    when (it) {
-                        10001 ->
+            if (response.request().isTrusted) {
+                val code = JSONObject(response.body()?.string()).getInt("error_code")
+                val relogin = fun(): Nothing {
+                    launch(UI) {
+                        AuthService.getToken(CommonPreferences.twtuname, CommonPreferences.password)
+                                .awaitAndHandle {
+                                    CommonContext.startActivity(name = "login")
+                                }?.data?.token?.let { CommonPreferences.token = it }
+                    }
+                    throw IOException("登录失效，正在尝试自动重登")
+                }
+                when (code) {
+                    10001 ->
+                        if (response.priorResponse()?.request()?.header("Authorization") == null)
                             CommonPreferences.token
-//                        10003 -> doesn't work?
-//                            runBlocking {
-//                                RealAuthService.refreshToken().await()
-//                            }.data?.token?.let {
-//                                CommonPreferences.token = it
-//                                it
-//                            }
-                        10003, 10004 -> {
+                        else relogin()
+                    10003, 10004 -> relogin()
+                //                        20001 -> Bind Tju
+                    30001, 30002 -> {
+                        val loggingIn = CommonContext.getActivity("login")
+                                ?.isInstance(Restarter.getForegroundActivity(null))
+                                ?: false
+                        if (!loggingIn) {
                             CommonPreferences.isLogin = false
                             CommonContext.startActivity(name = "login")
-                            null
                         }
-//                        20001 -> Bind Tju
-                        30002 -> {
-                            //todo: 统一化错误处理
-//                            Toasty.error(CommonContext.application,"账号或密码错误").show()
-                        }
-                        else -> {
-                            Logger.d("""
-                                Unhandled error code $it, for
-                                Request: ${response.request()}
-                                Response: $response
-                                """.trimIndent())
-                            null
-                        }
+                        throw IOException("帐号或密码错误")
                     }
-                }?.let {
+                    else -> {
+                        Logger.d("""
+                                        Unhandled error code $code, for
+                                        Request: ${response.request()}
+                                        Response: $response
+                                        """.trimIndent())
+                        throw IOException("未知错误")
+                    }
+                }.let {
                     response.request().newBuilder()
                             .header("Authorization", "Bearer{$it}").build()
-                } else null
+                }
+            } else null
 }
 
 object CodeCorrectionInterceptor : Interceptor {
