@@ -49,8 +49,6 @@ class LoginActivity : AppCompatActivity() {
                                 when (it) {
                                     is RefreshState.Success -> {
                                         Toasty.success(activity(), "登录成功").show()
-                                        //TODO 整合菜品点评到微北洋里时取消注释
-                                        //startActivity(name = "welcome")
                                         finish()
                                     }
                                     is RefreshState.Failure -> {

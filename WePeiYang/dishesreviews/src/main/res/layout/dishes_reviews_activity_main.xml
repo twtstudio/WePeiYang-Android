@@ -13,8 +13,8 @@
         android:id="@+id/vp_main"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:layout_marginTop="57dp"
+        android:layout_weight="1"
         app:layout_constraintTop_toBottomOf="@id/toolbar">
 
     </com.twtstudio.service.dishesreviews.extensions.CustomViewPager>
@@ -23,9 +23,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@color/white"
         android:layout_gravity="bottom"
-        app:layout_behavior=".extensions.BottomNavigationBehavior"
+        android:background="@color/white"
         app:itemBackground="@color/white"
         app:itemIconTint="@color/dishes_reviews_selector_item_color"
         app:itemTextColor="@color/dishes_reviews_selector_item_color"
