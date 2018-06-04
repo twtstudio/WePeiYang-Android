@@ -39,6 +39,7 @@ class LibraryHomeItem(val owner: LifecycleOwner) : Item {
             }
             homeItem.apply {
                 itemName.text = "LIBRARY"
+                itemContent.visibility = View.INVISIBLE
                 setContentView(view)
             }
             return MyViewHolder(homeItem.rootView, homeItem, view)
@@ -47,14 +48,13 @@ class LibraryHomeItem(val owner: LifecycleOwner) : Item {
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: Item) {
             holder as MyViewHolder
             item as LibraryHomeItem
-            val lifecycleOwner = item.owner
             val itemManager = (holder.recyclerView.adapter as ItemAdapter).itemManager
             LibraryViewModel.infoLiveData.refresh(CacheIndicator.LOCAL, CacheIndicator.REMOTE)
             LibraryViewModel.infoLiveData.bindNonNull(item.owner) { info ->
                 itemManager.refreshAll {
+                    if (info.books == null) info.books = listOf()
+                    info.books = info.books.sortedBy { it.timeLeft() }
                     if (collasped) {
-                        if (info.books == null) info.books = listOf()
-                        info.books = info.books.sortedBy { it.timeLeft() }
                         info.books.take(3).forEach {
                             book(it)
                         }

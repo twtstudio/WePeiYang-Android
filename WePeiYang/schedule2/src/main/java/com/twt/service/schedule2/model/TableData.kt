@@ -140,10 +140,6 @@ data class Arrange(val week: String = "",/*单双周 单周 双周*/
 data class Week(val start: Int = 0,
                 val end: Int = 0)
 
-enum class CourseType {
-    SINGLE, MULTIPLE
-}
-
 class ArrangeListTypeConverter {
     val gson: Gson = Gson()
     val type: Type = object : TypeToken<List<Arrange>>() {}.type

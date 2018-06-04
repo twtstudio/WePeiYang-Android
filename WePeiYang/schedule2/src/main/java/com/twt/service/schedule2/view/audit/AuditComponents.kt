@@ -38,6 +38,7 @@ class ButtonItem(val text: String) : Item {
                     leftMargin = dip(16)
                     verticalMargin = dip(4)
                 }
+                backgroundColor = Color.WHITE
             }.apply {
                 layoutParams = RecyclerView.LayoutParams(matchParent, wrapContent)
             }
@@ -81,6 +82,7 @@ class AuditCourseItem(val auditCourse: AuditCourse) : Item {
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: Item) {
             item as AuditCourseItem
             holder as ViewHolder
+            holder.container.backgroundColor = Color.WHITE
             val cachedScheduleManager = TotalCourseManager.getTotalCourseManager().value
             val auditCourse = item.auditCourse.copy(infos = listOf(item.auditCourse.infos[0])) // 只要第一个
             val course = auditCourse.convertToCourse()
@@ -95,7 +97,7 @@ class AuditCourseItem(val auditCourse: AuditCourse) : Item {
                 conflictCourse?.removeAll { it.coursename == course.coursename && it.teacher == course.teacher }
 
                 if (conflictCourse != null && conflictCourse.isNotEmpty()) {
-                    auditConflict.text = "[冲突课程：${conflictCourse[0].coursename}]"
+                    auditConflict.text = "[冲突课程：${conflictCourse[0].coursename.trimCourse()}]"
                     auditConflict.textColor = Color.parseColor("#B2430E")
                 } else {
                     auditConflict.text = "[没有冲突]"
@@ -106,6 +108,9 @@ class AuditCourseItem(val auditCourse: AuditCourse) : Item {
                 }
             }
         }
+
+        private fun String.trimCourse(length: Int = 8): String = if (this.length > length) "${this.substring(0, length - 1)}..." else this
+
 
         private class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             val container = itemView
