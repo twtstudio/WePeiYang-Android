@@ -30,9 +30,9 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="1-8周，每周三3-4节\n55楼A308" />
 
-    <ImageView
-        android:background="@color/common_lv4_divider"
+    <View
+        android:layout_height="2dp"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_width="match_parent"
-        android:layout_height="1dp" />
+        android:background="#F5F5F5" />
 </android.support.constraint.ConstraintLayout>

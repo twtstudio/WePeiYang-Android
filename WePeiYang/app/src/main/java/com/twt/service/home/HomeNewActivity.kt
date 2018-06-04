@@ -20,6 +20,7 @@ import com.twt.wepeiyang.commons.view.RecyclerViewDivider
 import com.twtstudio.retrox.auth.api.authSelfLiveData
 import com.twtstudio.retrox.tjulibrary.home.libraryHomeItem
 import io.multimoon.colorful.CAppCompatActivity
+import org.jetbrains.anko.dip
 import org.jetbrains.anko.startActivity
 import pub.devrel.easypermissions.EasyPermissions
 import xyz.rickygao.gpa2.view.gpaHomeItem
@@ -34,7 +35,7 @@ class HomeNewActivity : CAppCompatActivity() {
         enableLightStatusBarMode(true)
         window.apply {
             addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-            statusBarColor = Color.parseColor("#F5F5F5")
+            statusBarColor = Color.WHITE
         }
         val imageView = findViewById<ImageView>(R.id.iv_toolbar_avatar).apply {
             setOnClickListener {
@@ -56,6 +57,9 @@ class HomeNewActivity : CAppCompatActivity() {
             libraryHomeItem(this@HomeNewActivity)
             homeTjuNetItem(this@HomeNewActivity)
             homeOthers()
+        }
+        rec.post {
+            (rec.getChildAt(0).layoutParams as RecyclerView.LayoutParams).topMargin = dip(4)
         }
     }
 }

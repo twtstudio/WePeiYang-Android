@@ -27,7 +27,7 @@ import com.twt.service.schedule2.model.audit.AuditCourse
 import com.twt.service.schedule2.model.audit.AuditCourseManager
 import com.twt.service.schedule2.model.audit.AuditSearchCourse
 import com.twt.service.schedule2.view.adapter.indicatorText
-import com.twt.service.schedule2.view.audit.AuditActivity
+import com.twt.service.schedule2.view.audit.AutoCompletePresenter
 import com.twt.service.schedule2.view.audit.auditCourseItem
 import com.twt.service.schedule2.view.custom.singleText
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
@@ -248,7 +248,7 @@ class SearchResultActivity : CAppCompatActivity() {
             override fun getQuery(text: Spannable): CharSequence = text
 
             override fun onDismiss(text: Spannable?) {}
-        }).with(ColorDrawable(Color.WHITE)).with(4f).with(AuditActivity.AutoCompletePresenter(this, this, editText)).build()
+        }).with(ColorDrawable(Color.WHITE)).with(4f).with(AutoCompletePresenter(this, this, editText)).build()
     }
 
 }
