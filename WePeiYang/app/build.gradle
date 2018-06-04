@@ -112,7 +112,7 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-    [':auth', ':bike', ':commons', ':gpa2', ':schedule', ':tjulibrary', ':tjunet', ':party', ':schedule2', ':news2'].each {
+    [':auth', ':bike', ':commons', ':gpa2', ':schedule', ':tjulibrary', ':tjunet', ':party', ':schedule2'].each {
         implementation project(it)
     }
     implementation 'com.twt.service:fragmentation:1.1.0'
