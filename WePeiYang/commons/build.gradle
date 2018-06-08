@@ -110,3 +110,6 @@ dependencies {
 //    compile files('libs/umeng_social_tool.jar')
 
 }
+repositories {
+    mavenCentral()
+}

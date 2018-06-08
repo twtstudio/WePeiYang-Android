@@ -1,6 +1,5 @@
 package com.twt.service.home
 
-import android.Manifest
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.net.Uri
@@ -12,10 +11,10 @@ import android.support.v4.view.ViewPager
 import android.support.v7.app.AlertDialog
 import android.transition.Fade
 import android.view.View
-import com.example.news2.NewsTwoFragment
 import com.twt.service.R
 import com.twt.service.base.BaseActivity
 import com.twt.service.home.common.CommonFragment
+//import com.twt.service.home.news.NewsFragment
 import com.twt.service.home.tools.ToolsFragment
 import com.twt.service.home.user.UserFragment
 import com.twt.service.update.UpdateManager
@@ -23,7 +22,6 @@ import com.twt.service.view.BottomBar
 import com.twt.service.view.BottomBarTab
 import com.twt.service.widget.WidgetUpdateManger
 import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
-import pub.devrel.easypermissions.EasyPermissions
 
 class HomeActivity : BaseActivity() {
 
@@ -40,8 +38,6 @@ class HomeActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
-        EasyPermissions.requestPermissions(this, "微北洋需要外部存储来提供必要的缓存", 0, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
-
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) with(window) {
@@ -51,7 +47,8 @@ class HomeActivity : BaseActivity() {
 //            statusBarColor =
         }
 
-        fragments = listOf(CommonFragment(), NewsTwoFragment(), ToolsFragment(), UserFragment())
+//        fragments = listOf(CommonFragment(), NewsFragment(), ToolsFragment(), UserFragment())
+        fragments = listOf(CommonFragment(), ToolsFragment(), UserFragment())
 
         viewPager = findViewById<ViewPager>(R.id.fl_container).apply {
             adapter = object : FragmentPagerAdapter(supportFragmentManager) {
@@ -71,18 +68,18 @@ class HomeActivity : BaseActivity() {
                 .addItem(BottomBarTab(this, R.drawable.ic_news))
                 .addItem(BottomBarTab(this, R.drawable.ic_tools))
                 .addItem(BottomBarTab(this, R.drawable.ic_user)).apply {
-                    setOnTabSelectedListener(object : BottomBar.OnTabSelectedListener {
-                        override fun onTabSelected(position: Int, prePosition: Int) =
-                                when (position - prePosition) {
-                                    0 -> Unit
-                                    -1, 1 -> viewPager.setCurrentItem(position, true)
-                                    else -> viewPager.setCurrentItem(position, false)
-                                }
+            setOnTabSelectedListener(object : BottomBar.OnTabSelectedListener {
+                override fun onTabSelected(position: Int, prePosition: Int) =
+                        when (position - prePosition) {
+                            0 -> Unit
+                            -1, 1 -> viewPager.setCurrentItem(position, true)
+                            else -> viewPager.setCurrentItem(position, false)
+                        }
 
-                        override fun onTabUnselected(position: Int) = Unit
-                        override fun onTabReselected(position: Int) = Unit
-                    })
-                }
+                override fun onTabUnselected(position: Int) = Unit
+                override fun onTabReselected(position: Int) = Unit
+            })
+        }
 
         checkTosDialog = AlertDialog.Builder(this)
                 .setCancelable(false)

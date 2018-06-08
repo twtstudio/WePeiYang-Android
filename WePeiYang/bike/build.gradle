@@ -64,7 +64,7 @@ dependencies {
     implementation 'com.amap.api:location:3.7.0'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.1'
     implementation 'de.hdodenhof:circleimageview:2.1.0'
-    implementation 'com.youth.banner:banner:1.4.1'
+    implementation 'com.youth.banner:banner:1.4.10'
     implementation 'com.github.florent37:glidepalette:1.0.6'
     implementation 'de.greenrobot:eventbus:2.4.0'
 

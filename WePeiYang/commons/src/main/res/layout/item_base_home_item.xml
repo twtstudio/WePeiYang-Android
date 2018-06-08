@@ -38,7 +38,7 @@
         android:textColor="#B9B9B9"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="@id/view_rect"
-        app:layout_constraintEnd_toStartOf="@id/iv_go_home_item"
+        app:layout_constraintEnd_toStartOf="@+id/iv_go_home_item"
         app:layout_constraintTop_toTopOf="@id/view_rect"
         tools:text="最近的事情 3" />
 

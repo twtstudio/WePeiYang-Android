@@ -30,6 +30,7 @@ class CanteenActivity : AppCompatActivity() {
         vp_stairs.offscreenPageLimit = 2
         tab_stairs.setupWithViewPager(vp_stairs)
         tab_stairs.setIndicator(135, 130)
+
 //        for (i in 0 until tab_stairs.childCount) {
 //            tab_stairs.getChildAt(i).isClickable = false
 //        }

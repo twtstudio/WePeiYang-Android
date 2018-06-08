@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/grayBackground">
+
     <include
         android:id="@+id/toolbar"
         layout="@layout/dishes_reviews_toolbar"
@@ -62,32 +63,31 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:layout_marginTop="66dp"
             android:baselineAligned="false"
-            android:layout_marginTop="66dp">
+            android:orientation="horizontal">
 
             <LinearLayout
                 android:id="@+id/ll_love"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
                 android:layout_weight="1"
-                android:gravity="center_horizontal"
                 android:clickable="true"
                 android:foreground="?android:attr/selectableItemBackgroundBorderless"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
                 tool:targetApi="lollipop">
 
-                <!--<ImageView-->
-                <!--android:id="@+id/iv_love"-->
-                <!--android:layout_width="20dp"-->
-                <!--android:layout_height="20dp"-->
-                <!--android:src="@drawable/dishes_reviews_action_love" />-->
+                <ImageView
+                    android:id="@+id/iv_love"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/dishes_reviews_action_love" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:drawableTop="@drawable/dishes_reviews_action_love"
                     android:text="喜爱"
                     android:textSize="8sp" />
             </LinearLayout>
@@ -96,11 +96,11 @@
                 android:id="@+id/ll_comment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
                 android:layout_weight="1"
-                android:gravity="center_horizontal"
                 android:clickable="true"
                 android:foreground="?android:attr/selectableItemBackgroundBorderless"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
                 tool:targetApi="lollipop">
 
                 <ImageView
@@ -121,11 +121,11 @@
                 android:id="@+id/ll_collect"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
                 android:layout_weight="1"
-                android:gravity="center_horizontal"
                 android:clickable="true"
                 android:foreground="?android:attr/selectableItemBackgroundBorderless"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
                 tool:targetApi="lollipop">
 
                 <ImageView
@@ -146,11 +146,11 @@
                 android:id="@+id/ll_share"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
                 android:layout_weight="1"
-                android:gravity="center_horizontal"
                 android:clickable="true"
                 android:foreground="?android:attr/selectableItemBackgroundBorderless"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
                 tool:targetApi="lollipop">
 
                 <ImageView
@@ -176,10 +176,8 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginTop="12dp"
-
-        app:layout_constraintTop_toBottomOf="@id/card_info"
-        app:layout_constraintLeft_toLeftOf="parent"></android.support.v7.widget.RecyclerView>
-
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/card_info" />
     <TextView
         android:id="@+id/tv_comment"
         android:layout_width="wrap_content"
@@ -207,5 +205,5 @@
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@id/tv_comment"></android.support.v7.widget.RecyclerView>
+        app:layout_constraintTop_toBottomOf="@id/tv_comment" />
 </android.support.constraint.ConstraintLayout>

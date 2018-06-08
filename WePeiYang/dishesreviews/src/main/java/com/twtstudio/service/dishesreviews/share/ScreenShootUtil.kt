@@ -2,6 +2,7 @@ package com.twtstudio.service.dishesreviews.share
 
 import android.app.Activity
 import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.graphics.Point
 import android.graphics.Rect
 import java.io.FileNotFoundException
@@ -11,12 +12,12 @@ import java.io.IOException
 /**
  * Created by SGXM on 2018/5/28.
  */
-class SceenShootUtil {
+class ScreenShootUtil {
     private fun takeScreenShot(activity: Activity): Bitmap {
         val view = activity.window.decorView
-        view.isDrawingCacheEnabled = true
-        view.buildDrawingCache()
-        val b1 = view.drawingCache//取出图源
+//        view.isDrawingCacheEnabled = true
+//        view.buildDrawingCache()
+//        val b1 = view.drawingCache//取出图源
         //获取状态栏高度
         val frame = Rect()
         activity.window.decorView.getWindowVisibleDisplayFrame(frame)
@@ -25,11 +26,12 @@ class SceenShootUtil {
         //获取屏幕长和高
         var size = Point()
         activity.windowManager.defaultDisplay.getSize(size)
-        val width = size.x
-        val height = size.y
+        val mWidth = size.x
+        val mHeight = size.y
+        val res = Bitmap.createBitmap(mWidth, (mHeight - statusBarHeight), Bitmap.Config.RGB_565)
+        val canvas = Canvas(res)
+        view.draw(canvas)
 
-        val res = Bitmap.createBitmap(b1, 0, statusBarHeight, width, (height - statusBarHeight))//返回源图指定子集的位图
-        view.destroyDrawingCache()
         return res
     }
 
@@ -51,5 +53,9 @@ class SceenShootUtil {
         val strFile = "sdcard/" + System.currentTimeMillis().toString() + ".png"
         save(takeScreenShot(activity), strFile)
         return strFile
+    }
+
+    fun getShoot(activity: Activity): Bitmap {
+        return takeScreenShot(activity)
     }
 }
