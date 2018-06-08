@@ -14,7 +14,7 @@
         android:id="@+id/img_bg"
         android:layout_width="match_parent"
         android:layout_height="208dp"
-        android:src="@drawable/umeng_socialize_qq"
+        tool:src="@drawable/umeng_socialize_qq"
         app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
     <android.support.v7.widget.CardView
@@ -77,17 +77,16 @@
                 android:foreground="?android:attr/selectableItemBackgroundBorderless"
                 tool:targetApi="lollipop">
 
-                <!--<ImageView-->
-                <!--android:id="@+id/iv_love"-->
-                <!--android:layout_width="20dp"-->
-                <!--android:layout_height="20dp"-->
-                <!--android:src="@drawable/dishes_reviews_action_love" />-->
+                <ImageView
+                    android:id="@+id/iv_love"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/dishes_reviews_action_love" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:drawableTop="@drawable/dishes_reviews_action_love"
                     android:text="喜爱"
                     android:textSize="8sp" />
             </LinearLayout>

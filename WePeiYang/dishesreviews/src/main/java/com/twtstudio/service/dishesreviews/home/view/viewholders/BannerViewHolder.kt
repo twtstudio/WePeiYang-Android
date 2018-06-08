@@ -33,12 +33,12 @@ class BannerViewHolder(itemView: View, lifecycleOwner: LifecycleOwner) : BaseIte
             banner.apply {
                 setImageLoader(BannerImageLoader())
                 for (i in 0..(IMAGE_NUMBER - 1)) {
-                    images[i] = dish.top10Food.get(i).food_picture_address
+                    images[i] = dish.top5Food.get(i).food_picture_address
                 }
                 setImages(images.toList())
                 setIndicatorGravity(BannerConfig.CENTER)
                 setOnBannerListener {
-                    startDishActivity(dish.top10Food.get(it - 1).food_id)
+                    startDishActivity(dish.top5Food.get(it - 1).food_id)
                 }
                 setDelayTime(BANNER_DELAY_TIME)
                 start()

@@ -24,7 +24,6 @@ import com.twtstudio.service.dishesreviews.model.FoodMark
 import com.twtstudio.service.dishesreviews.share.ShareActivity
 
 
-
 class DishActivity : AppCompatActivity() {
     private lateinit var toolbar: Toolbar
     private lateinit var tvTitle: TextView
@@ -50,10 +49,10 @@ class DishActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.dishes_reviews_activity_dish)
-        ivBg = findViewById<ImageView>(R.id.img_bg)
-        tvDishName = findViewById<TextView>(R.id.tv_dish_name)
-        tvLocation = findViewById<TextView>(R.id.tv_location)
-        ratingBar = findViewById<RatingBar>(R.id.rb_score)
+        ivBg = findViewById(R.id.img_bg)
+        tvDishName = findViewById(R.id.tv_dish_name)
+        tvLocation = findViewById(R.id.tv_location)
+        ratingBar = findViewById(R.id.rb_score)
         foodId = intent.getIntExtra("FoodId", 0)
         toolbar = findViewById<Toolbar>(R.id.toolbar).apply {
             title = ""
@@ -63,13 +62,14 @@ class DishActivity : AppCompatActivity() {
             setDisplayHomeAsUpEnabled(true)
             setHomeAsUpIndicator(R.drawable.dishes_reviews_ic_action_back)
         }
-        tvTitle = findViewById<TextView>(R.id.tv_toolbar_title)
+        tvTitle = findViewById(R.id.tv_toolbar_title)
         rvLabel = findViewById<RecyclerView>(R.id.rv_labels).apply {
-            layoutManager = object : GridLayoutManager(this@DishActivity, 2) {
+            layoutManager = object : GridLayoutManager(this@DishActivity, 3) {
                 //禁止滑动
                 override fun canScrollVertically(): Boolean {
                     return false
                 }
+
                 override fun canScrollHorizontally(): Boolean {
                     return false
                 }
@@ -105,6 +105,7 @@ class DishActivity : AppCompatActivity() {
             commentList.addAll(it.comment)
             commentAdapter.notifyDataSetChanged()
             labelAdapter.notifyDataSetChanged()
+            ratingBar.rating = it.foodInfo.food_score.toFloat()
         }
 
     }
@@ -119,12 +120,18 @@ class DishActivity : AppCompatActivity() {
     //TODO 标签逻辑有问题
     private fun setTag(foodMark: FoodMark) {
         labelList.clear()
-        when {
-            foodMark.spicy > 0 -> labelList.add("辣")
-            foodMark.attitude > 0 -> labelList.add("服务好")
-            foodMark.fine > 0 -> labelList.add("清淡")
-        }
+        if (foodMark.spicy > 0) labelList.add("辣")
+        if (foodMark.attitude > 0) labelList.add("服务好")
+        if (foodMark.fine > 0) labelList.add("清淡")
+        if (foodMark.mobilePayment > 0) labelList.add("移动支付")
+        if (foodMark.schoolCard > 0) labelList.add("校园卡支付")
+        if (foodMark.cash > 0) labelList.add("现金支付")
+        if (foodMark.sweet > 0) labelList.add("甜")
+        if (foodMark.speed > 0) labelList.add("上菜速度快")
+        if (foodMark.salt > 0) labelList.add("咸")
+        if (foodMark.enough > 0) labelList.add("分量足")
     }
+
     //test
     private fun testData() {
         for (i in 1..10) {

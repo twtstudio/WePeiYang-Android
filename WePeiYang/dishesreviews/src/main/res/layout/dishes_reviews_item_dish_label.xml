@@ -7,7 +7,7 @@
 
     <TextView
         android:id="@+id/tv_label"
-        android:layout_width="52dp"
+        android:layout_width="64dp"
         android:layout_height="20dp"
         android:background="@drawable/dishes_reviews_shape_label_border"
         android:textColor="@color/colorPrimary"

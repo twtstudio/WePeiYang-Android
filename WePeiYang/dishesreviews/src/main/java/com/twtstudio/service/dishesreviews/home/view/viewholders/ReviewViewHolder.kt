@@ -39,7 +39,7 @@ class ReviewViewHolder(itemView: View, lifecycleOwner: LifecycleOwner) : BaseIte
         iv2.displayImage(itemView.context, comment.picture_address2)
         iv3.displayImage(itemView.context, comment.picture_address3)
         iv4.displayImage(itemView.context, comment.picture_address4)
-        ratingBar.numStars = comment.food_score
+        ratingBar.rating = comment.food_score.toFloat()
         ivDish.setOnClickListener {
             startDishActivity(comment.food_id) //test
         }
