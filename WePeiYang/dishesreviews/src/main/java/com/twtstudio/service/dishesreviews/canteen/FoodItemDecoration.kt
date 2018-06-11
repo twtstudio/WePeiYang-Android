@@ -14,7 +14,7 @@ import android.view.View
 /**
  * Created by SGXM on 2018/5/11.
  */
-class FoodItemDecoration(val context: Context, var mDatas: MutableList<CanteenBean>) : RecyclerView.ItemDecoration() {
+class FoodItemDecoration(val context: Context, var mDatas: MutableList<CanteenBean>, val numOfType: MutableList<Pair<Int, Int>>) : RecyclerView.ItemDecoration() {
     var onDrawOverLastTitle = "#"
     var leftAdapter: LeftAdapter? = null
     var mTitlePaddingLeft = 36
@@ -30,7 +30,7 @@ class FoodItemDecoration(val context: Context, var mDatas: MutableList<CanteenBe
 
     override fun getItemOffsets(outRect: Rect?, view: View?, parent: RecyclerView?, state: RecyclerView.State?) {
         super.getItemOffsets(outRect, view, parent, state)
-        var pos = (view?.layoutParams as RecyclerView.LayoutParams).viewLayoutPosition
+        val pos = (view?.layoutParams as RecyclerView.LayoutParams).viewLayoutPosition
         if (pos > -1) {//我记得Rv的item position在重置时可能为-1.保险点判断一下吧???或许吧
             if (pos == 0) {//等于0肯定要有title的
                 outRect?.set(0, mTitleHeight, 0, 0)
@@ -73,13 +73,19 @@ class FoodItemDecoration(val context: Context, var mDatas: MutableList<CanteenBe
     override fun onDrawOver(c: Canvas, parent: RecyclerView, state: RecyclerView.State?) {
         super.onDrawOver(c, parent, state)
         val pos = (parent.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
+        if (pos < 0) return
         val tag = mDatas[pos].tag
-        val view = parent.findViewHolderForLayoutPosition(pos).itemView
+//        val view = parent.findViewHolderForLayoutPosition(pos).itemView
         if (onDrawOverLastTitle != tag) {
-            leftAdapter?.selectItem(pos / 5)
+            var num = 0
+            numOfType.withIndex().forEach {
+                if (pos >= it.value.second) num = it.index
+            }
+            leftAdapter?.selectItem(num)
         }
         c.drawRect(parent.paddingLeft * 1f, parent.paddingTop * 1f, parent.right * 1f, parent.top + mTitleHeight * 1f, mPaint)
         c.drawText(tag, parent.paddingLeft + mTitlePaddingLeft * 1f, parent.paddingTop + mTitleHeight * 0.65f, mTextPaint)
+        onDrawOverLastTitle = tag
     }
 
     private fun drawTextArea(canvas: Canvas, left: Float, right: Float, view: View, recLayoutParams: RecyclerView.LayoutParams, pos: Int) {

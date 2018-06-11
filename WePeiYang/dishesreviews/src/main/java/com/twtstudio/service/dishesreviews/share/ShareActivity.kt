@@ -10,6 +10,6 @@ class ShareActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.dishes_reviews_activity_share)
-        img_qrcode.setImageBitmap(qrCodeUtil.createBitmap("http://www.baidu.com", 108, 108))//108具体根据库内renderResult函数原理计算
+        img_qrcode.setImageBitmap(qrCodeUtil.createQRCode("http://www.baidu.com", 108, 108))//108具体根据库内renderResult函数原理计算
     }
 }
