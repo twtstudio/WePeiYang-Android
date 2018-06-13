@@ -14,5 +14,8 @@
             android:name=".view.audit.AuditActivity"
             android:exported="true" />
         <activity android:name=".view.audit.search.SearchResultActivity" />
+        <activity
+            android:name=".calender.CalSyncActivity"
+            android:exported="true" />
     </application>
 </manifest>
