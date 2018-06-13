@@ -33,7 +33,7 @@ class CanteenActivity : AppCompatActivity() {
         canteenDishVM = ViewModelProviders.of(this).get(CanteenDishInfoViewModel::class.java)
 
 
-        canteenDishVM.getDishes(15).bindNonNull(this) {
+        canteenDishVM.getDishes(canteenId).bindNonNull(this) {
             Log.d("woggle", "CanteenActivity")
             fragments.clear()
             if (it.firstFloor.foodList == null) return@bindNonNull

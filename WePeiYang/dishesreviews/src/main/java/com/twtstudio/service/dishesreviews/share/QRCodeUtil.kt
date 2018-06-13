@@ -1,6 +1,8 @@
 package com.twtstudio.service.dishesreviews.share
 
 import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Paint
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.EncodeHintType
 import com.google.zxing.WriterException
@@ -33,7 +35,7 @@ class QRCodeUtil {
                 }
             }
 
-            return Bitmap.createBitmap(pixels, 0, width, width, height, Bitmap.Config.RGB_565)
+            return Bitmap.createBitmap(pixels, 0, width, width, height, Bitmap.Config.RGB_565).copy(Bitmap.Config.RGB_565, true)
         } catch (e: WriterException) {
             e.printStackTrace()
         }
@@ -43,7 +45,14 @@ class QRCodeUtil {
 
     fun createQRCodeWithLogo(content: String, width: Int, height: Int, logo: Bitmap): Bitmap? {
         try {
-
+            var res = createQRCode(content, width, height)
+            val canvas = Canvas(res)
+            canvas.save()
+            val ratio = width / (logo.width.toFloat() * 5)
+            canvas.scale(ratio, ratio)//0.5表示将后面的绘制都缩小为0.5比如绘制400*400=》200*200 距离绘制点位置也会缩小
+            canvas.drawBitmap(logo, (canvas.width / ratio - logo.width) / 2.toFloat(), (canvas.height / ratio - logo.height) / 2.toFloat(), Paint())
+            canvas.restore()
+            return res
         } catch (e: Exception) {
             e.printStackTrace()
         }
