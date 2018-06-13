@@ -4,7 +4,7 @@ import com.twt.wepeiyang.commons.experimental.preference.shared
 
 object AppPreferences {
 
-    var isDisplayGpa by shared("pref_is_display_gpa", false)
+    var isDisplayGpa by shared("pref_is_display_gpa", true)
 
     var isBoomGpa by shared("pref_is_boom_gpa", false)
 

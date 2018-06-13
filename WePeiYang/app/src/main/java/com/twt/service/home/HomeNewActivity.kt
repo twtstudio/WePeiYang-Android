@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.WindowManager
 import android.widget.ImageView
 import com.bumptech.glide.Glide
+import com.twt.service.AppPreferences
 import com.twt.service.R
 import com.twt.service.home.other.homeOthers
 import com.twt.service.home.user.FragmentActivity
@@ -57,7 +58,9 @@ class HomeNewActivity : CAppCompatActivity() {
         }
         rec.withItems {
             homeScheduleItem(this@HomeNewActivity)
-            gpaNewHomeItem(this@HomeNewActivity)
+            if (AppPreferences.isDisplayGpa) {
+                gpaNewHomeItem(this@HomeNewActivity)
+            }
             libraryHomeItem(this@HomeNewActivity)
             homeTjuNetItem(this@HomeNewActivity)
             homeOthers()

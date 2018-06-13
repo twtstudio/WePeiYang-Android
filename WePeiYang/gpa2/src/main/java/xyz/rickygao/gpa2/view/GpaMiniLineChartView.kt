@@ -50,8 +50,6 @@ class GpaMiniLineChartView @JvmOverloads constructor(context: Context, attrs: At
     }
 
     private val fillPaint = Paint().apply {
-
-
         style = Paint.Style.FILL
         isAntiAlias = true
 
@@ -72,11 +70,13 @@ class GpaMiniLineChartView @JvmOverloads constructor(context: Context, attrs: At
     private val AxisTextPaint = Paint().apply {
         textSize = DETAILS_TEXT_SIZE.toFloat()
         textAlign = Paint.Align.RIGHT
+        isAntiAlias = true
 
     }
     private val TextPaint = Paint().apply {
         textSize = DETAILS_TEXT_SIZE.toFloat()
         textAlign = Paint.Align.CENTER
+        isAntiAlias = true
 
     }
 
@@ -227,12 +227,12 @@ class GpaMiniLineChartView @JvmOverloads constructor(context: Context, attrs: At
             val interval = (height - paddingTop - paddingBottom) / 5
             val lengthLeft2 = paddingLeft * 0.8.toFloat()
             if (dataWithDetail.isNotEmpty()) {
-                val minScore = ((dataWithDetail.minBy(DataWithDetail::data)?.data!!) * 10).toInt()
-                val maxScore = ((dataWithDetail.maxBy(DataWithDetail::data)?.data!!) * 10).toInt()
-                val minScore2 = minScore / 10.toFloat()
-                val maxScore2 = maxScore / 10.toFloat()
-                val subt = (((maxScore2 - minScore2 - 0.1) / 3) * 10).toInt()
-                val sbut = subt / 10.toFloat()
+                val minScore = ((dataWithDetail.minBy(DataWithDetail::data)?.data!!) * 100).toInt()
+                val maxScore = ((dataWithDetail.maxBy(DataWithDetail::data)?.data!!) * 100).toInt()
+                val minScore2 = minScore / 100.toFloat()
+                val maxScore2 = maxScore / 100.toFloat()
+                val subt = (((maxScore2 - minScore2 - 0.1) / 3) * 100).toInt()
+                val sbut = subt / 100.toFloat()
 
                 if (minScore2 == maxScore2) {
                     drawText("4.0", lengthLeft2, paddingTop.toFloat() + dip(2), AxisTextPaint)
@@ -243,10 +243,10 @@ class GpaMiniLineChartView @JvmOverloads constructor(context: Context, attrs: At
                     drawText(minScore2.toString(), lengthLeft2, paddingTop.toFloat() + dip(2) + 4 * interval.toFloat(), AxisTextPaint)
                     for (h in 2..4) {
                         val x: Float = minScore2 + (h - 1) * sbut
-                        val y = ((x * 10).toInt()) / 10.toFloat()
+                        val y = Math.round(x * 100) / 100.toDouble()
                         drawText(y.toString(), lengthLeft2, paddingTop + (5 - h) * interval.toFloat() + dip(2), AxisTextPaint)
                     }
-                    val y = (((minScore2 - sbut) * 10).toInt()) / 10.toFloat()
+                    val y = (((minScore2 - sbut) * 100).toInt()) / 100.toFloat()
                     drawText(y.toString(), lengthLeft2, paddingTop.toFloat() + dip(2) + 5 * interval.toFloat(), AxisTextPaint)
 
                 }
