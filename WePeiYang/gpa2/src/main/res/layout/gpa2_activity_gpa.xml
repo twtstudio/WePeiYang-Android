@@ -97,8 +97,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="320dp"
                         android:background="@color/gpa2_color_secondary"
-                        android:paddingBottom="120dp"
-                        android:paddingTop="40dp"
+                        android:paddingBottom="70dp"
+                        android:paddingTop="10dp"
                         app:fillColor="@color/gpa2_color_primary"
                         app:lineColor="@color/gpa2_color_primary_dark"
                         app:pointColor="@color/gpa2_color_primary_dark" />

@@ -10,6 +10,12 @@
         <attr name="pointColor" />
     </declare-styleable>
 
+    <declare-styleable name="GpaMiniLineChartView">
+        <attr name="lineColor" />
+        <attr name="fillColor" />
+        <attr name="pointColor" />
+    </declare-styleable>
+
     <declare-styleable name="GpaRadarChartView">
         <attr name="lineColor" />
         <attr name="fillColor" />
