@@ -95,9 +95,9 @@
                     <xyz.rickygao.gpa2.view.GpaLineChartView
                         android:id="@+id/cv_gpa_line"
                         android:layout_width="match_parent"
-                        android:layout_height="320dp"
+                        android:layout_height="360dp"
                         android:background="@color/gpa2_color_secondary"
-                        android:paddingBottom="70dp"
+                        android:paddingBottom="110dp"
                         android:paddingTop="10dp"
                         app:fillColor="@color/gpa2_color_primary"
                         app:lineColor="@color/gpa2_color_primary_dark"
@@ -108,7 +108,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="320dp"
                         android:background="@color/gpa2_color_primary"
-                        android:padding="40dp"
+                        android:paddingBottom="40dp"
+                        android:paddingEnd="40dp"
+                        android:paddingStart="40dp"
+                        android:paddingTop="20dp"
                         app:fillColor="@color/gpa2_color_secondary_alpha"
                         app:lineColor="@color/gpa2_color_secondary"
                         app:textColor="@color/gpa2_color_secondary" />
