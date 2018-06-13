@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_item_gpa2"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="4dp"
+    app:cardElevation="0dp">
+
+
+    <!--<include layout="@layout/gpa2_component_text" />-->
+    <xyz.rickygao.gpa2.view.GpaMiniLineChartView
+        android:id="@+id/gpa_mini"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:paddingBottom="24dp"
+        android:paddingLeft="24dp"
+        android:paddingRight="12dp"
+        android:paddingTop="10dp"
+        app:fillColor="@color/gpa2_color_primary"
+        app:lineColor="@color/gpa2_color_primary_dark"
+        app:pointColor="@color/gpa2_color_secondary" />
+
+
+</android.support.v7.widget.CardView>

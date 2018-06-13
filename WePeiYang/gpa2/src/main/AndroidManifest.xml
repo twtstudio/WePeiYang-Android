@@ -6,7 +6,6 @@
         android:allowBackup="true"
         android:label="@string/app_name"
         android:supportsRtl="true">
-
         <activity
             android:name=".view.GpaActivity"
             android:screenOrientation="portrait"
@@ -17,11 +16,14 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".view.EvaluateActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Gpa2Theme" />
+        <activity
+            android:name=".view.GpaLineActivity"
+            android:label="@string/title_activity_gpa_line"
+            android:theme="@style/AppTheme.NoActionBar" />
 
     </application>
 

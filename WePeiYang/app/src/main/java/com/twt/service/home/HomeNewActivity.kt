@@ -2,7 +2,9 @@ package com.twt.service.home
 
 import android.Manifest
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
+import android.support.annotation.RequiresApi
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.WindowManager
@@ -24,9 +26,11 @@ import org.jetbrains.anko.dip
 import org.jetbrains.anko.startActivity
 import pub.devrel.easypermissions.EasyPermissions
 import xyz.rickygao.gpa2.view.gpaHomeItem
+import xyz.rickygao.gpa2.view.gpaNewHomeItem
 
 
 class HomeNewActivity : CAppCompatActivity() {
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         EasyPermissions.requestPermissions(this, "微北洋需要外部存储来提供必要的缓存\n 需要位置信息来获取校园网连接状态", 0, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION)
@@ -53,7 +57,7 @@ class HomeNewActivity : CAppCompatActivity() {
         }
         rec.withItems {
             homeScheduleItem(this@HomeNewActivity)
-            gpaHomeItem(this@HomeNewActivity)
+            gpaNewHomeItem(this@HomeNewActivity)
             libraryHomeItem(this@HomeNewActivity)
             homeTjuNetItem(this@HomeNewActivity)
             homeOthers()
