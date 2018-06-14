@@ -39,7 +39,6 @@ class QRCodeUtil {
         } catch (e: WriterException) {
             e.printStackTrace()
         }
-
         return null
     }
 
