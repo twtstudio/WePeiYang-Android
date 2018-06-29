@@ -33,7 +33,7 @@ class ReviewViewHolder(itemView: View, lifecycleOwner: LifecycleOwner) : BaseIte
         tvDate.text = comment.updated_at
         tvComment.text = comment.comment_content
         DishesFoodProvider.getDishesFood(comment.food_id).bindNonNull(lifecycleOwner) {
-            ivDish.displayImage(itemView.context, it.foodInfo.food_picture_address, ImageView.ScaleType.CENTER)
+            ivDish.displayImage(itemView.context, it.foodInfo.food_picture_address, ImageView.ScaleType.CENTER_CROP)
         }
         iv1.displayImage(itemView.context, comment.picture_address1)
         iv2.displayImage(itemView.context, comment.picture_address2)

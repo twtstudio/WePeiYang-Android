@@ -34,6 +34,7 @@ class DishActivity : AppCompatActivity() {
     private lateinit var ivBg: ImageView
     private lateinit var tvDishName: TextView
     private lateinit var tvLocation: TextView
+    private lateinit var tvPrice: TextView
     private lateinit var ratingBar: RatingBar
     private var foodId: Int = 0
     private var labelList: MutableList<String> = mutableListOf()
@@ -53,6 +54,7 @@ class DishActivity : AppCompatActivity() {
         tvDishName = findViewById(R.id.tv_dish_name)
         tvLocation = findViewById(R.id.tv_location)
         ratingBar = findViewById(R.id.rb_score)
+        tvPrice = findViewById(R.id.tv_price)
         foodId = intent.getIntExtra("FoodId", 0)
         toolbar = findViewById<Toolbar>(R.id.toolbar).apply {
             title = ""
@@ -99,7 +101,8 @@ class DishActivity : AppCompatActivity() {
             tvTitle.text = it.foodInfo.food_name
             tvDishName.text = it.foodInfo.food_name
             tvLocation.text = it.foodInfo.canteen_name
-            ivBg.displayImage(this, it.foodInfo.food_picture_address, ImageView.ScaleType.CENTER)
+            tvPrice.text = "￥" + it.foodInfo.food_price
+            ivBg.displayImage(this, it.foodInfo.food_picture_address, ImageView.ScaleType.CENTER_CROP)
             setTag(it.foodMark)
             commentList.clear()
             commentList.addAll(it.comment)

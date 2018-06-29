@@ -38,7 +38,7 @@ class BannerViewHolder(itemView: View, lifecycleOwner: LifecycleOwner) : BaseIte
                 setImages(images.toList())
                 setIndicatorGravity(BannerConfig.CENTER)
                 setOnBannerListener {
-                    startDishActivity(dish.top5Food.get(it - 1).food_id)
+                    startDishActivity(dish.top5Food.get(it).food_id)
                 }
                 setDelayTime(BANNER_DELAY_TIME)
                 start()
