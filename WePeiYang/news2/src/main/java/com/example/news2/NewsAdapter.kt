@@ -36,7 +36,7 @@ class NewsAdapter(val context: Context, val lifecycleOwner: LifecycleOwner) : Re
                         return BannerViewHolder()
                     }
                 })
-                holder.banner.setBannerPageClickListener(object :MZBannerView.BannerPageClickListener{
+                holder.banner.setBannerPageClickListener(object : MZBannerView.BannerPageClickListener {
                     override fun onPageClick(p0: View?, p1: Int) {
                         var intent = Intent(context, WebActivity::class.java)
                         intent.putExtra("bannerUrl", it!!.carousel[p1].index)

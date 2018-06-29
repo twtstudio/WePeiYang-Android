@@ -10,7 +10,7 @@
         android:layout_width="64dp"
         android:layout_height="20dp"
         android:background="@drawable/dishes_reviews_shape_label_border"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/dishColorPrimary"
         android:gravity="center"
         android:textSize="12sp"
         tools:text="服务好" />

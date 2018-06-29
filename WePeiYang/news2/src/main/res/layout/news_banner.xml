@@ -15,7 +15,6 @@
         app:open_mz_mode="false"
         app:middle_page_cover="false"
         app:canLoop="true"
-        app:indicatorAlign="center"
-        />
+        app:indicatorAlign="center" />
 
 </LinearLayout>

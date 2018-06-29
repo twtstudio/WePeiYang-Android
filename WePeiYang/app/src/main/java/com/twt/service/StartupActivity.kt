@@ -24,7 +24,7 @@ class StartupActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) createDynamicShortcuts()
-
+        //TODO 正式版修改默认启动activity
         if (CommonPreferences.isLogin) {
             startActivity<MainActivity>()
             //startActivity<HomeNewActivity>()

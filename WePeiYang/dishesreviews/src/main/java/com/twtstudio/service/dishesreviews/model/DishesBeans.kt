@@ -68,119 +68,264 @@ data class Top5Food(
 
 /////////////////////////////////////Home/////////////////////////////////////
 
+
 /////////////////////////////////////搜索页面////////////////////////////////////
 
 data class DishesSearchBean(
-        val searchResult: List<SearchResult> = listOf()
+        val searchResult: List<Food> = listOf()
 )
 
-data class SearchResult(
-        val food_id: Int = 0, //4
-        val food_statement: Any = Any(), //null
-        val food_name: String = "", //HD
-        val food_time: Any = Any(), //null
-        val food_price: Int = 0, //10
-        val food_picture_address: String = "", //desktop
-        val canteen_id: Int = 0, //2
-        val canteen_name: Any = Any(), //null
-        val food_floor: String = "", //1
-        val food_window: Int = 0, //10
-        val food_comment_number: Int = 0, //2
-        val food_praise_number: Int = 0, //18
-        val food_total_score: Any = Any(), //null
-        val food_score: Int = 0, //6
-        val food_collect_number: Int = 0, //1
-        val created_at: String = "", //2018-04-10 14:35:52
-        val deleted_at: Any = Any(), //null
-        val updated_at: String = "" //2018-04-26 00:46:53
-)
 /////////////////////////////////////搜索页面////////////////////////////////////
 
 /////////////////////////////////////食堂页/////////////////////////////////////
 
+
 data class DishesCanteenBean(
         val canteenInfo: CanteenInfo = CanteenInfo(),
-        val canteenScore: Int = 0, //4
-        val foodRecommend: List<FoodRecommend> = listOf(),
-        val foodList: List<Food> = listOf(),
-        val latestFood: List<LatestFood> = listOf()
+        val canteenScore: Int = 0, //5
+        val firstFloor: Floor = Floor(),
+        val secondFloor: Floor = Floor()
 )
 
 data class CanteenInfo(
-        val canteen_id: Int = 0, //2
-        val canteen_name: String = "", //兰
-        val canteen_phone: Int = 0, //12345456
-        val canteen_address: String = "", //兰园
-        val canteen_time: String = "", //123
+        val canteen_id: Int = 0, //15
+        val canteen_name: String = "", //梅园
+        val canteen_phone: String = "", //1425367987
+        val canteen_address: String = "", //天大北洋园
+        val canteen_time: String = "", //全天
         val canteen_floor: Int = 0, //2
-        val created_at: String = "", //2018-04-12 10:39:33
-        val updated_at: String = "", //2018-04-12 10:39:33
-        val deleted_at: Any = Any(), //null
-        val canteen_picture_address: Any = Any() //null
+        // val created_at: String = "", //2018-05-05 12:18:16
+        //val updated_at: String = "", //2018-05-05 12:18:16
+        // val deleted_at: Any = Any(), //null
+        val canteen_picture_address: String = "" //../public/food/img/梅园.jpg
 )
 
-data class LatestFood(
-        val food_id: Int = 0, //4
-        val food_statement: Any = Any(), //null
-        val food_name: String = "", //HD
-        val food_time: Any = Any(), //null
-        val food_price: Int = 0, //10
-        val food_picture_address: String = "", //desktop
-        val canteen_id: Int = 0, //2
-        val canteen_name: Any = Any(), //null
-        val food_floor: String = "", //1
-        val food_window: Int = 0, //10
-        val food_comment_number: Int = 0, //2
-        val food_praise_number: Int = 0, //18
-        val food_total_score: Any = Any(), //null
-        val food_score: Int = 0, //6
-        val food_collect_number: Int = 0, //1
-        val created_at: String = "", //2018-04-10 14:35:52
-        val deleted_at: Any = Any(), //null
-        val updated_at: String = "" //2018-04-26 00:46:53
-)
-
-data class Food(
-        val food_id: Int = 0, //4
-        val food_statement: Any = Any(), //null
-        val food_name: String = "", //HD
-        val food_time: Any = Any(), //null
-        val food_price: Int = 0, //10
-        val food_picture_address: String = "", //desktop
-        val canteen_id: Int = 0, //2
-        val canteen_name: Any = Any(), //null
-        val food_floor: String = "", //1
-        val food_window: Int = 0, //10
-        val food_comment_number: Int = 0, //2
-        val food_praise_number: Int = 0, //18
-        val food_total_score: Any = Any(), //null
-        val food_score: Int = 0, //6
-        val food_collect_number: Int = 0, //1
-        val created_at: String = "", //2018-04-10 14:35:52
-        val deleted_at: Any = Any(), //null
-        val updated_at: String = "" //2018-04-26 00:46:53
+data class Floor(
+        val foodRecommend: List<FoodRecommend>? = null,
+        val foodList: List<Food>? = null,
+        val latestFood: List<LatestFood>? = null
 )
 
 data class FoodRecommend(
-        val food_id: Int = 0, //5
-        val food_statement: Any = Any(), //null
-        val food_name: String = "", //F
-        val food_time: Any = Any(), //null
-        val food_price: Int = 0, //18
-        val food_picture_address: String = "", //desktop
-        val canteen_id: Int = 0, //2
-        val canteen_name: Any = Any(), //null
-        val food_floor: Any = Any(), //null
-        val food_window: Int = 0, //10
-        val food_comment_number: Int = 0, //15
-        val food_praise_number: Int = 0, //50
-        val food_total_score: Int = 0, //24
-        val food_score: Int = 0, //2
+        val food_id: Int = 0, //15
+        val food_statement: String = "", //中国名菜
+        val food_name: String = "", //鱼香鸡丝
+        val food_time: String = "", //晚餐
+        val food_price: Int = 0, //10
+        val food_picture_address: String = "", //../public/food/img/food15.jpg
+        val canteen_id: Int = 0, //15
+        val canteen_name: String = "", //梅园
+        val food_floor: String = "", //1
+        val food_window: Int = 0, //1
+        val food_comment_number: Int = 0, //7
+        val food_praise_number: Int = 0, //1
+        val food_total_score: Int = 0, //26
+        val food_score: Int = 0, //4
         val food_collect_number: Int = 0, //1
-        val created_at: String = "", //2018-04-11 05:28:19
+        val created_at: String = "", //2018-05-05 12:35:21
         val deleted_at: Any = Any(), //null
-        val updated_at: String = "" //2018-05-03 00:14:34
+        val updated_at: String = "" //2018-05-23 23:46:54
 )
+
+data class LatestFood(
+        val food_id: Int = 0, //15
+        val food_statement: String = "", //中国名菜
+        val food_name: String = "", //鱼香鸡丝
+        val food_time: String = "", //晚餐
+        val food_price: Int = 0, //10
+        val food_picture_address: String = "", //../public/food/img/food15.jpg
+        val canteen_id: Int = 0, //15
+        val canteen_name: String = "", //梅园
+        val food_floor: String = "", //1
+        val food_window: Int = 0, //1
+        val food_comment_number: Int = 0, //7
+        val food_praise_number: Int = 0, //1
+        val food_total_score: Int = 0, //26
+        val food_score: Int = 0, //4
+        val food_collect_number: Int = 0, //1
+        val created_at: String = "", //2018-05-05 12:35:21
+        val deleted_at: Any = Any(), //null
+        val updated_at: String = "" //2018-05-23 23:46:54
+)
+
+data class Food(
+        val food_id: Int = 0, //15
+        val food_statement: String = "", //中国名菜
+        val food_name: String = "", //鱼香鸡丝
+        val food_time: String = "", //晚餐
+        val food_price: Int = 0, //10
+        val food_picture_address: String = "", //../public/food/img/food15.jpg
+        val canteen_id: Int = 0, //15
+        val canteen_name: String = "", //梅园
+        val food_floor: String = "", //1
+        val food_window: Int = 0, //1
+        val food_comment_number: Int = 0, //7
+        val food_praise_number: Int = 0, //1
+        val food_total_score: Int = 0, //26
+        val food_score: Int = 0, //4
+        val food_collect_number: Int = 0, //1
+        val created_at: String = "", //2018-05-05 12:35:21
+        val deleted_at: Any = Any(), //null
+        val updated_at: String = "" //2018-05-23 23:46:54
+)
+
+data class SecondFloor(
+        val foodRecommend: Any = Any(), //null
+        val foodList: Any = Any(), //null
+        val latestFood: Any = Any() //null
+)
+
+
+//data class DishesCanteenBean(
+//		val canteenInfo: CanteenInfo = CanteenInfo(),
+//		val canteenScore: Int = 0, //5
+//		val firstFloor: Floor = Floor(),
+//		val secondFloor: Floor = Floor()
+//)
+//
+//data class CanteenInfo(
+//		val canteen_id: Int = 0, //15
+//		val canteen_name: String = "", //梅园
+//		val canteen_phone: Int = 0, //1425367987
+//		val canteen_address: String = "", //天大北洋园
+//		val canteen_time: String = "", //全天
+//		val canteen_floor: Int = 0, //2
+//		val created_at: String = "", //2018-05-05 12:18:16
+//		val updated_at: String = "", //2018-05-05 12:18:16
+//		val deleted_at: String = "", //null
+//		val canteen_picture_address: String = "" //../public/food/img/梅园.jpg
+//)
+//
+//data class Floor(
+//		val foodRecommend: List<Food>? = listOf(),
+//		val foodList: List<Food>? = listOf(),
+//		val latestFood: List<Food>? = listOf()
+//)
+//
+//
+//data class Food(
+//		val food_id: Int = 0, //15
+//		val food_statement: String = "", //中国名菜
+//		val food_name: String = "", //鱼香鸡丝
+//		val food_time: String = "", //晚餐
+//		val food_price: Int = 0, //10
+//		val food_picture_address: String = "", //../public/food/img/food15.jpg
+//		val canteen_id: Int = 0, //15
+//		val canteen_name: String = "", //梅园
+//		val food_floor: String = "", //1
+//		val food_window: Int = 0, //1
+//		val food_comment_number: Int = 0, //7
+//		val food_praise_number: Int = 0, //1
+//		val food_total_score: Int = 0, //26
+//		val food_score: Int = 0, //4
+//		val food_collect_number: Int = 0, //1
+//		val created_at: String = "", //2018-05-05 12:35:21
+//		val deleted_at: String = "", //null
+//		val updated_at: String = "" //2018-05-23 23:46:54
+//)
+
+
+//
+//data class DishesCanteenBean(
+//        val canteenInfo: CanteenInfo = CanteenInfo(),
+//        val canteenScore: Int = 0, //5
+//        val firstFloor: FirstFloor = FirstFloor(),
+//        val secondFloor: SecondFloor = SecondFloor()
+//)
+//
+//data class CanteenInfo(
+//        val canteen_id: Int = 0, //15
+//        val canteen_name: String = "", //梅园
+//        val canteen_phone: Int = 0, //1425367987
+//        val canteen_address: String = "", //天大北洋园
+//        val canteen_time: String = "", //全天
+//        val canteen_floor: Int = 0, //2
+//        val created_at: String = "", //2018-05-05 12:18:16
+//        val updated_at: String = "", //2018-05-05 12:18:16
+//        val deleted_at: Any = Any(), //null
+//        val canteen_picture_address: String = "" //../public/food/img/梅园.jpg
+//)
+//
+//open class Floor {
+//    open val foodRecommend: List<FoodRecommend>? = listOf()
+//    open val foodList: List<Food>? = listOf()
+//    open val latestFood: List<LatestFood>? = listOf()
+//}
+//
+//class FirstFloor : Floor(){
+//    override val foodRecommend: List<FoodRecommend> = listOf()
+//    override val foodList: List<Food> = listOf()
+//    override val latestFood: List<LatestFood> = listOf()
+//}
+//
+//data class FoodRecommend(
+//        val food_id: Int = 0, //15
+//        val food_statement: String = "", //中国名菜
+//        val food_name: String = "", //鱼香鸡丝
+//        val food_time: String = "", //晚餐
+//        val food_price: Int = 0, //10
+//        val food_picture_address: String = "", //../public/food/img/food15.jpg
+//        val canteen_id: Int = 0, //15
+//        val canteen_name: String = "", //梅园
+//        val food_floor: String = "", //1
+//        val food_window: Int = 0, //1
+//        val food_comment_number: Int = 0, //7
+//        val food_praise_number: Int = 0, //1
+//        val food_total_score: Int = 0, //26
+//        val food_score: Int = 0, //4
+//        val food_collect_number: Int = 0, //1
+//        val created_at: String = "", //2018-05-05 12:35:21
+//        val deleted_at: Any = Any(), //null
+//        val updated_at: String = "" //2018-05-23 23:46:54
+//)
+//
+//data class LatestFood(
+//        val food_id: Int = 0, //15
+//        val food_statement: String = "", //中国名菜
+//        val food_name: String = "", //鱼香鸡丝
+//        val food_time: String = "", //晚餐
+//        val food_price: Int = 0, //10
+//        val food_picture_address: String = "", //../public/food/img/food15.jpg
+//        val canteen_id: Int = 0, //15
+//        val canteen_name: String = "", //梅园
+//        val food_floor: String = "", //1
+//        val food_window: Int = 0, //1
+//        val food_comment_number: Int = 0, //7
+//        val food_praise_number: Int = 0, //1
+//        val food_total_score: Int = 0, //26
+//        val food_score: Int = 0, //4
+//        val food_collect_number: Int = 0, //1
+//        val created_at: String = "", //2018-05-05 12:35:21
+//        val deleted_at: Any = Any(), //null
+//        val updated_at: String = "" //2018-05-23 23:46:54
+//)
+//
+//data class Food(
+//        val food_id: Int = 0, //15
+//        val food_statement: String = "", //中国名菜
+//        val food_name: String = "", //鱼香鸡丝
+//        val food_time: String = "", //晚餐
+//        val food_price: Int = 0, //10
+//        val food_picture_address: String = "", //../public/food/img/food15.jpg
+//        val canteen_id: Int = 0, //15
+//        val canteen_name: String = "", //梅园
+//        val food_floor: String = "", //1
+//        val food_window: Int = 0, //1
+//        val food_comment_number: Int = 0, //7
+//        val food_praise_number: Int = 0, //1
+//        val food_total_score: Int = 0, //26
+//        val food_score: Int = 0, //4
+//        val food_collect_number: Int = 0, //1
+//        val created_at: String = "", //2018-05-05 12:35:21
+//        val deleted_at: Any = Any(), //null
+//        val updated_at: String = "" //2018-05-23 23:46:54
+//)
+//
+//class SecondFloor : Floor(){
+//    override val foodRecommend: List<FoodRecommend>? = listOf()
+//    override val foodList: List<Food>? = listOf()
+//    override val latestFood: List<LatestFood>? = listOf()
+//}
 /////////////////////////////////////食堂页/////////////////////////////////////
 
 /////////////////////////////////////菜品页/////////////////////////////////////
@@ -246,6 +391,7 @@ data class Comment(
         val updated_at: String = "", //2018-05-05 14:35:39
         val isCurrentUserPraised: Boolean = false //true
 )
+
 
 /////////////////////////////////////菜品页/////////////////////////////////////
 

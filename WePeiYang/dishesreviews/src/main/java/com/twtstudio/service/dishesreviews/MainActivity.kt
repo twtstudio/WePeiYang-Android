@@ -8,8 +8,6 @@ import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
-import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
-import com.twtstudio.retrox.auth.view.LoginActivity
 import com.twtstudio.service.dishesreviews.extensions.CustomViewPager
 import com.twtstudio.service.dishesreviews.search.view.SearchActivity
 
@@ -26,10 +24,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.dishes_reviews_activity_main)
-        if (!CommonPreferences.isLogin) {
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
-        }
 
         bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
         viewPager = findViewById<CustomViewPager>(R.id.vp_main)

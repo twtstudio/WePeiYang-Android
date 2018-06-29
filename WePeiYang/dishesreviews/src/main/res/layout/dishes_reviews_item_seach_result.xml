@@ -103,7 +103,7 @@
     <android.support.v7.widget.CardView
         android:layout_width="48dp"
         android:layout_height="match_parent"
-        app:cardBackgroundColor="@color/colorPrimaryAlpha"
+        app:cardBackgroundColor="@color/dishColorPrimaryAlpha"
         app:cardCornerRadius="2dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

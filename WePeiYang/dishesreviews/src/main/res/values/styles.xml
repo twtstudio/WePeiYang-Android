@@ -3,9 +3,9 @@
     <!-- Base application theme. -->
     <style name="DishesReviewsTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">@color/dishColorPrimary</item>
+        <item name="colorPrimaryDark">@color/dishColorPrimaryDark</item>
+        <item name="colorAccent">@color/dishColorAccent</item>
         <item name="android:textColor">#565656</item>
     </style>
     <style name="DishesRatingBar" parent="@android:style/Widget.RatingBar">

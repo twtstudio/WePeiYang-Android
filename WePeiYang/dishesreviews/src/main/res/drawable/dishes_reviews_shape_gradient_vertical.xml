@@ -3,6 +3,6 @@
     <!--纵向渐变色-->
     <gradient
         android:angle="90"
-        android:endColor="@color/colorPrimary"
-        android:startColor="@color/colorPrimaryDark" />
+        android:endColor="@color/dishColorPrimary"
+        android:startColor="@color/dishColorPrimaryDark" />
 </shape>

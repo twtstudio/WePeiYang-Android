@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#fe770b</color>
-    <color name="colorPrimaryAlpha">#aafe770b</color>
-    <color name="colorPrimaryDark">#f35822</color>
-    <color name="colorAccent">#f3740b</color>
+    <color name="dishColorPrimary">#fe770b</color>
+    <color name="dishColorPrimaryAlpha">#aafe770b</color>
+    <color name="dishColorPrimaryDark">#f35822</color>
+    <color name="dishColorAccent">#f3740b</color>
     <color name="white">#fff</color>
     <color name="translucentWhite">#50ffffff</color>
     <color name="clearlyWhite">#fefefe</color>

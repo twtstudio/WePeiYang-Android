@@ -14,15 +14,15 @@ class WebActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_web)
         var intent: Intent = getIntent()
-        if (intent.hasExtra("recyclerViewUrl")){
-            var url: Int = intent.getIntExtra("recyclerViewUrl",0)
-            if (url != null){
+        if (intent.hasExtra("recyclerViewUrl")) {
+            var url: Int = intent.getIntExtra("recyclerViewUrl", 0)
+            if (url != null) {
                 webView = findViewById(R.id.webView)
-                webView.loadUrl("https://news.twt.edu.cn/pernews/" + (url-2))
+                webView.loadUrl("https://news.twt.edu.cn/pernews/" + (url - 2))
             }
-        }else if (intent.hasExtra("bannerUrl")){
-            var url:String = intent.getStringExtra("bannerUrl")
-            if (url != null){
+        } else if (intent.hasExtra("bannerUrl")) {
+            var url: String = intent.getStringExtra("bannerUrl")
+            if (url != null) {
                 webView = findViewById(R.id.webView)
                 webView.loadUrl("https://news.twt.edu.cn/pernews/" + url)
             }

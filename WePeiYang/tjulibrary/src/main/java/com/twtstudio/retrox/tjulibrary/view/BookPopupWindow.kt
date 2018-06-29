@@ -25,6 +25,7 @@ import org.jetbrains.anko.dip
 import org.jetbrains.anko.horizontalMargin
 import org.jetbrains.anko.layoutInflater
 
+
 @SuppressLint("ViewConstructor")
 class BookPopupWindow(val book: Book, mContext: Context) : BlurPopupWindow(mContext), LifecycleOwner {
     private val lifecycleRegistry = LifecycleRegistry(this)

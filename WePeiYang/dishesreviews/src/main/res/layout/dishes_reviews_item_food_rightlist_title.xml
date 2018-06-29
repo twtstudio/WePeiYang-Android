@@ -9,7 +9,7 @@
         android:id="@+id/tv_name"
         android:layout_width="match_parent"
         android:layout_height="20dp"
-        android:background="@color/colorAccent"
+        android:background="@color/dishColorAccent"
         android:gravity="center_vertical"
         android:text="窗口1"
         android:textSize="12sp" />

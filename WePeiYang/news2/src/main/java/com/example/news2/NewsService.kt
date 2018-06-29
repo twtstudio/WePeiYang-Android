@@ -11,10 +11,10 @@ import retrofit2.http.*
 
 interface NewsService {
     @GET("v1/news/1/page/1")
-	fun getRecyclerViewData(): Deferred<CommonBody<List<RecyclerViewData>>>
+    fun getRecyclerViewData(): Deferred<CommonBody<List<RecyclerViewData>>>
 
-	@GET("v1/app/index")
-	fun getBannerData(): Deferred<CommonBody<BannerData>>
+    @GET("v1/app/index")
+    fun getBannerData(): Deferred<CommonBody<BannerData>>
 
     companion object : NewsService by ServiceFactory()
 }
@@ -27,51 +27,51 @@ val newsBannerRemoteCache = Cache.from(NewsService.Companion::getBannerData).map
 val newsBannerLiveData = RefreshableLiveData.use(newsBannerLocalCache, newsBannerRemoteCache)
 
 data class RecyclerViewData(
-		val index: Int,
-		val subject: String,
-		val pic: String,
-		val visitcount: String,
-		val comments: Int,
-		val summary: String
+        val index: Int,
+        val subject: String,
+        val pic: String,
+        val visitcount: String,
+        val comments: Int,
+        val summary: String
 )
 
 
 data class BannerData(
-		val carousel: List<Carousel>,
-		val news: News,
-		val service: Service
+        val carousel: List<Carousel>,
+        val news: News,
+        val service: Service
 )
 
 data class News(
-		val campus: List<Campu>,
-		val annoucements: List<Annoucement>,
-		val jobs: List<Any>
+        val campus: List<Campu>,
+        val annoucements: List<Annoucement>,
+        val jobs: List<Any>
 )
 
 data class Campu(
-		val index: String,
-		val subject: String,
-		val pic: String,
-		val addat: String,
-		val visitcount: String
+        val index: String,
+        val subject: String,
+        val pic: String,
+        val addat: String,
+        val visitcount: String
 )
 
 data class Annoucement(
-		val index: String,
-		val subject: String,
-		val addat: String,
-		val gonggao: String,
-		val brief: String
+        val index: String,
+        val subject: String,
+        val addat: String,
+        val gonggao: String,
+        val brief: String
 )
 
 data class Carousel(
-		val index: String,
-		val pic: String,
-		val subject: String
+        val index: String,
+        val pic: String,
+        val subject: String
 )
 
 data class Service(
-		val lost: List<Any>,
-		val found: List<Any>
+        val lost: List<Any>,
+        val found: List<Any>
 )
 

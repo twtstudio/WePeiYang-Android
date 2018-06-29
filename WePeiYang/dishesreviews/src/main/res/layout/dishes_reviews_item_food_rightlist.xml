@@ -36,7 +36,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="¥99"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/dishColorPrimary"
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="@id/tv_name"
         app:layout_constraintTop_toBottomOf="@id/tv_name" />

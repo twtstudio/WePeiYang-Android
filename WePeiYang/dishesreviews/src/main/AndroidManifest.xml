@@ -8,6 +8,7 @@
         android:supportsRtl="true">
         <activity
             android:name=".MainActivity"
+            android:exported="true"
             android:theme="@style/DishesReviewsTheme" />
         <activity
             android:name=".search.view.SearchActivity"

@@ -17,7 +17,7 @@ import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
  * Created by retrox on 2016/12/12.
  */
 class NewsTwoFragment : Fragment() {
-    lateinit var swipeRefreshLayout :SwipeRefreshLayout
+    lateinit var swipeRefreshLayout: SwipeRefreshLayout
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val view = inflater.inflate(R.layout.fragment_news, container, false).apply {
             val adapter = NewsAdapter(context, this@NewsTwoFragment)
@@ -34,7 +34,7 @@ class NewsTwoFragment : Fragment() {
                     notifyDataSetChanged()
                 }
             }
-            swipeRefreshLayout.setOnRefreshListener(object :SwipeRefreshLayout.OnRefreshListener{
+            swipeRefreshLayout.setOnRefreshListener(object : SwipeRefreshLayout.OnRefreshListener {
                 override fun onRefresh() {
                     newsRecyclerViewLiveData.refresh(CacheIndicator.REMOTE)
                     swipeRefreshLayout.setRefreshing(false)

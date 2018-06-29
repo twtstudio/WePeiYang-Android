@@ -25,6 +25,7 @@
         android:layout_alignParentBottom="true"
         android:layout_gravity="bottom"
         android:background="@color/white"
+        app:layout_behavior="com.twtstudio.service.dishesreviews.extensions.BottomNavigationBehavior"
         app:itemBackground="@color/white"
         app:itemIconTint="@color/dishes_reviews_selector_item_color"
         app:itemTextColor="@color/dishes_reviews_selector_item_color"

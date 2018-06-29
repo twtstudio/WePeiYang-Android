@@ -7,6 +7,6 @@
     <gradient
         android:angle="0"
         android:centerX="0.8"
-        android:startColor="@color/colorPrimary"
-        android:endColor="@color/colorPrimaryDark"/>
+        android:startColor="@color/dishColorPrimary"
+        android:endColor="@color/dishColorPrimaryDark" />
 </shape>

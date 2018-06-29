@@ -68,18 +68,18 @@ class HomeActivity : BaseActivity() {
                 .addItem(BottomBarTab(this, R.drawable.ic_news))
                 .addItem(BottomBarTab(this, R.drawable.ic_tools))
                 .addItem(BottomBarTab(this, R.drawable.ic_user)).apply {
-            setOnTabSelectedListener(object : BottomBar.OnTabSelectedListener {
-                override fun onTabSelected(position: Int, prePosition: Int) =
-                        when (position - prePosition) {
-                            0 -> Unit
-                            -1, 1 -> viewPager.setCurrentItem(position, true)
-                            else -> viewPager.setCurrentItem(position, false)
-                        }
+                    setOnTabSelectedListener(object : BottomBar.OnTabSelectedListener {
+                        override fun onTabSelected(position: Int, prePosition: Int) =
+                                when (position - prePosition) {
+                                    0 -> Unit
+                                    -1, 1 -> viewPager.setCurrentItem(position, true)
+                                    else -> viewPager.setCurrentItem(position, false)
+                                }
 
-                override fun onTabUnselected(position: Int) = Unit
-                override fun onTabReselected(position: Int) = Unit
-            })
-        }
+                        override fun onTabUnselected(position: Int) = Unit
+                        override fun onTabReselected(position: Int) = Unit
+                    })
+                }
 
         checkTosDialog = AlertDialog.Builder(this)
                 .setCancelable(false)
