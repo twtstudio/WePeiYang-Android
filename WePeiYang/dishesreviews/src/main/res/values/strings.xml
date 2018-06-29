@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">菜品点评</string>
+    <string name="dish_module_name">菜品点评</string>
     <string name="text_home">首页</string>
     <string name="text_fast_comment">快速评价</string>
     <string name="text_account">我的</string>

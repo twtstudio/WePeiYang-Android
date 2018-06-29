@@ -2,32 +2,15 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:paddingBottom="18dp"
     android:paddingTop="18dp"
     android:background="@color/grayBackground">
 
-    <ImageView
-        android:id="@+id/iv_location"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="4dp"
-        android:src="@drawable/dishes_reviews_ic_location"
-        app:layout_constraintLeft_toLeftOf="parent" />
-    <Spinner
-        android:id="@+id/sp_campus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="0dp"
-        android:layout_marginLeft="4dp"
-        app:layout_constraintLeft_toRightOf="@id/iv_location"></Spinner>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_dinning_halls"
-        android:layout_marginTop="8dp"
         android:foregroundGravity="center"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/sp_campus">
+        android:layout_height="wrap_content">
 
     </android.support.v7.widget.RecyclerView>
 </android.support.constraint.ConstraintLayout>

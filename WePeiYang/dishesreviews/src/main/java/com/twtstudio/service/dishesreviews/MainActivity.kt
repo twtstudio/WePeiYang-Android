@@ -1,14 +1,19 @@
 package com.twtstudio.service.dishesreviews
 
+import android.app.ActionBar
 import android.content.Intent
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.widget.PopupWindow
 import android.widget.TextView
 import com.twtstudio.service.dishesreviews.extensions.CustomViewPager
+import com.twtstudio.service.dishesreviews.extensions.DishPreferences
 import com.twtstudio.service.dishesreviews.search.view.SearchActivity
 
 
@@ -21,12 +26,15 @@ class MainActivity : AppCompatActivity() {
     private lateinit var viewPagerAdapter: MainPagerAdapter
     private lateinit var toolbar: Toolbar
     private lateinit var tvTitle: TextView
+    private lateinit var popupWindow: PopupWindow
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.dishes_reviews_activity_main)
 
-        bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
-        viewPager = findViewById<CustomViewPager>(R.id.vp_main)
+        val popContentView = layoutInflater.inflate(R.layout.dishes_reviews_home_popup, null)
+        popupWindow = PopupWindow(popContentView, ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.WRAP_CONTENT)
+        bottomNavigationView = findViewById(R.id.bottom_navigation)
+        viewPager = findViewById(R.id.vp_main)
         viewPagerAdapter = MainPagerAdapter(supportFragmentManager)
         viewPager.apply {
             adapter = viewPagerAdapter
@@ -37,10 +45,11 @@ class MainActivity : AppCompatActivity() {
         }
         setSupportActionBar(toolbar)
         setDisplayHomeAsUpEnabled(true)
-        tvTitle = findViewById<TextView>(R.id.tv_toolbar_title).apply {
-            text = getString(R.string.app_name)
+        tvTitle = findViewById<TextView>(R.id.tv_toolbar_title)
+        setToolBarTitle(tvTitle)
+        tvTitle.setOnClickListener {
+            popUpWindow(popContentView)
         }
-
         bottomNavigationView.apply {
             setOnNavigationItemSelectedListener(
                     object : BottomNavigationView.OnNavigationItemSelectedListener {
@@ -48,7 +57,7 @@ class MainActivity : AppCompatActivity() {
                             when (item.getItemId()) {
                                 R.id.action_home -> {
                                     viewPager.currentItem = item.order
-                                    tvTitle.text = getString(R.string.app_name)
+                                    setToolBarTitle(tvTitle)
                                     setDisplayHomeAsUpEnabled(true)
                                 }
 //                                R.id.action_fast_comment -> {
@@ -98,5 +107,38 @@ class MainActivity : AppCompatActivity() {
             setDisplayHomeAsUpEnabled(showHomeAsUp)
             setHomeAsUpIndicator(R.drawable.dishes_reviews_ic_action_back)
         }
+    }
+
+    private fun popUpWindow(view: View) {
+        if (popupWindow.isShowing)
+            return
+        popupWindow.apply {
+            isFocusable = true
+            setBackgroundDrawable(ColorDrawable(0x00000000))
+            isOutsideTouchable = true
+            showAsDropDown(toolbar)
+        }
+
+        val tvNewCampus = view.findViewById<TextView>(R.id.tv_new_campus).setOnClickListener {
+            DishPreferences.isNewCampus = true
+            setToolBarTitle(tvTitle)
+            popupWindow.dismiss()
+            viewPagerAdapter.notifyDataSetChanged()
+        }
+        val tvOldCampus = view.findViewById<TextView>(R.id.tv_old_campus).setOnClickListener {
+            DishPreferences.isNewCampus = false
+            setToolBarTitle(tvTitle)
+            popupWindow.dismiss()
+            viewPagerAdapter.notifyDataSetChanged()
+        }
+    }
+
+    private fun setToolBarTitle(textView: TextView) {
+        var campus = ""
+        if (DishPreferences.isNewCampus)
+            campus = "北洋园校区"
+        else
+            campus = "卫津路校区"
+        textView.text = getString(R.string.dish_module_name) + '-' + campus + "▼"
     }
 }

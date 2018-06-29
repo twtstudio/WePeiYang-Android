@@ -3,6 +3,7 @@ package com.twtstudio.service.dishesreviews
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
+import android.support.v4.view.PagerAdapter
 import com.twtstudio.service.dishesreviews.account.view.AccountFragment
 import com.twtstudio.service.dishesreviews.home.view.HomeFragment
 
@@ -20,5 +21,9 @@ class MainPagerAdapter(fm: FragmentManager?) : FragmentPagerAdapter(fm) {
             2-> return AccountFragment()
             else -> return HomeFragment()
         }
+    }
+
+    override fun getItemPosition(p: Any): Int {
+        return PagerAdapter.POSITION_NONE
     }
 }
