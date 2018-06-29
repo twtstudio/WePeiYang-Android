@@ -16,7 +16,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.TextView
-import com.haozhang.lib.SlantedTextView
 import com.twt.service.schedule2.R
 import com.twt.service.schedule2.model.Course
 import com.twt.service.schedule2.model.SchedulePref
@@ -144,7 +143,8 @@ class ScheduleAdapter(val context: Context) : RecyclerView.Adapter<ScheduleAdapt
                         }
                     }
                     val view = LayoutInflater.from(cardView.context).inflate(R.layout.schedule_item_course_slant, cardView, false)
-                    val slantedTextView: SlantedTextView = view.findViewById(R.id.tv_course_slant)
+                    // 第三方的SlantedtextView的文字绘制存在bug 导致无法使用Bitmap
+                    val slantedTextView: com.twt.service.schedule2.view.schedule.SlantedTextView = view.findViewById(R.id.tv_course_slant)
                     if (fuckConflict) {
                         slantedTextView.setSlantedBackgroundColor(Color.parseColor("#33000000"))
                         slantedTextView.text = "冲突"
@@ -171,6 +171,9 @@ class ScheduleAdapter(val context: Context) : RecyclerView.Adapter<ScheduleAdapt
     }
 
 
+    /**
+     * 均分各个块的宽度 来做到水平填充
+     */
     private fun View.flatViewHolder(spanSize: Int, parent: ViewGroup) {
         val availableWidth = parent.width - parent.paddingStart
         val perItemWith = availableWidth / spanSize

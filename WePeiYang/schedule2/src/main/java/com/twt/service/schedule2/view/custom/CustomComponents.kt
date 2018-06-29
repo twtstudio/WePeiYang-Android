@@ -7,9 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.twt.service.schedule2.R
-import com.twt.service.schedule2.view.adapter.Item
-import com.twt.service.schedule2.view.adapter.ItemController
 import com.twt.wepeiyang.commons.experimental.color.getColorCompat
+import com.twt.wepeiyang.commons.ui.rec.Item
+import com.twt.wepeiyang.commons.ui.rec.ItemController
 import org.jetbrains.anko.*
 import org.jetbrains.anko.constraint.layout.constraintLayout
 
@@ -59,7 +59,7 @@ class SingleTextItem(val text: String) : Item {
 
     override val controller: ItemController = Controller
 
-    override fun areItemsTheSame(newItem: Item): Boolean = newItem is SingleTextItem
+    override fun areItemsTheSame(newItem: Item): Boolean = areContentsTheSame(newItem)
 
     override fun areContentsTheSame(newItem: Item): Boolean {
         if (newItem !is SingleTextItem) return false

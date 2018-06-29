@@ -2,7 +2,6 @@ package com.twt.service.home
 
 import android.content.Intent
 import android.content.pm.ActivityInfo
-import android.graphics.Color
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -15,7 +14,7 @@ import android.view.View
 import com.twt.service.R
 import com.twt.service.base.BaseActivity
 import com.twt.service.home.common.CommonFragment
-import com.twt.service.home.news.NewsFragment
+//import com.twt.service.home.news.NewsFragment
 import com.twt.service.home.tools.ToolsFragment
 import com.twt.service.home.user.UserFragment
 import com.twt.service.update.UpdateManager
@@ -39,7 +38,6 @@ class HomeActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
-
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) with(window) {
@@ -49,7 +47,8 @@ class HomeActivity : BaseActivity() {
 //            statusBarColor =
         }
 
-        fragments = listOf(CommonFragment(), NewsFragment(), ToolsFragment(), UserFragment())
+//        fragments = listOf(CommonFragment(), NewsFragment(), ToolsFragment(), UserFragment())
+        fragments = listOf(CommonFragment(), ToolsFragment(), UserFragment())
 
         viewPager = findViewById<ViewPager>(R.id.fl_container).apply {
             adapter = object : FragmentPagerAdapter(supportFragmentManager) {
@@ -69,18 +68,18 @@ class HomeActivity : BaseActivity() {
                 .addItem(BottomBarTab(this, R.drawable.ic_news))
                 .addItem(BottomBarTab(this, R.drawable.ic_tools))
                 .addItem(BottomBarTab(this, R.drawable.ic_user)).apply {
-                    setOnTabSelectedListener(object : BottomBar.OnTabSelectedListener {
-                        override fun onTabSelected(position: Int, prePosition: Int) =
-                                when (position - prePosition) {
-                                    0 -> Unit
-                                    -1, 1 -> viewPager.setCurrentItem(position, true)
-                                    else -> viewPager.setCurrentItem(position, false)
-                                }
+            setOnTabSelectedListener(object : BottomBar.OnTabSelectedListener {
+                override fun onTabSelected(position: Int, prePosition: Int) =
+                        when (position - prePosition) {
+                            0 -> Unit
+                            -1, 1 -> viewPager.setCurrentItem(position, true)
+                            else -> viewPager.setCurrentItem(position, false)
+                        }
 
-                        override fun onTabUnselected(position: Int) = Unit
-                        override fun onTabReselected(position: Int) = Unit
-                    })
-                }
+                override fun onTabUnselected(position: Int) = Unit
+                override fun onTabReselected(position: Int) = Unit
+            })
+        }
 
         checkTosDialog = AlertDialog.Builder(this)
                 .setCancelable(false)

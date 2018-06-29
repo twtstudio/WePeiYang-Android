@@ -15,11 +15,13 @@ import com.tapadoo.alerter.Alerter
 import com.twt.wepeiyang.commons.experimental.extensions.bind
 import com.twtstudio.retrox.tjulibrary.R
 import com.twtstudio.retrox.tjulibrary.provider.Book
+import com.twtstudio.retrox.tjulibrary.view.BookPopupWindow
+
 
 /**
  * Created by retrox on 26/10/2017.
  */
-class BookItemComponent(lifecycleOwner: LifecycleOwner, itemView: View) : RecyclerView.ViewHolder(itemView) {
+class BookItemComponent(val lifecycleOwner: LifecycleOwner, itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val mContext = itemView.context
     private val cover: ImageView = itemView.findViewById(R.id.ic_item_book)
     private val name: TextView = itemView.findViewById(R.id.tv_item_book_name)
@@ -27,11 +29,19 @@ class BookItemComponent(lifecycleOwner: LifecycleOwner, itemView: View) : Recycl
     private val bookData = MutableLiveData<Book>()
 
     init {
-        bookData.bind(lifecycleOwner) {
-            it?.apply {
+        bookData.bind(lifecycleOwner) { book ->
+            book?.apply {
                 name.text = this.title
                 setBookCoverDrawable(book = this)
                 returntimeText.text = "应还日期: ${this.returnTime}"
+                itemView.setOnLongClickListener {
+
+                    val pop = BookPopupWindow(book, mContext)
+                    pop.show()
+
+                    true
+                }
+
             }
         }
     }

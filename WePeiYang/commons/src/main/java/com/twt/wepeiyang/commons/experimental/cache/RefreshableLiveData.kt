@@ -53,7 +53,6 @@ fun <V : Any> RefreshableLiveData.Companion.use(local: Cache<V>, remote: Cache<V
         object : RefreshableLiveData<V, CacheIndicator>() {
 
             private var running: Job? = null
-
             override fun refresh(vararg indicators: CacheIndicator, callback: suspend (RefreshState<CacheIndicator>) -> Unit) {
                 if (running?.isActive == true) return
                 running = launch(UI + QuietCoroutineExceptionHandler) {
@@ -150,3 +149,41 @@ fun <V : Any> RefreshableLiveData.Companion.use(local: Cache<V>, remote: Cache<V
             }
 
         }
+
+fun <V : Any> RefreshableLiveData.Companion.retrofit(remote: Cache<V>) = object : RefreshableLiveData<V, CacheIndicator>() {
+    private var running: Job? = null
+
+    override fun refresh(vararg indicators: CacheIndicator, callback: suspend (RefreshState<CacheIndicator>) -> Unit) {
+        if (running?.isActive == true) return
+        running = launch(UI + QuietCoroutineExceptionHandler) {
+
+            callback(RefreshState.Refreshing())
+
+            val handler: suspend (Throwable) -> Unit = { callback(RefreshState.Failure(it)) }
+
+
+            val remoteDeferred =
+                    if (CacheIndicator.REMOTE in indicators)
+                        remote.get() else null
+
+            remoteDeferred?.awaitAndHandle(handler)?.also {
+                value = it
+                callback(RefreshState.Success(CacheIndicator.REMOTE))
+            }
+
+        }.apply { invokeOnCompletion { running = null } }
+    }
+
+    override fun cancel() {
+        running?.cancel()
+    }
+
+    override fun onActive() {
+        refresh(CacheIndicator.REMOTE)
+    }
+
+    override fun onInactive() {
+        cancel()
+    }
+
+}

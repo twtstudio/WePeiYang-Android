@@ -18,11 +18,12 @@ import com.twt.service.schedule2.R
 import com.twt.service.schedule2.model.SchedulePref
 import com.twt.service.schedule2.model.total.TotalCourseManager
 import com.twt.service.schedule2.view.audit.AuditActivity
-import com.twt.service.schedule2.view.theme.colorCircleView
+import com.twt.service.schedule2.view.schedule.ScheduleActivity
 import com.twt.service.schedule2.view.theme.spreadChainLayout
 import com.twt.wepeiyang.commons.experimental.color.getColorCompat
 import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
 import com.twt.wepeiyang.commons.experimental.theme.CustomTheme
+import com.twt.wepeiyang.commons.ui.view.colorCircleView
 import es.dmoral.toasty.Toasty
 import io.multimoon.colorful.Colorful
 import org.jetbrains.anko.*
@@ -87,6 +88,28 @@ class CustomSettingBottomFragment : BottomSheetDialogFragment() {
                     setOnClickListener {
                         val intent = Intent(activity, AuditActivity::class.java)
                         activity?.startActivity(intent)
+                    }
+                }
+
+                indicator("分享课程")
+
+                constraintLayout {
+                    backgroundColor = Color.WHITE
+
+                    textView {
+                        text = "点击分享自己的课程表"
+                        textSize = 14f
+                        textColor = Color.BLACK
+                    }.lparams(width = wrapContent, height = wrapContent) {
+                        startToStart = PARENT_ID
+                        topToTop = PARENT_ID
+                        bottomToBottom = PARENT_ID
+                        leftMargin = dip(16)
+                    }
+                }.lparams(width = matchParent, height = dip(48)).apply {
+                    setOnClickListener {
+                        val activity = activity as? ScheduleActivity
+                        activity?.shareSchedule()
                     }
                 }
 

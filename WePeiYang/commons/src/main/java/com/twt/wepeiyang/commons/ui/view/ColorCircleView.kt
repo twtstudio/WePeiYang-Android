@@ -1,4 +1,4 @@
-package com.twt.service.schedule2.view.theme
+package com.twt.wepeiyang.commons.ui.view
 
 import android.content.Context
 import android.graphics.Canvas
@@ -7,10 +7,10 @@ import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewManager
-import com.twt.service.schedule2.R
-import com.twt.service.schedule2.extensions.dp2px
+import com.twt.wepeiyang.commons.R
 import com.twt.wepeiyang.commons.experimental.color.getColorCompat
 import org.jetbrains.anko.custom.ankoView
+import org.jetbrains.anko.dip
 
 /**
  * 主题切换用的圆形表示器
@@ -23,6 +23,17 @@ class ColorCircleView @JvmOverloads constructor(context: Context, attrs: Attribu
             invalidate()
         }
 
+    var stroke: Boolean = true
+        set(value) {
+            field = value
+            invalidate()
+        }
+
+    var circlePadding: Float = 5f
+        set(value) {
+            field = value
+            invalidate()
+        }
     private val fillPaint = Paint().apply {
         style = Paint.Style.FILL
         isAntiAlias = true
@@ -30,7 +41,7 @@ class ColorCircleView @JvmOverloads constructor(context: Context, attrs: Attribu
 
     private val strokePaint = Paint().apply {
         style = Paint.Style.STROKE
-        strokeWidth = dp2px(1f)
+        strokeWidth = dip(1).toFloat()
         color = Color.parseColor("#979797")
         isAntiAlias = true
     }
@@ -38,14 +49,27 @@ class ColorCircleView @JvmOverloads constructor(context: Context, attrs: Attribu
     override fun onDraw(canvas: Canvas) {
         val centerX = measuredWidth.toFloat() / 2
         val centerY = measuredHeight.toFloat() / 2
-        val radius = measuredWidth.toFloat() / 2 - 5f
+        val radius = measuredWidth.toFloat() / 2 - circlePadding
 
         fillPaint.color = color
 
         canvas.drawCircle(centerX, centerY, radius, fillPaint)
-        canvas.drawCircle(centerX, centerY, radius, strokePaint)
+        if (stroke) {
+            canvas.drawCircle(centerX, centerY, radius, strokePaint)
+        }
 
     }
+
+    init {
+        context.obtainStyledAttributes(attrs, R.styleable.ColorCircleView, defStyle, 0).apply {
+
+            stroke = getBoolean(R.styleable.ColorCircleView_drawCircleBounds, true)
+            circlePadding = getFloat(R.styleable.ColorCircleView_radiusPadding, 5f)
+            color = getColor(R.styleable.ColorCircleView_circleColor, getColorCompat(R.color.colorPrimary))
+            recycle()
+        }
+    }
+
 }
 
 inline fun ViewManager.colorCircleView() = colorCircleView {}

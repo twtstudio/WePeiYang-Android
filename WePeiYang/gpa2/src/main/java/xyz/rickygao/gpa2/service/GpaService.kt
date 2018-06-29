@@ -27,7 +27,7 @@ interface GpaService {
     @POST("v1/gpa/evaluate")
     fun evaluate(@FieldMap params: Map<String, String>): Deferred<CommonBody<String>>
 
-    companion object : GpaService by ServiceFactory()
+     companion object: GpaService by ServiceFactory()
 }
 
 val GpaLocalCache = Cache.hawk<GpaBean>("GPA")

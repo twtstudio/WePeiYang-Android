@@ -23,7 +23,7 @@ class HomeFragment : LazyFragment() {
     override fun onRealViewLoaded(view: View) {
         homeDataViewModel = ViewModelProviders.of(this).get(HomeDataViewModel::class.java)
         view.findViewById<RecyclerView>(R.id.list).apply {
-            layoutManager=LinearLayoutManager(context)
+            layoutManager = LinearLayoutManager(context)
             homeAdapter = HomePagerAdapter(listOf(HomePagerAdapter.BANNER,
                     HomePagerAdapter.DINNING_HALL,
                     HomePagerAdapter.AD,

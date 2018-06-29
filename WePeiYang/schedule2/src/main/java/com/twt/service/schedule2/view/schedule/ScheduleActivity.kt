@@ -1,10 +1,16 @@
 package com.twt.service.schedule2.view.schedule
 
 import android.arch.lifecycle.LiveData
+import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.support.v7.widget.*
 import android.view.View
+import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
 import com.twt.service.schedule2.R
@@ -26,6 +32,7 @@ import es.dmoral.toasty.Toasty
 import io.multimoon.colorful.CAppCompatActivity
 import org.jetbrains.anko.*
 import java.net.SocketTimeoutException
+
 
 class ScheduleActivity : CAppCompatActivity() {
     lateinit var recyclerView: RecyclerView
@@ -58,6 +65,7 @@ class ScheduleActivity : CAppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+//        if (BuildConfig.DEBUG) UETool.showUETMenu()
         setContentView(R.layout.schedule_act_main)
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
@@ -71,16 +79,6 @@ class ScheduleActivity : CAppCompatActivity() {
         }.apply {
             layoutParams = FrameLayout.LayoutParams(matchParent, wrapContent)
             visibility = View.GONE
-        }
-
-        with(frameLayout) {
-            textView { }
-        }
-
-        frameLayout.verticalLayout {
-            textView().lparams(width = matchParent, height = matchParent) {
-                //                gravity = Gravity.CENTER_HORIZONTAL
-            }
         }
 
         val addButton = findViewById<ImageView>(R.id.iv_toolbar_add)
@@ -145,7 +143,7 @@ class ScheduleActivity : CAppCompatActivity() {
 
         classtableProvider.bindNonNull(this) {
             var week = 0
-            if (currentWeek == -1) {
+            if (currentWeek == -1) { // 这种是初始情况 就是 没有手动修改课程表那种
                 week = it.getCurrentWeek()
             } else {
                 week = currentWeek
@@ -159,7 +157,7 @@ class ScheduleActivity : CAppCompatActivity() {
 
             // todo: 这部分应该去异步执行 但是目前有异常 所以过段时间再看看
             weekSquareDataList.removeAll { true }
-            for (i in 1..25) {
+            for (i in 1..22) {
                 val weekMatrix = it.getWeekCourseMatrix(i)
                 // 硬编码自定义view底部Text的行为比较僵硬 自定义view里面对字符串做判断可能导致维护时候的bug
                 // 但是暂时这样子吧
@@ -179,7 +177,71 @@ class ScheduleActivity : CAppCompatActivity() {
             }
             weekSelectAdapter.refreshWeekSquareData(weekSquareDataList)
 
+            if (currentWeek == -1) {
+                val smoothScroller = object : LinearSmoothScroller(ctx) {
+                    override fun getVerticalSnapPreference(): Int {
+                        return LinearSmoothScroller.SNAP_TO_START
+                    }
+
+                    override fun getHorizontalSnapPreference(): Int {
+                        return SNAP_TO_START
+                    }
+                }
+                smoothScroller.targetPosition = it.getCurrentWeek() - 1 // 从0开始的程序员世界
+//                weekSelectRecyclerView.layoutManager.startSmoothScroll(smoothScroller)
+                weekSelectRecyclerView.scrollToPosition(it.getCurrentWeek() - 1)
+            }
         }
+    }
+
+    /**
+     * 课程表“截图”分享
+     * todo: 封装Share框架
+     */
+    fun shareSchedule() {
+        // 创建Recyclerview的Bitmap缓存
+        val bitmap = Bitmap.createBitmap(recyclerView.width, recyclerView.height, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(bitmap)
+        canvas.drawColor(Color.TRANSPARENT)
+        //把课程表画到Bitmap画布上
+        recyclerView.draw(canvas)
+
+        // 创建分享的Layout 中间用ImageView来存放Recyclerview产生的缓存图片
+        // XML 中使用ScrollView进行组织，取出ScrollView的子view来获取合适的高度
+        val sharedLayoutRoot: View = layoutInflater.inflate(R.layout.schedule_share_layout, null, false)
+        val sharedLayout: View = (sharedLayoutRoot as ViewGroup).getChildAt(0)
+        sharedLayout.findViewById<ImageView>(R.id.iv_schedule_share).apply {
+            layoutParams = layoutParams.apply {
+                height = bitmap.height
+            }
+            setImageBitmap(bitmap)
+        }
+        val contentContainer = findViewById<ViewGroup>(android.R.id.content)
+        contentContainer.addView(sharedLayoutRoot.apply {
+            layoutParams = FrameLayout.LayoutParams(matchParent, wrapContent)
+            visibility = View.INVISIBLE
+        })
+        sharedLayout.post {
+            val sharedBitmap: Bitmap = Bitmap.createBitmap(sharedLayout.width, sharedLayout.height, Bitmap.Config.ARGB_8888)
+            val shareCanvas = Canvas(sharedBitmap)
+            sharedLayout.draw(shareCanvas)
+
+            val url = MediaStore.Images.Media.insertImage(contentResolver, sharedBitmap, "课程表分享", null)
+            val uri = Uri.parse(url)
+            val intent = Intent(Intent.ACTION_SEND).apply {
+                type = "image/*"
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION
+                putExtra(Intent.EXTRA_STREAM, uri)
+                intent.putExtra("Kdescription", "这是我的萌萌哒课程表！");
+            }
+            Toasty.success(ctx, "图片保存在 Pictures 文件夹").show()
+            startActivity(Intent.createChooser(intent, "课程表分享"));
+
+            val mediaScanIntent = Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE)
+            mediaScanIntent.data = uri
+            ctx.sendBroadcast(mediaScanIntent)
+        }
+
     }
 
     override fun onResume() {

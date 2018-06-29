@@ -8,14 +8,6 @@
             android:title="一键退学" />
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="课程表设置">
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="@string/pref_is_show_today_course"
-            android:summaryOff="不显示今日课程页面"
-            android:summaryOn="显示今日课程页面"
-            android:title="是否显示今日课程页面" />
-    </PreferenceCategory>
 
     <PreferenceCategory android:title="主页设置（可能需要重启微北洋）">
 
@@ -82,24 +74,13 @@
             android:summary="到移动客户端版块，说出你的故事"
             android:title="意见反馈"/>
         <Preference
+            android:key="@string/pref_add_group"
+            android:summary="加入微北洋用户大佬群一起讨论问题"
+            android:title="加群讨论" />
+        <Preference
             android:key="@string/pref_contact_me"
             android:summary="mobile@twtstudio.com"
             android:title="联系我" />
-    </PreferenceCategory>
-
-    <PreferenceCategory android:title="别乱动(需要重启app)">
-        <SwitchPreference
-            android:defaultValue="true"
-            android:key="@string/pref_use_https"
-            android:title="使用HTTPS" />
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="@string/pref_use_proxy"
-            android:title="使用代理" />
-        <Preference
-            android:key="@string/pref_proxy_settings"
-            android:title="代理设置" />
-
     </PreferenceCategory>
 
 </PreferenceScreen>

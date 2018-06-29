@@ -6,7 +6,6 @@ apply from: '../maven_push.gradle'
 
 android {
     compileSdkVersion versions.compileSdk
-    buildToolsVersion versions.buildTools
 
     defaultConfig {
         minSdkVersion versions.minSdk
@@ -44,6 +43,7 @@ android {
         targetCompatibility 1.8
         sourceCompatibility 1.8
     }
+    buildToolsVersion '27.0.3'
 }
 
 kotlin {
@@ -59,7 +59,7 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-    [*supportLibraries, *archLibraries, 'kotlin-stdlib', 'kotlinx-coroutines', 'anko'].each {
+    [*supportLibraries, *archLibraries, 'kotlin-stdlib', 'kotlinx-coroutines', 'anko', 'constraint-layout'].each {
         implementation dependenciesMap[it]
     }
     ['lifecycle-compiler'].each {
@@ -100,6 +100,7 @@ dependencies {
     api 'com.github.piasy:GlideImageLoader:1.3.2'
     api 'com.github.piasy:ProgressPieIndicator:1.3.2'
     api 'com.github.garretyoder:Colorful:2.2'
+    api 'pub.devrel:easypermissions:0.1.9'
 
 //    compile files('libs/SocialSDK_QQ_Simplify.jar')
 //    compile files('libs/SocialSDK_Sina_Simplify.jar')
@@ -108,4 +109,7 @@ dependencies {
 //    compile files('libs/umeng_social_net.jar')
 //    compile files('libs/umeng_social_tool.jar')
 
+}
+repositories {
+    mavenCentral()
 }

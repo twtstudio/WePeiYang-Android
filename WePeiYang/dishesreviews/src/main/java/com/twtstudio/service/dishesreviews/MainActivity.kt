@@ -30,6 +30,7 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
         }
+
         bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
         viewPager = findViewById<CustomViewPager>(R.id.vp_main)
         viewPagerAdapter = MainPagerAdapter(supportFragmentManager)
@@ -90,8 +91,8 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             android.R.id.home -> finish()
-            R.id.menu_search-> {
-                val intent=Intent(this, SearchActivity::class.java)
+            R.id.menu_search -> {
+                val intent = Intent(this, SearchActivity::class.java)
                 startActivity(intent)
             }
         }

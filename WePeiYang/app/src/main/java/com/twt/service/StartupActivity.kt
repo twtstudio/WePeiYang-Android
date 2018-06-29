@@ -8,9 +8,9 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import com.twt.service.base.BaseActivity
-import com.twt.service.home.HomeActivity
 import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
 import com.twtstudio.retrox.auth.view.LoginActivity
+import com.twtstudio.service.dishesreviews.MainActivity
 import org.jetbrains.anko.shortcutManager
 import org.jetbrains.anko.startActivity
 
@@ -25,7 +25,10 @@ class StartupActivity : BaseActivity() {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) createDynamicShortcuts()
 
-        if (CommonPreferences.isLogin) startActivity<HomeActivity>() else startActivity<LoginActivity>()
+        if (CommonPreferences.isLogin) {
+            startActivity<MainActivity>()
+            //startActivity<HomeNewActivity>()
+        } else startActivity<LoginActivity>()
 
         finish()
     }

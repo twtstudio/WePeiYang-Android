@@ -2,6 +2,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
+//apply plugin: 'me.tatarka'
 
 android {
     compileSdkVersion versions.compileSdk
@@ -54,12 +55,15 @@ dependencies {
         kapt dependenciesMap[it]
     }
 
-    implementation 'com.haozhang.libary:android-slanted-textview:1.2'
+//    implementation 'com.haozhang.libary:android-slanted-textview:1.2'
     implementation "org.jetbrains.anko:anko-commons:${versions.anko}"
     implementation 'com.zhihu.android:matisse:0.4.3'
     implementation "org.jetbrains.anko:anko-constraint-layout:${versions.anko}"
     implementation project(':vpbs')
     implementation 'com.otaliastudios:autocomplete:1.1.0'
+
+    debugImplementation 'me.ele:uetool:1.0.12'
+    releaseImplementation 'me.ele:uetool-no-op:1.0.12'
 
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.hamcrest:hamcrest-junit:2.0.0.0'

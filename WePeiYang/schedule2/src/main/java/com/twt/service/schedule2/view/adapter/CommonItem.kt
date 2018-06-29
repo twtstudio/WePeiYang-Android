@@ -8,6 +8,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.twt.service.schedule2.R
 import com.twt.wepeiyang.commons.experimental.color.getColorCompat
+import com.twt.wepeiyang.commons.ui.rec.Item
+import com.twt.wepeiyang.commons.ui.rec.ItemController
 import org.jetbrains.anko.*
 
 class IndicatorTextItem(val text: String) : Item {

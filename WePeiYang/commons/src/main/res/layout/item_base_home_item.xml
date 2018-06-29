@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white_color">
+
+    <View
+        android:id="@+id/view_rect"
+        android:layout_width="2dp"
+        android:layout_height="12dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="10dp"
+        android:background="?attr/colorPrimary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:background="@color/colorPrimary" />
+
+    <TextView
+        android:id="@+id/tv_name_home_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:fontFamily="sans-serif-regular"
+        android:textColor="#444444"
+        app:layout_constraintBottom_toBottomOf="@id/view_rect"
+        app:layout_constraintStart_toEndOf="@id/view_rect"
+        app:layout_constraintTop_toTopOf="@id/view_rect"
+        tools:text="EVENTS" />
+
+    <TextView
+        android:id="@+id/tv_content_home_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="#B9B9B9"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@id/view_rect"
+        app:layout_constraintEnd_toStartOf="@+id/iv_go_home_item"
+        app:layout_constraintTop_toTopOf="@id/view_rect"
+        tools:text="最近的事情 3" />
+
+    <ImageView
+        android:id="@+id/iv_go_home_item"
+        android:layout_width="12dp"
+        android:layout_height="12dp"
+        android:layout_marginEnd="12dp"
+        android:src="@drawable/ic_item_go"
+        app:layout_constraintBottom_toBottomOf="@id/view_rect"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/view_rect" />
+
+    <View
+        android:id="@+id/divider_home_item"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="12dp"
+        android:background="#F7F7F7"
+        app:layout_constraintTop_toBottomOf="@id/view_rect" />
+
+    <FrameLayout
+        android:id="@+id/fl_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/divider_home_item"
+        tools:layout_height="200dp" />
+
+</android.support.constraint.ConstraintLayout>

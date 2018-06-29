@@ -13,8 +13,9 @@ import com.twt.service.schedule2.extensions.getChineseCharacter
 import com.twt.service.schedule2.model.Course
 import com.twt.service.schedule2.view.adapter.CourseDetailViewModel
 import com.twt.service.schedule2.view.adapter.iconLabel
-import com.twt.service.schedule2.view.adapter.refreshAll
 import com.twt.service.schedule2.view.audit.search.SearchResultActivity
+import com.twt.wepeiyang.commons.ui.rec.refreshAll
+import es.dmoral.toasty.Toasty
 import org.jetbrains.anko.alert
 
 class CourseDetailBottomFragment : BottomSheetDialogFragment() {
@@ -71,8 +72,12 @@ class CourseDetailBottomFragment : BottomSheetDialogFragment() {
             iconLabel(CourseDetailViewModel(R.drawable.ic_schedule_search, "在蹭课功能中搜索相似课程", clickBlock = {
                 SearchResultActivity.searchCourse(it.context, course.coursename)
             }))
-            iconLabel(CourseDetailViewModel(R.drawable.ic_schedule_event, "添加自定义课程/事件"))
-            iconLabel(CourseDetailViewModel(R.drawable.ic_schedule_homework, "添加课程作业/考试"))
+            iconLabel(CourseDetailViewModel(R.drawable.ic_schedule_event, "添加自定义课程/事件", clickBlock = {
+                Toasty.info(it.context, "下一版本中加入").show()
+            }))
+            iconLabel(CourseDetailViewModel(R.drawable.ic_schedule_homework, "添加课程作业/考试", clickBlock = {
+                Toasty.info(it.context, "下一版本中加入").show()
+            }))
             indicatorText("帮助")
 
             iconLabel(CourseDetailViewModel(R.drawable.ic_schedule_info, "如何使用课程表的自定义功能", {

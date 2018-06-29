@@ -10,9 +10,9 @@ import com.twt.service.schedule2.R
 import com.twt.service.schedule2.extensions.getChineseCharacter
 import com.twt.service.schedule2.model.Course
 import com.twt.service.schedule2.view.adapter.CourseDetailViewModel
-import com.twt.service.schedule2.view.adapter.Item
-import com.twt.service.schedule2.view.adapter.ItemController
 import com.twt.service.schedule2.view.audit.search.SearchResultActivity
+import com.twt.wepeiyang.commons.ui.rec.Item
+import com.twt.wepeiyang.commons.ui.rec.ItemController
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.layoutInflater
 

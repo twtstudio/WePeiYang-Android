@@ -10,8 +10,6 @@ object AppPreferences {
 
     var isDisplayBike by shared("pref_is_display_bike", false)
 
-    var isShowTodayCourse by shared("pref_is_show_today_course", true)
-
     var isAutoCheckUpdate by shared("pref_is_auto_check_update", true)
 
 }
