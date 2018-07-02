@@ -15,12 +15,12 @@
         android:background="@color/white"
         app:indicator_drawable_selected="@color/white"
         app:indicator_drawable_unselected="@color/translucentWhite"
-        app:indicator_width="12dp"></com.youth.banner.Banner>
+        app:indicator_width="12dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/colorTextGray1"
+        android:background="@color/colorAdTextBackground"
         android:padding="2dp"
         android:textSize="8sp"
         android:text="@string/ad"

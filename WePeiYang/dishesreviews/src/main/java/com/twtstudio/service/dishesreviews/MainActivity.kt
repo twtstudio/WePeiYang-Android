@@ -51,29 +51,26 @@ class MainActivity : AppCompatActivity() {
             popUpWindow(popContentView)
         }
         bottomNavigationView.apply {
-            setOnNavigationItemSelectedListener(
-                    object : BottomNavigationView.OnNavigationItemSelectedListener {
-                        override fun onNavigationItemSelected(item: MenuItem): Boolean {
-                            when (item.getItemId()) {
-                                R.id.action_home -> {
-                                    viewPager.currentItem = item.order
-                                    setToolBarTitle(tvTitle)
-                                    setDisplayHomeAsUpEnabled(true)
-                                }
-//                                R.id.action_fast_comment -> {
-//                                    menu.findItem(R.id.menu_search)?.setVisible(false)
-//                                }
-                                R.id.action_account -> {
-                                    viewPager.currentItem = item.order
-                                    tvTitle.text = getText(R.string.text_account)
-                                    menu.findItem(R.id.menu_search)?.setVisible(false)
-                                    setDisplayHomeAsUpEnabled(false)
-                                }
-                            }
-                            invalidateOptionsMenu()
-                            return true
-                        }
-                    })
+            setOnNavigationItemSelectedListener { item ->
+                when (item.getItemId()) {
+                    R.id.action_home -> {
+                        viewPager.currentItem = item.order
+                        setToolBarTitle(tvTitle)
+                        setDisplayHomeAsUpEnabled(true)
+                    }
+                //                                R.id.action_fast_comment -> {
+                //                                    menu.findItem(R.id.menu_search)?.setVisible(false)
+                //                                }
+                    R.id.action_account -> {
+                        viewPager.currentItem = item.order
+                        tvTitle.text = getText(R.string.text_account)
+                        menu.findItem(R.id.menu_search)?.setVisible(false)
+                        setDisplayHomeAsUpEnabled(false)
+                    }
+                }
+                invalidateOptionsMenu()
+                true
+            }
             itemIconTintList = null //不设置IconTint
         }
     }
@@ -134,7 +131,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setToolBarTitle(textView: TextView) {
-        var campus = ""
+        var campus: String
         if (DishPreferences.isNewCampus)
             campus = "北洋园校区"
         else
