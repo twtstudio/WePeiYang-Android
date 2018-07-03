@@ -97,7 +97,8 @@ class DishActivity : AppCompatActivity() {
                 startActivity(intent)
             }
         }
-        DishesFoodProvider.getDishesFood(foodId).bindNonNull(this) {
+        DishesFoodProvider.getDishesFood(foodId, this)
+        DishesFoodProvider.dishBeanLiveData.bindNonNull(this) {
             tvTitle.text = it.foodInfo.food_name
             tvDishName.text = it.foodInfo.food_name
             tvLocation.text = it.foodInfo.canteen_name

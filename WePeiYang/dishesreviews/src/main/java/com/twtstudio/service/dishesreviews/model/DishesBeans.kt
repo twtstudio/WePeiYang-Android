@@ -382,10 +382,10 @@ data class Comment(
         val comment_content: String = "", //这个东西太和我的胃口了
         val comment_praise_number: Int = 0, //1
         val comment_is_anonymous: Int = 0, //0
-        val picture_address1: String = "",
-        val picture_address2: String = "",
-        val picture_address3: String = "",
-        val picture_address4: String = "",
+        val picture_address1: String? = "",
+        val picture_address2: String? = "",
+        val picture_address3: String? = "",
+        val picture_address4: String? = "",
         val created_at: String = "", //2018-05-05 13:05:05
         val deleted_at: Any = Any(), //null
         val updated_at: String = "", //2018-05-05 14:35:39

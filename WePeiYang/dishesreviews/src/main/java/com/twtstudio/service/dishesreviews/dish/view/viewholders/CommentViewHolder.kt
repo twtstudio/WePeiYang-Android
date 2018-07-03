@@ -3,6 +3,7 @@ package com.twtstudio.service.dishesreviews.dish.view.viewholders
 import android.arch.lifecycle.LifecycleOwner
 import android.view.View
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.RatingBar
 import android.widget.TextView
 import com.twtstudio.service.dishesreviews.R
@@ -19,13 +20,16 @@ class CommentViewHolder(itemView: View, lifecycleOwner: LifecycleOwner) : BaseIt
     private val iv4 = itemView.findViewById<ImageView>(R.id.iv_4)
     private val tvComment = itemView.findViewById<TextView>(R.id.tv_comment)
     private val ratingBar = itemView.findViewById<RatingBar>(R.id.ratingbar_evaluate)
+    private val llImages = itemView.findViewById<LinearLayout>(R.id.ll_images)
     fun bind(comment: Comment) {
         tvUserName.text = comment.commenter_name
         tvDate.text = comment.updated_at
-        iv1.displayImage(itemView.context, comment.picture_address1)
-        iv2.displayImage(itemView.context, comment.picture_address2)
-        iv3.displayImage(itemView.context, comment.picture_address3)
-        iv4.displayImage(itemView.context, comment.picture_address4)
+        if (comment.picture_address1 != null) {
+            iv1.displayImage(itemView.context, comment.picture_address1)
+            iv2.displayImage(itemView.context, comment.picture_address2)
+            iv3.displayImage(itemView.context, comment.picture_address3)
+            iv4.displayImage(itemView.context, comment.picture_address4)
+        } else llImages.visibility = View.GONE
         tvComment.text = comment.comment_content
         ratingBar.rating = comment.food_score.toFloat()
     }

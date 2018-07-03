@@ -4,6 +4,7 @@ import android.arch.lifecycle.LifecycleOwner
 import android.content.Intent
 import android.view.View
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.RatingBar
 import android.widget.TextView
 import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
@@ -25,6 +26,7 @@ class ReviewViewHolder(itemView: View, lifecycleOwner: LifecycleOwner) : BaseIte
     private val iv3 = itemView.findViewById<ImageView>(R.id.iv_3)
     private val iv4 = itemView.findViewById<ImageView>(R.id.iv_4)
     private val ratingBar = itemView.findViewById<RatingBar>(R.id.ratingbar_evaluate)
+    private val llImages = itemView.findViewById<LinearLayout>(R.id.ll_images)
     fun bind(comment: GoodComment) {
         if (comment.comment_is_anonymous == 0)
             tvUserName.text = "匿名"
@@ -35,10 +37,12 @@ class ReviewViewHolder(itemView: View, lifecycleOwner: LifecycleOwner) : BaseIte
         DishesFoodProvider.getDishesFood(comment.food_id).bindNonNull(lifecycleOwner) {
             ivDish.displayImage(itemView.context, it.foodInfo.food_picture_address, ImageView.ScaleType.CENTER_CROP)
         }
-        iv1.displayImage(itemView.context, comment.picture_address1)
-        iv2.displayImage(itemView.context, comment.picture_address2)
-        iv3.displayImage(itemView.context, comment.picture_address3)
-        iv4.displayImage(itemView.context, comment.picture_address4)
+        if (comment.picture_address1 != null) {
+            iv1.displayImage(itemView.context, comment.picture_address1)
+            iv2.displayImage(itemView.context, comment.picture_address2)
+            iv3.displayImage(itemView.context, comment.picture_address3)
+            iv4.displayImage(itemView.context, comment.picture_address4)
+        } else llImages.visibility = View.GONE
         ratingBar.rating = comment.food_score.toFloat()
         ivDish.setOnClickListener {
             startDishActivity(comment.food_id) //test

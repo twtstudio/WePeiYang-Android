@@ -22,4 +22,5 @@ abstract class BaseListAdapter(
     override fun getItemCount(): Int {
         return list.size
     }
+
 }

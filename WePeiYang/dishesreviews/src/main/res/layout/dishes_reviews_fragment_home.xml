@@ -1,8 +1,8 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/refresh_home"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context="com.twtstudio.service.dishesreviews.home.view.HomeFragment">
     <android.support.v7.widget.RecyclerView
         android:id="@+id/list"
@@ -11,4 +11,4 @@
 
     </android.support.v7.widget.RecyclerView>
 
-</LinearLayout>
+</android.support.v4.widget.SwipeRefreshLayout>

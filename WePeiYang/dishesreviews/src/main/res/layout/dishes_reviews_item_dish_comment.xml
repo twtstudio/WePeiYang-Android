@@ -38,28 +38,31 @@
 
         <ImageView
             android:id="@+id/iv_1"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:paddingRight="4dp"
             tools:src="@drawable/dishes_reviews_action_collect" />
 
         <ImageView
             android:id="@+id/iv_2"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:paddingRight="4dp"
             tools:src="@drawable/dishes_reviews_action_collect" />
 
         <ImageView
             android:id="@+id/iv_3"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:paddingRight="4dp"
             tools:src="@drawable/dishes_reviews_action_collect" />
 
         <ImageView
             android:id="@+id/iv_4"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
             tools:src="@drawable/dishes_reviews_action_collect" />
