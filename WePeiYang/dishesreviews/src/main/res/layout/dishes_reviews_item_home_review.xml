@@ -7,6 +7,7 @@
     android:layout_height="wrap_content"
     android:elevation="2dp"
     android:layout_marginBottom="8dp"
+    android:clickable="true"
     android:foreground="?android:attr/selectableItemBackgroundBorderless"
     android:background="@color/white"
     tools:targetApi="lollipop">
@@ -14,8 +15,7 @@
     <ImageView
         android:id="@+id/iv_dish"
         android:layout_width="96dp"
-        android:layout_height="129dp"
-        android:clickable="true" />
+        android:layout_height="129dp" />
     <TextView
         android:id="@+id/tv_dish_name"
         android:layout_below="@+id/iv_dish"

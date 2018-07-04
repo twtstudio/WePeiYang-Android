@@ -38,9 +38,6 @@ class DishActivity : AppCompatActivity() {
     private lateinit var ratingBar: RatingBar
     private var foodId: Int = 0
     private var labelList: MutableList<String> = mutableListOf()
-        set(value) {
-            labelAdapter.notifyDataSetChanged()
-        }
     private lateinit var labelAdapter: LabelAdapter
     private var commentList: MutableList<Comment> = mutableListOf()
         set(value) {

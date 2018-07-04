@@ -3,10 +3,7 @@ package com.twtstudio.service.dishesreviews.home.view.viewholders
 import android.arch.lifecycle.LifecycleOwner
 import android.content.Intent
 import android.view.View
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.RatingBar
-import android.widget.TextView
+import android.widget.*
 import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
 import com.twtstudio.service.dishesreviews.R
 import com.twtstudio.service.dishesreviews.base.BaseItemViewHolder
@@ -27,6 +24,7 @@ class ReviewViewHolder(itemView: View, lifecycleOwner: LifecycleOwner) : BaseIte
     private val iv4 = itemView.findViewById<ImageView>(R.id.iv_4)
     private val ratingBar = itemView.findViewById<RatingBar>(R.id.ratingbar_evaluate)
     private val llImages = itemView.findViewById<LinearLayout>(R.id.ll_images)
+    private val rlReview = itemView.findViewById<RelativeLayout>(R.id.rl_review)
     fun bind(comment: GoodComment) {
         if (comment.comment_is_anonymous == 0)
             tvUserName.text = "匿名"
@@ -44,8 +42,8 @@ class ReviewViewHolder(itemView: View, lifecycleOwner: LifecycleOwner) : BaseIte
             iv4.displayImage(itemView.context, comment.picture_address4)
         } else llImages.visibility = View.GONE
         ratingBar.rating = comment.food_score.toFloat()
-        ivDish.setOnClickListener {
-            startDishActivity(comment.food_id) //test
+        rlReview.setOnClickListener {
+            startDishActivity(comment.food_id)
         }
     }
 

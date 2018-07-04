@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
 import com.twtstudio.service.dishesreviews.R
 import com.twtstudio.service.dishesreviews.base.BaseListAdapter
+import com.twtstudio.service.dishesreviews.model.Food
 import com.twtstudio.service.dishesreviews.search.view.viewholders.SearchResultViewHolder
 
 class SearchResultAdapter(list: List<Any>, context: Context, owner: LifecycleOwner) : BaseListAdapter(list, context, owner) {
@@ -14,6 +15,6 @@ class SearchResultAdapter(list: List<Any>, context: Context, owner: LifecycleOwn
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-
+        (holder as SearchResultViewHolder).bind(list.get(position) as Food)
     }
 }

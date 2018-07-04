@@ -16,10 +16,17 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
-        <android.support.v7.widget.SearchView
-            android:id="@+id/sv"
+        <AutoCompleteTextView
+            android:id="@+id/et_search"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:hint="search"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:textColor="@color/white_color"
+            android:textColorHint="@color/white_color"
+            android:completionThreshold="1"
+            android:textCursorDrawable="@null" />
     </android.support.v7.widget.Toolbar>
     <TextView
         android:id="@+id/tv_result"
