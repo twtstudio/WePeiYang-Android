@@ -8,12 +8,13 @@ import com.twtstudio.service.dishesreviews.R
 import org.jetbrains.anko.coroutines.experimental.asReference
 
 val DISH_IMAGE_BASE_URL = "https://open.twtstudio.com/api/v1/food/picture?pictureAddress="
-fun ImageView.displayImage(context: Context, path: String?, scaleType: ImageView.ScaleType = ImageView.ScaleType.CENTER_INSIDE) {
+fun ImageView.displayImage(context: Context?, path: String?, scaleType: ImageView.ScaleType = ImageView.ScaleType.CENTER_INSIDE,
+                           errorImgResID: Int = R.color.white, placeholderResId: Int = R.drawable.dishes_reviews_placeholder) {
     Glide.with(context)
             .load(DISH_IMAGE_BASE_URL + path)
             .asBitmap()
-            .placeholder(R.drawable.dishes_reviews_placeholder)
-            .error(R.color.white)
+            .placeholder(placeholderResId)
+            .error(errorImgResID)
             .into(this)
     this.apply {
         this.scaleType = scaleType

@@ -5,7 +5,7 @@ import com.twt.wepeiyang.commons.experimental.network.CommonBody
 import com.twtstudio.service.dishesreviews.model.DishesSearchBean
 import com.twtstudio.service.dishesreviews.model.DishesService
 
-object SearchSevice {
+object SearchProvider {
     private lateinit var dishesBeanLiveData: RefreshableLiveData<DishesSearchBean, CacheIndicator>
     fun search(keyWord: String): RefreshableLiveData<DishesSearchBean, CacheIndicator> {
         val searchBeanLocalData = Cache.hawk<DishesSearchBean>("DishesSearch")

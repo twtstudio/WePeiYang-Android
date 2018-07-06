@@ -16,7 +16,7 @@ import android.widget.TextView
 import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
 import com.twtstudio.service.dishesreviews.R
 import com.twtstudio.service.dishesreviews.model.Food
-import com.twtstudio.service.dishesreviews.search.model.SearchSevice
+import com.twtstudio.service.dishesreviews.search.model.SearchProvider
 import com.twtstudio.service.dishesreviews.search.view.adapters.SearchResultAdapter
 
 class SearchActivity : AppCompatActivity() {
@@ -49,21 +49,18 @@ class SearchActivity : AppCompatActivity() {
         etSearch.setDropDownBackgroundResource(R.color.white)
         //TODO 数据量大了以后的性能问题
         //通过网络获取所有菜名
-        SearchSevice.search(etSearch.text.toString()).bindNonNull(this@SearchActivity) {
+        SearchProvider.search(etSearch.text.toString()).bindNonNull(this@SearchActivity) {
             setFoodNameArray(it.searchResult) //初始化搜索建议
+        }
+        etSearch.setOnItemClickListener { adapterView, view, i, l ->
+            search(etSearch.text.toString())
         }
         etSearch.setOnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 etSearch.clearFocus();
                 val manager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                 manager.hideSoftInputFromWindow(etSearch.windowToken, 0)
-                SearchSevice.search(etSearch.text.toString()).bindNonNull(this) {
-                    resultNo = it.searchResult.size
-                    tvResult.text = "搜索结果—共${resultNo}条"
-                    resultList.clear()
-                    resultList.addAll(it.searchResult)
-                    this@SearchActivity.adapter.notifyDataSetChanged()
-                }
+                search(etSearch.text.toString())
                 return@setOnEditorActionListener true
             }
             return@setOnEditorActionListener false
@@ -85,6 +82,15 @@ class SearchActivity : AppCompatActivity() {
 
     }
 
+    private fun search(keyWord: String) {
+        SearchProvider.search(keyWord).bindNonNull(this) {
+            resultNo = it.searchResult.size
+            tvResult.text = "搜索结果—共${resultNo}条"
+            resultList.clear()
+            resultList.addAll(it.searchResult)
+            this@SearchActivity.adapter.notifyDataSetChanged()
+        }
+    }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.dishes_reviews_menu_search_toolbar, menu)
         return true

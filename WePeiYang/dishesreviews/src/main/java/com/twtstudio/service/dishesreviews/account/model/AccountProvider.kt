@@ -6,12 +6,13 @@ import com.twtstudio.service.dishesreviews.model.DishesAccountBean
 import com.twtstudio.service.dishesreviews.model.DishesService
 
 object AccountProvider {
+    lateinit var dishesBeanLiveData: RefreshableLiveData<DishesAccountBean, CacheIndicator>
     fun getAccount(userId: String): RefreshableLiveData<DishesAccountBean, CacheIndicator> {
         val accountBeanLocalData = Cache.hawk<DishesAccountBean>("DishesAccount")
         val accountBeanRemote = Cache.from {
             DishesService.getAccount(userId)
         }.map(CommonBody<DishesAccountBean>::data)
-        val dishesBeanLiveData = RefreshableLiveData.use(accountBeanLocalData, accountBeanRemote)
+        dishesBeanLiveData = RefreshableLiveData.use(accountBeanLocalData, accountBeanRemote)
         return dishesBeanLiveData
     }
 }

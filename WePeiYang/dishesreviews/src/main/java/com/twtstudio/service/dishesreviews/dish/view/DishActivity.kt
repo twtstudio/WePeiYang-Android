@@ -22,6 +22,7 @@ import com.twtstudio.service.dishesreviews.extensions.displayImage
 import com.twtstudio.service.dishesreviews.model.Comment
 import com.twtstudio.service.dishesreviews.model.FoodMark
 import com.twtstudio.service.dishesreviews.share.ShareActivity
+import org.jetbrains.anko.image
 
 
 class DishActivity : AppCompatActivity() {
@@ -31,7 +32,11 @@ class DishActivity : AppCompatActivity() {
     private lateinit var rvComment: RecyclerView
     private lateinit var llComment: LinearLayout
     private lateinit var llShare: LinearLayout
+    private lateinit var llLove: LinearLayout
+    private lateinit var llCollect: LinearLayout
     private lateinit var ivBg: ImageView
+    private lateinit var ivCollect: ImageView
+    private lateinit var ivLove: ImageView
     private lateinit var tvDishName: TextView
     private lateinit var tvLocation: TextView
     private lateinit var tvPrice: TextView
@@ -39,10 +44,9 @@ class DishActivity : AppCompatActivity() {
     private var foodId: Int = 0
     private var labelList: MutableList<String> = mutableListOf()
     private lateinit var labelAdapter: LabelAdapter
+    private var isCollect = false
+    private var isLove = false
     private var commentList: MutableList<Comment> = mutableListOf()
-        set(value) {
-            commentAdapter.notifyDataSetChanged()
-        }
     private lateinit var commentAdapter: CommentAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,6 +85,8 @@ class DishActivity : AppCompatActivity() {
             commentAdapter = CommentAdapter(commentList, this@DishActivity, this@DishActivity)
             adapter = commentAdapter
         }
+        ivCollect = findViewById(R.id.iv_collect)
+        ivLove = findViewById(R.id.iv_love)
         llComment = findViewById<LinearLayout>(R.id.ll_comment).apply {
             setOnClickListener {
                 val intent = Intent(this@DishActivity, EvaluateActivity::class.java)
@@ -91,23 +97,30 @@ class DishActivity : AppCompatActivity() {
         llShare = findViewById<LinearLayout>(R.id.ll_share).apply {
             setOnClickListener {
                 val intent = Intent(this@DishActivity, ShareActivity::class.java)
+                intent.putExtra("FoodId", foodId)
                 startActivity(intent)
             }
         }
-        DishesFoodProvider.getDishesFood(foodId, this)
-        DishesFoodProvider.dishBeanLiveData.bindNonNull(this) {
-            tvTitle.text = it.foodInfo.food_name
-            tvDishName.text = it.foodInfo.food_name
-            tvLocation.text = it.foodInfo.canteen_name
-            tvPrice.text = "￥" + it.foodInfo.food_price
-            ivBg.displayImage(this, it.foodInfo.food_picture_address, ImageView.ScaleType.CENTER_CROP)
-            setTag(it.foodMark)
-            commentList.clear()
-            commentList.addAll(it.comment)
-            commentAdapter.notifyDataSetChanged()
-            labelAdapter.notifyDataSetChanged()
-            ratingBar.rating = it.foodInfo.food_score.toFloat()
+        llCollect = findViewById(R.id.ll_collect)
+        llCollect.apply {
+            setOnClickListener {
+                //                DishesFoodProvider.collectFood(foodId,,this@DishActivity)
+                DishesFoodProvider.dishCollectLiveData.bindNonNull(this@DishActivity) {
+                    isCollect = !isCollect
+                    this@DishActivity.setCollectStatus()
+                }
+
+            }
         }
+        llLove = findViewById(R.id.ll_love)
+        llLove.apply {
+            setOnClickListener {
+                isLove = !isLove
+                this@DishActivity.setLoveStatus()
+            }
+        }
+
+
 
     }
 
@@ -139,6 +152,43 @@ class DishActivity : AppCompatActivity() {
             commentList.add(Comment(commenter_name = "John", comment_is_anonymous = 1))
             if (i < 3)
                 labelList.add("服务好")
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        refresh()
+    }
+
+    private fun setCollectStatus() {
+        if (!isCollect)
+            ivCollect.image = getDrawable(R.drawable.dishes_reviews_action_collect)
+        else ivCollect.image = getDrawable(R.drawable.dishes_reviews_action_collect_selected)
+    }
+
+    private fun setLoveStatus() {
+        if (!isLove)
+            ivLove.image = getDrawable(R.drawable.dishes_reviews_action_love)
+        else ivLove.image = getDrawable(R.drawable.dishes_reviews_action_love_selected)
+    }
+
+    private fun refresh() {
+        DishesFoodProvider.getDishesFood(foodId, this).bindNonNull(this) {
+            tvTitle.text = it.foodInfo.food_name
+            tvDishName.text = it.foodInfo.food_name
+            tvLocation.text = it.foodInfo.canteen_name
+            tvPrice.text = "￥" + it.foodInfo.food_price
+            ivBg.displayImage(this, it.foodInfo.food_picture_address, ImageView.ScaleType.CENTER_CROP)
+            setTag(it.foodMark)
+            commentList.clear()
+            commentList.addAll(it.comment)
+            commentAdapter.notifyDataSetChanged()
+            labelAdapter.notifyDataSetChanged()
+            ratingBar.rating = it.foodInfo.food_score.toFloat()
+            isCollect = it.isCollectedFood
+            isLove = it.isPraisedFood
+            setCollectStatus()
+            setLoveStatus()
         }
     }
 }

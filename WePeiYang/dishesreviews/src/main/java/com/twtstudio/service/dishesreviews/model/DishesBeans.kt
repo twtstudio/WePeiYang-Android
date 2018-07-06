@@ -471,19 +471,19 @@ data class DishesLikeBean(
 /////////////////////////////////////收藏菜品/////////////////////////////////////
 
 //api有问题
-//data class DishesCollectBean(
-//		val error_code: Int = 0, //-1
-//		val message: String = "",
-//		val data: List<Data> = listOf()
-//)
-//
-//data class Data(
-//		val user_id: String = "", //2
-//		val food_id: String = "", //11
-//		val updated_at: String = "", //2018-05-03 21:06:01
-//		val created_at: String = "", //2018-05-03 21:06:01
-//		val collect_id: Int = 0 //10
-//)
+data class DishesCollectBean(
+        val error_code: Int = 0, //-1
+        val message: String = "",
+        val data: List<Data> = listOf()
+)
+
+data class Data(
+        val user_id: String = "", //2
+        val food_id: String = "", //11
+        val updated_at: String = "", //2018-05-03 21:06:01
+        val created_at: String = "", //2018-05-03 21:06:01
+        val collect_id: Int = 0 //10
+)
 /////////////////////////////////////收藏菜品/////////////////////////////////////
 
 /////////////////////////////////////个人主页 我的评论/////////////////////////////////////

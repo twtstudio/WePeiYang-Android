@@ -27,7 +27,7 @@ interface DishesService {
 
     @FormUrlEncoded
     @POST("v1/food/comment")
-    fun evaluate(@FieldMap fields: Map<String, String>): Deferred<CommonBody<DishesEvaluateBean>>
+    fun evaluate(@FieldMap fields: @JvmSuppressWildcards Map<String, Any>): Deferred<CommonBody<DishesEvaluateBean>>
 
     @FormUrlEncoded
     @POST("v1/food/food/create")
@@ -38,10 +38,13 @@ interface DishesService {
     fun likeFood(@Field("foodId") foodId: Int): Deferred<CommonBody<DishesLikeBean>>
 
     //api有问题
-//    @FormUrlEncoded
-//    @PUT("/apiv1/food/food/collect")
-//    fun collectFood(@Field("foodId") foodId: Int, @Field("userId") userId: Int): Deferred<CommonBody<Dishc>>
+    @FormUrlEncoded
+    @PUT("/apiv1/food/food/collect")
+    fun collectFood(@Field("foodId") foodId: Int, @Field("userId") userId: Int): Deferred<CommonBody<DishesCollectBean>>
 
+    @FormUrlEncoded
+    @PUT("/apiv1/food/food/collect/delete")
+    fun deleteCollectedFood(@Field("foodId") foodId: Int, @Field("userId") userId: Int): Deferred<CommonBody<String>>
     @FormUrlEncoded
     @DELETE("v1/food/food/delete")
     fun deleteFood(@Field("foodId") foodId: Int): Deferred<CommonBody<String>>

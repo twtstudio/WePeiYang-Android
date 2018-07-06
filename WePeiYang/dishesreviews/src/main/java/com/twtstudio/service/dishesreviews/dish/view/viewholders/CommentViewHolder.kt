@@ -22,7 +22,10 @@ class CommentViewHolder(itemView: View, lifecycleOwner: LifecycleOwner) : BaseIt
     private val ratingBar = itemView.findViewById<RatingBar>(R.id.ratingbar_evaluate)
     private val llImages = itemView.findViewById<LinearLayout>(R.id.ll_images)
     fun bind(comment: Comment) {
-        tvUserName.text = comment.commenter_name
+        if (comment.comment_is_anonymous == 1)
+            tvUserName.text = "匿名"
+        else
+            tvUserName.text = comment.commenter_name
         tvDate.text = comment.updated_at
         if (comment.picture_address1 != null) {
             iv1.displayImage(itemView.context, comment.picture_address1)

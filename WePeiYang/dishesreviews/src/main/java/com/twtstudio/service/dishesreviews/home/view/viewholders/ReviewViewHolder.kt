@@ -26,7 +26,7 @@ class ReviewViewHolder(itemView: View, lifecycleOwner: LifecycleOwner) : BaseIte
     private val llImages = itemView.findViewById<LinearLayout>(R.id.ll_images)
     private val rlReview = itemView.findViewById<RelativeLayout>(R.id.rl_review)
     fun bind(comment: GoodComment) {
-        if (comment.comment_is_anonymous == 0)
+        if (comment.comment_is_anonymous == 1)
             tvUserName.text = "匿名"
         else tvUserName.text = comment.commenter_name
         tvDishName.text = comment.food_name
