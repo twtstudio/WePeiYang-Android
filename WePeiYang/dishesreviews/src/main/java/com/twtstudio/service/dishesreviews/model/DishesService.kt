@@ -3,6 +3,8 @@ package com.twtstudio.service.dishesreviews.model
 import com.twt.wepeiyang.commons.experimental.network.CommonBody
 import com.twt.wepeiyang.commons.experimental.network.ServiceFactory
 import kotlinx.coroutines.experimental.Deferred
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.http.*
 
 /**
@@ -25,9 +27,9 @@ interface DishesService {
     @GET("v1/food/user/my_comment")
     fun getAccount(@Query("userId") userId: String): Deferred<CommonBody<DishesAccountBean>>
 
-    @FormUrlEncoded
+    @Multipart
     @POST("v1/food/comment")
-    fun evaluate(@FieldMap fields: @JvmSuppressWildcards Map<String, Any>): Deferred<CommonBody<DishesEvaluateBean>>
+    fun evaluate(@PartMap fields: @JvmSuppressWildcards Map<String, RequestBody>, @Part files: List<MultipartBody.Part>): Deferred<CommonBody<DishesEvaluateBean>>
 
     @FormUrlEncoded
     @POST("v1/food/food/create")

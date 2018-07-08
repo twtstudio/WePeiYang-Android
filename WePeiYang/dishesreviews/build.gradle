@@ -34,6 +34,7 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     implementation 'com.google.zxing:core:3.3.3'
     implementation 'com.youth.banner:banner:1.4.10'
+    implementation 'com.zhihu.android:matisse:0.5.1'
     [*supportLibraries, 'constraint-layout', *archLibraries, 'kotlin-stdlib', 'kotlinx-coroutines', 'anko'].each {
         implementation dependenciesMap[it]
     }

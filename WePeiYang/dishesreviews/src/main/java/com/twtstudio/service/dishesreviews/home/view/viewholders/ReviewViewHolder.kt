@@ -35,12 +35,10 @@ class ReviewViewHolder(itemView: View, lifecycleOwner: LifecycleOwner) : BaseIte
         DishesFoodProvider.getDishesFood(comment.food_id).bindNonNull(lifecycleOwner) {
             ivDish.displayImage(itemView.context, it.foodInfo.food_picture_address, ImageView.ScaleType.CENTER_CROP)
         }
-        if (comment.picture_address1 != null) {
-            iv1.displayImage(itemView.context, comment.picture_address1)
-            iv2.displayImage(itemView.context, comment.picture_address2)
-            iv3.displayImage(itemView.context, comment.picture_address3)
-            iv4.displayImage(itemView.context, comment.picture_address4)
-        } else llImages.visibility = View.GONE
+        iv1.displayImage(itemView.context, comment.picture_address1)
+        iv2.displayImage(itemView.context, comment.picture_address2)
+        iv3.displayImage(itemView.context, comment.picture_address3)
+        iv4.displayImage(itemView.context, comment.picture_address4)
         ratingBar.rating = comment.food_score.toFloat()
         rlReview.setOnClickListener {
             startDishActivity(comment.food_id)

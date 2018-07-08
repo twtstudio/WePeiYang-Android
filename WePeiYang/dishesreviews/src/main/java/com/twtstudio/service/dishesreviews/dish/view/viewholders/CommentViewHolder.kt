@@ -27,12 +27,10 @@ class CommentViewHolder(itemView: View, lifecycleOwner: LifecycleOwner) : BaseIt
         else
             tvUserName.text = comment.commenter_name
         tvDate.text = comment.updated_at
-        if (comment.picture_address1 != null) {
-            iv1.displayImage(itemView.context, comment.picture_address1)
-            iv2.displayImage(itemView.context, comment.picture_address2)
-            iv3.displayImage(itemView.context, comment.picture_address3)
-            iv4.displayImage(itemView.context, comment.picture_address4)
-        } else llImages.visibility = View.GONE
+        iv1.displayImage(itemView.context, comment.picture_address1)
+        iv2.displayImage(itemView.context, comment.picture_address2)
+        iv3.displayImage(itemView.context, comment.picture_address3)
+        iv4.displayImage(itemView.context, comment.picture_address4)
         tvComment.text = comment.comment_content
         ratingBar.rating = comment.food_score.toFloat()
     }

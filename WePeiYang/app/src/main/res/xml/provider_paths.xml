@@ -1,7 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<paths xmlns:android="http://schemas.android.com/apk/res/android">
+<paths>
     <!-- /storage/emulated/0/Download/${applicationId}/.beta/apk-->
     <external-path name="beta_external_path" path="Download/"/>
     <!--/storage/emulated/0/Android/data/${applicationId}/files/apk/-->
     <external-path name="beta_external_files_path" path="Android/data/"/>
+
+    <!--供菜品点评评论时拍照用-->
+    <!--代表外部存储区域的根目录下的文件 Environment.getExternalStorageDirectory()/DCIM/camerademo目录-->
+    <external-path
+        name="mq_DCIM"
+        path="DCIM/camerademo" />
+    <!--代表外部存储区域的根目录下的文件 Environment.getExternalStorageDirectory()/Pictures/camerademo目录-->
+    <external-path
+        name="mq_Pictures"
+        path="Pictures/WePeiYang" />
+    <!--代表app 私有的存储区域 Context.getFilesDir()目录下的images目录 /data/user/0/com.hm.camerademo/files/images-->
+    <files-path
+        name="mq_private_files"
+        path="images" />
+    <!--代表app 私有的存储区域 Context.getCacheDir()目录下的images目录 /data/user/0/com.hm.camerademo/cache/images-->
+    <cache-path
+        name="mq_private_cache"
+        path="images" />
+    <!--代表app 外部存储区域根目录下的文件 Context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)目录下的Pictures目录-->
+    <external-files-path
+        name="mq_external_files"
+        path="Pictures" />
+    <!--代表app 外部存储区域根目录下的文件 Context.getExternalCacheDir目录下的images目录-->
+    <external-cache-path
+        name="mq_external_cache"
+        path="" />
+    <root-path
+        name="mq_external_cache"
+        path="" />
+
 </paths>
