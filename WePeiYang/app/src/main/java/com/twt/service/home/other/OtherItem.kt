@@ -12,6 +12,7 @@ import com.twt.wepeiyang.commons.ui.rec.HomeItem
 import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemController
 import com.twtstudio.retrox.bike.bike.ui.main.BikeActivity
+import com.twtstudio.service.tjwhm.exam.ExamHomeActivity
 import com.twtstudio.tjliqy.party.ui.home.PartyActivity
 import org.jetbrains.anko.*
 
@@ -49,6 +50,9 @@ class OtherItem : Item {
                 }
                 addItem("新闻", "查看天外天新闻") {
                     it.context.startActivity<FragmentActivity>("frag" to "News")
+                }
+                addItem("题库","快来刷题吧！"){
+                    it.context.startActivity<ExamHomeActivity>()
                 }
             }
         }

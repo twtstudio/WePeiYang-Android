@@ -86,8 +86,10 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}"
 
         //classpath 'com.antfortune.freeline:gradle:0.7.2'
+        }
+
+
     }
-}
 
 allprojects {
     repositories {
