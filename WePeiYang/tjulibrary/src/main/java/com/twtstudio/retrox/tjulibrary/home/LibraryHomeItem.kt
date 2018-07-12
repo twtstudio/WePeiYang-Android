@@ -90,7 +90,7 @@ class LibraryHomeItem(val owner: LifecycleOwner) : Item {
             }
         }
 
-        fun MutableList<Item>.book(book: Book) = add(BookItem(book))
+        private fun MutableList<Item>.book(book: Book) = add(BookItem(book))
 
         private class MyViewHolder(itemView: View, val homeItem: HomeItem, val recyclerView: RecyclerView) : RecyclerView.ViewHolder(itemView)
 
@@ -134,16 +134,16 @@ class BookItem(val book: Book) : Item {
         }
 
         private class ViewHolder(itemView: View, val bookName: TextView, val colorCircleView: ColorCircleView, val bookReturn: TextView) : RecyclerView.ViewHolder(itemView) {
-            val rootView get() = itemView
+            val rootView: View get() = itemView
         }
     }
 
     override fun areItemsTheSame(newItem: Item): Boolean = areContentsTheSame(newItem)
 
     override fun areContentsTheSame(newItem: Item): Boolean {
-        if (newItem is BookItem) {
-            return newItem.book == book
-        } else return false
+        return if (newItem is BookItem) {
+            newItem.book == book
+        } else false
     }
 
     override val controller: ItemController

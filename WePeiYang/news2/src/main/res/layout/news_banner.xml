@@ -1,21 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:id="@+id/news_banner_layout"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <com.zhouwei.mzbanner.MZBannerView
-        android:clickable="false"
         android:id="@+id/news_banner"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_marginTop="10dp"
-        app:open_mz_mode="false"
-        app:middle_page_cover="false"
+        android:clickable="false"
         app:canLoop="true"
         app:indicatorAlign="center"
-        />
+        app:middle_page_cover="false"
+        app:open_mz_mode="false" />
 
 </LinearLayout>

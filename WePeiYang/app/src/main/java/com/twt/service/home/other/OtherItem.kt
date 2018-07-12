@@ -41,13 +41,13 @@ class OtherItem : Item {
             }
             val layout = holder.linearLayout as _LinearLayout
             layout.apply {
-                addItem("学生党建", "微北洋党建功能") {
+                addItem("学生党建", "微北洋党建模块") {
                     it.context.startActivity<PartyActivity>()
                 }
                 addItem("自行车", "进入自行车功能") {
                     it.context.startActivity<BikeActivity>()
                 }
-                addItem("新闻", "查看微北洋新闻") {
+                addItem("新闻", "查看天外天新闻") {
                     it.context.startActivity<FragmentActivity>("frag" to "News")
                 }
             }
