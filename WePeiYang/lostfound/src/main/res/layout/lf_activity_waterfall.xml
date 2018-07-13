@@ -81,7 +81,9 @@
         <android.support.v4.view.ViewPager
             android:id="@+id/waterfall_pager"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true" />
 
         <TextView
             android:layout_below="@id/waterfall_cardview_types"
