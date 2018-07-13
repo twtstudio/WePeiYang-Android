@@ -26,6 +26,9 @@ class MyListActivity : AppCompatActivity() {
         val mylist_pager: ViewPager = findViewById(R.id.mylist_pager)
 
         val mylist_tabLayout: TabLayout = findViewById(R.id.mylist_tabLayout)
+        val mylistPagerAdapter = MylistPagerAdapter(supportFragmentManager)
+//        mylistPagerAdapter.add()
+        mylist_pager.adapter = mylistPagerAdapter
         mylist_tabLayout.setupWithViewPager(mylist_pager)
         mylist_tabLayout.tabGravity = TabLayout.GRAVITY_FILL
         mylist_tabLayout.setSelectedTabIndicatorColor(Color.parseColor("#00a1e9"))

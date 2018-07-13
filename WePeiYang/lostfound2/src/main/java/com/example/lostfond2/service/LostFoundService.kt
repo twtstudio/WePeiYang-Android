@@ -17,10 +17,10 @@ interface LostFoundService {
     fun getDetailed(@Path("id") id: Int): Deferred<CommonBody<DetailData>>
 
     @GET("/lostfound/search")
-    fun getSearch(@Query("keyword") keyword: String, @Query("page") page: Int): Deferred<CommonBody<List<Data>>>
+    fun getSearch(@Query("keyword") keyword: String, @Query("page") page: Int): Deferred<CommonBody<List<MyListDataOrSearchBean>>>
 
     @GET("/lostfound/user/{lostOrFound}")
-    fun getMyList(@Path("lostOrFound") lostOrFound: String, @Query("page") page: Int): Deferred<CommonBody<List<Data>>>
+    fun getMyList(@Path("lostOrFound") lostOrFound: String, @Query("page") page: Int): Deferred<CommonBody<List<MyListDataOrSearchBean>>>
 
     @GET("lostfound/inverse/{id}")
     fun turnStatus(@Path("id") id: String): Deferred<CommonBody<InverseID>>
@@ -28,24 +28,24 @@ interface LostFoundService {
 
     @FormUrlEncoded
     @POST("/lostfound/{lostOrFound}")
-    fun updateRelease(@FieldMap map: Map<String, Any>, @Path("lostOrFound") lostOrFound: String): Deferred<CommonBody<List<Data>>>
+    fun updateRelease(@FieldMap map: Map<String, Any>, @Path("lostOrFound") lostOrFound: String): Deferred<CommonBody<List<MyListDataOrSearchBean>>>
 
     @Multipart
     @POST("lostfound/{lostOrFound}")
     fun updateReleaseWithPic(@Path("lostOrFound") lostOrFound: String,
-                             @Part partList: List<MultipartBody.Part>): Deferred<CommonBody<List<Data>>>
+                             @Part partList: List<MultipartBody.Part>): Deferred<CommonBody<List<MyListDataOrSearchBean>>>
 
     @POST("lostfound/edit/{lostOrFound}/{id}")
     @FormUrlEncoded
     fun updateEdit(@FieldMap map: Map<String, Any>,
                    @Path("lostOrFound") lostOrFound: String,
-                   @Path("id") id: String): Deferred<CommonBody<List<Data>>>
+                   @Path("id") id: String): Deferred<CommonBody<List<MyListDataOrSearchBean>>>
 
     @POST("lostfound/edit/{lostOrFound}/{id}")
     @Multipart
     fun updateEditWithPic(@Path("lostOrFound") lostOrFound: String,
                           @Path("id") id: String,
-                          @Part partList: List<MultipartBody.Part>): Deferred<CommonBody<List<Data>>>
+                          @Part partList: List<MultipartBody.Part>): Deferred<CommonBody<List<MyListDataOrSearchBean>>>
 
     @DELETE("lostfound/{id}")
     fun delete(@Path("id") id: String): Deferred<CommonBody<InverseID>>
@@ -60,7 +60,7 @@ data class Data(
         val title: String,
         val place: String,
         val phone: String,
-        val isback: Boolean,
+        val isback: Int,
         val picture: String
 )
 
@@ -86,4 +86,19 @@ data class InverseID(
         val error_code: Int,
         val message: String,
         val data: String
+)
+
+
+data class MyListDataOrSearchBean(
+
+
+        val id: Int,
+        val name: String,
+        val title: String,
+        val place: String,
+        val time: String,
+        val phone: String,
+        val detail_type: Int,
+        val isback: Int,
+        val picture: String
 )
