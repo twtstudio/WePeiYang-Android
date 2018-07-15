@@ -12,7 +12,7 @@ import com.twt.wepeiyang.commons.ui.rec.HomeItem
 import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemController
 import com.twtstudio.retrox.bike.bike.ui.main.BikeActivity
-import com.twtstudio.service.tjwhm.exam.ExamHomeActivity
+import com.twtstudio.service.tjwhm.exam.home.ExamHomeActivity
 import com.twtstudio.tjliqy.party.ui.home.PartyActivity
 import org.jetbrains.anko.*
 

@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">#edc6cd</color>
+    <color name="colorPrimaryDark">#dfa7b2</color>
+    <color name="colorAccent">#F8749A</color>
+    <color name="examToolbarBlue">#4795F1</color>
+    <color name="examTabLayoutEndColor">#55C4F3</color>
+    <color name="examDividerBlue">#60A9F4</color>
+    <color name="examItemBlue">#45A9FA</color>
+    <color name="examBlackText">#1c1c1c</color>
 </resources>
