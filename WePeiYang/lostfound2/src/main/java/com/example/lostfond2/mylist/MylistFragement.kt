@@ -25,7 +25,7 @@ class MylistFragement : Fragment(), MyListService.MyListView {
 
     lateinit var tableAdapter: MylistTableAdapter
     lateinit var layoutManager: LinearLayoutManager
-    lateinit var mylistBean: CommonBody<MutableList<MyListDataOrSearchBean>>
+    lateinit var mylistBean: MutableList<MyListDataOrSearchBean>
     lateinit var lostOrFound: String
     val mylistPresenter: MyListService.MylistPresenter = MylistPresenterImpl(this)
     var page = 1
@@ -39,16 +39,16 @@ class MylistFragement : Fragment(), MyListService.MyListView {
     }
 
 
-    override fun setMylistData(mylistBean: CommonBody<List<MyListDataOrSearchBean>>) {
+    override fun setMylistData(mylistBean: List<MyListDataOrSearchBean>) {
         if (needClear) {
-            this.mylistBean.data?.clear()
+            this.mylistBean.clear()
         }
-        this.mylistBean.error_code
+
 //        this.mylistBean.message = mylistBean.message
-        mylistBean.data?.let { this.mylistBean.data?.addAll(it) }
+        this.mylistBean.addAll(mylistBean)
 //        tableAdapter.notifyDataSetChanged()
         mylist_progress.visibility = View.GONE
-        if (this.mylistBean.data?.size == 0 && page == 1) {
+        if (this.mylistBean.size == 0 && page == 1) {
             mylist_nodata.visibility = View.VISIBLE
         } else {
             mylist_nodata.visibility = View.GONE

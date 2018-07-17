@@ -21,12 +21,12 @@ import com.twt.wepeiyang.commons.experimental.network.CommonBody
 class MylistTableAdapter : RecyclerView.Adapter<MylistTableAdapter.MylistViewHolder> {
 
 
-    var mylistBean: CommonBody<MutableList<MyListDataOrSearchBean>>
+    var mylistBean: MutableList<MyListDataOrSearchBean>
     var context: FragmentActivity?
     var lostOrFound: String
     var mylistView: MyListService.MyListView
 
-    constructor(mylistBean: CommonBody<MutableList<MyListDataOrSearchBean>>, context: FragmentActivity?, lostOrFound: String, mylistView: MyListService.MyListView) {
+    constructor(mylistBean: MutableList<MyListDataOrSearchBean>, context: FragmentActivity?, lostOrFound: String, mylistView: MyListService.MyListView) {
         this.mylistBean = mylistBean
         this.context = context
         this.lostOrFound = lostOrFound
@@ -64,7 +64,7 @@ class MylistTableAdapter : RecyclerView.Adapter<MylistTableAdapter.MylistViewHol
     }
 
     override fun onBindViewHolder(holder: MylistViewHolder, position: Int) {
-        val (id, _, title, place, time, _, detail_type, isback, picture) = mylistBean.data!!.get(position)
+        val (id, _, title, place, time, _, detail_type, isback, picture) = mylistBean.get(position)
         holder.mylist_item_title.text = title
         holder.mylist_item_type.text = Utils.getType(detail_type)
         holder.mylist_item_time.text = time
@@ -122,7 +122,7 @@ class MylistTableAdapter : RecyclerView.Adapter<MylistTableAdapter.MylistViewHol
         return MylistViewHolder(view)
     }
 
-    override fun getItemCount(): Int = mylistBean.data!!.size
+    override fun getItemCount(): Int = mylistBean.size
 
 
 }

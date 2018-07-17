@@ -1,6 +1,7 @@
 package com.example.lostfond2.service
 
 import com.twt.wepeiyang.commons.experimental.network.CommonBody
+import com.twt.wepeiyang.commons.experimental.network.ServiceFactory
 import kotlinx.coroutines.experimental.Deferred
 import okhttp3.MultipartBody
 import retrofit2.http.*
@@ -8,10 +9,10 @@ import rx.Observable
 
 interface LostFoundService {
     @GET("/lostfound/lost")
-    fun getLost(@Query("page") page: Int, @Query("detail_type") detail_type: Int): Deferred<CommonBody<List<Data>>>
+    fun getLost(@Query("page") page: Int, @Query("detail_type") detail_type: Int): Deferred<CommonBody<List<MyListDataOrSearchBean>>>
 
     @GET("/lostfound/found")
-    fun getFound(@Query("page") page: Int, @Query("detail_type") detail_type: Int): Deferred<CommonBody<List<Data>>>
+    fun getFound(@Query("page") page: Int, @Query("detail_type") detail_type: Int): Deferred<CommonBody<List<MyListDataOrSearchBean>>>
 
     @GET("/lostfound/{id}")
     fun getDetailed(@Path("id") id: Int): Deferred<CommonBody<DetailData>>
@@ -49,6 +50,8 @@ interface LostFoundService {
 
     @DELETE("lostfound/{id}")
     fun delete(@Path("id") id: String): Deferred<CommonBody<InverseID>>
+
+    companion object : LostFoundService by ServiceFactory()
 
 
 }

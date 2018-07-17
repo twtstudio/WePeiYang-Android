@@ -7,14 +7,14 @@ import com.twt.wepeiyang.commons.experimental.network.CommonBody
 interface MyListService {
 
     interface MyListView {
-        fun setMylistData(mylistBean: CommonBody<List<MyListDataOrSearchBean>>)
+        fun setMylistData(mylistBean: List<MyListDataOrSearchBean>)
         fun turnStatus(id: Int)
         fun turnStatusSuccessCallBack()
 
     }
 
     interface MylistPresenter {
-        fun setMylistData(mylistBean: CommonBody<List<MyListDataOrSearchBean>>)
+        fun setMylistData(mylistBean: List<MyListDataOrSearchBean>)
         fun loadMylistData(lostOrFound: String, page: Int)
         fun turnStatus(id: Int)
         fun turnStatuSuccessCallBack(callbackBean: CommonBody<List<MyListDataOrSearchBean>>)
