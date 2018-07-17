@@ -1,5 +1,6 @@
 package com.example.lostfond2.mylist
 
+import com.example.lostfond2.service.InverseID
 import com.example.lostfond2.service.MyListDataOrSearchBean
 import com.twt.wepeiyang.commons.experimental.network.CommonBody
 
@@ -17,7 +18,7 @@ interface MyListService {
         fun setMylistData(mylistBean: List<MyListDataOrSearchBean>)
         fun loadMylistData(lostOrFound: String, page: Int)
         fun turnStatus(id: Int)
-        fun turnStatuSuccessCallBack(callbackBean: CommonBody<List<MyListDataOrSearchBean>>)
+        fun turnStatuSuccessCallBack(callbackBean: InverseID)
 
 
     }

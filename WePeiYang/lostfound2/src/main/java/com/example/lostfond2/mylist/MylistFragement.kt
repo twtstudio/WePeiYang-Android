@@ -73,7 +73,7 @@ class MylistFragement : Fragment(), MyListService.MyListView {
                 if (!isLoading && totalCount < (lastVisibleItem + 2)) {
                     ++page
                     isLoading = true
-                    mylistPresenter.loadMylistData(lostOrFound, page)
+                    MylistPresenterImpl(this@MylistFragement).loadMylistData(lostOrFound, page)
                 }
             }
 
