@@ -11,7 +11,7 @@
         android:layout_height="36dp"
         android:layout_marginStart="41dp"
         android:layout_marginTop="20dp"
-        android:src="@drawable/ic_party"
+        android:src="@drawable/exam_ic_party"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@id/iv_policy"
@@ -32,7 +32,7 @@
         android:id="@+id/iv_policy"
         android:layout_width="36dp"
         android:layout_height="36dp"
-        android:src="@drawable/ic_policy"
+        android:src="@drawable/exam_ic_policy"
         app:layout_constraintLeft_toRightOf="@id/iv_party"
         app:layout_constraintRight_toLeftOf="@id/iv_online"
         app:layout_constraintTop_toTopOf="@+id/iv_party" />
@@ -51,7 +51,7 @@
         android:id="@+id/iv_online"
         android:layout_width="36dp"
         android:layout_height="36dp"
-        android:src="@drawable/ic_online"
+        android:src="@drawable/exam_ic_online"
         app:layout_constraintLeft_toRightOf="@id/iv_policy"
         app:layout_constraintRight_toLeftOf="@id/iv_more"
         app:layout_constraintTop_toTopOf="@id/iv_party" />
@@ -71,7 +71,7 @@
         android:layout_width="36dp"
         android:layout_height="36dp"
         android:layout_marginEnd="41dp"
-        android:src="@drawable/ic_more"
+        android:src="@drawable/exam_ic_more"
         app:layout_constraintLeft_toRightOf="@id/iv_online"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@id/iv_party" />

@@ -8,7 +8,4 @@
         android:angle="270"
         android:endColor="@color/examTabLayoutEndColor"
         android:startColor="@color/examToolbarBlue" />
-    <!--<padding-->
-    <!--android:left="32dp"-->
-    <!--android:right="32dp" />-->
 </shape>

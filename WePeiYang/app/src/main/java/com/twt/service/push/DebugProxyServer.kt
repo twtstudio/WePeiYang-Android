@@ -40,7 +40,8 @@ class DebugProxyServer : EmbedHttpServer(10086) {
         super.handle(method, path, headers, queries, input, response)
         Log.e(TAG, "$method $path $headers $queries")
         val client = ServiceFactory.client
-        val baseUrl = "https://open.twtstudio.com"
+//        val baseUrl = "https://open.twtstudio.com"
+        val baseUrl = "https://"
         var request: Request? = null
         when (method) {
             "GET" -> {

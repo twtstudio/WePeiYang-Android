@@ -8,4 +8,6 @@
     <color name="examDividerBlue">#60A9F4</color>
     <color name="examItemBlue">#45A9FA</color>
     <color name="examBlackText">#1c1c1c</color>
+    <color name="examBlueText">#43aafa</color>
+    <color name="examArrowGrey">#DBDADB</color>
 </resources>

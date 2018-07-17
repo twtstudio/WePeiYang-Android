@@ -29,12 +29,13 @@ class ExamHomeActivity : AppCompatActivity() {
 
         tlHome = findViewById(R.id.tl_home)
         vpHome = findViewById(R.id.vp_home)
-        pagerAdapter.add(Pair(ExamHomeFragment.newInstance(), "首页"))
+        pagerAdapter.add(Pair(ExamHomeFragment.newInstance(), "题库"))
         pagerAdapter.add(Pair(ExamHomeFragment.newInstance(), "我的"))
 
         vpHome.adapter = pagerAdapter
         tlHome.setupWithViewPager(vpHome)
         tlHome.tabGravity = TabLayout.GRAVITY_CENTER
+
 
     }
 }

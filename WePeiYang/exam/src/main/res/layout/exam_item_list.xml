@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tv_list_lesson_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:text="党史党章"
+        android:textColor="@color/examBlackText"
+        android:textSize="20sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/iv_list_expend"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="32dp"
+        android:src="@drawable/exam_ic_chevron_right_24dp"
+        app:layout_constraintBottom_toBottomOf="@id/tv_list_lesson_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_list_lesson_title" />
+
+    <TextView
+        android:id="@+id/tv_enter_practice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/exam_blue_tv_with_boundary_shape"
+        android:text="顺序练习"
+        android:textColor="@color/examBlueText"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/tv_enter_exam"
+        app:layout_constraintTop_toBottomOf="@id/tv_list_lesson_title" />
+
+    <TextView
+        android:id="@+id/tv_enter_exam"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/exam_blue_tv_with_boundary_shape"
+        android:text="模拟考试"
+        android:textColor="@color/examBlueText"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toRightOf="@id/tv_enter_practice"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tv_enter_practice" />
+
+    <View
+        android:id="@+id/v_lesson_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/examArrowGrey"
+        android:paddingTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/tv_enter_exam" />
+</android.support.constraint.ConstraintLayout>
