@@ -18,7 +18,7 @@ import com.twtstudio.service.tjwhm.exam.R
 import kotlinx.android.synthetic.main.exam_item_list.view.*
 import org.jetbrains.anko.layoutInflater
 
-class LessonItem(lifecycleOwner: LifecycleOwner, val context: Context) : Item {
+class LessonItem(val context: Context, val lessonData: LessonData) : Item {
     companion object Controller : ItemController {
         override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
             return LessonViewHolder(parent.context.layoutInflater.inflate(R.layout.exam_item_list, parent, false))
@@ -26,9 +26,11 @@ class LessonItem(lifecycleOwner: LifecycleOwner, val context: Context) : Item {
 
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: Item) {
             holder as LessonViewHolder
+            item as LessonItem
             holder.apply {
                 tvEnterExam?.visibility = View.GONE
                 tvEnterPractice?.visibility = View.GONE
+                tvTitle?.text = item.lessonData.course_name
                 itemView.setOnClickListener {
                     if (isExpand) {
                         tvEnterExam?.apply {
@@ -39,7 +41,6 @@ class LessonItem(lifecycleOwner: LifecycleOwner, val context: Context) : Item {
                                         override fun onAnimationEnd(animation: Animator?) {
                                             visibility = View.GONE
                                         }
-
                                         override fun onAnimationCancel(animation: Animator?) = Unit
                                         override fun onAnimationStart(animation: Animator?) = Unit
                                         override fun onAnimationRepeat(animation: Animator?) = Unit
@@ -52,7 +53,6 @@ class LessonItem(lifecycleOwner: LifecycleOwner, val context: Context) : Item {
                                         override fun onAnimationEnd(animation: Animator?) {
                                             visibility = View.GONE
                                         }
-
                                         override fun onAnimationCancel(animation: Animator?) = Unit
                                         override fun onAnimationStart(animation: Animator?) = Unit
                                         override fun onAnimationRepeat(animation: Animator?) = Unit
@@ -66,8 +66,7 @@ class LessonItem(lifecycleOwner: LifecycleOwner, val context: Context) : Item {
                         tvEnterExam?.apply {
                             visibility = View.VISIBLE
                             alpha = 0f
-                            animate()
-                                    ?.translationYBy(16f)
+                            animate()?.translationYBy(16f)
                                     ?.alpha(1f)
                                     ?.setDuration(200)
                                     ?.setListener(object : Animator.AnimatorListener {
@@ -92,9 +91,7 @@ class LessonItem(lifecycleOwner: LifecycleOwner, val context: Context) : Item {
                         }
                         ivExpend?.animate()
                                 ?.rotation(90.0f)
-
                         isExpand = true
-
                     }
                 }
             }
@@ -115,4 +112,4 @@ class LessonItem(lifecycleOwner: LifecycleOwner, val context: Context) : Item {
     }
 }
 
-fun MutableList<Item>.lessonItem(lifecycleOwner: LifecycleOwner, context: Context) = add(LessonItem(lifecycleOwner, context))
+fun MutableList<Item>.lessonItem(context: Context, lessonData: LessonData) = add(LessonItem(context, lessonData))

@@ -13,7 +13,7 @@
         android:layout_marginTop="16dp"
         android:text="党史党章"
         android:textColor="@color/examBlackText"
-        android:textSize="20sp"
+        android:textSize="16sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
