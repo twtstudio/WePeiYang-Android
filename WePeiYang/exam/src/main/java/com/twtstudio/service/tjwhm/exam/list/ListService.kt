@@ -16,15 +16,15 @@ interface ListService {
     companion object : ListService by ServiceFactoryForExam()
 }
 
-fun getList(classId: String, callback: suspend (RefreshState<ListViewModel>) -> Unit) {
-    launch(UI) {
-        ListService.getClassList(classId).awaitAndHandle {
-            callback(RefreshState.Failure(it))
-        }?.let {
-            callback(RefreshState.Success(it))
+fun getList(classId: String, callback: suspend (RefreshState<ListViewModel>) -> Unit) =
+        launch(UI) {
+            ListService.getClassList(classId).awaitAndHandle {
+                callback(RefreshState.Failure(it))
+            }?.let {
+                callback(RefreshState.Success(it))
+            }
         }
-    }
-}
+
 
 data class ListViewModel(
         val status: Int,

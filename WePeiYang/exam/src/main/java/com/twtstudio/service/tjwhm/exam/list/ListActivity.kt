@@ -11,6 +11,11 @@ import com.twt.wepeiyang.commons.experimental.cache.RefreshState
 import com.twt.wepeiyang.commons.ui.rec.withItems
 import com.twtstudio.service.tjwhm.exam.R
 import es.dmoral.toasty.Toasty
+import android.os.Looper
+import android.os.MessageQueue
+import android.view.View
+import android.widget.ImageView
+
 
 class ListActivity : AppCompatActivity() {
 
@@ -24,16 +29,21 @@ class ListActivity : AppCompatActivity() {
         const val MORE = "more"
     }
 
+    private var statusBarView: View? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.exam_activity_list)
         StatusBarCompat.setStatusBarColor(this@ListActivity, ContextCompat.getColor(this@ListActivity, R.color.examToolbarBlue), true)
-
         rvList = findViewById(R.id.rv_list)
-
-        Toast.makeText(this, intent.getStringExtra(LESSON_TYPE), Toast.LENGTH_SHORT).show()
+        findViewById<ImageView>(R.id.iv_list_back).setOnClickListener { onBackPressed() }
         rvList.apply {
             layoutManager = LinearLayoutManager(this.context)
+        }
+        Looper.myQueue().addIdleHandler {
+            initStatusBar()
+            window.decorView.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ -> initStatusBar() }
+            false
         }
 
         getList(intent.getStringExtra(LESSON_TYPE)) {
@@ -51,6 +61,15 @@ class ListActivity : AppCompatActivity() {
                 }
             }
         }
-
     }
+
+
+    private fun initStatusBar() {
+        if (statusBarView == null) {
+            val identifier = resources.getIdentifier("statusBarBackground", "id", "android")
+            statusBarView = window.findViewById(identifier)
+        }
+        statusBarView?.setBackgroundResource(R.drawable.exam_statusbar_gradient)
+    }
+
 }

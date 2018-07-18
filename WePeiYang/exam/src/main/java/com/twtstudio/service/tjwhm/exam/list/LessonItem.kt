@@ -1,28 +1,20 @@
 package com.twtstudio.service.tjwhm.exam.list
 
 import android.animation.Animator
-import android.animation.ValueAnimator
-import android.arch.lifecycle.LifecycleOwner
 import android.content.Context
 import android.support.v7.widget.RecyclerView
-import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemController
 import com.twtstudio.service.tjwhm.exam.R
-import kotlinx.android.synthetic.main.exam_item_list.view.*
 import org.jetbrains.anko.layoutInflater
 
 class LessonItem(val context: Context, val lessonData: LessonData) : Item {
     companion object Controller : ItemController {
-        override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
-            return LessonViewHolder(parent.context.layoutInflater.inflate(R.layout.exam_item_list, parent, false))
-        }
+        override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder = LessonViewHolder(parent.context.layoutInflater.inflate(R.layout.exam_item_list, parent, false))
 
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: Item) {
             holder as LessonViewHolder
@@ -41,6 +33,7 @@ class LessonItem(val context: Context, val lessonData: LessonData) : Item {
                                         override fun onAnimationEnd(animation: Animator?) {
                                             visibility = View.GONE
                                         }
+
                                         override fun onAnimationCancel(animation: Animator?) = Unit
                                         override fun onAnimationStart(animation: Animator?) = Unit
                                         override fun onAnimationRepeat(animation: Animator?) = Unit
@@ -53,6 +46,7 @@ class LessonItem(val context: Context, val lessonData: LessonData) : Item {
                                         override fun onAnimationEnd(animation: Animator?) {
                                             visibility = View.GONE
                                         }
+
                                         override fun onAnimationCancel(animation: Animator?) = Unit
                                         override fun onAnimationStart(animation: Animator?) = Unit
                                         override fun onAnimationRepeat(animation: Animator?) = Unit
@@ -96,7 +90,6 @@ class LessonItem(val context: Context, val lessonData: LessonData) : Item {
                 }
             }
         }
-
     }
 
     override val controller: ItemController
@@ -108,7 +101,6 @@ class LessonItem(val context: Context, val lessonData: LessonData) : Item {
         val ivExpend: ImageView? = itemView?.findViewById(R.id.iv_list_expend)
         val tvEnterExam: TextView? = itemView?.findViewById(R.id.tv_enter_exam)
         val tvEnterPractice: TextView? = itemView?.findViewById(R.id.tv_enter_practice)
-        val vDivider: View? = itemView?.findViewById(R.id.v_lesson_divider)
     }
 }
 

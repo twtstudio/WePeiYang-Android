@@ -25,9 +25,8 @@ class ExamHomeFragment : Fragment(), View.OnClickListener {
     private lateinit var tvMore: TextView
 
     companion object {
-        fun newInstance(): ExamHomeFragment {
-            return ExamHomeFragment()
-        }
+        fun newInstance(): ExamHomeFragment = ExamHomeFragment()
+
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -71,5 +70,4 @@ class ExamHomeFragment : Fragment(), View.OnClickListener {
             }
         }
     }
-
 }
