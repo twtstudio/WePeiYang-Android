@@ -2,7 +2,7 @@
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="174dp"
+    android:layout_width="170dp"
     android:layout_height="wrap_content"
     android:layout_marginBottom="6dp"
     android:layout_marginLeft="4dp"
@@ -23,25 +23,25 @@
             android:scaleType="fitXY" />
 
         <TextView
-            android:id="@+id/content"
+            android:id="@+id/title_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="2dp"
             android:layout_marginStart="6dp"
             android:text="小阔爱、小鲜花"
             android:textColor="#666666"
-            android:textSize="12sp"
+            android:textSize="16sp"
             app:layout_constraintTop_toBottomOf="@+id/lost_pic" />
 
         <ImageView
             android:id="@+id/thing"
-            android:layout_width="12dp"
-            android:layout_height="12dp"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
             android:layout_marginBottom="4dp"
             android:layout_marginTop="4dp"
             android:src="@drawable/lf_type"
-            app:layout_constraintLeft_toLeftOf="@+id/content"
-            app:layout_constraintTop_toBottomOf="@+id/content" />
+            app:layout_constraintLeft_toLeftOf="@+id/title_content"
+            app:layout_constraintTop_toBottomOf="@+id/title_content" />
 
         <TextView
             android:id="@+id/thing_content"
@@ -49,16 +49,16 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="6dp"
             android:text="水杯"
-            android:textColor="#a7a7a7"
-            android:textSize="10sp"
+            android:textColor="#999999"
+            android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="@+id/thing"
             app:layout_constraintLeft_toRightOf="@+id/thing"
             app:layout_constraintTop_toTopOf="@+id/thing" />
 
         <ImageView
             android:id="@+id/data"
-            android:layout_width="12dp"
-            android:layout_height="12dp"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
             android:layout_marginBottom="4dp"
             android:layout_marginTop="4dp"
             android:src="@drawable/lf_time"
@@ -71,16 +71,16 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="6dp"
             android:text="2017/5/1"
-            android:textColor="#a7a7a7"
-            android:textSize="10sp"
+            android:textColor="#999999"
+            android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="@+id/data"
             app:layout_constraintLeft_toRightOf="@+id/data"
             app:layout_constraintTop_toTopOf="@+id/data" />
 
         <ImageView
             android:id="@+id/location"
-            android:layout_width="12dp"
-            android:layout_height="12dp"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
             android:layout_marginBottom="4dp"
             android:layout_marginTop="4dp"
             android:src="@drawable/lf_place"
@@ -93,8 +93,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="6dp"
             android:text="北洋园-图书馆二楼"
-            android:textColor="#a7a7a7"
-            android:textSize="10sp"
+            android:textColor="#999999"
+            android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="@+id/location"
             app:layout_constraintLeft_toRightOf="@+id/location"
             app:layout_constraintTop_toTopOf="@+id/location" />
