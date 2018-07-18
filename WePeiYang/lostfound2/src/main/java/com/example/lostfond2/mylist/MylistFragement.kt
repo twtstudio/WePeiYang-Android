@@ -12,6 +12,7 @@ import android.widget.ProgressBar
 import com.example.lostfond2.R
 import com.example.lostfond2.service.MyListDataOrSearchBean
 import com.twt.wepeiyang.commons.experimental.network.CommonBody
+import com.twt.wepeiyang.commons.ui.rec.withItems
 
 
 class MylistFragement : Fragment(), MyListService.MyListView {
@@ -30,13 +31,17 @@ class MylistFragement : Fragment(), MyListService.MyListView {
     val mylistPresenter: MyListService.MylistPresenter = MylistPresenterImpl(this)
     var page = 1
 
-    fun newInstance(type: String): MylistFragement {
-        val args = Bundle()
-        args.putString("index", type)
-        val fragment = MylistFragement()
-        fragment.arguments = args
-        return fragment
+    companion object {
+        fun newInstance(type: String): MylistFragement {
+            val args = Bundle()
+            args.putString("index", type)
+            val fragment = MylistFragement()
+            fragment.arguments = args
+            return fragment
+        }
     }
+
+
 
 
     override fun setMylistData(mylistBean: List<MyListDataOrSearchBean>) {
@@ -106,10 +111,19 @@ class MylistFragement : Fragment(), MyListService.MyListView {
         mylist_progress.visibility = View.VISIBLE
 //        mylistBean = MylistBean()   ***蜜汁bug
 //        mylistBean.data = ArrayList()//可能会有bug
-        layoutManager = LinearLayoutManager(activity)
-        mylist_recyclerview.layoutManager = layoutManager
-        tableAdapter = MylistTableAdapter(mylistBean, activity, lostOrFound, this)
-        mylist_recyclerview.adapter = tableAdapter
+//        layoutManager = LinearLayoutManager(activity)
+//        mylist_recyclerview.layoutManager = layoutManager
+//        tableAdapter = MylistTableAdapter(mylistBean, activity, lostOrFound, this)
+//        mylist_recyclerview.adapter = tableAdapter
+//
+//        mylist_recyclerview.layoutManager = LinearLayoutManager(this)
+
+        mylist_recyclerview.withItems {
+            repeat(mylistBean.size) {
+                mylistload(activity, lostOrFound, mylistBean[it], this@MylistFragement)
+            }
+        }
+
     }
 
 

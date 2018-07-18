@@ -17,6 +17,8 @@ import xyz.rickygao.gpa2.service.GpaPreferences
 
 
 class GpaHomeItem(val owner: LifecycleOwner) : Item {
+
+
     companion object Controller : ItemController {
         override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
             val item = HomeItem(parent).apply {

@@ -27,7 +27,8 @@ class MyListActivity : AppCompatActivity() {
 
         val mylist_tabLayout: TabLayout = findViewById(R.id.mylist_tabLayout)
         val mylistPagerAdapter = MylistPagerAdapter(supportFragmentManager)
-//        mylistPagerAdapter.add()
+        mylistPagerAdapter.add(MylistFragement.newInstance("found"), "我捡到的")
+        mylistPagerAdapter.add(MylistFragement.newInstance("lost"), "我丢失的")
         mylist_pager.adapter = mylistPagerAdapter
         mylist_tabLayout.setupWithViewPager(mylist_pager)
         mylist_tabLayout.tabGravity = TabLayout.GRAVITY_FILL
