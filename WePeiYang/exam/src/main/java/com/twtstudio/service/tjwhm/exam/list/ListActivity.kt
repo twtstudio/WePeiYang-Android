@@ -13,13 +13,16 @@ import com.twtstudio.service.tjwhm.exam.R
 import es.dmoral.toasty.Toasty
 import android.os.Looper
 import android.os.MessageQueue
+import android.util.Log
 import android.view.View
+import android.widget.EditText
 import android.widget.ImageView
 
 
 class ListActivity : AppCompatActivity() {
 
     private lateinit var rvList: RecyclerView
+    private lateinit var etSearch: EditText
 
     companion object {
         const val LESSON_TYPE = "lesson_type"
@@ -34,9 +37,13 @@ class ListActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.exam_activity_list)
-        StatusBarCompat.setStatusBarColor(this@ListActivity, ContextCompat.getColor(this@ListActivity, R.color.examToolbarBlue), true)
+
         rvList = findViewById(R.id.rv_list)
+        etSearch = findViewById(R.id.et_search_list)
+        etSearch.visibility = View.GONE
         findViewById<ImageView>(R.id.iv_list_back).setOnClickListener { onBackPressed() }
+        val type = intent.getStringExtra(LESSON_TYPE)
+        if (type == ONLINE) etSearch.visibility = View.VISIBLE
         rvList.apply {
             layoutManager = LinearLayoutManager(this.context)
         }
@@ -46,7 +53,7 @@ class ListActivity : AppCompatActivity() {
             false
         }
 
-        getList(intent.getStringExtra(LESSON_TYPE)) {
+        getList(type) {
             when (it) {
                 is RefreshState.Failure -> {
                     Toasty.error(this@ListActivity, "网络错误", Toast.LENGTH_SHORT).show()
@@ -54,8 +61,12 @@ class ListActivity : AppCompatActivity() {
                 is RefreshState.Success -> {
 
                     rvList.withItems {
+                        Log.d("zzzz", "${it.message.date.size}")
                         for (i in 0 until it.message.date.size) {
                             lessonItem(this@ListActivity, it.message.date[i])
+                            Log.d("zzzz", "$i")
+                            Log.d("zzzz", it.message.date[i].course_name)
+
                         }
                     }
                 }
