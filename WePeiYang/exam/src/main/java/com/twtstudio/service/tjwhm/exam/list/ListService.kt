@@ -13,6 +13,9 @@ interface ListService {
     @GET("class/{classId}")
     fun getClassList(@Path("classId") classId: String): Deferred<ListViewModel>
 
+    @GET("course_search/{key}")
+    fun findClassList(@Path("key") key: String): Deferred<ListViewModel>
+
     companion object : ListService by ServiceFactoryForExam()
 }
 
@@ -25,6 +28,14 @@ fun getList(classId: String, callback: suspend (RefreshState<ListViewModel>) -> 
             }
         }
 
+fun findClass(key: String, callback: suspend (RefreshState<ListViewModel>) -> Unit) =
+        launch(UI) {
+            ListService.findClassList(key).awaitAndHandle {
+                callback(RefreshState.Failure(it))
+            }?.let {
+                callback(RefreshState.Success(it))
+            }
+        }
 
 data class ListViewModel(
         val status: Int,

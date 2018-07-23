@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/ll_problem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tv_problem_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
+            android:background="@drawable/exam_problem_type"
+            android:text="单选"
+            android:textColor="@color/examBlueText"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_problem_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="中国共产党是在哪一年成立的？"
+            android:textColor="@color/examBlackText"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_problem_selections"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:overScrollMode="never"
+        app:layout_constraintTop_toBottomOf="@id/ll_problem">
+
+    </android.support.v7.widget.RecyclerView>
+
+    <ImageView
+        android:id="@+id/iv_star_blank"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="32dp"
+        android:src="@drawable/exam_star_blank"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintLeft_toLeftOf="@id/guideline_vertical_centre"
+        app:layout_constraintRight_toLeftOf="@id/iv_index"
+        app:layout_constraintTop_toBottomOf="@id/rv_problem_selections" />
+
+    <!--<ImageView-->
+    <!--android:id="@+id/iv_star_filled"-->
+    <!--android:layout_width="24dp"-->
+    <!--android:layout_height="24dp"-->
+    <!--android:src="@drawable/exam_star_filled"-->
+    <!--app:layout_constraintBottom_toBottomOf="@id/iv_star_blank"-->
+    <!--app:layout_constraintLeft_toLeftOf="@id/iv_star_blank"-->
+    <!--app:layout_constraintRight_toRightOf="@id/iv_star_blank"-->
+    <!--app:layout_constraintTop_toTopOf="@id/iv_star_blank" />-->
+
+    <ImageView
+        android:id="@+id/iv_index"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="24dp"
+        android:src="@drawable/exam_problem_content_index"
+        app:layout_constraintLeft_toRightOf="@id/iv_star_blank"
+        app:layout_constraintRight_toRightOf="@id/tv_index"
+        app:layout_constraintTop_toTopOf="@id/iv_star_blank" />
+
+    <TextView
+        android:id="@+id/tv_index"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="1/124"
+        android:textColor="@color/examBlackText"
+        app:layout_constraintBottom_toBottomOf="@id/iv_star_blank"
+        app:layout_constraintLeft_toRightOf="@id/iv_index"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/iv_star_blank" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline_vertical_centre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.56" />
+
+    <View
+        android:id="@+id/divider_problem"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/examDividerBlue"
+        app:layout_constraintTop_toBottomOf="@id/iv_star_blank" />
+
+    <TextView
+        android:id="@+id/tv_problem_answer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="答案：B"
+        android:textColor="@color/examBlackText"
+        app:layout_constraintTop_toBottomOf="@id/divider_problem" />
+
+    <!--<TextView-->
+    <!--android:id="@+id/tv_problem_analysis"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginTop="12dp"-->
+    <!--android:text="解析：因为中国共产党是在1921年成立的."-->
+    <!--android:textColor="@color/examBlackText"-->
+    <!--app:layout_constraintLeft_toLeftOf="@id/tv_problem_answer"-->
+    <!--app:layout_constraintTop_toBottomOf="@id/tv_problem_answer" />-->
+
+</android.support.constraint.ConstraintLayout>

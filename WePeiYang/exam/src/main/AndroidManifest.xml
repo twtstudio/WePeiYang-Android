@@ -8,7 +8,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".home.ExamHomeActivity" />
-        <activity android:name=".list.ListActivity"></activity>
+        <activity android:name=".list.ListActivity" />
+        <activity android:name=".problem.ProblemActivity"></activity>
     </application>
 
 </manifest>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".problem.ProblemActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_problem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@drawable/exam_statusbar_gradient">
+
+        <ImageView
+            android:id="@+id/iv_problem_back"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/exam_ic_arrow_back_24dp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/tv_problem_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/exam_not_selected_left"
+                android:text="背题"
+                android:textColor="@color/white_color"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_problem_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/exam_not_selected_right"
+                android:text="答题"
+                android:textColor="@color/white_color"
+                android:textSize="16sp" />
+        </LinearLayout>
+    </android.support.v7.widget.Toolbar>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_problem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/toolbar_problem" />
+</android.support.constraint.ConstraintLayout>
