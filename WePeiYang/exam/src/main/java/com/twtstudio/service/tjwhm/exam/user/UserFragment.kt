@@ -7,6 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
+import com.bumptech.glide.Glide
+import com.twt.wepeiyang.commons.experimental.cache.CacheIndicator
+import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
 import com.twtstudio.service.tjwhm.exam.R
 import de.hdodenhof.circleimageview.CircleImageView
 
@@ -38,6 +41,23 @@ class UserFragment : Fragment() {
         llUserHistory = view.findViewById(R.id.ll_user_history)
         llUserWrong = view.findViewById(R.id.ll_user_wrong)
         llUserStar = view.findViewById(R.id.ll_user_star)
+        examUserLiveData.bindNonNull(this, ::bindExamUserData)
+        examUserLiveData.refresh(CacheIndicator.REMOTE)
         return view
+    }
+
+    private fun bindExamUserData(examUserViewModel: ExamUserViewModel) {
+        examUserViewModel.data.let {
+            Glide.with(context)
+                    .load(it.avatar_url)
+                    .into(civAvatar)
+            tvUserName.text = it.twt_name
+            tvUserTitle.text = it.title.title_name
+
+            // todo: 修改为正确算法
+            tvProblemsNum.text = 163.toString()
+            tvProblemsRadio.text = "95%"
+            tvLessonsNum.text = "2"
+        }
     }
 }
