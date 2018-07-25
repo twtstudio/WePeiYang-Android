@@ -8,47 +8,47 @@ import retrofit2.http.*
 import rx.Observable
 
 interface LostFoundService {
-    @GET("/lostfound/lost")
+    @GET("v1/lostfound/lost")
     fun getLost(@Query("page") page: Int, @Query("detail_type") detail_type: Int): Deferred<CommonBody<List<MyListDataOrSearchBean>>>
 
-    @GET("/lostfound/found")
+    @GET("v1/lostfound/found")
     fun getFound(@Query("page") page: Int, @Query("detail_type") detail_type: Int): Deferred<CommonBody<List<MyListDataOrSearchBean>>>
 
-    @GET("/lostfound/{id}")
+    @GET("v1/lostfound/{id}")
     fun getDetailed(@Path("id") id: Int): Deferred<CommonBody<DetailData>>
 
-    @GET("/lostfound/search")
+    @GET("v1/lostfound/search")
     fun getSearch(@Query("keyword") keyword: String, @Query("page") page: Int): Deferred<CommonBody<List<MyListDataOrSearchBean>>>
 
-    @GET("/lostfound/user/{lostOrFound}")
+    @GET("v1/lostfound/user/{lostOrFound}")
     fun getMyList(@Path("lostOrFound") lostOrFound: String, @Query("page") page: Int): Deferred<CommonBody<List<MyListDataOrSearchBean>>>
 
-    @GET("lostfound/inverse/{id}")
+    @GET("v1/lostfound/inverse/{id}")
     fun turnStatus(@Path("id") id: String): Deferred<CommonBody<InverseID>>
 
 
     @FormUrlEncoded
-    @POST("/lostfound/{lostOrFound}")
+    @POST("v1/lostfound/{lostOrFound}")
     fun updateRelease(@FieldMap map: Map<String, Any>, @Path("lostOrFound") lostOrFound: String): Deferred<CommonBody<List<MyListDataOrSearchBean>>>
 
     @Multipart
-    @POST("lostfound/{lostOrFound}")
+    @POST("v1/lostfound/{lostOrFound}")
     fun updateReleaseWithPic(@Path("lostOrFound") lostOrFound: String,
                              @Part partList: List<MultipartBody.Part>): Deferred<CommonBody<List<MyListDataOrSearchBean>>>
 
-    @POST("lostfound/edit/{lostOrFound}/{id}")
+    @POST("v1/lostfound/edit/{lostOrFound}/{id}")
     @FormUrlEncoded
     fun updateEdit(@FieldMap map: Map<String, Any>,
                    @Path("lostOrFound") lostOrFound: String,
                    @Path("id") id: String): Deferred<CommonBody<List<MyListDataOrSearchBean>>>
 
-    @POST("lostfound/edit/{lostOrFound}/{id}")
+    @POST("v1/lostfound/edit/{lostOrFound}/{id}")
     @Multipart
     fun updateEditWithPic(@Path("lostOrFound") lostOrFound: String,
                           @Path("id") id: String,
                           @Part partList: List<MultipartBody.Part>): Deferred<CommonBody<List<MyListDataOrSearchBean>>>
 
-    @DELETE("lostfound/{id}")
+    @DELETE("v1/lostfound/{id}")
     fun delete(@Path("id") id: String): Deferred<CommonBody<InverseID>>
 
     companion object : LostFoundService by ServiceFactory()

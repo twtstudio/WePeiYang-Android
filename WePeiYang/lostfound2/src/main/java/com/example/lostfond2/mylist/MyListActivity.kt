@@ -22,6 +22,7 @@ class MyListActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         toolbar.title = "我的"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        toolbar.setNavigationOnClickListener { onBackPressed() }
 
         val mylist_pager: ViewPager = findViewById(R.id.mylist_pager)
 

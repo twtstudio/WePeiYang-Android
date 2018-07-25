@@ -7,11 +7,16 @@ import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.view.Window
 import com.example.lostfond2.R
+import com.example.lostfond2.service.DetailData
 import com.example.lostfond2.service.LostFoundService
 import com.example.lostfond2.service.Utils
+import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
+import com.twt.wepeiyang.commons.experimental.network.CommonBody
 import com.twt.wepeiyang.commons.ui.rec.withItems
+import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.launch
 
 class DetailActivity : AppCompatActivity() {
 
@@ -23,36 +28,62 @@ class DetailActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         toolbar.title = "物品详情"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        val bundle : Bundle = intent.extras
-        var id = bundle.getInt("id")
-        var lostOrFound = bundle.getString("lostOrFound")
+        toolbar.setNavigationOnClickListener { onBackPressed() }
+        val bundle: Bundle = intent.extras
+        val id = bundle.getInt("id")
         val recyclerView: RecyclerView = findViewById(R.id.detail_recycler)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        async {
-            val mylist = LostFoundService.getDetailed(id).awaitAndHandle { it.printStackTrace() }?.data
-                ?: throw IllegalStateException("详情拉取失败")
-            recyclerView.withItems{
-                setImage(mylist.picture,this@DetailActivity)
-                setTitle("基本信息")
-                setDetail("标题",mylist.title)
-                setDetail("类型",Utils.getType(mylist.type))
-                setDetail("时间",mylist.time)
-                setDetail("地点",mylist.place)
-                setDetail("失主姓名",mylist.card_name)
-                setDetail("卡号",mylist.card_number)
-                setDetail("领取站点",mylist.place)
-                setTitle("联系信息")
-                setDetail("姓名",mylist.name)
-                setDetail("电话",mylist.phone)
-                setTitle("附加信息")
-                setDetail("附言",mylist.item_description)
+        launch(UI + QuietCoroutineExceptionHandler) {
+            val mylist: CommonBody<DetailData> = LostFoundService.getDetailed(id).await()
+            if (mylist.error_code == -1) {
 
+                val mylist1 = mylist.data!!
+                recyclerView.withItems {
+                    if (mylist1.picture != null) {
+                        setImage(mylist1.picture, this@DetailActivity)
+                    } else {
+                        setImage("julao.jpg", this@DetailActivity)
+                    }
+                    setTitle("基本信息")
+                    if (mylist1.title != null) {
+                        setDetail("标题", mylist1.title)
+                    }
+                    if (mylist1.type != null) {
+                        setDetail("类型", Utils.getType(mylist1.detail_type))
+                    }
+                    if (mylist1.time != null) {
+                        setDetail("时间", mylist1.time)
+                    }
+                    if (mylist1.place != null) {
+                        setDetail("地点", mylist1.place)
+                    }
+                    if (mylist1.card_name != null) {
+                        setDetail("失主姓名", mylist1.card_name)
+                    }
+                    if (mylist1.card_number != null) {
+                        setDetail("卡号", mylist1.card_number)
+                    }
+                    if (mylist1.place != null) {
+                        setDetail("领取站点", mylist1.place)
+                    }
+                    setTitle("联系信息")
+                    if (mylist1.name != null) {
+                        setDetail("姓名", mylist1.name)
+                    }
+                    if (mylist1.phone != null) {
+                        setDetail("电话", mylist1.phone)
+                    }
+                    setDetail("电话", mylist1.phone)
+                    setTitle("附加信息")
+                    if (mylist1.item_description != null) {
+                        setDetail("附言", mylist1.item_description)
+                    }
 
+                }
             }
+
+
         }
-
-
-
 
     }
 }

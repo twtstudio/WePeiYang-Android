@@ -69,11 +69,20 @@ class MylistTableAdapter : RecyclerView.Adapter<MylistTableAdapter.MylistViewHol
         holder.mylist_item_type.text = Utils.getType(detail_type)
         holder.mylist_item_time.text = time
         holder.mylist_item_place.text = place
-        Glide.with(context)
-                .load(Utils.getPicUrl(picture))
-                .asBitmap()
-                .placeholder(R.drawable.lf_waterfall_nopic)
-                .into(holder.mylist_item_pic)
+        if (picture != null) {
+            Glide.with(context)
+                    .load(Utils.getPicUrl(picture))
+                    .placeholder(R.drawable.lf_waterfall_nopic)
+                    .error(R.drawable.lf_waterfall_nopic)
+                    .into(holder.mylist_item_pic)
+        } else {
+            Glide.with(context)
+                    .load(Utils.getPicUrl("julao.jpg"))
+                    .placeholder(R.drawable.lf_waterfall_nopic)
+                    .error(R.drawable.lf_waterfall_nopic)
+                    .into(holder.mylist_item_pic)
+        }
+
 
         if (isback == 1) {
             holder.mylist_item_back_blue.visibility = View.VISIBLE

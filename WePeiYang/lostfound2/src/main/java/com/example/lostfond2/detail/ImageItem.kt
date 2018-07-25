@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.example.lostfond2.R
+import com.example.lostfond2.service.Utils
 import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemController
 import org.jetbrains.anko.layoutInflater
@@ -25,9 +26,12 @@ class ImageItem(val url : String, val  context1 : Activity) : Item {
             holder as ImageItemViewHolder
             item as ImageItem
             Glide.with(item.context1)
-                    .load(item.url)
+                    .load(Utils.getPicUrl(item.url))
                     .placeholder(R.drawable.lf_detail_np)
+                    .error(R.drawable.lf_detail_np)
                     .into(holder.image)
+
+
         }
 
     }

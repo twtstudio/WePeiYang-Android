@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.LinearLayout
+import com.example.lostfond2.waterfall.WaterFallActivity
 import com.twt.service.home.user.FragmentActivity
 import com.twt.wepeiyang.commons.ui.rec.HomeItem
 import com.twt.wepeiyang.commons.ui.rec.Item
@@ -49,6 +50,11 @@ class OtherItem : Item {
                 }
                 addItem("新闻", "查看微北洋新闻") {
                     it.context.startActivity<FragmentActivity>("frag" to "News")
+
+
+                }
+                addItem("失物招领", "失物招领") {
+                    it.context.startActivity<WaterFallActivity>()
                 }
             }
         }

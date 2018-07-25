@@ -5,8 +5,11 @@ import com.example.lostfond2.service.LostFoundService
 import com.example.lostfond2.service.MyListDataOrSearchBean
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
+import com.twt.wepeiyang.commons.experimental.network.CommonBody
 import kotlinx.coroutines.experimental.CommonPool
+import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.launch
 
 class MylistPresenterImpl(mylistView: MyListService.MyListView) : MyListService.MylistPresenter {
     private var mylistView: MyListService.MyListView = mylistView
@@ -17,22 +20,25 @@ class MylistPresenterImpl(mylistView: MyListService.MyListView) : MyListService.
     }
 
     override fun loadMylistData(lostOrFound: String, page: Int) {
-        async(CommonPool + QuietCoroutineExceptionHandler) {
-            val mylist = LostFoundService.getMyList(lostOrFound, page).awaitAndHandle { it.printStackTrace() }?.data
-                    ?: throw IllegalStateException("列表拉取失败")
-            setMylistData(mylist)
+        launch(UI + QuietCoroutineExceptionHandler) {
+            val mylist: CommonBody<List<MyListDataOrSearchBean>> = LostFoundService.getMyList(lostOrFound, page).await()
+            if (mylist.error_code == -1) {
+                setMylistData(mylist.data!!)
+            }
         }
 
 
     }
 
     override fun turnStatus(id: Int) {
-        async(CommonPool + QuietCoroutineExceptionHandler) {
-            val mylist = LostFoundService.turnStatus(id.toString()).awaitAndHandle { it.printStackTrace() }?.data
-                    ?: throw IllegalStateException("列表拉取失败")
-            turnStatuSuccessCallBack(mylist)
+        launch(UI + QuietCoroutineExceptionHandler) {
+            val mylist: CommonBody<InverseID> = LostFoundService.turnStatus(id.toString()).await()
+            if (mylist.error_code == -1) {
+                turnStatuSuccessCallBack(mylist.data!!)
+            }
         }
     }
+
 
     override fun turnStatuSuccessCallBack(callbackBean: InverseID) {
         mylistView.turnStatusSuccessCallBack()

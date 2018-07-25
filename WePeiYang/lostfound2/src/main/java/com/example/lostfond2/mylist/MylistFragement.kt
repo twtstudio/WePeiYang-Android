@@ -18,15 +18,15 @@ import com.twt.wepeiyang.commons.ui.rec.withItems
 class MylistFragement : Fragment(), MyListService.MyListView {
 
 
-    val mylist_recyclerview: RecyclerView = view!!.findViewById(R.id.mylist_recyclerView)
-    val mylist_progress: ProgressBar = view!!.findViewById(R.id.mylist_progress)
-    val mylist_nodata: LinearLayout = view!!.findViewById(R.id.mylist_nodata)
+    lateinit var mylist_recyclerview: RecyclerView
+    lateinit var mylist_progress: ProgressBar
+    lateinit var mylist_nodata: LinearLayout
     var isLoading = false
     var needClear = false
 
     lateinit var tableAdapter: MylistTableAdapter
     lateinit var layoutManager: LinearLayoutManager
-    lateinit var mylistBean: MutableList<MyListDataOrSearchBean>
+    var mylistBean: MutableList<MyListDataOrSearchBean> = ArrayList()//可能会有bug
     lateinit var lostOrFound: String
     val mylistPresenter: MyListService.MylistPresenter = MylistPresenterImpl(this)
     var page = 1
@@ -47,13 +47,15 @@ class MylistFragement : Fragment(), MyListService.MyListView {
     override fun setMylistData(mylistBean: List<MyListDataOrSearchBean>) {
         if (needClear) {
             this.mylistBean.clear()
+            tableAdapter.mylistBean.clear()
         }
 
 //        this.mylistBean.message = mylistBean.message
         this.mylistBean.addAll(mylistBean)
-//        tableAdapter.notifyDataSetChanged()
+        tableAdapter.mylistBean = (this.mylistBean)
+        tableAdapter.notifyDataSetChanged()
         mylist_progress.visibility = View.GONE
-        if (this.mylistBean.size == 0 && page == 1) {
+        if (tableAdapter.mylistBean.size == 0 && page == 1) {
             mylist_nodata.visibility = View.VISIBLE
         } else {
             mylist_nodata.visibility = View.GONE
@@ -65,6 +67,9 @@ class MylistFragement : Fragment(), MyListService.MyListView {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view: View = inflater.inflate(R.layout.lf_fragment_mylist, container, false)
+        mylist_recyclerview = view!!.findViewById(R.id.mylist_recyclerView)
+        mylist_progress = view!!.findViewById(R.id.mylist_progress)
+        mylist_nodata = view!!.findViewById(R.id.mylist_nodata)
         var bundle = arguments
         lostOrFound = bundle!!.getString("index")
         initValues()
@@ -101,28 +106,29 @@ class MylistFragement : Fragment(), MyListService.MyListView {
     override fun onResume() {
         super.onResume()
         page = 1
-//        mylistBean.data = ArrayList()
+        mylistBean = ArrayList()
         tableAdapter.notifyDataSetChanged()
         mylistPresenter.loadMylistData(lostOrFound, page)
+
     }
 
     fun initValues() {
         mylist_nodata.visibility = View.GONE
         mylist_progress.visibility = View.VISIBLE
-//        mylistBean = MylistBean()   ***蜜汁bug
-//        mylistBean.data = ArrayList()//可能会有bug
-//        layoutManager = LinearLayoutManager(activity)
-//        mylist_recyclerview.layoutManager = layoutManager
-//        tableAdapter = MylistTableAdapter(mylistBean, activity, lostOrFound, this)
-//        mylist_recyclerview.adapter = tableAdapter
-//
-//        mylist_recyclerview.layoutManager = LinearLayoutManager(this)
 
-        mylist_recyclerview.withItems {
-            repeat(mylistBean.size) {
-                mylistload(activity, lostOrFound, mylistBean[it], this@MylistFragement)
-            }
-        }
+
+        layoutManager = LinearLayoutManager(activity)
+        mylist_recyclerview.layoutManager = layoutManager
+        tableAdapter = MylistTableAdapter(mylistBean, activity, lostOrFound, this)
+        mylist_recyclerview.adapter = tableAdapter
+
+//        mylist_recyclerview.layoutManager = LinearLayoutManager(this)
+//
+//        mylist_recyclerview.withItems {
+//            repeat(mylistBean.size) {
+//                mylistload(activity, lostOrFound, mylistBean[it], this@MylistFragement)
+//            }
+//        }
 
     }
 

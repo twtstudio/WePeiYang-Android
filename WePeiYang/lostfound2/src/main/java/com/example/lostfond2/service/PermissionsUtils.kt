@@ -12,7 +12,7 @@ import android.support.v7.app.AlertDialog
 import android.util.Log
 import android.widget.Toast
 import com.example.lostfond2.R
-import com.example.lostfond2.release.ReleaseActivity
+//import com.example.lostfond2.release.ReleaseActivity
 import java.util.ArrayList
 import java.util.HashMap
 
@@ -194,7 +194,7 @@ object PermissionsUtils {
      */
     fun requestPermissionsResult(activity: Activity?, requestCode: Int, permissions: Array<String>,
                                  grantResults: IntArray, permissionGrant: PermissionGrant) {
-        val releaseActivity: ReleaseActivity
+//        val releaseActivity: ReleaseActivity
         if (activity == null) {
             return
         }
