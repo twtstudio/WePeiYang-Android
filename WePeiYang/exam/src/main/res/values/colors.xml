@@ -10,4 +10,5 @@
     <color name="examBlackText">#1c1c1c</color>
     <color name="examBlueText">#43aafa</color>
     <color name="examArrowGrey">#DBDADB</color>
+    <color name="examRedText">#F84B4B</color>
 </resources>

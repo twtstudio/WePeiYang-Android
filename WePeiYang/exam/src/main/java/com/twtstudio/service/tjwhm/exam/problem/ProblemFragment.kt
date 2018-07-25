@@ -64,7 +64,6 @@ class ProblemFragment : Fragment() {
     private lateinit var tvIndex: TextView
     private lateinit var divider: View
     private lateinit var tvAnswer: TextView
-//    private lateinit var tvAnalysis: TextView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.exam_fragment_problem, container, false)
@@ -82,7 +81,6 @@ class ProblemFragment : Fragment() {
         tvIndex = view.findViewById(R.id.tv_index)
         divider = view.findViewById(R.id.divider_problem)
         tvAnswer = view.findViewById(R.id.tv_problem_answer)
-//        tvAnalysis = view.findViewById(R.id.tv_problem_analysis)
 
         rvSelections.layoutManager = LinearLayoutManager(context)
 
@@ -95,7 +93,6 @@ class ProblemFragment : Fragment() {
                     tvType.text = it.message.ques.type.toProblemType()
                     tvTitle.text = Html.fromHtml(it.message.ques.content)
                     tvAnswer.text = it.message.ques.answer
-//                    tvAnalysis.text = it.message.ques.
                     rvSelections.withItems {
                         for (i in 0 until it.message.ques.option.size) {
                             this@ProblemFragment.context?.let { it1 ->
@@ -124,17 +121,10 @@ class ProblemFragment : Fragment() {
             READ_MODE -> {
                 divider.visibility = View.VISIBLE
                 tvAnswer.visibility = View.VISIBLE
-//                tvAnalysis.visibility = View.VISIBLE
             }
-            PRACTICE_MODE -> {
+            else -> {
                 divider.visibility = View.GONE
                 tvAnswer.visibility = View.GONE
-//                tvAnalysis.visibility = View.GONE
-            }
-            TEST_MODE -> {
-                divider.visibility = View.GONE
-                tvAnswer.visibility = View.GONE
-//                tvAnalysis.visibility = View.GONE
             }
         }
     }

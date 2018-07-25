@@ -8,6 +8,7 @@ import android.support.v4.view.ViewPager
 import android.widget.ImageView
 import com.githang.statusbar.StatusBarCompat
 import com.twtstudio.service.tjwhm.exam.R
+import com.twtstudio.service.tjwhm.exam.user.UserFragment
 
 class ExamHomeActivity : AppCompatActivity() {
 
@@ -27,10 +28,12 @@ class ExamHomeActivity : AppCompatActivity() {
         tlHome = findViewById(R.id.tl_home)
         vpHome = findViewById(R.id.vp_home)
         pagerAdapter.add(Pair(ExamHomeFragment.newInstance(), "题库"))
-        pagerAdapter.add(Pair(ExamHomeFragment.newInstance(), "我的"))
+        pagerAdapter.add(Pair(UserFragment.newInstance(), "我的"))
 
         vpHome.adapter = pagerAdapter
         tlHome.setupWithViewPager(vpHome)
-        tlHome.tabGravity = TabLayout.GRAVITY_CENTER
+        tlHome.tabGravity = TabLayout.GRAVITY_FILL
+        tlHome.setSelectedTabIndicatorHeight(0)
+
     }
 }

@@ -54,16 +54,6 @@
         app:layout_constraintRight_toLeftOf="@id/iv_index"
         app:layout_constraintTop_toBottomOf="@id/rv_problem_selections" />
 
-    <!--<ImageView-->
-    <!--android:id="@+id/iv_star_filled"-->
-    <!--android:layout_width="24dp"-->
-    <!--android:layout_height="24dp"-->
-    <!--android:src="@drawable/exam_star_filled"-->
-    <!--app:layout_constraintBottom_toBottomOf="@id/iv_star_blank"-->
-    <!--app:layout_constraintLeft_toLeftOf="@id/iv_star_blank"-->
-    <!--app:layout_constraintRight_toRightOf="@id/iv_star_blank"-->
-    <!--app:layout_constraintTop_toTopOf="@id/iv_star_blank" />-->
-
     <ImageView
         android:id="@+id/iv_index"
         android:layout_width="24dp"
@@ -112,15 +102,5 @@
         android:text="答案：B"
         android:textColor="@color/examBlackText"
         app:layout_constraintTop_toBottomOf="@id/divider_problem" />
-
-    <!--<TextView-->
-    <!--android:id="@+id/tv_problem_analysis"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_marginTop="12dp"-->
-    <!--android:text="解析：因为中国共产党是在1921年成立的."-->
-    <!--android:textColor="@color/examBlackText"-->
-    <!--app:layout_constraintLeft_toLeftOf="@id/tv_problem_answer"-->
-    <!--app:layout_constraintTop_toBottomOf="@id/tv_problem_answer" />-->
 
 </android.support.constraint.ConstraintLayout>

@@ -37,6 +37,7 @@ class LessonItem(val context: Context, val lessonData: LessonData) : Item {
                                         override fun onAnimationEnd(animation: Animator?) {
                                             visibility = View.GONE
                                         }
+
                                         override fun onAnimationCancel(animation: Animator?) = Unit
                                         override fun onAnimationStart(animation: Animator?) = Unit
                                         override fun onAnimationRepeat(animation: Animator?) = Unit
@@ -49,6 +50,7 @@ class LessonItem(val context: Context, val lessonData: LessonData) : Item {
                                         override fun onAnimationEnd(animation: Animator?) {
                                             visibility = View.GONE
                                         }
+
                                         override fun onAnimationCancel(animation: Animator?) = Unit
                                         override fun onAnimationStart(animation: Animator?) = Unit
                                         override fun onAnimationRepeat(animation: Animator?) = Unit
