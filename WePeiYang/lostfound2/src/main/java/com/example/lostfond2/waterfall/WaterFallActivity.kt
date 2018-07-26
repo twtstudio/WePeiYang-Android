@@ -56,8 +56,8 @@ class WaterFallActivity : AppCompatActivity() {
         val bundle = Bundle()
         val intent = Intent()
         val toolbar = findViewById<Toolbar>(R.id.toolbar1)
-        waterfallPagerAdapter.add(lostFragment, "丢失")
         waterfallPagerAdapter.add(foundFragment, "捡到")
+        waterfallPagerAdapter.add(lostFragment, "丢失")
         waterfall_pager.adapter = waterfallPagerAdapter
         val apply = waterfall_tabLayout.apply {
             setupWithViewPager(waterfall_pager)

@@ -73,10 +73,9 @@ class DetailActivity : AppCompatActivity() {
                     if (mylist1.phone != null) {
                         setDetail("电话", mylist1.phone)
                     }
-                    setDetail("电话", mylist1.phone)
                     setTitle("附加信息")
                     if (mylist1.item_description != null) {
-                        setDetail("附言", mylist1.item_description)
+                        setOther("附言", mylist1.item_description)
                     }
 
                 }
