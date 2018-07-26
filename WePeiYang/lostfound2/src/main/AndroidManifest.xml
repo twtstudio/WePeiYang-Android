@@ -10,13 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".LostFoundActivity"/>
-        <activity android:name=".mylist.MyListActivity" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".mylist.MyListActivity" />
         <activity android:name=".detail.DetailActivity" />
         <activity android:name=".search.SearchActivity" />
         <activity android:name=".SuccessActivity" />
