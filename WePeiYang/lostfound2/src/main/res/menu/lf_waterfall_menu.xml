@@ -5,7 +5,6 @@
         android:id="@+id/waterfall_search"
         android:icon="@drawable/lf_search"
         android:title="search"
-        app:actionViewClass="android.support.v7.widget.SearchView"
         app:showAsAction="always" />
     <item
         android:id="@+id/waterfall_indi"

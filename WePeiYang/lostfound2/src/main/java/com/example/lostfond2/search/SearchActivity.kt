@@ -1,6 +1,7 @@
 package com.example.lostfond2.search
 
 import android.content.Context
+import android.graphics.Color
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.view.MenuItemCompat
@@ -39,13 +40,41 @@ class SearchActivity : AppCompatActivity(), SearchContract.SearchUIView {
         setContentView(R.layout.activity_search)
         toolbar = findViewById(R.id.search_toolbar)
         setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         search_progress = findViewById(R.id.search_progress)
-        search_progress.visibility = View.GONE
         linearLayour = findViewById(R.id.search_no_res)//绑定的是activity_search的linearlayout
+        recyclerView = findViewById(R.id.search_recyclerView)
+        searchView = findViewById(R.id.search_searview)
+
+        var x = 1
+        val tv: SearchView.SearchAutoComplete = searchView.findViewById(R.id.search_src_text)
+        tv.setTextColor(Color.WHITE)
+        tv.setHintTextColor(Color.WHITE)
+        searchView.onActionViewExpanded()
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        toolbar.setNavigationOnClickListener { onBackPressed() }
+        toolbar.setNavigationOnClickListener { view ->
+            hideInputKeyboard()
+            finish()
+        }
+        search_progress.visibility = View.GONE
         linearLayour.visibility = View.GONE
-        recyclerView = findViewById(R.id.search_searview)
         initValues()
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                search_progress.visibility = View.VISIBLE
+                waterfallBean.clear()
+                keyword = query
+
+                searchPresenter.loadSearchData(keyword, page)
+                hideInputKeyboard()
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                return false
+            }
+        })
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
@@ -65,45 +94,7 @@ class SearchActivity : AppCompatActivity(), SearchContract.SearchUIView {
 
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        getMenuInflater().inflate(R.menu.lf_waterfall_menu, menu)
-        var searchItem: MenuItem = menu!!.findItem(R.id.waterfall_search)
-        //通过MenuItem得到SearchView
-        searchView = MenuItemCompat.getActionView(searchItem) as SearchView
-        searchView.setIconifiedByDefault(true)//搜索小图标位置在框外
-        searchView.setSubmitButtonEnabled(true)
-        //获得输入框
-        val searchAutoComplete = searchView.findViewById(R.id.search_src_text) as SearchView.SearchAutoComplete
-        searchView.setQueryHint("输入卡号/地点/物件名称");
-        //设置输入框提示文字样式
-        searchAutoComplete.setHintTextColor(getResources().getColor(android.R.color.darker_gray))
-        searchAutoComplete.setTextColor(getResources().getColor(android.R.color.background_light))
-        //设置搜索框有字时显示叉叉，无字时隐藏叉叉
-        searchView.onActionViewExpanded()
-        searchView.setIconified(true)
 
-        //监听搜索框文字变化
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                search_progress.visibility = View.VISIBLE
-                waterfallBean.clear()
-                keyword = query.toString()
-                searchPresenter.loadSearchData(keyword, page)
-                hideInputKeyboard()
-                return true
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                //可以做搜索提示功能
-                return false
-            }
-
-        })
-
-
-        return super.onCreateOptionsMenu(menu)
-
-    }
 
 
     private fun initValues() {
@@ -127,7 +118,7 @@ class SearchActivity : AppCompatActivity(), SearchContract.SearchUIView {
 
     }
 
-    public fun findMax(array: IntArray): Int {
+    fun findMax(array: IntArray): Int {
         var maxNumber = array[0]
         val it = array.iterator()
         while (it.hasNext()) {
@@ -138,8 +129,9 @@ class SearchActivity : AppCompatActivity(), SearchContract.SearchUIView {
         return maxNumber
     }
 
-    override fun setSearchData(waterfallBean: MutableList<MyListDataOrSearchBean>) {
-        this.waterfallBean = waterfallBean
+    override fun setSearchData(waterfallBean: List<MyListDataOrSearchBean>) {
+        this.waterfallBean.addAll(waterfallBean)
+        waterfallTableAdapter.waterFallBean = this.waterfallBean
         waterfallTableAdapter.notifyDataSetChanged()
         if (waterfallBean.size === 0 && page == 1) {
             linearLayour.setVisibility(View.VISIBLE)
@@ -148,9 +140,5 @@ class SearchActivity : AppCompatActivity(), SearchContract.SearchUIView {
         }
         search_progress.visibility = View.GONE
         isLoading = false
-    }
-
-    override fun onResume() {
-        super.onResume()
     }
 }
