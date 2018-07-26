@@ -5,10 +5,13 @@
         android:id="@+id/waterfall_search"
         android:icon="@drawable/lf_search"
         android:title="search"
-        app:showAsAction="ifRoom" />
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        app:showAsAction="always" />
     <item
         android:id="@+id/waterfall_indi"
         android:icon="@drawable/lf_indi"
         android:title="indi"
         app:showAsAction="ifRoom" />
 </menu>
+
+

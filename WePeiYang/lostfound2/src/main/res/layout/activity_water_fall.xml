@@ -73,18 +73,6 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <include
-            android:id="@+id/waterfall_cardview_types"
-            layout="@layout/lf_waterfall_cardview_types"
-            android:layout_width="168dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignTop="@+id/waterfall_pager"
-            android:layout_gravity="end"
-            android:layout_marginEnd="8dp"
-            android:layout_marginTop="8dp"
-            android:animateLayoutChanges="true" />
-
         <android.support.v4.view.ViewPager
             android:id="@+id/waterfall_pager"
             android:layout_width="wrap_content"
@@ -96,7 +84,6 @@
             android:id="@+id/waterfall_cover"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/waterfall_cardview_types"
             android:background="#00000000" />
     </RelativeLayout>
 

@@ -24,7 +24,7 @@ interface LostFoundService {
     fun getMyList(@Path("lostOrFound") lostOrFound: String, @Query("page") page: Int): Deferred<CommonBody<List<MyListDataOrSearchBean>>>
 
     @GET("v1/lostfound/inverse/{id}")
-    fun turnStatus(@Path("id") id: String): Deferred<CommonBody<InverseID>>
+    fun turnStatus(@Path("id") id: String): Deferred<CommonBody<String>>
 
 
     @FormUrlEncoded
@@ -49,7 +49,7 @@ interface LostFoundService {
                           @Part partList: List<MultipartBody.Part>): Deferred<CommonBody<List<MyListDataOrSearchBean>>>
 
     @DELETE("v1/lostfound/{id}")
-    fun delete(@Path("id") id: String): Deferred<CommonBody<InverseID>>
+    fun delete(@Path("id") id: String): Deferred<CommonBody<String>>
 
     companion object : LostFoundService by ServiceFactory()
 

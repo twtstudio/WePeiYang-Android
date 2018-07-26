@@ -22,7 +22,7 @@ class WaterfallTypeTableAdapter(val waterfallActivity: WaterFallActivity,
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val view = LayoutInflater.from(context).inflate(R.layout.lf_item_waterfall_type, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.lf_item_waterfall_type, parent, false)
         return WaterFallTypeTableViewHolder(view)
     }
 
@@ -42,6 +42,7 @@ class WaterfallTypeTableAdapter(val waterfallActivity: WaterFallActivity,
             waterfallActivity.setWaterfallType(position + 1)
             waterfallActivity.waterfall_type_blue.visibility = View.GONE
             waterfallActivity.waterfall_type_grey.visibility = View.VISIBLE
+            waterfallActivity.window.dismiss()
         }
 
     }

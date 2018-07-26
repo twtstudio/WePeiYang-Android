@@ -34,7 +34,7 @@ interface ReleaseContract {
 
         fun delete(id: Int)
 
-        fun deleteSuccessCallBack(beanList: InverseID)
+        fun deleteSuccessCallBack(beanList: String)
 
         fun uploadEditDataWithPic(map: Map<String, Any>, lostOrFound: String, file: File, id: Int)
 

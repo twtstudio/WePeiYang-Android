@@ -1,6 +1,5 @@
 package com.example.lostfond2.mylist
 
-import com.example.lostfond2.service.InverseID
 import com.example.lostfond2.service.LostFoundService
 import com.example.lostfond2.service.MyListDataOrSearchBean
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
@@ -32,7 +31,7 @@ class MylistPresenterImpl(mylistView: MyListService.MyListView) : MyListService.
 
     override fun turnStatus(id: Int) {
         launch(UI + QuietCoroutineExceptionHandler) {
-            val mylist: CommonBody<InverseID> = LostFoundService.turnStatus(id.toString()).await()
+            val mylist: CommonBody<String> = LostFoundService.turnStatus(id.toString()).await()
             if (mylist.error_code == -1) {
                 turnStatuSuccessCallBack(mylist.data!!)
             }
@@ -40,7 +39,7 @@ class MylistPresenterImpl(mylistView: MyListService.MyListView) : MyListService.
     }
 
 
-    override fun turnStatuSuccessCallBack(callbackBean: InverseID) {
+    override fun turnStatuSuccessCallBack(callbackBean: String) {
         mylistView.turnStatusSuccessCallBack()
     }
 

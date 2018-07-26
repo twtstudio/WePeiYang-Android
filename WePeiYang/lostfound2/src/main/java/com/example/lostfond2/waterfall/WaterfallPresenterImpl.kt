@@ -6,12 +6,13 @@ import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineException
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import com.twt.wepeiyang.commons.network.RetrofitProvider
 import kotlinx.coroutines.experimental.CommonPool
+import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.launch
 
 class WaterfallPresenterImpl(var waterfallView: WaterfallContract.WaterfallView)
     : WaterfallContract.WaterfallPresenter {
 
-    lateinit var lostFoundService: LostFoundService
 
     override fun setWaterfallData(waterfallBean: List<MyListDataOrSearchBean>) {
         waterfallView.setWaterfallData(waterfallBean)
@@ -20,13 +21,24 @@ class WaterfallPresenterImpl(var waterfallView: WaterfallContract.WaterfallView)
     override fun loadWaterfallData(lostOrFound: String, page: Int) {
 
 
-        async(CommonPool + QuietCoroutineExceptionHandler) {
+//        async(UI + QuietCoroutineExceptionHandler) {
+//            val dataList = when (lostOrFound) {
+//                "lost" -> lostFoundService.getLost(page, 0).awaitAndHandle { it.printStackTrace() }?.data!!
+//                else -> lostFoundService.getFound(page, 0).awaitAndHandle { it.printStackTrace() }?.data!!
+//            }
+//
+//            setWaterfallData(dataList)
+//        }
+
+        launch(UI + QuietCoroutineExceptionHandler) {
             val dataList = when (lostOrFound) {
-                "lost" -> lostFoundService.getLost(page, 0).awaitAndHandle { it.printStackTrace() }?.data!!
-                else -> lostFoundService.getFound(page, 0).awaitAndHandle { it.printStackTrace() }?.data!!
+                "lost" -> LostFoundService.getLost(page, 0).await()
+                else -> LostFoundService.getFound(page, 0).await()
             }
 
-            setWaterfallData(dataList)
+            if (dataList.error_code == -1) {
+                setWaterfallData(dataList.data!!)
+            }
         }
     }
 
@@ -34,13 +46,24 @@ class WaterfallPresenterImpl(var waterfallView: WaterfallContract.WaterfallView)
         if (type == -1) {
             loadWaterfallData(lostOrFound, page)
         } else {
-            async(CommonPool + QuietCoroutineExceptionHandler) {
+//            async(UI + QuietCoroutineExceptionHandler) {
+//                val dataList = when (lostOrFound) {
+//                    "lost" -> lostFoundService.getLost(page, type).awaitAndHandle { it.printStackTrace() }?.data!!
+//                    else -> lostFoundService.getFound(page, type).awaitAndHandle { it.printStackTrace() }?.data!!
+//                }
+//
+//                setWaterfallData(dataList)
+//            }
+
+            launch(UI + QuietCoroutineExceptionHandler) {
                 val dataList = when (lostOrFound) {
-                    "lost" -> lostFoundService.getLost(page, type).awaitAndHandle { it.printStackTrace() }?.data!!
-                    else -> lostFoundService.getFound(page, type).awaitAndHandle { it.printStackTrace() }?.data!!
+                    "lost" -> LostFoundService.getLost(page, type).await()
+                    else -> LostFoundService.getFound(page, type).await()
                 }
 
-                setWaterfallData(dataList)
+                if (dataList.error_code == -1) {
+                    setWaterfallData(dataList.data!!)
+                }
             }
         }
     }

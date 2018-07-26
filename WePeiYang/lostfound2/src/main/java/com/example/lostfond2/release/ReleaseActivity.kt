@@ -15,6 +15,8 @@ import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.StaggeredGridLayoutManager
+import android.support.v7.widget.Toolbar
+import android.util.Log
 import android.view.View
 import android.view.Window
 import android.view.inputmethod.InputMethodManager
@@ -57,7 +59,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
     lateinit var tableAdapter: ReleaseTableAdapter
     lateinit var progressDialog: ProgressDialog
 
-    private fun setToolbarView() {
+    private fun setToolbarView(toolbar: Toolbar) {
         toolbar.title = when (lostOrFound) {
             "lost" -> "发布丢失"
             "found" -> "发布捡到"
@@ -71,12 +73,16 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         super.onCreate(savedInstanceState)
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
         setContentView(com.example.lostfond2.R.layout.activity_release)
-        setToolbarView()
+        val toolbar = findViewById<Toolbar>(R.id.toolbar)
+        setToolbarView(toolbar)
+        release_delete.visibility = View.GONE
 
         if (toolbar != null) {
             setSupportActionBar(toolbar)
+            supportActionBar?.setDisplayHomeAsUpEnabled(true)
             toolbar.setNavigationOnClickListener { onBackPressed() }
         }
+
 
         if (lostOrFound == "editLost" || lostOrFound == "editFound") {
             release_delete.visibility = View.VISIBLE
@@ -85,6 +91,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
             onTypeItemSelected(selectedItemPosition)
             releasePresenter.loadDetailDataForEdit(id, this)
         }
+
 
         initSpinner()
         release_type_recycleriew.layoutManager = layoutManager
@@ -145,7 +152,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
                 releasePresenter.uploadReleaseDataWithPic(getUpdateMap(), lostOrFound, file!!)
 
             } else {
-                progressDialog = ProgressDialog.show(this@ReleaseActivity, "", "正在上传")
+//                progressDialog = ProgressDialog.show(this@ReleaseActivity, "", "正在上传")
                 releasePresenter.uploadReleaseData(getUpdateMap(), lostOrFound)
             }
         } else if (view === release_confirm) {
@@ -175,7 +182,11 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         bundle.apply {
             putString("shareOrSuccess", "success")
             putString("lostOrFound", lostOrFound)
-            putString("imageUrl", Utils.getPicUrl(beanList[0].picture))
+            if (beanList[0].picture == null) {
+
+            } else {
+                putString("imageUrl", Utils.getPicUrl(beanList[0].picture))
+            }
             putString("id", beanList[0].id.toString())
             putString("time", beanList[0].time)
             putString("place", beanList[0].place)
@@ -191,11 +202,20 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
     }
 
     override fun setEditData(detailData: DetailData) {
-        Glide.with(this)
-                .load(Utils.getPicUrl(detailData.picture))
-                .asBitmap()
-                .into(release_choose_pic)
+        if (detailData.picture == null) {
+            Glide.with(this)
+                    .load(Utils.getPicUrl("julao.jpg"))
+                    .error(R.drawable.lf_detail_np)
+                    .into(release_choose_pic)
+        } else {
+            Glide.with(this)
+                    .load(Utils.getPicUrl(detailData.picture))
+                    .asBitmap()
+                    .into(release_choose_pic)
+        }
+
         release_title.setText(detailData.title)
+        release_title.setSelection(detailData.title.length)
         release_time.setText(detailData.time)
         release_place.setText(detailData.place)
         release_phone.setText(detailData.phone)
@@ -263,7 +283,8 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+
         if (requestCode == 2 && resultCode != 0) {
             selectedPic = Matisse.obtainResult(data)
             Glide.with(this)

@@ -16,6 +16,7 @@ import com.example.lostfond2.service.Data
 import com.example.lostfond2.service.MyListDataOrSearchBean
 import com.example.lostfond2.service.Utils
 import com.twt.wepeiyang.commons.experimental.network.CommonBody
+import kotlinx.android.synthetic.main.activity_release.*
 import kotlinx.android.synthetic.main.lf2_item_waterfall.view.*
 
 class WaterfallTableAdapter(var waterFallBean: List<MyListDataOrSearchBean>?,
@@ -43,11 +44,20 @@ class WaterfallTableAdapter(var waterFallBean: List<MyListDataOrSearchBean>?,
         val dataBean = waterFallBean!![position]
 
         val viewHolder = holder as WaterfallViewHolder
-        Glide.with(context)
-                .load(Utils.getPicUrl(dataBean.picture))
-                .asBitmap()
-                .placeholder(R.drawable.lf_waterfall_nopic)
-                .into(viewHolder.waterFall_item_pic)
+
+        if (dataBean.picture == null) {
+            Glide.with(context)
+                    .load(Utils.getPicUrl("julao.jpg"))
+                    .error(R.drawable.lf_detail_np)
+                    .into(viewHolder.waterFall_item_pic)
+        } else {
+            Glide.with(context)
+                    .load(Utils.getPicUrl(dataBean.picture))
+                    .asBitmap()
+                    .placeholder(R.drawable.lf_waterfall_nopic)
+                    .into(viewHolder.waterFall_item_pic)
+        }
+
 
         viewHolder.waterFall_tiem_title.text = dataBean.title
         viewHolder.waterFall_item_location.text = dataBean.place

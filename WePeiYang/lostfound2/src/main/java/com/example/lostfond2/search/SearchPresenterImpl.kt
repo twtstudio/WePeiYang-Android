@@ -10,12 +10,12 @@ class SearchPresenterImpl(val searchUIView: SearchContract.SearchUIView) : Searc
         async {
             val mysearch = LostFoundService.getSearch(keyword, page).awaitAndHandle { it.printStackTrace() }?.data
                     ?: throw IllegalStateException("列表拉取失败")
-            setSearchData(mysearch)
+            setSearchData(mysearch as MutableList<MyListDataOrSearchBean>)
         }
 
     }
 
-    override fun setSearchData(waterfallBean: List<MyListDataOrSearchBean>) {
+    override fun setSearchData(waterfallBean: MutableList<MyListDataOrSearchBean>) {
         searchUIView.setSearchData(waterfallBean)
     }
 }
