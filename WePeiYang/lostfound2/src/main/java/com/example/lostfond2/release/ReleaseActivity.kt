@@ -248,7 +248,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         val remarksString = release_remark.text.toString()
         val map = HashMap<String, Any>()
         map["title"] = titleString
-        map["time"] = if (timeString =="") " " else timeString
+        map["time"] = if (timeString == "") " " else timeString
         map["place"] = if (placeString == "") " " else placeString
         map["name"] = nameString
         map["detail_type"] = selectedItemPosition + 1
@@ -260,11 +260,11 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         if (selectedItemPosition == 0 || selectedItemPosition == 1) {
             val card_numString = release_card_num.getText().toString()
             val card_nameString = release_card_name.getText().toString()
-            map["card_number"] = if (card_numString =="") "1234567890" else card_numString
+            map["card_number"] = if (card_numString == "") "1234567890" else card_numString
             map["card_name"] = if (card_nameString == "") "巨佬" else card_nameString
         } else if (selectedItemPosition == 9) {
             val card_numString = release_card_num_noname.getText().toString()
-            map["card_number"] = if (card_numString =="") "1234567890" else card_numString
+            map["card_number"] = if (card_numString == "") "1234567890" else card_numString
             map["card_name"] = if (nameString == "") " " else nameString
         } else if (selectedItemPosition == 12) {
             map["other_tag"] = " "

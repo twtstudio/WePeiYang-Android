@@ -10,26 +10,26 @@ import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemController
 import org.jetbrains.anko.layoutInflater
 
-class OtherTagItem(val text1: String, val text2: String) : Item {
+class OtherTagItem(val text3: String, val text2: String) : Item {
 
     private companion object Controller : ItemController {
         override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
             val inflater = parent.context.layoutInflater
             val view = inflater.inflate(R.layout.lf_item_othertag, parent, false)
-            return DetailItemViewHolder(view)
+            return OtherTagViewHolder(view)
         }
 
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: Item) {
-            holder as DetailItemViewHolder
-            item as DetailItem
+            holder as OtherTagViewHolder
+            item as OtherTagItem
 
-            holder.title.text = item.text1
+            holder.title.text = item.text3
             holder.content.text = item.text2
         }
 
     }
 
-    private class DetailItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    private class OtherTagViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val title: TextView = itemView.findViewById(R.id.othertag_title)
         val content: TextView = itemView.findViewById(R.id.othertag_detail)
     }
