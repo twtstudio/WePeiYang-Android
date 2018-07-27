@@ -11,6 +11,7 @@ import android.widget.TextView
 import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemController
 import com.twtstudio.service.tjwhm.exam.R
+import com.twtstudio.service.tjwhm.exam.problem.GoneAnimatorListener
 import com.twtstudio.service.tjwhm.exam.problem.NoneAnimatorListener
 import com.twtstudio.service.tjwhm.exam.problem.ProblemActivity
 import org.jetbrains.anko.layoutInflater
@@ -33,34 +34,17 @@ class LessonItem(val context: Context, val lessonData: LessonData) : Item {
                             animate()?.translationY(-16f)
                                     ?.alpha(0f)
                                     ?.setDuration(200)
-                                    ?.setListener(object : Animator.AnimatorListener {
-                                        override fun onAnimationEnd(animation: Animator?) {
-                                            visibility = View.GONE
-                                        }
-
-                                        override fun onAnimationCancel(animation: Animator?) = Unit
-                                        override fun onAnimationStart(animation: Animator?) = Unit
-                                        override fun onAnimationRepeat(animation: Animator?) = Unit
-                                    })
+                                    ?.setListener(GoneAnimatorListener(this))
                         }
                         tvEnterPractice?.apply {
                             animate()?.translationY(-16f)
                                     ?.alpha(0f)
-                                    ?.setListener(object : Animator.AnimatorListener {
-                                        override fun onAnimationEnd(animation: Animator?) {
-                                            visibility = View.GONE
-                                        }
-
-                                        override fun onAnimationCancel(animation: Animator?) = Unit
-                                        override fun onAnimationStart(animation: Animator?) = Unit
-                                        override fun onAnimationRepeat(animation: Animator?) = Unit
-                                    })
+                                    ?.setListener(GoneAnimatorListener(this))
                         }
                         ivExpend?.animate()?.rotation(0f)
                         isExpand = false
 
                     } else {
-
                         tvEnterContest?.apply {
                             visibility = View.VISIBLE
                             alpha = 0f

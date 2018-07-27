@@ -10,8 +10,8 @@ import java.util.concurrent.TimeUnit
 
 object ServiceFactoryForExam {
 
-    internal const val TRUSTED_HOST = "exam.twtstudio.com"
-    internal const val BASE_URL = "https://$TRUSTED_HOST/api/"
+    private const val TRUSTED_HOST = "exam.twtstudio.com"
+    private const val BASE_URL = "https://$TRUSTED_HOST/api/"
 
     internal const val APP_KEY = "9GTdynvrCm1EKKFfVmTC"
     internal const val APP_SECRET = "1aVhfAYBFUfqrdlcT621d9d6OzahMI"

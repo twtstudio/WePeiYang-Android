@@ -15,18 +15,21 @@ import es.dmoral.toasty.Toasty
 
 class ProblemActivity : AppCompatActivity() {
 
+    var mode: Int = 0
+    var classID: Int = 0
+
     companion object {
         const val MODE_KEY = "problem_activity_mode"
         const val READ_AND_PRACTICE = 1
         const val CONTEST = 2
-        var mode: Int = 0
 
         const val CLASS_ID_KEY = "class_id_key"
-        var classID: Int = 0
 
         const val SINGLE_CHOICE = 0
         const val MUTLI_CHOICE = 1
         const val TRUE_FASLE = 2
+
+        var isLeft = true
     }
 
     private lateinit var tvLeft: TextView
@@ -34,8 +37,8 @@ class ProblemActivity : AppCompatActivity() {
     private lateinit var vpProblem: ViewPager
     private val pagerAdapter = ProblemPagerAdapter(supportFragmentManager)
 
-    private var isLeft = true
     private var statusBarView: View? = null
+    private var size = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,8 +55,8 @@ class ProblemActivity : AppCompatActivity() {
         tvRight = findViewById(R.id.tv_problem_right)
         vpProblem = findViewById(R.id.vp_problem)
 
-        mode = intent.getIntExtra(MODE_KEY, 1)
-        classID = intent.getIntExtra(CLASS_ID_KEY, 0)
+        mode = intent.getIntExtra(MODE_KEY, -999)
+        classID = intent.getIntExtra(CLASS_ID_KEY, -999)
 
         if (mode == CONTEST) {
             tvLeft.visibility = View.GONE
@@ -63,20 +66,39 @@ class ProblemActivity : AppCompatActivity() {
         }
 
 
-        getIDs(classID.toString(), SINGLE_CHOICE.toString()) {
-            when (it) {
-                is RefreshState.Failure -> {
-                    Toasty.error(this@ProblemActivity, "网络错误", Toast.LENGTH_SHORT).show()
-                }
-                is RefreshState.Success -> {
-                    for (i in 0 until it.message.ques.size) {
-                        pagerAdapter.add(classID, SINGLE_CHOICE, mode, it.message.ques[i].id)
+        if (mode == READ_AND_PRACTICE) {
+            getIDs(classID.toString(), SINGLE_CHOICE.toString()) {
+                when (it) {
+                    is RefreshState.Failure -> {
+                        Toasty.error(this@ProblemActivity, "网络错误", Toast.LENGTH_SHORT).show()
                     }
-                    vpProblem.adapter = pagerAdapter
+                    is RefreshState.Success -> {
+                        for (i in 0 until it.message.ques.size) {
+                            pagerAdapter.add(classID, SINGLE_CHOICE, ProblemFragment.READ_MODE, it.message.ques[i].id)
+                        }
+                        size += it.message.ques.size
+                        vpProblem.adapter = pagerAdapter
+                    }
+                }
+            }
+        } else if (mode == CONTEST) {
+            tvLeft.visibility = View.GONE
+            tvRight.visibility = View.GONE
+            getTestProblems(classID.toString()) {
+                when (it) {
+                    is RefreshState.Failure -> {
+                        Toasty.error(this@ProblemActivity, "网络错误", Toast.LENGTH_SHORT).show()
+                    }
+                    is RefreshState.Success -> {
+                        for (i in 0 until it.message.data.size) {
+                            pagerAdapter.add(it.message.data[i])
+                        }
+                        size += it.message.data.size
+                        vpProblem.adapter = pagerAdapter
+                    }
                 }
             }
         }
-
     }
 
     private fun initTvLeftRight() {
@@ -90,7 +112,9 @@ class ProblemActivity : AppCompatActivity() {
                     tvRight.setBackgroundResource(R.drawable.exam_not_selected_right)
                     tvRight.setTextColor(ContextCompat.getColor(this@ProblemActivity, R.color.white_color))
                     isLeft = true
-                    pagerAdapter.changeMode(vpProblem.currentItem, isLeft)
+                    pagerAdapter.changeMode(vpProblem.currentItem)
+                    if (vpProblem.currentItem != 0) pagerAdapter.changeMode(vpProblem.currentItem - 1)
+                    if (vpProblem.currentItem != size - 1) pagerAdapter.changeMode(vpProblem.currentItem + 1)
                     pagerAdapter.notifyDataSetChanged()
                 }
             }
@@ -103,7 +127,9 @@ class ProblemActivity : AppCompatActivity() {
                 tvLeft.setBackgroundResource(R.drawable.exam_not_selected_left)
                 tvLeft.setTextColor(ContextCompat.getColor(this@ProblemActivity, R.color.white_color))
                 isLeft = false
-                pagerAdapter.changeMode(vpProblem.currentItem, isLeft)
+                pagerAdapter.changeMode(vpProblem.currentItem)
+                if (vpProblem.currentItem != 0) pagerAdapter.changeMode(vpProblem.currentItem - 1)
+                if (vpProblem.currentItem != size - 1) pagerAdapter.changeMode(vpProblem.currentItem + 1)
                 pagerAdapter.notifyDataSetChanged()
             }
         }

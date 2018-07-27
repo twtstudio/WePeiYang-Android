@@ -20,7 +20,6 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="2dp"
             android:background="@drawable/exam_problem_type"
-            android:text="单选"
             android:textColor="@color/examBlueText"
             android:textSize="12sp" />
 
@@ -29,7 +28,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="中国共产党是在哪一年成立的？"
             android:textColor="@color/examBlackText"
             android:textSize="16sp" />
     </LinearLayout>

@@ -1,6 +1,6 @@
 package com.twtstudio.service.tjwhm.exam.problem
 
-import android.content.Context
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
@@ -10,11 +10,17 @@ import com.twt.wepeiyang.commons.ui.rec.ItemController
 import com.twtstudio.service.tjwhm.exam.R
 import org.jetbrains.anko.layoutInflater
 
-class SelectionItem(val context: Context, val selectionIndex: String, val selectionContent: String) : Item {
+class SelectionItem(val fragment: ProblemFragment, val selectionIndex: String, val selectionContent: String, val status: Int) : Item {
     override val controller: ItemController
         get() = Controller
 
+    constructor(selectionItem: SelectionItem, status: Int) : this(selectionItem.fragment, selectionItem.selectionIndex, selectionItem.selectionContent, status)
+
     companion object Controller : ItemController {
+
+        const val TRUE = 0
+        const val FALSE = 1
+        const val NONE = 2
         override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder =
                 ItemViewHolder(parent.context.layoutInflater.inflate(R.layout.exam_item_selection, parent, false))
 
@@ -24,6 +30,20 @@ class SelectionItem(val context: Context, val selectionIndex: String, val select
             holder.apply {
                 tvSelectionIndex?.text = item.selectionIndex
                 tvSelectionContent?.text = item.selectionContent
+                when (item.status) {
+                    TRUE -> tvSelectionIndex?.apply {
+                        setBackgroundResource(R.drawable.exam_selection_true_index)
+                        item.fragment.context?.let { ContextCompat.getColor(it, R.color.white_color) }?.let { setTextColor(it) }
+                    }
+                    FALSE -> tvSelectionIndex?.apply {
+                        setBackgroundResource(R.drawable.exam_selection_wrong_index)
+                        item.fragment.context?.let { ContextCompat.getColor(it, R.color.white_color) }?.let { setTextColor(it) }
+                    }
+                }
+
+                itemView.setOnClickListener {
+                    item.fragment.showAnswersOnSelections(item.selectionIndex.selectionIndexToInt())
+                }
             }
         }
 
@@ -35,4 +55,4 @@ class SelectionItem(val context: Context, val selectionIndex: String, val select
     }
 }
 
-fun MutableList<Item>.selectionItem(context: Context, selectionIndex: String, selectionContent: String) = add(SelectionItem(context, selectionIndex, selectionContent))
+fun MutableList<Item>.selectionItem(fragment: ProblemFragment, selectionIndex: String, selectionContent: String, status: Int) = add(SelectionItem(fragment, selectionIndex, selectionContent, status))
