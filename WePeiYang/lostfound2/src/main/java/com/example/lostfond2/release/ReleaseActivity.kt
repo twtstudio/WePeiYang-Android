@@ -58,6 +58,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
     lateinit var lostOrFound: String
     lateinit var tableAdapter: ReleaseTableAdapter
     lateinit var progressDialog: ProgressDialog
+    var judge = false
 
     private fun setToolbarView(toolbar: Toolbar) {
         toolbar.title = when (lostOrFound) {
@@ -148,12 +149,18 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
                     e.printStackTrace()
                 }
 
-                progressDialog = ProgressDialog.show(this@ReleaseActivity, "", "正在上传")
-                releasePresenter.uploadReleaseDataWithPic(getUpdateMap(), lostOrFound, file!!)
+
+                val map = getUpdateMap()
+                if (judge) {
+                    progressDialog = ProgressDialog.show(this@ReleaseActivity, "", "正在上传")
+                    releasePresenter.uploadReleaseDataWithPic(map, lostOrFound, file!!)
+                }
 
             } else {
 //                progressDialog = ProgressDialog.show(this@ReleaseActivity, "", "正在上传")
-                releasePresenter.uploadReleaseData(getUpdateMap(), lostOrFound)
+                val map = getUpdateMap()
+                if (judge)
+                    releasePresenter.uploadReleaseData(map, lostOrFound)
             }
         } else if (view === release_confirm) {
             val file1: File
@@ -168,8 +175,12 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
                 e.printStackTrace()
             }
 
-            progressDialog = ProgressDialog.show(this@ReleaseActivity, "", "正在上传")
-            releasePresenter.uploadEditDataWithPic(getUpdateMap(), lostOrFound, file!!, id)
+
+            val map = getUpdateMap()
+            if (judge) {
+                progressDialog = ProgressDialog.show(this@ReleaseActivity, "", "正在上传")
+                releasePresenter.uploadEditDataWithPic(map, lostOrFound, file, id)
+            }
         } else if (view === release_delete) {
             progressDialog = ProgressDialog.show(this@ReleaseActivity, "", "正在删除")
             releasePresenter.delete(id)
@@ -237,22 +248,24 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         val remarksString = release_remark.text.toString()
         val map = HashMap<String, Any>()
         map["title"] = titleString
-        map["time"] = timeString
-        map["place"] = placeString
+        map["time"] = if (timeString =="") " " else timeString
+        map["place"] = if (placeString == "") " " else placeString
         map["name"] = nameString
         map["detail_type"] = selectedItemPosition + 1
-        map["phone"] = phoneString
+        map["phone"] = if (phoneString == "") " " else phoneString
         map["duration"] = duration
-        map["item_description"] = remarksString
+        map["item_description"] = if (remarksString == "") " " else remarksString
+
+        judge = !(titleString == "" || phoneString == "" || nameString == "")
         if (selectedItemPosition == 0 || selectedItemPosition == 1) {
             val card_numString = release_card_num.getText().toString()
             val card_nameString = release_card_name.getText().toString()
-            map["card_number"] = card_numString
-            map["card_name"] = card_nameString
+            map["card_number"] = if (card_numString =="") "1234567890" else card_numString
+            map["card_name"] = if (card_nameString == "") "巨佬" else card_nameString
         } else if (selectedItemPosition == 9) {
             val card_numString = release_card_num_noname.getText().toString()
-            map["card_number"] = card_numString
-            map["card_name"] = nameString
+            map["card_number"] = if (card_numString =="") "1234567890" else card_numString
+            map["card_name"] = if (nameString == "") " " else nameString
         } else if (selectedItemPosition == 12) {
             map["other_tag"] = " "
         }

@@ -32,9 +32,9 @@ class WaterFallActivity : AppCompatActivity() {
 
     lateinit var lostFragment: WaterfallFragment
     lateinit var foundFragment: WaterfallFragment
-    lateinit var pop_waterfall_type_recyclerview: RecyclerView
-    lateinit var pop_waterfall_types_all: TextView
-    lateinit var window: PopupWindow
+    lateinit var pop_waterfall_type_recyclerview : RecyclerView
+    lateinit var pop_waterfall_types_all : TextView
+    lateinit var window : PopupWindow
 
     var layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
     var type = -1
@@ -45,7 +45,7 @@ class WaterFallActivity : AppCompatActivity() {
         setContentView(R.layout.activity_water_fall)
         val waterfallLost: FloatingActionButton = findViewById(R.id.waterfall_fab_lost)
 
-        val popupWindowview: View = LayoutInflater.from(this).inflate(R.layout.lf_waterfall_cardview_types, null, false)
+        val popupWindowview : View = LayoutInflater.from(this).inflate(R.layout.lf_waterfall_cardview_types, null, false)
         pop_waterfall_types_all = popupWindowview.findViewById(R.id.waterfall_types_all)
         pop_waterfall_type_recyclerview = popupWindowview.findViewById(R.id.waterfall_type_recyclerview)
         pop_waterfall_type_recyclerview.layoutManager = layoutManager
@@ -56,8 +56,10 @@ class WaterFallActivity : AppCompatActivity() {
         val bundle = Bundle()
         val intent = Intent()
         val toolbar = findViewById<Toolbar>(R.id.toolbar1)
+
         waterfallPagerAdapter.add(foundFragment, "捡到")
         waterfallPagerAdapter.add(lostFragment, "丢失")
+
         waterfall_pager.adapter = waterfallPagerAdapter
         val apply = waterfall_tabLayout.apply {
             setupWithViewPager(waterfall_pager)
@@ -79,8 +81,8 @@ class WaterFallActivity : AppCompatActivity() {
 
                 window = PopupWindow(popupWindowview, WRAP_CONTENT, WRAP_CONTENT, true)
                 window.apply {
-                    //                    setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-                    setBackgroundDrawable(BitmapDrawable())
+//                    setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                    setBackgroundDrawable( BitmapDrawable())
                     isOutsideTouchable = true
                     isTouchable = true
                     showAsDropDown(it)
