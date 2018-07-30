@@ -80,6 +80,7 @@ data class Ques(
 data class TestViewModel(
         val status: Int,
         val message: String,
+        val time: Int,
         val data: List<TestOneProblemData>
 )
 
@@ -90,3 +91,24 @@ data class TestOneProblemData(
         val content: String,
         val option: List<String>
 ) : Serializable
+
+
+data class ScoreViewModel(
+        val score: Int,
+        val result: List<Result>
+)
+
+data class Result(
+        val ques_id: Int,
+        val ques_type: Int,
+        val is_true: Int,
+        val answer: String,
+        val true_answer: String
+)
+
+
+data class UpdateResultViewModel(
+        val id: Int,
+        val answer: String,
+        val type: Int
+)

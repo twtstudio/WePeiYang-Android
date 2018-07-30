@@ -42,11 +42,14 @@ class SelectionItem(val fragment: ProblemFragment, val selectionIndex: String, v
                 }
 
                 itemView.setOnClickListener {
-                    item.fragment.showAnswersOnSelections(item.selectionIndex.selectionIndexToInt())
+                    item.fragment.onSelectionItemClick(item.selectionIndex.selectionIndexToInt())
                 }
             }
         }
+    }
 
+    override fun areItemsTheSame(newItem: Item): Boolean {
+        return this.status == (newItem as SelectionItem).status
     }
 
     private class ItemViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {

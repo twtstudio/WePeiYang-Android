@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -64,10 +65,11 @@ class ProblemFragment : Fragment() {
             return fragment
         }
 
-        internal fun newInstace(testOneProblemData: TestOneProblemData): ProblemFragment {
+        internal fun newInstance(testOneProblemData: TestOneProblemData): ProblemFragment {
             val fragment = ProblemFragment()
             val args = Bundle()
             args.putInt(MODE_KEY, TEST_MODE)
+            args.putInt(QUES_TYPE_KEY, testOneProblemData.type)
             args.putSerializable(ONE_PROBLEM_KEY, testOneProblemData)
             fragment.arguments = args
             return fragment
@@ -82,6 +84,7 @@ class ProblemFragment : Fragment() {
     private lateinit var tvIndex: TextView
     private lateinit var divider: View
     private lateinit var tvAnswer: TextView
+    private lateinit var btConfirm: Button
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.exam_fragment_problem, container, false)
@@ -102,8 +105,10 @@ class ProblemFragment : Fragment() {
         tvIndex = view.findViewById(R.id.tv_index)
         divider = view.findViewById(R.id.divider_problem)
         tvAnswer = view.findViewById(R.id.tv_problem_answer)
+        btConfirm = view.findViewById(R.id.bt_problem_confirm)
 
         rvSelections.layoutManager = LinearLayoutManager(context)
+        rvSelections.itemAnimator = null
 
         if (mode == PRACTICE_MODE || mode == READ_MODE) {
             changeMode()
@@ -161,29 +166,58 @@ class ProblemFragment : Fragment() {
         } else {
             answerIsShown = false
             clickable = !answerIsShown
-            hideAnswer()
+            if (rvSelections.adapter != null) hideAnswer()
             PRACTICE_MODE
         }
         handleViewsVisibility()
     }
 
-    fun showAnswersOnSelections(clickId: Int) {
-        if (mode == PRACTICE_MODE && clickable) {
+    fun onSelectionItemClick(clickId: Int) {
+        Log.d("ZZZZZZZ", clickId.toString())
+        if (mode == PRACTICE_MODE && clickable && type == SINGLE_CHOICE) {
+            showAnswersForSingleSelection(clickId)
+        } else if (mode == TEST_MODE && clickable) {
+            showSelectedSelectionForTest(clickId)
+            Log.d("ZZZZZZZ6661", clickId.toString())
+        }
+    }
+
+    private fun showAnswersForSingleSelection(clickId: Int) {
+        val adapter = rvSelections.adapter as ItemAdapter
+        val list: MutableList<Item> = adapter.itemManager.itemListSnapshot.toMutableList()
+        for (i in 0 until list.size) {
+            when (i) {
+                answer.selectionIndexToInt() -> {
+                    list[i] = SelectionItem(list[i] as SelectionItem, SelectionItem.TRUE)
+                }
+                clickId -> {
+                    list[i] = SelectionItem(list[i] as SelectionItem, SelectionItem.FALSE)
+                }
+            }
+        }
+        adapter.itemManager.refreshAll(list)
+        clickable = false
+        answerIsShown = true
+        divider.visibility = View.VISIBLE
+        tvAnswer.visibility = View.VISIBLE
+    }
+
+    private fun showSelectedSelectionForTest(clickId: Int) {
+        if (mode == TEST_MODE && clickable) {
             val adapter = rvSelections.adapter as ItemAdapter
             val list: MutableList<Item> = adapter.itemManager.itemListSnapshot.toMutableList()
             for (i in 0 until list.size) {
                 when (i) {
-                    answer.selectionIndexToInt() -> {
-                        list[i] = SelectionItem(list[i] as SelectionItem, SelectionItem.TRUE)
-                    }
                     clickId -> {
-                        list[i] = SelectionItem(list[i] as SelectionItem, SelectionItem.FALSE)
+                        list[i] = SelectionItem(list[i] as SelectionItem, SelectionItem.TRUE)
                     }
                 }
             }
             adapter.itemManager.refreshAll(list)
-            clickable = false
-            answerIsShown = true
+            if (type != MULTI_CHOICE) {
+                clickable = false
+                Log.d("zzzzchange", "aa$type")
+            }
         }
     }
 
@@ -192,10 +226,13 @@ class ProblemFragment : Fragment() {
             READ_MODE -> {
                 divider.visibility = View.VISIBLE
                 tvAnswer.visibility = View.VISIBLE
+                btConfirm.visibility = View.GONE
             }
             else -> {
                 divider.visibility = View.GONE
                 tvAnswer.visibility = View.GONE
+                if (type == MULTI_CHOICE) btConfirm.visibility = View.VISIBLE
+                else btConfirm.visibility = View.GONE
             }
         }
     }
