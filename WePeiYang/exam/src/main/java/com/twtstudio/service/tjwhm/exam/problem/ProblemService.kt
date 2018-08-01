@@ -1,13 +1,19 @@
 package com.twtstudio.service.tjwhm.exam.problem
 
+import android.util.Log
 import com.twt.wepeiyang.commons.experimental.cache.RefreshState
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
+import com.twt.wepeiyang.commons.experimental.network.CoroutineCallAdapterFactory
 import com.twt.wepeiyang.commons.experimental.network.ServiceFactoryForExam
 import kotlinx.coroutines.experimental.Deferred
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
-import retrofit2.http.GET
-import retrofit2.http.Path
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Retrofit
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
+import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.http.*
 import java.io.Serializable
 
 interface ProblemService {
@@ -20,8 +26,36 @@ interface ProblemService {
     @GET("exercise/getQues/{class_id}")
     fun getTestProblems(@Path("class_id") classId: String): Deferred<TestViewModel>
 
+    @POST("exercise/getScore/{class_id}/{time}")
+    fun uploadResult(@Path("class_id") classId: String, @Path("time") time: String, @Body answerList: List<UpdateResultViewModel>): Deferred<ScoreViewModel>
+
     companion object : ProblemService by ServiceFactoryForExam()
 }
+
+//interface ProblemServiceTemp {
+//
+//    @POST("exercise/getScore/{class_id}/{time}")
+//    fun uploadResult(@Path("class_id") classId: String, @Path("time") time: String, @Body answerList: List<UpdateResultViewModel>): Deferred<ScoreViewModel>
+//
+//    companion object : ProblemServiceTemp by SFTemp()
+//
+//}
+//
+//object SFTemp {
+//    val interceptor = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
+//
+//    val client = OkHttpClient.Builder().addInterceptor(interceptor).build()
+//
+//    val retrofit = Retrofit.Builder()
+//            .baseUrl("https://exam.twtstudio.com/api/")
+//            .client(client)
+//            .addConverterFactory(GsonConverterFactory.create())
+//            .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+//            .addCallAdapterFactory(CoroutineCallAdapterFactory())
+//            .build()
+//
+//    inline operator fun <reified T> invoke(): T = retrofit.create(T::class.java)
+//}
 
 fun getIDs(classId: String, type: String, callback: suspend (RefreshState<IdsViewModel>) -> Unit) =
         launch(UI) {
@@ -44,6 +78,15 @@ fun getProblem(classId: String, type: String, problemID: String, callback: suspe
 fun getTestProblems(classId: String, callback: suspend (RefreshState<TestViewModel>) -> Unit) =
         launch(UI) {
             ProblemService.getTestProblems(classId).awaitAndHandle {
+                callback(RefreshState.Failure(it))
+            }?.let {
+                callback(RefreshState.Success(it))
+            }
+        }
+
+fun getScore(classId: String, time: String, answerList: List<UpdateResultViewModel>, callback: suspend (RefreshState<ScoreViewModel>) -> Unit) =
+        launch(UI) {
+            ProblemService.uploadResult(classId, time, answerList).awaitAndHandle {
                 callback(RefreshState.Failure(it))
             }?.let {
                 callback(RefreshState.Success(it))

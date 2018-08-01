@@ -22,17 +22,21 @@ import es.dmoral.toasty.Toasty
 
 class ProblemFragment : Fragment() {
 
-    private lateinit var answer: String
+    private lateinit var answerFromRemote: String
     private var answerIsShown: Boolean = false
-    var type: Int? = null
-    var classID: Int? = null
+    var type: Int = 0
+    var classID: Int = 0
     var mode: Int? = null
-    private var problemID: Int? = null
+    private var problemID: Int = 0
     private var clickable = true
+    private var fragmentIndex = -1
+    private var singleSelectionAnswer = -1
+    private var multiSelectionAnswers = mutableListOf<Int>()
 
 
     companion object {
 
+        const val FRAGMENT_INDEX_KEY = "fragment_index_key"
         const val CLASS_ID_KEY = "class_id_key"
 
         // 题目类型 0->单选 1->多选 2->判断
@@ -52,10 +56,11 @@ class ProblemFragment : Fragment() {
 
         private const val ONE_PROBLEM_KEY = "one_problem_key"
 
-        internal fun newInstance(classID: Int, type: Int, mode: Int, problemID: Int): ProblemFragment {
+        internal fun newInstance(fragmentIndex: Int, classID: Int, type: Int, mode: Int, problemID: Int): ProblemFragment {
             val fragment = ProblemFragment()
             val args = Bundle()
             args.apply {
+                putInt(FRAGMENT_INDEX_KEY, fragmentIndex)
                 putInt(CLASS_ID_KEY, classID)
                 putInt(QUES_TYPE_KEY, type)
                 putInt(MODE_KEY, mode)
@@ -65,12 +70,17 @@ class ProblemFragment : Fragment() {
             return fragment
         }
 
-        internal fun newInstance(testOneProblemData: TestOneProblemData): ProblemFragment {
+        internal fun newInstance(fragmentIndex: Int, testOneProblemData: TestOneProblemData): ProblemFragment {
             val fragment = ProblemFragment()
             val args = Bundle()
-            args.putInt(MODE_KEY, TEST_MODE)
-            args.putInt(QUES_TYPE_KEY, testOneProblemData.type)
-            args.putSerializable(ONE_PROBLEM_KEY, testOneProblemData)
+            args.apply {
+                putInt(FRAGMENT_INDEX_KEY, fragmentIndex)
+                putInt(MODE_KEY, TEST_MODE)
+                putInt(QUES_TYPE_KEY, testOneProblemData.type)
+                putInt(QUES_ID_KEY, testOneProblemData.id)
+                putInt(CLASS_ID_KEY, testOneProblemData.course_id.toInt())
+                putSerializable(ONE_PROBLEM_KEY, testOneProblemData)
+            }
             fragment.arguments = args
             return fragment
         }
@@ -85,15 +95,17 @@ class ProblemFragment : Fragment() {
     private lateinit var divider: View
     private lateinit var tvAnswer: TextView
     private lateinit var btConfirm: Button
+    private lateinit var mActivity: ProblemActivity
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.exam_fragment_problem, container, false)
 
-        classID = arguments?.getInt(CLASS_ID_KEY)
-        type = arguments?.getInt(QUES_TYPE_KEY)
+        fragmentIndex = arguments?.getInt(FRAGMENT_INDEX_KEY) ?: -1
+        classID = arguments?.getInt(CLASS_ID_KEY) ?: 0
+        type = arguments?.getInt(QUES_TYPE_KEY) ?: 0
         mode = arguments?.getInt(MODE_KEY)
 
-        problemID = arguments?.getInt(QUES_ID_KEY)
+        problemID = arguments?.getInt(QUES_ID_KEY) ?: 0
         answerIsShown = (mode == READ_MODE)
         clickable = (mode == PRACTICE_MODE || mode == TEST_MODE)
 
@@ -106,6 +118,16 @@ class ProblemFragment : Fragment() {
         divider = view.findViewById(R.id.divider_problem)
         tvAnswer = view.findViewById(R.id.tv_problem_answer)
         btConfirm = view.findViewById(R.id.bt_problem_confirm)
+        mActivity = activity as ProblemActivity
+        btConfirm.setOnClickListener {
+            val answerString = when (type) {
+                SINGLE_CHOICE, TRUE_FALSE -> singleSelectionAnswer.toSelectionIndex()
+                MULTI_CHOICE -> multiSelectionAnswers.toSelectionIndex()
+                else -> "W"
+            }
+            val scrollPage = !(mode == PRACTICE_MODE && multiSelectionAnswers != answerFromRemote.multiSelectionIndexToInt())
+            mActivity.storeResult(fragmentIndex, UpdateResultViewModel(problemID, answerString, type), scrollPage)
+        }
 
         rvSelections.layoutManager = LinearLayoutManager(context)
         rvSelections.itemAnimator = null
@@ -117,14 +139,12 @@ class ProblemFragment : Fragment() {
         if (mode == PRACTICE_MODE || mode == READ_MODE) {
             getProblem(classID.toString(), type.toString(), problemID.toString()) {
                 when (it) {
-                    is RefreshState.Failure -> {
-                        context?.let { it1 -> Toasty.error(it1, "网络错误", Toast.LENGTH_SHORT).show() }
-                    }
+                    is RefreshState.Failure -> context?.let { it1 -> Toasty.error(it1, "网络错误", Toast.LENGTH_SHORT).show() }
                     is RefreshState.Success -> {
                         tvType.text = it.message.ques.type.toProblemType()
                         tvTitle.text = Html.fromHtml(it.message.ques.content)
                         tvAnswer.text = "答案：${it.message.ques.answer}"
-                        answer = it.message.ques.answer
+                        answerFromRemote = it.message.ques.answer
                         rvSelections.withItems {
                             if (mode == PRACTICE_MODE) {
                                 for (i in 0 until it.message.ques.option.size) {
@@ -132,14 +152,13 @@ class ProblemFragment : Fragment() {
                                 }
                             } else if (mode == READ_MODE) {
                                 for (i in 0 until it.message.ques.option.size) {
-                                    if (i.toSelectionIndex() == it.message.ques.answer) {
+                                    if (i.toSelectionIndex() == it.message.ques.answer)
                                         selectionItem(this@ProblemFragment, i.toSelectionIndex(), it.message.ques.option[i], SelectionItem.TRUE)
-                                    } else {
-                                        selectionItem(this@ProblemFragment, i.toSelectionIndex(), it.message.ques.option[i], SelectionItem.NONE)
-                                    }
+                                    else selectionItem(this@ProblemFragment, i.toSelectionIndex(), it.message.ques.option[i], SelectionItem.NONE)
                                 }
                             }
                         }
+                        showStoredAnswers()
                     }
                 }
             }
@@ -154,6 +173,7 @@ class ProblemFragment : Fragment() {
                     selectionItem(this@ProblemFragment, it.toSelectionIndex(), oneProblemData.option[it], SelectionItem.NONE)
                 }
             }
+            showStoredAnswers()
         }
         return view
     }
@@ -173,12 +193,10 @@ class ProblemFragment : Fragment() {
     }
 
     fun onSelectionItemClick(clickId: Int) {
-        Log.d("ZZZZZZZ", clickId.toString())
         if (mode == PRACTICE_MODE && clickable && type == SINGLE_CHOICE) {
             showAnswersForSingleSelection(clickId)
         } else if (mode == TEST_MODE && clickable) {
             showSelectedSelectionForTest(clickId)
-            Log.d("ZZZZZZZ6661", clickId.toString())
         }
     }
 
@@ -187,12 +205,8 @@ class ProblemFragment : Fragment() {
         val list: MutableList<Item> = adapter.itemManager.itemListSnapshot.toMutableList()
         for (i in 0 until list.size) {
             when (i) {
-                answer.selectionIndexToInt() -> {
-                    list[i] = SelectionItem(list[i] as SelectionItem, SelectionItem.TRUE)
-                }
-                clickId -> {
-                    list[i] = SelectionItem(list[i] as SelectionItem, SelectionItem.FALSE)
-                }
+                answerFromRemote.selectionIndexToInt() -> list[i] = SelectionItem(list[i] as SelectionItem, SelectionItem.TRUE)
+                clickId -> list[i] = SelectionItem(list[i] as SelectionItem, SelectionItem.FALSE)
             }
         }
         adapter.itemManager.refreshAll(list)
@@ -200,25 +214,80 @@ class ProblemFragment : Fragment() {
         answerIsShown = true
         divider.visibility = View.VISIBLE
         tvAnswer.visibility = View.VISIBLE
+        val scrollPage = clickId == answerFromRemote.selectionIndexToInt()
+        mActivity.storeResult(fragmentIndex, UpdateResultViewModel(problemID, clickId.toSelectionIndex(), type), scrollPage)
     }
 
     private fun showSelectedSelectionForTest(clickId: Int) {
-        if (mode == TEST_MODE && clickable) {
-            val adapter = rvSelections.adapter as ItemAdapter
-            val list: MutableList<Item> = adapter.itemManager.itemListSnapshot.toMutableList()
-            for (i in 0 until list.size) {
-                when (i) {
-                    clickId -> {
-                        list[i] = SelectionItem(list[i] as SelectionItem, SelectionItem.TRUE)
+        val adapter = rvSelections.adapter as ItemAdapter
+        when (type) {
+            SINGLE_CHOICE -> {
+                singleSelectionAnswer = clickId
+                val list: MutableList<Item> = adapter.itemManager.itemListSnapshot.toMutableList()
+                for (i in 0 until list.size) {
+                    when (i) {
+                        singleSelectionAnswer -> list[i] = SelectionItem(list[i] as SelectionItem, SelectionItem.TRUE)
+                        else -> list[i] = SelectionItem(list[i] as SelectionItem, SelectionItem.NONE)
                     }
                 }
+                adapter.itemManager.refreshAll(list)
+                mActivity.storeResult(fragmentIndex, UpdateResultViewModel(problemID, singleSelectionAnswer.toSelectionIndex(), type), true)
             }
-            adapter.itemManager.refreshAll(list)
-            if (type != MULTI_CHOICE) {
+            TRUE_FALSE -> {
+                // todo
                 clickable = false
-                Log.d("zzzzchange", "aa$type")
+            }
+            MULTI_CHOICE -> {
+                when (clickId) {
+                    in multiSelectionAnswers -> multiSelectionAnswers.remove(clickId)
+                    else -> multiSelectionAnswers.add(clickId)
+                }
+                refreshMultiSelectionAnswers()
             }
         }
+    }
+
+    private fun showStoredAnswers() {
+        val answers = mActivity.userSelections[fragmentIndex]?.answer?.multiSelectionIndexToInt()
+        val adapter = rvSelections.adapter as ItemAdapter
+        val list: MutableList<Item> = adapter.itemManager.itemListSnapshot.toMutableList()
+
+        when (mode) {
+            PRACTICE_MODE -> if (answers != null) {
+                clickable = false
+                repeat(list.size) {
+                    when (it) {
+                        answerFromRemote.selectionIndexToInt() -> list[it] = SelectionItem(list[it] as SelectionItem, SelectionItem.TRUE)
+                        in answers -> list[it] = SelectionItem(list[it] as SelectionItem, SelectionItem.FALSE)
+                    }
+                }
+                adapter.itemManager.refreshAll(list)
+                answerIsShown = true
+                divider.visibility = View.VISIBLE
+                tvAnswer.visibility = View.VISIBLE
+            }
+            TEST_MODE -> if (answers != null) {
+                repeat(list.size) {
+                    when (it) {
+                        in answers -> list[it] = SelectionItem(list[it] as SelectionItem, SelectionItem.TRUE)
+                        else -> list[it] = SelectionItem(list[it] as SelectionItem, SelectionItem.NONE)
+                    }
+                }
+                adapter.itemManager.refreshAll(list)
+            }
+        }
+    }
+
+    private fun refreshMultiSelectionAnswers() {
+        val adapter = rvSelections.adapter as ItemAdapter
+        val list: MutableList<Item> = adapter.itemManager.itemListSnapshot.toMutableList()
+        for (i in 0 until list.size) {
+            when (i) {
+                in multiSelectionAnswers -> list[i] = SelectionItem(list[i] as SelectionItem, SelectionItem.TRUE)
+                else -> list[i] = SelectionItem(list[i] as SelectionItem, SelectionItem.NONE)
+            }
+        }
+        adapter.itemManager.refreshAll(list)
     }
 
     private fun handleViewsVisibility() {

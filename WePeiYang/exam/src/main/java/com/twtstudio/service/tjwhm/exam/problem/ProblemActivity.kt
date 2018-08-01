@@ -5,10 +5,12 @@ import android.os.Bundle
 import android.os.Looper
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewPager
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import com.google.gson.Gson
 import com.twt.wepeiyang.commons.experimental.cache.RefreshState
 import com.twtstudio.service.tjwhm.exam.R
 import es.dmoral.toasty.Toasty
@@ -17,6 +19,7 @@ class ProblemActivity : AppCompatActivity() {
 
     var mode: Int = 0
     var classID: Int = 0
+    var time: Int = 0
 
     companion object {
         const val MODE_KEY = "problem_activity_mode"
@@ -35,10 +38,12 @@ class ProblemActivity : AppCompatActivity() {
     private lateinit var tvLeft: TextView
     private lateinit var tvRight: TextView
     private lateinit var vpProblem: ViewPager
+    private lateinit var tvUpload: TextView
     private val pagerAdapter = ProblemPagerAdapter(supportFragmentManager)
 
     private var statusBarView: View? = null
     private var size = 0
+    var userSelections: MutableMap<Int, UpdateResultViewModel> = mutableMapOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,6 +59,7 @@ class ProblemActivity : AppCompatActivity() {
         tvLeft = findViewById(R.id.tv_problem_left)
         tvRight = findViewById(R.id.tv_problem_right)
         vpProblem = findViewById(R.id.vp_problem)
+        tvUpload = findViewById(R.id.tv_problem_test_upload)
 
         mode = intent.getIntExtra(MODE_KEY, -999)
         classID = intent.getIntExtra(CLASS_ID_KEY, -999)
@@ -67,6 +73,7 @@ class ProblemActivity : AppCompatActivity() {
 
 
         if (mode == READ_AND_PRACTICE) {
+            tvUpload.visibility = View.GONE
             getIDs(classID.toString(), SINGLE_CHOICE.toString()) {
                 when (it) {
                     is RefreshState.Failure -> {
@@ -74,7 +81,7 @@ class ProblemActivity : AppCompatActivity() {
                     }
                     is RefreshState.Success -> {
                         for (i in 0 until it.message.ques.size) {
-                            pagerAdapter.add(classID, SINGLE_CHOICE, ProblemFragment.READ_MODE, it.message.ques[i].id)
+                            pagerAdapter.add(i, classID, SINGLE_CHOICE, ProblemFragment.READ_MODE, it.message.ques[i].id)
                         }
                         size += it.message.ques.size
                         vpProblem.adapter = pagerAdapter
@@ -84,6 +91,10 @@ class ProblemActivity : AppCompatActivity() {
         } else if (mode == CONTEST) {
             tvLeft.visibility = View.GONE
             tvRight.visibility = View.GONE
+            tvUpload.visibility = View.VISIBLE
+            tvUpload.setOnClickListener {
+                uploadResult()
+            }
             getTestProblems(classID.toString()) {
                 when (it) {
                     is RefreshState.Failure -> {
@@ -91,11 +102,40 @@ class ProblemActivity : AppCompatActivity() {
                     }
                     is RefreshState.Success -> {
                         for (i in 0 until it.message.data.size) {
-                            pagerAdapter.add(it.message.data[i])
+                            pagerAdapter.add(i, it.message.data[i])
                         }
                         size += it.message.data.size
                         vpProblem.adapter = pagerAdapter
+                        time = it.message.time
                     }
+                }
+            }
+        }
+    }
+
+    fun storeResult(fragmentIndex: Int, updateResultViewModel: UpdateResultViewModel, scrollPage: Boolean) {
+        userSelections[fragmentIndex] = updateResultViewModel
+        if (scrollPage && vpProblem.currentItem < size - 1) {
+            vpProblem.currentItem = vpProblem.currentItem + 1
+        }
+    }
+
+    private fun uploadResult() {
+        val gson = Gson()
+        var list = mutableListOf<UpdateResultViewModel>()
+        repeat(userSelections.size) {
+            userSelections[it]?.let { it1 -> list.add(it1) }
+        }
+        val resultJsonString = gson.toJson(list)
+        Log.d("zzzzzActivity  ", resultJsonString)
+        getScore(classID.toString(), time.toString(), list) {
+            when (it) {
+                is RefreshState.Failure -> {
+                    Toasty.error(this@ProblemActivity, "网络错误", Toast.LENGTH_SHORT).show()
+                }
+                is RefreshState.Success -> {
+                    Toasty.success(this@ProblemActivity, "成功！", Toast.LENGTH_SHORT).show()
+                    Log.d("zzzzz", it.message.toString())
                 }
             }
         }

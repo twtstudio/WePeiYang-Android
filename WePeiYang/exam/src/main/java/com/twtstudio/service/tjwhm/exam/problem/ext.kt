@@ -33,6 +33,30 @@ fun Int.toSelectionIndex(): String {
     }
 }
 
+fun List<Int>.toSelectionIndex(): String {
+    var result = ""
+    repeat(this.size) {
+        result += when (this[it]) {
+            0 -> "A"
+            1 -> "B"
+            2 -> "C"
+            3 -> "D"
+            4 -> "E"
+            5 -> "F"
+            else -> "W"
+        }
+    }
+    return result
+}
+
+fun String.multiSelectionIndexToInt(): List<Int> {
+    val result = mutableListOf<Int>()
+    for (i in 0 until length) {
+        result.add(this[i].selectionIndexToInt())
+    }
+    return result
+}
+
 fun Int.toSelectionIndexForTrueFalse(): String {
     return when (this) {
         0 -> "T"
@@ -52,8 +76,15 @@ fun String.selectionIndexToInt(): Int {
     }
 }
 
-fun String.multiSelectionIndexToArray(): List<Int> {
-    TODO()
+fun Char.selectionIndexToInt(): Int {
+    return when (this) {
+        'A', 'T' -> 0
+        'B', 'F' -> 1
+        'C' -> 2
+        'D' -> 3
+        'E' -> 4
+        else -> 6
+    }
 }
 
 object NoneAnimatorListener : Animator.AnimatorListener {
