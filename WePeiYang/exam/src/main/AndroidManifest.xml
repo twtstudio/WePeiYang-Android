@@ -9,7 +9,8 @@
         android:theme="@style/AppTheme">
         <activity android:name=".home.ExamHomeActivity" />
         <activity android:name=".list.ListActivity" />
-        <activity android:name=".problem.ProblemActivity"></activity>
+        <activity android:name=".problem.ProblemActivity" />
+        <activity android:name=".problem.TestResultActivity"></activity>
     </application>
 
 </manifest>

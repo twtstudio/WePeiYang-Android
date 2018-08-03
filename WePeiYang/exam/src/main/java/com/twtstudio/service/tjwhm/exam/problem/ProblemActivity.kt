@@ -122,7 +122,7 @@ class ProblemActivity : AppCompatActivity() {
 
     private fun uploadResult() {
         val gson = Gson()
-        var list = mutableListOf<UpdateResultViewModel>()
+        val list = mutableListOf<UpdateResultViewModel>()
         repeat(userSelections.size) {
             userSelections[it]?.let { it1 -> list.add(it1) }
         }
@@ -134,7 +134,7 @@ class ProblemActivity : AppCompatActivity() {
                     Toasty.error(this@ProblemActivity, "网络错误", Toast.LENGTH_SHORT).show()
                 }
                 is RefreshState.Success -> {
-                    Toasty.success(this@ProblemActivity, "成功！", Toast.LENGTH_SHORT).show()
+                    Toasty.success(this@ProblemActivity, "交卷成功！", Toast.LENGTH_SHORT).show()
                     Log.d("zzzzz", it.message.toString())
                 }
             }

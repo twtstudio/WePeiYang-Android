@@ -1,18 +1,11 @@
 package com.twtstudio.service.tjwhm.exam.problem
 
-import android.util.Log
 import com.twt.wepeiyang.commons.experimental.cache.RefreshState
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
-import com.twt.wepeiyang.commons.experimental.network.CoroutineCallAdapterFactory
 import com.twt.wepeiyang.commons.experimental.network.ServiceFactoryForExam
 import kotlinx.coroutines.experimental.Deferred
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Retrofit
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
-import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
 import java.io.Serializable
 
