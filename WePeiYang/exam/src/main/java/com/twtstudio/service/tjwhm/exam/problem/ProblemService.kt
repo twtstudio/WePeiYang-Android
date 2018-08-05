@@ -132,7 +132,7 @@ data class TestOneProblemData(
 data class ScoreViewModel(
         val score: Int,
         val result: List<Result>
-)
+) : Serializable
 
 data class Result(
         val ques_id: Int,

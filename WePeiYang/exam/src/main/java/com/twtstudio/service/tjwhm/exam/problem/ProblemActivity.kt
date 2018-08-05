@@ -1,5 +1,6 @@
 package com.twtstudio.service.tjwhm.exam.problem
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Looper
@@ -14,6 +15,9 @@ import com.google.gson.Gson
 import com.twt.wepeiyang.commons.experimental.cache.RefreshState
 import com.twtstudio.service.tjwhm.exam.R
 import es.dmoral.toasty.Toasty
+import com.twtstudio.service.tjwhm.exam.ext.FixedSpeedScroller
+import com.twtstudio.service.tjwhm.exam.problem.score.ScoreActivity
+
 
 class ProblemActivity : AppCompatActivity() {
 
@@ -63,6 +67,11 @@ class ProblemActivity : AppCompatActivity() {
 
         mode = intent.getIntExtra(MODE_KEY, -999)
         classID = intent.getIntExtra(CLASS_ID_KEY, -999)
+
+        val field = ViewPager::class.java.getDeclaredField("mScroller")
+        field.isAccessible = true
+        val scroller = FixedSpeedScroller(vpProblem.context)
+        field.set(vpProblem, scroller)
 
         if (mode == CONTEST) {
             tvLeft.visibility = View.GONE
@@ -116,7 +125,7 @@ class ProblemActivity : AppCompatActivity() {
     fun storeResult(fragmentIndex: Int, updateResultViewModel: UpdateResultViewModel, scrollPage: Boolean) {
         userSelections[fragmentIndex] = updateResultViewModel
         if (scrollPage && vpProblem.currentItem < size - 1) {
-            vpProblem.currentItem = vpProblem.currentItem + 1
+            vpProblem.setCurrentItem(vpProblem.currentItem + 1, true)
         }
     }
 
@@ -135,7 +144,9 @@ class ProblemActivity : AppCompatActivity() {
                 }
                 is RefreshState.Success -> {
                     Toasty.success(this@ProblemActivity, "交卷成功！", Toast.LENGTH_SHORT).show()
-                    Log.d("zzzzz", it.message.toString())
+                    val intent = Intent(this@ProblemActivity, ScoreActivity::class.java)
+                    intent.putExtra(ScoreActivity.SCORE_VIEW_MODEL_KEY, it.message)
+                    this@ProblemActivity.startActivity(intent)
                 }
             }
         }

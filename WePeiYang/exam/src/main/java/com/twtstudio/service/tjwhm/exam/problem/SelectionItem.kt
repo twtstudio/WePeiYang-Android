@@ -8,6 +8,7 @@ import android.widget.TextView
 import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemController
 import com.twtstudio.service.tjwhm.exam.R
+import com.twtstudio.service.tjwhm.exam.ext.selectionIndexToInt
 import org.jetbrains.anko.layoutInflater
 
 class SelectionItem(val fragment: ProblemFragment, val selectionIndex: String, val selectionContent: String, val status: Int) : Item {

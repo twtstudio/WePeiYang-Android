@@ -1,7 +1,9 @@
-package com.twtstudio.service.tjwhm.exam.problem
+package com.twtstudio.service.tjwhm.exam.ext
 
-import android.animation.Animator
-import android.view.View
+/**
+ * Created by tjwhm@TWTStudio at 11:29 AM,2018/8/5.
+ * Happy coding!
+ */
 
 fun String.toProblemType(): String {
     return when (this) {
@@ -85,21 +87,4 @@ fun Char.selectionIndexToInt(): Int {
         'E' -> 4
         else -> 6
     }
-}
-
-object NoneAnimatorListener : Animator.AnimatorListener {
-    override fun onAnimationEnd(animation: Animator?) = Unit
-    override fun onAnimationCancel(animation: Animator?) = Unit
-    override fun onAnimationStart(animation: Animator?) = Unit
-    override fun onAnimationRepeat(animation: Animator?) = Unit
-}
-
-class GoneAnimatorListener(var view: View?) : Animator.AnimatorListener {
-    override fun onAnimationEnd(animation: Animator?) {
-        view?.visibility = View.GONE
-    }
-
-    override fun onAnimationCancel(animation: Animator?) = Unit
-    override fun onAnimationStart(animation: Animator?) = Unit
-    override fun onAnimationRepeat(animation: Animator?) = Unit
 }

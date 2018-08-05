@@ -1,6 +1,5 @@
 package com.twtstudio.service.tjwhm.exam.list
 
-import android.animation.Animator
 import android.content.Context
 import android.content.Intent
 import android.support.v7.widget.RecyclerView
@@ -11,8 +10,8 @@ import android.widget.TextView
 import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemController
 import com.twtstudio.service.tjwhm.exam.R
-import com.twtstudio.service.tjwhm.exam.problem.GoneAnimatorListener
-import com.twtstudio.service.tjwhm.exam.problem.NoneAnimatorListener
+import com.twtstudio.service.tjwhm.exam.ext.GoneAnimatorListener
+import com.twtstudio.service.tjwhm.exam.ext.NoneAnimatorListener
 import com.twtstudio.service.tjwhm.exam.problem.ProblemActivity
 import org.jetbrains.anko.layoutInflater
 
