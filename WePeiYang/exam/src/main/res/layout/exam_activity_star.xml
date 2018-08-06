@@ -1,87 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="15dp">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/tv_star_party"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="26dp"
-        android:layout_marginTop="13dp"
-        android:background="@drawable/exam_blue_tv_with_boundary_small"
-        android:text="党课"
-        android:textColor="@color/examBlueText"
-        android:textSize="10sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/tv_star_selection"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="12dp"
-        android:background="@drawable/exam_blue_tv_with_boundary_small"
-        android:text="单选"
-        android:textColor="@color/examBlueText"
-        android:textSize="10sp"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_star_party"
-        app:layout_constraintLeft_toRightOf="@+id/tv_star_party"
-        app:layout_constraintTop_toTopOf="@+id/tv_star_party" />
-
-    <TextView
-        android:id="@+id/tv_star_subject"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="13dp"
-        android:lineSpacingExtra="11dp"
-        android:paddingLeft="26dp"
-        android:paddingRight="26dp"
-        android:text="党章规定，（）在中央委员会的职权全体会议闭会期间，行使中央委员会"
-        android:textColor="@color/examGrayText"
-        android:textSize="14sp"
-        app:layout_constraintTop_toBottomOf="@+id/tv_star_party" />
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_star_selection"
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/tb_star"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/tv_star_subject" />
+        android:layout_gravity="bottom"
+        android:background="@drawable/exam_statusbar_gradient">
 
-    <TextView
-        android:id="@+id/tv_star_answer"
-        android:layout_width="wrap_content"
+        <ImageView
+            android:id="@+id/iv_history_back"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/exam_ic_arrow_back_24dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="我的收藏（20）"
+            android:textColor="@color/white_color"
+            android:textSize="18sp" />
+
+    </android.support.v7.widget.Toolbar>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_history"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
-        android:paddingBottom="15dp"
-        android:paddingLeft="26dp"
-        android:text="题目答案：A"
-        android:textColor="@color/examBlueText"
-        android:textSize="14sp"
-        app:layout_constraintTop_toBottomOf="@id/rv_star_selection" />
-
-    <ImageView
-        android:layout_width="19dp"
-        android:layout_height="19dp"
-        android:layout_marginLeft="208dp"
-        android:layout_marginRight="27dp"
-        android:layout_marginTop="23dp"
-        android:src="@drawable/exam_star_filled"
-        app:layout_constraintLeft_toRightOf="@+id/tv_star_answer"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rv_star_selection" />
-
-    <view
-        android:layout_width="350dp"
-        android:layout_height="1dp"
-        android:layout_marginTop="15dp"
-        android:background="@color/examDivide"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_history_title" />
-
+        app:layout_constraintTop_toBottomOf="@+id/tb_star" />
 
 </android.support.constraint.ConstraintLayout>
