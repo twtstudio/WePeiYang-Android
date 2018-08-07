@@ -45,7 +45,7 @@
         android:layout_width="350dp"
         android:layout_height="1dp"
         android:layout_marginTop="15dp"
-        android:background="@color/examHistoryDivide"
+        android:background="@color/examDivide"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

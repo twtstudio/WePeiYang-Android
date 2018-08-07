@@ -25,31 +25,6 @@ interface ProblemService {
     companion object : ProblemService by ServiceFactoryForExam()
 }
 
-//interface ProblemServiceTemp {
-//
-//    @POST("exercise/getScore/{class_id}/{time}")
-//    fun uploadResult(@Path("class_id") classId: String, @Path("time") time: String, @Body answerList: List<UpdateResultViewModel>): Deferred<ScoreViewModel>
-//
-//    companion object : ProblemServiceTemp by SFTemp()
-//
-//}
-//
-//object SFTemp {
-//    val interceptor = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
-//
-//    val client = OkHttpClient.Builder().addInterceptor(interceptor).build()
-//
-//    val retrofit = Retrofit.Builder()
-//            .baseUrl("https://exam.twtstudio.com/api/")
-//            .client(client)
-//            .addConverterFactory(GsonConverterFactory.create())
-//            .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-//            .addCallAdapterFactory(CoroutineCallAdapterFactory())
-//            .build()
-//
-//    inline operator fun <reified T> invoke(): T = retrofit.create(T::class.java)
-//}
-
 fun getIDs(classId: String, type: String, callback: suspend (RefreshState<IdsViewModel>) -> Unit) =
         launch(UI) {
             ProblemService.getIDs(classId, type).awaitAndHandle {
@@ -118,7 +93,7 @@ data class TestViewModel(
         val message: String,
         val time: Int,
         val data: List<TestOneProblemData>
-)
+) : Serializable
 
 data class TestOneProblemData(
         val id: Int,
@@ -140,7 +115,7 @@ data class Result(
         val is_true: Int,
         val answer: String,
         val true_answer: String
-)
+) : Serializable
 
 
 data class UpdateResultViewModel(

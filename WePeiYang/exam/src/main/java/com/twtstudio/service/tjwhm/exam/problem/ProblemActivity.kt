@@ -21,10 +21,6 @@ import com.twtstudio.service.tjwhm.exam.problem.score.ScoreActivity
 
 class ProblemActivity : AppCompatActivity() {
 
-    var mode: Int = 0
-    var classID: Int = 0
-    var time: Int = 0
-
     companion object {
         const val MODE_KEY = "problem_activity_mode"
         const val READ_AND_PRACTICE = 1
@@ -39,6 +35,11 @@ class ProblemActivity : AppCompatActivity() {
         var isLeft = true
     }
 
+    var mode: Int = 0
+    var classID: Int = 0
+    var time: Int = 0
+
+    private lateinit var problemForTest: TestViewModel
     private lateinit var tvLeft: TextView
     private lateinit var tvRight: TextView
     private lateinit var vpProblem: ViewPager
@@ -110,6 +111,7 @@ class ProblemActivity : AppCompatActivity() {
                         Toasty.error(this@ProblemActivity, "网络错误", Toast.LENGTH_SHORT).show()
                     }
                     is RefreshState.Success -> {
+                        problemForTest = it.message
                         for (i in 0 until it.message.data.size) {
                             pagerAdapter.add(i, it.message.data[i])
                         }
@@ -146,6 +148,7 @@ class ProblemActivity : AppCompatActivity() {
                     Toasty.success(this@ProblemActivity, "交卷成功！", Toast.LENGTH_SHORT).show()
                     val intent = Intent(this@ProblemActivity, ScoreActivity::class.java)
                     intent.putExtra(ScoreActivity.SCORE_VIEW_MODEL_KEY, it.message)
+                    intent.putExtra(ScoreActivity.PROBLEM_FOR_TEST_KEY, problemForTest)
                     this@ProblemActivity.startActivity(intent)
                 }
             }

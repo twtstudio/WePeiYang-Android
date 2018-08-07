@@ -11,7 +11,7 @@ import com.twtstudio.service.tjwhm.exam.R
 import com.twtstudio.service.tjwhm.exam.ext.selectionIndexToInt
 import org.jetbrains.anko.layoutInflater
 
-class SelectionItem(val fragment: ProblemFragment, val selectionIndex: String, val selectionContent: String, val status: Int) : Item {
+class SelectionItem(val fragment: ProblemFragment?, val selectionIndex: String, val selectionContent: String, val status: Int) : Item {
     override val controller: ItemController
         get() = Controller
 
@@ -34,16 +34,16 @@ class SelectionItem(val fragment: ProblemFragment, val selectionIndex: String, v
                 when (item.status) {
                     TRUE -> tvSelectionIndex?.apply {
                         setBackgroundResource(R.drawable.exam_selection_true_index)
-                        item.fragment.context?.let { ContextCompat.getColor(it, R.color.white_color) }?.let { setTextColor(it) }
+                        item.fragment?.context?.let { ContextCompat.getColor(it, R.color.white_color) }?.let { setTextColor(it) }
                     }
                     FALSE -> tvSelectionIndex?.apply {
                         setBackgroundResource(R.drawable.exam_selection_wrong_index)
-                        item.fragment.context?.let { ContextCompat.getColor(it, R.color.white_color) }?.let { setTextColor(it) }
+                        item.fragment?.context?.let { ContextCompat.getColor(it, R.color.white_color) }?.let { setTextColor(it) }
                     }
                 }
 
                 itemView.setOnClickListener {
-                    item.fragment.onSelectionItemClick(item.selectionIndex.selectionIndexToInt())
+                    item.fragment?.onSelectionItemClick(item.selectionIndex.selectionIndexToInt())
                 }
             }
         }
@@ -59,4 +59,4 @@ class SelectionItem(val fragment: ProblemFragment, val selectionIndex: String, v
     }
 }
 
-fun MutableList<Item>.selectionItem(fragment: ProblemFragment, selectionIndex: String, selectionContent: String, status: Int) = add(SelectionItem(fragment, selectionIndex, selectionContent, status))
+fun MutableList<Item>.selectionItem(fragment: ProblemFragment?, selectionIndex: String, selectionContent: String, status: Int) = add(SelectionItem(fragment, selectionIndex, selectionContent, status))

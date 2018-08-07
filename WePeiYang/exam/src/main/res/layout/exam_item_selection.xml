@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="8dp"
-    android:layout_marginTop="20dp"
     android:gravity="center_vertical"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:paddingBottom="10dp"
+    android:paddingTop="20dp">
 
     <TextView
         android:id="@+id/tv_selection_index"
         android:layout_width="16dp"
         android:layout_height="16dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="32dp"
         android:background="@drawable/exam_selection_index_shape"
         android:gravity="center"
         android:text="A"
@@ -21,7 +22,9 @@
         android:id="@+id/tv_selection_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
         android:layout_marginStart="8dp"
         android:textColor="@color/examBlackText"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        tools:text="@string/appbar_scrolling_view_behavior" />
 </LinearLayout>

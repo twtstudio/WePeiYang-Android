@@ -59,7 +59,7 @@
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_marginTop="32dp"
-        android:src="@drawable/exam_star_blank"
+        android:src="@drawable/exam_ic_star_blank"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintLeft_toLeftOf="@id/guideline_vertical_centre"
         app:layout_constraintRight_toLeftOf="@id/iv_index"
