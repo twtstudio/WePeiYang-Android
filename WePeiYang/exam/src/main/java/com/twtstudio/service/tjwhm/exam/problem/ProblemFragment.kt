@@ -1,5 +1,6 @@
 package com.twtstudio.service.tjwhm.exam.problem
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -25,7 +26,6 @@ class ProblemFragment : Fragment() {
     private lateinit var answerFromRemote: String
     private var answerIsShown: Boolean = false
     var type: Int = 0
-    var classID: Int = 0
     var mode: Int? = null
     private var problemID: Int = 0
     private var clickable = true
@@ -37,7 +37,6 @@ class ProblemFragment : Fragment() {
     companion object {
 
         const val FRAGMENT_INDEX_KEY = "fragment_index_key"
-        const val CLASS_ID_KEY = "class_id_key"
 
         // 题目类型 0->单选 1->多选 2->判断
         const val QUES_TYPE_KEY = "ques_type"
@@ -56,12 +55,11 @@ class ProblemFragment : Fragment() {
 
         private const val ONE_PROBLEM_KEY = "one_problem_key"
 
-        internal fun newInstance(fragmentIndex: Int, classID: Int, type: Int, mode: Int, problemID: Int): ProblemFragment {
+        internal fun newInstance(fragmentIndex: Int, type: Int, mode: Int, problemID: Int): ProblemFragment {
             val fragment = ProblemFragment()
             val args = Bundle()
             args.apply {
                 putInt(FRAGMENT_INDEX_KEY, fragmentIndex)
-                putInt(CLASS_ID_KEY, classID)
                 putInt(QUES_TYPE_KEY, type)
                 putInt(MODE_KEY, mode)
                 putInt(QUES_ID_KEY, problemID)
@@ -78,7 +76,6 @@ class ProblemFragment : Fragment() {
                 putInt(MODE_KEY, TEST_MODE)
                 putInt(QUES_TYPE_KEY, testOneProblemData.type)
                 putInt(QUES_ID_KEY, testOneProblemData.id)
-                putInt(CLASS_ID_KEY, testOneProblemData.course_id.toInt())
                 putSerializable(ONE_PROBLEM_KEY, testOneProblemData)
             }
             fragment.arguments = args
@@ -97,11 +94,11 @@ class ProblemFragment : Fragment() {
     private lateinit var btConfirm: Button
     private lateinit var mActivity: ProblemActivity
 
+    @SuppressLint("SetTextI18n")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.exam_fragment_problem, container, false)
 
         fragmentIndex = arguments?.getInt(FRAGMENT_INDEX_KEY) ?: -1
-        classID = arguments?.getInt(CLASS_ID_KEY) ?: 0
         type = arguments?.getInt(QUES_TYPE_KEY) ?: 0
         mode = arguments?.getInt(MODE_KEY)
 
@@ -136,8 +133,10 @@ class ProblemFragment : Fragment() {
             changeMode()
         }
 
+        tvIndex.text = "${fragmentIndex + 1}/${mActivity.size}"
+
         if (mode == PRACTICE_MODE || mode == READ_MODE) {
-            getProblem(classID.toString(), type.toString(), problemID.toString()) {
+            getProblem(mActivity.classID.toString(), type.toString(), problemID.toString()) {
                 when (it) {
                     is RefreshState.Failure -> context?.let { it1 -> Toasty.error(it1, "网络错误", Toast.LENGTH_SHORT).show() }
                     is RefreshState.Success -> {

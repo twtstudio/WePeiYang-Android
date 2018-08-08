@@ -8,8 +8,8 @@ class ProblemPagerAdapter(fragmentManager: FragmentManager) : FragmentStatePager
 
     private var fragmentList = mutableListOf<ProblemFragment>()
 
-    fun add(fragmentIndex: Int, classID: Int, type: Int, mode: Int, problemID: Int) =
-            fragmentList.add(ProblemFragment.newInstance(fragmentIndex, classID, type, mode, problemID))
+    fun add(fragmentIndex: Int, type: Int, mode: Int, problemID: Int) =
+            fragmentList.add(ProblemFragment.newInstance(fragmentIndex, type, mode, problemID))
 
     fun add(fragmentIndex: Int, oneProblemData: TestOneProblemData) =
             fragmentList.add(ProblemFragment.newInstance(fragmentIndex, oneProblemData))

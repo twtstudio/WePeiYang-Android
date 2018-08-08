@@ -6,12 +6,10 @@ import android.os.Bundle
 import android.os.Looper
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewPager
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import com.google.gson.Gson
 import com.twt.wepeiyang.commons.experimental.cache.RefreshState
 import com.twtstudio.service.tjwhm.exam.R
 import es.dmoral.toasty.Toasty
@@ -29,8 +27,8 @@ class ProblemActivity : AppCompatActivity() {
         const val CLASS_ID_KEY = "class_id_key"
 
         const val SINGLE_CHOICE = 0
-        const val MUTLI_CHOICE = 1
-        const val TRUE_FASLE = 2
+        const val MULTI_CHOICE = 1
+        const val TRUE_FALSE = 2
 
         var isLeft = true
     }
@@ -47,7 +45,7 @@ class ProblemActivity : AppCompatActivity() {
     private val pagerAdapter = ProblemPagerAdapter(supportFragmentManager)
 
     private var statusBarView: View? = null
-    private var size = 0
+    var size = 0
     var userSelections: MutableMap<Int, UpdateResultViewModel> = mutableMapOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -91,7 +89,7 @@ class ProblemActivity : AppCompatActivity() {
                     }
                     is RefreshState.Success -> {
                         for (i in 0 until it.message.ques.size) {
-                            pagerAdapter.add(i, classID, SINGLE_CHOICE, ProblemFragment.READ_MODE, it.message.ques[i].id)
+                            pagerAdapter.add(i, SINGLE_CHOICE, ProblemFragment.READ_MODE, it.message.ques[i].id)
                         }
                         size += it.message.ques.size
                         vpProblem.adapter = pagerAdapter
@@ -132,13 +130,14 @@ class ProblemActivity : AppCompatActivity() {
     }
 
     private fun uploadResult() {
-        val gson = Gson()
+        if (size != userSelections.size) {
+            Toasty.info(this@ProblemActivity, "请完成所有题目！", Toast.LENGTH_SHORT).show()
+            return
+        }
         val list = mutableListOf<UpdateResultViewModel>()
         repeat(userSelections.size) {
             userSelections[it]?.let { it1 -> list.add(it1) }
         }
-        val resultJsonString = gson.toJson(list)
-        Log.d("zzzzzActivity  ", resultJsonString)
         getScore(classID.toString(), time.toString(), list) {
             when (it) {
                 is RefreshState.Failure -> {
@@ -150,6 +149,7 @@ class ProblemActivity : AppCompatActivity() {
                     intent.putExtra(ScoreActivity.SCORE_VIEW_MODEL_KEY, it.message)
                     intent.putExtra(ScoreActivity.PROBLEM_FOR_TEST_KEY, problemForTest)
                     this@ProblemActivity.startActivity(intent)
+                    finish()
                 }
             }
         }

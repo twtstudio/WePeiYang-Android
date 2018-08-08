@@ -6,17 +6,14 @@
     android:layout_height="match_parent"
     android:background="@color/white_color">
 
-    <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="56dp"
-        android:background="@color/white_color">
+        android:layout_height="match_parent">
 
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="56dp"
             android:background="@color/white_color"
             app:elevation="0dp">
 
@@ -158,16 +155,6 @@
             android:layout_height="wrap_content"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-        <TextView
-            android:id="@+id/tv_score_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="72dp"
-            android:layout_marginTop="16dp"
-            android:text="题目答案"
-            android:textColor="@color/white_color"
-            android:textSize="18sp" />
-
     </android.support.design.widget.CoordinatorLayout>
 
     <android.support.v7.widget.Toolbar
@@ -184,6 +171,5 @@
             android:layout_height="24dp"
             android:src="@drawable/exam_ic_arrow_back_24dp" />
     </android.support.v7.widget.Toolbar>
-
 
 </RelativeLayout>

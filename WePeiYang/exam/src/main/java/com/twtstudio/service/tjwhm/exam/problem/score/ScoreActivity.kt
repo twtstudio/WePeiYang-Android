@@ -27,7 +27,6 @@ class ScoreActivity : AppCompatActivity() {
     private lateinit var scoreData: ScoreViewModel
 
     private lateinit var toolbar: Toolbar
-    private lateinit var tvTitle: TextView
 
     private lateinit var llScore: LinearLayout
     private lateinit var tvProblemNum: TextView
@@ -55,7 +54,6 @@ class ScoreActivity : AppCompatActivity() {
         findViewById<ImageView>(R.id.iv_score_back).setOnClickListener { onBackPressed() }
 
         llScore = findViewById(R.id.ll_score)
-        tvTitle = findViewById(R.id.tv_score_title)
         tvProblemNum = findViewById(R.id.tv_score_problem_num)
         tvRadio = findViewById(R.id.tv_score_problem_radio)
         tvTime = findViewById(R.id.tv_score_time)

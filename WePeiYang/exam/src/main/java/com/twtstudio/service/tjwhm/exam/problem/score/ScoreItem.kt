@@ -1,6 +1,8 @@
 package com.twtstudio.service.tjwhm.exam.problem.score
 
+import android.annotation.SuppressLint
 import android.content.Context
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.Html
@@ -32,13 +34,16 @@ class ScoreItem(val index: Int, val context: Context, val problemData: TestOnePr
         override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder =
                 ItemViewHolder(parent.context.layoutInflater.inflate(R.layout.exam_item_score, parent, false))
 
+        @SuppressLint("SetTextI18n")
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: Item) {
             holder as ItemViewHolder
             item as ScoreItem
             holder.apply {
-                tvProblemTitle?.text = Html.fromHtml(item.problemData.content)
+                tvProblemTitle?.text = (item.index + 1).toString() + "." + Html.fromHtml(item.problemData.content).toString()
                 tvRightAnswer?.text = "正确答案：${item.resultData.true_answer}"
                 tvUserAnswer?.text = "你的答案：${item.resultData.answer}"
+                if (item.resultData.is_true == 1) tvUserAnswer?.setTextColor(ContextCompat.getColor(item.context, R.color.examBlueText))
+                else tvUserAnswer?.setTextColor(ContextCompat.getColor(item.context, R.color.examRedText))
                 rvScoreSelections?.layoutManager = LinearLayoutManager(item.context)
                 rvScoreSelections?.withItems {
                     repeat(item.problemData.option.size) {

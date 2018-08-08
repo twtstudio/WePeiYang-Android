@@ -71,11 +71,15 @@ class LessonItem(val context: Context, val lessonData: LessonData) : Item {
                 tvEnterPractice?.setOnClickListener {
                     intent.putExtra(ProblemActivity.MODE_KEY, ProblemActivity.READ_AND_PRACTICE)
                     item.context.startActivity(intent)
+                    item.context as ListActivity
+                    item.context.finish()
                 }
 
                 tvEnterContest?.setOnClickListener {
                     intent.putExtra(ProblemActivity.MODE_KEY, ProblemActivity.CONTEST)
                     item.context.startActivity(intent)
+                    item.context as ListActivity
+                    item.context.finish()
                 }
             }
         }
