@@ -1,5 +1,6 @@
 package com.twtstudio.service.tjwhm.exam.user
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -7,11 +8,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.twt.wepeiyang.commons.experimental.cache.CacheIndicator
 import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
 import com.twtstudio.service.tjwhm.exam.R
+import com.twtstudio.service.tjwhm.exam.user.history.HistoryActivity
 import de.hdodenhof.circleimageview.CircleImageView
+import es.dmoral.toasty.Toasty
 
 class UserFragment : Fragment() {
     companion object {
@@ -29,6 +33,8 @@ class UserFragment : Fragment() {
     private lateinit var llUserWrong: LinearLayout
     private lateinit var llUserStar: LinearLayout
 
+    private var hasHistory = false
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.exam_fragment_user, container, false)
         civAvatar = view.findViewById(R.id.civ_avatar)
@@ -41,8 +47,14 @@ class UserFragment : Fragment() {
         llUserHistory = view.findViewById(R.id.ll_user_history)
         llUserWrong = view.findViewById(R.id.ll_user_wrong)
         llUserStar = view.findViewById(R.id.ll_user_star)
+
         examUserLiveData.bindNonNull(this, ::bindExamUserData)
         examUserLiveData.refresh(CacheIndicator.REMOTE)
+
+        llUserHistory.setOnClickListener {
+            if (hasHistory) context?.startActivity(Intent(context, HistoryActivity::class.java))
+            else this@UserFragment.context?.let { it1 -> Toasty.info(it1, "你还没有刷题历史哦", Toast.LENGTH_SHORT).show() }
+        }
         return view
     }
 
@@ -55,9 +67,12 @@ class UserFragment : Fragment() {
             tvUserTitle.text = it.title.title_name
 
             // todo: 修改为正确算法
-            tvProblemsNum.text = 163.toString()
-            tvProblemsRadio.text = "95%"
-            tvLessonsNum.text = "2"
+            val problemNum = it.ques_message.done_number.toInt() + it.ques_message.remember_number.toInt()
+            tvProblemsNum.text = problemNum.toString()
+            tvProblemsRadio.text = ((it.ques_message.error_number.toDouble() / problemNum.toDouble()).toString() + "000").substring(2, 4) + "%"
+            tvLessonsNum.text = it.ques_message.remember_course_number.toString()
+
+            hasHistory = it.history.status == 1
         }
     }
 }

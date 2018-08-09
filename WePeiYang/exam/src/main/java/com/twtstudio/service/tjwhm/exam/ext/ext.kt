@@ -88,3 +88,11 @@ fun Char.selectionIndexToInt(): Int {
         else -> 6
     }
 }
+
+fun Int.toMode(): String {
+    return when (this) {
+        0 -> "顺序练习"
+        1 -> "模拟测试"
+        else -> "其他"
+    }
+}

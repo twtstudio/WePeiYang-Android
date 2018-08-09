@@ -10,7 +10,8 @@
         <activity android:name=".home.ExamHomeActivity" />
         <activity android:name=".list.ListActivity" />
         <activity android:name=".problem.ProblemActivity" />
-        <activity android:name="com.twtstudio.service.tjwhm.exam.problem.score.ScoreActivity"></activity>
+        <activity android:name=".problem.score.ScoreActivity" />
+        <activity android:name=".user.history.HistoryActivity"></activity>
     </application>
 
 </manifest>

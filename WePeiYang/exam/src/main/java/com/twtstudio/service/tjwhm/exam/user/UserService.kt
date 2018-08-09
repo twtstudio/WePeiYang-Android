@@ -16,6 +16,7 @@ val examUserLocalCache = Cache.hawk<ExamUserViewModel>("ExamUser")
 val examUserRemoteCache = Cache.from(UserService.Companion::getUserInfo)
 val examUserLiveData = RefreshableLiveData.use(examUserLocalCache, examUserRemoteCache)
 
+
 data class ExamUserViewModel(
         val status: Int,
         val message: String,
@@ -29,12 +30,31 @@ data class Data(
         val type: String,
         val avatar_url: String,
         val title: Title,
-        val done_number: Any,
+        val ques_message: QuesMessage,
+        val history: History
+)
+
+data class QuesMessage(
+        val done_number: String,
         val error_number: String,
+        val remember_course_number: Int,
         val remember_number: String,
         val collect_number: String
 )
 
 data class Title(
         val title_name: String
+)
+
+data class History(
+        val status: Int,
+        val history: List<OneHistoryData>
+)
+
+data class OneHistoryData(
+        val type: Int,
+        val date: String,
+        val course_id: String,
+        val ques_type: String,
+        val score: Int
 )
