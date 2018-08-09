@@ -31,8 +31,7 @@ class HistoryItem(val context: Context, val oneHistoryData: OneHistoryData) : It
             holder.apply {
                 tvType?.text = item.oneHistoryData.type.toMode()
                 tvDate?.text = item.oneHistoryData.date
-                // todo
-                tvTitle?.text = "党课 第三章"
+                tvTitle?.text = item.oneHistoryData.course_name
             }
         }
 

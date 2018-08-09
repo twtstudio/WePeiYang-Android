@@ -84,10 +84,13 @@ class ProblemActivity : AppCompatActivity() {
             tvUpload.visibility = View.GONE
             getIDs(classID.toString(), SINGLE_CHOICE.toString()) {
                 when (it) {
-                    is RefreshState.Failure -> {
-                        Toasty.error(this@ProblemActivity, "网络错误", Toast.LENGTH_SHORT).show()
-                    }
+                    is RefreshState.Failure -> Toasty.error(this@ProblemActivity, "网络错误", Toast.LENGTH_SHORT).show()
                     is RefreshState.Success -> {
+                        if (it.message.ques == null) {
+                            Toasty.info(this@ProblemActivity, "该课程暂无题目", Toast.LENGTH_SHORT).show()
+                            finish()
+                            return@getIDs
+                        }
                         for (i in 0 until it.message.ques.size) {
                             pagerAdapter.add(i, SINGLE_CHOICE, ProblemFragment.READ_MODE, it.message.ques[i].id)
                         }
@@ -105,10 +108,13 @@ class ProblemActivity : AppCompatActivity() {
             }
             getTestProblems(classID.toString()) {
                 when (it) {
-                    is RefreshState.Failure -> {
-                        Toasty.error(this@ProblemActivity, "网络错误", Toast.LENGTH_SHORT).show()
-                    }
+                    is RefreshState.Failure -> Toasty.error(this@ProblemActivity, "网络错误", Toast.LENGTH_SHORT).show()
                     is RefreshState.Success -> {
+                        if (it.message.data == null) {
+                            Toasty.info(this@ProblemActivity, "该课程暂无题目", Toast.LENGTH_SHORT).show()
+                            finish()
+                            return@getTestProblems
+                        }
                         problemForTest = it.message
                         for (i in 0 until it.message.data.size) {
                             pagerAdapter.add(i, it.message.data[i])

@@ -7,8 +7,10 @@ import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewPager
 import android.widget.ImageView
 import com.githang.statusbar.StatusBarCompat
+import com.twt.wepeiyang.commons.experimental.cache.CacheIndicator
 import com.twtstudio.service.tjwhm.exam.R
 import com.twtstudio.service.tjwhm.exam.user.UserFragment
+import com.twtstudio.service.tjwhm.exam.user.examUserLiveData
 
 class ExamHomeActivity : AppCompatActivity() {
 
@@ -35,5 +37,10 @@ class ExamHomeActivity : AppCompatActivity() {
         tlHome.tabGravity = TabLayout.GRAVITY_FILL
         tlHome.setSelectedTabIndicatorHeight(0)
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        examUserLiveData.refresh(CacheIndicator.REMOTE)
     }
 }

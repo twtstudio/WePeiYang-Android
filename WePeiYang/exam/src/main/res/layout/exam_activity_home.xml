@@ -29,6 +29,7 @@
     </android.support.v7.widget.Toolbar>
 
     <android.support.design.widget.TabLayout
+        app:tabBackground="@null"
         android:id="@+id/tl_home"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

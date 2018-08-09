@@ -56,5 +56,6 @@ data class OneHistoryData(
         val date: String,
         val course_id: String,
         val ques_type: String,
-        val score: Int
+        val score: Int,
+        val course_name: String
 )

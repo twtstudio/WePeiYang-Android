@@ -49,7 +49,6 @@ class UserFragment : Fragment() {
         llUserStar = view.findViewById(R.id.ll_user_star)
 
         examUserLiveData.bindNonNull(this, ::bindExamUserData)
-        examUserLiveData.refresh(CacheIndicator.REMOTE)
 
         llUserHistory.setOnClickListener {
             if (hasHistory) context?.startActivity(Intent(context, HistoryActivity::class.java))
@@ -66,7 +65,6 @@ class UserFragment : Fragment() {
             tvUserName.text = it.twt_name
             tvUserTitle.text = it.title.title_name
 
-            // todo: 修改为正确算法
             val problemNum = it.ques_message.done_number.toInt() + it.ques_message.remember_number.toInt()
             tvProblemsNum.text = problemNum.toString()
             tvProblemsRadio.text = ((it.ques_message.error_number.toDouble() / problemNum.toDouble()).toString() + "000").substring(2, 4) + "%"
