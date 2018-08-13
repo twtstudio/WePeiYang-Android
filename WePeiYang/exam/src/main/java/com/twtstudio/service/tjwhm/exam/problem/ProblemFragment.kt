@@ -136,7 +136,7 @@ class ProblemFragment : Fragment() {
         tvIndex.text = "${fragmentIndex + 1}/${mActivity.size}"
 
         if (mode == PRACTICE_MODE || mode == READ_MODE) {
-            getProblem(mActivity.classID.toString(), type.toString(), problemID.toString()) {
+            getProblem(mActivity.lessonID.toString(), type.toString(), problemID.toString()) {
                 when (it) {
                     is RefreshState.Failure -> context?.let { it1 -> Toasty.error(it1, "网络错误", Toast.LENGTH_SHORT).show() }
                     is RefreshState.Success -> {
@@ -192,7 +192,7 @@ class ProblemFragment : Fragment() {
     }
 
     fun onSelectionItemClick(clickId: Int) {
-        if (mode == PRACTICE_MODE && clickable && type == SINGLE_CHOICE) {
+        if (mode == PRACTICE_MODE && clickable && (type == SINGLE_CHOICE || type == TRUE_FALSE)) {
             showAnswersForSingleSelection(clickId)
         } else if (mode == TEST_MODE && clickable) {
             showSelectedSelectionForTest(clickId)
@@ -220,7 +220,7 @@ class ProblemFragment : Fragment() {
     private fun showSelectedSelectionForTest(clickId: Int) {
         val adapter = rvSelections.adapter as ItemAdapter
         when (type) {
-            SINGLE_CHOICE -> {
+            SINGLE_CHOICE, TRUE_FALSE -> {
                 singleSelectionAnswer = clickId
                 val list: MutableList<Item> = adapter.itemManager.itemListSnapshot.toMutableList()
                 for (i in 0 until list.size) {
@@ -231,10 +231,6 @@ class ProblemFragment : Fragment() {
                 }
                 adapter.itemManager.refreshAll(list)
                 mActivity.storeResult(fragmentIndex, UpdateResultViewModel(problemID, singleSelectionAnswer.toSelectionIndex(), type), true)
-            }
-            TRUE_FALSE -> {
-                // todo
-                clickable = false
             }
             MULTI_CHOICE -> {
                 when (clickId) {

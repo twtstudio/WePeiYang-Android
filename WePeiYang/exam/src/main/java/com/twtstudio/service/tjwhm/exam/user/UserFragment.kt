@@ -48,12 +48,12 @@ class UserFragment : Fragment() {
         llUserWrong = view.findViewById(R.id.ll_user_wrong)
         llUserStar = view.findViewById(R.id.ll_user_star)
 
-        examUserLiveData.bindNonNull(this, ::bindExamUserData)
 
         llUserHistory.setOnClickListener {
             if (hasHistory) context?.startActivity(Intent(context, HistoryActivity::class.java))
             else this@UserFragment.context?.let { it1 -> Toasty.info(it1, "你还没有刷题历史哦", Toast.LENGTH_SHORT).show() }
         }
+        examUserLiveData.bindNonNull(this, ::bindExamUserData)
         return view
     }
 

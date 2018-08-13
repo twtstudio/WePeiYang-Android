@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewPager
+import android.util.Log
 import android.widget.ImageView
 import com.githang.statusbar.StatusBarCompat
 import com.twt.wepeiyang.commons.experimental.cache.CacheIndicator

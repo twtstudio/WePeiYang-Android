@@ -7,12 +7,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
+import com.twt.wepeiyang.commons.experimental.cache.RefreshState
 import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemController
 import com.twtstudio.service.tjwhm.exam.R
 import com.twtstudio.service.tjwhm.exam.ext.GoneAnimatorListener
 import com.twtstudio.service.tjwhm.exam.ext.NoneAnimatorListener
 import com.twtstudio.service.tjwhm.exam.problem.ProblemActivity
+import com.twtstudio.service.tjwhm.exam.problem.getLessonInfo
+import es.dmoral.toasty.Toasty
 import org.jetbrains.anko.layoutInflater
 
 class LessonItem(val context: Context, val lessonData: LessonData) : Item {
@@ -28,46 +32,56 @@ class LessonItem(val context: Context, val lessonData: LessonData) : Item {
                 tvEnterPractice?.visibility = View.GONE
                 tvTitle?.text = item.lessonData.course_name
                 itemView.setOnClickListener {
-                    if (isExpand) {
-                        tvEnterContest?.apply {
-                            animate()?.translationY(-16f)
-                                    ?.alpha(0f)
-                                    ?.setDuration(200)
-                                    ?.setListener(GoneAnimatorListener(this))
-                        }
-                        tvEnterPractice?.apply {
-                            animate()?.translationY(-16f)
-                                    ?.alpha(0f)
-                                    ?.setListener(GoneAnimatorListener(this))
-                        }
-                        ivExpend?.animate()?.rotation(0f)
-                        isExpand = false
+                    getLessonInfo(item.lessonData.id.toString()) {
+                        when (it) {
+                            is RefreshState.Failure -> Toasty.error(item.context, "网络错误", Toast.LENGTH_SHORT).show()
+                            is RefreshState.Success -> {
+                                if (it.message.data.ques_num == "0") Toasty.info(item.context, "该课程暂无题目", Toast.LENGTH_SHORT).show()
+                                else {
+                                    if (isExpand) {
+                                        tvEnterContest?.apply {
+                                            animate()?.translationY(-16f)
+                                                    ?.alpha(0f)
+                                                    ?.setDuration(200)
+                                                    ?.setListener(GoneAnimatorListener(this))
+                                        }
+                                        tvEnterPractice?.apply {
+                                            animate()?.translationY(-16f)
+                                                    ?.alpha(0f)
+                                                    ?.setListener(GoneAnimatorListener(this))
+                                        }
+                                        ivExpend?.animate()?.rotation(0f)
+                                        isExpand = false
 
-                    } else {
-                        tvEnterContest?.apply {
-                            visibility = View.VISIBLE
-                            alpha = 0f
-                            animate()?.translationYBy(16f)
-                                    ?.alpha(1f)
-                                    ?.setDuration(200)
-                                    ?.setListener(NoneAnimatorListener)
+                                    } else {
+                                        tvEnterContest?.apply {
+                                            visibility = View.VISIBLE
+                                            alpha = 0f
+                                            animate()?.translationYBy(16f)
+                                                    ?.alpha(1f)
+                                                    ?.setDuration(200)
+                                                    ?.setListener(NoneAnimatorListener)
+                                        }
+                                        tvEnterPractice?.apply {
+                                            visibility = View.VISIBLE
+                                            alpha = 0f
+                                            animate()?.translationYBy(16f)
+                                                    ?.alpha(1f)
+                                                    ?.setDuration(200)
+                                                    ?.setListener(NoneAnimatorListener)
+                                        }
+                                        ivExpend?.animate()
+                                                ?.rotation(90.0f)
+                                        isExpand = true
+                                    }
+                                }
+                            }
                         }
-                        tvEnterPractice?.apply {
-                            visibility = View.VISIBLE
-                            alpha = 0f
-                            animate()?.translationYBy(16f)
-                                    ?.alpha(1f)
-                                    ?.setDuration(200)
-                                    ?.setListener(NoneAnimatorListener)
-                        }
-                        ivExpend?.animate()
-                                ?.rotation(90.0f)
-                        isExpand = true
                     }
                 }
 
                 val intent = Intent(item.context, ProblemActivity::class.java)
-                intent.putExtra(ProblemActivity.CLASS_ID_KEY, item.lessonData.id)
+                intent.putExtra(ProblemActivity.LESSON_ID_KEY, item.lessonData.id)
                 tvEnterPractice?.setOnClickListener {
                     intent.putExtra(ProblemActivity.MODE_KEY, ProblemActivity.READ_AND_PRACTICE)
                     item.context.startActivity(intent)

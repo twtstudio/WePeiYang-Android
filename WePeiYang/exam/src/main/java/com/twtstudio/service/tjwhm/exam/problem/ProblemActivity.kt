@@ -24,7 +24,7 @@ class ProblemActivity : AppCompatActivity() {
         const val READ_AND_PRACTICE = 1
         const val CONTEST = 2
 
-        const val CLASS_ID_KEY = "class_id_key"
+        const val LESSON_ID_KEY = "class_id_key"
 
         const val SINGLE_CHOICE = 0
         const val MULTI_CHOICE = 1
@@ -34,7 +34,7 @@ class ProblemActivity : AppCompatActivity() {
     }
 
     var mode: Int = 0
-    var classID: Int = 0
+    var lessonID: Int = 0
     var time: Int = 0
 
     private lateinit var problemForTest: TestViewModel
@@ -56,7 +56,7 @@ class ProblemActivity : AppCompatActivity() {
             window.decorView.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ -> initStatusBar() }
             false
         }
-
+        Toasty.info(this@ProblemActivity, "正在加载", Toast.LENGTH_SHORT).show()
 
         findViewById<ImageView>(R.id.iv_problem_back).setOnClickListener { onBackPressed() }
         tvLeft = findViewById(R.id.tv_problem_left)
@@ -65,7 +65,7 @@ class ProblemActivity : AppCompatActivity() {
         tvUpload = findViewById(R.id.tv_problem_test_upload)
 
         mode = intent.getIntExtra(MODE_KEY, -999)
-        classID = intent.getIntExtra(CLASS_ID_KEY, -999)
+        lessonID = intent.getIntExtra(LESSON_ID_KEY, -999)
 
         val field = ViewPager::class.java.getDeclaredField("mScroller")
         field.isAccessible = true
@@ -82,23 +82,17 @@ class ProblemActivity : AppCompatActivity() {
 
         if (mode == READ_AND_PRACTICE) {
             tvUpload.visibility = View.GONE
-            getIDs(classID.toString(), SINGLE_CHOICE.toString()) {
-                when (it) {
-                    is RefreshState.Failure -> Toasty.error(this@ProblemActivity, "网络错误", Toast.LENGTH_SHORT).show()
-                    is RefreshState.Success -> {
-                        if (it.message.ques == null) {
-                            Toasty.info(this@ProblemActivity, "该课程暂无题目", Toast.LENGTH_SHORT).show()
-                            finish()
-                            return@getIDs
-                        }
-                        for (i in 0 until it.message.ques.size) {
-                            pagerAdapter.add(i, SINGLE_CHOICE, ProblemFragment.READ_MODE, it.message.ques[i].id)
-                        }
-                        size += it.message.ques.size
-                        vpProblem.adapter = pagerAdapter
-                    }
-                }
-            }
+//            getLessonInfo(lessonID.toString()) {
+//                when (it) {
+//                    is RefreshState.Failure -> Toasty.error(this@ProblemActivity, "网络错误", Toast.LENGTH_SHORT).show()
+//                    is RefreshState.Success -> {
+//                        it.message.apply {
+//                            if ()
+//                        }
+//                    }
+//                }
+//            }
+            getProblemIDs(SINGLE_CHOICE)
         } else if (mode == CONTEST) {
             tvLeft.visibility = View.GONE
             tvRight.visibility = View.GONE
@@ -106,7 +100,7 @@ class ProblemActivity : AppCompatActivity() {
             tvUpload.setOnClickListener {
                 uploadResult()
             }
-            getTestProblems(classID.toString()) {
+            getTestProblems(lessonID.toString()) {
                 when (it) {
                     is RefreshState.Failure -> Toasty.error(this@ProblemActivity, "网络错误", Toast.LENGTH_SHORT).show()
                     is RefreshState.Success -> {
@@ -144,7 +138,7 @@ class ProblemActivity : AppCompatActivity() {
         repeat(userSelections.size) {
             userSelections[it]?.let { it1 -> list.add(it1) }
         }
-        getScore(classID.toString(), time.toString(), list) {
+        getScore(lessonID.toString(), time.toString(), list) {
             when (it) {
                 is RefreshState.Failure -> {
                     Toasty.error(this@ProblemActivity, "网络错误", Toast.LENGTH_SHORT).show()
@@ -156,6 +150,27 @@ class ProblemActivity : AppCompatActivity() {
                     intent.putExtra(ScoreActivity.PROBLEM_FOR_TEST_KEY, problemForTest)
                     this@ProblemActivity.startActivity(intent)
                     finish()
+                }
+            }
+        }
+    }
+
+    private fun getProblemIDs(problemType: Int) {
+        getIDs(lessonID.toString(), problemType.toString()) {
+            when (it) {
+                is RefreshState.Failure -> Toasty.error(this@ProblemActivity, "网络错误", Toast.LENGTH_SHORT).show()
+                is RefreshState.Success -> {
+                    if (it.message.status == 1) {
+                        for (i in 0 until it.message.ques.size) {
+                            pagerAdapter.add(i, problemType, ProblemFragment.READ_MODE, it.message.ques[i].id)
+                        }
+                        size += it.message.ques.size
+                    }
+
+                    if (problemType == SINGLE_CHOICE) {
+                        getProblemIDs(TRUE_FALSE)
+                    } else if (problemType == TRUE_FALSE) getProblemIDs(MULTI_CHOICE)
+                    else if (problemType == MULTI_CHOICE) vpProblem.adapter = pagerAdapter
                 }
             }
         }
