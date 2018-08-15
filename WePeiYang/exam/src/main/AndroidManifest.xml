@@ -11,7 +11,8 @@
         <activity android:name=".list.ListActivity" />
         <activity android:name=".problem.ProblemActivity" />
         <activity android:name=".problem.score.ScoreActivity" />
-        <activity android:name=".user.history.HistoryActivity"></activity>
+        <activity android:name=".user.history.HistoryActivity" />
+        <activity android:name=".user.star.StarActivity" />
     </application>
 
 </manifest>

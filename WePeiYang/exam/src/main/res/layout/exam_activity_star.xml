@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_height="match_parent">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/tb_star"
@@ -12,24 +14,26 @@
         android:background="@drawable/exam_statusbar_gradient">
 
         <ImageView
-            android:id="@+id/iv_history_back"
+            android:id="@+id/iv_star_back"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:src="@drawable/exam_ic_arrow_back_24dp" />
 
         <TextView
+            android:id="@+id/tv_star_toolbar_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="我的收藏（20）"
+            android:layout_marginStart="48dp"
             android:textColor="@color/white_color"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            tools:text="我的收藏" />
 
     </android.support.v7.widget.Toolbar>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_history"
+        android:id="@+id/rv_star"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/tb_star" />
 
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>

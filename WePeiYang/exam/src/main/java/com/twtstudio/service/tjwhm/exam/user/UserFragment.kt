@@ -14,6 +14,7 @@ import com.twt.wepeiyang.commons.experimental.cache.CacheIndicator
 import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
 import com.twtstudio.service.tjwhm.exam.R
 import com.twtstudio.service.tjwhm.exam.user.history.HistoryActivity
+import com.twtstudio.service.tjwhm.exam.user.star.StarActivity
 import de.hdodenhof.circleimageview.CircleImageView
 import es.dmoral.toasty.Toasty
 
@@ -52,6 +53,9 @@ class UserFragment : Fragment() {
         llUserHistory.setOnClickListener {
             if (hasHistory) context?.startActivity(Intent(context, HistoryActivity::class.java))
             else this@UserFragment.context?.let { it1 -> Toasty.info(it1, "你还没有刷题历史哦", Toast.LENGTH_SHORT).show() }
+        }
+        llUserStar.setOnClickListener {
+            context?.startActivity(Intent(context, StarActivity::class.java))
         }
         examUserLiveData.bindNonNull(this, ::bindExamUserData)
         return view

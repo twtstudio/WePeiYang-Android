@@ -82,16 +82,6 @@ class ProblemActivity : AppCompatActivity() {
 
         if (mode == READ_AND_PRACTICE) {
             tvUpload.visibility = View.GONE
-//            getLessonInfo(lessonID.toString()) {
-//                when (it) {
-//                    is RefreshState.Failure -> Toasty.error(this@ProblemActivity, "网络错误", Toast.LENGTH_SHORT).show()
-//                    is RefreshState.Success -> {
-//                        it.message.apply {
-//                            if ()
-//                        }
-//                    }
-//                }
-//            }
             getProblemIDs(SINGLE_CHOICE)
         } else if (mode == CONTEST) {
             tvLeft.visibility = View.GONE
@@ -104,11 +94,6 @@ class ProblemActivity : AppCompatActivity() {
                 when (it) {
                     is RefreshState.Failure -> Toasty.error(this@ProblemActivity, "网络错误", Toast.LENGTH_SHORT).show()
                     is RefreshState.Success -> {
-                        if (it.message.data == null) {
-                            Toasty.info(this@ProblemActivity, "该课程暂无题目", Toast.LENGTH_SHORT).show()
-                            finish()
-                            return@getTestProblems
-                        }
                         problemForTest = it.message
                         for (i in 0 until it.message.data.size) {
                             pagerAdapter.add(i, it.message.data[i])
@@ -131,7 +116,7 @@ class ProblemActivity : AppCompatActivity() {
 
     private fun uploadResult() {
         if (size != userSelections.size) {
-            Toasty.info(this@ProblemActivity, "请完成所有题目！", Toast.LENGTH_SHORT).show()
+            Toasty.info(this@ProblemActivity, "请完成所有题目", Toast.LENGTH_SHORT).show()
             return
         }
         val list = mutableListOf<UpdateResultViewModel>()

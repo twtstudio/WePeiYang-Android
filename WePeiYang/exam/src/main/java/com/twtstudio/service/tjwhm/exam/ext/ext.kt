@@ -5,6 +5,15 @@ package com.twtstudio.service.tjwhm.exam.ext
  * Happy coding!
  */
 
+fun String.toLessonType(): String {
+    return when (this) {
+        "3" -> "网课"
+        "2" -> "党课"
+        "1" -> "形势与政策"
+        else -> "其他"
+    }
+}
+
 fun String.toProblemType(): String {
     return when (this) {
         "0" -> "单选"

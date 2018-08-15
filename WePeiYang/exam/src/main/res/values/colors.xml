@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#edc6cd</color>
-    <color name="colorPrimaryDark">#dfa7b2</color>
+    <color name="colorPrimary">#EDC6CD</color>
+    <color name="colorPrimaryDark">#DFA7B2</color>
     <color name="colorAccent">#F8749A</color>
     <color name="examToolbarBlue">#4795F1</color>
     <color name="examTabLayoutEndColor">#55C4F3</color>
     <color name="examDividerBlue">#60A9F4</color>
     <color name="examItemBlue">#45A9FA</color>
-    <color name="examBlackText">#1c1c1c</color>
-    <color name="examBlueText">#43aafa</color>
+    <color name="examBlackText">#1C1C1C</color>
+    <color name="examBlueText">#43AAFA</color>
     <color name="examArrowGrey">#DBDADB</color>
+    <color name="examTabTextColor">#B1DFF7</color>
     <color name="examRedText">#F84B4B</color>
     <color name="examGrayText">#555555</color>
-    <color name="examHistoryDate">#9fa0a1</color>
-    <color name="examDivide">#f9f9f9</color>
+    <color name="examHistoryDate">#9FA0A1</color>
 </resources>

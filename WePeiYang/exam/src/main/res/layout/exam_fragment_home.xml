@@ -223,5 +223,4 @@
         app:layout_constraintTop_toTopOf="@id/tv_current_title"
         tools:text="13/107" />
 
-
 </android.support.constraint.ConstraintLayout>
