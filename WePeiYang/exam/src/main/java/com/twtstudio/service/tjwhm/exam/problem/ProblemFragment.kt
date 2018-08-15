@@ -9,10 +9,7 @@ import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import com.twt.wepeiyang.commons.experimental.cache.RefreshState
 import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemAdapter
@@ -22,16 +19,6 @@ import com.twtstudio.service.tjwhm.exam.ext.*
 import es.dmoral.toasty.Toasty
 
 class ProblemFragment : Fragment() {
-
-    private lateinit var answerFromRemote: String
-    private var answerIsShown: Boolean = false
-    var type: Int = 0
-    var mode: Int? = null
-    private var problemID: Int = 0
-    private var clickable = true
-    private var fragmentIndex = -1
-    private var singleSelectionAnswer = -1
-    private var multiSelectionAnswers = mutableListOf<Int>()
 
 
     companion object {
@@ -83,11 +70,22 @@ class ProblemFragment : Fragment() {
         }
     }
 
+    private lateinit var answerFromRemote: String
+    private var answerIsShown: Boolean = false
+    var type: Int = 0
+    var mode: Int? = null
+    private var problemID: Int = 0
+    private var clickable = true
+    private var fragmentIndex = -1
+    private var singleSelectionAnswer = -1
+    private var multiSelectionAnswers = mutableListOf<Int>()
+
+
     private lateinit var tvType: TextView
     private lateinit var tvTitle: TextView
     private lateinit var rvSelections: RecyclerView
     private lateinit var ivStarBlank: ImageView
-    private lateinit var ivIndex: ImageView
+    private lateinit var llIndex: LinearLayout
     private lateinit var tvIndex: TextView
     private lateinit var divider: View
     private lateinit var tvAnswer: TextView
@@ -110,12 +108,16 @@ class ProblemFragment : Fragment() {
         tvTitle = view.findViewById(R.id.tv_problem_title)
         rvSelections = view.findViewById(R.id.rv_problem_selections)
         ivStarBlank = view.findViewById(R.id.iv_star_blank)
-        ivIndex = view.findViewById(R.id.iv_index)
+        llIndex = view.findViewById(R.id.ll_problem_index)
         tvIndex = view.findViewById(R.id.tv_index)
         divider = view.findViewById(R.id.divider_problem)
         tvAnswer = view.findViewById(R.id.tv_problem_answer)
         btConfirm = view.findViewById(R.id.bt_problem_confirm)
         mActivity = activity as ProblemActivity
+
+        llIndex.setOnClickListener {
+            mActivity.showProblemIndexPopupWindow(llIndex.x, llIndex.y)
+        }
         btConfirm.setOnClickListener {
             val answerString = when (type) {
                 SINGLE_CHOICE, TRUE_FALSE -> singleSelectionAnswer.toSelectionIndex()

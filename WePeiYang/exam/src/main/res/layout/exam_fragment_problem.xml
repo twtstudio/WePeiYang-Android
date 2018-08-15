@@ -63,30 +63,33 @@
         android:src="@drawable/exam_ic_star_blank"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintLeft_toLeftOf="@id/guideline_vertical_centre"
-        app:layout_constraintRight_toLeftOf="@id/iv_index"
+        app:layout_constraintRight_toLeftOf="@id/ll_problem_index"
         app:layout_constraintTop_toBottomOf="@id/bt_problem_confirm" />
 
-    <ImageView
-        android:id="@+id/iv_index"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginStart="24dp"
-        android:src="@drawable/exam_problem_content_index"
-        app:layout_constraintLeft_toRightOf="@id/iv_star_blank"
-        app:layout_constraintRight_toRightOf="@id/tv_index"
-        app:layout_constraintTop_toTopOf="@id/iv_star_blank" />
-
-    <TextView
-        android:id="@+id/tv_index"
+    <LinearLayout
+        android:id="@+id/ll_problem_index"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:textColor="@color/examBlackText"
-        app:layout_constraintBottom_toBottomOf="@id/iv_star_blank"
-        app:layout_constraintLeft_toRightOf="@id/iv_index"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@id/iv_star_blank"
-        tools:text="1/124" />
+        android:orientation="horizontal"
+        app:layout_constraintLeft_toRightOf="@id/iv_star_blank"
+        app:layout_constraintTop_toTopOf="@id/iv_star_blank">
+
+        <ImageView
+            android:id="@+id/iv_index"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="24dp"
+            android:src="@drawable/exam_problem_content_index" />
+
+        <TextView
+            android:id="@+id/tv_index"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="8dp"
+            android:textColor="@color/examBlackText"
+            tools:text="1/124" />
+    </LinearLayout>
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline_vertical_centre"

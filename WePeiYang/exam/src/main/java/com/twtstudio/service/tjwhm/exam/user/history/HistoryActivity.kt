@@ -1,5 +1,6 @@
 package com.twtstudio.service.tjwhm.exam.user.history
 
+import android.content.pm.ActivityInfo
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Looper
@@ -25,6 +26,7 @@ class HistoryActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         setContentView(R.layout.exam_activity_history)
 
         Looper.myQueue().addIdleHandler {

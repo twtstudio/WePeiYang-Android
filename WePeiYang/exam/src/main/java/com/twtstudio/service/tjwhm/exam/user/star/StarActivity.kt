@@ -1,5 +1,6 @@
 package com.twtstudio.service.tjwhm.exam.user.star
 
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.os.Looper
 import android.support.v7.app.AppCompatActivity
@@ -29,6 +30,7 @@ class StarActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         setContentView(R.layout.exam_activity_star)
         Looper.myQueue().addIdleHandler {
             initStatusBar()

@@ -1,5 +1,6 @@
 package com.twtstudio.service.tjwhm.exam.home
 
+import android.content.pm.ActivityInfo
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.TabLayout
@@ -22,6 +23,7 @@ class ExamHomeActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         setContentView(R.layout.exam_activity_home)
 
         StatusBarCompat.setStatusBarColor(this@ExamHomeActivity, ContextCompat.getColor(this@ExamHomeActivity, R.color.examToolbarBlue), true)

@@ -1,11 +1,14 @@
 package com.twtstudio.service.tjwhm.exam.problem
 
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Looper
+import android.support.constraint.ConstraintLayout
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewPager
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -38,6 +41,8 @@ class ProblemActivity : AppCompatActivity() {
     var time: Int = 0
 
     private lateinit var problemForTest: TestViewModel
+
+    private lateinit var clProblem: ConstraintLayout
     private lateinit var tvLeft: TextView
     private lateinit var tvRight: TextView
     private lateinit var vpProblem: ViewPager
@@ -50,6 +55,7 @@ class ProblemActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         setContentView(R.layout.exam_activity_problem)
         Looper.myQueue().addIdleHandler {
             initStatusBar()
@@ -59,6 +65,8 @@ class ProblemActivity : AppCompatActivity() {
         Toasty.info(this@ProblemActivity, "正在加载", Toast.LENGTH_SHORT).show()
 
         findViewById<ImageView>(R.id.iv_problem_back).setOnClickListener { onBackPressed() }
+
+        clProblem = findViewById(R.id.cl_problem)
         tvLeft = findViewById(R.id.tv_problem_left)
         tvRight = findViewById(R.id.tv_problem_right)
         vpProblem = findViewById(R.id.vp_problem)
@@ -193,6 +201,12 @@ class ProblemActivity : AppCompatActivity() {
                 pagerAdapter.notifyDataSetChanged()
             }
         }
+    }
+
+    fun showProblemIndexPopupWindow(llX: Float, llY: Float) {
+        val popupWindow = ProblemIndexPopupWindow(this@ProblemActivity, Pair(llX, llY))
+        Log.i("zzzzaa", "clH${clProblem.height}    clW${clProblem.width}   clX${clProblem.x}    clY${clProblem.y}")
+        popupWindow.show()
     }
 
     private fun initStatusBar() {
