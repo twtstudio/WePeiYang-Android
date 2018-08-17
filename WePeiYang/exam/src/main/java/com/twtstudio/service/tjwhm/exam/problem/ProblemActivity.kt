@@ -39,6 +39,7 @@ class ProblemActivity : AppCompatActivity() {
     var mode: Int = 0
     var lessonID: Int = 0
     var time: Int = 0
+    var currentFragmentIndex = 0
 
     private lateinit var problemForTest: TestViewModel
 
@@ -47,11 +48,13 @@ class ProblemActivity : AppCompatActivity() {
     private lateinit var tvRight: TextView
     private lateinit var vpProblem: ViewPager
     private lateinit var tvUpload: TextView
+    private lateinit var problemIndexPopupWindow: ProblemIndexPopupWindow
     private val pagerAdapter = ProblemPagerAdapter(supportFragmentManager)
 
     private var statusBarView: View? = null
     var size = 0
     var userSelections: MutableMap<Int, UpdateResultViewModel> = mutableMapOf()
+    private var problemIndexData: MutableList<ProblemIndex> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -109,15 +112,30 @@ class ProblemActivity : AppCompatActivity() {
                         size += it.message.data.size
                         vpProblem.adapter = pagerAdapter
                         time = it.message.time
+                        repeat(size) {
+                            problemIndexData.add(ProblemIndex.NONE)
+                        }
                     }
                 }
             }
         }
+
+        vpProblem.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+            override fun onPageScrollStateChanged(state: Int) = Unit
+            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) = Unit
+            override fun onPageSelected(position: Int) {
+                currentFragmentIndex = position
+            }
+
+        })
     }
 
-    fun storeResult(fragmentIndex: Int, updateResultViewModel: UpdateResultViewModel, scrollPage: Boolean) {
+    fun storeResult(fragmentIndex: Int, updateResultViewModel: UpdateResultViewModel, problemIndex: ProblemIndex, scrollPage: Boolean) {
         userSelections[fragmentIndex] = updateResultViewModel
-        if (scrollPage && vpProblem.currentItem < size - 1) {
+        problemIndexData[fragmentIndex] = problemIndex
+        if (mode == CONTEST && userSelections.size == size) {
+            // todo
+        } else if (scrollPage && vpProblem.currentItem < size - 1) {
             vpProblem.setCurrentItem(vpProblem.currentItem + 1, true)
         }
     }
@@ -125,6 +143,7 @@ class ProblemActivity : AppCompatActivity() {
     private fun uploadResult() {
         if (size != userSelections.size) {
             Toasty.info(this@ProblemActivity, "请完成所有题目", Toast.LENGTH_SHORT).show()
+            showProblemIndexPopupWindow(tvUpload.x, tvUpload.y, currentFragmentIndex)
             return
         }
         val list = mutableListOf<UpdateResultViewModel>()
@@ -160,10 +179,17 @@ class ProblemActivity : AppCompatActivity() {
                         size += it.message.ques.size
                     }
 
-                    if (problemType == SINGLE_CHOICE) {
-                        getProblemIDs(TRUE_FALSE)
-                    } else if (problemType == TRUE_FALSE) getProblemIDs(MULTI_CHOICE)
-                    else if (problemType == MULTI_CHOICE) vpProblem.adapter = pagerAdapter
+                    when (problemType) {
+                        SINGLE_CHOICE -> getProblemIDs(TRUE_FALSE)
+                        TRUE_FALSE -> getProblemIDs(MULTI_CHOICE)
+                        MULTI_CHOICE -> {
+                            vpProblem.adapter = pagerAdapter
+                            Toasty.success(this@ProblemActivity, "加载成功", Toast.LENGTH_SHORT).show()
+                            repeat(size) {
+                                problemIndexData.add(ProblemIndex.NONE)
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -203,10 +229,28 @@ class ProblemActivity : AppCompatActivity() {
         }
     }
 
-    fun showProblemIndexPopupWindow(llX: Float, llY: Float) {
-        val popupWindow = ProblemIndexPopupWindow(this@ProblemActivity, Pair(llX, llY))
-        Log.i("zzzzaa", "clH${clProblem.height}    clW${clProblem.width}   clX${clProblem.x}    clY${clProblem.y}")
-        popupWindow.show()
+    fun showProblemIndexPopupWindow(llX: Float, llY: Float, fragmentIndex: Int) {
+        repeat(problemIndexData.size) {
+            when (problemIndexData[it]) {
+                is ProblemIndex.NOW.NONE -> problemIndexData[it] = ProblemIndex.NONE
+                is ProblemIndex.NOW.TRUE -> problemIndexData[it] = ProblemIndex.TRUE
+                is ProblemIndex.NOW.WRONG -> problemIndexData[it] = ProblemIndex.WRONG
+            }
+        }
+
+        when (problemIndexData[fragmentIndex]) {
+            is ProblemIndex.NONE -> problemIndexData[fragmentIndex] = ProblemIndex.NOW.NONE
+            is ProblemIndex.TRUE -> problemIndexData[fragmentIndex] = ProblemIndex.NOW.TRUE
+            is ProblemIndex.WRONG -> problemIndexData[fragmentIndex] = ProblemIndex.NOW.WRONG
+        }
+        problemIndexPopupWindow = ProblemIndexPopupWindow(this@ProblemActivity, Pair(llX, llY), problemIndexData)
+        problemIndexPopupWindow.show()
+    }
+
+    fun onProblemIndexItemClick(index: Int) {
+        Log.i("zzzzzzzzzzzzzz", "zzzzzz$index")
+        if (index in 0 until size) vpProblem.currentItem = index
+        problemIndexPopupWindow.dismiss()
     }
 
     private fun initStatusBar() {
