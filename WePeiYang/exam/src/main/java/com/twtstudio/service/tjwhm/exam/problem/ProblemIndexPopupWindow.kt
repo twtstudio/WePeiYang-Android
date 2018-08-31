@@ -23,7 +23,7 @@ import org.jetbrains.anko.layoutInflater
 import org.jetbrains.anko.verticalMargin
 
 /**
- * Created by tjwhm@TWTStudio at 12:31 AM,2018/8/16.
+ * Created by tjwhm@TWTStudio at 12:31 AM, 2018/8/16.
  * Happy coding!
  */
 

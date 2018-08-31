@@ -3,6 +3,7 @@ package com.twtstudio.service.tjwhm.exam.problem
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.Html
@@ -16,7 +17,10 @@ import com.twt.wepeiyang.commons.ui.rec.ItemAdapter
 import com.twt.wepeiyang.commons.ui.rec.withItems
 import com.twtstudio.service.tjwhm.exam.R
 import com.twtstudio.service.tjwhm.exam.ext.*
+import com.twtstudio.service.tjwhm.exam.user.addCollections
+import com.twtstudio.service.tjwhm.exam.user.star.StarActivity
 import es.dmoral.toasty.Toasty
+import okhttp3.MultipartBody
 
 class ProblemFragment : Fragment() {
 
@@ -84,10 +88,11 @@ class ProblemFragment : Fragment() {
     private lateinit var tvType: TextView
     private lateinit var tvTitle: TextView
     private lateinit var rvSelections: RecyclerView
-    private lateinit var ivStarBlank: ImageView
+    private lateinit var ivStar: ImageView
     private lateinit var llIndex: LinearLayout
     private lateinit var tvIndex: TextView
     private lateinit var divider: View
+    private lateinit var tvRightOrWrong: TextView
     private lateinit var tvAnswer: TextView
     private lateinit var btConfirm: Button
     private lateinit var mActivity: ProblemActivity
@@ -107,11 +112,12 @@ class ProblemFragment : Fragment() {
         tvType = view.findViewById(R.id.tv_problem_type)
         tvTitle = view.findViewById(R.id.tv_problem_title)
         rvSelections = view.findViewById(R.id.rv_problem_selections)
-        ivStarBlank = view.findViewById(R.id.iv_star_blank)
+        ivStar = view.findViewById(R.id.iv_fragment_problem_star)
         llIndex = view.findViewById(R.id.ll_problem_index)
         tvIndex = view.findViewById(R.id.tv_index)
         divider = view.findViewById(R.id.divider_problem)
-        tvAnswer = view.findViewById(R.id.tv_problem_answer)
+        tvRightOrWrong = view.findViewById(R.id.tv_problem_right_or_wrong)
+        tvAnswer = view.findViewById(R.id.tv_problem_answer_content)
         btConfirm = view.findViewById(R.id.bt_problem_confirm)
         mActivity = activity as ProblemActivity
 
@@ -143,7 +149,12 @@ class ProblemFragment : Fragment() {
         }
 
         tvIndex.text = "${fragmentIndex + 1}/${mActivity.size}"
+        getProblemData()
 
+        return view
+    }
+
+    private fun getProblemData() {
         if (mode == PRACTICE_MODE || mode == READ_MODE) {
             getProblem(mActivity.lessonID.toString(), type.toString(), problemID.toString()) {
                 when (it) {
@@ -166,6 +177,31 @@ class ProblemFragment : Fragment() {
                                 }
                             }
                         }
+                        if (it.message.ques.is_collected == 1) {
+                            ivStar.setImageResource(R.drawable.exam_ic_star_filled)
+
+                        } else {
+                            ivStar.setImageResource(R.drawable.exam_ic_star_blank)
+                            ivStar.setOnClickListener { _ ->
+                                val list = MultipartBody.Builder()
+                                        .setType(MultipartBody.FORM)
+                                        .addFormDataPart("ques_type", type.toString())
+                                        .addFormDataPart("ques_id", problemID.toString())
+                                        .build()
+                                        .parts()
+                                addCollections(StarActivity.STAR.toString(), list) {
+                                    when (it) {
+                                        is RefreshState.Failure -> Toasty.error(mActivity, "网络错误", Toast.LENGTH_SHORT).show()
+                                        is RefreshState.Success -> {
+                                            if (it.message.error_code == 0) {
+                                                Toasty.success(mActivity, "收藏成功", Toast.LENGTH_SHORT).show()
+                                                getProblemData()
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
                         showStoredAnswers()
                     }
                 }
@@ -183,7 +219,6 @@ class ProblemFragment : Fragment() {
             }
             showStoredAnswers()
         }
-        return view
     }
 
     fun changeMode() {
@@ -224,6 +259,13 @@ class ProblemFragment : Fragment() {
         tvAnswer.visibility = View.VISIBLE
         val scrollPage = clickId == answerFromRemote.selectionIndexToInt()
 
+        if (scrollPage) {
+            tvRightOrWrong.text = "回答正确"
+            context?.let { ContextCompat.getColor(it, R.color.examBlueText) }?.let { tvRightOrWrong.setTextColor(it) }
+        } else {
+            tvRightOrWrong.text = "回答错误"
+            context?.let { ContextCompat.getColor(it, R.color.examRedText) }?.let { tvRightOrWrong.setTextColor(it) }
+        }
         val problemIndex = when (scrollPage) {
             true -> ProblemIndex.TRUE
             else -> ProblemIndex.WRONG

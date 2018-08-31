@@ -6,8 +6,8 @@ import com.twt.wepeiyang.commons.experimental.network.ServiceFactoryForExam
 import kotlinx.coroutines.experimental.Deferred
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
-import retrofit2.http.GET
-import retrofit2.http.Path
+import okhttp3.MultipartBody
+import retrofit2.http.*
 
 interface UserService {
     @GET("student")
@@ -15,6 +15,10 @@ interface UserService {
 
     @GET("special/getQues/{star_or_wrong}")
     fun getCollections(@Path("star_or_wrong") starOrWrong: String): Deferred<StarViewModel>
+
+    @Multipart
+    @POST("special/addQues/{star_or_wrong}")
+    fun addCollections(@Path("star_or_wrong") starOrWrong: String, @Part list: MutableList<MultipartBody.Part>): Deferred<AddStarCallBackViewModel>
 
     companion object : UserService by ServiceFactoryForExam()
 }
@@ -26,6 +30,15 @@ val examUserLiveData = RefreshableLiveData.use(examUserLocalCache, examUserRemot
 fun getCollections(starOrWrong: String, callback: suspend (RefreshState<StarViewModel>) -> Unit) =
         launch(UI) {
             UserService.getCollections(starOrWrong).awaitAndHandle {
+                callback(RefreshState.Failure(it))
+            }?.let {
+                callback(RefreshState.Success(it))
+            }
+        }
+
+fun addCollections(starOrWrong: String, list: MutableList<MultipartBody.Part>, callback: suspend (RefreshState<AddStarCallBackViewModel>) -> Unit) =
+        launch(UI) {
+            UserService.addCollections(starOrWrong, list).awaitAndHandle {
                 callback(RefreshState.Failure(it))
             }?.let {
                 callback(RefreshState.Success(it))
@@ -83,12 +96,6 @@ data class StarViewModel(
 )
 
 data class Que(
-        val ques_type: String,
-        val ques_id: String,
-        val ques: Ques
-)
-
-data class Ques(
         val id: Int,
         val class_id: String,
         val course_id: String,
@@ -97,5 +104,13 @@ data class Ques(
         val option: List<String>,
         val answer: String,
         val is_collected: Int,
-        val is_mistake: Int
+        val is_mistake: Int,
+        val message: String,
+        val error_option: String
+)
+
+
+data class AddStarCallBackViewModel(
+        val error_code: Int,
+        val message: String
 )

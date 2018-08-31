@@ -23,10 +23,18 @@ import es.dmoral.toasty.Toasty
 
 class StarActivity : AppCompatActivity() {
 
+    companion object {
+        const val TYPE_KEY = "type_key"
+        const val STAR = 0
+        const val WRONG = 1
+    }
+
     private var statusBarView: View? = null
 
     private lateinit var tvTitle: TextView
     private lateinit var rvStar: RecyclerView
+
+    private var starOrWrong = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,16 +50,21 @@ class StarActivity : AppCompatActivity() {
         tvTitle = findViewById(R.id.tv_star_toolbar_title)
         rvStar = findViewById(R.id.rv_star)
 
-        tvTitle.text = "我的收藏"
+        starOrWrong = intent.getIntExtra(TYPE_KEY, 0)
+
+        when (starOrWrong) {
+            STAR -> tvTitle.text = "我的收藏"
+            WRONG -> tvTitle.text = "我的错题"
+        }
 
         rvStar.layoutManager = LinearLayoutManager(this@StarActivity)
-        getCollections("0") {
+        getCollections(starOrWrong.toString()) {
             when (it) {
                 is RefreshState.Failure -> Toasty.error(this@StarActivity, "网络错误", Toast.LENGTH_SHORT).show()
                 is RefreshState.Success -> {
                     rvStar.withItems {
                         for (i in 0 until it.message.ques.size) {
-                            starItem(this@StarActivity, it.message.ques[i].ques)
+                            starItem(this@StarActivity, it.message.ques[i], starOrWrong)
                         }
                     }
                 }

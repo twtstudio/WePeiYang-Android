@@ -64,6 +64,16 @@
         tools:text="题目答案：A" />
 
     <ImageView
+        android:id="@+id/iv_star_wrong"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="16dp"
+        android:src="@drawable/exam_ic_wrong_collection_filled"
+        app:layout_constraintBottom_toBottomOf="@id/iv_star_star"
+        app:layout_constraintRight_toLeftOf="@id/iv_star_star"
+        app:layout_constraintTop_toTopOf="@id/iv_star_star" />
+
+    <ImageView
         android:id="@+id/iv_star_star"
         android:layout_width="24dp"
         android:layout_height="24dp"

@@ -54,8 +54,17 @@ class UserFragment : Fragment() {
             if (hasHistory) context?.startActivity(Intent(context, HistoryActivity::class.java))
             else this@UserFragment.context?.let { it1 -> Toasty.info(it1, "你还没有刷题历史哦", Toast.LENGTH_SHORT).show() }
         }
+
         llUserStar.setOnClickListener {
-            context?.startActivity(Intent(context, StarActivity::class.java))
+            val intent = Intent(context, StarActivity::class.java)
+            intent.putExtra(StarActivity.TYPE_KEY, StarActivity.STAR)
+            context?.startActivity(intent)
+        }
+
+        llUserWrong.setOnClickListener {
+            val intent = Intent(context, StarActivity::class.java)
+            intent.putExtra(StarActivity.TYPE_KEY, StarActivity.WRONG)
+            context?.startActivity(intent)
         }
         examUserLiveData.bindNonNull(this, ::bindExamUserData)
         return view

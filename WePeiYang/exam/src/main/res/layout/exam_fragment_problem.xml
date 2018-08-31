@@ -56,7 +56,7 @@
         app:layout_constraintTop_toBottomOf="@id/rv_problem_selections" />
 
     <ImageView
-        android:id="@+id/iv_star_blank"
+        android:id="@+id/iv_fragment_problem_star"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_marginTop="32dp"
@@ -71,8 +71,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintLeft_toRightOf="@id/iv_star_blank"
-        app:layout_constraintTop_toTopOf="@id/iv_star_blank">
+        app:layout_constraintLeft_toRightOf="@id/iv_fragment_problem_star"
+        app:layout_constraintTop_toTopOf="@id/iv_fragment_problem_star">
 
         <ImageView
             android:id="@+id/iv_index"
@@ -106,13 +106,24 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:background="@color/examDividerBlue"
-        app:layout_constraintTop_toBottomOf="@id/iv_star_blank" />
+        app:layout_constraintTop_toBottomOf="@id/iv_fragment_problem_star" />
 
     <TextView
-        android:id="@+id/tv_problem_answer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_goneMarginStart="16dp"
+        android:id="@+id/tv_problem_right_or_wrong"
+        tools:text="回答正确"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/divider_problem"
         android:layout_marginStart="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        app:layout_constraintLeft_toRightOf="@id/tv_problem_right_or_wrong"
+        android:id="@+id/tv_problem_answer_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:textColor="@color/examBlackText"
         app:layout_constraintTop_toBottomOf="@id/divider_problem"

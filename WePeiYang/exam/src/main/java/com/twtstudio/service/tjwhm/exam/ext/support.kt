@@ -1,9 +1,13 @@
 package com.twtstudio.service.tjwhm.exam.ext
 
 import android.animation.Animator
+import android.arch.lifecycle.Lifecycle
+import android.arch.lifecycle.LifecycleOwner
+import android.arch.lifecycle.LifecycleRegistry
 import android.content.Context
 import android.view.View
 import android.widget.Scroller
+import com.twt.wepeiyang.commons.ui.blur.BlurPopupWindow
 
 /**
  * Created by tjwhm@TWTStudio at 11:30 AM,2018/8/5.
@@ -34,4 +38,18 @@ class FixedSpeedScroller(context: Context) : Scroller(context) {
 
     override fun startScroll(startX: Int, startY: Int, dx: Int, dy: Int) =
             super.startScroll(startX, startY, dx, dy, mDuration)
+}
+
+class DialogPopupWindow(context: Context) : BlurPopupWindow(context), LifecycleOwner {
+
+    private val lifecycleRegistry = LifecycleRegistry(this)
+    override fun getLifecycle(): Lifecycle = lifecycleRegistry
+
+    val density = context.resources.displayMetrics.density
+
+
+    override fun getAnimationDuration(): Long = 200L
+
+    override fun isDismissOnTouchBackground(): Boolean = true
+
 }

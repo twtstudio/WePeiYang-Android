@@ -100,19 +100,22 @@ data class Que(
 )
 
 
+
 data class ProblemViewModel(
-        val status: Int,
-        val ques: Ques
+    val status: Int,
+    val ques: Ques
 )
 
 data class Ques(
-        val id: Int,
-        val class_id: String,
-        val course_id: String,
-        val type: String,
-        val content: String,
-        val option: List<String>,
-        val answer: String
+    val id: Int,
+    val class_id: String,
+    val course_id: String,
+    val type: String,
+    val content: String,
+    val option: List<String>,
+    val answer: String,
+    val is_collected: Int,
+    val is_mistake: Int
 )
 
 
