@@ -14,7 +14,7 @@ import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemController
 import com.twt.wepeiyang.commons.ui.rec.withItems
 import com.twtstudio.service.tjwhm.exam.R
-import com.twtstudio.service.tjwhm.exam.ext.toSelectionIndex
+import com.twtstudio.service.tjwhm.exam.commons.toSelectionIndex
 import com.twtstudio.service.tjwhm.exam.problem.Result
 import com.twtstudio.service.tjwhm.exam.problem.SelectionItem
 import com.twtstudio.service.tjwhm.exam.problem.TestOneProblemData

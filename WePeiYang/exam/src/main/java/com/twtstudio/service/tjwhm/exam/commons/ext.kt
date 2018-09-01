@@ -1,4 +1,4 @@
-package com.twtstudio.service.tjwhm.exam.ext
+package com.twtstudio.service.tjwhm.exam.commons
 
 /**
  * Created by tjwhm@TWTStudio at 11:29 AM,2018/8/5.

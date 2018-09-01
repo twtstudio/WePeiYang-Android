@@ -12,10 +12,10 @@ import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemController
 import com.twt.wepeiyang.commons.ui.rec.withItems
 import com.twtstudio.service.tjwhm.exam.R
-import com.twtstudio.service.tjwhm.exam.ext.selectionIndexToInt
-import com.twtstudio.service.tjwhm.exam.ext.toLessonType
-import com.twtstudio.service.tjwhm.exam.ext.toProblemType
-import com.twtstudio.service.tjwhm.exam.ext.toSelectionIndex
+import com.twtstudio.service.tjwhm.exam.commons.selectionIndexToInt
+import com.twtstudio.service.tjwhm.exam.commons.toLessonType
+import com.twtstudio.service.tjwhm.exam.commons.toProblemType
+import com.twtstudio.service.tjwhm.exam.commons.toSelectionIndex
 import com.twtstudio.service.tjwhm.exam.problem.SelectionItem
 import com.twtstudio.service.tjwhm.exam.problem.selectionItem
 import com.twtstudio.service.tjwhm.exam.user.Que
@@ -54,10 +54,11 @@ class StarItem(val context: Context, val quesData: Que, val starOrWrong: Int) : 
                     StarActivity.WRONG -> {
                         rvSelections?.withItems {
                             for (i in 0 until item.quesData.option.size)
-                                if (i == item.quesData.error_option.selectionIndexToInt())
-                                    selectionItem(null, i.toSelectionIndex(), item.quesData.option[i], SelectionItem.FALSE)
-                                else
-                                    selectionItem(null, i.toSelectionIndex(), item.quesData.option[i], SelectionItem.NONE)
+                                when (i) {
+                                    item.quesData.error_option.selectionIndexToInt() -> selectionItem(null, i.toSelectionIndex(), item.quesData.option[i], SelectionItem.FALSE)
+                                    item.quesData.answer.selectionIndexToInt() -> selectionItem(null, i.toSelectionIndex(), item.quesData.option[i], SelectionItem.TRUE)
+                                    else -> selectionItem(null, i.toSelectionIndex(), item.quesData.option[i], SelectionItem.NONE)
+                                }
                         }
                     }
                 }

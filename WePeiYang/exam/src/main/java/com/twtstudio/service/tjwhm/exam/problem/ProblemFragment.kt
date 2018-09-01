@@ -16,8 +16,9 @@ import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemAdapter
 import com.twt.wepeiyang.commons.ui.rec.withItems
 import com.twtstudio.service.tjwhm.exam.R
-import com.twtstudio.service.tjwhm.exam.ext.*
-import com.twtstudio.service.tjwhm.exam.user.addCollections
+import com.twtstudio.service.tjwhm.exam.commons.*
+import com.twtstudio.service.tjwhm.exam.user.addCollection
+import com.twtstudio.service.tjwhm.exam.user.deleteCollection
 import com.twtstudio.service.tjwhm.exam.user.star.StarActivity
 import es.dmoral.toasty.Toasty
 import okhttp3.MultipartBody
@@ -131,8 +132,7 @@ class ProblemFragment : Fragment() {
                 else -> "W"
             }
             val scrollPage = !(mode == PRACTICE_MODE && multiSelectionAnswers != answerFromRemote.multiSelectionIndexToInt())
-            var problemIndex: ProblemIndex = ProblemIndex.NONE
-            problemIndex = if (mode == PRACTICE_MODE) {
+            val problemIndex: ProblemIndex = if (mode == PRACTICE_MODE) {
                 when (multiSelectionAnswers == answerFromRemote.multiSelectionIndexToInt()) {
                     true -> ProblemIndex.TRUE
                     else -> ProblemIndex.WRONG
@@ -162,6 +162,8 @@ class ProblemFragment : Fragment() {
                     is RefreshState.Success -> {
                         tvType.text = it.message.ques.type.toProblemType()
                         tvTitle.text = Html.fromHtml(it.message.ques.content)
+
+                        @SuppressLint("SetTextI18n")
                         tvAnswer.text = "答案：${it.message.ques.answer}"
                         answerFromRemote = it.message.ques.answer
                         rvSelections.withItems {
@@ -178,24 +180,47 @@ class ProblemFragment : Fragment() {
                             }
                         }
                         if (it.message.ques.is_collected == 1) {
-                            ivStar.setImageResource(R.drawable.exam_ic_star_filled)
-
+                            ivStar.apply {
+                                setImageResource(R.drawable.exam_ic_star_filled)
+                                setOnClickListener { _ ->
+                                    val list = MultipartBody.Builder()
+                                            .setType(MultipartBody.FORM)
+                                            .addFormDataPart("ques_type", type.toString())
+                                            .addFormDataPart("ques_id", problemID.toString())
+                                            .build()
+                                            .parts()
+                                    deleteCollection(StarActivity.STAR.toString(), list) { it ->
+                                        when (it) {
+                                            is RefreshState.Failure -> Toasty.error(mActivity, "网络错误", Toast.LENGTH_SHORT).show()
+                                            is RefreshState.Success -> {
+                                                if (it.message.error_code == 0) {
+                                                    Toasty.success(mActivity, "删除成功", Toast.LENGTH_SHORT).show()
+                                                    getProblemData()
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
                         } else {
-                            ivStar.setImageResource(R.drawable.exam_ic_star_blank)
-                            ivStar.setOnClickListener { _ ->
-                                val list = MultipartBody.Builder()
-                                        .setType(MultipartBody.FORM)
-                                        .addFormDataPart("ques_type", type.toString())
-                                        .addFormDataPart("ques_id", problemID.toString())
-                                        .build()
-                                        .parts()
-                                addCollections(StarActivity.STAR.toString(), list) {
-                                    when (it) {
-                                        is RefreshState.Failure -> Toasty.error(mActivity, "网络错误", Toast.LENGTH_SHORT).show()
-                                        is RefreshState.Success -> {
-                                            if (it.message.error_code == 0) {
-                                                Toasty.success(mActivity, "收藏成功", Toast.LENGTH_SHORT).show()
-                                                getProblemData()
+                            ivStar.apply {
+                                setImageResource(R.drawable.exam_ic_star_blank)
+
+                                setOnClickListener { _ ->
+                                    val list = MultipartBody.Builder()
+                                            .setType(MultipartBody.FORM)
+                                            .addFormDataPart("ques_type", type.toString())
+                                            .addFormDataPart("ques_id", problemID.toString())
+                                            .build()
+                                            .parts()
+                                    addCollection(StarActivity.STAR.toString(), list) { it ->
+                                        when (it) {
+                                            is RefreshState.Failure -> Toasty.error(mActivity, "网络错误", Toast.LENGTH_SHORT).show()
+                                            is RefreshState.Success -> {
+                                                if (it.message.error_code == 0) {
+                                                    Toasty.success(mActivity, "收藏成功", Toast.LENGTH_SHORT).show()
+                                                    getProblemData()
+                                                }
                                             }
                                         }
                                     }
@@ -245,14 +270,14 @@ class ProblemFragment : Fragment() {
 
     private fun showAnswersForSingleSelection(clickId: Int) {
         val adapter = rvSelections.adapter as ItemAdapter
-        val list: MutableList<Item> = adapter.itemManager.itemListSnapshot.toMutableList()
-        for (i in 0 until list.size) {
+        val optionList: MutableList<Item> = adapter.itemManager.itemListSnapshot.toMutableList()
+        for (i in 0 until optionList.size) {
             when (i) {
-                answerFromRemote.selectionIndexToInt() -> list[i] = SelectionItem(list[i] as SelectionItem, SelectionItem.TRUE)
-                clickId -> list[i] = SelectionItem(list[i] as SelectionItem, SelectionItem.FALSE)
+                answerFromRemote.selectionIndexToInt() -> optionList[i] = SelectionItem(optionList[i] as SelectionItem, SelectionItem.TRUE)
+                clickId -> optionList[i] = SelectionItem(optionList[i] as SelectionItem, SelectionItem.FALSE)
             }
         }
-        adapter.itemManager.refreshAll(list)
+        adapter.itemManager.refreshAll(optionList)
         clickable = false
         answerIsShown = true
         divider.visibility = View.VISIBLE
@@ -265,6 +290,23 @@ class ProblemFragment : Fragment() {
         } else {
             tvRightOrWrong.text = "回答错误"
             context?.let { ContextCompat.getColor(it, R.color.examRedText) }?.let { tvRightOrWrong.setTextColor(it) }
+            val list = MultipartBody.Builder()
+                    .setType(MultipartBody.FORM)
+                    .addFormDataPart("ques_type", type.toString())
+                    .addFormDataPart("ques_id", problemID.toString())
+                    .addFormDataPart("error_answer", clickId.toSelectionIndex())
+                    .build()
+                    .parts()
+            addCollection(StarActivity.WRONG.toString(), list) {
+                when (it) {
+                    is RefreshState.Failure -> Toasty.error(mActivity, "网络错误", Toast.LENGTH_SHORT).show()
+                    is RefreshState.Success -> {
+                        if (it.message.error_code == 0) {
+                            Toasty.info(mActivity, "已加入错题本", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+            }
         }
         val problemIndex = when (scrollPage) {
             true -> ProblemIndex.TRUE

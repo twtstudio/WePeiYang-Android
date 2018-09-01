@@ -8,7 +8,7 @@ import android.widget.TextView
 import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemController
 import com.twtstudio.service.tjwhm.exam.R
-import com.twtstudio.service.tjwhm.exam.ext.toMode
+import com.twtstudio.service.tjwhm.exam.commons.toMode
 import com.twtstudio.service.tjwhm.exam.user.OneHistoryData
 import org.jetbrains.anko.layoutInflater
 

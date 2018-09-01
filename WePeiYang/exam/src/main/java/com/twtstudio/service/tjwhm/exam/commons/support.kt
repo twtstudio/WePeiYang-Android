@@ -1,4 +1,4 @@
-package com.twtstudio.service.tjwhm.exam.ext
+package com.twtstudio.service.tjwhm.exam.commons
 
 import android.animation.Animator
 import android.arch.lifecycle.Lifecycle

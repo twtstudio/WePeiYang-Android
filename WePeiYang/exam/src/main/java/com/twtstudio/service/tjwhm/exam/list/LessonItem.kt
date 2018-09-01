@@ -12,8 +12,8 @@ import com.twt.wepeiyang.commons.experimental.cache.RefreshState
 import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemController
 import com.twtstudio.service.tjwhm.exam.R
-import com.twtstudio.service.tjwhm.exam.ext.GoneAnimatorListener
-import com.twtstudio.service.tjwhm.exam.ext.NoneAnimatorListener
+import com.twtstudio.service.tjwhm.exam.commons.GoneAnimatorListener
+import com.twtstudio.service.tjwhm.exam.commons.NoneAnimatorListener
 import com.twtstudio.service.tjwhm.exam.problem.ProblemActivity
 import com.twtstudio.service.tjwhm.exam.problem.getLessonInfo
 import es.dmoral.toasty.Toasty

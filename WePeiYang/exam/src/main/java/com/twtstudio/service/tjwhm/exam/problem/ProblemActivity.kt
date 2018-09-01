@@ -16,7 +16,7 @@ import android.widget.Toast
 import com.twt.wepeiyang.commons.experimental.cache.RefreshState
 import com.twtstudio.service.tjwhm.exam.R
 import es.dmoral.toasty.Toasty
-import com.twtstudio.service.tjwhm.exam.ext.FixedSpeedScroller
+import com.twtstudio.service.tjwhm.exam.commons.FixedSpeedScroller
 import com.twtstudio.service.tjwhm.exam.problem.score.ScoreActivity
 
 
@@ -60,6 +60,7 @@ class ProblemActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         setContentView(R.layout.exam_activity_problem)
+        isLeft = true
         Looper.myQueue().addIdleHandler {
             initStatusBar()
             window.decorView.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ -> initStatusBar() }
@@ -248,7 +249,6 @@ class ProblemActivity : AppCompatActivity() {
     }
 
     fun onProblemIndexItemClick(index: Int) {
-        Log.i("zzzzzzzzzzzzzz", "zzzzzz$index")
         if (index in 0 until size) vpProblem.currentItem = index
         problemIndexPopupWindow.dismiss()
     }

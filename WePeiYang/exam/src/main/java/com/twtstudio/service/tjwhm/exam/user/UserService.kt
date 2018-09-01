@@ -3,6 +3,7 @@ package com.twtstudio.service.tjwhm.exam.user
 import com.twt.wepeiyang.commons.experimental.cache.*
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import com.twt.wepeiyang.commons.experimental.network.ServiceFactoryForExam
+import com.twtstudio.service.tjwhm.exam.commons.BaseBean
 import kotlinx.coroutines.experimental.Deferred
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
@@ -18,7 +19,11 @@ interface UserService {
 
     @Multipart
     @POST("special/addQues/{star_or_wrong}")
-    fun addCollections(@Path("star_or_wrong") starOrWrong: String, @Part list: MutableList<MultipartBody.Part>): Deferred<AddStarCallBackViewModel>
+    fun addCollection(@Path("star_or_wrong") starOrWrong: String, @Part list: MutableList<MultipartBody.Part>): Deferred<BaseBean<Nothing>>
+
+    @Multipart
+    @POST("special/deleteQues/{star_or_wrong}")
+    fun deleteCollection(@Path("star_or_wrong") starOrWrong: String, @Part list: MutableList<MultipartBody.Part>): Deferred<BaseBean<Nothing>>
 
     companion object : UserService by ServiceFactoryForExam()
 }
@@ -36,9 +41,18 @@ fun getCollections(starOrWrong: String, callback: suspend (RefreshState<StarView
             }
         }
 
-fun addCollections(starOrWrong: String, list: MutableList<MultipartBody.Part>, callback: suspend (RefreshState<AddStarCallBackViewModel>) -> Unit) =
+fun addCollection(starOrWrong: String, list: MutableList<MultipartBody.Part>, callback: suspend (RefreshState<BaseBean<Nothing>>) -> Unit) =
         launch(UI) {
-            UserService.addCollections(starOrWrong, list).awaitAndHandle {
+            UserService.addCollection(starOrWrong, list).awaitAndHandle {
+                callback(RefreshState.Failure(it))
+            }?.let {
+                callback(RefreshState.Success(it))
+            }
+        }
+
+fun deleteCollection(starOrWrong: String, list: MutableList<MultipartBody.Part>, callback: suspend (RefreshState<BaseBean<Nothing>>) -> Unit) =
+        launch(UI) {
+            UserService.deleteCollection(starOrWrong, list).awaitAndHandle {
                 callback(RefreshState.Failure(it))
             }?.let {
                 callback(RefreshState.Success(it))
@@ -107,10 +121,4 @@ data class Que(
         val is_mistake: Int,
         val message: String,
         val error_option: String
-)
-
-
-data class AddStarCallBackViewModel(
-        val error_code: Int,
-        val message: String
 )
