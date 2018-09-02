@@ -225,6 +225,15 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
                     .into(release_choose_pic)
         }
 
+        when (detailData.detail_type) {
+            1, 2 -> {
+                release_card_name.setText(detailData.card_name)
+                release_card_num.setText(detailData.card_number)
+            } // 1 = 身份证, 2 = 饭卡
+            10 -> release_card_num_noname.setText(detailData.card_number) // 10 = 银行卡
+            else -> {}
+        }
+
         release_title.setText(detailData.title)
         release_title.setSelection(detailData.title.length)
         release_time.setText(detailData.time)

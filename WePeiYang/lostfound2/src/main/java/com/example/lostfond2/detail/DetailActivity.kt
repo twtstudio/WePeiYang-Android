@@ -57,10 +57,10 @@ class DetailActivity : AppCompatActivity() {
                     if (mylist1.place != null) {
                         setDetail("地点", mylist1.place)
                     }
-                    if (mylist1.card_name != null) {
+                    if (mylist1.card_name != "null" || mylist1.card_name != null) {
                         setDetail("失主姓名", mylist1.card_name)
                     }
-                    if (mylist1.card_number != null) {
+                    if (mylist1.card_number != "null" || mylist1.card_number != null  ) {
                         setDetail("卡号", mylist1.card_number)
                     }
                     if (mylist1.place != null) {
@@ -74,7 +74,7 @@ class DetailActivity : AppCompatActivity() {
                         setDetail("电话", mylist1.phone)
                     }
                     setTitle("附加信息")
-                    if (mylist1.item_description != null) {
+                    if (mylist1.item_description != null ) {
                         setOther("附言", mylist1.item_description)
                     }
 

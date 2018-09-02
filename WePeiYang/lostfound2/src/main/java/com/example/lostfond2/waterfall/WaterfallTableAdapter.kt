@@ -48,7 +48,7 @@ class WaterfallTableAdapter(var waterFallBean: List<MyListDataOrSearchBean>?,
         if (dataBean.picture == null) {
             Glide.with(context)
                     .load(Utils.getPicUrl("julao.jpg"))
-                    .error(R.drawable.lf_detail_np)
+                    .placeholder(R.drawable.lf_detail_np)
                     .into(viewHolder.waterFall_item_pic)
         } else {
             Glide.with(context)
