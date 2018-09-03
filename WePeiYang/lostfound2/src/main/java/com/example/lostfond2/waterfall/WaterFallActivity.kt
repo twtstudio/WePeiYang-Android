@@ -81,7 +81,7 @@ class WaterFallActivity : AppCompatActivity() {
 
                 window = PopupWindow(popupWindowview, WRAP_CONTENT, WRAP_CONTENT, true)
                 window.apply {
-//                    setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                    //                    setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
                     setBackgroundDrawable( BitmapDrawable())
                     isOutsideTouchable = true
                     isTouchable = true
@@ -128,6 +128,7 @@ class WaterFallActivity : AppCompatActivity() {
     fun setWaterfallType(type: Int) {
         lostFragment.loadWaterfallDataWithType(type)
         foundFragment.loadWaterfallDataWithType(type)
+        this.type = type
         pop_waterfall_type_recyclerview.adapter = WaterfallTypeTableAdapter(this, this, type)
         pop_waterfall_types_all.apply {
             if (type == -1) {
