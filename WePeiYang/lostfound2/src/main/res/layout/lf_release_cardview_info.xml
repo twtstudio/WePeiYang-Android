@@ -28,7 +28,7 @@
                 android:layout_gravity="center"
                 android:layout_marginStart="8dp"
                 android:background="@null"
-                android:hint="不超过11字"
+                android:hint="不超过11字(必填)"
                 android:imeOptions="actionNext"
                 android:lines="1"
                 android:maxLines="1"

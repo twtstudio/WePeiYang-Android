@@ -38,7 +38,7 @@ class WaterfallTypeTableAdapter(val waterfallActivity: WaterFallActivity,
             viewHolder.waterfall_type_item.typeface = Typeface.defaultFromStyle(Typeface.BOLD)
         }
 
-        viewHolder.itemView.setOnClickListener { view ->
+        viewHolder.itemView.setOnClickListener {
             waterfallActivity.setWaterfallType(position + 1)
             waterfallActivity.waterfall_type_blue.visibility = View.GONE
             waterfallActivity.waterfall_type_grey.visibility = View.VISIBLE

@@ -25,6 +25,7 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.example.lostfond2.R
+import com.example.lostfond2.R.id.*
 import com.example.lostfond2.SuccessActivity
 import com.example.lostfond2.service.DetailData
 import com.example.lostfond2.service.MyListDataOrSearchBean

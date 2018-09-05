@@ -41,21 +41,26 @@ class WaterFallActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
         setContentView(R.layout.activity_water_fall)
         val waterfallLost: FloatingActionButton = findViewById(R.id.waterfall_fab_lost)
-
         val popupWindowview : View = LayoutInflater.from(this).inflate(R.layout.lf_waterfall_cardview_types, null, false)
         pop_waterfall_types_all = popupWindowview.findViewById(R.id.waterfall_types_all)
         pop_waterfall_type_recyclerview = popupWindowview.findViewById(R.id.waterfall_type_recyclerview)
         pop_waterfall_type_recyclerview.layoutManager = layoutManager
 
-        lostFragment = WaterfallFragment.Companion.newInstance("lost")
-        foundFragment = WaterfallFragment.Companion.newInstance("found")
+        lostFragment = WaterfallFragment.newInstance("lost")
+        foundFragment = WaterfallFragment.newInstance("found")
         val waterfallPagerAdapter = WaterfallPagerAdapter(supportFragmentManager)
         val bundle = Bundle()
         val intent = Intent()
         val toolbar = findViewById<Toolbar>(R.id.toolbar1)
+        waterfall_type_blue.visibility = View.GONE
+        toolbar.title = "失物招领"
+        setSupportActionBar(toolbar)
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        toolbar.setNavigationOnClickListener { onBackPressed() } // toolbar的各种操作
 
         waterfallPagerAdapter.add(foundFragment, "捡到")
         waterfallPagerAdapter.add(lostFragment, "丢失")
@@ -67,12 +72,7 @@ class WaterFallActivity : AppCompatActivity() {
             setSelectedTabIndicatorColor(Color.parseColor("#00a1e9"))
         }
 
-        waterfall_type_blue.visibility = View.GONE
-//        waterfall_cover.visibility = View.GONE
-        toolbar.title = "失物招领"
-        setSupportActionBar(toolbar)
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        toolbar.setNavigationOnClickListener { onBackPressed() }
+
 
         waterfall_type.setOnClickListener {
             if (waterfall_type_grey.visibility == View.VISIBLE) run {
@@ -81,7 +81,6 @@ class WaterFallActivity : AppCompatActivity() {
 
                 window = PopupWindow(popupWindowview, WRAP_CONTENT, WRAP_CONTENT, true)
                 window.apply {
-                    //                    setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
                     setBackgroundDrawable( BitmapDrawable())
                     isOutsideTouchable = true
                     isTouchable = true
@@ -103,7 +102,6 @@ class WaterFallActivity : AppCompatActivity() {
                 setWaterfallType(-1)
                 waterfall_type_grey.visibility = View.VISIBLE
                 waterfall_type_blue.visibility = View.GONE
-                window.dismiss()
             }
         }
 

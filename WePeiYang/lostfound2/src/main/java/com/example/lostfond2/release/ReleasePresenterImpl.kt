@@ -52,7 +52,6 @@ class ReleasePresenterImpl(var releaseView: ReleaseContract.ReleaseView) : Relea
         }
     }
 
-
     override fun uploadReleaseDataWithPic(map: Map<String, Any>, lostOrFound: String, file: File) {
 
         val builder = MultipartBody.Builder().setType(MultipartBody.FORM)

@@ -6,45 +6,49 @@ class Utils {
     val PERMISSION_READ_EXTERNAL_STORAGE = Manifest.permission.READ_EXTERNAL_STORAGE
 
     companion object {
-        fun getType(i: Int): String {
-
-            if (i == 1) {
-                return "身份证"
-            } else if (i == 2) {
-                return "饭卡"
-            } else if (i == 3) {
-                return "手机"
-            } else if (i == 4) {
-                return "钥匙"
-            } else if (i == 5) {
-                return "书包"
-            } else if (i == 6) {
-                return "手表&饰品"
-            } else if (i == 7) {
-                return "水杯"
-            } else if (i == 8) {
-                return "U盘&硬盘"
-            } else if (i == 9) {
-                return "钱包"
-            } else if (i == 10) {
-                return "银行卡"
-            } else if (i == 11) {
-                return "书"
-            } else if (i == 12) {
-                return "伞"
-            } else if (i == 13) {
-                return "其他"
-            }
-            return "wrong_type"
+        fun getType(i: Int) = when (i) {
+            1 -> "身份证"
+            2 -> "饭卡"
+            3 -> "手机"
+            4 -> "钥匙"
+            5 -> "书包"
+            6 -> "手表&饰品"
+            7 -> "水杯"
+            8 -> "U盘&硬盘"
+            9 -> "钱包"
+            10 -> "银行卡"
+            11 -> "书"
+            12 -> "伞"
+            13 -> "其他"
+            else -> "wrong_type"
         }
 
-        fun getPicUrl(addUrl: String): String {
-            return "http://open.twtstudio.com/$addUrl"
+
+        fun getFilter(i: Int) = when (i) {
+            1 -> "时间"
+            2 -> "校区"
+            else -> "wrong_filter"
         }
 
-        fun noPicForDetail(): String {
-            return "http://open.twtstudio.com/uploads/17-07-12/945139dcd91e9ed3d5967ef7f81e18f6.jpg"
+        fun getDetailFilterOfTime(i : Int) = when (i) {
+            1 -> "一天之内"
+            2 -> "1 - 7天"
+            3 -> "7 - 15天"
+            4 -> "15 - 30天"
+            else -> "wrong_time"
         }
+
+        fun getDetailFilterOfPlace(i : Int) = when (i) {
+            1 -> "北洋园校区"
+            2 -> "卫津路校区"
+            else -> "wrong_place"
+        }
+
+        fun getPicUrl(addUrl: String) = "http://open.twtstudio.com/{$addUrl}"
+
+
+        fun noPicForDetail()= "http://open.twtstudio.com/uploads/17-07-12/945139dcd91e9ed3d5967ef7f81e18f6.jpg"
+
     }
 
 }
