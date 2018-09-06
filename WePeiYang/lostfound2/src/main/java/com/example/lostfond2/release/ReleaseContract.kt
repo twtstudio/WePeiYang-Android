@@ -25,7 +25,7 @@ interface ReleaseContract {
 
         fun uploadReleaseData(map: Map<String, Any>, lostOrFound: String)
 
-        fun uploadReleaseDataWithPic(map: Map<String, Any>, lostOrFound: String, file: File)
+        fun uploadReleaseDataWithPic(map: Map<String, Any>, lostOrFound: String, arrayOfFile: ArrayList<File?>)
 
         fun successCallBack(beanList: List<MyListDataOrSearchBean>)
 

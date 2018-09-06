@@ -19,6 +19,7 @@ import okhttp3.RequestBody
 import org.jetbrains.anko.coroutines.experimental.bg
 import java.io.File
 import java.util.*
+import kotlin.collections.ArrayList
 
 class ReleasePresenterImpl(var releaseView: ReleaseContract.ReleaseView) : ReleaseContract.ReleasePresenter {
 
@@ -52,12 +53,20 @@ class ReleasePresenterImpl(var releaseView: ReleaseContract.ReleaseView) : Relea
         }
     }
 
-    override fun uploadReleaseDataWithPic(map: Map<String, Any>, lostOrFound: String, file: File) {
+    override fun uploadReleaseDataWithPic(map: Map<String, Any>, lostOrFound: String, arrayOfFile : ArrayList<File?>) {
 
         val builder = MultipartBody.Builder().setType(MultipartBody.FORM)
-        val imageBody = RequestBody.create(MediaType.parse("multipart/form-data"), file)
+//        val imageBody = RequestBody.create(MediaType.parse("multipart/form-data"), arrayOfFile[0])
+//        val imageBody2 = RequestBody.create(MediaType.parse("multipart/form-data"), arrayOfFile[1])
+
         builder.apply {
-            addFormDataPart("pic[]", file.name, imageBody)
+            for (i in 0..(arrayOfFile.size - 1)) {
+                val imageBody = RequestBody.create(MediaType.parse("multipart/form-data"), arrayOfFile[i])
+                addFormDataPart("pic[]", arrayOfFile[i]!!.name, imageBody)
+            }
+//            addFormDataPart("pic[]", arrayOfFile[0]!!.name, imageBody)
+//            addFormDataPart("pic[]", arrayOfFile[1]!!.name, imageBody2)
+//            addFormDataPart("pic[]", file.name, imageBody)
             addFormDataPart("title", map["title"].toString())
             addFormDataPart("time", map["time"].toString())
             addFormDataPart("place", map["place"].toString())

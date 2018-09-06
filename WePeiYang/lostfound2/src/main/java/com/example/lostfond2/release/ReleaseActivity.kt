@@ -47,6 +47,7 @@ import kotlinx.android.synthetic.main.lf_release_cardview_publish.*
 import java.io.*
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.OnClickListener {
 
@@ -55,11 +56,14 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
     var id = 0
     var releasePresenter: ReleaseContract.ReleasePresenter = ReleasePresenterImpl(this)
     val layoutManager = StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.HORIZONTAL)
-    var selectedPic: List<Uri> = ArrayList()
+    var selectedPic: List<Uri> = ArrayList() //get a pic's url
     lateinit var lostOrFound: String
     lateinit var tableAdapter: ReleaseTableAdapter
     lateinit var progressDialog: ProgressDialog
     var judge = false
+    private var selectedPicNumber = 0 //transmit which pic is selected
+    private var totalSelectedPic = ArrayList<Uri>(0) //get all pic's url
+
 
     private fun setToolbarView(toolbar: Toolbar) {
         toolbar.title = when (lostOrFound) {
@@ -99,9 +103,30 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         release_type_recycleriew.layoutManager = layoutManager
         drawRecyclerView(selectedItemPosition)
         release_type_recycleriew.adapter = tableAdapter
-
         onTypeItemSelected(selectedItemPosition)
-        release_choose_pic.setOnClickListener { PermissionsUtils.requestPermission(this, PermissionsUtils.CODE_READ_EXTERNAL_STORAGE, mPermissionGrant) }
+
+        release_choose_pic2.visibility = View.GONE
+        release_choose_pic3.visibility = View.GONE
+        release_choose_pic4.visibility = View.GONE
+
+        release_choose_pic1.setOnClickListener {
+            selectedPicNumber = 0
+            PermissionsUtils.requestPermission(this, PermissionsUtils.CODE_READ_EXTERNAL_STORAGE, mPermissionGrant)
+
+        }
+        release_choose_pic2.setOnClickListener {
+            selectedPicNumber = 1
+            PermissionsUtils.requestPermission(this, PermissionsUtils.CODE_READ_EXTERNAL_STORAGE, mPermissionGrant)
+        }
+        release_choose_pic3.setOnClickListener {
+            selectedPicNumber = 2
+            PermissionsUtils.requestPermission(this, PermissionsUtils.CODE_READ_EXTERNAL_STORAGE, mPermissionGrant)
+        }
+        release_choose_pic4.setOnClickListener {
+            selectedPicNumber = 3
+            PermissionsUtils.requestPermission(this, PermissionsUtils.CODE_READ_EXTERNAL_STORAGE, mPermissionGrant)
+        }
+
         val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_NOT_ALWAYS)
     }
@@ -141,11 +166,14 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         if (view === release_confirm && (lostOrFound == "lost" || lostOrFound == "found")) {
             if (selectedPic.isNotEmpty()) {
                 val file1: File
-                var file: File? = null
+//                var file: File? = null
+                var arrayOfFile = ArrayList<File?>(0)
                 try {
                     file1 = File.createTempFile("pic", ".jpg")
                     val outputFile = file1.path
-                    file = getFile(zipThePic(handleImageOnKitKat(selectedPic[0])), outputFile)
+                    for (i in 0..(totalSelectedPic.size - 1)) {
+                        arrayOfFile.add(getFile(zipThePic(handleImageOnKitKat(totalSelectedPic[i])), outputFile))
+                    }
                 } catch (e: IOException) {
                     e.printStackTrace()
                 }
@@ -154,7 +182,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
                 val map = getUpdateMap()
                 if (judge) {
                     progressDialog = ProgressDialog.show(this@ReleaseActivity, "", "正在上传")
-                    releasePresenter.uploadReleaseDataWithPic(map, lostOrFound, file!!)
+                    releasePresenter.uploadReleaseDataWithPic(map, lostOrFound, arrayOfFile)
                 }
 
             } else {
@@ -166,11 +194,15 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         } else if (view === release_confirm) {
             val file1: File
             var file: File? = null
+            var arrayOfFile = ArrayList<File?>(0)
             try {
                 file1 = File.createTempFile("pic", ".jpg")
                 val outputFile = file1.path
                 if (selectedPic.isNotEmpty()) {
-                    file = getFile(zipThePic(handleImageOnKitKat(selectedPic[0])), outputFile)
+//                    file = getFile(zipThePic(handleImageOnKitKat(selectedPic[0])), outputFile)
+                    for (i in 0..selectedPic.size) {
+                        arrayOfFile.add(getFile(zipThePic(handleImageOnKitKat(selectedPic[0])), outputFile))
+                    }
                 }
             } catch (e: IOException) {
                 e.printStackTrace()
@@ -218,12 +250,12 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
             Glide.with(this)
                     .load(Utils.getPicUrl("julao.jpg"))
                     .error(R.drawable.lf_detail_np)
-                    .into(release_choose_pic)
+                    .into(release_choose_pic1)
         } else {
             Glide.with(this)
                     .load(Utils.getPicUrl(detailData.picture))
                     .asBitmap()
-                    .into(release_choose_pic)
+                    .into(release_choose_pic1)
         }
 
         when (detailData.detail_type) {
@@ -310,9 +342,36 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
 
         if (requestCode == 2 && resultCode != 0) {
             selectedPic = Matisse.obtainResult(data)
-            Glide.with(this)
-                    .load(selectedPic[0])
-                    .into(release_choose_pic)
+
+            when (selectedPicNumber) {
+                0 -> {
+                    Glide.with(this)
+                            .load(selectedPic[0])
+                            .into(release_choose_pic1)
+                    totalSelectedPic.add(selectedPic[0])
+                    release_choose_pic2.visibility = View.VISIBLE
+                }
+                1 -> {
+                    Glide.with(this)
+                            .load(selectedPic[0])
+                            .into(release_choose_pic2)
+                    totalSelectedPic.add(selectedPic[0])
+                    release_choose_pic3.visibility = View.VISIBLE
+                }
+                2 -> {
+                    Glide.with(this)
+                            .load(selectedPic[0])
+                            .into(release_choose_pic3)
+                    totalSelectedPic.add(selectedPic[0])
+                    release_choose_pic4.visibility = View.VISIBLE
+                }
+                3 -> {
+                    Glide.with(this)
+                            .load(selectedPic[0])
+                            .into(release_choose_pic4)
+                    totalSelectedPic.add(selectedPic[0])
+                }
+            }
         }
     }
 
@@ -355,17 +414,6 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
     private fun zipThePic(filePath: String?): ByteArray {
         val options = BitmapFactory.Options()
         options.inJustDecodeBounds = true
-//        BitmapFactory.decodeFile(filePath, options)
-//        val height = options.outHeight
-//        val width = options.outWidth
-//        var inSampleSize = 1
-//        val reqHeight = 800
-//        val reqWidth = 480
-//        if (height > reqHeight || width > reqWidth) {
-//            val heightRatio = Math.round(height.toFloat() / reqHeight.toFloat())
-//            val widthRatio = Math.round(width.toFloat() / reqWidth.toFloat())
-//            inSampleSize = if (heightRatio < widthRatio) heightRatio else widthRatio
-//        }
         options.inSampleSize = calculateInSampleSize(options, 480, 800)
         options.inJustDecodeBounds = false
         val bitmap = BitmapFactory.decodeFile(filePath, options)

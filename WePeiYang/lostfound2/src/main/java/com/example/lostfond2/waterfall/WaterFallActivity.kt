@@ -4,29 +4,25 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
 import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.ColorDrawable
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 
 import android.support.design.widget.TabLayout
+import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.StaggeredGridLayoutManager
 import android.support.v7.widget.Toolbar
-import android.util.Log
 import android.view.*
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.PopupWindow
 import android.widget.TextView
 import com.example.lostfond2.R
-import com.example.lostfond2.R.attr.tabGravity
-import com.example.lostfond2.R.id.*
 import com.example.lostfond2.mylist.MyListActivity
 import com.example.lostfond2.release.ReleaseActivity
 import com.example.lostfond2.search.SearchActivity
 import com.github.clans.fab.FloatingActionButton
-import com.twt.wepeiyang.commons.experimental.theme.CustomTheme.context
 import kotlinx.android.synthetic.main.activity_water_fall.*
-import kotlinx.android.synthetic.main.lf_waterfall_cardview_types.*
+import org.jetbrains.anko.textColor
 
 class WaterFallActivity : AppCompatActivity() {
 
@@ -34,9 +30,11 @@ class WaterFallActivity : AppCompatActivity() {
     lateinit var foundFragment: WaterfallFragment
     lateinit var pop_waterfall_type_recyclerview : RecyclerView
     lateinit var pop_waterfall_types_all : TextView
+    lateinit var pop_waterfall_filter : TextView
     lateinit var window : PopupWindow
 
     var layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+    var layoutManagerForFilter = LinearLayoutManager(this@WaterFallActivity)
     var type = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,9 +44,11 @@ class WaterFallActivity : AppCompatActivity() {
         setContentView(R.layout.activity_water_fall)
         val waterfallLost: FloatingActionButton = findViewById(R.id.waterfall_fab_lost)
         val popupWindowview : View = LayoutInflater.from(this).inflate(R.layout.lf_waterfall_cardview_types, null, false)
-        pop_waterfall_types_all = popupWindowview.findViewById(R.id.waterfall_types_all)
+        pop_waterfall_types_all = popupWindowview.findViewById(R.id.waterfall_types_all) //全部分类
+        pop_waterfall_filter = popupWindowview.findViewById(R.id.waterfall_filter) //筛选条件
         pop_waterfall_type_recyclerview = popupWindowview.findViewById(R.id.waterfall_type_recyclerview)
         pop_waterfall_type_recyclerview.layoutManager = layoutManager
+        val pop_waterfall_filter_adapter = WaterfallFilterTableAdapter(this@WaterFallActivity, this, "all", 2) // 筛选条件的adapter
 
         lostFragment = WaterfallFragment.newInstance("lost")
         foundFragment = WaterfallFragment.newInstance("found")
@@ -99,9 +99,22 @@ class WaterFallActivity : AppCompatActivity() {
             }
 
             pop_waterfall_types_all.setOnClickListener {
+                pop_waterfall_types_all.textColor = Color.parseColor("#666666")
+                pop_waterfall_filter.textColor = Color.parseColor("#D3D3D3")
+                pop_waterfall_type_recyclerview.layoutManager = layoutManager
                 setWaterfallType(-1)
                 waterfall_type_grey.visibility = View.VISIBLE
                 waterfall_type_blue.visibility = View.GONE
+            }
+
+            pop_waterfall_filter.setOnClickListener {
+                pop_waterfall_filter.textColor = Color.parseColor("#666666")
+                pop_waterfall_types_all.textColor = Color.parseColor("#D3D3D3")
+                pop_waterfall_type_recyclerview.apply {
+                    layoutManager = layoutManagerForFilter
+                    adapter = pop_waterfall_filter_adapter
+                }
+
             }
         }
 
