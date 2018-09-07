@@ -1,6 +1,8 @@
 package com.example.lostfond2.release
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
+import android.app.Dialog
 import android.app.ProgressDialog
 import android.content.ContentUris
 import android.content.Context
@@ -22,6 +24,7 @@ import android.view.Window
 import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.ImageView
 import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.example.lostfond2.R
@@ -35,6 +38,7 @@ import com.zhihu.matisse.Matisse
 import com.zhihu.matisse.MimeType
 import com.zhihu.matisse.engine.impl.GlideEngine
 import kotlinx.android.synthetic.main.activity_release.*
+import kotlinx.android.synthetic.main.lf2_release_cardview_receiving_site.*
 import kotlinx.android.synthetic.main.lf_common_toolbar.*
 import kotlinx.android.synthetic.main.lf_release_cardview_cardinfo.*
 import kotlinx.android.synthetic.main.lf_release_cardview_cardinfo_noname.*
@@ -44,6 +48,7 @@ import kotlinx.android.synthetic.main.lf_release_cardview_delete.*
 import kotlinx.android.synthetic.main.lf_release_cardview_info.*
 import kotlinx.android.synthetic.main.lf_release_cardview_moreinfo.*
 import kotlinx.android.synthetic.main.lf_release_cardview_publish.*
+import org.jetbrains.anko.image
 import java.io.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -62,7 +67,8 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
     lateinit var progressDialog: ProgressDialog
     var judge = false
     private var selectedPicNumber = 0 //transmit which pic is selected
-    private var totalSelectedPic = ArrayList<Uri>(0) //get all pic's url
+    private var totalSelectedPic = ArrayList<Uri?>(0) //get all pic's uri
+//    private val list = arrayOf<CharSequence>("更改图片", "删除图片", "取消")
 
 
     private fun setToolbarView(toolbar: Toolbar) {
@@ -96,10 +102,11 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
             selectedItemPosition = bundle.getInt("type") - 1
             onTypeItemSelected(selectedItemPosition)
             releasePresenter.loadDetailDataForEdit(id, this)
-        }
+        } //open editwindow
 
 
         initSpinner()
+        initSpinnerOfReceivingSite()
         release_type_recycleriew.layoutManager = layoutManager
         drawRecyclerView(selectedItemPosition)
         release_type_recycleriew.adapter = tableAdapter
@@ -109,22 +116,45 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         release_choose_pic3.visibility = View.GONE
         release_choose_pic4.visibility = View.GONE
 
+        for (i in 0..3) {
+            totalSelectedPic.add(null)
+        }
         release_choose_pic1.setOnClickListener {
             selectedPicNumber = 0
-            PermissionsUtils.requestPermission(this, PermissionsUtils.CODE_READ_EXTERNAL_STORAGE, mPermissionGrant)
-
+            setPicSelection()
         }
         release_choose_pic2.setOnClickListener {
             selectedPicNumber = 1
-            PermissionsUtils.requestPermission(this, PermissionsUtils.CODE_READ_EXTERNAL_STORAGE, mPermissionGrant)
+            setPicSelection()
         }
         release_choose_pic3.setOnClickListener {
             selectedPicNumber = 2
-            PermissionsUtils.requestPermission(this, PermissionsUtils.CODE_READ_EXTERNAL_STORAGE, mPermissionGrant)
+            setPicSelection()
         }
         release_choose_pic4.setOnClickListener {
             selectedPicNumber = 3
-            PermissionsUtils.requestPermission(this, PermissionsUtils.CODE_READ_EXTERNAL_STORAGE, mPermissionGrant)
+            setPicSelection()
+        }
+
+        release_choose_pic1.setOnLongClickListener {
+            selectedPicNumber = 0
+            setPicEdit()
+            true
+        }
+        release_choose_pic2.setOnLongClickListener {
+            selectedPicNumber = 1
+            setPicEdit()
+            true
+        }
+        release_choose_pic3.setOnLongClickListener {
+            selectedPicNumber = 2
+            setPicEdit()
+            true
+        }
+        release_choose_pic4.setOnLongClickListener {
+            selectedPicNumber = 3
+            setPicEdit()
+            true
         }
 
         val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -160,11 +190,35 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         imm.hideSoftInputFromWindow(release_title.windowToken, 0)
 
     }
+    private fun initSpinnerOfReceivingSite() {
+        val spinnerListOfGarden = ArrayList<String>()
+        spinnerListOfGarden.add("格园")
+        spinnerListOfGarden.add("诚园")
+        spinnerListOfGarden.add("正园")
+        spinnerListOfGarden.add("修园")
+        spinnerListOfGarden.add("齐园")
+        val adapterOfGarden = ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item,spinnerListOfGarden)
+        adapterOfGarden.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        receiving_site_garden_spinner.adapter = adapterOfGarden
+        receiving_site_garden_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                Toast.makeText(this@ReleaseActivity, spinnerListOfGarden[position], Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+        }
+        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(release_title.windowToken, 0)
+
+    }
 
     override fun onClick(view: View) {
 
         if (view === release_confirm && (lostOrFound == "lost" || lostOrFound == "found")) {
-            if (selectedPic.isNotEmpty()) {
+            if (totalSelectedPic.isNotEmpty()) {
                 val file1: File
 //                var file: File? = null
                 var arrayOfFile = ArrayList<File?>(0)
@@ -172,36 +226,38 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
                     file1 = File.createTempFile("pic", ".jpg")
                     val outputFile = file1.path
                     for (i in 0..(totalSelectedPic.size - 1)) {
-                        arrayOfFile.add(getFile(zipThePic(handleImageOnKitKat(totalSelectedPic[i])), outputFile))
+                        if (totalSelectedPic[i] != null) {
+                            arrayOfFile.add(getFile(zipThePic(handleImageOnKitKat(totalSelectedPic[i])), outputFile))
+                        }
                     }
                 } catch (e: IOException) {
                     e.printStackTrace()
                 }
-
 
                 val map = getUpdateMap()
                 if (judge) {
                     progressDialog = ProgressDialog.show(this@ReleaseActivity, "", "正在上传")
                     releasePresenter.uploadReleaseDataWithPic(map, lostOrFound, arrayOfFile)
                 }
-
             } else {
-//                progressDialog = ProgressDialog.show(this@ReleaseActivity, "", "正在上传")
                 val map = getUpdateMap()
+
                 if (judge)
                     releasePresenter.uploadReleaseData(map, lostOrFound)
             }
         } else if (view === release_confirm) {
             val file1: File
             var file: File? = null
-            var arrayOfFile = ArrayList<File?>(0)
+            val arrayOfFile = ArrayList<File?>(0)
             try {
                 file1 = File.createTempFile("pic", ".jpg")
                 val outputFile = file1.path
-                if (selectedPic.isNotEmpty()) {
+                if (totalSelectedPic.isNotEmpty()) {
 //                    file = getFile(zipThePic(handleImageOnKitKat(selectedPic[0])), outputFile)
-                    for (i in 0..selectedPic.size) {
-                        arrayOfFile.add(getFile(zipThePic(handleImageOnKitKat(selectedPic[0])), outputFile))
+                    for (i in 0..(totalSelectedPic.size - 1)) {
+                        if (totalSelectedPic[i] != null) {
+                            arrayOfFile.add(getFile(zipThePic(handleImageOnKitKat(totalSelectedPic[i])), outputFile))
+                        }
                     }
                 }
             } catch (e: IOException) {
@@ -212,7 +268,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
             val map = getUpdateMap()
             if (judge) {
                 progressDialog = ProgressDialog.show(this@ReleaseActivity, "", "正在上传")
-                releasePresenter.uploadEditDataWithPic(map, lostOrFound, file, id)
+                releasePresenter.uploadEditDataWithPic(map, lostOrFound, arrayOfFile, id)
             }
         } else if (view === release_delete) {
             progressDialog = ProgressDialog.show(this@ReleaseActivity, "", "正在删除")
@@ -249,13 +305,69 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         if (detailData.picture == null) {
             Glide.with(this)
                     .load(Utils.getPicUrl("julao.jpg"))
-                    .error(R.drawable.lf_detail_np)
+                    .error(R.drawable.lf_choose_pic)
                     .into(release_choose_pic1)
         } else {
-            Glide.with(this)
-                    .load(Utils.getPicUrl(detailData.picture))
-                    .asBitmap()
-                    .into(release_choose_pic1)
+            val picList = detailData.picture.split(",")
+            Log.d("mom", picList[0])
+            Log.d("dad", picList[1])
+            when (picList.size) {
+                1 -> {
+                    Glide.with(this)
+                            .load(Utils.getPicUrl(picList[0]))
+                            .asBitmap()
+                            .into(release_choose_pic1)
+                    release_choose_pic2.visibility = View.VISIBLE
+                }
+                2 -> {
+                    release_choose_pic2.visibility = View.VISIBLE
+                    release_choose_pic3.visibility = View.VISIBLE
+                    Glide.with(this)
+                            .load(Utils.getPicUrl(picList[0]))
+                            .asBitmap()
+                            .into(release_choose_pic1)
+                    Glide.with(this)
+                            .load(Utils.getPicUrl(picList[1]))
+                            .asBitmap()
+                            .into(release_choose_pic2)
+                }
+                3 -> {
+                    release_choose_pic2.visibility = View.VISIBLE
+                    release_choose_pic3.visibility = View.VISIBLE
+                    release_choose_pic4.visibility = View.VISIBLE
+                    Glide.with(this)
+                            .load(Utils.getPicUrl(picList[0]))
+                            .asBitmap()
+                            .into(release_choose_pic1)
+                    Glide.with(this)
+                            .load(Utils.getPicUrl(picList[1]))
+                            .asBitmap()
+                            .into(release_choose_pic2)
+                    Glide.with(this)
+                            .load(Utils.getPicUrl(picList[2]))
+                            .asBitmap()
+                            .into(release_choose_pic3)
+
+                }
+                4 -> {
+                    Glide.with(this)
+                            .load(Utils.getPicUrl(picList[0]))
+                            .asBitmap()
+                            .into(release_choose_pic1)
+                    Glide.with(this)
+                            .load(Utils.getPicUrl(picList[1]))
+                            .asBitmap()
+                            .into(release_choose_pic2)
+                    Glide.with(this)
+                            .load(Utils.getPicUrl(picList[2]))
+                            .asBitmap()
+                            .into(release_choose_pic3)
+                    Glide.with(this)
+                            .load(Utils.getPicUrl(picList[3]))
+                            .asBitmap()
+                            .into(release_choose_pic4)
+                }
+            }
         }
 
         when (detailData.detail_type) {
@@ -264,7 +376,8 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
                 release_card_num.setText(detailData.card_number)
             } // 1 = 身份证, 2 = 饭卡
             10 -> release_card_num_noname.setText(detailData.card_number) // 10 = 银行卡
-            else -> {}
+            else -> {
+            }
         }
 
         release_title.setText(detailData.title)
@@ -342,27 +455,29 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
 
         if (requestCode == 2 && resultCode != 0) {
             selectedPic = Matisse.obtainResult(data)
+//            if (totalSelectedPic.size >= (selectedPicNumber + 1)) {
+                totalSelectedPic[selectedPicNumber] = selectedPic[0]
+//            } else {
+//                totalSelectedPic.add(selectedPic[0])
+//            }
 
             when (selectedPicNumber) {
                 0 -> {
                     Glide.with(this)
                             .load(selectedPic[0])
                             .into(release_choose_pic1)
-                    totalSelectedPic.add(selectedPic[0])
                     release_choose_pic2.visibility = View.VISIBLE
                 }
                 1 -> {
                     Glide.with(this)
                             .load(selectedPic[0])
                             .into(release_choose_pic2)
-                    totalSelectedPic.add(selectedPic[0])
                     release_choose_pic3.visibility = View.VISIBLE
                 }
                 2 -> {
                     Glide.with(this)
                             .load(selectedPic[0])
                             .into(release_choose_pic3)
-                    totalSelectedPic.add(selectedPic[0])
                     release_choose_pic4.visibility = View.VISIBLE
                 }
                 3 -> {
@@ -375,30 +490,30 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         }
     }
 
-    private fun handleImageOnKitKat(uri: Uri): String? {
+    private fun handleImageOnKitKat(uri: Uri?): String? {
         var imagePath: String? = null
         if (DocumentsContract.isDocumentUri(this, uri)) {
             val docId = DocumentsContract.getDocumentId(uri)
-            if ("com.android.providers.media.documents" == uri.authority) {
+            if ("com.android.providers.media.documents" == uri?.authority) {
                 //Log.d(TAG, uri.toString());
                 val id = docId.split(":".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[1]
                 val selection = MediaStore.Images.Media._ID + "=" + id
                 imagePath = getImagePath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, selection)
-            } else if ("com.android.providers.downloads.documents" == uri.authority) {
+            } else if ("com.android.providers.downloads.documents" == uri?.authority) {
                 //Log.d(TAG, uri.toString());
                 val contentUri = ContentUris.withAppendedId(
                         Uri.parse("content://downloads/public_downloads"),
                         java.lang.Long.valueOf(docId))
                 imagePath = getImagePath(contentUri, null)
             }
-        } else if ("content".equals(uri.scheme, ignoreCase = true)) {
+        } else if ("content".equals(uri?.scheme, ignoreCase = true)) {
             //Log.d(TAG, "content: " + uri.toString());
             imagePath = getImagePath(uri, null)
         }
         return imagePath
     }
 
-    private fun getImagePath(uri: Uri, selection: String?): String? {
+    private fun getImagePath(uri: Uri?, selection: String?): String? {
         var path: String? = null
         val cursor = contentResolver.query(uri, null, selection, null, null)
         if (cursor != null) {
@@ -518,6 +633,58 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
             .imageEngine(GlideEngine())
             .theme(R.style.Matisse_Zhihu)
             .forResult(2)
+
+    private fun setPicEdit() {
+        val list = arrayOf<CharSequence>("更改图片", "删除图片", "取消")
+        val alertDialogBuilder = AlertDialog.Builder(this@ReleaseActivity)
+        alertDialogBuilder.setItems(list) { dialog, item ->
+            when (item) {
+                0 -> {
+                    PermissionsUtils.requestPermission(this@ReleaseActivity, PermissionsUtils.CODE_READ_EXTERNAL_STORAGE, mPermissionGrant)
+                }
+                1 -> {
+                    totalSelectedPic[selectedPicNumber] = null
+                    when (selectedPicNumber) {
+                        0 -> release_choose_pic1.setImageResource(R.drawable.lf_choose_pic)
+                        1 -> release_choose_pic2.setImageResource(R.drawable.lf_choose_pic)
+                        2 -> release_choose_pic3.setImageResource(R.drawable.lf_choose_pic)
+                        3 -> release_choose_pic4.setImageResource(R.drawable.lf_choose_pic)
+                    }
+
+                }
+                2 -> dialog.dismiss()
+            }
+        }
+        val alert = alertDialogBuilder.create()
+        alert.show()
+    }
+
+    private fun setPicSelection() {
+//        if (totalSelectedPic.size == selectedPicNumber) {
+//            PermissionsUtils.requestPermission(this@ReleaseActivity, PermissionsUtils.CODE_READ_EXTERNAL_STORAGE, mPermissionGrant)
+//        } else
+        if (totalSelectedPic[selectedPicNumber] == null) {
+            PermissionsUtils.requestPermission(this@ReleaseActivity, PermissionsUtils.CODE_READ_EXTERNAL_STORAGE, mPermissionGrant)
+        } else {
+            val dialog = Dialog(this@ReleaseActivity, R.style.edit_AlertDialog_style)
+            dialog.setContentView(R.layout.dialog_detail_pic)
+            val imageView = dialog.findViewById<ImageView>(R.id.detail_bigpic)
+            Glide.with(this)
+                    .load(totalSelectedPic[selectedPicNumber])
+                    .into(imageView)
+            Log.d("mom", totalSelectedPic[selectedPicNumber].toString())
+            dialog.setCanceledOnTouchOutside(true)
+            val window = dialog.window
+            val lp = window.attributes
+            lp.x = 4
+            lp.y = 4
+            dialog.onWindowAttributesChanged(lp)
+            imageView.setOnClickListener {
+                dialog.dismiss()
+            }
+            dialog.show()
+        }
+    }
 
 
 }

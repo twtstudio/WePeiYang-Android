@@ -36,7 +36,7 @@ interface ReleaseContract {
 
         fun deleteSuccessCallBack(beanList: String)
 
-        fun uploadEditDataWithPic(map: Map<String, Any>, lostOrFound: String, file: File?, id: Int)
+        fun uploadEditDataWithPic(map: Map<String, Any>, lostOrFound: String, arrayOfFile: ArrayList<File?>, id: Int)
 
         fun loadDetailDataForEdit(id: Int, releaseView: ReleaseView)
     }
