@@ -41,8 +41,10 @@ class ReleasePresenterImpl(var releaseView: ReleaseContract.ReleaseView) : Relea
             addFormDataPart("duration", map["duration"].toString())
             addFormDataPart("QQ", map["QQ"].toString())
             addFormDataPart("Wechat", map["Wechat"].toString())
-            addFormDataPart("recapture_place", map["recapture_place"].toString())
-            addFormDataPart("recapture_enterance", map["recapture_enterance"].toString())
+            if (lostOrFound == "found") {
+                addFormDataPart("recapture_place", map["recapture_place"].toString())
+                addFormDataPart("recapture_enterance", map["recapture_enterance"].toString())
+            }
         }
         val parts: List<MultipartBody.Part> = builder.build().parts()
 
@@ -79,8 +81,10 @@ class ReleasePresenterImpl(var releaseView: ReleaseContract.ReleaseView) : Relea
             addFormDataPart("duration", map["duration"].toString())
             addFormDataPart("QQ", map["QQ"].toString())
             addFormDataPart("Wechat", map["Wechat"].toString())
-            addFormDataPart("recapture_place", map["recapture_place"].toString())
-            addFormDataPart("recapture_enterance", map["recapture_enterance"].toString())
+            if (lostOrFound == "found") {
+                addFormDataPart("recapture_place", map["recapture_place"].toString())
+                addFormDataPart("recapture_enterance", map["recapture_enterance"].toString())
+            }
         }
         val parts: List<MultipartBody.Part> = builder.build().parts()
 
@@ -132,6 +136,10 @@ class ReleasePresenterImpl(var releaseView: ReleaseContract.ReleaseView) : Relea
             addFormDataPart("duration", map["duration"].toString())
             addFormDataPart("QQ", map["QQ"].toString())
             addFormDataPart("Wechat", map["Wechat"].toString())
+            if (lostOrFound == "found") {
+                addFormDataPart("recapture_place", map["recapture_place"].toString())
+                addFormDataPart("recapture_enterance", map["recapture_enterance"].toString())
+            }
         }
         val parts: List<MultipartBody.Part> = builder.build().parts()
         val anotherLostOrFound = if (Objects.equals(lostOrFound, "editLost")) "lost" else "found"

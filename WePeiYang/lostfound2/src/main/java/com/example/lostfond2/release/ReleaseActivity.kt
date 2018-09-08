@@ -254,7 +254,9 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
     override fun onClick(view: View) {
 
         if (view === release_confirm && (lostOrFound == "lost" || lostOrFound == "found")) {
-            if (totalSelectedPic.isNotEmpty()) {
+
+            val d = judgeNull(totalSelectedPic)
+            if (!judgeNull(totalSelectedPic)) {
                 val file1: File
                 val arrayOfFile = ArrayList<File?>(0)
                 try {
@@ -287,7 +289,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
                 file1 = File.createTempFile("pic", ".jpg")
                 val outputFile = file1.path
 
-                if (totalSelectedPic.isNotEmpty()) {
+                if (judgeNull(totalSelectedPic)) {
                     for (i in 0..(totalSelectedPic.size - 1)) {
                         if (totalSelectedPic[i] != null) {
                             arrayOfFile.add(getFile(zipThePic(handleImageOnKitKat(totalSelectedPic[i])), outputFile))
@@ -421,6 +423,11 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         release_phone.setText(detailData.phone)
         release_contact_name.setText(detailData.name)
         release_remark.setText(detailData.item_description)
+        release_qq.setText(detailData.QQ)
+        release_wechat.setText(detailData.Wechat)
+        receiving_site_garden_spinner.setSelection(getPositionOfGarden(detailData.recapture_place))
+        receiving_site_room_spinner.setSelection(getPositionOfRoom(detailData.recapture_place))
+        receiving_site_entrance_spinner.setSelection(getPositionOfEntrance(detailData.recapture_entrance))
     }
 
     override fun deleteSuccessCallBack() {
@@ -776,7 +783,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         }
     }
 
-    private fun getListOfEntrance(list: ArrayList<String>, intList : ArrayList<Int>, room: Int) {
+    private fun getListOfEntrance(list: ArrayList<String>, intList: ArrayList<Int>, room: Int) {
         list.clear()
         intList.clear()
 
@@ -797,4 +804,38 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
             }
         }
     }
+
+    private fun judgeNull(list: ArrayList<Uri?>): Boolean {
+        for (i in 0..(list.size - 1)) {
+            if (list[i] != null) {
+                return false
+            }
+        }
+
+        return true
+    }
+
+    private fun getPositionOfGarden(i: String): Int = when (i) {
+        "1斋", "2斋", "3斋" -> 0
+        "6斋", "7斋", "8斋" -> 1
+        "9斋", "10斋" -> 2
+        "11斋", "12斋" -> 3
+        "13斋", "14斋", "15斋", "16斋" -> 4
+        else -> 404
+    }
+
+    private  fun getPositionOfRoom(i : String) : Int = when (i) {
+        "1斋","6斋","9斋","11斋","13斋" -> 0
+        "2斋","7斋","10斋","12斋","14斋" -> 1
+        "3斋","8斋","15斋" -> 2
+        "16斋" -> 3
+        else -> 404
+    }
+
+    private fun getPositionOfEntrance(i : Int) : Int = when (i) {
+        0,1 -> 0
+        2 -> 1
+        else -> 404
+    }
+
 }

@@ -84,7 +84,7 @@ data class DetailData(
         val publish_end: String,
         val other_tag: String,
         val recapture_place: String,
-        val recapture_entrance: String,
+        val recapture_entrance: Int,
         val QQ: String,
         val Wechat: String,
         val campus: String
