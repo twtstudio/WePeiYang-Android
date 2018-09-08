@@ -54,6 +54,8 @@ import kotlin.collections.ArrayList
 class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.OnClickListener {
 
     var duration = 1
+    var entranceOfReceivingSite = 1 // 领取站点 入口
+    var roomOfReceivingSite = "" // 领取站点 斋
     var selectedItemPosition = 0
     var id = 0
     var releasePresenter: ReleaseContract.ReleasePresenter = ReleasePresenterImpl(this)
@@ -65,7 +67,6 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
     var judge = false
     private var selectedPicNumber = 0 //transmit which pic is selected
     private var totalSelectedPic = ArrayList<Uri?>(0) //get all pic's uri
-//    private val list = arrayOf<CharSequence>("更改图片", "删除图片", "取消")
 
 
     private fun setToolbarView(toolbar: Toolbar) {
@@ -92,15 +93,16 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
             toolbar.setNavigationOnClickListener { onBackPressed() }
         }
 
-
-        if (lostOrFound == "editLost" || lostOrFound == "editFound") {
+        if (lostOrFound == "editLost" || lostOrFound == "editFound") {//open editwindow
             release_delete.visibility = View.VISIBLE
             id = bundle.getInt("id")
             selectedItemPosition = bundle.getInt("type") - 1
             onTypeItemSelected(selectedItemPosition)
             releasePresenter.loadDetailDataForEdit(id, this)
-        } //open editwindow
-
+        } else if (lostOrFound == "lost") {
+            release_receiving_site.visibility = View.GONE
+            receiving_site.visibility = View.GONE
+        }
 
         initSpinner()
         initSpinnerOfReceivingSite()
@@ -187,6 +189,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         imm.hideSoftInputFromWindow(release_title.windowToken, 0)
 
     }
+
     private fun initSpinnerOfReceivingSite() {
         val spinnerListOfGarden = ArrayList<String>()
         spinnerListOfGarden.add("格园")
@@ -194,24 +197,60 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         spinnerListOfGarden.add("正园")
         spinnerListOfGarden.add("修园")
         spinnerListOfGarden.add("齐园")
-        val adapterOfGarden = ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item,spinnerListOfGarden)
-        adapterOfGarden.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        val spinnerListOfRoom = ArrayList<String>()
+        val dataListOfRoom = ArrayList<Int>()
+        val spinnerListOfEntrance = ArrayList<String>()
+        val dataListOfEntrance = ArrayList<Int>()
+
+        //园的选择
+        val adapterOfGarden = ArrayAdapter<String>(this, R.layout.lf2_custom_spiner_text_item, spinnerListOfGarden)
+        adapterOfGarden.setDropDownViewResource(R.layout.lf2_custom_spinner_dropdown_item)
         receiving_site_garden_spinner.adapter = adapterOfGarden
         receiving_site_garden_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 Toast.makeText(this@ReleaseActivity, spinnerListOfGarden[position], Toast.LENGTH_SHORT).show()
-                Log.d("dad", position.toString())
+                getListOfRoom(spinnerListOfRoom, dataListOfRoom, position)
+
+                //斋的选择
+                val adapterOfRoom = ArrayAdapter<String>(this@ReleaseActivity, R.layout.lf2_custom_spiner_text_item, spinnerListOfRoom)
+                adapterOfRoom.setDropDownViewResource(R.layout.lf2_custom_spinner_dropdown_item)
+                receiving_site_room_spinner.adapter = adapterOfRoom
+                receiving_site_room_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                        roomOfReceivingSite = dataListOfRoom[position].toString()
+                        getListOfEntrance(spinnerListOfEntrance, dataListOfEntrance, dataListOfRoom[position])
+
+                        //口的选择
+                        val adapterOfEntrance = ArrayAdapter<String>(this@ReleaseActivity, R.layout.lf2_custom_spiner_text_item, spinnerListOfEntrance)
+                        adapterOfEntrance.setDropDownViewResource(R.layout.lf2_custom_spinner_dropdown_item)
+                        receiving_site_entrance_spinner.adapter = adapterOfEntrance
+                        receiving_site_entrance_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                                entranceOfReceivingSite = dataListOfEntrance[position]
+
+                            }
+
+                            override fun onNothingSelected(parent: AdapterView<*>?) {
+                                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                            }
+                        }
+                    }
+
+                    override fun onNothingSelected(parent: AdapterView<*>?) {
+                        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                    }
+                }
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             }
-
         }
+
         val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(release_title.windowToken, 0)
-
     }
+
 
     override fun onClick(view: View) {
 
@@ -454,7 +493,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         if (requestCode == 2 && resultCode != 0) {
             selectedPic = Matisse.obtainResult(data)
 //            if (totalSelectedPic.size >= (selectedPicNumber + 1)) {
-                totalSelectedPic[selectedPicNumber] = selectedPic[0]
+            totalSelectedPic[selectedPicNumber] = selectedPic[0]
 //            } else {
 //                totalSelectedPic.add(selectedPic[0])
 //            }
@@ -683,5 +722,72 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         }
     }
 
+    private fun getListOfRoom(list: ArrayList<String>, intList: ArrayList<Int>, position: Int) {
+        list.clear()
+        intList.clear()
+        when (position) {
+            0 -> {
+                list.add("1斋")
+                list.add("2斋")
+                list.add("3斋")
+                intList.add(1)
+                intList.add(2)
+                intList.add(3)
+            }
+            1 -> {
+                list.add("6斋")
+                list.add("7斋")
+                list.add("8斋")
+                intList.add(6)
+                intList.add(7)
+                intList.add(8)
+            }
+            2 -> {
+                list.add("9斋")
+                list.add("10斋")
+                intList.add(9)
+                intList.add(10)
+            }
+            3 -> {
+                list.add("11斋")
+                list.add("12斋")
+                intList.add(11)
+                intList.add(12)
+            }
+            4 -> {
+                list.add("13斋")
+                list.add("14斋")
+                list.add("15斋")
+                list.add("16斋")
+                intList.add(13)
+                intList.add(14)
+                intList.add(15)
+                intList.add(16)
+            }
+            else -> {
+            }
+        }
+    }
 
+    private fun getListOfEntrance(list: ArrayList<String>, intList : ArrayList<Int>, room: Int) {
+        list.clear()
+        intList.clear()
+
+        when (room) {
+            1, 2, 9, 10 -> {
+                list.add("只有一个入口")
+                intList.add(0)
+            }
+            11, 12 -> {
+                list.add("只可A口")
+                intList.add(0)
+            }
+            else -> {
+                list.add("A口")
+                list.add("B口")
+                intList.add(1)
+                intList.add(2)
+            }
+        }
+    }
 }
