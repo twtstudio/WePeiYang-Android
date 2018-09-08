@@ -39,12 +39,14 @@ class ReleasePresenterImpl(var releaseView: ReleaseContract.ReleaseView) : Relea
             addFormDataPart("item_description", map["item_description"].toString())
             addFormDataPart("other_tag", "")
             addFormDataPart("duration", map["duration"].toString())
+            addFormDataPart("QQ", map["QQ"].toString())
+            addFormDataPart("Wechat", map["Wechat"].toString())
+            addFormDataPart("recapture_place", map["recapture_place"].toString())
+            addFormDataPart("recapture_enterance", map["recapture_enterance"].toString())
         }
         val parts: List<MultipartBody.Part> = builder.build().parts()
 
         launch(UI + QuietCoroutineExceptionHandler) {
-
-            //            val beanList = LostFoundService.updateRelease(map, lostOrFound).await()
             val beanList = LostFoundService.updateReleaseWithPic(lostOrFound, parts).await()
 
             if (beanList.error_code == -1) {
@@ -75,6 +77,10 @@ class ReleasePresenterImpl(var releaseView: ReleaseContract.ReleaseView) : Relea
             addFormDataPart("item_description", map["item_description"].toString())
             addFormDataPart("other_tag", "")
             addFormDataPart("duration", map["duration"].toString())
+            addFormDataPart("QQ", map["QQ"].toString())
+            addFormDataPart("Wechat", map["Wechat"].toString())
+            addFormDataPart("recapture_place", map["recapture_place"].toString())
+            addFormDataPart("recapture_enterance", map["recapture_enterance"].toString())
         }
         val parts: List<MultipartBody.Part> = builder.build().parts()
 
@@ -106,11 +112,6 @@ class ReleasePresenterImpl(var releaseView: ReleaseContract.ReleaseView) : Relea
     override fun uploadEditDataWithPic(map: Map<String, Any>, lostOrFound: String, arrayOfFile: ArrayList<File?>, id: Int) {
         val builder = MultipartBody.Builder().setType(MultipartBody.FORM)
 
-//        if (file != null) {
-//            val imageBody = RequestBody.create(MediaType.parse("multipart/form-data"), file)
-//            builder.addFormDataPart("pic[]", file.name, imageBody)
-//        }
-
         builder.apply {
             for (i in 0..(arrayOfFile.size - 1)) {
                 if (arrayOfFile[i] != null) {
@@ -129,6 +130,8 @@ class ReleasePresenterImpl(var releaseView: ReleaseContract.ReleaseView) : Relea
             addFormDataPart("item_description", map["item_description"].toString())
             addFormDataPart("other_tag", "")
             addFormDataPart("duration", map["duration"].toString())
+            addFormDataPart("QQ", map["QQ"].toString())
+            addFormDataPart("Wechat", map["Wechat"].toString())
         }
         val parts: List<MultipartBody.Part> = builder.build().parts()
         val anotherLostOrFound = if (Objects.equals(lostOrFound, "editLost")) "lost" else "found"

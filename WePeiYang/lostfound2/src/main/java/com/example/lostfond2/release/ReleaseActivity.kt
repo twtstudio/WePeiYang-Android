@@ -55,7 +55,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
 
     var duration = 1
     var entranceOfReceivingSite = 1 // 领取站点 入口
-    var roomOfReceivingSite = "" // 领取站点 斋
+    var roomOfReceivingSite = "1斋" // 领取站点 斋
     var selectedItemPosition = 0
     var id = 0
     var releasePresenter: ReleaseContract.ReleasePresenter = ReleasePresenterImpl(this)
@@ -251,14 +251,12 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         imm.hideSoftInputFromWindow(release_title.windowToken, 0)
     }
 
-
     override fun onClick(view: View) {
 
         if (view === release_confirm && (lostOrFound == "lost" || lostOrFound == "found")) {
             if (totalSelectedPic.isNotEmpty()) {
                 val file1: File
-//                var file: File? = null
-                var arrayOfFile = ArrayList<File?>(0)
+                val arrayOfFile = ArrayList<File?>(0)
                 try {
                     file1 = File.createTempFile("pic", ".jpg")
                     val outputFile = file1.path
@@ -284,13 +282,12 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
             }
         } else if (view === release_confirm) {
             val file1: File
-            var file: File? = null
             val arrayOfFile = ArrayList<File?>(0)
             try {
                 file1 = File.createTempFile("pic", ".jpg")
                 val outputFile = file1.path
+
                 if (totalSelectedPic.isNotEmpty()) {
-//                    file = getFile(zipThePic(handleImageOnKitKat(selectedPic[0])), outputFile)
                     for (i in 0..(totalSelectedPic.size - 1)) {
                         if (totalSelectedPic[i] != null) {
                             arrayOfFile.add(getFile(zipThePic(handleImageOnKitKat(totalSelectedPic[i])), outputFile))
@@ -438,6 +435,9 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         val timeString = release_time.text.toString()
         val placeString = release_place.text.toString()
         val remarksString = release_remark.text.toString()
+        val qqString = release_qq.text.toString()
+        val wechatString = release_wechat.text.toString()
+
         val map = HashMap<String, Any>()
         map["title"] = titleString
         map["time"] = if (timeString == "") " " else timeString
@@ -447,6 +447,13 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         map["phone"] = if (phoneString == "") " " else phoneString
         map["duration"] = duration
         map["item_description"] = if (remarksString == "") " " else remarksString
+        map["QQ"] = if (qqString == "") " " else qqString
+        map["Wechat"] = if (wechatString == "") " " else wechatString
+
+        if (lostOrFound == "found") {
+            map["recapture_place"] = roomOfReceivingSite
+            map["recapture_enterance"] = entranceOfReceivingSite
+        }
 
         judge = !(titleString == "" || phoneString == "" || nameString == "")
         if (selectedItemPosition == 0 || selectedItemPosition == 1) {
