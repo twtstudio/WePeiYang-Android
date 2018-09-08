@@ -22,10 +22,7 @@ import android.util.Log
 import android.view.View
 import android.view.Window
 import android.view.inputmethod.InputMethodManager
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.ImageView
-import android.widget.Toast
+import android.widget.*
 import com.bumptech.glide.Glide
 import com.example.lostfond2.R
 import com.example.lostfond2.R.id.*
@@ -203,6 +200,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         receiving_site_garden_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 Toast.makeText(this@ReleaseActivity, spinnerListOfGarden[position], Toast.LENGTH_SHORT).show()
+                Log.d("dad", position.toString())
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -672,7 +670,6 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
             Glide.with(this)
                     .load(totalSelectedPic[selectedPicNumber])
                     .into(imageView)
-            Log.d("mom", totalSelectedPic[selectedPicNumber].toString())
             dialog.setCanceledOnTouchOutside(true)
             val window = dialog.window
             val lp = window.attributes
