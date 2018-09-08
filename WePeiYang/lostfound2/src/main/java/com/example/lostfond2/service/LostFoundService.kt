@@ -82,7 +82,13 @@ data class DetailData(
         val card_number: String,
         val publish_start: String,
         val publish_end: String,
-        val other_tag: String
+        val other_tag: String,
+        val recapture_place: String,
+        val recapture_entrance: String,
+        val QQ: String,
+        val Wechat: String,
+        val campus: String
+
 )
 
 data class InverseID(

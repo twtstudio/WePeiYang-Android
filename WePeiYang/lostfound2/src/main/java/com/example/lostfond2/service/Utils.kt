@@ -30,7 +30,7 @@ class Utils {
             else -> "wrong_filter"
         }
 
-        fun getDetailFilterOfTime(i : Int) = when (i) {
+        fun getDetailFilterOfTime(i: Int) = when (i) {
             1 -> "一天之内"
             2 -> "1 - 7天"
             3 -> "7 - 15天"
@@ -38,7 +38,7 @@ class Utils {
             else -> "wrong_time"
         }
 
-        fun getDetailFilterOfPlace(i : Int) = when (i) {
+        fun getDetailFilterOfPlace(i: Int) = when (i) {
             1 -> "北洋园校区"
             2 -> "卫津路校区"
             else -> "wrong_place"
@@ -47,7 +47,7 @@ class Utils {
         fun getPicUrl(addUrl: String) = "http://open.twtstudio.com/$addUrl"
 
 
-        fun noPicForDetail()= "http://open.twtstudio.com/uploads/17-07-12/945139dcd91e9ed3d5967ef7f81e18f6.jpg"
+        fun noPicForDetail() = "http://open.twtstudio.com/uploads/17-07-12/945139dcd91e9ed3d5967ef7f81e18f6.jpg"
 
     }
 
