@@ -423,8 +423,8 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         release_phone.setText(detailData.phone)
         release_contact_name.setText(detailData.name)
         release_remark.setText(detailData.item_description)
-        release_qq.setText(detailData.QQ)
-        release_wechat.setText(detailData.Wechat)
+        release_qq.setText(detailData.qq)
+        release_wechat.setText(detailData.wechat)
         receiving_site_garden_spinner.setSelection(getPositionOfGarden(detailData.recapture_place))
         receiving_site_room_spinner.setSelection(getPositionOfRoom(detailData.recapture_place))
         receiving_site_entrance_spinner.setSelection(getPositionOfEntrance(detailData.recapture_entrance))
@@ -454,12 +454,12 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         map["phone"] = if (phoneString == "") " " else phoneString
         map["duration"] = duration
         map["item_description"] = if (remarksString == "") " " else remarksString
-        map["QQ"] = if (qqString == "") " " else qqString
-        map["Wechat"] = if (wechatString == "") " " else wechatString
+        map["qq"] = if (qqString == "") " " else qqString
+        map["wechat"] = if (wechatString == "") " " else wechatString
 
         if (lostOrFound == "found") {
             map["recapture_place"] = roomOfReceivingSite
-            map["recapture_enterance"] = entranceOfReceivingSite
+            map["recapture_entrance"] = entranceOfReceivingSite
         }
 
         judge = !(titleString == "" || phoneString == "" || nameString == "")

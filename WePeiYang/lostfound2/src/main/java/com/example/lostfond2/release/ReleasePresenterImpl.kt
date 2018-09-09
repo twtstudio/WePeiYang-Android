@@ -39,11 +39,12 @@ class ReleasePresenterImpl(var releaseView: ReleaseContract.ReleaseView) : Relea
             addFormDataPart("item_description", map["item_description"].toString())
             addFormDataPart("other_tag", "")
             addFormDataPart("duration", map["duration"].toString())
-            addFormDataPart("QQ", map["QQ"].toString())
-            addFormDataPart("Wechat", map["Wechat"].toString())
+            addFormDataPart("qq", map["qq"].toString())
+            addFormDataPart("wechat", map["wechat"].toString())
+
             if (lostOrFound == "found") {
                 addFormDataPart("recapture_place", map["recapture_place"].toString())
-                addFormDataPart("recapture_enterance", map["recapture_enterance"].toString())
+                addFormDataPart("recapture_entrance", map["recapture_enterance"].toString())
             }
         }
         val parts: List<MultipartBody.Part> = builder.build().parts()
@@ -79,11 +80,12 @@ class ReleasePresenterImpl(var releaseView: ReleaseContract.ReleaseView) : Relea
             addFormDataPart("item_description", map["item_description"].toString())
             addFormDataPart("other_tag", "")
             addFormDataPart("duration", map["duration"].toString())
-            addFormDataPart("QQ", map["QQ"].toString())
-            addFormDataPart("Wechat", map["Wechat"].toString())
+            addFormDataPart("qq", map["qq"].toString())
+            addFormDataPart("wechat", map["wechat"].toString())
+
             if (lostOrFound == "found") {
                 addFormDataPart("recapture_place", map["recapture_place"].toString())
-                addFormDataPart("recapture_enterance", map["recapture_enterance"].toString())
+                addFormDataPart("recapture_entrance", map["recapture_entrance"].toString())
             }
         }
         val parts: List<MultipartBody.Part> = builder.build().parts()
