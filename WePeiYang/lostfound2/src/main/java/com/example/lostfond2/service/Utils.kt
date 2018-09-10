@@ -49,6 +49,12 @@ class Utils {
 
         fun noPicForDetail() = "http://open.twtstudio.com/uploads/17-07-12/945139dcd91e9ed3d5967ef7f81e18f6.jpg"
 
+        fun getExit(i : Int) = when (i) {
+            0 -> " "
+            1 -> "A口"
+            2 -> "B口"
+            else -> ""
+        }
     }
 
 }
