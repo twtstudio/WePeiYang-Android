@@ -11,6 +11,13 @@
         layout="@layout/lf_common_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/img_recycler">
+
+    </android.support.v7.widget.RecyclerView>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/detail_recycler"
         android:layout_width="match_parent"

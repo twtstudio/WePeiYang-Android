@@ -28,7 +28,7 @@ import com.twt.wepeiyang.commons.experimental.theme.CustomTheme.context
 import kotlinx.android.synthetic.main.activity_water_fall.*
 import kotlinx.android.synthetic.main.lf_waterfall_cardview_types.*
 
-class WaterFallActivity : AppCompatActivity() {
+class  WaterFallActivity : AppCompatActivity() {
 
     lateinit var lostFragment: WaterfallFragment
     lateinit var foundFragment: WaterfallFragment

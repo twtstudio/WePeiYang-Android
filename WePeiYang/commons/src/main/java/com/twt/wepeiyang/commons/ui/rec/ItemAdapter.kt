@@ -25,7 +25,7 @@ class ItemAdapter(val itemManager: ItemManager) : RecyclerView.Adapter<RecyclerV
         itemManager.observer = this
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+    override fun onCreateViewHolder(parent: ViewGroup,viewType: Int) =
             ItemManager.getController(viewType).onCreateViewHolder(parent)
 
     override fun getItemCount() = itemManager.size

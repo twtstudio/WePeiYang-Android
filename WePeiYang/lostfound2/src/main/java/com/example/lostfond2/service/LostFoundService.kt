@@ -82,7 +82,12 @@ data class DetailData(
         val card_number: String,
         val publish_start: String,
         val publish_end: String,
-        val other_tag: String
+        val other_tag: String,
+        val recapture_place : String,
+        val recapture_enterance : Int,
+        val QQ : String,
+        val Wechat : String,
+        val campus : String
 )
 
 data class InverseID(
@@ -103,5 +108,10 @@ data class MyListDataOrSearchBean(
         val phone: String,
         val detail_type: Int,
         val isback: Int,
-        val picture: String
+        val picture: String,
+        val recapture_place : String,
+        val recapture_enterance : Int,
+        val QQ : String,
+        val Wechat : String,
+        val campus : String
 )

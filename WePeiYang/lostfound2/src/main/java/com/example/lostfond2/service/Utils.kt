@@ -45,6 +45,13 @@ class Utils {
         fun noPicForDetail(): String {
             return "http://open.twtstudio.com/uploads/17-07-12/945139dcd91e9ed3d5967ef7f81e18f6.jpg"
         }
+
+        fun getExit(i: Int) : String {
+            if (i==0){ return " "}
+            if (i==1){ return "A口"}
+            if (i==2){ return "B口"}
+            return "wrong_type"
+        }
     }
 
 }

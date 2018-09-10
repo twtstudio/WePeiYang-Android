@@ -42,8 +42,9 @@ class MylistItem(val context: FragmentActivity?, val lostOrFound: String, val my
             holder.mylist_item_time.text = time
             holder.mylist_item_place.text = place
 
+            var piclist : List<String> =  picture.split(",")
             Glide.with(item.context)
-                    .load(Utils.getPicUrl(picture))
+                    .load(Utils.getPicUrl(piclist[0]))
                     .asBitmap()
                     .placeholder(R.drawable.lf_waterfall_nopic)
                     .into(holder.mylist_item_pic)

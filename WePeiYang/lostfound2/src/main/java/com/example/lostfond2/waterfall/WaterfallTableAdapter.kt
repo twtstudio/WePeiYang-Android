@@ -51,8 +51,9 @@ class WaterfallTableAdapter(var waterFallBean: List<MyListDataOrSearchBean>?,
                     .placeholder(R.drawable.lf_detail_np)
                     .into(viewHolder.waterFall_item_pic)
         } else {
+            var piclist : List<String> =  dataBean.picture.split(",")
             Glide.with(context)
-                    .load(Utils.getPicUrl(dataBean.picture))
+                    .load(Utils.getPicUrl(piclist[0]))
                     .asBitmap()
                     .placeholder(R.drawable.lf_waterfall_nopic)
                     .into(viewHolder.waterFall_item_pic)

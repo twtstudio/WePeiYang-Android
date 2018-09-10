@@ -106,7 +106,7 @@ class WaterfallFragment : Fragment(), WaterfallContract.WaterfallView {
 
     override fun onResume() {
         super.onResume()
-        waterfallPresenter.loadWaterfallData(lostOrFound,page)
+        waterfallPresenter.loadWaterfallData(lostOrFound,type)
     }
 
     private fun refresh() {
