@@ -81,7 +81,7 @@ class DetailActivity : AppCompatActivity() {
                         setDetail("卡号", num)
                     }
                     if (mylist1.recapture_place != null) {
-                        setDetail("领取站点", mylist1.recapture_place+Utils.getExit(mylist1.recapture_enterance))
+                        setDetail("领取站点", mylist1.recapture_place+Utils.getExit(mylist1.recapture_entrance))
                     }
                     setTitle("联系信息")
                     if (mylist1.name != null) {
@@ -90,11 +90,11 @@ class DetailActivity : AppCompatActivity() {
                     if (mylist1.phone != null) {
                         setDetail("电话", mylist1.phone)
                     }
-                    if (mylist1.QQ != null) {
-                        setDetail("QQ",mylist1.QQ)
+                    if (mylist1.qq != null) {
+                        setDetail("QQ",mylist1.qq)
                     }
-                    if (mylist1.Wechat != null){
-                        setDetail("微信",mylist1.Wechat)
+                    if (mylist1.wechat != null){
+                        setDetail("微信",mylist1.wechat)
                     }
 
                     setTitle("附加信息")
