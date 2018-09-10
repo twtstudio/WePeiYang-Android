@@ -24,7 +24,7 @@ import com.github.clans.fab.FloatingActionButton
 import kotlinx.android.synthetic.main.activity_water_fall.*
 import org.jetbrains.anko.textColor
 
-class WaterFallActivity : AppCompatActivity() {
+class  WaterFallActivity : AppCompatActivity() {
 
     lateinit var lostFragment: WaterfallFragment
     lateinit var foundFragment: WaterfallFragment

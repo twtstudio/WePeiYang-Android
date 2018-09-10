@@ -10,6 +10,7 @@ import com.example.lostfond2.R
 import com.example.lostfond2.service.DetailData
 import com.example.lostfond2.service.LostFoundService
 import com.example.lostfond2.service.Utils
+import com.tencent.bugly.proguard.x
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import com.twt.wepeiyang.commons.experimental.network.CommonBody
@@ -33,17 +34,27 @@ class DetailActivity : AppCompatActivity() {
         val id = bundle.getInt("id")
         val recyclerView: RecyclerView = findViewById(R.id.detail_recycler)
         recyclerView.layoutManager = LinearLayoutManager(this)
+        val recyclerViewImg : RecyclerView = findViewById(R.id.img_recycler)
+        val ms = LinearLayoutManager(this)
+        ms.orientation = LinearLayoutManager.HORIZONTAL
+        recyclerViewImg.layoutManager = ms
+
         launch(UI + QuietCoroutineExceptionHandler) {
             val mylist: CommonBody<DetailData> = LostFoundService.getDetailed(id).await()
             if (mylist.error_code == -1) {
-
                 val mylist1 = mylist.data!!
-                recyclerView.withItems {
+                recyclerViewImg.withItems{
                     if (mylist1.picture != null) {
-                        setImage(mylist1.picture, this@DetailActivity)
+                        var piclist : List<String> =  mylist1.picture.split(",")
+                        for (i in piclist){
+                            setImage(i, this@DetailActivity)
+                        }
                     } else {
                         setImage("julao.jpg", this@DetailActivity)
                     }
+                }
+                recyclerView.withItems {
+
                     setTitle("基本信息")
                     if (mylist1.title != null) {
                         setDetail("标题", mylist1.title)
@@ -57,14 +68,20 @@ class DetailActivity : AppCompatActivity() {
                     if (mylist1.place != null) {
                         setDetail("地点", mylist1.place)
                     }
-                    if (mylist1.card_name != "null" || mylist1.card_name != null) {
+                    if (mylist1.card_name != "null" &&  mylist1.card_name != null) {
                         setDetail("失主姓名", mylist1.card_name)
                     }
-                    if (mylist1.card_number != "null" || mylist1.card_number != null  ) {
-                        setDetail("卡号", mylist1.card_number)
+                    if (mylist1.card_number != "0" && mylist1.card_number != null  ) {
+                        var num = " "
+                        if (mylist1.card_number.length <= 11){
+                             num = mylist1.card_number.subSequence(0,4).toString() + "****" +  mylist1.card_number.subSequence(7,10).toString()
+                        }else{
+                             num = mylist1.card_number.subSequence(0,6).toString() + "********" +  mylist1.card_number.subSequence(14,18).toString()
+                        }
+                        setDetail("卡号", num)
                     }
-                    if (mylist1.place != null) {
-                        setDetail("领取站点", mylist1.place)
+                    if (mylist1.recapture_place != null) {
+                        setDetail("领取站点", mylist1.recapture_place+Utils.getExit(mylist1.recapture_enterance))
                     }
                     setTitle("联系信息")
                     if (mylist1.name != null) {
@@ -73,6 +90,13 @@ class DetailActivity : AppCompatActivity() {
                     if (mylist1.phone != null) {
                         setDetail("电话", mylist1.phone)
                     }
+                    if (mylist1.QQ != null) {
+                        setDetail("QQ",mylist1.QQ)
+                    }
+                    if (mylist1.Wechat != null){
+                        setDetail("微信",mylist1.Wechat)
+                    }
+
                     setTitle("附加信息")
                     if (mylist1.item_description != null ) {
                         setOther("附言", mylist1.item_description)

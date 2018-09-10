@@ -70,8 +70,9 @@ class MylistTableAdapter : RecyclerView.Adapter<MylistTableAdapter.MylistViewHol
         holder.mylist_item_time.text = time
         holder.mylist_item_place.text = place
         if (picture != null) {
+            var piclist : List<String> =  picture.split(",")
             Glide.with(context)
-                    .load(Utils.getPicUrl(picture))
+                    .load(Utils.getPicUrl(piclist[0]))
                     .placeholder(R.drawable.lf_waterfall_nopic)
                     .error(R.drawable.lf_waterfall_nopic)
                     .into(holder.mylist_item_pic)
@@ -102,6 +103,8 @@ class MylistTableAdapter : RecyclerView.Adapter<MylistTableAdapter.MylistViewHol
             }
         }
         holder.mylist_item_status.setOnClickListener({ view -> mylistView.turnStatus(id) })
+        holder.mylist_item_back_blue.setOnClickListener({ view -> mylistView.turnStatus(id) })
+        holder.mylist_item_back_grey.setOnClickListener({ view -> mylistView.turnStatus(id) })
 
         val intent = Intent()
         val bundle = Bundle()
