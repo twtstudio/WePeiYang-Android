@@ -83,11 +83,13 @@ class ReleasePresenterImpl(var releaseView: ReleaseContract.ReleaseView) : Relea
             addFormDataPart("qq", map["qq"].toString())
             addFormDataPart("wechat", map["wechat"].toString())
 
+
             if (lostOrFound == "found") {
                 addFormDataPart("recapture_place", map["recapture_place"].toString())
                 addFormDataPart("recapture_entrance", map["recapture_entrance"].toString())
             }
         }
+        Log.d("mom", "qq = ${map["qq"].toString()}")
         val parts: List<MultipartBody.Part> = builder.build().parts()
 
         launch(UI + QuietCoroutineExceptionHandler) {

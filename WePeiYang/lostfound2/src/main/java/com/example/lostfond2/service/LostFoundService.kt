@@ -110,8 +110,8 @@ data class MyListDataOrSearchBean(
         val isback: Int,
         val picture: String,
         val recapture_place : String,
-        val recapture_enterance : Int,
-        val QQ : String,
-        val Wechat : String,
+        val recapture_entrance : Int,
+        val qq : String,
+        val wechat : String,
         val campus : String
 )
