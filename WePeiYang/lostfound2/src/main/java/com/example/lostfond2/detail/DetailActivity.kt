@@ -72,13 +72,7 @@ class DetailActivity : AppCompatActivity() {
                         setDetail("失主姓名", mylist1.card_name)
                     }
                     if (mylist1.card_number != "0" && mylist1.card_number != null  ) {
-                        var num = " "
-                        if (mylist1.card_number.length <= 11){
-                             num = mylist1.card_number.subSequence(0,4).toString() + "****" +  mylist1.card_number.subSequence(7,10).toString()
-                        }else{
-                             num = mylist1.card_number.subSequence(0,6).toString() + "********" +  mylist1.card_number.subSequence(14,18).toString()
-                        }
-                        setDetail("卡号", num)
+                        setDetail("卡号", mylist1.card_number)
                     }
                     if (mylist1.recapture_place != null) {
                         setDetail("领取站点", mylist1.recapture_place+Utils.getExit(mylist1.recapture_entrance))
@@ -90,12 +84,7 @@ class DetailActivity : AppCompatActivity() {
                     if (mylist1.phone != null) {
                         setDetail("电话", mylist1.phone)
                     }
-                    if (mylist1.qq != null) {
-                        setDetail("QQ",mylist1.qq)
-                    }
-                    if (mylist1.wechat != null){
-                        setDetail("微信",mylist1.wechat)
-                    }
+
 
                     setTitle("附加信息")
                     if (mylist1.item_description != null ) {
