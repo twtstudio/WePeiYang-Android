@@ -4,6 +4,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <include
+        layout="@layout/lb_detial_cardview"
+        android:layout_width="327dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"/>
 
     <include
         android:id="@+id/total_borrow"
@@ -11,5 +16,5 @@
         android:layout_width="327dp"
         android:layout_height="59dp"
         android:layout_gravity="center"
-        android:layout_marginTop="14dp"/>
+        android:layout_marginTop="14dp" />
 </LinearLayout>
