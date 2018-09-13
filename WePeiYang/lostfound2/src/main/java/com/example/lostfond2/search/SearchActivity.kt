@@ -168,7 +168,6 @@ class SearchActivity : AppCompatActivity(), SearchContract.SearchUIView {
 
     private fun database(query:String,db:SQLiteDatabase){
         //对搜索历史的数据库处理
-
         var cursor = db.query("myTable", null,null,null,null,null,null)//cursor为游标
 
         if (cursor!= null){
