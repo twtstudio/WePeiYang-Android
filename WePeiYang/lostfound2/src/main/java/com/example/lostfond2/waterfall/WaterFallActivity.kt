@@ -24,31 +24,29 @@ import com.github.clans.fab.FloatingActionButton
 import kotlinx.android.synthetic.main.activity_water_fall.*
 import org.jetbrains.anko.textColor
 
-class  WaterFallActivity : AppCompatActivity() {
+class WaterFallActivity : AppCompatActivity() {
 
     lateinit var lostFragment: WaterfallFragment
     lateinit var foundFragment: WaterfallFragment
-    lateinit var pop_waterfall_type_recyclerview : RecyclerView
-    lateinit var pop_waterfall_types_all : TextView
-    lateinit var pop_waterfall_filter : TextView
-    lateinit var window : PopupWindow
-
+    lateinit var pop_waterfall_type_recyclerview: RecyclerView
+    lateinit var pop_waterfall_types_all: TextView
+    lateinit var pop_waterfall_filter: TextView
+    lateinit var window: PopupWindow
     var layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
     var layoutManagerForFilter = LinearLayoutManager(this@WaterFallActivity)
     var type = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
         setContentView(R.layout.activity_water_fall)
         val waterfallLost: FloatingActionButton = findViewById(R.id.waterfall_fab_lost)
-        val popupWindowview : View = LayoutInflater.from(this).inflate(R.layout.lf_waterfall_cardview_types, null, false)
+        val popupWindowview: View = LayoutInflater.from(this).inflate(R.layout.lf_waterfall_cardview_types, null, false)
         pop_waterfall_types_all = popupWindowview.findViewById(R.id.waterfall_types_all) //全部分类
         pop_waterfall_filter = popupWindowview.findViewById(R.id.waterfall_filter) //筛选条件
         pop_waterfall_type_recyclerview = popupWindowview.findViewById(R.id.waterfall_type_recyclerview)
         pop_waterfall_type_recyclerview.layoutManager = layoutManager
-        val pop_waterfall_filter_adapter = WaterfallFilterTableAdapter(this@WaterFallActivity, this, "all", 2) // 筛选条件的adapter
+        val pop_waterfall_filter_adapter = WaterfallFilterTableAdapter(this@WaterFallActivity, this) // 筛选条件的adapter
 
         lostFragment = WaterfallFragment.newInstance("lost")
         foundFragment = WaterfallFragment.newInstance("found")
@@ -72,8 +70,6 @@ class  WaterFallActivity : AppCompatActivity() {
             setSelectedTabIndicatorColor(Color.parseColor("#00a1e9"))
         }
 
-
-
         waterfall_type.setOnClickListener {
             if (waterfall_type_grey.visibility == View.VISIBLE) run {
                 waterfall_type_blue.visibility = View.VISIBLE
@@ -81,7 +77,7 @@ class  WaterFallActivity : AppCompatActivity() {
 
                 window = PopupWindow(popupWindowview, WRAP_CONTENT, WRAP_CONTENT, true)
                 window.apply {
-                    setBackgroundDrawable( BitmapDrawable())
+                    setBackgroundDrawable(BitmapDrawable())
                     isOutsideTouchable = true
                     isTouchable = true
                     showAsDropDown(it)
@@ -173,12 +169,8 @@ class  WaterFallActivity : AppCompatActivity() {
         val intent = Intent()
 
         when (itemId) {
-            R.id.waterfall_search -> {
-                intent.setClass(this@WaterFallActivity, SearchActivity::class.java)
-            }
-            R.id.waterfall_indi -> {
-                intent.setClass(this@WaterFallActivity, MyListActivity::class.java)
-            }
+            R.id.waterfall_search -> intent.setClass(this@WaterFallActivity, SearchActivity::class.java)
+            R.id.waterfall_indi -> intent.setClass(this@WaterFallActivity, MyListActivity::class.java)
         }
 
         startActivity(intent)

@@ -423,8 +423,6 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         release_phone.setText(detailData.phone)
         release_contact_name.setText(detailData.name)
         release_remark.setText(detailData.item_description)
-        release_qq.setText(detailData.qq)
-        release_wechat.setText(detailData.wechat)
         receiving_site_garden_spinner.setSelection(getPositionOfGarden(detailData.recapture_place))
         receiving_site_room_spinner.setSelection(getPositionOfRoom(detailData.recapture_place))
         receiving_site_entrance_spinner.setSelection(getPositionOfEntrance(detailData.recapture_entrance))
@@ -442,8 +440,6 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         val timeString = release_time.text.toString()
         val placeString = release_place.text.toString()
         val remarksString = release_remark.text.toString()
-        val qqString = release_qq.text.toString()
-        val wechatString = release_wechat.text.toString()
 
         val map = HashMap<String, Any>()
         map["title"] = titleString
@@ -454,8 +450,6 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         map["phone"] = if (phoneString == "") " " else phoneString
         map["duration"] = duration
         map["item_description"] = if (remarksString == "") " " else remarksString
-        map["qq"] = if (qqString == "") " " else qqString
-        map["wechat"] = if (wechatString == "") " " else wechatString
 
         if (lostOrFound == "found") {
             map["recapture_place"] = roomOfReceivingSite
@@ -711,9 +705,6 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
     }
 
     private fun setPicSelection() {
-//        if (totalSelectedPic.size == selectedPicNumber) {
-//            PermissionsUtils.requestPermission(this@ReleaseActivity, PermissionsUtils.CODE_READ_EXTERNAL_STORAGE, mPermissionGrant)
-//        } else
         if (totalSelectedPic[selectedPicNumber] == null) {
             PermissionsUtils.requestPermission(this@ReleaseActivity, PermissionsUtils.CODE_READ_EXTERNAL_STORAGE, mPermissionGrant)
         } else {

@@ -39,8 +39,6 @@ class ReleasePresenterImpl(var releaseView: ReleaseContract.ReleaseView) : Relea
             addFormDataPart("item_description", map["item_description"].toString())
             addFormDataPart("other_tag", "")
             addFormDataPart("duration", map["duration"].toString())
-            addFormDataPart("qq", map["qq"].toString())
-            addFormDataPart("wechat", map["wechat"].toString())
 
             if (lostOrFound == "found") {
                 addFormDataPart("recapture_place", map["recapture_place"].toString())
@@ -80,8 +78,6 @@ class ReleasePresenterImpl(var releaseView: ReleaseContract.ReleaseView) : Relea
             addFormDataPart("item_description", map["item_description"].toString())
             addFormDataPart("other_tag", "")
             addFormDataPart("duration", map["duration"].toString())
-            addFormDataPart("qq", map["qq"].toString())
-            addFormDataPart("wechat", map["wechat"].toString())
 
 
             if (lostOrFound == "found") {
@@ -89,7 +85,6 @@ class ReleasePresenterImpl(var releaseView: ReleaseContract.ReleaseView) : Relea
                 addFormDataPart("recapture_entrance", map["recapture_entrance"].toString())
             }
         }
-        Log.d("mom", "qq = ${map["qq"].toString()}")
         val parts: List<MultipartBody.Part> = builder.build().parts()
 
         launch(UI + QuietCoroutineExceptionHandler) {
@@ -138,8 +133,6 @@ class ReleasePresenterImpl(var releaseView: ReleaseContract.ReleaseView) : Relea
             addFormDataPart("item_description", map["item_description"].toString())
             addFormDataPart("other_tag", "")
             addFormDataPart("duration", map["duration"].toString())
-            addFormDataPart("QQ", map["QQ"].toString())
-            addFormDataPart("Wechat", map["Wechat"].toString())
             if (lostOrFound == "found") {
                 addFormDataPart("recapture_place", map["recapture_place"].toString())
                 addFormDataPart("recapture_enterance", map["recapture_enterance"].toString())

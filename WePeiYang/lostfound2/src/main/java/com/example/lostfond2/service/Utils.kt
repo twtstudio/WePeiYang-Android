@@ -23,18 +23,12 @@ class Utils {
             else -> "wrong_type"
         }
 
-
-        fun getFilter(i: Int) = when (i) {
-            1 -> "时间"
-            2 -> "校区"
-            else -> "wrong_filter"
-        }
-
         fun getDetailFilterOfTime(i: Int) = when (i) {
-            1 -> "一天之内"
-            2 -> "1 - 7天"
-            3 -> "7 - 15天"
-            4 -> "15 - 30天"
+            1 -> "全部时间"
+            2 -> "一天之内"
+            3 -> "1 - 7天"
+            4 -> "7 - 15天"
+            5 -> "15 - 30天"
             else -> "wrong_time"
         }
 

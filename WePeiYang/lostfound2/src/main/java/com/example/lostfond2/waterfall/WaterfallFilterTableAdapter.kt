@@ -17,9 +17,7 @@ import android.view.Gravity
 
 
 class WaterfallFilterTableAdapter(val waterfallActivity: WaterFallActivity,
-                                  val context: WaterFallActivity,
-                                  val typeOfFilter: String,
-                                  val totalItemCount: Int) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+                                  val context: WaterFallActivity) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     class WaterfallFilterTableViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
@@ -36,51 +34,17 @@ class WaterfallFilterTableAdapter(val waterfallActivity: WaterFallActivity,
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val viewHolder = holder as WaterfallFilterTableViewHolder
 
-        when (typeOfFilter) {
-            "all" -> {
-                viewHolder.waterfall_type_item.apply {
-                    text = Utils.getFilter(position + 1)
-                }
+        viewHolder.waterfall_type_item.apply {
+            text = Utils.getDetailFilterOfTime(position + 1)
+        }
 
-                viewHolder.itemView.setOnClickListener {
-                    when (position + 1) {
-                        1 -> {
-
-                        }
-
-                        2 -> {
-                        }
-                    }
-
-
-                }
-            }
-            "time" -> {
-                viewHolder.waterfall_type_item.apply {
-                    text = Utils.getDetailFilterOfTime(position + 1)
-                }
-
-                viewHolder.itemView.setOnClickListener {
-                    waterfallActivity.waterfall_type_blue.visibility = View.GONE
-                    waterfallActivity.waterfall_type_grey.visibility = View.VISIBLE
-                    waterfallActivity.window.dismiss()
-                }
-            }
-            "place" -> {
-                viewHolder.waterfall_type_item.apply {
-                    text = Utils.getDetailFilterOfPlace(position + 1)
-                }
-
-                viewHolder.itemView.setOnClickListener {
-                    waterfallActivity.waterfall_type_blue.visibility = View.GONE
-                    waterfallActivity.waterfall_type_grey.visibility = View.VISIBLE
-                    waterfallActivity.window.dismiss()
-                }
-            }
-            else -> {
-            }
+        viewHolder.itemView.setOnClickListener {
+            waterfallActivity.waterfall_type_blue.visibility = View.GONE
+            waterfallActivity.waterfall_type_grey.visibility = View.VISIBLE
+            waterfallActivity.window.dismiss()
+            //do something
         }
     }
 
-    override fun getItemCount(): Int = totalItemCount
+    override fun getItemCount(): Int = 5
 }
