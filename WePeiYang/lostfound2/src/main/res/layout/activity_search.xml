@@ -9,6 +9,7 @@
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/search_toolbar"
+        style="@style/ToolbarStyle"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
@@ -16,14 +17,15 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         app:titleTextColor="@android:color/white"
-        tools:targetApi="lollipop">
+        tools:targetApi="lollipop"
+        app:navigationIcon="@drawable/ic_arrow_back_black_24dp">
 
         <android.support.v7.widget.SearchView
             android:id="@+id/search_searview"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
-            app:queryHint="请输入搜索内容" />
+            app:queryHint="输入卡号/地点/物件名称" />
     </android.support.v7.widget.Toolbar>
 
     <RelativeLayout
