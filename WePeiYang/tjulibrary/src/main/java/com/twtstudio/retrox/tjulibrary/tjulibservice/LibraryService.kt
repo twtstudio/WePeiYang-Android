@@ -1,23 +1,37 @@
 package com.twtstudio.retrox.tjulibrary.tjulibservice
 
+import com.twt.wepeiyang.commons.experimental.network.CommonBody
+import com.twt.wepeiyang.commons.experimental.network.ServiceFactory
+import com.twtstudio.retrox.tjulibrary.provider.Info
+import com.twtstudio.retrox.tjulibrary.provider.RenewResult
+import kotlinx.coroutines.experimental.Deferred
 import retrofit2.http.GET
 import retrofit2.http.Path
 
 interface LibraryApi {
     @GET("v1/library/book/borrowRank/getBookImg/{id}")
-    fun getImg(@Path("id") id : Int) : Img
+    fun getImg(@Path("id") id : Int) : Deferred<Img>
 
     @GET("v1/library/book/borrowRank/{time}")
-    fun getRank(@Path("time") time : Int) : List<RankList>
+    fun getRank(@Path("time") time : Int) : Deferred<List<RankList>>
 
     @GET("v1/library/book/?title={key}&page={page}")
-    fun getSearch(@Path("key") key : String,@Path("page") page : Int) : SearchData
+    fun getSearch(@Path("key") key : String,@Path("page") page : Int) : Deferred<SearchData>
 
     @GET("v1/library/book/getTotalBorrow/{id}")
-    fun getTotalNum(@Path("id") id: Int) : TotalNum
+    fun getTotalNum(@Path("id") id: Int) : Deferred<TotalNum>
 
     @GET("v1/library/book/{index}")
-    fun getBook(@Path("index") index: Int) : Book
+    fun getBook(@Path("index") index: Int) : Deferred<Book>
+
+    @GET("v1/library/user/info")
+    fun getUser() : Deferred<CommonBody<Info>>
+
+    @GET("v1/library/renew/{barcode}")
+    fun renewBook(@Path("barcode") barcode: String): Deferred<CommonBody<List<RenewResult>>>
+
+
+    companion object : LibraryApi by ServiceFactory()
 }
 
 
@@ -92,5 +106,11 @@ data class Holding(
     val type: String,
     val indate: String,
     val loan: Any
+)
+
+data class RenewResult(
+        var barcode: String,
+        var error: Int,
+        var message: String
 )
 

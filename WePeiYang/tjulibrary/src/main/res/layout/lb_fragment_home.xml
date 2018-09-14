@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <android.support.v4.view.ViewPager
+        android:layout_width="match_parent"
+        android:layout_height="368dp"
+        android:id="@+id/view_pager">
+
+    </android.support.v4.view.ViewPager>
+
+    
+    <Button
+        android:layout_width="190dp"
+        android:layout_height="55dp"
+        android:id="@+id/secondBorrow"
+        android:text="一键续借"
+        android:textColor="#ffffff"
+        android:textSize="17dp"
+        android:background="#e78fae"
+        app:layout_constraintTop_toBottomOf="@+id/view_pager"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+</android.support.constraint.ConstraintLayout>

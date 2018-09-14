@@ -28,6 +28,8 @@ class HomeActivity : AppCompatActivity() {
 
         val mybook_pager : ViewPager = findViewById(R.id.booklist_pager)
         val mybook_tabLayout: TabLayout = findViewById(R.id.lb_home_table)
+        var myhomePagerAdapter = HomeLibraryPagerAdapter(supportFragmentManager)
+        myhomePagerAdapter.add(HomeLibraryFragement(),"已借阅")
         //此处写代码
         mybook_tabLayout.setupWithViewPager(mybook_pager)
         mybook_tabLayout.tabGravity = TabLayout.GRAVITY_FILL
