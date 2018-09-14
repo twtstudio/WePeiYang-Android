@@ -2,6 +2,7 @@
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="326dp"
     android:layout_height="362dp"
+    android:layout_gravity="center_horizontal"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <android.support.constraint.ConstraintLayout
@@ -81,6 +82,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/borrow"
             app:layout_constraintTop_toTopOf="@+id/img_writer"
             app:layout_constraintLeft_toRightOf="@+id/jieyue"/>
 
@@ -97,9 +99,19 @@
             android:layout_height="wrap_content"
             android:text="  出版"
             android:textSize="13dp"
+            android:id="@+id/publish"
             app:layout_constraintLeft_toRightOf="@+id/img_book"
             app:layout_constraintTop_toTopOf="@+id/img_book"
             />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="13dp"
+            android:id="@+id/detail_publish"
+            app:layout_constraintLeft_toRightOf="@+id/publish"
+            app:layout_constraintTop_toTopOf="@+id/publish"
+            />
+
 
         <ImageView
             android:layout_width="18dp"
