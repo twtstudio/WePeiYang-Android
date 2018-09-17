@@ -33,6 +33,7 @@ import com.example.lostfond2.service.DetailData
 import com.example.lostfond2.service.MyListDataOrSearchBean
 import com.example.lostfond2.service.PermissionsUtils
 import com.example.lostfond2.service.Utils
+import com.orhanobut.hawk.Hawk
 import com.zhihu.matisse.Matisse
 import com.zhihu.matisse.MimeType
 import com.zhihu.matisse.engine.impl.GlideEngine
@@ -72,6 +73,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
     private var totalSelectedPic = ArrayList<Uri?>(0) //get all pic's uri
     private var selectPicList = ArrayList<Any?>(0)
     lateinit var picRecyclerView: RecyclerView
+
 
     private fun setToolbarView(toolbar: Toolbar) {
         toolbar.title = when (lostOrFound) {
@@ -416,6 +418,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         map["phone"] = if (phoneString == "") " " else phoneString
         map["duration"] = duration
         map["item_description"] = if (remarksString == "") " " else remarksString
+        map["campus"] = Hawk.get("campus")
 
         if (lostOrFound == "found") {
             map["recapture_place"] = roomOfReceivingSite

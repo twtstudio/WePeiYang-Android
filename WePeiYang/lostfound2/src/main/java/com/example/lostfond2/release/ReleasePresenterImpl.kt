@@ -39,6 +39,7 @@ class ReleasePresenterImpl(var releaseView: ReleaseContract.ReleaseView) : Relea
             addFormDataPart("item_description", map["item_description"].toString())
             addFormDataPart("other_tag", "")
             addFormDataPart("duration", map["duration"].toString())
+            addFormDataPart("campus", map["campus"].toString())
 
             if (lostOrFound == "found") {
                 addFormDataPart("recapture_place", map["recapture_place"].toString())
@@ -78,7 +79,7 @@ class ReleasePresenterImpl(var releaseView: ReleaseContract.ReleaseView) : Relea
             addFormDataPart("item_description", map["item_description"].toString())
             addFormDataPart("other_tag", "")
             addFormDataPart("duration", map["duration"].toString())
-
+            addFormDataPart("campus", map["campus"].toString())
 
             if (lostOrFound == "found") {
                 addFormDataPart("recapture_place", map["recapture_place"].toString())
@@ -133,6 +134,8 @@ class ReleasePresenterImpl(var releaseView: ReleaseContract.ReleaseView) : Relea
             addFormDataPart("item_description", map["item_description"].toString())
             addFormDataPart("other_tag", "")
             addFormDataPart("duration", map["duration"].toString())
+            addFormDataPart("campus", map["campus"].toString())
+
             if (lostOrFound == "found") {
                 addFormDataPart("recapture_place", map["recapture_place"].toString())
                 addFormDataPart("recapture_enterance", map["recapture_enterance"].toString())
