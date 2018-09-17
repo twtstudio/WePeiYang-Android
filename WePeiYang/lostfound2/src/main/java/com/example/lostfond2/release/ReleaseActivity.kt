@@ -16,6 +16,8 @@ import android.os.Environment
 import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.StaggeredGridLayoutManager
 import android.support.v7.widget.Toolbar
 import android.util.Log
@@ -60,14 +62,16 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
     var id = 0
     var releasePresenter: ReleaseContract.ReleasePresenter = ReleasePresenterImpl(this)
     val layoutManager = StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.HORIZONTAL)
+    val linearLayoutManager = LinearLayoutManager(this)
+    lateinit var releasePicAdapter : ReleasePicadapter
     var selectedPic: List<Uri> = ArrayList() //get a pic's url
     lateinit var lostOrFound: String
     lateinit var tableAdapter: ReleaseTableAdapter
     lateinit var progressDialog: ProgressDialog
     var judge = false
-    private var selectedPicNumber = 0 //transmit which pic is selected
     private var totalSelectedPic = ArrayList<Uri?>(0) //get all pic's uri
-
+    private var selectPicList = ArrayList<Any?>(0)
+    lateinit var picRecyclerView: RecyclerView
 
     private fun setToolbarView(toolbar: Toolbar) {
         toolbar.title = when (lostOrFound) {
@@ -111,51 +115,14 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         release_type_recycleriew.adapter = tableAdapter
         onTypeItemSelected(selectedItemPosition)
 
-        release_choose_pic2.visibility = View.GONE
-        release_choose_pic3.visibility = View.GONE
-        release_choose_pic4.visibility = View.GONE
-
-        for (i in 0..3) {
-            totalSelectedPic.add(null)
+        selectPicList.add(null) // supply a null list
+        releasePicAdapter = ReleasePicadapter(selectPicList, this, this)
+        linearLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
+        picRecyclerView = findViewById(R.id.release_pic_recyclerview)
+        picRecyclerView.apply {
+            layoutManager = linearLayoutManager
+            adapter = releasePicAdapter
         }
-        release_choose_pic1.setOnClickListener {
-            selectedPicNumber = 0
-            setPicSelection()
-        }
-        release_choose_pic2.setOnClickListener {
-            selectedPicNumber = 1
-            setPicSelection()
-        }
-        release_choose_pic3.setOnClickListener {
-            selectedPicNumber = 2
-            setPicSelection()
-        }
-        release_choose_pic4.setOnClickListener {
-            selectedPicNumber = 3
-            setPicSelection()
-        }
-
-        release_choose_pic1.setOnLongClickListener {
-            selectedPicNumber = 0
-            setPicEdit()
-            true
-        }
-        release_choose_pic2.setOnLongClickListener {
-            selectedPicNumber = 1
-            setPicEdit()
-            true
-        }
-        release_choose_pic3.setOnLongClickListener {
-            selectedPicNumber = 2
-            setPicEdit()
-            true
-        }
-        release_choose_pic4.setOnLongClickListener {
-            selectedPicNumber = 3
-            setPicEdit()
-            true
-        }
-
         val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_NOT_ALWAYS)
     }
@@ -299,7 +266,6 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
             } catch (e: IOException) {
                 e.printStackTrace()
             }
-
 
             val map = getUpdateMap()
             if (judge) {
@@ -497,41 +463,9 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-
         if (requestCode == 2 && resultCode != 0) {
             selectedPic = Matisse.obtainResult(data)
-//            if (totalSelectedPic.size >= (selectedPicNumber + 1)) {
-            totalSelectedPic[selectedPicNumber] = selectedPic[0]
-//            } else {
-//                totalSelectedPic.add(selectedPic[0])
-//            }
-
-            when (selectedPicNumber) {
-                0 -> {
-                    Glide.with(this)
-                            .load(selectedPic[0])
-                            .into(release_choose_pic1)
-                    release_choose_pic2.visibility = View.VISIBLE
-                }
-                1 -> {
-                    Glide.with(this)
-                            .load(selectedPic[0])
-                            .into(release_choose_pic2)
-                    release_choose_pic3.visibility = View.VISIBLE
-                }
-                2 -> {
-                    Glide.with(this)
-                            .load(selectedPic[0])
-                            .into(release_choose_pic3)
-                    release_choose_pic4.visibility = View.VISIBLE
-                }
-                3 -> {
-                    Glide.with(this)
-                            .load(selectedPic[0])
-                            .into(release_choose_pic4)
-                    totalSelectedPic.add(selectedPic[0])
-                }
-            }
+            releasePicAdapter.changePic(selectedPic[0])
         }
     }
 
@@ -644,7 +578,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         return file
     }
 
-    private val mPermissionGrant: PermissionsUtils.PermissionGrant = object : PermissionsUtils.PermissionGrant {
+    val mPermissionGrant: PermissionsUtils.PermissionGrant = object : PermissionsUtils.PermissionGrant {
         override fun onPermissionGranted(requestCode: Int) = when (requestCode) {
             PermissionsUtils.CODE_RECORD_AUDIO -> Toast.makeText(this@ReleaseActivity, "Result Permission Grant CODE_RECORD_AUDIO", Toast.LENGTH_SHORT).show()
             PermissionsUtils.CODE_GET_ACCOUNTS -> Toast.makeText(this@ReleaseActivity, "Result Permission Grant CODE_GET_ACCOUNTS", Toast.LENGTH_SHORT).show()
@@ -662,9 +596,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>,
                                             grantResults: IntArray) {
-
         PermissionsUtils.requestPermissionsResult(this, requestCode, permissions, grantResults, mPermissionGrant)
-
     }
 
     @SuppressLint("ResourceType")
@@ -679,7 +611,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
             .theme(R.style.Matisse_Zhihu)
             .forResult(2)
 
-    private fun setPicEdit() {
+    fun setPicEdit() {
         val list = arrayOf<CharSequence>("更改图片", "删除图片", "取消")
         val alertDialogBuilder = AlertDialog.Builder(this@ReleaseActivity)
         alertDialogBuilder.setItems(list) { dialog, item ->
@@ -688,43 +620,13 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
                     PermissionsUtils.requestPermission(this@ReleaseActivity, PermissionsUtils.CODE_READ_EXTERNAL_STORAGE, mPermissionGrant)
                 }
                 1 -> {
-                    totalSelectedPic[selectedPicNumber] = null
-                    when (selectedPicNumber) {
-                        0 -> release_choose_pic1.setImageResource(R.drawable.lf_choose_pic)
-                        1 -> release_choose_pic2.setImageResource(R.drawable.lf_choose_pic)
-                        2 -> release_choose_pic3.setImageResource(R.drawable.lf_choose_pic)
-                        3 -> release_choose_pic4.setImageResource(R.drawable.lf_choose_pic)
-                    }
-
+                    releasePicAdapter.removePic()
                 }
                 2 -> dialog.dismiss()
             }
         }
         val alert = alertDialogBuilder.create()
         alert.show()
-    }
-
-    private fun setPicSelection() {
-        if (totalSelectedPic[selectedPicNumber] == null) {
-            PermissionsUtils.requestPermission(this@ReleaseActivity, PermissionsUtils.CODE_READ_EXTERNAL_STORAGE, mPermissionGrant)
-        } else {
-            val dialog = Dialog(this@ReleaseActivity, R.style.edit_AlertDialog_style)
-            dialog.setContentView(R.layout.dialog_detail_pic)
-            val imageView = dialog.findViewById<ImageView>(R.id.detail_bigpic)
-            Glide.with(this)
-                    .load(totalSelectedPic[selectedPicNumber])
-                    .into(imageView)
-            dialog.setCanceledOnTouchOutside(true)
-            val window = dialog.window
-            val lp = window.attributes
-            lp.x = 4
-            lp.y = 4
-            dialog.onWindowAttributesChanged(lp)
-            imageView.setOnClickListener {
-                dialog.dismiss()
-            }
-            dialog.show()
-        }
     }
 
     private fun getListOfRoom(list: ArrayList<String>, intList: ArrayList<Int>, position: Int) {

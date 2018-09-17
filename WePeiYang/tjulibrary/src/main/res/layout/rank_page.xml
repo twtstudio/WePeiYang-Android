@@ -59,5 +59,15 @@
 
     </android.support.v7.widget.RecyclerView>
 
+    <TextView
+        android:id="@+id/load_more"
+        app:layout_constraintTop_toBottomOf="@+id/rank_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#666666"
+        android:background="#f5f5f5"
+        android:gravity="center"
+        android:text="加载更多"/>
+
 
 </android.support.constraint.ConstraintLayout>

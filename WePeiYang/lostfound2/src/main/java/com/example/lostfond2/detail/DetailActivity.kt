@@ -14,6 +14,8 @@ import com.tencent.bugly.proguard.x
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import com.twt.wepeiyang.commons.experimental.network.CommonBody
+import com.twt.wepeiyang.commons.ui.rec.ItemAdapter
+import com.twt.wepeiyang.commons.ui.rec.ItemManager
 import com.twt.wepeiyang.commons.ui.rec.withItems
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
@@ -43,6 +45,7 @@ class DetailActivity : AppCompatActivity() {
             val mylist: CommonBody<DetailData> = LostFoundService.getDetailed(id).await()
             if (mylist.error_code == -1) {
                 val mylist1 = mylist.data!!
+
                 recyclerViewImg.withItems{
                     if (mylist1.picture != null) {
                         var piclist : List<String> =  mylist1.picture.split(",")

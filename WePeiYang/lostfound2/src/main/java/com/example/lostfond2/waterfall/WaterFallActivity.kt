@@ -1,5 +1,7 @@
 package com.example.lostfond2.waterfall
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
@@ -21,6 +23,9 @@ import com.example.lostfond2.mylist.MyListActivity
 import com.example.lostfond2.release.ReleaseActivity
 import com.example.lostfond2.search.SearchActivity
 import com.github.clans.fab.FloatingActionButton
+import com.orhanobut.hawk.Hawk
+import com.twt.wepeiyang.commons.experimental.cache.Cache
+import com.twt.wepeiyang.commons.experimental.cache.hawk
 import kotlinx.android.synthetic.main.activity_water_fall.*
 import org.jetbrains.anko.textColor
 
@@ -35,6 +40,7 @@ class WaterFallActivity : AppCompatActivity() {
     var layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
     var layoutManagerForFilter = LinearLayoutManager(this@WaterFallActivity)
     var type = -1
+    var campus = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,6 +66,31 @@ class WaterFallActivity : AppCompatActivity() {
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         toolbar.setNavigationOnClickListener { onBackPressed() } // toolbar的各种操作
 
+        val list = arrayOf<CharSequence>("北洋园校区", "卫津路校区")
+        val alertDialogBuilder = AlertDialog.Builder(this)
+        alertDialogBuilder.setTitle("请选择您所在校区")
+        alertDialogBuilder.setItems(list) { dialog, item ->
+            when (item) {
+                0 -> Hawk.put("campus", 2)
+                1 -> Hawk.put("campus", 1)
+            }
+        }
+        val alert = alertDialogBuilder.create()
+        alert.show()
+        if (Hawk.contains("campus")) {
+            campus = Hawk.get("campus")
+        } else {
+            val builder = AlertDialog.Builder(this).setMessage("选择你所在的校区")
+            builder.setNegativeButton("卫津路") { dialog, which ->
+                Hawk.put("campus", 1)
+            }
+            builder.setNeutralButton("北洋园") { dialog, which -> Hawk.put("campus", 2) }
+            val ad = builder.create()
+            ad.show()
+        }
+
+        val campus : Int = Hawk.get("campus")
+
         waterfallPagerAdapter.add(foundFragment, "捡到")
         waterfallPagerAdapter.add(lostFragment, "丢失")
 
@@ -69,7 +100,6 @@ class WaterFallActivity : AppCompatActivity() {
             tabGravity = TabLayout.GRAVITY_FILL
             setSelectedTabIndicatorColor(Color.parseColor("#00a1e9"))
         }
-
         waterfall_type.setOnClickListener {
             if (waterfall_type_grey.visibility == View.VISIBLE) run {
                 waterfall_type_blue.visibility = View.VISIBLE
@@ -113,6 +143,7 @@ class WaterFallActivity : AppCompatActivity() {
 
             }
         }
+
 
         waterfall_fab_found.setOnClickListener {
             bundle.putString("lostOrFound", "found")

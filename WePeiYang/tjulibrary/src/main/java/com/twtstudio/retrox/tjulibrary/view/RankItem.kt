@@ -2,7 +2,9 @@ package com.twtstudio.retrox.tjulibrary.view
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
+import android.os.Bundle
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +17,7 @@ import com.twtstudio.retrox.tjulibrary.R
 import org.jetbrains.anko.layoutInflater
 import org.jetbrains.anko.textColor
 
-class RankItem(val urlOfPic: String, val titleString: String,
+class RankItem(val id : String,val urlOfPic: String, val titleString: String,
                val borrowNumber: String, val publishName: String,
                val context: Context, val rankNumber: Int, val isborrow : Boolean) : Item {
     private companion object Controller : ItemController {
@@ -52,6 +54,15 @@ class RankItem(val urlOfPic: String, val titleString: String,
 
                 if (item.isborrow) { borrow_mark.visibility = View.VISIBLE }
             }
+
+            holder.itemView.setOnClickListener {
+                val bundle = Bundle()
+                bundle.putString("id", item.id)
+                val intent = Intent()
+                intent.putExtras(bundle)
+                intent.setClass(item.context, DetialAcitvity::class.java)
+                item.context.startActivity(intent)
+            }
         }
     }
 
@@ -68,6 +79,6 @@ class RankItem(val urlOfPic: String, val titleString: String,
         get() = RankItem
 }
 
-fun MutableList<Item>.setRankItem(urlOfPic: String, titleString: String,
+fun MutableList<Item>.setRankItem(id : String,urlOfPic: String, titleString: String,
                                   borrowNumber: String, publishName: String,
-                                  context: Context, rankNumber: Int, isborrow: Boolean) = add(RankItem(urlOfPic, titleString, borrowNumber, publishName, context, rankNumber, isborrow))
+                                  context: Context, rankNumber: Int, isborrow: Boolean) = add(RankItem(id, urlOfPic, titleString, borrowNumber, publishName, context, rankNumber, isborrow))
