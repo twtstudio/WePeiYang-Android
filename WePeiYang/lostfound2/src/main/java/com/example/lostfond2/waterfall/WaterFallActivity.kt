@@ -53,29 +53,28 @@ class WaterFallActivity : AppCompatActivity() {
         pop_waterfall_type_recyclerview = popupWindowview.findViewById(R.id.waterfall_type_recyclerview)
         pop_waterfall_type_recyclerview.layoutManager = layoutManager
         val pop_waterfall_filter_adapter = WaterfallFilterTableAdapter(this@WaterFallActivity, this) // 筛选条件的adapter
-
-        if (Hawk.contains("campus")) {
-            campus = Hawk.get("campus")
-        } else {
-//            val builder = AlertDialog.Builder(this).setMessage("选择你所在的校区")
-//            builder.setNegativeButton("卫津路") { dialog, which ->
-//                Hawk.put("campus", 1)
-//            }
-//            builder.setNeutralButton("北洋园") { dialog, which -> Hawk.put("campus", 2) }
-//            val ad = builder.create()
-//            ad.show()
-            val list = arrayOf<CharSequence>("北洋园校区", "卫津路校区")
-            val alertDialogBuilder = AlertDialog.Builder(this)
-            alertDialogBuilder.setTitle("请选择您所在校区")
-            alertDialogBuilder.setItems(list) { dialog, item ->
-                when (item) {
-                    0 -> Hawk.put("campus", 2)
-                    1 -> Hawk.put("campus", 1)
-                }
+//        if (Hawk.contains("campus")) {
+//            campus = Hawk.get("campus")
+//        } else {
+            val builder = AlertDialog.Builder(this).setMessage("选择你所在的校区")
+            builder.setNegativeButton("卫津路") { dialog, which ->
+                Hawk.put("campus", 2)
             }
-            val alert = alertDialogBuilder.create()
-            alert.show()
-        }
+            builder.setNeutralButton("北洋园") { dialog, which -> Hawk.put("campus", 1) }
+            val ad = builder.create()
+            ad.show()
+//            val list = arrayOf<CharSequence>("北洋园校区", "卫津路校区")
+//            val alertDialogBuilder = AlertDialog.Builder(this)
+//            alertDialogBuilder.setTitle("请选择您所在校区")
+//            alertDialogBuilder.setItems(list) { dialog, item ->
+//                when (item) {
+//                    0 -> Hawk.put("campus", 2)
+//                    1 -> Hawk.put("campus", 1)
+//                }
+//            }
+//            val alert = alertDialogBuilder.create()
+//            alert.show()
+//        }
 
         lostFragment = WaterfallFragment.newInstance("lost")
         foundFragment = WaterfallFragment.newInstance("found")

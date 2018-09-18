@@ -84,6 +84,7 @@ class ReleasePicadapter(val list : ArrayList<Any?>,
 
     fun removePic() {
         list.removeAt(currentPosition)
+        if (list[list.size - 1] != null) { addPic() }
         notifyItemChanged(currentPosition)
         notifyDataSetChanged()
     }
@@ -92,9 +93,7 @@ class ReleasePicadapter(val list : ArrayList<Any?>,
         list[currentPosition] = pic
         notifyItemChanged(currentPosition)
         notifyDataSetChanged()
-        if (currentPosition == (list.size - 1)) {
-            addPic()
-        }
+        if (currentPosition == (list.size - 1) && list.size < 9) { addPic() }
     }
 
     private fun getDensity() : Float{

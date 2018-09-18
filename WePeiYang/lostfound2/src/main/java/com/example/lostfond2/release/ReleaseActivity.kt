@@ -420,6 +420,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         map["item_description"] = if (remarksString == "") " " else remarksString
         map["campus"] = Hawk.get("campus")
 
+
         if (lostOrFound == "found") {
             map["recapture_place"] = roomOfReceivingSite
             map["recapture_entrance"] = entranceOfReceivingSite

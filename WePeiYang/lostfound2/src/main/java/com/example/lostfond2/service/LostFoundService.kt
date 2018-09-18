@@ -9,10 +9,10 @@ import rx.Observable
 
 interface LostFoundService {
     @GET("v1/lostfound/lost")
-    fun getLost(@Query("page") page: Int, @Query("detail_type") detail_type: Int): Deferred<CommonBody<List<MyListDataOrSearchBean>>>
+    fun getLost(@Query("campus") campus: Int, @Query("page") page: Int, @Query("detail_type") detail_type: Int): Deferred<CommonBody<List<MyListDataOrSearchBean>>>
 
     @GET("v1/lostfound/found")
-    fun getFound(@Query("page") page: Int, @Query("detail_type") detail_type: Int): Deferred<CommonBody<List<MyListDataOrSearchBean>>>
+    fun getFound(@Query("campus") campus: Int, @Query("page") page: Int, @Query("detail_type") detail_type: Int): Deferred<CommonBody<List<MyListDataOrSearchBean>>>
 
     @GET("v1/lostfound/{id}")
     fun getDetailed(@Path("id") id: Int): Deferred<CommonBody<DetailData>>
@@ -85,8 +85,6 @@ data class DetailData(
         val other_tag: String,
         val recapture_place : String,
         val recapture_entrance : Int,
-        val qq : String,
-        val wechat : String,
         val campus : String
 )
 
@@ -111,7 +109,5 @@ data class MyListDataOrSearchBean(
         val picture: String,
         val recapture_place : String,
         val recapture_entrance : Int,
-        val qq : String,
-        val wechat : String,
         val campus : String
 )
