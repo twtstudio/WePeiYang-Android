@@ -40,7 +40,6 @@ class WaterFallActivity : AppCompatActivity() {
     var layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
     var layoutManagerForFilter = LinearLayoutManager(this@WaterFallActivity)
     var type = -1
-    var campus : Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

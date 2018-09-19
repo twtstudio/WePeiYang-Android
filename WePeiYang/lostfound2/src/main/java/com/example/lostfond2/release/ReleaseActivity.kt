@@ -63,13 +63,13 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
     var id = 0
     var releasePresenter: ReleaseContract.ReleasePresenter = ReleasePresenterImpl(this)
     val layoutManager = StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.HORIZONTAL)
-    val linearLayoutManager = LinearLayoutManager(this)
-    lateinit var releasePicAdapter : ReleasePicadapter
+    private val linearLayoutManager = LinearLayoutManager(this)
+    lateinit var releasePicAdapter: ReleasePicadapter
     var selectedPic: List<Uri> = ArrayList() //get a pic's url
     lateinit var lostOrFound: String
     lateinit var tableAdapter: ReleaseTableAdapter
     lateinit var progressDialog: ProgressDialog
-    var judge = false
+    private var judge = false
     private var totalSelectedPic = ArrayList<Uri?>(0) //get all pic's uri
     private var selectPicList = ArrayList<Any?>(0)
     lateinit var picRecyclerView: RecyclerView
@@ -147,9 +147,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
                 duration = i
             }
 
-            override fun onNothingSelected(adapterView: AdapterView<*>) {
-
-            }
+            override fun onNothingSelected(adapterView: AdapterView<*>) {}
         }
         release_confirm.setOnClickListener(this)
         release_delete.setOnClickListener(this)
@@ -223,8 +221,6 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
     override fun onClick(view: View) {
 
         if (view === release_confirm && (lostOrFound == "lost" || lostOrFound == "found")) {
-
-            val d = judgeNull(totalSelectedPic)
             if (!judgeNull(totalSelectedPic)) {
                 val file1: File
                 val arrayOfFile = ArrayList<File?>(0)
@@ -306,72 +302,9 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
     }
 
     override fun setEditData(detailData: DetailData) {
-        if (detailData.picture == null) {
-            Glide.with(this)
-                    .load(Utils.getPicUrl("julao.jpg"))
-                    .error(R.drawable.lf_choose_pic)
-                    .into(release_choose_pic1)
-        } else {
+        if (detailData.picture != null) {
             val picList = detailData.picture.split(",")
-            Log.d("mom", picList[0])
-            Log.d("dad", picList[1])
-            when (picList.size) {
-                1 -> {
-                    Glide.with(this)
-                            .load(Utils.getPicUrl(picList[0]))
-                            .asBitmap()
-                            .into(release_choose_pic1)
-                    release_choose_pic2.visibility = View.VISIBLE
-                }
-                2 -> {
-                    release_choose_pic2.visibility = View.VISIBLE
-                    release_choose_pic3.visibility = View.VISIBLE
-                    Glide.with(this)
-                            .load(Utils.getPicUrl(picList[0]))
-                            .asBitmap()
-                            .into(release_choose_pic1)
-                    Glide.with(this)
-                            .load(Utils.getPicUrl(picList[1]))
-                            .asBitmap()
-                            .into(release_choose_pic2)
-                }
-                3 -> {
-                    release_choose_pic2.visibility = View.VISIBLE
-                    release_choose_pic3.visibility = View.VISIBLE
-                    release_choose_pic4.visibility = View.VISIBLE
-                    Glide.with(this)
-                            .load(Utils.getPicUrl(picList[0]))
-                            .asBitmap()
-                            .into(release_choose_pic1)
-                    Glide.with(this)
-                            .load(Utils.getPicUrl(picList[1]))
-                            .asBitmap()
-                            .into(release_choose_pic2)
-                    Glide.with(this)
-                            .load(Utils.getPicUrl(picList[2]))
-                            .asBitmap()
-                            .into(release_choose_pic3)
-
-                }
-                4 -> {
-                    Glide.with(this)
-                            .load(Utils.getPicUrl(picList[0]))
-                            .asBitmap()
-                            .into(release_choose_pic1)
-                    Glide.with(this)
-                            .load(Utils.getPicUrl(picList[1]))
-                            .asBitmap()
-                            .into(release_choose_pic2)
-                    Glide.with(this)
-                            .load(Utils.getPicUrl(picList[2]))
-                            .asBitmap()
-                            .into(release_choose_pic3)
-                    Glide.with(this)
-                            .load(Utils.getPicUrl(picList[3]))
-                            .asBitmap()
-                            .into(release_choose_pic4)
-                }
-            }
+            releasePicAdapter.addPicUrl(picList)
         }
 
         when (detailData.detail_type) {
@@ -419,14 +352,13 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         map["duration"] = duration
         map["item_description"] = if (remarksString == "") " " else remarksString
         map["campus"] = Hawk.get("campus")
-
+        judge = !(titleString == "" || phoneString == "" || nameString == "")
 
         if (lostOrFound == "found") {
             map["recapture_place"] = roomOfReceivingSite
             map["recapture_entrance"] = entranceOfReceivingSite
         }
 
-        judge = !(titleString == "" || phoneString == "" || nameString == "")
         if (selectedItemPosition == 0 || selectedItemPosition == 1) {
             val card_numString = release_card_num.getText().toString()
             val card_nameString = release_card_name.getText().toString()
@@ -439,6 +371,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         } else if (selectedItemPosition == 12) {
             map["other_tag"] = " "
         }
+
         return map
     }
 
@@ -721,18 +654,17 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         else -> 404
     }
 
-    private  fun getPositionOfRoom(i : String) : Int = when (i) {
-        "1斋","6斋","9斋","11斋","13斋" -> 0
-        "2斋","7斋","10斋","12斋","14斋" -> 1
-        "3斋","8斋","15斋" -> 2
+    private fun getPositionOfRoom(i: String): Int = when (i) {
+        "1斋", "6斋", "9斋", "11斋", "13斋" -> 0
+        "2斋", "7斋", "10斋", "12斋", "14斋" -> 1
+        "3斋", "8斋", "15斋" -> 2
         "16斋" -> 3
         else -> 404
     }
 
-    private fun getPositionOfEntrance(i : Int) : Int = when (i) {
-        0,1 -> 0
+    private fun getPositionOfEntrance(i: Int): Int = when (i) {
+        0, 1 -> 0
         2 -> 1
         else -> 404
     }
-
 }

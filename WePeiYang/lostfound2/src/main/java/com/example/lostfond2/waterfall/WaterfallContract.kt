@@ -9,6 +9,8 @@ interface WaterfallContract {
         fun setWaterfallData(waterfallBean: List<MyListDataOrSearchBean>)
 
         fun loadWaterfallDataWithType(type: Int)
+
+        fun loadWaterfallDataWithTime(time: Int)
     }
 
     interface WaterfallPresenter {

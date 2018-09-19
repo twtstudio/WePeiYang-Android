@@ -24,6 +24,7 @@ class WaterfallFragment : Fragment(), WaterfallContract.WaterfallView {
     var lostOrFound = "lost"
     var type = -1
     var page = 1
+    var time = 5
     private val waterfallPresenter = WaterfallPresenterImpl(this)
 
     companion object {
@@ -101,7 +102,14 @@ class WaterfallFragment : Fragment(), WaterfallContract.WaterfallView {
         this.type = type
         page = 1
         isRefresh = true
-        waterfallPresenter.loadWaterfallDataWithType(lostOrFound, page, type)
+        waterfallPresenter.loadWaterfallDataWithType(lostOrFound, page, this.type)
+    }
+
+    override fun loadWaterfallDataWithTime(time: Int) {
+        this.time = time
+        page = 1
+        isRefresh = true
+//        waterfallPresenter.
     }
 
     override fun onResume() {

@@ -22,39 +22,34 @@ class ReleasePicadapter(val list : ArrayList<Any?>,
     var currentPosition = 0
 
     class ViewHolder(view : View) : RecyclerView.ViewHolder(view) {
-        val release_pic = view.findViewById<ImageView>(R.id.detail_bigpic)
+        val release_pic = view.findViewById<ImageView>(R.id.release_cardview_pic)
 
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val view = LayoutInflater.from(context).inflate(R.layout.dialog_detail_pic, parent, false)
+        val view = LayoutInflater.from(context).inflate(R.layout.lf2_waterfall_release_pic_cardview, parent, false)
 
         return ViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         holder as ViewHolder
-        val layoutParams = holder.release_pic.layoutParams
-        layoutParams.apply {
-            width = 80 * getDensity().toInt()
-            height = 80 * getDensity().toInt()
-        }
-        holder.release_pic.layoutParams = layoutParams
-        holder.itemView.setOnClickListener {
-            currentPosition = position
+        holder.itemView.apply {
 
-            if (list[position] == null) {
-                PermissionsUtils.requestPermission(releaseActivity, PermissionsUtils.CODE_READ_EXTERNAL_STORAGE, releaseActivity.mPermissionGrant)
-//                addPic()
-            } else {
-                showDialogOfPic()
+            setOnClickListener {
+                currentPosition = position
+
+                if (list[position] == null) {
+                    PermissionsUtils.requestPermission(releaseActivity, PermissionsUtils.CODE_READ_EXTERNAL_STORAGE, releaseActivity.mPermissionGrant)
+                } else {
+                    showDialogOfPic()
+                }
             }
-        }
-
-        holder.itemView.setOnLongClickListener {
-            currentPosition = position
-            releaseActivity.setPicEdit()
-            true
+            setOnLongClickListener {
+                currentPosition = position
+                releaseActivity.setPicEdit()
+                true
+            }
         }
 
         if (list[position] != null) {
@@ -96,11 +91,9 @@ class ReleasePicadapter(val list : ArrayList<Any?>,
         if (currentPosition == (list.size - 1) && list.size < 9) { addPic() }
     }
 
-    private fun getDensity() : Float{
-        val wm = releaseActivity.getSystemService(Context.WINDOW_SERVICE) as WindowManager
-        val dm = DisplayMetrics()
-        wm.defaultDisplay.getMetrics(dm)
-        return dm.density
+    fun addPicUrl(urlList : List<String>) {
+        list.addAll(0,urlList)
+        notifyDataSetChanged()
     }
 
     private fun showDialogOfPic() {
