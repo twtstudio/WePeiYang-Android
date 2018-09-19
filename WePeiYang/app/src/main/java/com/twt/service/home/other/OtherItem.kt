@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.LinearLayout
+import com.tjuwhy.yellowpages2.view.YellowPageActivity
 import com.twt.service.home.user.FragmentActivity
 import com.twt.wepeiyang.commons.ui.rec.HomeItem
 import com.twt.wepeiyang.commons.ui.rec.Item
@@ -49,6 +50,9 @@ class OtherItem : Item {
                 }
                 addItem("新闻", "查看天外天新闻") {
                     it.context.startActivity<FragmentActivity>("frag" to "News")
+                }
+                addItem("黄页", "获取校内部门电话"){
+                    it.context.startActivity<YellowPageActivity>()
                 }
             }
         }
