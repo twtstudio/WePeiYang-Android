@@ -114,3 +114,12 @@ data class RenewResult(
         var message: String
 )
 
+
+data class SearchBook(
+        var booktitle : String,
+        var bookartist : String,
+        var bookpublish : String,
+        var img : String,
+        var number : String
+)
+

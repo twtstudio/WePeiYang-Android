@@ -10,6 +10,15 @@
 
     </android.support.v4.view.ViewPager>
 
+    <LinearLayout
+        android:id="@+id/main_linear"
+        android:layout_width="match_parent"
+        android:layout_height="43dp"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/view_pager"/>
+
     
     <Button
         android:layout_width="190dp"
@@ -19,7 +28,7 @@
         android:textColor="#ffffff"
         android:textSize="17dp"
         android:background="#e78fae"
-        app:layout_constraintTop_toBottomOf="@+id/view_pager"
+        app:layout_constraintTop_toBottomOf="@+id/main_linear"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"/>
 

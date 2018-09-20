@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.LinearLayout
-import com.example.lostfond2.waterfall.WaterFallActivity
+import com.yookiely.lostfond2.waterfall.WaterFallActivity
 import com.twt.service.home.user.FragmentActivity
 import com.twt.wepeiyang.commons.ui.rec.HomeItem
 import com.twt.wepeiyang.commons.ui.rec.Item
