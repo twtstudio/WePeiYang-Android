@@ -53,6 +53,7 @@ dependencies {
     })
 
     implementation project(':commons')
+    implementation 'org.jsoup:jsoup:1.9.2'
 
     [*supportLibraries, *archLibraries, 'kotlin-stdlib', 'kotlinx-coroutines', 'anko', 'constraint-layout'].each {
         implementation dependenciesMap[it]

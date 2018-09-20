@@ -8,13 +8,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
+import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
 import com.twt.wepeiyang.commons.experimental.network.CommonBody
 import com.twtstudio.retrox.tjulibrary.R
+import com.twtstudio.retrox.tjulibrary.home.LibraryViewModel
 import com.twtstudio.retrox.tjulibrary.provider.Info
 import com.twtstudio.retrox.tjulibrary.tjulibservice.Img
 import com.twtstudio.retrox.tjulibrary.tjulibservice.LibraryApi
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
+
 
 class HomeLibraryFragement : Fragment(){
     lateinit var button: Button
@@ -25,11 +28,12 @@ class HomeLibraryFragement : Fragment(){
         button = view.findViewById(R.id.secondBorrow)
         my_pager = view.findViewById(R.id.view_pager)
         val mylistPagerAdapter = BookPagerAdapter(childFragmentManager)
-        launch(UI + QuietCoroutineExceptionHandler) {
-            val mylist : CommonBody<Info> = LibraryApi.getUser().await()
-            if (mylist.error_code == -1){
 
-                for (i in mylist.data!!.books) {
+        LibraryViewModel.infoLiveData.bindNonNull(this){info ->
+            for (i in info.books) {
+                launch (UI + QuietCoroutineExceptionHandler) {
+
+
                     val img: Img = LibraryApi.getImg(/*i.type*/0).await()
 
                     mylistPagerAdapter.add(BookFragment.newInstance(i, img.img_url, "emmmmm"))
@@ -40,7 +44,9 @@ class HomeLibraryFragement : Fragment(){
                     }
                 }
             }
+
         }
+
 
 
 
