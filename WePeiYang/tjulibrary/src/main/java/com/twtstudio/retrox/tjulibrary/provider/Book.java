@@ -29,6 +29,7 @@ public class Book {
     public String type;
     public String loanTime;
     public String returnTime;
+    public String id;
 
     /**
      * 距离还书日期还有多少天

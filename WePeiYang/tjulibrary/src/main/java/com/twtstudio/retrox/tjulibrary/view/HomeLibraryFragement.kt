@@ -34,9 +34,9 @@ class HomeLibraryFragement : Fragment(){
                 launch (UI + QuietCoroutineExceptionHandler) {
 
 
-                    val img: Img = LibraryApi.getImg(/*i.type*/0).await()
+                    val img: Img = LibraryApi.getImg(/*i.type*/i.id).await()
 
-                    mylistPagerAdapter.add(BookFragment.newInstance(i, img.img_url, "emmmmm"))
+                    mylistPagerAdapter.add(BookFragment.newInstance(i, img.img_url, i.callno))
 
                     button.setOnClickListener {
                         val pop = BookPopupWindow(i, it.context)
