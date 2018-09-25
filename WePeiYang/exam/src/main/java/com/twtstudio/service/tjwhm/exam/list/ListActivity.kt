@@ -46,6 +46,7 @@ class ListActivity : AppCompatActivity() {
         if (type == ONLINE) etSearch.visibility = View.VISIBLE
 
         rvList.layoutManager = LinearLayoutManager(this@ListActivity)
+
         etSearch.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 if (s.toString().isNotEmpty() && s.toString() != "") {
@@ -53,15 +54,13 @@ class ListActivity : AppCompatActivity() {
                         when (it) {
                             is RefreshState.Failure -> Toasty.error(this@ListActivity, "网络错误", Toast.LENGTH_SHORT).show()
                             is RefreshState.Success -> {
-                                // 这个 warning 有问题，这个 List 是有可能为空的
-                                if (it.message.date == null) {
+                                if (it.message.data == null) {
                                     Toasty.info(this@ListActivity, "搜索结果为空！", Toast.LENGTH_SHORT).show()
-                                    rvList.withItems { }
-                                } else when (it.message.date.size) {
+                                } else when (it.message.data!!.size) {
                                     0 -> Toasty.info(this@ListActivity, "搜索结果为空！", Toast.LENGTH_SHORT).show()
                                     else -> rvList.withItems {
-                                        for (i in 0 until it.message.date.size) {
-                                            lessonItem(this@ListActivity, it.message.date[i])
+                                        for (i in 0 until it.message.data!!.size) {
+                                            lessonItem(this@ListActivity, it.message.data!![i])
                                         }
                                     }
                                 }
@@ -74,8 +73,8 @@ class ListActivity : AppCompatActivity() {
                             is RefreshState.Failure -> Toasty.error(this@ListActivity, "网络错误", Toast.LENGTH_SHORT).show()
                             is RefreshState.Success ->
                                 rvList.withItems {
-                                    for (i in 0 until it.message.date.size) {
-                                        lessonItem(this@ListActivity, it.message.date[i])
+                                    for (i in 0 until it.message.data!!.size) {
+                                        lessonItem(this@ListActivity, it.message.data!![i])
                                     }
                                 }
                         }
@@ -92,13 +91,14 @@ class ListActivity : AppCompatActivity() {
             window.decorView.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ -> initStatusBar() }
             false
         }
+
         getList(type) {
             when (it) {
                 is RefreshState.Failure -> Toasty.error(this@ListActivity, "网络错误", Toast.LENGTH_SHORT).show()
                 is RefreshState.Success ->
                     rvList.withItems {
-                        for (i in 0 until it.message.date.size) {
-                            lessonItem(this@ListActivity, it.message.date[i])
+                        for (i in 0 until it.message.data!!.size) {
+                            lessonItem(this@ListActivity, it.message.data!![i])
                         }
                     }
 

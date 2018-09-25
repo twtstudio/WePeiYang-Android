@@ -19,7 +19,10 @@ import com.twtstudio.service.tjwhm.exam.problem.getLessonInfo
 import es.dmoral.toasty.Toasty
 import org.jetbrains.anko.layoutInflater
 
-class LessonItem(val context: Context, val lessonData: LessonData) : Item {
+class LessonItem(val context: Context, val lessonBean: LessonBean) : Item {
+    override val controller: ItemController
+        get() = Controller
+
     companion object Controller : ItemController {
         override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder =
                 LessonViewHolder(parent.context.layoutInflater.inflate(R.layout.exam_item_list, parent, false))
@@ -30,9 +33,9 @@ class LessonItem(val context: Context, val lessonData: LessonData) : Item {
             holder.apply {
                 tvEnterContest?.visibility = View.GONE
                 tvEnterPractice?.visibility = View.GONE
-                tvTitle?.text = item.lessonData.course_name
-                itemView.setOnClickListener {
-                    getLessonInfo(item.lessonData.id.toString()) {
+                tvTitle?.text = item.lessonBean.course_name
+                itemView.setOnClickListener { _ ->
+                    getLessonInfo(item.lessonBean.course_id.toString()) {
                         when (it) {
                             is RefreshState.Failure -> Toasty.error(item.context, "网络错误", Toast.LENGTH_SHORT).show()
                             is RefreshState.Success -> {
@@ -81,7 +84,7 @@ class LessonItem(val context: Context, val lessonData: LessonData) : Item {
                 }
 
                 val intent = Intent(item.context, ProblemActivity::class.java)
-                intent.putExtra(ProblemActivity.LESSON_ID_KEY, item.lessonData.id)
+                intent.putExtra(ProblemActivity.LESSON_ID_KEY, item.lessonBean.course_id)
                 tvEnterPractice?.setOnClickListener {
                     intent.putExtra(ProblemActivity.MODE_KEY, ProblemActivity.READ_AND_PRACTICE)
                     item.context.startActivity(intent)
@@ -95,9 +98,6 @@ class LessonItem(val context: Context, val lessonData: LessonData) : Item {
         }
     }
 
-    override val controller: ItemController
-        get() = Controller
-
     private class LessonViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
         var isExpand = false
         val tvTitle: TextView? = itemView?.findViewById(R.id.tv_list_lesson_title)
@@ -107,4 +107,4 @@ class LessonItem(val context: Context, val lessonData: LessonData) : Item {
     }
 }
 
-fun MutableList<Item>.lessonItem(context: Context, lessonData: LessonData) = add(LessonItem(context, lessonData))
+fun MutableList<Item>.lessonItem(context: Context, lessonBean: LessonBean) = add(LessonItem(context, lessonBean))
