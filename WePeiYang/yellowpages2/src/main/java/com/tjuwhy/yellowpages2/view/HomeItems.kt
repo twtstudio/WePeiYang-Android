@@ -171,11 +171,11 @@ class ChildItem(val context: Context, val name: String, val phoneNum: String, va
                         when (refreshState) {
                             is RefreshState.Success -> {
                                 if (item.isStared) {
-                                    Toast.makeText(item.context, str, Toast.LENGTH_SHORT).show()
+                                    Toasty.success(item.context, str, Toast.LENGTH_SHORT).show()
                                     item.isStared = false
                                     holder.isStared.setImageResource(R.drawable.yp2_favourite_dark)
                                 } else {
-                                    Toast.makeText(item.context, str, Toast.LENGTH_SHORT).show()
+                                    Toasty.success(item.context, str, Toast.LENGTH_SHORT).show()
                                     item.isStared = true
                                     holder.isStared.setImageResource(R.drawable.yp2_favorite_light)
                                 }
