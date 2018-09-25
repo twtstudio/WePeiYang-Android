@@ -201,7 +201,7 @@ class ChildItem(val context: Context, val name: String, val phoneNum: String, va
                         0 -> {
                             val cm = (item.context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager)
                             cm.text = item.phoneNum.trim()
-                            Toast.makeText(item.context, "已复制到剪贴板", Toast.LENGTH_SHORT).show()
+                            Toasty.success(item.context, "已复制到剪贴板", Toast.LENGTH_SHORT).show()
                         }
                         1 -> {
                             val normalDialog1 = AlertDialog.Builder(item.context)
