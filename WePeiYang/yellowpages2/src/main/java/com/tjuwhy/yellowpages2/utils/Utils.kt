@@ -9,12 +9,7 @@ import com.twt.wepeiyang.commons.ui.rec.ItemAdapter
 import com.twt.wepeiyang.commons.ui.rec.ItemManager
 import java.text.Collator
 
-interface UpdateCallBack {
-    fun collectionUpdate(id: Int)
-}
-
 interface Expandable {
-
     fun collapse(index: Int)
 
     fun expand(index: Int)
@@ -23,7 +18,7 @@ interface Expandable {
 class ExpandableHelper(val context: Context, recyclerView: RecyclerView, var groupData: Array<GroupData>, private val childArray: Array<Array<SubData>>) : Expandable {
 
     var itemManager: ItemManager = ItemManager()
-    val items = mutableListOf<Item>(HeaderItem(context))
+    private val items = mutableListOf<Item>(HeaderItem(context))
 
     init {
         recyclerView.adapter = ItemAdapter(itemManager)
@@ -54,27 +49,26 @@ class ExpandableHelper(val context: Context, recyclerView: RecyclerView, var gro
         for (i in 0 until index) {
             targetIndex += if (groupData[i].isExpanded) childArray[i].size else 0
         }
-        itemManager.addAll(targetIndex + 2/*Header*/, childArray[index].map { it ->
+        itemManager.addAll(targetIndex + 2, childArray[index].map { it ->
             when (it.type) {
                 ITEM_SECOND -> SubItem(context, it.title, it.groupIndex, it.childIndex, index)
                 ITEM_COLLECTION -> ChildItem(context, it.title, it.phone, it.isStared, it.thirdId)
                 ITEM_CHAR -> CharItem(it.firstChar)
-                else -> {
-                    CharItem(it.firstChar)
-                }
+                else -> CharItem(it.firstChar)
             }
-        }
-        )
+        })
     }
-
 }
 
 class Selector(val content: String) : Comparable<Selector> {
 
-    private val comparator = Collator.getInstance(java.util.Locale.CHINA)!!
+    private val comparator = Collator.getInstance(java.util.Locale.CHINA)
 
     override fun compareTo(other: Selector): Int {
         return comparator.compare(content, other.content)
     }
-
 }
+
+const val SEARCH_CONTENT_KEY = "search_content"
+const val FIRST_INDEX_KEY = "first_index"
+const val SECOND_INDEX_KEY = "second_index"

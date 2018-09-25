@@ -37,8 +37,10 @@ fun getPhone(callback: suspend (RefreshState<Unit>) -> Unit = {}) {
             phoneBean.category_list.map { category ->
                 var childIndex = 0
                 val list = category.department_list
+                        .asSequence()
                         .map { SubData(it.department_name, it.department_attach.toInt(), childIndex++, thirdId = it.id) }
                         .sortedBy { Selector(it.title) }
+                        .toList()
                 var num = 0
                 var oldChar = ';'
                 val result = mutableListOf<SubData>()
@@ -66,8 +68,10 @@ fun getUserCollection(callback: suspend (RefreshState<Unit>) -> Unit = {}) {
         }?.let { collectionList ->
             var childIndex = 0
             val list = collectionList
+                    .asSequence()
                     .map { SubData(it.item_name, 0, childIndex++, ITEM_COLLECTION, it.item_phone, true, it.id.toInt()) }
                     .sortedBy { Selector(it.title) }
+                    .toList()
             var num = 0
             var oldChar = ';'
             val result = mutableListOf<SubData>()
@@ -92,8 +96,10 @@ fun update(id: Int, callback: suspend (RefreshState<Unit>, String) -> Unit) {
         }?.let { updateBean ->
             var childIndex = 0
             YellowPagePreference.collectionList = updateBean.data
+                    .asSequence()
                     .map { SubData(it.item_name, 0, childIndex++, ITEM_COLLECTION, it.item_phone, true, it.id.toInt()) }
                     .sortedBy { Selector(it.title) }
+                    .toList()
                     .toTypedArray()
             callback(RefreshState.Success(Unit), updateBean.status)
         }

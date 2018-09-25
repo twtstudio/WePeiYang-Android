@@ -4,7 +4,7 @@ import com.twt.wepeiyang.commons.experimental.preference.hawk
 
 object YellowPagePreference {
 
-    var searchHistory: MutableSet<String> by hawk("search_histoty", mutableSetOf())
+    var searchHistory: MutableSet<String> by hawk("search_history", mutableSetOf())
 
     var phoneBean: PhoneBean? by hawk("phoneBean", null)
 

@@ -10,6 +10,8 @@ import android.widget.TextView
 import com.example.yellowpages2.R
 import com.tjuwhy.yellowpages2.service.Unit1
 import com.tjuwhy.yellowpages2.service.YellowPagePreference
+import com.tjuwhy.yellowpages2.utils.FIRST_INDEX_KEY
+import com.tjuwhy.yellowpages2.utils.SECOND_INDEX_KEY
 import com.twt.wepeiyang.commons.ui.rec.withItems
 
 class DepartmentActivity : AppCompatActivity() {
@@ -30,8 +32,8 @@ class DepartmentActivity : AppCompatActivity() {
         departmentTv = findViewById(R.id.department_name)
         recyclerView = findViewById(R.id.recycler_view_department)
 
-        val firstIndex = intent.getIntExtra("first_index", 0)
-        val secondIndex = intent.getIntExtra("second_index", 0)
+        val firstIndex = intent.getIntExtra(FIRST_INDEX_KEY, 0)
+        val secondIndex = intent.getIntExtra(SECOND_INDEX_KEY, 0)
 
         title = YellowPagePreference.phoneBean!!.category_list[firstIndex].department_list[secondIndex].department_name
         unitList = YellowPagePreference.phoneBean!!.category_list[firstIndex].department_list[secondIndex].unit_list

@@ -1,24 +1,23 @@
 package com.tjuwhy.yellowpages2.utils;
 
 public class FirstLetterUtil {
-    private static int BEGIN = 45217;
     private static int END = 63486; // 按照声母表示，这个表是在GB2312中的出现的第一个汉字，也就是说“啊”是代表首字母a的第一个汉字。
     // // i, u, v都不做声母, 自定规则跟随前面的字母
-    private static char[] chartable = {'啊', '芭', '擦', '搭', '蛾', '发', '噶', '哈',
+    private static char[] charTable = {'啊', '芭', '擦', '搭', '蛾', '发', '噶', '哈',
             '哈', '击', '喀', '垃', '妈', '拿', '哦', '啪', '期', '然', '撒', '塌', '塌',
             '塌', '挖', '昔', '压', '匝',};
     // 二十六个字母区间对应二十七个端点
     // GB2312码汉字区间十进制表示
     private static int[] table = new int[27];
     // 对应首字母区间表
-    private static char[] initialtable = {'a', 'b', 'c', 'd', 'e', 'f', 'g',
+    private static char[] initialTable = {'a', 'b', 'c', 'd', 'e', 'f', 'g',
             'h', 'h', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
             't', 't', 'w', 'x', 'y', 'z',};
 
     // 初始化
     static {
         for (int i = 0; i < 26; i++) {
-            table[i] = gbValue(chartable[i]);
+            table[i] = gbValue(charTable[i]);
             // 得到GB2312码的首字母区间端点表，十进制。
         }
         table[26] = END;
@@ -26,18 +25,18 @@ public class FirstLetterUtil {
     }
 
     public static String getFirstLetter(String sourceStr) {
-        String result = "";
+        StringBuilder result = new StringBuilder();
         String str = sourceStr.toLowerCase();
         int StrLength = str.length();
         int i;
         try {
             for (i = 0; i < StrLength; i++) {
-                result += Char2Initial(str.charAt(i));
+                result.append(Char2Initial(str.charAt(i)));
             }
         } catch (Exception e) {
-            result = "";
+            result = new StringBuilder();
         }
-        return result;
+        return result.toString();
     }
 
     private static char Char2Initial(char ch) {
@@ -52,6 +51,7 @@ public class FirstLetterUtil {
         // 若不是，则直接返回。
         // 若是，则在码表内的进行判断。
         int gb = gbValue(ch);// 汉字转换首字母
+        int BEGIN = 45217;
         if ((gb < BEGIN) || (gb > END))// 在码表区间之前，直接返回
         {
             return ch;
@@ -67,7 +67,7 @@ public class FirstLetterUtil {
             // 补上GB2312区间最右端
             i = 25;
         }
-        return initialtable[i];
+        return initialTable[i];
         // 在码表区间中，返回首字母
     }
 

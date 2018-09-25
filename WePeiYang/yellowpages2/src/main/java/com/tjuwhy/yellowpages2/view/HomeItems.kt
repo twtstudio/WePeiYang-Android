@@ -21,6 +21,8 @@ import com.tjuwhy.yellowpages2.service.GroupData
 import com.tjuwhy.yellowpages2.service.SearchBean
 import com.tjuwhy.yellowpages2.service.update
 import com.tjuwhy.yellowpages2.utils.Expandable
+import com.tjuwhy.yellowpages2.utils.FIRST_INDEX_KEY
+import com.tjuwhy.yellowpages2.utils.SECOND_INDEX_KEY
 import com.twt.wepeiyang.commons.experimental.cache.RefreshState
 import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemController
@@ -137,8 +139,8 @@ class SubItem(val context: Context, val name: String, val groupIndex: Int, val c
             holder.textView.text = item.name
             holder.itemView.setOnClickListener {
                 val intent = Intent(item.context, DepartmentActivity::class.java)
-                intent.putExtra("first_index", item.firstIndex - 1)
-                intent.putExtra("second_index", item.childIndex)
+                intent.putExtra(FIRST_INDEX_KEY, item.firstIndex - 1)
+                intent.putExtra(SECOND_INDEX_KEY, item.childIndex)
                 item.context.startActivity(intent)
             }
         }
@@ -192,7 +194,7 @@ class ChildItem(val context: Context, val name: String, val phoneNum: String, va
                 item.context.startActivity(intent)
             }
             holder.itemView.setOnClickListener {
-                val items = arrayListOf("复制号码", /*"新建联系人",*/ "报错/反馈")
+                val items = arrayListOf("复制号码", "报错/反馈")
                 val normalDialog = AlertDialog.Builder(item.context)
                 normalDialog.setItems(items.toTypedArray()) { _, which ->
                     when (which) {
@@ -203,7 +205,7 @@ class ChildItem(val context: Context, val name: String, val phoneNum: String, va
                         }
                         1 -> {
                             val normalDialog1 = AlertDialog.Builder(item.context)
-                            normalDialog1.setMessage("号码/名称有误？大佬要加群反馈下吗？")
+                            normalDialog1.setMessage("号码/名称有误？是否要加入天外天用户社区群进行反馈？")
                                     .setPositiveButton("加吧") { _, _ ->
                                         val qq = "738068756"
                                         val url = "mqqwpa://im/chat?chat_type=group&uin=$qq&version=1"
@@ -284,14 +286,13 @@ class SearchHistoryItem(val context: Context, val str: String, val block: (Strin
 
 }
 
-class SingleTextItem(val content: String, val block: () -> Unit) : Item {
+class DeleteHistoryItem(val block: () -> Unit) : Item {
 
     companion object Controller : ItemController {
 
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: Item) {
             holder as ViewHolder
-            item as SingleTextItem
-            holder.singleText.text = item.content
+            item as DeleteHistoryItem
             holder.itemView.setOnClickListener {
                 item.block()
             }
@@ -299,14 +300,13 @@ class SingleTextItem(val content: String, val block: () -> Unit) : Item {
 
         override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
             val inflater = parent.context.layoutInflater
-            val view = inflater.inflate(R.layout.yp2_item_single_text, parent, false)
-            val singleText = view.findViewById<TextView>(R.id.single_text)
-            return ViewHolder(view, singleText)
+            val view = inflater.inflate(R.layout.yp2_item_delete_history, parent, false)
+            return ViewHolder(view)
         }
 
     }
 
-    class ViewHolder(itemView: View?, val singleText: TextView) : RecyclerView.ViewHolder(itemView)
+    class ViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView)
 
     override val controller: ItemController
         get() = Controller
@@ -314,7 +314,8 @@ class SingleTextItem(val content: String, val block: () -> Unit) : Item {
 
 
 class SearchResultItem(val context: Context, val searchBean: SearchBean, val query: String) : Item {
-
+    override val controller: ItemController
+        get() = Controller
 
     companion object Controller : ItemController {
         override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
@@ -339,20 +340,22 @@ class SearchResultItem(val context: Context, val searchBean: SearchBean, val que
                     content += this[0]
                 }
             }
-            holder.textView2!!.setSingleLine()
-            holder.textView!!.text = matchText(item.searchBean.department_name, item.query)
-            holder.textView2.text = matchText(content, item.query)
-            holder.itemView.setOnClickListener {
-                val intent = Intent(item.context, DepartmentActivity::class.java)
-                val id = item.searchBean.department_attach - 1
-                intent.putExtra("first_index", id)
-                intent.putExtra("second_index", when (id) {
-                    0 -> item.searchBean.id - 1
-                    1 -> item.searchBean.id - 29
-                    2 -> item.searchBean.id - 54
-                    else -> 0
-                })
-                item.context.startActivity(intent)
+            holder.apply {
+                textView2?.setSingleLine()
+                textView?.text = matchText(item.searchBean.department_name, item.query)
+                textView2?.text = matchText(content, item.query)
+                itemView.setOnClickListener {
+                    val intent = Intent(item.context, DepartmentActivity::class.java)
+                    val id = item.searchBean.department_attach - 1
+                    intent.putExtra(FIRST_INDEX_KEY, id)
+                    intent.putExtra(SECOND_INDEX_KEY, when (id) {
+                        0 -> item.searchBean.id - 1
+                        1 -> item.searchBean.id - 29
+                        2 -> item.searchBean.id - 54
+                        else -> 0
+                    })
+                    item.context.startActivity(intent)
+                }
             }
         }
 
@@ -364,25 +367,15 @@ class SearchResultItem(val context: Context, val searchBean: SearchBean, val que
                 val start: Int = matcher.start()
                 val end: Int = matcher.end()
                 ss.setSpan(ForegroundColorSpan(Color.parseColor("#45a0e3")), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-
             }
             return ss
         }
     }
 
     class ViewHolder(itemView: View?, val textView: TextView?, val textView2: TextView?) : RecyclerView.ViewHolder(itemView)
-
-    override val controller: ItemController
-        get() = Controller
-
-
 }
 
 private fun addExtra(intent: Intent, firstIndex: Int, secondIndex: Int) {
-    intent.putExtra("first_index", firstIndex)
-    intent.putExtra("second_index", secondIndex)
+    intent.putExtra(FIRST_INDEX_KEY, firstIndex)
+    intent.putExtra(SECOND_INDEX_KEY, secondIndex)
 }
-
-
-
-

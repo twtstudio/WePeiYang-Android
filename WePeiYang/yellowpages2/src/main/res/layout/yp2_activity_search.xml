@@ -35,7 +35,7 @@
                 android:imeOptions="actionSearch"
                 android:inputType="text"
                 android:singleLine="true"
-                android:textColor="@color/yp2_editText"
+                android:textColor="@color/white_color"
                 android:textColorHint="@color/yp2_editTextHint" />
 
             <ImageView

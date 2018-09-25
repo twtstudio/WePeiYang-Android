@@ -11,6 +11,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import com.example.yellowpages2.R
 import com.tjuwhy.yellowpages2.service.YellowPagePreference
+import com.tjuwhy.yellowpages2.utils.SEARCH_CONTENT_KEY
 import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemAdapter
 import com.twt.wepeiyang.commons.ui.rec.ItemManager
@@ -39,7 +40,7 @@ class SearchActivity : AppCompatActivity() {
         recyclerView.adapter = ItemAdapter(itemManager)
         YellowPagePreference.searchHistory.reversed().mapTo(items) { t -> SearchHistoryItem(this, t) { search(t) } }
         if (YellowPagePreference.searchHistory.size > 0) {
-            items.add(SingleTextItem("清空历史") { clearHistory() })
+            items.add(DeleteHistoryItem { clearHistory() })
         }
         recyclerView.withItems(items)
 
@@ -59,20 +60,23 @@ class SearchActivity : AppCompatActivity() {
             search(editText.text.trim().toString())
         }
 
-
     }
 
     private fun search(text: String) {
         if (text != "") {
             YellowPagePreference.searchHistory.remove(text)
             YellowPagePreference.searchHistory.add(text)
-            items = YellowPagePreference.searchHistory.reversed().map { it -> SearchHistoryItem(this, it) { search(it) } }.toMutableList()
+            items = YellowPagePreference.searchHistory
+                    .reversed()
+                    .asSequence()
+                    .map { it -> SearchHistoryItem(this, it) { search(it) } }
+                    .toMutableList()
             if (YellowPagePreference.searchHistory.size != 0) {
-                items.add(SingleTextItem("清空历史") { clearHistory() })
+                items.add(DeleteHistoryItem { clearHistory() })
             }
             recyclerView.withItems(items)
             val intent = Intent(this, SearchResultActivity::class.java)
-            intent.putExtra("search_content", text)
+            intent.putExtra(SEARCH_CONTENT_KEY, text)
             editText.setText("")
             startActivity(intent)
         }
@@ -84,4 +88,3 @@ class SearchActivity : AppCompatActivity() {
         recyclerView.withItems(items)
     }
 }
-

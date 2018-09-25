@@ -25,7 +25,7 @@ class YellowPageActivity : AppCompatActivity() {
     lateinit var toolbar: Toolbar
     private val groupArray = arrayOf("我的收藏", "校级部门", "院级部门", "其他部门")
 
-    lateinit var swipeRefreshLayout: SwipeRefreshLayout
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     lateinit var itemManager: ItemManager
     lateinit var recyclerView: RecyclerView
     lateinit var searchIcon: ImageView
@@ -88,5 +88,4 @@ class YellowPageActivity : AppCompatActivity() {
             }
         }
     }
-
 }
