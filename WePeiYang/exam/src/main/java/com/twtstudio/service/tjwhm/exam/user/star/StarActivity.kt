@@ -79,4 +79,5 @@ class StarActivity : AppCompatActivity() {
         }
         statusBarView?.setBackgroundResource(R.drawable.exam_statusbar_gradient)
     }
+
 }

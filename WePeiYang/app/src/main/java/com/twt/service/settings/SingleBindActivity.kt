@@ -59,7 +59,7 @@ class TjuBindFragment2 : Fragment() {
         button = view.findViewById(R.id.btn_tju_bind)
         numEdit = view.findViewById(R.id.tju_num)
         passwordEdit = view.findViewById(R.id.tju_password)
-        button.setOnClickListener({
+        button.setOnClickListener { _ ->
             RealBindAndDropOutService
                     .bindTju(numEdit.text.toString(), passwordEdit.text.toString())
                     .subscribeOn(Schedulers.io())
@@ -71,7 +71,7 @@ class TjuBindFragment2 : Fragment() {
                             activity.finish()
                         }
                     }, RxErrorHandler())
-        })
+        }
         return view
     }
 
@@ -93,7 +93,7 @@ class LibBindFragment2 : Fragment() {
         }
         libPasswordEdit = view.findViewById(R.id.lib_password)
         button = view.findViewById(R.id.btn_lib_bind)
-        button.setOnClickListener({
+        button.setOnClickListener {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 TjuLibProvider(context).bindLibrary({ integer ->
                     when (integer) {
@@ -107,7 +107,7 @@ class LibBindFragment2 : Fragment() {
                     authSelfLiveData.refresh(CacheIndicator.REMOTE)
                 }, libPasswordEdit.text.toString().takeIf(String::isNotEmpty) ?: "000000")
             }
-        })
+        }
         return view
     }
 }

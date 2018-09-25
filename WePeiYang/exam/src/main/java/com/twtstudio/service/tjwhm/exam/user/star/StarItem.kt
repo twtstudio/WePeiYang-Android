@@ -63,7 +63,6 @@ class StarItem(val context: Context, val quesData: Que, val starOrWrong: Int) : 
                     }
                 }
 
-
                 if (item.quesData.is_collected != 1) {
                     ivStar?.setImageResource(R.drawable.exam_ic_star_blank)
                 }

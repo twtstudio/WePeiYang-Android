@@ -2,6 +2,7 @@ package com.twtstudio.service.tjwhm.exam.user
 
 import com.twt.wepeiyang.commons.experimental.cache.*
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
+import com.twt.wepeiyang.commons.experimental.network.CommonBody
 import com.twt.wepeiyang.commons.experimental.network.ServiceFactoryForExam
 import com.twtstudio.service.tjwhm.exam.commons.BaseBean
 import kotlinx.coroutines.experimental.Deferred
@@ -12,7 +13,7 @@ import retrofit2.http.*
 
 interface UserService {
     @GET("student")
-    fun getUserInfo(): Deferred<ExamUserViewModel>
+    fun getUserInfo(): Deferred<CommonBody<UserBean>>
 
     @GET("special/getQues/{star_or_wrong}")
     fun getCollections(@Path("star_or_wrong") starOrWrong: String): Deferred<StarViewModel>
@@ -28,8 +29,8 @@ interface UserService {
     companion object : UserService by ServiceFactoryForExam()
 }
 
-val examUserLocalCache = Cache.hawk<ExamUserViewModel>("ExamUser")
-val examUserRemoteCache = Cache.from(UserService.Companion::getUserInfo)
+val examUserLocalCache = Cache.hawk<UserBean>("ExamUser")
+val examUserRemoteCache = Cache.from(UserService.Companion::getUserInfo).map(CommonBody<UserBean>::data)
 val examUserLiveData = RefreshableLiveData.use(examUserLocalCache, examUserRemoteCache)
 
 fun getCollections(starOrWrong: String, callback: suspend (RefreshState<StarViewModel>) -> Unit) =
@@ -59,38 +60,33 @@ fun deleteCollection(starOrWrong: String, list: MutableList<MultipartBody.Part>,
             }
         }
 
-data class ExamUserViewModel(
-        val status: Int,
-        val message: String,
-        val data: Data
-)
 
-data class Data(
+data class UserBean(
         val id: Int,
         val twt_name: String,
         val user_number: String,
-        val type: String,
         val avatar_url: String,
-        val title: Title,
-        val ques_message: QuesMessage,
-        val history: History
+        val title_name: String,
+        val done_count: String,
+        val error_count: String,
+        val course_count: Int,
+        val collect_count: String,
+        val current_course_id: String,
+        val current_course_name: String,
+        val current_course_done_count: Int,
+        val current_ques_type: String,
+        val current_course_ques_count: String,
+        val current_course_index: Int,
+        val current_course_write_string: String,
+        val current_course_error_option: Any,
+        val latest_course_name: String,
+        val latest_course_timestamp: Int,
+        val qSelect: List<QSelect>
 )
 
-data class QuesMessage(
-        val done_number: String,
-        val error_number: String,
-        val remember_course_number: Int,
-        val remember_number: String,
-        val collect_number: String
-)
-
-data class Title(
-        val title_name: String
-)
-
-data class History(
-        val status: Int,
-        val history: List<OneHistoryData>
+data class QSelect(
+        val id: Int,
+        val course_name: String
 )
 
 data class OneHistoryData(

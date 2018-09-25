@@ -39,13 +39,6 @@ class HistoryActivity : AppCompatActivity() {
         rvHistory = findViewById(R.id.rv_history)
         rvHistory.layoutManager = LinearLayoutManager(this@HistoryActivity)
 
-        examUserLiveData.bindNonNull(this@HistoryActivity) {
-            rvHistory.withItems {
-                for (i in 0 until it.data.history.history.size) {
-                    historyItem(this@HistoryActivity, it.data.history.history[i])
-                }
-            }
-        }
     }
 
     private fun initStatusBar() {

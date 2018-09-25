@@ -1,5 +1,6 @@
 package com.twtstudio.service.tjwhm.exam.user
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -13,6 +14,7 @@ import com.bumptech.glide.Glide
 import com.twt.wepeiyang.commons.experimental.cache.CacheIndicator
 import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
 import com.twtstudio.service.tjwhm.exam.R
+import com.twtstudio.service.tjwhm.exam.commons.BaseBean
 import com.twtstudio.service.tjwhm.exam.user.history.HistoryActivity
 import com.twtstudio.service.tjwhm.exam.user.star.StarActivity
 import de.hdodenhof.circleimageview.CircleImageView
@@ -34,7 +36,6 @@ class UserFragment : Fragment() {
     private lateinit var llUserWrong: LinearLayout
     private lateinit var llUserStar: LinearLayout
 
-    private var hasHistory = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.exam_fragment_user, container, false)
@@ -49,10 +50,8 @@ class UserFragment : Fragment() {
         llUserWrong = view.findViewById(R.id.ll_user_wrong)
         llUserStar = view.findViewById(R.id.ll_user_star)
 
-
         llUserHistory.setOnClickListener {
-            if (hasHistory) context?.startActivity(Intent(context, HistoryActivity::class.java))
-            else this@UserFragment.context?.let { it1 -> Toasty.info(it1, "你还没有刷题历史哦", Toast.LENGTH_SHORT).show() }
+            context?.startActivity(Intent(context, HistoryActivity::class.java))
         }
 
         llUserStar.setOnClickListener {
@@ -70,20 +69,20 @@ class UserFragment : Fragment() {
         return view
     }
 
-    private fun bindExamUserData(examUserViewModel: ExamUserViewModel) {
-        examUserViewModel.data.let {
+    @SuppressLint("SetTextI18n")
+    private fun bindExamUserData(userBean: UserBean) {
+        userBean.let {
             Glide.with(context)
                     .load(it.avatar_url)
                     .into(civAvatar)
+
             tvUserName.text = it.twt_name
-            tvUserTitle.text = it.title.title_name
+            tvUserTitle.text = it.title_name
 
-            val problemNum = it.ques_message.done_number.toInt() + it.ques_message.remember_number.toInt()
-            tvProblemsNum.text = problemNum.toString()
-            tvProblemsRadio.text = ((it.ques_message.error_number.toDouble() / problemNum.toDouble()).toString() + "000").substring(2, 4) + "%"
-            tvLessonsNum.text = it.ques_message.remember_course_number.toString()
+            tvProblemsNum.text = it.done_count
+            tvProblemsRadio.text = "${it.error_count.toDouble() / it.done_count.toDouble()}%"
+            tvLessonsNum.text = it.course_count.toString()
 
-            hasHistory = it.history.status == 1
         }
     }
 }

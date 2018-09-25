@@ -5,7 +5,6 @@ package com.twtstudio.service.tjwhm.exam.commons
  * Happy coding!
  */
 
-
 data class BaseBean<T>(
         val error_code: Int,
         val message: String,

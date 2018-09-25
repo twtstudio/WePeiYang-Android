@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="8dp"
+    android:layout_marginStart="10dp"
+    android:layout_marginTop="8dp">
+
+    <TextView
+        android:id="@+id/tv_quick_select_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/exam_blue_tv_with_boundary_small"
+        android:ellipsize="end"
+        android:maxEms="11"
+        android:singleLine="true"
+        android:textColor="@color/examBlueText"
+        android:textSize="12sp"
+        tools:text="爱因斯坦与牛顿" />
+</android.support.constraint.ConstraintLayout>
