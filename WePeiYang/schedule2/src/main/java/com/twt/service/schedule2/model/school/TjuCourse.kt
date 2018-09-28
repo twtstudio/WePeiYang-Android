@@ -51,7 +51,7 @@ suspend fun TjuCourseApi.Companion.refresh(mustRefresh: Boolean = false): Classt
                 SchedulePref.termStart = it.termStart
             }
         }
-        // 到这里的话 缓存不应该是空 如果真的是空我们只能抛出异常（我去你妈的吧）
+        // 到这里的话 缓存不应该是空 如果真的是空我们只能抛出异常
         return tjuCourseCache.get().await() ?: throw IllegalStateException("课程表缓存系统问题。")
     }
 }

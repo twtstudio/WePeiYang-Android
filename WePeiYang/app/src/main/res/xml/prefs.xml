@@ -68,11 +68,11 @@
         <Preference
             android:key="@string/pref_dev_talking"
             android:summary="微北洋开发血泪史"
-            android:title="开发者说"/>
+            android:title="开发者说" />
         <Preference
             android:key="@string/pref_feedback"
             android:summary="到移动客户端版块，说出你的故事"
-            android:title="意见反馈"/>
+            android:title="意见反馈" />
         <Preference
             android:key="@string/pref_add_group"
             android:summary="加入微北洋用户大佬群一起讨论问题"

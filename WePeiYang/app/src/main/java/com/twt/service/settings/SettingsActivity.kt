@@ -13,12 +13,14 @@ import android.view.MenuItem
 import android.widget.Toast
 import com.tencent.bugly.crashreport.CrashReport
 import com.twt.service.R
+import com.twt.service.WePeiYangApp
 import com.twt.service.update.UpdateManager
 import com.twt.wepeiyang.commons.cache.CacheProvider
 import com.twt.wepeiyang.commons.experimental.cache.CacheIndicator.REMOTE
 import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
 import com.twt.wepeiyang.commons.network.RxErrorHandler
 import com.twtstudio.retrox.auth.api.authSelfLiveData
+import com.twtstudio.retrox.auth.view.LoginActivity
 import com.twtstudio.retrox.bike.service.BikeServiceProvider
 import com.twtstudio.retrox.tjulibrary.provider.TjuLibProvider
 import es.dmoral.toasty.Toasty
@@ -37,7 +39,7 @@ class SettingsActivity : CAppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_setting)
 
-        setSupportActionBar(findViewById<Toolbar>(R.id.toolbar))
+        setSupportActionBar(findViewById(R.id.toolbar))
         title = "偏好设置"
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
