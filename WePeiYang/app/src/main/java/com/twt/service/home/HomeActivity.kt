@@ -39,7 +39,7 @@ class HomeActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_home)
+        setContentView(R.layout.lb_activity_home)
         EasyPermissions.requestPermissions(this, "微北洋需要外部存储来提供必要的缓存", 0, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
 
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT

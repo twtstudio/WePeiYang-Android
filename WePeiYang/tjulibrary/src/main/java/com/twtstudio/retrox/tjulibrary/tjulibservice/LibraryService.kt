@@ -9,8 +9,8 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 
 interface LibraryApi {
-    @GET("v1/library/book/borrowRank/getBookImg/{id}")
-    fun getImg(@Path("id") id : Int) : Deferred<Img>
+    @GET("v1/library/book/getBookImg/{id}")
+    fun getImg(@Path("id") id : String) : Deferred<Img>
 
     @GET("v1/library/book/borrowRank/{time}")
     fun getRank(@Path("time") time : Int) : Deferred<List<RankList>>
@@ -168,10 +168,10 @@ data class Images(
 )
 
 data class SearchBook(
+        var bookID: String,
         var booktitle : String,
         var bookartist : String,
         var bookpublish : String,
-        var img : String,
         var number : String
 )
 
