@@ -1,150 +1,174 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="326dp"
+
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="362dp"
     android:layout_gravity="center_horizontal"
+    app:cardUseCompatPadding="true"
+
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <android.support.constraint.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <android.support.v7.widget.CardView
+        android:layout_width="327dp"
+        android:layout_height="362dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:cardUseCompatPadding="true"
 
-        <ImageView
-            android:layout_width="183dp"
-            android:layout_height="183dp"
-            android:id="@+id/home_image"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="13dp"
-            />
+        >
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/home_bookname"
-            android:textSize="40px"
-            app:layout_constraintTop_toBottomOf="@+id/home_image"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="书名 "
-            android:textSize="40px"
-            app:layout_constraintTop_toBottomOf="@+id/home_image"
-            app:layout_constraintLeft_toLeftOf="parent"
-            android:layout_marginLeft="32dp"/>
-        <ImageView
-            android:layout_width="18dp"
-            android:layout_height="18dp"
-            android:src="@drawable/peo"
-            android:id="@+id/img_writer"
-            app:layout_constraintTop_toBottomOf="@+id/home_bookname"
-            app:layout_constraintLeft_toLeftOf="parent"
-            android:layout_marginTop="35dp"
-            android:layout_marginLeft="25dp"/>
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="  作者"
-            android:textSize="13dp"
-            android:id="@+id/writer"
-            app:layout_constraintTop_toTopOf="@+id/img_writer"
-            app:layout_constraintLeft_toRightOf="@+id/img_writer"
-            />
+            <ImageView
+                android:layout_width="183dp"
+                android:layout_height="183dp"
+                android:id="@+id/home_image"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="13dp"
+                />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/detail_writer"
-            app:layout_constraintTop_toTopOf="@+id/img_writer"
-            app:layout_constraintLeft_toRightOf="@+id/writer"
-            />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/home_bookname"
+                android:textSize="40px"
+                app:layout_constraintTop_toBottomOf="@+id/home_image"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="书名 "
+                android:textSize="40px"
+                app:layout_constraintTop_toBottomOf="@+id/home_image"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginLeft="32dp"/>
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:src="@drawable/peo"
+                android:id="@+id/img_writer"
+                app:layout_constraintTop_toBottomOf="@+id/home_bookname"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginTop="35dp"
+                android:layout_marginLeft="25dp"/>
 
-        <ImageView
-            android:layout_width="18dp"
-            android:layout_height="18dp"
-            android:src="@drawable/time"
-            android:id="@+id/img_time"
-            app:layout_constraintTop_toTopOf="@+id/img_writer"
-            app:layout_constraintLeft_toLeftOf="parent"
-            android:layout_marginLeft="168dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="  借阅时间"
-            android:textSize="13dp"
-            android:id="@+id/jieyue"
-            app:layout_constraintTop_toTopOf="@+id/img_writer"
-            app:layout_constraintLeft_toRightOf="@+id/img_time"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/borrow"
-            app:layout_constraintTop_toTopOf="@+id/img_writer"
-            app:layout_constraintLeft_toRightOf="@+id/jieyue"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="  作者  "
+                android:textSize="13dp"
+                android:id="@+id/writer"
+                app:layout_constraintTop_toTopOf="@+id/img_writer"
+                app:layout_constraintLeft_toRightOf="@+id/img_writer"
+                />
 
-        <ImageView
-            android:layout_width="18dp"
-            android:layout_height="18dp"
-            android:src="@drawable/book"
-            android:id="@+id/img_book"
-            app:layout_constraintLeft_toLeftOf="@+id/img_writer"
-            app:layout_constraintTop_toBottomOf="@+id/img_writer"
-            android:layout_marginTop="35dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="  索书号"
-            android:textSize="13dp"
-            android:id="@+id/publish"
-            app:layout_constraintLeft_toRightOf="@+id/img_book"
-            app:layout_constraintTop_toTopOf="@+id/img_book"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="13dp"
-            android:id="@+id/detail_publish"
-            app:layout_constraintLeft_toRightOf="@+id/publish"
-            app:layout_constraintTop_toTopOf="@+id/publish"
-            />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/detail_writer"
+                app:layout_constraintTop_toTopOf="@+id/img_writer"
+                app:layout_constraintLeft_toRightOf="@+id/writer"
+                />
 
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:src="@drawable/time"
+                android:id="@+id/img_time"
+                app:layout_constraintTop_toTopOf="@+id/img_writer"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginLeft="168dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="  借阅时间  "
+                android:textSize="13dp"
+                android:id="@+id/jieyue"
+                app:layout_constraintTop_toTopOf="@+id/img_writer"
+                app:layout_constraintLeft_toRightOf="@+id/img_time"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/borrow"
+                app:layout_constraintTop_toTopOf="@+id/img_writer"
+                app:layout_constraintLeft_toRightOf="@+id/jieyue"/>
 
-        <ImageView
-            android:layout_width="18dp"
-            android:layout_height="18dp"
-            android:src="@drawable/time"
-            android:id="@+id/img_lefttime"
-            app:layout_constraintLeft_toLeftOf="@+id/img_book"
-            app:layout_constraintTop_toTopOf="@+id/img_book"
-            android:layout_marginLeft="143dp"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="  剩余时间"
-            android:textSize="13dp"
-            app:layout_constraintTop_toTopOf="@+id/img_lefttime"
-            app:layout_constraintLeft_toRightOf="@+id/img_lefttime"
-            android:id="@+id/left"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/detail_left"
-            app:layout_constraintTop_toTopOf="@+id/img_lefttime"
-            app:layout_constraintLeft_toRightOf="@+id/left"
-            />
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:src="@drawable/book"
+                android:id="@+id/img_book"
+                app:layout_constraintLeft_toLeftOf="@+id/img_writer"
+                app:layout_constraintTop_toBottomOf="@+id/img_writer"
+                android:layout_marginTop="35dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="  索书号  "
+                android:textSize="13dp"
+                android:id="@+id/publish"
+                app:layout_constraintLeft_toRightOf="@+id/img_book"
+                app:layout_constraintTop_toTopOf="@+id/img_book"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="13dp"
+                android:id="@+id/detail_publish"
+                app:layout_constraintLeft_toRightOf="@+id/publish"
+                app:layout_constraintTop_toTopOf="@+id/publish"
+                />
 
 
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:src="@drawable/time"
+                android:id="@+id/img_lefttime"
+                app:layout_constraintLeft_toLeftOf="@+id/img_book"
+                app:layout_constraintTop_toTopOf="@+id/img_book"
+                android:layout_marginLeft="143dp"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="  剩余时间  "
+                android:textSize="13dp"
+                app:layout_constraintTop_toTopOf="@+id/img_lefttime"
+                app:layout_constraintLeft_toRightOf="@+id/img_lefttime"
+                android:id="@+id/left"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/detail_left"
+                app:layout_constraintTop_toTopOf="@+id/img_lefttime"
+                app:layout_constraintLeft_toRightOf="@+id/left"
+                />
 
-    </android.support.constraint.ConstraintLayout>
+
+
+        </android.support.constraint.ConstraintLayout>
 
 
 
 
 
 
-</android.support.v7.widget.CardView>
+    </android.support.v7.widget.CardView>
+
+
+
+
+
+
+
+
+
+
+
+</android.support.constraint.ConstraintLayout>

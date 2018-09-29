@@ -13,6 +13,7 @@ import com.twt.wepeiyang.commons.ui.rec.HomeItem
 import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemController
 import com.twtstudio.retrox.bike.bike.ui.main.BikeActivity
+import com.twtstudio.retrox.tjulibrary.view.HomeActivity
 import com.twtstudio.tjliqy.party.ui.home.PartyActivity
 import org.jetbrains.anko.*
 
@@ -55,6 +56,10 @@ class OtherItem : Item {
                 }
                 addItem("失物招领", "失物招领") {
                     it.context.startActivity<WaterFallActivity>()
+                }
+
+                addItem("test","test"){
+                    it.context.startActivity<HomeActivity>()
                 }
             }
         }

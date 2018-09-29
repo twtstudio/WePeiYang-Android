@@ -59,11 +59,17 @@ class BookFragment : Fragment() {
         bookPublish = view.findViewById(R.id.detail_publish)
         bookBorrow = view.findViewById(R.id.borrow)
         bookLeft = view.findViewById(R.id.detail_left)
+        if (bookname.length>10){
+            bookname=bookname.substring(0,10)+"..."
+        }
         bookName.text = bookname
+        if (bookauthor.length>8){
+            bookauthor = bookauthor.substring(0,8)+"..."
+        }
         bookArtist.text = bookauthor
         bookPublish.text = bookpublish
         bookBorrow.text = bookborrow
-        bookLeft.text = bookleft
+        bookLeft.text = bookleft + "天"
         Glide.with(activity)
                 .load(bookimg)
                 .asBitmap()

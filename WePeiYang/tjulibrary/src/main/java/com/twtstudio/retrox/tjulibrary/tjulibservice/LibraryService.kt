@@ -9,7 +9,7 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 
 interface LibraryApi {
-    @GET("v1/library/book/borrowRank/getBookImg/{id}")
+    @GET("v1/library/book/getBookImg/{id}")
     fun getImg(@Path("id") id : String) : Deferred<Img>
 
     @GET("v1/library/book/borrowRank/{time}")

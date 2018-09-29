@@ -1,6 +1,7 @@
 package com.twtstudio.retrox.tjulibrary.home
 
 import android.arch.lifecycle.LifecycleOwner
+import android.content.Intent
 import android.graphics.Color
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
@@ -17,11 +18,9 @@ import com.twt.wepeiyang.commons.ui.view.ColorCircleView
 import com.twtstudio.retrox.tjulibrary.R
 import com.twtstudio.retrox.tjulibrary.provider.Book
 import com.twtstudio.retrox.tjulibrary.view.BookPopupWindow
+import com.twtstudio.retrox.tjulibrary.view.HomeActivity
 import kotlinx.android.synthetic.main.item_library_book_new.view.*
-import org.jetbrains.anko.dip
-import org.jetbrains.anko.horizontalPadding
-import org.jetbrains.anko.layoutInflater
-import org.jetbrains.anko.matchParent
+import org.jetbrains.anko.*
 
 class LibraryHomeItem(val owner: LifecycleOwner) : Item {
     companion object Controller : ItemController {
@@ -39,7 +38,7 @@ class LibraryHomeItem(val owner: LifecycleOwner) : Item {
             }
             homeItem.apply {
                 itemName.text = "LIBRARY"
-                itemContent.visibility = View.INVISIBLE
+                itemContent.visibility = View.VISIBLE
                 setContentView(view)
             }
             return MyViewHolder(homeItem.rootView, homeItem, view)
@@ -48,6 +47,10 @@ class LibraryHomeItem(val owner: LifecycleOwner) : Item {
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: Item) {
             holder as MyViewHolder
             item as LibraryHomeItem
+            holder.homeItem.apply {
+                itemContent.setOnClickListener { it.context.startActivity<HomeActivity>() }
+            }
+
             val itemManager = (holder.recyclerView.adapter as ItemAdapter).itemManager
             LibraryViewModel.infoLiveData.refresh(CacheIndicator.LOCAL, CacheIndicator.REMOTE)
             LibraryViewModel.infoLiveData.bindNonNull(item.owner) { info ->
