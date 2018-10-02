@@ -64,7 +64,7 @@ class BookItemComponent(val lifecycleOwner: LifecycleOwner, itemView: View) : Re
                     act?.apply {
                         Alerter.create(this)
                                 .setTitle("还书提醒")
-                                .setBackgroundColor(R.color.assist_color_2)
+                                .setBackgroundColorRes(R.color.assist_color_2)
                                 .setText(book.title + "剩余时间不足5天，请尽快还书")
                                 .show()
                     }
@@ -75,6 +75,5 @@ class BookItemComponent(val lifecycleOwner: LifecycleOwner, itemView: View) : Re
         }
         cover.setImageDrawable(drawable)
     }
-
 
 }

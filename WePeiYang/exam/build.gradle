@@ -6,8 +6,6 @@ android {
     compileSdkVersion versions.compileSdk
     buildToolsVersion versions.buildTools
 
-
-
     defaultConfig {
 
         minSdkVersion versions.minSdk
@@ -44,8 +42,8 @@ dependencies {
         annotationProcessor dependenciesMap[it]
     }
 
-    implementation 'com.githang:status-bar-compat:latest.integration'
-    implementation 'de.hdodenhof:circleimageview:2.1.0'
+    implementation 'com.githang:status-bar-compat:0.7'
+//    implementation 'de.hdodenhof:circleimageview:2.1.0'
 
 }
 kotlin {

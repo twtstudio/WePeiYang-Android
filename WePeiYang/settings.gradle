@@ -1,6 +1,13 @@
-//include  ':party'
-//include /*':preapp',*/ ':lib',  ':gpa', ':schedule', ':fragmentation', ':bike', ':one', ':news', ':tjulibrary', ':classroomcore', ':fellowsearch', ':yellowpages', ':classroomquery'
-//include ':auth', ':mvvmKit', ':commons', ':lostfound', ':lfapp','classroom','network','circleprogress'
-//include ':devpeiyang'
-include ':app', ':commons', ':tjulibrary', ':schedule', ':gpa2', ':auth', ':bike', ':tjunet', ':schedule2', ':party', ':vpbs', ':news2', ':exam'
-//include ':network'
+include ':app',
+        ':auth',
+        ':bike',
+        ':commons',
+        ':exam',
+        ':gpa2',
+        ':news2',
+        ':party',
+        ':schedule',
+        ':schedule2',
+        ':tjulibrary',
+        ':tjunet',
+        ':vpbs'

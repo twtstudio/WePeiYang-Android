@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit
 /**
  * A service factory can create network service easily using retrofit.
  *
- * Due to @property[BASE_URL] not including a version code, *version codes* should be included in
+ * Due to @property [BASE_URL] not including a version code, *version codes* should be included in
  * service interfaces.
  *
  * @sample RealAuthService
@@ -35,9 +35,9 @@ object ServiceFactory {
             .addInterceptor(AuthorizationInterceptor.forTrusted)
             .authenticator(RealAuthenticator)
             .retryOnConnectionFailure(false)
-            .connectTimeout(20,TimeUnit.SECONDS)
-            .readTimeout(20,TimeUnit.SECONDS)
-            .writeTimeout(20,TimeUnit.SECONDS)
+            .connectTimeout(20, TimeUnit.SECONDS)
+            .readTimeout(20, TimeUnit.SECONDS)
+            .writeTimeout(20, TimeUnit.SECONDS)
             .addNetworkInterceptor(loggingInterceptor)
             .addNetworkInterceptor(CodeCorrectionInterceptor.forTrusted)
             .build()
@@ -56,7 +56,7 @@ object ServiceFactory {
 /**
  * A common wrapper class of respond data from open.twtstudio.com/api.
  *
- * @see AuthService
+ * @see com.twt.wepeiyang.commons.experimental.service.AuthService
  */
 data class CommonBody<out T>(
         val error_code: Int,
