@@ -8,7 +8,8 @@ import com.twt.service.schedule2.extensions.mergeCourses
 class MergedClassTableProvider(
         val tjuClassTable: AbsClasstableProvider,
         val auditClassTable: AbsClasstableProvider,
-        val customCourseTable: AbsClasstableProvider
+        val customCourseTable: AbsClasstableProvider,
+        val duplicateCourseTable: AbsClasstableProvider
 ) : AbsClasstableProvider {
 
     private val classColors = intArrayOf(
@@ -34,6 +35,7 @@ class MergedClassTableProvider(
                 tjuClassTable.getCourseByDay(unixTime),
                 auditClassTable.getCourseByDay(unixTime),
                 customCourseTable.getCourseByDay(unixTime),
+                duplicateCourseTable.getCourseByDay(unixTime),
                 dayUnix = unixTime
         )
     }
@@ -59,6 +61,7 @@ class MergedClassTableProvider(
             addAll(tjuClassTable.getCourseByWeek(week))
             addAll(auditClassTable.getCourseByWeek(week))
             addAll(customCourseTable.getCourseByWeek(week))
+            addAll(duplicateCourseTable.getCourseByWeek(week))
             // 其他getCourseByWeek的时候就已经做了refresh操作
         }
         val size = classColors.size

@@ -8,7 +8,7 @@ buildscript {
                 compileSdk  : 27,
                 buildTools  : '27.0.3',
                 support     : '27.1.1',
-                kotlin      : '1.2.41',
+                kotlin      : '1.2.71',
                 anko        : '0.10.4',
                 butterknife : '8.5.1',
                 retrolambda : '3.7.0',
@@ -78,7 +78,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.2.0-alpha14'
+        classpath 'com.android.tools.build:gradle:3.2.0'
         classpath "me.tatarka:gradle-retrolambda:${versions.retrolambda}"
         classpath "com.jakewharton:butterknife-gradle-plugin:${versions.butterknife}"
 //        classpath 'com.antfortune.freeline:gradle:0.8.9-SNAPSHOT'
