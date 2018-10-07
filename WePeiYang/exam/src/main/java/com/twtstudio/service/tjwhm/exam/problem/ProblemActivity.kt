@@ -8,7 +8,6 @@ import android.os.Looper
 import android.support.constraint.ConstraintLayout
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewPager
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -29,6 +28,7 @@ class ProblemActivity : AppCompatActivity() {
 
         const val LESSON_ID_KEY = "class_id_key"
 
+        const val PROBLEM_TYPE_KEY = "problem_type_key"
         const val SINGLE_CHOICE = 0
         const val MULTI_CHOICE = 1
         const val TRUE_FALSE = 2
@@ -38,6 +38,7 @@ class ProblemActivity : AppCompatActivity() {
 
     var mode: Int = 0
     var lessonID: Int = 0
+    var problemType: Int = 0
     var time: Int = 0
     var currentFragmentIndex = 0
 
@@ -84,40 +85,25 @@ class ProblemActivity : AppCompatActivity() {
         val scroller = FixedSpeedScroller(vpProblem.context)
         field.set(vpProblem, scroller)
 
-        if (mode == CONTEST) {
-            tvLeft.visibility = View.GONE
-            tvRight.visibility = View.GONE
-        } else if (mode == READ_AND_PRACTICE) {
-            initTvLeftRight()
-        }
-
-
-        if (mode == READ_AND_PRACTICE) {
-            tvUpload.visibility = View.GONE
-            getProblemIDs(SINGLE_CHOICE)
-        } else if (mode == CONTEST) {
-            tvLeft.visibility = View.GONE
-            tvRight.visibility = View.GONE
-            tvUpload.visibility = View.VISIBLE
-            tvUpload.setOnClickListener {
-                uploadResult()
+        when (mode) {
+            READ_AND_PRACTICE -> {
+                initTvLeftRight()
+                tvUpload.visibility = View.GONE
+                problemType = intent.getIntExtra(PROBLEM_TYPE_KEY, 0)
+                startReadAndPracticeNetwork()
             }
-            getTestProblems(lessonID.toString()) {
-                when (it) {
-                    is RefreshState.Failure -> Toasty.error(this@ProblemActivity, "网络错误", Toast.LENGTH_SHORT).show()
-                    is RefreshState.Success -> {
-                        problemForTest = it.message
-                        for (i in 0 until it.message.data.size) {
-                            pagerAdapter.add(i, it.message.data[i])
-                        }
-                        size += it.message.data.size
-                        vpProblem.adapter = pagerAdapter
-                        time = it.message.time
-                        repeat(size) {
-                            problemIndexData.add(ProblemIndex.NONE)
-                        }
+
+            CONTEST -> {
+                tvLeft.visibility = View.GONE
+                tvRight.visibility = View.GONE
+
+                tvUpload.apply {
+                    visibility = View.VISIBLE
+                    setOnClickListener {
+                        uploadResult()
                     }
                 }
+                startContestNetwork()
             }
         }
 
@@ -127,9 +113,80 @@ class ProblemActivity : AppCompatActivity() {
             override fun onPageSelected(position: Int) {
                 currentFragmentIndex = position
             }
-
         })
     }
+
+    private fun initTvLeftRight() {
+        tvLeft.apply {
+            setBackgroundResource(R.drawable.exam_selected_left)
+            setTextColor(ContextCompat.getColor(this@ProblemActivity, R.color.examBlueText))
+            setOnClickListener {
+                if (!isLeft) {
+                    setBackgroundResource(R.drawable.exam_selected_left)
+                    setTextColor(ContextCompat.getColor(this@ProblemActivity, R.color.examBlueText))
+                    tvRight.setBackgroundResource(R.drawable.exam_not_selected_right)
+                    tvRight.setTextColor(ContextCompat.getColor(this@ProblemActivity, R.color.white_color))
+                    isLeft = true
+                    pagerAdapter.changeMode(vpProblem.currentItem)
+                    if (vpProblem.currentItem != 0) pagerAdapter.changeMode(vpProblem.currentItem - 1)
+                    if (vpProblem.currentItem != size - 1) pagerAdapter.changeMode(vpProblem.currentItem + 1)
+                    pagerAdapter.notifyDataSetChanged()
+                }
+            }
+        }
+
+        tvRight.setOnClickListener {
+            if (isLeft) {
+                tvRight.setBackgroundResource(R.drawable.exam_selected_right)
+                tvRight.setTextColor(ContextCompat.getColor(this@ProblemActivity, R.color.examBlueText))
+                tvLeft.setBackgroundResource(R.drawable.exam_not_selected_left)
+                tvLeft.setTextColor(ContextCompat.getColor(this@ProblemActivity, R.color.white_color))
+                isLeft = false
+                pagerAdapter.changeMode(vpProblem.currentItem)
+                if (vpProblem.currentItem != 0) pagerAdapter.changeMode(vpProblem.currentItem - 1)
+                if (vpProblem.currentItem != size - 1) pagerAdapter.changeMode(vpProblem.currentItem + 1)
+                pagerAdapter.notifyDataSetChanged()
+            }
+        }
+    }
+
+    private fun startReadAndPracticeNetwork() {
+        getIDs(lessonID.toString(), problemType.toString()) {
+            when (it) {
+                is RefreshState.Failure -> Toasty.error(this, "网络错误", Toast.LENGTH_SHORT).show()
+                is RefreshState.Success -> {
+                    it.message.data!!.apply {
+                        for (i in 0 until this.size)
+                            pagerAdapter.add(i, problemType, ProblemFragment.READ_MODE, this[i])
+
+                        vpProblem.adapter = pagerAdapter
+                        Toasty.success(this@ProblemActivity, "加载成功", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        }
+    }
+
+    private fun startContestNetwork() {
+        getTestProblems(lessonID.toString()) {
+            when (it) {
+                is RefreshState.Failure -> Toasty.error(this@ProblemActivity, "网络错误", Toast.LENGTH_SHORT).show()
+                is RefreshState.Success -> {
+                    problemForTest = it.message
+                    for (i in 0 until it.message.data.size) {
+                        pagerAdapter.add(i, it.message.data[i])
+                    }
+                    size += it.message.data.size
+                    vpProblem.adapter = pagerAdapter
+                    time = it.message.time
+                    repeat(size) {
+                        problemIndexData.add(ProblemIndex.NONE)
+                    }
+                }
+            }
+        }
+    }
+
 
     fun storeResult(fragmentIndex: Int, updateResultViewModel: UpdateResultViewModel, problemIndex: ProblemIndex, scrollPage: Boolean) {
         userSelections[fragmentIndex] = updateResultViewModel
@@ -164,68 +221,6 @@ class ProblemActivity : AppCompatActivity() {
                     this@ProblemActivity.startActivity(intent)
                     finish()
                 }
-            }
-        }
-    }
-
-    private fun getProblemIDs(problemType: Int) {
-        getIDs(lessonID.toString(), problemType.toString()) {
-            when (it) {
-                is RefreshState.Failure -> Toasty.error(this@ProblemActivity, "网络错误", Toast.LENGTH_SHORT).show()
-                is RefreshState.Success -> {
-                    if (it.message.status == 1) {
-                        for (i in 0 until it.message.ques.size) {
-                            pagerAdapter.add(i, problemType, ProblemFragment.READ_MODE, it.message.ques[i].id)
-                        }
-                        size += it.message.ques.size
-                    }
-
-                    when (problemType) {
-                        SINGLE_CHOICE -> getProblemIDs(TRUE_FALSE)
-                        TRUE_FALSE -> getProblemIDs(MULTI_CHOICE)
-                        MULTI_CHOICE -> {
-                            vpProblem.adapter = pagerAdapter
-                            Toasty.success(this@ProblemActivity, "加载成功", Toast.LENGTH_SHORT).show()
-                            repeat(size) {
-                                problemIndexData.add(ProblemIndex.NONE)
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    private fun initTvLeftRight() {
-        tvLeft.apply {
-            setBackgroundResource(R.drawable.exam_selected_left)
-            setTextColor(ContextCompat.getColor(this@ProblemActivity, R.color.examBlueText))
-            setOnClickListener {
-                if (!isLeft) {
-                    setBackgroundResource(R.drawable.exam_selected_left)
-                    setTextColor(ContextCompat.getColor(this@ProblemActivity, R.color.examBlueText))
-                    tvRight.setBackgroundResource(R.drawable.exam_not_selected_right)
-                    tvRight.setTextColor(ContextCompat.getColor(this@ProblemActivity, R.color.white_color))
-                    isLeft = true
-                    pagerAdapter.changeMode(vpProblem.currentItem)
-                    if (vpProblem.currentItem != 0) pagerAdapter.changeMode(vpProblem.currentItem - 1)
-                    if (vpProblem.currentItem != size - 1) pagerAdapter.changeMode(vpProblem.currentItem + 1)
-                    pagerAdapter.notifyDataSetChanged()
-                }
-            }
-        }
-
-        tvRight.setOnClickListener {
-            if (isLeft) {
-                tvRight.setBackgroundResource(R.drawable.exam_selected_right)
-                tvRight.setTextColor(ContextCompat.getColor(this@ProblemActivity, R.color.examBlueText))
-                tvLeft.setBackgroundResource(R.drawable.exam_not_selected_left)
-                tvLeft.setTextColor(ContextCompat.getColor(this@ProblemActivity, R.color.white_color))
-                isLeft = false
-                pagerAdapter.changeMode(vpProblem.currentItem)
-                if (vpProblem.currentItem != 0) pagerAdapter.changeMode(vpProblem.currentItem - 1)
-                if (vpProblem.currentItem != size - 1) pagerAdapter.changeMode(vpProblem.currentItem + 1)
-                pagerAdapter.notifyDataSetChanged()
             }
         }
     }

@@ -1,8 +1,5 @@
 apply plugin: 'com.android.application'
-//apply plugin: 'me.tatarka.retrolambda'
-//apply plugin: 'com.antfortune.freeline'
 apply plugin: 'kotlin-android'
-//apply plugin: 'fastdex.app'
 
 Properties pro = new Properties()
 pro.load(project.rootProject.file('local.properties').newDataInputStream())

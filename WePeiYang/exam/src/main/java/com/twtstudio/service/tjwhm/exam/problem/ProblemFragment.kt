@@ -1,12 +1,14 @@
 package com.twtstudio.service.tjwhm.exam.problem
 
 import android.annotation.SuppressLint
+import android.os.Build
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.Html
+import android.text.Html.FROM_HTML_MODE_LEGACY
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -154,32 +156,35 @@ class ProblemFragment : Fragment() {
         return view
     }
 
+    @SuppressLint("SetTextI18n")
     private fun getProblemData() {
         if (mode == PRACTICE_MODE || mode == READ_MODE) {
             getProblem(mActivity.lessonID.toString(), type.toString(), problemID.toString()) {
                 when (it) {
                     is RefreshState.Failure -> context?.let { it1 -> Toasty.error(it1, "网络错误", Toast.LENGTH_SHORT).show() }
                     is RefreshState.Success -> {
-                        tvType.text = it.message.ques.type.toProblemType()
-                        tvTitle.text = Html.fromHtml(it.message.ques.content)
-
-                        @SuppressLint("SetTextI18n")
-                        tvAnswer.text = "答案：${it.message.ques.answer}"
-                        answerFromRemote = it.message.ques.answer
-                        rvSelections.withItems {
-                            if (mode == PRACTICE_MODE) {
-                                for (i in 0 until it.message.ques.option.size) {
-                                    selectionItem(this@ProblemFragment, i.toSelectionIndex(), it.message.ques.option[i], SelectionItem.NONE)
-                                }
-                            } else if (mode == READ_MODE) {
-                                for (i in 0 until it.message.ques.option.size) {
-                                    if (i.toSelectionIndex() == it.message.ques.answer)
-                                        selectionItem(this@ProblemFragment, i.toSelectionIndex(), it.message.ques.option[i], SelectionItem.TRUE)
-                                    else selectionItem(this@ProblemFragment, i.toSelectionIndex(), it.message.ques.option[i], SelectionItem.NONE)
+                        // 在 service 中已经判断 data 不为空
+                        it.message.data!!.apply {
+                            tvType.text = this.ques_type.toProblemType()
+                            tvTitle.text = Html.fromHtml(this.content)
+                            tvAnswer.text = "答案：${this.answer}"
+                            answerFromRemote = this.answer
+                            rvSelections.withItems {
+                                if (mode == PRACTICE_MODE) {
+                                    for (i in 0 until this@apply.option.size) {
+                                        selectionItem(this@ProblemFragment, i.toSelectionIndex(), this@apply.option[i], SelectionItem.NONE)
+                                    }
+                                } else if (mode == READ_MODE) {
+                                    for (i in 0 until it.message.data!!.option.size) {
+                                        if (i.toSelectionIndex() == it.message.data!!.answer)
+                                            selectionItem(this@ProblemFragment, i.toSelectionIndex(), this@apply.option[i], SelectionItem.TRUE)
+                                        else selectionItem(this@ProblemFragment, i.toSelectionIndex(), this@apply.option[i], SelectionItem.NONE)
+                                    }
                                 }
                             }
                         }
-                        if (it.message.ques.is_collected == 1) {
+
+                        if (it.message.data!!.is_collected == 1) {
                             ivStar.apply {
                                 setImageResource(R.drawable.exam_ic_star_filled)
                                 setOnClickListener { _ ->

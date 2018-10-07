@@ -87,6 +87,8 @@ class LessonItem(val context: Context, val lessonBean: LessonBean) : Item {
                 intent.putExtra(ProblemActivity.LESSON_ID_KEY, item.lessonBean.course_id)
                 tvEnterPractice?.setOnClickListener {
                     intent.putExtra(ProblemActivity.MODE_KEY, ProblemActivity.READ_AND_PRACTICE)
+                    // todo 选择题型
+                    intent.putExtra(ProblemActivity.PROBLEM_TYPE_KEY, ProblemActivity.SINGLE_CHOICE)
                     item.context.startActivity(intent)
                 }
 

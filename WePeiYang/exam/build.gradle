@@ -43,7 +43,6 @@ dependencies {
     }
 
     implementation 'com.githang:status-bar-compat:0.7'
-//    implementation 'de.hdodenhof:circleimageview:2.1.0'
 
 }
 kotlin {
