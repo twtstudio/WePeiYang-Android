@@ -27,11 +27,22 @@ interface LibraryApi {
     @GET("v1/library/user/info")
     fun getUser() : Deferred<CommonBody<Info>>
 
+    @GET("v1/library/book/getISBN/{id}")
+    fun getISBN(@Path("id") id: Int): Deferred<IsbnNumber>
+
     @GET("v1/library/renew/{barcode}")
     fun renewBook(@Path("barcode") barcode: String): Deferred<CommonBody<List<RenewResult>>>
 
 
     companion object : LibraryApi by ServiceFactory()
+}
+
+
+interface DoubanApi {
+    @GET("v2/book/isbn/{id}")
+    fun getBookContent(@Path ("id") id : String): Deferred<BookContent>
+
+    companion object : DoubanApi by DoubanFactory()
 }
 
 
@@ -108,10 +119,60 @@ data class Holding(
     val loan: Any
 )
 
+data class IsbnNumber(
+        val id: String,
+        val isbn: String
+)
+
 data class RenewResult(
         var barcode: String,
         var error: Int,
         var message: String
+)
+
+data class BookContent(
+        val rating: Rating,
+        val subtitle: String,
+        val author: List<String>,
+        val pubdate: String,
+        val tags: List<Tag>,
+        val origin_title: String,
+        val image: String,
+        val binding: String,
+        val translator: List<String>,
+        val catalog: String,
+        val pages: String,
+        val images: Images,
+        val alt: String,
+        val id: String,
+        val publisher: String,
+        val isbn10: String,
+        val isbn13: String,
+        val title: String,
+        val url: String,
+        val alt_title: String,
+        val author_intro: String,
+        val summary: String,
+        val price: String
+)
+
+data class Rating(
+        val max: Int,
+        val numRaters: Int,
+        val average: String,
+        val min: Int
+)
+
+data class Tag(
+        val count: Int,
+        val name: String,
+        val title: String
+)
+
+data class Images(
+        val small: String,
+        val large: String,
+        val medium: String
 )
 
 
