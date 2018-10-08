@@ -10,7 +10,7 @@ print(pro.getProperty('keyAlias'))
 
 android {
     compileSdkVersion versions.compileSdk
-    buildToolsVersion versions.buildTools
+    buildToolsVersion '28.0.1'
 
     defaultConfig {
         minSdkVersion versions.minSdk
@@ -93,8 +93,8 @@ android {
     }
 
     compileOptions {
-        targetCompatibility 1.8
-        sourceCompatibility 1.8
+        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_1_8
     }
 
     packagingOptions {
@@ -112,30 +112,25 @@ kotlin {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     testImplementation 'junit:junit:4.12'
-    testImplementation "org.mockito:mockito-core:2.16.0"
+    testImplementation 'org.mockito:mockito-core:2.16.0'
     androidTestImplementation('com.android.support.test.espresso:espresso-core:3.0.1', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-
-    [':auth', ':bike', ':commons', ':gpa2', ':schedule', ':tjulibrary', ':tjunet', ':party', ':schedule2', ':news2',':lostfound2'].each {
+    [':auth', ':bike', ':commons', ':gpa2', ':schedule', ':tjulibrary', ':tjunet', ':party', ':schedule2', ':news2', ':lostfound2'].each {
         implementation project(it)
     }
     implementation 'com.twt.service:fragmentation:1.1.0'
-
     [*supportLibraries, 'constraint-layout', 'multidex', *archLibraries, 'kotlin-stdlib', 'butterknife', 'anko'].each {
         implementation dependenciesMap[it]
     }
     ['lifecycle-compiler', 'butterknife-compiler'].each {
         annotationProcessor dependenciesMap[it]
     }
-
     implementation 'com.github.mukeshsolanki:MarkdownView-Android:1.0.3'
     implementation 'com.prolificinteractive:material-calendarview:1.4.3'
     implementation 'agency.tango.android:material-intro-screen:0.0.5'
     implementation 'com.github.shem8:material-login:2.1.1'
     implementation 'de.hdodenhof:circleimageview:2.1.0'
-
     debugImplementation 'me.ele:uetool:1.0.12'
     releaseImplementation 'me.ele:uetool-no-op:1.0.12'
-
 }
