@@ -74,6 +74,7 @@ object TotalCourseManager {
             }
 
             val duplicateCourseProvider = async(CommonPool) {
+                DuplicateCourseManager.clearDuplicateCache()
                 tjuClassTableProvider.await()
                 DuplicateCourseManager.getDuplicateCourseProvider()
             }

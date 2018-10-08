@@ -1,8 +1,6 @@
 package com.twt.service.schedule2.model
 
 import android.util.Log
-import com.tencent.bugly.Bugly
-import com.twt.service.schedule2.R
 import com.twt.service.schedule2.extensions.*
 import com.twt.service.schedule2.model.duplicate.DuplicateCourseManager
 
@@ -22,7 +20,7 @@ class CommonClassTable(val classtable: Classtable) : AbsClasstableProvider {
                 it.copy()
             }.onEach { course ->
                 val result = course.arrange.groupBy {
-                    it.week + it.day.toString()
+                    it.day.toString()
                 }.filter {
                     it.value.size > 1 // 看看是不是超了
                 }
@@ -32,7 +30,7 @@ class CommonClassTable(val classtable: Classtable) : AbsClasstableProvider {
                     val finalList  = list.filter { it.day == day }.toMutableList()
                     finalList.trim(day)
                     if (finalList.size > 1) {
-                        finalList.removeAt(0)
+                        finalList.removeAt(0) // 第一个就是那个本来的 干掉它 然后把剩下的放在Duplicate表里面
                     }
                     val duplicateCourse = course.copy(arrangeBackup = finalList).apply {
                         refresh()

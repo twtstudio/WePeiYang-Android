@@ -65,12 +65,14 @@ data class Course(val coursetype: String = "",
         if (weekInt < week.start || weekInt > week.end) {
             return false
         }
+        
+        val arrangeTemp = if (arrange.size > 1) mutableListOf(arrange[0]) else arrange // 一天多节课的问题 只看第一个
 
-        if (arrange.any { it.week == "单周" } && !weekInt.even) return true
+        if (arrangeTemp.any { it.week == "单周" } && !weekInt.even) return true
 
-        if (arrange.any { it.week == "双周" } && weekInt.even) return true
+        if (arrangeTemp.any { it.week == "双周" } && weekInt.even) return true
 
-        if (arrange.any { it.week == "单双周" }) return true
+        if (arrangeTemp.any { it.week == "单双周" }) return true
 
         return false
     }
