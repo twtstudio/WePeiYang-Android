@@ -19,7 +19,8 @@ import org.jetbrains.anko.textColor
 
 class RankItem(val id : String,val urlOfPic: String, val titleString: String,
                val borrowNumber: String, val publishName: String,
-               val context: Context, val rankNumber: Int, val isborrow : Boolean) : Item {
+               val rankFragment: RankFragment, val rankNumber: Int, val isborrow : Boolean) : Item {
+
     private companion object Controller : ItemController {
         override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
             val inflater = parent.context.layoutInflater
@@ -28,7 +29,7 @@ class RankItem(val id : String,val urlOfPic: String, val titleString: String,
             return RankItemViewHolder(view)
         }
 
-        @SuppressLint("SetTextI18n")
+
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: Item) {
             holder as RankItemViewHolder
             item as RankItem
@@ -48,7 +49,7 @@ class RankItem(val id : String,val urlOfPic: String, val titleString: String,
                     textColor = Color.parseColor(colorString)
                 }
                 borrow_mark.visibility = View.GONE
-                Glide.with(item.context)
+                Glide.with(item.rankFragment)
                         .load(item.urlOfPic)
                         .into(statistics_img)
 
@@ -60,8 +61,8 @@ class RankItem(val id : String,val urlOfPic: String, val titleString: String,
                 bundle.putString("id", item.id)
                 val intent = Intent()
                 intent.putExtras(bundle)
-                intent.setClass(item.context, DetialAcitvity::class.java)
-                item.context.startActivity(intent)
+                intent.setClass(item.rankFragment.context, DetailActivity::class.java)
+                item.rankFragment.startActivity(intent)
             }
         }
     }
@@ -81,4 +82,4 @@ class RankItem(val id : String,val urlOfPic: String, val titleString: String,
 
 fun MutableList<Item>.setRankItem(id : String,urlOfPic: String, titleString: String,
                                   borrowNumber: String, publishName: String,
-                                  context: Context, rankNumber: Int, isborrow: Boolean) = add(RankItem(id, urlOfPic, titleString, borrowNumber, publishName, context, rankNumber, isborrow))
+                                  rankFragment: RankFragment, rankNumber: Int, isborrow: Boolean) = add(RankItem(id, urlOfPic, titleString, borrowNumber, publishName, rankFragment, rankNumber, isborrow))

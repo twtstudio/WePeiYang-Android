@@ -1,7 +1,8 @@
 package com.twtstudio.retrox.tjulibrary.view
 
-import android.app.Fragment
+import android.support.v4.app.Fragment
 import android.os.Bundle
+import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -22,25 +23,26 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class RankFragment : Fragment() {
 
-    var selectedRank = 666
+    private var selectedRank = 666
     lateinit var recyclerView: RecyclerView
-    lateinit var itemManager: ItemManager
-    lateinit var loadMore : TextView
-    var startNum = 0
-    var endNum = 9
-    lateinit var rankList : List<RankList>
-    val urlList = ArrayList<String>(0)
+    private lateinit var itemManager: ItemManager
+    private lateinit var loadMore : TextView
+    private var startNum = 0
+    private var endNum = 9
+    private lateinit var rankList : List<RankList>
+    private val urlList = ArrayList<String>(0)
 
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view: View = inflater!!.inflate(R.layout.rank_page, container, false)
-        loadMore = view.findViewById<TextView>(R.id.load_more)
+        loadMore = view.findViewById(R.id.load_more)
         val total = view.findViewById<TextView>(R.id.total)
         val month = view.findViewById<TextView>(R.id.month)
         val week = view.findViewById<TextView>(R.id.week)
-         recyclerView = view.findViewById(R.id.rank_list)
-        itemManager = ItemManager()
-        recyclerView.adapter = ItemAdapter(itemManager)
+        recyclerView = view.findViewById(R.id.rank_list)
+        recyclerView.layoutManager = LinearLayoutManager(activity)
+//        itemManager = ItemManager()
+//        recyclerView.adapter = ItemAdapter(itemManager)
         setRecyclerView()
 
         total.setOnClickListener {
@@ -69,17 +71,19 @@ class RankFragment : Fragment() {
         return view
     }
 
-    fun setRecyclerView() {
+    private fun setRecyclerView() {
+
+        recyclerView.removeAllViews()
         launch(UI + QuietCoroutineExceptionHandler) {
             rankList = LibraryApi.getRank(selectedRank).await()
 
             for (i in startNum..endNum) {
-                val imgbean = LibraryApi.getImg(rankList[i].bookID.toInt()).await()
+                val imgbean = LibraryApi.getImg(rankList[i].bookID).await()
                 urlList.add(imgbean.img_url)
             }
             recyclerView.withItems {
                 for (i in startNum..endNum) {
-                    setRankItem(rankList[i].bookID, urlList[i], rankList[i].bookName, rankList[i].borrowNum, rankList[i].publisher, this@RankFragment.activity, i + 1, false)
+                    setRankItem(rankList[i].bookID, urlList[i], rankList[i].bookName, rankList[i].borrowNum, rankList[i].publisher, this@RankFragment, i + 1, false)
                 }
             }
         }
@@ -92,9 +96,9 @@ class RankFragment : Fragment() {
                 rankList = LibraryApi.getRank(selectedRank).await()
 
                 for (i in startNum..endNum) {
-                    val imgbean = LibraryApi.getImg(rankList[i].bookID.toInt()).await()
+                    val imgbean = LibraryApi.getImg(rankList[i].bookID).await()
 
-                    itemManager.add(RankItem(rankList[i].bookID, imgbean.img_url, rankList[i].bookName, rankList[i].borrowNum, rankList[i].publisher, this@RankFragment.activity, i + 1, false))
+                    itemManager.add(RankItem(rankList[i].bookID, imgbean.img_url, rankList[i].bookName, rankList[i].borrowNum, rankList[i].publisher, this@RankFragment, i + 1, false))
                 }
             }
         }

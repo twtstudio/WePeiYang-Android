@@ -27,7 +27,7 @@ interface LibraryApi {
     @GET("v1/library/user/info")
     fun getUser() : Deferred<CommonBody<Info>>
 
-    @GET(" /book/getISBN/{id}")
+    @GET("v1/library/book/getISBN/{id}")
     fun getISBN(@Path("id") id: Int): Deferred<IsbnNumber>
 
     @GET("v1/library/renew/{barcode}")
@@ -37,12 +37,14 @@ interface LibraryApi {
     companion object : LibraryApi by ServiceFactory()
 }
 
+
 interface DoubanApi {
     @GET("v2/book/isbn/{id}")
-    fun getBookContent(@Path ("id") id : Int): Deferred<BookContent>
+    fun getBookContent(@Path ("id") id : String): Deferred<BookContent>
 
     companion object : DoubanApi by DoubanFactory()
 }
+
 
 data class Img(
         val id: Int,
@@ -129,43 +131,50 @@ data class RenewResult(
 )
 
 data class BookContent(
-    val rating: Rating,
-    val subtitle: String,
-    val author: List<String>,
-    val pubdate: String,
-    val tags: List<Any>,
-    val origin_title: String,
-    val image: String,
-    val binding: String,
-    val translator: List<Any>,
-    val catalog: String,
-    val pages: String,
-    val images: Images,
-    val alt: String,
-    val id: String,
-    val publisher: String,
-    val isbn10: String,
-    val isbn13: String,
-    val title: String,
-    val url: String,
-    val alt_title: String,
-    val author_intro: String,
-    val summary: String,
-    val price: String
+        val rating: Rating,
+        val subtitle: String,
+        val author: List<String>,
+        val pubdate: String,
+        val tags: List<Tag>,
+        val origin_title: String,
+        val image: String,
+        val binding: String,
+        val translator: List<String>,
+        val catalog: String,
+        val pages: String,
+        val images: Images,
+        val alt: String,
+        val id: String,
+        val publisher: String,
+        val isbn10: String,
+        val isbn13: String,
+        val title: String,
+        val url: String,
+        val alt_title: String,
+        val author_intro: String,
+        val summary: String,
+        val price: String
 )
 
 data class Rating(
-    val max: Int,
-    val numRaters: Int,
-    val average: String,
-    val min: Int
+        val max: Int,
+        val numRaters: Int,
+        val average: String,
+        val min: Int
+)
+
+data class Tag(
+        val count: Int,
+        val name: String,
+        val title: String
 )
 
 data class Images(
-    val small: String,
-    val large: String,
-    val medium: String
+        val small: String,
+        val large: String,
+        val medium: String
 )
+
 
 data class SearchBook(
         var bookID: String,
