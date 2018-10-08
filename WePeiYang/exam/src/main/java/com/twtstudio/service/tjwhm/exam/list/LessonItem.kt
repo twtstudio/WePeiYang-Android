@@ -1,5 +1,6 @@
 package com.twtstudio.service.tjwhm.exam.list
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.support.v7.widget.RecyclerView
@@ -7,19 +8,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
-import com.twt.wepeiyang.commons.experimental.cache.RefreshState
 import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemController
 import com.twtstudio.service.tjwhm.exam.R
 import com.twtstudio.service.tjwhm.exam.commons.GoneAnimatorListener
 import com.twtstudio.service.tjwhm.exam.commons.NoneAnimatorListener
 import com.twtstudio.service.tjwhm.exam.problem.ProblemActivity
-import com.twtstudio.service.tjwhm.exam.problem.getLessonInfo
-import es.dmoral.toasty.Toasty
 import org.jetbrains.anko.layoutInflater
 
-class LessonItem(val context: Context, val lessonBean: LessonBean) : Item {
+class LessonItem(val activity: ListActivity, val lessonBean: LessonBean) : Item {
     override val controller: ItemController
         get() = Controller
 
@@ -35,66 +32,68 @@ class LessonItem(val context: Context, val lessonBean: LessonBean) : Item {
                 tvEnterPractice?.visibility = View.GONE
                 tvTitle?.text = item.lessonBean.course_name
                 itemView.setOnClickListener { _ ->
-                    getLessonInfo(item.lessonBean.course_id.toString()) {
-                        when (it) {
-                            is RefreshState.Failure -> Toasty.error(item.context, "网络错误", Toast.LENGTH_SHORT).show()
-                            is RefreshState.Success -> {
-                                if (it.message.data.ques_num == "0") Toasty.info(item.context, "该课程暂无题目", Toast.LENGTH_SHORT).show()
-                                else {
-                                    if (isExpand) {
-                                        tvEnterContest?.apply {
-                                            animate()?.translationY(-16f)
-                                                    ?.alpha(0f)
-                                                    ?.setDuration(200)
-                                                    ?.setListener(GoneAnimatorListener(this))
-                                        }
-                                        tvEnterPractice?.apply {
-                                            animate()?.translationY(-16f)
-                                                    ?.alpha(0f)
-                                                    ?.setListener(GoneAnimatorListener(this))
-                                        }
-                                        ivExpend?.animate()?.rotation(0f)
-                                        isExpand = false
-
-                                    } else {
-                                        tvEnterContest?.apply {
-                                            visibility = View.VISIBLE
-                                            alpha = 0f
-                                            animate()?.translationYBy(16f)
-                                                    ?.alpha(1f)
-                                                    ?.setDuration(200)
-                                                    ?.setListener(NoneAnimatorListener)
-                                        }
-                                        tvEnterPractice?.apply {
-                                            visibility = View.VISIBLE
-                                            alpha = 0f
-                                            animate()?.translationYBy(16f)
-                                                    ?.alpha(1f)
-                                                    ?.setDuration(200)
-                                                    ?.setListener(NoneAnimatorListener)
-                                        }
-                                        ivExpend?.animate()
-                                                ?.rotation(90.0f)
-                                        isExpand = true
-                                    }
-                                }
-                            }
+                    //                    getLessonInfo(item.lessonBean.course_id.toString()) {
+//                        when (it) {
+//                            is RefreshState.Failure -> Toasty.error(item.activity, "网络错误", Toast.LENGTH_SHORT).show()
+//                            is RefreshState.Success -> {
+//                                if (it.message.data.ques_num == "0") Toasty.info(item.activity, "该课程暂无题目", Toast.LENGTH_SHORT).show()
+//                                else {
+                    if (isExpand) {
+                        tvEnterContest?.apply {
+                            animate()?.translationY(-16f)
+                                    ?.alpha(0f)
+                                    ?.setDuration(200)
+                                    ?.setListener(GoneAnimatorListener(this))
                         }
+                        tvEnterPractice?.apply {
+                            animate()?.translationY(-16f)
+                                    ?.alpha(0f)
+                                    ?.setListener(GoneAnimatorListener(this))
+                        }
+                        ivExpend?.animate()?.rotation(0f)
+                        isExpand = false
+
+                    } else {
+                        tvEnterContest?.apply {
+                            visibility = View.VISIBLE
+                            alpha = 0f
+                            animate()?.translationYBy(16f)
+                                    ?.alpha(1f)
+                                    ?.setDuration(200)
+                                    ?.setListener(NoneAnimatorListener)
+                        }
+                        tvEnterPractice?.apply {
+                            visibility = View.VISIBLE
+                            alpha = 0f
+                            animate()?.translationYBy(16f)
+                                    ?.alpha(1f)
+                                    ?.setDuration(200)
+                                    ?.setListener(NoneAnimatorListener)
+                        }
+                        ivExpend?.animate()
+                                ?.rotation(90.0f)
+                        isExpand = true
                     }
                 }
+//                            }
+//                        }
+//                    }
 
-                val intent = Intent(item.context, ProblemActivity::class.java)
+
+                val intent = Intent(item.activity, ProblemActivity::class.java)
                 intent.putExtra(ProblemActivity.LESSON_ID_KEY, item.lessonBean.course_id)
                 tvEnterPractice?.setOnClickListener {
-                    intent.putExtra(ProblemActivity.MODE_KEY, ProblemActivity.READ_AND_PRACTICE)
-                    // todo 选择题型
-                    intent.putExtra(ProblemActivity.PROBLEM_TYPE_KEY, ProblemActivity.SINGLE_CHOICE)
-                    item.context.startActivity(intent)
+                    val popup = TypeSelectPopup(item.activity, Pair(tvEnterPractice.x, tvEnterPractice.y), item.lessonBean.course_id)
+                    popup.show()
+//                    intent.putExtra(ProblemActivity.MODE_KEY, ProblemActivity.READ_AND_PRACTICE)
+//                    // todo 选择题型
+//                    intent.putExtra(ProblemActivity.PROBLEM_TYPE_KEY, ProblemActivity.SINGLE_CHOICE)
+//                    item.activity.startActivity(intent)
                 }
 
                 tvEnterContest?.setOnClickListener {
                     intent.putExtra(ProblemActivity.MODE_KEY, ProblemActivity.CONTEST)
-                    item.context.startActivity(intent)
+                    item.activity.startActivity(intent)
                 }
             }
         }
@@ -109,4 +108,4 @@ class LessonItem(val context: Context, val lessonBean: LessonBean) : Item {
     }
 }
 
-fun MutableList<Item>.lessonItem(context: Context, lessonBean: LessonBean) = add(LessonItem(context, lessonBean))
+fun MutableList<Item>.lessonItem(activity: ListActivity, lessonBean: LessonBean) = add(LessonItem(activity, lessonBean))

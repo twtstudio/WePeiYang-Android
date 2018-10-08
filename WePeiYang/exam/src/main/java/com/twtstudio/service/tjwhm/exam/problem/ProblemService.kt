@@ -11,8 +11,8 @@ import retrofit2.http.*
 import java.io.Serializable
 
 interface ProblemService {
-    @GET("course/{lesson_id}")
-    fun getLessonInfo(@Path("lesson_id") lessonID: String): Deferred<LessonInfoViewModel>
+//    @GET("course/{lesson_id}")
+//    fun getLessonInfo(@Path("lesson_id") lessonID: String): Deferred<LessonInfoViewModel>
 
     @GET("remember/getAllId/{lesson_id}/{type}")
     fun getIDs(@Path("lesson_id") lessonID: String, @Path("type") type: String): Deferred<CommonBody<List<Int>>>
@@ -29,15 +29,15 @@ interface ProblemService {
     companion object : ProblemService by ServiceFactoryForExam()
 }
 
-fun getLessonInfo(lessonID: String, callback: suspend (RefreshState<LessonInfoViewModel>) -> Unit) =
-        launch(UI) {
-            ProblemService.getLessonInfo(lessonID).awaitAndHandle {
-                callback(RefreshState.Failure(it))
-            }?.let {
-                //                if (it.error_code == 0)
-                callback(RefreshState.Success(it))
-            }
-        }
+//fun getLessonInfo(lessonID: String, callback: suspend (RefreshState<LessonInfoViewModel>) -> Unit) =
+//        launch(UI) {
+//            ProblemService.getLessonInfo(lessonID).awaitAndHandle {
+//                callback(RefreshState.Failure(it))
+//            }?.let {
+//                //                if (it.error_code == 0)
+//                callback(RefreshState.Success(it))
+//            }
+//        }
 
 fun getIDs(lessonID: String, type: String, callback: suspend (RefreshState<CommonBody<List<Int>>>) -> Unit) =
         launch(UI) {

@@ -50,7 +50,7 @@ class ListActivity : AppCompatActivity() {
         etSearch.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 if (s.toString().isNotEmpty() && s.toString() != "") {
-                    findClass(s.toString()) {
+                    findLesson(s.toString()) {
                         when (it) {
                             is RefreshState.Failure -> Toasty.error(this@ListActivity, "网络错误", Toast.LENGTH_SHORT).show()
                             is RefreshState.Success -> {

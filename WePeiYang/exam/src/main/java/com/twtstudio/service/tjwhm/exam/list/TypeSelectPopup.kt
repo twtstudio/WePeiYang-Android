@@ -1,4 +1,4 @@
-package com.twtstudio.service.tjwhm.exam.problem
+package com.twtstudio.service.tjwhm.exam.list
 
 import android.animation.Animator
 import android.animation.AnimatorSet
@@ -6,28 +6,27 @@ import android.animation.ObjectAnimator
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleOwner
 import android.arch.lifecycle.LifecycleRegistry
-import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.FrameLayout
+import android.widget.TextView
+import com.twt.wepeiyang.commons.experimental.cache.RefreshState
 import com.twt.wepeiyang.commons.ui.blur.BlurPopupWindow
-import com.twt.wepeiyang.commons.ui.rec.withItems
 import com.twtstudio.service.tjwhm.exam.R
+import es.dmoral.toasty.Toasty
 import org.jetbrains.anko.dip
 import org.jetbrains.anko.horizontalMargin
 import org.jetbrains.anko.layoutInflater
 import org.jetbrains.anko.verticalMargin
 
 /**
- * Created by tjwhm@TWTStudio at 12:31 AM, 2018/8/16.
+ * Created by tjwhm@TWTStudio at 7:54 PM, 2018/10/8.
  * Happy coding!
  */
 
-class ProblemIndexPopupWindow(private val activity: ProblemActivity, private val startXY: Pair<Float, Float>, private val indexData: List<ProblemIndex>) : BlurPopupWindow(activity), LifecycleOwner {
+class TypeSelectPopup(private val activity: ListActivity, private val startXY: Pair<Float, Float>, private val lessonID: Int) : BlurPopupWindow(activity), LifecycleOwner {
 
     private val lifecycleRegistry = LifecycleRegistry(this)
 
@@ -35,26 +34,45 @@ class ProblemIndexPopupWindow(private val activity: ProblemActivity, private val
 
     lateinit var view: View
 
-    lateinit var rvProblemIndex: RecyclerView
+    lateinit var tvSingleNum: TextView
+    lateinit var tvSingleEnter: TextView
+    lateinit var tvMultiNum: TextView
+    lateinit var tvMultiEnter: TextView
+    lateinit var tvTfNum: TextView
+    lateinit var tvTfEnter: TextView
 
     val density = activity.resources.displayMetrics.density
 
     override fun createContentView(parent: ViewGroup): View = parent.context.layoutInflater
-            .inflate(R.layout.exam_popup_problem_index, parent, false).apply {
+            .inflate(R.layout.exam_popup_type_select, parent, false).apply {
                 layoutParams = (layoutParams as FrameLayout.LayoutParams).apply {
                     gravity = Gravity.CENTER
                     horizontalMargin = dip(50)
-                    verticalMargin = dip(130)
+//                    verticalMargin = dip(130)
                 }
-            }.also { view = it }
+            }.also {
+                view = it
+                tvSingleNum = view.findViewById(R.id.tv_type_select_single_num)
+                tvSingleEnter = view.findViewById(R.id.tv_type_select_single_enter)
+                tvMultiNum = view.findViewById(R.id.tv_type_select_multi_num)
+                tvMultiEnter = view.findViewById(R.id.tv_type_select_multi_enter)
+                tvTfNum = view.findViewById(R.id.tv_type_select_tf_num)
+                tvTfEnter = view.findViewById(R.id.tv_type_select_tf_enter)
+            }
 
     override fun onShow() {
-        rvProblemIndex = view.findViewById(R.id.rv_popup_problem_index)
         lifecycleRegistry.markState(Lifecycle.State.STARTED)
-        rvProblemIndex.layoutManager = GridLayoutManager(activity, 5)
-        rvProblemIndex.withItems {
-            repeat(indexData.size) {
-                problemIndexItem(activity, it, indexData[it])
+
+        getLessonInfo(lessonID.toString()) {
+            when (it) {
+                is RefreshState.Failure -> Toasty.error(activity, "网络错误").show()
+                is RefreshState.Success -> {
+                    it.message.data!!.apply {
+                        tvSingleNum.text = "$single_done_count/$single_num"
+                        tvMultiNum.text = "$multi_done_count/$multi_num"
+                        tvTfNum.text = "$decide_done_count/$decide_num"
+                    }
+                }
             }
         }
     }
@@ -70,10 +88,9 @@ class ProblemIndexPopupWindow(private val activity: ProblemActivity, private val
         val scaleX = ObjectAnimator.ofFloat(view, "scaleX", 0f, 1f)
         val scaleY = ObjectAnimator.ofFloat(view, "scaleY", 0f, 1f)
         val x = ObjectAnimator.ofFloat(view, "X", startXY.first, 50f * density)
-        val y = ObjectAnimator.ofFloat(view, "Y", startXY.second, 130f * density)
         animSet.duration = 200L
         animSet.interpolator = AccelerateDecelerateInterpolator()
-        animSet.play(scaleX).with(scaleY).with(alphaAnim).with(x).with(y)
+        animSet.play(scaleX).with(scaleY).with(alphaAnim).with(x)
         return animSet
     }
 
@@ -83,10 +100,9 @@ class ProblemIndexPopupWindow(private val activity: ProblemActivity, private val
         val scaleX = ObjectAnimator.ofFloat(view, "scaleX", 1f, 0f)
         val scaleY = ObjectAnimator.ofFloat(view, "scaleY", 1f, 0f)
         val x = ObjectAnimator.ofFloat(view, "X", 50f * density, startXY.first)
-        val y = ObjectAnimator.ofFloat(view, "Y", 130f * density, startXY.second)
         animSet.duration = 200L
         animSet.interpolator = AccelerateDecelerateInterpolator()
-        animSet.play(scaleX).with(scaleY).with(contentAnim).with(x).with(y)
+        animSet.play(scaleX).with(scaleY).with(contentAnim).with(x)
         return animSet
     }
 
@@ -100,15 +116,4 @@ class ProblemIndexPopupWindow(private val activity: ProblemActivity, private val
         }
     }
 
-}
-
-sealed class ProblemIndex {
-    object NONE : ProblemIndex()
-    object TRUE : ProblemIndex()
-    object WRONG : ProblemIndex()
-    sealed class NOW : ProblemIndex() {
-        object NONE : NOW()
-        object TRUE : NOW()
-        object WRONG : NOW()
-    }
 }

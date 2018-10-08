@@ -49,7 +49,7 @@ class ProblemActivity : AppCompatActivity() {
     private lateinit var tvRight: TextView
     private lateinit var vpProblem: ViewPager
     private lateinit var tvUpload: TextView
-    private lateinit var problemIndexPopupWindow: ProblemIndexPopupWindow
+    private lateinit var problemIndexPopup: ProblemIndexPopup
     private val pagerAdapter = ProblemPagerAdapter(supportFragmentManager)
 
     private var statusBarView: View? = null
@@ -239,13 +239,13 @@ class ProblemActivity : AppCompatActivity() {
             is ProblemIndex.TRUE -> problemIndexData[fragmentIndex] = ProblemIndex.NOW.TRUE
             is ProblemIndex.WRONG -> problemIndexData[fragmentIndex] = ProblemIndex.NOW.WRONG
         }
-        problemIndexPopupWindow = ProblemIndexPopupWindow(this@ProblemActivity, Pair(llX, llY), problemIndexData)
-        problemIndexPopupWindow.show()
+        problemIndexPopup = ProblemIndexPopup(this@ProblemActivity, Pair(llX, llY), problemIndexData)
+        problemIndexPopup.show()
     }
 
     fun onProblemIndexItemClick(index: Int) {
         if (index in 0 until size) vpProblem.currentItem = index
-        problemIndexPopupWindow.dismiss()
+        problemIndexPopup.dismiss()
     }
 
     private fun initStatusBar() {
