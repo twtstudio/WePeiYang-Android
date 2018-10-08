@@ -96,8 +96,10 @@ class ExamHomeFragment : Fragment(), View.OnClickListener {
     @SuppressLint("SetTextI18n")
     private fun bindHomeData(userBean: UserBean) {
         rvQuick.withItems {
-            repeat(userBean.qSelect.size) {
-                context?.let { it1 -> quickSelectItem(it1, userBean.qSelect[it].id, userBean.qSelect[it].course_name) }
+            repeat(userBean.qSelect.size) { index ->
+                context?.let {
+                    this@ExamHomeFragment.activity?.let { it1 -> quickSelectItem(it1, userBean.qSelect[index].id, userBean.qSelect[index].course_name) }
+                }
             }
         }
         tvNews.text = "${userBean.latest_course_name}已更新"

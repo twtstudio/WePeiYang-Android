@@ -4,6 +4,7 @@ import android.animation.Animator
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleOwner
 import android.arch.lifecycle.LifecycleRegistry
@@ -28,7 +29,7 @@ import org.jetbrains.anko.layoutInflater
  * Happy coding!
  */
 
-class TypeSelectPopup(private val activity: ListActivity, private val startXY: Pair<Float, Float>, private val lessonID: Int) : BlurPopupWindow(activity), LifecycleOwner {
+class TypeSelectPopup(private val activity: Activity, private val startXY: Pair<Float, Float>, private val lessonID: Int) : BlurPopupWindow(activity), LifecycleOwner {
 
     private val lifecycleRegistry = LifecycleRegistry(this)
 
@@ -112,7 +113,6 @@ class TypeSelectPopup(private val activity: ListActivity, private val startXY: P
                         }
                         when {
                             decide_num.toInt() == 0 -> {
-                                val s = decide_num
                                 tvTfNum.text = "无"
                                 tvTfEnter.visibility = View.GONE
                             }

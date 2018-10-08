@@ -1,5 +1,6 @@
 package com.twtstudio.service.tjwhm.exam.home
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.support.v7.widget.RecyclerView
@@ -10,6 +11,7 @@ import android.widget.Toast
 import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemController
 import com.twtstudio.service.tjwhm.exam.R
+import com.twtstudio.service.tjwhm.exam.list.TypeSelectPopup
 import es.dmoral.toasty.Toasty
 import org.jetbrains.anko.layoutInflater
 
@@ -18,7 +20,7 @@ import org.jetbrains.anko.layoutInflater
  * Happy coding!
  */
 
-class QuickSelectItem(val context: Context, val courseID: Int, val courseName: String) : Item {
+class QuickSelectItem(val activity: Activity, val courseID: Int, val courseName: String) : Item {
     override val controller: ItemController
         get() = Controller
 
@@ -32,7 +34,8 @@ class QuickSelectItem(val context: Context, val courseID: Int, val courseName: S
             holder.apply {
                 tvName?.text = item.courseName
                 itemView.setOnClickListener {
-                    Toasty.info(item.context, item.courseID.toString(), Toast.LENGTH_SHORT).show()
+                    val popup = TypeSelectPopup(item.activity, Pair(itemView.x, itemView.y), item.courseID)
+                    popup.show()
                 }
             }
         }
@@ -43,4 +46,4 @@ class QuickSelectItem(val context: Context, val courseID: Int, val courseName: S
     }
 }
 
-fun MutableList<Item>.quickSelectItem(context: Context, courseID: Int, courseName: String) = add(QuickSelectItem(context, courseID, courseName))
+fun MutableList<Item>.quickSelectItem(activity: Activity, courseID: Int, courseName: String) = add(QuickSelectItem(activity, courseID, courseName))
