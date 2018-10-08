@@ -17,7 +17,9 @@
     <string name="pref_is_exit_tju">pref_is_exit_tju</string>
     <string name="pref_dev_talking">pref_dev_talking</string>
     <string name="pref_feedback">pref_feedback</string>
+    <string name="pref_add_group">pref_add_group</string>
     <string name="pref_contact_me">pref_contact_me</string>
+    <string name="pref_clear_data">pref_clear_data</string>
     <string name="pref_check_update">pref_check_update</string>
     <string name="pref_proxy_settings">pref_proxy_settings</string>
 </resources>

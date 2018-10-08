@@ -36,10 +36,11 @@ class CourseDetailBottomFragment : BottomSheetDialogFragment() {
         }
     }
 
-    lateinit var course: Course
+    var course: Course? = null
 
     override fun setupDialog(dialog: Dialog?, style: Int) {
         if (dialog == null) return
+        val course = this.course ?: return
 
         val view: View = LayoutInflater.from(context).inflate(R.layout.schedule_frag_bottom_sheet, null)
         dialog.setContentView(view)

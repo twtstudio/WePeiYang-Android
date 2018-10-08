@@ -1,5 +1,6 @@
 package com.twt.service.schedule2.view.adapter
 
+import android.graphics.Color
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
@@ -7,7 +8,6 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import com.twt.service.schedule2.R
-import com.twt.wepeiyang.commons.experimental.color.getColorCompat
 import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemController
 import org.jetbrains.anko.*
@@ -16,6 +16,7 @@ class IndicatorTextItem(val text: String) : Item {
     private companion object Controller : ItemController {
         override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
             val view = parent.context.layoutInflater.inflate(R.layout.schedule_item_indicator, parent, false)
+            view.backgroundColor = Color.WHITE
             return IndicatorTextViewHolder(view)
         }
 
@@ -48,6 +49,7 @@ class IconLabelItem(val model: CourseDetailViewModel) : Item {
     companion object Controller : ItemController {
         override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
             val view = parent.context.layoutInflater.inflate(R.layout.schedule_item_detail, parent, false)
+            view.backgroundColor = Color.WHITE
             return IconLabelViewHolder(view)
         }
 
@@ -99,7 +101,7 @@ class SpaceItem(val tag: String) : Item {
         override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
             val view = parent.context.frameLayout {
                 view {
-                    backgroundColor = getColorCompat(R.color.common_lv4_divider)
+                    backgroundColor = Color.TRANSPARENT
                 }
             }.apply {
                 layoutParams = RecyclerView.LayoutParams(matchParent, wrapContent)

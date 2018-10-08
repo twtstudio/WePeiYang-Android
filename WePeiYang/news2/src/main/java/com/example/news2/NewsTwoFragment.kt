@@ -10,14 +10,17 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.twt.wepeiyang.commons.experimental.cache.CacheIndicator
+import com.twt.wepeiyang.commons.experimental.cache.RefreshState
 import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
+import es.dmoral.toasty.Toasty
 
 /**
  * Created by retrox on 2016/12/12.
  */
 class NewsTwoFragment : Fragment() {
-    lateinit var swipeRefreshLayout :SwipeRefreshLayout
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val view = inflater.inflate(R.layout.fragment_news, container, false).apply {
             val adapter = NewsAdapter(context, this@NewsTwoFragment)
@@ -26,7 +29,7 @@ class NewsTwoFragment : Fragment() {
             recyclerView.adapter = adapter
             recyclerView.layoutManager = LinearLayoutManager(context)
 
-            newsRecyclerViewLiveData.bindNonNull(this@NewsTwoFragment) {
+            newsListLiveData.bindNonNull(this@NewsTwoFragment) {
                 Log.e("Test", it.toString())
                 adapter.apply {
                     list.clear()
@@ -34,12 +37,17 @@ class NewsTwoFragment : Fragment() {
                     notifyDataSetChanged()
                 }
             }
-            swipeRefreshLayout.setOnRefreshListener(object :SwipeRefreshLayout.OnRefreshListener{
-                override fun onRefresh() {
-                    newsRecyclerViewLiveData.refresh(CacheIndicator.REMOTE)
-                    swipeRefreshLayout.setRefreshing(false)
+            swipeRefreshLayout.setOnRefreshListener {
+                newsListLiveData.refresh(CacheIndicator.REMOTE) {
+                    when (it) {
+                        is RefreshState.Success -> swipeRefreshLayout.isRefreshing = false
+                        is RefreshState.Failure -> {
+                            Toasty.error(context, "发生错误", Toast.LENGTH_SHORT).show()
+                            swipeRefreshLayout.isRefreshing = false
+                        }
+                    }
                 }
-            })
+            }
         }
         return view
     }

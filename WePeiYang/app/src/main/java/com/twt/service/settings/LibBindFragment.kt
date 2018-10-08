@@ -31,7 +31,7 @@ class LibBindFragment : SlideFragment() {
         }
         libPasswordEdit = view.findViewById(R.id.lib_password)
         button = view.findViewById(R.id.btn_lib_bind)
-        button.setOnClickListener({
+        button.setOnClickListener {
             TjuLibProvider(context).bindLibrary({ integer ->
                 when (integer) {
                     -1 -> Toast.makeText(this.context, "图书馆绑定完成，点击底部右侧对勾开始新旅程", Toast.LENGTH_SHORT).show()
@@ -41,7 +41,7 @@ class LibBindFragment : SlideFragment() {
                 }
                 authSelfLiveData.refresh(REMOTE)
             }, libPasswordEdit.text.toString().takeIf(String::isNotEmpty) ?: "000000")
-        })
+        }
         return view
     }
 

@@ -28,6 +28,7 @@ fun login(username: String, password: String, callback: suspend (RefreshState<Un
             callback(RefreshState.Failure(it))
         }?.data?.let {
             CommonPreferences.token = it.token
+            CommonPreferences.password = password
             CommonPreferences.isLogin = true
             callback(RefreshState.Success(Unit))
         }

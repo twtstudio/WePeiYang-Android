@@ -27,7 +27,7 @@
     <color name="common_lv3">#c8ccd3</color>
 
     <!--用于分割线颜色-->
-    <color name="common_lv4_divider">#d9d9d9</color>
+    <color name="common_lv4_divider">#F5F5F5</color>
 
     <!--辅助颜色，用于辅助按钮及标签颜色-->
     <color name="assist_color_1">#0ac3d5</color>

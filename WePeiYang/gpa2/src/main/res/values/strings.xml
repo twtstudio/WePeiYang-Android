@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">GPA2</string>
+    <string name="title_activity_gpa_line">GpaLineActivity</string>
 </resources>

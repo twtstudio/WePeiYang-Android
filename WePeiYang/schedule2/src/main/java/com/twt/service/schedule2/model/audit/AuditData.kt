@@ -61,6 +61,12 @@ interface AuditCourseDao {
     @Query("SELECT * FROM table_college")
     fun loadAllColleges(): List<AuditCollegeData>
 
+    @Query("DELETE FROM table_college")
+    fun deleteAllCollegesCache();
+
+    @Query("DELETE FROM table_college_course")
+    fun deleteAllCollegesCoursesCache();
+
     @Query("SELECT * FROM table_college WHERE collegeName LIKE :collegeName")
     fun searchCollege(collegeName: String): List<AuditCollegeData>
 
@@ -125,8 +131,8 @@ fun AuditCourse.convertToCourse(): Course {
         }
         val arrange = Arrange(
                 room = "${it.building}楼${it.room}",
-                start = (it.startTime - 1) * 2 + 1, // 因为蹭课API的返回节数 是算的大节 但是课程表Course算的是小节 为了复用我们要转换一下 Fuck
-                end = (it.startTime - 1) * 2 + it.courseLength,
+                start = it.startTime, // 因为蹭课API的返回节数 是算的大节 但是课程表Course算的是小节 为了复用我们要转换一下 Fuck -> 但是后来数据库又改好了 Fuck222
+                end = (it.startTime - 1)  + it.courseLength,
                 day = it.weekDay,
                 week = weekType
         )

@@ -31,7 +31,9 @@ class UserAdapter(
     sealed class UserItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         class AvatarItemViewHolder(itemView: View) : UserItemViewHolder(itemView) {
-            private val avatarIv = itemView.findViewById<ImageView>(R.id.iv_avatar)
+            private val avatarIv = itemView.findViewById<ImageView>(R.id.iv_avatar).apply {
+                transitionName = "avatar"
+            }
             private val usernameTv = itemView.findViewById<TextView>(R.id.tv_username)
             private val realnameTv = itemView.findViewById<TextView>(R.id.tv_realname)
 

@@ -6,8 +6,6 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import com.twt.service.schedule2.R
-import com.twt.wepeiyang.commons.experimental.color.getColorCompat
 import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemController
 import org.jetbrains.anko.*
@@ -35,10 +33,11 @@ class SingleTextItem(val text: String) : Item {
                     margin = dip(16)
                 }
                 imageView {
-                    backgroundColor = getColorCompat(R.color.common_lv4_divider)
+                    backgroundColor = Color.parseColor("#F5F5F5")
                 }.lparams(width = matchParent, height = dip(1)) {
                     bottomToBottom = PARENT_ID
                 }
+                backgroundColor = Color.WHITE
             }.apply {
                 layoutParams = RecyclerView.LayoutParams(matchParent, wrapContent)
             }

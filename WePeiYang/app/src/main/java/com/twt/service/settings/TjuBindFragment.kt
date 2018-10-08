@@ -40,7 +40,7 @@ class TjuBindFragment : SlideFragment() {
         button = view.findViewById(R.id.btn_tju_bind)
         numEdit = view.findViewById(R.id.tju_num)
         passwordEdit = view.findViewById(R.id.tju_password)
-        button.setOnClickListener({
+        button.setOnClickListener {
             RealBindAndDropOutService
                     .bindTju(numEdit.text.toString(), passwordEdit.text.toString())
                     .subscribeOn(Schedulers.io())
@@ -49,7 +49,7 @@ class TjuBindFragment : SlideFragment() {
                     .subscribe(Action1 {
                         Toast.makeText(this.context, "绑定成功", Toast.LENGTH_SHORT).show()
                     }, RxErrorHandler())
-        })
+        }
         return view
     }
 

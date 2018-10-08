@@ -2,19 +2,13 @@ package com.twt.service.home.common.schedule;
 
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.MutableLiveData;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
-import com.twt.service.R;
-import com.twtstudio.retrox.schedule.ScheduleActivity;
 import com.twtstudio.retrox.schedule.TimeHelper;
 import com.twtstudio.retrox.schedule.model.ClassTable;
 import com.twtstudio.retrox.schedule.model.ClassTableProvider;
 import com.twtstudio.retrox.schedule.model.CourseHelper;
-import com.twtstudio.retrox.schedule.view.ScheduleTodayAct;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -75,17 +69,4 @@ public class ScheduleViewModel extends AndroidViewModel implements ViewModel {
         title.setValue(stringBuilder.toString());
     }
 
-    private void jumpTodayDetail() {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(rxAppCompatActivity);
-        boolean isShowTodayCoursePage = sharedPreferences.getBoolean(rxAppCompatActivity.getString(R.string.pref_is_show_today_course), false);
-
-        if (isShowTodayCoursePage) {
-            Intent intent = new Intent(rxAppCompatActivity, ScheduleTodayAct.class);
-            rxAppCompatActivity.startActivity(intent);
-        } else {
-            Intent intent = new Intent(rxAppCompatActivity, ScheduleActivity.class);
-            rxAppCompatActivity.startActivity(intent);
-        }
-
-    }
 }

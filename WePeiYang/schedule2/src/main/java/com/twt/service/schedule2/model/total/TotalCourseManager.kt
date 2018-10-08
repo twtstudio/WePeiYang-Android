@@ -8,6 +8,7 @@ import com.twt.service.schedule2.model.CommonClassTable
 import com.twt.service.schedule2.model.MergedClassTableProvider
 import com.twt.service.schedule2.model.audit.AuditCourseManager
 import com.twt.service.schedule2.model.custom.CustomCourseManager
+import com.twt.service.schedule2.model.duplicate.DuplicateCourseManager
 import com.twt.service.schedule2.model.school.TjuCourseApi
 import com.twt.service.schedule2.model.school.refresh
 import com.twt.wepeiyang.commons.experimental.cache.CacheIndicator
@@ -22,7 +23,12 @@ object TotalCourseManager {
     /**
      * 做一个内存缓存
      */
-    private val mergedClassTableProvider: MutableLiveData<MergedClassTableProvider> = MutableLiveData()
+    private val mergedClassTableProvider: MutableLiveData<MergedClassTableProvider> = object : MutableLiveData<MergedClassTableProvider>() {
+        override fun onActive() {
+            super.onActive()
+            invalidate()
+        }
+    }
 
     fun invalidate() = getTotalCourseManager() //只刷新课程表（比如说修改了课程表的格式）
 
@@ -67,10 +73,17 @@ object TotalCourseManager {
                 CustomCourseManager.getCustomClasstableProvider()
             }
 
+            val duplicateCourseProvider = async(CommonPool) {
+                DuplicateCourseManager.clearDuplicateCache()
+                tjuClassTableProvider.await()
+                DuplicateCourseManager.getDuplicateCourseProvider()
+            }
+
             val finalClasstableProvider = MergedClassTableProvider(
                     tjuClassTableProvider.await(),
                     auditClasstableProvider.await(),
-                    customCourseProvider.await()
+                    customCourseProvider.await(),
+                    duplicateCourseProvider.await()
             )
 
             refreshCallback.invoke(RefreshState.Success(CacheIndicator.REMOTE))

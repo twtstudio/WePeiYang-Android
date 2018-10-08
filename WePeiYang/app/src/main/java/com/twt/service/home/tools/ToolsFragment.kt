@@ -1,13 +1,13 @@
 package com.twt.service.home.tools
 
 import android.os.Bundle
+import android.support.v4.app.Fragment
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.twt.service.R
-import com.twt.service.base.BaseFragment
 import com.twt.service.tjunet.view.TjuNetActivity
 import com.twtstudio.retrox.bike.bike.ui.main.BikeActivity
 import com.twtstudio.retrox.schedule.ScheduleActivity
@@ -18,7 +18,7 @@ import xyz.rickygao.gpa2.view.GpaActivity
  * Created by retrox on 2016/12/12.
  */
 
-class ToolsFragment : BaseFragment() {
+class ToolsFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
             inflater.inflate(R.layout.fragment_tools, container, false).apply {

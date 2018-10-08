@@ -18,8 +18,8 @@ android {
         renderscriptTargetApi 27
         renderscriptSupportModeEnabled true
         applicationId 'com.twt.service'
-        versionCode 27
-        versionName '3.2.7'
+        versionCode 32
+        versionName '3.3.1'
 
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
 
@@ -56,6 +56,11 @@ android {
 //        }
     }
 
+    kotlin {
+        experimental {
+            coroutines "enable"
+        }
+    }
     signingConfigs {
         release {
             try {
@@ -112,7 +117,7 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-    [':auth', ':bike', ':commons', ':gpa2', ':schedule', ':tjulibrary', ':tjunet', ':party', ':schedule2', ':news2'].each {
+    [':auth', ':bike', ':commons', ':gpa2', ':schedule', ':tjulibrary', ':tjunet', ':party', ':schedule2', ':news2', ':yellowpages2'].each {
         implementation project(it)
     }
     implementation 'com.twt.service:fragmentation:1.1.0'

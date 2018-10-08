@@ -1,7 +1,5 @@
 package com.example.news2
 
-import android.os.Parcel
-import android.os.Parcelable
 import com.twt.wepeiyang.commons.experimental.cache.*
 import com.twt.wepeiyang.commons.experimental.network.CommonBody
 import com.twt.wepeiyang.commons.experimental.network.ServiceFactory
@@ -11,22 +9,22 @@ import retrofit2.http.*
 
 interface NewsService {
     @GET("v1/news/1/page/1")
-	fun getRecyclerViewData(): Deferred<CommonBody<List<RecyclerViewData>>>
+	fun getRecyclerViewData(): Deferred<CommonBody<List<NewsListBean>>>
 
 	@GET("v1/app/index")
-	fun getBannerData(): Deferred<CommonBody<BannerData>>
+	fun getBannerData(): Deferred<CommonBody<BannerBean>>
 
     companion object : NewsService by ServiceFactory()
 }
 
-val newsRecyclerViewLocalCache = Cache.hawk<List<RecyclerViewData>>("cache_news_recyclerView")
-val newsRecyclerViewRemoteCache = Cache.from(NewsService.Companion::getRecyclerViewData).map(CommonBody<List<RecyclerViewData>>::data)
-val newsRecyclerViewLiveData = RefreshableLiveData.use(newsRecyclerViewLocalCache, newsRecyclerViewRemoteCache)
-val newsBannerLocalCache = Cache.hawk<BannerData>("cache_news_banner_my")
-val newsBannerRemoteCache = Cache.from(NewsService.Companion::getBannerData).map(CommonBody<BannerData>::data)
+val newsListLocalCache = Cache.hawk<List<NewsListBean>>("cache_news_recyclerView")
+val newsListRemoteCache = Cache.from(NewsService.Companion::getRecyclerViewData).map(CommonBody<List<NewsListBean>>::data)
+val newsListLiveData = RefreshableLiveData.use(newsListLocalCache, newsListRemoteCache)
+val newsBannerLocalCache = Cache.hawk<BannerBean>("cache_news_banner_my")
+val newsBannerRemoteCache = Cache.from(NewsService.Companion::getBannerData).map(CommonBody<BannerBean>::data)
 val newsBannerLiveData = RefreshableLiveData.use(newsBannerLocalCache, newsBannerRemoteCache)
 
-data class RecyclerViewData(
+data class NewsListBean(
 		val index: Int,
 		val subject: String,
 		val pic: String,
@@ -36,7 +34,7 @@ data class RecyclerViewData(
 )
 
 
-data class BannerData(
+data class BannerBean(
 		val carousel: List<Carousel>,
 		val news: News,
 		val service: Service
