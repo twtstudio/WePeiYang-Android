@@ -118,13 +118,13 @@ class ProblemActivity : AppCompatActivity() {
 
     private fun initTvLeftRight() {
         tvLeft.apply {
-            setBackgroundResource(R.drawable.exam_selected_left)
-            setTextColor(ContextCompat.getColor(this@ProblemActivity, R.color.examBlueText))
+            setBackgroundResource(R.drawable.exam_shape_selected_left)
+            setTextColor(ContextCompat.getColor(this@ProblemActivity, R.color.examTextBlue))
             setOnClickListener {
                 if (!isLeft) {
-                    setBackgroundResource(R.drawable.exam_selected_left)
-                    setTextColor(ContextCompat.getColor(this@ProblemActivity, R.color.examBlueText))
-                    tvRight.setBackgroundResource(R.drawable.exam_not_selected_right)
+                    setBackgroundResource(R.drawable.exam_shape_selected_left)
+                    setTextColor(ContextCompat.getColor(this@ProblemActivity, R.color.examTextBlue))
+                    tvRight.setBackgroundResource(R.drawable.exam_shape_not_selected_right)
                     tvRight.setTextColor(ContextCompat.getColor(this@ProblemActivity, R.color.white_color))
                     isLeft = true
                     pagerAdapter.changeMode(vpProblem.currentItem)
@@ -137,9 +137,9 @@ class ProblemActivity : AppCompatActivity() {
 
         tvRight.setOnClickListener {
             if (isLeft) {
-                tvRight.setBackgroundResource(R.drawable.exam_selected_right)
-                tvRight.setTextColor(ContextCompat.getColor(this@ProblemActivity, R.color.examBlueText))
-                tvLeft.setBackgroundResource(R.drawable.exam_not_selected_left)
+                tvRight.setBackgroundResource(R.drawable.exam_shape_selected_right)
+                tvRight.setTextColor(ContextCompat.getColor(this@ProblemActivity, R.color.examTextBlue))
+                tvLeft.setBackgroundResource(R.drawable.exam_shape_not_selected_left)
                 tvLeft.setTextColor(ContextCompat.getColor(this@ProblemActivity, R.color.white_color))
                 isLeft = false
                 pagerAdapter.changeMode(vpProblem.currentItem)
@@ -253,6 +253,6 @@ class ProblemActivity : AppCompatActivity() {
             val identifier = resources.getIdentifier("statusBarBackground", "id", "android")
             statusBarView = window.findViewById(identifier)
         }
-        statusBarView?.setBackgroundResource(R.drawable.exam_statusbar_gradient)
+        statusBarView?.setBackgroundResource(R.drawable.exam_shape_statusbar_gradient)
     }
 }

@@ -13,7 +13,7 @@
         android:layout_width="16dp"
         android:layout_height="16dp"
         android:layout_marginStart="32dp"
-        android:background="@drawable/exam_selection_index_shape"
+        android:background="@drawable/exam_shape_selection_index"
         android:gravity="center"
         android:text="A"
         android:textSize="12sp" />
@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="32dp"
         android:layout_marginStart="8dp"
-        android:textColor="@color/examBlackText"
+        android:textColor="@color/examTextBlack"
         android:textSize="16sp"
         tools:text="@string/appbar_scrolling_view_behavior" />
 </LinearLayout>

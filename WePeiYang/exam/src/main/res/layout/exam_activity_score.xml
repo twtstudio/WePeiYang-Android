@@ -28,7 +28,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/exam_ll_gradient_with_corner"
+                    android:background="@drawable/exam_shape_ll_gradient_with_corner"
                     android:orientation="vertical">
 
                     <TextView
@@ -134,7 +134,7 @@
                         android:layout_width="2dp"
                         android:layout_height="12dp"
                         android:layout_marginStart="20dp"
-                        android:background="@drawable/exam_home_item_shape" />
+                        android:background="@drawable/exam_shape_home_item" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -142,7 +142,7 @@
                         android:layout_marginStart="6dp"
                         android:gravity="top"
                         android:text="题目答案"
-                        android:textColor="@color/examBlackText"
+                        android:textColor="@color/examTextBlack"
                         android:textSize="16sp" />
                 </LinearLayout>
             </LinearLayout>
@@ -161,7 +161,7 @@
         android:id="@+id/tb_score"
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:background="@drawable/exam_statusbar_gradient"
+        android:background="@drawable/exam_shape_statusbar_gradient"
         android:elevation="0dp"
         app:layout_scrollFlags="scroll">
 

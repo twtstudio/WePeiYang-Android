@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="@drawable/exam_statusbar_gradient">
+        android:background="@drawable/exam_shape_statusbar_gradient">
 
         <ImageView
             android:id="@+id/iv_problem_back"
@@ -30,7 +30,7 @@
                 android:id="@+id/tv_problem_left"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/exam_not_selected_left"
+                android:background="@drawable/exam_shape_not_selected_left"
                 android:text="背题"
                 android:textColor="@color/white_color"
                 android:textSize="16sp" />
@@ -39,7 +39,7 @@
                 android:id="@+id/tv_problem_right"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/exam_not_selected_right"
+                android:background="@drawable/exam_shape_not_selected_right"
                 android:text="答题"
                 android:textColor="@color/white_color"
                 android:textSize="16sp" />

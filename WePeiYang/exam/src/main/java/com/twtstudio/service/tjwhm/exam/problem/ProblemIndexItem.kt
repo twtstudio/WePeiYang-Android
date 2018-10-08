@@ -30,14 +30,14 @@ class ProblemIndexItem(val activity: ProblemActivity, val index: Int, val proble
             holder.apply {
                 tvProblemIndex?.apply {
                     text = (item.index + 1).toString()
-                    setTextColor(ContextCompat.getColor(item.activity, R.color.examBlackText))
+                    setTextColor(ContextCompat.getColor(item.activity, R.color.examTextBlack))
                     when (item.problemIndex) {
-                        is ProblemIndex.TRUE, ProblemIndex.NOW.TRUE -> setTextColor(ContextCompat.getColor(item.activity, R.color.examBlueText))
-                        is ProblemIndex.WRONG, ProblemIndex.NOW.WRONG -> setTextColor(ContextCompat.getColor(item.activity, R.color.examRedText))
+                        is ProblemIndex.TRUE, ProblemIndex.NOW.TRUE -> setTextColor(ContextCompat.getColor(item.activity, R.color.examTextBlue))
+                        is ProblemIndex.WRONG, ProblemIndex.NOW.WRONG -> setTextColor(ContextCompat.getColor(item.activity, R.color.examTextRed))
                     }
                     when (item.problemIndex) {
                         is ProblemIndex.NOW -> {
-                            setBackgroundResource(R.drawable.exam_selection_index_shape)
+                            setBackgroundResource(R.drawable.exam_shape_selection_index)
                         }
                     }
                 }

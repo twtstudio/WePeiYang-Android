@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginTop="8dp"
-        android:textColor="@color/examBlueText"
+        android:textColor="@color/examTextBlue"
         android:textSize="20sp"
         app:layout_constraintLeft_toRightOf="@id/civ_avatar"
         app:layout_constraintTop_toTopOf="@id/civ_avatar"
@@ -42,7 +42,7 @@
         android:layout_marginStart="48dp"
         android:layout_marginTop="8dp"
         android:gravity="center"
-        android:textColor="@color/examRedText"
+        android:textColor="@color/examTextRed"
         app:layout_constraintLeft_toRightOf="@id/civ_avatar"
         app:layout_constraintTop_toBottomOf="@id/tv_user_name"
         tools:text="刷题小火箭" />
@@ -62,7 +62,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="21dp"
-        android:textColor="@color/examBlackText"
+        android:textColor="@color/examTextBlack"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -75,7 +75,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:text="已练习题目数"
-        android:textColor="@color/examBlackText"
+        android:textColor="@color/examTextBlack"
         app:layout_constraintLeft_toLeftOf="@id/tv_already_problems_num"
         app:layout_constraintRight_toRightOf="@id/tv_already_problems_num"
         app:layout_constraintTop_toBottomOf="@id/tv_already_problems_num" />
@@ -93,14 +93,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="正确率"
-            android:textColor="@color/examBlackText" />
+            android:textColor="@color/examTextBlack" />
 
         <TextView
             android:id="@+id/tv_user_radio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:textColor="@color/examRedText"
+            android:textColor="@color/examTextRed"
             tools:text="95%" />
     </LinearLayout>
 
@@ -119,7 +119,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="21dp"
-        android:textColor="@color/examBlackText"
+        android:textColor="@color/examTextBlack"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="@id/divider_user_two"
@@ -132,7 +132,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:text="已练习科目数"
-        android:textColor="@color/examBlackText"
+        android:textColor="@color/examTextBlack"
         app:layout_constraintLeft_toLeftOf="@id/tv_already_lesson_num"
         app:layout_constraintRight_toRightOf="@id/tv_already_lesson_num"
         app:layout_constraintTop_toBottomOf="@id/tv_already_lesson_num" />
@@ -143,7 +143,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="详情"
-        android:textColor="@color/examBlueText"
+        android:textColor="@color/examTextBlue"
         app:layout_constraintLeft_toLeftOf="@id/tv_already_lesson_num"
         app:layout_constraintRight_toRightOf="@id/tv_already_lesson_num"
         app:layout_constraintTop_toTopOf="@id/ll_user_radio" />
@@ -181,7 +181,7 @@
             android:layout_marginStart="14dp"
             android:gravity="center_vertical"
             android:text="练习历史"
-            android:textColor="@color/examBlackText"
+            android:textColor="@color/examTextBlack"
             android:textSize="18sp" />
 
         <LinearLayout
@@ -229,7 +229,7 @@
             android:layout_marginStart="14dp"
             android:gravity="center_vertical"
             android:text="我的错题"
-            android:textColor="@color/examBlackText"
+            android:textColor="@color/examTextBlack"
             android:textSize="18sp" />
 
         <LinearLayout
@@ -277,7 +277,7 @@
             android:layout_marginStart="14dp"
             android:gravity="center_vertical"
             android:text="我的收藏"
-            android:textColor="@color/examBlackText"
+            android:textColor="@color/examTextBlack"
             android:textSize="18sp" />
 
         <LinearLayout

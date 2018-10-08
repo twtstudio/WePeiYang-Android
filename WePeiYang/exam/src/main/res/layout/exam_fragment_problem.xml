@@ -20,8 +20,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="2dp"
-            android:background="@drawable/exam_problem_type"
-            android:textColor="@color/examBlueText"
+            android:background="@drawable/exam_shape_problem_type"
+            android:textColor="@color/examTextBlue"
             android:textSize="12sp" />
 
         <TextView
@@ -29,7 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:textColor="@color/examBlackText"
+            android:textColor="@color/examTextBlack"
             android:textSize="16sp" />
     </LinearLayout>
 
@@ -47,7 +47,7 @@
         android:layout_width="120dp"
         android:layout_height="36dp"
         android:layout_marginTop="16dp"
-        android:background="@drawable/exam_button_problem_confirm"
+        android:background="@drawable/exam_shape_button_problem_confirm"
         android:text="确定答案"
         android:textColor="@color/white_color"
         android:textSize="16sp"
@@ -79,7 +79,7 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_marginStart="24dp"
-            android:src="@drawable/exam_problem_content_index" />
+            android:src="@drawable/exam_ic_problem_content_index" />
 
         <TextView
             android:id="@+id/tv_index"
@@ -87,7 +87,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="8dp"
-            android:textColor="@color/examBlackText"
+            android:textColor="@color/examTextBlack"
             tools:text="1/124" />
     </LinearLayout>
 
@@ -125,7 +125,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
-        android:textColor="@color/examBlackText"
+        android:textColor="@color/examTextBlack"
         app:layout_constraintTop_toBottomOf="@id/divider_problem"
         tools:text="答案：B" />
 

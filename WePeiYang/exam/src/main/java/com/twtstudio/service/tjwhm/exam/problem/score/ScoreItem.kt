@@ -42,8 +42,8 @@ class ScoreItem(val index: Int, val context: Context, val problemData: TestOnePr
                 tvProblemTitle?.text = (item.index + 1).toString() + "." + Html.fromHtml(item.problemData.content).toString()
                 tvRightAnswer?.text = "正确答案：${item.resultData.true_answer}"
                 tvUserAnswer?.text = "你的答案：${item.resultData.answer}"
-                if (item.resultData.is_true == 1) tvUserAnswer?.setTextColor(ContextCompat.getColor(item.context, R.color.examBlueText))
-                else tvUserAnswer?.setTextColor(ContextCompat.getColor(item.context, R.color.examRedText))
+                if (item.resultData.is_true == 1) tvUserAnswer?.setTextColor(ContextCompat.getColor(item.context, R.color.examTextBlue))
+                else tvUserAnswer?.setTextColor(ContextCompat.getColor(item.context, R.color.examTextRed))
                 rvScoreSelections?.layoutManager = LinearLayoutManager(item.context)
                 rvScoreSelections?.withItems {
                     repeat(item.problemData.option.size) {

@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="@drawable/exam_statusbar_gradient">
+        android:background="@drawable/exam_shape_statusbar_gradient">
 
         <ImageView
             android:id="@+id/iv_list_back"
@@ -34,12 +34,12 @@
         android:layout_marginEnd="32dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
-        android:background="@drawable/exam_list_search_bar_shape"
+        android:background="@drawable/exam_shape_list_search_bar"
         android:drawablePadding="8dp"
-        android:drawableStart="@drawable/exam_search_grey_24dp"
+        android:drawableStart="@drawable/exam_shape_search_grey_24dp"
         android:hint="搜索"
         android:singleLine="true"
-        android:textColor="@color/examBlackText"
+        android:textColor="@color/examTextBlack"
         android:textCursorDrawable="@null"
         android:textSize="14sp" />
 

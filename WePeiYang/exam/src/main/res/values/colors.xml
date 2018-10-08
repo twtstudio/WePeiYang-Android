@@ -7,11 +7,11 @@
     <color name="examTabLayoutEndColor">#55C4F3</color>
     <color name="examDividerBlue">#60A9F4</color>
     <color name="examItemBlue">#45A9FA</color>
-    <color name="examBlackText">#1C1C1C</color>
-    <color name="examBlueText">#43AAFA</color>
+    <color name="examTextBlack">#1C1C1C</color>
+    <color name="examTextBlue">#43AAFA</color>
     <color name="examArrowGrey">#DBDADB</color>
     <color name="examTabTextColor">#B1DFF7</color>
-    <color name="examRedText">#F84B4B</color>
-    <color name="examGrayText">#555555</color>
+    <color name="examTextRed">#F84B4B</color>
+    <color name="examTextGray">#555555</color>
     <color name="examHistoryDate">#9FA0A1</color>
 </resources>

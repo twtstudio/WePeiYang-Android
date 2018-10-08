@@ -1,14 +1,12 @@
 package com.twtstudio.service.tjwhm.exam.problem
 
 import android.annotation.SuppressLint
-import android.os.Build
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.Html
-import android.text.Html.FROM_HTML_MODE_LEGACY
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -291,10 +289,10 @@ class ProblemFragment : Fragment() {
 
         if (scrollPage) {
             tvRightOrWrong.text = "回答正确"
-            context?.let { ContextCompat.getColor(it, R.color.examBlueText) }?.let { tvRightOrWrong.setTextColor(it) }
+            context?.let { ContextCompat.getColor(it, R.color.examTextBlue) }?.let { tvRightOrWrong.setTextColor(it) }
         } else {
             tvRightOrWrong.text = "回答错误"
-            context?.let { ContextCompat.getColor(it, R.color.examRedText) }?.let { tvRightOrWrong.setTextColor(it) }
+            context?.let { ContextCompat.getColor(it, R.color.examTextRed) }?.let { tvRightOrWrong.setTextColor(it) }
             val list = MultipartBody.Builder()
                     .setType(MultipartBody.FORM)
                     .addFormDataPart("ques_type", type.toString())

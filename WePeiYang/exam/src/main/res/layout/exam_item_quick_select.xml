@@ -11,11 +11,11 @@
         android:id="@+id/tv_quick_select_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/exam_blue_tv_with_boundary_small"
+        android:background="@drawable/exam_shape_blue_tv_with_boundary_small"
         android:ellipsize="end"
         android:maxEms="11"
         android:singleLine="true"
-        android:textColor="@color/examBlueText"
+        android:textColor="@color/examTextBlue"
         android:textSize="12sp"
         tools:text="爱因斯坦与牛顿" />
 </android.support.constraint.ConstraintLayout>

@@ -77,7 +77,7 @@ class StarActivity : AppCompatActivity() {
             val identifier = resources.getIdentifier("statusBarBackground", "id", "android")
             statusBarView = window.findViewById(identifier)
         }
-        statusBarView?.setBackgroundResource(R.drawable.exam_statusbar_gradient)
+        statusBarView?.setBackgroundResource(R.drawable.exam_shape_statusbar_gradient)
     }
 
 }

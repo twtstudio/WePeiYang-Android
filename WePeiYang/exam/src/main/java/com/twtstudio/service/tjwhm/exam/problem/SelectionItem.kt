@@ -33,11 +33,11 @@ class SelectionItem(val fragment: ProblemFragment?, val selectionIndex: String, 
                 tvSelectionContent?.text = item.selectionContent
                 when (item.status) {
                     TRUE -> tvSelectionIndex?.apply {
-                        setBackgroundResource(R.drawable.exam_selection_true_index)
+                        setBackgroundResource(R.drawable.exam_shape_selection_true_index)
                         item.fragment?.context?.let { ContextCompat.getColor(it, R.color.white_color) }?.let { setTextColor(it) }
                     }
                     FALSE -> tvSelectionIndex?.apply {
-                        setBackgroundResource(R.drawable.exam_selection_wrong_index)
+                        setBackgroundResource(R.drawable.exam_shape_selection_wrong_index)
                         item.fragment?.context?.let { ContextCompat.getColor(it, R.color.white_color) }?.let { setTextColor(it) }
                     }
                 }
