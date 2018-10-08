@@ -3,9 +3,11 @@ package com.twtstudio.service.tjwhm.exam.list
 import android.animation.Animator
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
+import android.annotation.SuppressLint
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleOwner
 import android.arch.lifecycle.LifecycleRegistry
+import android.content.Intent
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
@@ -15,11 +17,11 @@ import android.widget.TextView
 import com.twt.wepeiyang.commons.experimental.cache.RefreshState
 import com.twt.wepeiyang.commons.ui.blur.BlurPopupWindow
 import com.twtstudio.service.tjwhm.exam.R
+import com.twtstudio.service.tjwhm.exam.problem.ProblemActivity
 import es.dmoral.toasty.Toasty
 import org.jetbrains.anko.dip
 import org.jetbrains.anko.horizontalMargin
 import org.jetbrains.anko.layoutInflater
-import org.jetbrains.anko.verticalMargin
 
 /**
  * Created by tjwhm@TWTStudio at 7:54 PM, 2018/10/8.
@@ -34,12 +36,12 @@ class TypeSelectPopup(private val activity: ListActivity, private val startXY: P
 
     lateinit var view: View
 
-    lateinit var tvSingleNum: TextView
-    lateinit var tvSingleEnter: TextView
-    lateinit var tvMultiNum: TextView
-    lateinit var tvMultiEnter: TextView
-    lateinit var tvTfNum: TextView
-    lateinit var tvTfEnter: TextView
+    private lateinit var tvSingleNum: TextView
+    private lateinit var tvSingleEnter: TextView
+    private lateinit var tvMultiNum: TextView
+    private lateinit var tvMultiEnter: TextView
+    private lateinit var tvTfNum: TextView
+    private lateinit var tvTfEnter: TextView
 
     val density = activity.resources.displayMetrics.density
 
@@ -47,8 +49,7 @@ class TypeSelectPopup(private val activity: ListActivity, private val startXY: P
             .inflate(R.layout.exam_popup_type_select, parent, false).apply {
                 layoutParams = (layoutParams as FrameLayout.LayoutParams).apply {
                     gravity = Gravity.CENTER
-                    horizontalMargin = dip(50)
-//                    verticalMargin = dip(130)
+                    horizontalMargin = dip(30)
                 }
             }.also {
                 view = it
@@ -60,10 +61,11 @@ class TypeSelectPopup(private val activity: ListActivity, private val startXY: P
                 tvTfEnter = view.findViewById(R.id.tv_type_select_tf_enter)
             }
 
+    @SuppressLint("SetTextI18n")
     override fun onShow() {
         lifecycleRegistry.markState(Lifecycle.State.STARTED)
 
-        getLessonInfo(lessonID.toString()) {
+        getLessonInfo(lessonID.toString()) { it ->
             when (it) {
                 is RefreshState.Failure -> Toasty.error(activity, "网络错误").show()
                 is RefreshState.Success -> {
@@ -71,6 +73,61 @@ class TypeSelectPopup(private val activity: ListActivity, private val startXY: P
                         tvSingleNum.text = "$single_done_count/$single_num"
                         tvMultiNum.text = "$multi_done_count/$multi_num"
                         tvTfNum.text = "$decide_done_count/$decide_num"
+                        val intent = Intent(activity, ProblemActivity::class.java).apply {
+                            putExtra(ProblemActivity.MODE_KEY, ProblemActivity.READ_AND_PRACTICE)
+                            putExtra(ProblemActivity.LESSON_ID_KEY, lessonID)
+                        }
+                        when {
+                            single_num.toInt() == 0 -> {
+                                tvSingleNum.text = "无"
+                                tvSingleEnter.visibility = View.GONE
+                            }
+                            single_done_count == 0 -> {
+                                tvSingleEnter.apply {
+                                    text = "开始练习"
+                                    setOnClickListener {
+                                        intent.putExtra(ProblemActivity.PROBLEM_TYPE_KEY, ProblemActivity.SINGLE_CHOICE)
+                                        activity.startActivity(intent)
+                                    }
+                                }
+                            }
+                            else -> tvSingleEnter.text = "继续练习"
+                        }
+                        when {
+                            multi_num.toInt() == 0 -> {
+                                tvMultiNum.text = "无"
+                                tvMultiEnter.visibility = View.GONE
+                            }
+                            multi_done_count == 0 -> {
+                                tvMultiEnter.apply {
+                                    text = "开始练习"
+                                    setOnClickListener {
+                                        intent.putExtra(ProblemActivity.PROBLEM_TYPE_KEY, ProblemActivity.MULTI_CHOICE)
+                                        activity.startActivity(intent)
+                                    }
+                                }
+
+                            }
+                            else -> tvMultiEnter.text = "继续练习"
+                        }
+                        when {
+                            decide_num.toInt() == 0 -> {
+                                val s = decide_num
+                                tvTfNum.text = "无"
+                                tvTfEnter.visibility = View.GONE
+                            }
+                            decide_done_count == 0 -> {
+                                tvTfEnter.apply {
+                                    text = "开始练习"
+                                    setOnClickListener {
+                                        intent.putExtra(ProblemActivity.PROBLEM_TYPE_KEY, ProblemActivity.TRUE_FALSE)
+                                        activity.startActivity(intent)
+                                    }
+                                }
+
+                            }
+                            else -> tvTfEnter.text = "继续练习"
+                        }
                     }
                 }
             }
@@ -87,7 +144,7 @@ class TypeSelectPopup(private val activity: ListActivity, private val startXY: P
         val animSet = AnimatorSet()
         val scaleX = ObjectAnimator.ofFloat(view, "scaleX", 0f, 1f)
         val scaleY = ObjectAnimator.ofFloat(view, "scaleY", 0f, 1f)
-        val x = ObjectAnimator.ofFloat(view, "X", startXY.first, 50f * density)
+        val x = ObjectAnimator.ofFloat(view, "X", startXY.first, 30f * density)
         animSet.duration = 200L
         animSet.interpolator = AccelerateDecelerateInterpolator()
         animSet.play(scaleX).with(scaleY).with(alphaAnim).with(x)
@@ -99,7 +156,7 @@ class TypeSelectPopup(private val activity: ListActivity, private val startXY: P
         val contentAnim = ObjectAnimator.ofFloat(mContentLayout, "alpha", mContentLayout.alpha, 0f)
         val scaleX = ObjectAnimator.ofFloat(view, "scaleX", 1f, 0f)
         val scaleY = ObjectAnimator.ofFloat(view, "scaleY", 1f, 0f)
-        val x = ObjectAnimator.ofFloat(view, "X", 50f * density, startXY.first)
+        val x = ObjectAnimator.ofFloat(view, "X", 30f * density, startXY.first)
         animSet.duration = 200L
         animSet.interpolator = AccelerateDecelerateInterpolator()
         animSet.play(scaleX).with(scaleY).with(contentAnim).with(x)

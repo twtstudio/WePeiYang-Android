@@ -1,7 +1,5 @@
 package com.twtstudio.service.tjwhm.exam.list
 
-import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.support.v7.widget.RecyclerView
 import android.view.View
@@ -32,12 +30,6 @@ class LessonItem(val activity: ListActivity, val lessonBean: LessonBean) : Item 
                 tvEnterPractice?.visibility = View.GONE
                 tvTitle?.text = item.lessonBean.course_name
                 itemView.setOnClickListener { _ ->
-                    //                    getLessonInfo(item.lessonBean.course_id.toString()) {
-//                        when (it) {
-//                            is RefreshState.Failure -> Toasty.error(item.activity, "网络错误", Toast.LENGTH_SHORT).show()
-//                            is RefreshState.Success -> {
-//                                if (it.message.data.ques_num == "0") Toasty.info(item.activity, "该课程暂无题目", Toast.LENGTH_SHORT).show()
-//                                else {
                     if (isExpand) {
                         tvEnterContest?.apply {
                             animate()?.translationY(-16f)
@@ -75,20 +67,12 @@ class LessonItem(val activity: ListActivity, val lessonBean: LessonBean) : Item 
                         isExpand = true
                     }
                 }
-//                            }
-//                        }
-//                    }
-
 
                 val intent = Intent(item.activity, ProblemActivity::class.java)
                 intent.putExtra(ProblemActivity.LESSON_ID_KEY, item.lessonBean.course_id)
                 tvEnterPractice?.setOnClickListener {
                     val popup = TypeSelectPopup(item.activity, Pair(tvEnterPractice.x, tvEnterPractice.y), item.lessonBean.course_id)
                     popup.show()
-//                    intent.putExtra(ProblemActivity.MODE_KEY, ProblemActivity.READ_AND_PRACTICE)
-//                    // todo 选择题型
-//                    intent.putExtra(ProblemActivity.PROBLEM_TYPE_KEY, ProblemActivity.SINGLE_CHOICE)
-//                    item.activity.startActivity(intent)
                 }
 
                 tvEnterContest?.setOnClickListener {

@@ -24,9 +24,9 @@
 
         <View
             android:id="@+id/v_type_select_single_index"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_marginTop="20dp"
             android:background="@drawable/exam_shape_type_select_index"
             app:layout_constraintLeft_toLeftOf="@id/tv_type_select_title"
             app:layout_constraintTop_toBottomOf="@id/tv_type_select_title" />
@@ -70,16 +70,16 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
             android:background="@color/examArrowGrey"
             app:layout_constraintTop_toBottomOf="@id/v_type_select_single_index" />
 
         <View
             android:id="@+id/v_type_select_multi_index"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:layout_marginTop="12dp"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_marginTop="16dp"
             android:background="@drawable/exam_shape_type_select_index"
             app:layout_constraintLeft_toLeftOf="@id/tv_type_select_title"
             app:layout_constraintTop_toBottomOf="@id/v_type_select_divider_one" />
@@ -123,16 +123,16 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
             android:background="@color/examArrowGrey"
             app:layout_constraintTop_toBottomOf="@id/v_type_select_multi_index" />
 
         <View
             android:id="@+id/v_type_select_tf_index"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:layout_marginTop="12dp"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
             android:background="@drawable/exam_shape_type_select_index"
             app:layout_constraintLeft_toLeftOf="@id/tv_type_select_title"
