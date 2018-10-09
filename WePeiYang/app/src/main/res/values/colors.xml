@@ -3,15 +3,15 @@
     <!--<color name="colorPrimary">#edc6cd</color>-->
     <!--<color name="colorPrimaryDark">#dfa7b2</color>-->
     <!--<color name="colorAccent">#F8749A</color>-->
-    <color name="colorPrimary">#00a1e9</color>
-    <color name="colorPrimaryDark">#00a1e9</color>
-    <color name="colorAccent">#00a1e9</color>
+    <color name="colorPrimary">#D8BE71</color>
+    <color name="colorPrimaryDark">#D8BE71</color>
+    <color name="colorAccent">#D8BE71</color>
 
-    <color name="colorPrimaryLight">#00d096</color>
+    <color name="colorPrimaryLight">#AE837B</color>
 
     <!--微北洋主题色，强调突出的文字、按钮和icon-->
-    <color name="theme_color">#00a1e9</color>
-
+    <color name="theme_color">#D8BE71</color>
+    <color name="dark_color">#242424</color>
     <!--用于重要级文字信息、内容标题信息-->
     <color name="black_color">#333333</color>
 
@@ -20,6 +20,7 @@
 
     <color name="tab_unselect">#c9c9c9</color>
     <color name="background_gray">#eeeeee</color>
+
 
     <!--用于普通级段落 信息 引导词-->
     <color name="common_lv1">#666666</color>
@@ -34,16 +35,16 @@
     <color name="common_lv4_divider">#d9d9d9</color>
 
     <!--辅助颜色，用于辅助按钮及标签颜色-->
-    <color name="assist_color_1">#0ac3d5</color>
+    <color name="assist_color_1">#DBB86B</color>
 
     <!--用于辅助按钮及标签颜色-->
-    <color name="assist_color_2">#ff4282</color>
+    <color name="assist_color_2">#AE837B</color>
     
     <color name="layer_color">#19000000</color>
 
     <color name="test">#e6e6e6</color>
 
     <color name="tju_slide_background_color">#527e7a</color>
-    <color name="intro_slide_buttons">#00d096</color>
+    <color name="intro_slide_buttons">#AE837B</color>
     <color name="lib_slide_background_color">#e4e3e3</color>
 </resources>

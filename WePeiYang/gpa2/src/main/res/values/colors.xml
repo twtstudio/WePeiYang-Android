@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="gpa2_color_primary">#F3AB9B</color>
-    <color name="gpa2_color_primary_dark">#EC826A</color>
+    <color name="gpa2_color_primary">#292929</color>
+    <color name="gpa2_color_primary_dark">#242424</color>
     <color name="gpa2_color_secondary">#FFFFFF</color>
     <color name="gpa2_color_secondary_alpha">#99FFFFFF</color>
 </resources>

@@ -41,7 +41,7 @@ class TjuNetHomeItem(val lifecycleOwner: LifecycleOwner) : Item {
                 contentView.apply {
                     tv_big_title.text = it.ssid
                     tv_content.text = it.ip
-                    color_circle.color = if (it.connected) Color.parseColor("#3BCBFF") else Color.parseColor("#FF5D64")
+                    color_circle.color = if (it.connected) Color.parseColor("#748165") else Color.parseColor("#dcc373")
                     tv_status.text = it.message
                     btn_action.apply {
                         if (!it.connected) {

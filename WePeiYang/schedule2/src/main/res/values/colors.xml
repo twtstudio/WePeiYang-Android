@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="white">#ffffff</color>
-    <color name="schedule_primary_color">#fed22c</color>
-    <color name="schedule_dark_primary_color">#f67c01</color>
-    <color name="calendar_selected_color">#889abc</color>
-    <color name="schedule_orange">#fcc780</color>
-    <color name="schedule_green">#acd87a</color>
-    <color name="schedule_red">#fba890</color>
-    <color name="schedule_blue">#81c3f7</color>
-    <color name="schedule_purple">#eb99fb</color>
-    <color name="schedule_pink">#f5b4b2</color>
-    <color name="schedule_green2">#92d9a1</color>
-    <color name="schedule_purple2">#bc88ea</color>
-    <color name="schedule_green3">#94d9c6</color>
-    <color name="schedule_green4">#7dd893</color>
-    <color name="schedule_blue2">#8c9bee</color>
+    <color name="white">#f3efe4</color>
+    <color name="schedule_primary_color">#dcc373</color>
+    <color name="schedule_dark_primary_color">#748165</color>
+    <color name="calendar_selected_color">#ae837b</color>
+    <color name="schedule_orange">#738d91</color>
+    <color name="schedule_green">#c4ae65</color>
+    <color name="schedule_red">#a7776b</color>
+    <color name="schedule_blue">#927a87</color>
+    <color name="schedule_purple">#646155</color>
+    <color name="schedule_pink">#dcc373</color>
+    <color name="schedule_green2">#748165</color>
+    <color name="schedule_purple2">#ae837b</color>
+    <color name="schedule_green3">#738d91</color>
+    <color name="schedule_green4">#c4ae65</color>
+    <color name="schedule_blue2">#a7776b</color>
     <color name="schedule_gray">#cfcfcf</color>
     <color name="schedule_background_gray">#eeeeee</color>
     <color name="schedule_multi_background">#b8b3ae</color>

@@ -7,5 +7,5 @@
     <com.twt.service.schedule2.view.week.WeekSquareView
         android:id="@+id/custom_week_view"
         android:layout_width="85dp"
-        android:layout_height="100dp" />
+        android:layout_height="110dp" />
 </FrameLayout>

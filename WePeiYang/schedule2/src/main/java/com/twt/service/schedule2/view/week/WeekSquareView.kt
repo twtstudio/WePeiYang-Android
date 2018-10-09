@@ -29,23 +29,23 @@ class WeekSquareView @JvmOverloads constructor(context: Context, attrs: Attribut
         }
 
     private val selectedBackGroundPaint = Paint().apply {
-        color = Color.WHITE
+        color = getColorCompat(R.color.white)
     }
 
     private val backGroundPaint = Paint().apply {
-        color = Color.parseColor("#E6F7F5")
+        color = getColorCompat(R.color.colorPrimary)
     }
     private val pointPaintTrue = Paint().apply {
         color = getColorCompat(R.color.colorPrimary)
         isAntiAlias = true
     }
     private val pointPaintFalse = Paint().apply {
-        color = Color.parseColor("#D0D8D8")
+        color = Color.parseColor("#D8D8D0")
         isAntiAlias = true
     }
 
     private val textPaint = Paint().apply {
-        color = Color.BLACK
+        color = getColorCompat(R.color.colorPrimary)
         textSize = dp2px(10f)
         isAntiAlias = true
         textAlign = Paint.Align.CENTER

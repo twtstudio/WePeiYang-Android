@@ -17,10 +17,10 @@ class ScheduleDecoration : RecyclerView.ItemDecoration() {
 
     var week: Int = 1 // 设置Schedule上面的日期指示栏
     val backGroundPaint = Paint().apply {
-        color = rgbPercent(0.95f, 0.97f, 0.97f)
+        color = rgbPercent(0.97f, 0.97f, 0.95f)
     }
     val textPaint = Paint().apply {
-        color = rgbPercent(0.46f, 0.55f, 0.62f)
+        color = rgbPercent(0.55f, 0.55f, 0.55f)
         textSize = dp2px(11f)
         isAntiAlias = true
         textAlign = Paint.Align.CENTER
@@ -54,7 +54,7 @@ class ScheduleDecoration : RecyclerView.ItemDecoration() {
             // 绘制上侧栏
             canvas.drawRect(0F, 0F, parentWidth, topMargin, backGroundPaint)
             canvas.drawLine(0f, topMargin, parentWidth, topMargin, Paint().apply {
-                color = Color.rgb(230, 235, 238)
+                color = rgbPercent(0.94f, 0.94f, 0.92f)
                 style = Paint.Style.STROKE
                 strokeWidth = 2f
             })
@@ -79,7 +79,7 @@ class ScheduleDecoration : RecyclerView.ItemDecoration() {
                 if (index + 1 == todayInt) {
                     // 绘制当前的星期 比如说 今天是星期四
                     canvas.drawRect(x - perItemWidth/2,y - topMargin/2,x+perItemWidth/2,y + topMargin/2,Paint().apply {
-                        color = Color.rgb(201,243,242)
+                        color = rgbPercent(0.93f, 0.93f, 0.91f)
                     })
                 }
                 canvas.textCenter(strList, textPaint, x, y, Paint.Align.CENTER)

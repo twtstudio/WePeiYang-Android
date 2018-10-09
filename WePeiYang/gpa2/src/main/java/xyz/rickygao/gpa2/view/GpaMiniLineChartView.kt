@@ -43,7 +43,7 @@ class GpaMiniLineChartView @JvmOverloads constructor(context: Context, attrs: At
     private val linePaint = Paint().apply {
         style = Paint.Style.STROKE
         strokeWidth = LINE_STROKE.toFloat()
-        color = Color.parseColor("#E41E5A")
+        color = Color.parseColor("#DBB86B")
         isSubpixelText = true
         isAntiAlias = true
 
@@ -63,7 +63,7 @@ class GpaMiniLineChartView @JvmOverloads constructor(context: Context, attrs: At
 
     private val pointStrokePaint = Paint().apply {
         style = Paint.Style.STROKE
-        color = Color.parseColor("#E41E5A")
+        color = Color.parseColor("#DBB86B")
         strokeWidth = POINT_STROKE_WIDTH
     }
 
@@ -210,7 +210,7 @@ class GpaMiniLineChartView @JvmOverloads constructor(context: Context, attrs: At
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         computePath()
-        val shader = LinearGradient(width / 2.toFloat(), 0.toFloat(), width / 2.toFloat(), height - paddingBottom.toFloat(), Color.parseColor("#99E41E5A"),
+        val shader = LinearGradient(width / 2.toFloat(), 0.toFloat(), width / 2.toFloat(), height - paddingBottom.toFloat(), Color.parseColor("#99DBB86B"),
                 Color.parseColor("#00FFFFFF"), Shader.TileMode.CLAMP)
         fillPaint.shader = shader
 

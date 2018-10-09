@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white_color"
+    android:background="@color/dark_color"
     android:orientation="vertical"
     tools:layout_editor_absoluteY="81dp">
 
@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.3" />
+        app:layout_constraintGuide_percent="0.36" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline_2"
@@ -24,9 +24,9 @@
 
     <ImageView
         android:id="@+id/iv_logo"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:src="@drawable/auth_smile"
+        android:layout_width="173dp"
+        android:layout_height="66dp"
+        android:src="@drawable/ic_hello"
         app:layout_constraintBottom_toTopOf="@+id/tv_label"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -38,8 +38,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:layout_marginTop="8dp"
-        android:text="天外天账户登录"
+        android:text="请使用天外天账户登录"
+        android:textAlignment="center"
+        android:letterSpacing="1.2"
         android:textColor="@color/common_lv3"
         app:layout_constraintBottom_toTopOf="@+id/guideline_1"
         app:layout_constraintEnd_toEndOf="parent"
@@ -51,6 +52,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="8dp"
+        android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
         android:src="@drawable/auth_username"
         android:tint="@color/common_lv3"
@@ -63,13 +65,16 @@
 
     <EditText
         android:id="@+id/et_username"
-        android:layout_width="240dp"
-        android:layout_height="wrap_content"
+        android:layout_width="202dp"
+        android:layout_height="43dp"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
+        android:backgroundTint="@color/common_lv3"
         android:hint="用户名"
         android:inputType="textPersonName"
         android:lines="1"
+        android:textColor="@color/colorPrimary"
+        android:textColorHint="@color/common_lv1"
         app:layout_constraintBottom_toTopOf="@+id/et_password"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/iv_username"
@@ -81,6 +86,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="8dp"
+        android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
         android:src="@drawable/auth_password"
         android:tint="@color/common_lv3"
@@ -93,12 +99,15 @@
 
     <EditText
         android:id="@+id/et_password"
-        android:layout_width="240dp"
+        android:layout_width="202dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
+        android:backgroundTint="@color/common_lv3"
         android:hint="密码"
         android:inputType="textPassword"
+        android:textColor="@color/colorPrimary"
+        android:textColorHint="@color/common_lv1"
         app:layout_constraintBottom_toTopOf="@+id/btn_login"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/iv_password"
@@ -107,13 +116,13 @@
 
     <Button
         android:id="@+id/btn_login"
-        android:layout_width="200dp"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="24dp"
         android:background="@drawable/auth_login_button_selector"
         android:text="登录"
-        android:textColor="@color/white_color"
+        android:textColor="@color/black_color"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline_2"
         app:layout_constraintEnd_toEndOf="parent"
@@ -132,11 +141,14 @@
 
     <TextView
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="46dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="64dp"
         android:layout_marginStart="64dp"
-        android:text="登录错误请检查账号密码是否有问题, 500错误请多次重试(10-20次)"
+        android:textSize="10dp"
+        android:text="微 北 洋 尊 享 版 \nCOPYRIGHT © TWTSTUDIO 1999 - 2018"
+        android:textAlignment="center"
+        android:textColor="@color/common_lv1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

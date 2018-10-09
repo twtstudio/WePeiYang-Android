@@ -83,7 +83,7 @@ class LibraryHomeItem(val owner: LifecycleOwner) : Item {
                     }
                 }
                 holder.homeItem.itemContent.apply {
-                    val contentText = "借书 <span style=\"color:#E70C57\";>${info.books.size} </span> 即将到期 <span style=\"color:#E70C57\";>${info.books.count { it.timeLeft() < 8 }}</span>".spanned
+                    val contentText = "借书 <span style=\"color:#AE837B\";>${info.books.size} </span> 即将到期 <span style=\"color:#E70C57\";>${info.books.count { it.timeLeft() < 8 }}</span>".spanned
                     text = contentText
                 }
 
@@ -116,9 +116,9 @@ class BookItem(val book: Book) : Item {
                 bookName.text = item.book.title
                 bookReturn.text = "还书日期：${item.book.returnTime}"
                 when (item.book.timeLeft()) {
-                    in 8..40 -> colorCircleView.color = Color.parseColor("#3BCBFF") // blue
-                    in 3..7 -> colorCircleView.color = Color.parseColor("#FFC017") // yellow
-                    else -> colorCircleView.color = Color.parseColor("#FF5D64") //red
+                    in 8..40 -> colorCircleView.color = Color.parseColor("#748165") // blue
+                    in 3..7 -> colorCircleView.color = Color.parseColor("#DBB86B") // yellow
+                    else -> colorCircleView.color = Color.parseColor("#ae837b") //red
                 }
                 rootView.setOnClickListener {
                     val pop = BookPopupWindow(item.book, it.context)

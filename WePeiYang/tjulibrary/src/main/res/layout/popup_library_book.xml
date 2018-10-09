@@ -88,7 +88,7 @@
                 android:layout_height="16dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="11dp"
-                app:circleColor="#3BCBFF"
+                app:circleColor="#738d91"
                 app:drawCircleBounds="false"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_location_detail"
@@ -133,7 +133,7 @@
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:layout_marginTop="47dp"
-                app:circleColor="#FF5D64"
+                app:circleColor="#ae837b"
                 app:drawCircleBounds="false"
                 app:layout_constraintStart_toStartOf="@id/circle_book_in"
                 app:layout_constraintTop_toBottomOf="@id/circle_book_in"
@@ -179,6 +179,6 @@
         android:layout_marginTop="12dp"
         android:fontFamily="sans-serif-regular"
         android:text="尝试续借"
-        android:textColor="#3BCBFF"
+        android:textColor="#c4ae65"
         android:textSize="18sp" />
 </LinearLayout>

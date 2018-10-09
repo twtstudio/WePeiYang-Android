@@ -44,7 +44,7 @@ class GpaItem(val owner: LifecycleOwner) : Item {
             GpaLiveData.bindNonNull(item.owner) {
                 val x = it.stat.total.score.toString().substring(0, 4)
                 val y = it.stat.total.gpa.toString().substring(0, 4)
-                val text = "加权: <span style=\"color:#E70C57\";>${x}</span>&nbsp;绩点: <span style=\"color:#E70C57\";>${y}</span>"
+                val text = "加权: <span style=\"color:#DBB86B\";>${x}</span>&nbsp;绩点: <span style=\"color:#DBB86B\";>${y}</span>"
                 holder.homeItem.itemContent.text = text.spanned
             }
 

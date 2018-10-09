@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="colorPrimary">#00a1e9</color>
-    <color name="colorPrimaryDark">#00a1e9</color>
-    <color name="colorAccent">#00a1e9</color>
+    <color name="colorPrimary">#D8BE71</color>
+    <color name="colorPrimaryDark">#D8BE71</color>
+    <color name="colorAccent">#D8BE71</color>
+
+    <color name="colorPrimaryLight">#AE837B</color>
 
     <!--微北洋主题色，强调突出的文字、按钮和icon-->
-    <color name="theme_color">#00a1e9</color>
+    <color name="theme_color">#D8BE71</color>
+
+    <color name="dark_color">#242424</color>
 
     <!--用于重要级文字信息、内容标题信息-->
     <color name="black_color">#333333</color>
@@ -30,10 +34,10 @@
     <color name="common_lv4_divider">#F5F5F5</color>
 
     <!--辅助颜色，用于辅助按钮及标签颜色-->
-    <color name="assist_color_1">#0ac3d5</color>
+    <color name="assist_color_1">#DBB86B</color>
 
     <!--用于辅助按钮及标签颜色-->
-    <color name="assist_color_2">#ff4282</color>
+    <color name="assist_color_2">#AE837B</color>
 
     <color name="layer_color">#19000000</color>
 
@@ -42,10 +46,10 @@
     <color name="transparent">#00000000</color>
 
     <!--自定义主题-->
-    <color name="custom_peppa_pink">#EDC6CD</color>
-    <color name="custom_george_blue">#6595D9</color>
-    <color name="custom_pig_mom_yellow">#F4B17F</color>
-    <color name="custom_pig_dad_green">#6FC6C5</color>
-    <color name="custom_gay_purple">#a04aae</color>
+    <color name="custom_peppa_pink">#7c6a41</color>
+    <color name="custom_george_blue">#738d91</color>
+    <color name="custom_pig_mom_yellow">#ae837b</color>
+    <color name="custom_pig_dad_green">#748165</color>
+    <color name="custom_gay_purple">#363636</color>
 
 </resources>
