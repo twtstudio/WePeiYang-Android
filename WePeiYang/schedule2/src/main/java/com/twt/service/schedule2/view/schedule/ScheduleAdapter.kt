@@ -2,6 +2,7 @@ package com.twt.service.schedule2.view.schedule
 
 import android.content.Context
 import android.graphics.Color
+import android.graphics.Typeface
 import android.support.v7.util.DiffUtil
 import android.support.v7.widget.CardView
 import android.support.v7.widget.GridLayoutManager
@@ -9,6 +10,7 @@ import android.support.v7.widget.RecyclerView
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.AbsoluteSizeSpan
+import android.text.style.StyleSpan
 import android.text.style.TypefaceSpan
 import android.util.Log
 import android.view.LayoutInflater
@@ -112,12 +114,23 @@ class ScheduleAdapter(val context: Context) : RecyclerView.Adapter<ScheduleAdapt
                 text += course.statusMessage
                 text += "${course.coursename}\n@${course.arrange[0].room} "
 
-                val stringSpan = SpannableString(course.coursename + "\n \n" + course.arrange[0].room)
-                stringSpan.setSpan(TypefaceSpan("sans-serif-medium"), 0, course.coursename.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-                stringSpan.setSpan(AbsoluteSizeSpan(14, true), 0, course.coursename.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-                stringSpan.setSpan(AbsoluteSizeSpan(2, true), course.coursename.length, course.coursename.length + 3, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-                stringSpan.setSpan(TypefaceSpan("sans-serif-regular"), course.coursename.length + 3, stringSpan.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-                stringSpan.setSpan(AbsoluteSizeSpan(12, true), course.coursename.length + 3, stringSpan.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                val roomCluster = course.arrange[0].room.split("楼")
+
+                val divider = "\n \n"
+                val creditDisplayed = "- " + course.credit + " -"
+                val stringSpan = SpannableString(creditDisplayed + divider + course.coursename + divider + roomCluster[0] + "-" + roomCluster[1])
+                val lens = arrayOf(creditDisplayed.length, divider.length, course.coursename.length, divider.length, roomCluster[0].length, 1, roomCluster[1].length)
+                val accu = arrayOf(lens[0], lens[0]+lens[1], lens[0]+lens[1]+lens[2], lens[0]+lens[1]+lens[2]+lens[3], lens[0]+lens[1]+lens[2]+lens[3]+lens[4], lens[0]+lens[1]+lens[2]+lens[3]+lens[4]+lens[5], lens[0]+lens[1]+lens[2]+lens[3]+lens[4]+lens[5]+lens[6])
+                val e = Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+
+                stringSpan.setSpan(StyleSpan(Typeface.BOLD), accu[1], accu[2], 0)
+                stringSpan.setSpan(AbsoluteSizeSpan(8, true), 0, accu[0], e)
+                stringSpan.setSpan(AbsoluteSizeSpan(3, true), accu[0], accu[1], e)
+                stringSpan.setSpan(AbsoluteSizeSpan((if (lens[2] > 6) 13 else 15), true), accu[1], accu[2], e)
+                stringSpan.setSpan(AbsoluteSizeSpan(4, true), accu[2], accu[3], e)
+                stringSpan.setSpan(AbsoluteSizeSpan(8, true), accu[3], stringSpan.length, e)
+
+
                 /**
                  * 因为Rec的view是存在着缓存 在后面私自addView后 就会加到缓存里面去
                  * 但是不知道谁会取出这个缓存 使用就会存在蜜汁多节课程角标的问题

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="white">#f3efe4</color>
+    <color name="white">#f1efed</color>
     <color name="schedule_primary_color">#dcc373</color>
     <color name="schedule_dark_primary_color">#748165</color>
     <color name="calendar_selected_color">#ae837b</color>

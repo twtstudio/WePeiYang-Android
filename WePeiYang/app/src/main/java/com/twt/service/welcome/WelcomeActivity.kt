@@ -24,7 +24,7 @@ class WelcomeActivity : MaterialIntroActivity() {
 //        addSlide(BriefWelcomeFragment())
 //        if (!CommonPreferences.isBindTju) addSlide(TjuBindFragment())
 //        if (!CommonPreferences.isBindLibrary) addSlide(LibBindFragment())
-        finish()
+        onFinish()
     }
 
     override fun onFinish() {

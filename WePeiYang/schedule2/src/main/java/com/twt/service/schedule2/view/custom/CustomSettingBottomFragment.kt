@@ -156,11 +156,11 @@ class CustomSettingBottomFragment : BottomSheetDialogFragment() {
 
                 spreadChainLayout {
                     listOf(
-                            "Gold" to Color.parseColor("#7c6a41"),
+                            "Coal" to Color.parseColor("#363636"),
                             "Nordic" to Color.parseColor("#738d91"),
                             "Rose" to Color.parseColor("#ae837b"),
                             "Matcha" to Color.parseColor("#748165"),
-                            "Coal" to Color.parseColor("#363636")
+                            "Gold" to Color.parseColor("#7c6a41")
                     ).forEachIndexed { index, (name, color) ->
 
                         verticalLayout {

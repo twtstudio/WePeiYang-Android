@@ -16,6 +16,7 @@ import com.twt.service.welcome.WelcomeActivity
 import com.twt.wepeiyang.commons.experimental.CommonContext
 import com.twt.wepeiyang.commons.experimental.theme.CustomTheme
 import com.twtstudio.retrox.auth.view.LoginActivity
+import es.dmoral.toasty.Toasty
 import io.multimoon.colorful.Defaults
 import io.multimoon.colorful.initColorful
 
@@ -33,6 +34,14 @@ class WePeiYangApp : MultiDexApplication() {
             registerActivity("login", LoginActivity::class.java)
             registerActivity("welcome", WelcomeActivity::class.java)
         }
+
+        Toasty.Config.getInstance()
+                .setErrorColor(0xffAE837B.toInt())
+                .setInfoColor(0xff738d91.toInt())
+                .setSuccessColor(0xff748165.toInt())
+                .setWarningColor(0xffD8BE71.toInt())
+                .setTextColor(0xff242424.toInt())
+                .apply()
 
         applicationContext.let {
             Bugly.init(it, "8ceee186f2", false)

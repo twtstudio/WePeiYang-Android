@@ -46,10 +46,10 @@
     <color name="transparent">#00000000</color>
 
     <!--自定义主题-->
-    <color name="custom_peppa_pink">#7c6a41</color>
+    <color name="custom_peppa_pink">#363636</color>
     <color name="custom_george_blue">#738d91</color>
     <color name="custom_pig_mom_yellow">#ae837b</color>
     <color name="custom_pig_dad_green">#748165</color>
-    <color name="custom_gay_purple">#363636</color>
+    <color name="custom_gay_purple">#7c6a41</color>
 
 </resources>

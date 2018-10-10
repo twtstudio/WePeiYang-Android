@@ -1,6 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.twt.service.schedule2" >
-    <application>
+    <application
+        android:theme="@style/AppTheme">
         <activity android:name=".view.custom.AddCustomCourseActivity"/>
         <activity android:name=".view.schedule.ScheduleActivity" android:exported="true">
             <intent-filter>
@@ -17,5 +18,6 @@
         <activity
             android:name=".calender.CalSyncActivity"
             android:exported="true" />
+
     </application>
 </manifest>
