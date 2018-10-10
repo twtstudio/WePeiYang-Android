@@ -8,6 +8,8 @@ import android.widget.RemoteViewsService;
 
 import com.orhanobut.hawk.Hawk;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
+import com.twt.service.schedule2.model.Arrange;
+import com.twt.service.schedule2.model.Course;
 import com.twtstudio.retrox.schedule.model.ClassTable;
 import com.twtstudio.retrox.schedule.model.CourseHelper;
 import com.twt.service.R;
@@ -23,10 +25,10 @@ import java.util.List;
 public class WidgetListFactory implements RemoteViewsService.RemoteViewsFactory {
 
     private Context mContext;
-    private List<ClassTable.Data.Course> courseList;
+    private List<Course> courseList;
     private final CourseHelper helper = new CourseHelper();
 
-    public WidgetListFactory(Context mContext, List<ClassTable.Data.Course> courses) {
+    public WidgetListFactory(Context mContext, List<Course> courses) {
         this.mContext = mContext;
         courseList = courses;
     }
@@ -45,7 +47,7 @@ public class WidgetListFactory implements RemoteViewsService.RemoteViewsFactory 
     @Override
     public void onDataSetChanged() {
 //        getData(false);
-        courseList = Hawk.get("scheduleCache", new ArrayList<ClassTable.Data.Course>());
+        courseList = Hawk.get("scheduleCache2", new ArrayList<Course>());
     }
 
     @Override
@@ -62,16 +64,17 @@ public class WidgetListFactory implements RemoteViewsService.RemoteViewsFactory 
     public RemoteViews getViewAt(int position) {
         RemoteViews remoteViews = new RemoteViews(mContext.getPackageName(), R.layout.widget_schedule_item);
 
-        ClassTable.Data.Course course = courseList.get(position);
-        remoteViews.setTextViewText(R.id.widget_course_title, course.coursename);
-        if (course.coursename.equals("今天没课！！！")) {
+        Course course = courseList.get(position);
+        remoteViews.setTextViewText(R.id.widget_course_title, course.getCoursename());
+        if (course.getCoursename().equals("今天没课！！！")) {
             remoteViews.setViewVisibility(R.id.widget_course_location_icon, View.VISIBLE);
         }
-        if (!(course.coursename.equals("无") || course.coursename.equals("今天没课！！！"))) {
+        if (!(course.getCoursename().equals("无") || course.getCoursename().equals("今天没课！！！"))) {
 
-            String location = CourseHelper.getTodayLocation(course.arrange);
+            Arrange arrange = course.getArrange().get(0);
+            String location = arrange.getRoom();
             remoteViews.setTextViewText(R.id.widget_course_location, location);
-            String time = "第" + helper.getTodayStart(course.arrange) + "-" + helper.getTodayEnd(course.arrange) + "节";
+            String time = "第" + arrange.getStart() + "-" + arrange.getEnd() + "节";
             remoteViews.setTextViewText(R.id.widget_course_time, time);
 
         }

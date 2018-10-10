@@ -84,6 +84,18 @@ class AuditCourseItem(val auditCourse: AuditCourse) : Item {
             holder as ViewHolder
             holder.container.backgroundColor = Color.WHITE
             val cachedScheduleManager = TotalCourseManager.getTotalCourseManager().value
+            if (item.auditCourse.infos.isEmpty()) {
+                val course = item.auditCourse
+                holder.apply {
+                    auditName.text = course.courseName
+                    auditCollege.text = course.college
+                    auditTeacher.text = "无数据"
+                    auditWeek.text = "无数据"
+                    auditTime.text = "无数据"
+                    auditLocation.text = "无数据"
+                }
+                return
+            }
             val auditCourse = item.auditCourse.copy(infos = listOf(item.auditCourse.infos[0])) // 只要第一个
             val course = auditCourse.convertToCourse()
             holder.apply {
