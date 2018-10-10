@@ -20,6 +20,10 @@ import xyz.rickygao.gpa2.R
 import xyz.rickygao.gpa2.service.GpaBean
 import xyz.rickygao.gpa2.service.GpaLiveData
 import xyz.rickygao.gpa2.service.Term
+import android.graphics.Typeface
+import android.widget.TextView
+
+
 
 /**
  * Created by rickygao on 2017/11/9.
@@ -90,7 +94,7 @@ class GpaActivity : AppCompatActivity() {
 
         inflater = LayoutInflater.from(this)
 
-        enableLightStatusBarMode(true)
+        // enableLightStatusBarMode(true)
 
         // init toolbar
         toolbar = findViewById<Toolbar>(R.id.toolbar).also {
@@ -138,6 +142,12 @@ class GpaActivity : AppCompatActivity() {
         scoreTv = findViewById(R.id.tv_score)
         gpaTv = findViewById(R.id.tv_gpa)
         creditTv = findViewById(R.id.tv_credit)
+
+
+        val felixFont = Typeface.createFromAsset(assets, "felix.ttf")
+        scoreTv.typeface = felixFont
+        gpaTv.typeface = felixFont
+        creditTv.typeface = felixFont
 
         // init term selector
         selectedTermTs = findViewById<TextSwitcher>(R.id.ts_selected_term).apply {
@@ -188,6 +198,7 @@ class GpaActivity : AppCompatActivity() {
                 }
             }
         }
+
 
         // bind callback
         GpaLiveData.bindNonNull(this, ::bindGpaBean)

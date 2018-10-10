@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="gpa2_color_primary">#292929</color>
-    <color name="gpa2_color_primary_dark">#242424</color>
-    <color name="gpa2_color_secondary">#FFFFFF</color>
+    <color name="gpa2_color_primary">#DBB86B</color>
+    <color name="gpa2_color_primary_dark">#DBB86B</color>
+    <color name="gpa2_color_secondary">#242424</color>
     <color name="gpa2_color_secondary_alpha">#99FFFFFF</color>
+    <color name="gpa2_color_secondary_alphamore">#22FFFFFF</color>
+    <color name="gpa2_color_primary_silver">#DDDDDD</color>
 </resources>

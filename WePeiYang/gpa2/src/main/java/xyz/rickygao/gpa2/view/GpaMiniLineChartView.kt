@@ -17,7 +17,7 @@ import org.jetbrains.anko.dip
  */
 class GpaMiniLineChartView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : View(context, attrs, defStyleAttr) {
     private val LINE_STROKE = dip(1)
-    private val POINT_RADIUS = dip(2.5f)
+    private val POINT_RADIUS = dip(0f)
     private val POINT_STROKE_WIDTH = 4F
     private val AXIS_STROKE = 0.8F
     private val DOTTED_LINE_STROKE = 3F

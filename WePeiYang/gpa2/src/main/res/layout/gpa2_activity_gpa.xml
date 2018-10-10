@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/dark_color"
     tools:context="xyz.rickygao.gpa2.view.GpaActivity">
 
     <android.support.design.widget.AppBarLayout
@@ -22,7 +23,7 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_gravity="start"
-                android:background="@drawable/gpa2_back_black" />
+                android:background="@drawable/gpa2_back_white" />
 
             <TextView
                 android:id="@+id/tv_toolbar_selected_term"
@@ -39,7 +40,7 @@
                 android:layout_height="24dp"
                 android:layout_gravity="end"
                 android:layout_marginEnd="16dp"
-                android:background="@drawable/gpa2_refresh_black" />
+                android:background="@drawable/gpa2_refresh_white" />
 
             <ToggleButton
                 android:id="@+id/btn_toggle"
@@ -99,7 +100,7 @@
                         android:background="@color/gpa2_color_secondary"
                         android:paddingBottom="110dp"
                         android:paddingTop="10dp"
-                        app:fillColor="@color/gpa2_color_primary"
+                        app:fillColor="#242424"
                         app:lineColor="@color/gpa2_color_primary_dark"
                         app:pointColor="@color/gpa2_color_primary_dark" />
 
@@ -107,14 +108,13 @@
                         android:id="@+id/cv_gpa_radar"
                         android:layout_width="match_parent"
                         android:layout_height="320dp"
-                        android:background="@color/gpa2_color_primary"
                         android:paddingBottom="40dp"
                         android:paddingEnd="40dp"
                         android:paddingStart="40dp"
                         android:paddingTop="20dp"
-                        app:fillColor="@color/gpa2_color_secondary_alpha"
-                        app:lineColor="@color/gpa2_color_secondary"
-                        app:textColor="@color/gpa2_color_secondary" />
+                        app:fillColor="@color/gpa2_color_secondary_alphamore"
+                        app:lineColor="@color/colorPrimary"
+                        app:textColor="@color/gpa2_color_secondary_alpha" />
 
                     <include layout="@layout/gpa2_component_sort" />
 
