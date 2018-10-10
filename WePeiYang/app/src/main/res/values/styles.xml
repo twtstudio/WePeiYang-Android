@@ -14,8 +14,8 @@
 
 
     <style name="Splash" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:colorPrimaryDark">@color/colorAccent</item>
-        <item name="android:windowBackground">@drawable/splash</item>
+        <item name="android:colorPrimaryDark">@color/dark_color</item>
+        <item name="android:windowBackground">@drawable/guide_screen_lux_xml</item>
     </style>
 
     <style name="AppThemeActionBar" parent="Theme.AppCompat.Light.DarkActionBar">

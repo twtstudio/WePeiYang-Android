@@ -18,12 +18,13 @@ class WelcomeActivity : MaterialIntroActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        addSlide(GpaWelcomeFragment())
-        addSlide(ScheduleWelcomeFragment())
-        addSlide(BikeWelcomeFragment())
-        addSlide(BriefWelcomeFragment())
-        if (!CommonPreferences.isBindTju) addSlide(TjuBindFragment())
-        if (!CommonPreferences.isBindLibrary) addSlide(LibBindFragment())
+//        addSlide(GpaWelcomeFragment())
+//        addSlide(ScheduleWelcomeFragment())
+//        addSlide(BikeWelcomeFragment())
+//        addSlide(BriefWelcomeFragment())
+//        if (!CommonPreferences.isBindTju) addSlide(TjuBindFragment())
+//        if (!CommonPreferences.isBindLibrary) addSlide(LibBindFragment())
+        finish()
     }
 
     override fun onFinish() {

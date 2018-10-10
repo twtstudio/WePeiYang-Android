@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-
+    <item
+        android:drawable="@color/dark_color"/>
     <item>
-        <bitmap  android:gravity="fill" android:src="@drawable/guide_screen_lux" >
+        <bitmap
+            android:src="@drawable/guide_screen_lux_nova"
+            android:gravity="center">
         </bitmap>
     </item>
 </layer-list>

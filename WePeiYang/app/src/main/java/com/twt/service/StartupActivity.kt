@@ -22,7 +22,7 @@ class StartupActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+//        setContentView(R.layout.activity_startup)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) createDynamicShortcuts()
 
         if (CommonPreferences.isLogin) {
