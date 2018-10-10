@@ -34,9 +34,10 @@
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="54dp"
-        android:layout_height="32dp"
+        android:layout_width="48dp"
+        android:layout_height="33dp"
         android:layout_marginLeft="5dp"
+        android:layout_marginTop="2dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@id/tv_toolbar_title"
         app:layout_constraintTop_toTopOf="parent"

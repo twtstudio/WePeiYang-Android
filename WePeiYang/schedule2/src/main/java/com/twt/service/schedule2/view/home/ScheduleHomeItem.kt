@@ -97,7 +97,7 @@ class ScheduleHomeItem(val lifecycleOwner: LifecycleOwner) : Item {
                 }
                 holder.homeItem.apply {
                     itemName.text = dateString
-                    val contentTextPrefix = if (displayTomorrow) "<span style=\"color:#DBB86B\";>明天 </span>" else "今天"
+                    val contentTextPrefix = if (displayTomorrow) "<span style=\"color:#DBB86B\";>阁下明天 </span>" else "阁下今天"
                     val contentText = if (count > 0) "有 <span style=\"color:#DBB86B\";>${count}</span> 节课" else "无课"
                     itemContent.text = (contentTextPrefix + contentText).spanned
                     rootView.setOnClickListener {

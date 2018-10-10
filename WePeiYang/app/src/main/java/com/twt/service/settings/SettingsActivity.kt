@@ -1,6 +1,7 @@
 package com.twt.service.settings
 
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.preference.Preference

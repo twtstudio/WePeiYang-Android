@@ -22,7 +22,6 @@ import xyz.rickygao.gpa2.R
 import xyz.rickygao.gpa2.service.GpaLiveData
 import xyz.rickygao.gpa2.service.Term
 
-
 /**
  * Created by asus on 2018/5/13.
  */
@@ -44,7 +43,7 @@ class GpaItem(val owner: LifecycleOwner) : Item {
             GpaLiveData.bindNonNull(item.owner) {
                 val x = it.stat.total.score.toString().substring(0, 4)
                 val y = it.stat.total.gpa.toString().substring(0, 4)
-                val text = "加权: <span style=\"color:#DBB86B\";>${x}</span>&nbsp;绩点: <span style=\"color:#DBB86B\";>${y}</span>"
+                val text = "加权 <span style=\"color:#DBB86B\";>${x}</span>&nbsp; / &nbsp;绩点 <span style=\"color:#DBB86B\";>${y}</span>"
                 holder.homeItem.itemContent.text = text.spanned
             }
 
