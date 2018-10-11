@@ -34,11 +34,17 @@ class ProblemActivity : AppCompatActivity(), ProblemActivityInterface {
         const val TRUE_FALSE = 2
 
         var isLeft = true
+
     }
 
-    private var mode: Int = 0
-    var lessonID: Int = 0
+    // 当前的答题模式 (背题、测试), 题目类型 (单选、多选、判断)
+    var mode: Int = 0
     private var problemType: Int = 0
+
+    //  课程 ID, 本 activity 中的题目总数
+    var lessonID: Int = 0
+    var size: Int = 0
+
     var time: Int = 0
     var currentFragmentIndex = 0
 
@@ -53,8 +59,8 @@ class ProblemActivity : AppCompatActivity(), ProblemActivityInterface {
     private val pagerAdapter = ProblemPagerAdapter(supportFragmentManager)
 
     private var statusBarView: View? = null
-    var size = 0
-    var userSelections: MutableMap<Int, UpdateResultViewModel> = mutableMapOf()
+    var userSelectionsForPractice: MutableList<List<Int>> = mutableListOf()
+    var userSelectionsForTest: MutableMap<Int, UpdateResultViewModel> = mutableMapOf()
     private var problemIndexData: MutableList<ProblemIndex> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -151,16 +157,23 @@ class ProblemActivity : AppCompatActivity(), ProblemActivityInterface {
     }
 
     private fun startReadAndPracticeNetwork() {
-        getIDs(lessonID.toString(), problemType.toString()) {
+        getIDs(lessonID.toString(), problemType.toString()) { it ->
             when (it) {
                 is RefreshState.Failure -> Toasty.error(this, "网络错误", Toast.LENGTH_SHORT).show()
                 is RefreshState.Success -> {
                     it.message.data!!.apply {
-                        for (i in 0 until this.size)
+                        this@ProblemActivity.size = size
+                        for (i in 0 until size)
                             pagerAdapter.add(i, problemType, ProblemFragment.READ_MODE, this[i])
 
                         vpProblem.adapter = pagerAdapter
                         Toasty.success(this@ProblemActivity, "加载成功", Toast.LENGTH_SHORT).show()
+
+                        this@ProblemActivity.size = size
+                        repeat(size) {
+                            userSelectionsForPractice.add(listOf<Int>())
+                            problemIndexData.add(ProblemIndex.NONE)
+                        }
                     }
                 }
             }
@@ -176,9 +189,10 @@ class ProblemActivity : AppCompatActivity(), ProblemActivityInterface {
                     for (i in 0 until it.message.data.size) {
                         pagerAdapter.add(i, it.message.data[i])
                     }
-                    size += it.message.data.size
                     vpProblem.adapter = pagerAdapter
                     time = it.message.time
+
+                    size = it.message.data.size
                     repeat(size) {
                         problemIndexData.add(ProblemIndex.NONE)
                     }
@@ -187,11 +201,18 @@ class ProblemActivity : AppCompatActivity(), ProblemActivityInterface {
         }
     }
 
+    fun storeSelectionForPractice(index: Int, selections: List<Int>, isRight: Boolean) {
+        userSelectionsForPractice[index] = selections
+        if (isRight)
+            problemIndexData[index] = ProblemIndex.TRUE
+        else
+            problemIndexData[index] = ProblemIndex.WRONG
+    }
 
     fun storeResult(fragmentIndex: Int, updateResultViewModel: UpdateResultViewModel, problemIndex: ProblemIndex, scrollPage: Boolean) {
-        userSelections[fragmentIndex] = updateResultViewModel
+        userSelectionsForTest[fragmentIndex] = updateResultViewModel
         problemIndexData[fragmentIndex] = problemIndex
-        if (mode == CONTEST && userSelections.size == size) {
+        if (mode == CONTEST && userSelectionsForTest.size == size) {
             // todo
         } else if (scrollPage && vpProblem.currentItem < size - 1) {
             vpProblem.setCurrentItem(vpProblem.currentItem + 1, true)
@@ -199,14 +220,14 @@ class ProblemActivity : AppCompatActivity(), ProblemActivityInterface {
     }
 
     private fun uploadResult() {
-        if (size != userSelections.size) {
+        if (size != userSelectionsForTest.size) {
             Toasty.info(this@ProblemActivity, "请完成所有题目", Toast.LENGTH_SHORT).show()
             showProblemIndexPopupWindow(tvUpload.x, tvUpload.y, currentFragmentIndex)
             return
         }
         val list = mutableListOf<UpdateResultViewModel>()
-        repeat(userSelections.size) {
-            userSelections[it]?.let { it1 -> list.add(it1) }
+        repeat(userSelectionsForTest.size) {
+            userSelectionsForTest[it]?.let { it1 -> list.add(it1) }
         }
         getScore(lessonID.toString(), time.toString(), list) {
             when (it) {

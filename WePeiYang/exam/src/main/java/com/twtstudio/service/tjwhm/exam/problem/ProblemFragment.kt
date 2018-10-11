@@ -125,20 +125,9 @@ class ProblemFragment : Fragment() {
         llIndex.setOnClickListener {
             mActivity.showProblemIndexPopupWindow(llIndex.x, llIndex.y, fragmentIndex)
         }
+
         btConfirm.setOnClickListener {
-            val answerString = when (type) {
-                SINGLE_CHOICE, TRUE_FALSE -> singleSelectionAnswer.toSelectionIndex()
-                MULTI_CHOICE -> multiSelectionAnswers.toSelectionIndex()
-                else -> "W"
-            }
-            val scrollPage = !(mode == PRACTICE_MODE && multiSelectionAnswers != answerFromRemote.multiSelectionIndexToInt())
-            val problemIndex: ProblemIndex = if (mode == PRACTICE_MODE) {
-                when (multiSelectionAnswers == answerFromRemote.multiSelectionIndexToInt()) {
-                    true -> ProblemIndex.TRUE
-                    else -> ProblemIndex.WRONG
-                }
-            } else ProblemIndex.TRUE
-            mActivity.storeResult(fragmentIndex, UpdateResultViewModel(problemID, answerString, type), problemIndex, scrollPage)
+            onConfirmButtonClick()
         }
 
         rvSelections.layoutManager = LinearLayoutManager(context)
@@ -169,12 +158,12 @@ class ProblemFragment : Fragment() {
                             answerFromRemote = this.answer
                             rvSelections.withItems {
                                 if (mode == PRACTICE_MODE) {
-                                    for (i in 0 until this@apply.option.size) {
+                                    for (i in 0 until this@apply.option.size)
                                         selectionItem(this@ProblemFragment, i.toSelectionIndex(), this@apply.option[i], SelectionItem.NONE)
-                                    }
+
                                 } else if (mode == READ_MODE) {
-                                    for (i in 0 until it.message.data!!.option.size) {
-                                        if (i.toSelectionIndex() == it.message.data!!.answer)
+                                    for (i in 0 until option.size) {
+                                        if (i in answer.multiSelectionIndexToInt())
                                             selectionItem(this@ProblemFragment, i.toSelectionIndex(), this@apply.option[i], SelectionItem.TRUE)
                                         else selectionItem(this@ProblemFragment, i.toSelectionIndex(), this@apply.option[i], SelectionItem.NONE)
                                     }
@@ -194,10 +183,10 @@ class ProblemFragment : Fragment() {
                                             .parts()
                                     deleteCollection(StarActivity.STAR.toString(), list) { it ->
                                         when (it) {
-                                            is RefreshState.Failure -> Toasty.error(mActivity, "网络错误", Toast.LENGTH_SHORT).show()
+                                            is RefreshState.Failure -> Toasty.error(context, "网络错误", Toast.LENGTH_SHORT).show()
                                             is RefreshState.Success -> {
                                                 if (it.message.error_code == 0) {
-                                                    Toasty.success(mActivity, "删除成功", Toast.LENGTH_SHORT).show()
+                                                    Toasty.success(context, "删除成功", Toast.LENGTH_SHORT).show()
                                                     getProblemData()
                                                 }
                                             }
@@ -218,10 +207,10 @@ class ProblemFragment : Fragment() {
                                             .parts()
                                     addCollection(StarActivity.STAR.toString(), list) { it ->
                                         when (it) {
-                                            is RefreshState.Failure -> Toasty.error(mActivity, "网络错误", Toast.LENGTH_SHORT).show()
+                                            is RefreshState.Failure -> Toasty.error(context, "网络错误", Toast.LENGTH_SHORT).show()
                                             is RefreshState.Success -> {
                                                 if (it.message.error_code == 0) {
-                                                    Toasty.success(mActivity, "收藏成功", Toast.LENGTH_SHORT).show()
+                                                    Toasty.success(context, "收藏成功", Toast.LENGTH_SHORT).show()
                                                     getProblemData()
                                                 }
                                             }
@@ -264,14 +253,17 @@ class ProblemFragment : Fragment() {
     }
 
     fun onSelectionItemClick(clickId: Int) {
-        if (mode == PRACTICE_MODE && clickable && (type == SINGLE_CHOICE || type == TRUE_FALSE)) {
-            showAnswersForSingleSelection(clickId)
+        if (mode == PRACTICE_MODE && clickable) {
+            when (type) {
+                SINGLE_CHOICE, TRUE_FALSE -> onSelectionClickForPracticeSingle(clickId)
+                MULTI_CHOICE -> onSelectionClickForPracticeMulti(clickId)
+            }
         } else if (mode == TEST_MODE && clickable) {
             showSelectedSelectionForTest(clickId)
         }
     }
 
-    private fun showAnswersForSingleSelection(clickId: Int) {
+    private fun onSelectionClickForPracticeSingle(clickId: Int) {
         val adapter = rvSelections.adapter as ItemAdapter
         val optionList: MutableList<Item> = adapter.itemManager.itemListSnapshot.toMutableList()
         for (i in 0 until optionList.size) {
@@ -285,9 +277,9 @@ class ProblemFragment : Fragment() {
         answerIsShown = true
         divider.visibility = View.VISIBLE
         tvAnswer.visibility = View.VISIBLE
-        val scrollPage = clickId == answerFromRemote.selectionIndexToInt()
+        val isRight = clickId == answerFromRemote.selectionIndexToInt()
 
-        if (scrollPage) {
+        if (isRight) {
             tvRightOrWrong.text = "回答正确"
             context?.let { ContextCompat.getColor(it, R.color.examTextBlue) }?.let { tvRightOrWrong.setTextColor(it) }
         } else {
@@ -302,20 +294,72 @@ class ProblemFragment : Fragment() {
                     .parts()
             addCollection(StarActivity.WRONG.toString(), list) {
                 when (it) {
-                    is RefreshState.Failure -> Toasty.error(mActivity, "网络错误", Toast.LENGTH_SHORT).show()
+                    is RefreshState.Failure -> context?.let { it1 -> Toasty.error(it1, "网络错误", Toast.LENGTH_SHORT).show() }
                     is RefreshState.Success -> {
                         if (it.message.error_code == 0) {
-                            Toasty.info(mActivity, "已加入错题本", Toast.LENGTH_SHORT).show()
+                            context?.let { it1 -> Toasty.info(it1, "已加入错题本", Toast.LENGTH_SHORT).show() }
                         }
                     }
                 }
             }
         }
-        val problemIndex = when (scrollPage) {
-            true -> ProblemIndex.TRUE
-            else -> ProblemIndex.WRONG
+
+        mActivity.storeSelectionForPractice(fragmentIndex, listOf(clickId), isRight)
+    }
+
+    private fun onSelectionClickForPracticeMulti(clickId: Int) {
+        val adapter = rvSelections.adapter as ItemAdapter
+        val optionList: MutableList<Item> = adapter.itemManager.itemListSnapshot.toMutableList()
+        when ((optionList[clickId] as SelectionItem).status) {
+            SelectionItem.TRUE -> optionList[clickId] = SelectionItem(optionList[clickId] as SelectionItem, SelectionItem.NONE)
+            SelectionItem.NONE -> optionList[clickId] = SelectionItem(optionList[clickId] as SelectionItem, SelectionItem.TRUE)
         }
-        mActivity.storeResult(fragmentIndex, UpdateResultViewModel(problemID, clickId.toSelectionIndex(), type), problemIndex, scrollPage)
+        adapter.itemManager.refreshAll(optionList)
+        when (clickId) {
+            in multiSelectionAnswers -> multiSelectionAnswers.remove(clickId)
+            else -> multiSelectionAnswers.add(clickId)
+        }
+    }
+
+    private fun onConfirmButtonClick() {
+        if (mode == PRACTICE_MODE) {
+            clickable = false
+            val adapter = rvSelections.adapter as ItemAdapter
+            val optionList: MutableList<Item> = adapter.itemManager.itemListSnapshot.toMutableList()
+            for (i in multiSelectionAnswers) {
+                if (i in answerFromRemote.multiSelectionIndexToInt())
+                    optionList[i] = SelectionItem(optionList[i] as SelectionItem, SelectionItem.TRUE)
+                else
+                    optionList[i] = SelectionItem(optionList[i] as SelectionItem, SelectionItem.FALSE)
+            }
+
+            for (i in answerFromRemote.multiSelectionIndexToInt()) {
+                optionList[i] = SelectionItem(optionList[i] as SelectionItem, SelectionItem.TRUE)
+            }
+
+            adapter.itemManager.refreshAll(optionList)
+
+            val isRight = answerFromRemote.multiSelectionIndexToInt().isRightWith(multiSelectionAnswers)
+            if (isRight) {
+                tvRightOrWrong.text = "回答正确"
+            } else tvRightOrWrong.text = "回答错误"
+            tvAnswer.visibility = View.VISIBLE
+            mActivity.storeSelectionForPractice(fragmentIndex, multiSelectionAnswers, isRight)
+        } else if (mode == TEST_MODE) {
+            val answerString = when (type) {
+                SINGLE_CHOICE, TRUE_FALSE -> singleSelectionAnswer.toSelectionIndex()
+                MULTI_CHOICE -> multiSelectionAnswers.toSelectionIndex()
+                else -> "W"
+            }
+            val scrollPage = !(mode == PRACTICE_MODE && multiSelectionAnswers != answerFromRemote.multiSelectionIndexToInt())
+            val problemIndex: ProblemIndex = if (mode == PRACTICE_MODE) {
+                when (multiSelectionAnswers == answerFromRemote.multiSelectionIndexToInt()) {
+                    true -> ProblemIndex.TRUE
+                    else -> ProblemIndex.WRONG
+                }
+            } else ProblemIndex.TRUE
+            mActivity.storeResult(fragmentIndex, UpdateResultViewModel(problemID, answerString, type), problemIndex, scrollPage)
+        }
     }
 
     private fun showSelectedSelectionForTest(clickId: Int) {
@@ -344,7 +388,7 @@ class ProblemFragment : Fragment() {
     }
 
     private fun showStoredAnswers() {
-        val answers = mActivity.userSelections[fragmentIndex]?.answer?.multiSelectionIndexToInt()
+        val answers = mActivity.userSelectionsForTest[fragmentIndex]?.answer?.multiSelectionIndexToInt()
         val adapter = rvSelections.adapter as ItemAdapter
         val list: MutableList<Item> = adapter.itemManager.itemListSnapshot.toMutableList()
 

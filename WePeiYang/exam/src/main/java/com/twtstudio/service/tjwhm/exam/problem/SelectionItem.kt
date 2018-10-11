@@ -40,6 +40,10 @@ class SelectionItem(val fragment: ProblemFragment?, val selectionIndex: String, 
                         setBackgroundResource(R.drawable.exam_shape_selection_wrong_index)
                         item.fragment?.context?.let { ContextCompat.getColor(it, R.color.white_color) }?.let { setTextColor(it) }
                     }
+                    NONE -> tvSelectionIndex?.apply {
+                        setBackgroundResource(R.drawable.exam_shape_selection_index)
+                        item.fragment?.context?.let { ContextCompat.getColor(it, R.color.black_color) }?.let { setTextColor(it) }
+                    }
                 }
 
                 itemView.setOnClickListener {
@@ -49,10 +53,6 @@ class SelectionItem(val fragment: ProblemFragment?, val selectionIndex: String, 
         }
     }
 
-    override fun areItemsTheSame(newItem: Item): Boolean {
-        return this.status == (newItem as SelectionItem).status
-    }
-
     private class ItemViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
         val tvSelectionIndex: TextView? = itemView?.findViewById(R.id.tv_selection_index)
         val tvSelectionContent: TextView? = itemView?.findViewById(R.id.tv_selection_content)
@@ -60,3 +60,4 @@ class SelectionItem(val fragment: ProblemFragment?, val selectionIndex: String, 
 }
 
 fun MutableList<Item>.selectionItem(fragment: ProblemFragment?, selectionIndex: String, selectionContent: String, status: Int) = add(SelectionItem(fragment, selectionIndex, selectionContent, status))
+fun MutableList<Item>.selectionItem(selectionItem: SelectionItem, status: Int) = add(SelectionItem(selectionItem, status))

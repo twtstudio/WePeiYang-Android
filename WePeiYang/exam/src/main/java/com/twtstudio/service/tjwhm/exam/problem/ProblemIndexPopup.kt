@@ -44,7 +44,6 @@ class ProblemIndexPopup(val activityInterface: ProblemActivityInterface, mContex
                 layoutParams = (layoutParams as FrameLayout.LayoutParams).apply {
                     gravity = Gravity.CENTER
                     horizontalMargin = dip(50)
-                    verticalMargin = dip(130)
                 }
             }.also { view = it }
 
@@ -72,11 +71,10 @@ class ProblemIndexPopup(val activityInterface: ProblemActivityInterface, mContex
         val scaleX = ObjectAnimator.ofFloat(view, "scaleX", 0f, 1f)
         val scaleY = ObjectAnimator.ofFloat(view, "scaleY", 0f, 1f)
         val x = ObjectAnimator.ofFloat(view, "X", startXY.first, 50f * density)
-        val y = ObjectAnimator.ofFloat(view, "Y", startXY.second, 130f * density)
         animSet.apply {
             duration = 200L
             interpolator = AccelerateDecelerateInterpolator()
-            play(scaleX).with(scaleY).with(alphaAnim).with(x).with(y)
+            play(scaleX).with(scaleY).with(alphaAnim).with(x)
         }
         return animSet
     }
@@ -87,11 +85,10 @@ class ProblemIndexPopup(val activityInterface: ProblemActivityInterface, mContex
         val scaleX = ObjectAnimator.ofFloat(view, "scaleX", 1f, 0f)
         val scaleY = ObjectAnimator.ofFloat(view, "scaleY", 1f, 0f)
         val x = ObjectAnimator.ofFloat(view, "X", 50f * density, startXY.first)
-        val y = ObjectAnimator.ofFloat(view, "Y", 130f * density, startXY.second)
         animSet.apply {
             duration = 200L
             interpolator = AccelerateDecelerateInterpolator()
-            play(scaleX).with(scaleY).with(contentAnim).with(x).with(y)
+            play(scaleX).with(scaleY).with(contentAnim).with(x)
         }
         return animSet
     }

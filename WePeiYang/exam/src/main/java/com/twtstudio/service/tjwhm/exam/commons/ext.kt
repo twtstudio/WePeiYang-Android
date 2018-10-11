@@ -105,3 +105,10 @@ fun Int.toMode(): String {
         else -> "其他"
     }
 }
+
+fun List<Int>.isRightWith(answer: List<Int>): Boolean {
+    for (i in answer)
+        if (i !in this) return false
+    if (size == answer.size) return true
+    return false
+}

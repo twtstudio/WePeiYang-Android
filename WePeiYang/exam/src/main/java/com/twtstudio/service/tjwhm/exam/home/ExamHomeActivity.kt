@@ -39,10 +39,6 @@ class ExamHomeActivity : AppCompatActivity() {
             tabGravity = TabLayout.GRAVITY_FILL
             setSelectedTabIndicatorHeight(0)
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
         examUserLiveData.refresh(CacheIndicator.REMOTE)
     }
 }
