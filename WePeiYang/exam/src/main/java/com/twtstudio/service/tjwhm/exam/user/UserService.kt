@@ -4,7 +4,6 @@ import com.twt.wepeiyang.commons.experimental.cache.*
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import com.twt.wepeiyang.commons.experimental.network.CommonBody
 import com.twt.wepeiyang.commons.experimental.network.ServiceFactoryForExam
-import com.twtstudio.service.tjwhm.exam.commons.BaseBean
 import kotlinx.coroutines.experimental.Deferred
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
@@ -15,16 +14,19 @@ interface UserService {
     @GET("student")
     fun getUserInfo(): Deferred<CommonBody<UserBean>>
 
+    @GET("student/history")
+    fun getHistory(): Deferred<CommonBody<List<OneHistoryBean>>>
+
     @GET("special/getQues/{star_or_wrong}")
     fun getCollections(@Path("star_or_wrong") starOrWrong: String): Deferred<StarViewModel>
 
     @Multipart
     @POST("special/addQues/{star_or_wrong}")
-    fun addCollection(@Path("star_or_wrong") starOrWrong: String, @Part list: MutableList<MultipartBody.Part>): Deferred<BaseBean<Nothing>>
+    fun addCollection(@Path("star_or_wrong") starOrWrong: String, @Part list: MutableList<MultipartBody.Part>): Deferred<CommonBody<Nothing>>
 
     @Multipart
     @POST("special/deleteQues/{star_or_wrong}")
-    fun deleteCollection(@Path("star_or_wrong") starOrWrong: String, @Part list: MutableList<MultipartBody.Part>): Deferred<BaseBean<Nothing>>
+    fun deleteCollection(@Path("star_or_wrong") starOrWrong: String, @Part list: MutableList<MultipartBody.Part>): Deferred<CommonBody<Nothing>>
 
     companion object : UserService by ServiceFactoryForExam()
 }
@@ -32,6 +34,10 @@ interface UserService {
 val examUserLocalCache = Cache.hawk<UserBean>("ExamUser")
 val examUserRemoteCache = Cache.from(UserService.Companion::getUserInfo).map(CommonBody<UserBean>::data)
 val examUserLiveData = RefreshableLiveData.use(examUserLocalCache, examUserRemoteCache)
+
+val examUserHistoryLocalCache = Cache.hawk<List<OneHistoryBean>>("ExamUserHistory")
+val examUserHistoryRemoteCache = Cache.from(UserService.Companion::getHistory).map(CommonBody<List<OneHistoryBean>>::data)
+val examUserHistoryLiveData = RefreshableLiveData.use(examUserHistoryLocalCache, examUserHistoryRemoteCache)
 
 fun getCollections(starOrWrong: String, callback: suspend (RefreshState<StarViewModel>) -> Unit) =
         launch(UI) {
@@ -42,7 +48,7 @@ fun getCollections(starOrWrong: String, callback: suspend (RefreshState<StarView
             }
         }
 
-fun addCollection(starOrWrong: String, list: MutableList<MultipartBody.Part>, callback: suspend (RefreshState<BaseBean<Nothing>>) -> Unit) =
+fun addCollection(starOrWrong: String, list: MutableList<MultipartBody.Part>, callback: suspend (RefreshState<CommonBody<Nothing>>) -> Unit) =
         launch(UI) {
             UserService.addCollection(starOrWrong, list).awaitAndHandle {
                 callback(RefreshState.Failure(it))
@@ -51,7 +57,7 @@ fun addCollection(starOrWrong: String, list: MutableList<MultipartBody.Part>, ca
             }
         }
 
-fun deleteCollection(starOrWrong: String, list: MutableList<MultipartBody.Part>, callback: suspend (RefreshState<BaseBean<Nothing>>) -> Unit) =
+fun deleteCollection(starOrWrong: String, list: MutableList<MultipartBody.Part>, callback: suspend (RefreshState<CommonBody<Nothing>>) -> Unit) =
         launch(UI) {
             UserService.deleteCollection(starOrWrong, list).awaitAndHandle {
                 callback(RefreshState.Failure(it))
@@ -89,13 +95,17 @@ data class QSelect(
         val course_name: String
 )
 
-data class OneHistoryData(
-        val type: Int,
-        val date: String,
+data class OneHistoryBean(
+        val type: String,
         val course_id: String,
+        val class_id: String,
+        val course_name: String,
         val ques_type: String,
-        val score: Int,
-        val course_name: String
+        val ques_count: String,
+        val done_count: String,
+        val done_index: String,
+        val timestamp: String,
+        val score: String
 )
 
 

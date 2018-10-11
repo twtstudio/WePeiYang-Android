@@ -4,10 +4,10 @@ import android.animation.Animator
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleOwner
 import android.arch.lifecycle.LifecycleRegistry
+import android.content.Context
 import android.content.Intent
 import android.view.Gravity
 import android.view.View
@@ -29,7 +29,7 @@ import org.jetbrains.anko.layoutInflater
  * Happy coding!
  */
 
-class TypeSelectPopup(private val activity: Activity, private val startXY: Pair<Float, Float>, private val lessonID: Int) : BlurPopupWindow(activity), LifecycleOwner {
+class TypeSelectPopup(mContext: Context, private val startXY: Pair<Float, Float>, private val lessonID: Int) : BlurPopupWindow(mContext), LifecycleOwner {
 
     private val lifecycleRegistry = LifecycleRegistry(this)
 
@@ -44,7 +44,7 @@ class TypeSelectPopup(private val activity: Activity, private val startXY: Pair<
     private lateinit var tvTfNum: TextView
     private lateinit var tvTfEnter: TextView
 
-    val density = activity.resources.displayMetrics.density
+    val density = context.resources.displayMetrics.density
 
     override fun createContentView(parent: ViewGroup): View = parent.context.layoutInflater
             .inflate(R.layout.exam_popup_type_select, parent, false).apply {
@@ -68,13 +68,13 @@ class TypeSelectPopup(private val activity: Activity, private val startXY: Pair<
 
         getLessonInfo(lessonID.toString()) { it ->
             when (it) {
-                is RefreshState.Failure -> Toasty.error(activity, "网络错误").show()
+                is RefreshState.Failure -> Toasty.error(context, "网络错误").show()
                 is RefreshState.Success -> {
                     it.message.data!!.apply {
                         tvSingleNum.text = "$single_done_count/$single_num"
                         tvMultiNum.text = "$multi_done_count/$multi_num"
                         tvTfNum.text = "$decide_done_count/$decide_num"
-                        val intent = Intent(activity, ProblemActivity::class.java).apply {
+                        val intent = Intent(context, ProblemActivity::class.java).apply {
                             putExtra(ProblemActivity.MODE_KEY, ProblemActivity.READ_AND_PRACTICE)
                             putExtra(ProblemActivity.LESSON_ID_KEY, lessonID)
                         }
@@ -88,7 +88,7 @@ class TypeSelectPopup(private val activity: Activity, private val startXY: Pair<
                                     text = "开始练习"
                                     setOnClickListener {
                                         intent.putExtra(ProblemActivity.PROBLEM_TYPE_KEY, ProblemActivity.SINGLE_CHOICE)
-                                        activity.startActivity(intent)
+                                        context.startActivity(intent)
                                     }
                                 }
                             }
@@ -104,7 +104,7 @@ class TypeSelectPopup(private val activity: Activity, private val startXY: Pair<
                                     text = "开始练习"
                                     setOnClickListener {
                                         intent.putExtra(ProblemActivity.PROBLEM_TYPE_KEY, ProblemActivity.MULTI_CHOICE)
-                                        activity.startActivity(intent)
+                                        context.startActivity(intent)
                                     }
                                 }
 
@@ -121,7 +121,7 @@ class TypeSelectPopup(private val activity: Activity, private val startXY: Pair<
                                     text = "开始练习"
                                     setOnClickListener {
                                         intent.putExtra(ProblemActivity.PROBLEM_TYPE_KEY, ProblemActivity.TRUE_FALSE)
-                                        activity.startActivity(intent)
+                                        context.startActivity(intent)
                                     }
                                 }
 

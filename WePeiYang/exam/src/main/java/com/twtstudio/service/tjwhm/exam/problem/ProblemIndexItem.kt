@@ -15,7 +15,7 @@ import org.jetbrains.anko.layoutInflater
  * Happy coding!
  */
 
-class ProblemIndexItem(val activity: ProblemActivity, val index: Int, val problemIndex: ProblemIndex) : Item {
+class ProblemIndexItem(val activityInterface: ProblemActivityInterface, val index: Int, val problemIndex: ProblemIndex) : Item {
 
     override val controller: ItemController
         get() = Controller
@@ -30,10 +30,10 @@ class ProblemIndexItem(val activity: ProblemActivity, val index: Int, val proble
             holder.apply {
                 tvProblemIndex?.apply {
                     text = (item.index + 1).toString()
-                    setTextColor(ContextCompat.getColor(item.activity, R.color.examTextBlack))
+                    setTextColor(ContextCompat.getColor(context, R.color.examTextBlack))
                     when (item.problemIndex) {
-                        is ProblemIndex.TRUE, ProblemIndex.NOW.TRUE -> setTextColor(ContextCompat.getColor(item.activity, R.color.examTextBlue))
-                        is ProblemIndex.WRONG, ProblemIndex.NOW.WRONG -> setTextColor(ContextCompat.getColor(item.activity, R.color.examTextRed))
+                        is ProblemIndex.TRUE, ProblemIndex.NOW.TRUE -> setTextColor(ContextCompat.getColor(context, R.color.examTextBlue))
+                        is ProblemIndex.WRONG, ProblemIndex.NOW.WRONG -> setTextColor(ContextCompat.getColor(context, R.color.examTextRed))
                     }
                     when (item.problemIndex) {
                         is ProblemIndex.NOW -> {
@@ -41,7 +41,7 @@ class ProblemIndexItem(val activity: ProblemActivity, val index: Int, val proble
                         }
                     }
                 }
-                itemView.setOnClickListener { item.activity.onProblemIndexItemClick(item.index) }
+                itemView.setOnClickListener { item.activityInterface.onProblemIndexItemClick(item.index) }
                 setIsRecyclable(false)
             }
         }
@@ -52,4 +52,4 @@ class ProblemIndexItem(val activity: ProblemActivity, val index: Int, val proble
     }
 }
 
-fun MutableList<Item>.problemIndexItem(activity: ProblemActivity, num: Int, problemIndex: ProblemIndex) = add(ProblemIndexItem(activity, num, problemIndex))
+fun MutableList<Item>.problemIndexItem(activityInterface: ProblemActivityInterface, num: Int, problemIndex: ProblemIndex) = add(ProblemIndexItem(activityInterface, num, problemIndex))

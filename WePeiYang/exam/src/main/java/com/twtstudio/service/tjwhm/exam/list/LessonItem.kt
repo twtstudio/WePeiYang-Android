@@ -1,5 +1,6 @@
 package com.twtstudio.service.tjwhm.exam.list
 
+import android.content.Context
 import android.content.Intent
 import android.support.v7.widget.RecyclerView
 import android.view.View
@@ -14,7 +15,7 @@ import com.twtstudio.service.tjwhm.exam.commons.NoneAnimatorListener
 import com.twtstudio.service.tjwhm.exam.problem.ProblemActivity
 import org.jetbrains.anko.layoutInflater
 
-class LessonItem(val activity: ListActivity, val lessonBean: LessonBean) : Item {
+class LessonItem(val context: Context, val lessonBean: LessonBean) : Item {
     override val controller: ItemController
         get() = Controller
 
@@ -68,16 +69,16 @@ class LessonItem(val activity: ListActivity, val lessonBean: LessonBean) : Item 
                     }
                 }
 
-                val intent = Intent(item.activity, ProblemActivity::class.java)
+                val intent = Intent(item.context, ProblemActivity::class.java)
                 intent.putExtra(ProblemActivity.LESSON_ID_KEY, item.lessonBean.course_id)
                 tvEnterPractice?.setOnClickListener {
-                    val popup = TypeSelectPopup(item.activity, Pair(tvEnterPractice.x, tvEnterPractice.y), item.lessonBean.course_id)
+                    val popup = TypeSelectPopup(item.context, Pair(tvEnterPractice.x, tvEnterPractice.y), item.lessonBean.course_id)
                     popup.show()
                 }
 
                 tvEnterContest?.setOnClickListener {
                     intent.putExtra(ProblemActivity.MODE_KEY, ProblemActivity.CONTEST)
-                    item.activity.startActivity(intent)
+                    item.context.startActivity(intent)
                 }
             }
         }

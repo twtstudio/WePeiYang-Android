@@ -5,8 +5,8 @@
         android:width="1dp"
         android:color="@color/examTextBlue" />
     <padding
-        android:bottom="4dp"
-        android:left="15dp"
-        android:right="15dp"
-        android:top="4dp" />
+        android:bottom="2dp"
+        android:left="10dp"
+        android:right="10dp"
+        android:top="2dp" />
 </shape>

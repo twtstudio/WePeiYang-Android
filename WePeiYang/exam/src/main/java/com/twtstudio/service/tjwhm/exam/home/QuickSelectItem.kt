@@ -20,7 +20,7 @@ import org.jetbrains.anko.layoutInflater
  * Happy coding!
  */
 
-class QuickSelectItem(val activity: Activity, val courseID: Int, val courseName: String) : Item {
+class QuickSelectItem(val context: Context, val courseID: Int, val courseName: String) : Item {
     override val controller: ItemController
         get() = Controller
 
@@ -34,7 +34,7 @@ class QuickSelectItem(val activity: Activity, val courseID: Int, val courseName:
             holder.apply {
                 tvName?.text = item.courseName
                 itemView.setOnClickListener {
-                    val popup = TypeSelectPopup(item.activity, Pair(itemView.x, itemView.y), item.courseID)
+                    val popup = TypeSelectPopup(item.context, Pair(itemView.x, itemView.y), item.courseID)
                     popup.show()
                 }
             }

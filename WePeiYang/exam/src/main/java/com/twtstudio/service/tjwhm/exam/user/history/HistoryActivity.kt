@@ -8,7 +8,11 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.ImageView
+import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
+import com.twt.wepeiyang.commons.ui.rec.withItems
 import com.twtstudio.service.tjwhm.exam.R
+import com.twtstudio.service.tjwhm.exam.user.OneHistoryBean
+import com.twtstudio.service.tjwhm.exam.user.examUserHistoryLiveData
 
 /**
  * Created by tjwhm@TWTStudio at 5:17 PM,2018/8/9.
@@ -36,6 +40,15 @@ class HistoryActivity : AppCompatActivity() {
         rvHistory = findViewById(R.id.rv_history)
         rvHistory.layoutManager = LinearLayoutManager(this@HistoryActivity)
 
+        examUserHistoryLiveData.bindNonNull(this, ::bindHistoryData)
+    }
+
+    private fun bindHistoryData(list: List<OneHistoryBean>) {
+        rvHistory.withItems {
+            repeat(list.size) {
+                historyItem(this@HistoryActivity, list[it])
+            }
+        }
     }
 
     private fun initStatusBar() {

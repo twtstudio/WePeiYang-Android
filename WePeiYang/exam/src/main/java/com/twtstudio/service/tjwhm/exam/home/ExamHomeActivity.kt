@@ -16,10 +16,7 @@ import com.twtstudio.service.tjwhm.exam.user.examUserLiveData
 
 class ExamHomeActivity : AppCompatActivity() {
 
-    private lateinit var tlHome: TabLayout
     private lateinit var vpHome: ViewPager
-
-    private val pagerAdapter = ExamHomePagerAdapter(supportFragmentManager)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,16 +27,18 @@ class ExamHomeActivity : AppCompatActivity() {
 
         findViewById<ImageView>(R.id.iv_home_back).setOnClickListener { onBackPressed() }
 
-        tlHome = findViewById(R.id.tl_home)
-        vpHome = findViewById(R.id.vp_home)
-        pagerAdapter.add(Pair(ExamHomeFragment.newInstance(), "题库"))
-        pagerAdapter.add(Pair(UserFragment.newInstance(), "我的"))
+        vpHome = findViewById<ViewPager>(R.id.vp_home).apply {
+            adapter = ExamHomePagerAdapter(supportFragmentManager).apply {
+                add(Pair(ExamHomeFragment.newInstance(), "题库"))
+                add(Pair(UserFragment.newInstance(), "我的"))
+            }
+        }
 
-        vpHome.adapter = pagerAdapter
-        tlHome.setupWithViewPager(vpHome)
-        tlHome.tabGravity = TabLayout.GRAVITY_FILL
-        tlHome.setSelectedTabIndicatorHeight(0)
-
+        findViewById<TabLayout>(R.id.tl_home).apply {
+            setupWithViewPager(vpHome)
+            tabGravity = TabLayout.GRAVITY_FILL
+            setSelectedTabIndicatorHeight(0)
+        }
     }
 
     override fun onResume() {

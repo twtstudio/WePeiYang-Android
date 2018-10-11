@@ -78,7 +78,7 @@ class ProblemFragment : Fragment() {
     private lateinit var answerFromRemote: String
     private var answerIsShown: Boolean = false
     var type: Int = 0
-    var mode: Int? = null
+    private var mode: Int? = null
     private var problemID: Int = 0
     private var clickable = true
     private var fragmentIndex = -1

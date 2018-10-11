@@ -9,16 +9,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
 import com.bumptech.glide.Glide
-import com.twt.wepeiyang.commons.experimental.cache.CacheIndicator
 import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
 import com.twtstudio.service.tjwhm.exam.R
-import com.twtstudio.service.tjwhm.exam.commons.BaseBean
 import com.twtstudio.service.tjwhm.exam.user.history.HistoryActivity
 import com.twtstudio.service.tjwhm.exam.user.star.StarActivity
 import de.hdodenhof.circleimageview.CircleImageView
-import es.dmoral.toasty.Toasty
 
 class UserFragment : Fragment() {
     companion object {

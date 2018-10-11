@@ -6,9 +6,9 @@ import android.animation.ObjectAnimator
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleOwner
 import android.arch.lifecycle.LifecycleRegistry
+import android.content.Context
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
@@ -27,7 +27,7 @@ import org.jetbrains.anko.verticalMargin
  * Happy coding!
  */
 
-class ProblemIndexPopup(private val activity: ProblemActivity, private val startXY: Pair<Float, Float>, private val indexData: List<ProblemIndex>) : BlurPopupWindow(activity), LifecycleOwner {
+class ProblemIndexPopup(val activityInterface: ProblemActivityInterface, mContext: Context, private val startXY: Pair<Float, Float>, private val indexData: List<ProblemIndex>) : BlurPopupWindow(mContext), LifecycleOwner {
 
     private val lifecycleRegistry = LifecycleRegistry(this)
 
@@ -35,9 +35,9 @@ class ProblemIndexPopup(private val activity: ProblemActivity, private val start
 
     lateinit var view: View
 
-    lateinit var rvProblemIndex: RecyclerView
+    private lateinit var rvProblemIndex: RecyclerView
 
-    val density = activity.resources.displayMetrics.density
+    val density = context.resources.displayMetrics.density
 
     override fun createContentView(parent: ViewGroup): View = parent.context.layoutInflater
             .inflate(R.layout.exam_popup_problem_index, parent, false).apply {
@@ -51,10 +51,12 @@ class ProblemIndexPopup(private val activity: ProblemActivity, private val start
     override fun onShow() {
         rvProblemIndex = view.findViewById(R.id.rv_popup_problem_index)
         lifecycleRegistry.markState(Lifecycle.State.STARTED)
-        rvProblemIndex.layoutManager = GridLayoutManager(activity, 5)
-        rvProblemIndex.withItems {
-            repeat(indexData.size) {
-                problemIndexItem(activity, it, indexData[it])
+        rvProblemIndex.apply {
+            layoutManager = GridLayoutManager(context, 5)
+            withItems {
+                repeat(indexData.size) {
+                    problemIndexItem(activityInterface, it, indexData[it])
+                }
             }
         }
     }
@@ -71,9 +73,11 @@ class ProblemIndexPopup(private val activity: ProblemActivity, private val start
         val scaleY = ObjectAnimator.ofFloat(view, "scaleY", 0f, 1f)
         val x = ObjectAnimator.ofFloat(view, "X", startXY.first, 50f * density)
         val y = ObjectAnimator.ofFloat(view, "Y", startXY.second, 130f * density)
-        animSet.duration = 200L
-        animSet.interpolator = AccelerateDecelerateInterpolator()
-        animSet.play(scaleX).with(scaleY).with(alphaAnim).with(x).with(y)
+        animSet.apply {
+            duration = 200L
+            interpolator = AccelerateDecelerateInterpolator()
+            play(scaleX).with(scaleY).with(alphaAnim).with(x).with(y)
+        }
         return animSet
     }
 
@@ -84,9 +88,11 @@ class ProblemIndexPopup(private val activity: ProblemActivity, private val start
         val scaleY = ObjectAnimator.ofFloat(view, "scaleY", 1f, 0f)
         val x = ObjectAnimator.ofFloat(view, "X", 50f * density, startXY.first)
         val y = ObjectAnimator.ofFloat(view, "Y", 130f * density, startXY.second)
-        animSet.duration = 200L
-        animSet.interpolator = AccelerateDecelerateInterpolator()
-        animSet.play(scaleX).with(scaleY).with(contentAnim).with(x).with(y)
+        animSet.apply {
+            duration = 200L
+            interpolator = AccelerateDecelerateInterpolator()
+            play(scaleX).with(scaleY).with(contentAnim).with(x).with(y)
+        }
         return animSet
     }
 

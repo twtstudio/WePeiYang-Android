@@ -19,7 +19,7 @@ import com.twtstudio.service.tjwhm.exam.commons.FixedSpeedScroller
 import com.twtstudio.service.tjwhm.exam.problem.score.ScoreActivity
 
 
-class ProblemActivity : AppCompatActivity() {
+class ProblemActivity : AppCompatActivity(), ProblemActivityInterface {
 
     companion object {
         const val MODE_KEY = "problem_activity_mode"
@@ -36,9 +36,9 @@ class ProblemActivity : AppCompatActivity() {
         var isLeft = true
     }
 
-    var mode: Int = 0
+    private var mode: Int = 0
     var lessonID: Int = 0
-    var problemType: Int = 0
+    private var problemType: Int = 0
     var time: Int = 0
     var currentFragmentIndex = 0
 
@@ -168,7 +168,7 @@ class ProblemActivity : AppCompatActivity() {
     }
 
     private fun startContestNetwork() {
-        getTestProblems(lessonID.toString()) {
+        getTestProblems(lessonID.toString()) { it ->
             when (it) {
                 is RefreshState.Failure -> Toasty.error(this@ProblemActivity, "网络错误", Toast.LENGTH_SHORT).show()
                 is RefreshState.Success -> {
@@ -239,11 +239,11 @@ class ProblemActivity : AppCompatActivity() {
             is ProblemIndex.TRUE -> problemIndexData[fragmentIndex] = ProblemIndex.NOW.TRUE
             is ProblemIndex.WRONG -> problemIndexData[fragmentIndex] = ProblemIndex.NOW.WRONG
         }
-        problemIndexPopup = ProblemIndexPopup(this@ProblemActivity, Pair(llX, llY), problemIndexData)
+        problemIndexPopup = ProblemIndexPopup(this@ProblemActivity, this@ProblemActivity, Pair(llX, llY), problemIndexData)
         problemIndexPopup.show()
     }
 
-    fun onProblemIndexItemClick(index: Int) {
+    override fun onProblemIndexItemClick(index: Int) {
         if (index in 0 until size) vpProblem.currentItem = index
         problemIndexPopup.dismiss()
     }
@@ -255,4 +255,8 @@ class ProblemActivity : AppCompatActivity() {
         }
         statusBarView?.setBackgroundResource(R.drawable.exam_shape_statusbar_gradient)
     }
+}
+
+interface ProblemActivityInterface {
+    fun onProblemIndexItemClick(index: Int)
 }

@@ -9,15 +9,17 @@ import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemController
 import com.twtstudio.service.tjwhm.exam.R
 import com.twtstudio.service.tjwhm.exam.commons.toMode
-import com.twtstudio.service.tjwhm.exam.user.OneHistoryData
+import com.twtstudio.service.tjwhm.exam.user.OneHistoryBean
 import org.jetbrains.anko.layoutInflater
+import java.text.SimpleDateFormat
+import java.util.*
 
 /**
  * Created by tjwhm@TWTStudio at 5:18 PM,2018/8/9.
  * Happy coding!
  */
 
-class HistoryItem(val context: Context, val oneHistoryData: OneHistoryData) : Item {
+class HistoryItem(val context: Context, val oneHistoryBean: OneHistoryBean) : Item {
     override val controller: ItemController
         get() = Controller
 
@@ -29,9 +31,9 @@ class HistoryItem(val context: Context, val oneHistoryData: OneHistoryData) : It
             holder as ItemViewHolder
             item as HistoryItem
             holder.apply {
-                tvType?.text = item.oneHistoryData.type.toMode()
-                tvDate?.text = item.oneHistoryData.date
-                tvTitle?.text = item.oneHistoryData.course_name
+                tvType?.text = item.oneHistoryBean.type.toInt().toMode()
+                tvDate?.text = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA).format(Date(item.oneHistoryBean.timestamp.toLong() * 1000L))
+                tvTitle?.text = item.oneHistoryBean.course_name
             }
         }
 
@@ -44,4 +46,4 @@ class HistoryItem(val context: Context, val oneHistoryData: OneHistoryData) : It
     }
 }
 
-fun MutableList<Item>.historyItem(context: Context, oneHistoryData: OneHistoryData) = add(HistoryItem(context, oneHistoryData))
+fun MutableList<Item>.historyItem(context: Context, oneHistoryBean: OneHistoryBean) = add(HistoryItem(context, oneHistoryBean))

@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="19dp"
+        android:layout_marginTop="14dp"
         android:background="@drawable/exam_shape_blue_tv_with_boundary_small"
         android:textColor="@color/examTextBlue"
         android:textSize="12sp"
@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:textColor="@color/examTextBlack"
-        android:textSize="14sp"
+        android:textSize="16sp"
         app:layout_constraintStart_toStartOf="@id/tv_history_item_type"
         app:layout_constraintTop_toBottomOf="@+id/tv_history_item_type"
         tools:text="党课 第一章 XXX[正确率 ]" />
