@@ -10,9 +10,9 @@ import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
 import android.view.Window
-import com.twt.wepeiyang.commons.experimental.extensions.fitSystemWindowWithStatusBar
 
 import com.twtstudio.retrox.tjulibrary.R
+import com.twtstudio.retrox.tjulibrary.search.SearchActivity
 
 class HomeActivity : AppCompatActivity() {
 
@@ -47,27 +47,27 @@ class HomeActivity : AppCompatActivity() {
 
     }
 
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.lb_menu, menu)
-        return true
-    }
-
-
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        val itemId = item!!.itemId
-        val intent = Intent()
-
-        when (itemId) {
-            R.id.lib_search -> {
+//
+//    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+//        menuInflater.inflate(R.menu.lb_menu, menu)
+//        return true
+//    }
+//
+//
+//    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+//        val itemId = item!!.itemId
+//        val intent = Intent()
+//
+//        when (itemId) {
+//            R.id.lib_search -> {
 //                intent.setClass(this@HomeActivity, SearchActivity::class.java)
-            }
-
-
-        }
-
-        startActivity(intent)
-        return true
-    }
+//            }
+//
+//
+//        }
+//
+//        startActivity(intent)
+//        return true
+//    }
 
 }

@@ -28,6 +28,34 @@
 
     </android.support.v7.widget.Toolbar>
 
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:background="@color/background_gray">
+
+        <TextView
+            android:id="@+id/search_hr"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="历史搜索"
+            android:textColor="#676869"
+            android:textSize="12dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingLeft="22dp"
+            android:background="@color/background_gray" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/hr_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/search_hr">
+
+        </android.support.v7.widget.RecyclerView>
+
+    </android.support.constraint.ConstraintLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -35,7 +63,10 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/search_recyclerview"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true">
+
+        </android.support.v7.widget.RecyclerView>
 
         <ProgressBar
             android:id="@+id/search_progressbar"
