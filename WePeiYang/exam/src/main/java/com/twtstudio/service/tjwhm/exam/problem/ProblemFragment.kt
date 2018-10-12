@@ -95,6 +95,7 @@ class ProblemFragment : Fragment() {
     private lateinit var divider: View
     private lateinit var tvRightOrWrong: TextView
     private lateinit var tvAnswer: TextView
+    private lateinit var tvAnswerUser: TextView
     private lateinit var btConfirm: Button
     private lateinit var mActivity: ProblemActivity
 
@@ -119,6 +120,7 @@ class ProblemFragment : Fragment() {
         divider = view.findViewById(R.id.divider_problem)
         tvRightOrWrong = view.findViewById(R.id.tv_problem_right_or_wrong)
         tvAnswer = view.findViewById(R.id.tv_problem_answer_content)
+        tvAnswerUser = view.findViewById(R.id.tv_problem_answer_user)
         btConfirm = view.findViewById(R.id.bt_problem_confirm)
         mActivity = activity as ProblemActivity
 
@@ -133,10 +135,6 @@ class ProblemFragment : Fragment() {
         rvSelections.layoutManager = LinearLayoutManager(context)
         rvSelections.itemAnimator = null
 
-        if (mode == PRACTICE_MODE || mode == READ_MODE) {
-            changeMode()
-        }
-
         tvIndex.text = "${fragmentIndex + 1}/${mActivity.size}"
         getProblemData()
 
@@ -146,7 +144,7 @@ class ProblemFragment : Fragment() {
     @SuppressLint("SetTextI18n")
     private fun getProblemData() {
         if (mode == PRACTICE_MODE || mode == READ_MODE) {
-            getProblem(mActivity.lessonID.toString(), type.toString(), problemID.toString()) {
+            getProblem(mActivity.lessonID.toString(), type.toString(), problemID.toString()) { it ->
                 when (it) {
                     is RefreshState.Failure -> context?.let { it1 -> Toasty.error(it1, "网络错误", Toast.LENGTH_SHORT).show() }
                     is RefreshState.Success -> {
@@ -154,12 +152,37 @@ class ProblemFragment : Fragment() {
                         it.message.data!!.apply {
                             tvType.text = this.ques_type.toProblemType()
                             tvTitle.text = Html.fromHtml(this.content)
-                            tvAnswer.text = "答案：${this.answer}"
+                            tvAnswer.text = "答案: ${this.answer}"
                             answerFromRemote = this.answer
                             rvSelections.withItems {
                                 if (mode == PRACTICE_MODE) {
-                                    for (i in 0 until this@apply.option.size)
-                                        selectionItem(this@ProblemFragment, i.toSelectionIndex(), this@apply.option[i], SelectionItem.NONE)
+
+                                    // 如果有储存的答案, 则直接显示答案
+                                    if (!mActivity.userSelectionsForPractice[fragmentIndex].isEmpty()) {
+                                        for (i in 0 until this@apply.option.size) {
+                                            if (i in mActivity.userSelectionsForPractice[fragmentIndex]) {
+                                                if (i in answerFromRemote.multiSelectionIndexToInt())
+                                                    selectionItem(this@ProblemFragment, i.toSelectionIndex(), this@apply.option[i], SelectionItem.TRUE)
+                                                else
+                                                    selectionItem(this@ProblemFragment, i.toSelectionIndex(), this@apply.option[i], SelectionItem.FALSE)
+                                            } else if (i in answerFromRemote.multiSelectionIndexToInt())
+                                                selectionItem(this@ProblemFragment, i.toSelectionIndex(), this@apply.option[i], SelectionItem.TRUE)
+                                            else
+                                                selectionItem(this@ProblemFragment, i.toSelectionIndex(), this@apply.option[i], SelectionItem.NONE)
+                                        }
+                                        val isRight = answerFromRemote.multiSelectionIndexToInt().isRightWith(mActivity.userSelectionsForPractice[fragmentIndex])
+                                        tvAnswer.visibility = View.VISIBLE
+                                        clickable = false
+                                        if (isRight) {
+                                            tvRightOrWrong.text = "回答正确"
+                                            context?.let { ContextCompat.getColor(it, R.color.examTextBlue) }?.let { tvRightOrWrong.setTextColor(it) }
+                                        } else {
+                                            tvRightOrWrong.text = "回答错误"
+                                            context?.let { ContextCompat.getColor(it, R.color.examTextRed) }?.let { tvRightOrWrong.setTextColor(it) }
+                                        }
+                                    } else
+                                        for (i in 0 until this@apply.option.size)
+                                            selectionItem(this@ProblemFragment, i.toSelectionIndex(), this@apply.option[i], SelectionItem.NONE)
 
                                 } else if (mode == READ_MODE) {
                                     for (i in 0 until option.size) {
@@ -170,6 +193,7 @@ class ProblemFragment : Fragment() {
                                 }
                             }
                         }
+                        changeMode()
 
                         if (it.message.data!!.is_collected == 1) {
                             ivStar.apply {
@@ -263,6 +287,7 @@ class ProblemFragment : Fragment() {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun onSelectionClickForPracticeSingle(clickId: Int) {
         val adapter = rvSelections.adapter as ItemAdapter
         val optionList: MutableList<Item> = adapter.itemManager.itemListSnapshot.toMutableList()
@@ -278,7 +303,9 @@ class ProblemFragment : Fragment() {
         divider.visibility = View.VISIBLE
         tvAnswer.visibility = View.VISIBLE
         val isRight = clickId == answerFromRemote.selectionIndexToInt()
-
+        mActivity.storeSelectionForPractice(fragmentIndex, listOf(clickId), isRight)
+        tvAnswerUser.text = "你的答案: ${mActivity.userSelectionsForPractice[fragmentIndex].toSelectionIndex()}"
+        tvAnswerUser.visibility = View.VISIBLE
         if (isRight) {
             tvRightOrWrong.text = "回答正确"
             context?.let { ContextCompat.getColor(it, R.color.examTextBlue) }?.let { tvRightOrWrong.setTextColor(it) }
@@ -304,7 +331,6 @@ class ProblemFragment : Fragment() {
             }
         }
 
-        mActivity.storeSelectionForPractice(fragmentIndex, listOf(clickId), isRight)
     }
 
     private fun onSelectionClickForPracticeMulti(clickId: Int) {
@@ -342,9 +368,15 @@ class ProblemFragment : Fragment() {
             val isRight = answerFromRemote.multiSelectionIndexToInt().isRightWith(multiSelectionAnswers)
             if (isRight) {
                 tvRightOrWrong.text = "回答正确"
-            } else tvRightOrWrong.text = "回答错误"
+                context?.let { ContextCompat.getColor(it, R.color.examTextBlue) }?.let { tvRightOrWrong.setTextColor(it) }
+            } else {
+                tvRightOrWrong.text = "回答错误"
+                context?.let { ContextCompat.getColor(it, R.color.examTextRed) }?.let { tvRightOrWrong.setTextColor(it) }
+            }
             tvAnswer.visibility = View.VISIBLE
             mActivity.storeSelectionForPractice(fragmentIndex, multiSelectionAnswers, isRight)
+            tvAnswerUser.text = "你的答案: ${mActivity.userSelectionsForPractice[fragmentIndex].toSelectionIndex()}"
+            tvAnswerUser.visibility = View.VISIBLE
         } else if (mode == TEST_MODE) {
             val answerString = when (type) {
                 SINGLE_CHOICE, TRUE_FALSE -> singleSelectionAnswer.toSelectionIndex()
@@ -435,11 +467,13 @@ class ProblemFragment : Fragment() {
             READ_MODE -> {
                 divider.visibility = View.VISIBLE
                 tvAnswer.visibility = View.VISIBLE
+                tvAnswerUser.visibility = View.GONE
                 btConfirm.visibility = View.GONE
             }
             else -> {
                 divider.visibility = View.GONE
                 tvAnswer.visibility = View.GONE
+                tvAnswerUser.visibility = View.GONE
                 if (type == MULTI_CHOICE) btConfirm.visibility = View.VISIBLE
                 else btConfirm.visibility = View.GONE
             }

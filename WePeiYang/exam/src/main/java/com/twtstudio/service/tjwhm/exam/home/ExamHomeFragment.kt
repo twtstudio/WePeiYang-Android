@@ -21,6 +21,8 @@ import com.twtstudio.service.tjwhm.exam.list.ListActivity
 import com.twtstudio.service.tjwhm.exam.user.UserBean
 import com.twtstudio.service.tjwhm.exam.user.examUserLiveData
 import es.dmoral.toasty.Toasty
+import java.text.SimpleDateFormat
+import java.util.*
 
 class ExamHomeFragment : Fragment(), View.OnClickListener {
 
@@ -33,6 +35,7 @@ class ExamHomeFragment : Fragment(), View.OnClickListener {
     private lateinit var tvOnline: TextView
     private lateinit var tvMore: TextView
     private lateinit var tvNews: TextView
+    private lateinit var tvNewsTime: TextView
     private lateinit var rvQuick: RecyclerView
     private lateinit var tvCurrentTitle: TextView
     private lateinit var tvCurrentType: TextView
@@ -62,6 +65,7 @@ class ExamHomeFragment : Fragment(), View.OnClickListener {
         tvMore = view.findViewById(R.id.tv_more)
         tvMore.setOnClickListener(this)
         tvNews = view.findViewById(R.id.tv_news)
+        tvNewsTime = view.findViewById(R.id.tv_news_time)
         rvQuick = view.findViewById(R.id.rv_quick)
         tvCurrentTitle = view.findViewById(R.id.tv_current_title)
         tvCurrentType = view.findViewById(R.id.tv_current_type)
@@ -103,6 +107,7 @@ class ExamHomeFragment : Fragment(), View.OnClickListener {
             }
         }
         tvNews.text = "${userBean.latest_course_name}已更新"
+        tvNewsTime.text = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA).format(Date(userBean.latest_course_timestamp.toLong() * 1000L))
         tvCurrentTitle.text = userBean.current_course_name
         tvCurrentType.text = userBean.current_ques_type.toInt().toProblemType()
         tvCurrentIndex.text = "当前题目：${userBean.current_course_index}"

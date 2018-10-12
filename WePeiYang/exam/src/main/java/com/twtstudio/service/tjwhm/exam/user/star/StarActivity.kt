@@ -62,9 +62,12 @@ class StarActivity : AppCompatActivity() {
             when (it) {
                 is RefreshState.Failure -> Toasty.error(this@StarActivity, "网络错误", Toast.LENGTH_SHORT).show()
                 is RefreshState.Success -> {
-                    rvStar.withItems {
-                        for (i in 0 until it.message.ques.size) {
-                            starItem(this@StarActivity, it.message.ques[i], starOrWrong)
+                    it.message.data!!.apply {
+                        rvStar.withItems {
+                            // todo
+                            for (i in 0 until this@apply.size) {
+                                starItem(this@StarActivity, this@apply[i], starOrWrong)
+                            }
                         }
                     }
                 }

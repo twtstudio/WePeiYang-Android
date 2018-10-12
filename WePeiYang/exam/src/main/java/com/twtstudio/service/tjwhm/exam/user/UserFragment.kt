@@ -41,7 +41,7 @@ class UserFragment : Fragment() {
         tvProblemsNum = view.findViewById(R.id.tv_already_problems_num)
         tvProblemsRadio = view.findViewById(R.id.tv_user_radio)
         tvLessonsNum = view.findViewById(R.id.tv_already_lesson_num)
-        tvLessonsDetail = view.findViewById(R.id.tv_user_lessons_detail)
+        tvLessonsDetail = view.findViewById<TextView>(R.id.tv_user_lessons_detail).apply { visibility = View.GONE }
         llUserHistory = view.findViewById(R.id.ll_user_history)
         llUserWrong = view.findViewById(R.id.ll_user_wrong)
         llUserStar = view.findViewById(R.id.ll_user_star)
@@ -76,9 +76,8 @@ class UserFragment : Fragment() {
             tvUserTitle.text = it.title_name
 
             tvProblemsNum.text = it.done_count
-            tvProblemsRadio.text = "${it.error_count.toDouble() / it.done_count.toDouble()}%"
+            tvProblemsRadio.text = "${((it.error_count.toDouble() / it.done_count.toDouble()).toString() + "00").substring(2, 4)}%"
             tvLessonsNum.text = it.course_count.toString()
-
         }
     }
 }

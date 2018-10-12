@@ -106,6 +106,7 @@ fun Int.toMode(): String {
     }
 }
 
+// 比较两个 List<Int> 其中含有的元素是否相同
 fun List<Int>.isRightWith(answer: List<Int>): Boolean {
     for (i in answer)
         if (i !in this) return false

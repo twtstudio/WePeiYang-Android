@@ -163,17 +163,15 @@ class ProblemActivity : AppCompatActivity(), ProblemActivityInterface {
                 is RefreshState.Success -> {
                     it.message.data!!.apply {
                         this@ProblemActivity.size = size
+                        repeat(size) {
+                            userSelectionsForPractice.add(listOf())
+                            problemIndexData.add(ProblemIndex.NONE)
+                        }
                         for (i in 0 until size)
                             pagerAdapter.add(i, problemType, ProblemFragment.READ_MODE, this[i])
 
                         vpProblem.adapter = pagerAdapter
                         Toasty.success(this@ProblemActivity, "加载成功", Toast.LENGTH_SHORT).show()
-
-                        this@ProblemActivity.size = size
-                        repeat(size) {
-                            userSelectionsForPractice.add(listOf<Int>())
-                            problemIndexData.add(ProblemIndex.NONE)
-                        }
                     }
                 }
             }
@@ -186,16 +184,15 @@ class ProblemActivity : AppCompatActivity(), ProblemActivityInterface {
                 is RefreshState.Failure -> Toasty.error(this@ProblemActivity, "网络错误", Toast.LENGTH_SHORT).show()
                 is RefreshState.Success -> {
                     problemForTest = it.message
+                    size = it.message.data.size
+                    repeat(size) {
+                        problemIndexData.add(ProblemIndex.NONE)
+                    }
                     for (i in 0 until it.message.data.size) {
                         pagerAdapter.add(i, it.message.data[i])
                     }
                     vpProblem.adapter = pagerAdapter
                     time = it.message.time
-
-                    size = it.message.data.size
-                    repeat(size) {
-                        problemIndexData.add(ProblemIndex.NONE)
-                    }
                 }
             }
         }

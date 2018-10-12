@@ -67,13 +67,15 @@ fun getScore(lessonID: String, time: String, answerList: List<UpdateResultViewMo
 
 data class ProblemBean(
         val ques_id: Int,
+        val class_id: String,
         val course_id: String,
         val ques_type: String,
         val content: String,
         val option: List<String>,
         val answer: String,
         val is_collected: Int,
-        val is_mistake: Int
+        val is_mistake: Int,
+        val error_option: String
 )
 
 data class TestViewModel(

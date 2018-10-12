@@ -4,6 +4,7 @@ import com.twt.wepeiyang.commons.experimental.cache.*
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import com.twt.wepeiyang.commons.experimental.network.CommonBody
 import com.twt.wepeiyang.commons.experimental.network.ServiceFactoryForExam
+import com.twtstudio.service.tjwhm.exam.problem.ProblemBean
 import kotlinx.coroutines.experimental.Deferred
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
@@ -18,7 +19,7 @@ interface UserService {
     fun getHistory(): Deferred<CommonBody<List<OneHistoryBean>>>
 
     @GET("special/getQues/{star_or_wrong}")
-    fun getCollections(@Path("star_or_wrong") starOrWrong: String): Deferred<StarViewModel>
+    fun getCollections(@Path("star_or_wrong") starOrWrong: String): Deferred<CommonBody<List<ProblemBean>>>
 
     @Multipart
     @POST("special/addQues/{star_or_wrong}")
@@ -39,12 +40,13 @@ val examUserHistoryLocalCache = Cache.hawk<List<OneHistoryBean>>("ExamUserHistor
 val examUserHistoryRemoteCache = Cache.from(UserService.Companion::getHistory).map(CommonBody<List<OneHistoryBean>>::data)
 val examUserHistoryLiveData = RefreshableLiveData.use(examUserHistoryLocalCache, examUserHistoryRemoteCache)
 
-fun getCollections(starOrWrong: String, callback: suspend (RefreshState<StarViewModel>) -> Unit) =
+fun getCollections(starOrWrong: String, callback: suspend (RefreshState<CommonBody<List<ProblemBean>>>) -> Unit) =
         launch(UI) {
             UserService.getCollections(starOrWrong).awaitAndHandle {
                 callback(RefreshState.Failure(it))
             }?.let {
-                callback(RefreshState.Success(it))
+                if (it.error_code == 0)
+                    callback(RefreshState.Success(it))
             }
         }
 
@@ -53,7 +55,8 @@ fun addCollection(starOrWrong: String, list: MutableList<MultipartBody.Part>, ca
             UserService.addCollection(starOrWrong, list).awaitAndHandle {
                 callback(RefreshState.Failure(it))
             }?.let {
-                callback(RefreshState.Success(it))
+                if (it.error_code == 0)
+                    callback(RefreshState.Success(it))
             }
         }
 
@@ -62,7 +65,8 @@ fun deleteCollection(starOrWrong: String, list: MutableList<MultipartBody.Part>,
             UserService.deleteCollection(starOrWrong, list).awaitAndHandle {
                 callback(RefreshState.Failure(it))
             }?.let {
-                callback(RefreshState.Success(it))
+                if (it.error_code == 0)
+                    callback(RefreshState.Success(it))
             }
         }
 

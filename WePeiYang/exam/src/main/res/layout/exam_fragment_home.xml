@@ -94,9 +94,9 @@
             android:id="@+id/home_divider_one"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
             android:background="@color/examDividerBlue"
             app:layout_constraintTop_toBottomOf="@id/tv_party" />
 
@@ -135,9 +135,9 @@
             android:id="@+id/home_divider_two"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
             android:background="@color/examDividerBlue"
             app:layout_constraintTop_toBottomOf="@id/rv_quick" />
 
@@ -174,13 +174,24 @@
             app:layout_constraintTop_toBottomOf="@id/home_item_two"
             tools:text="高等数学下册选择已更新" />
 
+        <TextView
+            android:id="@+id/tv_news_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:layout_marginEnd="12dp"
+            android:textColor="@color/examTextGray"
+            app:layout_constraintRight_toRightOf="@id/home_divider_two"
+            app:layout_constraintTop_toBottomOf="@id/home_item_two"
+            tools:text="2018-09-12 14:23:09" />
+
         <View
             android:id="@+id/home_divider_three"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
             android:background="@color/examDividerBlue"
             app:layout_constraintTop_toBottomOf="@id/tv_news" />
 
@@ -222,8 +233,8 @@
             android:id="@+id/tv_current_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="40dp"
             android:layout_marginStart="8dp"
+            android:layout_marginEnd="40dp"
             android:textColor="@color/examTextBlack"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="@id/tv_current_title"

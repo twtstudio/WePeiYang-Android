@@ -8,6 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
+import com.twt.wepeiyang.commons.experimental.cache.RefreshState
+import com.twt.wepeiyang.commons.experimental.cache.simpleCallback
 import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemController
 import com.twt.wepeiyang.commons.ui.rec.withItems
@@ -16,9 +19,14 @@ import com.twtstudio.service.tjwhm.exam.commons.selectionIndexToInt
 import com.twtstudio.service.tjwhm.exam.commons.toLessonType
 import com.twtstudio.service.tjwhm.exam.commons.toProblemType
 import com.twtstudio.service.tjwhm.exam.commons.toSelectionIndex
+import com.twtstudio.service.tjwhm.exam.problem.ProblemBean
 import com.twtstudio.service.tjwhm.exam.problem.SelectionItem
 import com.twtstudio.service.tjwhm.exam.problem.selectionItem
 import com.twtstudio.service.tjwhm.exam.user.Que
+import com.twtstudio.service.tjwhm.exam.user.addCollection
+import com.twtstudio.service.tjwhm.exam.user.deleteCollection
+import es.dmoral.toasty.Toasty
+import okhttp3.MultipartBody
 import org.jetbrains.anko.layoutInflater
 
 /**
@@ -26,7 +34,7 @@ import org.jetbrains.anko.layoutInflater
  * Happy coding!
  */
 
-class StarItem(val context: Context, val quesData: Que, val starOrWrong: Int) : Item {
+class StarItem(val context: Context, val problemBean: ProblemBean, val starOrWrong: Int) : Item {
     override val controller: ItemController
         get() = Controller
 
@@ -38,38 +46,109 @@ class StarItem(val context: Context, val quesData: Que, val starOrWrong: Int) : 
             holder as ItemViewHolder
             item as StarItem
             holder.apply {
-                tvLessonType?.text = item.quesData.class_id.toLessonType()
-                tvProblemType?.text = item.quesData.type.toProblemType()
-                tvProblemTitle?.text = Html.fromHtml(item.quesData.content)
-                tvAnswer?.text = "题目答案：${item.quesData.answer}"
+
+                tvLessonType?.text = item.problemBean.class_id.toLessonType()
+                tvProblemType?.text = item.problemBean.ques_type.toProblemType()
+                tvProblemTitle?.text = Html.fromHtml(item.problemBean.content)
+                tvAnswer?.text = "题目答案: ${item.problemBean.answer}"
                 rvSelections?.layoutManager = LinearLayoutManager(item.context)
 
                 when (item.starOrWrong) {
                     StarActivity.STAR -> {
                         rvSelections?.withItems {
-                            for (i in 0 until item.quesData.option.size)
-                                selectionItem(null, i.toSelectionIndex(), item.quesData.option[i], SelectionItem.NONE)
+                            for (i in 0 until item.problemBean.option.size)
+                                selectionItem(null, i.toSelectionIndex(), item.problemBean.option[i], SelectionItem.NONE)
                         }
+                        ivWrong?.visibility = View.GONE
                     }
                     StarActivity.WRONG -> {
                         rvSelections?.withItems {
-                            for (i in 0 until item.quesData.option.size)
+                            for (i in 0 until item.problemBean.option.size)
                                 when (i) {
-                                    item.quesData.error_option.selectionIndexToInt() -> selectionItem(null, i.toSelectionIndex(), item.quesData.option[i], SelectionItem.FALSE)
-                                    item.quesData.answer.selectionIndexToInt() -> selectionItem(null, i.toSelectionIndex(), item.quesData.option[i], SelectionItem.TRUE)
-                                    else -> selectionItem(null, i.toSelectionIndex(), item.quesData.option[i], SelectionItem.NONE)
+                                    item.problemBean.error_option.selectionIndexToInt() -> selectionItem(null, i.toSelectionIndex(), item.problemBean.option[i], SelectionItem.FALSE)
+                                    item.problemBean.answer.selectionIndexToInt() -> selectionItem(null, i.toSelectionIndex(), item.problemBean.option[i], SelectionItem.TRUE)
+                                    else -> selectionItem(null, i.toSelectionIndex(), item.problemBean.option[i], SelectionItem.NONE)
                                 }
                         }
                     }
                 }
 
-                if (item.quesData.is_collected != 1) {
+                if (item.problemBean.is_collected != 1) {
                     ivStar?.setImageResource(R.drawable.exam_ic_star_blank)
-                }
-                if (item.quesData.is_mistake != 1) {
-                    ivWrong?.setImageResource(R.drawable.exam_ic_wrong_collection_blank)
+                    ivStar?.setOnClickListener { _ ->
+                        val list = MultipartBody.Builder()
+                                .setType(MultipartBody.FORM)
+                                .addFormDataPart("ques_type", item.problemBean.ques_type)
+                                .addFormDataPart("ques_id", item.problemBean.ques_id.toString())
+                                .build()
+                                .parts()
+                        addCollection(StarActivity.STAR.toString(), list) {
+                            when (it) {
+                                is RefreshState.Failure -> Toasty.error(item.context, "网络错误").show()
+                                is RefreshState.Success -> {
+                                    Toasty.success(item.context, "收藏成功").show()
+                                    ivStar.setImageResource(R.drawable.exam_ic_star_filled)
+                                }
+                            }
+                        }
+                    }
                 } else {
+                    ivStar?.setOnClickListener { _ ->
+                        val list = MultipartBody.Builder()
+                                .setType(MultipartBody.FORM)
+                                .addFormDataPart("ques_type", item.problemBean.ques_type)
+                                .addFormDataPart("ques_id", item.problemBean.ques_id.toString())
+                                .build()
+                                .parts()
+                        deleteCollection(StarActivity.STAR.toString(), list) {
+                            when (it) {
+                                is RefreshState.Failure -> Toasty.error(item.context, "网络错误").show()
+                                is RefreshState.Success -> {
+                                    Toasty.success(item.context, "删除成功").show()
+                                    ivStar.setImageResource(R.drawable.exam_ic_star_blank)
+                                }
+                            }
+                        }
+                    }
+                }
 
+                if (item.problemBean.is_mistake != 1) {
+                    ivWrong?.setImageResource(R.drawable.exam_ic_wrong_collection_blank)
+                    ivWrong?.setOnClickListener { _ ->
+                        val list = MultipartBody.Builder()
+                                .setType(MultipartBody.FORM)
+                                .addFormDataPart("ques_type", item.problemBean.ques_type)
+                                .addFormDataPart("ques_id", item.problemBean.ques_id.toString())
+                                .build()
+                                .parts()
+                        deleteCollection(StarActivity.WRONG.toString(), list) {
+                            when (it) {
+                                is RefreshState.Failure -> Toasty.error(item.context, "网络错误").show()
+                                is RefreshState.Success -> {
+                                    Toasty.success(item.context, "删除成功").show()
+                                    ivWrong.setImageResource(R.drawable.exam_ic_wrong_collection_blank)
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    ivWrong?.setOnClickListener { _ ->
+                        val list = MultipartBody.Builder()
+                                .setType(MultipartBody.FORM)
+                                .addFormDataPart("ques_type", item.problemBean.ques_type)
+                                .addFormDataPart("ques_id", item.problemBean.ques_id.toString())
+                                .build()
+                                .parts()
+                        addCollection(StarActivity.WRONG.toString(), list) {
+                            when (it) {
+                                is RefreshState.Failure -> Toasty.error(item.context, "网络错误").show()
+                                is RefreshState.Success -> {
+                                    Toasty.success(item.context, "重新加入错题本").show()
+                                    ivWrong.setImageResource(R.drawable.exam_ic_wrong_collection_filled)
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -86,4 +165,4 @@ class StarItem(val context: Context, val quesData: Que, val starOrWrong: Int) : 
     }
 }
 
-fun MutableList<Item>.starItem(context: Context, quesData: Que,starOrWrong: Int) = add(StarItem(context, quesData,starOrWrong))
+fun MutableList<Item>.starItem(context: Context, problemBean: ProblemBean, starOrWrong: Int) = add(StarItem(context, problemBean, starOrWrong))
