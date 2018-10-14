@@ -8,6 +8,7 @@
         android:supportsRtl="true">
         <activity android:name=".view.HomeActivity" />
         <activity android:name=".view.DetailActivity" />
+        <activity android:name=".search.SearchActivity" />
     </application>
 
 </manifest>
