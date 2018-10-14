@@ -11,9 +11,9 @@ import com.example.lostfond2.R
 import com.yookiely.lostfond2.service.Utils
 import kotlinx.android.synthetic.main.activity_water_fall.*
 
-class WaterfallTypeTableAdapter(val waterfallActivity: WaterFallActivity,
+class WaterfallTypeTableAdapter(private val waterfallActivity: WaterFallActivity,
                                 val context: Context,
-                                val selectedItem: Int) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+                                private val selectedItem: Int) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     class WaterFallTypeTableViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
@@ -38,10 +38,12 @@ class WaterfallTypeTableAdapter(val waterfallActivity: WaterFallActivity,
         }
 
         viewHolder.itemView.setOnClickListener {
-            waterfallActivity.setWaterfallType(position + 1)
-            waterfallActivity.waterfall_type_blue.visibility = View.GONE
-            waterfallActivity.waterfall_type_grey.visibility = View.VISIBLE
-            waterfallActivity.window.dismiss()
+            waterfallActivity.apply {
+                setWaterfallType(position + 1)
+                waterfall_type_blue.visibility = View.GONE
+                waterfall_type_grey.visibility = View.VISIBLE
+                window.dismiss()
+            }
         }
 
     }

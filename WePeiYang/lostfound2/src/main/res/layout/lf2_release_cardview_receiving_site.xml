@@ -2,43 +2,50 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal">
 
     <android.support.v7.widget.CardView
         android:layout_width="100dp"
-        android:layout_height="40dp">
+        android:layout_height="40dp"
+        app:cardElevation="0dp">
 
         <Spinner
             android:id="@+id/receiving_site_garden_spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:layout_gravity="center_vertical" />
+            android:layout_gravity="center_vertical"
+            android:theme="@style/SpinnerStyle" />
     </android.support.v7.widget.CardView>
 
     <android.support.v7.widget.CardView
         android:layout_width="100dp"
         android:layout_height="40dp"
-        android:layout_marginStart="20dp">
+        android:layout_marginStart="20dp"
+        app:cardElevation="0dp">
 
         <Spinner
             android:id="@+id/receiving_site_room_spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:layout_gravity="center_vertical" />
+            android:layout_gravity="center_vertical"
+            android:theme="@style/SpinnerStyle" />
     </android.support.v7.widget.CardView>
 
     <android.support.v7.widget.CardView
         android:layout_width="100dp"
         android:layout_height="40dp"
-        android:layout_marginStart="20dp">
+        android:layout_marginStart="20dp"
+        app:cardElevation="1dp">
 
         <Spinner
             android:id="@+id/receiving_site_entrance_spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:layout_gravity="center_vertical" />
+            android:layout_gravity="center_vertical"
+            android:theme="@style/SpinnerStyle" />
     </android.support.v7.widget.CardView>
 </LinearLayout>

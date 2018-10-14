@@ -12,7 +12,7 @@ import java.io.File
 import java.util.*
 import kotlin.collections.ArrayList
 
-class ReleasePresenterImpl(var releaseView: ReleaseContract.ReleaseView) : ReleaseContract.ReleasePresenter {
+class ReleasePresenterImpl(private var releaseView: ReleaseContract.ReleaseView) : ReleaseContract.ReleasePresenter {
 
 
     override fun uploadReleaseData(map: Map<String, Any>, lostOrFound: String) {
@@ -53,12 +53,13 @@ class ReleasePresenterImpl(var releaseView: ReleaseContract.ReleaseView) : Relea
         val builder = MultipartBody.Builder().setType(MultipartBody.FORM)
 
         builder.apply {
-            for (i in 0..(arrayOfFile.size - 1)) {
-                if (arrayOfFile[i] != null) {
-                    val imageBody = RequestBody.create(MediaType.parse("multipart/form-data"), arrayOfFile[i])
-                    addFormDataPart("pic[]", arrayOfFile[i]!!.name, imageBody)
+            for (i in arrayOfFile) {
+                if (i != null) {
+                    val imageBody = RequestBody.create(MediaType.parse("multipart/form-data"), i)
+                    addFormDataPart("pic[]", i.name, imageBody)
                 }
             }
+
             addFormDataPart("title", map["title"].toString())
             addFormDataPart("time", map["time"].toString())
             addFormDataPart("place", map["place"].toString())
@@ -104,14 +105,20 @@ class ReleasePresenterImpl(var releaseView: ReleaseContract.ReleaseView) : Relea
         }
     }
 
-    override fun uploadEditDataWithPic(map: Map<String, Any>, lostOrFound: String, arrayOfFile: ArrayList<File?>, id: Int) {
+    override fun uploadEditDataWithPic(map: Map<String, Any>, lostOrFound: String, arrayOfFile: ArrayList<File?>, arrayOfString: ArrayList<String?>, id: Int) {
         val builder = MultipartBody.Builder().setType(MultipartBody.FORM)
 
         builder.apply {
-            for (i in 0..(arrayOfFile.size - 1)) {
-                if (arrayOfFile[i] != null) {
-                    val imageBody = RequestBody.create(MediaType.parse("multipart/form-data"), arrayOfFile[i])
-                    addFormDataPart("pic[]", arrayOfFile[i]!!.name, imageBody)
+            for (i in arrayOfFile) {
+                if (i != null) {
+                    val imageBody = RequestBody.create(MediaType.parse("multipart/form-data"), i)
+                    addFormDataPart("pic[]", i.name, imageBody)
+                }
+            }
+
+            for (i in arrayOfString) {
+                if (i != null) {
+                    addFormDataPart("kept_picture", i)
                 }
             }
             addFormDataPart("title", map["title"].toString())
@@ -127,7 +134,7 @@ class ReleasePresenterImpl(var releaseView: ReleaseContract.ReleaseView) : Relea
             addFormDataPart("duration", map["duration"].toString())
             addFormDataPart("campus", map["campus"].toString())
 
-            if (lostOrFound == "found") {
+            if (lostOrFound == "editFound") {
                 addFormDataPart("recapture_place", map["recapture_place"].toString())
                 addFormDataPart("recapture_enterance", map["recapture_enterance"].toString())
             }

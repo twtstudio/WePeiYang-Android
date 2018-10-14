@@ -2,7 +2,6 @@ package com.yookiely.lostfond2.release
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
-import android.app.Dialog
 import android.app.ProgressDialog
 import android.content.ContentUris
 import android.content.Context
@@ -16,16 +15,15 @@ import android.os.Environment
 import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.StaggeredGridLayoutManager
-import android.support.v7.widget.Toolbar
+import android.support.v7.widget.*
 import android.view.View
 import android.view.Window
 import android.view.inputmethod.InputMethodManager
-import android.widget.*
-import com.bumptech.glide.Glide
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Toast
 import com.example.lostfond2.R
+import com.orhanobut.hawk.Hawk
 import com.yookiely.lostfond2.SuccessActivity
 import com.yookiely.lostfond2.service.DetailData
 import com.yookiely.lostfond2.service.MyListDataOrSearchBean
@@ -36,7 +34,6 @@ import com.zhihu.matisse.MimeType
 import com.zhihu.matisse.engine.impl.GlideEngine
 import kotlinx.android.synthetic.main.activity_release.*
 import kotlinx.android.synthetic.main.lf2_release_cardview_receiving_site.*
-import kotlinx.android.synthetic.main.lf_common_toolbar.*
 import kotlinx.android.synthetic.main.lf_release_cardview_cardinfo.*
 import kotlinx.android.synthetic.main.lf_release_cardview_cardinfo_noname.*
 import kotlinx.android.synthetic.main.lf_release_cardview_confirm.*
@@ -45,7 +42,6 @@ import kotlinx.android.synthetic.main.lf_release_cardview_delete.*
 import kotlinx.android.synthetic.main.lf_release_cardview_info.*
 import kotlinx.android.synthetic.main.lf_release_cardview_moreinfo.*
 import kotlinx.android.synthetic.main.lf_release_cardview_publish.*
-import org.jetbrains.anko.image
 import java.io.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -53,24 +49,23 @@ import kotlin.collections.ArrayList
 
 class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.OnClickListener {
 
-    var duration = 1
-    var entranceOfReceivingSite = 1 // 领取站点 入口
-    var roomOfReceivingSite = "1斋" // 领取站点 斋
-    var selectedItemPosition = 0
-    var id = 0
-    var releasePresenter: ReleaseContract.ReleasePresenter = ReleasePresenterImpl(this)
-    val layoutManager = StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.HORIZONTAL)
-    private val linearLayoutManager = LinearLayoutManager(this)
-    lateinit var releasePicAdapter: ReleasePicadapter
-    var selectedPic: List<Uri> = ArrayList() //get a pic's url
-    lateinit var lostOrFound: String
-    lateinit var tableAdapter: ReleaseTableAdapter
-    lateinit var progressDialog: ProgressDialog
+    private var duration = 1
+    private var entranceOfReceivingSite = 1 // 领取站点 入口
+    private var roomOfReceivingSite = "1斋" // 领取站点 斋
+    private var selectedItemPosition = 0
+    private var id = 0
+    private var releasePresenter: ReleaseContract.ReleasePresenter = ReleasePresenterImpl(this)
+    private val layoutManager = StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.HORIZONTAL)
+    private val picRecyclerviewManager = GridLayoutManager(this, 4)
+    private lateinit var releasePicAdapter: ReleasePicadapter
+    private var selectedPic: List<Uri> = ArrayList() //get a pic's url
+    private lateinit var lostOrFound: String
+    private lateinit var tableAdapter: ReleaseTableAdapter
+    private lateinit var progressDialog: ProgressDialog
     private var judge = false
-    private var totalSelectedPic = ArrayList<Uri?>(0) //get all pic's uri
     private var selectPicList = ArrayList<Any?>(0)
-    lateinit var picRecyclerView: RecyclerView
-
+    private lateinit var picRecyclerView: RecyclerView // 添加多图的recycler
+    private var campus = 1
 
     private fun setToolbarView(toolbar: Toolbar) {
         toolbar.title = when (lostOrFound) {
@@ -95,6 +90,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
             toolbar.setNavigationOnClickListener { onBackPressed() }
         }
+        campus = Hawk.get("campus") // 得到所在校区
 
         if (lostOrFound == "editLost" || lostOrFound == "editFound") {//open editwindow
             release_delete.visibility = View.VISIBLE
@@ -109,6 +105,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
 
         initSpinner()
         initSpinnerOfReceivingSite()
+        initSpinnerOfCampus()
         release_type_recycleriew.layoutManager = layoutManager
         drawRecyclerView(selectedItemPosition)
         release_type_recycleriew.adapter = tableAdapter
@@ -116,10 +113,10 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
 
         selectPicList.add(null) // supply a null list
         releasePicAdapter = ReleasePicadapter(selectPicList, this, this)
-        linearLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
+//        picRecyclerviewManager.orientation =
         picRecyclerView = findViewById(R.id.release_pic_recyclerview)
         picRecyclerView.apply {
-            layoutManager = linearLayoutManager
+            layoutManager = picRecyclerviewManager
             adapter = releasePicAdapter
         }
         val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -132,8 +129,8 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         spinnerList.add("7天")
         spinnerList.add("15天")
         spinnerList.add("30天")
-        val adapter = ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, spinnerList)
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        val adapter = ArrayAdapter<String>(this, R.layout.lf2_custom_spiner_text_item, spinnerList)
+        adapter.setDropDownViewResource(R.layout.lf2_custom_spinner_dropdown_item)
         release_publish_spinner.adapter = adapter
         release_publish_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             @SuppressLint("SimpleDateFormat", "SetTextI18n")
@@ -151,16 +148,41 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
 
         val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(release_title.windowToken, 0)
+    }
 
+    private fun initSpinnerOfCampus() {
+        val spinnerOfCampus = ArrayList<String>()
+        spinnerOfCampus.apply {
+            add("北洋园")
+            add("卫津路")
+        }
+
+        val adapterOfCampus = ArrayAdapter<String>(this, R.layout.lf2_custom_spiner_text_item, spinnerOfCampus)
+        adapterOfCampus.setDropDownViewResource(R.layout.lf2_custom_spinner_dropdown_item)
+        campus_spinner.apply {
+            adapter = adapterOfCampus
+            onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                    campus = position + 1
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                }
+            }
+        }
     }
 
     private fun initSpinnerOfReceivingSite() {
         val spinnerListOfGarden = ArrayList<String>()
-        spinnerListOfGarden.add("格园")
-        spinnerListOfGarden.add("诚园")
-        spinnerListOfGarden.add("正园")
-        spinnerListOfGarden.add("修园")
-        spinnerListOfGarden.add("齐园")
+        spinnerListOfGarden.apply {
+            add("无")
+            add("格园")
+            add("诚园")
+            add("正园")
+            add("修园")
+            add("齐园")
+        }
         val spinnerListOfRoom = ArrayList<String>()
         val dataListOfRoom = ArrayList<Int>()
         val spinnerListOfEntrance = ArrayList<String>()
@@ -172,7 +194,6 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         receiving_site_garden_spinner.adapter = adapterOfGarden
         receiving_site_garden_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                Toast.makeText(this@ReleaseActivity, spinnerListOfGarden[position], Toast.LENGTH_SHORT).show()
                 getListOfRoom(spinnerListOfRoom, dataListOfRoom, position)
 
                 //斋的选择
@@ -191,7 +212,6 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
                         receiving_site_entrance_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                                 entranceOfReceivingSite = dataListOfEntrance[position]
-
                             }
 
                             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -216,22 +236,46 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
     }
 
     override fun onClick(view: View) {
+        val picListOfUri = ArrayList<Uri?>(0)
+        val picListOfString = ArrayList<String?>(0)
+        for (i in selectPicList) {
+            if (i is Uri) picListOfUri.add(i)
+            if (i is String) picListOfString.add(i)
+        }
+
+        val file1: File
+        val arrayOfFile = ArrayList<File?>(0)
+        try {
+            file1 = File.createTempFile("pic", ".jpg")
+            val outputFile = file1.path
+
+            if (!judgeNull(picListOfUri)) {
+                for (i in picListOfUri) {
+                    if (i != null) {
+                        arrayOfFile.add(getFile(zipThePic(handleImageOnKitKat(i)), outputFile))
+                    }
+                }
+            }
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+
 
         if (view === release_confirm && (lostOrFound == "lost" || lostOrFound == "found")) {
-            if (!judgeNull(totalSelectedPic)) {
-                val file1: File
-                val arrayOfFile = ArrayList<File?>(0)
-                try {
-                    file1 = File.createTempFile("pic", ".jpg")
-                    val outputFile = file1.path
-                    for (i in 0..(totalSelectedPic.size - 1)) {
-                        if (totalSelectedPic[i] != null) {
-                            arrayOfFile.add(getFile(zipThePic(handleImageOnKitKat(totalSelectedPic[i])), outputFile))
-                        }
-                    }
-                } catch (e: IOException) {
-                    e.printStackTrace()
-                }
+            if (!judgeNull(picListOfUri)) {
+//                val file1: File
+//                val arrayOfFile = ArrayList<File?>(0)
+//                try {
+//                    file1 = File.createTempFile("pic", ".jpg")
+//                    val outputFile = file1.path
+//                    for (i in picListOfUri) {
+//                        if (i != null) {
+//                            arrayOfFile.add(getFile(zipThePic(handleImageOnKitKat(i)), outputFile))
+//                        }
+//                    }
+//                } catch (e: IOException) {
+//                    e.printStackTrace()
+//                }
 
                 val map = getUpdateMap()
                 if (judge) {
@@ -241,31 +285,17 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
             } else {
                 val map = getUpdateMap()
 
-                if (judge)
+                if (judge) {
+                    progressDialog = ProgressDialog.show(this@ReleaseActivity, "", "正在上传")
                     releasePresenter.uploadReleaseData(map, lostOrFound)
+                }
             }
         } else if (view === release_confirm) {
-            val file1: File
-            val arrayOfFile = ArrayList<File?>(0)
-            try {
-                file1 = File.createTempFile("pic", ".jpg")
-                val outputFile = file1.path
-
-                if (judgeNull(totalSelectedPic)) {
-                    for (i in 0..(totalSelectedPic.size - 1)) {
-                        if (totalSelectedPic[i] != null) {
-                            arrayOfFile.add(getFile(zipThePic(handleImageOnKitKat(totalSelectedPic[i])), outputFile))
-                        }
-                    }
-                }
-            } catch (e: IOException) {
-                e.printStackTrace()
-            }
 
             val map = getUpdateMap()
             if (judge) {
                 progressDialog = ProgressDialog.show(this@ReleaseActivity, "", "正在上传")
-                releasePresenter.uploadEditDataWithPic(map, lostOrFound, arrayOfFile, id)
+                releasePresenter.uploadEditDataWithPic(map, lostOrFound, arrayOfFile, picListOfString, id)
             }
         } else if (view === release_delete) {
             progressDialog = ProgressDialog.show(this@ReleaseActivity, "", "正在删除")
@@ -348,7 +378,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         map["phone"] = if (phoneString == "") " " else phoneString
         map["duration"] = duration
         map["item_description"] = if (remarksString == "") " " else remarksString
-        map["campus"] = Hawk.get("campus")
+        map["campus"] = campus
         judge = !(titleString == "" || phoneString == "" || nameString == "")
 
         if (lostOrFound == "found") {
@@ -445,7 +475,6 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         options.inSampleSize = calculateInSampleSize(options, 480, 800)
         options.inJustDecodeBounds = false
         val bitmap = BitmapFactory.decodeFile(filePath, options)
-
         val baos = ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.JPEG, 60, baos)
 
@@ -529,9 +558,8 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>,
-                                            grantResults: IntArray) {
-        PermissionsUtils.requestPermissionsResult(this, requestCode, permissions, grantResults, mPermissionGrant)
-    }
+                                            grantResults: IntArray) = PermissionsUtils.requestPermissionsResult(this, requestCode, permissions, grantResults, mPermissionGrant)
+
 
     @SuppressLint("ResourceType")
     fun openSeletPic() = Matisse.from(this@ReleaseActivity)
@@ -550,12 +578,8 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         val alertDialogBuilder = AlertDialog.Builder(this@ReleaseActivity)
         alertDialogBuilder.setItems(list) { dialog, item ->
             when (item) {
-                0 -> {
-                    PermissionsUtils.requestPermission(this@ReleaseActivity, PermissionsUtils.CODE_READ_EXTERNAL_STORAGE, mPermissionGrant)
-                }
-                1 -> {
-                    releasePicAdapter.removePic()
-                }
+                0 -> PermissionsUtils.requestPermission(this@ReleaseActivity, PermissionsUtils.CODE_READ_EXTERNAL_STORAGE, mPermissionGrant)
+                1 -> releasePicAdapter.removePic()
                 2 -> dialog.dismiss()
             }
         }
@@ -568,6 +592,10 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         intList.clear()
         when (position) {
             0 -> {
+                list.add("无")
+                intList.add(0)
+            }
+            1 -> {
                 list.add("1斋")
                 list.add("2斋")
                 list.add("3斋")
@@ -575,7 +603,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
                 intList.add(2)
                 intList.add(3)
             }
-            1 -> {
+            2 -> {
                 list.add("6斋")
                 list.add("7斋")
                 list.add("8斋")
@@ -583,19 +611,19 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
                 intList.add(7)
                 intList.add(8)
             }
-            2 -> {
+            3 -> {
                 list.add("9斋")
                 list.add("10斋")
                 intList.add(9)
                 intList.add(10)
             }
-            3 -> {
+            4 -> {
                 list.add("11斋")
                 list.add("12斋")
                 intList.add(11)
                 intList.add(12)
             }
-            4 -> {
+            5 -> {
                 list.add("13斋")
                 list.add("14斋")
                 list.add("15斋")
@@ -615,6 +643,10 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         intList.clear()
 
         when (room) {
+            0 -> {
+                list.add("无")
+                intList.add(0)
+            }
             1, 2, 9, 10 -> {
                 list.add("只有一个入口")
                 intList.add(0)
@@ -648,7 +680,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         "9斋", "10斋" -> 2
         "11斋", "12斋" -> 3
         "13斋", "14斋", "15斋", "16斋" -> 4
-        else -> 404
+        else -> 2333
     }
 
     private fun getPositionOfRoom(i: String): Int = when (i) {
@@ -656,7 +688,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         "2斋", "7斋", "10斋", "12斋", "14斋" -> 1
         "3斋", "8斋", "15斋" -> 2
         "16斋" -> 3
-        else -> 404
+        else -> 2333
     }
 
     private fun getPositionOfEntrance(i: Int): Int = when (i) {

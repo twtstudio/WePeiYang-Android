@@ -24,4 +24,8 @@
         <item name="contentInsetStartWithNavigation">0dp</item>
     </style>
 
+    <style name="SpinnerStyle">
+        <item name="android:colorControlNormal">#9A9A9A</item>
+    </style>
+
 </resources>

@@ -1,51 +1,45 @@
 package com.yookiely.lostfond2.waterfall
 
-import android.app.AlertDialog
-import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
 import android.graphics.drawable.BitmapDrawable
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-
 import android.support.design.widget.TabLayout
-import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.app.AlertDialog
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.StaggeredGridLayoutManager
-import android.support.v7.widget.Toolbar
-import android.util.Log
+import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.*
 import android.view.*
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.PopupWindow
 import android.widget.TextView
 import com.example.lostfond2.R
+import com.github.clans.fab.FloatingActionButton
+import com.orhanobut.hawk.Hawk
+import com.tencent.bugly.beta.global.e
 import com.yookiely.lostfond2.mylist.MyListActivity
 import com.yookiely.lostfond2.release.ReleaseActivity
 import com.yookiely.lostfond2.search.SearchActivity
-import com.github.clans.fab.FloatingActionButton
-import com.orhanobut.hawk.Hawk
-import com.orhanobut.hawk.Hawk
-import com.twt.wepeiyang.commons.experimental.cache.Cache
-import com.twt.wepeiyang.commons.experimental.cache.hawk
 import kotlinx.android.synthetic.main.activity_water_fall.*
 import org.jetbrains.anko.textColor
+import java.lang.reflect.Field
 
 class WaterFallActivity : AppCompatActivity() {
 
-    lateinit var lostFragment: WaterfallFragment
-    lateinit var foundFragment: WaterfallFragment
-    lateinit var pop_waterfall_type_recyclerview: RecyclerView
-    lateinit var pop_waterfall_types_all: TextView
-    lateinit var pop_waterfall_filter: TextView
+    private lateinit var lostFragment: WaterfallFragment
+    private lateinit var foundFragment: WaterfallFragment
+    private lateinit var pop_waterfall_type_recyclerview: RecyclerView
+    private lateinit var pop_waterfall_types_all: TextView
+    private lateinit var pop_waterfall_filter: TextView
     lateinit var window: PopupWindow
-    var layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-    var layoutManagerForFilter = LinearLayoutManager(this@WaterFallActivity)
-    var type = -1
+    private var layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+    private var layoutManagerForFilter = LinearLayoutManager(this@WaterFallActivity)
+    private var type = -1
+    private var time = 5
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
         setContentView(R.layout.activity_water_fall)
         val waterfallLost: FloatingActionButton = findViewById(R.id.waterfall_fab_lost)
@@ -54,29 +48,34 @@ class WaterFallActivity : AppCompatActivity() {
         pop_waterfall_filter = popupWindowview.findViewById(R.id.waterfall_filter) //筛选条件
         pop_waterfall_type_recyclerview = popupWindowview.findViewById(R.id.waterfall_type_recyclerview)
         pop_waterfall_type_recyclerview.layoutManager = layoutManager
-        val pop_waterfall_filter_adapter = WaterfallFilterTableAdapter(this@WaterFallActivity, this) // 筛选条件的adapter
-//        if (Hawk.contains("campus")) {
-//            campus = Hawk.get("campus")
-//        } else {
-            val builder = AlertDialog.Builder(this).setMessage("选择你所在的校区")
-            builder.setNegativeButton("卫津路") { dialog, which ->
-                Hawk.put("campus", 2)
+        val snapHelper = LinearSnapHelper()
+        snapHelper.attachToRecyclerView(pop_waterfall_type_recyclerview)
+
+
+        if (!Hawk.contains("campus")) {
+            val dialog = AlertDialog.Builder(this@WaterFallActivity)
+                    .setTitle("同学选择一下校区呗～")
+                    .setMessage("可以在“我的”修改嗷～")
+                    .setCancelable(false)
+                    .setPositiveButton("卫津路") { _, _ -> Hawk.put("campus", 2) }
+                    .setNegativeButton("北洋园") { _, _ -> Hawk.put("campus", 1) }
+                    .create()
+            dialog.show()
+            // 通过反射改变message颜色
+            try {
+                val mAlert: Field = AlertDialog::class.java.getDeclaredField("mAlert")
+                mAlert.isAccessible = true
+                val mAlertController = mAlert.get(dialog)
+                val mMessage: Field = mAlertController.javaClass.getDeclaredField("mMessageView")
+                mMessage.isAccessible = true
+                val mMessageView = mMessage.get(mAlertController) as TextView
+                mMessageView.setTextColor(Color.parseColor("#999999"))
+            } catch (e: IllegalAccessException) {
+                e.printStackTrace()
+            } catch (e: NoSuchFieldException) {
+                e.printStackTrace()
             }
-            builder.setNeutralButton("北洋园") { dialog, which -> Hawk.put("campus", 1) }
-            val ad = builder.create()
-            ad.show()
-//            val list = arrayOf<CharSequence>("北洋园校区", "卫津路校区")
-//            val alertDialogBuilder = AlertDialog.Builder(this)
-//            alertDialogBuilder.setTitle("请选择您所在校区")
-//            alertDialogBuilder.setItems(list) { dialog, item ->
-//                when (item) {
-//                    0 -> Hawk.put("campus", 2)
-//                    1 -> Hawk.put("campus", 1)
-//                }
-//            }
-//            val alert = alertDialogBuilder.create()
-//            alert.show()
-//        }
+        }
 
         lostFragment = WaterfallFragment.newInstance("lost")
         foundFragment = WaterfallFragment.newInstance("found")
@@ -92,8 +91,8 @@ class WaterFallActivity : AppCompatActivity() {
 
         waterfallPagerAdapter.add(foundFragment, "捡到")
         waterfallPagerAdapter.add(lostFragment, "丢失")
-
         waterfall_pager.adapter = waterfallPagerAdapter
+
         val apply = waterfall_tabLayout.apply {
             setupWithViewPager(waterfall_pager)
             tabGravity = TabLayout.GRAVITY_FILL
@@ -137,12 +136,11 @@ class WaterFallActivity : AppCompatActivity() {
                 pop_waterfall_types_all.textColor = Color.parseColor("#D3D3D3")
                 pop_waterfall_type_recyclerview.apply {
                     layoutManager = layoutManagerForFilter
-                    adapter = pop_waterfall_filter_adapter
+                    adapter = WaterfallFilterTableAdapter(this@WaterFallActivity, this@WaterFallActivity, -1)
                 }
 
             }
         }
-
 
         waterfall_fab_found.setOnClickListener {
             bundle.putString("lostOrFound", "found")
@@ -159,27 +157,34 @@ class WaterFallActivity : AppCompatActivity() {
             startActivity(intent)
             waterfall_fab_menu.close(true)
         }
-
     }
 
     fun setWaterfallType(type: Int) {
-        lostFragment.loadWaterfallDataWithType(type)
-        foundFragment.loadWaterfallDataWithType(type)
+        lostFragment.loadWaterfallDataWithCondition(type, time)
+        foundFragment.loadWaterfallDataWithCondition(type, time)
         this.type = type
         pop_waterfall_type_recyclerview.adapter = WaterfallTypeTableAdapter(this, this, type)
-        pop_waterfall_types_all.apply {
-            if (type == -1) {
-                setTypeface(Typeface.defaultFromStyle(Typeface.BOLD))
-            } else {
-                setTypeface(Typeface.DEFAULT)
-            }
+        pop_waterfall_types_all.typeface = if (type == -1) {
+            Typeface.defaultFromStyle(Typeface.BOLD)
+        } else {
+            Typeface.DEFAULT
         }
+    }
+
+    fun setWaterfallTime(time: Int) {
+        lostFragment.loadWaterfallDataWithCondition(type, time)
+        foundFragment.loadWaterfallDataWithCondition(type, time)
+        this.time = time
+        pop_waterfall_type_recyclerview.adapter = WaterfallFilterTableAdapter(this, this, time)
     }
 
     override fun onResume() {
         super.onResume()
-//        waterfall_cardview_types.visibility = View.GONE
-        pop_waterfall_type_recyclerview.adapter = WaterfallTypeTableAdapter(this, this, type)
+        pop_waterfall_type_recyclerview.adapter = if (pop_waterfall_type_recyclerview.layoutManager == layoutManager) {
+            WaterfallTypeTableAdapter(this, this, type)
+        } else {
+            WaterfallFilterTableAdapter(this, this, time)
+        }
 
         if (type == -1) {
             pop_waterfall_types_all.typeface = Typeface.defaultFromStyle(Typeface.BOLD)

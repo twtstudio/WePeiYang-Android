@@ -100,6 +100,28 @@
             app:layout_constraintTop_toTopOf="@+id/location" />
 
 
+        <ImageView
+            android:id="@+id/recapture"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:layout_marginBottom="4dp"
+            android:layout_marginTop="4dp"
+            android:src="@drawable/lf2_recapture"
+            app:layout_constraintLeft_toLeftOf="@+id/location"
+            app:layout_constraintTop_toBottomOf="@+id/location" />
+
+        <TextView
+            android:id="@+id/recapture_place"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="6dp"
+            android:text="北洋园-图书馆二楼"
+            android:textColor="#999999"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/recapture"
+            app:layout_constraintLeft_toRightOf="@+id/recapture"
+            app:layout_constraintTop_toTopOf="@+id/recapture" />
+
     </android.support.constraint.ConstraintLayout>
 
 </android.support.v7.widget.CardView>

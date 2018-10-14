@@ -33,8 +33,8 @@ class Utils {
         }
 
         fun getDetailFilterOfPlace(i: Int) = when (i) {
-            1 -> "北洋园校区"
-            2 -> "卫津路校区"
+            1 -> "北洋园"
+            2 -> "卫津路"
             else -> "wrong_place"
         }
 

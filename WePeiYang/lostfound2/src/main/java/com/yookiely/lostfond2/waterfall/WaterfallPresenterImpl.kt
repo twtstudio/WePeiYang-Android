@@ -1,5 +1,6 @@
 package com.yookiely.lostfond2.waterfall
 
+import com.orhanobut.hawk.Hawk
 import com.yookiely.lostfond2.service.LostFoundService
 import com.yookiely.lostfond2.service.MyListDataOrSearchBean
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
@@ -18,24 +19,13 @@ class WaterfallPresenterImpl(var waterfallView: WaterfallContract.WaterfallView)
         waterfallView.setWaterfallData(waterfallBean)
     }
 
-    override fun loadWaterfallData(lostOrFound: String, page: Int) {
-
-
-//        async(UI + QuietCoroutineExceptionHandler) {
-//            val dataList = when (lostOrFound) {
-//                "lost" -> lostFoundService.getLost(page, 0).awaitAndHandle { it.printStackTrace() }?.data!!
-//                else -> lostFoundService.getFound(page, 0).awaitAndHandle { it.printStackTrace() }?.data!!
-//            }
-//
-//            setWaterfallData(dataList)
-//        }
+    override fun loadWaterfallData(lostOrFound: String, page: Int, time: Int) {
         if (Hawk.contains("campus")) {
             val campus: Int = Hawk.get("campus")
-            Log.d("momom", campus.toString())
             launch(UI + QuietCoroutineExceptionHandler) {
                 val dataList = when (lostOrFound) {
-                    "lost" -> LostFoundService.getLost(campus, page, 0).await()
-                    else -> LostFoundService.getFound(campus, page, 0).await()
+                    "lost" -> LostFoundService.getLost(campus, page, 0, time).await()
+                    else -> LostFoundService.getFound(campus, page, 0, time).await()
                 }
 
                 if (dataList.error_code == -1) {
@@ -45,24 +35,16 @@ class WaterfallPresenterImpl(var waterfallView: WaterfallContract.WaterfallView)
         }
     }
 
-    override fun loadWaterfallDataWithType(lostOrFound: String, page: Int, type: Int) {
+    override fun loadWaterfallDataWithCondition(lostOrFound: String, page: Int, type: Int, time: Int) {
         if (type == -1) {
-            loadWaterfallData(lostOrFound, page)
+            loadWaterfallData(lostOrFound, page, time)
         } else {
-//            async(UI + QuietCoroutineExceptionHandler) {
-//                val dataList = when (lostOrFound) {
-//                    "lost" -> lostFoundService.getLost(page, type).awaitAndHandle { it.printStackTrace() }?.data!!
-//                    else -> lostFoundService.getFound(page, type).awaitAndHandle { it.printStackTrace() }?.data!!
-//                }
-//
-//                setWaterfallData(dataList)
-//            }
             if (Hawk.contains("campus")) {
                 val campus: Int = Hawk.get("campus")
                 launch(UI + QuietCoroutineExceptionHandler) {
                     val dataList = when (lostOrFound) {
-                        "lost" -> LostFoundService.getLost(campus, page, type).await()
-                        else -> LostFoundService.getFound(campus, page, type).await()
+                        "lost" -> LostFoundService.getLost(campus, page, type, time).await()
+                        else -> LostFoundService.getFound(campus, page, type, time).await()
                     }
 
                     if (dataList.error_code == -1) {

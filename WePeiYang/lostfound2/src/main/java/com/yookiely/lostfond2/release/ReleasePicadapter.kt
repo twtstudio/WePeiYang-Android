@@ -1,27 +1,26 @@
-package com.example.lostfond2.release
+package com.yookiely.lostfond2.release
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
 import android.net.Uri
 import android.support.v7.widget.RecyclerView
-import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.example.lostfond2.R
-import com.example.lostfond2.service.PermissionsUtils
-import com.example.lostfond2.service.Utils
+import com.yookiely.lostfond2.service.PermissionsUtils
+import com.yookiely.lostfond2.service.Utils
 import kotlinx.android.synthetic.main.dialog_detail_pic.view.*
 
-class ReleasePicadapter(val list : ArrayList<Any?>,
-                        val releaseActivity: ReleaseActivity, val context : Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ReleasePicadapter(val list: ArrayList<Any?>,
+                        val releaseActivity: ReleaseActivity, val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    var currentPosition = 0
+    private var currentPosition = 0
 
-    class ViewHolder(view : View) : RecyclerView.ViewHolder(view) {
+    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val release_pic = view.findViewById<ImageView>(R.id.release_cardview_pic)
 
     }
@@ -32,7 +31,7 @@ class ReleasePicadapter(val list : ArrayList<Any?>,
         return ViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, @SuppressLint("RecyclerView") position: Int) {
         holder as ViewHolder
         holder.itemView.apply {
 
@@ -79,20 +78,24 @@ class ReleasePicadapter(val list : ArrayList<Any?>,
 
     fun removePic() {
         list.removeAt(currentPosition)
-        if (list[list.size - 1] != null) { addPic() }
+        if (list[list.size - 1] != null) {
+            addPic()
+        }
         notifyItemChanged(currentPosition)
         notifyDataSetChanged()
     }
 
-    fun changePic(pic : Any) {
+    fun changePic(pic: Any) {
         list[currentPosition] = pic
         notifyItemChanged(currentPosition)
         notifyDataSetChanged()
-        if (currentPosition == (list.size - 1) && list.size < 9) { addPic() }
+        if (currentPosition == (list.size - 1) && list.size < 9) {
+            addPic()
+        }
     }
 
-    fun addPicUrl(urlList : List<String>) {
-        list.addAll(0,urlList)
+    fun addPicUrl(urlList: List<String>) {
+        list.addAll(0, urlList)
         notifyDataSetChanged()
     }
 

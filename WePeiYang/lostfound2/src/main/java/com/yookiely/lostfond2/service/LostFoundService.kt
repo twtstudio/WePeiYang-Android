@@ -8,10 +8,10 @@ import retrofit2.http.*
 
 interface LostFoundService {
     @GET("v1/lostfound/lost")
-    fun getLost(@Query("campus") campus: Int, @Query("page") page: Int, @Query("detail_type") detail_type: Int): Deferred<CommonBody<List<MyListDataOrSearchBean>>>
+    fun getLost(@Query("campus") campus: Int, @Query("page") page: Int, @Query("detail_type") detail_type: Int, @Query("timeblock") timeblock: Int): Deferred<CommonBody<List<MyListDataOrSearchBean>>>
 
     @GET("v1/lostfound/found")
-    fun getFound(@Query("campus") campus: Int, @Query("page") page: Int, @Query("detail_type") detail_type: Int): Deferred<CommonBody<List<MyListDataOrSearchBean>>>
+    fun getFound(@Query("campus") campus: Int, @Query("page") page: Int, @Query("detail_type") detail_type: Int, @Query("timeblock") timeblock: Int): Deferred<CommonBody<List<MyListDataOrSearchBean>>>
 
     @GET("v1/lostfound/{id}")
     fun getDetailed(@Path("id") id: Int): Deferred<CommonBody<DetailData>>
