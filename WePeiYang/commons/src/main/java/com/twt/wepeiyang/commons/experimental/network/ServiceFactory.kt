@@ -62,4 +62,8 @@ data class CommonBody<out T>(
         val error_code: Int,
         val message: String,
         val data: T?
-)
+) {
+    fun forEach(any: Any) {
+
+    }
+}

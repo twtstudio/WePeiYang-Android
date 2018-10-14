@@ -17,7 +17,7 @@ interface LostFoundService {
     fun getDetailed(@Path("id") id: Int): Deferred<CommonBody<DetailData>>
 
     @GET("v1/lostfound/search")
-    fun getSearch(@Query("keyword") keyword: String, @Query("page") page: Int): Deferred<CommonBody<List<MyListDataOrSearchBean>>>
+    fun getSearch(@Query("keyword") keyword: String, @Query("campus") campus: Int, @Query("time") time: Int, @Query("page") page: Int): Deferred<CommonBody<List<MyListDataOrSearchBean>>>
 
     @GET("v1/lostfound/user/{lostOrFound}")
     fun getMyList(@Path("lostOrFound") lostOrFound: String, @Query("page") page: Int): Deferred<CommonBody<List<MyListDataOrSearchBean>>>
@@ -98,6 +98,7 @@ data class MyListDataOrSearchBean(
 
 
         val id: Int,
+        val type: Int,
         val name: String,
         val title: String,
         val place: String,

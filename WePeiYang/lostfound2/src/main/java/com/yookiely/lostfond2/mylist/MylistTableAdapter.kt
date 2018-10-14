@@ -63,7 +63,7 @@ class MylistTableAdapter : RecyclerView.Adapter<MylistTableAdapter.MylistViewHol
     }
 
     override fun onBindViewHolder(holder: MylistViewHolder, position: Int) {
-        val (id, _, title, place, time, _, detail_type, isback, picture) = mylistBean.get(position)
+        val (id: Int, _: Int, _: String, title: String, place: String, time: String, _: String, detail_type: Int, isback: Int, picture: String, _: String, _: Int, _: String) = mylistBean[position]
         holder.mylist_item_title.text = title
         holder.mylist_item_type.text = Utils.getType(detail_type)
         holder.mylist_item_time.text = time

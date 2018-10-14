@@ -11,10 +11,29 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <include
-            layout="@layout/lf_common_toolbar"
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/mylist_toolbar"
+            style="@style/ToolbarStyle"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            android:elevation="8dp"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:titleTextColor="@android:color/white"
+            tools:targetApi="lollipop"
+            app:navigationIcon="@drawable/ic_arrow_back_black_24dp">
+
+            <ImageView
+                android:id="@+id/list_img"
+                android:layout_width="58dp"
+                android:layout_height="58dp"
+                android:padding="18dp"
+                android:src="@drawable/convert_campus"
+                android:layout_marginRight="16dp"
+                android:layout_gravity="right" />
+
+        </android.support.v7.widget.Toolbar>
 
 
     </android.support.design.widget.AppBarLayout>

@@ -34,9 +34,7 @@ class MylistItem(val context: FragmentActivity?, val lostOrFound: String, val my
             holder as MylistItemViewHolder
             item as MylistItem
 
-
-
-            val (id, _, title, place, time, _, detail_type, isback, picture) = item.mylistBean
+            val (id: Int, _: Int, _: String, title: String, place: String, time: String, _: String, detail_type: Int, isback: Int, picture: String, _: String, _: Int, _: String) = item.mylistBean
             holder.mylist_item_title.text = title
             holder.mylist_item_type.text = Utils.getType(detail_type)
             holder.mylist_item_time.text = time
