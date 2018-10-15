@@ -11,8 +11,8 @@ class ProblemPagerAdapter(fragmentManager: FragmentManager) : FragmentStatePager
     fun add(fragmentIndex: Int, type: Int, mode: Int, problemID: Int) =
             fragmentList.add(ProblemFragment.newInstance(fragmentIndex, type, mode, problemID))
 
-    fun add(fragmentIndex: Int, oneProblemData: TestOneProblemData) =
-            fragmentList.add(ProblemFragment.newInstance(fragmentIndex, oneProblemData))
+    fun add(fragmentIndex: Int, testProblemBean: TestProblemBean) =
+            fragmentList.add(ProblemFragment.newInstance(fragmentIndex, testProblemBean))
 
     fun changeMode(index: Int) = fragmentList[index].changeMode()
 

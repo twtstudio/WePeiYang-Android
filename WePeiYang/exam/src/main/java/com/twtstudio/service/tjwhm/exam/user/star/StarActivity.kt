@@ -3,6 +3,7 @@ package com.twtstudio.service.tjwhm.exam.user.star
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.os.Looper
+import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -33,6 +34,7 @@ class StarActivity : AppCompatActivity() {
 
     private lateinit var tvTitle: TextView
     private lateinit var rvStar: RecyclerView
+    private lateinit var srlStar: SwipeRefreshLayout
 
     private var starOrWrong = 0
 
@@ -49,6 +51,7 @@ class StarActivity : AppCompatActivity() {
         findViewById<ImageView>(R.id.iv_star_back).setOnClickListener { onBackPressed() }
         tvTitle = findViewById(R.id.tv_star_toolbar_title)
         rvStar = findViewById(R.id.rv_star)
+        srlStar = findViewById<SwipeRefreshLayout>(R.id.srl_star).apply { setColorSchemeColors(0x449ff1) }
 
         starOrWrong = intent.getIntExtra(TYPE_KEY, 0)
 
@@ -57,7 +60,15 @@ class StarActivity : AppCompatActivity() {
             WRONG -> tvTitle.text = "我的错题"
         }
 
+        srlStar.setOnRefreshListener {
+            startStarNetwork()
+        }
+
         rvStar.layoutManager = LinearLayoutManager(this@StarActivity)
+        startStarNetwork()
+    }
+
+    private fun startStarNetwork() {
         getCollections(starOrWrong.toString()) {
             when (it) {
                 is RefreshState.Failure -> Toasty.error(this@StarActivity, "网络错误", Toast.LENGTH_SHORT).show()
@@ -70,6 +81,7 @@ class StarActivity : AppCompatActivity() {
                             }
                         }
                     }
+                    srlStar.isRefreshing = false
                 }
             }
         }

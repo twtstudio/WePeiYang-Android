@@ -15,10 +15,7 @@ import com.twt.wepeiyang.commons.ui.rec.ItemController
 import com.twt.wepeiyang.commons.ui.rec.withItems
 import com.twtstudio.service.tjwhm.exam.R
 import com.twtstudio.service.tjwhm.exam.commons.toSelectionIndex
-import com.twtstudio.service.tjwhm.exam.problem.Result
-import com.twtstudio.service.tjwhm.exam.problem.SelectionItem
-import com.twtstudio.service.tjwhm.exam.problem.TestOneProblemData
-import com.twtstudio.service.tjwhm.exam.problem.selectionItem
+import com.twtstudio.service.tjwhm.exam.problem.*
 import org.jetbrains.anko.layoutInflater
 
 /**
@@ -26,7 +23,7 @@ import org.jetbrains.anko.layoutInflater
  * Happy coding!
  */
 
-class ScoreItem(val index: Int, val context: Context, val problemData: TestOneProblemData, val resultData: Result) : Item {
+class ScoreItem(val index: Int, val context: Context, val testProblemBean: TestProblemBean, val resultData: Result) : Item {
     override val controller: ItemController
         get() = Controller
 
@@ -39,15 +36,15 @@ class ScoreItem(val index: Int, val context: Context, val problemData: TestOnePr
             holder as ItemViewHolder
             item as ScoreItem
             holder.apply {
-                tvProblemTitle?.text = (item.index + 1).toString() + "." + Html.fromHtml(item.problemData.content).toString()
+                tvProblemTitle?.text = (item.index + 1).toString() + "." + Html.fromHtml(item.testProblemBean.content).toString()
                 tvRightAnswer?.text = "正确答案：${item.resultData.true_answer}"
                 tvUserAnswer?.text = "你的答案：${item.resultData.answer}"
                 if (item.resultData.is_true == 1) tvUserAnswer?.setTextColor(ContextCompat.getColor(item.context, R.color.examTextBlue))
                 else tvUserAnswer?.setTextColor(ContextCompat.getColor(item.context, R.color.examTextRed))
                 rvScoreSelections?.layoutManager = LinearLayoutManager(item.context)
                 rvScoreSelections?.withItems {
-                    repeat(item.problemData.option.size) {
-                        selectionItem(null, it.toSelectionIndex(), item.problemData.option[it], SelectionItem.NONE)
+                    repeat(item.testProblemBean.option.size) {
+                        selectionItem(null, it.toSelectionIndex(), item.testProblemBean.option[it], SelectionItem.NONE)
                     }
                 }
             }
@@ -64,4 +61,4 @@ class ScoreItem(val index: Int, val context: Context, val problemData: TestOnePr
     }
 }
 
-fun MutableList<Item>.scoreItem(index: Int, context: Context, problemData: TestOneProblemData, resultData: Result) = add(ScoreItem(index, context, problemData, resultData))
+fun MutableList<Item>.scoreItem(index: Int, context: Context, testProblemBean: TestProblemBean, resultData: Result) = add(ScoreItem(index, context, testProblemBean, resultData))

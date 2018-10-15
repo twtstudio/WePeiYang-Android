@@ -20,7 +20,6 @@ import com.twtstudio.service.tjwhm.exam.R
 import org.jetbrains.anko.dip
 import org.jetbrains.anko.horizontalMargin
 import org.jetbrains.anko.layoutInflater
-import org.jetbrains.anko.verticalMargin
 
 /**
  * Created by tjwhm@TWTStudio at 12:31 AM, 2018/8/16.

@@ -18,10 +18,10 @@ interface ProblemService {
     fun getProblem(@Path("lesson_id") lessonID: String, @Path("type") type: String, @Path("problem_id") problemID: String): Deferred<CommonBody<ProblemBean>>
 
     @GET("exercise/getQues/{lesson_id}")
-    fun getTestProblems(@Path("lesson_id") lessonID: String): Deferred<TestViewModel>
+    fun getTestProblems(@Path("lesson_id") lessonID: String): Deferred<CommonBody<TestDataBean>>
 
     @POST("exercise/getScore/{lesson_id}/{time}")
-    fun uploadResult(@Path("lesson_id") lessonID: String, @Path("time") time: String, @Body answerList: List<UpdateResultViewModel>): Deferred<ScoreViewModel>
+    fun uploadResult(@Path("lesson_id") lessonID: String, @Path("time") time: String, @Body answerList: List<UpdateResultViewModel>): Deferred<CommonBody<ScoreBean>>
 
     companion object : ProblemService by ServiceFactoryForExam()
 }
@@ -46,7 +46,7 @@ fun getProblem(lessonID: String, type: String, problemID: String, callback: susp
             }
         }
 
-fun getTestProblems(lessonID: String, callback: suspend (RefreshState<TestViewModel>) -> Unit) =
+fun getTestProblems(lessonID: String, callback: suspend (RefreshState<CommonBody<TestDataBean>>) -> Unit) =
         launch(UI) {
             ProblemService.getTestProblems(lessonID).awaitAndHandle {
                 callback(RefreshState.Failure(it))
@@ -55,7 +55,7 @@ fun getTestProblems(lessonID: String, callback: suspend (RefreshState<TestViewMo
             }
         }
 
-fun getScore(lessonID: String, time: String, answerList: List<UpdateResultViewModel>, callback: suspend (RefreshState<ScoreViewModel>) -> Unit) =
+fun getScore(lessonID: String, time: String, answerList: List<UpdateResultViewModel>, callback: suspend (RefreshState<CommonBody<ScoreBean>>) -> Unit) =
         launch(UI) {
             ProblemService.uploadResult(lessonID, time, answerList).awaitAndHandle {
                 callback(RefreshState.Failure(it))
@@ -78,38 +78,43 @@ data class ProblemBean(
         val error_option: String
 )
 
-data class TestViewModel(
-        val status: Int,
-        val message: String,
+data class TestDataBean(
         val time: Int,
-        val data: List<TestOneProblemData>
+        val timestamp: Int,
+        val question: List<TestProblemBean>
 ) : Serializable
 
-data class TestOneProblemData(
-        val id: Int,
+data class TestProblemBean(
+        val ques_id: Int,
         val course_id: String,
-        val type: Int,
+        val ques_type: Int,
         val content: String,
-        val option: List<String>
+        val option: List<String>,
+        val is_collected: Int
 ) : Serializable
 
+data class UpdateResultViewModel(
+        val id: Int,
+        val answer: String,
+        val type: Int
+)
 
-data class ScoreViewModel(
+
+data class ScoreBean(
+        val timestamp: Int,
         val score: Int,
+        val correct_num: Int,
+        val error_num: Int,
+        val not_done_num: Int,
         val result: List<Result>
 ) : Serializable
 
 data class Result(
         val ques_id: Int,
         val ques_type: Int,
-        val is_true: Int,
+        val is_done: Int,
         val answer: String,
-        val true_answer: String
-) : Serializable
-
-
-data class UpdateResultViewModel(
-        val id: Int,
-        val answer: String,
-        val type: Int
+        val true_answer: String,
+        val is_collected: Int,
+        val is_true: Int
 )

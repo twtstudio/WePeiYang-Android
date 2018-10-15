@@ -60,15 +60,15 @@ class ProblemFragment : Fragment() {
             return fragment
         }
 
-        internal fun newInstance(fragmentIndex: Int, testOneProblemData: TestOneProblemData): ProblemFragment {
+        internal fun newInstance(fragmentIndex: Int, testProblemBean: TestProblemBean): ProblemFragment {
             val fragment = ProblemFragment()
             val args = Bundle()
             args.apply {
                 putInt(FRAGMENT_INDEX_KEY, fragmentIndex)
                 putInt(MODE_KEY, TEST_MODE)
-                putInt(QUES_TYPE_KEY, testOneProblemData.type)
-                putInt(QUES_ID_KEY, testOneProblemData.id)
-                putSerializable(ONE_PROBLEM_KEY, testOneProblemData)
+                putInt(QUES_TYPE_KEY, testProblemBean.ques_type)
+                putInt(QUES_ID_KEY, testProblemBean.ques_id)
+                putSerializable(ONE_PROBLEM_KEY, testProblemBean)
             }
             fragment.arguments = args
             return fragment
@@ -210,7 +210,7 @@ class ProblemFragment : Fragment() {
                                             is RefreshState.Failure -> Toasty.error(context, "网络错误", Toast.LENGTH_SHORT).show()
                                             is RefreshState.Success -> {
                                                 if (it.message.error_code == 0) {
-                                                    Toasty.success(context, "删除成功", Toast.LENGTH_SHORT).show()
+                                                    Toasty.success(context, "取消收藏", Toast.LENGTH_SHORT).show()
                                                     getProblemData()
                                                 }
                                             }
@@ -250,8 +250,8 @@ class ProblemFragment : Fragment() {
         } else if (mode == TEST_MODE) {
             handleViewsVisibility()
             val oneProblemData = arguments?.getSerializable(ONE_PROBLEM_KEY)
-            oneProblemData as TestOneProblemData
-            tvType.text = oneProblemData.type.toProblemType()
+            oneProblemData as TestProblemBean
+            tvType.text = oneProblemData.ques_type.toProblemType()
             tvTitle.text = Html.fromHtml(oneProblemData.content)
             rvSelections.withItems {
                 repeat(oneProblemData.option.size) {

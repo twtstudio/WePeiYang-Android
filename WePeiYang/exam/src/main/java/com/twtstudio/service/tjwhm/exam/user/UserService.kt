@@ -111,24 +111,3 @@ data class OneHistoryBean(
         val timestamp: String,
         val score: String
 )
-
-
-data class StarViewModel(
-        val status: Int,
-        val tid: String,
-        val ques: List<Que>
-)
-
-data class Que(
-        val id: Int,
-        val class_id: String,
-        val course_id: String,
-        val type: String,
-        val content: String,
-        val option: List<String>,
-        val answer: String,
-        val is_collected: Int,
-        val is_mistake: Int,
-        val message: String,
-        val error_option: String
-)

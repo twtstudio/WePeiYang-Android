@@ -48,7 +48,7 @@ class ProblemActivity : AppCompatActivity(), ProblemActivityInterface {
     var time: Int = 0
     var currentFragmentIndex = 0
 
-    private lateinit var problemForTest: TestViewModel
+    private lateinit var testDataBean: TestDataBean
 
     private lateinit var clProblem: ConstraintLayout
     private lateinit var tvLeft: TextView
@@ -183,16 +183,15 @@ class ProblemActivity : AppCompatActivity(), ProblemActivityInterface {
             when (it) {
                 is RefreshState.Failure -> Toasty.error(this@ProblemActivity, "网络错误", Toast.LENGTH_SHORT).show()
                 is RefreshState.Success -> {
-                    problemForTest = it.message
-                    size = it.message.data.size
-                    repeat(size) {
-                        problemIndexData.add(ProblemIndex.NONE)
-                    }
-                    for (i in 0 until it.message.data.size) {
-                        pagerAdapter.add(i, it.message.data[i])
+                    it.message.data!!.apply {
+                        size = this.question.size
+                        repeat(size) {
+                            problemIndexData.add(ProblemIndex.NONE)
+                            pagerAdapter.add(it, question[it])
+                        }
+                        this@ProblemActivity.time = time
                     }
                     vpProblem.adapter = pagerAdapter
-                    time = it.message.time
                 }
             }
         }
@@ -234,8 +233,8 @@ class ProblemActivity : AppCompatActivity(), ProblemActivityInterface {
                 is RefreshState.Success -> {
                     Toasty.success(this@ProblemActivity, "交卷成功！", Toast.LENGTH_SHORT).show()
                     val intent = Intent(this@ProblemActivity, ScoreActivity::class.java)
-                    intent.putExtra(ScoreActivity.SCORE_VIEW_MODEL_KEY, it.message)
-                    intent.putExtra(ScoreActivity.PROBLEM_FOR_TEST_KEY, problemForTest)
+                    intent.putExtra(ScoreActivity.SCORE_BEAN_KEY, it.message.data)
+                    intent.putExtra(ScoreActivity.PROBLEM_FOR_TEST_KEY, testDataBean)
                     this@ProblemActivity.startActivity(intent)
                     finish()
                 }

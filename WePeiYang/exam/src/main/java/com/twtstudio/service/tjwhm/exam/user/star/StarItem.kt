@@ -8,9 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import com.twt.wepeiyang.commons.experimental.cache.RefreshState
-import com.twt.wepeiyang.commons.experimental.cache.simpleCallback
 import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemController
 import com.twt.wepeiyang.commons.ui.rec.withItems
@@ -22,7 +20,6 @@ import com.twtstudio.service.tjwhm.exam.commons.toSelectionIndex
 import com.twtstudio.service.tjwhm.exam.problem.ProblemBean
 import com.twtstudio.service.tjwhm.exam.problem.SelectionItem
 import com.twtstudio.service.tjwhm.exam.problem.selectionItem
-import com.twtstudio.service.tjwhm.exam.user.Que
 import com.twtstudio.service.tjwhm.exam.user.addCollection
 import com.twtstudio.service.tjwhm.exam.user.deleteCollection
 import es.dmoral.toasty.Toasty
@@ -37,6 +34,9 @@ import org.jetbrains.anko.layoutInflater
 class StarItem(val context: Context, val problemBean: ProblemBean, val starOrWrong: Int) : Item {
     override val controller: ItemController
         get() = Controller
+
+    private var isMistake = problemBean.is_mistake == 1
+    private var isCollected = problemBean.is_collected == 1
 
     companion object Controller : ItemController {
         override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder =
@@ -73,9 +73,8 @@ class StarItem(val context: Context, val problemBean: ProblemBean, val starOrWro
                     }
                 }
 
-                if (item.problemBean.is_collected != 1) {
-                    ivStar?.setImageResource(R.drawable.exam_ic_star_blank)
-                    ivStar?.setOnClickListener { _ ->
+                ivStar?.setOnClickListener { _ ->
+                    if (!item.isCollected) {
                         val list = MultipartBody.Builder()
                                 .setType(MultipartBody.FORM)
                                 .addFormDataPart("ques_type", item.problemBean.ques_type)
@@ -88,12 +87,11 @@ class StarItem(val context: Context, val problemBean: ProblemBean, val starOrWro
                                 is RefreshState.Success -> {
                                     Toasty.success(item.context, "收藏成功").show()
                                     ivStar.setImageResource(R.drawable.exam_ic_star_filled)
+                                    item.isCollected = true
                                 }
                             }
                         }
-                    }
-                } else {
-                    ivStar?.setOnClickListener { _ ->
+                    } else {
                         val list = MultipartBody.Builder()
                                 .setType(MultipartBody.FORM)
                                 .addFormDataPart("ques_type", item.problemBean.ques_type)
@@ -104,17 +102,20 @@ class StarItem(val context: Context, val problemBean: ProblemBean, val starOrWro
                             when (it) {
                                 is RefreshState.Failure -> Toasty.error(item.context, "网络错误").show()
                                 is RefreshState.Success -> {
-                                    Toasty.success(item.context, "删除成功").show()
+                                    Toasty.success(item.context, "取消收藏").show()
                                     ivStar.setImageResource(R.drawable.exam_ic_star_blank)
+                                    item.isCollected = false
                                 }
                             }
                         }
                     }
                 }
+                if (!item.isCollected) {
+                    ivStar?.setImageResource(R.drawable.exam_ic_star_blank)
+                }
 
-                if (item.problemBean.is_mistake != 1) {
-                    ivWrong?.setImageResource(R.drawable.exam_ic_wrong_collection_blank)
-                    ivWrong?.setOnClickListener { _ ->
+                ivWrong?.setOnClickListener { _ ->
+                    if (item.isMistake) {
                         val list = MultipartBody.Builder()
                                 .setType(MultipartBody.FORM)
                                 .addFormDataPart("ques_type", item.problemBean.ques_type)
@@ -127,16 +128,16 @@ class StarItem(val context: Context, val problemBean: ProblemBean, val starOrWro
                                 is RefreshState.Success -> {
                                     Toasty.success(item.context, "删除成功").show()
                                     ivWrong.setImageResource(R.drawable.exam_ic_wrong_collection_blank)
+                                    item.isMistake = false
                                 }
                             }
                         }
-                    }
-                } else {
-                    ivWrong?.setOnClickListener { _ ->
+                    } else {
                         val list = MultipartBody.Builder()
                                 .setType(MultipartBody.FORM)
                                 .addFormDataPart("ques_type", item.problemBean.ques_type)
                                 .addFormDataPart("ques_id", item.problemBean.ques_id.toString())
+                                .addFormDataPart("error_answer", item.problemBean.error_option)
                                 .build()
                                 .parts()
                         addCollection(StarActivity.WRONG.toString(), list) {
@@ -145,10 +146,15 @@ class StarItem(val context: Context, val problemBean: ProblemBean, val starOrWro
                                 is RefreshState.Success -> {
                                     Toasty.success(item.context, "重新加入错题本").show()
                                     ivWrong.setImageResource(R.drawable.exam_ic_wrong_collection_filled)
+                                    item.isMistake = true
                                 }
                             }
                         }
                     }
+                }
+
+                if (!item.isMistake) {
+                    ivWrong?.setImageResource(R.drawable.exam_ic_wrong_collection_blank)
                 }
             }
         }

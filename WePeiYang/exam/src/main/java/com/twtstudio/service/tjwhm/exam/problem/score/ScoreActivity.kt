@@ -12,19 +12,18 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.twt.wepeiyang.commons.ui.rec.withItems
 import com.twtstudio.service.tjwhm.exam.R
-import com.twtstudio.service.tjwhm.exam.problem.ScoreViewModel
-import com.twtstudio.service.tjwhm.exam.problem.TestViewModel
+import com.twtstudio.service.tjwhm.exam.problem.ScoreBean
 
 class ScoreActivity : AppCompatActivity() {
 
 
     companion object {
-        const val SCORE_VIEW_MODEL_KEY = "score_view_model_key"
+        const val SCORE_BEAN_KEY = "score_view_model_key"
         const val PROBLEM_FOR_TEST_KEY = "problem_for_test_key"
     }
 
-    private lateinit var problemData: TestViewModel
-    private lateinit var scoreData: ScoreViewModel
+    //    private lateinit var problemData: TestViewModel
+    private lateinit var scoreBean: ScoreBean
 
     private lateinit var toolbar: Toolbar
 
@@ -47,8 +46,8 @@ class ScoreActivity : AppCompatActivity() {
             false
         }
 
-        problemData = intent.getSerializableExtra(PROBLEM_FOR_TEST_KEY) as TestViewModel
-        scoreData = intent.getSerializableExtra(SCORE_VIEW_MODEL_KEY) as ScoreViewModel
+//        problemData = intent.getSerializableExtra(PROBLEM_FOR_TEST_KEY) as TestViewModel
+        scoreBean = intent.getSerializableExtra(SCORE_BEAN_KEY) as ScoreBean
 
         toolbar = findViewById(R.id.tb_score)
         findViewById<ImageView>(R.id.iv_score_back).setOnClickListener { onBackPressed() }
@@ -60,19 +59,19 @@ class ScoreActivity : AppCompatActivity() {
         tvWrongNum = findViewById(R.id.tv_score_wrong_num)
         rvScore = findViewById(R.id.rv_score)
 
-        tvProblemNum.text = scoreData.result.size.toString()
+        tvProblemNum.text = scoreBean.result.size.toString()
         var wrongNum = 0
-        repeat(scoreData.result.size) {
-            if (scoreData.result[it].is_true == 0) wrongNum++
+        repeat(scoreBean.result.size) {
+            if (scoreBean.result[it].is_true == 0) wrongNum++
         }
         tvWrongNum.text = wrongNum.toString()
-        tvRadio.text = "正确率：${((wrongNum.toDouble() / scoreData.result.size.toDouble()).toString() + "0000").substring(2, 4)}%"
+        tvRadio.text = "正确率：${((wrongNum.toDouble() / scoreBean.result.size.toDouble()).toString() + "0000").substring(2, 4)}%"
 
         rvScore.layoutManager = LinearLayoutManager(this@ScoreActivity)
         rvScore.withItems {
-            repeat(problemData.data.size) {
-                scoreItem(it, this@ScoreActivity, problemData.data[it], scoreData.result[it])
-            }
+            //            repeat(problemData.data.size) {
+//                scoreItem(it, this@ScoreActivity, problemData.data[it], scoreBean.result[it])
+//            }
         }
     }
 

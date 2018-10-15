@@ -70,4 +70,3 @@ data class LessonInfoBean(
         val multi_ques_index: Int,
         val decide_ques_index: Int
 )
-

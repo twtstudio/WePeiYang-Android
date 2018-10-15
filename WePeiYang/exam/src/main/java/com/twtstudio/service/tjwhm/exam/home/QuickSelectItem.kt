@@ -2,17 +2,14 @@ package com.twtstudio.service.tjwhm.exam.home
 
 import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemController
 import com.twtstudio.service.tjwhm.exam.R
 import com.twtstudio.service.tjwhm.exam.list.TypeSelectPopup
-import es.dmoral.toasty.Toasty
 import org.jetbrains.anko.layoutInflater
 
 /**
