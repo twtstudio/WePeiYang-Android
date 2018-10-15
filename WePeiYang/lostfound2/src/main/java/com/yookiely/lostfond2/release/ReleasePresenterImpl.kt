@@ -10,8 +10,9 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import java.io.File
 import java.util.*
+import kotlin.collections.ArrayList
 
-class ReleasePresenterImpl(var releaseView: ReleaseContract.ReleaseView) : ReleaseContract.ReleasePresenter {
+class ReleasePresenterImpl(private var releaseView: ReleaseContract.ReleaseView) : ReleaseContract.ReleasePresenter {
 
 
     override fun uploadReleaseData(map: Map<String, Any>, lostOrFound: String) {
@@ -29,12 +30,16 @@ class ReleasePresenterImpl(var releaseView: ReleaseContract.ReleaseView) : Relea
             addFormDataPart("item_description", map["item_description"].toString())
             addFormDataPart("other_tag", "")
             addFormDataPart("duration", map["duration"].toString())
+            addFormDataPart("campus", map["campus"].toString())
+
+            if (lostOrFound == "found") {
+                addFormDataPart("recapture_place", map["recapture_place"].toString())
+                addFormDataPart("recapture_entrance", map["recapture_enterance"].toString())
+            }
         }
         val parts: List<MultipartBody.Part> = builder.build().parts()
 
         launch(UI + QuietCoroutineExceptionHandler) {
-
-            //            val beanList = LostFoundService.updateRelease(map, lostOrFound).await()
             val beanList = LostFoundService.updateReleaseWithPic(lostOrFound, parts).await()
 
             if (beanList.error_code == -1) {
@@ -43,13 +48,18 @@ class ReleasePresenterImpl(var releaseView: ReleaseContract.ReleaseView) : Relea
         }
     }
 
-
-    override fun uploadReleaseDataWithPic(map: Map<String, Any>, lostOrFound: String, file: File) {
+    override fun uploadReleaseDataWithPic(map: Map<String, Any>, lostOrFound: String, arrayOfFile : ArrayList<File?>) {
 
         val builder = MultipartBody.Builder().setType(MultipartBody.FORM)
-        val imageBody = RequestBody.create(MediaType.parse("multipart/form-data"), file)
+
         builder.apply {
-            addFormDataPart("pic[]", file.name, imageBody)
+            for (i in arrayOfFile) {
+                if (i != null) {
+                    val imageBody = RequestBody.create(MediaType.parse("multipart/form-data"), i)
+                    addFormDataPart("pic[]", i.name, imageBody)
+                }
+            }
+
             addFormDataPart("title", map["title"].toString())
             addFormDataPart("time", map["time"].toString())
             addFormDataPart("place", map["place"].toString())
@@ -61,6 +71,12 @@ class ReleasePresenterImpl(var releaseView: ReleaseContract.ReleaseView) : Relea
             addFormDataPart("item_description", map["item_description"].toString())
             addFormDataPart("other_tag", "")
             addFormDataPart("duration", map["duration"].toString())
+            addFormDataPart("campus", map["campus"].toString())
+
+            if (lostOrFound == "found") {
+                addFormDataPart("recapture_place", map["recapture_place"].toString())
+                addFormDataPart("recapture_entrance", map["recapture_entrance"].toString())
+            }
         }
         val parts: List<MultipartBody.Part> = builder.build().parts()
 
@@ -89,15 +105,22 @@ class ReleasePresenterImpl(var releaseView: ReleaseContract.ReleaseView) : Relea
         }
     }
 
-    override fun uploadEditDataWithPic(map: Map<String, Any>, lostOrFound: String, file: File?, id: Int) {
+    override fun uploadEditDataWithPic(map: Map<String, Any>, lostOrFound: String, arrayOfFile: ArrayList<File?>, arrayOfString: ArrayList<String?>, id: Int) {
         val builder = MultipartBody.Builder().setType(MultipartBody.FORM)
 
-        if (file != null) {
-            val imageBody = RequestBody.create(MediaType.parse("multipart/form-data"), file)
-            builder.addFormDataPart("pic[]", file.name, imageBody)
-        }
-
         builder.apply {
+            for (i in arrayOfFile) {
+                if (i != null) {
+                    val imageBody = RequestBody.create(MediaType.parse("multipart/form-data"), i)
+                    addFormDataPart("pic[]", i.name, imageBody)
+                }
+            }
+
+            for (i in arrayOfString) {
+                if (i != null) {
+                    addFormDataPart("kept_picture", i)
+                }
+            }
             addFormDataPart("title", map["title"].toString())
             addFormDataPart("time", map["time"].toString())
             addFormDataPart("place", map["place"].toString())
@@ -109,6 +132,12 @@ class ReleasePresenterImpl(var releaseView: ReleaseContract.ReleaseView) : Relea
             addFormDataPart("item_description", map["item_description"].toString())
             addFormDataPart("other_tag", "")
             addFormDataPart("duration", map["duration"].toString())
+            addFormDataPart("campus", map["campus"].toString())
+
+            if (lostOrFound == "editFound") {
+                addFormDataPart("recapture_place", map["recapture_place"].toString())
+                addFormDataPart("recapture_enterance", map["recapture_enterance"].toString())
+            }
         }
         val parts: List<MultipartBody.Part> = builder.build().parts()
         val anotherLostOrFound = if (Objects.equals(lostOrFound, "editLost")) "lost" else "found"

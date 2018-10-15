@@ -7,14 +7,14 @@ interface WaterfallContract {
     interface WaterfallView {
         fun setWaterfallData(waterfallBean: List<MyListDataOrSearchBean>)
 
-        fun loadWaterfallDataWithType(type: Int)
+        fun loadWaterfallDataWithCondition(type: Int, time: Int)
     }
 
     interface WaterfallPresenter {
         fun setWaterfallData(waterfallBean: List<MyListDataOrSearchBean>)
 
-        fun loadWaterfallData(lostOrFound: String, page: Int)
+        fun loadWaterfallData(lostOrFound: String, page: Int, time: Int)
 
-        fun loadWaterfallDataWithType(lostOrFound: String, page: Int, type: Int)
+        fun loadWaterfallDataWithCondition(lostOrFound: String, page: Int, type: Int, time: Int)
     }
 }

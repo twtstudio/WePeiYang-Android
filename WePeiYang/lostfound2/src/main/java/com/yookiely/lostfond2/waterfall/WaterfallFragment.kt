@@ -24,6 +24,7 @@ class WaterfallFragment : Fragment(), WaterfallContract.WaterfallView {
     var lostOrFound = "lost"
     var type = -1
     var page = 1
+    var time = 5
     private val waterfallPresenter = WaterfallPresenterImpl(this)
 
     companion object {
@@ -55,7 +56,7 @@ class WaterfallFragment : Fragment(), WaterfallContract.WaterfallView {
             override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 val totalCount = layoutManager.itemCount
-                var lastPositions: IntArray = IntArray(layoutManager.spanCount)
+                val lastPositions = IntArray(layoutManager.spanCount)
                 layoutManager.findLastCompletelyVisibleItemPositions(lastPositions)
                 val lastPosition = lastPositions.max()
 
@@ -65,9 +66,9 @@ class WaterfallFragment : Fragment(), WaterfallContract.WaterfallView {
 
                     waterfallPresenter.apply {
                         if (type == -1) {
-                            loadWaterfallData(lostOrFound, page)
+                            loadWaterfallData(lostOrFound, page, time)
                         } else {
-                            loadWaterfallDataWithType(lostOrFound, page, type)
+                            loadWaterfallDataWithCondition(lostOrFound, page, type, time)
                         }
                     }
                 }
@@ -79,10 +80,10 @@ class WaterfallFragment : Fragment(), WaterfallContract.WaterfallView {
 
     override fun setWaterfallData(newBeanList: List<MyListDataOrSearchBean>) {
         waterfall_no_res.apply {
-            if (newBeanList.size == 0 && page == 1) {
-                visibility = View.VISIBLE
+            visibility = if (newBeanList.isEmpty() && page == 1) {
+                View.VISIBLE
             } else {
-                visibility = View.GONE
+                View.GONE
             }
 
             if (isRefresh) {
@@ -97,23 +98,23 @@ class WaterfallFragment : Fragment(), WaterfallContract.WaterfallView {
         }
     }
 
-    override fun loadWaterfallDataWithType(type: Int) {
+    override fun loadWaterfallDataWithCondition(type: Int, time: Int) {
         this.type = type
+        this.time = time
         page = 1
         isRefresh = true
-        waterfallPresenter.loadWaterfallDataWithType(lostOrFound, page, type)
+        waterfallPresenter.loadWaterfallDataWithCondition(lostOrFound, page, this.type, this.time)
     }
 
     override fun onResume() {
         super.onResume()
-        waterfallPresenter.loadWaterfallData(lostOrFound,type)
+        waterfallPresenter.loadWaterfallDataWithCondition(lostOrFound, page, this.type, this.time)
     }
 
     private fun refresh() {
         isLoading = true
         isRefresh = true
         page = 1
-        type = -1
-        waterfallPresenter.loadWaterfallData(lostOrFound, page)
+        waterfallPresenter.loadWaterfallDataWithCondition(lostOrFound, page, this.type, this.time)
     }
 }

@@ -1,6 +1,7 @@
 package com.yookiely.lostfond2.release
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.ContentUris
 import android.content.Context
@@ -14,16 +15,15 @@ import android.os.Environment
 import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.StaggeredGridLayoutManager
-import android.support.v7.widget.Toolbar
+import android.support.v7.widget.*
 import android.view.View
 import android.view.Window
 import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
-import com.bumptech.glide.Glide
 import com.example.lostfond2.R
+import com.orhanobut.hawk.Hawk
 import com.yookiely.lostfond2.SuccessActivity
 import com.yookiely.lostfond2.service.DetailData
 import com.yookiely.lostfond2.service.MyListDataOrSearchBean
@@ -33,6 +33,7 @@ import com.zhihu.matisse.Matisse
 import com.zhihu.matisse.MimeType
 import com.zhihu.matisse.engine.impl.GlideEngine
 import kotlinx.android.synthetic.main.activity_release.*
+import kotlinx.android.synthetic.main.lf2_release_cardview_receiving_site.*
 import kotlinx.android.synthetic.main.lf_release_cardview_cardinfo.*
 import kotlinx.android.synthetic.main.lf_release_cardview_cardinfo_noname.*
 import kotlinx.android.synthetic.main.lf_release_cardview_confirm.*
@@ -44,19 +45,27 @@ import kotlinx.android.synthetic.main.lf_release_cardview_publish.*
 import java.io.*
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.OnClickListener {
 
-    var duration = 1
-    var selectedItemPosition = 0
-    var id = 0
-    var releasePresenter: ReleaseContract.ReleasePresenter = ReleasePresenterImpl(this)
-    val layoutManager = StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.HORIZONTAL)
-    var selectedPic: List<Uri> = ArrayList()
-    lateinit var lostOrFound: String
-    lateinit var tableAdapter: ReleaseTableAdapter
-    lateinit var progressDialog: ProgressDialog
-    var judge = false
+    private var duration = 1
+    private var entranceOfReceivingSite = 1 // 领取站点 入口
+    private var roomOfReceivingSite = "1斋" // 领取站点 斋
+    private var selectedItemPosition = 0
+    private var id = 0
+    private var releasePresenter: ReleaseContract.ReleasePresenter = ReleasePresenterImpl(this)
+    private val layoutManager = StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.HORIZONTAL)
+    private val picRecyclerviewManager = GridLayoutManager(this, 4)
+    private lateinit var releasePicAdapter: ReleasePicadapter
+    private var selectedPic: List<Uri> = ArrayList() //get a pic's url
+    private lateinit var lostOrFound: String
+    private lateinit var tableAdapter: ReleaseTableAdapter
+    private lateinit var progressDialog: ProgressDialog
+    private var judge = false
+    private var selectPicList = ArrayList<Any?>(0)
+    private lateinit var picRecyclerView: RecyclerView // 添加多图的recycler
+    private var campus = 1
 
     private fun setToolbarView(toolbar: Toolbar) {
         toolbar.title = when (lostOrFound) {
@@ -81,24 +90,35 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
             toolbar.setNavigationOnClickListener { onBackPressed() }
         }
+        campus = Hawk.get("campus") // 得到所在校区
 
-
-        if (lostOrFound == "editLost" || lostOrFound == "editFound") {
+        if (lostOrFound == "editLost" || lostOrFound == "editFound") {//open editwindow
             release_delete.visibility = View.VISIBLE
             id = bundle.getInt("id")
             selectedItemPosition = bundle.getInt("type") - 1
             onTypeItemSelected(selectedItemPosition)
             releasePresenter.loadDetailDataForEdit(id, this)
+        } else if (lostOrFound == "lost") {
+            release_receiving_site.visibility = View.GONE
+            receiving_site.visibility = View.GONE
         }
 
-
         initSpinner()
+        initSpinnerOfReceivingSite()
+        initSpinnerOfCampus()
         release_type_recycleriew.layoutManager = layoutManager
         drawRecyclerView(selectedItemPosition)
         release_type_recycleriew.adapter = tableAdapter
-
         onTypeItemSelected(selectedItemPosition)
-        release_choose_pic.setOnClickListener { PermissionsUtils.requestPermission(this, PermissionsUtils.CODE_READ_EXTERNAL_STORAGE, mPermissionGrant) }
+
+        selectPicList.add(null) // supply a null list
+        releasePicAdapter = ReleasePicadapter(selectPicList, this, this)
+//        picRecyclerviewManager.orientation =
+        picRecyclerView = findViewById(R.id.release_pic_recyclerview)
+        picRecyclerView.apply {
+            layoutManager = picRecyclerviewManager
+            adapter = releasePicAdapter
+        }
         val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_NOT_ALWAYS)
     }
@@ -109,8 +129,8 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         spinnerList.add("7天")
         spinnerList.add("15天")
         spinnerList.add("30天")
-        val adapter = ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, spinnerList)
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        val adapter = ArrayAdapter<String>(this, R.layout.lf2_custom_spiner_text_item, spinnerList)
+        adapter.setDropDownViewResource(R.layout.lf2_custom_spinner_dropdown_item)
         release_publish_spinner.adapter = adapter
         release_publish_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             @SuppressLint("SimpleDateFormat", "SetTextI18n")
@@ -121,63 +141,161 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
                 duration = i
             }
 
-            override fun onNothingSelected(adapterView: AdapterView<*>) {
-
-            }
+            override fun onNothingSelected(adapterView: AdapterView<*>) {}
         }
         release_confirm.setOnClickListener(this)
         release_delete.setOnClickListener(this)
 
         val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(release_title.windowToken, 0)
+    }
 
+    private fun initSpinnerOfCampus() {
+        val spinnerOfCampus = ArrayList<String>()
+        spinnerOfCampus.apply {
+            add("北洋园")
+            add("卫津路")
+        }
+
+        val adapterOfCampus = ArrayAdapter<String>(this, R.layout.lf2_custom_spiner_text_item, spinnerOfCampus)
+        adapterOfCampus.setDropDownViewResource(R.layout.lf2_custom_spinner_dropdown_item)
+        campus_spinner.apply {
+            adapter = adapterOfCampus
+            onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                    campus = position + 1
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                }
+            }
+        }
+    }
+
+    private fun initSpinnerOfReceivingSite() {
+        val spinnerListOfGarden = ArrayList<String>()
+        spinnerListOfGarden.apply {
+            add("无")
+            add("格园")
+            add("诚园")
+            add("正园")
+            add("修园")
+            add("齐园")
+        }
+        val spinnerListOfRoom = ArrayList<String>()
+        val dataListOfRoom = ArrayList<Int>()
+        val spinnerListOfEntrance = ArrayList<String>()
+        val dataListOfEntrance = ArrayList<Int>()
+
+        //园的选择
+        val adapterOfGarden = ArrayAdapter<String>(this, R.layout.lf2_custom_spiner_text_item, spinnerListOfGarden)
+        adapterOfGarden.setDropDownViewResource(R.layout.lf2_custom_spinner_dropdown_item)
+        receiving_site_garden_spinner.adapter = adapterOfGarden
+        receiving_site_garden_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                getListOfRoom(spinnerListOfRoom, dataListOfRoom, position)
+
+                //斋的选择
+                val adapterOfRoom = ArrayAdapter<String>(this@ReleaseActivity, R.layout.lf2_custom_spiner_text_item, spinnerListOfRoom)
+                adapterOfRoom.setDropDownViewResource(R.layout.lf2_custom_spinner_dropdown_item)
+                receiving_site_room_spinner.adapter = adapterOfRoom
+                receiving_site_room_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                        roomOfReceivingSite = dataListOfRoom[position].toString()
+                        getListOfEntrance(spinnerListOfEntrance, dataListOfEntrance, dataListOfRoom[position])
+
+                        //口的选择
+                        val adapterOfEntrance = ArrayAdapter<String>(this@ReleaseActivity, R.layout.lf2_custom_spiner_text_item, spinnerListOfEntrance)
+                        adapterOfEntrance.setDropDownViewResource(R.layout.lf2_custom_spinner_dropdown_item)
+                        receiving_site_entrance_spinner.adapter = adapterOfEntrance
+                        receiving_site_entrance_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                                entranceOfReceivingSite = dataListOfEntrance[position]
+                            }
+
+                            override fun onNothingSelected(parent: AdapterView<*>?) {
+                                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                            }
+                        }
+                    }
+
+                    override fun onNothingSelected(parent: AdapterView<*>?) {
+                        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                    }
+                }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+        }
+
+        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(release_title.windowToken, 0)
     }
 
     override fun onClick(view: View) {
+        val picListOfUri = ArrayList<Uri?>(0)
+        val picListOfString = ArrayList<String?>(0)
+        for (i in selectPicList) {
+            if (i is Uri) picListOfUri.add(i)
+            if (i is String) picListOfString.add(i)
+        }
+
+        val file1: File
+        val arrayOfFile = ArrayList<File?>(0)
+        try {
+            file1 = File.createTempFile("pic", ".jpg")
+            val outputFile = file1.path
+
+            if (!judgeNull(picListOfUri)) {
+                for (i in picListOfUri) {
+                    if (i != null) {
+                        arrayOfFile.add(getFile(zipThePic(handleImageOnKitKat(i)), outputFile))
+                    }
+                }
+            }
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+
 
         if (view === release_confirm && (lostOrFound == "lost" || lostOrFound == "found")) {
-            if (selectedPic.isNotEmpty()) {
-                val file1: File
-                var file: File? = null
-                try {
-                    file1 = File.createTempFile("pic", ".jpg")
-                    val outputFile = file1.path
-                    file = getFile(zipThePic(handleImageOnKitKat(selectedPic[0])), outputFile)
-                } catch (e: IOException) {
-                    e.printStackTrace()
-                }
-
+            if (!judgeNull(picListOfUri)) {
+//                val file1: File
+//                val arrayOfFile = ArrayList<File?>(0)
+//                try {
+//                    file1 = File.createTempFile("pic", ".jpg")
+//                    val outputFile = file1.path
+//                    for (i in picListOfUri) {
+//                        if (i != null) {
+//                            arrayOfFile.add(getFile(zipThePic(handleImageOnKitKat(i)), outputFile))
+//                        }
+//                    }
+//                } catch (e: IOException) {
+//                    e.printStackTrace()
+//                }
 
                 val map = getUpdateMap()
                 if (judge) {
                     progressDialog = ProgressDialog.show(this@ReleaseActivity, "", "正在上传")
-                    releasePresenter.uploadReleaseDataWithPic(map, lostOrFound, file!!)
+                    releasePresenter.uploadReleaseDataWithPic(map, lostOrFound, arrayOfFile)
                 }
-
             } else {
-//                progressDialog = ProgressDialog.show(this@ReleaseActivity, "", "正在上传")
                 val map = getUpdateMap()
-                if (judge)
+
+                if (judge) {
+                    progressDialog = ProgressDialog.show(this@ReleaseActivity, "", "正在上传")
                     releasePresenter.uploadReleaseData(map, lostOrFound)
+                }
             }
         } else if (view === release_confirm) {
-            val file1: File
-            var file: File? = null
-            try {
-                file1 = File.createTempFile("pic", ".jpg")
-                val outputFile = file1.path
-                if (selectedPic.isNotEmpty()) {
-                    file = getFile(zipThePic(handleImageOnKitKat(selectedPic[0])), outputFile)
-                }
-            } catch (e: IOException) {
-                e.printStackTrace()
-            }
-
 
             val map = getUpdateMap()
             if (judge) {
                 progressDialog = ProgressDialog.show(this@ReleaseActivity, "", "正在上传")
-                releasePresenter.uploadEditDataWithPic(map, lostOrFound, file, id)
+                releasePresenter.uploadEditDataWithPic(map, lostOrFound, arrayOfFile, picListOfString, id)
             }
         } else if (view === release_delete) {
             progressDialog = ProgressDialog.show(this@ReleaseActivity, "", "正在删除")
@@ -211,16 +329,9 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
     }
 
     override fun setEditData(detailData: DetailData) {
-        if (detailData.picture == null) {
-            Glide.with(this)
-                    .load(Utils.getPicUrl("julao.jpg"))
-                    .error(R.drawable.lf_detail_np)
-                    .into(release_choose_pic)
-        } else {
-            Glide.with(this)
-                    .load(Utils.getPicUrl(detailData.picture))
-                    .asBitmap()
-                    .into(release_choose_pic)
+        if (detailData.picture != null) {
+            val picList = detailData.picture.split(",")
+            releasePicAdapter.addPicUrl(picList)
         }
 
         when (detailData.detail_type) {
@@ -229,7 +340,8 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
                 release_card_num.setText(detailData.card_number)
             } // 1 = 身份证, 2 = 饭卡
             10 -> release_card_num_noname.setText(detailData.card_number) // 10 = 银行卡
-            else -> {}
+            else -> {
+            }
         }
 
         release_title.setText(detailData.title)
@@ -239,6 +351,9 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         release_phone.setText(detailData.phone)
         release_contact_name.setText(detailData.name)
         release_remark.setText(detailData.item_description)
+        receiving_site_garden_spinner.setSelection(getPositionOfGarden(detailData.recapture_place))
+        receiving_site_room_spinner.setSelection(getPositionOfRoom(detailData.recapture_place))
+        receiving_site_entrance_spinner.setSelection(getPositionOfEntrance(detailData.recapture_entrance))
     }
 
     override fun deleteSuccessCallBack() {
@@ -253,6 +368,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         val timeString = release_time.text.toString()
         val placeString = release_place.text.toString()
         val remarksString = release_remark.text.toString()
+
         val map = HashMap<String, Any>()
         map["title"] = titleString
         map["time"] = if (timeString == "") " " else timeString
@@ -262,8 +378,14 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         map["phone"] = if (phoneString == "") " " else phoneString
         map["duration"] = duration
         map["item_description"] = if (remarksString == "") " " else remarksString
-
+        map["campus"] = campus
         judge = !(titleString == "" || phoneString == "" || nameString == "")
+
+        if (lostOrFound == "found") {
+            map["recapture_place"] = roomOfReceivingSite
+            map["recapture_entrance"] = entranceOfReceivingSite
+        }
+
         if (selectedItemPosition == 0 || selectedItemPosition == 1) {
             val card_numString = release_card_num.getText().toString()
             val card_nameString = release_card_name.getText().toString()
@@ -276,6 +398,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         } else if (selectedItemPosition == 12) {
             map["other_tag"] = " "
         }
+
         return map
     }
 
@@ -304,39 +427,36 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-
         if (requestCode == 2 && resultCode != 0) {
             selectedPic = Matisse.obtainResult(data)
-            Glide.with(this)
-                    .load(selectedPic[0])
-                    .into(release_choose_pic)
+            releasePicAdapter.changePic(selectedPic[0])
         }
     }
 
-    private fun handleImageOnKitKat(uri: Uri): String? {
+    private fun handleImageOnKitKat(uri: Uri?): String? {
         var imagePath: String? = null
         if (DocumentsContract.isDocumentUri(this, uri)) {
             val docId = DocumentsContract.getDocumentId(uri)
-            if ("com.android.providers.media.documents" == uri.authority) {
+            if ("com.android.providers.media.documents" == uri?.authority) {
                 //Log.d(TAG, uri.toString());
                 val id = docId.split(":".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[1]
                 val selection = MediaStore.Images.Media._ID + "=" + id
                 imagePath = getImagePath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, selection)
-            } else if ("com.android.providers.downloads.documents" == uri.authority) {
+            } else if ("com.android.providers.downloads.documents" == uri?.authority) {
                 //Log.d(TAG, uri.toString());
                 val contentUri = ContentUris.withAppendedId(
                         Uri.parse("content://downloads/public_downloads"),
                         java.lang.Long.valueOf(docId))
                 imagePath = getImagePath(contentUri, null)
             }
-        } else if ("content".equals(uri.scheme, ignoreCase = true)) {
+        } else if ("content".equals(uri?.scheme, ignoreCase = true)) {
             //Log.d(TAG, "content: " + uri.toString());
             imagePath = getImagePath(uri, null)
         }
         return imagePath
     }
 
-    private fun getImagePath(uri: Uri, selection: String?): String? {
+    private fun getImagePath(uri: Uri?, selection: String?): String? {
         var path: String? = null
         val cursor = contentResolver.query(uri, null, selection, null, null)
         if (cursor != null) {
@@ -352,21 +472,9 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
     private fun zipThePic(filePath: String?): ByteArray {
         val options = BitmapFactory.Options()
         options.inJustDecodeBounds = true
-//        BitmapFactory.decodeFile(filePath, options)
-//        val height = options.outHeight
-//        val width = options.outWidth
-//        var inSampleSize = 1
-//        val reqHeight = 800
-//        val reqWidth = 480
-//        if (height > reqHeight || width > reqWidth) {
-//            val heightRatio = Math.round(height.toFloat() / reqHeight.toFloat())
-//            val widthRatio = Math.round(width.toFloat() / reqWidth.toFloat())
-//            inSampleSize = if (heightRatio < widthRatio) heightRatio else widthRatio
-//        }
         options.inSampleSize = calculateInSampleSize(options, 480, 800)
         options.inJustDecodeBounds = false
         val bitmap = BitmapFactory.decodeFile(filePath, options)
-
         val baos = ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.JPEG, 60, baos)
 
@@ -433,7 +541,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         return file
     }
 
-    private val mPermissionGrant: PermissionsUtils.PermissionGrant = object : PermissionsUtils.PermissionGrant {
+    val mPermissionGrant: PermissionsUtils.PermissionGrant = object : PermissionsUtils.PermissionGrant {
         override fun onPermissionGranted(requestCode: Int) = when (requestCode) {
             PermissionsUtils.CODE_RECORD_AUDIO -> Toast.makeText(this@ReleaseActivity, "Result Permission Grant CODE_RECORD_AUDIO", Toast.LENGTH_SHORT).show()
             PermissionsUtils.CODE_GET_ACCOUNTS -> Toast.makeText(this@ReleaseActivity, "Result Permission Grant CODE_GET_ACCOUNTS", Toast.LENGTH_SHORT).show()
@@ -450,11 +558,8 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>,
-                                            grantResults: IntArray) {
+                                            grantResults: IntArray) = PermissionsUtils.requestPermissionsResult(this, requestCode, permissions, grantResults, mPermissionGrant)
 
-        PermissionsUtils.requestPermissionsResult(this, requestCode, permissions, grantResults, mPermissionGrant)
-
-    }
 
     @SuppressLint("ResourceType")
     fun openSeletPic() = Matisse.from(this@ReleaseActivity)
@@ -468,5 +573,127 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
             .theme(R.style.Matisse_Zhihu)
             .forResult(2)
 
+    fun setPicEdit() {
+        val list = arrayOf<CharSequence>("更改图片", "删除图片", "取消")
+        val alertDialogBuilder = AlertDialog.Builder(this@ReleaseActivity)
+        alertDialogBuilder.setItems(list) { dialog, item ->
+            when (item) {
+                0 -> PermissionsUtils.requestPermission(this@ReleaseActivity, PermissionsUtils.CODE_READ_EXTERNAL_STORAGE, mPermissionGrant)
+                1 -> releasePicAdapter.removePic()
+                2 -> dialog.dismiss()
+            }
+        }
+        val alert = alertDialogBuilder.create()
+        alert.show()
+    }
 
+    private fun getListOfRoom(list: ArrayList<String>, intList: ArrayList<Int>, position: Int) {
+        list.clear()
+        intList.clear()
+        when (position) {
+            0 -> {
+                list.add("无")
+                intList.add(0)
+            }
+            1 -> {
+                list.add("1斋")
+                list.add("2斋")
+                list.add("3斋")
+                intList.add(1)
+                intList.add(2)
+                intList.add(3)
+            }
+            2 -> {
+                list.add("6斋")
+                list.add("7斋")
+                list.add("8斋")
+                intList.add(6)
+                intList.add(7)
+                intList.add(8)
+            }
+            3 -> {
+                list.add("9斋")
+                list.add("10斋")
+                intList.add(9)
+                intList.add(10)
+            }
+            4 -> {
+                list.add("11斋")
+                list.add("12斋")
+                intList.add(11)
+                intList.add(12)
+            }
+            5 -> {
+                list.add("13斋")
+                list.add("14斋")
+                list.add("15斋")
+                list.add("16斋")
+                intList.add(13)
+                intList.add(14)
+                intList.add(15)
+                intList.add(16)
+            }
+            else -> {
+            }
+        }
+    }
+
+    private fun getListOfEntrance(list: ArrayList<String>, intList: ArrayList<Int>, room: Int) {
+        list.clear()
+        intList.clear()
+
+        when (room) {
+            0 -> {
+                list.add("无")
+                intList.add(0)
+            }
+            1, 2, 9, 10 -> {
+                list.add("只有一个入口")
+                intList.add(0)
+            }
+            11, 12 -> {
+                list.add("只可A口")
+                intList.add(0)
+            }
+            else -> {
+                list.add("A口")
+                list.add("B口")
+                intList.add(1)
+                intList.add(2)
+            }
+        }
+    }
+
+    private fun judgeNull(list: ArrayList<Uri?>): Boolean {
+        for (i in 0..(list.size - 1)) {
+            if (list[i] != null) {
+                return false
+            }
+        }
+
+        return true
+    }
+
+    private fun getPositionOfGarden(i: String): Int = when (i) {
+        "1斋", "2斋", "3斋" -> 0
+        "6斋", "7斋", "8斋" -> 1
+        "9斋", "10斋" -> 2
+        "11斋", "12斋" -> 3
+        "13斋", "14斋", "15斋", "16斋" -> 4
+        else -> 2333
+    }
+
+    private fun getPositionOfRoom(i: String): Int = when (i) {
+        "1斋", "6斋", "9斋", "11斋", "13斋" -> 0
+        "2斋", "7斋", "10斋", "12斋", "14斋" -> 1
+        "3斋", "8斋", "15斋" -> 2
+        "16斋" -> 3
+        else -> 2333
+    }
+
+    private fun getPositionOfEntrance(i: Int): Int = when (i) {
+        0, 1 -> 0
+        2 -> 1
+        else -> 404
+    }
 }
