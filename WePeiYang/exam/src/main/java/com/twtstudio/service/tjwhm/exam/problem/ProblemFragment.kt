@@ -83,7 +83,7 @@ class ProblemFragment : Fragment() {
     private var clickable = true
     private var fragmentIndex = -1
     private var singleSelectionAnswer = -1
-    private var multiSelectionAnswers = mutableListOf<Int>()
+    private var multiSelectionAnswers: MutableList<Int> = mutableListOf<Int>()
 
 
     private lateinit var tvType: TextView
@@ -283,7 +283,7 @@ class ProblemFragment : Fragment() {
                 MULTI_CHOICE -> onSelectionClickForPracticeMulti(clickId)
             }
         } else if (mode == TEST_MODE && clickable) {
-            showSelectedSelectionForTest(clickId)
+            onSelectionClickForTest(clickId)
         }
     }
 
@@ -334,17 +334,11 @@ class ProblemFragment : Fragment() {
     }
 
     private fun onSelectionClickForPracticeMulti(clickId: Int) {
-        val adapter = rvSelections.adapter as ItemAdapter
-        val optionList: MutableList<Item> = adapter.itemManager.itemListSnapshot.toMutableList()
-        when ((optionList[clickId] as SelectionItem).status) {
-            SelectionItem.TRUE -> optionList[clickId] = SelectionItem(optionList[clickId] as SelectionItem, SelectionItem.NONE)
-            SelectionItem.NONE -> optionList[clickId] = SelectionItem(optionList[clickId] as SelectionItem, SelectionItem.TRUE)
-        }
-        adapter.itemManager.refreshAll(optionList)
         when (clickId) {
             in multiSelectionAnswers -> multiSelectionAnswers.remove(clickId)
             else -> multiSelectionAnswers.add(clickId)
         }
+        refreshMultiSelectionAnswers()
     }
 
     private fun onConfirmButtonClick() {
@@ -394,7 +388,7 @@ class ProblemFragment : Fragment() {
         }
     }
 
-    private fun showSelectedSelectionForTest(clickId: Int) {
+    private fun onSelectionClickForTest(clickId: Int) {
         val adapter = rvSelections.adapter as ItemAdapter
         when (type) {
             SINGLE_CHOICE, TRUE_FALSE -> {
@@ -420,32 +414,35 @@ class ProblemFragment : Fragment() {
     }
 
     private fun showStoredAnswers() {
-        val answers = mActivity.userSelectionsForTest[fragmentIndex]?.answer?.multiSelectionIndexToInt()
-        val adapter = rvSelections.adapter as ItemAdapter
-        val list: MutableList<Item> = adapter.itemManager.itemListSnapshot.toMutableList()
+        if (mActivity.userSelectionsForTest[fragmentIndex] != null) {
+            multiSelectionAnswers = mActivity.userSelectionsForTest[fragmentIndex]!!.answer.multiSelectionIndexToInt()
+            val adapter = rvSelections.adapter as ItemAdapter
+            val list: MutableList<Item> = adapter.itemManager.itemListSnapshot.toMutableList()
 
-        when (mode) {
-            PRACTICE_MODE -> if (answers != null) {
-                clickable = false
-                repeat(list.size) {
-                    when (it) {
-                        answerFromRemote.selectionIndexToInt() -> list[it] = SelectionItem(list[it] as SelectionItem, SelectionItem.TRUE)
-                        in answers -> list[it] = SelectionItem(list[it] as SelectionItem, SelectionItem.FALSE)
+            when (mode) {
+                PRACTICE_MODE -> {
+                    clickable = false
+                    repeat(list.size) {
+                        when (it) {
+                            answerFromRemote.selectionIndexToInt() -> list[it] = SelectionItem(list[it] as SelectionItem, SelectionItem.TRUE)
+                            in multiSelectionAnswers -> list[it] = SelectionItem(list[it] as SelectionItem, SelectionItem.FALSE)
+                        }
                     }
+                    adapter.itemManager.refreshAll(list)
+                    answerIsShown = true
+                    divider.visibility = View.VISIBLE
+                    tvAnswer.visibility = View.VISIBLE
                 }
-                adapter.itemManager.refreshAll(list)
-                answerIsShown = true
-                divider.visibility = View.VISIBLE
-                tvAnswer.visibility = View.VISIBLE
-            }
-            TEST_MODE -> if (answers != null) {
-                repeat(list.size) {
-                    when (it) {
-                        in answers -> list[it] = SelectionItem(list[it] as SelectionItem, SelectionItem.TRUE)
-                        else -> list[it] = SelectionItem(list[it] as SelectionItem, SelectionItem.NONE)
+                TEST_MODE -> {
+                    clickable = false
+                    repeat(list.size) {
+                        when (it) {
+                            in multiSelectionAnswers -> list[it] = SelectionItem(list[it] as SelectionItem, SelectionItem.TRUE)
+                            else -> list[it] = SelectionItem(list[it] as SelectionItem, SelectionItem.NONE)
+                        }
                     }
+                    adapter.itemManager.refreshAll(list)
                 }
-                adapter.itemManager.refreshAll(list)
             }
         }
     }

@@ -29,7 +29,7 @@ import org.jetbrains.anko.layoutInflater
  * Happy coding!
  */
 
-class TypeSelectPopup(mContext: Context, private val startXY: Pair<Float, Float>, private val lessonID: Int) : BlurPopupWindow(mContext), LifecycleOwner {
+class TypeSelectPopup(mContext: Context, private val startXY: Pair<Float, Float>, private val lessonID: Int, private val showTest: Boolean) : BlurPopupWindow(mContext), LifecycleOwner {
 
     private val lifecycleRegistry = LifecycleRegistry(this)
 
@@ -37,12 +37,16 @@ class TypeSelectPopup(mContext: Context, private val startXY: Pair<Float, Float>
 
     lateinit var view: View
 
-    private lateinit var tvSingleNum: TextView
+    private lateinit var tvLesson: TextView
+    private lateinit var tvSingle: TextView
     private lateinit var tvSingleEnter: TextView
-    private lateinit var tvMultiNum: TextView
+    private lateinit var tvMulti: TextView
     private lateinit var tvMultiEnter: TextView
-    private lateinit var tvTfNum: TextView
+    private lateinit var tvTf: TextView
     private lateinit var tvTfEnter: TextView
+    private lateinit var tvTestTitle: TextView
+    private lateinit var tvTestDesc: TextView
+    private lateinit var tvTestEnter: TextView
 
     val density = context.resources.displayMetrics.density
 
@@ -50,83 +54,120 @@ class TypeSelectPopup(mContext: Context, private val startXY: Pair<Float, Float>
             .inflate(R.layout.exam_popup_type_select, parent, false).apply {
                 layoutParams = (layoutParams as FrameLayout.LayoutParams).apply {
                     gravity = Gravity.CENTER
-                    horizontalMargin = dip(30)
+                    horizontalMargin = dip(24)
                 }
             }.also {
                 view = it
-                tvSingleNum = view.findViewById(R.id.tv_type_select_single_num)
+                tvLesson = view.findViewById(R.id.tv_type_select_lesson_title)
+                tvSingle = view.findViewById(R.id.tv_type_select_single_title)
                 tvSingleEnter = view.findViewById(R.id.tv_type_select_single_enter)
-                tvMultiNum = view.findViewById(R.id.tv_type_select_multi_num)
+                tvMulti = view.findViewById(R.id.tv_type_select_multi_title)
                 tvMultiEnter = view.findViewById(R.id.tv_type_select_multi_enter)
-                tvTfNum = view.findViewById(R.id.tv_type_select_tf_num)
+                tvTf = view.findViewById(R.id.tv_type_select_tf_title)
                 tvTfEnter = view.findViewById(R.id.tv_type_select_tf_enter)
+                tvTestTitle = view.findViewById(R.id.tv_type_select_test_title)
+                tvTestDesc = view.findViewById(R.id.tv_type_select_test_title_desc)
+                tvTestEnter = view.findViewById(R.id.tv_type_select_test_enter)
             }
 
     @SuppressLint("SetTextI18n")
     override fun onShow() {
         lifecycleRegistry.markState(Lifecycle.State.STARTED)
 
+        if (!showTest) {
+            tvTestTitle.visibility = View.GONE
+            tvTestDesc.visibility = View.GONE
+            tvTfEnter.visibility = View.GONE
+        }
         getLessonInfo(lessonID.toString()) { it ->
             when (it) {
                 is RefreshState.Failure -> Toasty.error(context, "网络错误").show()
                 is RefreshState.Success -> {
                     it.message.data!!.apply {
-                        tvSingleNum.text = "$single_done_count/$single_num"
-                        tvMultiNum.text = "$multi_done_count/$multi_num"
-                        tvTfNum.text = "$decide_done_count/$decide_num"
+                        tvLesson.text = course_name
+                        tvSingle.text = "单选题   $single_done_count/$single_num   当前: ${single_ques_index + 1}"
+                        tvMulti.text = "多选题   $multi_done_count/$multi_num   当前: ${multi_ques_index + 1}"
+                        tvTf.text = "判断题   $decide_done_count/$decide_num   当前: ${decide_ques_index + 1}"
                         val intent = Intent(context, ProblemActivity::class.java).apply {
-                            putExtra(ProblemActivity.MODE_KEY, ProblemActivity.READ_AND_PRACTICE)
                             putExtra(ProblemActivity.LESSON_ID_KEY, lessonID)
                         }
                         when {
                             single_num.toInt() == 0 -> {
-                                tvSingleNum.text = "无"
-                                tvSingleEnter.visibility = View.GONE
+                                tvSingleEnter.visibility = View.INVISIBLE
                             }
                             single_done_count == 0 -> {
                                 tvSingleEnter.apply {
                                     text = "开始练习"
                                     setOnClickListener {
+                                        intent.putExtra(ProblemActivity.MODE_KEY, ProblemActivity.READ_AND_PRACTICE)
                                         intent.putExtra(ProblemActivity.PROBLEM_TYPE_KEY, ProblemActivity.SINGLE_CHOICE)
                                         context.startActivity(intent)
                                     }
                                 }
                             }
-                            else -> tvSingleEnter.text = "继续练习"
+                            else -> tvSingleEnter.apply {
+                                text = "继续练习"
+                                setOnClickListener {
+                                    intent.putExtra(ProblemActivity.MODE_KEY, ProblemActivity.READ_AND_PRACTICE)
+                                    intent.putExtra(ProblemActivity.PROBLEM_TYPE_KEY, ProblemActivity.SINGLE_CHOICE)
+                                    intent.putExtra(ProblemActivity.CONTINUE_INDEX_KEY, single_ques_index)
+                                    context.startActivity(intent)
+                                }
+
+                            }
                         }
                         when {
                             multi_num.toInt() == 0 -> {
-                                tvMultiNum.text = "无"
                                 tvMultiEnter.visibility = View.GONE
                             }
                             multi_done_count == 0 -> {
                                 tvMultiEnter.apply {
                                     text = "开始练习"
                                     setOnClickListener {
+                                        intent.putExtra(ProblemActivity.MODE_KEY, ProblemActivity.READ_AND_PRACTICE)
                                         intent.putExtra(ProblemActivity.PROBLEM_TYPE_KEY, ProblemActivity.MULTI_CHOICE)
                                         context.startActivity(intent)
                                     }
                                 }
-
                             }
-                            else -> tvMultiEnter.text = "继续练习"
+                            else -> tvMultiEnter.apply {
+                                text = "继续练习"
+                                setOnClickListener {
+                                    intent.putExtra(ProblemActivity.MODE_KEY, ProblemActivity.READ_AND_PRACTICE)
+                                    intent.putExtra(ProblemActivity.PROBLEM_TYPE_KEY, ProblemActivity.MULTI_CHOICE)
+                                    intent.putExtra(ProblemActivity.CONTINUE_INDEX_KEY, multi_ques_index)
+                                    context.startActivity(intent)
+                                }
+                            }
                         }
                         when {
                             decide_num.toInt() == 0 -> {
-                                tvTfNum.text = "无"
                                 tvTfEnter.visibility = View.GONE
                             }
                             decide_done_count == 0 -> {
                                 tvTfEnter.apply {
                                     text = "开始练习"
                                     setOnClickListener {
+                                        intent.putExtra(ProblemActivity.MODE_KEY, ProblemActivity.READ_AND_PRACTICE)
                                         intent.putExtra(ProblemActivity.PROBLEM_TYPE_KEY, ProblemActivity.TRUE_FALSE)
                                         context.startActivity(intent)
                                     }
                                 }
 
                             }
-                            else -> tvTfEnter.text = "继续练习"
+                            else -> tvTfEnter.apply {
+                                text = "继续练习"
+                                setOnClickListener {
+                                    intent.putExtra(ProblemActivity.MODE_KEY, ProblemActivity.READ_AND_PRACTICE)
+                                    intent.putExtra(ProblemActivity.PROBLEM_TYPE_KEY, ProblemActivity.TRUE_FALSE)
+                                    intent.putExtra(ProblemActivity.CONTINUE_INDEX_KEY, decide_ques_index)
+                                    context.startActivity(intent)
+                                }
+                            }
+                        }
+                        tvTestEnter.setOnClickListener {
+                            intent.putExtra(ProblemActivity.MODE_KEY, ProblemActivity.CONTEST)
+                            context.startActivity(intent)
                         }
                     }
                 }

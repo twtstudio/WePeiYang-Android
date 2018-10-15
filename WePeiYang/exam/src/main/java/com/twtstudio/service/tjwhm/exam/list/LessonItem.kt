@@ -72,7 +72,7 @@ class LessonItem(val context: Context, val lessonBean: LessonBean) : Item {
                 val intent = Intent(item.context, ProblemActivity::class.java)
                 intent.putExtra(ProblemActivity.LESSON_ID_KEY, item.lessonBean.course_id)
                 tvEnterPractice?.setOnClickListener {
-                    val popup = TypeSelectPopup(item.context, Pair(tvEnterPractice.x, tvEnterPractice.y), item.lessonBean.course_id)
+                    val popup = TypeSelectPopup(item.context, Pair(tvEnterPractice.x, tvEnterPractice.y), item.lessonBean.course_id, false)
                     popup.show()
                 }
 

@@ -51,7 +51,10 @@ class StarActivity : AppCompatActivity() {
         findViewById<ImageView>(R.id.iv_star_back).setOnClickListener { onBackPressed() }
         tvTitle = findViewById(R.id.tv_star_toolbar_title)
         rvStar = findViewById(R.id.rv_star)
-        srlStar = findViewById<SwipeRefreshLayout>(R.id.srl_star).apply { setColorSchemeColors(0x449ff1) }
+        srlStar = findViewById<SwipeRefreshLayout>(R.id.srl_star).apply {
+            setColorSchemeColors(0x449ff1)
+            isRefreshing = true
+        }
 
         starOrWrong = intent.getIntExtra(TYPE_KEY, 0)
 
@@ -73,9 +76,11 @@ class StarActivity : AppCompatActivity() {
             when (it) {
                 is RefreshState.Failure -> Toasty.error(this@StarActivity, "网络错误", Toast.LENGTH_SHORT).show()
                 is RefreshState.Success -> {
-                    it.message.data!!.apply {
+                    if (it.message.data == null) {
+                        // todo 显示没有记录的图片
+                    }
+                    it.message.data?.apply {
                         rvStar.withItems {
-                            // todo
                             for (i in 0 until this@apply.size) {
                                 starItem(this@StarActivity, this@apply[i], starOrWrong)
                             }

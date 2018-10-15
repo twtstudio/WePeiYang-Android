@@ -33,6 +33,8 @@ class ProblemActivity : AppCompatActivity(), ProblemActivityInterface {
         const val MULTI_CHOICE = 1
         const val TRUE_FALSE = 2
 
+        const val CONTINUE_INDEX_KEY = "continue_index_key"
+
         var isLeft = true
 
     }
@@ -45,6 +47,7 @@ class ProblemActivity : AppCompatActivity(), ProblemActivityInterface {
     var lessonID: Int = 0
     var size: Int = 0
 
+    var continueIndex = 0
     var time: Int = 0
     var currentFragmentIndex = 0
 
@@ -96,6 +99,7 @@ class ProblemActivity : AppCompatActivity(), ProblemActivityInterface {
                 initTvLeftRight()
                 tvUpload.visibility = View.GONE
                 problemType = intent.getIntExtra(PROBLEM_TYPE_KEY, 0)
+                continueIndex = intent.getIntExtra(CONTINUE_INDEX_KEY, 0)
                 startReadAndPracticeNetwork()
             }
 
@@ -173,6 +177,7 @@ class ProblemActivity : AppCompatActivity(), ProblemActivityInterface {
                         vpProblem.adapter = pagerAdapter
                         Toasty.success(this@ProblemActivity, "加载成功", Toast.LENGTH_SHORT).show()
                     }
+                    vpProblem.currentItem = continueIndex
                 }
             }
         }

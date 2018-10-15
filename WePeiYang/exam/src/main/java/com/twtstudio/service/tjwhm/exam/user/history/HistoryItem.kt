@@ -36,7 +36,7 @@ class HistoryItem(val context: Context, val oneHistoryBean: OneHistoryBean) : It
                 tvDate?.text = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA).format(Date(item.oneHistoryBean.timestamp.toLong() * 1000L))
                 tvTitle?.text = item.oneHistoryBean.course_name
                 itemView.setOnClickListener {
-                    val popup = TypeSelectPopup(item.context, Pair(tvTitle!!.x, tvTitle.y), item.oneHistoryBean.course_id.toInt())
+                    val popup = TypeSelectPopup(item.context, Pair(tvTitle!!.x, tvTitle.y), item.oneHistoryBean.course_id.toInt(), true)
                     popup.show()
                 }
             }

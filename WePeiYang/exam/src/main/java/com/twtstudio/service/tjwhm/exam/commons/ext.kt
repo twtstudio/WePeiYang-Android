@@ -60,7 +60,7 @@ fun List<Int>.toSelectionIndex(): String {
     return result
 }
 
-fun String.multiSelectionIndexToInt(): List<Int> {
+fun String.multiSelectionIndexToInt(): MutableList<Int> {
     val result = mutableListOf<Int>()
     for (i in 0 until length) {
         result.add(this[i].selectionIndexToInt())
