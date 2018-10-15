@@ -18,6 +18,7 @@ import com.twt.wepeiyang.commons.ui.rec.withItems
 import com.twtstudio.service.tjwhm.exam.R
 import com.twtstudio.service.tjwhm.exam.commons.toProblemType
 import com.twtstudio.service.tjwhm.exam.list.ListActivity
+import com.twtstudio.service.tjwhm.exam.problem.ProblemActivity
 import com.twtstudio.service.tjwhm.exam.user.UserBean
 import com.twtstudio.service.tjwhm.exam.user.examUserLiveData
 import es.dmoral.toasty.Toasty
@@ -41,6 +42,7 @@ class ExamHomeFragment : Fragment(), View.OnClickListener {
     private lateinit var tvCurrentType: TextView
     private lateinit var tvCurrentIndex: TextView
     private lateinit var tvCurrentNum: TextView
+    private lateinit var tvCurrentEnter: TextView
 
     companion object {
         fun newInstance(): ExamHomeFragment = ExamHomeFragment()
@@ -71,6 +73,7 @@ class ExamHomeFragment : Fragment(), View.OnClickListener {
         tvCurrentType = view.findViewById(R.id.tv_current_type)
         tvCurrentIndex = view.findViewById(R.id.tv_current_index)
         tvCurrentNum = view.findViewById(R.id.tv_current_num)
+        tvCurrentEnter = view.findViewById(R.id.tv_continue_current_course)
 
         rvQuick.layoutManager = StaggeredGridLayoutManager(3, LinearLayoutManager.HORIZONTAL)
 
@@ -110,7 +113,16 @@ class ExamHomeFragment : Fragment(), View.OnClickListener {
         tvNewsTime.text = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA).format(Date(userBean.latest_course_timestamp.toLong() * 1000L))
         tvCurrentTitle.text = userBean.current_course_name
         tvCurrentType.text = userBean.current_ques_type.toInt().toProblemType()
-        tvCurrentIndex.text = "当前题目：${userBean.current_course_index}"
+        tvCurrentIndex.text = "当前题目：${userBean.current_course_index + 1}"
         tvCurrentNum.text = "进度：${userBean.current_course_done_count}/${userBean.current_course_ques_count}"
+        tvCurrentEnter.setOnClickListener {
+            Intent(context, ProblemActivity::class.java).apply {
+                putExtra(ProblemActivity.LESSON_ID_KEY, userBean.current_course_id.toInt())
+                putExtra(ProblemActivity.MODE_KEY, ProblemActivity.READ_AND_PRACTICE)
+                putExtra(ProblemActivity.PROBLEM_TYPE_KEY, userBean.current_ques_type)
+                putExtra(ProblemActivity.CONTINUE_INDEX_KEY, userBean.current_course_index)
+                context?.startActivity(this)
+            }
+        }
     }
 }
