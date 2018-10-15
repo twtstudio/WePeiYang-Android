@@ -15,6 +15,7 @@ import com.yookiely.lostfond2.service.PermissionsUtils
 import com.yookiely.lostfond2.service.Utils
 import kotlinx.android.synthetic.main.dialog_detail_pic.view.*
 
+//上传多图的recyclerview的adapter
 class ReleasePicadapter(val list: ArrayList<Any?>,
                         val releaseActivity: ReleaseActivity, val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -34,7 +35,6 @@ class ReleasePicadapter(val list: ArrayList<Any?>,
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, @SuppressLint("RecyclerView") position: Int) {
         holder as ViewHolder
         holder.itemView.apply {
-
             setOnClickListener {
                 currentPosition = position
 

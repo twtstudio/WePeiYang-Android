@@ -5,6 +5,7 @@ import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.ContentUris
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.graphics.Bitmap
@@ -16,6 +17,7 @@ import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.*
+import android.view.KeyEvent
 import android.view.View
 import android.view.Window
 import android.view.inputmethod.InputMethodManager
@@ -88,7 +90,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         if (toolbar != null) {
             setSupportActionBar(toolbar)
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
-            toolbar.setNavigationOnClickListener { onBackPressed() }
+            toolbar.setNavigationOnClickListener { showExitDialog() }
         }
         campus = Hawk.get("campus") // 得到所在校区
 
@@ -103,27 +105,30 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
             receiving_site.visibility = View.GONE
         }
 
-        initSpinner()
+        initSpinnerOfTime()
         initSpinnerOfReceivingSite()
         initSpinnerOfCampus()
         release_type_recycleriew.layoutManager = layoutManager
         drawRecyclerView(selectedItemPosition)
         release_type_recycleriew.adapter = tableAdapter
         onTypeItemSelected(selectedItemPosition)
+        campus_spinner.setSelection(campus - 1)
 
         selectPicList.add(null) // supply a null list
         releasePicAdapter = ReleasePicadapter(selectPicList, this, this)
-//        picRecyclerviewManager.orientation =
         picRecyclerView = findViewById(R.id.release_pic_recyclerview)
         picRecyclerView.apply {
             layoutManager = picRecyclerviewManager
             adapter = releasePicAdapter
         }
+
+        //开启手机虚拟键盘
         val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_NOT_ALWAYS)
     }
 
-    private fun initSpinner() {
+    //时间选择spinner的具体实现
+    private fun initSpinnerOfTime() {
         val dateInt = longArrayOf(7, 15, 30)
         val spinnerList = ArrayList<String>()
         spinnerList.add("7天")
@@ -150,6 +155,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         imm.hideSoftInputFromWindow(release_title.windowToken, 0)
     }
 
+    //校区选择spinner的具体实现
     private fun initSpinnerOfCampus() {
         val spinnerOfCampus = ArrayList<String>()
         spinnerOfCampus.apply {
@@ -173,6 +179,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         }
     }
 
+    //领取站点spinner的具体实现
     private fun initSpinnerOfReceivingSite() {
         val spinnerListOfGarden = ArrayList<String>()
         spinnerListOfGarden.apply {
@@ -235,6 +242,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         imm.hideSoftInputFromWindow(release_title.windowToken, 0)
     }
 
+    //确定和取消按钮的点击事件
     override fun onClick(view: View) {
         val picListOfUri = ArrayList<Uri?>(0)
         val picListOfString = ArrayList<String?>(0)
@@ -354,6 +362,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         receiving_site_garden_spinner.setSelection(getPositionOfGarden(detailData.recapture_place))
         receiving_site_room_spinner.setSelection(getPositionOfRoom(detailData.recapture_place))
         receiving_site_entrance_spinner.setSelection(getPositionOfEntrance(detailData.recapture_entrance))
+        //campus_spinner.setSelection(detailData.campus.toInt() - 1)
     }
 
     override fun deleteSuccessCallBack() {
@@ -361,6 +370,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         finish()
     }
 
+    //得到release中用户所填内容
     private fun getUpdateMap(): Map<String, Any> {
         val titleString = release_title.text.toString()
         val nameString = release_contact_name.text.toString()
@@ -407,6 +417,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         release_type_recycleriew.adapter = tableAdapter
     }
 
+    //物品类型选择对列表的影响
     override fun onTypeItemSelected(position: Int) {
         selectedItemPosition = position
 
@@ -428,11 +439,32 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == 2 && resultCode != 0) {
-            selectedPic = Matisse.obtainResult(data)
-            releasePicAdapter.changePic(selectedPic[0])
+            selectedPic = Matisse.obtainResult(data) //将选择的图片加入到上传的列表中
+            releasePicAdapter.changePic(selectedPic[0]) //加载选择的图片
         }
     }
 
+    //Android自带的三件套的返回键的点击事件
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            showExitDialog()
+        }
+
+        return false
+    }
+
+    //退出编辑发布或丢失页面的dialog
+    private fun showExitDialog() {
+        val isExit = AlertDialog.Builder(this@ReleaseActivity)
+                .setTitle("放弃编辑吗～")
+                .setCancelable(false)
+                .setPositiveButton("取消") { dialog, _ -> dialog.dismiss() }
+                .setNegativeButton("确定") { _, _ -> this@ReleaseActivity.finish() }
+                .create()
+        isExit.show()
+    }
+
+    //相册图片路径
     private fun handleImageOnKitKat(uri: Uri?): String? {
         var imagePath: String? = null
         if (DocumentsContract.isDocumentUri(this, uri)) {
@@ -561,6 +593,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
                                             grantResults: IntArray) = PermissionsUtils.requestPermissionsResult(this, requestCode, permissions, grantResults, mPermissionGrant)
 
 
+    //用第三方库打开相册
     @SuppressLint("ResourceType")
     fun openSeletPic() = Matisse.from(this@ReleaseActivity)
             .choose(MimeType.of(MimeType.JPEG, MimeType.PNG, MimeType.GIF))
@@ -573,6 +606,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
             .theme(R.style.Matisse_Zhihu)
             .forResult(2)
 
+    //release界面中长按图片的dialog
     fun setPicEdit() {
         val list = arrayOf<CharSequence>("更改图片", "删除图片", "取消")
         val alertDialogBuilder = AlertDialog.Builder(this@ReleaseActivity)
@@ -587,6 +621,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         alert.show()
     }
 
+    //以下几个方法是关于领取站点的spinner的一系列内容处理
     private fun getListOfRoom(list: ArrayList<String>, intList: ArrayList<Int>, position: Int) {
         list.clear()
         intList.clear()
