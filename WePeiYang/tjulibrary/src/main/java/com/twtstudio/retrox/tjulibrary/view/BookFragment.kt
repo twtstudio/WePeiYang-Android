@@ -78,7 +78,7 @@ class BookFragment : Fragment() {
 
             bookLeft.apply {
                 textColor = Color.RED
-                text = x.toString()
+                text = x.toString()+"(逾期)"
             }
         }
 

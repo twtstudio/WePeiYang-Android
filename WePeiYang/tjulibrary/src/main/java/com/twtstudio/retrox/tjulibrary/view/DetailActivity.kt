@@ -69,7 +69,16 @@ class DetailActivity : AppCompatActivity() {
             val totalNum = LibraryApi.getTotalNum(id).await()
             Log.d("whatthefuck",totalNum.toString())
             try {
-                book_content.text = book.data.summary
+                if (book.data.summary != null){
+                    if(book.data.summary.length>151){
+                        val x = book.data.summary.substring(0,151)+"..."
+                        book_content.text = x
+                    }else{
+                        book_content.text = book.data.summary
+                    }
+                }
+
+
                 val url  = ImgApi.getImgUrl(book.data.isbn).await()
                 Glide.with(this@DetailActivity)
                         .load(url[0].result[0].coverlink)
