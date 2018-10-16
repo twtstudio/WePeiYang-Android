@@ -14,6 +14,8 @@ import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.PopupWindow
 import android.widget.TextView
 import com.example.lostfond2.R
+import com.example.lostfond2.R.id.waterfall_pager
+import com.example.lostfond2.R.id.waterfall_tabLayout
 import com.github.clans.fab.FloatingActionButton
 import com.orhanobut.hawk.Hawk
 import com.tencent.bugly.beta.global.e

@@ -61,7 +61,7 @@ class DetialAcitvity : AppCompatActivity() {
             val book = LibraryApi.getBook(id.toInt()).await()
             val totalNum = LibraryApi.getTotalNum(id.toInt()).await()
             val isbnNumber = LibraryApi.getISBN(id.toInt()).await()
-            val bookContent = DoubanApi.getBookContent(isbnNumber.isbn.toInt()).await()
+            val bookContent = DoubanApi.getBookContent(isbnNumber.isbn).await()
 
             setDetial(book.data)
             total_borrow_num.text = totalNum.totalBorrowNum.toString()

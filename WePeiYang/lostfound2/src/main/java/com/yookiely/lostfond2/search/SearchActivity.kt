@@ -7,48 +7,63 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.design.widget.TabLayout
 import android.support.v4.content.ContextCompat
+import android.support.v4.view.ViewPager
 import android.support.v7.widget.*
 import android.support.v7.widget.ListPopupWindow
 import android.support.v7.widget.SearchView
 import android.support.v7.widget.Toolbar
-import android.view.Gravity
-import android.view.View
-import android.view.Window
+import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import com.example.lostfond2.R
-import com.yookiely.lostfond2.service.MyListDataOrSearchBean
-import com.yookiely.lostfond2.waterfall.WaterfallTableAdapter
+import com.orhanobut.hawk.Hawk
+import com.yookiely.lostfond2.waterfall.WaterfallPagerAdapter
+import kotlinx.android.synthetic.main.lf2_activity_search.*
 import org.jetbrains.anko.db.*
 
-class SearchActivity : AppCompatActivity(), SearchContract.SearchUIView {
+class SearchActivity : AppCompatActivity() {
+
     private lateinit var inputMethodManager: InputMethodManager
-    private lateinit var waterfallTableAdapter: WaterfallTableAdapter
-    private lateinit var waterfallBean: MutableList<MyListDataOrSearchBean>
-    private lateinit var layoutManager: StaggeredGridLayoutManager
-    private lateinit var searchPresenter: SearchContract.SearchPresenter
     private lateinit var searchView: SearchView
     private lateinit var toolbar: Toolbar
-    private lateinit var search_progress: ProgressBar
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var linearLayour: LinearLayout
     private lateinit var popupWindow: ListPopupWindow
+    private lateinit var lostFragment: SearchFragment
+    private lateinit var foundFragment: SearchFragment
+    private lateinit var search_pager_vp: ViewPager
+    private lateinit var chooseTimeRecyclerView: RecyclerView//弹窗，选择时间的rv
+    lateinit var chooseTimePopupWindow: PopupWindow
+    private var layoutManagerForChooseTime = LinearLayoutManager(this@SearchActivity)
 
     lateinit var keyword: String
     var page = 1
-    var isLoading = false
+    var campus: Int = 1
+    private var time = 5
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE)//隐藏actionbar，需在setContentView前面
-        setContentView(R.layout.activity_search)
+        setContentView(R.layout.lf2_activity_search)
         toolbar = findViewById(R.id.search_toolbar)
         setSupportActionBar(toolbar)
-        search_progress = findViewById(R.id.search_progress)
-        linearLayour = findViewById(R.id.search_no_res)//绑定的是activity_search的linearlayout
-        recyclerView = findViewById(R.id.search_recyclerView)
         searchView = findViewById(R.id.search_searview)
+        lostFragment = SearchFragment.Companion.newInstance("lost")
+        foundFragment = SearchFragment.Companion.newInstance("found")
+        campus = Hawk.get("campus")//1 北洋园 ，2 卫津路
+
+        val waterfallPagerAdapter = WaterfallPagerAdapter(supportFragmentManager)
+        val popupwindowView = LayoutInflater.from(this).inflate(R.layout.lf_popupwindow_search, null, false)
+        waterfallPagerAdapter.add(foundFragment, "捡到")
+        waterfallPagerAdapter.add(lostFragment, "丢失")
+        search_pager_vp = findViewById(R.id.search_pager_content)
+        search_pager_vp.adapter = waterfallPagerAdapter
+        search_tabLayout.apply {
+            setupWithViewPager(search_pager_vp)
+            tabGravity = TabLayout.GRAVITY_FILL
+            setSelectedTabIndicatorColor(Color.parseColor("#00a1e9"))
+        }
+        search_type_blue.visibility = View.GONE
 
         database.use {
             createTable(HistoryRecordContract.TABLE_NAME,true,
@@ -68,33 +83,29 @@ class SearchActivity : AppCompatActivity(), SearchContract.SearchUIView {
         toolbar.setNavigationOnClickListener { view ->
             hideInputKeyboard()
             finish()
+            onDetachedFromWindow()
         }
-        search_progress.visibility = View.GONE
-        linearLayour.visibility = View.GONE
-        initValues()
 
         searchView.setOnQueryTextFocusChangeListener { view, b ->
             if (b){
                 val view = searchView
-                showListPopupWindow(view,db)
+                showListPopupWindow(view, db)//初始化弹窗
                 popupWindow.show()
             }
         }
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
-
-                search_progress.visibility = View.VISIBLE
-                waterfallBean.clear()
                 keyword = query
+                lostFragment.setKeyword(keyword)
+                foundFragment.setKeyword(keyword)
 
                 if(keyword != ""){
                     database(keyword,db)
                 }
 
-                searchPresenter.loadSearchData(keyword, page)
                 hideInputKeyboard()
-                popupWindow.dismiss()
+                onDetachedFromWindow()
                 return true
             }
 
@@ -103,31 +114,37 @@ class SearchActivity : AppCompatActivity(), SearchContract.SearchUIView {
             }
         })
 
-        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-                val totalCount = layoutManager.itemCount
-                val lastPositions = IntArray(layoutManager.spanCount)
-                layoutManager.findLastCompletelyVisibleItemPositions(lastPositions)
+        search_type.setOnClickListener {
+            if (search_type_grey.visibility == View.VISIBLE) run {
+                search_type_blue.visibility = View.VISIBLE
+                search_type_grey.visibility = View.GONE
 
-                val lastPosition = findMax(lastPositions)
-                if (!isLoading && totalCount < lastPosition + 2 && lastPosition != -1) {
-                    ++page
-                    isLoading = true
-                    searchPresenter.loadSearchData(keyword, page)
+                chooseTimePopupWindow = PopupWindow(popupwindowView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true)
+                chooseTimePopupWindow.apply {
+                    setBackgroundDrawable(ColorDrawable(ContextCompat.getColor(this@SearchActivity, R.color.white_color)))
+                    isOutsideTouchable = true
+                    isTouchable = true
+                    showAsDropDown(it)
+                    setTouchInterceptor(View.OnTouchListener { v, event ->
+                        if (event?.action == MotionEvent.ACTION_DOWN) {
+                            search_type_grey.visibility = View.VISIBLE
+                            search_type_blue.visibility = View.GONE
+                        }
+                        false
+                    })
                 }
-            }
-        })
-        searchView.clearFocus()
-    }
 
-    private fun initValues() {
-        waterfallBean = mutableListOf()
-        waterfallTableAdapter = WaterfallTableAdapter(waterfallBean, this, "unknown")
-        layoutManager = StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
-        recyclerView.setLayoutManager(layoutManager)
-        recyclerView.setAdapter(waterfallTableAdapter)
-        searchPresenter = SearchPresenterImpl(this)//传啥进去？
+                chooseTimeRecyclerView = popupwindowView.findViewById(R.id.search_type_recyclerview)
+                chooseTimeRecyclerView.adapter = SearchChooseTimeAdapter(this, time, chooseTimePopupWindow)
+                chooseTimeRecyclerView.layoutManager = layoutManagerForChooseTime
+
+            } else if (search_type_blue.visibility == View.VISIBLE) {
+                search_type_grey.visibility = View.VISIBLE
+                search_type_blue.visibility = View.GONE
+            }
+        }
+
+        searchView.clearFocus()
     }
 
     private fun hideInputKeyboard() {
@@ -140,30 +157,6 @@ class SearchActivity : AppCompatActivity(), SearchContract.SearchUIView {
             searchView.clearFocus()
         }
 
-    }
-
-    fun findMax(array: IntArray): Int {
-        var maxNumber = array[0]
-        val it = array.iterator()
-        while (it.hasNext()) {
-            val currentNumber = it.nextInt()
-            if (currentNumber > maxNumber)
-                maxNumber = currentNumber
-        }
-        return maxNumber
-    }
-
-    override fun setSearchData(waterfallBean: List<MyListDataOrSearchBean>) {
-        this.waterfallBean.addAll(waterfallBean)
-        waterfallTableAdapter.waterFallBean = this.waterfallBean
-        waterfallTableAdapter.notifyDataSetChanged()
-        if (waterfallBean.size === 0 && page == 1) {
-            linearLayour.setVisibility(View.VISIBLE)
-        } else {
-            linearLayour.setVisibility(View.GONE)
-        }
-        search_progress.visibility = View.GONE
-        isLoading = false
     }
 
     private fun database(query:String,db:SQLiteDatabase){
@@ -206,7 +199,7 @@ class SearchActivity : AppCompatActivity(), SearchContract.SearchUIView {
             popupWindow = ListPopupWindow(this)
             popupWindow.apply {
                 //设置适配器
-                setAdapter(ArrayAdapter<String>(applicationContext,R.layout.popupwindow_item,historyRecord))
+                setAdapter(ArrayAdapter<String>(applicationContext, R.layout.lf_popupwindow_item, historyRecord))
                 anchorView = view
                 width = 855
                 isModal = false//内部封装的是focused，设置成false才能是popupwindow不自动获取焦点
@@ -222,5 +215,11 @@ class SearchActivity : AppCompatActivity(), SearchContract.SearchUIView {
                 }
             }
         }
+    }
+
+    fun changeTime(time: Int) {
+        this.time = time
+        lostFragment.setTimeAndLoad(this.time)
+        foundFragment.setTimeAndLoad(this.time)
     }
 }

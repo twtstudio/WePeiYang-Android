@@ -5,11 +5,15 @@ import com.yookiely.lostfond2.service.MyListDataOrSearchBean
 interface SearchContract {
     interface SearchUIView {
         fun setSearchData(waterfallBean: List<MyListDataOrSearchBean>)
+
+        fun loadWaterfallDataWithTime(time: Int)
     }
 
     interface SearchPresenter {
-        fun loadSearchData(keyword: String, page: Int)
-        fun setSearchData(waterfallBean: List<MyListDataOrSearchBean>)
-    }
+        fun setWaterfallData(waterfallBean: List<MyListDataOrSearchBean>)
 
+        fun loadWaterfallData(lostOrFound: String, keyword: String, page: Int, time: Int)
+
+        fun loadWaterfallDataWithTime(lostOrFound: String, keyword: String, page: Int, time: Int)
+    }
 }

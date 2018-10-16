@@ -13,8 +13,6 @@ import com.yookiely.lostfond2.service.LostFoundService
 import com.yookiely.lostfond2.service.Utils
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
 import com.twt.wepeiyang.commons.experimental.network.CommonBody
-import com.twt.wepeiyang.commons.ui.rec.ItemAdapter
-import com.twt.wepeiyang.commons.ui.rec.ItemManager
 import com.twt.wepeiyang.commons.ui.rec.withItems
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
@@ -24,7 +22,7 @@ class DetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
-        setContentView(R.layout.activity_detail)
+        setContentView(R.layout.lf_activity_detail)
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         toolbar.title = "物品详情"
@@ -32,7 +30,7 @@ class DetailActivity : AppCompatActivity() {
         toolbar.setNavigationOnClickListener { onBackPressed() }
         val bundle: Bundle = intent.extras
         val id = bundle.getInt("id")
-        val recyclerView: RecyclerView = findViewById(R.id.detail_recycler)
+        val recyclerView: RecyclerView = findViewById(R.id.lf_detail_recycler)
         recyclerView.layoutManager = LinearLayoutManager(this)
         val recyclerViewImg : RecyclerView = findViewById(R.id.img_recycler)
         val ms = LinearLayoutManager(this)
