@@ -58,9 +58,6 @@ class OtherItem : Item {
                     it.context.startActivity<WaterFallActivity>()
                 }
 
-                addItem("test","test"){
-                    it.context.startActivity<HomeActivity>()
-                }
             }
         }
 
