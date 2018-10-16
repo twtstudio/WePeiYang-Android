@@ -102,6 +102,7 @@ class TypeSelectPopup(mContext: Context, private val startXY: Pair<Float, Float>
                                         intent.putExtra(ProblemActivity.MODE_KEY, ProblemActivity.READ_AND_PRACTICE)
                                         intent.putExtra(ProblemActivity.PROBLEM_TYPE_KEY, ProblemActivity.SINGLE_CHOICE)
                                         context.startActivity(intent)
+                                        dismiss()
                                     }
                                 }
                             }
@@ -112,6 +113,7 @@ class TypeSelectPopup(mContext: Context, private val startXY: Pair<Float, Float>
                                     intent.putExtra(ProblemActivity.PROBLEM_TYPE_KEY, ProblemActivity.SINGLE_CHOICE)
                                     intent.putExtra(ProblemActivity.CONTINUE_INDEX_KEY, single_ques_index)
                                     context.startActivity(intent)
+                                    dismiss()
                                 }
 
                             }
@@ -127,6 +129,7 @@ class TypeSelectPopup(mContext: Context, private val startXY: Pair<Float, Float>
                                         intent.putExtra(ProblemActivity.MODE_KEY, ProblemActivity.READ_AND_PRACTICE)
                                         intent.putExtra(ProblemActivity.PROBLEM_TYPE_KEY, ProblemActivity.MULTI_CHOICE)
                                         context.startActivity(intent)
+                                        dismiss()
                                     }
                                 }
                             }
@@ -137,6 +140,7 @@ class TypeSelectPopup(mContext: Context, private val startXY: Pair<Float, Float>
                                     intent.putExtra(ProblemActivity.PROBLEM_TYPE_KEY, ProblemActivity.MULTI_CHOICE)
                                     intent.putExtra(ProblemActivity.CONTINUE_INDEX_KEY, multi_ques_index)
                                     context.startActivity(intent)
+                                    dismiss()
                                 }
                             }
                         }
@@ -151,6 +155,7 @@ class TypeSelectPopup(mContext: Context, private val startXY: Pair<Float, Float>
                                         intent.putExtra(ProblemActivity.MODE_KEY, ProblemActivity.READ_AND_PRACTICE)
                                         intent.putExtra(ProblemActivity.PROBLEM_TYPE_KEY, ProblemActivity.TRUE_FALSE)
                                         context.startActivity(intent)
+                                        dismiss()
                                     }
                                 }
 
@@ -162,12 +167,14 @@ class TypeSelectPopup(mContext: Context, private val startXY: Pair<Float, Float>
                                     intent.putExtra(ProblemActivity.PROBLEM_TYPE_KEY, ProblemActivity.TRUE_FALSE)
                                     intent.putExtra(ProblemActivity.CONTINUE_INDEX_KEY, decide_ques_index)
                                     context.startActivity(intent)
+                                    dismiss()
                                 }
                             }
                         }
                         tvTestEnter.setOnClickListener {
                             intent.putExtra(ProblemActivity.MODE_KEY, ProblemActivity.CONTEST)
                             context.startActivity(intent)
+                            dismiss()
                         }
                     }
                 }

@@ -1,5 +1,6 @@
 package com.twtstudio.service.tjwhm.exam.user.star
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -42,6 +43,7 @@ class StarItem(val context: Context, val problemBean: ProblemBean, val starOrWro
         override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder =
                 ItemViewHolder(parent.context.layoutInflater.inflate(R.layout.exam_item_star, parent, false))
 
+        @SuppressLint("SetTextI18n")
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: Item) {
             holder as ItemViewHolder
             item as StarItem

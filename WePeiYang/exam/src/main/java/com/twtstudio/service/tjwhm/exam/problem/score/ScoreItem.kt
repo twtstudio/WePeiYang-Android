@@ -10,12 +10,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import com.twt.wepeiyang.commons.experimental.cache.RefreshState
 import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemController
 import com.twt.wepeiyang.commons.ui.rec.withItems
 import com.twtstudio.service.tjwhm.exam.R
 import com.twtstudio.service.tjwhm.exam.commons.toSelectionIndex
 import com.twtstudio.service.tjwhm.exam.problem.*
+import com.twtstudio.service.tjwhm.exam.user.addCollection
+import com.twtstudio.service.tjwhm.exam.user.deleteCollection
+import com.twtstudio.service.tjwhm.exam.user.star.StarActivity
+import es.dmoral.toasty.Toasty
+import okhttp3.MultipartBody
 import org.jetbrains.anko.layoutInflater
 
 /**
@@ -23,9 +29,11 @@ import org.jetbrains.anko.layoutInflater
  * Happy coding!
  */
 
-class ScoreItem(val index: Int, val context: Context, val testProblemBean: TestProblemBean, val resultData: Result) : Item {
+class ScoreItem(val index: Int, val context: Context, val testProblemBean: TestProblemBean, val resultBean: ResultBean) : Item {
     override val controller: ItemController
         get() = Controller
+
+    private var isCollected = false
 
     companion object Controller : ItemController {
         override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder =
@@ -37,9 +45,9 @@ class ScoreItem(val index: Int, val context: Context, val testProblemBean: TestP
             item as ScoreItem
             holder.apply {
                 tvProblemTitle?.text = (item.index + 1).toString() + "." + Html.fromHtml(item.testProblemBean.content).toString()
-                tvRightAnswer?.text = "正确答案：${item.resultData.true_answer}"
-                tvUserAnswer?.text = "你的答案：${item.resultData.answer}"
-                if (item.resultData.is_true == 1) tvUserAnswer?.setTextColor(ContextCompat.getColor(item.context, R.color.examTextBlue))
+                tvRightAnswer?.text = "正确答案：${item.resultBean.true_answer}"
+                tvUserAnswer?.text = "你的答案：${item.resultBean.answer}"
+                if (item.resultBean.is_true == 1) tvUserAnswer?.setTextColor(ContextCompat.getColor(item.context, R.color.examTextBlue))
                 else tvUserAnswer?.setTextColor(ContextCompat.getColor(item.context, R.color.examTextRed))
                 rvScoreSelections?.layoutManager = LinearLayoutManager(item.context)
                 rvScoreSelections?.withItems {
@@ -47,9 +55,54 @@ class ScoreItem(val index: Int, val context: Context, val testProblemBean: TestP
                         selectionItem(null, it.toSelectionIndex(), item.testProblemBean.option[it], SelectionItem.NONE)
                     }
                 }
+                item.isCollected = item.resultBean.is_collected == 1
+
+                if (item.isCollected)
+                    ivStar?.setImageResource(R.drawable.exam_ic_star_filled)
+                else
+                    ivStar?.setImageResource(R.drawable.exam_ic_star_blank)
+
+
+
+                ivStar?.setOnClickListener { _ ->
+                    if (!item.isCollected) {
+                        val list = MultipartBody.Builder()
+                                .setType(MultipartBody.FORM)
+                                .addFormDataPart("ques_type", item.resultBean.ques_type.toString())
+                                .addFormDataPart("ques_id", item.resultBean.ques_id.toString())
+                                .build()
+                                .parts()
+                        addCollection(StarActivity.STAR.toString(), list) {
+                            when (it) {
+                                is RefreshState.Failure -> Toasty.error(ivStar.context, "网络错误").show()
+                                is RefreshState.Success -> {
+                                    Toasty.success(ivStar.context, "收藏成功").show()
+                                    ivStar.setImageResource(R.drawable.exam_ic_star_filled)
+                                    item.isCollected = true
+                                }
+                            }
+                        }
+                    } else {
+                        val list = MultipartBody.Builder()
+                                .setType(MultipartBody.FORM)
+                                .addFormDataPart("ques_type", item.resultBean.ques_type.toString())
+                                .addFormDataPart("ques_id", item.resultBean.ques_id.toString())
+                                .build()
+                                .parts()
+                        deleteCollection(StarActivity.STAR.toString(), list) {
+                            when (it) {
+                                is RefreshState.Failure -> Toasty.error(ivStar.context, "网络错误").show()
+                                is RefreshState.Success -> {
+                                    Toasty.success(ivStar.context, "取消收藏").show()
+                                    ivStar.setImageResource(R.drawable.exam_ic_star_blank)
+                                    item.isCollected = false
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
-
     }
 
     private class ItemViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
@@ -58,7 +111,8 @@ class ScoreItem(val index: Int, val context: Context, val testProblemBean: TestP
         val tvRightAnswer: TextView? = itemView?.findViewById(R.id.tv_score_right_answer)
         val tvUserAnswer: TextView? = itemView?.findViewById(R.id.tv_score_user_answer)
         val ivHelp: ImageView? = itemView?.findViewById(R.id.iv_score_help)
+        val ivStar: ImageView? = itemView?.findViewById(R.id.iv_score_star)
     }
 }
 
-fun MutableList<Item>.scoreItem(index: Int, context: Context, testProblemBean: TestProblemBean, resultData: Result) = add(ScoreItem(index, context, testProblemBean, resultData))
+fun MutableList<Item>.scoreItem(index: Int, context: Context, testProblemBean: TestProblemBean, resultBean: ResultBean) = add(ScoreItem(index, context, testProblemBean, resultBean))

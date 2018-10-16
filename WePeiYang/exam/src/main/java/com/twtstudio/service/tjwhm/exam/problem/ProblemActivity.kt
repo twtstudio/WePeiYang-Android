@@ -51,7 +51,7 @@ class ProblemActivity : AppCompatActivity(), ProblemActivityInterface {
     var time: Int = 0
     var currentFragmentIndex = 0
 
-    private lateinit var testDataBean: TestDataBean
+    private lateinit var testBean: TestBean
 
     private lateinit var clProblem: ConstraintLayout
     private lateinit var tvLeft: TextView
@@ -189,6 +189,7 @@ class ProblemActivity : AppCompatActivity(), ProblemActivityInterface {
                 is RefreshState.Failure -> Toasty.error(this@ProblemActivity, "网络错误", Toast.LENGTH_SHORT).show()
                 is RefreshState.Success -> {
                     it.message.data!!.apply {
+                        testBean = this
                         size = this.question.size
                         repeat(size) {
                             problemIndexData.add(ProblemIndex.NONE)
@@ -239,7 +240,7 @@ class ProblemActivity : AppCompatActivity(), ProblemActivityInterface {
                     Toasty.success(this@ProblemActivity, "交卷成功！", Toast.LENGTH_SHORT).show()
                     val intent = Intent(this@ProblemActivity, ScoreActivity::class.java)
                     intent.putExtra(ScoreActivity.SCORE_BEAN_KEY, it.message.data)
-                    intent.putExtra(ScoreActivity.PROBLEM_FOR_TEST_KEY, testDataBean)
+                    intent.putExtra(ScoreActivity.PROBLEM_FOR_TEST_KEY, testBean)
                     this@ProblemActivity.startActivity(intent)
                     finish()
                 }

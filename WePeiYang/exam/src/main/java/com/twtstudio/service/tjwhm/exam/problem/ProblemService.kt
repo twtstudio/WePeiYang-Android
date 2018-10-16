@@ -18,7 +18,7 @@ interface ProblemService {
     fun getProblem(@Path("lesson_id") lessonID: String, @Path("type") type: String, @Path("problem_id") problemID: String): Deferred<CommonBody<ProblemBean>>
 
     @GET("exercise/getQues/{lesson_id}")
-    fun getTestProblems(@Path("lesson_id") lessonID: String): Deferred<CommonBody<TestDataBean>>
+    fun getTestProblems(@Path("lesson_id") lessonID: String): Deferred<CommonBody<TestBean>>
 
     @POST("exercise/getScore/{lesson_id}/{time}")
     fun uploadResult(@Path("lesson_id") lessonID: String, @Path("time") time: String, @Body answerList: List<UpdateResultViewModel>): Deferred<CommonBody<ScoreBean>>
@@ -46,7 +46,7 @@ fun getProblem(lessonID: String, type: String, problemID: String, callback: susp
             }
         }
 
-fun getTestProblems(lessonID: String, callback: suspend (RefreshState<CommonBody<TestDataBean>>) -> Unit) =
+fun getTestProblems(lessonID: String, callback: suspend (RefreshState<CommonBody<TestBean>>) -> Unit) =
         launch(UI) {
             ProblemService.getTestProblems(lessonID).awaitAndHandle {
                 callback(RefreshState.Failure(it))
@@ -78,7 +78,7 @@ data class ProblemBean(
         val error_option: String
 )
 
-data class TestDataBean(
+data class TestBean(
         val time: Int,
         val timestamp: Int,
         val question: List<TestProblemBean>
@@ -106,10 +106,10 @@ data class ScoreBean(
         val correct_num: Int,
         val error_num: Int,
         val not_done_num: Int,
-        val result: List<Result>
+        val result: List<ResultBean>
 ) : Serializable
 
-data class Result(
+data class ResultBean(
         val ques_id: Int,
         val ques_type: Int,
         val is_done: Int,
@@ -117,4 +117,4 @@ data class Result(
         val true_answer: String,
         val is_collected: Int,
         val is_true: Int
-)
+) : Serializable
