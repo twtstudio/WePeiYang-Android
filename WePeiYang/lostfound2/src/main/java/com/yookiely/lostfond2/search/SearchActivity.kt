@@ -20,7 +20,6 @@ import android.widget.*
 import com.example.lostfond2.R
 import com.orhanobut.hawk.Hawk
 import com.yookiely.lostfond2.waterfall.WaterfallPagerAdapter
-import kotlinx.android.synthetic.main.lf2_activity_search.*
 import org.jetbrains.anko.db.*
 
 class SearchActivity : AppCompatActivity() {
@@ -35,6 +34,10 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var chooseTimeRecyclerView: RecyclerView//弹窗，选择时间的rv
     lateinit var chooseTimePopupWindow: PopupWindow
     private var layoutManagerForChooseTime = LinearLayoutManager(this@SearchActivity)
+    private lateinit var searchTableLayout: TabLayout
+    private lateinit var imageViewgrey: ImageView
+    private lateinit var imageViewblue: ImageView
+    private lateinit var searchType: RelativeLayout
 
     lateinit var keyword: String
     var page = 1
@@ -48,6 +51,10 @@ class SearchActivity : AppCompatActivity() {
         toolbar = findViewById(R.id.search_toolbar)
         setSupportActionBar(toolbar)
         searchView = findViewById(R.id.search_searview)
+        searchTableLayout = findViewById(R.id.search_tabLayout)
+        imageViewblue = findViewById(R.id.search_type_blue)
+        imageViewgrey = findViewById(R.id.search_type_grey)
+        searchType = findViewById(R.id.search_type)
         lostFragment = SearchFragment.Companion.newInstance("lost")
         foundFragment = SearchFragment.Companion.newInstance("found")
         campus = Hawk.get("campus")//1 北洋园 ，2 卫津路
@@ -58,12 +65,12 @@ class SearchActivity : AppCompatActivity() {
         waterfallPagerAdapter.add(lostFragment, "丢失")
         search_pager_vp = findViewById(R.id.search_pager_content)
         search_pager_vp.adapter = waterfallPagerAdapter
-        search_tabLayout.apply {
+        searchTableLayout.apply {
             setupWithViewPager(search_pager_vp)
             tabGravity = TabLayout.GRAVITY_FILL
             setSelectedTabIndicatorColor(Color.parseColor("#00a1e9"))
         }
-        search_type_blue.visibility = View.GONE
+        imageViewblue.visibility = View.GONE
 
         database.use {
             createTable(HistoryRecordContract.TABLE_NAME,true,
@@ -114,10 +121,10 @@ class SearchActivity : AppCompatActivity() {
             }
         })
 
-        search_type.setOnClickListener {
-            if (search_type_grey.visibility == View.VISIBLE) run {
-                search_type_blue.visibility = View.VISIBLE
-                search_type_grey.visibility = View.GONE
+        searchType.setOnClickListener {
+            if (imageViewgrey.visibility == View.VISIBLE) run {
+                imageViewblue.visibility = View.VISIBLE
+                imageViewgrey.visibility = View.GONE
 
                 chooseTimePopupWindow = PopupWindow(popupwindowView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true)
                 chooseTimePopupWindow.apply {
@@ -127,8 +134,8 @@ class SearchActivity : AppCompatActivity() {
                     showAsDropDown(it)
                     setTouchInterceptor(View.OnTouchListener { v, event ->
                         if (event?.action == MotionEvent.ACTION_DOWN) {
-                            search_type_grey.visibility = View.VISIBLE
-                            search_type_blue.visibility = View.GONE
+                            imageViewgrey.visibility = View.VISIBLE
+                            imageViewblue.visibility = View.GONE
                         }
                         false
                     })
@@ -138,9 +145,9 @@ class SearchActivity : AppCompatActivity() {
                 chooseTimeRecyclerView.adapter = SearchChooseTimeAdapter(this, time, chooseTimePopupWindow)
                 chooseTimeRecyclerView.layoutManager = layoutManagerForChooseTime
 
-            } else if (search_type_blue.visibility == View.VISIBLE) {
-                search_type_grey.visibility = View.VISIBLE
-                search_type_blue.visibility = View.GONE
+            } else if (imageViewblue.visibility == View.VISIBLE) {
+                imageViewgrey.visibility = View.VISIBLE
+                imageViewblue.visibility = View.GONE
             }
         }
 
