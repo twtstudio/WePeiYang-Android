@@ -1,5 +1,9 @@
 package com.twtstudio.service.tjwhm.exam.commons
 
+import android.content.Context
+import android.content.Intent
+import com.twtstudio.service.tjwhm.exam.problem.ProblemActivity
+
 /**
  * Created by tjwhm@TWTStudio at 11:29 AM,2018/8/5.
  * Happy coding!
@@ -112,4 +116,14 @@ fun List<Int>.isRightWith(answer: List<Int>): Boolean {
         if (i !in this) return false
     if (size == answer.size) return true
     return false
+}
+
+fun Context?.startProblemActivity(mode: Int, lessonID: Int, quesType: Int?, index: Int?): Unit {
+    Intent(this, ProblemActivity::class.java).apply {
+        putExtra(ProblemActivity.LESSON_ID_KEY, lessonID)
+        putExtra(ProblemActivity.MODE_KEY, mode)
+        putExtra(ProblemActivity.PROBLEM_TYPE_KEY, quesType)
+        putExtra(ProblemActivity.CONTINUE_INDEX_KEY, index)
+        this@startProblemActivity?.startActivity(this)
+    }
 }

@@ -16,6 +16,7 @@ import android.widget.Toast
 import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
 import com.twt.wepeiyang.commons.ui.rec.withItems
 import com.twtstudio.service.tjwhm.exam.R
+import com.twtstudio.service.tjwhm.exam.commons.startProblemActivity
 import com.twtstudio.service.tjwhm.exam.commons.toProblemType
 import com.twtstudio.service.tjwhm.exam.list.ListActivity
 import com.twtstudio.service.tjwhm.exam.problem.ProblemActivity
@@ -116,13 +117,10 @@ class ExamHomeFragment : Fragment(), View.OnClickListener {
         tvCurrentIndex.text = "当前题目: ${userBean.current_course_index + 1}"
         tvCurrentNum.text = "进度: ${userBean.current_course_done_count}/${userBean.current_course_ques_count}"
         tvCurrentEnter.setOnClickListener {
-            Intent(context, ProblemActivity::class.java).apply {
-                putExtra(ProblemActivity.LESSON_ID_KEY, userBean.current_course_id.toInt())
-                putExtra(ProblemActivity.MODE_KEY, ProblemActivity.READ_AND_PRACTICE)
-                putExtra(ProblemActivity.PROBLEM_TYPE_KEY, userBean.current_ques_type)
-                putExtra(ProblemActivity.CONTINUE_INDEX_KEY, userBean.current_course_index)
-                context?.startActivity(this)
-            }
+            context?.startProblemActivity(ProblemActivity.READ_AND_PRACTICE,
+                    userBean.current_course_id.toInt(),
+                    userBean.current_ques_type.toInt(),
+                    userBean.current_course_index)
         }
     }
 }

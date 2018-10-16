@@ -11,7 +11,7 @@
     <color name="examTextBlue">#43AAFA</color>
     <color name="examArrowGrey">#DBDADB</color>
     <color name="examTabTextColor">#B1DFF7</color>
-    <color name="examTextRed">#F84B4B</color>
+    <color name="examTextRed">#f84b4b</color>
     <color name="examTextGray">#555555</color>
     <color name="examHistoryDate">#9FA0A1</color>
 </resources>

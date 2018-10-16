@@ -11,12 +11,27 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="14dp"
-        android:background="@drawable/exam_shape_blue_tv_with_boundary_small"
-        android:textColor="@color/examTextBlue"
+        android:background="@drawable/exam_shape_history_tag"
+        android:gravity="center"
+        android:textColor="@color/white_color"
         android:textSize="12sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="顺序练习" />
+
+    <TextView
+        android:id="@+id/tv_history_item_problem_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:background="@drawable/exam_shape_history_tag"
+        android:gravity="center"
+        android:textColor="@color/white_color"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@id/tv_history_item_type"
+        app:layout_constraintLeft_toRightOf="@id/tv_history_item_type"
+        app:layout_constraintTop_toTopOf="@id/tv_history_item_type"
+        tools:text="单选" />
 
 
     <TextView
@@ -44,10 +59,10 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginBottom="2dp"
-        android:layout_marginEnd="32dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="2dp"
         android:background="@color/examArrowGrey"
         app:layout_constraintTop_toBottomOf="@id/tv_history_item_title" />
 </android.support.constraint.ConstraintLayout>

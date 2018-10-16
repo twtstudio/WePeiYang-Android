@@ -1,5 +1,8 @@
 package com.twtstudio.service.tjwhm.exam.problem
 
+import android.app.AlertDialog
+import android.app.DialogFragment
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.support.v7.app.AppCompatActivity
@@ -109,9 +112,6 @@ class ProblemActivity : AppCompatActivity(), ProblemActivityInterface {
 
                 tvUpload.apply {
                     visibility = View.VISIBLE
-                    setOnClickListener {
-                        uploadResult()
-                    }
                 }
                 startContestNetwork()
             }
@@ -196,8 +196,17 @@ class ProblemActivity : AppCompatActivity(), ProblemActivityInterface {
                             pagerAdapter.add(it, question[it])
                         }
                         this@ProblemActivity.time = time
+                        vpProblem.adapter = pagerAdapter
+                        tvUpload.setOnClickListener {
+                            AlertDialog.Builder(it.context).apply {
+                                title = "提交答案"
+                                setMessage("本次测试共${testBean.question.size}题\n你已完成${userSelectionsForTest.size}题\n" +
+                                        "是否交卷？")
+                                setPositiveButton("交卷") { _, _ -> uploadResult() }
+                                setNegativeButton("取消") { _, _ -> }
+                            }.show()
+                        }
                     }
-                    vpProblem.adapter = pagerAdapter
                 }
             }
         }
