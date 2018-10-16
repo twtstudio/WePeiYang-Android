@@ -3,6 +3,7 @@ package com.twtstudio.retrox.tjulibrary.view
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
+import android.view.ViewGroup
 import java.util.ArrayList
 
 class HomeLibraryPagerAdapter(fm : FragmentManager) : FragmentPagerAdapter(fm){
@@ -22,4 +23,8 @@ class HomeLibraryPagerAdapter(fm : FragmentManager) : FragmentPagerAdapter(fm){
     override fun getCount(): Int = fragmentsOfMylist.size
 
     override fun getPageTitle(position: Int): CharSequence = fragmentsTitles[position]
+
+    override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
+//        super.destroyItem(container, position, `object`)
+    }
 }

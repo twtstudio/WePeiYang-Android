@@ -16,6 +16,10 @@ class BookPagerAdapter(fm : FragmentManager)  : FragmentPagerAdapter(fm) {
 
     }
 
+    fun removeAll(){
+        fragmentsOfMylist.clear()
+    }
+
     override fun getItem(position: Int): Fragment  = fragmentsOfMylist[position]
 
 

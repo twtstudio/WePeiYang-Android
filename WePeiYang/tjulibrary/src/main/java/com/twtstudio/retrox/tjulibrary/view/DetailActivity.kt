@@ -14,9 +14,7 @@ import com.bumptech.glide.Glide
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
 import com.twt.wepeiyang.commons.experimental.extensions.fitSystemWindowWithStatusBar
 import com.twtstudio.retrox.tjulibrary.R
-import com.twtstudio.retrox.tjulibrary.tjulibservice.Datax
-import com.twtstudio.retrox.tjulibrary.tjulibservice.DoubanApi
-import com.twtstudio.retrox.tjulibrary.tjulibservice.LibraryApi
+import com.twtstudio.retrox.tjulibrary.tjulibservice.*
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 
@@ -46,6 +44,11 @@ class DetailActivity : AppCompatActivity() {
             setSupportActionBar(it)
         }
 
+        window.statusBarColor = Color.parseColor("#e78fae")
+
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        toolbar.setNavigationOnClickListener { onBackPressed() }
+
         val bundle = intent.extras
         val id = bundle.getString("id")
 
@@ -62,25 +65,26 @@ class DetailActivity : AppCompatActivity() {
         recyclerView.layoutManager = layoutManager
 
         launch(UI + QuietCoroutineExceptionHandler) {
-            val book = LibraryApi.getBook(id.toInt()).await()
-            val totalNum = LibraryApi.getTotalNum(id.toInt()).await()
+            val book = LibraryApi.getBook(id).await()
+            val totalNum = LibraryApi.getTotalNum(id).await()
             Log.d("whatthefuck",totalNum.toString())
-            val isbnNumber = LibraryApi.getISBN(id.toInt()).await()
-            Log.d("whatthefuck",isbnNumber.toString())
             try {
-                val bookContent = DoubanApi.getBookContent(isbnNumber.isbn).await()
-                book_content.text = bookContent.summary
+                book_content.text = book.data.summary
+                val url  = ImgApi.getImgUrl(book.data.isbn).await()
+                Glide.with(this@DetailActivity)
+                        .load(url[0].result[0].coverlink)
+                        .asBitmap()
+                        .placeholder(R.drawable.src)
+                        .error(R.drawable.src2)
+                        .into(book_pic)
+                Log.d("julao",url.toString())
             }catch (e : Exception){
                 Log.d("julao",e.toString())
             }
-            val url = LibraryApi.getImg(id).await()
 
-            Glide.with(this@DetailActivity)
-                    .load(url.img_url)
-                    .asBitmap()
-                    .placeholder(R.drawable.src)
-                    .error(R.drawable.src2)
-                    .into(book_pic)
+
+
+
             setDetial(book.data)
             total_borrow_num.text = totalNum.totalBorrowNum.toString()
 

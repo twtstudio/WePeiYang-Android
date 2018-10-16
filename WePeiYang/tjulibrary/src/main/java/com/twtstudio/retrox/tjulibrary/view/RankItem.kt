@@ -14,12 +14,13 @@ import com.bumptech.glide.Glide
 import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemController
 import com.twtstudio.retrox.tjulibrary.R
+import org.jetbrains.anko.image
 import org.jetbrains.anko.layoutInflater
 import org.jetbrains.anko.textColor
 
-class RankItem(val id : String,val urlOfPic: String, val titleString: String,
+class RankItem(val id: String, val urlOfPic: String, val titleString: String,
                val borrowNumber: String, val publishName: String,
-               val rankFragment: RankFragment, val rankNumber: Int, val isborrow : Boolean) : Item {
+               val rankFragment: RankFragment, val rankNumber: Int, val isborrow: Boolean) : Item {
 
     private companion object Controller : ItemController {
         override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
@@ -35,25 +36,37 @@ class RankItem(val id : String,val urlOfPic: String, val titleString: String,
             item as RankItem
 
             holder.apply {
-                val colorString = when (item.rankNumber) {
-                    0 -> "#A73870"
-                    1 -> "#FD8B00"
-                    2 -> "#05B601"
-                    else -> "#999999"
-                }
+
                 title.text = item.titleString
                 borrow_number.text = item.borrowNumber
                 publish_name.text = item.publishName
-                rank_number.apply {
-                    text = item.rankNumber.toString() + "、"
-                    textColor = Color.parseColor(colorString)
-                }
-                borrow_mark.visibility = View.GONE
-                Glide.with(item.rankFragment)
-                        .load(item.urlOfPic)
-                        .into(statistics_img)
+                when (item.rankNumber.toString()) {
+                    "1" -> {
+                        statistics_img.setImageResource(R.drawable.frist)
+                        rank_number.visibility = View.GONE
+                    }
+                    "2" -> {
+                        statistics_img.setImageResource(R.drawable.second)
+                        rank_number.visibility = View.GONE
+                    }
+                    "3" -> {
+                        statistics_img.setImageResource(R.drawable.third)
+                        rank_number.visibility = View.GONE
+                    }
+                    else -> {
+                        rank_number.visibility = View.VISIBLE
+                        rank_number.text = item.rankNumber.toString()
 
-                if (item.isborrow) { borrow_mark.visibility = View.VISIBLE }
+                    }
+                }
+
+
+
+                borrow_mark.visibility = View.GONE
+
+                if (item.isborrow) {
+                    borrow_mark.visibility = View.VISIBLE
+                }
             }
 
             holder.itemView.setOnClickListener {
@@ -72,7 +85,7 @@ class RankItem(val id : String,val urlOfPic: String, val titleString: String,
         val borrow_number = itemView.findViewById<TextView>(R.id.borrow_num)
         val publish_name = itemView.findViewById<TextView>(R.id.publish_name)
         val statistics_img = itemView.findViewById<ImageView>(R.id.statistics_img)
-        val rank_number = itemView.findViewById<TextView>(R.id.sta_num)
+        val rank_number = itemView.findViewById<TextView>(R.id.rank_num)
         val borrow_mark = itemView.findViewById<ImageView>(R.id.isborrow)
     }
 
@@ -80,6 +93,6 @@ class RankItem(val id : String,val urlOfPic: String, val titleString: String,
         get() = RankItem
 }
 
-fun MutableList<Item>.setRankItem(id : String,urlOfPic: String, titleString: String,
+fun MutableList<Item>.setRankItem(id: String, urlOfPic: String, titleString: String,
                                   borrowNumber: String, publishName: String,
                                   rankFragment: RankFragment, rankNumber: Int, isborrow: Boolean) = add(RankItem(id, urlOfPic, titleString, borrowNumber, publishName, rankFragment, rankNumber, isborrow))

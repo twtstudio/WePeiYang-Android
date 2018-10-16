@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,11 +26,10 @@ class RankFragment : Fragment() {
 
     private var selectedRank = 666
     lateinit var recyclerView: RecyclerView
-    private lateinit var itemManager: ItemManager
-    private lateinit var loadMore : TextView
+    private lateinit var loadMore: TextView
     private var startNum = 0
-    private var endNum = 9
-    private lateinit var rankList : List<RankList>
+    private var endNum = 49
+    private lateinit var rankList: List<RankList>
     private val urlList = ArrayList<String>(0)
 
 
@@ -41,66 +41,57 @@ class RankFragment : Fragment() {
         val week = view.findViewById<TextView>(R.id.week)
         recyclerView = view.findViewById(R.id.rank_list)
         recyclerView.layoutManager = LinearLayoutManager(activity)
-//        itemManager = ItemManager()
-//        recyclerView.adapter = ItemAdapter(itemManager)
         setRecyclerView()
+        loadMore.visibility = View.GONE
 
         total.setOnClickListener {
             selectedRank = 666
             startNum = 0
-            endNum = 9
+            endNum = 49
             setRecyclerView()
         }
 
         month.setOnClickListener {
             selectedRank = 30
             startNum = 0
-            endNum = 9
+            endNum = 49
             setRecyclerView()
         }
 
         week.setOnClickListener {
             selectedRank = 7
             startNum = 0
-            endNum = 9
+            endNum = 49
             setRecyclerView()
         }
 
-        loadMore.visibility = if (endNum == 49) { View.GONE  } else { View.VISIBLE }
+
 
         return view
     }
 
     private fun setRecyclerView() {
 
+        loadMore.visibility = if (endNum == 49) {
+            View.GONE
+        } else {
+            View.VISIBLE
+        }
+
         recyclerView.removeAllViews()
         launch(UI + QuietCoroutineExceptionHandler) {
-            rankList = LibraryApi.getRank(selectedRank).await()
-
-            for (i in startNum..endNum) {
-                val imgbean = LibraryApi.getImg(rankList[i].bookID).await()
-                urlList.add(imgbean.img_url)
-            }
-            recyclerView.withItems {
-                for (i in startNum..endNum) {
-                    setRankItem(rankList[i].bookID, urlList[i], rankList[i].bookName, rankList[i].borrowNum, rankList[i].publisher, this@RankFragment, i + 1, false)
-                }
-            }
-        }
-
-        loadMore.setOnClickListener {
-            startNum += 10
-            endNum += 10
-
-            launch(UI + QuietCoroutineExceptionHandler) {
+            try {
                 rankList = LibraryApi.getRank(selectedRank).await()
+            }catch (e : Exception){
+                Log.d("whatthefuck",e.toString())
+            }
 
-                for (i in startNum..endNum) {
-                    val imgbean = LibraryApi.getImg(rankList[i].bookID).await()
-
-                    itemManager.add(RankItem(rankList[i].bookID, imgbean.img_url, rankList[i].bookName, rankList[i].borrowNum, rankList[i].publisher, this@RankFragment, i + 1, false))
+            recyclerView.withItems {
+                for ((p, i) in rankList.withIndex()) {
+                    setRankItem(i.bookID, "233", i.bookName, i.borrowNum, i.publisher, this@RankFragment, p + 1, false)
                 }
             }
         }
+
     }
 }

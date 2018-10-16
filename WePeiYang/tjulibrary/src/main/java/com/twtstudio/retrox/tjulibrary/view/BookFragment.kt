@@ -1,6 +1,7 @@
 package com.twtstudio.retrox.tjulibrary.view
 
 
+import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -11,6 +12,7 @@ import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.twtstudio.retrox.tjulibrary.R
 import com.twtstudio.retrox.tjulibrary.provider.Book
+import org.jetbrains.anko.textColor
 
 class BookFragment : Fragment() {
     lateinit var bookName : TextView
@@ -69,7 +71,17 @@ class BookFragment : Fragment() {
         bookArtist.text = bookauthor
         bookPublish.text = bookpublish
         bookBorrow.text = bookborrow
-        bookLeft.text = bookleft + "天"
+        if (bookleft.toInt() > 0){
+            bookLeft.text = bookleft + "天"
+        }else{
+            val x = Math.abs(bookleft.toInt())
+
+            bookLeft.apply {
+                textColor = Color.RED
+                text = x.toString()
+            }
+        }
+
         Glide.with(activity)
                 .load(bookimg)
                 .asBitmap()

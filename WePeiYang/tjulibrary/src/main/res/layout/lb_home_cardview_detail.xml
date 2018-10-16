@@ -9,7 +9,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <android.support.v7.widget.CardView
-        android:layout_width="327dp"
+        android:layout_width="350dp"
         android:layout_height="362dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -81,8 +81,8 @@
                 android:src="@drawable/time"
                 android:id="@+id/img_time"
                 app:layout_constraintTop_toTopOf="@+id/img_writer"
-                app:layout_constraintLeft_toLeftOf="parent"
-                android:layout_marginLeft="168dp"/>
+                app:layout_constraintLeft_toLeftOf="@id/img_writer"
+                android:layout_marginLeft="160dp"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -109,7 +109,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="  索书号  "
+                android:text="  索书号 "
                 android:textSize="13dp"
                 android:id="@+id/publish"
                 app:layout_constraintLeft_toRightOf="@+id/img_book"
@@ -132,7 +132,7 @@
                 android:id="@+id/img_lefttime"
                 app:layout_constraintLeft_toLeftOf="@+id/img_book"
                 app:layout_constraintTop_toTopOf="@+id/img_book"
-                android:layout_marginLeft="143dp"
+                android:layout_marginLeft="160dp"
                 />
             <TextView
                 android:layout_width="wrap_content"

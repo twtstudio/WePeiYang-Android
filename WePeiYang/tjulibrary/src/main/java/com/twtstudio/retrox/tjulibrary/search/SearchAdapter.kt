@@ -29,14 +29,17 @@ class SearchAdapter(var searchBook: MutableList<SearchBook>, val context: Contex
         holder.searchName.text = searchBookTemp.booktitle
         holder.searchNum.text = searchBookTemp.number
         holder.searchPublishName.text = searchBookTemp.bookpublish
-        launch(UI + QuietCoroutineExceptionHandler) {
-            val image: Img = LibraryApi.getImg(searchBookTemp.bookID).await()
-            image.img_url?.apply {
-                Glide.with(this@SearchAdapter.context)
-                        .load(this)
-                        .into(holder.searchImage)
-            }
-        }
+        Glide.with(this@SearchAdapter.context)
+                .load("hh")
+                .into(holder.searchImage)
+//        launch(UI + QuietCoroutineExceptionHandler) {
+//            val image: Img = LibraryApi.getImg(searchBookTemp.bookID).await()
+//            image.img_url?.apply {
+//                Glide.with(this@SearchAdapter.context)
+//                        .load("hh")
+//                        .into(holder.searchImage)
+//            }
+//        }
     }
 
     override fun getItemCount(): Int {

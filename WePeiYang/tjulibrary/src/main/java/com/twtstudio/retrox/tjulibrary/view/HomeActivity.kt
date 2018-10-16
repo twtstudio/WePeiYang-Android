@@ -39,6 +39,7 @@ class HomeActivity : AppCompatActivity() {
         var myhomePagerAdapter = HomeLibraryPagerAdapter(supportFragmentManager)
         myhomePagerAdapter.add(HomeLibraryFragement(), "已借阅")
         myhomePagerAdapter.add(RankFragment(), "借阅统计")
+        myhomePagerAdapter.add(ReadFragment(),"阅读")
         mybook_pager.adapter = myhomePagerAdapter
         mybook_tabLayout.setupWithViewPager(mybook_pager)
         mybook_tabLayout.tabGravity = TabLayout.GRAVITY_FILL
@@ -47,7 +48,7 @@ class HomeActivity : AppCompatActivity() {
 
     }
 
-//
+
 //    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
 //        menuInflater.inflate(R.menu.lb_menu, menu)
 //        return true

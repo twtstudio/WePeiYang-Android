@@ -59,7 +59,7 @@ class SearchActivity : AppCompatActivity(), BookProvide.setBook {
         val tv: android.support.v7.widget.SearchView.SearchAutoComplete = searchView.findViewById(R.id.search_src_text)
         tv.setHintTextColor(Color.parseColor("#973d6a"))
         searchView.onActionViewExpanded()
-        searchView.queryHint = "输入书名或学号"
+        searchView.queryHint = "输入书名"
         toolbar.setNavigationOnClickListener { onBackPressed() }
         toolbar.setNavigationOnClickListener {
             hideInputKeyboard()

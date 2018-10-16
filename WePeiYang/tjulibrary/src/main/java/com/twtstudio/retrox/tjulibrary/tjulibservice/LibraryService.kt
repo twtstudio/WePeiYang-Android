@@ -1,12 +1,17 @@
 package com.twtstudio.retrox.tjulibrary.tjulibservice
 
 import com.twt.wepeiyang.commons.experimental.network.CommonBody
+import com.twt.wepeiyang.commons.experimental.network.CoroutineCallAdapterFactory
 import com.twt.wepeiyang.commons.experimental.network.ServiceFactory
 import com.twtstudio.retrox.tjulibrary.provider.Info
 import com.twtstudio.retrox.tjulibrary.provider.RenewResult
 import kotlinx.coroutines.experimental.Deferred
+import retrofit2.Retrofit
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
+import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface LibraryApi {
     @GET("v1/library/book/getBookImg/{id}")
@@ -19,16 +24,16 @@ interface LibraryApi {
     fun getSearch(@Path("key") key : String,@Path("page") page : Int) : Deferred<SearchData>
 
     @GET("v1/library/book/getTotalBorrow/{id}")
-    fun getTotalNum(@Path("id") id: Int) : Deferred<TotalNum>
+    fun getTotalNum(@Path("id") id: String) : Deferred<TotalNum>
 
     @GET("v1/library/book/{index}")
-    fun getBook(@Path("index") index: Int) : Deferred<Book>
+    fun getBook(@Path("index") index: String) : Deferred<Book>
 
     @GET("v1/library/user/info")
     fun getUser() : Deferred<CommonBody<Info>>
 
     @GET("v1/library/book/getISBN/{id}")
-    fun getISBN(@Path("id") id: Int): Deferred<IsbnNumber>
+    fun getISBN(@Path("id") id: String): Deferred<IsbnNumber>
 
     @GET("v1/library/renew/{barcode}")
     fun renewBook(@Path("barcode") barcode: String): Deferred<CommonBody<List<RenewResult>>>
@@ -43,6 +48,26 @@ interface DoubanApi {
     fun getBookContent(@Path ("id") id : String): Deferred<BookContent>
 
     companion object : DoubanApi by DoubanFactory()
+}
+
+
+object ImgFactory {
+    val retrofit : Retrofit = Retrofit.Builder()
+            .baseUrl("http://47.95.216.239:5678/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+            .addCallAdapterFactory(CoroutineCallAdapterFactory())
+            .build()
+
+    inline operator fun <reified T> invoke(): T = retrofit.create(T::class.java)
+}
+
+
+interface ImgApi {
+    @GET("getImgs.php")
+    fun getImgUrl(@Query ("isbns") isbns : String) : Deferred<List<imgSrc>>
+
+    companion object  : ImgApi by ImgFactory()
 }
 
 
@@ -92,12 +117,15 @@ data class Book(
 
 data class Datax(
     val id: String,
+    val isbn: String,
     val title: String,
+    val price: String,
     val authorPrimary: List<String>,
     val authorSecondary: List<Any>,
     val publisher: String,
     val place: String,
     val year: String,
+    val summary: String,
     val topic: List<String>,
     val cover: String,
     val holding: List<Holding>
@@ -183,4 +211,19 @@ data class SearchBook(
         var bookpublish : String,
         var number : String
 )
+
+data class imgSrc(
+    val result: List<Result>
+)
+
+data class Result(
+    val metaResID: Any,
+    val isbn: String,
+    val coverlink: String,
+    val handleTime: Long,
+    val fromRes: Any,
+    val status: Int
+)
+
+
 
