@@ -27,7 +27,7 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var inputMethodManager: InputMethodManager
     private lateinit var searchView: SearchView
     private lateinit var toolbar: Toolbar
-    private lateinit var popupWindow: ListPopupWindow
+    private lateinit var popupWindow: ListPopupWindow//搜索历史记录的弹窗
     private lateinit var lostFragment: SearchFragment
     private lateinit var foundFragment: SearchFragment
     private lateinit var search_pager_vp: ViewPager
@@ -43,6 +43,9 @@ class SearchActivity : AppCompatActivity() {
     var page = 1
     var campus: Int = 1
     private var time = 5
+    private var isClosing = false//当activity销毁的时候，popupwindow不弹出来
+    private var canshow = false
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -94,10 +97,11 @@ class SearchActivity : AppCompatActivity() {
         }
 
         searchView.setOnQueryTextFocusChangeListener { view, b ->
-            if (b){
+            if (b && canshow) {
                 val view = searchView
-                showListPopupWindow(view, db)//初始化弹窗
+                showListPopupWindow(view, db)//'初始化弹窗
                 popupWindow.show()
+
             }
         }
 
@@ -154,6 +158,11 @@ class SearchActivity : AppCompatActivity() {
         searchView.clearFocus()
     }
 
+    override fun onPause() {
+        super.onPause()
+        isClosing = true
+    }
+
     private fun hideInputKeyboard() {
         inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         if (inputMethodManager != null) {
@@ -171,6 +180,8 @@ class SearchActivity : AppCompatActivity() {
         var cursor = db.query("myTable", null,null,null,null,null,null)//cursor为游标
 
         if (cursor!= null){
+
+            canshow = true
             while (cursor.moveToNext()){
                 val number = cursor.getColumnIndex("content")
                 if(cursor.getString(number) == query){
@@ -196,14 +207,15 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun showListPopupWindow(view :View,db: SQLiteDatabase){
-        var cursor = db.query("myTable", null,null,null,null,null,null)//cursor为游标
+        popupWindow = ListPopupWindow(this)
+        val cursor = db.query("myTable", null, null, null, null, null, null)//cursor为游标
         if (cursor!=null){
-            var historyRecord = cursor.parseList(object: RowParser<String>{
+            val historyRecord = cursor.parseList(object : RowParser<String> {
                 override fun parseRow(columns: Array<Any?>): String {
                     return columns.get(cursor.getColumnIndex("content")) as String
                 }
             }).reversed()
-            popupWindow = ListPopupWindow(this)
+            cursor.close()
             popupWindow.apply {
                 //设置适配器
                 setAdapter(ArrayAdapter<String>(applicationContext, R.layout.lf_popupwindow_item, historyRecord))

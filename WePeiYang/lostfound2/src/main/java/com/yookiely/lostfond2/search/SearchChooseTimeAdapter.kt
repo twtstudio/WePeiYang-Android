@@ -52,6 +52,7 @@ class SearchChooseTimeAdapter(val context: SearchActivity, val selectedItem: Int
                 search_type_grey.visibility = View.VISIBLE
                 chooseTimePopupWindow.dismiss()
 
+
                 when (position) {
                     0 -> context.changeTime(5)
                     else -> context.changeTime(position)
