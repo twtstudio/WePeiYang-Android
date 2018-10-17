@@ -46,7 +46,10 @@ class ScoreItem(val index: Int, val context: Context, val testProblemBean: TestP
             holder.apply {
                 tvProblemTitle?.text = (item.index + 1).toString() + "." + Html.fromHtml(item.testProblemBean.content).toString()
                 tvRightAnswer?.text = "正确答案：${item.resultBean.true_answer}"
-                tvUserAnswer?.text = "你的答案：${item.resultBean.answer}"
+                if (item.resultBean.answer == "")
+                    tvUserAnswer?.text = "未做"
+                else
+                    tvUserAnswer?.text = "你的答案：${item.resultBean.answer}"
                 if (item.resultBean.is_true == 1) tvUserAnswer?.setTextColor(ContextCompat.getColor(item.context, R.color.examTextBlue))
                 else tvUserAnswer?.setTextColor(ContextCompat.getColor(item.context, R.color.examTextRed))
                 rvScoreSelections?.layoutManager = LinearLayoutManager(item.context)

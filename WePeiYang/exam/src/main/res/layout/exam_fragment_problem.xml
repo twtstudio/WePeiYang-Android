@@ -20,8 +20,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="2dp"
-            android:background="@drawable/exam_shape_problem_type"
-            android:textColor="@color/examTextBlue"
+            android:background="@drawable/exam_shape_history_tag"
+            android:textColor="@color/white_color"
             android:textSize="12sp" />
 
         <TextView

@@ -7,6 +7,7 @@ import com.twt.wepeiyang.commons.experimental.network.ServiceFactoryForExam
 import kotlinx.coroutines.experimental.Deferred
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
+import okhttp3.MultipartBody
 import retrofit2.http.*
 import java.io.Serializable
 
@@ -22,6 +23,14 @@ interface ProblemService {
 
     @POST("exercise/getScore/{lesson_id}/{time}")
     fun uploadResult(@Path("lesson_id") lessonID: String, @Path("time") time: String, @Body answerList: List<UpdateResultViewModel>): Deferred<CommonBody<ScoreBean>>
+
+    @Multipart
+    @POST("remember/mark")
+    fun mark(@Part list: MutableList<MultipartBody.Part>): Deferred<CommonBody<Unit>>
+
+    @Multipart
+    @POST("remember/current_course/write")
+    fun write(@Part list: MutableList<MultipartBody.Part>): Deferred<CommonBody<Unit>>
 
     companion object : ProblemService by ServiceFactoryForExam()
 }
@@ -64,6 +73,28 @@ fun getScore(lessonID: String, time: String, answerList: List<UpdateResultViewMo
             }
         }
 
+fun mark(courseID: String, quesType: String, quesID: String, index: String) = launch(UI) {
+    val list = MultipartBody.Builder()
+            .setType(MultipartBody.FORM)
+            .addFormDataPart("course_id", courseID)
+            .addFormDataPart("ques_type", quesType)
+            .addFormDataPart("ques_id", quesID)
+            .addFormDataPart("index", index)
+            .build()
+            .parts()
+    ProblemService.mark(list)
+}
+
+fun write(courseID: String, quesType: String, index: String) = launch(UI) {
+    val list = MultipartBody.Builder()
+            .setType(MultipartBody.FORM)
+            .addFormDataPart("course_id", courseID)
+            .addFormDataPart("ques_type", quesType)
+            .addFormDataPart("index", index)
+            .addFormDataPart("is_write", 1.toString())
+            .build().parts()
+    ProblemService.write(list)
+}
 
 data class ProblemBean(
         val ques_id: Int,

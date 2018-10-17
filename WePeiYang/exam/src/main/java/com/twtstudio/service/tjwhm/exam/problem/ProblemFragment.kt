@@ -1,12 +1,18 @@
 package com.twtstudio.service.tjwhm.exam.problem
 
 import android.annotation.SuppressLint
+import android.content.ClipData
+import android.content.ClipDescription
+import android.content.ClipDescription.MIMETYPE_TEXT_PLAIN
+import android.content.ClipboardManager
+import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.Html
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,6 +28,8 @@ import com.twtstudio.service.tjwhm.exam.user.deleteCollection
 import com.twtstudio.service.tjwhm.exam.user.star.StarActivity
 import es.dmoral.toasty.Toasty
 import okhttp3.MultipartBody
+import android.content.Context.CLIPBOARD_SERVICE
+
 
 class ProblemFragment : Fragment() {
 
@@ -152,6 +160,12 @@ class ProblemFragment : Fragment() {
                         it.message.data!!.apply {
                             tvType.text = this.ques_type.toProblemType()
                             tvTitle.text = Html.fromHtml(this.content)
+                            tvTitle.setOnLongClickListener {
+                                val cmb = context?.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                                cmb.primaryClip = ClipData(ClipDescription("题目", arrayOf(MIMETYPE_TEXT_PLAIN)), ClipData.Item(tvTitle.text))
+                                Toasty.success(tvTitle.context, "已复制到剪贴板").show()
+                                true
+                            }
                             tvAnswer.text = "答案: ${this.answer}"
                             answerFromRemote = this.answer
                             rvSelections.withItems {
@@ -192,6 +206,10 @@ class ProblemFragment : Fragment() {
                                     }
                                 }
                             }
+                            if (fragmentIndex == 0)
+                                mark(course_id, ques_type, ques_id.toString(), 0.toString())
+                            else
+                                mark(course_id, ques_type, ques_id.toString(), fragmentIndex.toString())
                         }
                         changeMode()
 
@@ -414,7 +432,7 @@ class ProblemFragment : Fragment() {
     }
 
     private fun showStoredAnswers() {
-        if (mActivity.userSelectionsForTest[fragmentIndex] != null) {
+        if (mActivity.userSelectionsForTest[fragmentIndex] != null && mActivity.userSelectionsForTest[fragmentIndex]!!.answer != "") {
             multiSelectionAnswers = mActivity.userSelectionsForTest[fragmentIndex]!!.answer.multiSelectionIndexToInt()
             val adapter = rvSelections.adapter as ItemAdapter
             val list: MutableList<Item> = adapter.itemManager.itemListSnapshot.toMutableList()

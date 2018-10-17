@@ -122,6 +122,8 @@ class ProblemActivity : AppCompatActivity(), ProblemActivityInterface {
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) = Unit
             override fun onPageSelected(position: Int) {
                 currentFragmentIndex = position
+                if (position > 1 && mode == READ_AND_PRACTICE)
+                    write(lessonID.toString(), problemType.toString(), (currentFragmentIndex - 1).toString())
             }
         })
     }
@@ -192,15 +194,21 @@ class ProblemActivity : AppCompatActivity(), ProblemActivityInterface {
                         testBean = this
                         size = this.question.size
                         repeat(size) {
+                            userSelectionsForTest[it] = UpdateResultViewModel(question[it].ques_id, "", question[it].ques_type)
                             problemIndexData.add(ProblemIndex.NONE)
                             pagerAdapter.add(it, question[it])
                         }
                         this@ProblemActivity.time = time
                         vpProblem.adapter = pagerAdapter
-                        tvUpload.setOnClickListener {
+                        tvUpload.setOnClickListener { it ->
+                            var answered = 0
+                            repeat(size) {
+                                if (userSelectionsForTest[it]?.answer != "")
+                                    answered++
+                            }
                             AlertDialog.Builder(it.context).apply {
                                 title = "提交答案"
-                                setMessage("本次测试共${testBean.question.size}题\n你已完成${userSelectionsForTest.size}题\n" +
+                                setMessage("本次测试共${testBean.question.size}题\n\n你已完成${answered}题\n\n" +
                                         "是否交卷？")
                                 setPositiveButton("交卷") { _, _ -> uploadResult() }
                                 setNegativeButton("取消") { _, _ -> }
@@ -223,19 +231,24 @@ class ProblemActivity : AppCompatActivity(), ProblemActivityInterface {
     fun storeResult(fragmentIndex: Int, updateResultViewModel: UpdateResultViewModel, problemIndex: ProblemIndex, scrollPage: Boolean) {
         userSelectionsForTest[fragmentIndex] = updateResultViewModel
         problemIndexData[fragmentIndex] = problemIndex
-        if (mode == CONTEST && userSelectionsForTest.size == size) {
+        var answered = 0
+        repeat(size) {
+            if (userSelectionsForTest[it]?.answer != "")
+                answered++
+        }
+        if (mode == CONTEST && answered == size - 1) {
             // todo
-        } else if (scrollPage && vpProblem.currentItem < size - 1) {
+        } else if (fragmentIndex < size) {
             vpProblem.setCurrentItem(vpProblem.currentItem + 1, true)
         }
     }
 
     private fun uploadResult() {
-        if (size != userSelectionsForTest.size) {
-            Toasty.info(this@ProblemActivity, "请完成所有题目", Toast.LENGTH_SHORT).show()
-            showProblemIndexPopupWindow(tvUpload.x, tvUpload.y, currentFragmentIndex)
-            return
-        }
+//        if (size != userSelectionsForTest.size) {
+//            Toasty.info(this@ProblemActivity, "请完成所有题目", Toast.LENGTH_SHORT).show()
+//            showProblemIndexPopupWindow(tvUpload.x, tvUpload.y, currentFragmentIndex)
+//            return
+//        }
         val list = mutableListOf<UpdateResultViewModel>()
         repeat(userSelectionsForTest.size) {
             userSelectionsForTest[it]?.let { it1 -> list.add(it1) }
