@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="yp2_colorMainBg">#EEEEEE</color>
+    <color name="yp2_editTextHint">#9be9e9e9</color>
+    <color name="yp2_editText">#ed2c2c2c</color>
+    <color name="yp2_bar">#dea6b1</color>
+</resources>

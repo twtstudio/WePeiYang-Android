@@ -68,10 +68,10 @@ class WePeiYangApp : MultiDexApplication() {
          */
         if (BuildConfig.DEBUG) {
             try {
-                val intent = Intent(this,DebugProxyService::class.java)
+                val intent = Intent(this, DebugProxyService::class.java)
                 startService(intent)
             } catch (e: Exception) {
-                Log.e("DebugServer","DebugApiServer 启动失败")
+                Log.e("DebugServer", "DebugApiServer 启动失败")
                 e.printStackTrace()
             }
         }

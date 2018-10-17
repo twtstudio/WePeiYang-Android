@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.LinearLayout
+import com.tjuwhy.yellowpages2.view.YellowPageActivity
 import com.twt.service.home.user.FragmentActivity
 import com.twt.wepeiyang.commons.ui.rec.HomeItem
 import com.twt.wepeiyang.commons.ui.rec.Item
@@ -42,16 +43,19 @@ class OtherItem : Item {
             }
             val layout = holder.linearLayout as _LinearLayout
             layout.apply {
-                addItem("学生党建", "微北洋党建模块") {
+                addItem("学生党建", "入党进度，一览无遗") {
                     it.context.startActivity<PartyActivity>()
                 }
-                addItem("自行车", "进入自行车功能") {
+                addItem("自行车", "骑行状态，望眼欲穿") {
                     it.context.startActivity<BikeActivity>()
                 }
-                addItem("新闻", "查看天外天新闻") {
+                addItem("新闻", "校内资讯，尽收眼底") {
                     it.context.startActivity<FragmentActivity>("frag" to "News")
                 }
-                addItem("题库","快来刷题吧！"){
+                addItem("黄页", "校内电话，方便惠民"){
+                    it.context.startActivity<YellowPageActivity>()
+                }
+                addItem("题库","沉迷学习，日渐头秃"){
                     it.context.startActivity<ExamHomeActivity>()
                 }
             }

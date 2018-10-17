@@ -13,12 +13,14 @@ import android.view.MenuItem
 import android.widget.Toast
 import com.tencent.bugly.crashreport.CrashReport
 import com.twt.service.R
+import com.twt.service.WePeiYangApp
 import com.twt.service.update.UpdateManager
 import com.twt.wepeiyang.commons.cache.CacheProvider
 import com.twt.wepeiyang.commons.experimental.cache.CacheIndicator.REMOTE
 import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
 import com.twt.wepeiyang.commons.network.RxErrorHandler
 import com.twtstudio.retrox.auth.api.authSelfLiveData
+import com.twtstudio.retrox.auth.view.LoginActivity
 import com.twtstudio.retrox.bike.service.BikeServiceProvider
 import com.twtstudio.retrox.tjulibrary.provider.TjuLibProvider
 import es.dmoral.toasty.Toasty
@@ -37,7 +39,7 @@ class SettingsActivity : CAppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_setting)
 
-        setSupportActionBar(findViewById<Toolbar>(R.id.toolbar))
+        setSupportActionBar(findViewById(R.id.toolbar))
         title = "偏好设置"
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -230,7 +232,7 @@ class SettingsActivity : CAppCompatActivity() {
                                         .unbindTju(CommonPreferences.twtuname)
                                         .subscribeOn(Schedulers.io())
                                         .observeOn(AndroidSchedulers.mainThread())
-                                        .doAfterTerminate({ authSelfLiveData.refresh(REMOTE) })
+                                        .doAfterTerminate { authSelfLiveData.refresh(REMOTE) }
                                         .subscribe(Action1 { Toasty.success(activity, "解绑成功！请重启微北洋", Toast.LENGTH_SHORT).show() }, RxErrorHandler())
                             } else {
                                 Toasty.warning(activity, "你没绑定解绑啥？？？？？\n点击上面按钮进入绑定页面", Toast.LENGTH_SHORT).show()
@@ -249,12 +251,12 @@ class SettingsActivity : CAppCompatActivity() {
                         .setMessage("是否要解绑图书馆")
                         .setPositiveButton("解绑") { dialog, _ ->
                             if (CommonPreferences.isBindLibrary) {
-                                TjuLibProvider(activity).unbindLibrary({
+                                TjuLibProvider(activity).unbindLibrary {
                                     CommonPreferences.isBindLibrary = false
                                     Toasty.success(activity, "解绑成功！请重启微北洋", Toast.LENGTH_SHORT).show()
                                     isBindLib.summary = if (CommonPreferences.isBindLibrary) "已绑定" else "未绑定"
                                     dialog.dismiss()
-                                })
+                                }
                             } else {
                                 Toast.makeText(activity, "你没绑定解绑啥？？？？？\n点击上面按钮进入绑定页面", Toast.LENGTH_SHORT).show()
                             }
@@ -357,18 +359,18 @@ class SettingsActivity : CAppCompatActivity() {
          * @param key 由官网生成的key
          * @return 返回true表示呼起手Q成功，返回fals表示呼起失败
          */
-        fun joinQQGroup(key: String): Boolean {
+        private fun joinQQGroup(key: String): Boolean {
             val intent = Intent()
             intent.data = Uri.parse("mqqopensdkapi://bizAgent/qm/qr?url=http%3A%2F%2Fqm.qq.com%2Fcgi-bin%2Fqm%2Fqr%3Ffrom%3Dapp%26p%3Dandroid%26k%3D$key")
             // 此Flag可根据具体产品需要自定义，如设置，则在加群界面按返回，返回手Q主界面，不设置，按返回会返回到呼起产品界面
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            try {
+            return try {
                 startActivity(intent)
-                return true
+                true
             } catch (e: Exception) {
                 // 未安装手Q或安装的版本不支持
-                Toast.makeText(activity, "未安装手Q或安装的版本不支持", Toast.LENGTH_SHORT).show()
-                return false
+                Toasty.error(activity, "未安装手Q或安装的版本不支持", Toast.LENGTH_SHORT).show()
+                false
             }
 
         }

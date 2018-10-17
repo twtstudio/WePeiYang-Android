@@ -10,4 +10,5 @@ include ':app',
         ':schedule2',
         ':tjulibrary',
         ':tjunet',
-        ':vpbs'
+        ':vpbs',
+        ':yellowpages2'

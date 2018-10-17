@@ -15,7 +15,7 @@ import com.orhanobut.hawk.Hawk;
 import com.orhanobut.logger.Logger;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.twt.service.R;
-import com.twt.service.home.HomeActivity;
+import com.twt.service.home.HomeNewActivity;
 import com.twt.service.schedule2.view.schedule.ScheduleActivity;
 import com.twt.wepeiyang.commons.cache.CacheProvider;
 import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences;
@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 import io.rx_cache.DynamicKey;
 import io.rx_cache.EvictDynamicKey;
@@ -53,7 +54,7 @@ public class ScheduleWidgetProvider extends AppWidgetProvider {
     @Override
     public void onReceive(Context context, Intent intent) {
         super.onReceive(context, intent);
-        if (intent.getAction().equals("com.twt.appwidget.refresh")) {
+        if (Objects.equals(intent.getAction(), "com.twt.appwidget.refresh")) {
             ComponentName name = new ComponentName(context, ScheduleWidgetProvider.class);
             this.onUpdate(context, AppWidgetManager.getInstance(context), AppWidgetManager.getInstance(context).getAppWidgetIds(name));
             Logger.d("widget refresh click!");
@@ -65,12 +66,11 @@ public class ScheduleWidgetProvider extends AppWidgetProvider {
         CourseHelper.setCalendar(CalendarDay.today());
         for (int appWidgetId : appWidgetIds) {
 
-            Intent intent = new Intent(context, HomeActivity.class);
+            Intent intent = new Intent(context, HomeNewActivity.class);
             PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
 
             RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_schedule);
             remoteViews.setOnClickPendingIntent(R.id.widget_framelayout, pendingIntent);
-//            remoteViews.setOnClickPendingIntent(R.id.widget_listview,pendingIntent);
 
             Intent imageClickIntent = new Intent("com.twt.appwidget.refresh");
             PendingIntent imageClickPendingIntent = PendingIntent.getBroadcast(context, 0, imageClickIntent, 0);

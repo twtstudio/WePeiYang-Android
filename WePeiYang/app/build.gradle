@@ -15,8 +15,8 @@ android {
         renderscriptTargetApi 27
         renderscriptSupportModeEnabled true
         applicationId 'com.twt.service'
-        versionCode 29
-        versionName '3.2.9'
+        versionCode 31
+        versionName '3.3.0'
 
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
 
@@ -109,7 +109,7 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-    [':auth', ':bike', ':commons', ':gpa2', ':schedule', ':tjulibrary', ':tjunet', ':party', ':schedule2', ':news2', ':exam'].each {
+    [':auth', ':bike', ':commons', ':gpa2', ':schedule', ':tjulibrary', ':tjunet', ':party', ':schedule2', ':news2', ':exam',':yellowpages2'].each {
         implementation project(it)
     }
 
