@@ -1,10 +1,10 @@
 package com.twt.service.settings
 
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
 
 import com.mukesh.MarkdownView
-import com.twt.service.base.BaseActivity
 
 import java.io.IOException
 
@@ -20,7 +20,7 @@ import okhttp3.Response
  * Created by retrox on 01/04/2017.
  */
 
-class DevTalkActivity : BaseActivity() {
+class DevTalkActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +41,7 @@ class DevTalkActivity : BaseActivity() {
                 Toasty.error(this@DevTalkActivity, "网络错误", Toast.LENGTH_SHORT).show()
             }
 
+            @Throws(IOException::class)
             override fun onResponse(call: Call, response: Response) {
                 this@DevTalkActivity.runOnUiThread {
                     try {

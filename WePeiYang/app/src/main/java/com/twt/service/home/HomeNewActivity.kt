@@ -1,6 +1,7 @@
 package com.twt.service.home
 
 import android.Manifest
+import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
@@ -16,6 +17,7 @@ import com.twt.service.home.other.homeOthers
 import com.twt.service.home.user.FragmentActivity
 import com.twt.service.schedule2.view.home.homeScheduleItem
 import com.twt.service.tjunet.view.homeTjuNetItem
+import com.twt.service.widget.ScheduleWidgetProvider
 import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
 import com.twt.wepeiyang.commons.experimental.extensions.enableLightStatusBarMode
 import com.twt.wepeiyang.commons.ui.rec.withItems
@@ -42,6 +44,10 @@ class HomeNewActivity : CAppCompatActivity() {
             addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
             statusBarColor = Color.WHITE
         }
+        val imageClickIntent = Intent(this@HomeNewActivity, ScheduleWidgetProvider::class.java).apply {
+            setAction("com.twt.appwidget.refresh")
+        }
+        sendBroadcast(imageClickIntent)
         val imageView = findViewById<ImageView>(R.id.iv_toolbar_avatar).apply {
             setOnClickListener {
                 startActivity<FragmentActivity>("frag" to "User")

@@ -55,13 +55,6 @@ class SettingsActivity : CAppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-//    override fun onBackPressed() {
-//        super.onBackPressed()
-//        val intent = Intent(this, HomeActivity::class.java)
-//        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-//        startActivity(intent)
-//    }
-
     class SettingsFragment : PreferenceFragment() {
 
         override fun onCreate(savedInstanceState: Bundle?) {

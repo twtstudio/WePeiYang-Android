@@ -12,6 +12,10 @@ object DuplicateCourseManager {
         duplicateCourses.put(course.classid, course)
     }
 
+    fun clearDuplicateCache() {
+        duplicateCourses.clear()
+    }
+
     fun getDuplicateCourseProvider(): AbsClasstableProvider {
         val classtable = Classtable(courses = duplicateCourses.values.toList(), termStart = termStart)
         val commonClassTable = CommonClassTable(classtable)
