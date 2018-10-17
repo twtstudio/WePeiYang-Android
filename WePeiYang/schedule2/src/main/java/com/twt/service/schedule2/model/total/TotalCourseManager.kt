@@ -8,6 +8,7 @@ import com.twt.service.schedule2.model.CommonClassTable
 import com.twt.service.schedule2.model.MergedClassTableProvider
 import com.twt.service.schedule2.model.audit.AuditCourseManager
 import com.twt.service.schedule2.model.custom.CustomCourseManager
+import com.twt.service.schedule2.model.duplicate.DuplicateCourseManager
 import com.twt.service.schedule2.model.school.TjuCourseApi
 import com.twt.service.schedule2.model.school.refresh
 import com.twt.wepeiyang.commons.experimental.cache.CacheIndicator
@@ -72,10 +73,17 @@ object TotalCourseManager {
                 CustomCourseManager.getCustomClasstableProvider()
             }
 
+            val duplicateCourseProvider = async(CommonPool) {
+                DuplicateCourseManager.clearDuplicateCache()
+                tjuClassTableProvider.await()
+                DuplicateCourseManager.getDuplicateCourseProvider()
+            }
+
             val finalClasstableProvider = MergedClassTableProvider(
                     tjuClassTableProvider.await(),
                     auditClasstableProvider.await(),
-                    customCourseProvider.await()
+                    customCourseProvider.await(),
+                    duplicateCourseProvider.await()
             )
 
             refreshCallback.invoke(RefreshState.Success(CacheIndicator.REMOTE))

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.twt.service">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.twt.service">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <!--允许程序设置内置sd卡的写权限-->
@@ -40,7 +41,8 @@
         android:label="@string/app_name"
         android:largeHeap="true"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning">
 
         <activity
             android:name=".home.HomeNewActivity"
@@ -93,6 +95,8 @@
         <receiver android:name=".widget.ScheduleWidgetProvider" android:label="@string/app_schedule_widget_name">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <intent-filter>
                 <action android:name="com.twt.appwidget.refresh"/>
             </intent-filter>
             <meta-data android:name="android.appwidget.provider"
