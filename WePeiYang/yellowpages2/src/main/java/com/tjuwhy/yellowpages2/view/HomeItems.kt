@@ -16,7 +16,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import com.example.yellowpages2.R
+import com.tjuwhy.yellowpages2.R
 import com.tjuwhy.yellowpages2.service.GroupData
 import com.tjuwhy.yellowpages2.service.SearchBean
 import com.tjuwhy.yellowpages2.service.update

@@ -9,9 +9,9 @@
         android:id="@+id/tv_list_lesson_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="64dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="64dp"
         android:gravity="start"
         android:textColor="@color/examTextBlack"
         android:textSize="16sp"
@@ -56,13 +56,13 @@
         app:layout_constraintTop_toTopOf="@id/tv_enter_practice" />
 
     <View
-        android:layout_marginBottom="8dp"
         android:id="@+id/v_lesson_divider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginEnd="32dp"
         android:layout_marginStart="32dp"
-        android:background="@color/examArrowGrey"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="8dp"
+        android:background="@color/examArrowGrey"
         app:layout_constraintTop_toBottomOf="@id/tv_enter_contest" />
 </android.support.constraint.ConstraintLayout>

@@ -7,7 +7,7 @@ import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.widget.ImageView
 import android.widget.TextView
-import com.example.yellowpages2.R
+import com.tjuwhy.yellowpages2.R
 import com.tjuwhy.yellowpages2.service.Unit1
 import com.tjuwhy.yellowpages2.service.YellowPagePreference
 import com.tjuwhy.yellowpages2.utils.FIRST_INDEX_KEY

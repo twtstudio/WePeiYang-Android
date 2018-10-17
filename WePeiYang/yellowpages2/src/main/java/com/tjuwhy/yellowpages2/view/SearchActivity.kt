@@ -9,7 +9,7 @@ import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.ImageView
-import com.example.yellowpages2.R
+import com.tjuwhy.yellowpages2.R
 import com.tjuwhy.yellowpages2.service.YellowPagePreference
 import com.tjuwhy.yellowpages2.utils.SEARCH_CONTENT_KEY
 import com.twt.wepeiyang.commons.ui.rec.Item

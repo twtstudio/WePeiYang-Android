@@ -9,15 +9,12 @@ import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.view.View
 import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
 import com.twt.wepeiyang.commons.ui.rec.withItems
 import com.twtstudio.service.tjwhm.exam.R
 import com.twtstudio.service.tjwhm.exam.problem.ScoreBean
 import com.twtstudio.service.tjwhm.exam.problem.TestBean
 
 class ScoreActivity : AppCompatActivity() {
-
 
     companion object {
         const val SCORE_BEAN_KEY = "score_view_model_key"

@@ -60,4 +60,3 @@ class SelectionItem(val fragment: ProblemFragment?, val selectionIndex: String, 
 }
 
 fun MutableList<Item>.selectionItem(fragment: ProblemFragment?, selectionIndex: String, selectionContent: String, status: Int) = add(SelectionItem(fragment, selectionIndex, selectionContent, status))
-fun MutableList<Item>.selectionItem(selectionItem: SelectionItem, status: Int) = add(SelectionItem(selectionItem, status))

@@ -9,7 +9,7 @@ android {
     defaultConfig {
         minSdkVersion versions.minSdk
         targetSdkVersion versions.targetSdk
-        buildToolsVersion '28.0.2'
+        buildToolsVersion versions.buildTools
         versionCode 1
         versionName '1.0'
 
@@ -43,6 +43,7 @@ android {
         targetCompatibility 1.8
         sourceCompatibility 1.8
     }
+    buildToolsVersion = '28.0.3'
 }
 
 kotlin {

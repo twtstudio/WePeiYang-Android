@@ -30,7 +30,6 @@
 
     <android.support.design.widget.TabLayout
 
-        app:tabBackground="@null"
         android:id="@+id/tl_home"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -39,15 +38,16 @@
         app:layout_constraintLeft_toLeftOf="@id/tb_home"
         app:layout_constraintRight_toRightOf="@id/tb_home"
         app:layout_constraintTop_toBottomOf="@id/tb_home"
+        app:tabBackground="@null"
         app:tabIndicatorColor="@color/white_color"
         app:tabSelectedTextColor="@color/white_color"
         app:tabTextColor="@color/examTabTextColor" />
 
     <android.support.v4.view.ViewPager
-        android:overScrollMode="never"
         android:id="@+id/vp_home"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:overScrollMode="never"
         app:layout_constraintTop_toBottomOf="@id/tl_home" />
 
 </android.support.constraint.ConstraintLayout>

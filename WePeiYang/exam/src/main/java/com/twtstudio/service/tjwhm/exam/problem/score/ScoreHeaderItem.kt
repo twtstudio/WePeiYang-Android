@@ -9,7 +9,6 @@ import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemController
 import com.twtstudio.service.tjwhm.exam.R
 import com.twtstudio.service.tjwhm.exam.problem.ScoreBean
-import kotlinx.android.synthetic.main.exam_item_score_header.view.*
 import org.jetbrains.anko.layoutInflater
 
 /**
@@ -41,7 +40,7 @@ class ScoreHeaderItem(val scoreBean: ScoreBean) : Item {
     private class ItemViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
         val tvProblemNum: TextView? = itemView?.findViewById(R.id.tv_score_problem_num)
         val tvProblemRadio: TextView? = itemView?.findViewById(R.id.tv_score_problem_radio)
-        val tvTime: TextView? = itemView?.findViewById(R.id.tv_score_time)
+        //        val tvTime: TextView? = itemView?.findViewById(R.id.tv_score_time)
         val tvWrongNum: TextView? = itemView?.findViewById(R.id.tv_score_wrong_num)
     }
 }

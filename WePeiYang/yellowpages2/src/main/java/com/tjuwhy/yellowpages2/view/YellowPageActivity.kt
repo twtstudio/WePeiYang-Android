@@ -11,7 +11,7 @@ import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.widget.ImageView
 import android.widget.Toast
-import com.example.yellowpages2.R
+import com.tjuwhy.yellowpages2.R
 import com.tjuwhy.yellowpages2.service.*
 import com.tjuwhy.yellowpages2.utils.ExpandableHelper
 import com.twt.wepeiyang.commons.experimental.cache.RefreshState

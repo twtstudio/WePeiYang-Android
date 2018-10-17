@@ -1,12 +1,12 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-//apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'com.jakewharton.butterknife'
 apply from: '../maven_push.gradle'
 
 
 android {
     compileSdkVersion versions.compileSdk
+    buildToolsVersion = versions.buildTools
 
     defaultConfig {
         minSdkVersion versions.minSdk

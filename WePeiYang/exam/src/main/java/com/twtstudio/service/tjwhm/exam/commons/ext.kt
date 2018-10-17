@@ -118,7 +118,7 @@ fun List<Int>.isRightWith(answer: List<Int>): Boolean {
     return false
 }
 
-fun Context?.startProblemActivity(mode: Int, lessonID: Int, quesType: Int?, index: Int?): Unit {
+fun Context?.startProblemActivity(mode: Int, lessonID: Int, quesType: Int?, index: Int?) {
     Intent(this, ProblemActivity::class.java).apply {
         putExtra(ProblemActivity.LESSON_ID_KEY, lessonID)
         putExtra(ProblemActivity.MODE_KEY, mode)

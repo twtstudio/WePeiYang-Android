@@ -1,6 +1,7 @@
 package com.twtstudio.service.tjwhm.exam.problem.score
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.content.Context
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
@@ -23,6 +24,9 @@ import com.twtstudio.service.tjwhm.exam.user.star.StarActivity
 import es.dmoral.toasty.Toasty
 import okhttp3.MultipartBody
 import org.jetbrains.anko.layoutInflater
+import android.content.Intent
+import android.net.Uri
+
 
 /**
  * Created by tjwhm@TWTStudio at 9:27 PM,2018/8/7.
@@ -46,6 +50,21 @@ class ScoreItem(val index: Int, val context: Context, val testProblemBean: TestP
             holder.apply {
                 tvProblemTitle?.text = (item.index + 1).toString() + "." + Html.fromHtml(item.testProblemBean.content).toString()
                 tvRightAnswer?.text = "正确答案：${item.resultBean.true_answer}"
+                ivHelp?.setOnClickListener {
+                    AlertDialog.Builder(item.context).apply {
+                        setMessage("答案有误？\n\n是否加群反馈？")
+                        setPositiveButton("加群") { _, _ ->
+                            val qq = "738068756"
+                            val url = "mqqwpa://im/chat?chat_type=group&uin=$qq&version=1"
+                            try {
+                                context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
+                            } catch (e: Exception) {
+                                Toasty.error(context, "加群失败，请确保您已经安装 Tim 或 QQ)")
+                            }
+                        }
+                        setNegativeButton("取消") { _, _ -> }
+                    }.show()
+                }
                 if (item.resultBean.answer == "")
                     tvUserAnswer?.text = "未做"
                 else
@@ -64,7 +83,6 @@ class ScoreItem(val index: Int, val context: Context, val testProblemBean: TestP
                     ivStar?.setImageResource(R.drawable.exam_ic_star_filled)
                 else
                     ivStar?.setImageResource(R.drawable.exam_ic_star_blank)
-
 
 
                 ivStar?.setOnClickListener { _ ->

@@ -12,7 +12,6 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.Html
-import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,7 +27,6 @@ import com.twtstudio.service.tjwhm.exam.user.deleteCollection
 import com.twtstudio.service.tjwhm.exam.user.star.StarActivity
 import es.dmoral.toasty.Toasty
 import okhttp3.MultipartBody
-import android.content.Context.CLIPBOARD_SERVICE
 
 
 class ProblemFragment : Fragment() {
@@ -91,7 +89,7 @@ class ProblemFragment : Fragment() {
     private var clickable = true
     private var fragmentIndex = -1
     private var singleSelectionAnswer = -1
-    private var multiSelectionAnswers: MutableList<Int> = mutableListOf<Int>()
+    private var multiSelectionAnswers: MutableList<Int> = mutableListOf()
 
 
     private lateinit var tvType: TextView
@@ -359,6 +357,7 @@ class ProblemFragment : Fragment() {
         refreshMultiSelectionAnswers()
     }
 
+    @SuppressLint("SetTextI18n")
     private fun onConfirmButtonClick() {
         if (mode == PRACTICE_MODE) {
             clickable = false
@@ -395,14 +394,13 @@ class ProblemFragment : Fragment() {
                 MULTI_CHOICE -> multiSelectionAnswers.toSelectionIndex()
                 else -> "W"
             }
-            val scrollPage = !(mode == PRACTICE_MODE && multiSelectionAnswers != answerFromRemote.multiSelectionIndexToInt())
             val problemIndex: ProblemIndex = if (mode == PRACTICE_MODE) {
                 when (multiSelectionAnswers == answerFromRemote.multiSelectionIndexToInt()) {
                     true -> ProblemIndex.TRUE
                     else -> ProblemIndex.WRONG
                 }
             } else ProblemIndex.TRUE
-            mActivity.storeResult(fragmentIndex, UpdateResultViewModel(problemID, answerString, type), problemIndex, scrollPage)
+            mActivity.storeResult(fragmentIndex, UpdateResultViewModel(problemID, answerString, type), problemIndex)
         }
     }
 
@@ -419,7 +417,7 @@ class ProblemFragment : Fragment() {
                     }
                 }
                 adapter.itemManager.refreshAll(list)
-                mActivity.storeResult(fragmentIndex, UpdateResultViewModel(problemID, singleSelectionAnswer.toSelectionIndex(), type), ProblemIndex.TRUE, true)
+                mActivity.storeResult(fragmentIndex, UpdateResultViewModel(problemID, singleSelectionAnswer.toSelectionIndex(), type), ProblemIndex.TRUE)
             }
             MULTI_CHOICE -> {
                 when (clickId) {

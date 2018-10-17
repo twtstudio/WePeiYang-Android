@@ -28,7 +28,6 @@ class ListActivity : AppCompatActivity() {
         const val PARTY = "2"
         const val POLICY = "1"
         const val ONLINE = "3"
-        const val MORE = "more"
     }
 
     private var statusBarView: View? = null

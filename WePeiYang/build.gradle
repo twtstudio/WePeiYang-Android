@@ -6,7 +6,7 @@ buildscript {
                 minSdk      : 21,
                 targetSdk   : 27,
                 compileSdk  : 27,
-                buildTools  : '28.0.2',
+                buildTools  : '28.0.3',
                 support     : '27.1.1',
                 kotlin      : '1.2.71',
                 anko        : '0.10.4',
@@ -62,7 +62,7 @@ buildscript {
 
     dependencies {
         // noinspection GradleDependency
-        classpath 'com.android.tools.build:gradle:3.2.0'
+        classpath 'com.android.tools.build:gradle:3.2.1'
         classpath "com.jakewharton:butterknife-gradle-plugin:${versions.butterknife}"
         classpath 'org.greenrobot:greendao-gradle-plugin:3.2.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}"

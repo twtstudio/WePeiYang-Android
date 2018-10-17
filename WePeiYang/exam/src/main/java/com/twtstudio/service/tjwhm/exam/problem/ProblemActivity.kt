@@ -1,8 +1,6 @@
 package com.twtstudio.service.tjwhm.exam.problem
 
 import android.app.AlertDialog
-import android.app.DialogFragment
-import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.support.v7.app.AppCompatActivity
@@ -50,7 +48,7 @@ class ProblemActivity : AppCompatActivity(), ProblemActivityInterface {
     var lessonID: Int = 0
     var size: Int = 0
 
-    var continueIndex = 0
+    private var continueIndex = 0
     var time: Int = 0
     var currentFragmentIndex = 0
 
@@ -207,7 +205,6 @@ class ProblemActivity : AppCompatActivity(), ProblemActivityInterface {
                                     answered++
                             }
                             AlertDialog.Builder(it.context).apply {
-                                title = "提交答案"
                                 setMessage("本次测试共${testBean.question.size}题\n\n你已完成${answered}题\n\n" +
                                         "是否交卷？")
                                 setPositiveButton("交卷") { _, _ -> uploadResult() }
@@ -228,7 +225,7 @@ class ProblemActivity : AppCompatActivity(), ProblemActivityInterface {
             problemIndexData[index] = ProblemIndex.WRONG
     }
 
-    fun storeResult(fragmentIndex: Int, updateResultViewModel: UpdateResultViewModel, problemIndex: ProblemIndex, scrollPage: Boolean) {
+    fun storeResult(fragmentIndex: Int, updateResultViewModel: UpdateResultViewModel, problemIndex: ProblemIndex) {
         userSelectionsForTest[fragmentIndex] = updateResultViewModel
         problemIndexData[fragmentIndex] = problemIndex
         var answered = 0
@@ -237,18 +234,18 @@ class ProblemActivity : AppCompatActivity(), ProblemActivityInterface {
                 answered++
         }
         if (mode == CONTEST && answered == size - 1) {
-            // todo
+            AlertDialog.Builder(this@ProblemActivity).apply {
+                setMessage("本次测试共${testBean.question.size}题\n\n你全部完成\n\n" +
+                        "是否交卷？")
+                setPositiveButton("交卷") { _, _ -> uploadResult() }
+                setNegativeButton("取消") { _, _ -> }
+            }.show()
         } else if (fragmentIndex < size) {
             vpProblem.setCurrentItem(vpProblem.currentItem + 1, true)
         }
     }
 
     private fun uploadResult() {
-//        if (size != userSelectionsForTest.size) {
-//            Toasty.info(this@ProblemActivity, "请完成所有题目", Toast.LENGTH_SHORT).show()
-//            showProblemIndexPopupWindow(tvUpload.x, tvUpload.y, currentFragmentIndex)
-//            return
-//        }
         val list = mutableListOf<UpdateResultViewModel>()
         repeat(userSelectionsForTest.size) {
             userSelectionsForTest[it]?.let { it1 -> list.add(it1) }

@@ -31,6 +31,8 @@ import org.jetbrains.anko.layoutInflater
 
 class TypeSelectPopup(mContext: Context, private val startXY: Pair<Float, Float>, private val lessonID: Int, private val showTest: Boolean) : BlurPopupWindow(mContext), LifecycleOwner {
 
+    constructor(context: Context) : this(context, Pair(0.0f, 0.0f), 0, false)
+
     private val lifecycleRegistry = LifecycleRegistry(this)
 
     override fun getLifecycle(): Lifecycle = lifecycleRegistry
@@ -77,7 +79,7 @@ class TypeSelectPopup(mContext: Context, private val startXY: Pair<Float, Float>
         if (!showTest) {
             tvTestTitle.visibility = View.GONE
             tvTestDesc.visibility = View.GONE
-            tvTfEnter.visibility = View.GONE
+            tvTestEnter.visibility = View.GONE
         }
         getLessonInfo(lessonID.toString()) { it ->
             when (it) {

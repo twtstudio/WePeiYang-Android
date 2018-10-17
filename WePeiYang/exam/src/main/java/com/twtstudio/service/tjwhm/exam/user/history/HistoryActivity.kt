@@ -23,7 +23,7 @@ class HistoryActivity : AppCompatActivity() {
 
     private var statusBarView: View? = null
 
-    lateinit var rvHistory: RecyclerView
+    private lateinit var rvHistory: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
