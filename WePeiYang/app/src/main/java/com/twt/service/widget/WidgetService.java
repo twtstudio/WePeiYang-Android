@@ -5,7 +5,6 @@ import android.widget.RemoteViewsService;
 
 import com.orhanobut.hawk.Hawk;
 import com.orhanobut.logger.Logger;
-import com.twtstudio.retrox.schedule.model.ClassTable;
 
 import java.util.ArrayList;
 
