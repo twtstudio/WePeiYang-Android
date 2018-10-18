@@ -66,7 +66,8 @@
                     android:layout_centerInParent="true"
                     android:background="@color/white"
                     android:backgroundTint="@color/white"
-                    android:src="@drawable/lf_types_blue" />
+                    android:src="@drawable/lf_types_blue"
+                    android:layout_marginLeft="10dp" />
             </RelativeLayout>
 
         </LinearLayout>

@@ -24,11 +24,8 @@ class DetailActivity : AppCompatActivity() {
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
         setContentView(R.layout.lf_activity_detail)
         val toolbar: Toolbar = findViewById(R.id.toolbar)
-        setSupportActionBar(toolbar)
-        toolbar.title = "物品详情"
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        toolbar.setNavigationOnClickListener { onBackPressed() }
         val bundle: Bundle = intent.extras
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         val id = bundle.getInt("id")
         val recyclerView: RecyclerView = findViewById(R.id.lf_detail_recycler)
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -40,6 +37,12 @@ class DetailActivity : AppCompatActivity() {
         launch(UI + QuietCoroutineExceptionHandler) {
             val mylist: CommonBody<DetailData> = LostFoundService.getDetailed(id).await()
             if (mylist.error_code == -1) {
+                if (mylist.data!!.type == 1) {
+                    toolbar.title = "    捡到物品"
+                } else {
+                    toolbar.title = "    丢失物品"
+                }
+
                 val mylist1 = mylist.data!!
 
                 recyclerViewImg.withItems{
@@ -92,9 +95,9 @@ class DetailActivity : AppCompatActivity() {
 
                 }
             }
-
-
         }
-
+        setSupportActionBar(toolbar)
+        toolbar.setNavigationOnClickListener { onBackPressed() }
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
     }
 }

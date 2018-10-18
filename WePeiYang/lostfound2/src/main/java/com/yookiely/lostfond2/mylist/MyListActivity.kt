@@ -86,12 +86,14 @@ class MyListActivity : AppCompatActivity() {
             Hawk.put("campus", 1)
             beiyangyuan.textColor = Color.parseColor("#4894d5")
             weijinlu.textColor = Color.parseColor("#656565")
+            popupWindow.dismiss()
         }
         weijinlu.setOnClickListener {
             Hawk.delete("campus")
             Hawk.put("campus", 2)
             weijinlu.textColor = Color.parseColor("#4894d5")
             beiyangyuan.textColor = Color.parseColor("#656565")
+            popupWindow.dismiss()
         }
     }
 

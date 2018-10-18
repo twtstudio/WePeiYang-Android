@@ -96,10 +96,11 @@ class SearchActivity : AppCompatActivity() {
             onDetachedFromWindow()
         }
 
+        searchView.clearFocus()
         searchView.setOnQueryTextFocusChangeListener { view, b ->
+            val view = searchView
+            showListPopupWindow(view, db)//'初始化弹窗
             if (b && canshow) {
-                val view = searchView
-                showListPopupWindow(view, db)//'初始化弹窗
                 popupWindow.show()
 
             }
@@ -155,7 +156,7 @@ class SearchActivity : AppCompatActivity() {
             }
         }
 
-        searchView.clearFocus()
+        //searchView.clearFocus()
     }
 
     override fun onPause() {
@@ -181,7 +182,6 @@ class SearchActivity : AppCompatActivity() {
 
         if (cursor!= null){
 
-            canshow = true
             while (cursor.moveToNext()){
                 val number = cursor.getColumnIndex("content")
                 if(cursor.getString(number) == query){
@@ -210,6 +210,7 @@ class SearchActivity : AppCompatActivity() {
         popupWindow = ListPopupWindow(this)
         val cursor = db.query("myTable", null, null, null, null, null, null)//cursor为游标
         if (cursor!=null){
+            canshow = true
             val historyRecord = cursor.parseList(object : RowParser<String> {
                 override fun parseRow(columns: Array<Any?>): String {
                     return columns.get(cursor.getColumnIndex("content")) as String
