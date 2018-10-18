@@ -25,7 +25,7 @@
                 android:layout_marginStart="12dp"
                 android:maxLines="1"
                 android:text="物品描述"
-                android:textSize="16sp"
+                android:textSize="40px"
                 android:textColor="#333333"
                 android:textStyle="normal" />
 

@@ -12,6 +12,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.example.lostfond2.R
+import com.orhanobut.hawk.Hawk
 import com.yookiely.lostfond2.detail.DetailActivity
 import com.yookiely.lostfond2.service.MyListDataOrSearchBean
 import com.yookiely.lostfond2.service.Utils
@@ -60,11 +61,13 @@ class WaterfallTableAdapter(var waterFallBean: List<MyListDataOrSearchBean>?,
 
         viewHolder.apply {
             waterfall_item_title.text = dataBean.title
-            waterfall_item_location.text = dataBean.place
+            waterfall_item_location.text = Utils.getDetailFilterOfPlace(Hawk.get("campus")) + "-" + dataBean.place
             waterfall_item_thing.text = dataBean.name
             waterfall_item_data.text = dataBean.time
 
             if (lostOrFound == "found") {
+                waterfall_item_recapture.visibility = View.VISIBLE
+                waterfall_item_recapture_place.visibility = View.VISIBLE
                 waterfall_item_recapture_place.text = dataBean.recapture_place
             } else {
                 waterfall_item_recapture.visibility = View.GONE

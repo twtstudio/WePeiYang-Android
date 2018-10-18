@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import com.example.lostfond2.R
+import com.orhanobut.hawk.Hawk
 import com.yookiely.lostfond2.service.MyListDataOrSearchBean
 import kotlinx.android.synthetic.main.lf_fragment_waterfall.*
 
@@ -20,6 +21,7 @@ class WaterfallFragment : Fragment(), WaterfallContract.WaterfallView {
     private val layoutManager = StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
     private var isLoading = false
     private var isRefresh = false
+    private var campus = 0
     var beanList = ArrayList<MyListDataOrSearchBean>()
     var lostOrFound = "lost"
     var type = -1
@@ -44,6 +46,9 @@ class WaterfallFragment : Fragment(), WaterfallContract.WaterfallView {
         val waterfall_recyclerView = view.findViewById<RecyclerView>(R.id.waterfall_recyclerView)
         val waterfall_no_res = view.findViewById<LinearLayout>(R.id.waterfall_no_res)
 
+        if (Hawk.contains("campus")) {
+            campus = Hawk.get("campus")
+        }
         waterfall_recyclerView.layoutManager = layoutManager
         waterfall_no_res.visibility = View.GONE
         val bundle = arguments
@@ -108,9 +113,14 @@ class WaterfallFragment : Fragment(), WaterfallContract.WaterfallView {
 
     override fun onResume() {
         super.onResume()
-        waterfallPresenter.loadWaterfallDataWithCondition(lostOrFound, page, this.type, this.time)
-    }
 
+        if (campus != Hawk.get("campus")) {
+            this.type = -1 //全部物品
+            this.time = 5 // 全部时间
+            campus = Hawk.get("campus")
+            refresh()
+        }
+    }
     private fun refresh() {
         isLoading = true
         isRefresh = true

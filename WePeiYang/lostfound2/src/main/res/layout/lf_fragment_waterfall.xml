@@ -7,15 +7,15 @@
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/waterfall_refresh"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/waterfall_recyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
-            android:layout_marginLeft="12dp" />
-
+            android:layout_marginBottom="24dp" />
 
     </android.support.v4.widget.SwipeRefreshLayout>
 

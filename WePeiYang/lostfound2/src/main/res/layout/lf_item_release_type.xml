@@ -8,11 +8,10 @@
     <android.support.v7.widget.CardView
         android:id="@+id/release_item_cardview"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
+        android:layout_height="80px"
+        android:layout_marginEnd="25dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="1dp"
-        android:layout_marginRight="1dp"
         android:background="#dfdfdf"
         app:cardCornerRadius="4dp"
         app:cardElevation="1dp">
@@ -21,13 +20,14 @@
             android:id="@+id/release_item_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
-            android:layout_marginEnd="8dp"
+            android:layout_gravity="center"
             android:layout_marginStart="8dp"
             android:layout_marginTop="4dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="4dp"
             android:background="#00ffffff"
             android:maxLines="1"
-            android:textSize="45px" />
+            android:textSize="30px" />
 
         <ImageView
             android:id="@+id/release_item_superscript"

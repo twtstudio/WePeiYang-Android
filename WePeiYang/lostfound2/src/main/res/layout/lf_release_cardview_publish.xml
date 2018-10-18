@@ -26,7 +26,7 @@
                 android:maxLines="1"
                 android:text="刊登时长"
                 android:textColor="#333333"
-                android:textSize="16sp"
+                android:textSize="40px"
                 android:textStyle="normal" />
 
 
@@ -35,6 +35,7 @@
                 android:layout_width="104dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:dropDownWidth="104dp"
                 android:theme="@style/SpinnerStyle" />
 
             <TextView

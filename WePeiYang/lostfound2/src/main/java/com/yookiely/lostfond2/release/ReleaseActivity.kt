@@ -54,11 +54,11 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
     private var duration = 1
     private var entranceOfReceivingSite = 1 // 领取站点 入口
     private var roomOfReceivingSite = "1斋" // 领取站点 斋
-    private var selectedItemPosition = 0
+    private var selectedItemPosition: Int = 0
     private var id = 0
     private var releasePresenter: ReleaseContract.ReleasePresenter = ReleasePresenterImpl(this)
     private val layoutManager = StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.HORIZONTAL)
-    private val picRecyclerviewManager = GridLayoutManager(this, 4)
+    private val picRecyclerviewManager = LinearLayoutManager(this)//GridLayoutManager(this, 4)
     private lateinit var releasePicAdapter: ReleasePicadapter
     private var selectedPic: List<Uri> = ArrayList() //get a pic's url
     private lateinit var lostOrFound: String
@@ -116,6 +116,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
 
         selectPicList.add(null) // supply a null list
         releasePicAdapter = ReleasePicadapter(selectPicList, this, this)
+        picRecyclerviewManager.orientation = LinearLayoutManager.HORIZONTAL
         picRecyclerView = findViewById(R.id.release_pic_recyclerview)
         picRecyclerView.apply {
             layoutManager = picRecyclerviewManager
@@ -209,7 +210,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
                 receiving_site_room_spinner.adapter = adapterOfRoom
                 receiving_site_room_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                        roomOfReceivingSite = dataListOfRoom[position].toString()
+                        roomOfReceivingSite = spinnerListOfRoom[position]//dataListOfRoom[position].toString()
                         getListOfEntrance(spinnerListOfEntrance, dataListOfEntrance, dataListOfRoom[position])
 
                         //口的选择
@@ -421,16 +422,20 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
     override fun onTypeItemSelected(position: Int) {
         selectedItemPosition = position
 
+        //
         when (position) {
             0, 1 -> {
+                release_lost_content.visibility = View.VISIBLE
                 release_cardinfo.visibility = View.VISIBLE
                 release_cardinfo_noname.visibility = View.GONE
             }
             9 -> {
+                release_lost_content.visibility = View.VISIBLE
                 release_cardinfo_noname.visibility = View.VISIBLE
                 release_cardinfo.visibility = View.GONE
             }
             else -> {
+                release_lost_content.visibility = View.GONE
                 release_cardinfo_noname.visibility = View.GONE
                 release_cardinfo.visibility = View.GONE
             }
@@ -710,7 +715,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
     }
 
     private fun getPositionOfGarden(i: String): Int = when (i) {
-        "1斋", "2斋", "3斋" -> 0
+        "无", "1斋", "2斋", "3斋" -> 0
         "6斋", "7斋", "8斋" -> 1
         "9斋", "10斋" -> 2
         "11斋", "12斋" -> 3
@@ -719,7 +724,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
     }
 
     private fun getPositionOfRoom(i: String): Int = when (i) {
-        "1斋", "6斋", "9斋", "11斋", "13斋" -> 0
+        "无", "1斋", "6斋", "9斋", "11斋", "13斋" -> 0
         "2斋", "7斋", "10斋", "12斋", "14斋" -> 1
         "3斋", "8斋", "15斋" -> 2
         "16斋" -> 3

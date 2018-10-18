@@ -140,7 +140,6 @@ class WaterFallActivity : AppCompatActivity() {
                     layoutManager = layoutManagerForFilter
                     adapter = WaterfallFilterTableAdapter(this@WaterFallActivity, this@WaterFallActivity, -1)
                 }
-
             }
         }
 

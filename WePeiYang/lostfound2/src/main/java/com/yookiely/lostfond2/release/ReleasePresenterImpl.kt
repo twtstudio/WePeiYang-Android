@@ -1,5 +1,6 @@
 package com.yookiely.lostfond2.release
 
+import android.util.Log
 import com.yookiely.lostfond2.service.LostFoundService
 import com.yookiely.lostfond2.service.MyListDataOrSearchBean
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
@@ -34,7 +35,7 @@ class ReleasePresenterImpl(private var releaseView: ReleaseContract.ReleaseView)
 
             if (lostOrFound == "found") {
                 addFormDataPart("recapture_place", map["recapture_place"].toString())
-                addFormDataPart("recapture_entrance", map["recapture_enterance"].toString())
+                addFormDataPart("recapture_entrance", map["recapture_entrance"].toString())
             }
         }
         val parts: List<MultipartBody.Part> = builder.build().parts()

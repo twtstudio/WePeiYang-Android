@@ -89,7 +89,7 @@ class ReleasePicadapter(val list: ArrayList<Any?>,
         list[currentPosition] = pic
         notifyItemChanged(currentPosition)
         notifyDataSetChanged()
-        if (currentPosition == (list.size - 1) && list.size < 9) {
+        if (currentPosition == (list.size - 1) && list.size < 5) {
             addPic()
         }
     }
