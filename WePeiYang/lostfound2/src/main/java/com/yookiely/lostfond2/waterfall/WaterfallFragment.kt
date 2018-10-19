@@ -114,7 +114,7 @@ class WaterfallFragment : Fragment(), WaterfallContract.WaterfallView {
     override fun onResume() {
         super.onResume()
 
-        if (campus != Hawk.get("campus")) {
+        if (Hawk.get<Int>("campus") != null && campus != Hawk.get("campus")) {
             this.type = -1 //全部物品
             this.time = 5 // 全部时间
             campus = Hawk.get("campus")

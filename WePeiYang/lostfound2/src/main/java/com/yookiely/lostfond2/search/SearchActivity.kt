@@ -1,5 +1,6 @@
 package com.yookiely.lostfond2.search
 
+import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
@@ -98,11 +99,9 @@ class SearchActivity : AppCompatActivity() {
 
         searchView.clearFocus()
         searchView.setOnQueryTextFocusChangeListener { view, b ->
-            val view = searchView
-            showListPopupWindow(view, db)//'初始化弹窗
             if (b && canshow) {
+                showListPopupWindow(view, db)//'初始化弹窗
                 popupWindow.show()
-
             }
         }
 
@@ -167,8 +166,7 @@ class SearchActivity : AppCompatActivity() {
     private fun hideInputKeyboard() {
         inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         if (inputMethodManager != null) {
-            val v = this@SearchActivity.currentFocus
-            if (v == null) return
+            val v = this@SearchActivity.currentFocus ?: return
             inputMethodManager.hideSoftInputFromWindow(v.windowToken,
                     InputMethodManager.HIDE_NOT_ALWAYS)
             searchView.clearFocus()
@@ -176,12 +174,13 @@ class SearchActivity : AppCompatActivity() {
 
     }
 
-    private fun database(query:String,db:SQLiteDatabase){
+    @SuppressLint("Recycle")
+    private fun database(query: String, db: SQLiteDatabase) {
         //对搜索历史的数据库处理
         var cursor = db.query("myTable", null,null,null,null,null,null)//cursor为游标
 
         if (cursor!= null){
-
+            canshow = true
             while (cursor.moveToNext()){
                 val number = cursor.getColumnIndex("content")
                 if(cursor.getString(number) == query){
@@ -195,6 +194,9 @@ class SearchActivity : AppCompatActivity() {
         //times为存入的数据条数
         db.insert("myTable",null ,values) //插入数据
         cursor = db.query("myTable", null,null,null,null,null,null)//cursor为游标
+        if (cursor != null) {
+            canshow = true
+        }
         val times = cursor.count
 
         if(times>5){
@@ -213,7 +215,7 @@ class SearchActivity : AppCompatActivity() {
             canshow = true
             val historyRecord = cursor.parseList(object : RowParser<String> {
                 override fun parseRow(columns: Array<Any?>): String {
-                    return columns.get(cursor.getColumnIndex("content")) as String
+                    return columns[cursor.getColumnIndex("content")] as String
                 }
             }).reversed()
             cursor.close()
@@ -223,7 +225,7 @@ class SearchActivity : AppCompatActivity() {
                 anchorView = view
                 width = 855
                 isModal = false//内部封装的是focused，设置成false才能是popupwindow不自动获取焦点
-                setOnItemClickListener { parent, view, position, id ->
+                setOnItemClickListener { _, _, position, _ ->
                     searchView.setQuery(historyRecord[position],true)
                 }
                 setDropDownGravity(Gravity.START)
