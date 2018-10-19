@@ -15,8 +15,8 @@ android {
         renderscriptTargetApi 27
         renderscriptSupportModeEnabled true
         applicationId 'com.twt.service'
-        versionCode 33
-        versionName '3.3.2'
+        versionCode 34
+        versionName '3.3.3'
 
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
 
@@ -113,7 +113,7 @@ dependencies {
         implementation project(it)
     }
 
-    [*supportLibraries, 'constraint-layout', 'multidex', *archLibraries, 'kotlin-stdlib', 'butterknife', 'anko', 'fragmentation'].each {
+    [*supportLibraries, 'constraint-layout', 'multidex', *archLibraries, 'kotlin-stdlib', 'butterknife', 'anko'].each {
         implementation dependenciesMap[it]
     }
     ['lifecycle-compiler', 'butterknife-compiler'].each {
