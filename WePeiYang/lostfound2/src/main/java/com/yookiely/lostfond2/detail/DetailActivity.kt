@@ -38,9 +38,9 @@ class DetailActivity : AppCompatActivity() {
             val mylist: CommonBody<DetailData> = LostFoundService.getDetailed(id).await()
             if (mylist.error_code == -1) {
                 if (mylist.data!!.type == 1) {
-                    toolbar.title = "    捡到物品"
+                    toolbar.title = "   捡到物品"
                 } else {
-                    toolbar.title = "    丢失物品"
+                    toolbar.title = "   丢失物品"
                 }
 
                 val mylist1 = mylist.data!!
@@ -59,39 +59,53 @@ class DetailActivity : AppCompatActivity() {
 
                     setTitle("基本信息")
                     if (mylist1.title != null) {
-                        setDetail("标题", mylist1.title)
+                        setDetail("标题", mylist1.title, false)
                     }
                     if (mylist1.type != null) {
-                        setDetail("类型", Utils.getType(mylist1.detail_type))
+                        setDetail("类型", Utils.getType(mylist1.detail_type), false)
                     }
                     if (mylist1.time != null) {
-                        setDetail("时间", mylist1.time)
+                        setDetail("时间", mylist1.time, false)
                     }
                     if (mylist1.place != null) {
-                        setDetail("地点", mylist1.place)
+                        setDetail("地点", mylist1.place, false)
                     }
                     if (mylist1.card_name != "null" &&  mylist1.card_name != null) {
-                        setDetail("失主姓名", mylist1.card_name)
+                        setDetail("失主姓名", mylist1.card_name, false)
+                    } else {
+                        if (Utils.getType(mylist1.detail_type) == "饭卡") {
+                            setDetail("失主姓名", "无", false)
+                        }
                     }
                     if (mylist1.card_number != "0" && mylist1.card_number != null  ) {
-                        setDetail("卡号", mylist1.card_number)
+                        setDetail("卡号", mylist1.card_number, false)
+                    } else {
+                        if (Utils.getType(mylist1.detail_type) == "饭卡") {
+                            setDetail("卡号", "无", false)
+                        }
                     }
                     if (mylist1.recapture_place != null) {
-                        setDetail("领取站点", mylist1.recapture_place+Utils.getExit(mylist1.recapture_entrance))
+                        setDetail("领取站点", mylist1.recapture_place + Utils.getExit(mylist1.recapture_entrance), true)
+                    } else {
+                        setDetail("领取站点", "无", true)
                     }
+
                     setTitle("联系信息")
                     if (mylist1.name != null) {
-                        setDetail("姓名", mylist1.name)
+                        setDetail("姓名", mylist1.name, false)
                     }
                     if (mylist1.phone != null) {
-                        setDetail("电话", mylist1.phone)
+                        setDetail("电话", mylist1.phone, true)
                     }
 
 
                     setTitle("附加信息")
                     if (mylist1.item_description != null ) {
                         setOther("附言", mylist1.item_description)
+                    } else {
+                        setOther("附言", "无")
                     }
+                    setTitle("")
 
                 }
             }

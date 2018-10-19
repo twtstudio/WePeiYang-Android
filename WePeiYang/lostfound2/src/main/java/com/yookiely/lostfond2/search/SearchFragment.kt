@@ -122,7 +122,7 @@ class SearchFragment : Fragment(), SearchContract.SearchUIView {
                 if (lostOrFound == "found" && temp.type == 1) {
                     databean.add(temp)
                 } else {
-                    if (temp.type == 0) {
+                    if (temp.type == 0 && lostOrFound == "lost") {
                         databean.add(temp)
                     }
                 }

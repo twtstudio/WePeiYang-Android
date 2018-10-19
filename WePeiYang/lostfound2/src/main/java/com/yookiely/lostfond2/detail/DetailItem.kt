@@ -9,7 +9,7 @@ import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemController
 import org.jetbrains.anko.layoutInflater
 
-class DetailItem(val text1 : String,val text2 :String) : Item {
+class DetailItem(val text1: String, val text2: String, val isLast: Boolean) : Item {
 
     private companion object  Controller: ItemController {
         override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
@@ -24,6 +24,11 @@ class DetailItem(val text1 : String,val text2 :String) : Item {
 
             holder.title.text = item.text1
             holder.content.text = item.text2
+            if (item.isLast) {
+                holder.spilit.visibility = View.GONE
+            } else {
+                holder.spilit.visibility = View.VISIBLE
+            }
         }
 
     }
@@ -31,6 +36,7 @@ class DetailItem(val text1 : String,val text2 :String) : Item {
     private class DetailItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val title : TextView = itemView.findViewById(R.id.detail_title)
         val content : TextView = itemView.findViewById(R.id.detail_detail)
+        val spilit: TextView = itemView.findViewById(R.id.detail_spilit)
     }
 
 
@@ -38,4 +44,4 @@ class DetailItem(val text1 : String,val text2 :String) : Item {
         get() = DetailItem
 }
 
-fun MutableList<Item>.setDetail(text1 : String,text2: String) = add(DetailItem(text1,text2))
+fun MutableList<Item>.setDetail(text1: String, text2: String, isLast: Boolean) = add(DetailItem(text1, text2, isLast))

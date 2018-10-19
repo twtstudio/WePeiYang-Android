@@ -84,7 +84,7 @@ class SearchActivity : AppCompatActivity() {
 
         val tv: SearchView.SearchAutoComplete = searchView.findViewById(R.id.search_src_text)
         tv.setTextColor(Color.WHITE)
-        tv.setHintTextColor(Color.WHITE)
+        tv.setHintTextColor(Color.parseColor("#2b6790"))
         searchView.onActionViewExpanded()
         searchView.queryHint = "输入卡号/地点/物件名称"
         //searchView.setIconifiedByDefault(false)
