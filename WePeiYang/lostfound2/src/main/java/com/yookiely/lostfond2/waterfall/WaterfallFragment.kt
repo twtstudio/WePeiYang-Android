@@ -122,7 +122,6 @@ class WaterfallFragment : Fragment(), WaterfallContract.WaterfallView {
                 refresh()
             }
         }
-
     }
     private fun refresh() {
         isLoading = true
