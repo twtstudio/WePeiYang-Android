@@ -8,13 +8,12 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:orientation="vertical">
 
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="130px"
             android:orientation="horizontal">
 
             <TextView
@@ -50,14 +49,11 @@
             android:layout_height="2dp"
             android:layout_marginEnd="6dp"
             android:layout_marginStart="6dp"
-            android:layout_marginTop="8dp"
             android:background="@color/backgroundGrey" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginTop="4dp"
+            android:layout_height="130px"
             android:focusable="true"
             android:focusableInTouchMode="true">
 
@@ -68,6 +64,7 @@
                 android:maxLines="1"
                 android:text="卡号"
                 android:textSize="40px"
+                android:layout_gravity="center"
                 android:textColor="#333333"
                 android:textStyle="normal" />
 

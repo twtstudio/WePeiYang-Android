@@ -354,13 +354,13 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         }
 
         release_title.setText(detailData.title)
-        release_title.setSelection(detailData.title.length)
+        release_title.setSelection(detailData.title!!.length)
         release_time.setText(detailData.time)
         release_place.setText(detailData.place)
         release_phone.setText(detailData.phone)
         release_contact_name.setText(detailData.name)
         release_remark.setText(detailData.item_description)
-        receiving_site_garden_spinner.setSelection(getPositionOfGarden(detailData.recapture_place))
+        receiving_site_garden_spinner.setSelection(getPositionOfGarden(detailData.recapture_place!!))
         receiving_site_room_spinner.setSelection(getPositionOfRoom(detailData.recapture_place))
         receiving_site_entrance_spinner.setSelection(getPositionOfEntrance(detailData.recapture_entrance))
         //campus_spinner.setSelection(detailData.campus.toInt() - 1)

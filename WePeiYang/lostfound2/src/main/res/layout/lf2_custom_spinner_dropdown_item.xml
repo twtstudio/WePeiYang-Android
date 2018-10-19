@@ -8,6 +8,6 @@
     android:ellipsize="marquee"
     android:singleLine="true"
     android:textAlignment="inherit"
-    android:gravity="center"
+    android:gravity="center_vertical|left"
     android:textColor="#9A9A9A"
-    android:textSize="14sp" />
+    android:textSize="30px" />

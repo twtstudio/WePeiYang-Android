@@ -18,6 +18,8 @@ class WaterfallTypeTableAdapter(private val waterfallActivity: WaterFallActivity
     class WaterFallTypeTableViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         val waterfallTypeItem = itemView.findViewById<TextView>(R.id.waterfall_type_item)
+        val waterfallTypeLine = itemView.findViewById<TextView>(R.id.waterfall_type_line)
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -33,6 +35,9 @@ class WaterfallTypeTableAdapter(private val waterfallActivity: WaterFallActivity
             typeface = Typeface.DEFAULT
         }
 
+        if (position == itemCount - 1) {
+            holder.waterfallTypeLine.visibility = View.GONE
+        }
         if (position == selectedItem - 1) {
             viewHolder.waterfallTypeItem.typeface = Typeface.defaultFromStyle(Typeface.BOLD)
         }

@@ -1,5 +1,6 @@
 package com.yookiely.lostfond2.waterfall
 
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
@@ -63,6 +64,8 @@ class WaterFallActivity : AppCompatActivity() {
                     .setNegativeButton("北洋园") { _, _ -> Hawk.put("campus", 1) }
                     .create()
             dialog.show()
+
+
             // 通过反射改变message颜色
             try {
                 val mAlert: Field = AlertDialog::class.java.getDeclaredField("mAlert")
@@ -72,6 +75,8 @@ class WaterFallActivity : AppCompatActivity() {
                 mMessage.isAccessible = true
                 val mMessageView = mMessage.get(mAlertController) as TextView
                 mMessageView.setTextColor(Color.parseColor("#999999"))
+//                dialog.getButton(AlertDialog.BUTTON_POSITIVE).textSize = mMessageView.textSize
+//                dialog.getButton(DialogInterface.BUTTON_NEGATIVE).textSize = mMessageView.textSize
             } catch (e: IllegalAccessException) {
                 e.printStackTrace()
             } catch (e: NoSuchFieldException) {

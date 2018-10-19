@@ -7,6 +7,7 @@
     android:ellipsize="marquee"
     android:singleLine="true"
     android:textAlignment="inherit"
+    android:padding="0dp"
     android:textColor="#9A9A9A"
     android:gravity="center"
-    android:textSize="14sp" />
+    android:textSize="30px" />

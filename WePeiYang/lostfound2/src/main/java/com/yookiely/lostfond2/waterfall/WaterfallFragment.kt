@@ -56,6 +56,7 @@ class WaterfallFragment : Fragment(), WaterfallContract.WaterfallView {
         tableAdapter = WaterfallTableAdapter(beanList, this.activity!!, lostOrFound)
         waterfall_recyclerView.adapter = tableAdapter
         waterfall_refresh.setOnRefreshListener(this::refresh)
+        waterfallPresenter.loadWaterfallDataWithCondition(lostOrFound, page, -1, 5)// 加载布局
 
         waterfall_recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
@@ -113,13 +114,15 @@ class WaterfallFragment : Fragment(), WaterfallContract.WaterfallView {
 
     override fun onResume() {
         super.onResume()
-
-        if (campus != Hawk.get("campus")) {
-            this.type = -1 //全部物品
-            this.time = 5 // 全部时间
-            campus = Hawk.get("campus")
-            refresh()
+        if (Hawk.contains("campus")) {
+            if (campus != Hawk.get("campus")) {
+                this.type = -1 //全部物品
+                this.time = 5 // 全部时间
+                campus = Hawk.get("campus")
+                refresh()
+            }
         }
+
     }
     private fun refresh() {
         isLoading = true

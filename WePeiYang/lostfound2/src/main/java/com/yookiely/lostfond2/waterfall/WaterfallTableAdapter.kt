@@ -23,11 +23,11 @@ class WaterfallTableAdapter(var waterFallBean: List<MyListDataOrSearchBean>?,
 
     class WaterfallViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        val waterfall_item_pic = itemView.findViewById<ImageView>(R.id.lost_pic)
-        val waterfall_item_thing = itemView.findViewById<TextView>(R.id.thing_content)
-        val waterfall_item_data = itemView.findViewById<TextView>(R.id.data_content)//data其实是date
-        val waterfall_item_location = itemView.findViewById<TextView>(R.id.location_content)
-        val waterfall_item_title = itemView.findViewById<TextView>(R.id.title_content)
+        val waterfallItemPic = itemView.findViewById<ImageView>(R.id.lost_pic)
+        val waterfallItemThing = itemView.findViewById<TextView>(R.id.thing_content)
+        val waterfallItemData = itemView.findViewById<TextView>(R.id.data_content)//data其实是date
+        val waterfallItemLocation = itemView.findViewById<TextView>(R.id.location_content)
+        val waterfallItemTitle = itemView.findViewById<TextView>(R.id.title_content)
         val waterfall_item_recapture_place = itemView.findViewById<TextView>(R.id.recapture_place)
         val waterfall_item_recapture = itemView.findViewById<ImageView>(R.id.recapture)
     }
@@ -49,21 +49,21 @@ class WaterfallTableAdapter(var waterFallBean: List<MyListDataOrSearchBean>?,
             Glide.with(context)
                     .load(Utils.getPicUrl("julao.jpg"))
                     .placeholder(R.drawable.lf_detail_np)
-                    .into(viewHolder.waterfall_item_pic)
+                    .into(viewHolder.waterfallItemPic)
         } else {
             val piclist: List<String> = dataBean.picture.split(",")
             Glide.with(context)
                     .load(Utils.getPicUrl(piclist[0]))
                     .asBitmap()
                     .placeholder(R.drawable.lf_waterfall_nopic)
-                    .into(viewHolder.waterfall_item_pic)
+                    .into(viewHolder.waterfallItemPic)
         }
 
         viewHolder.apply {
-            waterfall_item_title.text = dataBean.title
-            waterfall_item_location.text = Utils.getDetailFilterOfPlace(Hawk.get("campus")) + "-" + dataBean.place
-            waterfall_item_thing.text = dataBean.name
-            waterfall_item_data.text = dataBean.time
+            waterfallItemTitle.text = dataBean.title
+            waterfallItemLocation.text = Utils.getDetailFilterOfPlace(Hawk.get("campus")) + "-" + dataBean.place
+            waterfallItemThing.text = dataBean.name
+            waterfallItemData.text = dataBean.time
 
             if (lostOrFound == "found") {
                 waterfall_item_recapture.visibility = View.VISIBLE
