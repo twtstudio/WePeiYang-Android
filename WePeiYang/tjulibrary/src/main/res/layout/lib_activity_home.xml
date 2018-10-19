@@ -9,7 +9,7 @@
 
 
         <include
-            layout="@layout/lb_common_toolbar"
+            layout="@layout/lib_common_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 

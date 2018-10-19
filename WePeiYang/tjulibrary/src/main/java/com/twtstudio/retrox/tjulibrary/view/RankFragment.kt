@@ -87,8 +87,8 @@ class RankFragment : Fragment() {
             }
 
             recyclerView.withItems {
-                for ((p, i) in rankList.withIndex()) {
-                    setRankItem(i.bookID, "233", i.bookName, i.borrowNum, i.publisher, this@RankFragment, p + 1, false)
+                rankList.forEachIndexed { index, rankList ->
+                    setRankItem(rankList.bookID, "233", rankList.bookName, rankList.borrowNum, rankList.publisher, this@RankFragment, index + 1, false)
                 }
             }
         }

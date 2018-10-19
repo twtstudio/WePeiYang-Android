@@ -9,12 +9,9 @@ import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemController
-import com.twt.wepeiyang.commons.ui.view.ColorCircleView
 import com.twtstudio.retrox.tjulibrary.R
-import com.twtstudio.retrox.tjulibrary.home.BookItem
 import com.twtstudio.retrox.tjulibrary.provider.Book
-import kotlinx.android.synthetic.main.item_library_book_new.view.*
-import kotlinx.android.synthetic.main.lb_home_cardview_detail.view.*
+import kotlinx.android.synthetic.main.lib_home_cardview_detail.view.*
 import org.jetbrains.anko.layoutInflater
 
 class HomeBookItem(val book : Book, val  context1 : Activity) : Item {
@@ -37,7 +34,7 @@ class HomeBookItem(val book : Book, val  context1 : Activity) : Item {
         }
 
         override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
-            val view = parent.context.layoutInflater.inflate(R.layout.lb_home_cardview_detail, parent, false)
+            val view = parent.context.layoutInflater.inflate(R.layout.lib_home_cardview_detail, parent, false)
             return HomeBookItemViewHolder(view, view.home_image, view.home_bookname, view.detail_writer, view.detail_publish, view.borrow, view.detail_left)
         }
 

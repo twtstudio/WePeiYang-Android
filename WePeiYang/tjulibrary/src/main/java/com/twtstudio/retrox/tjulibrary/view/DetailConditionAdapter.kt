@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.twtstudio.retrox.tjulibrary.R
 import com.twtstudio.retrox.tjulibrary.tjulibservice.Holding
-import kotlinx.android.synthetic.main.lb_book_condition.view.*
 import org.jetbrains.anko.textColor
 
 class DetailConditionAdapter(val list : List<Holding>, val context : Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -20,7 +19,7 @@ class DetailConditionAdapter(val list : List<Holding>, val context : Context) : 
         val bookState = view.findViewById<TextView>(R.id.book_state)
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val view = LayoutInflater.from(context).inflate(R.layout.lb_book_condition, parent, false)
+        val view = LayoutInflater.from(context).inflate(R.layout.lib_book_condition, parent, false)
 
         return ViewHolder(view)
     }

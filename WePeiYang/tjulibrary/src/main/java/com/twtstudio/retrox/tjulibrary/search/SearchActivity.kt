@@ -38,7 +38,7 @@ class SearchActivity : AppCompatActivity(), BookProvide.setBook {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE)//隐藏actionbar，需在setContentView前面
-        setContentView(R.layout.activity_search)
+        setContentView(R.layout.lib_activity_search)
         var toolbar = findViewById<Toolbar>(R.id.search_toolbar).also {
             it.setBackgroundColor(Color.parseColor("#e78fae"))
 

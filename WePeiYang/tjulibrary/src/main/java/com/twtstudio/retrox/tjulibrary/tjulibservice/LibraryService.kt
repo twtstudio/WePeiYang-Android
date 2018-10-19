@@ -125,7 +125,7 @@ data class Datax(
     val publisher: String,
     val place: String,
     val year: String,
-    val summary: String,
+    val summary: String?,
     val topic: List<String>,
     val cover: String,
     val holding: List<Holding>

@@ -47,7 +47,7 @@ class BookFragment : Fragment() {
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        val view : View = inflater.inflate(R.layout.lb_home_cardview_detail,container,false)
+        val view : View = inflater.inflate(R.layout.lib_home_cardview_detail,container,false)
         var bundle = arguments
         bookpublish = bundle!!.getString("book_publish")
         bookimg = bundle.getString("book_img")

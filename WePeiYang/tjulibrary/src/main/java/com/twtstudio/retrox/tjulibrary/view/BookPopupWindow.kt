@@ -28,7 +28,6 @@ import org.jetbrains.anko.layoutInflater
 @SuppressLint("ViewConstructor")
 class BookPopupWindow(val book: Book, mContext: Context) : BlurPopupWindow(mContext), LifecycleOwner {
     private val lifecycleRegistry = LifecycleRegistry(this)
-
     override fun getLifecycle(): Lifecycle = lifecycleRegistry
     lateinit var view: View
     override fun createContentView(parent: ViewGroup): View = parent.context.layoutInflater
