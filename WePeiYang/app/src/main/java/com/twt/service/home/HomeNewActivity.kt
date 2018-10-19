@@ -13,6 +13,8 @@ import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.twt.service.AppPreferences
 import com.twt.service.R
+import com.twt.service.home.message.MessagePreferences
+import com.twt.service.home.message.homeMessageItem
 import com.twt.service.home.other.homeOthers
 import com.twt.service.home.user.FragmentActivity
 import com.twt.service.schedule2.view.home.homeScheduleItem
@@ -20,6 +22,8 @@ import com.twt.service.tjunet.view.homeTjuNetItem
 import com.twt.service.widget.ScheduleWidgetProvider
 import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
 import com.twt.wepeiyang.commons.experimental.extensions.enableLightStatusBarMode
+import com.twt.wepeiyang.commons.ui.rec.ItemAdapter
+import com.twt.wepeiyang.commons.ui.rec.ItemManager
 import com.twt.wepeiyang.commons.ui.rec.withItems
 import com.twt.wepeiyang.commons.view.RecyclerViewDivider
 import com.twtstudio.retrox.auth.api.authSelfLiveData
@@ -28,11 +32,11 @@ import io.multimoon.colorful.CAppCompatActivity
 import org.jetbrains.anko.dip
 import org.jetbrains.anko.startActivity
 import pub.devrel.easypermissions.EasyPermissions
-import xyz.rickygao.gpa2.view.gpaHomeItem
 import xyz.rickygao.gpa2.view.gpaNewHomeItem
 
 
 class HomeNewActivity : CAppCompatActivity() {
+    lateinit var itemManager: ItemManager
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,13 +60,17 @@ class HomeNewActivity : CAppCompatActivity() {
         authSelfLiveData.bindNonNull(this) {
             Glide.with(this).load(it.avatar).into(imageView)
         }
-
         val rec = findViewById<RecyclerView>(R.id.rec_main)
+        itemManager = ItemManager()
+        rec.adapter = ItemAdapter(itemManager)
         rec.apply {
             layoutManager = LinearLayoutManager(this.context)
             addItemDecoration(RecyclerViewDivider.Builder(this@HomeNewActivity).setSize(4f).setColor(Color.TRANSPARENT).build())
         }
         rec.withItems {
+            if (MessagePreferences.isDisplayMessage) {
+                homeMessageItem()
+            }
             homeScheduleItem(this@HomeNewActivity)
             if (AppPreferences.isDisplayGpa) {
                 gpaNewHomeItem(this@HomeNewActivity)
