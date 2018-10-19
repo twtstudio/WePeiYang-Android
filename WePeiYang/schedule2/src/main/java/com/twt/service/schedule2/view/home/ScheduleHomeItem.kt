@@ -35,8 +35,13 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class ScheduleHomeItem(val lifecycleOwner: LifecycleOwner) : Item {
+    override fun areItemsTheSame(newItem: Item): Boolean = true
+
+    override fun areContentsTheSame(newItem: Item) = true
+
     companion object Controller : ItemController {
         override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
+
             val homeItem = HomeItem(parent)
             val view = parent.context.linearLayout {
                 orientation = LinearLayout.HORIZONTAL

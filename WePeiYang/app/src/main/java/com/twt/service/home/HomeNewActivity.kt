@@ -22,8 +22,6 @@ import com.twt.service.tjunet.view.homeTjuNetItem
 import com.twt.service.widget.ScheduleWidgetProvider
 import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
 import com.twt.wepeiyang.commons.experimental.extensions.enableLightStatusBarMode
-import com.twt.wepeiyang.commons.ui.rec.ItemAdapter
-import com.twt.wepeiyang.commons.ui.rec.ItemManager
 import com.twt.wepeiyang.commons.ui.rec.withItems
 import com.twt.wepeiyang.commons.view.RecyclerViewDivider
 import com.twtstudio.retrox.auth.api.authSelfLiveData
@@ -36,7 +34,6 @@ import xyz.rickygao.gpa2.view.gpaNewHomeItem
 
 
 class HomeNewActivity : CAppCompatActivity() {
-    lateinit var itemManager: ItemManager
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,13 +58,12 @@ class HomeNewActivity : CAppCompatActivity() {
             Glide.with(this).load(it.avatar).into(imageView)
         }
         val rec = findViewById<RecyclerView>(R.id.rec_main)
-        itemManager = ItemManager()
-        rec.adapter = ItemAdapter(itemManager)
         rec.apply {
             layoutManager = LinearLayoutManager(this.context)
             addItemDecoration(RecyclerViewDivider.Builder(this@HomeNewActivity).setSize(4f).setColor(Color.TRANSPARENT).build())
         }
         rec.withItems {
+            //重写了各个item的areItemsTheSame areContentsTheSame实现动画刷新主页
             if (MessagePreferences.isDisplayMessage) {
                 homeMessageItem()
             }

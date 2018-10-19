@@ -39,12 +39,12 @@ class MessageItem : Item {
                 if (messageBean.error_code == -1) {
                     Log.d("messagedetail", messageBean.toString())
                     //通过新的网请和本地的isdisplayMessage判断来实现Message是否显示
-                    if(!MessagePreferences.isDisplayMessage && MessagePreferences.messageTitle != messageBean.data!!.title){
+                    if (!MessagePreferences.isDisplayMessage && MessagePreferences.messageTitle != messageBean.data!!.title) {
                         MessagePreferences.isDisplayMessage = true
                     }
                     //获取item的内容
-                        MessagePreferences.messageTitle = messageBean.data!!.title
-                        MessagePreferences.messageContent = messageBean.data!!.message
+                    MessagePreferences.messageTitle = messageBean.data!!.title
+                    MessagePreferences.messageContent = messageBean.data!!.message
                 }
             }
             holder.homeItem.apply {
@@ -54,16 +54,17 @@ class MessageItem : Item {
             val message = MessagePreferences.messageContent
             val layout = holder.linearLayout as _LinearLayout
             layout.apply {
-                addItem(title, message){
-                    ((((holder.itemView).parent) as? RecyclerView)?.adapter as? ItemAdapter)?.remove(item) //实现回掉：获取homeItem的adapter进行对主页item的移除和添加item
+                addItem(title, message) {
+                    val itemManager = ((((holder.itemView).parent) as? RecyclerView)?.adapter as? ItemAdapter)?.itemManager
+                    itemManager?.refreshAll(itemManager.filterNot { it is MessageItem }) //实现回掉：获取homeItem的itemManager并调用其refreshall进行对主页item增添删除的刷新
                 }
             }
         }
 
         private class ViewHolder(itemView: View?, val homeItem: HomeItem, val linearLayout: LinearLayout) : RecyclerView.ViewHolder(itemView)
 
-
-        fun _LinearLayout.addItem(title: String, message: String,callBack:()->Unit={}) {
+        //给添加的item添加回掉实现拓展点击事件
+        private fun _LinearLayout.addItem(title: String, message: String, callBack: () -> Unit = {}) {
             verticalLayout {
                 textView {
                     text = title
@@ -85,8 +86,8 @@ class MessageItem : Item {
                     textColor = Color.parseColor("#00A1E9")
                     typeface = Typeface.defaultFromStyle(Typeface.BOLD)
                     bottomPadding = 10
-                    setOnClickListener{
-                        MessagePreferences.isDisplayMessage=false
+                    setOnClickListener {
+                        MessagePreferences.isDisplayMessage = false
                         callBack()
                     }
                 }.lparams(wrapContent, wrapContent)

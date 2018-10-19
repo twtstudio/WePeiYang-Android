@@ -27,6 +27,8 @@ import xyz.rickygao.gpa2.service.Term
  * Created by asus on 2018/5/13.
  */
 class GpaItem(val owner: LifecycleOwner) : Item {
+    override fun areItemsTheSame(newItem: Item) = true
+    override fun areContentsTheSame(newItem: Item) = true
 
     private companion object Controller : ItemController {
         override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {

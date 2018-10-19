@@ -17,6 +17,10 @@ import com.twtstudio.tjliqy.party.ui.home.PartyActivity
 import org.jetbrains.anko.*
 
 class OtherItem : Item {
+    override fun areItemsTheSame(newItem: Item) = true
+
+    override fun areContentsTheSame(newItem: Item) = true
+
     companion object Controller : ItemController {
         override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
             val homeItem = HomeItem(parent)
@@ -42,6 +46,7 @@ class OtherItem : Item {
             }
             val layout = holder.linearLayout as _LinearLayout
             layout.apply {
+                removeAllViews()
                 addItem("学生党建", "入党进度，一览无遗") {
                     it.context.startActivity<PartyActivity>()
                 }
@@ -51,7 +56,7 @@ class OtherItem : Item {
                 addItem("新闻", "校内资讯，尽收眼底") {
                     it.context.startActivity<FragmentActivity>("frag" to "News")
                 }
-                addItem("黄页", "校内电话，方便惠民"){
+                addItem("黄页", "校内电话，方便惠民") {
                     it.context.startActivity<YellowPageActivity>()
                 }
             }
@@ -87,7 +92,6 @@ class OtherItem : Item {
 
     override val controller: ItemController
         get() = Controller
-
 }
 
 fun MutableList<Item>.homeOthers() = add(OtherItem())
