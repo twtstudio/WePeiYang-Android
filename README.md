@@ -2,7 +2,7 @@
 
 目录
 
-```java
+```
 微北洋开发白皮书
 │
 ├── 开发指南
@@ -40,13 +40,13 @@
 
 `app` 模块为 application，其余模块以 library 的形式 (体现在各模块的 build.gradle 文件中第一行 `apply plugin` 的不同) 给 `app` 模块留出入口，以插拔的方式应用在微北洋里。
 
-####应用依赖关系
+#### 应用依赖关系
 
 多个模块需要使用的依赖放在 `commons` 模块里，使用 api 关键字添加依赖，以暴露给其他模块。
 
 `app` 模块依赖包括 `commons` 模块在内的其他所有模块，其他模块依赖  `commons` 模块，以获取应用内框架的依赖和公共依赖。
 
-####应用内框架
+#### 应用内框架
 
 应用内框架集中在 `commons` 模块中
 
@@ -180,8 +180,8 @@
     fun getClassTable(): Deferred<CommonBody<Classtable>>
   
     companion object : TjuCourseApi by ServiceFactory() // 伴生对象实现单例
-}
-TjuCourseApi.getClassTable() // 就可以调用
+    }
+    TjuCourseApi.getClassTable() // 就可以调用
     ```
 
 推荐使用第二种，对应的源码在`com/twt/wepeiyang/commons/experimental/network/ServiceFactory.kt`，如果你想要看懂这些的话，你需要学`Retrofit`,`Kotlin 代理`,`invoke() 运算符重载`
@@ -330,7 +330,7 @@ TjuCourseApi.getClassTable() // 就可以调用
   - [构建 RecyclerViewDSL](https://www.kotliner.cn/2018/06/recyclerviewdsl/)
   - [DSL in Action](https://www.kotliner.cn/2018/04/dsl-in-action/)
 
-###开发规范
+### 开发规范
 
 #### 架构
 
@@ -406,7 +406,7 @@ Schedule2
 16 directories, 44 files
 ```
 
-####依赖规范
+#### 依赖规范
 - 不在特别需要的时候，不建议随意使用第三方框架。
 
 - 不在特别需要的时候，不适用注解处理器框架，实在需要的话，找组长评估后考虑批准/或被diss。
