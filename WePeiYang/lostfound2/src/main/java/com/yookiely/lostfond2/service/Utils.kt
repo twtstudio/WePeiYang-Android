@@ -40,7 +40,6 @@ class Utils {
 
         fun getPicUrl(addUrl: String) = "http://open.twtstudio.com/$addUrl"
 
-
         fun noPicForDetail() = "http://open.twtstudio.com/uploads/17-07-12/945139dcd91e9ed3d5967ef7f81e18f6.jpg"
 
         fun getExit(i : Int) = when (i) {
@@ -50,5 +49,4 @@ class Utils {
             else -> ""
         }
     }
-
 }

@@ -13,16 +13,16 @@ import com.bumptech.glide.Glide
 import com.example.lostfond2.R
 import com.yookiely.lostfond2.service.PermissionsUtils
 import com.yookiely.lostfond2.service.Utils
-import kotlinx.android.synthetic.main.dialog_detail_pic.view.*
 
 //上传多图的recyclerview的adapter
-class ReleasePicadapter(val list: ArrayList<Any?>,
-                        val releaseActivity: ReleaseActivity, val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ReleasePicAdapter(val list: ArrayList<Any?>,
+                        val releaseActivity: ReleaseActivity,
+                        val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var currentPosition = 0
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val release_pic = view.findViewById<ImageView>(R.id.release_cardview_pic)
+        val releasePic = view.findViewById<ImageView>(R.id.release_cardview_pic)!!
 
     }
 
@@ -51,21 +51,21 @@ class ReleasePicadapter(val list: ArrayList<Any?>,
             }
         }
 
-        if (list[position] != null) {
+        if (list.size > position && list[position] != null) {
             if (list[position] is String) {
                 Glide.with(context)
                         .load(Utils.getPicUrl(list[position] as String))
-                        .into(holder.release_pic)
+                        .into(holder.releasePic)
             } else if (list[position] is Uri) {
                 Glide.with(context)
                         .load(list[position] as Uri)
-                        .into(holder.release_pic)
+                        .into(holder.releasePic)
             }
         } else {
             Glide.with(context)
                     .load(Utils.getPicUrl("julao.jpg"))
                     .placeholder(R.drawable.lf_choose_pic)
-                    .into(holder.release_pic)
+                    .into(holder.releasePic)
         }
     }
 

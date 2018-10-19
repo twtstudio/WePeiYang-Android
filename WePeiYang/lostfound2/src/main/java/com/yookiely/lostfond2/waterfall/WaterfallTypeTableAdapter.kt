@@ -15,6 +15,8 @@ class WaterfallTypeTableAdapter(private val waterfallActivity: WaterFallActivity
                                 val context: Context,
                                 private val selectedItem: Int) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
+    private var lastSelectedItem: Int? = null
+
     class WaterFallTypeTableViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         val waterfallTypeItem = itemView.findViewById<TextView>(R.id.waterfall_type_item)
@@ -45,8 +47,8 @@ class WaterfallTypeTableAdapter(private val waterfallActivity: WaterFallActivity
         viewHolder.itemView.setOnClickListener {
             waterfallActivity.apply {
                 setWaterfallType(position + 1)
-                waterfall_type_blue.visibility = View.GONE
-                waterfall_type_grey.visibility = View.VISIBLE
+                viewHolder.waterfallTypeItem.typeface = Typeface.defaultFromStyle(Typeface.BOLD)
+
                 window.dismiss()
             }
         }

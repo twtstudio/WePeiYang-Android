@@ -7,6 +7,7 @@ import java.io.File
 interface ReleaseContract {
 
     interface ReleaseView {
+
         fun successCallBack(beanList: List<MyListDataOrSearchBean>)
 
         fun setEditData(detailData: DetailData)
@@ -16,18 +17,15 @@ interface ReleaseContract {
         fun drawRecyclerView(position: Int)
 
         fun onTypeItemSelected(position: Int)
-
     }
 
     interface ReleasePresenter {
-
 
         fun uploadReleaseData(map: Map<String, Any>, lostOrFound: String)
 
         fun uploadReleaseDataWithPic(map: Map<String, Any>, lostOrFound: String, arrayOfFile: ArrayList<File?>)
 
         fun successCallBack(beanList: List<MyListDataOrSearchBean>)
-
 
         fun successEditCallback(beanList: List<MyListDataOrSearchBean>)
 

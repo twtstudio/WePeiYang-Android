@@ -95,8 +95,6 @@ data class InverseID(
 
 
 data class MyListDataOrSearchBean(
-
-
         val id: Int,
         val type: Int,
         val name: String,

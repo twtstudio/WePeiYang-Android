@@ -17,16 +17,18 @@ import kotlinx.android.synthetic.main.lf_fragment_waterfall.*
 
 class WaterfallFragment : Fragment(), WaterfallContract.WaterfallView {
 
+    private val ALL_TYPE = -1
+    private val ALL_TIME = 5
     private lateinit var tableAdapter: WaterfallTableAdapter
     private val layoutManager = StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
     private var isLoading = false
     private var isRefresh = false
     private var campus = 0
-    var beanList = ArrayList<MyListDataOrSearchBean>()
-    var lostOrFound = "lost"
-    var type = -1
-    var page = 1
-    var time = 5
+    private var beanList = ArrayList<MyListDataOrSearchBean>()
+    private var lostOrFound = "lost"
+    private var type = ALL_TYPE
+    private var page = 1
+    private var time = ALL_TIME
     private val waterfallPresenter = WaterfallPresenterImpl(this)
 
     companion object {
@@ -42,23 +44,24 @@ class WaterfallFragment : Fragment(), WaterfallContract.WaterfallView {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.lf_fragment_waterfall, container, false)
-        val waterfall_refresh = view.findViewById<SwipeRefreshLayout>(R.id.waterfall_refresh)
-        val waterfall_recyclerView = view.findViewById<RecyclerView>(R.id.waterfall_recyclerView)
-        val waterfall_no_res = view.findViewById<LinearLayout>(R.id.waterfall_no_res)
+        val waterfallRefresh = view.findViewById<SwipeRefreshLayout>(R.id.waterfall_refresh)
+        val waterfallRecyclerView = view.findViewById<RecyclerView>(R.id.waterfall_recyclerView)
+        val waterfallNoRes = view.findViewById<LinearLayout>(R.id.waterfall_no_res)
 
         if (Hawk.contains("campus")) {
             campus = Hawk.get("campus")
         }
-        waterfall_recyclerView.layoutManager = layoutManager
-        waterfall_no_res.visibility = View.GONE
+
+        waterfallRecyclerView.layoutManager = layoutManager
+        waterfallNoRes.visibility = View.GONE
         val bundle = arguments
         lostOrFound = bundle!!.getString("index")
         tableAdapter = WaterfallTableAdapter(beanList, this.activity!!, lostOrFound)
-        waterfall_recyclerView.adapter = tableAdapter
-        waterfall_refresh.setOnRefreshListener(this::refresh)
-        waterfallPresenter.loadWaterfallDataWithCondition(lostOrFound, page, -1, 5)// 加载布局
+        waterfallRecyclerView.adapter = tableAdapter
+        waterfallRefresh.setOnRefreshListener(this::refresh)
+        loadWaterfallDataWithCondition(ALL_TYPE, ALL_TIME)// 加载布局
 
-        waterfall_recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        waterfallRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 val totalCount = layoutManager.itemCount
@@ -69,9 +72,8 @@ class WaterfallFragment : Fragment(), WaterfallContract.WaterfallView {
                 if (!isLoading && (totalCount < lastPosition!! + 2) && lastPosition != -1) {
                     page++
                     isLoading = true
-
                     waterfallPresenter.apply {
-                        if (type == -1) {
+                        if (type == ALL_TYPE) {
                             loadWaterfallData(lostOrFound, page, time)
                         } else {
                             loadWaterfallDataWithCondition(lostOrFound, page, type, time)
@@ -84,9 +86,9 @@ class WaterfallFragment : Fragment(), WaterfallContract.WaterfallView {
         return view
     }
 
-    override fun setWaterfallData(newBeanList: List<MyListDataOrSearchBean>) {
+    override fun setWaterfallData(waterfallBean: List<MyListDataOrSearchBean>) {
         waterfall_no_res.apply {
-            visibility = if (newBeanList.isEmpty() && page == 1) {
+            visibility = if (waterfallBean.isEmpty() && page == 1) {
                 View.VISIBLE
             } else {
                 View.GONE
@@ -96,7 +98,7 @@ class WaterfallFragment : Fragment(), WaterfallContract.WaterfallView {
                 beanList.clear()
             }
 
-            beanList.addAll(newBeanList)
+            beanList.addAll(waterfallBean)
             tableAdapter.notifyDataSetChanged()
             waterfall_refresh.isRefreshing = false
             isLoading = false
@@ -114,15 +116,17 @@ class WaterfallFragment : Fragment(), WaterfallContract.WaterfallView {
 
     override fun onResume() {
         super.onResume()
+
         if (Hawk.contains("campus")) {
             if (campus != Hawk.get("campus")) {
-                this.type = -1 //全部物品
-                this.time = 5 // 全部时间
+                this.type = ALL_TYPE //全部物品
+                this.time = ALL_TIME // 全部时间
                 campus = Hawk.get("campus")
                 refresh()
             }
         }
     }
+
     private fun refresh() {
         isLoading = true
         isRefresh = true

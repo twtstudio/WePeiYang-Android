@@ -22,14 +22,13 @@ class WaterfallTableAdapter(var waterFallBean: List<MyListDataOrSearchBean>?,
                             var lostOrFound: String) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     class WaterfallViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
-        val waterfallItemPic = itemView.findViewById<ImageView>(R.id.lost_pic)
-        val waterfallItemThing = itemView.findViewById<TextView>(R.id.thing_content)
-        val waterfallItemData = itemView.findViewById<TextView>(R.id.data_content)//data其实是date
-        val waterfallItemLocation = itemView.findViewById<TextView>(R.id.location_content)
-        val waterfallItemTitle = itemView.findViewById<TextView>(R.id.title_content)
-        val waterfall_item_recapture_place = itemView.findViewById<TextView>(R.id.recapture_place)
-        val waterfall_item_recapture = itemView.findViewById<ImageView>(R.id.recapture)
+        val waterfallItemPic = itemView.findViewById<ImageView>(R.id.lost_pic)!!
+        val waterfallItemThing = itemView.findViewById<TextView>(R.id.thing_content)!!
+        val waterfallItemData = itemView.findViewById<TextView>(R.id.data_content)!!//data其实是date
+        val waterfallItemLocation = itemView.findViewById<TextView>(R.id.location_content)!!
+        val waterfallItemTitle = itemView.findViewById<TextView>(R.id.title_content)!!
+        val waterfallItemRecapturePlace = itemView.findViewById<TextView>(R.id.recapture_place)!!
+        val waterfallItemRecaptureImage = itemView.findViewById<ImageView>(R.id.recapture)!!
     }
 
 
@@ -66,12 +65,12 @@ class WaterfallTableAdapter(var waterFallBean: List<MyListDataOrSearchBean>?,
             waterfallItemData.text = dataBean.time
 
             if (lostOrFound == "found") {
-                waterfall_item_recapture.visibility = View.VISIBLE
-                waterfall_item_recapture_place.visibility = View.VISIBLE
-                waterfall_item_recapture_place.text = dataBean.recapture_place
+                waterfallItemRecaptureImage.visibility = View.VISIBLE
+                waterfallItemRecapturePlace.visibility = View.VISIBLE
+                waterfallItemRecapturePlace.text = dataBean.recapture_place
             } else {
-                waterfall_item_recapture.visibility = View.GONE
-                waterfall_item_recapture_place.visibility = View.GONE
+                waterfallItemRecaptureImage.visibility = View.GONE
+                waterfallItemRecapturePlace.visibility = View.GONE
             }
         }
         viewHolder.itemView.setOnClickListener { view -> startDetailActivity(dataBean.id) }
