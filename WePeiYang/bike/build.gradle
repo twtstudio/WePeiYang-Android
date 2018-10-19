@@ -17,9 +17,6 @@ android {
 
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
 
-//        ndk {
-//            abiFilters 'armeabi'
-//        }
     }
 
     buildTypes {
@@ -39,7 +36,6 @@ android {
         targetCompatibility 1.8
         sourceCompatibility 1.8
     }
-    buildToolsVersion '27.0.3'
 }
 
 dependencies {
