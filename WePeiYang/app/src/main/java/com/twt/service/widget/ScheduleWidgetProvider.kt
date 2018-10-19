@@ -12,9 +12,9 @@ import com.orhanobut.hawk.Hawk
 import com.orhanobut.logger.Logger
 import com.twt.service.R
 import com.twt.service.home.HomeNewActivity
+import com.twt.service.schedule2.model.Course
 import com.twt.service.schedule2.model.total.TotalCourseManager
 import com.twt.service.schedule2.view.schedule.ScheduleActivity
-import com.twtstudio.retrox.schedule.TimeHelper
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -31,7 +31,7 @@ class ScheduleWidgetProvider : AppWidgetProvider() {
             val time = Calendar.getInstance().time.let { dateFormate.format(it) }
             stringBuilder.append(time)
             stringBuilder.append("  ")
-            val s = "星期" + TimeHelper.getChineseCharacter(getTodayNumber())
+            val s = "星期" + getChineseCharacter(getTodayNumber())
             stringBuilder.append(s)
             return stringBuilder.toString()
         }
@@ -44,6 +44,12 @@ class ScheduleWidgetProvider : AppWidgetProvider() {
         } else {
             day - 1
         }
+    }
+
+    private fun getChineseCharacter(num: Int): String {
+        val cDay = arrayOf("零", "一", "二", "三", "四", "五", "六", "日")
+        return cDay[num]
+
     }
 
     override fun onReceive(context: Context, intent: Intent) {
@@ -78,7 +84,7 @@ class ScheduleWidgetProvider : AppWidgetProvider() {
         }
     }
 
-    private fun setupList(context: Context, appWidgetId: Int, remoteViews: RemoteViews, list: ArrayList<*>) {
+    private fun setupList(context: Context, appWidgetId: Int, remoteViews: RemoteViews, list: List<Course>) {
         val serviceIntent = Intent(context, WidgetService::class.java)
 
         serviceIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
@@ -108,7 +114,7 @@ class ScheduleWidgetProvider : AppWidgetProvider() {
                 }.sortedBy {
                     course -> course.arrange.getOrNull(0)?.start ?: 100 //如果越界或者没有就给他个100
                 }
-                setupList(context, appWidgetId, remoteViews, courses as ArrayList<*>)
+                setupList(context, appWidgetId, remoteViews, courses)
             } catch (e: Exception) {
                 e.printStackTrace()
             }

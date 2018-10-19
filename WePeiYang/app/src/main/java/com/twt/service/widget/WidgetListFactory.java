@@ -7,11 +7,8 @@ import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
 import com.orhanobut.hawk.Hawk;
-import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.twt.service.schedule2.model.Arrange;
 import com.twt.service.schedule2.model.Course;
-import com.twtstudio.retrox.schedule.model.ClassTable;
-import com.twtstudio.retrox.schedule.model.CourseHelper;
 import com.twt.service.R;
 
 import java.util.ArrayList;
@@ -26,8 +23,6 @@ public class WidgetListFactory implements RemoteViewsService.RemoteViewsFactory 
 
     private Context mContext;
     private List<Course> courseList;
-    private final CourseHelper helper = new CourseHelper();
-
     public WidgetListFactory(Context mContext, List<Course> courses) {
         this.mContext = mContext;
         courseList = courses;
@@ -35,8 +30,6 @@ public class WidgetListFactory implements RemoteViewsService.RemoteViewsFactory 
 
     @Override
     public void onCreate() {
-//        getData(false);
-        CourseHelper.setCalendar(CalendarDay.today());
 //        if (courseList.size() == 0) {
 //            ClassTable.Data.Course course = new ClassTable.Data.Course();
 //            course.coursename = "今天没课！！！";

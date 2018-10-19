@@ -54,10 +54,6 @@
             android:name="com.amap.api.v2.apikey"
             android:value="d2d29ff7e7bef685451725cc52f2683f"/>
 
-        <activity
-            android:name=".home.HomeActivity"
-            android:launchMode="singleTop" />
-
         <activity android:name=".settings.SettingsActivity" android:theme="@style/AppThemeActionBar"/>
 
         <activity android:name=".settings.BindActivity" />
