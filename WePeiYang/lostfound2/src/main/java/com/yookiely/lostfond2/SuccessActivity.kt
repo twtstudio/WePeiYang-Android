@@ -8,6 +8,6 @@ class SuccessActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_success)
+        setContentView(R.layout.lf2_activity_success)
     }
 }

@@ -11,7 +11,7 @@ class LostFoundActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_lost_found)
+        setContentView(R.layout.lf2_activity_lost_found)
         this.supportActionBar?.hide()
     }
 }

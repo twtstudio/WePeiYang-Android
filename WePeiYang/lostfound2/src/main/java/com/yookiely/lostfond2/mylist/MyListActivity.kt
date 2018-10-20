@@ -27,7 +27,7 @@ class MyListActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
-        setContentView(R.layout.activity_my_list)
+        setContentView(R.layout.lf2_activity_my_list)
         var toolbar: Toolbar = findViewById(R.id.mylist_toolbar)
         setSupportActionBar(toolbar)
         toolbar.title = "我的"

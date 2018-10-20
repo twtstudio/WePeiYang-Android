@@ -25,7 +25,7 @@ class SearchPresenterImpl(val searchUIView: SearchContract.SearchUIView) : Searc
                         }
                     }
                 }
-            } catch (e: Exception) {
+            } catch (e: Throwable) {
                 val searchBean = emptyList<MyListDataOrSearchBean>()
                 setWaterfallData(searchBean)
             }

@@ -3,6 +3,7 @@ package com.yookiely.lostfond2.search
 import android.support.v4.app.Fragment
 import android.os.Bundle
 import android.support.v4.widget.SwipeRefreshLayout
+import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.StaggeredGridLayoutManager
@@ -17,7 +18,7 @@ import kotlinx.android.synthetic.main.lf_fragment_waterfall.*
 
 class SearchFragment : Fragment(), SearchContract.SearchUIView {
     private lateinit var tableAdapter: WaterfallTableAdapter
-    private val layoutManager = StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
+    private val layoutManager = GridLayoutManager(activity, 2)
     private var isLoading = false
     private var isRefresh = false
     var beanList = ArrayList<MyListDataOrSearchBean>()
@@ -71,11 +72,9 @@ class SearchFragment : Fragment(), SearchContract.SearchUIView {
             override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 val totalCount = layoutManager.itemCount
-                var lastPositions: IntArray = IntArray(layoutManager.spanCount)
-                layoutManager.findLastCompletelyVisibleItemPositions(lastPositions)
-                val lastPosition = lastPositions.max()
+                val lastPositions = layoutManager.findLastCompletelyVisibleItemPosition()
 
-                if (!isLoading && (totalCount < lastPosition!! + 2) && lastPosition != -1) {
+                if (!isLoading && (totalCount == lastPositions + 1)) {
                     page++
                     isLoading = true
 
