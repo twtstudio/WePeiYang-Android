@@ -15,7 +15,7 @@
         <activity android:name="com.yookiely.lostfond2.search.SearchActivity" />
         <activity android:name="com.yookiely.lostfond2.SuccessActivity" />
         <activity android:name="com.yookiely.lostfond2.release.ReleaseActivity" />
-        <activity android:name="com.yookiely.lostfond2.waterfall.WaterFallActivity"></activity>
+        <activity android:name="com.yookiely.lostfond2.waterfall.WaterfallActivity"></activity>
     </application>
 
 </manifest>

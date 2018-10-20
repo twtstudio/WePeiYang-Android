@@ -9,9 +9,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.example.lostfond2.R
 import com.yookiely.lostfond2.service.Utils
-import kotlinx.android.synthetic.main.activity_water_fall.*
 
-class WaterfallTypeTableAdapter(private val waterfallActivity: WaterFallActivity,
+class WaterfallTypeTableAdapter(private val waterfallActivity: WaterfallActivity,
                                 val context: Context,
                                 private val selectedItem: Int) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 

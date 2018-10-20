@@ -25,7 +25,7 @@ import kotlinx.android.synthetic.main.activity_water_fall.*
 import org.jetbrains.anko.textColor
 import java.lang.reflect.Field
 
-class WaterFallActivity : AppCompatActivity() {
+class WaterfallActivity : AppCompatActivity() {
 
     private lateinit var lostFragment: WaterfallFragment
     private lateinit var foundFragment: WaterfallFragment
@@ -35,7 +35,7 @@ class WaterFallActivity : AppCompatActivity() {
     lateinit var popWaterfallFilter: TextView
     lateinit var window: PopupWindow
     private var layoutManagerForType = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-    private var layoutManagerForTime = LinearLayoutManager(this@WaterFallActivity)
+    private var layoutManagerForTime = LinearLayoutManager(this@WaterfallActivity)
     private var type = Utils.ALL_TYPE
     private var time = Utils.ALL_TIME
 
@@ -56,7 +56,7 @@ class WaterFallActivity : AppCompatActivity() {
 
 
         if (!Hawk.contains("campus")) {
-            val dialog = AlertDialog.Builder(this@WaterFallActivity)
+            val dialog = AlertDialog.Builder(this@WaterfallActivity)
                     .setTitle("同学选择一下校区呗～")
                     .setMessage("可以在“我的”修改嗷～")
                     .setCancelable(false)
@@ -145,7 +145,7 @@ class WaterFallActivity : AppCompatActivity() {
                 popWaterfallTypesAll.textColor = Color.parseColor("#D3D3D3")
                 popWaterfallRecyclerview.apply {
                     layoutManager = layoutManagerForTime
-                    adapter = WaterfallTimeTableAdapter(this@WaterFallActivity, this@WaterFallActivity, time)
+                    adapter = WaterfallTimeTableAdapter(this@WaterfallActivity, this@WaterfallActivity, time)
                 }
             }
         }
@@ -153,7 +153,7 @@ class WaterFallActivity : AppCompatActivity() {
         waterfall_fab_found.setOnClickListener {
             bundle.putString("lostOrFound", "found")
             intent.putExtras(bundle)
-            intent.setClass(this@WaterFallActivity, ReleaseActivity::class.java)
+            intent.setClass(this@WaterfallActivity, ReleaseActivity::class.java)
             startActivity(intent)
             waterfall_fab_menu.close(true)
         }
@@ -161,7 +161,7 @@ class WaterFallActivity : AppCompatActivity() {
         waterfallLost.setOnClickListener {
             bundle.putString("lostOrFound", "lost")
             intent.putExtras(bundle)
-            intent.setClass(this@WaterFallActivity, ReleaseActivity::class.java)
+            intent.setClass(this@WaterfallActivity, ReleaseActivity::class.java)
             startActivity(intent)
             waterfall_fab_menu.close(true)
         }
@@ -212,8 +212,8 @@ class WaterFallActivity : AppCompatActivity() {
         val intent = Intent()
 
         when (itemId) {
-            R.id.waterfall_search -> intent.setClass(this@WaterFallActivity, SearchActivity::class.java)
-            R.id.waterfall_indi -> intent.setClass(this@WaterFallActivity, MyListActivity::class.java)
+            R.id.waterfall_search -> intent.setClass(this@WaterfallActivity, SearchActivity::class.java)
+            R.id.waterfall_indi -> intent.setClass(this@WaterfallActivity, MyListActivity::class.java)
         }
 
         startActivity(intent)

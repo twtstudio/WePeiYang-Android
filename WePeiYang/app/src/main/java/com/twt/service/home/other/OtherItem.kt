@@ -7,13 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.LinearLayout
-import com.yookiely.lostfond2.waterfall.WaterFallActivity
+import com.yookiely.lostfond2.waterfall.WaterfallActivity
 import com.twt.service.home.user.FragmentActivity
 import com.twt.wepeiyang.commons.ui.rec.HomeItem
 import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemController
 import com.twtstudio.retrox.bike.bike.ui.main.BikeActivity
-import com.twtstudio.retrox.tjulibrary.view.HomeActivity
 import com.twtstudio.tjliqy.party.ui.home.PartyActivity
 import org.jetbrains.anko.*
 
@@ -55,7 +54,7 @@ class OtherItem : Item {
 
                 }
                 addItem("失物招领", "失物招领") {
-                    it.context.startActivity<WaterFallActivity>()
+                    it.context.startActivity<WaterfallActivity>()
                 }
 
             }

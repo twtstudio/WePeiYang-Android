@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/backgroundGrey"
     android:orientation="vertical"
-    tools:context=".waterfall.WaterFallActivity">
+    tools:context=".waterfall.WaterfallActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/waterfall_appbar"
@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            android:elevation="8dp"
+            android:elevation="0dp"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:layout_collapseMode="pin"
             app:layout_scrollFlags="scroll|enterAlways"
@@ -88,7 +88,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_marginBottom="24dp"
         android:layout_marginEnd="16dp"
         app:menu_backgroundColor="#00000000"

@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            android:elevation="8dp"
+            android:elevation="0dp"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             app:titleTextColor="@android:color/white"
@@ -30,8 +30,8 @@
                 android:layout_height="58dp"
                 android:padding="18dp"
                 android:src="@drawable/convert_campus"
-                android:layout_marginRight="16dp"
-                android:layout_gravity="right" />
+                android:layout_gravity="end"
+                android:layout_marginEnd="16dp" />
 
         </android.support.v7.widget.Toolbar>
 

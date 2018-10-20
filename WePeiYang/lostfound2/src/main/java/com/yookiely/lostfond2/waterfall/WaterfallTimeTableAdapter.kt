@@ -10,8 +10,8 @@ import com.example.lostfond2.R
 import com.yookiely.lostfond2.service.Utils
 
 
-class WaterfallTimeTableAdapter(val waterfallActivity: WaterFallActivity,
-                                val context: WaterFallActivity,
+class WaterfallTimeTableAdapter(val waterfallActivity: WaterfallActivity,
+                                val context: WaterfallActivity,
                                 val selectedItem: Int) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     class WaterfallFilterTableViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
