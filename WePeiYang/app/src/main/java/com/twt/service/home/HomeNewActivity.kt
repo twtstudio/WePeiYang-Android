@@ -17,6 +17,7 @@ import com.twt.service.R
 import com.twt.service.home.message.MessagePreferences
 import com.twt.service.home.message.MessageService
 import com.twt.service.home.message.homeMessageItem
+import com.twt.service.home.message.homeMessageItemAtFirst
 import com.twt.service.home.other.homeOthers
 import com.twt.service.home.user.FragmentActivity
 import com.twt.service.schedule2.view.home.homeScheduleItem
@@ -25,6 +26,7 @@ import com.twt.service.widget.ScheduleWidgetProvider
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
 import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
 import com.twt.wepeiyang.commons.experimental.extensions.enableLightStatusBarMode
+import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.withItems
 import com.twt.wepeiyang.commons.view.RecyclerViewDivider
 import com.twtstudio.retrox.auth.api.authSelfLiveData
@@ -67,20 +69,7 @@ class HomeNewActivity : CAppCompatActivity() {
             layoutManager = LinearLayoutManager(this.context)
             addItemDecoration(RecyclerViewDivider.Builder(this@HomeNewActivity).setSize(4f).setColor(Color.TRANSPARENT).build())
         }
-        launch(UI + QuietCoroutineExceptionHandler) {
-            val messageBean = MessageService.getMessage().await()
-            if (messageBean.error_code == -1 && messageBean.data != null) {
-                //通过新的网请和本地的isDisplayMessage判断来实现Message是否显示
-                if (!MessagePreferences.isDisplayMessage && MessagePreferences.messageTitle != messageBean.data!!.title) {
-                    MessagePreferences.apply {
-                        isDisplayMessage = true
-                        messageTitle = messageBean.data!!.title
-                        messageContent = messageBean.data!!.message
-                    }
-                }
-            }
-        }
-        rec.withItems {
+        val itemManager = rec.withItems {
             //重写了各个item的areItemsTheSame areContentsTheSame实现动画刷新主页
             if (MessagePreferences.isDisplayMessage) {
                 homeMessageItem()
@@ -92,6 +81,23 @@ class HomeNewActivity : CAppCompatActivity() {
             libraryHomeItem(this@HomeNewActivity)
             homeTjuNetItem(this@HomeNewActivity)
             homeOthers()
+        }
+        launch(UI + QuietCoroutineExceptionHandler) {
+            val messageBean = MessageService.getMessage().await()
+            val data = messageBean.data
+            Log.d("HomeNew-Message-1", data.toString())
+            if (messageBean.error_code == -1 && data != null) {
+                //通过新的网请和本地的isDisplayMessage判断来实现Message是否显示
+                if (!MessagePreferences.isDisplayMessage && MessagePreferences.messageTitle != data.title) {
+                    MessagePreferences.apply {
+                        isDisplayMessage = true
+                        messageTitle = data.title
+                        messageContent = data.message
+                    }
+                    itemManager.homeMessageItemAtFirst()
+                    rec.scrollToPosition(0)
+                }
+            }
         }
         rec.post {
             (rec.getChildAt(0).layoutParams as RecyclerView.LayoutParams).topMargin = dip(4)

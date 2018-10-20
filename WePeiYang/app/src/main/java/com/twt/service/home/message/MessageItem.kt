@@ -84,3 +84,9 @@ class MessageItem : Item {
 }
 
 fun MutableList<Item>.homeMessageItem() = add(MessageItem())
+
+fun MutableList<Item>.homeMessageItemAtFirst() {
+    if (this.getOrNull(0) is MessageItem) {
+        add(0, MessageItem())
+    }
+}
