@@ -33,7 +33,7 @@ class ImageItem(val url : String, val  context1 : Activity) : Item {
                     .into(holder.image)
             holder.image.setOnClickListener {
                 val inflater = LayoutInflater.from(item.context1)
-                val imgEntryView = inflater.inflate(R.layout.dialog_detail_pic, null)
+                val imgEntryView = inflater.inflate(R.layout.lf2_dialog_detail_pic, null)
                 // 加载自定义的布局文件
                 val dialog = android.support.v7.app.AlertDialog.Builder(item.context1).create()
                 val img = imgEntryView.findViewById(R.id.detail_bigpic) as ImageView

@@ -21,7 +21,7 @@ import com.yookiely.lostfond2.mylist.MyListActivity
 import com.yookiely.lostfond2.release.ReleaseActivity
 import com.yookiely.lostfond2.search.SearchActivity
 import com.yookiely.lostfond2.service.Utils
-import kotlinx.android.synthetic.main.activity_water_fall.*
+import kotlinx.android.synthetic.main.lf2_activity_water_fall.*
 import org.jetbrains.anko.textColor
 import java.lang.reflect.Field
 
@@ -44,7 +44,7 @@ class WaterfallActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
-        setContentView(R.layout.activity_water_fall)
+        setContentView(R.layout.lf2_activity_water_fall)
         val waterfallLost: FloatingActionButton = findViewById(R.id.waterfall_fab_lost)
         val popupWindowView: View = LayoutInflater.from(this).inflate(R.layout.lf_waterfall_cardview_types, null, false)
         popWaterfallTypesAll = popupWindowView.findViewById(R.id.waterfall_types_all) //全部分类

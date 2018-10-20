@@ -39,7 +39,7 @@
                 android:textSize="40px" />
         </LinearLayout>
 
-        <TextView
+        <View
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:layout_marginEnd="6dp"
@@ -79,7 +79,7 @@
 
         </LinearLayout>
 
-        <TextView
+        <View
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:layout_marginEnd="6dp"

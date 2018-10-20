@@ -13,7 +13,7 @@
         android:layout_marginStart="2dp"
         android:layout_marginTop="4dp" />
 
-    <TextView
+    <View
         android:id="@+id/waterfall_type_line"
         android:layout_width="78dp"
         android:layout_height="1dp"

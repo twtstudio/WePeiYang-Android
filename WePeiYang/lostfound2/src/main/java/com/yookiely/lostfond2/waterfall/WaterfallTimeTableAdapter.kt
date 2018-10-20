@@ -16,7 +16,7 @@ class WaterfallTimeTableAdapter(val waterfallActivity: WaterfallActivity,
 
     class WaterfallFilterTableViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val waterfallTypeItem = itemView.findViewById<TextView>(R.id.waterfall_type_item)!!
-        val waterfallTypeLine = itemView.findViewById<TextView>(R.id.waterfall_type_line)!!
+        val waterfallTypeLine = itemView.findViewById<View>(R.id.waterfall_type_line)!!
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {

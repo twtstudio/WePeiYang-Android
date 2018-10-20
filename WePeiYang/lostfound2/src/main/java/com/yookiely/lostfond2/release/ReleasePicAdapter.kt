@@ -100,7 +100,7 @@ class ReleasePicAdapter(val list: ArrayList<Any?>,
 
     private fun showDialogOfPic() {
         val dialog = Dialog(releaseActivity, R.style.edit_AlertDialog_style)
-        dialog.setContentView(R.layout.dialog_detail_pic)
+        dialog.setContentView(R.layout.lf2_dialog_detail_pic)
         val imageView = dialog.findViewById<ImageView>(R.id.detail_bigpic)
 
         if (list[currentPosition] is String) {

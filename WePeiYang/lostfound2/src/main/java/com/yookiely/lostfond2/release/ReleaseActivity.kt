@@ -32,7 +32,7 @@ import com.yookiely.lostfond2.service.Utils
 import com.zhihu.matisse.Matisse
 import com.zhihu.matisse.MimeType
 import com.zhihu.matisse.engine.impl.GlideEngine
-import kotlinx.android.synthetic.main.activity_release.*
+import kotlinx.android.synthetic.main.lf2_activity_release.*
 import kotlinx.android.synthetic.main.lf2_release_cardview_receiving_site.*
 import kotlinx.android.synthetic.main.lf_release_cardview_cardinfo.*
 import kotlinx.android.synthetic.main.lf_release_cardview_cardinfo_noname.*
@@ -85,7 +85,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         lostOrFound = bundle.getString("lostOrFound")
         super.onCreate(savedInstanceState)
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
-        setContentView(com.example.lostfond2.R.layout.activity_release)
+        setContentView(com.example.lostfond2.R.layout.lf2_activity_release)
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setToolbarView(toolbar)
         release_delete.visibility = View.GONE
