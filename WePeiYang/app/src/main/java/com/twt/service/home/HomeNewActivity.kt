@@ -69,17 +69,14 @@ class HomeNewActivity : CAppCompatActivity() {
         }
         launch(UI + QuietCoroutineExceptionHandler) {
             val messageBean = MessageService.getMessage().await()
-            if (messageBean.error_code == -1) {
+            if (messageBean.error_code == -1 && messageBean.data != null) {
                 //通过新的网请和本地的isDisplayMessage判断来实现Message是否显示
                 if (!MessagePreferences.isDisplayMessage && MessagePreferences.messageTitle != messageBean.data!!.title) {
-                    MessagePreferences.isDisplayMessage = true
-                }
-                if (messageBean.data != null) {
-                    //获取item的内容,保存在本地
-                    MessagePreferences.messageTitle = messageBean.data!!.title
-                    MessagePreferences.messageContent = messageBean.data!!.message
-                }else{
-                    MessagePreferences.isDisplayMessage=false
+                    MessagePreferences.apply {
+                        isDisplayMessage = true
+                        messageTitle = messageBean.data!!.title
+                        messageContent = messageBean.data!!.message
+                    }
                 }
             }
         }
