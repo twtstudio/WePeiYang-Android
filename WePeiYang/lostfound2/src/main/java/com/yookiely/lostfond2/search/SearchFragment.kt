@@ -24,6 +24,7 @@ class SearchFragment : Fragment(), SearchContract.SearchUIView {
     var lostOrFound = "lost"
     var page = 1
     var time = 5
+    var isSubmit = false
     private lateinit var keyword: String//搜索关键字
 
     private val searchPresenter = SearchPresenterImpl(this)
@@ -41,12 +42,13 @@ class SearchFragment : Fragment(), SearchContract.SearchUIView {
 
     fun setKeyword(keyword: String) {
         this.keyword = keyword
+        isSubmit = true
         loadWaterfallDataWithTime(time)
     }
 
     fun setTimeAndLoad(time: Int) {
         this.time = time
-        if (keyword != null) {
+        if (isSubmit && keyword != null) {
             loadWaterfallDataWithTime(this.time)
         }
     }
