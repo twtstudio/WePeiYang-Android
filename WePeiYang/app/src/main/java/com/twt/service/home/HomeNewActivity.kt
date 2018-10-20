@@ -88,11 +88,12 @@ class HomeNewActivity : CAppCompatActivity() {
             Log.d("HomeNew-Message-1", data.toString())
             if (messageBean.error_code == -1 && data != null) {
                 //通过新的网请和本地的isDisplayMessage判断来实现Message是否显示
-                if (!MessagePreferences.isDisplayMessage && MessagePreferences.messageTitle != data.title) {
+                if (!MessagePreferences.isDisplayMessage && MessagePreferences.messageVersion != data.version) {
                     MessagePreferences.apply {
                         isDisplayMessage = true
                         messageTitle = data.title
                         messageContent = data.message
+                        messageVersion = data.version
                     }
                     itemManager.homeMessageItemAtFirst()
                     rec.scrollToPosition(0)
