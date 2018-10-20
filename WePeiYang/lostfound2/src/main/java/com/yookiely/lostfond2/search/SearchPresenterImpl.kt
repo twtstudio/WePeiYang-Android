@@ -12,12 +12,22 @@ class SearchPresenterImpl(val searchUIView: SearchContract.SearchUIView) : Searc
 
         if (Hawk.contains("campus")) {
             val campus: Int = Hawk.get("campus")
-            launch(UI + QuietCoroutineExceptionHandler) {
-                val dataList = LostFoundService.getSearch(keyword, campus, time, page).await()
+            try {
+                launch(UI + QuietCoroutineExceptionHandler) {
+                    val dataList = LostFoundService.getSearch(keyword, campus, time, page).await()
 
-                if (dataList.error_code == -1) {
-                    setWaterfallData(dataList.data!!)
+                    if (dataList.error_code == -1) {
+                        if (dataList.data == null) {
+                            val searchBean = emptyList<MyListDataOrSearchBean>()
+                            setWaterfallData(searchBean)
+                        } else {
+                            setWaterfallData(dataList.data!!)
+                        }
+                    }
                 }
+            } catch (e: Exception) {
+                val searchBean = emptyList<MyListDataOrSearchBean>()
+                setWaterfallData(searchBean)
             }
         }
     }
