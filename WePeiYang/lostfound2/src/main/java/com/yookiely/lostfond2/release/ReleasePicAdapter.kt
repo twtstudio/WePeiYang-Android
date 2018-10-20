@@ -23,7 +23,6 @@ class ReleasePicAdapter(val list: ArrayList<Any?>,
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val releasePic = view.findViewById<ImageView>(R.id.release_cardview_pic)!!
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {

@@ -6,7 +6,11 @@ class Utils {
     val PERMISSION_READ_EXTERNAL_STORAGE = Manifest.permission.READ_EXTERNAL_STORAGE
 
     companion object {
+        val ALL_TYPE = 0
+        val ALL_TIME = 5
+
         fun getType(i: Int) = when (i) {
+            0 -> "全部"
             1 -> "身份证"
             2 -> "饭卡"
             3 -> "手机"
@@ -42,7 +46,7 @@ class Utils {
 
         fun noPicForDetail() = "http://open.twtstudio.com/uploads/17-07-12/945139dcd91e9ed3d5967ef7f81e18f6.jpg"
 
-        fun getExit(i : Int) = when (i) {
+        fun getExit(i: Int) = when (i) {
             0 -> " "
             1 -> "A口"
             2 -> "B口"

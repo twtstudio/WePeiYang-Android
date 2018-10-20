@@ -18,7 +18,7 @@ class ReleaseTableAdapter(val context: Context, val positionSelected: Int,
 
     class ReleaseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val releaseItemType = itemView.findViewById<TextView>(R.id.release_item_type)!!
-        val releaseItemCardview = itemView.findViewById<CardView>(R.id.release_item_cardview)!!
+        val releaseItemCardView = itemView.findViewById<CardView>(R.id.release_item_cardview)!!
         val releaseItemSuperscript = itemView.findViewById<ImageView>(R.id.release_item_superscript)!!
     }
 
@@ -35,11 +35,11 @@ class ReleaseTableAdapter(val context: Context, val positionSelected: Int,
 
             if (position == positionSelected) {
                 releaseItemType.textColor = Color.parseColor("#00A1EA")
-                releaseItemCardview.setCardBackgroundColor(Color.parseColor("#BEDFEE"))
+                releaseItemCardView.setCardBackgroundColor(Color.parseColor("#BEDFEE"))
                 releaseItemSuperscript.visibility = View.VISIBLE
             } else {
                 releaseItemType.textColor = Color.parseColor("#333333")
-                releaseItemCardview.setCardBackgroundColor(Color.parseColor("#DFDFDF"))
+                releaseItemCardView.setCardBackgroundColor(Color.parseColor("#DFDFDF"))
                 releaseItemSuperscript.visibility = View.GONE
             }
         }

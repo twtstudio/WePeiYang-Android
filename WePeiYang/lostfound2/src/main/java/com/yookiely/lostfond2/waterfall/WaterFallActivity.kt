@@ -20,6 +20,7 @@ import com.orhanobut.hawk.Hawk
 import com.yookiely.lostfond2.mylist.MyListActivity
 import com.yookiely.lostfond2.release.ReleaseActivity
 import com.yookiely.lostfond2.search.SearchActivity
+import com.yookiely.lostfond2.service.Utils
 import kotlinx.android.synthetic.main.activity_water_fall.*
 import org.jetbrains.anko.textColor
 import java.lang.reflect.Field
@@ -28,14 +29,15 @@ class WaterFallActivity : AppCompatActivity() {
 
     private lateinit var lostFragment: WaterfallFragment
     private lateinit var foundFragment: WaterfallFragment
-    private lateinit var popWaterfallTypeRecyclerview: RecyclerView
+    private lateinit var popWaterfallRecyclerview: RecyclerView
     private lateinit var popWaterfallTypesAll: TextView
+    private var campus: Int = 0
     lateinit var popWaterfallFilter: TextView
     lateinit var window: PopupWindow
     private var layoutManagerForType = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
     private var layoutManagerForTime = LinearLayoutManager(this@WaterFallActivity)
-    private var type = -1
-    private var time = 5
+    private var type = Utils.ALL_TYPE
+    private var time = Utils.ALL_TIME
 
     @SuppressLint("InflateParams")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,10 +49,10 @@ class WaterFallActivity : AppCompatActivity() {
         val popupWindowView: View = LayoutInflater.from(this).inflate(R.layout.lf_waterfall_cardview_types, null, false)
         popWaterfallTypesAll = popupWindowView.findViewById(R.id.waterfall_types_all) //全部分类
         popWaterfallFilter = popupWindowView.findViewById(R.id.waterfall_filter) //筛选条件
-        popWaterfallTypeRecyclerview = popupWindowView.findViewById(R.id.waterfall_type_recyclerview)
-        popWaterfallTypeRecyclerview.layoutManager = layoutManagerForType
+        popWaterfallRecyclerview = popupWindowView.findViewById(R.id.waterfall_type_recyclerview)
+        popWaterfallRecyclerview.layoutManager = layoutManagerForType
         val snapHelper = LinearSnapHelper()
-        snapHelper.attachToRecyclerView(popWaterfallTypeRecyclerview)
+        snapHelper.attachToRecyclerView(popWaterfallRecyclerview)
 
 
         if (!Hawk.contains("campus")) {
@@ -58,11 +60,16 @@ class WaterFallActivity : AppCompatActivity() {
                     .setTitle("同学选择一下校区呗～")
                     .setMessage("可以在“我的”修改嗷～")
                     .setCancelable(false)
-                    .setPositiveButton("卫津路") { _, _ -> Hawk.put("campus", 2) }
-                    .setNegativeButton("北洋园") { _, _ -> Hawk.put("campus", 1) }
+                    .setPositiveButton("卫津路") { _, _ ->
+                        Hawk.put("campus", 2)
+                        campus = Hawk.get("campus")
+                    }
+                    .setNegativeButton("北洋园") { _, _ ->
+                        Hawk.put("campus", 1)
+                        campus = Hawk.get("campus")
+                    }
                     .create()
             dialog.show()
-
 
             // 通过反射改变message颜色
             try {
@@ -78,6 +85,8 @@ class WaterFallActivity : AppCompatActivity() {
             } catch (e: NoSuchFieldException) {
                 e.printStackTrace()
             }
+        } else {
+            campus = Hawk.get("campus")
         }
 
         lostFragment = WaterfallFragment.newInstance("lost")
@@ -123,21 +132,20 @@ class WaterFallActivity : AppCompatActivity() {
                 waterfall_type_blue.visibility = View.GONE
             }
 
+            popWaterfallTypesAll.typeface = Typeface.DEFAULT
             popWaterfallTypesAll.setOnClickListener {
                 popWaterfallTypesAll.textColor = Color.parseColor("#666666")
                 popWaterfallFilter.textColor = Color.parseColor("#D3D3D3")
-                popWaterfallTypeRecyclerview.layoutManager = layoutManagerForType
-                popWaterfallFilter.typeface = Typeface.DEFAULT
-                setWaterfallType(-1)
+                popWaterfallRecyclerview.layoutManager = layoutManagerForType
+                popWaterfallRecyclerview.adapter = WaterfallTypeTableAdapter(this, this, type)
             }
 
             popWaterfallFilter.setOnClickListener {
-                popWaterfallFilter.typeface = Typeface.defaultFromStyle(Typeface.BOLD)
                 popWaterfallFilter.textColor = Color.parseColor("#666666")
                 popWaterfallTypesAll.textColor = Color.parseColor("#D3D3D3")
-                popWaterfallTypeRecyclerview.apply {
+                popWaterfallRecyclerview.apply {
                     layoutManager = layoutManagerForTime
-                    adapter = WaterfallTimeTableAdapter(this@WaterFallActivity, this@WaterFallActivity, -1)
+                    adapter = WaterfallTimeTableAdapter(this@WaterFallActivity, this@WaterFallActivity, time)
                 }
             }
         }
@@ -163,33 +171,33 @@ class WaterFallActivity : AppCompatActivity() {
         lostFragment.loadWaterfallDataWithCondition(type, time)
         foundFragment.loadWaterfallDataWithCondition(type, time)
         this.type = type
-        popWaterfallTypeRecyclerview.adapter = WaterfallTypeTableAdapter(this, this, type)
-        popWaterfallTypesAll.typeface = if (type == -1) {
-            Typeface.defaultFromStyle(Typeface.BOLD)
-        } else {
-            Typeface.DEFAULT
-        }
+        popWaterfallRecyclerview.adapter = WaterfallTypeTableAdapter(this, this, type)
     }
 
     fun setWaterfallTime(time: Int) {
         lostFragment.loadWaterfallDataWithCondition(type, time)
         foundFragment.loadWaterfallDataWithCondition(type, time)
         this.time = time
-        popWaterfallTypeRecyclerview.adapter = WaterfallTimeTableAdapter(this, this, time)
+        popWaterfallRecyclerview.adapter = WaterfallTimeTableAdapter(this, this, time)
     }
 
     override fun onResume() {
         super.onResume()
-        popWaterfallTypeRecyclerview.adapter = if (popWaterfallTypeRecyclerview.layoutManager == layoutManagerForType) {
-            WaterfallTypeTableAdapter(this, this, type)
-        } else {
-            WaterfallTimeTableAdapter(this, this, time)
-        }
 
-        if (type == -1) {
-            popWaterfallTypesAll.typeface = Typeface.defaultFromStyle(Typeface.BOLD)
-        } else {
-            popWaterfallTypesAll.typeface = Typeface.DEFAULT
+        if (Hawk.contains("campus")) {
+            if (campus == Hawk.get("campus")) {
+                popWaterfallRecyclerview.adapter = if (popWaterfallRecyclerview.layoutManager == layoutManagerForType) {
+                    WaterfallTypeTableAdapter(this, this, type)
+                } else {
+                    WaterfallTimeTableAdapter(this, this, time)
+                }
+            } else {
+                this.type = Utils.ALL_TYPE
+                this.time = Utils.ALL_TIME
+                campus = Hawk.get("campus")
+                popWaterfallRecyclerview.layoutManager = layoutManagerForType
+                popWaterfallRecyclerview.adapter = WaterfallTypeTableAdapter(this, this, type)
+            }
         }
     }
 
@@ -211,11 +219,4 @@ class WaterFallActivity : AppCompatActivity() {
         startActivity(intent)
         return true
     }
-
-//    override fun onTouchEvent(event: MotionEvent?): Boolean {
-//        if (window != null && window.isShowing) {
-//            window.di
-//        }
-//        return super.onTouchEvent(event)
-//    }
 }

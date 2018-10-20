@@ -24,7 +24,7 @@
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="4dp"
                 android:paddingStart="2dp"
-                android:text="全部分类"
+                android:text="物品分类"
                 android:textColor="#666666" />
 
             <TextView

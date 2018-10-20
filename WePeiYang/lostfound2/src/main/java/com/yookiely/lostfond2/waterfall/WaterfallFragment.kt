@@ -13,12 +13,11 @@ import android.widget.LinearLayout
 import com.example.lostfond2.R
 import com.orhanobut.hawk.Hawk
 import com.yookiely.lostfond2.service.MyListDataOrSearchBean
+import com.yookiely.lostfond2.service.Utils
 import kotlinx.android.synthetic.main.lf_fragment_waterfall.*
 
 class WaterfallFragment : Fragment(), WaterfallContract.WaterfallView {
 
-    private val ALL_TYPE = -1
-    private val ALL_TIME = 5
     private lateinit var tableAdapter: WaterfallTableAdapter
     private val layoutManager = StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
     private var isLoading = false
@@ -26,9 +25,9 @@ class WaterfallFragment : Fragment(), WaterfallContract.WaterfallView {
     private var campus = 0
     private var beanList = ArrayList<MyListDataOrSearchBean>()
     private var lostOrFound = "lost"
-    private var type = ALL_TYPE
+    private var type = Utils.ALL_TYPE
     private var page = 1
-    private var time = ALL_TIME
+    private var time = Utils.ALL_TIME
     private val waterfallPresenter = WaterfallPresenterImpl(this)
 
     companion object {
@@ -59,7 +58,7 @@ class WaterfallFragment : Fragment(), WaterfallContract.WaterfallView {
         tableAdapter = WaterfallTableAdapter(beanList, this.activity!!, lostOrFound)
         waterfallRecyclerView.adapter = tableAdapter
         waterfallRefresh.setOnRefreshListener(this::refresh)
-        loadWaterfallDataWithCondition(ALL_TYPE, ALL_TIME)// 加载布局
+        loadWaterfallDataWithCondition(Utils.ALL_TYPE, Utils.ALL_TIME)// 加载布局
 
         waterfallRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
@@ -73,7 +72,7 @@ class WaterfallFragment : Fragment(), WaterfallContract.WaterfallView {
                     page++
                     isLoading = true
                     waterfallPresenter.apply {
-                        if (type == ALL_TYPE) {
+                        if (type == Utils.ALL_TYPE) {
                             loadWaterfallData(lostOrFound, page, time)
                         } else {
                             loadWaterfallDataWithCondition(lostOrFound, page, type, time)
@@ -119,8 +118,8 @@ class WaterfallFragment : Fragment(), WaterfallContract.WaterfallView {
 
         if (Hawk.contains("campus")) {
             if (campus != Hawk.get("campus")) {
-                this.type = ALL_TYPE //全部物品
-                this.time = ALL_TIME // 全部时间
+                this.type = Utils.ALL_TYPE //全部物品
+                this.time = Utils.ALL_TIME // 全部时间
                 campus = Hawk.get("campus")
                 refresh()
             }
