@@ -109,3 +109,23 @@ data class MyListDataOrSearchBean(
         val recapture_entrance : Int,
         val campus : String
 )
+
+data class MyListDataBean(
+        val id: Int,
+        val type: Int,
+        val name: String,
+        val title: String,
+        val place: String,
+        val time: String,
+        val phone: String,
+        val detail_type: Int,
+        val isback: Int,
+        val picture: List<PicData>?,
+        val recapture_place: String,
+        val recapture_entrance: Int,
+        val campus: String
+)
+
+data class PicData(
+        val pic_url: String
+)

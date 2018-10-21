@@ -45,6 +45,7 @@ import kotlinx.android.synthetic.main.lf_release_cardview_publish.*
 import java.io.*
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.regex.Pattern
 import kotlin.collections.ArrayList
 
 class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.OnClickListener {
@@ -262,6 +263,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
     override fun onClick(view: View) {
         val picListOfUri = ArrayList<Uri?>(0)
         val picListOfString = ArrayList<String?>(0)
+
         for (i in selectPicList) {
             if (i is Uri) picListOfUri.add(i)
             if (i is String) picListOfString.add(i)
@@ -283,7 +285,6 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         } catch (e: IOException) {
             e.printStackTrace()
         }
-
 
         if (view === release_confirm && (lostOrFound == "lost" || lostOrFound == "found")) {
             if (!judgeNull(picListOfUri)) {
@@ -367,7 +368,6 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
             }
         }
 
-
         release_title.setText(detailData.title!!)
         release_title.setSelection(detailData.title!!.length)
         release_time.setText(detailData.time!!)
@@ -408,6 +408,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         map["duration"] = duration
         map["item_description"] = if (remarksString == "") " " else remarksString
         map["campus"] = campus
+
         judge = !(titleString == "" || phoneString == "" || nameString == "")
 
         if (lostOrFound == "found") {
@@ -440,7 +441,6 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
     override fun onTypeItemSelected(position: Int) {
         selectedItemPosition = position
 
-        //
         when (position) {
             0, 1 -> {
                 release_lost_content.visibility = View.VISIBLE
@@ -708,6 +708,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         return true
     }
 
+    // 返回值数据为其在所对应数组中的位置
     private fun getPositionOfGarden(i: String): Int = when (i) {
         "无" -> 0
         "1斋", "2斋", "3斋" -> 1

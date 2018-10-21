@@ -8,6 +8,7 @@ class Utils {
     companion object {
         val ALL_TYPE = 0
         val ALL_TIME = 5
+        val TYPE_OF_FOUND = 1
 
         fun getType(i: Int) = when (i) {
             0 -> "全部"

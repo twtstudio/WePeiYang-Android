@@ -35,6 +35,7 @@
                 android:imeOptions="actionNext"
                 android:lines="1"
                 android:maxLines="1"
+                android:maxLength="11"
                 android:singleLine="true"
                 android:textSize="40px" />
         </LinearLayout>

@@ -41,16 +41,16 @@ class WaterfallTableAdapter(var waterFallBean: List<MyListDataOrSearchBean>?,
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
-        val dataBean = waterFallBean!![position]
+        val dataOfItem = waterFallBean!![position]
         val viewHolder = holder as WaterfallViewHolder
 
-        if (dataBean.picture == null) {
+        if (dataOfItem.picture == null) {
             Glide.with(context)
                     .load(Utils.getPicUrl("julao.jpg"))
                     .placeholder(R.drawable.lf_detail_np)
                     .into(viewHolder.waterfallItemPic)
         } else {
-            val piclist: List<String> = dataBean.picture.split(",")
+            val piclist: List<String> = dataOfItem.picture.split(",")
             Glide.with(context)
                     .load(Utils.getPicUrl(piclist[0]))
                     .asBitmap()
@@ -59,21 +59,21 @@ class WaterfallTableAdapter(var waterFallBean: List<MyListDataOrSearchBean>?,
         }
 
         viewHolder.apply {
-            waterfallItemTitle.text = dataBean.title
-            waterfallItemLocation.text = Utils.getDetailFilterOfPlace(Hawk.get("campus")) + "-" + dataBean.place
-            waterfallItemThing.text = dataBean.name
-            waterfallItemData.text = dataBean.time
+            waterfallItemTitle.text = dataOfItem.title
+            waterfallItemLocation.text = Utils.getDetailFilterOfPlace(Hawk.get("campus")) + "-" + dataOfItem.place
+            waterfallItemThing.text = dataOfItem.name
+            waterfallItemData.text = dataOfItem.time
 
             if (lostOrFound == "found") {
                 waterfallItemRecaptureImage.visibility = View.VISIBLE
                 waterfallItemRecapturePlace.visibility = View.VISIBLE
-                waterfallItemRecapturePlace.text = dataBean.recapture_place
+                waterfallItemRecapturePlace.text = dataOfItem.recapture_place + Utils.getExit(dataOfItem.recapture_entrance)
             } else {
                 waterfallItemRecaptureImage.visibility = View.GONE
                 waterfallItemRecapturePlace.visibility = View.GONE
             }
         }
-        viewHolder.itemView.setOnClickListener { view -> startDetailActivity(dataBean.id) }
+        viewHolder.itemView.setOnClickListener { startDetailActivity(dataOfItem.id) }
     }
 
     override fun getItemCount(): Int = waterFallBean?.size ?: 0

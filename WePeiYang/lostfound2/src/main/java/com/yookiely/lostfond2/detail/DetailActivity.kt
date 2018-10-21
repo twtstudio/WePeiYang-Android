@@ -47,7 +47,7 @@ class DetailActivity : AppCompatActivity() {
 
                 recyclerViewImg.withItems{
                     if (mylist1.picture != null) {
-                        var piclist : List<String> =  mylist1.picture.split(",")
+                        val piclist: List<String> = mylist1.picture.split(",")
                         for (i in piclist){
                             setImage(i, this@DetailActivity)
                         }
@@ -84,10 +84,12 @@ class DetailActivity : AppCompatActivity() {
                             setDetail("卡号", "无", false)
                         }
                     }
-                    if (mylist1.recapture_place != null) {
-                        setDetail("领取站点", mylist1.recapture_place + Utils.getExit(mylist1.recapture_entrance), true)
-                    } else {
-                        setDetail("领取站点", "无", true)
+                    if (mylist1.type != null && mylist1.type == Utils.TYPE_OF_FOUND) {
+                        if (mylist1.recapture_place != null) {
+                            setDetail("领取站点", mylist1.recapture_place + Utils.getExit(mylist1.recapture_entrance), true)
+                        } else {
+                            setDetail("领取站点", "无", true)
+                        }
                     }
 
                     setTitle("联系信息")
