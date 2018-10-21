@@ -22,7 +22,7 @@ class DetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
-        setContentView(R.layout.lf_activity_detail)
+        setContentView(R.layout.lf2_activity_detail)
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         val bundle: Bundle = intent.extras
         supportActionBar?.setDisplayHomeAsUpEnabled(true)

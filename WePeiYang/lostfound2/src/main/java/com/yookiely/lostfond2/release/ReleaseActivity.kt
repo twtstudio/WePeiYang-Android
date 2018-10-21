@@ -333,7 +333,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         val bundle = Bundle()
         bundle.apply {
             if (beanList[0].picture != null) {
-                putString("imageUrl", Utils.getPicUrl(beanList[0].picture))
+                putString("imageUrl", Utils.getPicUrl(beanList[0].picture!!))
             }
 
             putString("shareOrSuccess", "success")

@@ -1,5 +1,6 @@
 package com.yookiely.lostfond2.mylist
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.FragmentActivity
@@ -11,6 +12,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.example.lostfond2.R
+import com.orhanobut.hawk.Hawk
 import com.yookiely.lostfond2.detail.DetailActivity
 import com.yookiely.lostfond2.release.ReleaseActivity
 import com.yookiely.lostfond2.service.MyListDataOrSearchBean
@@ -62,14 +64,19 @@ class MylistTableAdapter : RecyclerView.Adapter<MylistTableAdapter.MylistViewHol
         var mylist_item_pencil_touch: TextView
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: MylistViewHolder, position: Int) {
-        val (id: Int, _: Int, _: String, title: String, place: String, time: String, _: String, detail_type: Int, isback: Int, picture: String, _: String, _: Int, _: String) = mylistBean[position]
+        val (id: Int, _: Int, _: String, title: String, place: String, time: String, _: String, detail_type: Int, isback: Int, picture: String?, _: String, _: Int, _: String) = mylistBean[position]
         holder.mylist_item_title.text = title
         holder.mylist_item_type.text = Utils.getType(detail_type)
         holder.mylist_item_time.text = time
-        holder.mylist_item_place.text = place
+        if (Hawk.get<Int>("campus") == 1) {
+            holder.mylist_item_place.text = "北洋园 - $place"
+        } else {
+            holder.mylist_item_place.text = "卫津路 - $place"
+        }
         if (picture != null) {
-            var piclist : List<String> =  picture.split(",")
+            val piclist: List<String> = picture.split(",")
             Glide.with(context)
                     .load(Utils.getPicUrl(piclist[0]))
                     .placeholder(R.drawable.lf_waterfall_nopic)
@@ -129,7 +136,7 @@ class MylistTableAdapter : RecyclerView.Adapter<MylistTableAdapter.MylistViewHol
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MylistViewHolder {
-        var view: View = LayoutInflater.from(context).inflate(R.layout.lf2_item_mylist, parent, false)
+        val view: View = LayoutInflater.from(context).inflate(R.layout.lf2_item_mylist, parent, false)
         return MylistViewHolder(view)
     }
 

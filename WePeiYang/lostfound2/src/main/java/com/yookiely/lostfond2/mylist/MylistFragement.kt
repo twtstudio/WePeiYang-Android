@@ -64,7 +64,7 @@ class MylistFragement : Fragment(), MyListService.MyListView {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view: View = inflater.inflate(R.layout.lf_fragment_mylist, container, false)
+        val view: View = inflater.inflate(R.layout.lf2_fragment_mylist, container, false)
         mylist_recyclerview = view!!.findViewById(R.id.mylist_recyclerView)
         mylist_progress = view!!.findViewById(R.id.mylist_progress)
         mylist_nodata = view!!.findViewById(R.id.mylist_nodata)

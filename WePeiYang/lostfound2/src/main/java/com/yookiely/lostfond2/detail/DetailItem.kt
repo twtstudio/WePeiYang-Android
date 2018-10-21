@@ -14,7 +14,7 @@ class DetailItem(val text1: String, val text2: String, val isLast: Boolean) : It
     private companion object  Controller: ItemController {
         override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
             val inflater = parent.context.layoutInflater
-            val view = inflater.inflate(R.layout.lf_item_detailitem,parent,false)
+            val view = inflater.inflate(R.layout.lf2_item_detailitem, parent, false)
             return DetailItemViewHolder(view)
         }
 

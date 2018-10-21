@@ -23,7 +23,7 @@ class ReleaseTableAdapter(val context: Context, val positionSelected: Int,
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val view = LayoutInflater.from(context).inflate(R.layout.lf_item_release_type, parent, false)
+        val view = LayoutInflater.from(context).inflate(R.layout.lf2_item_release_type, parent, false)
 
         return ReleaseViewHolder(view)
     }

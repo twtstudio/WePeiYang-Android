@@ -35,7 +35,7 @@ class MyListActivity : AppCompatActivity() {
 
         imageView = toolbar.findViewById(R.id.list_img)
 
-        val popupwindowView = LayoutInflater.from(this).inflate(R.layout.popupwindow_campus, null, false)
+        val popupwindowView = LayoutInflater.from(this).inflate(R.layout.lf2_popupwindow_campus, null, false)
 
         toolbar.setNavigationOnClickListener { onBackPressed() }
         imageView.setOnClickListener { v -> initpopupwindow(popupwindowView) }
@@ -99,7 +99,7 @@ class MyListActivity : AppCompatActivity() {
 
     private fun bgAlpha(bgAlpha: Float) {
         //修改屏幕背景色
-        var lp = window.attributes
+        val lp = window.attributes
         lp.alpha = bgAlpha //0.0-1.0
         window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
         window.attributes = lp

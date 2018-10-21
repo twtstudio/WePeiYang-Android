@@ -15,7 +15,7 @@ class TitleItem(val text1 : String) : Item {
     private companion object  Controller: ItemController {
         override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
             val inflater = parent.context.layoutInflater
-            val view = inflater.inflate(R.layout.lf_item_titleitem,parent,false)
+            val view = inflater.inflate(R.layout.lf2_item_titleitem, parent, false)
             return TitleItemViewHolder(view)
         }
 

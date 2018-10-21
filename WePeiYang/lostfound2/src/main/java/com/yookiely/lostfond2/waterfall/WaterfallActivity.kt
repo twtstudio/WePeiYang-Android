@@ -46,7 +46,7 @@ class WaterfallActivity : AppCompatActivity() {
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
         setContentView(R.layout.lf2_activity_water_fall)
         val waterfallLost: FloatingActionButton = findViewById(R.id.waterfall_fab_lost)
-        val popupWindowView: View = LayoutInflater.from(this).inflate(R.layout.lf_waterfall_cardview_types, null, false)
+        val popupWindowView: View = LayoutInflater.from(this).inflate(R.layout.lf2_waterfall_cardview_types, null, false)
         popWaterfallTypesAll = popupWindowView.findViewById(R.id.waterfall_types_all) //全部分类
         popWaterfallFilter = popupWindowView.findViewById(R.id.waterfall_filter) //筛选条件
         popWaterfallRecyclerview = popupWindowView.findViewById(R.id.waterfall_type_recyclerview)

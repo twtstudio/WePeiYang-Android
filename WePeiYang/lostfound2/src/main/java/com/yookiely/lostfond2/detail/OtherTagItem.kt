@@ -14,7 +14,7 @@ class OtherTagItem(val text3: String, val text2: String) : Item {
     private companion object Controller : ItemController {
         override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
             val inflater = parent.context.layoutInflater
-            val view = inflater.inflate(R.layout.lf_item_othertag, parent, false)
+            val view = inflater.inflate(R.layout.lf2_item_othertag, parent, false)
             return OtherTagViewHolder(view)
         }
 

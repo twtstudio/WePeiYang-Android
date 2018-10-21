@@ -34,13 +34,13 @@ class MylistItem(val context: FragmentActivity?, val lostOrFound: String, val my
             holder as MylistItemViewHolder
             item as MylistItem
 
-            val (id: Int, _: Int, _: String, title: String, place: String, time: String, _: String, detail_type: Int, isback: Int, picture: String, _: String, _: Int, _: String) = item.mylistBean
+            val (id: Int, _: Int, _: String, title: String, place: String, time: String, _: String, detail_type: Int, isback: Int, picture: String?, _: String, _: Int, _: String) = item.mylistBean
             holder.mylist_item_title.text = title
             holder.mylist_item_type.text = Utils.getType(detail_type)
             holder.mylist_item_time.text = time
             holder.mylist_item_place.text = place
 
-            var piclist : List<String> =  picture.split(",")
+            val piclist: List<String> = picture!!.split(",")
             Glide.with(item.context)
                     .load(Utils.getPicUrl(piclist[0]))
                     .asBitmap()

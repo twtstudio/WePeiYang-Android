@@ -19,7 +19,7 @@ class ImageItem(val url : String, val  context1 : Activity) : Item {
     private companion object Controller : ItemController{
         override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
             val inflater = parent.context.layoutInflater
-            val view = inflater.inflate(R.layout.lf_item_imageitem,parent,false)
+            val view = inflater.inflate(R.layout.lf2_item_imageitem, parent, false)
             return ImageItemViewHolder(view)
         }
 

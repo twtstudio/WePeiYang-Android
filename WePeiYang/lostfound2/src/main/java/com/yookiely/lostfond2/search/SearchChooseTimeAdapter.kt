@@ -18,7 +18,7 @@ class SearchChooseTimeAdapter(val context: SearchActivity, val selectedItem: Int
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.lf_item_waterfall_type, parent, false).also {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.lf2_item_waterfall_type, parent, false).also {
             it.layoutParams.width = -1
         }
 

@@ -64,7 +64,7 @@ class SearchActivity : AppCompatActivity() {
         campus = Hawk.get("campus")//1 北洋园 ，2 卫津路
 
         val waterfallPagerAdapter = WaterfallPagerAdapter(supportFragmentManager)
-        val popupwindowView = LayoutInflater.from(this).inflate(R.layout.lf_popupwindow_search, null, false)
+        val popupwindowView = LayoutInflater.from(this).inflate(R.layout.lf2_popupwindow_search, null, false)
         waterfallPagerAdapter.add(foundFragment, "捡到")
         waterfallPagerAdapter.add(lostFragment, "丢失")
         search_pager_vp = findViewById(R.id.search_pager_content)
@@ -221,7 +221,7 @@ class SearchActivity : AppCompatActivity() {
             cursor.close()
             popupWindow.apply {
                 //设置适配器
-                setAdapter(ArrayAdapter<String>(applicationContext, R.layout.lf_popupwindow_item, historyRecord))
+                setAdapter(ArrayAdapter<String>(applicationContext, R.layout.lf2_popupwindow_item, historyRecord))
                 anchorView = view
                 width = 855
                 isModal = false//内部封装的是focused，设置成false才能是popupwindow不自动获取焦点

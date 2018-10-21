@@ -104,7 +104,7 @@ data class MyListDataOrSearchBean(
         val phone: String,
         val detail_type: Int,
         val isback: Int,
-        val picture: String,
+        val picture: String?,
         val recapture_place : String,
         val recapture_entrance : Int,
         val campus : String
