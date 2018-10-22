@@ -60,28 +60,48 @@ class DetailActivity : AppCompatActivity() {
                     setTitle("基本信息")
                     if (mylist1.title != null) {
                         setDetail("标题", mylist1.title, false)
+                    } else {
+                        setDetail("标题", "", false)
                     }
                     if (mylist1.type != null) {
                         setDetail("类型", Utils.getType(mylist1.detail_type), false)
+                    } else {
+                        setDetail("类型", "", false)
                     }
                     if (mylist1.time != null) {
                         setDetail("时间", mylist1.time, false)
-                    }
-                    if (mylist1.place != null) {
-                        setDetail("地点", mylist1.place, false)
-                    }
-                    if (mylist1.card_name != "null" &&  mylist1.card_name != null) {
-                        setDetail("失主姓名", mylist1.card_name, false)
                     } else {
-                        if (Utils.getType(mylist1.detail_type) == "饭卡") {
-                            setDetail("失主姓名", "无", false)
+                        setDetail("时间", "", false)
+                    }
+                    if (mylist1.detail_type != 2) {
+                        if (mylist1.place != null) {
+                            setDetail("地点", mylist1.place, true)
+                        } else {
+                            setDetail("地点", "", true)
+                        }
+                    } else {
+                        if (mylist1.place != null) {
+                            setDetail("地点", mylist1.place, false)
+                        } else {
+                            setDetail("地点", "", false)
                         }
                     }
-                    if (mylist1.card_number != "0" && mylist1.card_number != null  ) {
-                        setDetail("卡号", mylist1.card_number, false)
-                    } else {
-                        if (Utils.getType(mylist1.detail_type) == "饭卡") {
-                            setDetail("卡号", "无", false)
+                    if (mylist1.detail_type == 2) {
+                        if (mylist1.card_name != "null" && mylist1.card_name != null) {
+                            setDetail("失主姓名", mylist1.card_name, false)
+                        } else {
+                            if (Utils.getType(mylist1.detail_type) == "饭卡") {
+                                setDetail("失主姓名", "", false)
+                            }
+                        }
+                    }
+                    if (mylist1.detail_type == 2) {
+                        if (mylist1.card_number != "0" && mylist1.card_number != null) {
+                            setDetail("卡号", mylist1.card_number, false)
+                        } else {
+                            if (Utils.getType(mylist1.detail_type) == "饭卡") {
+                                setDetail("卡号", "", false)
+                            }
                         }
                     }
                     if (mylist1.type != null && mylist1.type == Utils.TYPE_OF_FOUND) {

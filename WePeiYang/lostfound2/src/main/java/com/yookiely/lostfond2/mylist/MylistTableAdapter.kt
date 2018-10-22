@@ -44,6 +44,7 @@ class MylistTableAdapter : RecyclerView.Adapter<MylistTableAdapter.MylistViewHol
             mylist_item_place = view.findViewById(R.id.mylist_item_place)
             mylist_item_back_blue = view.findViewById(R.id.mylist_item_back_blue)
             mylist_item_back_grey = view.findViewById(R.id.mylist_item_back_grey)
+            mylist_item_outdata = view.findViewById(R.id.mylist_item_back_outdata)
             mylist_item_pencil = view.findViewById(R.id.mylist_item_pencil)
             mylist_item_pic = view.findViewById(R.id.mylist_item_pic)
             mylist_item_pencil_touch = view.findViewById(R.id.mylist_item_pencil_touch)
@@ -58,6 +59,7 @@ class MylistTableAdapter : RecyclerView.Adapter<MylistTableAdapter.MylistViewHol
         var mylist_item_place: TextView
         var mylist_item_back_blue: ImageView
         var mylist_item_back_grey: ImageView
+        var mylist_item_outdata: ImageView
         var mylist_item_pencil: ImageView
         var mylist_item_pic: ImageView
 

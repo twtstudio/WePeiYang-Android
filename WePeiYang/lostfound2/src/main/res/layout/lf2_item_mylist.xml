@@ -65,6 +65,17 @@
                 app:layout_constraintTop_toTopOf="@+id/mylist_item_status" />
 
             <ImageView
+                android:id="@+id/mylist_item_back_outdata"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="4dp"
+                android:src="@drawable/lf_mylist_item_outdata"
+                app:layout_constraintBottom_toBottomOf="@+id/mylist_item_status"
+                app:layout_constraintLeft_toRightOf="@id/mylist_item_status"
+                app:layout_constraintTop_toTopOf="@+id/mylist_item_status" />
+
+            <ImageView
                 android:id="@+id/mylist_item_pencil"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
@@ -85,6 +96,7 @@
                 app:layout_constraintBottom_toBottomOf="@+id/mylist_item_status"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/mylist_item_status" />
+
 
             <TextView
                 android:id="@+id/mylist_item_title"

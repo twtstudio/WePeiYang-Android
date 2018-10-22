@@ -92,12 +92,6 @@ class SearchFragment : Fragment(), SearchContract.SearchUIView {
         return view
     }
 
-
-    override fun onResume() {
-        super.onResume()
-        //searchPresenter.loadWaterfallDataWithCondition(lostOrFound, keyword,page, this.type, this.time)
-    }
-
     private fun refresh() {
         isLoading = true
         isRefresh = true
@@ -117,7 +111,7 @@ class SearchFragment : Fragment(), SearchContract.SearchUIView {
                 beanList.clear()
             }
 
-            var databean: MutableList<MyListDataOrSearchBean> = mutableListOf()
+            val databean: MutableList<MyListDataOrSearchBean> = mutableListOf()
             for (temp in waterfallBean) {
                 //1是找到
                 if (lostOrFound == "found" && temp.type == 1) {
