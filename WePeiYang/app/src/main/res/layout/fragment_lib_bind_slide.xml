@@ -25,6 +25,13 @@
         android:text="图书馆绑定"
         android:textColor="@color/common_lv3" />
 
+    <TextView
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="提示：登记过身份证号的密码为第12到17位（即后7位去掉最后一位），没有登记过身份证号的初始密码为666666"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -34,7 +41,7 @@
             android:id="@+id/lib_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="图书馆密码(默认000000或666666)"
+            android:hint="登记过身份证号的密码为第12到17位（即后7位去掉最后一位），没有登记过身份证号的初始密码为666666"
             android:inputType="textPassword"
             android:textColor="@color/common_lv2"
             android:textSize="16sp" />
