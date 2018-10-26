@@ -8,38 +8,38 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="theme_custom_peppa_pink">
-        <item name="android:colorPrimary">@color/custom_peppa_pink</item>
-        <item name="colorPrimary">@color/custom_peppa_pink</item>
-        <item name="android:colorPrimaryDark">@color/custom_peppa_pink</item>
-        <item name="colorPrimaryDark">@color/custom_peppa_pink</item>
+    <style name="theme_custom_coal">
+        <item name="android:colorPrimary">@color/custom_coal</item>
+        <item name="colorPrimary">@color/custom_coal</item>
+        <item name="android:colorPrimaryDark">@color/custom_coal</item>
+        <item name="colorPrimaryDark">@color/custom_coal</item>
     </style>
 
-    <style name="theme_custom_george_blue">
-        <item name="android:colorPrimary">@color/custom_george_blue</item>
-        <item name="colorPrimary">@color/custom_george_blue</item>
-        <item name="android:colorPrimaryDark">@color/custom_george_blue</item>
-        <item name="colorPrimaryDark">@color/custom_george_blue</item>
+    <style name="theme_custom_nordic">
+        <item name="android:colorPrimary">@color/custom_nordic</item>
+        <item name="colorPrimary">@color/custom_nordic</item>
+        <item name="android:colorPrimaryDark">@color/custom_nordic</item>
+        <item name="colorPrimaryDark">@color/custom_nordic</item>
     </style>
 
-    <style name="theme_pig_mom_yellow">
-        <item name="android:colorPrimary">@color/custom_pig_mom_yellow</item>
-        <item name="colorPrimary">@color/custom_pig_mom_yellow</item>
-        <item name="android:colorPrimaryDark">@color/custom_pig_mom_yellow</item>
-        <item name="colorPrimaryDark">@color/custom_pig_mom_yellow</item>
+    <style name="theme_custom_rose">
+        <item name="android:colorPrimary">@color/custom_rose</item>
+        <item name="colorPrimary">@color/custom_rose</item>
+        <item name="android:colorPrimaryDark">@color/custom_rose</item>
+        <item name="colorPrimaryDark">@color/custom_rose</item>
     </style>
 
-    <style name="theme_pig_dad_green">
-        <item name="android:colorPrimary">@color/custom_pig_dad_green</item>
-        <item name="colorPrimary">@color/custom_pig_dad_green</item>
-        <item name="android:colorPrimaryDark">@color/custom_pig_dad_green</item>
-        <item name="colorPrimaryDark">@color/custom_pig_dad_green</item>
+    <style name="theme_custom_matcha">
+        <item name="android:colorPrimary">@color/custom_matcha</item>
+        <item name="colorPrimary">@color/custom_matcha</item>
+        <item name="android:colorPrimaryDark">@color/custom_matcha</item>
+        <item name="colorPrimaryDark">@color/custom_matcha</item>
     </style>
 
-    <style name="theme_gay_purple">
-        <item name="android:colorPrimary">@color/custom_gay_purple</item>
-        <item name="colorPrimary">@color/custom_gay_purple</item>
-        <item name="android:colorPrimaryDark">@color/custom_gay_purple</item>
-        <item name="colorPrimaryDark">@color/custom_gay_purple</item>
+    <style name="theme_custom_gold">
+        <item name="android:colorPrimary">@color/custom_gold</item>
+        <item name="colorPrimary">@color/custom_gold</item>
+        <item name="android:colorPrimaryDark">@color/custom_gold</item>
+        <item name="colorPrimaryDark">@color/custom_gold</item>
     </style>
 </resources>

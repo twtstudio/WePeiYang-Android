@@ -44,8 +44,8 @@ class WePeiYangApp : MultiDexApplication() {
         }
 
         val defaults: Defaults = Defaults(
-                primaryColor = CustomTheme.customPeppaPink,
-                accentColor = CustomTheme.customPeppaPink,
+                primaryColor = CustomTheme.customPollia,
+                accentColor = CustomTheme.customPollia,
                 useDarkTheme = false,
                 translucent = false,
                 customTheme = 0)

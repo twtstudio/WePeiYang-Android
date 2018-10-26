@@ -65,13 +65,11 @@ class OtherItem : Item {
                     text = title
                     textSize = 16f
                     textColor = Color.parseColor("#444444")
-                    typeface = Typeface.create("sans-serif-regular", Typeface.NORMAL)
                 }.lparams(matchParent, wrapContent)
                 textView {
                     text = message
                     textSize = 12f
                     textColor = Color.parseColor("#444444")
-                    typeface = Typeface.create("sans-serif-light", Typeface.NORMAL)
                 }.lparams(matchParent, wrapContent) {
                     topMargin = dip(4)
                 }

@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.support.v4.content.res.ResourcesCompat
 import android.util.AttributeSet
 import android.view.View
 import com.twt.service.schedule2.R
@@ -11,6 +12,7 @@ import com.twt.service.schedule2.extensions.dp2px
 import com.twt.service.schedule2.extensions.layer
 import com.twt.service.schedule2.extensions.textCenter
 import com.twt.wepeiyang.commons.experimental.color.getColorCompat
+import org.jetbrains.anko.withAlpha
 import java.util.*
 
 class WeekSquareView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0) : View(context, attrs, defStyle) {
@@ -33,7 +35,7 @@ class WeekSquareView @JvmOverloads constructor(context: Context, attrs: Attribut
     }
 
     private val backGroundPaint = Paint().apply {
-        color = Color.parseColor("#E6F7F5")
+        color = getColorCompat(R.color.colorPrimary)
     }
     private val pointPaintTrue = Paint().apply {
         color = getColorCompat(R.color.colorPrimary)
@@ -43,18 +45,30 @@ class WeekSquareView @JvmOverloads constructor(context: Context, attrs: Attribut
         color = Color.parseColor("#D0D8D8")
         isAntiAlias = true
     }
+    private val pointPaintFalseWithAlpha = Paint(pointPaintFalse).apply {
+        color = color.withAlpha(0x4F)
+    }
 
     private val textPaint = Paint().apply {
-        color = Color.BLACK
+        color = getColorCompat(R.color.colorPrimary)
         textSize = dp2px(10f)
         isAntiAlias = true
         textAlign = Paint.Align.CENTER
+        typeface = ResourcesCompat.getFont(context, R.font.montserrat_regular)
     }
     private val textPaintBig = Paint().apply {
         color = getColorCompat(R.color.colorPrimary)
         textSize = dp2px(20f)
         isAntiAlias = true
         textAlign = Paint.Align.CENTER
+        typeface = ResourcesCompat.getFont(context, R.font.montserrat_regular)
+    }
+
+    private val textPaintWhite = Paint(textPaint).apply {
+        color = Color.WHITE
+    }
+    private val textPaintBigWhite = Paint(textPaintBig).apply {
+        color = Color.WHITE
     }
 
     /**
@@ -68,7 +82,8 @@ class WeekSquareView @JvmOverloads constructor(context: Context, attrs: Attribut
 
     override fun onDraw(canvas: Canvas) {
         val padding = height / 5 // 核心点矩阵的左右下边距均为五分之一高度
-        if (data.currentWeekText.contains("选中")) {
+        val selected = data.currentWeekText.contains("选中")
+        if (selected) {
             canvas.drawRect(0F, 0F, width.toFloat(), height.toFloat(), selectedBackGroundPaint)
         } else {
             canvas.drawRect(0F, 0F, width.toFloat(), height.toFloat(), backGroundPaint)
@@ -86,9 +101,9 @@ class WeekSquareView @JvmOverloads constructor(context: Context, attrs: Attribut
             val yBase = (height / 2 - padding * 5 / 4).toFloat()
             val xBase = (width / 2).toFloat()
 
-            canvas.drawText(text2, xBase, yBase, textPaintBig)
-            canvas.drawText(text1, xBase - (measuredText1 + measuredText2) / 2, yBase, textPaint)
-            canvas.drawText(text3, xBase + (measuredText3 + measuredText2) / 2, yBase, textPaint)
+            canvas.drawText(text2, xBase, yBase, if (selected) textPaintBig else textPaintBigWhite)
+            canvas.drawText(text1, xBase - (measuredText1 + measuredText2) / 2, yBase, if (selected) textPaint else textPaintWhite)
+            canvas.drawText(text3, xBase + (measuredText3 + measuredText2) / 2, yBase, if (selected) textPaint else textPaintWhite)
 
         }
 
@@ -104,9 +119,9 @@ class WeekSquareView @JvmOverloads constructor(context: Context, attrs: Attribut
                     val pointX = xBase + (pointMargin / 2) + x * pointMargin
                     val pointY = yBase + (pointMargin / 2) + y * pointMargin
                     if (list[y]) {
-                        canvas.drawCircle(pointX.toFloat(), pointY.toFloat(), dp2px(3.3f), pointPaintTrue)
+                        canvas.drawCircle(pointX.toFloat(), pointY.toFloat(), dp2px(3.3f), if (selected) pointPaintTrue else pointPaintFalse) // 原本要绘制的有课程点位
                     } else {
-                        canvas.drawCircle(pointX.toFloat(), pointY.toFloat(), dp2px(3.3f), pointPaintFalse)
+                        canvas.drawCircle(pointX.toFloat(), pointY.toFloat(), dp2px(3.3f), if (selected) pointPaintFalse else pointPaintFalseWithAlpha)
                     }
                 }
             }
@@ -115,7 +130,7 @@ class WeekSquareView @JvmOverloads constructor(context: Context, attrs: Attribut
         layer {
             if (data.currentWeekText != "") {
                 val text = data.currentWeekText
-                canvas.textCenter(listOf(text), textPaint, (width / 2).toFloat(), (height - padding / 2).toFloat(), Paint.Align.CENTER)
+                canvas.textCenter(listOf(text), if (data.currentWeekText == "本周") textPaintWhite else textPaint, (width / 2).toFloat(), (height - padding / 2).toFloat(), Paint.Align.CENTER)
             }
         }
 

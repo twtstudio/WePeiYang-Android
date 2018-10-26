@@ -13,6 +13,10 @@ import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
 import com.twtstudio.retrox.auth.view.LoginActivity
 import org.jetbrains.anko.shortcutManager
 import org.jetbrains.anko.startActivity
+import java.lang.reflect.AccessibleObject.setAccessible
+import android.graphics.Typeface
+
+
 
 /**
  * Created by retrox on 2017/1/20.
