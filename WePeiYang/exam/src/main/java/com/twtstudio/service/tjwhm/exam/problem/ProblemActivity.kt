@@ -62,6 +62,8 @@ class ProblemActivity : AppCompatActivity(), ProblemActivityInterface {
     private lateinit var problemIndexPopup: ProblemIndexPopup
     private val pagerAdapter = ProblemPagerAdapter(supportFragmentManager)
 
+    private var startTime = 0L
+
     private var statusBarView: View? = null
     var userSelectionsForPractice: MutableList<List<Int>> = mutableListOf()
     var userSelectionsForTest: MutableMap<Int, UpdateResultViewModel> = mutableMapOf()
@@ -124,6 +126,7 @@ class ProblemActivity : AppCompatActivity(), ProblemActivityInterface {
                     write(lessonID.toString(), problemType.toString(), (currentFragmentIndex - 1).toString())
             }
         })
+        startTime = System.currentTimeMillis()
     }
 
     private fun initTvLeftRight() {
@@ -258,6 +261,7 @@ class ProblemActivity : AppCompatActivity(), ProblemActivityInterface {
                 is RefreshState.Success -> {
                     Toasty.success(this@ProblemActivity, "交卷成功！", Toast.LENGTH_SHORT).show()
                     val intent = Intent(this@ProblemActivity, ScoreActivity::class.java)
+                    intent.putExtra(ScoreActivity.TEST_TIME_KEY, System.currentTimeMillis() - startTime)
                     intent.putExtra(ScoreActivity.SCORE_BEAN_KEY, it.message.data)
                     intent.putExtra(ScoreActivity.PROBLEM_FOR_TEST_KEY, testBean)
                     this@ProblemActivity.startActivity(intent)

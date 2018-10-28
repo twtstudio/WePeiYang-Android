@@ -31,7 +31,6 @@ import okhttp3.MultipartBody
 
 class ProblemFragment : Fragment() {
 
-
     companion object {
 
         const val FRAGMENT_INDEX_KEY = "fragment_index_key"
@@ -91,6 +90,8 @@ class ProblemFragment : Fragment() {
     private var singleSelectionAnswer = -1
     private var multiSelectionAnswers: MutableList<Int> = mutableListOf()
 
+    private var isCollected = false
+
 
     private lateinit var tvType: TextView
     private lateinit var tvTitle: TextView
@@ -144,6 +145,13 @@ class ProblemFragment : Fragment() {
         tvIndex.text = "${fragmentIndex + 1}/${mActivity.size}"
         getProblemData()
 
+        ivStar.setOnClickListener {
+            if (isCollected) {
+                cancelCollectProblem()
+            } else {
+                collectProblem()
+            }
+        }
         return view
     }
 
@@ -156,6 +164,7 @@ class ProblemFragment : Fragment() {
                     is RefreshState.Success -> {
                         // 在 service 中已经判断 data 不为空
                         it.message.data!!.apply {
+                            //                            this@ProblemFragment.type = type
                             tvType.text = this.ques_type.toProblemType()
                             tvTitle.text = Html.fromHtml(this.content)
                             tvTitle.setOnLongClickListener {
@@ -214,49 +223,12 @@ class ProblemFragment : Fragment() {
                         if (it.message.data!!.is_collected == 1) {
                             ivStar.apply {
                                 setImageResource(R.drawable.exam_ic_star_filled)
-                                setOnClickListener { _ ->
-                                    val list = MultipartBody.Builder()
-                                            .setType(MultipartBody.FORM)
-                                            .addFormDataPart("ques_type", type.toString())
-                                            .addFormDataPart("ques_id", problemID.toString())
-                                            .build()
-                                            .parts()
-                                    deleteCollection(StarActivity.STAR.toString(), list) { it ->
-                                        when (it) {
-                                            is RefreshState.Failure -> Toasty.error(context, "网络错误", Toast.LENGTH_SHORT).show()
-                                            is RefreshState.Success -> {
-                                                if (it.message.error_code == 0) {
-                                                    Toasty.success(context, "取消收藏", Toast.LENGTH_SHORT).show()
-                                                    getProblemData()
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
+                                isCollected = true
                             }
                         } else {
                             ivStar.apply {
                                 setImageResource(R.drawable.exam_ic_star_blank)
-
-                                setOnClickListener { _ ->
-                                    val list = MultipartBody.Builder()
-                                            .setType(MultipartBody.FORM)
-                                            .addFormDataPart("ques_type", type.toString())
-                                            .addFormDataPart("ques_id", problemID.toString())
-                                            .build()
-                                            .parts()
-                                    addCollection(StarActivity.STAR.toString(), list) { it ->
-                                        when (it) {
-                                            is RefreshState.Failure -> Toasty.error(context, "网络错误", Toast.LENGTH_SHORT).show()
-                                            is RefreshState.Success -> {
-                                                if (it.message.error_code == 0) {
-                                                    Toasty.success(context, "收藏成功", Toast.LENGTH_SHORT).show()
-                                                    getProblemData()
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
+                                isCollected = false
                             }
                         }
                         showStoredAnswers()
@@ -274,7 +246,58 @@ class ProblemFragment : Fragment() {
                     selectionItem(this@ProblemFragment, it.toSelectionIndex(), oneProblemData.option[it], SelectionItem.NONE)
                 }
             }
+            ivStar.apply {
+                if (oneProblemData.is_collected == 1) {
+                    setImageResource(R.drawable.exam_ic_star_filled)
+                    isCollected = true
+                } else {
+                    setImageResource(R.drawable.exam_ic_star_blank)
+                    isCollected = false
+                }
+            }
             showStoredAnswers()
+        }
+    }
+
+    private fun collectProblem() {
+        val list = MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("ques_type", type.toString())
+                .addFormDataPart("ques_id", problemID.toString())
+                .build()
+                .parts()
+        addCollection(StarActivity.STAR.toString(), list) { it ->
+            when (it) {
+                is RefreshState.Failure -> context?.let { it1 -> Toasty.error(it1, "网络错误", Toast.LENGTH_SHORT).show() }
+                is RefreshState.Success -> {
+                    if (it.message.error_code == 0) {
+                        context?.let { it1 -> Toasty.success(it1, "收藏成功", Toast.LENGTH_SHORT).show() }
+                        isCollected = true
+                        ivStar.setImageResource(R.drawable.exam_ic_star_filled)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun cancelCollectProblem() {
+        val list = MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("ques_type", type.toString())
+                .addFormDataPart("ques_id", problemID.toString())
+                .build()
+                .parts()
+        deleteCollection(StarActivity.STAR.toString(), list) { it ->
+            when (it) {
+                is RefreshState.Failure -> context?.let { it1 -> Toasty.error(it1, "网络错误", Toast.LENGTH_SHORT).show() }
+                is RefreshState.Success -> {
+                    if (it.message.error_code == 0) {
+                        context?.let { it1 -> Toasty.success(it1, "取消收藏", Toast.LENGTH_SHORT).show() }
+                        isCollected = false
+                        ivStar.setImageResource(R.drawable.exam_ic_star_blank)
+                    }
+                }
+            }
         }
     }
 

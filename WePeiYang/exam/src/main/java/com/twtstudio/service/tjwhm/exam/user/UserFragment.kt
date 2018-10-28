@@ -76,7 +76,9 @@ class UserFragment : Fragment() {
             tvUserTitle.text = it.title_name
 
             tvProblemsNum.text = it.done_count
-            tvProblemsRadio.text = "${((it.error_count.toDouble() / it.done_count.toDouble()).toString() + "00").substring(2, 4)}%"
+            var radioText = ((it.error_count.toDouble() / it.done_count.toDouble()).toString() + "00").substring(2, 4)
+            if (radioText[0] == '0') radioText = radioText.removeRange(0, 1)
+            tvProblemsRadio.text = "$radioText%"
             tvLessonsNum.text = it.course_count.toString()
         }
     }
