@@ -29,9 +29,9 @@ import org.jetbrains.anko.layoutInflater
  * Happy coding!
  */
 
-class TypeSelectPopup(mContext: Context, private val startXY: Pair<Float, Float>, private val lessonID: Int, private val showTest: Boolean) : BlurPopupWindow(mContext), LifecycleOwner {
+class TypeSelectPopup(mContext: Context, private val listActivityInterface: ListActivityInterface?, private val startXY: Pair<Float, Float>, private val lessonID: Int, private val showTest: Boolean) : BlurPopupWindow(mContext), LifecycleOwner {
 
-    constructor(context: Context) : this(context, Pair(0.0f, 0.0f), 0, false)
+    constructor(context: Context) : this(context, null, Pair(0.0f, 0.0f), 0, false)
 
     private val lifecycleRegistry = LifecycleRegistry(this)
 
@@ -75,7 +75,6 @@ class TypeSelectPopup(mContext: Context, private val startXY: Pair<Float, Float>
     @SuppressLint("SetTextI18n")
     override fun onShow() {
         lifecycleRegistry.markState(Lifecycle.State.STARTED)
-
         if (!showTest) {
             tvTestTitle.visibility = View.GONE
             tvTestDesc.visibility = View.GONE
@@ -104,6 +103,7 @@ class TypeSelectPopup(mContext: Context, private val startXY: Pair<Float, Float>
                                         intent.putExtra(ProblemActivity.MODE_KEY, ProblemActivity.READ_AND_PRACTICE)
                                         intent.putExtra(ProblemActivity.PROBLEM_TYPE_KEY, ProblemActivity.SINGLE_CHOICE)
                                         context.startActivity(intent)
+                                        listActivityInterface?.initList()
                                         dismiss()
                                     }
                                 }
@@ -115,6 +115,7 @@ class TypeSelectPopup(mContext: Context, private val startXY: Pair<Float, Float>
                                     intent.putExtra(ProblemActivity.PROBLEM_TYPE_KEY, ProblemActivity.SINGLE_CHOICE)
                                     intent.putExtra(ProblemActivity.CONTINUE_INDEX_KEY, single_ques_index)
                                     context.startActivity(intent)
+                                    listActivityInterface?.initList()
                                     dismiss()
                                 }
 
@@ -131,6 +132,7 @@ class TypeSelectPopup(mContext: Context, private val startXY: Pair<Float, Float>
                                         intent.putExtra(ProblemActivity.MODE_KEY, ProblemActivity.READ_AND_PRACTICE)
                                         intent.putExtra(ProblemActivity.PROBLEM_TYPE_KEY, ProblemActivity.MULTI_CHOICE)
                                         context.startActivity(intent)
+                                        listActivityInterface?.initList()
                                         dismiss()
                                     }
                                 }
@@ -142,6 +144,7 @@ class TypeSelectPopup(mContext: Context, private val startXY: Pair<Float, Float>
                                     intent.putExtra(ProblemActivity.PROBLEM_TYPE_KEY, ProblemActivity.MULTI_CHOICE)
                                     intent.putExtra(ProblemActivity.CONTINUE_INDEX_KEY, multi_ques_index)
                                     context.startActivity(intent)
+                                    listActivityInterface?.initList()
                                     dismiss()
                                 }
                             }
@@ -157,6 +160,7 @@ class TypeSelectPopup(mContext: Context, private val startXY: Pair<Float, Float>
                                         intent.putExtra(ProblemActivity.MODE_KEY, ProblemActivity.READ_AND_PRACTICE)
                                         intent.putExtra(ProblemActivity.PROBLEM_TYPE_KEY, ProblemActivity.TRUE_FALSE)
                                         context.startActivity(intent)
+                                        listActivityInterface?.initList()
                                         dismiss()
                                     }
                                 }
@@ -169,6 +173,7 @@ class TypeSelectPopup(mContext: Context, private val startXY: Pair<Float, Float>
                                     intent.putExtra(ProblemActivity.PROBLEM_TYPE_KEY, ProblemActivity.TRUE_FALSE)
                                     intent.putExtra(ProblemActivity.CONTINUE_INDEX_KEY, decide_ques_index)
                                     context.startActivity(intent)
+                                    listActivityInterface?.initList()
                                     dismiss()
                                 }
                             }
@@ -176,6 +181,7 @@ class TypeSelectPopup(mContext: Context, private val startXY: Pair<Float, Float>
                         tvTestEnter.setOnClickListener {
                             intent.putExtra(ProblemActivity.MODE_KEY, ProblemActivity.CONTEST)
                             context.startActivity(intent)
+                            listActivityInterface?.initList()
                             dismiss()
                         }
                     }

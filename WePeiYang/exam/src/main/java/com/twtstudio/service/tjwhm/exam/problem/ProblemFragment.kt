@@ -247,12 +247,12 @@ class ProblemFragment : Fragment() {
                 }
             }
             ivStar.apply {
-                if (oneProblemData.is_collected == 1) {
+                isCollected = if (oneProblemData.is_collected == 1) {
                     setImageResource(R.drawable.exam_ic_star_filled)
-                    isCollected = true
+                    true
                 } else {
                     setImageResource(R.drawable.exam_ic_star_blank)
-                    isCollected = false
+                    false
                 }
             }
             showStoredAnswers()

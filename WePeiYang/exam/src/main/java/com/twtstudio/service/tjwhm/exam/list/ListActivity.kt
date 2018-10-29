@@ -16,9 +16,22 @@ import android.text.TextWatcher
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
+import com.twt.wepeiyang.commons.ui.rec.ItemAdapter
+import com.twt.wepeiyang.commons.ui.rec.refreshAll
 
 
-class ListActivity : AppCompatActivity() {
+class ListActivity : AppCompatActivity(), ListActivityInterface {
+
+    override fun initList() {
+        val adapter = rvList.adapter
+        adapter as ItemAdapter
+        val list = adapter.itemManager.itemListSnapshot.toMutableList()
+        for (i in 0 until list.size) {
+            list[i] = LessonItem(list[i] as LessonItem)
+        }
+
+        adapter.itemManager.refreshAll(list)
+    }
 
     private lateinit var rvList: RecyclerView
     private lateinit var etSearch: EditText
@@ -36,7 +49,6 @@ class ListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         setContentView(R.layout.exam_activity_list)
-
         rvList = findViewById(R.id.rv_list)
         etSearch = findViewById(R.id.et_search_list)
         etSearch.visibility = View.GONE
@@ -45,7 +57,6 @@ class ListActivity : AppCompatActivity() {
         if (type == ONLINE) etSearch.visibility = View.VISIBLE
 
         rvList.layoutManager = LinearLayoutManager(this@ListActivity)
-
         etSearch.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 if (s.toString().isNotEmpty() && s.toString() != "") {
@@ -59,7 +70,7 @@ class ListActivity : AppCompatActivity() {
                                     0 -> Toasty.info(this@ListActivity, "搜索结果为空！", Toast.LENGTH_SHORT).show()
                                     else -> rvList.withItems {
                                         for (i in 0 until it.message.data!!.size) {
-                                            lessonItem(this@ListActivity, it.message.data!![i])
+                                            lessonItem(this@ListActivity, this@ListActivity, it.message.data!![i], false)
                                         }
                                     }
                                 }
@@ -73,7 +84,7 @@ class ListActivity : AppCompatActivity() {
                             is RefreshState.Success ->
                                 rvList.withItems {
                                     for (i in 0 until it.message.data!!.size) {
-                                        lessonItem(this@ListActivity, it.message.data!![i])
+                                        lessonItem(this@ListActivity, this@ListActivity, it.message.data!![i], false)
                                     }
                                 }
                         }
@@ -97,14 +108,13 @@ class ListActivity : AppCompatActivity() {
                 is RefreshState.Success ->
                     rvList.withItems {
                         for (i in 0 until it.message.data!!.size) {
-                            lessonItem(this@ListActivity, it.message.data!![i])
+                            lessonItem(this@ListActivity, this@ListActivity, it.message.data!![i], false)
                         }
                     }
 
             }
         }
     }
-
 
     private fun initStatusBar() {
         if (statusBarView == null) {
@@ -114,4 +124,8 @@ class ListActivity : AppCompatActivity() {
         statusBarView?.setBackgroundResource(R.drawable.exam_shape_statusbar_gradient)
     }
 
+}
+
+interface ListActivityInterface {
+    fun initList()
 }

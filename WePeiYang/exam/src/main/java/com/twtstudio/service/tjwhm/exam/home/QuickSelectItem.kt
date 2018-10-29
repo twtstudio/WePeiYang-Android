@@ -31,7 +31,7 @@ class QuickSelectItem(val context: Context, val courseID: Int, val courseName: S
             holder.apply {
                 tvName?.text = item.courseName
                 itemView.setOnClickListener {
-                    val popup = TypeSelectPopup(item.context, Pair(itemView.x, itemView.y), item.courseID, true)
+                    val popup = TypeSelectPopup(item.context, null, Pair(itemView.x, itemView.y), item.courseID, true)
                     popup.show()
                 }
             }

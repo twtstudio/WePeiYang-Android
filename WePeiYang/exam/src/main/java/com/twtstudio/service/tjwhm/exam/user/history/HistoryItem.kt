@@ -41,7 +41,7 @@ class HistoryItem(val context: Context, val oneHistoryBean: OneHistoryBean) : It
                 if (item.oneHistoryBean.type.toInt().toMode() == "模拟测试") {
                     tvProblemType?.visibility = View.GONE
                     itemView.setOnClickListener {
-                        val popup = TypeSelectPopup(item.context, Pair(tvTitle!!.x, tvTitle.y), item.oneHistoryBean.course_id.toInt(), true)
+                        val popup = TypeSelectPopup(item.context, null, Pair(tvTitle!!.x, tvTitle.y), item.oneHistoryBean.course_id.toInt(), true)
                         popup.show()
                     }
                 } else {

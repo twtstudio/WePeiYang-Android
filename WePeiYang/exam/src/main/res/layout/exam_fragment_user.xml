@@ -42,7 +42,7 @@
         android:layout_marginStart="48dp"
         android:layout_marginTop="8dp"
         android:gravity="center"
-        android:textColor="@color/examTextRed"
+        android:textColor="#26475A"
         app:layout_constraintLeft_toRightOf="@id/civ_avatar"
         app:layout_constraintTop_toBottomOf="@id/tv_user_name"
         tools:text="刷题小火箭" />
@@ -55,6 +55,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:background="@color/examDividerBlue"
+        android:visibility="invisible"
         app:layout_constraintTop_toBottomOf="@id/civ_avatar" />
 
     <TextView
@@ -109,7 +110,7 @@
         android:layout_width="1dp"
         android:layout_height="88dp"
         android:layout_marginTop="24dp"
-        android:background="@color/examDividerBlue"
+        android:background="@color/examArrowGrey"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/user_divider_one" />
@@ -156,6 +157,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:background="@color/examDividerBlue"
+        android:visibility="invisible"
         app:layout_constraintTop_toBottomOf="@id/ll_user_radio" />
 
     <LinearLayout

@@ -15,9 +15,11 @@ import com.twtstudio.service.tjwhm.exam.commons.NoneAnimatorListener
 import com.twtstudio.service.tjwhm.exam.problem.ProblemActivity
 import org.jetbrains.anko.layoutInflater
 
-class LessonItem(val context: Context, val lessonBean: LessonBean) : Item {
+class LessonItem(val context: Context, val listActivityInterface: ListActivityInterface, val lessonBean: LessonBean, var isExpand: Boolean) : Item {
     override val controller: ItemController
         get() = Controller
+
+    constructor(lessonItem: LessonItem) : this(lessonItem.context, lessonItem.listActivityInterface, lessonItem.lessonBean, false)
 
     companion object Controller : ItemController {
         override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder =
@@ -31,61 +33,61 @@ class LessonItem(val context: Context, val lessonBean: LessonBean) : Item {
                 tvEnterPractice?.visibility = View.GONE
                 tvTitle?.text = item.lessonBean.course_name
                 itemView.setOnClickListener { _ ->
-                    if (isExpand) {
+                    if (item.isExpand) {
                         tvEnterContest?.apply {
-                            animate()?.translationY(-16f)
-                                    ?.alpha(0f)
-                                    ?.setDuration(200)
-                                    ?.setListener(GoneAnimatorListener(this))
+                            animate().translationY(-8f)
+                                    .alpha(0f)
+                                    .setDuration(200)
+                                    .setListener(GoneAnimatorListener(this))
                         }
                         tvEnterPractice?.apply {
-                            animate()?.translationY(-16f)
-                                    ?.alpha(0f)
-                                    ?.setListener(GoneAnimatorListener(this))
+                            animate().translationY(-8f)
+                                    .alpha(0f)
+                                    .setListener(GoneAnimatorListener(this))
                         }
                         ivExpend?.animate()?.rotation(0f)
-                        isExpand = false
+                        item.isExpand = false
 
                     } else {
                         tvEnterContest?.apply {
                             visibility = View.VISIBLE
                             alpha = 0f
-                            animate()?.translationYBy(16f)
-                                    ?.alpha(1f)
-                                    ?.setDuration(200)
-                                    ?.setListener(NoneAnimatorListener)
+                            animate().translationYBy(8f)
+                                    .alpha(1f)
+                                    .setDuration(200)
+                                    .setListener(NoneAnimatorListener)
                         }
                         tvEnterPractice?.apply {
                             visibility = View.VISIBLE
                             alpha = 0f
-                            animate()?.translationYBy(16f)
-                                    ?.alpha(1f)
-                                    ?.setDuration(200)
-                                    ?.setListener(NoneAnimatorListener)
+                            animate().translationYBy(8f)
+                                    .alpha(1f)
+                                    .setDuration(200)
+                                    .setListener(NoneAnimatorListener)
                         }
                         ivExpend?.animate()
                                 ?.rotation(90.0f)
-                        isExpand = true
+                        item.isExpand = true
                     }
                 }
 
                 val intent = Intent(item.context, ProblemActivity::class.java)
                 intent.putExtra(ProblemActivity.LESSON_ID_KEY, item.lessonBean.course_id)
                 tvEnterPractice?.setOnClickListener {
-                    val popup = TypeSelectPopup(item.context, Pair(tvEnterPractice.x, tvEnterPractice.y), item.lessonBean.course_id, false)
+                    val popup = TypeSelectPopup(item.context, item.listActivityInterface, Pair(tvEnterPractice.x, tvEnterPractice.y), item.lessonBean.course_id, false)
                     popup.show()
                 }
 
                 tvEnterContest?.setOnClickListener {
                     intent.putExtra(ProblemActivity.MODE_KEY, ProblemActivity.CONTEST)
                     item.context.startActivity(intent)
+                    item.listActivityInterface.initList()
                 }
             }
         }
     }
 
     private class LessonViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
-        var isExpand = false
         val tvTitle: TextView? = itemView?.findViewById(R.id.tv_list_lesson_title)
         val ivExpend: ImageView? = itemView?.findViewById(R.id.iv_list_expend)
         val tvEnterContest: TextView? = itemView?.findViewById(R.id.tv_enter_contest)
@@ -93,4 +95,4 @@ class LessonItem(val context: Context, val lessonBean: LessonBean) : Item {
     }
 }
 
-fun MutableList<Item>.lessonItem(activity: ListActivity, lessonBean: LessonBean) = add(LessonItem(activity, lessonBean))
+fun MutableList<Item>.lessonItem(context: Context, listActivityInterface: ListActivityInterface, lessonBean: LessonBean, isExpand: Boolean) = add(LessonItem(context, listActivityInterface, lessonBean, isExpand))
