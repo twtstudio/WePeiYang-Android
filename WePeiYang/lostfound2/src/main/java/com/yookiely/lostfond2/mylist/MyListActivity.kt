@@ -50,8 +50,6 @@ class MyListActivity : AppCompatActivity() {
         mylist_tabLayout.setupWithViewPager(mylist_pager)
         mylist_tabLayout.tabGravity = TabLayout.GRAVITY_FILL
         mylist_tabLayout.setSelectedTabIndicatorColor(Color.parseColor("#00a1e9"))
-
-
     }
 
     private fun initPopupwindow(view: View) {

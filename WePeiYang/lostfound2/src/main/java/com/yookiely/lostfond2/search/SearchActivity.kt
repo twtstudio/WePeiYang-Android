@@ -99,7 +99,7 @@ class SearchActivity : AppCompatActivity() {
 
         searchView.clearFocus()
         searchView.setOnQueryTextFocusChangeListener { view, b ->
-            if (b && canshow) {
+            if (b) {
                 showListPopupWindow(view, db)//初始化弹窗
                 popupWindow.show()
             }

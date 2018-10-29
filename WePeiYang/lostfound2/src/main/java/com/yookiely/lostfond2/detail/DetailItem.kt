@@ -42,7 +42,6 @@ class DetailItem(val text1: String, val text2: String, val isLast: Boolean) : It
                 holder.spilit.visibility = View.VISIBLE
             }
         }
-
     }
 
     private class DetailItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -52,7 +51,6 @@ class DetailItem(val text1: String, val text2: String, val isLast: Boolean) : It
         val detailQuestionMark: ImageView = itemView.findViewById(R.id.detail_question_mark)
         val detailRecaptureComment: TextView = itemView.findViewById(R.id.detail_recapture_comment)
     }
-
 
     override val controller: ItemController
         get() = DetailItem

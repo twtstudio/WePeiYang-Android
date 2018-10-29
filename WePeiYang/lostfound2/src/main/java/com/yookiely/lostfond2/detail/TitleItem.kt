@@ -24,16 +24,13 @@ class TitleItem(val text1 : String) : Item {
             item as TitleItem
 
             holder.title.text = item.text1
-
         }
-
     }
 
     private class TitleItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val title : TextView = itemView.findViewById(R.id.title_title)
 
     }
-
 
     override val controller: ItemController
         get() = TitleItem

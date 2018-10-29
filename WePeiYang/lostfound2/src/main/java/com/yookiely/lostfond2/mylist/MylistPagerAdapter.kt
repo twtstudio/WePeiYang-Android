@@ -1,6 +1,5 @@
 package com.yookiely.lostfond2.mylist
 
-
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
@@ -21,6 +20,5 @@ class MylistPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
     override fun getCount(): Int = fragmentsOfMylist.size
 
     override fun getPageTitle(position: Int): CharSequence = fragmentsTitles[position]
-
 }
 

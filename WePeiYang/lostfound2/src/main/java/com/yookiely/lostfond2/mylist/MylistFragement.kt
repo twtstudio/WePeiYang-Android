@@ -15,7 +15,6 @@ import com.yookiely.lostfond2.service.MyListDataOrSearchBean
 
 class MylistFragement : Fragment(), MyListService.MyListView {
 
-
     lateinit var mylist_recyclerview: RecyclerView
     lateinit var mylist_progress: ProgressBar
     lateinit var mylist_nodata: LinearLayout
@@ -38,9 +37,6 @@ class MylistFragement : Fragment(), MyListService.MyListView {
             return fragment
         }
     }
-
-
-
 
     override fun setMylistData(mylistBean: List<MyListDataOrSearchBean>) {
         if (needClear) {
@@ -65,13 +61,12 @@ class MylistFragement : Fragment(), MyListService.MyListView {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view: View = inflater.inflate(R.layout.lf2_fragment_mylist, container, false)
-        mylist_recyclerview = view!!.findViewById(R.id.mylist_recyclerView)
-        mylist_progress = view!!.findViewById(R.id.mylist_progress)
-        mylist_nodata = view!!.findViewById(R.id.mylist_nodata)
-        val bundle = arguments
+        mylist_recyclerview = view.findViewById(R.id.mylist_recyclerView)
+        mylist_progress = view.findViewById(R.id.mylist_progress)
+        mylist_nodata = view.findViewById(R.id.mylist_nodata)
+        var bundle = arguments
         lostOrFound = bundle!!.getString("index")
         initValues()
-
 
         mylist_recyclerview.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
@@ -90,7 +85,6 @@ class MylistFragement : Fragment(), MyListService.MyListView {
         return view
     }
 
-
     override fun turnStatus(id: Int) {
         mylistPresenter.turnStatus(id)
     }
@@ -98,7 +92,6 @@ class MylistFragement : Fragment(), MyListService.MyListView {
     override fun turnStatusSuccessCallBack() {
         needClear = true
         mylistPresenter.loadMylistData(lostOrFound, 1)
-
     }
 
     override fun onResume() {
@@ -114,7 +107,6 @@ class MylistFragement : Fragment(), MyListService.MyListView {
         mylist_nodata.visibility = View.GONE
         mylist_progress.visibility = View.VISIBLE
 
-
         layoutManager = LinearLayoutManager(activity)
         mylist_recyclerview.layoutManager = layoutManager
         tableAdapter = MylistTableAdapter(mylistBean, activity, lostOrFound, this)
@@ -129,4 +121,6 @@ class MylistFragement : Fragment(), MyListService.MyListView {
 //        }
 
     }
+
+
 }

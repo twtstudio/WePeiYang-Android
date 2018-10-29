@@ -34,7 +34,6 @@ class SearchPresenterImpl(val searchUIView: SearchContract.SearchUIView) : Searc
 
     override fun loadWaterfallDataWithTime(lostOrFound: String, keyword: String, page: Int, time: Int) {
         loadWaterfallData(lostOrFound, keyword, page, time)
-
     }
 
     override fun setWaterfallData(waterfallBean: List<MyListDataOrSearchBean>) {

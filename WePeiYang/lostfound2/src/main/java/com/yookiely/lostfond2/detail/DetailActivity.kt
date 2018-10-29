@@ -56,6 +56,7 @@ class DetailActivity : AppCompatActivity() {
                 }
                 recyclerView.withItems {
 
+                    //最后一个参数设置成true，则该detail下面灭有分割线
                     setTitle("基本信息")
                     if (mylist1.title != null) {
                         setDetail("标题", mylist1.title, false)
@@ -72,7 +73,7 @@ class DetailActivity : AppCompatActivity() {
                     } else {
                         setDetail("时间", "", false)
                     }
-                    if (mylist1.detail_type != 2) {
+                    if (mylist1.detail_type != 2 && mylist1.type != 1) {
                         if (mylist1.place != null) {
                             setDetail("地点", mylist1.place, true)
                         } else {

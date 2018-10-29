@@ -22,8 +22,6 @@ class MylistPresenterImpl(mylistView: MyListService.MyListView) : MyListService.
                 setMylistData(mylist.data!!)
             }
         }
-
-
     }
 
     override fun turnStatus(id: Int) {
@@ -35,9 +33,7 @@ class MylistPresenterImpl(mylistView: MyListService.MyListView) : MyListService.
         }
     }
 
-
     override fun turnStatuSuccessCallBack(callbackBean: String) {
         mylistView.turnStatusSuccessCallBack()
     }
-
 }

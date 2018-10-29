@@ -18,39 +18,10 @@ import com.yookiely.lostfond2.release.ReleaseActivity
 import com.yookiely.lostfond2.service.MyListDataOrSearchBean
 import com.yookiely.lostfond2.service.Utils
 
-
-class MylistTableAdapter : RecyclerView.Adapter<MylistTableAdapter.MylistViewHolder> {
-
-
-    var mylistBean: MutableList<MyListDataOrSearchBean>
-    var context: FragmentActivity?
-    var lostOrFound: String
-    var mylistView: MyListService.MyListView
-
-    constructor(mylistBean: MutableList<MyListDataOrSearchBean>, context: FragmentActivity?, lostOrFound: String, mylistView: MyListService.MyListView) {
-        this.mylistBean = mylistBean
-        this.context = context
-        this.lostOrFound = lostOrFound
-        this.mylistView = mylistView
-    }
+class MylistTableAdapter(var mylistBean: MutableList<MyListDataOrSearchBean>, var context: FragmentActivity?, var lostOrFound: String, var mylistView: MyListService.MyListView) : RecyclerView.Adapter<MylistTableAdapter.MylistViewHolder>() {
 
 
-    class MylistViewHolder : RecyclerView.ViewHolder {
-        constructor(view: View) : super(view) {
-            mylist_item_status = view.findViewById(R.id.mylist_item_status)
-            mylist_item_title = view.findViewById(R.id.mylist_item_title)
-            mylist_item_type = view.findViewById(R.id.mylist_item_type)
-            mylist_item_time = view.findViewById(R.id.mylist_item_time)
-            mylist_item_place = view.findViewById(R.id.mylist_item_place)
-            mylist_item_back_blue = view.findViewById(R.id.mylist_item_back_blue)
-            mylist_item_back_grey = view.findViewById(R.id.mylist_item_back_grey)
-            mylist_item_outdata = view.findViewById(R.id.mylist_item_back_outdata)
-            mylist_item_pencil = view.findViewById(R.id.mylist_item_pencil)
-            mylist_item_pic = view.findViewById(R.id.mylist_item_pic)
-            mylist_item_pencil_touch = view.findViewById(R.id.mylist_item_pencil_touch)
-
-
-        }
+    class MylistViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         var mylist_item_status: TextView
         var mylist_item_title: TextView
@@ -64,6 +35,20 @@ class MylistTableAdapter : RecyclerView.Adapter<MylistTableAdapter.MylistViewHol
         var mylist_item_pic: ImageView
 
         var mylist_item_pencil_touch: TextView
+
+        init {
+            mylist_item_status = view.findViewById(R.id.mylist_item_status)
+            mylist_item_title = view.findViewById(R.id.mylist_item_title)
+            mylist_item_type = view.findViewById(R.id.mylist_item_type)
+            mylist_item_time = view.findViewById(R.id.mylist_item_time)
+            mylist_item_place = view.findViewById(R.id.mylist_item_place)
+            mylist_item_back_blue = view.findViewById(R.id.mylist_item_back_blue)
+            mylist_item_back_grey = view.findViewById(R.id.mylist_item_back_grey)
+            mylist_item_outdata = view.findViewById(R.id.mylist_item_back_outdata)
+            mylist_item_pencil = view.findViewById(R.id.mylist_item_pencil)
+            mylist_item_pic = view.findViewById(R.id.mylist_item_pic)
+            mylist_item_pencil_touch = view.findViewById(R.id.mylist_item_pencil_touch)
+        }
     }
 
     @SuppressLint("SetTextI18n")
@@ -109,6 +94,17 @@ class MylistTableAdapter : RecyclerView.Adapter<MylistTableAdapter.MylistViewHol
                 holder.mylist_item_status.text = "未找到"
             }
         }
+
+//        if (isExpired){//0是未过期
+//            holder.mylist_item_back_blue.visibility = View.GONE
+//            holder.mylist_item_back_grey.visibility = View.GONE
+//            holder.mylist_item_outdata.visibility = View.VISIBLE
+//            holder.mylist_item_status.text = "已过期"
+//        }
+
+        holder.mylist_item_status.setOnClickListener({ view -> mylistView.turnStatus(id) })
+        holder.mylist_item_back_blue.setOnClickListener({ view -> mylistView.turnStatus(id) })
+        holder.mylist_item_back_grey.setOnClickListener({ view -> mylistView.turnStatus(id) })
         holder.mylist_item_status.setOnClickListener { mylistView.turnStatus(id) }
         holder.mylist_item_back_blue.setOnClickListener { mylistView.turnStatus(id) }
         holder.mylist_item_back_grey.setOnClickListener { mylistView.turnStatus(id) }
@@ -133,7 +129,6 @@ class MylistTableAdapter : RecyclerView.Adapter<MylistTableAdapter.MylistViewHol
             intent.setClass(context, ReleaseActivity::class.java)
             context?.startActivity(intent)
         }
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MylistViewHolder {
@@ -142,8 +137,6 @@ class MylistTableAdapter : RecyclerView.Adapter<MylistTableAdapter.MylistViewHol
     }
 
     override fun getItemCount(): Int = mylistBean.size
-
-
 }
 
 

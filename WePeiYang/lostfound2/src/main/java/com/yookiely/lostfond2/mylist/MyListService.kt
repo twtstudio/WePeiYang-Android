@@ -10,7 +10,6 @@ interface MyListService {
         fun setMylistData(mylistBean: List<MyListDataOrSearchBean>)
         fun turnStatus(id: Int)
         fun turnStatusSuccessCallBack()
-
     }
 
     interface MylistPresenter {
@@ -18,9 +17,6 @@ interface MyListService {
         fun loadMylistData(lostOrFound: String, page: Int)
         fun turnStatus(id: Int)
         fun turnStatuSuccessCallBack(callbackBean: String)
-
-
     }
-
 }
 

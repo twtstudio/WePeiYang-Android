@@ -30,9 +30,7 @@ class HistoryRecordHelper(val context : Context) : ManagedSQLiteOpenHelper(conte
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
         db?.dropTable(HistoryRecordContract.TABLE_NAME,true)
         onCreate(db)
-
     }
-
 }
 
 val Context.database:  HistoryRecordHelper

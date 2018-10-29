@@ -21,7 +21,6 @@ class SearchChooseTimeAdapter(val context: SearchActivity, val selectedItem: Int
         val view = LayoutInflater.from(parent.context).inflate(R.layout.lf2_item_waterfall_type, parent, false).also {
             it.layoutParams.width = -1
         }
-
         return SearchChooseTimeAdapter.SearchChooseTimeViewHolder(view)
     }
 

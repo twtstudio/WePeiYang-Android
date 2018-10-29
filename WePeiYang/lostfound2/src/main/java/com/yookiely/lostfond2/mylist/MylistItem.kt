@@ -97,7 +97,6 @@ class MylistItem(val context: FragmentActivity?, val lostOrFound: String, val my
 
     }
 
-
     private class MylistItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val mylist_item_status: TextView = itemView.findViewById(R.id.mylist_item_status)
         val mylist_item_title: TextView = itemView.findViewById(R.id.mylist_item_title)
@@ -111,7 +110,6 @@ class MylistItem(val context: FragmentActivity?, val lostOrFound: String, val my
         val mylist_item_pencil_touch: TextView = itemView.findViewById(R.id.mylist_item_pencil_touch)
 
     }
-
 
     override val controller: ItemController
         get() = Controller
