@@ -47,8 +47,7 @@ class DetailActivity : AppCompatActivity() {
 
                 recyclerViewImg.withItems{
                     if (mylist1.picture != null) {
-                        val piclist: List<String> = mylist1.picture.split(",")
-                        for (i in piclist){
+                        for (i in mylist1.picture) {
                             setImage(i, this@DetailActivity)
                         }
                     } else {

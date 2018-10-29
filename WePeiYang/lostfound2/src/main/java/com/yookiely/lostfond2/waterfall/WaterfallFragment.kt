@@ -117,8 +117,8 @@ class WaterfallFragment : Fragment(), WaterfallContract.WaterfallView {
 
         if (Hawk.contains("campus")) {
             if (campus != Hawk.get("campus")) {
-                this.type = Utils.ALL_TYPE //全部物品
-                this.time = Utils.ALL_TIME // 全部时间
+                this.type = Utils.ALL_TYPE
+                this.time = Utils.ALL_TIME
                 campus = Hawk.get("campus")
                 refresh()
             }

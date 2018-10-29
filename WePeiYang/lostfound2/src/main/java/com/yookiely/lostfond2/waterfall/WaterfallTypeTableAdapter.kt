@@ -16,13 +16,14 @@ class WaterfallTypeTableAdapter(private val waterfallActivity: WaterfallActivity
 
     class WaterFallTypeTableViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        val waterfallTypeItem = itemView.findViewById<TextView>(R.id.waterfall_type_item)
-        val waterfallTypeLine = itemView.findViewById<View>(R.id.waterfall_type_line)
+        val waterfallTypeItem: TextView = itemView.findViewById(R.id.waterfall_type_item)
+        val waterfallTypeLine: View = itemView.findViewById(R.id.waterfall_type_line)
 
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.lf2_item_waterfall_type, parent, false)
+
         return WaterFallTypeTableViewHolder(view)
     }
 
@@ -49,7 +50,6 @@ class WaterfallTypeTableAdapter(private val waterfallActivity: WaterfallActivity
                 window.dismiss()
             }
         }
-
     }
 
     override fun getItemCount(): Int = 14

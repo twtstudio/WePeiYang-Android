@@ -45,7 +45,6 @@ import kotlinx.android.synthetic.main.lf_release_cardview_publish.*
 import java.io.*
 import java.text.SimpleDateFormat
 import java.util.*
-import java.util.regex.Pattern
 import kotlin.collections.ArrayList
 
 class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.OnClickListener {
@@ -56,14 +55,14 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
     private var selectedItemPosition: Int = 0
     private var id = 0
     private var releasePresenter: ReleaseContract.ReleasePresenter = ReleasePresenterImpl(this)
-    private val layoutManager = StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.HORIZONTAL)
-    private val picRecyclerviewManager = LinearLayoutManager(this)//GridLayoutManager(this, 4)
+    private val releaseTypeLayoutManager = StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.HORIZONTAL)
+    private val picRecyclerviewManager = LinearLayoutManager(this)
     private lateinit var releasePicAdapter: ReleasePicAdapter
     private var selectedPic: List<Uri> = ArrayList() //get a pic's url
     private lateinit var lostOrFound: String
     private lateinit var tableAdapter: ReleaseTableAdapter
     private lateinit var progressDialog: ProgressDialog
-    private var judge = false
+    private var judgementOfRelease = false
     private var selectPicList = ArrayList<Any?>(0)
     private lateinit var picRecyclerView: RecyclerView // 添加多图的recycler
     private var campus = 1
@@ -108,13 +107,13 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
 
         if (lostOrFound == "lost" || lostOrFound == "editLost") {
             release_receiving_site.visibility = View.GONE
-            receiving_site.visibility = View.GONE
+            release_receiving_site_mark.visibility = View.GONE
         }
 
         initSpinnerOfTime()
         initSpinnerOfReceivingSite()
         initSpinnerOfCampus()
-        release_type_recycleriew.layoutManager = layoutManager
+        release_type_recycleriew.layoutManager = releaseTypeLayoutManager
         drawRecyclerView(selectedItemPosition)
         release_type_recycleriew.adapter = tableAdapter
         onTypeItemSelected(selectedItemPosition)
@@ -265,8 +264,12 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         val picListOfString = ArrayList<String?>(0)
 
         for (i in selectPicList) {
-            if (i is Uri) picListOfUri.add(i)
-            if (i is String) picListOfString.add(i)
+            if (i is Uri) {
+                picListOfUri.add(i)
+            }
+            if (i is String) {
+                picListOfString.add(i)
+            }
         }
 
         val file1: File
@@ -303,22 +306,21 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
 //                }
 
                 val map = getUpdateMap()
-                if (judge) {
+                if (judgementOfRelease) {
                     progressDialog = ProgressDialog.show(this@ReleaseActivity, "", "正在上传")
                     releasePresenter.uploadReleaseDataWithPic(map, lostOrFound, arrayOfFile)
                 }
             } else {
                 val map = getUpdateMap()
 
-                if (judge) {
+                if (judgementOfRelease) {
                     progressDialog = ProgressDialog.show(this@ReleaseActivity, "", "正在上传")
                     releasePresenter.uploadReleaseData(map, lostOrFound)
                 }
             }
         } else if (view === release_confirm) {
-
             val map = getUpdateMap()
-            if (judge) {
+            if (judgementOfRelease) {
                 progressDialog = ProgressDialog.show(this@ReleaseActivity, "", "正在上传")
                 releasePresenter.uploadEditDataWithPic(map, lostOrFound, arrayOfFile, picListOfString, id)
             }
@@ -332,9 +334,9 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         val intent = Intent()
         val bundle = Bundle()
         bundle.apply {
-            if (beanList[0].picture != null) {
-                putString("imageUrl", Utils.getPicUrl(beanList[0].picture!!))
-            }
+            //            if (beanList[0].picture != null) {
+//                putString("imageUrl", Utils.getPicUrl(beanList[0].picture!![0]))
+//            }
 
             putString("shareOrSuccess", "success")
             putString("lostOrFound", lostOrFound)
@@ -354,8 +356,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
 
     override fun setEditData(detailData: DetailData) {
         if (detailData.picture != null) {
-            val picList = detailData.picture.split(",")
-            releasePicAdapter.addPicUrl(picList)
+            releasePicAdapter.addPicUrl(detailData.picture)
         }
 
         when (detailData.detail_type) {
@@ -368,13 +369,17 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
             }
         }
 
-        release_title.setText(detailData.title!!)
+        if (detailData.time != "忘记了") {
+            release_time.setText(detailData.time)
+        }
+        if (detailData.place != "忘记了") {
+            release_place.setText(detailData.place)
+        }
+        release_title.setText(detailData.title)
         release_title.setSelection(detailData.title!!.length)
-        release_time.setText(detailData.time!!)
-        release_place.setText(detailData.place!!)
-        release_phone.setText(detailData.phone!!)
-        release_contact_name.setText(detailData.name!!)
-        release_remark.setText(detailData.item_description!!)
+        release_phone.setText(detailData.phone)
+        release_contact_name.setText(detailData.name)
+        release_remark.setText(detailData.item_description)
 
         refreshSpinnerOfRoom = true
         refreshSpinnerOfEntrance = true
@@ -398,18 +403,18 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         val placeString = release_place.text.toString()
         val remarksString = release_remark.text.toString()
 
+        judgementOfRelease = !(titleString.isBlank() || phoneString.isBlank() || nameString.isBlank())
+
         val map = HashMap<String, Any>()
         map["title"] = titleString
-        map["time"] = if (timeString == "") " " else timeString
-        map["place"] = if (placeString == "") " " else placeString
+        map["time"] = if (timeString.isNotBlank()) timeString else ""
+        map["place"] = if (placeString.isNotBlank()) placeString else ""
         map["name"] = nameString
         map["detail_type"] = selectedItemPosition + 1
-        map["phone"] = if (phoneString == "") " " else phoneString
+        map["phone"] = phoneString
         map["duration"] = duration
-        map["item_description"] = if (remarksString == "") " " else remarksString
+        map["item_description"] = if (remarksString.isNotBlank()) remarksString else ""
         map["campus"] = campus
-
-        judge = !(titleString == "" || phoneString == "" || nameString == "")
 
         if (lostOrFound == "found") {
             map["recapture_place"] = roomOfReceivingSite
@@ -419,11 +424,13 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         if (selectedItemPosition == 0 || selectedItemPosition == 1) {
             val cardNumString = release_card_num.text.toString()
             val cardNameString = release_card_name.text.toString()
-            map["card_number"] = if (cardNumString == "") " " else cardNumString
-            map["card_name"] = if (cardNameString == "") " " else cardNameString
+            judgementOfRelease = judgementOfRelease && !(cardNameString.isBlank() || cardNumString.isBlank())
+            map["card_number"] = cardNumString
+            map["card_name"] = cardNameString
         } else if (selectedItemPosition == 9) {
             val cardNumString = release_card_num_noname.text.toString()
-            map["card_number"] = if (cardNumString == "") "1234567890" else cardNumString
+            judgementOfRelease = judgementOfRelease && cardNumString.isNotBlank()
+            map["card_number"] = cardNumString
             map["card_name"] = if (nameString == "") " " else nameString
         } else if (selectedItemPosition == 12) {
             map["other_tag"] = " "
@@ -446,12 +453,12 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
                 release_lost_content.visibility = View.VISIBLE
                 release_cardinfo.visibility = View.VISIBLE
                 release_cardinfo_noname.visibility = View.GONE
-            }
+            } // 身份证，饭卡
             9 -> {
                 release_lost_content.visibility = View.VISIBLE
                 release_cardinfo_noname.visibility = View.VISIBLE
                 release_cardinfo.visibility = View.GONE
-            }
+            } // 身份证
             else -> {
                 release_lost_content.visibility = View.GONE
                 release_cardinfo_noname.visibility = View.GONE
@@ -462,8 +469,8 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == 2 && resultCode != 0) {
-            selectedPic = Matisse.obtainResult(data) //将选择的图片加入到上传的列表中
-            releasePicAdapter.changePic(selectedPic[0]) //加载选择的图片
+            this.selectedPic = Matisse.obtainResult(data) //将选择的图片加入到上传的列表中
+            releasePicAdapter.changePic(this.selectedPic[0]) //加载选择的图片
         }
     }
 
@@ -493,19 +500,16 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         if (DocumentsContract.isDocumentUri(this, uri)) {
             val docId = DocumentsContract.getDocumentId(uri)
             if ("com.android.providers.media.documents" == uri?.authority) {
-                //Log.d(TAG, uri.toString());
                 val id = docId.split(":".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[1]
                 val selection = MediaStore.Images.Media._ID + "=" + id
                 imagePath = getImagePath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, selection)
             } else if ("com.android.providers.downloads.documents" == uri?.authority) {
-                //Log.d(TAG, uri.toString());
                 val contentUri = ContentUris.withAppendedId(
                         Uri.parse("content://downloads/public_downloads"),
                         java.lang.Long.valueOf(docId))
                 imagePath = getImagePath(contentUri, null)
             }
         } else if ("content".equals(uri?.scheme, ignoreCase = true)) {
-            //Log.d(TAG, "content: " + uri.toString());
             imagePath = getImagePath(uri, null)
         }
         return imagePath
@@ -546,6 +550,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
             val widthRatio = Math.round(width.toFloat() / reqWidth.toFloat())
             inSampleSize = if (heightRatio < widthRatio) heightRatio else widthRatio
         }
+
         return inSampleSize
     }
 
@@ -569,6 +574,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
 
             }
         }
+
         return file
     }
 

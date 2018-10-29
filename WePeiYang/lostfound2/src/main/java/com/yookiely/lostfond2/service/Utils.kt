@@ -43,9 +43,8 @@ class Utils {
             else -> "wrong_place"
         }
 
-        fun getPicUrl(addUrl: String) = "http://open.twtstudio.com/$addUrl"
-
-        fun noPicForDetail() = "http://open.twtstudio.com/uploads/17-07-12/945139dcd91e9ed3d5967ef7f81e18f6.jpg"
+        //        fun getPicUrl(addUrl: String) = "http://open.twtstudio.com/$addUrl"
+        fun getPicUrl(addUrl: String) = "http://172.23.202.162:1234/$addUrl"
 
         fun getExit(i: Int) = when (i) {
             0 -> " "

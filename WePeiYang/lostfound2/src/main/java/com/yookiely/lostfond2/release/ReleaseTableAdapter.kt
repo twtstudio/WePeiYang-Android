@@ -13,13 +13,13 @@ import com.example.lostfond2.R
 import com.yookiely.lostfond2.service.Utils
 import org.jetbrains.anko.textColor
 
-class ReleaseTableAdapter(val context: Context, val positionSelected: Int,
-                          val releaseView: ReleaseContract.ReleaseView) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ReleaseTableAdapter(val context: Context, private val positionSelected: Int,
+                          private val releaseView: ReleaseContract.ReleaseView) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     class ReleaseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val releaseItemType = itemView.findViewById<TextView>(R.id.release_item_type)!!
-        val releaseItemCardView = itemView.findViewById<CardView>(R.id.release_item_cardview)!!
-        val releaseItemSuperscript = itemView.findViewById<ImageView>(R.id.release_item_superscript)!!
+        val releaseItemType: TextView = itemView.findViewById(R.id.release_item_type)
+        val releaseItemCardView: CardView = itemView.findViewById(R.id.release_item_cardview)
+        val releaseItemSuperscript: ImageView = itemView.findViewById(R.id.release_item_superscript)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -52,7 +52,6 @@ class ReleaseTableAdapter(val context: Context, val positionSelected: Int,
                 }
             }
         }
-
     }
 
     override fun getItemCount() = 13

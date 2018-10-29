@@ -10,19 +10,17 @@ import com.example.lostfond2.R
 import com.yookiely.lostfond2.service.Utils
 
 
-class WaterfallTimeTableAdapter(val waterfallActivity: WaterfallActivity,
+class WaterfallTimeTableAdapter(private val waterfallActivity: WaterfallActivity,
                                 val context: WaterfallActivity,
-                                val selectedItem: Int) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+                                private val selectedItem: Int) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     class WaterfallFilterTableViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val waterfallTypeItem = itemView.findViewById<TextView>(R.id.waterfall_type_item)!!
-        val waterfallTypeLine = itemView.findViewById<View>(R.id.waterfall_type_line)!!
+        val waterfallTypeItem: TextView = itemView.findViewById(R.id.waterfall_type_item)!!
+        val waterfallTypeLine: View = itemView.findViewById(R.id.waterfall_type_line)!!
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.lf2_item_waterfall_type, parent, false).also {
-            it.layoutParams.width = -1
-        }
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.lf2_item_waterfall_type, parent, false).also { it.layoutParams.width = -1 }
 
         return WaterfallFilterTableViewHolder(view)
     }
@@ -56,7 +54,7 @@ class WaterfallTimeTableAdapter(val waterfallActivity: WaterfallActivity,
                 window.dismiss()
 
                 when (position) {
-                    0 -> setWaterfallTime(5)
+                    0 -> setWaterfallTime(Utils.ALL_TIME)
                     else -> setWaterfallTime(position)
                 }
             }

@@ -1,40 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="38dp"
-
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="wrap_content">
 
     <TextView
+        android:id="@+id/detail_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="17dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
         android:text="标题"
         android:textColor="#323232"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginLeft="17dp"
         android:textSize="16sp"
-        android:id="@+id/detail_title"/>
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <ImageView
+        android:id="@+id/detail_question_mark"
+        android:layout_width="14sp"
+        android:layout_height="14sp"
+        android:layout_marginStart="5dp"
+        android:src="@drawable/lf2_question_mark"
+        app:layout_constraintBottom_toBottomOf="@id/detail_title"
+        app:layout_constraintLeft_toRightOf="@+id/detail_title"
+        app:layout_constraintTop_toTopOf="@id/detail_title" />
 
     <TextView
+        android:id="@+id/detail_detail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
         android:text="捡到身份证一张lalalala"
         android:textColor="#999999"
         android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@id/detail_title"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginRight="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:id="@+id/detail_detail"/>
+        app:layout_constraintTop_toTopOf="@id/detail_title" />
+
     <TextView
+        android:id="@+id/detail_recapture_comment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:text="领取地点设置在楼下阿姨处"
+        android:textSize="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="@id/detail_title"
+        app:layout_constraintTop_toBottomOf="@+id/detail_title" />
+
+    <View
+        android:id="@+id/detail_spilit"
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
+        android:layout_marginStart="17dp"
+        android:layout_marginEnd="10dp"
         android:background="#999999"
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="17dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:id="@+id/detail_spilit" />
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

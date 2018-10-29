@@ -38,7 +38,7 @@ class MyListActivity : AppCompatActivity() {
         val popupwindowView = LayoutInflater.from(this).inflate(R.layout.lf2_popupwindow_campus, null, false)
 
         toolbar.setNavigationOnClickListener { onBackPressed() }
-        imageView.setOnClickListener { v -> initpopupwindow(popupwindowView) }
+        imageView.setOnClickListener { v -> initPopupwindow(popupwindowView) }
 
         val mylist_pager: ViewPager = findViewById(R.id.mylist_pager)
 
@@ -54,7 +54,7 @@ class MyListActivity : AppCompatActivity() {
 
     }
 
-    private fun initpopupwindow(view: View) {
+    private fun initPopupwindow(view: View) {
         popupWindow = PopupWindow(view, WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT, true)
         popupWindow.isFocusable = true
         popupWindow.isOutsideTouchable = false// 设置PopupWindow是否能响应外部点击事件

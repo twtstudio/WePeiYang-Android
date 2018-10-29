@@ -34,18 +34,25 @@ class MylistItem(val context: FragmentActivity?, val lostOrFound: String, val my
             holder as MylistItemViewHolder
             item as MylistItem
 
-            val (id: Int, _: Int, _: String, title: String, place: String, time: String, _: String, detail_type: Int, isback: Int, picture: String?, _: String, _: Int, _: String) = item.mylistBean
+            val (id: Int, _: Int, _: String, title: String, place: String, time: String, _: String, detail_type: Int, isback: Int, picture: List<String>?, _: String, _: Int, _: String) = item.mylistBean
             holder.mylist_item_title.text = title
             holder.mylist_item_type.text = Utils.getType(detail_type)
             holder.mylist_item_time.text = time
             holder.mylist_item_place.text = place
 
-            val piclist: List<String> = picture!!.split(",")
-            Glide.with(item.context)
-                    .load(Utils.getPicUrl(piclist[0]))
-                    .asBitmap()
-                    .placeholder(R.drawable.lf_waterfall_nopic)
-                    .into(holder.mylist_item_pic)
+            if (picture != null) {
+                Glide.with(item.context)
+                        .load(Utils.getPicUrl(picture[0]))
+                        .asBitmap()
+                        .placeholder(R.drawable.lf_waterfall_nopic)
+                        .into(holder.mylist_item_pic)
+            } else {
+                Glide.with(item.context)
+                        .load(Utils.getPicUrl("julao.jpg"))
+                        .placeholder(R.drawable.lf_detail_np)
+                        .into(holder.mylist_item_pic)
+            }
+
 
             if (isback == 1) {
                 holder.mylist_item_back_blue.visibility = View.VISIBLE
@@ -64,17 +71,17 @@ class MylistItem(val context: FragmentActivity?, val lostOrFound: String, val my
                     holder.mylist_item_status.text = "未找到"
                 }
             }
-            holder.mylist_item_status.setOnClickListener({ view -> item.mylistView.turnStatus(id) })
+            holder.mylist_item_status.setOnClickListener { item.mylistView.turnStatus(id) }
 
             val intent = Intent()
             val bundle = Bundle()
-            holder.itemView.setOnClickListener { view ->
+            holder.itemView.setOnClickListener {
                 bundle.putInt("id", id)
                 intent.putExtras(bundle)
                 intent.setClass(item.context, DetailActivity::class.java)
                 item.context?.startActivity(intent)
             }
-            holder.mylist_item_pencil_touch.setOnClickListener { view ->
+            holder.mylist_item_pencil_touch.setOnClickListener {
                 if (item.lostOrFound == "lost") {
                     bundle.putString("lostOrFound", "editLost")
                 } else {

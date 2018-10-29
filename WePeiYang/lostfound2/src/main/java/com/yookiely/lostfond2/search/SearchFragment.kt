@@ -101,7 +101,7 @@ class SearchFragment : Fragment(), SearchContract.SearchUIView {
 
     override fun setSearchData(waterfallBean: List<MyListDataOrSearchBean>) {
         waterfall_no_res.apply {
-            visibility = if (waterfallBean.size == 0 && page == 1) {
+            visibility = if (waterfallBean.isEmpty() && page == 1) {
                 View.VISIBLE
             } else {
                 View.GONE

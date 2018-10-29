@@ -66,14 +66,28 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp" />
 
-            <TextView
-                android:id="@+id/receiving_site"
+            <LinearLayout
+                android:id="@+id/release_receiving_site_mark"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:text="领取站点"
-                android:textColor="@color/colorPrimary"
-                android:textSize="35px" />
+                android:layout_marginTop="12dp">
+
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="领取站点"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="35px" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10px"
+                    android:text="(通常为宿管，找大妈)"
+                    android:textColor="#999999"
+                    android:textSize="30px" />
+            </LinearLayout>
 
             <include
                 android:id="@+id/release_receiving_site"

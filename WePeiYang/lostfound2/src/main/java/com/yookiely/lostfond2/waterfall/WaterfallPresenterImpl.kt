@@ -1,5 +1,6 @@
 package com.yookiely.lostfond2.waterfall
 
+import android.util.Log
 import com.orhanobut.hawk.Hawk
 import com.yookiely.lostfond2.service.LostFoundService
 import com.yookiely.lostfond2.service.MyListDataOrSearchBean
@@ -26,10 +27,11 @@ class WaterfallPresenterImpl(var waterfallView: WaterfallContract.WaterfallView)
                 val dataList = when (lostOrFound) {
                     "lost" -> LostFoundService.getLost(campus, page, 0, time).await()
                     else -> LostFoundService.getFound(campus, page, 0, time).await()
-                }
-
-                if (dataList.error_code == -1) {
-                    setWaterfallData(dataList.data!!)
+                }.let {
+                    Log.d("momom", it.data!![0].picture.toString())
+                    if (it.error_code == -1) {
+                        setWaterfallData(it.data!!)
+                    }
                 }
             }
         }
@@ -47,9 +49,11 @@ class WaterfallPresenterImpl(var waterfallView: WaterfallContract.WaterfallView)
                         else -> LostFoundService.getFound(campus, page, type, time).await()
                     }
 
+                    Log.d("momom", dataList.data!![0].picture.toString())
                     if (dataList.error_code == -1) {
                         setWaterfallData(dataList.data!!)
                     }
+
                 }
             }
         }

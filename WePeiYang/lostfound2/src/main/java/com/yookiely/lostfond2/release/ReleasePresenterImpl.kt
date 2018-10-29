@@ -1,6 +1,5 @@
 package com.yookiely.lostfond2.release
 
-import android.util.Log
 import com.yookiely.lostfond2.service.LostFoundService
 import com.yookiely.lostfond2.service.MyListDataOrSearchBean
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
@@ -42,10 +41,11 @@ class ReleasePresenterImpl(private var releaseView: ReleaseContract.ReleaseView)
 
         launch(UI + QuietCoroutineExceptionHandler) {
             val beanList = LostFoundService.updateReleaseWithPic(lostOrFound, parts).await()
-
-            if (beanList.error_code == -1) {
-                this@ReleasePresenterImpl.successCallBack(beanList.data!!)
-            }
+                    .let {
+                        if (it.error_code == -1) {
+                            this@ReleasePresenterImpl.successCallBack(it.data!!)
+                        }
+                    }
         }
     }
 
@@ -83,10 +83,12 @@ class ReleasePresenterImpl(private var releaseView: ReleaseContract.ReleaseView)
 
         launch(UI + QuietCoroutineExceptionHandler) {
             val beanList = LostFoundService.updateReleaseWithPic(lostOrFound, parts).await()
+                    .let {
+                        if (it.error_code == -1) {
+                            this@ReleasePresenterImpl.successCallBack(it.data!!)
+                        }
+                    }
 
-            if (beanList.error_code == -1) {
-                this@ReleasePresenterImpl.successCallBack(beanList.data!!)
-            }
         }
     }
 
@@ -99,10 +101,11 @@ class ReleasePresenterImpl(private var releaseView: ReleaseContract.ReleaseView)
     override fun delete(id: Int) {
         launch(UI + QuietCoroutineExceptionHandler) {
             val commonBodyOfId = LostFoundService.delete(id.toString()).await()
-
-            if (commonBodyOfId.error_code == -1) {
-                this@ReleasePresenterImpl.deleteSuccessCallBack(commonBodyOfId.data!!)
-            }
+                    .let {
+                        if (it.error_code == -1) {
+                            this@ReleasePresenterImpl.deleteSuccessCallBack(it.data!!)
+                        }
+                    }
         }
     }
 
@@ -145,20 +148,22 @@ class ReleasePresenterImpl(private var releaseView: ReleaseContract.ReleaseView)
 
         launch(UI + QuietCoroutineExceptionHandler) {
             val beanList = LostFoundService.updateEditWithPic(anotherLostOrFound, id.toString(), parts).await()
-
-            if (beanList.error_code == -1) {
-                this@ReleasePresenterImpl.successEditCallback(beanList.data!!)
-            }
+                    .let {
+                        if (it.error_code == -1) {
+                            this@ReleasePresenterImpl.successEditCallback(it.data!!)
+                        }
+                    }
         }
     }
 
-    override fun loadDetailDataForEdit(id: Int, newReleaseView: ReleaseContract.ReleaseView) {
+    override fun loadDetailDataForEdit(id: Int, releaseView: ReleaseContract.ReleaseView) {
         launch(UI + QuietCoroutineExceptionHandler) {
             val detailData = LostFoundService.getDetailed(id).await()
-
-            if (detailData.error_code == -1) {
-                newReleaseView.setEditData(detailData.data!!)
-            }
+                    .let {
+                        if (it.error_code == -1) {
+                            releaseView.setEditData(it.data!!)
+                        }
+                    }
         }
     }
 }

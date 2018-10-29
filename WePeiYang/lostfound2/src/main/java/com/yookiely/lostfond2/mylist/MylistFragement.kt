@@ -68,7 +68,7 @@ class MylistFragement : Fragment(), MyListService.MyListView {
         mylist_recyclerview = view!!.findViewById(R.id.mylist_recyclerView)
         mylist_progress = view!!.findViewById(R.id.mylist_progress)
         mylist_nodata = view!!.findViewById(R.id.mylist_nodata)
-        var bundle = arguments
+        val bundle = arguments
         lostOrFound = bundle!!.getString("index")
         initValues()
 
@@ -129,6 +129,4 @@ class MylistFragement : Fragment(), MyListService.MyListView {
 //        }
 
     }
-
-
 }

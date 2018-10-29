@@ -22,15 +22,14 @@ class WaterfallTableAdapter(var waterFallBean: List<MyListDataOrSearchBean>?,
                             var lostOrFound: String) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     class WaterfallViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val waterfallItemPic = itemView.findViewById<ImageView>(R.id.lost_pic)!!
-        val waterfallItemThing = itemView.findViewById<TextView>(R.id.thing_content)!!
-        val waterfallItemData = itemView.findViewById<TextView>(R.id.data_content)!!//data其实是date
-        val waterfallItemLocation = itemView.findViewById<TextView>(R.id.location_content)!!
-        val waterfallItemTitle = itemView.findViewById<TextView>(R.id.title_content)!!
-        val waterfallItemRecapturePlace = itemView.findViewById<TextView>(R.id.recapture_place)!!
-        val waterfallItemRecaptureImage = itemView.findViewById<ImageView>(R.id.recapture)!!
+        val waterfallItemPic: ImageView = itemView.findViewById(R.id.lost_pic)
+        val waterfallItemThing: TextView = itemView.findViewById(R.id.thing_content)
+        val waterfallItemData: TextView = itemView.findViewById(R.id.data_content)//data其实是date
+        val waterfallItemLocation: TextView = itemView.findViewById(R.id.location_content)
+        val waterfallItemTitle: TextView = itemView.findViewById(R.id.title_content)
+        val waterfallItemRecapturePlace: TextView = itemView.findViewById(R.id.recapture_place)
+        val waterfallItemRecaptureImage: ImageView = itemView.findViewById(R.id.recapture)
     }
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.lf2_item_waterfall, parent, false)
@@ -40,7 +39,6 @@ class WaterfallTableAdapter(var waterFallBean: List<MyListDataOrSearchBean>?,
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-
         val dataOfItem = waterFallBean!![position]
         val viewHolder = holder as WaterfallViewHolder
 
@@ -50,9 +48,8 @@ class WaterfallTableAdapter(var waterFallBean: List<MyListDataOrSearchBean>?,
                     .placeholder(R.drawable.lf_detail_np)
                     .into(viewHolder.waterfallItemPic)
         } else {
-            val piclist: List<String> = dataOfItem.picture.split(",")
             Glide.with(context)
-                    .load(Utils.getPicUrl(piclist[0]))
+                    .load(Utils.getPicUrl(dataOfItem.picture[0])) // 显示第一张图
                     .asBitmap()
                     .placeholder(R.drawable.lf_waterfall_nopic)
                     .into(viewHolder.waterfallItemPic)
@@ -67,7 +64,11 @@ class WaterfallTableAdapter(var waterFallBean: List<MyListDataOrSearchBean>?,
             if (lostOrFound == "found") {
                 waterfallItemRecaptureImage.visibility = View.VISIBLE
                 waterfallItemRecapturePlace.visibility = View.VISIBLE
-                waterfallItemRecapturePlace.text = dataOfItem.recapture_place + Utils.getExit(dataOfItem.recapture_entrance)
+                waterfallItemRecapturePlace.text = if (dataOfItem.recapture_place == "无") {
+                    dataOfItem.recapture_place
+                } else {
+                    dataOfItem.recapture_place + Utils.getExit(dataOfItem.recapture_entrance)
+                }
             } else {
                 waterfallItemRecaptureImage.visibility = View.GONE
                 waterfallItemRecapturePlace.visibility = View.GONE
@@ -87,5 +88,4 @@ class WaterfallTableAdapter(var waterFallBean: List<MyListDataOrSearchBean>?,
         intent.setClass(context, DetailActivity::class.java)
         context.startActivity(intent)
     }
-
 }

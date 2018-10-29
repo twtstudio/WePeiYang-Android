@@ -16,13 +16,13 @@ import com.yookiely.lostfond2.service.Utils
 
 //上传多图的recyclerview的adapter
 class ReleasePicAdapter(val list: ArrayList<Any?>,
-                        val releaseActivity: ReleaseActivity,
+                        private val releaseActivity: ReleaseActivity,
                         val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var currentPosition = 0
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val releasePic = view.findViewById<ImageView>(R.id.release_cardview_pic)!!
+        val releasePic: ImageView = view.findViewById(R.id.release_cardview_pic)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -70,7 +70,7 @@ class ReleasePicAdapter(val list: ArrayList<Any?>,
 
     override fun getItemCount(): Int = list.size
 
-    fun addPic() {
+    private fun addPic() {
         list.add(null)
         notifyItemChanged(list.size)
     }

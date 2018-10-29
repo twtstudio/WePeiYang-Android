@@ -55,7 +55,6 @@ interface LostFoundService {
 
 }
 
-
 data class Data(
         val id: Int,
         val name: String,
@@ -76,7 +75,7 @@ data class DetailData(
         val phone: String?,
         val item_description: String?,
         val detail_type: Int,
-        val picture: String?,
+        val picture: List<String>?,
         val card_name: String?,
         val card_number: String?,
         val publish_start: String,
@@ -93,7 +92,6 @@ data class InverseID(
         val data: String
 )
 
-
 data class MyListDataOrSearchBean(
         val id: Int,
         val type: Int,
@@ -104,28 +102,8 @@ data class MyListDataOrSearchBean(
         val phone: String,
         val detail_type: Int,
         val isback: Int,
-        val picture: String?,
-        val recapture_place : String,
-        val recapture_entrance : Int,
-        val campus : String
-)
-
-data class MyListDataBean(
-        val id: Int,
-        val type: Int,
-        val name: String,
-        val title: String,
-        val place: String,
-        val time: String,
-        val phone: String,
-        val detail_type: Int,
-        val isback: Int,
-        val picture: List<PicData>?,
+        val picture: List<String>?,
         val recapture_place: String,
         val recapture_entrance: Int,
         val campus: String
-)
-
-data class PicData(
-        val pic_url: String
 )
