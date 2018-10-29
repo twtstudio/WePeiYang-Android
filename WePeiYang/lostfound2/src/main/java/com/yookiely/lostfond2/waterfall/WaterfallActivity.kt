@@ -47,44 +47,18 @@ class WaterfallActivity : AppCompatActivity() {
         setContentView(R.layout.lf2_activity_water_fall)
         val waterfallLost: FloatingActionButton = findViewById(R.id.waterfall_fab_lost)
         val popupWindowView: View = LayoutInflater.from(this).inflate(R.layout.lf2_waterfall_cardview_types, null, false)
+        val snapHelper = LinearSnapHelper()
         popWaterfallTypesAll = popupWindowView.findViewById(R.id.waterfall_types_all) //全部分类
         popWaterfallFilter = popupWindowView.findViewById(R.id.waterfall_filter) //筛选条件
         popWaterfallRecyclerview = popupWindowView.findViewById(R.id.waterfall_type_recyclerview)
-        popWaterfallRecyclerview.layoutManager = layoutManagerForType
-        val snapHelper = LinearSnapHelper()
-        snapHelper.attachToRecyclerView(popWaterfallRecyclerview)
-
+        popWaterfallRecyclerview.apply {
+            layoutManager = layoutManagerForType
+            adapter = WaterfallTypeTableAdapter(this@WaterfallActivity, this@WaterfallActivity, type)
+            snapHelper.attachToRecyclerView(this)
+        }
 
         if (!Hawk.contains("campus")) {
-            val dialog = AlertDialog.Builder(this@WaterfallActivity)
-                    .setTitle("同学选择一下校区呗～")
-                    .setMessage("可以在“我的”修改嗷～")
-                    .setCancelable(false)
-                    .setPositiveButton("卫津路") { _, _ ->
-                        Hawk.put("campus", 2)
-                        campus = Hawk.get("campus")
-                    }
-                    .setNegativeButton("北洋园") { _, _ ->
-                        Hawk.put("campus", 1)
-                        campus = Hawk.get("campus")
-                    }
-                    .create()
-            dialog.show()
-
-            // 通过反射改变message颜色
-            try {
-                val mAlert: Field = AlertDialog::class.java.getDeclaredField("mAlert")
-                mAlert.isAccessible = true
-                val mAlertController = mAlert.get(dialog)
-                val mMessage: Field = mAlertController.javaClass.getDeclaredField("mMessageView")
-                mMessage.isAccessible = true
-                val mMessageView = mMessage.get(mAlertController) as TextView
-                mMessageView.setTextColor(Color.parseColor("#999999"))
-            } catch (e: IllegalAccessException) {
-                e.printStackTrace()
-            } catch (e: NoSuchFieldException) {
-                e.printStackTrace()
-            }
+            showDialog()
         } else {
             campus = Hawk.get("campus")
         }
@@ -218,5 +192,37 @@ class WaterfallActivity : AppCompatActivity() {
 
         startActivity(intent)
         return true
+    }
+
+    fun showDialog() {
+        val dialog = AlertDialog.Builder(this@WaterfallActivity)
+                .setTitle("同学选择一下校区呗～")
+                .setMessage("可以在“我的”修改嗷～")
+                .setCancelable(false)
+                .setPositiveButton("卫津路") { _, _ ->
+                    Hawk.put("campus", 2)
+                    campus = Hawk.get("campus")
+                }
+                .setNegativeButton("北洋园") { _, _ ->
+                    Hawk.put("campus", 1)
+                    campus = Hawk.get("campus")
+                }
+                .create()
+        dialog.show()
+
+        // 通过反射改变message颜色
+        try {
+            val mAlert: Field = AlertDialog::class.java.getDeclaredField("mAlert")
+            mAlert.isAccessible = true
+            val mAlertController = mAlert.get(dialog)
+            val mMessage: Field = mAlertController.javaClass.getDeclaredField("mMessageView")
+            mMessage.isAccessible = true
+            val mMessageView = mMessage.get(mAlertController) as TextView
+            mMessageView.setTextColor(Color.parseColor("#999999"))
+        } catch (e: IllegalAccessException) {
+            e.printStackTrace()
+        } catch (e: NoSuchFieldException) {
+            e.printStackTrace()
+        }
     }
 }
