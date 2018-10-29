@@ -50,21 +50,6 @@ class ScoreItem(val index: Int, val context: Context, val testProblemBean: TestP
             holder.apply {
                 tvProblemTitle?.text = (item.index + 1).toString() + "." + Html.fromHtml(item.testProblemBean.content).toString()
                 tvRightAnswer?.text = "正确答案：${item.resultBean.true_answer}"
-                ivHelp?.setOnClickListener {
-                    AlertDialog.Builder(item.context).apply {
-                        setMessage("答案有误？\n\n是否加群反馈？")
-                        setPositiveButton("加群") { _, _ ->
-                            val qq = "738068756"
-                            val url = "mqqwpa://im/chat?chat_type=group&uin=$qq&version=1"
-                            try {
-                                context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
-                            } catch (e: Exception) {
-                                Toasty.error(context, "加群失败，请确保您已经安装 Tim 或 QQ)")
-                            }
-                        }
-                        setNegativeButton("取消") { _, _ -> }
-                    }.show()
-                }
                 if (item.resultBean.answer == "")
                     tvUserAnswer?.text = "未做"
                 else
@@ -131,7 +116,6 @@ class ScoreItem(val index: Int, val context: Context, val testProblemBean: TestP
         val rvScoreSelections: RecyclerView? = itemView?.findViewById(R.id.rv_score_item_selections)
         val tvRightAnswer: TextView? = itemView?.findViewById(R.id.tv_score_right_answer)
         val tvUserAnswer: TextView? = itemView?.findViewById(R.id.tv_score_user_answer)
-        val ivHelp: ImageView? = itemView?.findViewById(R.id.iv_score_help)
         val ivStar: ImageView? = itemView?.findViewById(R.id.iv_score_star)
     }
 }

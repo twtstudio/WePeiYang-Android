@@ -16,18 +16,28 @@
 
         <ImageView
             android:id="@+id/iv_star_back"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:padding="12dp"
             android:src="@drawable/exam_ic_arrow_back_24dp" />
 
         <TextView
             android:id="@+id/tv_star_toolbar_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="48dp"
+            android:layout_marginStart="36dp"
             android:textColor="@color/white_color"
             android:textSize="18sp"
             tools:text="我的收藏" />
+
+        <ImageView
+            android:id="@+id/iv_star_help"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="end"
+            android:layout_marginEnd="24dp"
+            android:padding="12dp"
+            android:src="@drawable/exam_ic_help_outline" />
 
     </android.support.v7.widget.Toolbar>
 

@@ -12,6 +12,7 @@ import android.widget.TextView
 import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
 import com.twt.wepeiyang.commons.ui.rec.withItems
 import com.twtstudio.service.tjwhm.exam.R
+import com.twtstudio.service.tjwhm.exam.commons.joinQQGroupForHelp
 import com.twtstudio.service.tjwhm.exam.user.OneHistoryBean
 import com.twtstudio.service.tjwhm.exam.user.examUserHistoryLiveData
 
@@ -40,6 +41,7 @@ class HistoryActivity : AppCompatActivity() {
         }
 
         findViewById<ImageView>(R.id.iv_history_back).setOnClickListener { onBackPressed() }
+        findViewById<ImageView>(R.id.iv_history_help).setOnClickListener { joinQQGroupForHelp() }
         rvHistory = findViewById(R.id.rv_history)
         ivNoRecord = findViewById(R.id.iv_history_no_record)
         tvNoRecord = findViewById(R.id.tv_history_no_record)

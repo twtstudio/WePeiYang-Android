@@ -17,6 +17,7 @@ import com.twt.wepeiyang.commons.experimental.cache.RefreshState
 import com.twtstudio.service.tjwhm.exam.R
 import es.dmoral.toasty.Toasty
 import com.twtstudio.service.tjwhm.exam.commons.FixedSpeedScroller
+import com.twtstudio.service.tjwhm.exam.commons.joinQQGroupForHelp
 import com.twtstudio.service.tjwhm.exam.problem.score.ScoreActivity
 
 
@@ -59,6 +60,7 @@ class ProblemActivity : AppCompatActivity(), ProblemActivityInterface {
     private lateinit var tvRight: TextView
     private lateinit var vpProblem: ViewPager
     private lateinit var tvUpload: TextView
+    private lateinit var ivHelp: ImageView
     private lateinit var problemIndexPopup: ProblemIndexPopup
     private val pagerAdapter = ProblemPagerAdapter(supportFragmentManager)
 
@@ -82,6 +84,7 @@ class ProblemActivity : AppCompatActivity(), ProblemActivityInterface {
         Toasty.info(this@ProblemActivity, "正在加载", Toast.LENGTH_SHORT).show()
 
         findViewById<ImageView>(R.id.iv_problem_back).setOnClickListener { onBackPressed() }
+        ivHelp = findViewById<ImageView>(R.id.iv_problem_help).apply { setOnClickListener { joinQQGroupForHelp() } }
 
         clProblem = findViewById(R.id.cl_problem)
         tvLeft = findViewById(R.id.tv_problem_left)
@@ -109,10 +112,8 @@ class ProblemActivity : AppCompatActivity(), ProblemActivityInterface {
             CONTEST -> {
                 tvLeft.visibility = View.GONE
                 tvRight.visibility = View.GONE
-
-                tvUpload.apply {
-                    visibility = View.VISIBLE
-                }
+                tvUpload.visibility = View.VISIBLE
+                ivHelp.visibility = View.GONE
                 startContestNetwork()
             }
         }

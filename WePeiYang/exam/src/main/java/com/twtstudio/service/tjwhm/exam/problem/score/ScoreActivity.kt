@@ -11,6 +11,7 @@ import android.view.View
 import android.widget.ImageView
 import com.twt.wepeiyang.commons.ui.rec.withItems
 import com.twtstudio.service.tjwhm.exam.R
+import com.twtstudio.service.tjwhm.exam.commons.joinQQGroupForHelp
 import com.twtstudio.service.tjwhm.exam.problem.ScoreBean
 import com.twtstudio.service.tjwhm.exam.problem.TestBean
 
@@ -49,6 +50,7 @@ class ScoreActivity : AppCompatActivity() {
 
         toolbar = findViewById(R.id.tb_score)
         findViewById<ImageView>(R.id.iv_score_back).setOnClickListener { onBackPressed() }
+        findViewById<ImageView>(R.id.iv_score_help).setOnClickListener { joinQQGroupForHelp() }
 
         rvScore = findViewById(R.id.rv_score)
 

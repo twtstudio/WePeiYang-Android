@@ -14,6 +14,7 @@ import android.widget.Toast
 import com.twt.wepeiyang.commons.experimental.cache.RefreshState
 import com.twt.wepeiyang.commons.ui.rec.withItems
 import com.twtstudio.service.tjwhm.exam.R
+import com.twtstudio.service.tjwhm.exam.commons.joinQQGroupForHelp
 import com.twtstudio.service.tjwhm.exam.user.getCollections
 import es.dmoral.toasty.Toasty
 
@@ -51,6 +52,7 @@ class StarActivity : AppCompatActivity() {
         }
 
         findViewById<ImageView>(R.id.iv_star_back).setOnClickListener { onBackPressed() }
+        findViewById<ImageView>(R.id.iv_star_help).setOnClickListener { joinQQGroupForHelp() }
         tvTitle = findViewById(R.id.tv_star_toolbar_title)
         rvStar = findViewById(R.id.rv_star)
         ivNoRecord = findViewById(R.id.iv_star_no_record)

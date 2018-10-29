@@ -16,8 +16,9 @@
 
         <ImageView
             android:id="@+id/iv_problem_back"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:padding="12dp"
             android:src="@drawable/exam_ic_arrow_back_24dp" />
 
         <LinearLayout
@@ -45,16 +46,29 @@
                 android:textSize="16sp" />
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/tv_problem_test_upload"
-            android:layout_width="48dp"
-            android:layout_height="32dp"
-            android:layout_gravity="end"
-            android:layout_marginEnd="16dp"
-            android:gravity="end|center_vertical"
-            android:text="交卷"
-            android:textColor="@color/white_color"
-            android:textSize="16sp" />
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end">
+
+            <TextView
+                android:id="@+id/tv_problem_test_upload"
+                android:layout_width="48dp"
+                android:layout_height="32dp"
+                android:layout_centerVertical="true"
+                android:gravity="center_vertical"
+                android:text="交卷"
+                android:textColor="@color/white_color"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:id="@+id/iv_problem_help"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginEnd="12dp"
+                android:padding="12dp"
+                android:src="@drawable/exam_ic_help_outline" />
+        </RelativeLayout>
     </android.support.v7.widget.Toolbar>
 
     <android.support.v4.view.ViewPager

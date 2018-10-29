@@ -15,14 +15,15 @@
 
         <ImageView
             android:id="@+id/iv_home_back"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:padding="12dp"
             android:src="@drawable/exam_ic_arrow_back_24dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="48dp"
+            android:layout_marginStart="36dp"
             android:text="天外天刷题"
             android:textColor="@color/white_color"
             android:textSize="18sp" />

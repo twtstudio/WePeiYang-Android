@@ -1,8 +1,11 @@
 package com.twtstudio.service.tjwhm.exam.commons
 
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import com.twtstudio.service.tjwhm.exam.problem.ProblemActivity
+import es.dmoral.toasty.Toasty
 
 /**
  * Created by tjwhm@TWTStudio at 11:29 AM,2018/8/5.
@@ -126,4 +129,21 @@ fun Context?.startProblemActivity(mode: Int, lessonID: Int, quesType: Int?, inde
         putExtra(ProblemActivity.CONTINUE_INDEX_KEY, index)
         this@startProblemActivity?.startActivity(this)
     }
+}
+
+fun Context?.joinQQGroupForHelp() {
+
+    AlertDialog.Builder(this).apply {
+        setMessage("答案有误？\n\n是否加群反馈？")
+        setPositiveButton("加群") { _, _ ->
+            val qq = "738068756"
+            val url = "mqqwpa://im/chat?chat_type=group&uin=$qq&version=1"
+            try {
+                context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
+            } catch (e: Exception) {
+                Toasty.error(context, "加群失败，请确保您已经安装 Tim 或 QQ)")
+            }
+        }
+        setNegativeButton("取消") { _, _ -> }
+    }.show()
 }

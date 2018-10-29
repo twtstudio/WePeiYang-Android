@@ -86,9 +86,24 @@ class TypeSelectPopup(mContext: Context, private val listActivityInterface: List
                 is RefreshState.Success -> {
                     it.message.data!!.apply {
                         tvLesson.text = course_name
-                        tvSingle.text = "单选题   $single_done_count/$single_num   当前: ${single_ques_index + 1}"
-                        tvMulti.text = "多选题   $multi_done_count/$multi_num   当前: ${multi_ques_index + 1}"
-                        tvTf.text = "判断题   $decide_done_count/$decide_num   当前: ${decide_ques_index + 1}"
+                        if (single_num.toInt() != 0)
+                            tvSingle.text = "单选题   $single_done_count/$single_num   当前: ${single_ques_index + 1}"
+                        else {
+                            tvSingle.text = "单选题   无题目"
+                            tvSingleEnter.visibility = View.INVISIBLE
+                        }
+                        if (multi_num.toInt() != 0)
+                            tvMulti.text = "多选题   $multi_done_count/$multi_num   当前: ${multi_ques_index + 1}"
+                        else {
+                            tvMulti.text = "多选题   无题目"
+                            tvMultiEnter.visibility = View.INVISIBLE
+                        }
+                        if (decide_num.toInt() != 0)
+                            tvTf.text = "判断题   $decide_done_count/$decide_num   当前: ${decide_ques_index + 1}"
+                        else {
+                            tvTf.text = "判断题   无题目"
+                            tvTfEnter.visibility = View.INVISIBLE
+                        }
                         val intent = Intent(context, ProblemActivity::class.java).apply {
                             putExtra(ProblemActivity.LESSON_ID_KEY, lessonID)
                         }

@@ -16,9 +16,19 @@
 
         <ImageView
             android:id="@+id/iv_score_back"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:padding="12dp"
             android:src="@drawable/exam_ic_arrow_back_24dp" />
+
+        <ImageView
+            android:id="@+id/iv_score_help"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="end"
+            android:layout_marginEnd="12dp"
+            android:padding="12dp"
+            android:src="@drawable/exam_ic_help_outline" />
     </android.support.v7.widget.Toolbar>
 
     <android.support.v7.widget.RecyclerView
