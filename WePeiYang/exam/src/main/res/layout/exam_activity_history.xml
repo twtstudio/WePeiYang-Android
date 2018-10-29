@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -30,6 +30,28 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_history"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tb_history" />
 
-</LinearLayout>
+    <ImageView
+        android:id="@+id/iv_history_no_record"
+        android:layout_width="match_parent"
+        android:layout_height="222dp"
+        android:layout_below="@id/tb_history"
+        android:layout_marginTop="64dp"
+        android:src="@drawable/exam_pic_no_record"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/tv_history_no_record"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/iv_history_no_record"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="32dp"
+        android:text=" 这里还没有联系历史呢，快去刷题吧~"
+        android:textColor="@color/examTextGray"
+        android:textSize="16sp"
+        android:visibility="gone" />
+
+</RelativeLayout>

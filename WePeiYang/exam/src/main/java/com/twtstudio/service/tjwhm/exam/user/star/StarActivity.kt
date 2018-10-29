@@ -35,6 +35,8 @@ class StarActivity : AppCompatActivity() {
     private lateinit var tvTitle: TextView
     private lateinit var rvStar: RecyclerView
     private lateinit var srlStar: SwipeRefreshLayout
+    private lateinit var ivNoRecord: ImageView
+    private lateinit var tvNoRecord: TextView
 
     private var starOrWrong = 0
 
@@ -51,6 +53,8 @@ class StarActivity : AppCompatActivity() {
         findViewById<ImageView>(R.id.iv_star_back).setOnClickListener { onBackPressed() }
         tvTitle = findViewById(R.id.tv_star_toolbar_title)
         rvStar = findViewById(R.id.rv_star)
+        ivNoRecord = findViewById(R.id.iv_star_no_record)
+        tvNoRecord = findViewById(R.id.tv_star_no_record)
         srlStar = findViewById<SwipeRefreshLayout>(R.id.srl_star).apply {
             setColorSchemeColors(0x449ff1)
             isRefreshing = true
@@ -59,8 +63,14 @@ class StarActivity : AppCompatActivity() {
         starOrWrong = intent.getIntExtra(TYPE_KEY, 0)
 
         when (starOrWrong) {
-            STAR -> tvTitle.text = "我的收藏"
-            WRONG -> tvTitle.text = "我的错题"
+            STAR -> {
+                tvTitle.text = "我的收藏"
+                tvNoRecord.text = "这里还没有收藏题目呢，快去刷题吧~"
+            }
+            WRONG -> {
+                tvTitle.text = "我的错题"
+                tvNoRecord.text = "这里还没有错题记录呢，快去刷题吧~"
+            }
         }
 
         srlStar.setOnRefreshListener {
@@ -76,10 +86,10 @@ class StarActivity : AppCompatActivity() {
             when (it) {
                 is RefreshState.Failure -> Toasty.error(this@StarActivity, "网络错误", Toast.LENGTH_SHORT).show()
                 is RefreshState.Success -> {
-                    if (it.message.data == null) {
-                        // todo 显示没有记录的图片
-                    }
-                    it.message.data?.apply {
+                    if (it.message.data == null || it.message.data?.size == 0) {
+                        ivNoRecord.visibility = View.VISIBLE
+                        tvNoRecord.visibility = View.VISIBLE
+                    } else it.message.data?.apply {
                         rvStar.withItems {
                             for (i in 0 until this@apply.size) {
                                 starItem(this@StarActivity, this@apply[i], starOrWrong)

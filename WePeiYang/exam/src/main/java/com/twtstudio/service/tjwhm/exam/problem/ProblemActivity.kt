@@ -294,6 +294,25 @@ class ProblemActivity : AppCompatActivity(), ProblemActivityInterface {
         problemIndexPopup.dismiss()
     }
 
+    override fun onBackPressed() {
+        if (mode == READ_AND_PRACTICE)
+            super.onBackPressed()
+        else {
+            var answered = 0
+            repeat(size) {
+                if (userSelectionsForTest[it]?.answer != "")
+                    answered++
+            }
+            AlertDialog.Builder(this@ProblemActivity).apply {
+                this.setTitle("\n本次测试共${testBean.question.size}题,你已完成${answered}题")
+                setMessage("直接退出将不保存此次做题记录\n是否交卷？")
+                setPositiveButton("交卷") { _, _ -> uploadResult() }
+                setNegativeButton("取消") { _, _ -> Unit }
+                setNeutralButton("直接退出") { _, _ -> finish() }
+            }.show()
+        }
+    }
+
     private fun initStatusBar() {
         if (statusBarView == null) {
             val identifier = resources.getIdentifier("statusBarBackground", "id", "android")

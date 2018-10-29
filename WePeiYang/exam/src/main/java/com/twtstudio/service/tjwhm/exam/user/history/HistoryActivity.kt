@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.ImageView
+import android.widget.TextView
 import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
 import com.twt.wepeiyang.commons.ui.rec.withItems
 import com.twtstudio.service.tjwhm.exam.R
@@ -24,6 +25,8 @@ class HistoryActivity : AppCompatActivity() {
     private var statusBarView: View? = null
 
     private lateinit var rvHistory: RecyclerView
+    private lateinit var ivNoRecord: ImageView
+    private lateinit var tvNoRecord: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,13 +41,18 @@ class HistoryActivity : AppCompatActivity() {
 
         findViewById<ImageView>(R.id.iv_history_back).setOnClickListener { onBackPressed() }
         rvHistory = findViewById(R.id.rv_history)
+        ivNoRecord = findViewById(R.id.iv_history_no_record)
+        tvNoRecord = findViewById(R.id.tv_history_no_record)
         rvHistory.layoutManager = LinearLayoutManager(this@HistoryActivity)
 
         examUserHistoryLiveData.bindNonNull(this, ::bindHistoryData)
     }
 
     private fun bindHistoryData(list: List<OneHistoryBean>) {
-        rvHistory.withItems {
+        if (list.isEmpty()) {
+            ivNoRecord.visibility = View.VISIBLE
+            tvNoRecord.visibility = View.VISIBLE
+        } else rvHistory.withItems {
             repeat(list.size) {
                 historyItem(this@HistoryActivity, list[it])
             }
