@@ -13,33 +13,34 @@ import kotlinx.android.synthetic.main.lf2_activity_search.*
 
 class SearchChooseTimeAdapter(val context: SearchActivity, val selectedItem: Int, var window: PopupWindow) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    class SearchChooseTimeViewHolder(itemview: View) : RecyclerView.ViewHolder(itemview) {
-        val waterfall_type_item = itemView.findViewById<TextView>(R.id.waterfall_type_item)
+    class SearchChooseTimeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val waterfallTypeItem: TextView = this.itemView.findViewById(R.id.waterfall_type_item)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.lf2_item_waterfall_type, parent, false).also {
             it.layoutParams.width = -1
         }
+
         return SearchChooseTimeAdapter.SearchChooseTimeViewHolder(view)
     }
 
     override fun getItemCount(): Int = 5
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        var viewHolder = holder as SearchChooseTimeViewHolder
+        val viewHolder = holder as SearchChooseTimeViewHolder
 
-        viewHolder.waterfall_type_item.apply {
+        viewHolder.waterfallTypeItem.apply {
             text = Utils.getDetailFilterOfTime(position + 1)
             typeface = Typeface.DEFAULT
         }
 
         when (selectedItem) {
             5 -> if (position == 0) {
-                viewHolder.waterfall_type_item.typeface = Typeface.defaultFromStyle(Typeface.BOLD)
+                viewHolder.waterfallTypeItem.typeface = Typeface.defaultFromStyle(Typeface.BOLD)
             }
             position -> {
-                viewHolder.waterfall_type_item.typeface = Typeface.defaultFromStyle(Typeface.BOLD)
+                viewHolder.waterfallTypeItem.typeface = Typeface.defaultFromStyle(Typeface.BOLD)
             }
             else -> {
             }
@@ -50,7 +51,6 @@ class SearchChooseTimeAdapter(val context: SearchActivity, val selectedItem: Int
                 search_type_blue.visibility = View.GONE
                 search_type_grey.visibility = View.VISIBLE
                 chooseTimePopupWindow.dismiss()
-
 
                 when (position) {
                     0 -> context.changeTime(5)

@@ -20,24 +20,27 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import com.example.lostfond2.R
 import com.orhanobut.hawk.Hawk
+import com.yookiely.lostfond2.service.Utils.Companion.CONTENT
+import com.yookiely.lostfond2.service.Utils.Companion.ID
+import com.yookiely.lostfond2.service.Utils.Companion.TABLE_NAME
 import com.yookiely.lostfond2.waterfall.WaterfallPagerAdapter
 import org.jetbrains.anko.db.*
 
 class SearchActivity : AppCompatActivity() {
 
-    private lateinit var inputMethodManager: InputMethodManager
+    private var inputMethodManager: InputMethodManager? = null
     private lateinit var searchView: SearchView
     private lateinit var toolbar: Toolbar
     private lateinit var popupWindow: ListPopupWindow//搜索历史记录的弹窗
     private lateinit var lostFragment: SearchFragment
     private lateinit var foundFragment: SearchFragment
-    private lateinit var search_pager_vp: ViewPager
+    private lateinit var searchPager: ViewPager
     private lateinit var chooseTimeRecyclerView: RecyclerView//弹窗，选择时间的rv
     lateinit var chooseTimePopupWindow: PopupWindow
     private var layoutManagerForChooseTime = LinearLayoutManager(this@SearchActivity)
     private lateinit var searchTableLayout: TabLayout
-    private lateinit var imageViewgrey: ImageView
-    private lateinit var imageViewblue: ImageView
+    private lateinit var imageViewGrey: ImageView
+    private lateinit var imageViewBlue: ImageView
     private lateinit var searchType: RelativeLayout
 
     lateinit var keyword: String
@@ -47,7 +50,6 @@ class SearchActivity : AppCompatActivity() {
     private var isClosing = false//当activity销毁的时候，popupwindow不弹出来
     private var canshow = false
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE)//隐藏actionbar，需在setContentView前面
@@ -56,30 +58,30 @@ class SearchActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         searchView = findViewById(R.id.search_searview)
         searchTableLayout = findViewById(R.id.search_tabLayout)
-        imageViewblue = findViewById(R.id.search_type_blue)
-        imageViewgrey = findViewById(R.id.search_type_grey)
+        imageViewBlue = findViewById(R.id.search_type_blue)
+        imageViewGrey = findViewById(R.id.search_type_grey)
         searchType = findViewById(R.id.search_type)
-        lostFragment = SearchFragment.Companion.newInstance("lost")
-        foundFragment = SearchFragment.Companion.newInstance("found")
+        lostFragment = SearchFragment.newInstance("lost")
+        foundFragment = SearchFragment.newInstance("found")
         campus = Hawk.get("campus")//1 北洋园 ，2 卫津路
 
         val waterfallPagerAdapter = WaterfallPagerAdapter(supportFragmentManager)
-        val popupwindowView = LayoutInflater.from(this).inflate(R.layout.lf2_popupwindow_search, null, false)
+        val popupWindowView = LayoutInflater.from(this).inflate(R.layout.lf2_popupwindow_search, null, false)
         waterfallPagerAdapter.add(foundFragment, "捡到")
         waterfallPagerAdapter.add(lostFragment, "丢失")
-        search_pager_vp = findViewById(R.id.search_pager_content)
-        search_pager_vp.adapter = waterfallPagerAdapter
+        searchPager = findViewById(R.id.search_pager_content)
+        searchPager.adapter = waterfallPagerAdapter
         searchTableLayout.apply {
-            setupWithViewPager(search_pager_vp)
+            setupWithViewPager(searchPager)
             tabGravity = TabLayout.GRAVITY_FILL
             setSelectedTabIndicatorColor(Color.parseColor("#00a1e9"))
         }
-        imageViewblue.visibility = View.GONE
+        imageViewBlue.visibility = View.GONE
 
         database.use {
-            createTable(HistoryRecordContract.TABLE_NAME,true,
-                    Pair(HistoryRecordContract.ID, INTEGER + PRIMARY_KEY + AUTOINCREMENT),
-                    Pair(HistoryRecordContract.CONTENT, TEXT))
+            createTable(TABLE_NAME, true,
+                    Pair(ID, INTEGER + PRIMARY_KEY + AUTOINCREMENT),
+                    Pair(CONTENT, TEXT))
         }
         val db = database.writableDatabase
 
@@ -91,7 +93,7 @@ class SearchActivity : AppCompatActivity() {
         //searchView.setIconifiedByDefault(false)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         toolbar.setNavigationOnClickListener { onBackPressed() }
-        toolbar.setNavigationOnClickListener { view ->
+        toolbar.setNavigationOnClickListener {
             hideInputKeyboard()
             finish()
             onDetachedFromWindow()
@@ -114,7 +116,6 @@ class SearchActivity : AppCompatActivity() {
                 if(keyword != ""){
                     database(keyword,db)
                 }
-
                 hideInputKeyboard()
                 onDetachedFromWindow()
                 return true
@@ -126,32 +127,34 @@ class SearchActivity : AppCompatActivity() {
         })
 
         searchType.setOnClickListener {
-            if (imageViewgrey.visibility == View.VISIBLE) run {
-                imageViewblue.visibility = View.VISIBLE
-                imageViewgrey.visibility = View.GONE
+            if (imageViewGrey.visibility == View.VISIBLE) run {
+                imageViewBlue.visibility = View.VISIBLE
+                imageViewGrey.visibility = View.GONE
 
-                chooseTimePopupWindow = PopupWindow(popupwindowView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true)
+                chooseTimePopupWindow = PopupWindow(popupWindowView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true)
                 chooseTimePopupWindow.apply {
                     setBackgroundDrawable(ColorDrawable(ContextCompat.getColor(this@SearchActivity, R.color.white_color)))
                     isOutsideTouchable = true
                     isTouchable = true
                     showAsDropDown(it)
-                    setTouchInterceptor(View.OnTouchListener { v, event ->
+                    setTouchInterceptor { _, event ->
                         if (event?.action == MotionEvent.ACTION_DOWN) {
-                            imageViewgrey.visibility = View.VISIBLE
-                            imageViewblue.visibility = View.GONE
+                            imageViewGrey.visibility = View.VISIBLE
+                            imageViewBlue.visibility = View.GONE
                         }
                         false
-                    })
+                    }
                 }
 
-                chooseTimeRecyclerView = popupwindowView.findViewById(R.id.search_type_recyclerview)
-                chooseTimeRecyclerView.adapter = SearchChooseTimeAdapter(this, time, chooseTimePopupWindow)
-                chooseTimeRecyclerView.layoutManager = layoutManagerForChooseTime
+                chooseTimeRecyclerView = popupWindowView.findViewById(R.id.search_type_recyclerview)
+                chooseTimeRecyclerView.apply {
+                    adapter = SearchChooseTimeAdapter(this@SearchActivity, time, chooseTimePopupWindow)
+                    layoutManager = layoutManagerForChooseTime
+                }
 
-            } else if (imageViewblue.visibility == View.VISIBLE) {
-                imageViewgrey.visibility = View.VISIBLE
-                imageViewblue.visibility = View.GONE
+            } else if (imageViewBlue.visibility == View.VISIBLE) {
+                imageViewGrey.visibility = View.VISIBLE
+                imageViewBlue.visibility = View.GONE
             }
         }
 
@@ -165,13 +168,13 @@ class SearchActivity : AppCompatActivity() {
 
     private fun hideInputKeyboard() {
         inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+
         if (inputMethodManager != null) {
             val v = this@SearchActivity.currentFocus ?: return
-            inputMethodManager.hideSoftInputFromWindow(v.windowToken,
+            inputMethodManager!!.hideSoftInputFromWindow(v.windowToken,
                     InputMethodManager.HIDE_NOT_ALWAYS)
             searchView.clearFocus()
         }
-
     }
 
     @SuppressLint("Recycle")
@@ -181,8 +184,10 @@ class SearchActivity : AppCompatActivity() {
 
         if (cursor!= null){
             canshow = true
+
             while (cursor.moveToNext()){
                 val number = cursor.getColumnIndex("content")
+
                 if(cursor.getString(number) == query){
                     db.delete("myTable","content=?", arrayOf(query))
                 }
@@ -194,6 +199,7 @@ class SearchActivity : AppCompatActivity() {
         //times为存入的数据条数
         db.insert("myTable",null ,values) //插入数据
         cursor = db.query("myTable", null,null,null,null,null,null)//cursor为游标
+
         if (cursor != null) {
             canshow = true
         }
@@ -203,7 +209,7 @@ class SearchActivity : AppCompatActivity() {
             //超过5条，则删掉最后一条
             cursor.moveToFirst()
             val timeOfID = cursor.getColumnIndex("_id")
-            var minID = cursor.getInt(timeOfID)
+            val minID = cursor.getInt(timeOfID)
             db.delete("myTable","_id = {userID}", "userID" to minID)//arrayOf(min.toString()))
         }
     }
@@ -211,6 +217,7 @@ class SearchActivity : AppCompatActivity() {
     private fun showListPopupWindow(view :View,db: SQLiteDatabase){
         popupWindow = ListPopupWindow(this)
         val cursor = db.query("myTable", null, null, null, null, null, null)//cursor为游标
+
         if (cursor!=null){
             canshow = true
             val historyRecord = cursor.parseList(object : RowParser<String> {

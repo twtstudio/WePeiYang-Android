@@ -7,7 +7,7 @@ import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineException
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 
-class SearchPresenterImpl(val searchUIView: SearchContract.SearchUIView) : SearchContract.SearchPresenter {
+class SearchPresenterImpl(private val searchUIView: SearchContract.SearchUIView) : SearchContract.SearchPresenter {
     override fun loadWaterfallData(lostOrFound: String, keyword: String, page: Int, time: Int) {
 
         if (Hawk.contains("campus")) {

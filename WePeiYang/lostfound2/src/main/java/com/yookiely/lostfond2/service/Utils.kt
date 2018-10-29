@@ -6,9 +6,12 @@ class Utils {
     val PERMISSION_READ_EXTERNAL_STORAGE = Manifest.permission.READ_EXTERNAL_STORAGE
 
     companion object {
-        val ALL_TYPE = 0
-        val ALL_TIME = 5
-        val TYPE_OF_FOUND = 1
+        const val ALL_TYPE = 0
+        const val ALL_TIME = 5
+        const val TYPE_OF_FOUND = 1
+        const val TABLE_NAME = "myTable"
+        const val ID = "_id"
+        const val CONTENT = "content"
 
         fun getType(i: Int) = when (i) {
             0 -> "全部"

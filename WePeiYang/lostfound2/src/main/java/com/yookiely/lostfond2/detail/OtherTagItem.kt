@@ -22,14 +22,16 @@ class OtherTagItem(val text3: String, val text2: String) : Item {
             holder as OtherTagViewHolder
             item as OtherTagItem
 
-            holder.title.text = item.text3
-            holder.content.text = item.text2
+            holder.apply {
+                otherTagTitle.text = item.text3
+                otherTagContent.text = item.text2
+            }
         }
     }
 
     private class OtherTagViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val title: TextView = itemView.findViewById(R.id.othertag_title)
-        val content: TextView = itemView.findViewById(R.id.othertag_detail)
+        val otherTagTitle: TextView = itemView.findViewById(R.id.othertag_title)
+        val otherTagContent: TextView = itemView.findViewById(R.id.othertag_detail)
     }
 
     override val controller: ItemController

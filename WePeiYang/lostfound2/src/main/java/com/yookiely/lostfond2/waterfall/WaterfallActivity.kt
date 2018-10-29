@@ -29,7 +29,7 @@ class WaterfallActivity : AppCompatActivity() {
 
     private lateinit var lostFragment: WaterfallFragment
     private lateinit var foundFragment: WaterfallFragment
-    private lateinit var popWaterfallRecyclerview: RecyclerView
+    private lateinit var popWaterfallRecyclerView: RecyclerView
     private lateinit var popWaterfallTypesAll: TextView
     private var campus: Int = 0
     lateinit var popWaterfallFilter: TextView
@@ -50,8 +50,8 @@ class WaterfallActivity : AppCompatActivity() {
         val snapHelper = LinearSnapHelper()
         popWaterfallTypesAll = popupWindowView.findViewById(R.id.waterfall_types_all) //全部分类
         popWaterfallFilter = popupWindowView.findViewById(R.id.waterfall_filter) //筛选条件
-        popWaterfallRecyclerview = popupWindowView.findViewById(R.id.waterfall_type_recyclerview)
-        popWaterfallRecyclerview.apply {
+        popWaterfallRecyclerView = popupWindowView.findViewById(R.id.waterfall_type_recyclerview)
+        popWaterfallRecyclerView.apply {
             layoutManager = layoutManagerForType
             adapter = WaterfallTypeTableAdapter(this@WaterfallActivity, this@WaterfallActivity, type)
             snapHelper.attachToRecyclerView(this)
@@ -110,14 +110,14 @@ class WaterfallActivity : AppCompatActivity() {
             popWaterfallTypesAll.setOnClickListener {
                 popWaterfallTypesAll.textColor = Color.parseColor("#666666")
                 popWaterfallFilter.textColor = Color.parseColor("#D3D3D3")
-                popWaterfallRecyclerview.layoutManager = layoutManagerForType
-                popWaterfallRecyclerview.adapter = WaterfallTypeTableAdapter(this, this, type)
+                popWaterfallRecyclerView.layoutManager = layoutManagerForType
+                popWaterfallRecyclerView.adapter = WaterfallTypeTableAdapter(this, this, type)
             }
 
             popWaterfallFilter.setOnClickListener {
                 popWaterfallFilter.textColor = Color.parseColor("#666666")
                 popWaterfallTypesAll.textColor = Color.parseColor("#D3D3D3")
-                popWaterfallRecyclerview.apply {
+                popWaterfallRecyclerView.apply {
                     layoutManager = layoutManagerForTime
                     adapter = WaterfallTimeTableAdapter(this@WaterfallActivity, this@WaterfallActivity, time)
                 }
@@ -145,14 +145,14 @@ class WaterfallActivity : AppCompatActivity() {
         lostFragment.loadWaterfallDataWithCondition(type, time)
         foundFragment.loadWaterfallDataWithCondition(type, time)
         this.type = type
-        popWaterfallRecyclerview.adapter = WaterfallTypeTableAdapter(this, this, type)
+        popWaterfallRecyclerView.adapter = WaterfallTypeTableAdapter(this, this, type)
     }
 
     fun setWaterfallTime(time: Int) {
         lostFragment.loadWaterfallDataWithCondition(type, time)
         foundFragment.loadWaterfallDataWithCondition(type, time)
         this.time = time
-        popWaterfallRecyclerview.adapter = WaterfallTimeTableAdapter(this, this, time)
+        popWaterfallRecyclerView.adapter = WaterfallTimeTableAdapter(this, this, time)
     }
 
     override fun onResume() {
@@ -160,7 +160,7 @@ class WaterfallActivity : AppCompatActivity() {
 
         if (Hawk.contains("campus")) {
             if (campus == Hawk.get("campus")) {
-                popWaterfallRecyclerview.adapter = if (popWaterfallRecyclerview.layoutManager == layoutManagerForType) {
+                popWaterfallRecyclerView.adapter = if (popWaterfallRecyclerView.layoutManager == layoutManagerForType) {
                     WaterfallTypeTableAdapter(this, this, type)
                 } else {
                     WaterfallTimeTableAdapter(this, this, time)
@@ -169,8 +169,8 @@ class WaterfallActivity : AppCompatActivity() {
                 this.type = Utils.ALL_TYPE
                 this.time = Utils.ALL_TIME
                 campus = Hawk.get("campus")
-                popWaterfallRecyclerview.layoutManager = layoutManagerForType
-                popWaterfallRecyclerview.adapter = WaterfallTypeTableAdapter(this, this, type)
+                popWaterfallRecyclerView.layoutManager = layoutManagerForType
+                popWaterfallRecyclerView.adapter = WaterfallTypeTableAdapter(this, this, type)
             }
         }
     }

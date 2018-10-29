@@ -28,31 +28,34 @@ class MyListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
         setContentView(R.layout.lf2_activity_my_list)
-        var toolbar: Toolbar = findViewById(R.id.mylist_toolbar)
+        val toolbar: Toolbar = findViewById(R.id.mylist_toolbar)
         setSupportActionBar(toolbar)
         toolbar.title = "我的"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         imageView = toolbar.findViewById(R.id.list_img)
 
-        val popupwindowView = LayoutInflater.from(this).inflate(R.layout.lf2_popupwindow_campus, null, false)
+        val popupWindowView = LayoutInflater.from(this).inflate(R.layout.lf2_popupwindow_campus, null, false)
 
         toolbar.setNavigationOnClickListener { onBackPressed() }
-        imageView.setOnClickListener { v -> initPopupwindow(popupwindowView) }
+        imageView.setOnClickListener { initPopupWindow(popupWindowView) }
 
-        val mylist_pager: ViewPager = findViewById(R.id.mylist_pager)
-
-        val mylist_tabLayout: TabLayout = findViewById(R.id.mylist_tabLayout)
-        val mylistPagerAdapter = MylistPagerAdapter(supportFragmentManager)
-        mylistPagerAdapter.add(MylistFragement.newInstance("found"), "我捡到的")
-        mylistPagerAdapter.add(MylistFragement.newInstance("lost"), "我丢失的")
-        mylist_pager.adapter = mylistPagerAdapter
-        mylist_tabLayout.setupWithViewPager(mylist_pager)
-        mylist_tabLayout.tabGravity = TabLayout.GRAVITY_FILL
-        mylist_tabLayout.setSelectedTabIndicatorColor(Color.parseColor("#00a1e9"))
+        val myListPager: ViewPager = findViewById(R.id.mylist_pager)
+        val myListTabLayout: TabLayout = findViewById(R.id.mylist_tabLayout)
+        val myListPagerAdapter = MyListPagerAdapter(supportFragmentManager)
+        myListPagerAdapter.apply {
+            add(MyListFragement.newInstance("found"), "我捡到的")
+            add(MyListFragement.newInstance("lost"), "我丢失的")
+        }
+        myListPager.adapter = myListPagerAdapter
+        myListTabLayout.apply {
+            setupWithViewPager(myListPager)
+            tabGravity = TabLayout.GRAVITY_FILL
+            setSelectedTabIndicatorColor(Color.parseColor("#00a1e9"))
+        }
     }
 
-    private fun initPopupwindow(view: View) {
+    private fun initPopupWindow(view: View) {
         popupWindow = PopupWindow(view, WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT, true)
         popupWindow.isFocusable = true
         popupWindow.isOutsideTouchable = false// 设置PopupWindow是否能响应外部点击事件

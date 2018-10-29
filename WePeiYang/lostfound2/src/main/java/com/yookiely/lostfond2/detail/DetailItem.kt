@@ -25,8 +25,8 @@ class DetailItem(val text1: String, val text2: String, val isLast: Boolean) : It
             item as DetailItem
 
             holder.apply {
-                title.text = item.text1
-                content.text = item.text2
+                detailTitle.text = item.text1
+                detailContent.text = item.text2
                 detailRecaptureComment.visibility = View.GONE
                 detailQuestionMark.apply {
                     visibility = if (item.text1 != "领取站点") View.GONE else View.VISIBLE
@@ -34,20 +34,15 @@ class DetailItem(val text1: String, val text2: String, val isLast: Boolean) : It
                         detailRecaptureComment.visibility = if (detailRecaptureComment.visibility == View.GONE) View.VISIBLE else View.GONE
                     }
                 }
-            }
-
-            if (item.isLast) {
-                holder.spilit.visibility = View.GONE
-            } else {
-                holder.spilit.visibility = View.VISIBLE
+                spiltLine.visibility = if (item.isLast) View.GONE else View.VISIBLE
             }
         }
     }
 
     private class DetailItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val title: TextView = itemView.findViewById(R.id.detail_title)
-        val content: TextView = itemView.findViewById(R.id.detail_detail)
-        val spilit: View = itemView.findViewById(R.id.detail_spilit)
+        val detailTitle: TextView = itemView.findViewById(R.id.detail_title)
+        val detailContent: TextView = itemView.findViewById(R.id.detail_detail)
+        val spiltLine: View = itemView.findViewById(R.id.detail_spilit)
         val detailQuestionMark: ImageView = itemView.findViewById(R.id.detail_question_mark)
         val detailRecaptureComment: TextView = itemView.findViewById(R.id.detail_recapture_comment)
     }

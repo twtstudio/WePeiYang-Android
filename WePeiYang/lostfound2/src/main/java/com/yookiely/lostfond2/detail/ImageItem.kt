@@ -14,9 +14,9 @@ import android.view.LayoutInflater
 import com.yookiely.lostfond2.service.Utils
 
 
-class ImageItem(val url : String, val  context1 : Activity) : Item {
+class ImageItem(val url: String, val context1: Activity) : Item {
 
-    private companion object Controller : ItemController{
+    private companion object Controller : ItemController {
         override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
             val inflater = parent.context.layoutInflater
             val view = inflater.inflate(R.layout.lf2_item_imageitem, parent, false)
@@ -26,12 +26,14 @@ class ImageItem(val url : String, val  context1 : Activity) : Item {
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: Item) {
             holder as ImageItemViewHolder
             item as ImageItem
+
             Glide.with(item.context1)
                     .load(Utils.getPicUrl(item.url))
                     .placeholder(R.drawable.lf_detail_np)
                     .error(R.drawable.lf_detail_np)
-                    .into(holder.image)
-            holder.image.setOnClickListener {
+                    .into(holder.myListImage)
+
+            holder.myListImage.setOnClickListener {
                 val inflater = LayoutInflater.from(item.context1)
                 val imgEntryView = inflater.inflate(R.layout.lf2_dialog_detail_pic, null)
                 // 加载自定义的布局文件
@@ -48,17 +50,13 @@ class ImageItem(val url : String, val  context1 : Activity) : Item {
                 dialog.setView(imgEntryView) // 自定义dialog
                 dialog.show()
                 // 点击布局文件（也可以理解为点击大图）后关闭dialog，这里的dialog不需要按钮
-                imgEntryView.setOnClickListener(View.OnClickListener { dialog.cancel() })
+                imgEntryView.setOnClickListener { dialog.cancel() }
             }
-
-
         }
-
     }
 
-    private class  ImageItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-        val image : ImageView = itemView.findViewById(R.id.image_image)
-
+    private class ImageItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val myListImage: ImageView = itemView.findViewById(R.id.image_image)
     }
 
 
@@ -66,4 +64,4 @@ class ImageItem(val url : String, val  context1 : Activity) : Item {
         get() = ImageItem
 }
 
-fun MutableList<Item>.setImage(url : String,context1: Activity) = add(ImageItem(url,context1))
+fun MutableList<Item>.setImage(url: String, context1: Activity) = add(ImageItem(url, context1))

@@ -2,6 +2,9 @@ package com.yookiely.lostfond2.search
 
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
+import com.yookiely.lostfond2.service.Utils.Companion.CONTENT
+import com.yookiely.lostfond2.service.Utils.Companion.ID
+import com.yookiely.lostfond2.service.Utils.Companion.TABLE_NAME
 import org.jetbrains.anko.db.*
 
 class HistoryRecordHelper(val context : Context) : ManagedSQLiteOpenHelper(context,DATABASE_NAME,null,DATABASE_VERSION) {
@@ -22,13 +25,13 @@ class HistoryRecordHelper(val context : Context) : ManagedSQLiteOpenHelper(conte
     }
 
     override fun onCreate(db: SQLiteDatabase?){
-        db?.createTable(HistoryRecordContract.TABLE_NAME,true,
-                Pair(HistoryRecordContract.ID, INTEGER+ PRIMARY_KEY+AUTOINCREMENT),
-                Pair(HistoryRecordContract.CONTENT, TEXT))
+        db?.createTable(TABLE_NAME, true,
+                Pair(ID, INTEGER + PRIMARY_KEY + AUTOINCREMENT),
+                Pair(CONTENT, TEXT))
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
-        db?.dropTable(HistoryRecordContract.TABLE_NAME,true)
+        db?.dropTable(TABLE_NAME, true)
         onCreate(db)
     }
 }

@@ -5,19 +5,19 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import java.util.ArrayList
 
-class MylistPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
+class MyListPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
 
-    var fragmentsOfMylist: MutableList<Fragment> = ArrayList()
+    private var fragmentsOfMyList: MutableList<Fragment> = ArrayList()
     var fragmentsTitles: MutableList<String> = ArrayList()
 
     fun add(fragment: Fragment, title: String) {
-        fragmentsOfMylist.add(fragment)
+        fragmentsOfMyList.add(fragment)
         fragmentsTitles.add(title)
     }
 
-    override fun getItem(position: Int): Fragment = fragmentsOfMylist[position]
+    override fun getItem(position: Int): Fragment = fragmentsOfMyList[position]
 
-    override fun getCount(): Int = fragmentsOfMylist.size
+    override fun getCount(): Int = fragmentsOfMyList.size
 
     override fun getPageTitle(position: Int): CharSequence = fragmentsTitles[position]
 }
