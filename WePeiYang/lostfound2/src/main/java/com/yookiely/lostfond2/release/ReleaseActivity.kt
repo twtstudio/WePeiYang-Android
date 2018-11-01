@@ -28,7 +28,6 @@ import com.yookiely.lostfond2.SuccessActivity
 import com.yookiely.lostfond2.service.DetailData
 import com.yookiely.lostfond2.service.MyListDataOrSearchBean
 import com.yookiely.lostfond2.service.PermissionsUtils
-import com.yookiely.lostfond2.service.Utils
 import com.zhihu.matisse.Matisse
 import com.zhihu.matisse.MimeType
 import com.zhihu.matisse.engine.impl.GlideEngine
@@ -56,7 +55,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
     private var id = 0
     private var releasePresenter: ReleaseContract.ReleasePresenter = ReleasePresenterImpl(this)
     private val releaseTypeLayoutManager = StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.HORIZONTAL)
-    private val picRecyclerviewManager = LinearLayoutManager(this)
+    private val picRecyclerViewManager = LinearLayoutManager(this)
     private lateinit var releasePicAdapter: ReleasePicAdapter
     private var selectedPic: List<Uri> = ArrayList() //get a pic's url
     private lateinit var lostOrFound: String
@@ -89,7 +88,6 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setToolbarView(toolbar)
         release_delete.visibility = View.GONE
-
         if (toolbar != null) {
             setSupportActionBar(toolbar)
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -121,10 +119,10 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
 
         selectPicList.add(null) // supply a null list
         releasePicAdapter = ReleasePicAdapter(selectPicList, this, this)
-        picRecyclerviewManager.orientation = LinearLayoutManager.HORIZONTAL
+        picRecyclerViewManager.orientation = LinearLayoutManager.HORIZONTAL
         picRecyclerView = findViewById(R.id.release_pic_recyclerview)
         picRecyclerView.apply {
-            layoutManager = picRecyclerviewManager
+            layoutManager = picRecyclerViewManager
             adapter = releasePicAdapter
         }
 
@@ -385,8 +383,10 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         refreshSpinnerOfEntrance = true
         selectedRecaptureRoom = getPositionOfRoom(detailData.recapture_place!!)
         selectedRecaptureEntrance = getPositionOfEntrance(detailData.recapture_entrance)
-        receiving_site_garden_spinner.setSelection(getPositionOfGarden(detailData.recapture_place!!))
-        //campus_spinner.setSelection(detailData.campus.toInt() - 1)
+        receiving_site_garden_spinner.setSelection(getPositionOfGarden(detailData.recapture_place))
+        if (detailData.campus != null) {
+            campus_spinner.setSelection(detailData.campus.toInt() - 1)
+        }
     }
 
     override fun deleteSuccessCallBack() {

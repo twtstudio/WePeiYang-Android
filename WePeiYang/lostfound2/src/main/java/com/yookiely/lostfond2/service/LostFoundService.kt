@@ -83,7 +83,7 @@ data class DetailData(
         val other_tag: String,
         val recapture_place: String?,
         val recapture_entrance : Int,
-        val campus : String
+        val campus: String?
 )
 
 data class InverseID(
