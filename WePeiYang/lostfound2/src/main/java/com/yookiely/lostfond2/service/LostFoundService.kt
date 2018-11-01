@@ -106,5 +106,5 @@ data class MyListDataOrSearchBean(
         val recapture_place: String,
         val recapture_entrance: Int,
         val campus: String,
-        val isExpired: Boolean
+        val isExpired: Int
 )
