@@ -39,7 +39,7 @@ class MyListTableAdapter(var myListBean: MutableList<MyListDataOrSearchBean>, va
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: MyListViewHolder, position: Int) {
-        val (id: Int, _: Int, _: String, title: String, place: String, time: String, _: String, detail_type: Int, isback: Int, picture: List<String>?, _: String, _: Int, _: String) = myListBean[position]
+        val (id: Int, _: Int, _: String, title: String, place: String, time: String, _: String, detail_type: Int, isback: Int, picture: List<String>?, _: String, _: Int, _: String, isExpired: Boolean) = myListBean[position]
         val intent = Intent()
         val bundle = Bundle()
 
@@ -64,12 +64,12 @@ class MyListTableAdapter(var myListBean: MutableList<MyListDataOrSearchBean>, va
             myListItemBackBlue.setOnClickListener { mylistView.turnStatus(id) }
             myListItemBackGrey.setOnClickListener { mylistView.turnStatus(id) }
 
-//            if (isExpired) {//0是未过期
-//                myListItemBackBlue.visibility = View.GONE
-//                myListItemBackGrey.visibility = View.GONE
-//                myListItemOutdata.visibility = View.VISIBLE
-//                myListItemStatus.text = "已过期"
-//            }
+            if (isExpired) {//0是未过期
+                myListItemBackBlue.visibility = View.GONE
+                myListItemBackGrey.visibility = View.GONE
+                myListItemOutdata.visibility = View.VISIBLE
+                myListItemStatus.text = "已过期"
+            }
 
             if (picture != null) {
                 Glide.with(context)
