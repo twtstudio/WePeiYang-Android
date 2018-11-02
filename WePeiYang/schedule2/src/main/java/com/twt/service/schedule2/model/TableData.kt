@@ -11,7 +11,7 @@ import java.util.*
 data class Course(val coursetype: String = "",
                   val college: String = "",
                   val ext: String = "",
-                  val classid: Int = 0,
+                  val classid: Int = 0, // 逻辑班号
                   val teacher: String = "",
                   val week: Week,
                   val coursename: String = "",
@@ -19,7 +19,7 @@ data class Course(val coursetype: String = "",
                   val campus: String = "",
                   val coursenature: String = "",
                   val credit: String = "",
-                  val courseid: String = "",
+                  val courseid: String = "", // 课程编号
                   var courseColor: Int = 0,
                   var statusMessage: String? = "", // [蹭课] [非本周] 什么的
                   var weekAvailable: Boolean = false, // 是不是灰色
@@ -65,12 +65,14 @@ data class Course(val coursetype: String = "",
         if (weekInt < week.start || weekInt > week.end) {
             return false
         }
+        
+        val arrangeTemp = if (arrange.size > 1) mutableListOf(arrange[0]) else arrange // 一天多节课的问题 只看第一个
 
-        if (arrange.any { it.week == "单周" } && !weekInt.even) return true
+        if (arrangeTemp.any { it.week == "单周" } && !weekInt.even) return true
 
-        if (arrange.any { it.week == "双周" } && weekInt.even) return true
+        if (arrangeTemp.any { it.week == "双周" } && weekInt.even) return true
 
-        if (arrange.any { it.week == "单双周" }) return true
+        if (arrangeTemp.any { it.week == "单双周" }) return true
 
         return false
     }

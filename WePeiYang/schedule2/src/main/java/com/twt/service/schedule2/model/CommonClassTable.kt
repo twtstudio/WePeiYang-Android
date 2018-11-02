@@ -1,7 +1,8 @@
 package com.twt.service.schedule2.model
 
-import com.twt.service.schedule2.R
+import android.util.Log
 import com.twt.service.schedule2.extensions.*
+import com.twt.service.schedule2.model.duplicate.DuplicateCourseManager
 
 /**
  * Created by retrox on 2018/3/26.
@@ -13,6 +14,36 @@ class CommonClassTable(val classtable: Classtable) : AbsClasstableProvider {
     val courses: List<Course> = classtable.courses
     val dayOfInt = 86400
 
+    init {
+        try {
+            classtable.courses.map {
+                it.copy()
+            }.onEach { course ->
+                val result = course.arrange.groupBy {
+                    it.day.toString()
+                }.filter {
+                    it.value.size > 1 // 看看是不是超了
+                }
+                if (result.isNotEmpty()) {
+                    val list = result.values.first().toMutableList()
+                    val day = list.first().day
+                    val finalList  = list.filter { it.day == day }.toMutableList()
+                    finalList.trim(day)
+                    if (finalList.size > 1) {
+                        finalList.removeAt(0) // 第一个就是那个本来的 干掉它 然后把剩下的放在Duplicate表里面
+                    }
+                    val duplicateCourse = course.copy(arrangeBackup = finalList).apply {
+                        refresh()
+                    }
+                    DuplicateCourseManager.addCourse(duplicateCourse)
+                }
+                Log.d("CourseTest", result.toString())
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+    }
 
     override fun getCourseByDay(unixTime: Long): List<Course> {
         val dayOfWeek = getDayOfWeek(termStart, unixTime)

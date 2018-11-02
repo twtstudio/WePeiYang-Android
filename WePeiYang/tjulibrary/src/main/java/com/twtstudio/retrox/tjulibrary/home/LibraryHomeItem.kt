@@ -1,8 +1,8 @@
 package com.twtstudio.retrox.tjulibrary.home
 
 import android.arch.lifecycle.LifecycleOwner
-import android.content.Intent
 import android.graphics.Color
+import android.graphics.Typeface
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -10,7 +10,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.TextView
+import com.twt.wepeiyang.commons.experimental.CommonContext
 import com.twt.wepeiyang.commons.experimental.cache.CacheIndicator
+import com.twt.wepeiyang.commons.experimental.cache.RefreshState
+import com.twt.wepeiyang.commons.experimental.color.getColorCompat
 import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
 import com.twt.wepeiyang.commons.ui.rec.*
 import com.twt.wepeiyang.commons.ui.spanned
@@ -18,9 +21,10 @@ import com.twt.wepeiyang.commons.ui.view.ColorCircleView
 import com.twtstudio.retrox.tjulibrary.R
 import com.twtstudio.retrox.tjulibrary.provider.Book
 import com.twtstudio.retrox.tjulibrary.view.BookPopupWindow
-import com.twtstudio.retrox.tjulibrary.view.HomeActivity
 import kotlinx.android.synthetic.main.item_library_book_new.view.*
 import org.jetbrains.anko.*
+import org.json.JSONObject
+import retrofit2.HttpException
 
 class LibraryHomeItem(val owner: LifecycleOwner) : Item {
     companion object Controller : ItemController {
@@ -38,7 +42,7 @@ class LibraryHomeItem(val owner: LifecycleOwner) : Item {
             }
             homeItem.apply {
                 itemName.text = "LIBRARY"
-                itemContent.visibility = View.VISIBLE
+                itemContent.visibility = View.INVISIBLE
                 setContentView(view)
             }
             return MyViewHolder(homeItem.rootView, homeItem, view)
@@ -47,13 +51,50 @@ class LibraryHomeItem(val owner: LifecycleOwner) : Item {
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: Item) {
             holder as MyViewHolder
             item as LibraryHomeItem
-            holder.homeItem.apply {
-                itemContent.setOnClickListener { it.context.startActivity<HomeActivity>() }
-            }
-
             val itemManager = (holder.recyclerView.adapter as ItemAdapter).itemManager
-            LibraryViewModel.infoLiveData.refresh(CacheIndicator.LOCAL, CacheIndicator.REMOTE)
+            LibraryViewModel.infoLiveData.refresh(CacheIndicator.LOCAL, CacheIndicator.REMOTE, callback = { state ->
+                when(state) {
+                    is RefreshState.Failure -> {
+                        val exception = state.throwable as HttpException
+                        val jsonObject = JSONObject(exception.response().errorBody()?.string())
+                        val errcode = jsonObject.getInt("error_code")
+                        val message = jsonObject.getString("message")
+                        if (errcode == 0 && exception.code() == 403) { // 未绑定
+                            holder.homeItem.contentContainer.verticalLayout {
+                                textView {
+                                    textSize = 16f
+                                    typeface = Typeface.create("sans-serif-medium", Typeface.NORMAL)
+                                    textColor = Color.parseColor("#444444")
+                                    text = "*您尚未绑定图书馆"
+                                }
+                                textView {
+                                    text = "点击绑定"
+                                    textSize = 16f
+                                    typeface = Typeface.create("sans-serif-medium", Typeface.NORMAL)
+                                    backgroundColor = Color.TRANSPARENT
+                                    textColor = getColorCompat(R.color.colorAccent)
+                                    setOnClickListener {
+                                        CommonContext.startActivity(name = "bind") {
+                                            putExtra("type", 0xaade3c)
+                                        }
+                                    }
+                                }.lparams(wrapContent, wrapContent) {
+                                    verticalMargin = dip(8)
+                                }
+                                layoutParams = FrameLayout.LayoutParams(matchParent, wrapContent).apply {
+                                    marginStart = dip(16)
+                                    topMargin = dip(4)
+                                    bottomMargin = dip(4)
+                                }
+                            }
+                        }
+                    }
+                }
+            })
             LibraryViewModel.infoLiveData.bindNonNull(item.owner) { info ->
+                if (holder.homeItem.contentContainer.childCount > 1) { // 清楚掉提示绑定的view
+                    holder.homeItem.setContentView(holder.recyclerView)
+                }
                 itemManager.refreshAll {
                     if (info.books == null) info.books = listOf()
                     info.books = info.books.sortedBy { it.timeLeft() }
@@ -93,7 +134,7 @@ class LibraryHomeItem(val owner: LifecycleOwner) : Item {
             }
         }
 
-        fun MutableList<Item>.book(book: Book) = add(BookItem(book))
+        private fun MutableList<Item>.book(book: Book) = add(BookItem(book))
 
         private class MyViewHolder(itemView: View, val homeItem: HomeItem, val recyclerView: RecyclerView) : RecyclerView.ViewHolder(itemView)
 
@@ -137,16 +178,16 @@ class BookItem(val book: Book) : Item {
         }
 
         private class ViewHolder(itemView: View, val bookName: TextView, val colorCircleView: ColorCircleView, val bookReturn: TextView) : RecyclerView.ViewHolder(itemView) {
-            val rootView get() = itemView
+            val rootView: View get() = itemView
         }
     }
 
     override fun areItemsTheSame(newItem: Item): Boolean = areContentsTheSame(newItem)
 
     override fun areContentsTheSame(newItem: Item): Boolean {
-        if (newItem is BookItem) {
-            return newItem.book == book
-        } else return false
+        return if (newItem is BookItem) {
+            newItem.book == book
+        } else false
     }
 
     override val controller: ItemController

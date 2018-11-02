@@ -10,6 +10,7 @@ import android.support.constraint.ConstraintLayout
 import android.support.constraint.ConstraintLayout.LayoutParams.PARENT_ID
 import android.support.design.widget.BottomSheetBehavior
 import android.support.design.widget.BottomSheetDialogFragment
+import android.support.v4.content.res.ResourcesCompat
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.Gravity
@@ -156,11 +157,11 @@ class CustomSettingBottomFragment : BottomSheetDialogFragment() {
 
                 spreadChainLayout {
                     listOf(
-                            "佩奇粉" to Color.parseColor("#EDC6CD"),
-                            "乔治蓝" to Color.parseColor("#6595D9"),
-                            "猪妈黄" to Color.parseColor("#F4B17F"),
-                            "猪爸绿" to Color.parseColor("#6FC6C5"),
-                            "基佬紫" to Color.parseColor("#9C26B0")
+                            "Coal" to Color.parseColor("#363636"),
+                            "Nordic" to Color.parseColor("#738d91"),
+                            "Rose" to Color.parseColor("#ae837b"),
+                            "Matcha" to Color.parseColor("#748165"),
+                            "Gold" to Color.parseColor("#7c6a41")
                     ).forEachIndexed { index, (name, color) ->
 
                         verticalLayout {
@@ -175,7 +176,7 @@ class CustomSettingBottomFragment : BottomSheetDialogFragment() {
                                 text = name
                                 textColor = color
                                 textSize = 12f
-                                typeface = Typeface.create("sans-serif-medium", Typeface.NORMAL)
+                                typeface = ResourcesCompat.getFont(context, R.font.montserrat_regular)
                             }.lparams(width = wrapContent, height = wrapContent) {
                                 topMargin = dip(6)
                             }

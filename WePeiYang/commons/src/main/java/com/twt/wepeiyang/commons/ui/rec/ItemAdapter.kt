@@ -137,7 +137,7 @@ class ItemManager(private val delegated: MutableList<Item> = mutableListOf()) : 
             }
 
     override fun addAll(index: Int, elements: Collection<Item>) =
-            delegated.addAll(elements).also {
+            delegated.addAll(index, elements).also {
                 ensureControllers(elements)
                 if (it) observer?.notifyItemRangeInserted(index, elements.size)
             }

@@ -9,6 +9,7 @@
     android:layout_height="100dp">
 
     <ImageView
+        android:scaleType="centerCrop"
         android:id="@+id/news_image_image"
         android:layout_width="100dp"
         android:layout_height="80dp"
@@ -31,7 +32,6 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="4dp"
-        android:text="北洋大讲堂：司法改革与公正公信"
         android:textColor="@color/black_color"
         android:textSize="15dp"
         app:layout_constraintEnd_toEndOf="parent"

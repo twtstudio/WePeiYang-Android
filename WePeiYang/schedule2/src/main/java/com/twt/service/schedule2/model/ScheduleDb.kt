@@ -39,5 +39,4 @@ object ScheduleDb {
         public abstract fun auditCourseDao(): AuditCourseDao
     }
 
-
 }

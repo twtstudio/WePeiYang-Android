@@ -2,6 +2,8 @@ package com.twt.service.schedule2.view.schedule
 
 import android.content.Context
 import android.graphics.Color
+import android.graphics.Typeface
+import android.support.v4.content.res.ResourcesCompat
 import android.support.v7.util.DiffUtil
 import android.support.v7.widget.CardView
 import android.support.v7.widget.GridLayoutManager
@@ -9,6 +11,7 @@ import android.support.v7.widget.RecyclerView
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.AbsoluteSizeSpan
+import android.text.style.StyleSpan
 import android.text.style.TypefaceSpan
 import android.util.Log
 import android.view.LayoutInflater
@@ -17,6 +20,10 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.TextView
 import com.twt.service.schedule2.R
+import com.twt.service.schedule2.extensions.absSize
+import com.twt.service.schedule2.extensions.plus
+import com.twt.service.schedule2.extensions.span
+import com.twt.service.schedule2.extensions.spannable
 import com.twt.service.schedule2.model.Course
 import com.twt.service.schedule2.model.SchedulePref
 import com.twt.wepeiyang.commons.experimental.CommonContext
@@ -112,12 +119,19 @@ class ScheduleAdapter(val context: Context) : RecyclerView.Adapter<ScheduleAdapt
                 text += course.statusMessage
                 text += "${course.coursename}\n@${course.arrange[0].room} "
 
-                val stringSpan = SpannableString(course.coursename + "\n \n" + course.arrange[0].room)
-                stringSpan.setSpan(TypefaceSpan("sans-serif-medium"), 0, course.coursename.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-                stringSpan.setSpan(AbsoluteSizeSpan(14, true), 0, course.coursename.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-                stringSpan.setSpan(AbsoluteSizeSpan(2, true), course.coursename.length, course.coursename.length + 3, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-                stringSpan.setSpan(TypefaceSpan("sans-serif-regular"), course.coursename.length + 3, stringSpan.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-                stringSpan.setSpan(AbsoluteSizeSpan(12, true), course.coursename.length + 3, stringSpan.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                val roomCluster = course.arrange[0].room.split("楼")
+                val divider = "\n \n"
+                val creditDisplayed = "- " + course.credit + " -"
+                val courseNameSpanSize = if (course.coursename.length > 6) 13 else 15
+
+                val stringSpan = spannable {
+                    absSize(10, creditDisplayed) +
+                            absSize(3, divider) +
+                            span(course.coursename, listOf(StyleSpan(Typeface.BOLD), AbsoluteSizeSpan(courseNameSpanSize, true))) +
+                            absSize(4, divider) +
+                            absSize(10, roomCluster.joinToString(separator = "-"))
+                }
+
                 /**
                  * 因为Rec的view是存在着缓存 在后面私自addView后 就会加到缓存里面去
                  * 但是不知道谁会取出这个缓存 使用就会存在蜜汁多节课程角标的问题

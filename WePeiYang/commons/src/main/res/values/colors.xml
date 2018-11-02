@@ -42,10 +42,17 @@
     <color name="transparent">#00000000</color>
 
     <!--自定义主题-->
-    <color name="custom_peppa_pink">#EDC6CD</color>
-    <color name="custom_george_blue">#6595D9</color>
-    <color name="custom_pig_mom_yellow">#F4B17F</color>
-    <color name="custom_pig_dad_green">#6FC6C5</color>
-    <color name="custom_gay_purple">#a04aae</color>
+    <!--<color name="custom_pollia">#A76270</color>-->
+    <!--<color name="custom_viking">#647179</color>-->
+    <!--<color name="custom_matcha">#85976D</color>-->
+    <!--<color name="custom_terigaki">#DA7154</color>-->
+    <!--<color name="custom_saddle">#5E5554</color>-->
+
+    <color name="custom_coal">#363636</color>
+    <color name="custom_nordic">#738d91</color>
+    <color name="custom_rose">#ae837b</color>
+    <color name="custom_matcha">#748165</color>
+    <color name="custom_gold">#7c6a41</color>
+
 
 </resources>

@@ -8,7 +8,8 @@ import com.twt.service.schedule2.extensions.mergeCourses
 class MergedClassTableProvider(
         val tjuClassTable: AbsClasstableProvider,
         val auditClassTable: AbsClasstableProvider,
-        val customCourseTable: AbsClasstableProvider
+        val customCourseTable: AbsClasstableProvider,
+        val duplicateCourseTable: AbsClasstableProvider
 ) : AbsClasstableProvider {
 
     private val classColors = intArrayOf(
@@ -34,6 +35,7 @@ class MergedClassTableProvider(
                 tjuClassTable.getCourseByDay(unixTime),
                 auditClassTable.getCourseByDay(unixTime),
                 customCourseTable.getCourseByDay(unixTime),
+                duplicateCourseTable.getCourseByDay(unixTime),
                 dayUnix = unixTime
         )
     }
@@ -59,11 +61,17 @@ class MergedClassTableProvider(
             addAll(tjuClassTable.getCourseByWeek(week))
             addAll(auditClassTable.getCourseByWeek(week))
             addAll(customCourseTable.getCourseByWeek(week))
+            addAll(duplicateCourseTable.getCourseByWeek(week))
             // 其他getCourseByWeek的时候就已经做了refresh操作
         }
         val size = classColors.size
+        val colorIndexMap = mutableMapOf<Int, Int>() // 通过CourseID建立一个颜色的映射 避免之前直接使用Index映射后的不重复问题
+        val courseIds = list.map { it.courseid.toInt() }.sorted()
+        courseIds.forEachIndexed { index, i ->
+            colorIndexMap.put(i, index)
+        }
         list.forEachIndexed { index, course ->
-            val color = classColors[index % size]
+            val color = classColors[(colorIndexMap.get(course.courseid.toInt()) ?: 0) % size]
             course.courseColor = color
         } // 上色
         return list

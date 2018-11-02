@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.LinearLayout
+import com.tjuwhy.yellowpages2.view.YellowPageActivity
 import com.yookiely.lostfond2.waterfall.WaterfallActivity
 import com.twt.service.home.user.FragmentActivity
 import com.twt.wepeiyang.commons.ui.rec.HomeItem
@@ -42,16 +43,17 @@ class OtherItem : Item {
             }
             val layout = holder.linearLayout as _LinearLayout
             layout.apply {
-                addItem("学生党建", "微北洋党建功能") {
+                addItem("学生党建", "入党进度，一览无遗") {
                     it.context.startActivity<PartyActivity>()
                 }
-                addItem("自行车", "进入自行车功能") {
+                addItem("自行车", "骑行状态，望眼欲穿") {
                     it.context.startActivity<BikeActivity>()
                 }
-                addItem("新闻", "查看微北洋新闻") {
+                addItem("新闻", "校内资讯，尽收眼底") {
                     it.context.startActivity<FragmentActivity>("frag" to "News")
-
-
+                }
+                addItem("黄页", "校内电话，方便惠民"){
+                    it.context.startActivity<YellowPageActivity>()
                 }
                 addItem("失物招领", "失物招领") {
                     it.context.startActivity<WaterfallActivity>()
@@ -68,13 +70,11 @@ class OtherItem : Item {
                     text = title
                     textSize = 16f
                     textColor = Color.parseColor("#444444")
-                    typeface = Typeface.create("sans-serif-regular", Typeface.NORMAL)
                 }.lparams(matchParent, wrapContent)
                 textView {
                     text = message
                     textSize = 12f
                     textColor = Color.parseColor("#444444")
-                    typeface = Typeface.create("sans-serif-light", Typeface.NORMAL)
                 }.lparams(matchParent, wrapContent) {
                     topMargin = dip(4)
                 }

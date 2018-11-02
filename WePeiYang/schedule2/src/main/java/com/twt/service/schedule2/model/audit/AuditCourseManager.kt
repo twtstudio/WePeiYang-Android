@@ -102,6 +102,9 @@ object AuditCourseManager {
         async(CommonPool + QuietCoroutineExceptionHandler) {
             val auditCollegeDataList = AuditApi.getAuditCollege().awaitAndHandle { it.printStackTrace() }?.data
                     ?: throw IllegalStateException("刷新课程表搜索提示失败")
+            // 先全部清除课程表的缓存
+            dao.deleteAllCollegesCache()
+            dao.deleteAllCollegesCoursesCache()
             dao.insertColleges(auditCollegeDataList)
             auditCollegeDataList.forEach { data: AuditCollegeData ->
                 dao.insertCollegeCourses(data.collegeCourses.onEach {

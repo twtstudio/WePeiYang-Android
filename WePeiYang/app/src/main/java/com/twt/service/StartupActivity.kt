@@ -7,18 +7,22 @@ import android.graphics.drawable.Icon
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import com.twt.service.base.BaseActivity
+import android.support.v7.app.AppCompatActivity
 import com.twt.service.home.HomeNewActivity
 import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
 import com.twtstudio.retrox.auth.view.LoginActivity
 import org.jetbrains.anko.shortcutManager
 import org.jetbrains.anko.startActivity
+import java.lang.reflect.AccessibleObject.setAccessible
+import android.graphics.Typeface
+
+
 
 /**
  * Created by retrox on 2017/1/20.
  */
 
-class StartupActivity : BaseActivity() {
+class StartupActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,7 +55,6 @@ class StartupActivity : BaseActivity() {
                         // this dynamic shortcut set up a back stack using Intents, when pressing back, will go to MainActivity
                         // the last Intent is what the shortcut really opened
                         arrayOf(
-                                //                                new Intent(Intent.ACTION_MAIN, Uri.EMPTY, this, HomeActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK),
                                 Intent("xyz.rickygao.gpa2.DYNAMIC_OPEN"))// intent's action must be set
                 )
                 .build()
@@ -65,7 +68,6 @@ class StartupActivity : BaseActivity() {
                         // this dynamic shortcut set up a back stack using Intents, when pressing back, will go to MainActivity
                         // the last Intent is what the shortcut really opened
                         arrayOf(
-                                //                                new Intent(Intent.ACTION_MAIN, Uri.EMPTY, this, HomeActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK),
                                 Intent("com.twt.schedule.action.DYNAMIC_OPEN"))// intent's action must be set
                 )
                 .build()

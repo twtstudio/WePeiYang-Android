@@ -13,19 +13,19 @@ class WebActivity : AppCompatActivity() {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_web)
-        var intent: Intent = getIntent()
-        if (intent.hasExtra("recyclerViewUrl")){
-            var url: Int = intent.getIntExtra("recyclerViewUrl",0)
-            if (url != null){
-                webView = findViewById(R.id.webView)
-                webView.loadUrl("https://news.twt.edu.cn/pernews/" + (url-2))
-            }
-        }else if (intent.hasExtra("bannerUrl")){
-            var url:String = intent.getStringExtra("bannerUrl")
-            if (url != null){
-                webView = findViewById(R.id.webView)
-                webView.loadUrl("https://news.twt.edu.cn/pernews/" + url)
-            }
+        val intent: Intent = intent
+        if (intent.hasExtra("recyclerViewUrl")) {
+            val url: Int = intent.getIntExtra("recyclerViewUrl", 0)
+            webView = findViewById(R.id.webView)
+
+            // 这个 API 是错误的，列表 JSON 中的新闻 index 拼在新闻详情的 URL 后面是错误的
+            // 而且并没有什么规律，等待后台修这个 BUG（-2 是试出来的有新闻的比较多的一种算法，哭泣）
+            // ps 之前这里错怪了森哥
+            webView.loadUrl("https://news.twt.edu.cn/pernews/${url - 2}")
+        } else if (intent.hasExtra("bannerUrl")) {
+            val url: String = intent.getStringExtra("bannerUrl")
+            webView = findViewById(R.id.webView)
+            webView.loadUrl("https://news.twt.edu.cn/pernews/$url")
         }
 
 
