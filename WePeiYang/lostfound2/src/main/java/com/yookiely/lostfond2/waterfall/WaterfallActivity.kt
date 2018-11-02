@@ -70,10 +70,12 @@ class WaterfallActivity : AppCompatActivity() {
         val intent = Intent()
         val toolbar = findViewById<Toolbar>(R.id.toolbar1)
         waterfall_type_blue.visibility = View.GONE
-        toolbar.title = "失物招领"
-        setSupportActionBar(toolbar)
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        toolbar.setNavigationOnClickListener { onBackPressed() } // toolbar的各种操作
+        toolbar.apply {
+            title = "失物招领"
+            setSupportActionBar(this)
+            supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+            setNavigationOnClickListener { onBackPressed() }
+        }
 
         waterfallPagerAdapter.add(foundFragment, "捡到")
         waterfallPagerAdapter.add(lostFragment, "丢失")

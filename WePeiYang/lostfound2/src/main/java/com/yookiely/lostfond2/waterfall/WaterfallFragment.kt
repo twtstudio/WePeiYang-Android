@@ -24,7 +24,7 @@ class WaterfallFragment : Fragment(), WaterfallContract.WaterfallView {
     private var isLoading = false
     private var isRefresh = false
     private var campus = 0
-    private var beanList = ArrayList<MyListDataOrSearchBean>()
+    private var beanList = mutableListOf<MyListDataOrSearchBean>()
     private var lostOrFound = "lost"
     private var type = Utils.ALL_TYPE
     private var page = 1

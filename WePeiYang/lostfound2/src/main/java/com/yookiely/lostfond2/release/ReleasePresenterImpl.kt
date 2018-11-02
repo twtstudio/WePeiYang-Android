@@ -49,12 +49,12 @@ class ReleasePresenterImpl(private var releaseView: ReleaseContract.ReleaseView)
         }
     }
 
-    override fun uploadReleaseDataWithPic(map: Map<String, Any>, lostOrFound: String, arrayOfFile: ArrayList<File?>) {
+    override fun uploadReleaseDataWithPic(map: Map<String, Any>, lostOrFound: String, listOfFile: MutableList<File?>) {
 
         val builder = MultipartBody.Builder().setType(MultipartBody.FORM)
 
         builder.apply {
-            for (i in arrayOfFile) {
+            for (i in listOfFile) {
                 if (i != null) {
                     val imageBody = RequestBody.create(MediaType.parse("multipart/form-data"), i)
                     addFormDataPart("pic[]", i.name, imageBody)
@@ -109,18 +109,18 @@ class ReleasePresenterImpl(private var releaseView: ReleaseContract.ReleaseView)
         }
     }
 
-    override fun uploadEditDataWithPic(map: Map<String, Any>, lostOrFound: String, arrayOfFile: ArrayList<File?>, arrayOfString: ArrayList<String?>, id: Int) {
+    override fun uploadEditDataWithPic(map: Map<String, Any>, lostOrFound: String, listOfFile: MutableList<File?>, listOfString: MutableList<String?>, id: Int) {
         val builder = MultipartBody.Builder().setType(MultipartBody.FORM)
 
         builder.apply {
-            for (i in arrayOfFile) {
+            for (i in listOfFile) {
                 if (i != null) {
                     val imageBody = RequestBody.create(MediaType.parse("multipart/form-data"), i)
                     addFormDataPart("pic[]", i.name, imageBody)
                 }
             }
 
-            for (i in arrayOfString) {
+            for (i in listOfString) {
                 if (i != null) {
                     addFormDataPart("kept_picture", i)
                 }

@@ -23,7 +23,7 @@ interface ReleaseContract {
 
         fun uploadReleaseData(map: Map<String, Any>, lostOrFound: String)
 
-        fun uploadReleaseDataWithPic(map: Map<String, Any>, lostOrFound: String, arrayOfFile: ArrayList<File?>)
+        fun uploadReleaseDataWithPic(map: Map<String, Any>, lostOrFound: String, listOfFile: MutableList<File?>)
 
         fun successCallBack(beanList: List<MyListDataOrSearchBean>)
 
@@ -33,7 +33,7 @@ interface ReleaseContract {
 
         fun deleteSuccessCallBack(beanList: String)
 
-        fun uploadEditDataWithPic(map: Map<String, Any>, lostOrFound: String, arrayOfFile: ArrayList<File?>, arrayOfString: ArrayList<String?>, id: Int)
+        fun uploadEditDataWithPic(map: Map<String, Any>, lostOrFound: String, listOfFile: MutableList<File?>, listOfString: MutableList<String?>, id: Int)
 
         fun loadDetailDataForEdit(id: Int, releaseView: ReleaseView)
     }

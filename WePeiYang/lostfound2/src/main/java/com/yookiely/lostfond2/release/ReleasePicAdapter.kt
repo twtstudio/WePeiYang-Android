@@ -15,7 +15,7 @@ import com.yookiely.lostfond2.service.PermissionsUtils
 import com.yookiely.lostfond2.service.Utils
 
 //上传多图的recyclerview的adapter
-class ReleasePicAdapter(val list: ArrayList<Any?>,
+class ReleasePicAdapter(val list: MutableList<Any?>,
                         private val releaseActivity: ReleaseActivity,
                         val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 

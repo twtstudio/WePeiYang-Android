@@ -57,12 +57,12 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
     private val releaseTypeLayoutManager = StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.HORIZONTAL)
     private val picRecyclerViewManager = LinearLayoutManager(this)
     private lateinit var releasePicAdapter: ReleasePicAdapter
-    private var selectedPic: List<Uri> = ArrayList() //get a pic's url
+    private var selectedPic: List<Uri> = mutableListOf() //get a pic's url
     private lateinit var lostOrFound: String
     private lateinit var tableAdapter: ReleaseTableAdapter
     private lateinit var progressDialog: ProgressDialog
     private var judgementOfRelease = false
-    private var selectPicList = ArrayList<Any?>(0)
+    private var selectPicList = mutableListOf<Any?>()
     private lateinit var picRecyclerView: RecyclerView // 添加多图的recycler
     private var campus = 1
     private var refreshSpinnerOfRoom = false
@@ -258,8 +258,8 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
 
     //确定和取消按钮的点击事件
     override fun onClick(view: View) {
-        val picListOfUri = ArrayList<Uri?>(0)
-        val picListOfString = ArrayList<String?>(0)
+        val picListOfUri = mutableListOf<Uri?>()
+        val picListOfString = mutableListOf<String?>()
 
         for (i in selectPicList) {
             if (i is Uri) {
@@ -271,7 +271,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         }
 
         val file1: File
-        val arrayOfFile = ArrayList<File?>(0)
+        val listOfFile = mutableListOf<File?>()
         try {
             file1 = File.createTempFile("pic", ".jpg")
             val outputFile = file1.path
@@ -279,7 +279,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
             if (!judgeNull(picListOfUri)) {
                 for (i in picListOfUri) {
                     if (i != null) {
-                        arrayOfFile.add(getFile(zipThePic(handleImageOnKitKat(i)), outputFile))
+                        listOfFile.add(getFile(zipThePic(handleImageOnKitKat(i)), outputFile))
                     }
                 }
             }
@@ -306,7 +306,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
                 val map = getUpdateMap()
                 if (judgementOfRelease) {
                     progressDialog = ProgressDialog.show(this@ReleaseActivity, "", "正在上传")
-                    releasePresenter.uploadReleaseDataWithPic(map, lostOrFound, arrayOfFile)
+                    releasePresenter.uploadReleaseDataWithPic(map, lostOrFound, listOfFile)
                 }
             } else {
                 val map = getUpdateMap()
@@ -320,7 +320,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
             val map = getUpdateMap()
             if (judgementOfRelease) {
                 progressDialog = ProgressDialog.show(this@ReleaseActivity, "", "正在上传")
-                releasePresenter.uploadEditDataWithPic(map, lostOrFound, arrayOfFile, picListOfString, id)
+                releasePresenter.uploadEditDataWithPic(map, lostOrFound, listOfFile, picListOfString, id)
             }
         } else if (view === release_delete) {
             progressDialog = ProgressDialog.show(this@ReleaseActivity, "", "正在删除")
@@ -704,7 +704,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         }
     }
 
-    private fun judgeNull(list: ArrayList<Uri?>): Boolean {
+    private fun judgeNull(list: List<Uri?>): Boolean {
         for (i in 0..(list.size - 1)) {
             if (list[i] != null) {
                 return false

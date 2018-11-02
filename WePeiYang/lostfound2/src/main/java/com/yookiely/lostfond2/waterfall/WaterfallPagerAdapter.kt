@@ -7,8 +7,8 @@ import java.util.ArrayList
 
 class WaterfallPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
 
-    private val fragmentsOfWaterfall = ArrayList<Fragment>()
-    private val fragmentsTitles = ArrayList<String>()
+    private val fragmentsOfWaterfall = mutableListOf<Fragment>()
+    private val fragmentsTitles = mutableListOf<String>()
 
     fun add(fragment: Fragment, title: String) {
         fragmentsOfWaterfall.add(fragment)
