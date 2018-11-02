@@ -21,6 +21,7 @@ import com.twt.wepeiyang.commons.ui.view.ColorCircleView
 import com.twtstudio.retrox.tjulibrary.R
 import com.twtstudio.retrox.tjulibrary.provider.Book
 import com.twtstudio.retrox.tjulibrary.view.BookPopupWindow
+import com.twtstudio.retrox.tjulibrary.view.HomeActivity
 import kotlinx.android.synthetic.main.item_library_book_new.view.*
 import org.jetbrains.anko.*
 import org.json.JSONObject
@@ -42,7 +43,7 @@ class LibraryHomeItem(val owner: LifecycleOwner) : Item {
             }
             homeItem.apply {
                 itemName.text = "LIBRARY"
-                itemContent.visibility = View.INVISIBLE
+                itemContent.visibility = View.VISIBLE
                 setContentView(view)
             }
             return MyViewHolder(homeItem.rootView, homeItem, view)
@@ -51,9 +52,12 @@ class LibraryHomeItem(val owner: LifecycleOwner) : Item {
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: Item) {
             holder as MyViewHolder
             item as LibraryHomeItem
+            holder.homeItem.apply {
+                itemContent.setOnClickListener { it.context.startActivity<HomeActivity>() }
+            }
             val itemManager = (holder.recyclerView.adapter as ItemAdapter).itemManager
             LibraryViewModel.infoLiveData.refresh(CacheIndicator.LOCAL, CacheIndicator.REMOTE, callback = { state ->
-                when(state) {
+                when (state) {
                     is RefreshState.Failure -> {
                         val exception = state.throwable as HttpException
                         val jsonObject = JSONObject(exception.response().errorBody()?.string())

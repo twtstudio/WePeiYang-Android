@@ -101,4 +101,10 @@ dependencies {
     api 'com.github.garretyoder:Colorful:2.2'
     api 'pub.devrel:easypermissions:0.1.9'
 
+    // banner
+    api 'com.youth.banner:banner:1.4.10'
+
+    // CircleImageView
+    api 'de.hdodenhof:circleimageview:2.2.0'
+
 }
