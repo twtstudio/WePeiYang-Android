@@ -67,7 +67,7 @@ class WaterfallTableAdapter(var waterFallBean: List<MyListDataOrSearchBean>?,
                 waterfallItemRecapturePlace.text = if (dataOfItem.recapture_place == "无") {
                     dataOfItem.recapture_place
                 } else {
-                    dataOfItem.recapture_place + Utils.getExit(dataOfItem.recapture_entrance)
+                    Utils.getGarden(dataOfItem.recapture_place) + dataOfItem.recapture_place + Utils.getExit(dataOfItem.recapture_entrance)
                 }
             } else {
                 waterfallItemRecaptureImage.visibility = View.GONE

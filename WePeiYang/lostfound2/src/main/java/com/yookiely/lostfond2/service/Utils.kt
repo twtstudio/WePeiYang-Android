@@ -46,13 +46,23 @@ class Utils {
             else -> "wrong_place"
         }
 
-        fun getPicUrl(addUrl: String) = "http://open.twtstudio.com/$addUrl"
-//        fun getPicUrl(addUrl: String) = "http://open-lostfound.twtstudio.com/$addUrl"
+        //        fun getPicUrl(addUrl: String) = "http://open.twtstudio.com/$addUrl"
+        fun getPicUrl(addUrl: String) = "http://open-lostfound.twtstudio.com/$addUrl"
 
         fun getExit(i: Int) = when (i) {
             0 -> " "
             1 -> "A口"
             2 -> "B口"
+            else -> ""
+        }
+
+        fun getGarden(i: String): String = when (i) {
+            "无" -> ""
+            "1斋", "2斋", "3斋" -> "格园"
+            "6斋", "7斋", "8斋" -> "诚园"
+            "9斋", "10斋" -> "正园"
+            "11斋", "12斋" -> "修园"
+            "13斋", "14斋", "15斋", "16斋" -> "齐园"
             else -> ""
         }
     }

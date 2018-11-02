@@ -106,7 +106,7 @@ class DetailActivity : AppCompatActivity() {
                     }
                     if (myListDetailData.type != null && myListDetailData.type == Utils.TYPE_OF_FOUND) {
                         if (myListDetailData.recapture_place != null) {
-                            setDetail("领取站点", myListDetailData.recapture_place + Utils.getExit(myListDetailData.recapture_entrance), true)
+                            setDetail("领取站点", Utils.getGarden(myListDetailData.recapture_place) + myListDetailData.recapture_place + Utils.getExit(myListDetailData.recapture_entrance), true)
                         } else {
                             setDetail("领取站点", "无", true)
                         }
