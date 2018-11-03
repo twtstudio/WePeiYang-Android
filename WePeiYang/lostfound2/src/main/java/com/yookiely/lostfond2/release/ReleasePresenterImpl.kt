@@ -1,5 +1,6 @@
 package com.yookiely.lostfond2.release
 
+import com.google.gson.JsonArray
 import com.yookiely.lostfond2.service.LostFoundService
 import com.yookiely.lostfond2.service.MyListDataOrSearchBean
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
@@ -120,11 +121,8 @@ class ReleasePresenterImpl(private var releaseView: ReleaseContract.ReleaseView)
                 }
             }
 
-            for (i in listOfString) {
-                if (i != null) {
-                    addFormDataPart("kept_picture", i)
-                }
-            }
+            addFormDataPart("kept_picture", listOfString.toString())
+
             addFormDataPart("title", map["title"].toString())
             addFormDataPart("time", map["time"].toString())
             addFormDataPart("place", map["place"].toString())
