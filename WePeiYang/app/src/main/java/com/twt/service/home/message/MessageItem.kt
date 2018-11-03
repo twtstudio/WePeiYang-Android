@@ -78,7 +78,6 @@ class MessageItem : Item {
                 }.lparams(wrapContent, wrapContent)
             }.lparams(matchParent, wrapContent)
         }
-
     }
 
     override val controller: ItemController
