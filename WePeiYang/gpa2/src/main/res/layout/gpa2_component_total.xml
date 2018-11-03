@@ -14,6 +14,7 @@
         android:text="不"
         android:textColor="#333"
         android:textSize="28sp"
+        android:fontFamily="@font/montserrat"
         app:layout_constraintBottom_toTopOf="@+id/tv_label_score"
         app:layout_constraintEnd_toEndOf="@+id/tv_label_score"
         app:layout_constraintStart_toStartOf="@+id/tv_label_score"
@@ -26,6 +27,7 @@
         android:text="知"
         android:textColor="#333"
         android:textSize="28sp"
+        android:fontFamily="@font/montserrat"
         app:layout_constraintBaseline_toBaselineOf="@+id/tv_score"
         app:layout_constraintEnd_toEndOf="@+id/tv_label_gpa"
         app:layout_constraintStart_toStartOf="@+id/tv_label_gpa" />
@@ -37,6 +39,7 @@
         android:text="道"
         android:textColor="#333"
         android:textSize="28sp"
+        android:fontFamily="@font/montserrat"
         app:layout_constraintBaseline_toBaselineOf="@+id/tv_gpa"
         app:layout_constraintEnd_toEndOf="@+id/tv_label_credit"
         app:layout_constraintStart_toStartOf="@+id/tv_label_credit" />

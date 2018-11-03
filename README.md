@@ -20,7 +20,8 @@
  	├── 架构
  	├── 依赖规范
  	└── 命名规范
-   
+ 	└── 字体使用
+ 	└── StringSpanDSL
 ```
 
 ### 开发指南
@@ -486,4 +487,61 @@ Schedule2
   tvTitle, etUsername, rvContact
 
 
+#### 字体使用
+随着微北洋的迭代以及设计方案的成熟，对应的字体使用也应该更加规范。字体的使用分为中文字体与英文字体。 因为中文字体过于庞大，因此我们仅仅使用英文和数字的自定义字体。
+
+对于英文和数字，我们采用 `montserrat` 字体。对应的资源文件存放，可以在 `commons/res/fonts` 中看到。里面目前有四个文件 `montserrat.xml         montserrat_bold.ttf    montserrat_light.ttf   montserrat_regular.ttf` ，其中的xml文件表示FontFamily，里面包含对多个字重对应字体的定义，还有三个单独的ttf文件。使用这部分字体可以从xml中或者java代码中来操作。下面是一个示例：
+``` xml
+    <TextView
+        android:id="@+id/tv_big_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:textColor="#444444"
+        android:textSize="16sp"
+        android:fontFamily="@font/montserrat"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="TJU-WLAN" />
+
+    <!-- 或者单独指定某个字体 因为fontfamily可能存在bug -->
+
+    <TextView
+        android:id="@+id/tv_big_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:textColor="#444444"
+        android:textSize="16sp"
+        android:fontFamily="@font/montserrat_regular"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="TJU-WLAN" />
+```
+xml 中也可以使用 ` android:textStyle="bold" ` 这种来手动指定字重。
+
+Java代码： 
+``` kotlin 
+val typeface = ResourcesCompat.getFont(CommonContext.application.applicationContext, R.font.montserrat_regular)
+
+val typeface = ResourcesCompat.getFont(context, R.font.montserrat_regular)
+```
+然后在配合字重来做字体效果。比如说这种：`StyleSpan(Typeface.BOLD)`
+
+#### StringSpanDSL使用
+目前StringSpanDSL写在了Schedule2模块中  `com/twt/service/schedule2/extensions/StringExtensions.kt` ，之后会根据应用场景考虑放在Commons里面。
+一段示例：
+```kotlin 
+val roomCluster = course.arrange[0].room.split("楼")
+val divider = "\n \n"
+val creditDisplayed = "- " + course.credit + " -"
+val courseNameSpanSize = if (course.coursename.length > 6)13 else 15
+val stringSpan = spannable {
+    absSize(10, creditDisplayed) +
+            absSize(3, divider) + // 一种Span
+            span(course.coursename, listOf(StyleSpan(Typeface.BOLD), AbsoluteSizeSpan(courseNameSpanSize, true))) + //一个字符串设置多种Span的情况
+            absSize(4, divider) +
+            absSize(10, roomCluster.joinToString(separator = "-"))
+}
+```
 
