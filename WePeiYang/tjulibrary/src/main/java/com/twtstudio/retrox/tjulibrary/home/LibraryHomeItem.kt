@@ -28,6 +28,10 @@ import org.json.JSONObject
 import retrofit2.HttpException
 
 class LibraryHomeItem(val owner: LifecycleOwner) : Item {
+    override fun areItemsTheSame(newItem: Item) = true
+
+    override fun areContentsTheSame(newItem: Item) = true
+
     companion object Controller : ItemController {
         var collasped = true
         override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
