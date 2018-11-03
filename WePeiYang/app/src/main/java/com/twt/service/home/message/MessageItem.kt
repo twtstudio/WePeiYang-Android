@@ -1,5 +1,6 @@
 package com.twt.service.home.message
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.graphics.Typeface
 import android.support.v7.widget.RecyclerView
@@ -29,6 +30,7 @@ class MessageItem : Item {
             return ViewHolder(homeItem.rootView, homeItem, view)
         }
 
+        @SuppressLint("SetTextI18n")
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: Item) {
             holder as ViewHolder
             holder.homeItem.itemName.text = "MESSAGE"
@@ -37,7 +39,7 @@ class MessageItem : Item {
             val layout = holder.linearLayout as _LinearLayout
             layout.apply {
                 addItem(title, message) {
-                    //实现回调：获取homeItem的itemManager并调用其refreshAll进行对主页item增添删除的刷新
+                    // 实现回调：获取 homeItem 的 itemManager 并调用其 refreshAll 进行对主页 item 增添删除的刷新
                     val itemManager = ((((holder.itemView).parent) as? RecyclerView)?.adapter as? ItemAdapter)?.itemManager
                     itemManager?.refreshAll(itemManager.filterNot { it is MessageItem })
                 }
@@ -46,7 +48,7 @@ class MessageItem : Item {
 
         private class ViewHolder(itemView: View?, val homeItem: HomeItem, val linearLayout: LinearLayout) : RecyclerView.ViewHolder(itemView)
 
-        //给添加的item添加回调实现拓展点击事件
+        // 给添加的 item 添加回调实现拓展点击事件
         private fun _LinearLayout.addItem(title: String, message: String, callBack: () -> Unit = {}) {
             verticalLayout {
                 textView {
@@ -54,21 +56,21 @@ class MessageItem : Item {
                     textSize = 16f
                     textColor = Color.parseColor("#000000")
                     typeface = Typeface.defaultFromStyle(Typeface.BOLD)
-                    topPadding = 4
-                    bottomPadding = 6
+                    topPadding = 8
                 }.lparams(wrapContent, wrapContent)
                 textView {
                     text = message
                     textSize = 14f
                     textColor = Color.parseColor("#444444")
-                    bottomPadding = 10
+                    topPadding = 12
+                    bottomPadding = 12
                 }.lparams(wrapContent, wrapContent)
                 textView {
                     text = "我知道了"
                     textSize = 16f
                     textColor = resources.getColor(R.color.colorAccent)
                     typeface = Typeface.defaultFromStyle(Typeface.BOLD)
-                    bottomPadding = 10
+                    bottomPadding = 12
                     setOnClickListener {
                         MessagePreferences.isDisplayMessage = false
                         callBack()
@@ -86,7 +88,7 @@ class MessageItem : Item {
 fun MutableList<Item>.homeMessageItem() = add(MessageItem())
 
 fun MutableList<Item>.homeMessageItemAtFirst() {
-    if (this.getOrNull(0) is MessageItem) {
+    if (this.getOrNull(0) !is MessageItem) {
         add(0, MessageItem())
     }
 }

@@ -14,10 +14,7 @@ import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.twt.service.AppPreferences
 import com.twt.service.R
-import com.twt.service.home.message.MessagePreferences
-import com.twt.service.home.message.MessageService
-import com.twt.service.home.message.homeMessageItem
-import com.twt.service.home.message.homeMessageItemAtFirst
+import com.twt.service.home.message.*
 import com.twt.service.home.other.homeOthers
 import com.twt.service.home.user.FragmentActivity
 import com.twt.service.schedule2.view.home.homeScheduleItem
@@ -70,7 +67,7 @@ class HomeNewActivity : CAppCompatActivity() {
             addItemDecoration(RecyclerViewDivider.Builder(this@HomeNewActivity).setSize(4f).setColor(Color.TRANSPARENT).build())
         }
         val itemManager = rec.withItems {
-            //重写了各个item的areItemsTheSame areContentsTheSame实现动画刷新主页
+            // 重写了各个 item 的 areItemsTheSame areContentsTheSame 实现动画刷新主页
             if (MessagePreferences.isDisplayMessage) {
                 homeMessageItem()
             }
@@ -87,7 +84,7 @@ class HomeNewActivity : CAppCompatActivity() {
             val data = messageBean.data
             Log.d("HomeNew-Message-1", data.toString())
             if (messageBean.error_code == -1 && data != null) {
-                //通过新的网请和本地的isDisplayMessage判断来实现Message是否显示
+                // 通过新的网请和本地的 isDisplayMessage 判断来实现 Message 是否显示
                 if (!MessagePreferences.isDisplayMessage && MessagePreferences.messageVersion != data.version) {
                     MessagePreferences.apply {
                         isDisplayMessage = true
