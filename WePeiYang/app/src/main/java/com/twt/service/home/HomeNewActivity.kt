@@ -98,7 +98,7 @@ class HomeNewActivity : CAppCompatActivity() {
             }
         }
         rec.post {
-            (rec.getChildAt(0).layoutParams as RecyclerView.LayoutParams).topMargin = dip(4)
+            (rec.getChildAt(0)?.layoutParams as RecyclerView.LayoutParams).topMargin = dip(4)
         }
     }
 }
