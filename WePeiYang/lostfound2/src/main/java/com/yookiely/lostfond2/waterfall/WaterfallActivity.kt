@@ -196,7 +196,7 @@ class WaterfallActivity : AppCompatActivity() {
         return true
     }
 
-    fun showDialog() {
+    private fun showDialog() {
         val dialog = AlertDialog.Builder(this@WaterfallActivity)
                 .setTitle("同学选择一下校区呗～")
                 .setMessage("可以在“我的”修改嗷～")
@@ -204,10 +204,14 @@ class WaterfallActivity : AppCompatActivity() {
                 .setPositiveButton("卫津路") { _, _ ->
                     Hawk.put("campus", 2)
                     campus = Hawk.get("campus")
+                    lostFragment.loadWaterfallDataWithCondition(type, time)
+                    foundFragment.loadWaterfallDataWithCondition(type, time)
                 }
                 .setNegativeButton("北洋园") { _, _ ->
                     Hawk.put("campus", 1)
                     campus = Hawk.get("campus")
+                    lostFragment.loadWaterfallDataWithCondition(type, time)
+                    foundFragment.loadWaterfallDataWithCondition(type, time)
                 }
                 .create()
         dialog.show()
