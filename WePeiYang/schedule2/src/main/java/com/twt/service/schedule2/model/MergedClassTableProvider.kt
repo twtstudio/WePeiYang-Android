@@ -66,12 +66,12 @@ class MergedClassTableProvider(
         }
         val size = classColors.size
         val colorIndexMap = mutableMapOf<Int, Int>() // 通过CourseID建立一个颜色的映射 避免之前直接使用Index映射后的不重复问题
-        val courseIds = list.map { it.courseid.toInt() }.sorted()
+        val courseIds = list.map { it.courseid.toIntSafe() }.sorted()
         courseIds.forEachIndexed { index, i ->
             colorIndexMap.put(i, index)
         }
         list.forEachIndexed { index, course ->
-            val color = classColors[(colorIndexMap.get(course.courseid.toInt()) ?: 0) % size]
+            val color = classColors[(colorIndexMap.get(course.courseid.toIntSafe()) ?: 0) % size]
             course.courseColor = color
         } // 上色
         return list
@@ -85,4 +85,10 @@ class MergedClassTableProvider(
     override fun getCurrentWeek(): Int = tjuClassTable.getCurrentWeek()
 
     override fun getWeekByTime(unixTime: Long): Int = tjuClassTable.getWeekByTime(unixTime)
+
+    fun String.toIntSafe(): Int = try {
+        java.lang.Integer.parseInt(this)
+    } catch (e: Exception) {
+        0
+    }
 }
