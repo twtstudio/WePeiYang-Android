@@ -21,100 +21,86 @@
 
             <ImageView
                 android:id="@+id/mylist_item_pic"
-                android:layout_width="108dp"
-                android:layout_height="98dp"
-                android:layout_marginBottom="12dp"
-                android:layout_marginLeft="12dp"
-                android:layout_marginTop="12dp"
+                android:layout_width="130dp"
+                android:layout_height="118dp"
+                android:layout_marginBottom="14dp"
+                android:layout_marginStart="14dp"
+                android:layout_marginTop="14dp"
                 android:scaleType="fitXY"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/mylist_item_status"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:text="what"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:layout_constraintLeft_toRightOf="@id/mylist_item_pic"
-                app:layout_constraintTop_toTopOf="@id/mylist_item_pic" />
-
             <ImageView
-                android:id="@+id/mylist_item_back_grey"
-                android:layout_width="18dp"
-                android:layout_height="18dp"
-                android:layout_centerInParent="true"
-                android:layout_marginLeft="4dp"
-                android:src="@drawable/lf_back_grey"
-                app:layout_constraintBottom_toBottomOf="@+id/mylist_item_status"
-                app:layout_constraintLeft_toRightOf="@id/mylist_item_status"
-                app:layout_constraintTop_toTopOf="@+id/mylist_item_status" />
-
-            <ImageView
-                android:id="@+id/mylist_item_back_blue"
-                android:layout_width="18dp"
-                android:layout_height="18dp"
-                android:layout_centerInParent="true"
-                android:layout_marginLeft="4dp"
-                android:src="@drawable/lf_back_blue"
-                app:layout_constraintBottom_toBottomOf="@+id/mylist_item_status"
-                app:layout_constraintLeft_toRightOf="@id/mylist_item_status"
-                app:layout_constraintTop_toTopOf="@+id/mylist_item_status" />
-
-            <ImageView
-                android:id="@+id/mylist_item_back_outdata"
-                android:layout_width="18dp"
-                android:layout_height="18dp"
-                android:layout_centerInParent="true"
-                android:layout_marginLeft="4dp"
-                android:src="@drawable/lf_mylist_item_outdata"
-                app:layout_constraintBottom_toBottomOf="@+id/mylist_item_status"
-                app:layout_constraintLeft_toRightOf="@id/mylist_item_status"
-                app:layout_constraintTop_toTopOf="@+id/mylist_item_status" />
-
-            <ImageView
-                android:id="@+id/mylist_item_pencil"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_alignParentEnd="true"
-                android:layout_marginEnd="24dp"
-                android:layout_marginTop="12dp"
-                android:src="@drawable/lf_pencil"
-                app:layout_constraintBottom_toBottomOf="@+id/mylist_item_status"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/mylist_item_status" />
-
-
-            <TextView
-                android:id="@+id/mylist_item_pencil_touch"
-                android:layout_width="56dp"
-                android:layout_height="30dp"
-                android:layout_alignParentEnd="true"
-                app:layout_constraintBottom_toBottomOf="@+id/mylist_item_status"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/mylist_item_status" />
-
+                android:id="@+id/lf2_detail_isoutdate"
+                android:layout_width="70dp"
+                android:layout_height="72dp"
+                android:layout_marginBottom="14dp"
+                android:layout_marginStart="74dp"
+                android:layout_marginTop="60dp"
+                android:scaleType="fitXY"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:src="@drawable/lf2_detail_outdate_cover" />
 
             <TextView
                 android:id="@+id/mylist_item_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="title"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                app:layout_constraintLeft_toLeftOf="@+id/mylist_item_status"
-                app:layout_constraintTop_toBottomOf="@+id/mylist_item_status" />
+                android:layout_marginStart="12dp"
+                tools:text="what"
+                android:textSize="18sp"
+                app:layout_constraintLeft_toRightOf="@id/mylist_item_pic"
+                app:layout_constraintTop_toTopOf="@id/mylist_item_pic" />
+
+            <ImageView
+                android:id="@+id/mylist_item_pencil"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginEnd="45dp"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/lf_pencil"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintRight_toRightOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/write"
+                android:textColor="#44a0e3"
+                android:layout_marginStart="6dp"
+                app:layout_constraintBottom_toBottomOf="@+id/mylist_item_pencil"
+                app:layout_constraintTop_toTopOf="@+id/mylist_item_pencil"
+                app:layout_constraintLeft_toRightOf="@+id/mylist_item_pencil" />
+
+
+            <TextView
+                android:id="@+id/mylist_item_pencil_touch"
+                android:layout_width="58dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginEnd="7dp"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <TextView
+                android:id="@+id/mylist_item_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="未完成"
+                android:textSize="15sp"
+                app:layout_constraintLeft_toLeftOf="@+id/mylist_item_title"
+                app:layout_constraintTop_toBottomOf="@+id/mylist_item_title" />
 
             <LinearLayout
                 android:id="@+id/layout1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintLeft_toLeftOf="@+id/mylist_item_status"
-                app:layout_constraintTop_toBottomOf="@+id/mylist_item_title">
+                app:layout_constraintLeft_toLeftOf="@+id/mylist_item_title"
+                app:layout_constraintTop_toBottomOf="@+id/mylist_item_status">
 
                 <ImageView
                     android:layout_width="12dp"
@@ -127,9 +113,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
-                    android:text="@string/mylist_item_type"
+                    tools:text="@string/mylist_item_type"
                     android:textColor="#999999"
-                    android:textSize="14sp" />
+                    android:textSize="12sp" />
 
             </LinearLayout>
 
@@ -151,15 +137,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
+                    android:textSize="12sp"
                     android:textColor="#999999"
-                    android:text="@string/mylist_item_time" />
+                    tools:text="@string/mylist_item_time" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="@+id/mylist_item_pic"
+
                 app:layout_constraintLeft_toLeftOf="@+id/layout2"
                 app:layout_constraintTop_toBottomOf="@+id/layout2">
 
@@ -175,9 +162,38 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
                     android:textColor="#999999"
-                    android:text="@string/mylist_item_place" />
+                    android:textSize="12sp"
+                    tools:text="@string/mylist_item_place" />
 
             </LinearLayout>
+
+            <Button
+                android:id="@+id/lf2_item_button"
+                android:layout_width="72dp"
+                android:layout_height="26dp"
+                tools:text="确认归还"
+                tools:textColor="#ffffff"
+                android:layout_marginBottom="10dp"
+                android:layout_marginEnd="10dp"
+                android:textSize="12sp"
+                android:textColor="#ffffff"
+                android:background="@drawable/lf2_detail_item_button"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent" />
+
+            <Button
+                android:id="@+id/lf2_item_button_outdate"
+                android:layout_width="72dp"
+                android:layout_height="26dp"
+                tools:text="确认归还"
+                tools:textColor="#ffffff"
+                android:layout_marginBottom="10dp"
+                android:layout_marginEnd="10dp"
+                android:textSize="12sp"
+                android:textColor="#ffffff"
+                android:background="@drawable/lf2_detail_item_button_outdate"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent" />
 
         </android.support.constraint.ConstraintLayout>
 

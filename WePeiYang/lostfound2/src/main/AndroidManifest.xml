@@ -15,7 +15,14 @@
         <activity android:name="com.yookiely.lostfond2.search.SearchActivity" />
         <activity android:name="com.yookiely.lostfond2.SuccessActivity" />
         <activity android:name="com.yookiely.lostfond2.release.ReleaseActivity" />
-        <activity android:name="com.yookiely.lostfond2.waterfall.WaterfallActivity"></activity>
+        <activity android:name="com.yookiely.lostfond2.waterfall.WaterfallActivity" />
+        <activity android:name="com.yookiely.lostfond2.search.SearchInitActivity" />
     </application>
+
+    <!-- if you want to load images from the internet -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- if you want to load images from a file OR from the internet -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
 </manifest>

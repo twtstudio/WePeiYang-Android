@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,7 +18,7 @@ import com.yookiely.lostfond2.detail.DetailActivity
 import com.yookiely.lostfond2.service.MyListDataOrSearchBean
 import com.yookiely.lostfond2.service.Utils
 
-class WaterfallTableAdapter(var waterFallBean: List<MyListDataOrSearchBean>?,
+class WaterfallTableAdapter(private var waterFallBean: List<MyListDataOrSearchBean>?,
                             val context: Context,
                             var lostOrFound: String) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -64,8 +65,8 @@ class WaterfallTableAdapter(var waterFallBean: List<MyListDataOrSearchBean>?,
             if (lostOrFound == "found") {
                 waterfallItemRecaptureImage.visibility = View.VISIBLE
                 waterfallItemRecapturePlace.visibility = View.VISIBLE
-                waterfallItemRecapturePlace.text = if (dataOfItem.recapture_place == "无") {
-                    dataOfItem.recapture_place
+                waterfallItemRecapturePlace.text = if (dataOfItem.recapture_place == null) {
+                    ""
                 } else {
                     Utils.getGarden(dataOfItem.recapture_place) + dataOfItem.recapture_place + Utils.getExit(dataOfItem.recapture_entrance)
                 }

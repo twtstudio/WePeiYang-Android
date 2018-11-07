@@ -1,5 +1,6 @@
 package com.yookiely.lostfond2.search
 
+import android.util.Log
 import com.orhanobut.hawk.Hawk
 import com.yookiely.lostfond2.service.LostFoundService
 import com.yookiely.lostfond2.service.MyListDataOrSearchBean
@@ -15,6 +16,7 @@ class SearchPresenterImpl(private val searchUIView: SearchContract.SearchUIView)
             try {
                 launch(UI + QuietCoroutineExceptionHandler) {
                     val dataList = LostFoundService.getSearch(keyword, campus, time, page).await()
+                    Log.d("skhb", "ksbu")
 
                     if (dataList.error_code == -1) {
                         if (dataList.data == null) {

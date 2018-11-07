@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="208dp">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <ImageView
+        android:id="@+id/lf2_detail_banner_img"
         android:layout_width="match_parent"
         android:layout_height="208dp"
-        android:id="@+id/image_image"
+        android:scaleType="centerCrop"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
         />
-
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>

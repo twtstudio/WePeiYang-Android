@@ -19,7 +19,6 @@ class HomeLibraryPagerAdapter(fm : FragmentManager) : FragmentPagerAdapter(fm){
 
     override fun getItem(position: Int): Fragment = fragmentsOfMylist[position]
 
-
     override fun getCount(): Int = fragmentsOfMylist.size
 
     override fun getPageTitle(position: Int): CharSequence = fragmentsTitles[position]

@@ -2,12 +2,14 @@ package com.yookiely.lostfond2.mylist
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.app.FragmentActivity
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
@@ -17,29 +19,29 @@ import com.yookiely.lostfond2.detail.DetailActivity
 import com.yookiely.lostfond2.release.ReleaseActivity
 import com.yookiely.lostfond2.service.MyListDataOrSearchBean
 import com.yookiely.lostfond2.service.Utils
+import org.jetbrains.anko.textColor
 
 class MyListTableAdapter(var myListBean: MutableList<MyListDataOrSearchBean>, var context: FragmentActivity?, var lostOrFound: String, var mylistView: MyListService.MyListView) : RecyclerView.Adapter<MyListTableAdapter.MyListViewHolder>() {
 
 
     class MyListViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-        var myListItemStatus: TextView = view.findViewById(R.id.mylist_item_status)
         var myListItemTitle: TextView = view.findViewById(R.id.mylist_item_title)
+        var myListItemStatus: TextView = view.findViewById(R.id.mylist_item_status)
         var myListItemType: TextView = view.findViewById(R.id.mylist_item_type)
         var myListItemTime: TextView = view.findViewById(R.id.mylist_item_time)
         var myListItemPlace: TextView = view.findViewById(R.id.mylist_item_place)
-        var myListItemBackBlue: ImageView = view.findViewById(R.id.mylist_item_back_blue)
-        var myListItemBackGrey: ImageView = view.findViewById(R.id.mylist_item_back_grey)
-        var myListItemOutdata: ImageView = view.findViewById(R.id.mylist_item_back_outdata)
-        var myListItemPencil: ImageView = view.findViewById(R.id.mylist_item_pencil)
         var myListItemPic: ImageView = view.findViewById(R.id.mylist_item_pic)
         var myListItemPencilTouch: TextView = view.findViewById(R.id.mylist_item_pencil_touch)
+        var mylistItemOutdata: ImageView = view.findViewById(R.id.lf2_detail_isoutdate)
+        var mylistItemButton = view.findViewById<Button>(R.id.lf2_item_button)
+        var myListItemButtonOutdate = view.findViewById<Button>(R.id.lf2_item_button_outdate)
 
     }
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: MyListViewHolder, position: Int) {
-        val (id: Int, _: Int, _: String, title: String, place: String, time: String, _: String, detail_type: Int, isback: Int, picture: List<String>?, _: String, _: Int, _: String, isExpired: Int) = myListBean[position]
+        val (id: Int, _: Int, _: String, title: String, place: String, time: String, _: String, detail_type: Int, isback: Int, picture: List<String>?, _: String, _: Int, campus: String, isExpired: Int) = myListBean[position]
         val intent = Intent()
         val bundle = Bundle()
 
@@ -47,28 +49,60 @@ class MyListTableAdapter(var myListBean: MutableList<MyListDataOrSearchBean>, va
             myListItemTitle.text = title
             myListItemType.text = Utils.getType(detail_type)
             myListItemTime.text = time
-            myListItemPlace.text = if (Hawk.get<Int>("campus") == 1) "北洋园 - $place" else "卫津路 - $place"
-            myListItemBackBlue.visibility = if (isback == 1) View.VISIBLE else View.GONE
-            myListItemBackGrey.visibility = if (isback == 1) View.GONE else View.VISIBLE
+            myListItemPlace.text = "$campus - $place"
 
-            if (lostOrFound == "found") {
-                holder.myListItemStatus.text = if (isback == 1) "已交还" else "未交还"
+            if (isExpired == 1) {
+                //0是未过期,1是已过期
+                holder.myListItemButtonOutdate.visibility = View.VISIBLE
+                holder.mylistItemButton.visibility = View.GONE
+                holder.myListItemButtonOutdate.text = "重新编辑"
+                holder.myListItemStatus.textColor = Color.parseColor("#999999")
+                holder.myListItemStatus.text = "已过期"
+                holder.mylistItemOutdata.visibility = View.VISIBLE
             } else {
-                holder.myListItemStatus.text = if (isback == 1) "已找到" else "未找到"
+                holder.mylistItemOutdata.visibility = View.GONE
+                holder.myListItemButtonOutdate.visibility = View.GONE
+                holder.mylistItemButton.visibility = View.VISIBLE
+                if (lostOrFound == "found") {
+                    if (isback == 1) {
+                        holder.myListItemStatus.text = "未归还"
+                        holder.myListItemStatus.textColor = Color.parseColor("#999999")
+                        holder.mylistItemButton.text = "确认归还"
+                    } else {
+                        holder.myListItemStatus.text = "已归还"
+                        holder.myListItemStatus.textColor = Color.parseColor("#44a0e3")
+                        holder.mylistItemButton.text = "取消归还"
+                    }
+                } else {
+                    if (isback == 1) {
+                        holder.myListItemStatus.text = "未找到"
+                        holder.myListItemStatus.textColor = Color.parseColor("#999999")
+                        holder.mylistItemButton.text = "确认找到"
+                    } else {
+                        holder.myListItemStatus.text = "已找到"
+                        holder.myListItemStatus.textColor = Color.parseColor("#44a0e3")
+                        holder.mylistItemButton.text = "取消找到"
+                    }
+                }
             }
 
-            myListItemStatus.setOnClickListener { mylistView.turnStatus(id) }
-            myListItemBackBlue.setOnClickListener { mylistView.turnStatus(id) }
-            myListItemBackGrey.setOnClickListener { mylistView.turnStatus(id) }
-            myListItemStatus.setOnClickListener { mylistView.turnStatus(id) }
-            myListItemBackBlue.setOnClickListener { mylistView.turnStatus(id) }
-            myListItemBackGrey.setOnClickListener { mylistView.turnStatus(id) }
+            holder.mylistItemButton.setOnClickListener { mylistView.turnStatus(id) }
+            holder.myListItemButtonOutdate.setOnClickListener {
+                bundle.apply {
+                    if (lostOrFound == "lost") {
+                        putString("lostOrFound", "editLost")
+                    } else {
+                        putString("lostOrFound", "editFound")
+                    }
+                    putInt("id", id)
+                    putInt("type", detail_type)
+                }
 
-            if (isExpired == 1) {//0是未过期,1是已过期
-                myListItemBackBlue.visibility = View.GONE
-                myListItemBackGrey.visibility = View.GONE
-                myListItemOutdata.visibility = View.VISIBLE
-                myListItemStatus.text = "已过期"
+                intent.apply {
+                    putExtras(bundle)
+                    setClass(context, ReleaseActivity::class.java)
+                    context?.startActivity(this)
+                }
             }
 
             if (picture != null) {

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/search_appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/search_init_toolbar"
+            style="@style/ToolbarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            android:elevation="0dp"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:titleTextColor="@android:color/white"
+            tools:targetApi="lollipop">
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/lf2_search_back"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_marginTop="10dp"
+                    android:src="@drawable/ic_arrow_back_black_24dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/lf2_search_icon_right"
+                    android:src="@drawable/lf_search"
+                    android:layout_width="27dp"
+                    android:layout_height="27dp"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:layout_marginEnd="10dp" />
+
+                <EditText
+                    android:id="@+id/lf2_search_et"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:layout_marginEnd="12dp"
+                    android:hint="@string/lf2_search_hint"
+                    app:layout_constraintRight_toLeftOf="@+id/lf2_search_icon_right"
+                    android:singleLine="false" />
+
+
+            </android.support.constraint.ConstraintLayout>
+
+        </android.support.v7.widget.Toolbar>
+
+
+    </android.support.design.widget.AppBarLayout>
+
+    <LinearLayout
+        android:id="@+id/lf2_search_hr"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/lf2_search_hr_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#f4f5f6"
+                android:text="历史搜索"
+                android:textColor="#fa666768"
+                android:paddingTop="13dp"
+                android:paddingBottom="13dp"
+                android:paddingStart="24dp" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/lf2_search_hr_rv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/lf2_search_hr_title" />
+
+            <ImageView
+                android:id="@+id/lf2_search_clean"
+                android:layout_width="match_parent"
+                android:layout_height="34dp"
+                android:src="@drawable/lf2_search_clean"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@+id/lf2_search_hr_rv" />
+
+        </android.support.constraint.ConstraintLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

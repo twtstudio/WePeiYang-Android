@@ -19,7 +19,7 @@ import com.github.clans.fab.FloatingActionButton
 import com.orhanobut.hawk.Hawk
 import com.yookiely.lostfond2.mylist.MyListActivity
 import com.yookiely.lostfond2.release.ReleaseActivity
-import com.yookiely.lostfond2.search.SearchActivity
+import com.yookiely.lostfond2.search.SearchInitActivity
 import com.yookiely.lostfond2.service.Utils
 import kotlinx.android.synthetic.main.lf2_activity_water_fall.*
 import org.jetbrains.anko.textColor
@@ -188,7 +188,7 @@ class WaterfallActivity : AppCompatActivity() {
         val intent = Intent()
 
         when (itemId) {
-            R.id.waterfall_search -> intent.setClass(this@WaterfallActivity, SearchActivity::class.java)
+            R.id.waterfall_search -> intent.setClass(this@WaterfallActivity, SearchInitActivity::class.java)
             R.id.waterfall_indi -> intent.setClass(this@WaterfallActivity, MyListActivity::class.java)
         }
 

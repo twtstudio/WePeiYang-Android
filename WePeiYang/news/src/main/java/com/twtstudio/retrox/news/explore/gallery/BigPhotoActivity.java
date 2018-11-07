@@ -56,7 +56,7 @@ public class BigPhotoActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFail(Throwable t) {
+            public void intermediates/intermediate-jars/debug/classes.jaronFail(Throwable t) {
                 Toasty.error(BigPhotoActivity.this, "保存失败，请检查相关权限设置", Toast.LENGTH_SHORT).show();
             }
         });

@@ -2,10 +2,13 @@ package com.yookiely.lostfond2.detail
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.annotation.IntegerRes
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
+import android.view.LayoutInflater
 import android.view.Window
+import android.widget.ImageView
 import com.example.lostfond2.R
 
 import com.yookiely.lostfond2.service.DetailData
@@ -14,8 +17,11 @@ import com.yookiely.lostfond2.service.Utils
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
 import com.twt.wepeiyang.commons.experimental.network.CommonBody
 import com.twt.wepeiyang.commons.ui.rec.withItems
+import com.youth.banner.Banner
+import com.youth.banner.BannerConfig
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
+import org.jetbrains.anko.forEachChild
 
 class DetailActivity : AppCompatActivity() {
 
@@ -29,10 +35,10 @@ class DetailActivity : AppCompatActivity() {
         val id = bundle.getInt("id")
         val recyclerView: RecyclerView = findViewById(R.id.lf_detail_recycler)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        val detailRecyclerViewImg: RecyclerView = findViewById(R.id.img_recycler)
-        val detailLayoutManager = LinearLayoutManager(this)
-        detailLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
-        detailRecyclerViewImg.layoutManager = detailLayoutManager
+        val banner: Banner = findViewById(R.id.lf2_detail_banner)
+        val inflater = LayoutInflater.from(this)
+        val imageView = inflater.inflate(R.layout.lf2_item_imageitem, null)//详情页的多图xml
+
 
         launch(UI + QuietCoroutineExceptionHandler) {
             val myList: CommonBody<DetailData> = LostFoundService.getDetailed(id).await()
@@ -44,16 +50,34 @@ class DetailActivity : AppCompatActivity() {
                 }
 
                 val myListDetailData = myList.data!!
-
-                detailRecyclerViewImg.withItems {
-                    if (myListDetailData.picture != null) {
-                        for (i in myListDetailData.picture) {
-                            setImage(i, this@DetailActivity)
-                        }
-                    } else {
-                        setImage("julao.jpg", this@DetailActivity)
+                val images = ArrayList<String>()
+                if (myListDetailData.picture != null) {
+                    for (temp in myListDetailData.picture) {
+                        val tempImage = Utils.getPicUrl(temp)
+                        images.add(tempImage)
                     }
                 }
+
+                val dialog = android.support.v7.app.AlertDialog.Builder(this@DetailActivity).create()
+                dialog.setView(imageView) // 自定义dialog
+                banner.apply {
+                    setImageLoader(GlideImagineLoader(imageView))
+                    setImages(images)
+
+                    setBannerStyle(BannerConfig.NUM_INDICATOR)
+                    isAutoPlay(false)
+                    //点击出现大图
+                    setOnBannerListener {
+                        dialog.show()
+                        // 点击布局文件（也可以理解为点击大图）后关闭dialog，这里的dialog不需要按钮
+                        imageView.setOnClickListener {
+                            dialog.cancel()
+                        }
+                    }
+                    start()
+                }
+
+
                 recyclerView.withItems {
 
                     //最后一个参数设置成true，则该detail下面灭有分割线
