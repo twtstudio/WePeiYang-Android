@@ -9,14 +9,13 @@ import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 
 class SearchPresenterImpl(private val searchUIView: SearchContract.SearchUIView) : SearchContract.SearchPresenter {
-    override fun loadWaterfallData(lostOrFound: String, keyword: String, page: Int, time: Int) {
 
+    override fun loadWaterfallDataWithTime(lostOrFound: String, keyword: String, page: Int, time: Int) {
         if (Hawk.contains("campus")) {
             val campus: Int = Hawk.get("campus")
             try {
                 launch(UI + QuietCoroutineExceptionHandler) {
                     val dataList = LostFoundService.getSearch(keyword, campus, time, page).await()
-                    Log.d("skhb", "ksbu")
 
                     if (dataList.error_code == -1) {
                         if (dataList.data == null) {
@@ -32,10 +31,6 @@ class SearchPresenterImpl(private val searchUIView: SearchContract.SearchUIView)
                 setWaterfallData(searchBean)
             }
         }
-    }
-
-    override fun loadWaterfallDataWithTime(lostOrFound: String, keyword: String, page: Int, time: Int) {
-        loadWaterfallData(lostOrFound, keyword, page, time)
     }
 
     override fun setWaterfallData(waterfallBean: List<MyListDataOrSearchBean>) {

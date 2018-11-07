@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -81,13 +82,8 @@ class SearchFragment : Fragment(), SearchContract.SearchUIView {
                     page++
                     isLoading = true
 
-                    searchPresenter.apply {
-                        if (time == 4) {
-                            loadWaterfallData(lostOrFound, keyword!!, page, time)
-                        } else {
-                            loadWaterfallDataWithTime(lostOrFound, keyword!!, page, time)
-                        }
-                    }
+                    searchPresenter.loadWaterfallDataWithTime(lostOrFound, keyword!!, page, time)
+
                 }
             }
         })
@@ -137,5 +133,6 @@ class SearchFragment : Fragment(), SearchContract.SearchUIView {
         page = 1
         isRefresh = true
         searchPresenter.loadWaterfallDataWithTime(lostOrFound, keyword!!, page, this.time)
+        Log.d("lf2_Search", "yitian")
     }
 }

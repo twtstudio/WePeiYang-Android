@@ -12,8 +12,6 @@ interface SearchContract {
     interface SearchPresenter {
         fun setWaterfallData(waterfallBean: List<MyListDataOrSearchBean>)
 
-        fun loadWaterfallData(lostOrFound: String, keyword: String, page: Int, time: Int)
-
         fun loadWaterfallDataWithTime(lostOrFound: String, keyword: String, page: Int, time: Int)
     }
 }

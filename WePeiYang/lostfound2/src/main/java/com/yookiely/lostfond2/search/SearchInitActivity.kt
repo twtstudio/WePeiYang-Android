@@ -116,6 +116,7 @@ class SearchInitActivity : AppCompatActivity() {
         var temp = mutableListOf<String>()
         if (Hawk.get<MutableList<String>>("lf_search") != null) {
             temp = Hawk.get<MutableList<String>>("lf_search")
+            temp.remove(query)
         }
         temp.add(query)
         if (temp.size > 5) {
