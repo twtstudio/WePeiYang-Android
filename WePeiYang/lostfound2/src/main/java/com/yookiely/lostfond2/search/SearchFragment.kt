@@ -47,14 +47,14 @@ class SearchFragment : Fragment(), SearchContract.SearchUIView {
         //根据搜索关键字获取内容
         this.keyword = keyword
         isSubmit = true
-        loadWaterfallDataWithTime(this.time)
+        loadSearhDataWithTime(this.time)
     }
 
     fun setTimeAndLoad(time: Int) {
         //可根据时间分类搜索结果
         this.time = time
         if (isSubmit && keyword != null) {
-            loadWaterfallDataWithTime(this.time)
+            loadSearhDataWithTime(this.time)
         }
     }
 
@@ -128,11 +128,11 @@ class SearchFragment : Fragment(), SearchContract.SearchUIView {
         }
     }
 
-    override fun loadWaterfallDataWithTime(time: Int) {
+    override fun loadSearhDataWithTime(time: Int) {
         this.time = time
         page = 1
         isRefresh = true
         searchPresenter.loadWaterfallDataWithTime(lostOrFound, keyword!!, page, this.time)
-        Log.d("lf2_Search", "yitian")
     }
+
 }

@@ -39,7 +39,7 @@ class SearchInitActivity : AppCompatActivity() {
         recyclerView = findViewById(R.id.lf2_search_hr_rv)
         imageViewClean = findViewById(R.id.lf2_search_clean)
         editText = findViewById(R.id.lf2_search_et)
-        imageViewBack = findViewById(R.id.lf2_search_back)
+        imageViewBack = findViewById(R.id.lf2_searchinit_back)
 
 //        database.use {
 //            createTable(Utils.TABLE_NAME, true,
@@ -123,7 +123,6 @@ class SearchInitActivity : AppCompatActivity() {
             temp.removeAt(0)
         }
         Hawk.put("lf_search", temp)
-        getdatas()
     }
 
     private fun getdatas() {

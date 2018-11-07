@@ -6,7 +6,7 @@ interface SearchContract {
     interface SearchUIView {
         fun setSearchData(waterfallBean: List<MyListDataOrSearchBean>)
 
-        fun loadWaterfallDataWithTime(time: Int)
+        fun loadSearhDataWithTime(time: Int)
     }
 
     interface SearchPresenter {

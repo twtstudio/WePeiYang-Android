@@ -21,24 +21,37 @@
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             app:titleTextColor="@android:color/white"
-            tools:targetApi="lollipop"
-            app:navigationIcon="@drawable/ic_arrow_back_black_24dp">
+            tools:targetApi="lollipop">
 
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
+                <ImageView
+                    android:id="@+id/lf2_search_back"
+                    android:layout_width="27dp"
+                    android:layout_height="27dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="5dp"
+                    android:src="@drawable/ic_arrow_back_black_24dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
                 <TextView
                     android:id="@+id/lf2_search_result_tv"
                     android:textSize="20sp"
                     tools:text="3017218119"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="14dp"
+                    app:layout_constraintLeft_toRightOf="@+id/lf2_search_back"
+                    app:layout_constraintBottom_toBottomOf="@+id/lf2_search_back" />
 
                 <ImageView
                     android:background="#ffffff"
                     android:layout_width="300dp"
                     android:layout_height="1dp"
+                    app:layout_constraintLeft_toLeftOf="@+id/lf2_search_result_tv"
                     app:layout_constraintTop_toBottomOf="@+id/lf2_search_result_tv" />
             </android.support.constraint.ConstraintLayout>
 

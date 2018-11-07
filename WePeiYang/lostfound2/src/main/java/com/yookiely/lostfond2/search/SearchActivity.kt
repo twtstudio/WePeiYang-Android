@@ -33,6 +33,7 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var imageViewBlue: ImageView
     private lateinit var searchType: RelativeLayout
     private lateinit var textView: TextView
+    private lateinit var backImageView: ImageView
 
     lateinit var keyword: String
     var page = 1
@@ -49,6 +50,7 @@ class SearchActivity : AppCompatActivity() {
         imageViewBlue = findViewById(R.id.search_type_blue)
         imageViewGrey = findViewById(R.id.search_type_grey)
         searchType = findViewById(R.id.search_type)
+        backImageView = findViewById(R.id.lf2_search_back)
         // listView = findViewById(R.id.lf2_search_hr_lv)
         lostFragment = SearchFragment.newInstance("lost")
         foundFragment = SearchFragment.newInstance("found")
@@ -83,8 +85,8 @@ class SearchActivity : AppCompatActivity() {
 //        searchView.queryHint = "输入卡号/地点/物件名称"
         //searchView.setIconifiedByDefault(false)
         // supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        toolbar.setNavigationOnClickListener { onBackPressed() }
-        toolbar.setNavigationOnClickListener {
+        backImageView.setOnClickListener {
+            onBackPressed()
             hideInputKeyboard()
             finish()
             onDetachedFromWindow()
