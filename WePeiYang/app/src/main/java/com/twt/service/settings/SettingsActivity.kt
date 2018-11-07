@@ -10,6 +10,7 @@ import android.support.v7.app.AlertDialog
 import android.support.v7.widget.Toolbar
 import android.text.TextUtils
 import android.view.MenuItem
+import android.widget.ImageView
 import android.widget.Toast
 import com.tencent.bugly.crashreport.CrashReport
 import com.twt.service.R
@@ -40,10 +41,8 @@ class SettingsActivity : CAppCompatActivity() {
         setContentView(R.layout.activity_setting)
 
         setSupportActionBar(findViewById(R.id.toolbar))
-        title = "偏好设置"
-
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
+        title = ""
+        findViewById<ImageView>(R.id.iv_activity_setting_back).setOnClickListener { onBackPressed() }
         fragmentManager.beginTransaction()
                 .replace(R.id.settings_container, SettingsFragment())
                 .commit()
