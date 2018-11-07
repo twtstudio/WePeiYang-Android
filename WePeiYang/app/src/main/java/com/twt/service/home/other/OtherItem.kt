@@ -9,6 +9,7 @@ import android.widget.FrameLayout
 import android.widget.LinearLayout
 import com.tjuwhy.yellowpages2.view.YellowPageActivity
 import com.twt.service.home.user.FragmentActivity
+import com.twt.service.news.NewsActivity
 import com.twt.wepeiyang.commons.ui.rec.HomeItem
 import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemController
@@ -54,7 +55,7 @@ class OtherItem : Item {
                     it.context.startActivity<BikeActivity>()
                 }
                 addItem("新闻", "校内资讯，尽收眼底") {
-                    it.context.startActivity<FragmentActivity>("frag" to "News")
+                    it.context.startActivity<NewsActivity>()
                 }
                 addItem("黄页", "校内电话，方便惠民") {
                     it.context.startActivity<YellowPageActivity>()

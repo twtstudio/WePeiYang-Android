@@ -40,7 +40,7 @@ dependencies {
     implementation 'com.github.pinguo-zhouwei:MZBannerView:v2.0.0'
 
 
-    [*supportLibraries, 'kotlin-stdlib', 'kotlinx-coroutines', *archLibraries, 'constraint-layout'].each {
+    [*supportLibraries, 'kotlin-stdlib', 'kotlinx-coroutines', *archLibraries, 'constraint-layout', 'anko'].each {
         implementation dependenciesMap[it]
     }
 
