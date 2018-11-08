@@ -4,9 +4,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.StaggeredGridLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -44,9 +42,9 @@ class WaterfallFragment : Fragment(), WaterfallContract.WaterfallView {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.lf_fragment_waterfall, container, false)
-        val waterfallRefresh = view.findViewById<SwipeRefreshLayout>(R.id.waterfall_refresh)
-        val waterfallRecyclerView = view.findViewById<RecyclerView>(R.id.waterfall_recyclerView)
-        val waterfallNoRes = view.findViewById<LinearLayout>(R.id.waterfall_no_res)
+        val waterfallRefresh = view.findViewById<SwipeRefreshLayout>(R.id.sr_waterfall_refresh)
+        val waterfallRecyclerView = view.findViewById<RecyclerView>(R.id.rv_waterfall_homepage)
+        val waterfallNoRes = view.findViewById<LinearLayout>(R.id.ll_waterfall_no_res)
 
         if (Hawk.contains("campus")) {
             campus = Hawk.get("campus")
@@ -85,7 +83,7 @@ class WaterfallFragment : Fragment(), WaterfallContract.WaterfallView {
     }
 
     override fun setWaterfallData(waterfallBean: List<MyListDataOrSearchBean>) {
-        waterfall_no_res.apply {
+        ll_waterfall_no_res.apply {
             visibility = if (waterfallBean.isEmpty() && page == 1) {
                 View.VISIBLE
             } else {
@@ -98,7 +96,7 @@ class WaterfallFragment : Fragment(), WaterfallContract.WaterfallView {
 
             beanList.addAll(waterfallBean)
             tableAdapter.notifyDataSetChanged()
-            waterfall_refresh.isRefreshing = false
+            sr_waterfall_refresh.isRefreshing = false
             isLoading = false
             isRefresh = false
         }

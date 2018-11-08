@@ -44,13 +44,13 @@ class SearchActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE)//隐藏actionbar，需在setContentView前面
         setContentView(R.layout.lf2_activity_search)
-        toolbar = findViewById(R.id.search_toolbar)
-        textView = findViewById(R.id.lf2_search_result_tv)
-        searchTableLayout = findViewById(R.id.search_tabLayout)
-        imageViewBlue = findViewById(R.id.search_type_blue)
-        imageViewGrey = findViewById(R.id.search_type_grey)
-        searchType = findViewById(R.id.search_type)
-        backImageView = findViewById(R.id.lf2_search_back)
+        toolbar = findViewById(R.id.tb_search)
+        textView = findViewById(R.id.tv_search_result)
+        searchTableLayout = findViewById(R.id.tl_search)
+        imageViewBlue = findViewById(R.id.iv_search_type_blue)
+        imageViewGrey = findViewById(R.id.iv_search_type_grey)
+        searchType = findViewById(R.id.tl_search_type)
+        backImageView = findViewById(R.id.iv_search_back)
         // listView = findViewById(R.id.lf2_search_hr_lv)
         lostFragment = SearchFragment.newInstance("lost")
         foundFragment = SearchFragment.newInstance("found")
@@ -60,7 +60,7 @@ class SearchActivity : AppCompatActivity() {
         val popupWindowView = LayoutInflater.from(this).inflate(R.layout.lf2_popupwindow_search, null, false)
         waterfallPagerAdapter.add(foundFragment, "捡到")
         waterfallPagerAdapter.add(lostFragment, "丢失")
-        searchPager = findViewById(R.id.search_pager_content)
+        searchPager = findViewById(R.id.vp_search_pager_content)
         searchPager.adapter = waterfallPagerAdapter
         searchTableLayout.apply {
             setupWithViewPager(searchPager)
@@ -146,7 +146,7 @@ class SearchActivity : AppCompatActivity() {
                     }
                 }
 
-                chooseTimeRecyclerView = popupWindowView.findViewById(R.id.search_type_recyclerview)
+                chooseTimeRecyclerView = popupWindowView.findViewById(R.id.rv_search_type)
                 chooseTimeRecyclerView.apply {
                     adapter = SearchChooseTimeAdapter(this@SearchActivity, time, chooseTimePopupWindow)
                     layoutManager = layoutManagerForChooseTime

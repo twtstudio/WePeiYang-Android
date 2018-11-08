@@ -29,7 +29,7 @@
 
             <EditText
 
-                android:id="@+id/release_contact_name"
+                android:id="@+id/et_release_content_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -68,7 +68,7 @@
 
             <EditText
 
-                android:id="@+id/release_phone"
+                android:id="@+id/et_release_phone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

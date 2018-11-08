@@ -2,13 +2,11 @@ package com.yookiely.lostfond2.detail
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.annotation.IntegerRes
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.view.LayoutInflater
 import android.view.Window
-import android.widget.ImageView
 import com.example.lostfond2.R
 
 import com.yookiely.lostfond2.service.DetailData
@@ -21,7 +19,6 @@ import com.youth.banner.Banner
 import com.youth.banner.BannerConfig
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
-import org.jetbrains.anko.forEachChild
 
 class DetailActivity : AppCompatActivity() {
 
@@ -29,13 +26,13 @@ class DetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
         setContentView(R.layout.lf2_activity_detail)
-        val toolbar: Toolbar = findViewById(R.id.toolbar)
+        val toolbar: Toolbar = findViewById(R.id.tb_common)
         val bundle: Bundle = intent.extras
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         val id = bundle.getInt("id")
-        val recyclerView: RecyclerView = findViewById(R.id.lf_detail_recycler)
+        val recyclerView: RecyclerView = findViewById(R.id.rv_detail)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        val banner: Banner = findViewById(R.id.lf2_detail_banner)
+        val banner: Banner = findViewById(R.id.br_detail_banner)
         val inflater = LayoutInflater.from(this)
         val imageView = inflater.inflate(R.layout.lf2_item_imageitem, null)//详情页的多图xml
 

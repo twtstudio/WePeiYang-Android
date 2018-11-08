@@ -29,7 +29,7 @@ public class GlideImagineLoader extends ImageLoader {
                 .load(path)
                 .placeholder(R.drawable.lf_detail_np)
                 .error(R.drawable.lf_detail_np)
-                .into((ImageView) view.findViewById(R.id.lf2_detail_banner_img));
+                .into((ImageView) view.findViewById(R.id.iv_detail_banner_img));
     }
 
 }

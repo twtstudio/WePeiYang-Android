@@ -11,13 +11,13 @@
         android:layout_height="wrap_content" />
 
     <com.youth.banner.Banner
-        android:id="@+id/lf2_detail_banner"
+        android:id="@+id/br_detail_banner"
         android:layout_width="match_parent"
         android:layout_height="220dp"
         app:image_scale_type="center_crop" />
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/lf_detail_recycler"
+        android:id="@+id/rv_detail"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

@@ -55,9 +55,9 @@ class MyListFragement : Fragment(), MyListService.MyListView {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view: View = inflater.inflate(R.layout.lf2_fragment_mylist, container, false)
-        myListRecyclerView = view.findViewById(R.id.mylist_recyclerView)
-        myListProgressBar = view.findViewById(R.id.mylist_progress)
-        myListNoData = view.findViewById(R.id.mylist_nodata)
+        myListRecyclerView = view.findViewById(R.id.rv_mylist_recyclerView)
+        myListProgressBar = view.findViewById(R.id.pb_mylist_progress)
+        myListNoData = view.findViewById(R.id.ll_mylist_nodata)
         val bundle = arguments
         lostOrFound = bundle!!.getString("index")
         initValues()

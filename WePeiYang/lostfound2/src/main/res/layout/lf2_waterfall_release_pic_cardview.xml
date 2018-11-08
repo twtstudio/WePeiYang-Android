@@ -11,7 +11,7 @@
     app:cardElevation="1dp">
 
     <ImageView
-        android:id="@+id/release_cardview_pic"
+        android:id="@+id/iv_release_cardview_pic"
         android:layout_width="87dp"
         android:layout_height="87dp"
         android:layout_gravity="center" />

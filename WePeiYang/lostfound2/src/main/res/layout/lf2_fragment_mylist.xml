@@ -5,20 +5,20 @@
     android:orientation="vertical">
 
     <ProgressBar
-        android:id="@+id/mylist_progress"
+        android:id="@+id/pb_mylist_progress"
         android:layout_width="44dp"
         android:layout_height="44dp"
         android:layout_centerHorizontal="true"
         android:indeterminateDrawable="@drawable/lf_progressbar" />
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/mylist_recyclerView"
+        android:id="@+id/rv_mylist_recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="6dp" />
 
     <LinearLayout
-        android:id="@+id/mylist_nodata"
+        android:id="@+id/ll_mylist_nodata"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"

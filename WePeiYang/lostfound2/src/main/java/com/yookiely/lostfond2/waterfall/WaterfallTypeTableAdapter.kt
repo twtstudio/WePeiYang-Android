@@ -16,8 +16,8 @@ class WaterfallTypeTableAdapter(private val waterfallActivity: WaterfallActivity
 
     class WaterFallTypeTableViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        val waterfallTypeItem: TextView = itemView.findViewById(R.id.waterfall_type_item)
-        val waterfallTypeLine: View = itemView.findViewById(R.id.waterfall_type_line)
+        val waterfallTypeItem: TextView = itemView.findViewById(R.id.tv_waterfall_type_item)
+        val waterfallTypeLine: View = itemView.findViewById(R.id.vw_waterfall_type_line)
 
     }
 

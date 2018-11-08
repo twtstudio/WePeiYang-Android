@@ -9,14 +9,14 @@
     tools:context=".waterfall.WaterfallActivity">
 
     <android.support.design.widget.AppBarLayout
-        android:id="@+id/waterfall_appbar"
+        android:id="@+id/ab_waterfall"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools"
-            android:id="@+id/toolbar1"
+            android:id="@+id/tb_waterfall"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
@@ -34,19 +34,19 @@
             android:orientation="horizontal">
 
             <android.support.design.widget.TabLayout
-                android:id="@+id/waterfall_tabLayout"
+                android:id="@+id/tl_waterfall"
                 android:layout_width="325dp"
                 android:layout_height="wrap_content"
                 android:background="@color/white" />
 
             <RelativeLayout
-                android:id="@+id/waterfall_type"
+                android:id="@+id/rl_waterfall_type"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal">
 
                 <ImageView
-                    android:id="@+id/waterfall_type_grey"
+                    android:id="@+id/iv_waterfall_type_grey"
                     android:layout_width="18dp"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
@@ -55,7 +55,7 @@
                     android:src="@drawable/lf_types_grey" />
 
                 <ImageView
-                    android:id="@+id/waterfall_type_blue"
+                    android:id="@+id/iv_waterfall_type_blue"
                     android:layout_width="18dp"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
@@ -74,7 +74,7 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <android.support.v4.view.ViewPager
-            android:id="@+id/waterfall_pager"
+            android:id="@+id/vp_waterfall_pager"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
@@ -84,7 +84,7 @@
 
     <com.github.clans.fab.FloatingActionMenu
 
-        android:id="@+id/waterfall_fab_menu"
+        android:id="@+id/fm_waterfall_all"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
@@ -103,7 +103,7 @@
 
 
         <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/waterfall_fab_lost"
+            android:id="@+id/fa_waterfall_lost"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_lost_fab_lost"
@@ -113,7 +113,7 @@
             app:fab_size="mini" />
 
         <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/waterfall_fab_found"
+            android:id="@+id/fa_waterfall_found"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_lost_fab_found"

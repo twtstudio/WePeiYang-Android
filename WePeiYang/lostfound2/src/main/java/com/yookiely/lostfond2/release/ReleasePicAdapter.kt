@@ -22,7 +22,7 @@ class ReleasePicAdapter(val list: MutableList<Any?>,
     private var currentPosition = 0
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val releasePic: ImageView = view.findViewById(R.id.release_cardview_pic)
+        val releasePic: ImageView = view.findViewById(R.id.iv_release_cardview_pic)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -101,7 +101,7 @@ class ReleasePicAdapter(val list: MutableList<Any?>,
     private fun showDialogOfPic() {
         val dialog = Dialog(releaseActivity, R.style.edit_AlertDialog_style)
         dialog.setContentView(R.layout.lf2_dialog_detail_pic)
-        val imageView = dialog.findViewById<ImageView>(R.id.detail_bigpic)
+        val imageView = dialog.findViewById<ImageView>(R.id.iv_detail_bigpic)
 
         if (list[currentPosition] is String) {
             Glide.with(context)

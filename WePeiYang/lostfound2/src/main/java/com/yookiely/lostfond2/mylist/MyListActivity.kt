@@ -28,20 +28,20 @@ class MyListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
         setContentView(R.layout.lf2_activity_my_list)
-        val toolbar: Toolbar = findViewById(R.id.mylist_toolbar)
+        val toolbar: Toolbar = findViewById(R.id.tb_mylist)
         setSupportActionBar(toolbar)
         toolbar.title = "我的"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        imageView = toolbar.findViewById(R.id.list_img)
+        imageView = toolbar.findViewById(R.id.iv_list_campus)
 
         val popupWindowView = LayoutInflater.from(this).inflate(R.layout.lf2_popupwindow_campus, null, false)
 
         toolbar.setNavigationOnClickListener { onBackPressed() }
         imageView.setOnClickListener { initPopupWindow(popupWindowView) }
 
-        val myListPager: ViewPager = findViewById(R.id.mylist_pager)
-        val myListTabLayout: TabLayout = findViewById(R.id.mylist_tabLayout)
+        val myListPager: ViewPager = findViewById(R.id.vp_mylist)
+        val myListTabLayout: TabLayout = findViewById(R.id.tl_mylist)
         val myListPagerAdapter = MyListPagerAdapter(supportFragmentManager)
         myListPagerAdapter.apply {
             add(MyListFragement.newInstance("found"), "我捡到的")
@@ -68,8 +68,8 @@ class MyListActivity : AppCompatActivity() {
             bgAlpha(1f)
         }
 
-        beiyangyuan = view.findViewById(R.id.tv_byy)
-        weijinlu = view.findViewById(R.id.tv_wjl)
+        beiyangyuan = view.findViewById(R.id.tv_mylist_byy)
+        weijinlu = view.findViewById(R.id.tv_mylist_wjl)
 
         //根据原始校区值，设置颜色，选中的校区为蓝色
         campus = Hawk.get("campus")

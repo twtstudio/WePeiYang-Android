@@ -7,12 +7,12 @@
     android:orientation="vertical">
 
     <android.support.design.widget.AppBarLayout
-        android:id="@+id/search_appbar"
+        android:id="@+id/ab_search_init"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/search_toolbar"
+            android:id="@+id/tb_search"
             style="@style/ToolbarStyle"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
@@ -28,7 +28,7 @@
                 android:layout_height="wrap_content">
 
                 <ImageView
-                    android:id="@+id/lf2_search_back"
+                    android:id="@+id/iv_search_back"
                     android:layout_width="27dp"
                     android:layout_height="27dp"
                     android:layout_marginTop="10dp"
@@ -38,21 +38,21 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/lf2_search_result_tv"
+                    android:id="@+id/tv_search_result"
                     android:textSize="20sp"
                     tools:text="3017218119"
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="14dp"
-                    app:layout_constraintLeft_toRightOf="@+id/lf2_search_back"
-                    app:layout_constraintBottom_toBottomOf="@+id/lf2_search_back" />
+                    app:layout_constraintBottom_toBottomOf="@+id/iv_search_back"
+                    app:layout_constraintLeft_toRightOf="@+id/iv_search_back" />
 
                 <ImageView
                     android:background="#ffffff"
                     android:layout_width="300dp"
                     android:layout_height="1dp"
-                    app:layout_constraintLeft_toLeftOf="@+id/lf2_search_result_tv"
-                    app:layout_constraintTop_toBottomOf="@+id/lf2_search_result_tv" />
+                    app:layout_constraintLeft_toLeftOf="@+id/tv_search_result"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_search_result" />
             </android.support.constraint.ConstraintLayout>
 
         </android.support.v7.widget.Toolbar>
@@ -64,19 +64,19 @@
             android:orientation="horizontal">
 
             <android.support.design.widget.TabLayout
-                android:id="@+id/search_tabLayout"
+                android:id="@+id/tl_search"
                 android:layout_width="325dp"
                 android:layout_height="wrap_content"
                 android:background="@color/white" />
 
             <RelativeLayout
-                android:id="@+id/search_type"
+                android:id="@+id/tl_search_type"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal">
 
                 <ImageView
-                    android:id="@+id/search_type_grey"
+                    android:id="@+id/iv_search_type_grey"
                     android:layout_width="18dp"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
@@ -85,7 +85,7 @@
                     android:src="@drawable/lf_types_grey" />
 
                 <ImageView
-                    android:id="@+id/search_type_blue"
+                    android:id="@+id/iv_search_type_blue"
                     android:layout_width="18dp"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
@@ -105,14 +105,14 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <android.support.v4.view.ViewPager
-            android:id="@+id/search_pager_content"
+            android:id="@+id/vp_search_pager_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true" />
 
         <TextView
-            android:id="@+id/search_cover"
+            android:id="@+id/tv_search_cover"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#00000000" />

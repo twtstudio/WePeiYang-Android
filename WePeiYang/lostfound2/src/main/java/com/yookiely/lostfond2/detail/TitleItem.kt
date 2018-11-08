@@ -29,7 +29,7 @@ class TitleItem(val text1 : String) : Item {
     }
 
     private class TitleItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-        val title : TextView = itemView.findViewById(R.id.title_title)
+        val title: TextView = itemView.findViewById(R.id.tv_title_title)
     }
 
     override val controller: ItemController

@@ -7,7 +7,7 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/lf2_search_hr_text"
+        android:id="@+id/tv_search_hr"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ellipsize="end"
@@ -19,8 +19,8 @@
         android:textColor="#666768"
         android:textSize="18dp" />
 
-    <TextView
-        android:id="@+id/lf2_search_div"
+    <View
+        android:id="@+id/tv_search_div"
         android:layout_width="match_parent"
         android:layout_height="3dp"
         android:background="#f4f5f6" />

@@ -85,9 +85,9 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         super.onCreate(savedInstanceState)
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
         setContentView(com.example.lostfond2.R.layout.lf2_activity_release)
-        val toolbar = findViewById<Toolbar>(R.id.toolbar)
+        val toolbar = findViewById<Toolbar>(R.id.tb_common)
         setToolbarView(toolbar)
-        release_delete.visibility = View.GONE
+        cv_release_delete.visibility = View.GONE
         if (toolbar != null) {
             setSupportActionBar(toolbar)
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -96,7 +96,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         campus = Hawk.get("campus") // 得到所在校区
 
         if (lostOrFound == "editLost" || lostOrFound == "editFound") {//open editwindow
-            release_delete.visibility = View.VISIBLE
+            cv_release_delete.visibility = View.VISIBLE
             id = bundle.getInt("id")
             selectedItemPosition = bundle.getInt("type") - 1
             onTypeItemSelected(selectedItemPosition)
@@ -105,22 +105,22 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
 
         if (lostOrFound == "lost" || lostOrFound == "editLost") {
             release_receiving_site.visibility = View.GONE
-            release_receiving_site_mark.visibility = View.GONE
+            ll_release_receiving_site_mark.visibility = View.GONE
         }
 
         initSpinnerOfTime()
         initSpinnerOfReceivingSite()
         initSpinnerOfCampus()
-        release_type_recycleriew.layoutManager = releaseTypeLayoutManager
+        rv_release_type.layoutManager = releaseTypeLayoutManager
         drawRecyclerView(selectedItemPosition)
-        release_type_recycleriew.adapter = tableAdapter
+        rv_release_type.adapter = tableAdapter
         onTypeItemSelected(selectedItemPosition)
-        campus_spinner.setSelection(campus - 1)
+        sp_campus_spinner.setSelection(campus - 1)
 
         selectPicList.add(null) // supply a null list
         releasePicAdapter = ReleasePicAdapter(selectPicList, this, this)
         picRecyclerViewManager.orientation = LinearLayoutManager.HORIZONTAL
-        picRecyclerView = findViewById(R.id.release_pic_recyclerview)
+        picRecyclerView = findViewById(R.id.rv_release_pic)
         picRecyclerView.apply {
             layoutManager = picRecyclerViewManager
             adapter = releasePicAdapter
@@ -140,23 +140,23 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         spinnerList.add("30天")
         val adapter = ArrayAdapter<String>(this, R.layout.lf2_custom_spiner_text_item, spinnerList)
         adapter.setDropDownViewResource(R.layout.lf2_custom_spinner_dropdown_item)
-        release_publish_spinner.adapter = adapter
-        release_publish_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+        sp_release_publish_spinner.adapter = adapter
+        sp_release_publish_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             @SuppressLint("SimpleDateFormat", "SetTextI18n")
             override fun onItemSelected(adapterView: AdapterView<*>, view: View, i: Int, l: Long) {
                 val dateToShow = Date(System.currentTimeMillis() + dateInt[i] * 86400L * 1000L)
                 val ft = SimpleDateFormat("yyyy/MM/dd")
-                release_publish_res.text = "刊登至" + ft.format(dateToShow)
+                tv_release_publish_res.text = "刊登至" + ft.format(dateToShow)
                 duration = i
             }
 
             override fun onNothingSelected(adapterView: AdapterView<*>) {}
         }
-        release_confirm.setOnClickListener(this)
-        release_delete.setOnClickListener(this)
+        cv_release_confirm.setOnClickListener(this)
+        cv_release_delete.setOnClickListener(this)
 
         val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(release_title.windowToken, 0)
+        imm.hideSoftInputFromWindow(et_release_title.windowToken, 0)
     }
 
     //校区选择spinner的具体实现
@@ -169,7 +169,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
 
         val adapterOfCampus = ArrayAdapter<String>(this, R.layout.lf2_custom_spiner_text_item, spinnerOfCampus)
         adapterOfCampus.setDropDownViewResource(R.layout.lf2_custom_spinner_dropdown_item)
-        campus_spinner.apply {
+        sp_campus_spinner.apply {
             adapter = adapterOfCampus
             onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
@@ -207,30 +207,30 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         val adapterOfEntrance = ArrayAdapter<String>(this@ReleaseActivity, R.layout.lf2_custom_spiner_text_item, spinnerListOfEntrance)
         adapterOfEntrance.setDropDownViewResource(R.layout.lf2_custom_spinner_dropdown_item)
 
-        receiving_site_garden_spinner.adapter = adapterOfGarden
-        receiving_site_garden_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+        sp_receiving_site_garden.adapter = adapterOfGarden
+        sp_receiving_site_garden.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 getListOfRoom(spinnerListOfRoom, dataListOfRoom, position)
 
                 //斋的选择
-                receiving_site_room_spinner.adapter = adapterOfRoom
-                receiving_site_room_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                sp_receiving_site_room.adapter = adapterOfRoom
+                sp_receiving_site_room.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                         roomOfReceivingSite = spinnerListOfRoom[position]//dataListOfRoom[position].toString()
                         getListOfEntrance(spinnerListOfEntrance, dataListOfEntrance, dataListOfRoom[position])
                         //口的选择
 
                         if (refreshSpinnerOfRoom) {
-                            receiving_site_room_spinner.setSelection(selectedRecaptureRoom)
+                            sp_receiving_site_room.setSelection(selectedRecaptureRoom)
                             refreshSpinnerOfRoom = false
                         }
-                        receiving_site_entrance_spinner.adapter = adapterOfEntrance
-                        receiving_site_entrance_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                        sp_receiving_site_entrance.adapter = adapterOfEntrance
+                        sp_receiving_site_entrance.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                                 entranceOfReceivingSite = dataListOfEntrance[position]
 
                                 if (refreshSpinnerOfEntrance) {
-                                    receiving_site_entrance_spinner.setSelection(selectedRecaptureEntrance)
+                                    sp_receiving_site_entrance.setSelection(selectedRecaptureEntrance)
                                     refreshSpinnerOfEntrance = false
                                 }
                             }
@@ -253,7 +253,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         }
 
         val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(release_title.windowToken, 0)
+        imm.hideSoftInputFromWindow(et_release_title.windowToken, 0)
     }
 
     //确定和取消按钮的点击事件
@@ -287,7 +287,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
             e.printStackTrace()
         }
 
-        if (view === release_confirm && (lostOrFound == "lost" || lostOrFound == "found")) {
+        if (view === cv_release_confirm && (lostOrFound == "lost" || lostOrFound == "found")) {
             if (!judgeNull(picListOfUri)) {
 //                val file1: File
 //                val arrayOfFile = ArrayList<File?>(0)
@@ -316,13 +316,13 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
                     releasePresenter.uploadReleaseData(map, lostOrFound)
                 }
             }
-        } else if (view === release_confirm) {
+        } else if (view === cv_release_confirm) {
             val map = getUpdateMap()
             if (judgementOfRelease) {
                 progressDialog = ProgressDialog.show(this@ReleaseActivity, "", "正在上传")
                 releasePresenter.uploadEditDataWithPic(map, lostOrFound, listOfFile, picListOfString, id)
             }
-        } else if (view === release_delete) {
+        } else if (view === cv_release_delete) {
             progressDialog = ProgressDialog.show(this@ReleaseActivity, "", "正在删除")
             releasePresenter.delete(id)
         }
@@ -359,33 +359,33 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
 
         when (detailData.detail_type) {
             1, 2 -> {
-                release_card_name.setText(detailData.card_name)
-                release_card_num.setText(detailData.card_number)
+                et_release_card_name.setText(detailData.card_name)
+                et_release_card_num.setText(detailData.card_number)
             } // 1 = 身份证, 2 = 饭卡
-            10 -> release_card_num_noname.setText(detailData.card_number) // 10 = 银行卡
+            10 -> et_release_card_num_noname.setText(detailData.card_number) // 10 = 银行卡
             else -> {
             }
         }
 
         if (detailData.time != "忘记了") {
-            release_time.setText(detailData.time)
+            et_release_time.setText(detailData.time)
         }
         if (detailData.place != "忘记了") {
-            release_place.setText(detailData.place)
+            et_release_place.setText(detailData.place)
         }
-        release_title.setText(detailData.title)
-        release_title.setSelection(detailData.title!!.length)
-        release_phone.setText(detailData.phone)
-        release_contact_name.setText(detailData.name)
-        release_remark.setText(detailData.item_description)
+        et_release_title.setText(detailData.title)
+        et_release_title.setSelection(detailData.title!!.length)
+        et_release_phone.setText(detailData.phone)
+        et_release_content_name.setText(detailData.name)
+        et_release_remark.setText(detailData.item_description)
 
         refreshSpinnerOfRoom = true
         refreshSpinnerOfEntrance = true
         selectedRecaptureRoom = getPositionOfRoom(detailData.recapture_place!!)
         selectedRecaptureEntrance = getPositionOfEntrance(detailData.recapture_entrance)
-        receiving_site_garden_spinner.setSelection(getPositionOfGarden(detailData.recapture_place))
+        sp_receiving_site_garden.setSelection(getPositionOfGarden(detailData.recapture_place))
         if (detailData.campus != null) {
-            campus_spinner.setSelection(detailData.campus.toInt() - 1)
+            sp_campus_spinner.setSelection(detailData.campus.toInt() - 1)
         }
     }
 
@@ -396,12 +396,12 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
 
     //得到release中用户所填内容
     private fun getUpdateMap(): Map<String, Any> {
-        val titleString = release_title.text.toString()
-        val nameString = release_contact_name.text.toString()
-        val phoneString = release_phone.text.toString()
-        val timeString = release_time.text.toString()
-        val placeString = release_place.text.toString()
-        val remarksString = release_remark.text.toString()
+        val titleString = et_release_title.text.toString()
+        val nameString = et_release_content_name.text.toString()
+        val phoneString = et_release_phone.text.toString()
+        val timeString = et_release_time.text.toString()
+        val placeString = et_release_place.text.toString()
+        val remarksString = et_release_remark.text.toString()
 
         judgementOfRelease = !(titleString.isBlank() || phoneString.isBlank() || nameString.isBlank())
 
@@ -422,13 +422,13 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         }
 
         if (selectedItemPosition == 0 || selectedItemPosition == 1) {
-            val cardNumString = release_card_num.text.toString()
-            val cardNameString = release_card_name.text.toString()
+            val cardNumString = et_release_card_num.text.toString()
+            val cardNameString = et_release_card_name.text.toString()
             judgementOfRelease = judgementOfRelease && !(cardNameString.isBlank() || cardNumString.isBlank())
             map["card_number"] = cardNumString
             map["card_name"] = cardNameString
         } else if (selectedItemPosition == 9) {
-            val cardNumString = release_card_num_noname.text.toString()
+            val cardNumString = et_release_card_num_noname.text.toString()
             judgementOfRelease = judgementOfRelease && cardNumString.isNotBlank()
             map["card_number"] = cardNumString
             map["card_name"] = if (nameString == "") " " else nameString
@@ -441,7 +441,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
 
     override fun drawRecyclerView(position: Int) {
         tableAdapter = ReleaseTableAdapter(this, position, this)
-        release_type_recycleriew.adapter = tableAdapter
+        rv_release_type.adapter = tableAdapter
     }
 
     //物品类型选择对列表的影响
@@ -450,17 +450,17 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
 
         when (position) {
             0, 1 -> {
-                release_lost_content.visibility = View.VISIBLE
+                tv_release_lost_content.visibility = View.VISIBLE
                 release_cardinfo.visibility = View.VISIBLE
                 release_cardinfo_noname.visibility = View.GONE
             } // 身份证，饭卡
             9 -> {
-                release_lost_content.visibility = View.VISIBLE
+                tv_release_lost_content.visibility = View.VISIBLE
                 release_cardinfo_noname.visibility = View.VISIBLE
                 release_cardinfo.visibility = View.GONE
             } // 身份证
             else -> {
-                release_lost_content.visibility = View.GONE
+                tv_release_lost_content.visibility = View.GONE
                 release_cardinfo_noname.visibility = View.GONE
                 release_cardinfo.visibility = View.GONE
             }

@@ -25,7 +25,7 @@
                 android:textStyle="normal" />
 
             <EditText
-                android:id="@+id/release_title"
+                android:id="@+id/et_release_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -64,7 +64,7 @@
                 android:textStyle="normal" />
 
             <EditText
-                android:id="@+id/release_time"
+                android:id="@+id/et_release_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -104,7 +104,7 @@
                 android:textStyle="normal" />
 
             <Spinner
-                android:id="@+id/campus_spinner"
+                android:id="@+id/sp_campus_spinner"
                 android:layout_width="102dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -113,7 +113,7 @@
                 android:theme="@style/SpinnerStyle" />
 
             <EditText
-                android:id="@+id/release_place"
+                android:id="@+id/et_release_place"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

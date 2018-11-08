@@ -14,7 +14,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.example.lostfond2.R
-import com.orhanobut.hawk.Hawk
 import com.yookiely.lostfond2.detail.DetailActivity
 import com.yookiely.lostfond2.release.ReleaseActivity
 import com.yookiely.lostfond2.service.MyListDataOrSearchBean
@@ -26,16 +25,16 @@ class MyListTableAdapter(var myListBean: MutableList<MyListDataOrSearchBean>, va
 
     class MyListViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-        var myListItemTitle: TextView = view.findViewById(R.id.mylist_item_title)
-        var myListItemStatus: TextView = view.findViewById(R.id.mylist_item_status)
-        var myListItemType: TextView = view.findViewById(R.id.mylist_item_type)
-        var myListItemTime: TextView = view.findViewById(R.id.mylist_item_time)
-        var myListItemPlace: TextView = view.findViewById(R.id.mylist_item_place)
-        var myListItemPic: ImageView = view.findViewById(R.id.mylist_item_pic)
-        var myListItemPencilTouch: TextView = view.findViewById(R.id.mylist_item_pencil_touch)
-        var mylistItemOutdata: ImageView = view.findViewById(R.id.lf2_detail_isoutdate)
-        var mylistItemButton = view.findViewById<Button>(R.id.lf2_item_button)
-        var myListItemButtonOutdate = view.findViewById<Button>(R.id.lf2_item_button_outdate)
+        var myListItemTitle: TextView = view.findViewById(R.id.tv_mylist_item_title)
+        var myListItemStatus: TextView = view.findViewById(R.id.tv_mylist_item_status)
+        var myListItemType: TextView = view.findViewById(R.id.tv_mylist_item_type)
+        var myListItemTime: TextView = view.findViewById(R.id.tv_mylist_item_time)
+        var myListItemPlace: TextView = view.findViewById(R.id.tv_mylist_item_place)
+        var myListItemPic: ImageView = view.findViewById(R.id.iv_mylist_item_pic)
+        var myListItemPencilTouch: TextView = view.findViewById(R.id.tv_mylist_item_pencil_touch)
+        var mylistItemOutdata: ImageView = view.findViewById(R.id.iv_mylist_detail_isoutdate)
+        var mylistItemButton = view.findViewById<Button>(R.id.bn_mylist_isback)
+        var myListItemButtonOutdate = view.findViewById<Button>(R.id.bn_mylist_item_outdate)
 
     }
 

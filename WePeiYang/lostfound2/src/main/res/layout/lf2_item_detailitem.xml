@@ -5,7 +5,7 @@
     android:layout_height="wrap_content">
 
     <TextView
-        android:id="@+id/detail_title"
+        android:id="@+id/tv_detail_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="17dp"
@@ -19,40 +19,39 @@
 
 
     <ImageView
-        android:id="@+id/detail_question_mark"
+        android:id="@+id/iv_detail_question_mark"
         android:layout_width="14sp"
         android:layout_height="14sp"
         android:layout_marginStart="5dp"
         android:src="@drawable/lf2_question_mark"
-        app:layout_constraintBottom_toBottomOf="@id/detail_title"
-        app:layout_constraintLeft_toRightOf="@+id/detail_title"
-        app:layout_constraintTop_toTopOf="@id/detail_title" />
+        app:layout_constraintBottom_toBottomOf="@id/tv_detail_title"
+        app:layout_constraintLeft_toRightOf="@+id/tv_detail_title"
+        app:layout_constraintTop_toTopOf="@id/tv_detail_title" />
 
     <TextView
-        android:id="@+id/detail_detail"
+        android:id="@+id/tv_detail_detail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="10dp"
-        android:text="捡到身份证一张lalalala"
         android:textColor="#999999"
         android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="@id/detail_title"
+        app:layout_constraintBottom_toBottomOf="@id/tv_detail_title"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@id/detail_title" />
+        app:layout_constraintTop_toTopOf="@id/tv_detail_title" />
 
     <TextView
-        android:id="@+id/detail_recapture_comment"
+        android:id="@+id/tv_detail_recapture_comment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         android:text="领取地点设置在楼下阿姨处"
         android:textSize="12dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="@id/detail_title"
-        app:layout_constraintTop_toBottomOf="@+id/detail_title" />
+        app:layout_constraintLeft_toLeftOf="@id/tv_detail_title"
+        app:layout_constraintTop_toBottomOf="@+id/tv_detail_title" />
 
     <View
-        android:id="@+id/detail_spilit"
+        android:id="@+id/vw_detail_spilit"
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
         android:layout_marginStart="17dp"

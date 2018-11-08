@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.lf2_activity_search.*
 class SearchChooseTimeAdapter(val context: SearchActivity, val selectedItem: Int, var window: PopupWindow) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     class SearchChooseTimeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val waterfallTypeItem: TextView = this.itemView.findViewById(R.id.waterfall_type_item)
+        val waterfallTypeItem: TextView = this.itemView.findViewById(R.id.tv_waterfall_type_item)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -48,8 +48,8 @@ class SearchChooseTimeAdapter(val context: SearchActivity, val selectedItem: Int
 
         viewHolder.itemView.setOnClickListener {
             context.apply {
-                search_type_blue.visibility = View.GONE
-                search_type_grey.visibility = View.VISIBLE
+                iv_search_type_blue.visibility = View.GONE
+                iv_search_type_grey.visibility = View.VISIBLE
                 chooseTimePopupWindow.dismiss()
 
                 when (position) {

@@ -7,12 +7,12 @@
     android:orientation="vertical">
 
     <android.support.design.widget.AppBarLayout
-        android:id="@+id/search_appbar"
+        android:id="@+id/ab_search_init"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/search_init_toolbar"
+            android:id="@+id/tb_search_init"
             style="@style/ToolbarStyle"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
@@ -28,7 +28,7 @@
                 android:layout_height="wrap_content">
 
                 <ImageView
-                    android:id="@+id/lf2_searchinit_back"
+                    android:id="@+id/iv_search_init_back"
                     android:layout_width="27dp"
                     android:layout_height="27dp"
                     android:layout_marginTop="10dp"
@@ -38,7 +38,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
-                    android:id="@+id/lf2_search_icon_right"
+                    android:id="@+id/iv_search_init_icon_right"
                     android:src="@drawable/lf_search"
                     android:layout_width="27dp"
                     android:layout_height="27dp"
@@ -48,13 +48,13 @@
                     android:layout_marginEnd="10dp" />
 
                 <EditText
-                    android:id="@+id/lf2_search_et"
+                    android:id="@+id/et_search_init_et"
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="6dp"
                     android:layout_marginEnd="12dp"
                     android:hint="@string/lf2_search_hint"
-                    app:layout_constraintRight_toLeftOf="@+id/lf2_search_icon_right"
+                    app:layout_constraintRight_toLeftOf="@+id/iv_search_init_icon_right"
                     android:singleLine="false" />
 
 
@@ -66,7 +66,7 @@
     </android.support.design.widget.AppBarLayout>
 
     <LinearLayout
-        android:id="@+id/lf2_search_hr"
+        android:id="@+id/ll_search_init_hr"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -76,7 +76,7 @@
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/lf2_search_hr_title"
+                android:id="@+id/tv_search_init_hr_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#f4f5f6"
@@ -87,18 +87,18 @@
                 android:paddingStart="24dp" />
 
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/lf2_search_hr_rv"
+                android:id="@+id/rv_search_init_hr_rv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/lf2_search_hr_title" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_search_init_hr_title" />
 
             <ImageView
-                android:id="@+id/lf2_search_clean"
+                android:id="@+id/iv_search_init_clean"
                 android:layout_width="match_parent"
                 android:layout_height="34dp"
                 android:src="@drawable/lf2_search_clean"
                 android:layout_marginTop="8dp"
-                app:layout_constraintTop_toBottomOf="@+id/lf2_search_hr_rv" />
+                app:layout_constraintTop_toBottomOf="@+id/rv_search_init_hr_rv" />
 
         </android.support.constraint.ConstraintLayout>
 

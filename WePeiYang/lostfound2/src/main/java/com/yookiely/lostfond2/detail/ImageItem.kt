@@ -38,7 +38,7 @@
 //                val imgEntryView = inflater.inflate(R.layout.lf2_dialog_detail_pic, null)
 //                // 加载自定义的布局文件
 //                val dialog = android.support.v7.app.AlertDialog.Builder(item.context1).create()
-//                val img = imgEntryView.findViewById(R.id.detail_bigpic) as ImageView
+//                val img = imgEntryView.findViewById(R.id.iv_detail_bigpic) as ImageView
 //                Glide.with(item.context1)
 //                        .load(Utils.getPicUrl(item.url))
 //                        .placeholder(R.drawable.lf_detail_np)

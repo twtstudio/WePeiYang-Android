@@ -6,12 +6,12 @@
     android:layout_height="match_parent">
 
     <android.support.design.widget.AppBarLayout
-        android:id="@+id/appbar"
+        android:id="@+id/ab_mylist"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/mylist_toolbar"
+            android:id="@+id/tb_mylist"
             style="@style/ToolbarStyle"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
@@ -24,7 +24,7 @@
             app:navigationIcon="@drawable/ic_arrow_back_black_24dp">
 
             <ImageView
-                android:id="@+id/list_img"
+                android:id="@+id/iv_list_campus"
                 android:layout_width="58dp"
                 android:layout_height="58dp"
                 android:padding="18dp"
@@ -38,17 +38,17 @@
     </android.support.design.widget.AppBarLayout>
 
     <android.support.design.widget.TabLayout
-        android:id="@+id/mylist_tabLayout"
+        android:id="@+id/tl_mylist"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        app:layout_constraintTop_toBottomOf="@+id/appbar" />
+        app:layout_constraintTop_toBottomOf="@+id/ab_mylist" />
 
     <android.support.v4.view.ViewPager
-        android:id="@+id/mylist_pager"
+        android:id="@+id/vp_mylist"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/mylist_tabLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/tl_mylist" />
 
 
 </android.support.constraint.ConstraintLayout>

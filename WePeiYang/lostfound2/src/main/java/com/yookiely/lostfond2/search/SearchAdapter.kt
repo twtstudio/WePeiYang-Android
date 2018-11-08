@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v4.content.ContextCompat.startActivity
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,12 +14,12 @@ import com.example.lostfond2.R
 class SearchAdapter(var hr: MutableList<String>?, val activity: SearchInitActivity) : RecyclerView.Adapter<SearchAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val textViewdiv = view.findViewById<TextView>(R.id.lf2_search_div)
-        val textView = view.findViewById<TextView>(R.id.lf2_search_hr_text)
+        val textViewDiv: View = view.findViewById(R.id.tv_search_div)
+        val textView: TextView = view.findViewById(R.id.tv_search_hr)
     }
 
     override fun onBindViewHolder(holder: SearchAdapter.ViewHolder, position: Int) {
-        holder.textView.text = hr!!.get(position)
+        holder.textView.text = hr!![position]
         holder.textView.setOnClickListener {
             val intent = Intent()
             val bundle = Bundle()
@@ -30,7 +29,7 @@ class SearchAdapter(var hr: MutableList<String>?, val activity: SearchInitActivi
             startActivity(activity, intent, bundle)
         }
         if (hr!!.size == position) {
-            holder.textViewdiv.visibility = View.GONE
+            holder.textViewDiv.visibility = View.GONE
         }
     }
 

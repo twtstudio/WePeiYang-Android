@@ -25,7 +25,7 @@
 
 
         <Spinner
-            android:id="@+id/release_publish_spinner"
+            android:id="@+id/sp_release_publish_spinner"
             android:layout_width="104dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -33,7 +33,7 @@
             android:theme="@style/SpinnerStyle" />
 
         <TextView
-            android:id="@+id/release_publish_res"
+            android:id="@+id/tv_release_publish_res"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

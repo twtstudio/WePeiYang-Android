@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,11 +22,11 @@ class WaterfallTableAdapter(private var waterFallBean: List<MyListDataOrSearchBe
                             var lostOrFound: String) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     class WaterfallViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val waterfallItemPic: ImageView = itemView.findViewById(R.id.lost_pic)
-        val waterfallItemThing: TextView = itemView.findViewById(R.id.thing_content)
-        val waterfallItemData: TextView = itemView.findViewById(R.id.data_content)//data其实是date
-        val waterfallItemLocation: TextView = itemView.findViewById(R.id.location_content)
-        val waterfallItemTitle: TextView = itemView.findViewById(R.id.title_content)
+        val waterfallItemPic: ImageView = itemView.findViewById(R.id.iv_waterfall_lost_pic)
+        val waterfallItemThing: TextView = itemView.findViewById(R.id.tv_waterfall_thing_content)
+        val waterfallItemData: TextView = itemView.findViewById(R.id.tv_waterfall_time_content)//data其实是date
+        val waterfallItemLocation: TextView = itemView.findViewById(R.id.tv_waterfall_location_content)
+        val waterfallItemTitle: TextView = itemView.findViewById(R.id.tv_waterfall_title_content)
         val waterfallItemRecapturePlace: TextView = itemView.findViewById(R.id.recapture_place)
         val waterfallItemRecaptureImage: ImageView = itemView.findViewById(R.id.recapture)
     }

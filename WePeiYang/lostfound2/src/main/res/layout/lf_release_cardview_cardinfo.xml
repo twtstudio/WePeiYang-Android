@@ -28,7 +28,7 @@
                 android:textStyle="normal" />
 
             <EditText
-                android:id="@+id/release_card_name"
+                android:id="@+id/et_release_card_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -69,7 +69,7 @@
                 android:textStyle="normal" />
 
             <EditText
-                android:id="@+id/release_card_num"
+                android:id="@+id/et_release_card_num"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

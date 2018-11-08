@@ -17,9 +17,9 @@ class ReleaseTableAdapter(val context: Context, private val positionSelected: In
                           private val releaseView: ReleaseContract.ReleaseView) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     class ReleaseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val releaseItemType: TextView = itemView.findViewById(R.id.release_item_type)
-        val releaseItemCardView: CardView = itemView.findViewById(R.id.release_item_cardview)
-        val releaseItemSuperscript: ImageView = itemView.findViewById(R.id.release_item_superscript)
+        val releaseItemType: TextView = itemView.findViewById(R.id.tv_release_item_type)
+        val releaseItemCardView: CardView = itemView.findViewById(R.id.cv_release_item)
+        val releaseItemSuperscript: ImageView = itemView.findViewById(R.id.iv_release_item_superscript)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {

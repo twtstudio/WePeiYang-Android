@@ -15,42 +15,42 @@
         android:paddingBottom="4dp">
 
         <ImageView
-            android:id="@+id/lost_pic"
+            android:id="@+id/iv_waterfall_lost_pic"
             android:layout_width="match_parent"
             android:layout_height="170dp"
             android:adjustViewBounds="true"
             android:scaleType="fitXY" />
 
         <TextView
-            android:id="@+id/title_content"
+            android:id="@+id/tv_waterfall_title_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="2dp"
             android:layout_marginStart="6dp"
             android:textColor="#666666"
             android:textSize="16sp"
-            app:layout_constraintTop_toBottomOf="@+id/lost_pic" />
+            app:layout_constraintTop_toBottomOf="@+id/iv_waterfall_lost_pic" />
 
         <ImageView
-            android:id="@+id/thing"
+            android:id="@+id/iv_waterfall_thing"
             android:layout_width="14dp"
             android:layout_height="14dp"
             android:layout_marginBottom="4dp"
             android:layout_marginTop="4dp"
             android:src="@drawable/lf_type"
-            app:layout_constraintLeft_toLeftOf="@+id/title_content"
-            app:layout_constraintTop_toBottomOf="@+id/title_content" />
+            app:layout_constraintLeft_toLeftOf="@+id/tv_waterfall_title_content"
+            app:layout_constraintTop_toBottomOf="@+id/tv_waterfall_title_content" />
 
         <TextView
-            android:id="@+id/thing_content"
+            android:id="@+id/tv_waterfall_thing_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="6dp"
             android:textColor="#999999"
             android:textSize="14sp"
-            app:layout_constraintBottom_toBottomOf="@+id/thing"
-            app:layout_constraintLeft_toRightOf="@+id/thing"
-            app:layout_constraintTop_toTopOf="@+id/thing" />
+            app:layout_constraintBottom_toBottomOf="@+id/iv_waterfall_thing"
+            app:layout_constraintLeft_toRightOf="@+id/iv_waterfall_thing"
+            app:layout_constraintTop_toTopOf="@+id/iv_waterfall_thing" />
 
         <ImageView
             android:id="@+id/data"
@@ -59,11 +59,11 @@
             android:layout_marginBottom="4dp"
             android:layout_marginTop="4dp"
             android:src="@drawable/lf_time"
-            app:layout_constraintLeft_toLeftOf="@+id/thing"
-            app:layout_constraintTop_toBottomOf="@+id/thing" />
+            app:layout_constraintLeft_toLeftOf="@+id/iv_waterfall_thing"
+            app:layout_constraintTop_toBottomOf="@+id/iv_waterfall_thing" />
 
         <TextView
-            android:id="@+id/data_content"
+            android:id="@+id/tv_waterfall_time_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="6dp"
@@ -74,7 +74,7 @@
             app:layout_constraintTop_toTopOf="@+id/data" />
 
         <ImageView
-            android:id="@+id/location"
+            android:id="@+id/iv_waterfall_location"
             android:layout_width="14dp"
             android:layout_height="14dp"
             android:layout_marginBottom="4dp"
@@ -84,15 +84,15 @@
             app:layout_constraintTop_toBottomOf="@+id/data" />
 
         <TextView
-            android:id="@+id/location_content"
+            android:id="@+id/tv_waterfall_location_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="6dp"
             android:textColor="#999999"
             android:textSize="14sp"
-            app:layout_constraintBottom_toBottomOf="@+id/location"
-            app:layout_constraintLeft_toRightOf="@+id/location"
-            app:layout_constraintTop_toTopOf="@+id/location" />
+            app:layout_constraintBottom_toBottomOf="@+id/iv_waterfall_location"
+            app:layout_constraintLeft_toRightOf="@+id/iv_waterfall_location"
+            app:layout_constraintTop_toTopOf="@+id/iv_waterfall_location" />
 
 
         <ImageView
@@ -102,8 +102,8 @@
             android:layout_marginBottom="4dp"
             android:layout_marginTop="4dp"
             android:src="@drawable/lf2_recapture"
-            app:layout_constraintLeft_toLeftOf="@+id/location"
-            app:layout_constraintTop_toBottomOf="@+id/location" />
+            app:layout_constraintLeft_toLeftOf="@+id/iv_waterfall_location"
+            app:layout_constraintTop_toBottomOf="@+id/iv_waterfall_location" />
 
         <TextView
             android:id="@+id/recapture_place"

@@ -4,15 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
+    android:layout_marginTop="6dp"
     android:layout_marginBottom="6dp"
-    android:layout_marginTop="6dp">
+    android:orientation="vertical">
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="12dp"
         android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
         android:background="@color/white">
 
         <android.support.constraint.ConstraintLayout
@@ -20,63 +20,63 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/mylist_item_pic"
+                android:id="@+id/iv_mylist_item_pic"
                 android:layout_width="130dp"
                 android:layout_height="118dp"
-                android:layout_marginBottom="14dp"
                 android:layout_marginStart="14dp"
                 android:layout_marginTop="14dp"
+                android:layout_marginBottom="14dp"
                 android:scaleType="fitXY"
-                app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
-                android:id="@+id/lf2_detail_isoutdate"
+                android:id="@+id/iv_mylist_detail_isoutdate"
                 android:layout_width="70dp"
                 android:layout_height="72dp"
-                android:layout_marginBottom="14dp"
                 android:layout_marginStart="74dp"
                 android:layout_marginTop="60dp"
+                android:layout_marginBottom="14dp"
                 android:scaleType="fitXY"
-                app:layout_constraintLeft_toLeftOf="parent"
+                android:src="@drawable/lf2_detail_outdate_cover"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:src="@drawable/lf2_detail_outdate_cover" />
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/mylist_item_title"
+                android:id="@+id/tv_mylist_item_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
-                tools:text="what"
                 android:textSize="18sp"
-                app:layout_constraintLeft_toRightOf="@id/mylist_item_pic"
-                app:layout_constraintTop_toTopOf="@id/mylist_item_pic" />
+                app:layout_constraintLeft_toRightOf="@id/iv_mylist_item_pic"
+                app:layout_constraintTop_toTopOf="@id/iv_mylist_item_pic"
+                tools:text="what" />
 
             <ImageView
-                android:id="@+id/mylist_item_pencil"
+                android:id="@+id/iv_mylist_item_pencil"
                 android:layout_width="16dp"
                 android:layout_height="16dp"
-                android:layout_marginEnd="45dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginEnd="45dp"
                 android:src="@drawable/lf_pencil"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintRight_toRightOf="parent" />
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
                 android:text="@string/write"
                 android:textColor="#44a0e3"
-                android:layout_marginStart="6dp"
-                app:layout_constraintBottom_toBottomOf="@+id/mylist_item_pencil"
-                app:layout_constraintTop_toTopOf="@+id/mylist_item_pencil"
-                app:layout_constraintLeft_toRightOf="@+id/mylist_item_pencil" />
+                app:layout_constraintBottom_toBottomOf="@+id/iv_mylist_item_pencil"
+                app:layout_constraintLeft_toRightOf="@+id/iv_mylist_item_pencil"
+                app:layout_constraintTop_toTopOf="@+id/iv_mylist_item_pencil" />
 
 
             <TextView
-                android:id="@+id/mylist_item_pencil_touch"
+                android:id="@+id/tv_mylist_item_pencil_touch"
                 android:layout_width="58dp"
                 android:layout_height="30dp"
                 android:layout_marginTop="6dp"
@@ -86,21 +86,21 @@
 
 
             <TextView
-                android:id="@+id/mylist_item_status"
+                android:id="@+id/tv_mylist_item_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="未完成"
                 android:textSize="15sp"
-                app:layout_constraintLeft_toLeftOf="@+id/mylist_item_title"
-                app:layout_constraintTop_toBottomOf="@+id/mylist_item_title" />
+                app:layout_constraintLeft_toLeftOf="@+id/tv_mylist_item_title"
+                app:layout_constraintTop_toBottomOf="@+id/tv_mylist_item_title"
+                tools:text="未完成" />
 
             <LinearLayout
-                android:id="@+id/layout1"
+                android:id="@+id/ll_mylist_type"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintLeft_toLeftOf="@+id/mylist_item_title"
-                app:layout_constraintTop_toBottomOf="@+id/mylist_item_status">
+                app:layout_constraintLeft_toLeftOf="@+id/tv_mylist_item_title"
+                app:layout_constraintTop_toBottomOf="@+id/tv_mylist_item_status">
 
                 <ImageView
                     android:layout_width="12dp"
@@ -109,22 +109,22 @@
                     android:src="@drawable/lf_type" />
 
                 <TextView
-                    android:id="@+id/mylist_item_type"
+                    android:id="@+id/tv_mylist_item_type"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
-                    tools:text="@string/mylist_item_type"
                     android:textColor="#999999"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"
+                    tools:text="@string/mylist_item_type" />
 
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/layout2"
+                android:id="@+id/ll_mylist_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintLeft_toLeftOf="@+id/layout1"
-                app:layout_constraintTop_toBottomOf="@+id/layout1">
+                app:layout_constraintLeft_toLeftOf="@+id/ll_mylist_type"
+                app:layout_constraintTop_toBottomOf="@+id/ll_mylist_type">
 
                 <ImageView
                     android:layout_width="12dp"
@@ -133,12 +133,12 @@
                     android:src="@drawable/lf_time" />
 
                 <TextView
-                    android:id="@+id/mylist_item_time"
+                    android:id="@+id/tv_mylist_item_time"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
-                    android:textSize="12sp"
                     android:textColor="#999999"
+                    android:textSize="12sp"
                     tools:text="@string/mylist_item_time" />
 
             </LinearLayout>
@@ -147,8 +147,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
-                app:layout_constraintLeft_toLeftOf="@+id/layout2"
-                app:layout_constraintTop_toBottomOf="@+id/layout2">
+                app:layout_constraintLeft_toLeftOf="@+id/ll_mylist_time"
+                app:layout_constraintTop_toBottomOf="@+id/ll_mylist_time">
 
                 <ImageView
                     android:layout_width="12dp"
@@ -157,7 +157,7 @@
                     android:src="@drawable/lf_place" />
 
                 <TextView
-                    android:id="@+id/mylist_item_place"
+                    android:id="@+id/tv_mylist_item_place"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
@@ -168,32 +168,32 @@
             </LinearLayout>
 
             <Button
-                android:id="@+id/lf2_item_button"
+                android:id="@+id/bn_mylist_isback"
                 android:layout_width="72dp"
                 android:layout_height="26dp"
-                tools:text="确认归还"
-                tools:textColor="#ffffff"
-                android:layout_marginBottom="10dp"
                 android:layout_marginEnd="10dp"
-                android:textSize="12sp"
-                android:textColor="#ffffff"
+                android:layout_marginBottom="10dp"
                 android:background="@drawable/lf2_detail_item_button"
+                android:textColor="#ffffff"
+                android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintRight_toRightOf="parent" />
+                app:layout_constraintRight_toRightOf="parent"
+                tools:text="确认归还"
+                tools:textColor="#ffffff" />
 
             <Button
-                android:id="@+id/lf2_item_button_outdate"
+                android:id="@+id/bn_mylist_item_outdate"
                 android:layout_width="72dp"
                 android:layout_height="26dp"
-                tools:text="确认归还"
-                tools:textColor="#ffffff"
-                android:layout_marginBottom="10dp"
                 android:layout_marginEnd="10dp"
-                android:textSize="12sp"
-                android:textColor="#ffffff"
+                android:layout_marginBottom="10dp"
                 android:background="@drawable/lf2_detail_item_button_outdate"
+                android:textColor="#ffffff"
+                android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintRight_toRightOf="parent" />
+                app:layout_constraintRight_toRightOf="parent"
+                tools:text="确认归还"
+                tools:textColor="#ffffff" />
 
         </android.support.constraint.ConstraintLayout>
 

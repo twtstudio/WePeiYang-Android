@@ -45,12 +45,12 @@ class WaterfallActivity : AppCompatActivity() {
 
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
         setContentView(R.layout.lf2_activity_water_fall)
-        val waterfallLost: FloatingActionButton = findViewById(R.id.waterfall_fab_lost)
+        val waterfallLost: FloatingActionButton = findViewById(R.id.fa_waterfall_lost)
         val popupWindowView: View = LayoutInflater.from(this).inflate(R.layout.lf2_waterfall_cardview_types, null, false)
         val snapHelper = LinearSnapHelper()
-        popWaterfallTypesAll = popupWindowView.findViewById(R.id.waterfall_types_all) //全部分类
-        popWaterfallFilter = popupWindowView.findViewById(R.id.waterfall_filter) //筛选条件
-        popWaterfallRecyclerView = popupWindowView.findViewById(R.id.waterfall_type_recyclerview)
+        popWaterfallTypesAll = popupWindowView.findViewById(R.id.tv_waterfall_types_selection) //全部分类
+        popWaterfallFilter = popupWindowView.findViewById(R.id.tv_waterfall_time_selection) //筛选条件
+        popWaterfallRecyclerView = popupWindowView.findViewById(R.id.rv_waterfall_types)
         popWaterfallRecyclerView.apply {
             layoutManager = layoutManagerForType
             adapter = WaterfallTypeTableAdapter(this@WaterfallActivity, this@WaterfallActivity, type)
@@ -68,8 +68,8 @@ class WaterfallActivity : AppCompatActivity() {
         val waterfallPagerAdapter = WaterfallPagerAdapter(supportFragmentManager)
         val bundle = Bundle()
         val intent = Intent()
-        val toolbar = findViewById<Toolbar>(R.id.toolbar1)
-        waterfall_type_blue.visibility = View.GONE
+        val toolbar = findViewById<Toolbar>(R.id.tb_waterfall)
+        iv_waterfall_type_blue.visibility = View.GONE
         toolbar.apply {
             title = "失物招领"
             setSupportActionBar(this)
@@ -79,17 +79,17 @@ class WaterfallActivity : AppCompatActivity() {
 
         waterfallPagerAdapter.add(foundFragment, "捡到")
         waterfallPagerAdapter.add(lostFragment, "丢失")
-        waterfall_pager.adapter = waterfallPagerAdapter
+        vp_waterfall_pager.adapter = waterfallPagerAdapter
 
-        waterfall_tabLayout.apply {
-            setupWithViewPager(waterfall_pager)
+        tl_waterfall.apply {
+            setupWithViewPager(vp_waterfall_pager)
             tabGravity = TabLayout.GRAVITY_FILL
             setSelectedTabIndicatorColor(Color.parseColor("#00a1e9"))
         }
-        waterfall_type.setOnClickListener { it ->
-            if (waterfall_type_grey.visibility == View.VISIBLE) run {
-                waterfall_type_blue.visibility = View.VISIBLE
-                waterfall_type_grey.visibility = View.GONE
+        rl_waterfall_type.setOnClickListener { it ->
+            if (iv_waterfall_type_grey.visibility == View.VISIBLE) run {
+                iv_waterfall_type_blue.visibility = View.VISIBLE
+                iv_waterfall_type_grey.visibility = View.GONE
 
                 window = PopupWindow(popupWindowView, WRAP_CONTENT, WRAP_CONTENT, true)
                 window.apply {
@@ -99,13 +99,13 @@ class WaterfallActivity : AppCompatActivity() {
                     isFocusable = true
                     showAsDropDown(it)
                     setOnDismissListener {
-                        waterfall_type_grey.visibility = View.VISIBLE
-                        waterfall_type_blue.visibility = View.GONE
+                        iv_waterfall_type_grey.visibility = View.VISIBLE
+                        iv_waterfall_type_blue.visibility = View.GONE
                     }
                 }
-            } else if (waterfall_type_blue.visibility == View.VISIBLE) {
-                waterfall_type_grey.visibility = View.VISIBLE
-                waterfall_type_blue.visibility = View.GONE
+            } else if (iv_waterfall_type_blue.visibility == View.VISIBLE) {
+                iv_waterfall_type_grey.visibility = View.VISIBLE
+                iv_waterfall_type_blue.visibility = View.GONE
             }
 
             popWaterfallTypesAll.typeface = Typeface.DEFAULT
@@ -126,12 +126,12 @@ class WaterfallActivity : AppCompatActivity() {
             }
         }
 
-        waterfall_fab_found.setOnClickListener {
+        fa_waterfall_found.setOnClickListener {
             bundle.putString("lostOrFound", "found")
             intent.putExtras(bundle)
             intent.setClass(this@WaterfallActivity, ReleaseActivity::class.java)
             startActivity(intent)
-            waterfall_fab_menu.close(true)
+            fm_waterfall_all.close(true)
         }
 
         waterfallLost.setOnClickListener {
@@ -139,7 +139,7 @@ class WaterfallActivity : AppCompatActivity() {
             intent.putExtras(bundle)
             intent.setClass(this@WaterfallActivity, ReleaseActivity::class.java)
             startActivity(intent)
-            waterfall_fab_menu.close(true)
+            fm_waterfall_all.close(true)
         }
     }
 
@@ -184,7 +184,7 @@ class WaterfallActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         val itemId = item!!.itemId
-        waterfall_fab_menu.close(true)
+        fm_waterfall_all.close(true)
         val intent = Intent()
 
         when (itemId) {

@@ -25,7 +25,7 @@
 
             <EditText
 
-                android:id="@+id/release_card_num_noname"
+                android:id="@+id/et_release_card_num_noname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

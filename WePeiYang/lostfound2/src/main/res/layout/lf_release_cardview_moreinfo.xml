@@ -24,7 +24,7 @@
                 android:textStyle="normal" />
 
             <EditText
-                android:id="@+id/release_remark"
+                android:id="@+id/et_release_remark"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

@@ -30,8 +30,8 @@ class OtherTagItem(val text3: String, val text2: String) : Item {
     }
 
     private class OtherTagViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val otherTagTitle: TextView = itemView.findViewById(R.id.othertag_title)
-        val otherTagContent: TextView = itemView.findViewById(R.id.othertag_detail)
+        val otherTagTitle: TextView = itemView.findViewById(R.id.tv_othertag_title)
+        val otherTagContent: TextView = itemView.findViewById(R.id.tv_othertag_detail)
     }
 
     override val controller: ItemController

@@ -7,11 +7,9 @@ import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.OrientationHelper
 import android.support.v7.widget.RecyclerView
 import android.view.Window
 import android.support.v7.widget.Toolbar
-import android.util.Log
 import android.widget.EditText
 import android.widget.ImageView
 import com.example.lostfond2.R
@@ -34,12 +32,12 @@ class SearchInitActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE)//隐藏actionbar，需在setContentView前面
         setContentView(R.layout.lf2_activity_search_init)
-        toolbar = findViewById(R.id.search_init_toolbar)
-        imageView = findViewById(R.id.lf2_search_icon_right)
-        recyclerView = findViewById(R.id.lf2_search_hr_rv)
-        imageViewClean = findViewById(R.id.lf2_search_clean)
-        editText = findViewById(R.id.lf2_search_et)
-        imageViewBack = findViewById(R.id.lf2_searchinit_back)
+        toolbar = findViewById(R.id.tb_search_init)
+        imageView = findViewById(R.id.iv_search_init_icon_right)
+        recyclerView = findViewById(R.id.rv_search_init_hr_rv)
+        imageViewClean = findViewById(R.id.iv_search_init_clean)
+        editText = findViewById(R.id.et_search_init_et)
+        imageViewBack = findViewById(R.id.iv_search_init_back)
 
 //        database.use {
 //            createTable(Utils.TABLE_NAME, true,
