@@ -3,9 +3,10 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="ColorPrimary">@color/lfcolorPrimary</item>
+        <item name="ColorPrimaryDark">@color/lfcolorPrimaryDark</item>
+        <item name="colorAccent">@color/lfcolorAccent</item>
+        <item name="android:statusBarColor">@color/lfcolorPrimaryDark</item>
     </style>
 
     <style name="edit_AlertDialog_style" parent="@android:style/Theme.Dialog">
@@ -26,6 +27,11 @@
 
     <style name="SpinnerStyle">
         <item name="android:colorControlNormal">#9A9A9A</item>
+    </style>
+
+    <style name="myEditText" parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">@color/lfcolorAccent</item>
+        <item name="colorControlActivated">@android:color/white</item>
     </style>
 
 </resources>

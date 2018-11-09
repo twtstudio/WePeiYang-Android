@@ -4,7 +4,7 @@
     android:id="@+id/cv_release_confirm"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/colorPrimary"
+    android:background="@color/lfcolorPrimary"
     app:cardCornerRadius="10dp"
     app:cardElevation="1dp">
 
@@ -16,7 +16,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:background="@color/colorPrimary"
+            android:background="@color/lfcolorPrimary"
             android:gravity="center"
             android:text="确认"
             android:textColor="#ffffff" />

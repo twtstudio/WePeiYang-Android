@@ -1,10 +1,18 @@
 package com.yookiely.lostfond2.detail
 
+import android.graphics.drawable.ColorDrawable
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.annotation.IntegerRes
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
+import android.view.*
+import android.widget.ImageView
+import android.widget.PopupWindow
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import android.view.LayoutInflater
 import android.view.Window
 import com.example.lostfond2.R
@@ -17,6 +25,7 @@ import com.twt.wepeiyang.commons.experimental.network.CommonBody
 import com.twt.wepeiyang.commons.ui.rec.withItems
 import com.youth.banner.Banner
 import com.youth.banner.BannerConfig
+import com.youth.banner.listener.OnBannerListener
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 
@@ -32,10 +41,9 @@ class DetailActivity : AppCompatActivity() {
         val id = bundle.getInt("id")
         val recyclerView: RecyclerView = findViewById(R.id.rv_detail)
         recyclerView.layoutManager = LinearLayoutManager(this)
+        val popupWindowView = LayoutInflater.from(applicationContext).inflate(R.layout.lf2_detail_popupwindow, null, false)
+        val popupWindow = PopupWindow(popupWindowView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true)
         val banner: Banner = findViewById(R.id.br_detail_banner)
-        val inflater = LayoutInflater.from(this)
-        val imageView = inflater.inflate(R.layout.lf2_item_imageitem, null)//详情页的多图xml
-
 
         launch(UI + QuietCoroutineExceptionHandler) {
             val myList: CommonBody<DetailData> = LostFoundService.getDetailed(id).await()
@@ -55,21 +63,33 @@ class DetailActivity : AppCompatActivity() {
                     }
                 }
 
-                val dialog = android.support.v7.app.AlertDialog.Builder(this@DetailActivity).create()
-                dialog.setView(imageView) // 自定义dialog
                 banner.apply {
-                    setImageLoader(GlideImagineLoader(imageView))
+                    setImageLoader(GlideImagineLoader(popupWindowView))
                     setImages(images)
 
                     setBannerStyle(BannerConfig.NUM_INDICATOR)
                     isAutoPlay(false)
                     //点击出现大图
-                    setOnBannerListener {
-                        dialog.show()
-                        // 点击布局文件（也可以理解为点击大图）后关闭dialog，这里的dialog不需要按钮
-                        imageView.setOnClickListener {
-                            dialog.cancel()
+                    setOnBannerListener { position ->
+                        popupWindow.apply {
+                            isFocusable = true
+
+                            Glide.with(context)
+                                    .load<Any>(images[position])
+                                    .placeholder(R.drawable.lf_detail_np)
+                                    .error(R.drawable.lf_detail_np)
+                                    .into(popupWindowView.findViewById(R.id.lf2_detail_popupwindow))
+
+                            isOutsideTouchable = true
+                            popupWindow.setBackgroundDrawable(ColorDrawable(ContextCompat.getColor(this@DetailActivity, R.color.white_color)))
+                            bgAlpha(0.5f)
+                            showAsDropDown(toolbar, Gravity.CENTER, 0, 0)
                         }
+                        popupWindow.setOnDismissListener {
+                            // popupWindow隐藏时恢复屏幕正常透明度
+                            bgAlpha(1f)
+                        }
+                        // 点击布局文件（也可以理解为点击大图）
                     }
                     start()
                 }
@@ -155,5 +175,13 @@ class DetailActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         toolbar.setNavigationOnClickListener { onBackPressed() }
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+    }
+
+    private fun bgAlpha(bgAlpha: Float) {
+        //修改屏幕背景色
+        val lp = window.attributes
+        lp.alpha = bgAlpha //0.0-1.0
+        window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+        window.attributes = lp
     }
 }

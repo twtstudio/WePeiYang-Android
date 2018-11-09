@@ -14,7 +14,7 @@
         android:id="@+id/br_detail_banner"
         android:layout_width="match_parent"
         android:layout_height="220dp"
-        app:image_scale_type="center_crop" />
+        app:image_scale_type="fit_center" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_detail"

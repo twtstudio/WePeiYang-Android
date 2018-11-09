@@ -16,7 +16,7 @@
             style="@style/ToolbarStyle"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
+            android:background="@color/lfcolorPrimary"
             android:elevation="0dp"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
@@ -48,14 +48,16 @@
                     android:layout_marginEnd="10dp" />
 
                 <EditText
+                    android:theme="@style/myEditText"
                     android:id="@+id/et_search_init_et"
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="6dp"
                     android:layout_marginEnd="12dp"
                     android:hint="@string/lf2_search_hint"
+                    android:textCursorDrawable="@color/white"
                     app:layout_constraintRight_toLeftOf="@+id/iv_search_init_icon_right"
-                    android:singleLine="false" />
+                    android:singleLine="true" />
 
 
             </android.support.constraint.ConstraintLayout>

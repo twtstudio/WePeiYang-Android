@@ -28,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:text="@string/release_updatePic"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/lfcolorPrimary"
                 android:textSize="35px" />
 
             <android.support.v7.widget.RecyclerView
@@ -42,7 +42,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="@string/release_moreInfo"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/lfcolorPrimary"
                 android:textSize="35px" />
 
             <include
@@ -57,7 +57,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:text="类型"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/lfcolorPrimary"
                 android:textSize="35px" />
 
             <android.support.v7.widget.RecyclerView
@@ -76,7 +76,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="领取站点"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/lfcolorPrimary"
                     android:textSize="35px" />
 
                 <TextView
@@ -101,7 +101,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:text="丢失物信息"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/lfcolorPrimary"
                 android:textSize="35px" />
 
             <include
@@ -123,7 +123,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:text="联系方式"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/lfcolorPrimary"
                 android:textSize="35px" />
 
             <include
@@ -137,7 +137,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:text="附加信息"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/lfcolorPrimary"
                 android:textSize="35px" />
 
             <include
@@ -151,7 +151,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:text="发布时间"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/lfcolorPrimary"
                 android:textSize="35px" />
 
             <include
