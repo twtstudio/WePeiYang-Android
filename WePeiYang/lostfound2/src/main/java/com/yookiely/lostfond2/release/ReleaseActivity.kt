@@ -85,7 +85,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         super.onCreate(savedInstanceState)
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
         setContentView(com.example.lostfond2.R.layout.lf2_activity_release)
-        val toolbar = findViewById<Toolbar>(R.id.tb_common)
+        val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setToolbarView(toolbar)
         cv_release_delete.visibility = View.GONE
         if (toolbar != null) {
