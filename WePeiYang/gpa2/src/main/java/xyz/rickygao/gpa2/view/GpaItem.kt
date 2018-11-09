@@ -27,6 +27,8 @@ import xyz.rickygao.gpa2.service.Term
  * Created by asus on 2018/5/13.
  */
 class GpaItem(val owner: LifecycleOwner) : Item {
+    override fun areItemsTheSame(newItem: Item) = true
+    override fun areContentsTheSame(newItem: Item) = true
 
     private companion object Controller : ItemController {
         override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
@@ -57,7 +59,7 @@ class GpaItem(val owner: LifecycleOwner) : Item {
             val gpaMiniLineChartView: GpaMiniLineChartView = itemView.findViewById(R.id.gpa_mini)
 
             fun bind(lifecycleOwner: LifecycleOwner) {
-                cardView.setOnClickListener {
+                homeItem.rootView.setOnClickListener {
                     val intent = Intent(itemView.context, GpaActivity::class.java)
                     itemView.context.startActivity(intent)
                 }

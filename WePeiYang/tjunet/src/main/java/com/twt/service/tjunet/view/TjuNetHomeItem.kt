@@ -16,6 +16,9 @@ import org.jetbrains.anko.layoutInflater
 import org.jetbrains.anko.startActivity
 
 class TjuNetHomeItem(val lifecycleOwner: LifecycleOwner) : Item {
+    override fun areItemsTheSame(newItem: Item) = true
+    override fun areContentsTheSame(newItem: Item) = true
+
     companion object Controller : ItemController {
         override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
             val view = parent.context.layoutInflater.inflate(R.layout.tjunet_home_network, parent, false)

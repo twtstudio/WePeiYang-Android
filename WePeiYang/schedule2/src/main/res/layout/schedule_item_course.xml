@@ -15,6 +15,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:fontFamily="@font/montserrat"
         android:gravity="center"
         android:paddingStart="2dp"
         android:paddingEnd="2dp"/>

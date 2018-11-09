@@ -1,8 +1,0 @@
-<resources>
-    <string name="app_name">News</string>
-    <string name="gonggao">供稿：</string>
-    <string name="shengao">审稿：</string>
-    <string name="sheying">摄影：</string>
-    <string name="laiyuan">来源：</string>
-    <string name="yuedu">阅读：</string>
-</resources>

@@ -177,7 +177,7 @@ public class BlurPopupWindow extends FrameLayout {
         params.format = PixelFormat.RGBA_8888;
 
         int statusBarHeight = 0;
-        int navigationBarHeight = BlurPopupWindow.getNaviHeight(mActivity);
+        int navigationBarHeight = 0;
         int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
         if (resourceId > 0) {
             statusBarHeight = getResources().getDimensionPixelSize(resourceId);

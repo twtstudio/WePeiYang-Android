@@ -3,11 +3,13 @@ package com.twt.service.schedule2.view.home
 import android.arch.lifecycle.LifecycleOwner
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.Typeface
 import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.AbsoluteSizeSpan
+import android.text.style.StyleSpan
 import android.text.style.TypefaceSpan
 import android.util.Log
 import android.view.Gravity
@@ -18,9 +20,7 @@ import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.twt.service.schedule2.R
-import com.twt.service.schedule2.extensions.currentUnixTime
-import com.twt.service.schedule2.extensions.flatDay
-import com.twt.service.schedule2.extensions.getDayOfWeek
+import com.twt.service.schedule2.extensions.*
 import com.twt.service.schedule2.model.Course
 import com.twt.service.schedule2.model.total.TotalCourseManager
 import com.twt.service.schedule2.view.schedule.ScheduleActivity
@@ -35,8 +35,13 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class ScheduleHomeItem(val lifecycleOwner: LifecycleOwner) : Item {
+    override fun areItemsTheSame(newItem: Item): Boolean = true
+
+    override fun areContentsTheSame(newItem: Item) = true
+
     companion object Controller : ItemController {
         override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
+
             val homeItem = HomeItem(parent)
             val view = parent.context.linearLayout {
                 orientation = LinearLayout.HORIZONTAL
@@ -55,6 +60,12 @@ class ScheduleHomeItem(val lifecycleOwner: LifecycleOwner) : Item {
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: Item) {
             holder as ViewHolder
             item as ScheduleHomeItem
+            holder.homeItem.apply {
+                rootView.setOnClickListener {
+                    val intent = Intent(it.context, ScheduleActivity::class.java)
+                    it.context.startActivity(intent)
+                }
+            }
             TotalCourseManager.getTotalCourseManager().bindNonNull(item.lifecycleOwner) {
                 // 定义两个Time 一个是今天 一个是明天
                 val currentUnixTime = it.currentUnixTime
@@ -98,10 +109,7 @@ class ScheduleHomeItem(val lifecycleOwner: LifecycleOwner) : Item {
                     val contentTextPrefix = if (displayTomorrow) "<span style=\"color:#E70C57\";>明天 </span>" else "今天"
                     val contentText = if (count > 0) "有<span style=\"color:#E70C57\";>${count}</span>节课" else "没课！"
                     itemContent.text = (contentTextPrefix + contentText).spanned
-                    rootView.setOnClickListener {
-                        val intent = Intent(it.context, ScheduleActivity::class.java)
-                        it.context.startActivity(intent)
-                    }
+
                 }
             }
         }
@@ -179,12 +187,19 @@ class ScheduleHomeItem(val lifecycleOwner: LifecycleOwner) : Item {
                     text += course.statusMessage
                     text += "${course.coursename}\n@${course.arrange[0].room} "
 
-                    val stringSpan = SpannableString(course.coursename + "\n \n" + course.arrange[0].room)
-                    stringSpan.setSpan(TypefaceSpan("sans-serif-medium"), 0, course.coursename.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-                    stringSpan.setSpan(AbsoluteSizeSpan(14, true), 0, course.coursename.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-                    stringSpan.setSpan(AbsoluteSizeSpan(2, true), course.coursename.length, course.coursename.length + 3, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-                    stringSpan.setSpan(TypefaceSpan("sans-serif-regular"), course.coursename.length + 3, stringSpan.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-                    stringSpan.setSpan(AbsoluteSizeSpan(12, true), course.coursename.length + 3, stringSpan.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                    val roomCluster = course.arrange[0].room.split("楼")
+                    val divider = "\n \n"
+                    val creditDisplayed = "—— " + course.credit + " ——"
+                    val courseNameSpanSize = if (course.coursename.length > 6) 13 else 15
+
+                    val stringSpan = spannable {
+                        absSize(10, creditDisplayed) +
+                                absSize(3, divider) +
+                                span(course.coursename, listOf(StyleSpan(Typeface.BOLD), AbsoluteSizeSpan(courseNameSpanSize, true))) +
+                                absSize(4, divider) +
+                                absSize(10, roomCluster.joinToString(separator = "-"))
+                    }
+
                     /**
                      * 因为Rec的view是存在着缓存 在后面私自addView后 就会加到缓存里面去
                      * 但是不知道谁会取出这个缓存 使用就会存在蜜汁多节课程角标的问题

@@ -11,6 +11,7 @@ import com.github.piasy.biv.loader.glide.GlideImageLoader
 import com.tencent.bugly.Bugly
 import com.tencent.bugly.crashreport.CrashReport
 import com.twt.service.push.DebugProxyService
+import com.twt.service.settings.SingleBindActivity
 import com.twt.service.tjunet.reconnect.ReconnectJob
 import com.twt.service.welcome.WelcomeActivity
 import com.twt.wepeiyang.commons.experimental.CommonContext
@@ -32,6 +33,7 @@ class WePeiYangApp : MultiDexApplication() {
             registerApplication(this@WePeiYangApp)
             registerActivity("login", LoginActivity::class.java)
             registerActivity("welcome", WelcomeActivity::class.java)
+            registerActivity("bind", SingleBindActivity::class.java)
         }
 
         applicationContext.let {
@@ -42,8 +44,8 @@ class WePeiYangApp : MultiDexApplication() {
         }
 
         val defaults: Defaults = Defaults(
-                primaryColor = CustomTheme.customPeppaPink,
-                accentColor = CustomTheme.customPeppaPink,
+                primaryColor = CustomTheme.customPollia,
+                accentColor = CustomTheme.customPollia,
                 useDarkTheme = false,
                 translucent = false,
                 customTheme = 0)

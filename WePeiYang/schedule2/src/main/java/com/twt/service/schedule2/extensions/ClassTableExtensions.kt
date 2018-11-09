@@ -46,7 +46,7 @@ val List<Course>.todayAvailable: MutableList<Course>
     get() = this.filter { it.dayAvailable && it.weekAvailable }.toMutableList()
 
 /**
- * 用于获取当天课程之后的操作 -> 获取在本天但是非本周的课程 反映为彩色课程
+ * 用于获取当天课程之后的操作 -> 获取在本天但是非本周的课程 反映为hui色课程
  */
 val List<Course>.todayUnavailable: List<Course>
     get() {

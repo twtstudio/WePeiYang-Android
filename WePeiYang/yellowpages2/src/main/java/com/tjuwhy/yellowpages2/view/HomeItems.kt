@@ -361,12 +361,20 @@ class SearchResultItem(val context: Context, val searchBean: SearchBean, val que
 
         private fun matchText(text: String, keyword: String): SpannableString {
             val ss = SpannableString(text)
-            val pattern: Pattern = Pattern.compile(keyword)
-            val matcher: Matcher = pattern.matcher(ss)
-            while (matcher.find()) {
-                val start: Int = matcher.start()
-                val end: Int = matcher.end()
-                ss.setSpan(ForegroundColorSpan(Color.parseColor("#45a0e3")), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+            val patternList: ArrayList<Pattern> = ArrayList()
+            keyword.forEach {
+                patternList.add(Pattern.compile(it.toString()))
+            }
+            val matcherList: ArrayList<Matcher>? = ArrayList()
+            patternList.forEach {
+                matcherList!!.add(it.matcher(ss))
+            }
+            matcherList!!.forEach {
+                while (it.find()){
+                    val start: Int = it.start()
+                    val end: Int = it.end()
+                    ss.setSpan(ForegroundColorSpan(Color.parseColor("#45a0e3")), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                }
             }
             return ss
         }
