@@ -36,6 +36,7 @@ class DetailActivity : AppCompatActivity() {
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
         setContentView(R.layout.lf2_activity_detail)
         val toolbar: Toolbar = findViewById(R.id.toolbar)
+
         val bundle: Bundle = intent.extras
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         val id = bundle.getInt("id")
