@@ -89,17 +89,17 @@ class WaterfallFragment : Fragment(), WaterfallContract.WaterfallView {
             } else {
                 View.GONE
             }
-
-            if (isRefresh) {
-                beanList.clear()
-            }
-
-            beanList.addAll(waterfallBean)
-            tableAdapter.notifyDataSetChanged()
-            sr_waterfall_refresh.isRefreshing = false
-            isLoading = false
-            isRefresh = false
         }
+
+        if (isRefresh) {
+            beanList.clear()
+        }
+
+        beanList.addAll(waterfallBean)
+        tableAdapter.notifyDataSetChanged()
+        sr_waterfall_refresh.isRefreshing = false
+        isLoading = waterfallBean.isEmpty() && page == 1
+        isRefresh = false
     }
 
     override fun loadWaterfallDataWithCondition(type: Int, time: Int) {

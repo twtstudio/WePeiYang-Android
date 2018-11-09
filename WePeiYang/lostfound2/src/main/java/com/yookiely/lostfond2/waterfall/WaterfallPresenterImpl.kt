@@ -28,7 +28,6 @@ class WaterfallPresenterImpl(var waterfallView: WaterfallContract.WaterfallView)
                     "lost" -> LostFoundService.getLost(campus, page, 0, time).await()
                     else -> LostFoundService.getFound(campus, page, 0, time).await()
                 }.let {
-                    Log.d("momom", it.data!![0].picture.toString())
                     if (it.error_code == -1) {
                         setWaterfallData(it.data!!)
                     }
@@ -49,7 +48,6 @@ class WaterfallPresenterImpl(var waterfallView: WaterfallContract.WaterfallView)
                         else -> LostFoundService.getFound(campus, page, type, time).await()
                     }
 
-                    Log.d("momom", dataList.data!![0].picture.toString())
                     if (dataList.error_code == -1) {
                         setWaterfallData(dataList.data!!)
                     }
