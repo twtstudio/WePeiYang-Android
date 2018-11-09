@@ -9,6 +9,7 @@ import android.os.Looper
 import android.support.constraint.ConstraintLayout
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewPager
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -53,7 +54,7 @@ class ProblemActivity : AppCompatActivity(), ProblemActivityInterface {
     var time: Int = 0
     var currentFragmentIndex = 0
 
-    private lateinit var testBean: TestBean
+    private var testBean: TestBean? = null
 
     private lateinit var clProblem: ConstraintLayout
     private lateinit var tvLeft: TextView
@@ -209,7 +210,7 @@ class ProblemActivity : AppCompatActivity(), ProblemActivityInterface {
                                     answered++
                             }
                             AlertDialog.Builder(it.context).apply {
-                                setMessage("本次测试共${testBean.question.size}题\n\n你已完成${answered}题\n\n" +
+                                setMessage("本次测试共${testBean?.question?.size}题\n\n你已完成${answered}题\n\n" +
                                         "是否交卷？")
                                 setPositiveButton("交卷") { _, _ -> uploadResult() }
                                 setNegativeButton("取消") { _, _ -> }
@@ -239,7 +240,7 @@ class ProblemActivity : AppCompatActivity(), ProblemActivityInterface {
         }
         if (mode == CONTEST && answered == size - 1) {
             AlertDialog.Builder(this@ProblemActivity).apply {
-                setMessage("本次测试共${testBean.question.size}题\n\n你全部完成\n\n" +
+                setMessage("本次测试共${testBean?.question?.size}题\n\n你全部完成\n\n" +
                         "是否交卷？")
                 setPositiveButton("交卷") { _, _ -> uploadResult() }
                 setNegativeButton("取消") { _, _ -> }
@@ -258,13 +259,13 @@ class ProblemActivity : AppCompatActivity(), ProblemActivityInterface {
             when (it) {
                 is RefreshState.Failure -> {
                     Toasty.error(this@ProblemActivity, "网络错误", Toast.LENGTH_SHORT).show()
+                    Log.e("ProblemActivity: ", it.throwable.toString())
                 }
                 is RefreshState.Success -> {
                     Toasty.success(this@ProblemActivity, "交卷成功！", Toast.LENGTH_SHORT).show()
                     val intent = Intent(this@ProblemActivity, ScoreActivity::class.java)
                     intent.putExtra(ScoreActivity.TEST_TIME_KEY, System.currentTimeMillis() - startTime)
                     intent.putExtra(ScoreActivity.SCORE_BEAN_KEY, it.message.data)
-                    intent.putExtra(ScoreActivity.PROBLEM_FOR_TEST_KEY, testBean)
                     this@ProblemActivity.startActivity(intent)
                     finish()
                 }
@@ -296,7 +297,7 @@ class ProblemActivity : AppCompatActivity(), ProblemActivityInterface {
     }
 
     override fun onBackPressed() {
-        if (mode == READ_AND_PRACTICE)
+        if (mode == READ_AND_PRACTICE || testBean == null)
             super.onBackPressed()
         else {
             var answered = 0
@@ -305,7 +306,7 @@ class ProblemActivity : AppCompatActivity(), ProblemActivityInterface {
                     answered++
             }
             AlertDialog.Builder(this@ProblemActivity).apply {
-                this.setTitle("\n本次测试共${testBean.question.size}题,你已完成${answered}题")
+                this.setTitle("\n本次测试共${testBean?.question?.size}题,你已完成${answered}题")
                 setMessage("直接退出将不保存此次做题记录\n是否交卷？")
                 setPositiveButton("交卷") { _, _ -> uploadResult() }
                 setNegativeButton("取消") { _, _ -> Unit }

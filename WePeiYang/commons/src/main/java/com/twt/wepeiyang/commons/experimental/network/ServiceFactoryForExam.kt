@@ -10,11 +10,8 @@ import java.util.concurrent.TimeUnit
 
 object ServiceFactoryForExam {
 
-    private const val TRUSTED_HOST = "exam.twtstudio.com"
+    internal const val TRUSTED_HOST = "exam.twtstudio.com"
     private const val BASE_URL = "https://$TRUSTED_HOST/api/"
-
-    internal const val APP_KEY = "9GTdynvrCm1EKKFfVmTC"
-    internal const val APP_SECRET = "1aVhfAYBFUfqrdlcT621d9d6OzahMI"
 
     private val loggingInterceptor = HttpLoggingInterceptor()
             .apply { level = HttpLoggingInterceptor.Level.BODY }

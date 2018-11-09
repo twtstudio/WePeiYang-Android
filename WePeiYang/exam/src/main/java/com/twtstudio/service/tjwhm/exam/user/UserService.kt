@@ -45,8 +45,7 @@ fun getCollections(starOrWrong: String, callback: suspend (RefreshState<CommonBo
             UserService.getCollections(starOrWrong).awaitAndHandle {
                 callback(RefreshState.Failure(it))
             }?.let {
-                if (it.error_code == 0)
-                    callback(RefreshState.Success(it))
+                callback(RefreshState.Success(it))
             }
         }
 
@@ -81,13 +80,13 @@ data class UserBean(
         val error_count: String,
         val course_count: Int,
         val collect_count: String,
-        val current_course_id: String,
-        val current_course_name: String,
-        val current_course_done_count: Int,
-        val current_ques_type: String,
-        val current_course_ques_count: String,
-        val current_course_index: Int,
-        val current_course_write_string: String,
+        val current_course_id: String?,
+        val current_course_name: String?,
+        val current_course_done_count: Int?,
+        val current_ques_type: String?,
+        val current_course_ques_count: String?,
+        val current_course_index: Int?,
+        val current_course_write_string: String?,
         val current_course_error_option: Any,
         val latest_course_name: String,
         val latest_course_timestamp: Int,
@@ -95,7 +94,7 @@ data class UserBean(
 )
 
 data class QSelect(
-        val id: Int,
+        val course_id: Int,
         val course_name: String
 )
 
@@ -109,5 +108,6 @@ data class OneHistoryBean(
         val done_count: String,
         val done_index: String,
         val timestamp: String,
+        val time: String,
         val score: String
 )

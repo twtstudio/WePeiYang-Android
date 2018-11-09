@@ -4,7 +4,7 @@ import okhttp3.Interceptor
 import okhttp3.Request
 
 internal inline val Request.isTrusted
-    get() = url().host() == ServiceFactory.TRUSTED_HOST
+    get() = (url().host() == ServiceFactory.TRUSTED_HOST) || (url().host() == ServiceFactoryForExam.TRUSTED_HOST)
 
 /**
  * A wrapped interceptor only applied to trusted request.

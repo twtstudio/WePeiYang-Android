@@ -1,19 +1,24 @@
 package com.twtstudio.service.tjwhm.exam.user.history
 
 import android.content.Context
+import android.content.Intent
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import com.twt.wepeiyang.commons.experimental.cache.RefreshState
 import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemController
 import com.twtstudio.service.tjwhm.exam.R
 import com.twtstudio.service.tjwhm.exam.commons.startProblemActivity
 import com.twtstudio.service.tjwhm.exam.commons.toMode
 import com.twtstudio.service.tjwhm.exam.commons.toProblemType
-import com.twtstudio.service.tjwhm.exam.list.TypeSelectPopup
 import com.twtstudio.service.tjwhm.exam.problem.ProblemActivity
+import com.twtstudio.service.tjwhm.exam.problem.getTestHistory
+import com.twtstudio.service.tjwhm.exam.problem.score.ScoreActivity
 import com.twtstudio.service.tjwhm.exam.user.OneHistoryBean
+import es.dmoral.toasty.Toasty
 import org.jetbrains.anko.layoutInflater
 import java.text.SimpleDateFormat
 import java.util.*
@@ -41,8 +46,19 @@ class HistoryItem(val context: Context, val oneHistoryBean: OneHistoryBean) : It
                 if (item.oneHistoryBean.type.toInt().toMode() == "模拟测试") {
                     tvProblemType?.visibility = View.GONE
                     itemView.setOnClickListener {
-                        val popup = TypeSelectPopup(item.context, null, Pair(tvTitle!!.x, tvTitle.y), item.oneHistoryBean.course_id.toInt(), true)
-                        popup.show()
+                        getTestHistory(item.oneHistoryBean.time) {
+                            when (it) {
+                                is RefreshState.Failure -> {
+                                    Toasty.error(itemView.context, "网络错误").show()
+                                    Log.e("HistoryItem: ", it.throwable.toString())
+                                }
+                                is RefreshState.Success -> {
+                                    val intent = Intent(itemView.context, ScoreActivity::class.java)
+                                    intent.putExtra(ScoreActivity.SCORE_BEAN_KEY, it.message.data)
+                                    itemView.context.startActivity(intent)
+                                }
+                            }
+                        }
                     }
                 } else {
                     tvProblemType?.text = item.oneHistoryBean.ques_type.toInt().toProblemType()

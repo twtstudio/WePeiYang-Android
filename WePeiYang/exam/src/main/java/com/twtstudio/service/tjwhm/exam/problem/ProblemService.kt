@@ -26,11 +26,14 @@ interface ProblemService {
 
     @Multipart
     @POST("remember/mark")
-    fun mark(@Part list: MutableList<MultipartBody.Part>): Deferred<CommonBody<Unit>>
+    fun mark(@Part list: MutableList<MultipartBody.Part>) // : Deferred<CommonBody<Unit>>
 
     @Multipart
     @POST("remember/current_course/write")
-    fun write(@Part list: MutableList<MultipartBody.Part>): Deferred<CommonBody<Unit>>
+    fun write(@Part list: MutableList<MultipartBody.Part>) // : Deferred<CommonBody<Unit>>
+
+    @GET("student/exercise_result")
+    fun getTestHistory(@Query("time") time: String): Deferred<CommonBody<ScoreBean>>
 
     companion object : ProblemService by ServiceFactoryForExam()
 }
@@ -96,6 +99,15 @@ fun write(courseID: String, quesType: String, index: String) = launch(UI) {
     ProblemService.write(list)
 }
 
+fun getTestHistory(time: String, callback: suspend (RefreshState<CommonBody<ScoreBean>>) -> Unit) =
+        launch(UI) {
+            ProblemService.getTestHistory(time).awaitAndHandle {
+                callback(RefreshState.Failure(it))
+            }?.let {
+                callback(RefreshState.Success(it))
+            }
+        }
+
 data class ProblemBean(
         val ques_id: Int,
         val class_id: String,
@@ -132,20 +144,24 @@ data class UpdateResultViewModel(
 
 
 data class ScoreBean(
-        val timestamp: Int,
-        val score: Int,
         val correct_num: Int,
+        val course_id: String,
         val error_num: Int,
         val not_done_num: Int,
-        val result: List<ResultBean>
+        val result: List<ResultBean>,
+        val score: Int,
+        val time: String,
+        val timestamp: Long
 ) : Serializable
 
 data class ResultBean(
-        val ques_id: Int,
-        val ques_type: Int,
-        val is_done: Int,
         val answer: String,
-        val true_answer: String,
         val is_collected: Int,
-        val is_true: Int
+        val is_done: Int,
+        val is_true: Int,
+        val ques_content: String,
+        val ques_id: Int,
+        val ques_option: List<String>,
+        val ques_type: Int,
+        val true_answer: String
 ) : Serializable

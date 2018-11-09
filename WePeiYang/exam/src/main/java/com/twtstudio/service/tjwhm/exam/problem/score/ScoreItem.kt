@@ -1,7 +1,6 @@
 package com.twtstudio.service.tjwhm.exam.problem.score
 
 import android.annotation.SuppressLint
-import android.app.AlertDialog
 import android.content.Context
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
@@ -24,8 +23,6 @@ import com.twtstudio.service.tjwhm.exam.user.star.StarActivity
 import es.dmoral.toasty.Toasty
 import okhttp3.MultipartBody
 import org.jetbrains.anko.layoutInflater
-import android.content.Intent
-import android.net.Uri
 
 
 /**
@@ -33,7 +30,7 @@ import android.net.Uri
  * Happy coding!
  */
 
-class ScoreItem(val index: Int, val context: Context, val testProblemBean: TestProblemBean, val resultBean: ResultBean) : Item {
+class ScoreItem(val index: Int, val context: Context, val resultBean: ResultBean) : Item {
     override val controller: ItemController
         get() = Controller
 
@@ -48,7 +45,7 @@ class ScoreItem(val index: Int, val context: Context, val testProblemBean: TestP
             holder as ItemViewHolder
             item as ScoreItem
             holder.apply {
-                tvProblemTitle?.text = (item.index + 1).toString() + "." + Html.fromHtml(item.testProblemBean.content).toString()
+                tvProblemTitle?.text = (item.index + 1).toString() + "." + Html.fromHtml(item.resultBean.ques_content).toString()
                 tvRightAnswer?.text = "正确答案：${item.resultBean.true_answer}"
                 if (item.resultBean.answer == "")
                     tvUserAnswer?.text = "未做"
@@ -58,8 +55,8 @@ class ScoreItem(val index: Int, val context: Context, val testProblemBean: TestP
                 else tvUserAnswer?.setTextColor(ContextCompat.getColor(item.context, R.color.examTextRed))
                 rvScoreSelections?.layoutManager = LinearLayoutManager(item.context)
                 rvScoreSelections?.withItems {
-                    repeat(item.testProblemBean.option.size) {
-                        selectionItem(null, it.toSelectionIndex(), item.testProblemBean.option[it], SelectionItem.NONE)
+                    repeat(item.resultBean.ques_option.size) {
+                        selectionItem(null, it.toSelectionIndex(), item.resultBean.ques_option[it], SelectionItem.NONE)
                     }
                 }
                 item.isCollected = item.resultBean.is_collected == 1
@@ -70,7 +67,7 @@ class ScoreItem(val index: Int, val context: Context, val testProblemBean: TestP
                     ivStar?.setImageResource(R.drawable.exam_ic_star_blank)
 
 
-                ivStar?.setOnClickListener { _ ->
+                ivStar?.setOnClickListener {
                     if (!item.isCollected) {
                         val list = MultipartBody.Builder()
                                 .setType(MultipartBody.FORM)
@@ -120,4 +117,4 @@ class ScoreItem(val index: Int, val context: Context, val testProblemBean: TestP
     }
 }
 
-fun MutableList<Item>.scoreItem(index: Int, context: Context, testProblemBean: TestProblemBean, resultBean: ResultBean) = add(ScoreItem(index, context, testProblemBean, resultBean))
+fun MutableList<Item>.scoreItem(index: Int, context: Context, resultBean: ResultBean) = add(ScoreItem(index, context, resultBean))

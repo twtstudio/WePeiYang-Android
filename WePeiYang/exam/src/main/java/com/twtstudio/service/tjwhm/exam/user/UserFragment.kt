@@ -25,6 +25,7 @@ class UserFragment : Fragment() {
     private lateinit var tvUserName: TextView
     private lateinit var tvUserTitle: TextView
     private lateinit var tvProblemsNum: TextView
+    private lateinit var tvProblemsRadioTitle: TextView
     private lateinit var tvProblemsRadio: TextView
     private lateinit var tvLessonsNum: TextView
     private lateinit var tvLessonsDetail: TextView
@@ -39,6 +40,7 @@ class UserFragment : Fragment() {
         tvUserName = view.findViewById(R.id.tv_user_name)
         tvUserTitle = view.findViewById(R.id.tv_user_title)
         tvProblemsNum = view.findViewById(R.id.tv_already_problems_num)
+        tvProblemsRadioTitle = view.findViewById(R.id.tv_user_radio_title)
         tvProblemsRadio = view.findViewById(R.id.tv_user_radio)
         tvLessonsNum = view.findViewById(R.id.tv_already_lesson_num)
         tvLessonsDetail = view.findViewById<TextView>(R.id.tv_user_lessons_detail).apply { visibility = View.GONE }
@@ -76,9 +78,14 @@ class UserFragment : Fragment() {
             tvUserTitle.text = it.title_name
 
             tvProblemsNum.text = it.done_count
-            var radioText = ((it.error_count.toDouble() / it.done_count.toDouble()).toString() + "00").substring(2, 4)
-            if (radioText[0] == '0') radioText = radioText.removeRange(0, 1)
-            tvProblemsRadio.text = "$radioText%"
+            if (it.done_count != "0") {
+                var radioText = ((it.error_count.toDouble() / it.done_count.toDouble()).toString() + "00").substring(2, 4)
+                if (radioText[0] == '0') radioText = radioText.removeRange(0, 1)
+                tvProblemsRadio.text = "$radioText%"
+            } else {
+                tvProblemsRadioTitle.visibility = View.INVISIBLE
+                tvProblemsRadio.visibility = View.INVISIBLE
+            }
             tvLessonsNum.text = it.course_count.toString()
         }
     }

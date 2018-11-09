@@ -1,7 +1,6 @@
 include ':app',
         ':commons',
         ':tjulibrary',
-        ':schedule',
         ':gpa2',
         ':auth',
         ':bike',

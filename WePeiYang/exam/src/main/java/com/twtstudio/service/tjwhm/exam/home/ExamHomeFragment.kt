@@ -76,7 +76,7 @@ class ExamHomeFragment : Fragment(), View.OnClickListener {
         tvCurrentNum = view.findViewById(R.id.tv_current_num)
         tvCurrentEnter = view.findViewById(R.id.tv_continue_current_course)
 
-        rvQuick.layoutManager = StaggeredGridLayoutManager(3, LinearLayoutManager.HORIZONTAL)
+        rvQuick.layoutManager = StaggeredGridLayoutManager(2, LinearLayoutManager.HORIZONTAL)
 
         examUserLiveData.bindNonNull(this, ::bindHomeData)
         return view
@@ -106,21 +106,27 @@ class ExamHomeFragment : Fragment(), View.OnClickListener {
         rvQuick.withItems {
             repeat(userBean.qSelect.size) { index ->
                 context?.let {
-                    this@ExamHomeFragment.activity?.let { it1 -> quickSelectItem(it1, userBean.qSelect[index].id, userBean.qSelect[index].course_name) }
+                    this@ExamHomeFragment.activity?.let { it1 -> quickSelectItem(it1, userBean.qSelect[index].course_id, userBean.qSelect[index].course_name) }
                 }
             }
         }
         tvNews.text = "${userBean.latest_course_name}已更新"
         tvNewsTime.text = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA).format(Date(userBean.latest_course_timestamp.toLong() * 1000L))
-        tvCurrentTitle.text = userBean.current_course_name
-        tvCurrentType.text = userBean.current_ques_type.toInt().toProblemType()
-        tvCurrentIndex.text = "当前题目: ${userBean.current_course_index + 1}"
-        tvCurrentNum.text = "进度: ${userBean.current_course_done_count}/${userBean.current_course_ques_count}"
-        tvCurrentEnter.setOnClickListener {
-            context?.startProblemActivity(ProblemActivity.READ_AND_PRACTICE,
-                    userBean.current_course_id.toInt(),
-                    userBean.current_ques_type.toInt(),
-                    userBean.current_course_index)
+        if (userBean.current_course_id != null) {
+            tvCurrentTitle.text = userBean.current_course_name
+            tvCurrentType.text = userBean.current_ques_type?.toInt()?.toProblemType()
+            tvCurrentIndex.text = "当前题目: ${userBean.current_course_index?.plus(1)}"
+            tvCurrentNum.text = "进度: ${userBean.current_course_done_count}/${userBean.current_course_ques_count}"
+            tvCurrentEnter.setOnClickListener {
+                context?.startProblemActivity(ProblemActivity.READ_AND_PRACTICE,
+                        userBean.current_course_id.toInt(),
+                        userBean.current_ques_type?.toInt(),
+                        userBean.current_course_index)
+            }
+            tvCurrentEnter.visibility = View.VISIBLE
+        } else {
+            tvCurrentTitle.text = "你还未练习过题目哦，快去刷题吧~"
+            tvCurrentEnter.visibility = View.INVISIBLE
         }
     }
 }

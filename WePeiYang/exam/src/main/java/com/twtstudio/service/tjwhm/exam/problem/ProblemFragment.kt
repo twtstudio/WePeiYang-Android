@@ -164,7 +164,6 @@ class ProblemFragment : Fragment() {
                     is RefreshState.Success -> {
                         // 在 service 中已经判断 data 不为空
                         it.message.data!!.apply {
-                            //                            this@ProblemFragment.type = type
                             tvType.text = this.ques_type.toProblemType()
                             tvTitle.text = Html.fromHtml(this.content)
                             tvTitle.setOnLongClickListener {

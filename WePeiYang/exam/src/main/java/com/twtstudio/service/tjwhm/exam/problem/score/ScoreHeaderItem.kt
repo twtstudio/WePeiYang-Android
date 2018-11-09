@@ -18,15 +18,19 @@ import java.util.*
  * Happy coding!
  */
 
-class ScoreHeaderItem(val testTime: Long, val scoreBean: ScoreBean) : Item {
+class ScoreHeaderItem(val type: Int, val testTime: Long, val scoreBean: ScoreBean) : Item {
     override val controller: ItemController
         get() = Controller
 
     companion object Controller : ItemController {
+
+        const val TYPE_TIME = 0
+        const val TYPE_TIMESTAMP = 1
+
         override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder =
                 ItemViewHolder(parent.context.layoutInflater.inflate(R.layout.exam_item_score_header, parent, false))
 
-        @SuppressLint("SetTextI18n")
+        @SuppressLint("SetTextI18n", "SimpleDateFormat")
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: Item) {
             holder as ItemViewHolder
             item as ScoreHeaderItem
@@ -36,7 +40,13 @@ class ScoreHeaderItem(val testTime: Long, val scoreBean: ScoreBean) : Item {
                 if (radioText[0] == '0') radioText = radioText.removeRange(0, 1)
                 tvProblemRadio?.text = "正确率：$radioText%"
                 tvWrongNum?.text = item.scoreBean.error_num.toString()
-                tvTime?.text = SimpleDateFormat("mm:ss").format(Date(item.testTime))
+                if (item.type == TYPE_TIME) {
+                    tvTimeTitle?.text = "持续时间"
+                    tvTime?.text = SimpleDateFormat("mm:ss").format(Date(item.testTime))
+                } else if (item.type == TYPE_TIMESTAMP) {
+                    tvTimeTitle?.text = "提交时间"
+                    tvTime?.text = SimpleDateFormat("yyyy-MM-dd\n  HH:mm:ss").format(Date(item.testTime))
+                }
             }
         }
 
@@ -45,9 +55,10 @@ class ScoreHeaderItem(val testTime: Long, val scoreBean: ScoreBean) : Item {
     private class ItemViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
         val tvProblemNum: TextView? = itemView?.findViewById(R.id.tv_score_problem_num)
         val tvProblemRadio: TextView? = itemView?.findViewById(R.id.tv_score_problem_radio)
+        val tvTimeTitle: TextView? = itemView?.findViewById(R.id.tv_score_time_title)
         val tvTime: TextView? = itemView?.findViewById(R.id.tv_score_time)
         val tvWrongNum: TextView? = itemView?.findViewById(R.id.tv_score_wrong_num)
     }
 }
 
-fun MutableList<Item>.scoreHeaderItem(testTime: Long, scoreBean: ScoreBean) = add(ScoreHeaderItem(testTime, scoreBean))
+fun MutableList<Item>.scoreHeaderItem(type: Int, testTime: Long, scoreBean: ScoreBean) = add(ScoreHeaderItem(type, testTime, scoreBean))

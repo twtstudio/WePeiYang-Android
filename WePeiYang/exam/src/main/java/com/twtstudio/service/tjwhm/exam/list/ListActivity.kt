@@ -17,7 +17,6 @@ import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
 import com.twt.wepeiyang.commons.ui.rec.ItemAdapter
-import com.twt.wepeiyang.commons.ui.rec.refreshAll
 
 
 class ListActivity : AppCompatActivity(), ListActivityInterface {

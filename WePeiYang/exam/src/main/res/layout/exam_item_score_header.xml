@@ -44,7 +44,7 @@
             android:textSize="14sp"
             tools:text="正确率 95%" />
 
-        <LinearLayout
+        <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
@@ -56,13 +56,17 @@
                 android:layout_marginTop="8dp"
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/divider_score">
 
                 <TextView
+                    android:id="@+id/tv_score_time_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="练习时间"
-                    android:textColor="@color/white_color" />
+                    android:gravity="center_horizontal"
+                    android:textColor="@color/white_color"
+                    tools:text="练习时间" />
 
                 <TextView
                     android:id="@+id/tv_score_time"
@@ -77,9 +81,11 @@
                 android:id="@+id/divider_score"
                 android:layout_width="1dp"
                 android:layout_height="24dp"
-                android:layout_marginTop="16dp"
                 android:background="@color/examArrowGrey"
-                app:layout_constraintTop_toBottomOf="@id/user_divider_one" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -87,7 +93,9 @@
                 android:layout_marginTop="8dp"
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                app:layout_constraintLeft_toRightOf="@id/divider_score"
+                app:layout_constraintRight_toRightOf="parent">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -103,7 +111,7 @@
                     android:textColor="@color/white_color"
                     tools:text="3" />
             </LinearLayout>
-        </LinearLayout>
+        </android.support.constraint.ConstraintLayout>
     </LinearLayout>
 
     <LinearLayout

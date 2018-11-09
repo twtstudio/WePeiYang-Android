@@ -91,6 +91,7 @@
         app:layout_constraintTop_toBottomOf="@id/tv_already_problems_num">
 
         <TextView
+            android:id="@+id/tv_user_radio_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="正确率"

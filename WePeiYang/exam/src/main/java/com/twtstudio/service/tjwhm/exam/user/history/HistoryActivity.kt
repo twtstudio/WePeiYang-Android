@@ -54,12 +54,17 @@ class HistoryActivity : AppCompatActivity() {
         if (list.isEmpty()) {
             ivNoRecord.visibility = View.VISIBLE
             tvNoRecord.visibility = View.VISIBLE
-        } else rvHistory.withItems {
-            repeat(list.size) {
-                historyItem(this@HistoryActivity, list[it])
+        } else {
+            ivNoRecord.visibility = View.INVISIBLE
+            tvNoRecord.visibility = View.INVISIBLE
+            rvHistory.withItems {
+                repeat(list.size) {
+                    historyItem(this@HistoryActivity, list[it])
+                }
             }
         }
     }
+
 
     private fun initStatusBar() {
         if (statusBarView == null) {

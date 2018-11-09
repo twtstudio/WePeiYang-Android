@@ -32,7 +32,7 @@ class LessonItem(val context: Context, val listActivityInterface: ListActivityIn
                 tvEnterContest?.visibility = View.GONE
                 tvEnterPractice?.visibility = View.GONE
                 tvTitle?.text = item.lessonBean.course_name
-                itemView.setOnClickListener { _ ->
+                itemView.setOnClickListener {
                     if (item.isExpand) {
                         tvEnterContest?.apply {
                             animate().translationY(-8f)

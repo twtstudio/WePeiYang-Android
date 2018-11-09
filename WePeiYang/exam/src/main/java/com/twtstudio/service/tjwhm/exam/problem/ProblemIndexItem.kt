@@ -15,7 +15,7 @@ import org.jetbrains.anko.layoutInflater
  * Happy coding!
  */
 
-class ProblemIndexItem(val activityInterface: ProblemActivityInterface, val index: Int, val problemIndex: ProblemIndex) : Item {
+class ProblemIndexItem(val activityInterface: ProblemActivityInterface?, val index: Int, val problemIndex: ProblemIndex) : Item {
 
     override val controller: ItemController
         get() = Controller
@@ -41,7 +41,7 @@ class ProblemIndexItem(val activityInterface: ProblemActivityInterface, val inde
                         }
                     }
                 }
-                itemView.setOnClickListener { item.activityInterface.onProblemIndexItemClick(item.index) }
+                itemView.setOnClickListener { item.activityInterface?.onProblemIndexItemClick(item.index) }
                 setIsRecyclable(false)
             }
         }
@@ -52,4 +52,4 @@ class ProblemIndexItem(val activityInterface: ProblemActivityInterface, val inde
     }
 }
 
-fun MutableList<Item>.problemIndexItem(activityInterface: ProblemActivityInterface, num: Int, problemIndex: ProblemIndex) = add(ProblemIndexItem(activityInterface, num, problemIndex))
+fun MutableList<Item>.problemIndexItem(activityInterface: ProblemActivityInterface?, num: Int, problemIndex: ProblemIndex) = add(ProblemIndexItem(activityInterface, num, problemIndex))

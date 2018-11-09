@@ -27,7 +27,9 @@ import org.jetbrains.anko.verticalMargin
  * Happy coding!
  */
 
-class ProblemIndexPopup(val activityInterface: ProblemActivityInterface, mContext: Context, private val startXY: Pair<Float, Float>, private val indexData: List<ProblemIndex>) : BlurPopupWindow(mContext), LifecycleOwner {
+class ProblemIndexPopup(private val activityInterface: ProblemActivityInterface?, mContext: Context, private val startXY: Pair<Float, Float>, private val indexData: List<ProblemIndex>) : BlurPopupWindow(mContext), LifecycleOwner {
+
+    constructor(context: Context) : this(null, context, Pair(0f, 0f), listOf())
 
     private val lifecycleRegistry = LifecycleRegistry(this)
 

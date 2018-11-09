@@ -13,18 +13,15 @@ import com.twt.wepeiyang.commons.ui.rec.withItems
 import com.twtstudio.service.tjwhm.exam.R
 import com.twtstudio.service.tjwhm.exam.commons.joinQQGroupForHelp
 import com.twtstudio.service.tjwhm.exam.problem.ScoreBean
-import com.twtstudio.service.tjwhm.exam.problem.TestBean
 
 class ScoreActivity : AppCompatActivity() {
 
     companion object {
         const val SCORE_BEAN_KEY = "score_view_model_key"
-        const val PROBLEM_FOR_TEST_KEY = "problem_for_test_key"
         const val TEST_TIME_KEY = "test-time-key"
     }
 
     private lateinit var scoreBean: ScoreBean
-    private lateinit var testBean: TestBean
 
     private lateinit var toolbar: Toolbar
 
@@ -44,9 +41,9 @@ class ScoreActivity : AppCompatActivity() {
         }
 
         scoreBean = intent.getSerializableExtra(SCORE_BEAN_KEY) as ScoreBean
-        testBean = intent.getSerializableExtra(PROBLEM_FOR_TEST_KEY) as TestBean
 
         val testTime = intent.getLongExtra(TEST_TIME_KEY, 0L)
+        val testTimestamp = scoreBean.timestamp * 1000L
 
         toolbar = findViewById(R.id.tb_score)
         findViewById<ImageView>(R.id.iv_score_back).setOnClickListener { onBackPressed() }
@@ -56,9 +53,10 @@ class ScoreActivity : AppCompatActivity() {
 
         rvScore.layoutManager = LinearLayoutManager(this@ScoreActivity)
         rvScore.withItems {
-            scoreHeaderItem(testTime, scoreBean)
+            if (testTime == 0L) scoreHeaderItem(ScoreHeaderItem.TYPE_TIMESTAMP, testTimestamp, scoreBean)
+            else scoreHeaderItem(ScoreHeaderItem.TYPE_TIME, testTime, scoreBean)
             repeat(scoreBean.result.size) {
-                scoreItem(it, this@ScoreActivity, testBean.question[it], scoreBean.result[it])
+                scoreItem(it, this@ScoreActivity, scoreBean.result[it])
             }
         }
     }

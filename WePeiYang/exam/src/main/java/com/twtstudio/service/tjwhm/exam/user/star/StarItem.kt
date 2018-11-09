@@ -61,7 +61,7 @@ class StarItem(val context: Context, val problemBean: ProblemBean, val starOrWro
                             for (i in 0 until item.problemBean.option.size)
                                 selectionItem(null, i.toSelectionIndex(), item.problemBean.option[i], SelectionItem.NONE)
                         }
-                        ivWrong?.visibility = View.GONE
+                        ivWrong?.visibility = View.INVISIBLE
                     }
                     StarActivity.WRONG -> {
                         rvSelections?.withItems {
