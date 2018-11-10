@@ -3,6 +3,7 @@ package com.yookiely.lostfond2.search
 import android.content.ContentValues
 import android.content.Intent
 import android.database.sqlite.SQLiteDatabase
+import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
@@ -32,20 +33,13 @@ class SearchInitActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE)//隐藏actionbar，需在setContentView前面
         setContentView(R.layout.lf2_activity_search_init)
+        window.statusBarColor = Color.parseColor("#00a1e9")
         toolbar = findViewById(R.id.tb_search_init)
         imageView = findViewById(R.id.iv_search_init_icon_right)
         recyclerView = findViewById(R.id.rv_search_init_hr_rv)
         imageViewClean = findViewById(R.id.iv_search_init_clean)
         editText = findViewById(R.id.et_search_init_et)
         imageViewBack = findViewById(R.id.iv_search_init_back)
-
-//        database.use {
-//            createTable(Utils.TABLE_NAME, true,
-//                    Pair(Utils.ID, INTEGER + PRIMARY_KEY + AUTOINCREMENT),
-//                    Pair(Utils.CONTENT, TEXT))
-//        }
-//        //处理原始数据
-//        db = database.writableDatabase
 
         initRV()//初始化搜索历史的rv
 
@@ -67,12 +61,6 @@ class SearchInitActivity : AppCompatActivity() {
 
         imageViewClean.setOnClickListener {
             //            //清空搜索记录
-//            val cursor = db.query("myTable", null,null,null,null,null,null)//cursor为游标
-//            while (cursor.moveToNext()){
-//                val number = cursor.getColumnIndex("content")
-//                val content = cursor.getString(number)
-//                db.delete("myTable","content=?", arrayOf(content))
-//            }
             Hawk.put<MutableList<String>>("lf_search", mutableListOf())
             getdatas()
         }
@@ -80,25 +68,10 @@ class SearchInitActivity : AppCompatActivity() {
         imageViewBack.setOnClickListener { onBackPressed() }//返回
     }
 
-    //   private fun getdata(){
-    //从数据库中取出历史记录的数据
-//        val cursor = db.query("myTable", null, null, null, null, null, null)//cursor为游标
-//        if (cursor!=null) {
-//            historyRecordData = cursor.parseList(object : RowParser<String> {
-//                override fun parseRow(columns: Array<Any?>): String {
-//                    return columns[cursor.getColumnIndex("content")] as String
-//                }
-//            }).reversed()
-//            cursor.close()
-//        }else{
-//            historyRecordData = mutableListOf()
-//        }
-    //      adapter.notifyDataSetChanged()
-    //  }
-
     override fun onRestart() {
         super.onRestart()
         getdatas()
+        editText.setText(historyRecordData[0])
         //从搜索结果界面回到搜索界面
     }
 
@@ -132,38 +105,5 @@ class SearchInitActivity : AppCompatActivity() {
             historyRecordData.reverse()
         }
         adapter.notifyDataSetChanged()
-    }
-
-    private fun database(query: String, db: SQLiteDatabase) {
-        //对搜索历史的数据库处理
-        var cursor = db.query("myTable", null, null, null, null, null, null)//cursor为游标
-
-        if (cursor != null) {
-            while (cursor.moveToNext()) {
-                val number = cursor.getColumnIndex("content")
-
-                if (cursor.getString(number) == query) {
-                    db.delete("myTable", "content=?", arrayOf(query))
-                }
-            }
-        }
-
-        val values = ContentValues()
-        values.put("content", query)
-        //times为存入的数据条数
-        db.insert("myTable", null, values) //插入数据
-        cursor = db.query("myTable", null, null, null, null, null, null)//cursor为游标
-
-        val times = cursor.count
-
-        if (times > 5) {
-            //超过5条，则删掉最后一条
-            cursor.moveToFirst()
-            val timeOfID = cursor.getColumnIndex("_id")
-            val minID = cursor.getInt(timeOfID)
-            db.delete("myTable", "_id = {userID}", "userID" to minID)//arrayOf(min.toString()))
-        }
-
-        cursor.close()
     }
 }

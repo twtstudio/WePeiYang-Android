@@ -28,6 +28,7 @@ class MyListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
         setContentView(R.layout.lf2_activity_my_list)
+        window.statusBarColor = Color.parseColor("#00a1e9")
         val toolbar: Toolbar = findViewById(R.id.tb_mylist)
         setSupportActionBar(toolbar)
         toolbar.title = "我的"

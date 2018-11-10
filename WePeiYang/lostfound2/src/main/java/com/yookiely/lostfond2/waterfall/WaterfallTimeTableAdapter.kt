@@ -51,7 +51,7 @@ class WaterfallTimeTableAdapter(private val waterfallActivity: WaterfallActivity
         viewHolder.itemView.setOnClickListener {
             waterfallActivity.apply {
                 popWaterfallFilter.typeface = Typeface.DEFAULT
-                window.dismiss()
+                windowpop.dismiss()
 
                 when (position) {
                     0 -> setWaterfallTime(Utils.ALL_TIME)

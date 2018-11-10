@@ -33,7 +33,7 @@ class WaterfallActivity : AppCompatActivity() {
     private lateinit var popWaterfallTypesAll: TextView
     private var campus: Int = 0
     lateinit var popWaterfallFilter: TextView
-    lateinit var window: PopupWindow
+    lateinit var windowpop: PopupWindow
     private var layoutManagerForType = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
     private var layoutManagerForTime = LinearLayoutManager(this@WaterfallActivity)
     private var type = Utils.ALL_TYPE
@@ -42,9 +42,9 @@ class WaterfallActivity : AppCompatActivity() {
     @SuppressLint("InflateParams")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
         setContentView(R.layout.lf2_activity_water_fall)
+        window.statusBarColor = Color.parseColor("#00a1e9")
         val waterfallLost: FloatingActionButton = findViewById(R.id.fa_waterfall_lost)
         val popupWindowView: View = LayoutInflater.from(this).inflate(R.layout.lf2_waterfall_cardview_types, null, false)
         val snapHelper = LinearSnapHelper()
@@ -91,8 +91,8 @@ class WaterfallActivity : AppCompatActivity() {
                 iv_waterfall_type_blue.visibility = View.VISIBLE
                 iv_waterfall_type_grey.visibility = View.GONE
 
-                window = PopupWindow(popupWindowView, WRAP_CONTENT, WRAP_CONTENT, true)
-                window.apply {
+                windowpop = PopupWindow(popupWindowView, WRAP_CONTENT, WRAP_CONTENT, true)
+                windowpop.apply {
                     setBackgroundDrawable(BitmapDrawable())
                     isOutsideTouchable = true
                     isTouchable = true

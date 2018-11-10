@@ -9,6 +9,7 @@ import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.provider.DocumentsContract
@@ -84,6 +85,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         lostOrFound = bundle.getString("lostOrFound")
         super.onCreate(savedInstanceState)
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
+        window.statusBarColor = Color.parseColor("#00a1e9")
         setContentView(com.example.lostfond2.R.layout.lf2_activity_release)
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
 

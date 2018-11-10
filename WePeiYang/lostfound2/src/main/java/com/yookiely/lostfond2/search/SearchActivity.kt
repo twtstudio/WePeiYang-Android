@@ -44,6 +44,7 @@ class SearchActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE)//隐藏actionbar，需在setContentView前面
         setContentView(R.layout.lf2_activity_search)
+        window.statusBarColor = Color.parseColor("#00a1e9")
         toolbar = findViewById(R.id.tb_search)
         textView = findViewById(R.id.tv_search_result)
         searchTableLayout = findViewById(R.id.tl_search)
@@ -78,18 +79,11 @@ class SearchActivity : AppCompatActivity() {
         hideInputKeyboard()
         onDetachedFromWindow()
 
-//        val tv: SearchView.SearchAutoComplete = searchView.findViewById(R.id.search_src_text)
-//        tv.setTextColor(Color.WHITE)
-//        tv.setHintTextColor(Color.parseColor("#a3d3f4"))
-//        searchView.onActionViewExpanded()
-//        searchView.queryHint = "输入卡号/地点/物件名称"
-        //searchView.setIconifiedByDefault(false)
-        // supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         backImageView.setOnClickListener {
-            onBackPressed()
             hideInputKeyboard()
             finish()
             onDetachedFromWindow()
+            onBackPressed()
         }
         textView.setOnClickListener {
             hideInputKeyboard()
@@ -97,34 +91,6 @@ class SearchActivity : AppCompatActivity() {
             intent.setClass(this@SearchActivity, SearchInitActivity::class.java)
             startActivity(intent)
         }
-
-
-//        searchView.clearFocus()
-//        searchView.setOnQueryTextFocusChangeListener { view, b ->
-//            if (b) {
-//                showListPopupWindow(view, db)//初始化弹窗
-//                popupWindow.show()
-//            }
-//        }
-
-//        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-//            override fun onQueryTextSubmit(query: String): Boolean {
-//                keyword = query
-//                lostFragment.setKeyword(keyword)
-//                foundFragment.setKeyword(keyword)
-//
-//                if(keyword != ""){
-//                    database(keyword,db)
-//                }
-//                hideInputKeyboard()
-//                onDetachedFromWindow()
-//                return true
-//            }
-//
-//            override fun onQueryTextChange(newText: String): Boolean {
-//                return false
-//            }
-//        })
 
         searchType.setOnClickListener {
             if (imageViewGrey.visibility == View.VISIBLE) run {
@@ -157,8 +123,6 @@ class SearchActivity : AppCompatActivity() {
                 imageViewBlue.visibility = View.GONE
             }
         }
-
-        //searchView.clearFocus()
     }
 
     private fun hideInputKeyboard() {
@@ -171,39 +135,6 @@ class SearchActivity : AppCompatActivity() {
             //searchView.clearFocus()
         }
     }
-
-
-//    private fun showListPopupWindow(view :View,db: SQLiteDatabase){
-//        popupWindow = ListPopupWindow(this)
-//        val cursor = db.query("myTable", null, null, null, null, null, null)//cursor为游标
-//
-//        if (cursor!=null){
-//            canshow = true
-//            val historyRecord = cursor.parseList(object : RowParser<String> {
-//                override fun parseRow(columns: Array<Any?>): String {
-//                    return columns[cursor.getColumnIndex("content")] as String
-//                }
-//            }).reversed()
-//            cursor.close()
-//            popupWindow.apply {
-//                //设置适配器
-//                setAdapter(ArrayAdapter<String>(applicationContext, R.layout.lf2_search_hr_rv_item, historyRecord))
-//                anchorView = view
-//                width = 855
-//                isModal = false//内部封装的是focused，设置成false才能是popupwindow不自动获取焦点
-//                setOnItemClickListener { _, _, position, _ ->
-//                    searchView.setQuery(historyRecord[position],true)
-//                }
-//                setDropDownGravity(Gravity.START)
-//                horizontalOffset = 28
-//                verticalOffset = 0
-//                setBackgroundDrawable(ColorDrawable(ContextCompat.getColor(this@SearchActivity,R.color.white_color)))
-//                setOnDismissListener {
-//                    searchView.clearFocus()
-//                }
-//            }
-//        }
-//    }
 
     fun changeTime(time: Int) {
         this.time = time

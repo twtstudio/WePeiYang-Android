@@ -47,7 +47,7 @@ class WaterfallTypeTableAdapter(private val waterfallActivity: WaterfallActivity
             waterfallActivity.apply {
                 setWaterfallType(position)
                 viewHolder.waterfallTypeItem.typeface = Typeface.defaultFromStyle(Typeface.BOLD)
-                window.dismiss()
+                windowpop.dismiss()
             }
         }
     }

@@ -1,5 +1,6 @@
 package com.yookiely.lostfond2.detail
 
+import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -35,6 +36,7 @@ class DetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
         setContentView(R.layout.lf2_activity_detail)
+        window.statusBarColor = Color.parseColor("#00a1e9")
         val toolbar: Toolbar = findViewById(R.id.toolbar)
 
         val bundle: Bundle = intent.extras
