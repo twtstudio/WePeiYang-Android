@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.Toast
 import com.twt.service.R
 import com.twt.service.settings.RealBindAndDropOutService
@@ -40,6 +41,9 @@ class UserFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
             inflater.inflate(R.layout.fragment_user, container, false).apply {
+                findViewById<ImageView>(R.id.iv_fragment_user_back).setOnClickListener {
+                    activity?.onBackPressed()
+                }
                 findViewById<RecyclerView>(R.id.recyclerView).apply {
                     layoutManager = LinearLayoutManager(context)
                     adapter = UserAdapter(
@@ -47,10 +51,9 @@ class UserFragment : Fragment() {
                                     UserItem.AvatarItem(authSelfLiveData.map {
                                         UserItem.AvatarBean(it.avatar, it.twtuname, it.realname)
                                     }, R.drawable.ic_avatar),
-//                            UserItem.DividerItem,
                                     UserItem.InfoItem(R.drawable.ic_tju_little_icon, "办公网", authSelfLiveData.map {
                                         if (it.accounts.tju) "已绑定" else "未绑定"
-                                    }, {
+                                    }) {
                                         if (CommonPreferences.isBindTju) {
                                             val builder = android.support.v7.app.AlertDialog.Builder(context)
                                                     .setTitle("办公网解绑")
@@ -60,7 +63,7 @@ class UserFragment : Fragment() {
                                                                 .unbindTju(CommonPreferences.twtuname)
                                                                 .subscribeOn(Schedulers.io())
                                                                 .observeOn(AndroidSchedulers.mainThread())
-                                                                .doAfterTerminate({ authSelfLiveData.refresh(CacheIndicator.REMOTE) })
+                                                                .doAfterTerminate { authSelfLiveData.refresh(CacheIndicator.REMOTE) }
                                                                 .subscribe(Action1 { Toasty.success(context, "解绑成功！请重启微北洋", Toast.LENGTH_SHORT).show() }, RxErrorHandler())
 
                                                     }
@@ -71,20 +74,20 @@ class UserFragment : Fragment() {
                                             intent.putExtra(SingleBindActivity.TYPE, SingleBindActivity.TJU_BIND)
                                             context.startActivity(intent)
                                         }
-                                    }),
+                                    },
                                     UserItem.InfoItem(R.drawable.lib_library, "图书馆", authSelfLiveData.map {
                                         if (it.accounts.lib) "已绑定" else "未绑定"
-                                    }, {
+                                    }) {
                                         if (CommonPreferences.isBindLibrary) {
                                             val builder = android.support.v7.app.AlertDialog.Builder(context)
                                                     .setTitle("图书馆解绑")
                                                     .setMessage("是否要解绑图书馆")
                                                     .setPositiveButton("解绑") { dialog, _ ->
-                                                        TjuLibProvider(activity).unbindLibrary({
+                                                        TjuLibProvider(activity).unbindLibrary {
                                                             CommonPreferences.isBindLibrary = false
                                                             Toasty.success(context, "解绑成功！请重启微北洋", Toast.LENGTH_SHORT).show()
                                                             dialog.dismiss()
-                                                        })
+                                                        }
                                                     }
                                                     .setNegativeButton("再绑会...") { dialog, _ -> dialog.dismiss() }
                                             builder.create().show()
@@ -93,13 +96,12 @@ class UserFragment : Fragment() {
                                             intent.putExtra(SingleBindActivity.TYPE, SingleBindActivity.LIBRARY_BIND)
                                             context.startActivity(intent)
                                         }
-                                    }),
+                                    },
                                     UserItem.InfoItem(R.drawable.bike_bike_icon, "自行车", MutableLiveData<String>().apply {
                                         value = if (CommonPreferences.isBindBike) "已绑定" else "未绑定"
-                                    }, {
+                                    }) {
                                         Toast.makeText(activity, "自行车", Toast.LENGTH_SHORT).show()
-                                    }),
-//                            UserItem.DividerItem,
+                                    },
                                     UserItem.ActionItem(R.drawable.ic_settings, "设置") {
                                         val intent = Intent(context, SettingsActivity::class.java)
                                         context.startActivity(intent)

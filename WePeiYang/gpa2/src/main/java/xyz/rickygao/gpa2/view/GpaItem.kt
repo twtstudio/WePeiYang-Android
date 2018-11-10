@@ -59,7 +59,7 @@ class GpaItem(val owner: LifecycleOwner) : Item {
             val gpaMiniLineChartView: GpaMiniLineChartView = itemView.findViewById(R.id.gpa_mini)
 
             fun bind(lifecycleOwner: LifecycleOwner) {
-                cardView.setOnClickListener {
+                homeItem.rootView.setOnClickListener {
                     val intent = Intent(itemView.context, GpaActivity::class.java)
                     itemView.context.startActivity(intent)
                 }

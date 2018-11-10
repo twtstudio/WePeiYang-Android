@@ -24,7 +24,6 @@ import com.twt.service.widget.ScheduleWidgetProvider
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
 import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
 import com.twt.wepeiyang.commons.experimental.extensions.enableLightStatusBarMode
-import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.withItems
 import com.twt.wepeiyang.commons.view.RecyclerViewDivider
 import com.twtstudio.retrox.auth.api.authSelfLiveData
@@ -51,7 +50,7 @@ class HomeNewActivity : CAppCompatActivity() {
             statusBarColor = Color.WHITE
         }
         val imageClickIntent = Intent(this@HomeNewActivity, ScheduleWidgetProvider::class.java).apply {
-            setAction("com.twt.appwidget.refresh")
+            action = "com.twt.appwidget.refresh"
         }
         sendBroadcast(imageClickIntent)
         val imageView = findViewById<ImageView>(R.id.iv_toolbar_avatar).apply {
@@ -99,7 +98,7 @@ class HomeNewActivity : CAppCompatActivity() {
             }
         }
         rec.post {
-            (rec.getChildAt(0).layoutParams as RecyclerView.LayoutParams).topMargin = dip(4)
+            (rec.getChildAt(0)?.layoutParams as RecyclerView.LayoutParams).topMargin = dip(4)
         }
     }
 
