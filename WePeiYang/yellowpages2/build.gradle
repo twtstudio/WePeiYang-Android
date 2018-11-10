@@ -44,7 +44,7 @@ dependencies {
         implementation dependenciesMap[it]
     }
 
-    compile 'com.carson_ho:SearchLayout:1.0.1'
+    implementation 'com.carson_ho:SearchLayout:1.0.1'
 }
 
 kotlin { experimental { coroutines 'enable' } }
