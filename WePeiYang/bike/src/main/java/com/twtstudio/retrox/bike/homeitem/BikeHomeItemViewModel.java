@@ -1,6 +1,7 @@
 package com.twtstudio.retrox.bike.homeitem;
 
 import android.arch.lifecycle.MutableLiveData;
+import android.content.DialogInterface;
 import android.content.Intent;
 
 import android.net.Uri;
@@ -32,13 +33,13 @@ public class BikeHomeItemViewModel {
 
     public final MutableLiveData<String> moneyLeft = new MutableLiveData<>();
 
-    public final MutableLiveData<String> lastLeavePosition = new MutableLiveData<>();
+    public final MutableLiveData<String> lastLeavePostion = new MutableLiveData<>();
 
     public final MutableLiveData<String> lastLeaveTime = new MutableLiveData<>();
 
     public final MutableLiveData<String> lastArriveTime = new MutableLiveData<>();
 
-    public final MutableLiveData<String> lastArrivePosition = new MutableLiveData<>();
+    public final MutableLiveData<String> lastArrivePostion = new MutableLiveData<>();
 
     public final MutableLiveData<String> costMoney = new MutableLiveData<>();
 
@@ -73,13 +74,13 @@ public class BikeHomeItemViewModel {
                         if (dep.equals("no data")) {
                             dep = "点位无法查询";
                         }
-                        lastLeavePosition.setValue(dep + "-" + bikeUserInfo.record.dep_dev + "号桩 取出");
+                        lastLeavePostion.setValue(dep + "-" + bikeUserInfo.record.dep_dev + "号桩 取出");
                         lastLeaveTime.setValue(TimeStampUtils.getDateString(bikeUserInfo.record.dep_time));
                         String arr = BikeStationUtils.getInstance().queryId(bikeUserInfo.record.arr).name;
                         if (arr.equals("no data")) {
                             if (null == bikeUserInfo.record.arr || bikeUserInfo.record.arr_time.equals("")) {
-                                // 没还车
-                                lastArrivePosition.setValue("尚未归还TAT");
+                                //没还车
+                                lastArrivePostion.setValue("尚未归还TAT");
                                 lastArriveTime.setValue("点击下面按钮拨打自行车服务商电话");
                                 Alerter.create(activity)
                                         .setBackgroundColorRes(R.color.bike_warning_color)
@@ -87,12 +88,12 @@ public class BikeHomeItemViewModel {
                                         .setText("点击自行车条目的下面按钮拨打自行车服务商电话")
                                         .show();
                             } else {
-                                lastArrivePosition.setValue("点位名无法查询");
+                                lastArrivePostion.setValue("点位名无法查询");
                                 lastArriveTime.setValue(TimeStampUtils.getDateString(bikeUserInfo.record.arr_time));
                                 costMoney.setValue("本次消费:" + bikeUserInfo.record.fee);
                             }
                         } else {
-                            lastArrivePosition.setValue(arr + "-" + bikeUserInfo.record.arr_dev + "号桩 还入");
+                            lastArrivePostion.setValue(arr + "-" + bikeUserInfo.record.arr_dev + "号桩 还入");
                             lastArriveTime.setValue(TimeStampUtils.getDateString(bikeUserInfo.record.arr_time));
                             costMoney.setValue("本次消费:" + bikeUserInfo.record.fee);
                         }
@@ -114,10 +115,13 @@ public class BikeHomeItemViewModel {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity)
                 .setTitle("拨打自行车客服")
                 .setIcon(R.drawable.bike_bike_icon)
-                .setItems(strings, (dialog, which) -> {
-                    Uri uri = Uri.parse("tel:" + strings[which]);
-                    Intent intent = new Intent(Intent.ACTION_DIAL, uri);
-                    activity.startActivity(intent);
+                .setItems(strings, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Uri uri = Uri.parse("tel:" + strings[which]);
+                        Intent intent = new Intent(Intent.ACTION_DIAL, uri);
+                        activity.startActivity(intent);
+                    }
                 });
         builder.create().show();
     }

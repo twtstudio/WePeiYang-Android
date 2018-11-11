@@ -2,6 +2,7 @@ package com.twt.service.home
 
 import android.Manifest
 import android.content.Intent
+import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
@@ -37,7 +38,7 @@ import xyz.rickygao.gpa2.view.gpaNewHomeItem
 
 
 class HomeNewActivity : CAppCompatActivity() {
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    lateinit var rec: RecyclerView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         EasyPermissions.requestPermissions(this, "微北洋需要外部存储来提供必要的缓存\n 需要位置信息来获取校园网连接状态", 0, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION)
@@ -60,7 +61,7 @@ class HomeNewActivity : CAppCompatActivity() {
         authSelfLiveData.bindNonNull(this) {
             Glide.with(this).load(it.avatar).into(imageView)
         }
-        val rec = findViewById<RecyclerView>(R.id.rec_main)
+        rec = findViewById<RecyclerView>(R.id.rec_main)
         rec.apply {
             layoutManager = LinearLayoutManager(this.context)
             addItemDecoration(RecyclerViewDivider.Builder(this@HomeNewActivity).setSize(4f).setColor(Color.TRANSPARENT).build())
@@ -98,6 +99,13 @@ class HomeNewActivity : CAppCompatActivity() {
         }
         rec.post {
             (rec.getChildAt(0)?.layoutParams as RecyclerView.LayoutParams).topMargin = dip(4)
+        }
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration?) {
+        super.onConfigurationChanged(newConfig)
+        if (newConfig?.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            rec.scrollToPosition(0)
         }
     }
 }

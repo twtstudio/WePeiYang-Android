@@ -46,8 +46,9 @@
 
         <activity
             android:name=".home.HomeNewActivity"
-            android:exported="true"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTask"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:exported="true" />
         <activity android:name=".home.user.FragmentActivity" />
 
         <meta-data
