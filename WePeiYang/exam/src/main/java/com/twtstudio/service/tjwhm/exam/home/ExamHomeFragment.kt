@@ -14,6 +14,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
+import com.twt.wepeiyang.commons.ui.rec.Item
+import com.twt.wepeiyang.commons.ui.rec.ItemAdapter
+import com.twt.wepeiyang.commons.ui.rec.refreshAll
 import com.twt.wepeiyang.commons.ui.rec.withItems
 import com.twtstudio.service.tjwhm.exam.R
 import com.twtstudio.service.tjwhm.exam.commons.startProblemActivity
@@ -103,12 +106,21 @@ class ExamHomeFragment : Fragment(), View.OnClickListener {
 
     @SuppressLint("SetTextI18n")
     private fun bindHomeData(userBean: UserBean) {
-        rvQuick.withItems {
-            repeat(userBean.qSelect.size) { index ->
-                context?.let {
-                    this@ExamHomeFragment.activity?.let { it1 -> quickSelectItem(it1, userBean.qSelect[index].course_id, userBean.qSelect[index].course_name) }
+        if (rvQuick.layoutManager.itemCount == 0) {
+            rvQuick.withItems {
+                repeat(userBean.qSelect.size) { index ->
+                    context?.let {
+                        this@ExamHomeFragment.activity?.let { it1 -> quickSelectItem(it1, userBean.qSelect[index].course_id, userBean.qSelect[index].course_name) }
+                    }
                 }
             }
+        } else {
+            val adapter = rvQuick.adapter as ItemAdapter
+            val qList: MutableList<Item> = adapter.itemManager.itemListSnapshot.toMutableList()
+            userBean.qSelect.forEachIndexed { index, qSelect ->
+                this.context?.let { qList[index] = QuickSelectItem(it, qSelect.course_id, qSelect.course_name) }
+            }
+            adapter.itemManager.refreshAll(qList)
         }
         tvNews.text = "${userBean.latest_course_name}已更新"
         tvNewsTime.text = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA).format(Date(userBean.latest_course_timestamp.toLong() * 1000L))

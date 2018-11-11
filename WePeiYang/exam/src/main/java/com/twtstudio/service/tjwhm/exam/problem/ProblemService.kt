@@ -26,11 +26,11 @@ interface ProblemService {
 
     @Multipart
     @POST("remember/mark")
-    fun mark(@Part list: MutableList<MultipartBody.Part>) // : Deferred<CommonBody<Unit>>
+    fun mark(@Part list: MutableList<MultipartBody.Part>): Deferred<CommonBody<Unit>>
 
     @Multipart
     @POST("remember/current_course/write")
-    fun write(@Part list: MutableList<MultipartBody.Part>) // : Deferred<CommonBody<Unit>>
+    fun write(@Part list: MutableList<MultipartBody.Part>): Deferred<CommonBody<Unit>>
 
     @GET("student/exercise_result")
     fun getTestHistory(@Query("time") time: String): Deferred<CommonBody<ScoreBean>>

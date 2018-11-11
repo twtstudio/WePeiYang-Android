@@ -30,13 +30,13 @@ class BikeHomeItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
         viewModel.moneyLeft.bind(owner) {
             tvUserBalance.text = it
         }
-        viewModel.lastLeavePosition.bind(owner) {
+        viewModel.lastLeavePostion.bind(owner) {
             tvLeaveStation.text = it
         }
         viewModel.lastLeaveTime.bind(owner) {
             tvLeaveTime.text = it
         }
-        viewModel.lastArrivePosition.bind(owner) {
+        viewModel.lastArrivePostion.bind(owner) {
             tvArrStation.text = it
         }
         viewModel.lastArriveTime.bind(owner) {
