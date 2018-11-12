@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.view.ViewPager
 import android.support.v7.widget.CardView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,7 +18,6 @@ import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineException
 import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
 import com.twtstudio.retrox.tjulibrary.R
 import com.twtstudio.retrox.tjulibrary.home.LibraryViewModel
-import com.twtstudio.retrox.tjulibrary.tjulibservice.ImgApi
 import com.twtstudio.retrox.tjulibrary.tjulibservice.LibraryApi
 import com.twtstudio.retrox.tjulibrary.tjulibservice.imgSrc
 import kotlinx.coroutines.experimental.android.UI
@@ -66,7 +66,6 @@ class HomeLibraryFragement : Fragment(), ViewPager.OnPageChangeListener {
         progressBar = view.findViewById(R.id.home_progressbar)
         val mylistPagerAdapter = BookPagerAdapter(childFragmentManager)
         LibraryViewModel.infoLiveData.bindNonNull(this) { info ->
-
             if (mylistPagerAdapter.count == 0) {
                 if (info.books.size == 0) {
                     noBorrow.visibility = View.VISIBLE
@@ -86,9 +85,10 @@ class HomeLibraryFragement : Fragment(), ViewPager.OnPageChangeListener {
                         for (i in info.books) {
                             if(i.id == null ) continue
                             val isbnNumber = LibraryApi.getISBN(i.id).await()
-                            val url: List<imgSrc>? = ImgApi.getImgUrl(isbnNumber.isbn).await()
-                            if (url == null) continue
-                            mylistPagerAdapter.add(BookFragment.newInstance(i, url[0].result[0].coverlink, i.callno))
+                            val url: List<imgSrc>? = LibraryApi.getImgUrl(isbnNumber.isbn).await()
+                            if (url!![0].result.isEmpty()){mylistPagerAdapter.add(BookFragment.newInstance(i, "error", i.callno))}else{
+                                mylistPagerAdapter.add(BookFragment.newInstance(i, url!![0].result[0].coverlink, i.callno))
+                            }
                             val view1 = View(view.context)
                             view1.setBackgroundResource(R.drawable.background)
                             view1.isEnabled = false
@@ -96,7 +96,7 @@ class HomeLibraryFragement : Fragment(), ViewPager.OnPageChangeListener {
                             val layoutParams = LinearLayout.LayoutParams(30, 30)
                             //设置间隔
                             if (i != info.books[0]) {
-                                layoutParams.leftMargin = 10
+                                layoutParams.leftMargin = 9
                             }
                             linear.addView(view1, layoutParams)
                         }
@@ -117,7 +117,6 @@ class HomeLibraryFragement : Fragment(), ViewPager.OnPageChangeListener {
 
         return view
     }
-
 
     override fun onPause() {
         super.onPause()

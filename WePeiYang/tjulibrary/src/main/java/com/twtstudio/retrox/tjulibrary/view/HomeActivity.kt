@@ -33,14 +33,17 @@ class HomeActivity : AppCompatActivity() {
         val mybookPager: ViewPager = findViewById(R.id.booklist_pager)
         val mybookTabLayout: TabLayout = findViewById(R.id.lb_home_table)
         val myhomePagerAdapter = HomeLibraryPagerAdapter(supportFragmentManager)
-        myhomePagerAdapter.add(HomeLibraryFragement(), "已借阅")
-        myhomePagerAdapter.add(RankFragment(), "借阅统计")
-        myhomePagerAdapter.add(ReadFragment(),"阅读")
+        myhomePagerAdapter.apply {
+            add(HomeLibraryFragement(), "已借阅")
+            add(RankFragment(), "借阅统计")
+            add(ReadFragment(),"阅读")
+        }
         mybookPager.adapter = myhomePagerAdapter
-        mybookTabLayout.setupWithViewPager(mybookPager)
-        mybookTabLayout.tabGravity = TabLayout.GRAVITY_FILL
-        mybookTabLayout.setSelectedTabIndicatorColor(Color.parseColor("#A73870"))
-
+        mybookTabLayout.apply {
+            setupWithViewPager(mybookPager)
+            tabGravity = TabLayout.GRAVITY_FILL
+            setSelectedTabIndicatorColor(Color.parseColor("#A73870"))
+        }
 
     }
 
