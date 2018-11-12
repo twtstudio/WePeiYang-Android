@@ -30,7 +30,11 @@ class BookDetail(libDetailModel: LibDetailModel.setBook) : LibDetailModel.getBoo
             Log.d("detail",book.toString())
             val totalNum = LibraryApi.getTotalNum(key).await()
             val url = LibraryApi.getImgUrl(book.data.isbn).await()
-            setDetail(book,url[0].result[0].coverlink,totalNum)
+            if (url[0].result.isEmpty()){
+                setDetail(book,"error",totalNum)
+                    }else{
+                setDetail(book,url[0].result[0].coverlink,totalNum)
+            }
         }
 
     }

@@ -21,6 +21,8 @@ import org.jetbrains.anko.backgroundColor
 
 class RankFragment : Fragment() {
 
+    val SELECT = "#f7f7f7"
+    val UNSEL = "#eeeeee"
     private var selectedRank = 7
     lateinit var recyclerView: RecyclerView
     private var startNum = 0
@@ -36,16 +38,16 @@ class RankFragment : Fragment() {
         recyclerView = view.findViewById(R.id.rank_list)
         recyclerView.layoutManager = LinearLayoutManager(activity)
         setRecyclerView()
-        week.backgroundColor = Color.parseColor("#f7f7f7")
+        week.backgroundColor = Color.parseColor(SELECT)
 
         total.setOnClickListener {
             selectedRank = 666
             startNum = 0
             endNum = 50
             setRecyclerView()
-            total.backgroundColor = Color.parseColor("#f7f7f7")
-            month.backgroundColor = Color.parseColor("#eeeeee")
-            week.backgroundColor = Color.parseColor("#eeeeee")
+            total.backgroundColor = Color.parseColor(SELECT)
+            month.backgroundColor = Color.parseColor(UNSEL)
+            week.backgroundColor = Color.parseColor(UNSEL)
         }
 
         month.setOnClickListener {
@@ -53,9 +55,9 @@ class RankFragment : Fragment() {
             startNum = 0
             endNum = 50
             setRecyclerView()
-            total.backgroundColor = Color.parseColor("#eeeeee")
-            month.backgroundColor = Color.parseColor("#f7f7f7")
-            week.backgroundColor = Color.parseColor("#eeeeee")
+            total.backgroundColor = Color.parseColor(UNSEL)
+            month.backgroundColor = Color.parseColor(SELECT)
+            week.backgroundColor = Color.parseColor(UNSEL)
         }
 
         week.setOnClickListener {
@@ -63,9 +65,9 @@ class RankFragment : Fragment() {
             startNum = 0
             endNum = 50
             setRecyclerView()
-            total.backgroundColor = Color.parseColor("#eeeeee")
-            month.backgroundColor = Color.parseColor("#eeeeee")
-            week.backgroundColor = Color.parseColor("#f7f7f7")
+            total.backgroundColor = Color.parseColor(UNSEL)
+            month.backgroundColor = Color.parseColor(UNSEL)
+            week.backgroundColor = Color.parseColor(SELECT)
         }
 
         return view
@@ -77,7 +79,7 @@ class RankFragment : Fragment() {
             try {
                 rankList = LibraryApi.getRank(selectedRank).await()
             }catch (e : Exception){
-                Log.d("whatthefuck",e.toString())
+                Log.d("getrank_network_error",e.toString())
             }
 
             recyclerView.withItems {
