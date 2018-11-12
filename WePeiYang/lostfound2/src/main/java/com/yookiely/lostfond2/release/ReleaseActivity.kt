@@ -291,29 +291,14 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         }
 
         if (view === cv_release_confirm && (lostOrFound == "lost" || lostOrFound == "found")) {
-            if (!judgeNull(picListOfUri)) {
-//                val file1: File
-//                val arrayOfFile = ArrayList<File?>(0)
-//                try {
-//                    file1 = File.createTempFile("pic", ".jpg")
-//                    val outputFile = file1.path
-//                    for (i in picListOfUri) {
-//                        if (i != null) {
-//                            arrayOfFile.add(getFile(zipThePic(handleImageOnKitKat(i)), outputFile))
-//                        }
-//                    }
-//                } catch (e: IOException) {
-//                    e.printStackTrace()
-//                }
+            val map = getUpdateMap()
 
-                val map = getUpdateMap()
+            if (!judgeNull(picListOfUri)) {
                 if (judgementOfRelease) {
                     progressDialog = ProgressDialog.show(this@ReleaseActivity, "", "正在上传")
                     releasePresenter.uploadReleaseDataWithPic(map, lostOrFound, listOfFile)
                 }
             } else {
-                val map = getUpdateMap()
-
                 if (judgementOfRelease) {
                     progressDialog = ProgressDialog.show(this@ReleaseActivity, "", "正在上传")
                     releasePresenter.uploadReleaseData(map, lostOrFound)
@@ -335,10 +320,6 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         val intent = Intent()
         val bundle = Bundle()
         bundle.apply {
-            //            if (beanList[0].picture != null) {
-//                putString("imageUrl", Utils.getPicUrl(beanList[0].picture!![0]))
-//            }
-
             putString("shareOrSuccess", "success")
             putString("lostOrFound", lostOrFound)
             putString("id", beanList[0].id.toString())
