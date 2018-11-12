@@ -48,7 +48,11 @@ class MyListTableAdapter(var myListBean: MutableList<MyListDataOrSearchBean>, va
             myListItemTitle.text = title
             myListItemType.text = Utils.getType(detail_type)
             myListItemTime.text = time
-            myListItemPlace.text = "$campus - $place"
+            if (campus == "1") {
+                this.myListItemPlace.text = "北洋园 - $place"
+            } else {
+                this.myListItemPlace.text = "卫津路 - $place"
+            }
 
             if (isExpired == 1) {
                 //0是未过期,1是已过期
@@ -64,13 +68,13 @@ class MyListTableAdapter(var myListBean: MutableList<MyListDataOrSearchBean>, va
                 holder.mylistItemButton.visibility = View.VISIBLE
                 if (lostOrFound == "found") {
                     if (isback == 1) {
-                        holder.myListItemStatus.text = "未归还"
-                        holder.myListItemStatus.textColor = Color.parseColor("#999999")
-                        holder.mylistItemButton.text = "确认归还"
-                    } else {
                         holder.myListItemStatus.text = "已归还"
-                        holder.myListItemStatus.textColor = Color.parseColor("#44a0e3")
+                        holder.myListItemStatus.textColor = Color.parseColor("#999999")
                         holder.mylistItemButton.text = "取消归还"
+                    } else {
+                        holder.myListItemStatus.text = "未归还"
+                        holder.myListItemStatus.textColor = Color.parseColor("#44a0e3")
+                        holder.mylistItemButton.text = "确认归还"
                     }
                 } else {
                     if (isback == 1) {

@@ -42,8 +42,7 @@ class MyListFragement : Fragment(), MyListService.MyListView {
             this.myListBean.clear()
             tableAdapter.myListBean.clear()
         }
-
-//        this.myListBean.message = myListBean.message
+//      this.myListBean.message = myListBean.message
         this.myListBean.addAll(myListBean)
         tableAdapter.myListBean = (this.myListBean)
         tableAdapter.notifyDataSetChanged()
@@ -90,7 +89,7 @@ class MyListFragement : Fragment(), MyListService.MyListView {
 
     override fun onResume() {
         super.onResume()
-        myListBean = ArrayList()
+        myListBean.clear()
         tableAdapter.notifyDataSetChanged()
         myListPresenter.loadMyListData(lostOrFound, page)
     }

@@ -18,8 +18,19 @@ class MyListPresenterImpl(val myListView: MyListService.MyListView) : MyListServ
         launch(UI + QuietCoroutineExceptionHandler) {
             val myList: CommonBody<List<MyListDataOrSearchBean>> = LostFoundService.getMyList(lostOrFound, page).await()
 
+
             if (myList.error_code == -1) {
-                setMyListData(myList.data!!)
+                val dataBean: MutableList<MyListDataOrSearchBean> = mutableListOf()
+                for (temp in myList.data!!) {
+                    if (lostOrFound == "found" && temp.type == 1) {
+                        dataBean.add(temp)
+                    } else {
+                        if (temp.type == 0 && lostOrFound == "lost") {
+                            dataBean.add(temp)
+                        }
+                    }
+                }
+                setMyListData(dataBean)
             }
         }
     }

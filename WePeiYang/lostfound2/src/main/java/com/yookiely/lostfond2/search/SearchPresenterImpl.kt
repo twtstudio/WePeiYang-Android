@@ -15,8 +15,9 @@ class SearchPresenterImpl(private val searchUIView: SearchContract.SearchUIView)
             val campus: Int = Hawk.get("campus")
             try {
                 launch(UI + QuietCoroutineExceptionHandler) {
+                    Log.d("lf2_search", "1")
                     val dataList = LostFoundService.getSearch(keyword, campus, time, page).await()
-
+                    Log.d("lf2_search", "2")
                     if (dataList.error_code == -1) {
                         if (dataList.data == null) {
                             val searchBean = emptyList<MyListDataOrSearchBean>()
@@ -24,6 +25,11 @@ class SearchPresenterImpl(private val searchUIView: SearchContract.SearchUIView)
                         } else {
                             setWaterfallData(dataList.data!!)
                         }
+                    } else {
+                        Log.d("lf2_search", "3")
+                        val searchBean = emptyList<MyListDataOrSearchBean>()
+                        Log.d("lf2_search", "4")
+                        setWaterfallData(searchBean)
                     }
                 }
             } catch (e: Throwable) {
