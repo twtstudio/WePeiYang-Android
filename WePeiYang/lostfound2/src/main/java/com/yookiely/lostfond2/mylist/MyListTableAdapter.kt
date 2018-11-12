@@ -40,7 +40,7 @@ class MyListTableAdapter(var myListBean: MutableList<MyListDataOrSearchBean>, va
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: MyListViewHolder, position: Int) {
-        val (id: Int, _: Int, _: String, title: String, place: String, time: String, _: String, detail_type: Int, isback: Int, picture: List<String>?, _: String, _: Int, campus: String, isExpired: Int) = myListBean[position]
+        val (id: Int, _: Int, _: String, title: String, place: String, time: String, _: String, detail_type: Int, isback: Int, picture: List<String>?, _: String, _: Int, campus: Int, isExpired: Int) = myListBean[position]
         val intent = Intent()
         val bundle = Bundle()
 
@@ -48,7 +48,7 @@ class MyListTableAdapter(var myListBean: MutableList<MyListDataOrSearchBean>, va
             myListItemTitle.text = title
             myListItemType.text = Utils.getType(detail_type)
             myListItemTime.text = time
-            if (campus == "1") {
+            if (campus == 1) {
                 this.myListItemPlace.text = "北洋园 - $place"
             } else {
                 this.myListItemPlace.text = "卫津路 - $place"
