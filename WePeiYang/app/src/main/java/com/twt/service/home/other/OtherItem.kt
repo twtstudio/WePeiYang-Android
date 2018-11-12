@@ -10,6 +10,7 @@ import android.widget.LinearLayout
 import com.tjuwhy.yellowpages2.view.YellowPageActivity
 import com.yookiely.lostfond2.waterfall.WaterfallActivity
 import com.twt.service.home.user.FragmentActivity
+import com.twt.service.news.NewsActivity
 import com.twt.wepeiyang.commons.ui.rec.HomeItem
 import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemController
@@ -18,6 +19,10 @@ import com.twtstudio.tjliqy.party.ui.home.PartyActivity
 import org.jetbrains.anko.*
 
 class OtherItem : Item {
+    override fun areItemsTheSame(newItem: Item) = true
+
+    override fun areContentsTheSame(newItem: Item) = true
+
     companion object Controller : ItemController {
         override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
             val homeItem = HomeItem(parent)
@@ -43,16 +48,17 @@ class OtherItem : Item {
             }
             val layout = holder.linearLayout as _LinearLayout
             layout.apply {
-                addItem("学生党建", "入党进度，一览无遗") {
+                removeAllViews()
+                addItem("学生党建", "和微北洋共建社会主义") {
                     it.context.startActivity<PartyActivity>()
                 }
-                addItem("自行车", "骑行状态，望眼欲穿") {
+                addItem("自行车", "通览状态，畅爽骑行") {
                     it.context.startActivity<BikeActivity>()
                 }
-                addItem("新闻", "校内资讯，尽收眼底") {
-                    it.context.startActivity<FragmentActivity>("frag" to "News")
+                addItem("新闻", "环宇北洋，心识天下") {
+                    it.context.startActivity<NewsActivity>()
                 }
-                addItem("黄页", "校内电话，方便惠民"){
+                addItem("黄页", "天大电话簿") {
                     it.context.startActivity<YellowPageActivity>()
                 }
                 addItem("失物招领", "失物招领") {
@@ -90,7 +96,6 @@ class OtherItem : Item {
 
     override val controller: ItemController
         get() = Controller
-
 }
 
 fun MutableList<Item>.homeOthers() = add(OtherItem())

@@ -35,8 +35,10 @@ class DepartmentActivity : AppCompatActivity() {
         val firstIndex = intent.getIntExtra(FIRST_INDEX_KEY, 0)
         val secondIndex = intent.getIntExtra(SECOND_INDEX_KEY, 0)
 
-        title = YellowPagePreference.phoneBean!!.category_list[firstIndex].department_list[secondIndex].department_name
-        unitList = YellowPagePreference.phoneBean!!.category_list[firstIndex].department_list[secondIndex].unit_list
+        YellowPagePreference.phoneBean?.apply {
+            title = category_list[firstIndex].department_list[secondIndex].department_name
+            unitList = category_list[firstIndex].department_list[secondIndex].unit_list
+        }
         departmentTv.text = title
         arrowBack.setOnClickListener {
             onBackPressed()

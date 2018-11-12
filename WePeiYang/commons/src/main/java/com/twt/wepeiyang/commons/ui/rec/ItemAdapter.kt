@@ -36,8 +36,10 @@ class ItemAdapter(val itemManager: ItemManager) : RecyclerView.Adapter<RecyclerV
     override fun getItemViewType(position: Int) = ItemManager.getViewType(itemManager[position].controller)
 }
 
-fun RecyclerView.withItems(items: List<Item>) {
-    adapter = ItemAdapter(ItemManager(items.toMutableList()))
+fun RecyclerView.withItems(items: List<Item>): ItemManager {
+    val itemManager = ItemManager(items.toMutableList())
+    adapter = ItemAdapter(itemManager)
+    return itemManager
 }
 
 fun RecyclerView.withItems(init: MutableList<Item>.() -> Unit) = withItems(mutableListOf<Item>().apply(init))

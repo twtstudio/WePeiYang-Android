@@ -35,8 +35,13 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class ScheduleHomeItem(val lifecycleOwner: LifecycleOwner) : Item {
+    override fun areItemsTheSame(newItem: Item): Boolean = true
+
+    override fun areContentsTheSame(newItem: Item) = true
+
     companion object Controller : ItemController {
         override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
+
             val homeItem = HomeItem(parent)
             val view = parent.context.linearLayout {
                 orientation = LinearLayout.HORIZONTAL
@@ -55,6 +60,12 @@ class ScheduleHomeItem(val lifecycleOwner: LifecycleOwner) : Item {
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: Item) {
             holder as ViewHolder
             item as ScheduleHomeItem
+            holder.homeItem.apply {
+                rootView.setOnClickListener {
+                    val intent = Intent(it.context, ScheduleActivity::class.java)
+                    it.context.startActivity(intent)
+                }
+            }
             TotalCourseManager.getTotalCourseManager().bindNonNull(item.lifecycleOwner) {
                 // 定义两个Time 一个是今天 一个是明天
                 val currentUnixTime = it.currentUnixTime
@@ -98,10 +109,7 @@ class ScheduleHomeItem(val lifecycleOwner: LifecycleOwner) : Item {
                     val contentTextPrefix = if (displayTomorrow) "<span style=\"color:#E70C57\";>明天 </span>" else "今天"
                     val contentText = if (count > 0) "有<span style=\"color:#E70C57\";>${count}</span>节课" else "没课！"
                     itemContent.text = (contentTextPrefix + contentText).spanned
-                    rootView.setOnClickListener {
-                        val intent = Intent(it.context, ScheduleActivity::class.java)
-                        it.context.startActivity(intent)
-                    }
+
                 }
             }
         }

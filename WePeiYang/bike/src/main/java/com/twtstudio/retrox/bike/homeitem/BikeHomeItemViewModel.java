@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.AlertDialog;
 import android.widget.Toast;
+
 import com.tapadoo.alerter.Alerter;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 import com.twtstudio.retrox.bike.R;
@@ -64,13 +65,13 @@ public class BikeHomeItemViewModel {
                 .compose(activity.bindToLifecycle())
                 .subscribe(bikeUserInfo -> {
                     isProgressing.setValue(false);
-                    moneyLeft.setValue("余额: "+bikeUserInfo.balance+"元");
+                    moneyLeft.setValue("余额: " + bikeUserInfo.balance + "元");
                     if (bikeUserInfo.status == 0) {
                         moneyLeft.setValue("尚未绑定自行车，请在自行车模块绑定或在设置中关闭");
                     }
                     if (bikeUserInfo.record != null) {
                         String dep = BikeStationUtils.getInstance().queryId(bikeUserInfo.record.dep).name;
-                        if (dep.equals("no data")){
+                        if (dep.equals("no data")) {
                             dep = "点位无法查询";
                         }
                         lastLeavePostion.setValue(dep + "-" + bikeUserInfo.record.dep_dev + "号桩 取出");
@@ -82,7 +83,7 @@ public class BikeHomeItemViewModel {
                                 lastArrivePostion.setValue("尚未归还TAT");
                                 lastArriveTime.setValue("点击下面按钮拨打自行车服务商电话");
                                 Alerter.create(activity)
-                                        .setBackgroundColor(R.color.bike_warning_color)
+                                        .setBackgroundColorRes(R.color.bike_warning_color)
                                         .setTitle("自行车尚未归还TAT")
                                         .setText("点击自行车条目的下面按钮拨打自行车服务商电话")
                                         .show();
@@ -98,16 +99,16 @@ public class BikeHomeItemViewModel {
                         }
                     }
                 }, throwable -> {
-                    if (throwable instanceof SocketTimeoutException){
+                    if (throwable instanceof SocketTimeoutException) {
                         Toast.makeText(activity, "网络超时，请重试", Toast.LENGTH_SHORT).show();
-                    }else {
+                    } else {
                         Toast.makeText(activity, "网络错误", Toast.LENGTH_SHORT).show();
                     }
                     throwable.printStackTrace();
                 });
     }
 
-    public void callBike(){
+    public void callBike() {
 
         String[] strings = new String[]{"13114951501", "18020061573"};
 
@@ -117,8 +118,8 @@ public class BikeHomeItemViewModel {
                 .setItems(strings, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Uri uri = Uri.parse("tel:"+strings[which]);
-                        Intent intent = new Intent(Intent.ACTION_DIAL,uri);
+                        Uri uri = Uri.parse("tel:" + strings[which]);
+                        Intent intent = new Intent(Intent.ACTION_DIAL, uri);
                         activity.startActivity(intent);
                     }
                 });
