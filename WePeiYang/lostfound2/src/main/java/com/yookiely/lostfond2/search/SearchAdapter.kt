@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.example.lostfond2.R
+import com.orhanobut.hawk.Hawk
 
 
 class SearchAdapter(var hr: MutableList<String>?, val activity: SearchInitActivity) : RecyclerView.Adapter<SearchAdapter.ViewHolder>() {
@@ -19,11 +20,22 @@ class SearchAdapter(var hr: MutableList<String>?, val activity: SearchInitActivi
     }
 
     override fun onBindViewHolder(holder: SearchAdapter.ViewHolder, position: Int) {
-        holder.textView.text = hr!![position]
+        val query = hr!![position]
+        holder.textView.text = query
         holder.textView.setOnClickListener {
+            var temp = mutableListOf<String>()
+            if (Hawk.get<MutableList<String>>("lf_search") != null) {
+                temp = Hawk.get<MutableList<String>>("lf_search")
+                temp.remove(query)
+            }
+            temp.add(query)
+            if (temp.size > 5) {
+                temp.removeAt(0)
+            }
+            Hawk.put("lf_search", temp)
             val intent = Intent()
             val bundle = Bundle()
-            bundle.putString("query", hr!![position])
+            bundle.putString("query", query)
             intent.putExtras(bundle)
             intent.setClass(activity, SearchActivity::class.java)
             startActivity(activity, intent, bundle)
