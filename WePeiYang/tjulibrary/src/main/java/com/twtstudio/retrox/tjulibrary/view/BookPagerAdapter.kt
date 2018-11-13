@@ -13,7 +13,6 @@ class BookPagerAdapter(fm : FragmentManager)  : FragmentPagerAdapter(fm) {
 
     fun add(fragment: Fragment) {
         fragmentsOfMylist.add(fragment)
-
     }
 
     fun removeAll(){
@@ -21,7 +20,6 @@ class BookPagerAdapter(fm : FragmentManager)  : FragmentPagerAdapter(fm) {
     }
 
     override fun getItem(position: Int): Fragment  = fragmentsOfMylist[position]
-
 
     override fun getCount(): Int = fragmentsOfMylist.size
 }

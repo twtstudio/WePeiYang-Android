@@ -2,37 +2,41 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="20dp"
+    xmlns:tool="http://schemas.android.com/tools">
+    <ImageView
+        android:layout_width="27dp"
+        android:layout_height="16dp"
+        android:id="@+id/book_status"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginStart="20dp"/>
 
     <TextView
         android:id="@+id/book_demand_number"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:text="1247.5/J9-1(20)v.1"
+        android:gravity="center"
+        tool:text="1247.5/J9-1(20)v.1"
         android:textColor="#999999"
-        android:textSize="12dp"
-        app:layout_constraintLeft_toLeftOf="parent" />
+        android:textSize="16sp"
+        android:layout_marginLeft="10dp"
+        app:layout_constraintLeft_toRightOf="@id/book_status" />
 
     <TextView
         android:id="@+id/book_position"
-        android:layout_width="wrap_content"
+        android:layout_width="110dp"
+        android:gravity="center"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="120dp"
-        android:text="为景路人文社科阅览室"
+        android:layout_marginEnd="20dp"
+        tool:text="为景路人文社科阅览室"
         android:textColor="#999999"
-        android:textSize="12dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/book_demand_number" />
-
-    <TextView
-        android:id="@+id/book_state"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="25dp"
-        android:text="在馆"
-        android:textColor="#999999"
-        android:textSize="12dp"
+        android:textSize="16sp"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@+id/book_demand_number" />
+
+
 
 </android.support.constraint.ConstraintLayout>

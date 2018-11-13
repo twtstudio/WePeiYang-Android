@@ -1,6 +1,7 @@
 package com.twtstudio.retrox.tjulibrary.view
 
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -21,80 +22,61 @@ class BookFragment : Fragment() {
     lateinit var bookPublish : TextView
     lateinit var bookBorrow : TextView
     lateinit var bookLeft : TextView
-    lateinit var bookname : String
-    lateinit var bookauthor : String
-    lateinit var bookborrow : String
-    lateinit var bookleft : String
     lateinit var bookimg : String
     lateinit var bookpublish: String
+    lateinit var book : Book
 
 
     companion object {
-
         fun newInstance(book: Book,bookImg : String,bookPublish : String): BookFragment {
             val args = Bundle()
+            args.putSerializable("book",book)
             args.putString("book_publish",bookPublish)
             args.putString("book_img",bookImg)
-            args.putString("book_name", book.title)
-            args.putString("book_author",book.author)
-            args.putString("book_borrow",book.loanTime)
-            args.putString("book_left",book.timeLeft().toString())
             val fragment = BookFragment()
             fragment.arguments = args
             return fragment
         }
     }
-
-
+    @SuppressLint("SetTextI18n")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val view : View = inflater.inflate(R.layout.lib_home_cardview_detail,container,false)
         var bundle = arguments
         bookpublish = bundle!!.getString("book_publish")
         bookimg = bundle.getString("book_img")
-        bookname = bundle.getString("book_name")
-        bookauthor = bundle.getString("book_author")
-        bookborrow = bundle.getString("book_borrow")
-        bookleft = bundle.getString("book_left")
+        book = bundle.getSerializable("book") as Book
         bookImg = view.findViewById(R.id.home_image)
         bookName = view.findViewById(R.id.home_bookname)
         bookArtist = view.findViewById(R.id.detail_writer)
         bookPublish = view.findViewById(R.id.detail_publish)
         bookBorrow = view.findViewById(R.id.borrow)
         bookLeft = view.findViewById(R.id.detail_left)
-        if (bookname.length>10){
-            bookname=bookname.substring(0,10)+"..."
+        if (book.title.length>20){
+            book.title=book.title.substring(0,20)+"..."
         }
-        bookName.text = bookname
-        if (bookauthor.length>8){
-            bookauthor = bookauthor.substring(0,8)+"..."
+        bookName.text = book.title
+        if (book.author.length>14){
+            book.author = book.author.substring(0,14)+"..."
         }
-        bookArtist.text = bookauthor
+        bookArtist.text = book.author
         bookPublish.text = bookpublish
-        bookBorrow.text = bookborrow
-        if (bookleft.toInt() > 0){
-            bookLeft.text = bookleft + "天"
+        bookBorrow.text = book.loanTime
+        if (book.timeLeft() > 0){
+            bookLeft.text = book.timeLeft().toString() + "天"
         }else{
-            val x = Math.abs(bookleft.toInt())
+            val x = Math.abs(book.timeLeft())
 
             bookLeft.apply {
                 textColor = Color.RED
                 text = x.toString()+"(逾期)"
             }
         }
-
         Glide.with(activity)
                 .load(bookimg)
                 .asBitmap()
-                .placeholder(R.drawable.src)
-                .error(R.drawable.src)
+                .placeholder(R.drawable.srcpic)
+                .error(R.drawable.srcpic)
                 .into(bookImg)
-
-
-
-
-
-
-
         return view
 
     }

@@ -13,6 +13,7 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
+internal const val LIB_IMG_URL = "http://47.95.216.239:5678/"
 interface LibraryApi {
     @GET("v1/library/book/getBookImg/{id}")
     fun getImg(@Path("id") id : String) : Deferred<Img>
@@ -37,37 +38,11 @@ interface LibraryApi {
 
     @GET("v1/library/renew/{barcode}")
     fun renewBook(@Path("barcode") barcode: String): Deferred<CommonBody<List<RenewResult>>>
+    @GET("${LIB_IMG_URL}getImgs.php")
+    fun getImgUrl(@Query ("isbns") isbns : String) : Deferred<List<imgSrc>>
 
 
     companion object : LibraryApi by ServiceFactory()
-}
-
-
-interface DoubanApi {
-    @GET("v2/book/isbn/{id}")
-    fun getBookContent(@Path ("id") id : String): Deferred<BookContent>
-
-    companion object : DoubanApi by DoubanFactory()
-}
-
-
-object ImgFactory {
-    val retrofit : Retrofit = Retrofit.Builder()
-            .baseUrl("http://47.95.216.239:5678/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-            .addCallAdapterFactory(CoroutineCallAdapterFactory())
-            .build()
-
-    inline operator fun <reified T> invoke(): T = retrofit.create(T::class.java)
-}
-
-
-interface ImgApi {
-    @GET("getImgs.php")
-    fun getImgUrl(@Query ("isbns") isbns : String) : Deferred<List<imgSrc>>
-
-    companion object  : ImgApi by ImgFactory()
 }
 
 
@@ -135,7 +110,7 @@ data class Holding(
     val id: Int,
     val barcode: String,
     val callno: String,
-    val stateCode: Int,
+    var stateCode: Int,
     val state: String,
     val libCode: String,
     val lib: String,

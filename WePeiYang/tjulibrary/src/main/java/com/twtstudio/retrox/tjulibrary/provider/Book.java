@@ -2,13 +2,14 @@ package com.twtstudio.retrox.tjulibrary.provider;
 
 import com.twtstudio.retrox.tjulibrary.home.BookTimeHelper;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
  * Created by retrox on 2017/2/21.
  */
 
-public class Book {
+public class Book implements Serializable{
 
     /**
      * barcode : TD002424561

@@ -12,7 +12,7 @@ import com.twt.wepeiyang.commons.ui.rec.ItemController
 import com.twtstudio.retrox.tjulibrary.R
 import org.jetbrains.anko.layoutInflater
 
-class RankItem(val id: String, val urlOfPic: String, val titleString: String,
+class RankItem(val id: String, val urlOfPic: String, var titleString: String,
                val borrowNumber: String, val publishName: String,
                val rankFragment: RankFragment, val rankNumber: Int, val isborrow: Boolean) : Item {
 
@@ -30,10 +30,9 @@ class RankItem(val id: String, val urlOfPic: String, val titleString: String,
             item as RankItem
 
             holder.apply {
-
+                if (item.titleString.length>15){item.titleString = item.titleString.substring(0,15)+"..."}// 大于15字加省略号
                 title.text = item.titleString
                 borrowNumber.text = item.borrowNumber
-                publishName.text = item.publishName
                 when (item.rankNumber.toString()) {
                     "1" -> {
                         statisticsImg.setImageResource(R.drawable.frist)
@@ -53,23 +52,18 @@ class RankItem(val id: String, val urlOfPic: String, val titleString: String,
 
                     }
                 }
-
-
-
                 borrowMark.visibility = View.GONE
-
                 if (item.isborrow) {
                     borrowMark.visibility = View.VISIBLE
                 }
-            }
-
-            holder.itemView.setOnClickListener {
-                val bundle = Bundle()
-                bundle.putString("id", item.id)
-                val intent = Intent()
-                intent.putExtras(bundle)
-                intent.setClass(item.rankFragment.context, DetailActivity::class.java)
-                item.rankFragment.startActivity(intent)
+                itemView.setOnClickListener {
+                    val bundle = Bundle()
+                    bundle.putString("id", item.id)
+                    val intent = Intent()
+                    intent.putExtras(bundle)
+                    intent.setClass(item.rankFragment.context, DetailActivity::class.java)
+                    item.rankFragment.startActivity(intent)
+                }
             }
         }
     }
@@ -77,7 +71,6 @@ class RankItem(val id: String, val urlOfPic: String, val titleString: String,
     private class RankItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val title = itemView.findViewById<TextView>(R.id.sta_name)
         val borrowNumber = itemView.findViewById<TextView>(R.id.borrow_num)
-        val publishName = itemView.findViewById<TextView>(R.id.publish_name)
         val statisticsImg = itemView.findViewById<ImageView>(R.id.statistics_img)
         val rankNumber = itemView.findViewById<TextView>(R.id.rank_num)
         val borrowMark = itemView.findViewById<ImageView>(R.id.isborrow)

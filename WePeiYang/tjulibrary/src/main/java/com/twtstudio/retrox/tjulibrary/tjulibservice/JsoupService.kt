@@ -10,8 +10,7 @@ import org.jsoup.nodes.Element
 import org.jsoup.select.Elements
 import java.util.*
 
-class JsoupService(bookProvide: BookProvide.setBook) : BookProvide.getBook {
-    var bookProvide = bookProvide
+class JsoupService(private var bookProvide: BookProvide.setBook) : BookProvide.getBook {
 
     override fun setSearch(booklist: ArrayList<SearchBook>) {
         bookProvide.setSearchBook(booklist)
@@ -43,14 +42,10 @@ class JsoupService(bookProvide: BookProvide.setBook) : BookProvide.getBook {
                     val artist = writer.select("div").select("div")[2].select("a").text()
                     val publish = writer.select("div").select("div")[3].select("a").text()
                     val number: String = writer.select("div").select("div")[4].select("span").text()
-
-
-                    var bookName: String = bookname.text()
                     book.bookID = id
                     book.booktitle = title
                     book.bookartist = artist
                     book.bookpublish = publish
-
                     book.number = number
 
                     list.add(book)

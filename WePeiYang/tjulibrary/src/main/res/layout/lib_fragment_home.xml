@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <android.support.v4.view.ViewPager
-        android:paddingTop="20dp"
+        android:paddingTop="17dp"
         android:layout_width="match_parent"
         android:layout_height="388dp"
         android:id="@+id/view_pager">
@@ -22,12 +23,14 @@
 
     <android.support.v7.widget.CardView
         android:id="@+id/no_borrow"
-        android:layout_width="match_parent"
-        android:layout_height="450dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
+        android:layout_width="0dp"
+        android:layout_height="362dp"
+        android:layout_marginTop="17dp"
+        android:layout_marginLeft="17dp"
+        android:layout_marginRight="17dp"
         android:background="@color/white"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
@@ -49,20 +52,22 @@
         android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="@+id/view_pager"/>
 
-    
+
     <Button
-        android:layout_width="190dp"
-        android:layout_height="55dp"
         android:id="@+id/secondBorrow"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginLeft="85dp"
+        android:layout_marginRight="85dp"
+        android:layout_marginBottom="45dp"
+        android:background="#e78fae"
         android:text="一键续借"
         android:textColor="#ffffff"
-        android:textSize="17dp"
-        android:background="#e78fae"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="80dp"
+        android:textSize="17sp"
+        android:layout_marginTop="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/main_linear"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"/>
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/main_linear" />
 
 </android.support.constraint.ConstraintLayout>

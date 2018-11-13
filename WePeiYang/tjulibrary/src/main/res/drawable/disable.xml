@@ -2,11 +2,11 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="oval">
     <!--灰色-->
-    <solid android:color="#ffffff" />
+    <solid android:color="#dadada" />
     <!--半径-->
     <size
-        android:width="10dp"
-        android:height="10dp"/>
+        android:width="9dp"
+        android:height="9dp"/>
 
 
 </shape>

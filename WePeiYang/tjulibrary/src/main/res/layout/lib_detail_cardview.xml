@@ -1,58 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="360dp"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
+    app:cardElevation="2dp"
     app:layout_constraintTop_toTopOf="parent"
     android:layout_marginTop="20dp">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <ImageView
             android:id="@+id/book_pic"
             android:layout_width="103dp"
-            android:layout_height="103dp"
+            android:layout_height="108dp"
             android:layout_marginLeft="13dp"
             android:layout_marginTop="12dp"
-            android:src="@drawable/book"
+            tools:src="@drawable/book"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/book_name"
-            android:layout_width="190dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="18dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="15dp"
             android:singleLine="false"
             android:text=""
             android:textColor="#333333"
-            android:textSize="13dp"
+            android:textSize="17sp"
+            android:layout_marginRight="18dp"
             app:layout_constraintLeft_toRightOf="@+id/book_pic"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent"/>
 
         <TextView
             android:id="@+id/book_author_mark"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
             android:layout_marginTop="4dp"
             android:text="作者"
-            android:textColor="#999999"
-            android:textSize="10dp"
-            app:layout_constraintLeft_toRightOf="@+id/book_pic"
+            android:textColor="#666666"
+            android:textSize="15sp"
+            app:layout_constraintLeft_toLeftOf="@+id/book_name"
             app:layout_constraintTop_toBottomOf="@+id/book_name" />
 
         <TextView
             android:id="@+id/book_author"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
             android:text=""
-            android:textColor="#999999"
-            android:textSize="10dp"
+            android:textColor="#666666"
+            android:textSize="15sp"
+            android:layout_marginLeft="10dp"
             app:layout_constraintLeft_toRightOf="@+id/book_author_mark"
             app:layout_constraintTop_toBottomOf="@+id/book_name"
             app:layout_constraintTop_toTopOf="@+id/book_author_mark" />
@@ -61,12 +64,11 @@
             android:id="@+id/book_publisher_mark"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
             android:layout_marginTop="4dp"
             android:text="出版社"
-            android:textColor="#999999"
-            android:textSize="10dp"
-            app:layout_constraintLeft_toRightOf="@+id/book_pic"
+            android:textColor="#666666"
+            android:textSize="15sp"
+            app:layout_constraintLeft_toLeftOf="@+id/book_name"
             app:layout_constraintTop_toBottomOf="@+id/book_author" />
 
         <TextView
@@ -75,8 +77,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
             android:text=""
-            android:textColor="#999999"
-            android:textSize="10dp"
+            android:textColor="#666666"
+            android:textSize="15sp"
             app:layout_constraintLeft_toRightOf="@+id/book_publisher_mark"
             app:layout_constraintTop_toTopOf="@+id/book_publisher_mark" />
 
@@ -84,12 +86,11 @@
             android:id="@+id/book_publish_date_mark"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
             android:layout_marginTop="4dp"
             android:text="出版日期"
-            android:textColor="#999999"
-            android:textSize="10dp"
-            app:layout_constraintLeft_toRightOf="@+id/book_pic"
+            android:textColor="#666666"
+            android:textSize="15sp"
+            app:layout_constraintLeft_toLeftOf="@+id/book_name"
             app:layout_constraintTop_toBottomOf="@+id/book_publisher" />
 
         <TextView
@@ -98,90 +99,58 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
             android:text=""
-            android:textColor="#999999"
-            android:textSize="10dp"
+            android:textColor="#666666"
+            android:textSize="15sp"
             app:layout_constraintLeft_toRightOf="@+id/book_publish_date_mark"
             app:layout_constraintTop_toTopOf="@+id/book_publish_date_mark" />
 
-        <TextView
-            android:id="@+id/book_content_mark"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="25dp"
-            android:layout_marginTop="25dp"
-            android:text="内容简介"
-            android:textColor="#999999"
-            android:textSize="12dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/book_publish_date_mark" />
-
-        <TextView
-            android:id="@+id/book_content"
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="35dp"
-            android:layout_marginTop="8dp"
-            android:textColor="#999999"
-            android:textSize="10dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/book_content_mark" />
 
         <TextView
             android:id="@+id/book_condition"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="25dp"
-            android:layout_marginTop="22dp"
+            android:layout_marginLeft="22dp"
+            android:layout_marginTop="24dp"
             android:text="馆藏情况"
             android:textColor="#999999"
-            android:textSize="12dp"
+            android:textSize="16sp"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/book_content" />
+            app:layout_constraintTop_toBottomOf="@+id/book_pic" />
 
         <TextView
             android:id="@+id/book_demand_number_mark"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="20dp"
             android:text="索书号"
             android:textColor="#999999"
-            android:textSize="12dp"
-            app:layout_constraintLeft_toLeftOf="@+id/book_condition"
+            android:textSize="16sp"
+            app:layout_constraintLeft_toRightOf="@+id/book_condition"
             app:layout_constraintTop_toBottomOf="@+id/book_condition" />
 
         <TextView
             android:id="@+id/book_position_mark"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="83dp"
+            android:layout_marginEnd="46dp"
             android:text="馆藏地点"
             android:textColor="#999999"
-            android:textSize="12dp"
-            app:layout_constraintBottom_toBottomOf="@+id/book_demand_number_mark"
-            app:layout_constraintLeft_toRightOf="@id/book_demand_number_mark"
-            app:layout_constraintTop_toTopOf="@+id/book_demand_number_mark" />
-
-        <TextView
-            android:id="@+id/book_state_mark"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="30dp"
-            android:text="状态"
-            android:textColor="#999999"
-            android:textSize="12dp"
-            app:layout_constraintBottom_toBottomOf="@id/book_demand_number_mark"
+            android:textSize="16sp"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@id/book_demand_number_mark" />
+            app:layout_constraintTop_toTopOf="@+id/book_demand_number_mark"
+            />
+
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/book_recyclerview"
-            android:layout_width="285dp"
-            android:layout_height="200dp"
-            android:layout_marginTop="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="20dp"
             app:layout_constraintLeft_toLeftOf="@+id/book_condition"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/book_demand_number_mark" />
+            app:layout_constraintTop_toBottomOf="@+id/book_demand_number_mark"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="30dp"/>
 
     </android.support.constraint.ConstraintLayout>
 

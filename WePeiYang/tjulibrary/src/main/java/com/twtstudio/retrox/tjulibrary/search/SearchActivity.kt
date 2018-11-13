@@ -136,7 +136,7 @@ class SearchActivity : AppCompatActivity(), BookProvide.setBook {
         this.searchBook.addAll(booklist)
         searchAdapter.searchBook = this.searchBook
         searchAdapter.notifyDataSetChanged()
-        if (searchBook.size === 0 && page == 1) {
+        if (searchBook.size == 0 && page == 1) {
             imageView.visibility = View.VISIBLE
         } else {
             imageView.visibility = View.GONE
