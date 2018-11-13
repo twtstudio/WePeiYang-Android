@@ -110,7 +110,7 @@ data class Holding(
     val id: Int,
     val barcode: String,
     val callno: String,
-    val stateCode: Int,
+    var stateCode: Int,
     val state: String,
     val libCode: String,
     val lib: String,

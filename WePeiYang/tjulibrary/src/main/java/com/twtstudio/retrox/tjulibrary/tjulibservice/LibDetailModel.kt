@@ -14,7 +14,6 @@ interface LibDetailModel {
     }
 
     interface setBook {
-
         fun setDetailBook(book: Book, url : String, total : TotalNum)
     }
 
@@ -22,12 +21,10 @@ interface LibDetailModel {
 }
 
 
-class BookDetail(libDetailModel: LibDetailModel.setBook) : LibDetailModel.getBook{
-    val libDetailModel = libDetailModel
+class BookDetail(private val libDetailModel: LibDetailModel.setBook) : LibDetailModel.getBook{
     override fun getDetail(key: String) {
         launch(UI+ QuietCoroutineExceptionHandler) {
             val book = LibraryApi.getBook(key).await()
-            Log.d("detail",book.toString())
             val totalNum = LibraryApi.getTotalNum(key).await()
             val url = LibraryApi.getImgUrl(book.data.isbn).await()
             if (url[0].result.isEmpty()){
@@ -36,7 +33,6 @@ class BookDetail(libDetailModel: LibDetailModel.setBook) : LibDetailModel.getBoo
                 setDetail(book,url[0].result[0].coverlink,totalNum)
             }
         }
-
     }
 
     override fun setDetail(book: Book, url : String, total : TotalNum) {

@@ -113,8 +113,6 @@ class HomeLibraryFragement : Fragment(), ViewPager.OnPageChangeListener {
             my_pager.addOnPageChangeListener(this)
         }
 
-
-
         return view
     }
 

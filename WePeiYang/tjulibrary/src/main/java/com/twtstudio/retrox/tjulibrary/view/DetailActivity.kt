@@ -40,9 +40,15 @@ class DetailActivity : AppCompatActivity(),LibDetailModel.setBook {
         book_author.text = author
         book_publisher.text = book.data.publisher
         book_publish_date.text = book.data.year
+        for (state in book.data.holding){
+            if(state.stateCode==0){
+                state.stateCode+=3
+            }
+        }
         val bookBySort =book.data.holding.sortedBy {
             it.stateCode
         }
+        Log.d("book_sort",bookBySort.toString())
         adapter = DetailConditionAdapter(bookBySort, this)
         recyclerView.adapter = adapter
         total_borrow_num.text = total.totalBorrowNum.toString()
@@ -69,7 +75,6 @@ class DetailActivity : AppCompatActivity(),LibDetailModel.setBook {
         toolbar = findViewById<android.support.v7.widget.Toolbar>(R.id.toolbar).also {
             title = "借阅数据"
             it.setBackgroundColor(Color.parseColor("#e78fae"))
-
             setSupportActionBar(it)
         }
         window.statusBarColor = Color.parseColor("#e78fae")

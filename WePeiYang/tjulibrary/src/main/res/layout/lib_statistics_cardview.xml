@@ -6,6 +6,7 @@
     app:cardUseCompatPadding="true"
     android:orientation="vertical"
     android:background="#ffffff"
+    app:cardElevation="2dp"
     app:cardPreventCornerOverlap="true"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginBottom="7dp"
@@ -17,10 +18,10 @@
         android:layout_height="match_parent">
 
         <ImageView
-            android:layout_width="83dp"
-            android:layout_height="83dp"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
             android:id="@+id/statistics_img"
-            android:padding="28dp"
+            android:padding="15dp"
             android:src="@drawable/frist"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -28,8 +29,8 @@
             android:layout_marginLeft="10dp"
             />
         <TextView
-            android:layout_width="83dp"
-            android:layout_height="83dp"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
             android:textSize="20sp"
             android:textColor="#333333"
             android:background="@color/white"
@@ -41,14 +42,13 @@
             android:layout_marginLeft="10dp"
             />
         <TextView
-            android:layout_width="110dp"
+            android:layout_width="140dp"
             android:layout_height="0dp"
             android:textSize="15sp"
             android:id="@+id/sta_name"
             tool:text="新垣结衣"
             android:gravity="center_vertical"
             android:textColor="#333333"
-            android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
             app:layout_constraintTop_toTopOf="@+id/statistics_img"
             app:layout_constraintBottom_toTopOf="@+id/jieyue"
