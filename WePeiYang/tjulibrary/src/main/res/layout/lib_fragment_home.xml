@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <android.support.v4.view.ViewPager
-        android:paddingTop="20dp"
+        android:paddingTop="17dp"
         android:layout_width="match_parent"
         android:layout_height="388dp"
         android:id="@+id/view_pager">
@@ -56,7 +56,7 @@
     <Button
         android:id="@+id/secondBorrow"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="60dp"
         android:layout_marginLeft="85dp"
         android:layout_marginRight="85dp"
         android:layout_marginBottom="45dp"

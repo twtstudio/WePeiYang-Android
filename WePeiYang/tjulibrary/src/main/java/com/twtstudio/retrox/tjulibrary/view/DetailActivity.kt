@@ -27,7 +27,7 @@ class DetailActivity : AppCompatActivity(),LibDetailModel.setBook {
         Glide.with(this@DetailActivity)
                 .load(url)
                 .asBitmap()
-                .placeholder(R.drawable.src)
+                .placeholder(R.drawable.srcpic)
                 .error(R.drawable.src2)
                 .into(book_pic)
 

@@ -74,8 +74,8 @@ class BookFragment : Fragment() {
         Glide.with(activity)
                 .load(bookimg)
                 .asBitmap()
-                .placeholder(R.drawable.src)
-                .error(R.drawable.src)
+                .placeholder(R.drawable.srcpic)
+                .error(R.drawable.srcpic)
                 .into(bookImg)
         return view
 

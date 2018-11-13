@@ -132,7 +132,7 @@
             android:id="@+id/book_position_mark"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="60dp"
+            android:layout_marginEnd="46dp"
             android:text="馆藏地点"
             android:textColor="#999999"
             android:textSize="16sp"

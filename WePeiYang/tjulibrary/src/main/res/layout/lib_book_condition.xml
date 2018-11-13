@@ -9,6 +9,8 @@
         android:layout_width="27dp"
         android:layout_height="16dp"
         android:id="@+id/book_status"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginStart="20dp"/>
 
@@ -25,7 +27,8 @@
 
     <TextView
         android:id="@+id/book_position"
-        android:layout_width="wrap_content"
+        android:layout_width="110dp"
+        android:gravity="center"
         android:layout_height="wrap_content"
         android:layout_marginEnd="20dp"
         tool:text="为景路人文社科阅览室"

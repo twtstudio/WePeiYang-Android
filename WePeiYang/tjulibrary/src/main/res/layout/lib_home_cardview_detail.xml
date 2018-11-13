@@ -10,10 +10,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <android.support.v7.widget.CardView
-        android:layout_width="350dp"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginLeft="17dp"
+        android:layout_marginRight="17dp"
         app:cardUseCompatPadding="true"
         app:cardElevation="2dp"
 
