@@ -53,7 +53,7 @@ class Utils {
         fun getPicUrl(addUrl: String) = "http://open-lostfound.twtstudio.com/$addUrl"
 
         fun getExit(i: Int) = when (i) {
-            0 -> " "
+            0 -> ""
             1 -> "A口"
             2 -> "B口"
             else -> ""

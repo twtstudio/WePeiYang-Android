@@ -58,7 +58,7 @@ class WaterfallTableAdapter(private var waterFallBean: List<MyListDataOrSearchBe
         viewHolder.apply {
             waterfallItemTitle.text = dataOfItem.title
             waterfallItemLocation.text = Utils.getDetailFilterOfPlace(Hawk.get("campus")) + "-" + dataOfItem.place
-            waterfallItemThing.text = dataOfItem.name
+            waterfallItemThing.text = Utils.getType(dataOfItem.detail_type)
             waterfallItemData.text = dataOfItem.time
 
             if (lostOrFound == "found") {

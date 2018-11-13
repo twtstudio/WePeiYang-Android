@@ -46,10 +46,10 @@ class WaterfallPresenterImpl(var waterfallView: WaterfallContract.WaterfallView)
                     val dataList = when (lostOrFound) {
                         "lost" -> LostFoundService.getLost(campus, page, type, time).await()
                         else -> LostFoundService.getFound(campus, page, type, time).await()
-                    }
-
-                    if (dataList.error_code == -1) {
-                        setWaterfallData(dataList.data!!)
+                    }.let {
+                        if (it.error_code == -1) {
+                            setWaterfallData(it.data!!)
+                        }
                     }
 
                 }

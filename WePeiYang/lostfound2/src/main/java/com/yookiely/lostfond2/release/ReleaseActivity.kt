@@ -110,7 +110,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
             release_receiving_site.visibility = View.GONE
             ll_release_receiving_site_mark.visibility = View.GONE
         }
-
+        //初始化三个spinner
         initSpinnerOfTime()
         initSpinnerOfReceivingSite()
         initSpinnerOfCampus()
@@ -369,7 +369,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         selectedRecaptureEntrance = getPositionOfEntrance(detailData.recapture_entrance)
         sp_receiving_site_garden.setSelection(getPositionOfGarden(detailData.recapture_place))
         if (detailData.campus != null) {
-            sp_campus_spinner.setSelection(detailData.campus.toInt() - 1)
+            sp_campus_spinner.setSelection(detailData.campus - 1)
         }
     }
 
