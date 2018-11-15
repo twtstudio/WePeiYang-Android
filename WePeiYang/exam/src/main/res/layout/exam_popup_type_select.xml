@@ -12,10 +12,11 @@
 
         <TextView
             android:id="@+id/tv_type_select_lesson_title"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:layout_marginTop="16dp"
+            android:paddingEnd="12dp"
             android:textColor="@color/examTextBlack"
             android:textSize="16sp"
             app:layout_constraintLeft_toLeftOf="parent"

@@ -72,6 +72,8 @@ class UserFragment : Fragment() {
         userBean.let {
             Glide.with(context)
                     .load(it.avatar_url)
+                    .placeholder(R.drawable.exam_ic_avatar_default)
+                    .error(R.drawable.exam_ic_avatar_default)
                     .into(civAvatar)
 
             tvUserName.text = it.twt_name
@@ -80,7 +82,7 @@ class UserFragment : Fragment() {
             tvProblemsNum.text = it.done_count
             if (it.done_count != "0") {
                 var radioText = ((it.error_count.toDouble() / it.done_count.toDouble()).toString() + "00").substring(2, 4)
-                if (radioText[0] == '0') radioText = radioText.removeRange(0, 1)
+                if (radioText[0] == '0' && radioText[1] != '.') radioText = radioText.removeRange(0, 1)
                 tvProblemsRadio.text = "$radioText%"
             } else {
                 tvProblemsRadioTitle.visibility = View.INVISIBLE
