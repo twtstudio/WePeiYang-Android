@@ -90,7 +90,6 @@ class MyListFragement : Fragment(), MyListService.MyListView {
     override fun onResume() {
         super.onResume()
         myListBean.clear()
-        tableAdapter.notifyDataSetChanged()
         myListPresenter.loadMyListData(lostOrFound, page)
     }
 
