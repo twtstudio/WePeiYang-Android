@@ -170,8 +170,6 @@ class DetailActivity : AppCompatActivity() {
                     } else {
                         setOther("附言", "无")
                     }
-
-                    setTitle("")
                 }
             }
         }

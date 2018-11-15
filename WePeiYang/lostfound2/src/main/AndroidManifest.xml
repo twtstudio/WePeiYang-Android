@@ -9,12 +9,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.yookiely.lostfond2.mylist.MyListActivity" />
-        <activity android:name="com.yookiely.lostfond2.detail.DetailActivity" />
+        <activity
+            android:name="com.yookiely.lostfond2.mylist.MyListActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name="com.yookiely.lostfond2.detail.DetailActivity"
+            android:launchMode="singleTask" />
         <activity
             android:name="com.yookiely.lostfond2.search.SearchActivity"
             android:launchMode="singleTask" />
-        <activity android:name="com.yookiely.lostfond2.SuccessActivity" />
+        <activity
+            android:name="com.yookiely.lostfond2.SuccessActivity"
+            android:launchMode="singleTask" />
         <activity android:name="com.yookiely.lostfond2.release.ReleaseActivity" />
         <activity android:name="com.yookiely.lostfond2.waterfall.WaterfallActivity" />
         <activity
