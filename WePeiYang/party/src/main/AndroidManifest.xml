@@ -1,24 +1,25 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.twtstudio.tjliqy.party">
+    package="com.twtstudio.tjliqy.party">
 
-    <application android:allowBackup="true"
-                 android:label="@string/app_name"
-                 android:supportsRtl="true">
+    <application
+        android:allowBackup="true"
+        android:label="@string/app_name"
+        android:supportsRtl="true">
         <activity
             android:name=".ui.home.PartyActivity"
-            android:label="党建系统"/>
-        <activity android:name=".ui.submit.SubmitActivity"/>
-        <activity android:name=".ui.sign.SignActivity"/>
-        <activity android:name=".ui.study.StudyActivity"/>
-        <activity android:name=".ui.study.detail.StudyDetailActivity"/>
-        <activity android:name=".ui.study.detail.StudyDetailListActivity"/>
-        <activity android:name=".ui.inquiry.InquiryActivity"/>
-        <activity android:name=".ui.forum.ForumActivity"/>
-        <activity android:name=".ui.notification.NotificationActivity"/>
-        <activity android:name=".ui.submit.detail.SubmitDetailActivity"/>
-        <activity android:name=".ui.inquiry.appeal.AppealActivity"/>
-        <activity android:name=".ui.study.answer.StudyAnswerActivity"/>
-        <activity android:name=".ui.study.answer.StudyResultActivity"/>
+            android:label="党建系统" />
+        <activity android:name=".ui.submit.SubmitActivity" />
+        <activity android:name=".ui.sign.SignActivity" />
+        <activity android:name=".ui.study.StudyActivity" />
+        <activity android:name=".ui.study.detail.StudyDetailActivity" />
+        <activity android:name=".ui.study.detail.StudyDetailListActivity" />
+        <activity android:name=".ui.inquiry.InquiryActivity" />
+        <activity android:name=".ui.forum.ForumActivity" />
+        <activity android:name=".ui.notification.NotificationActivity" />
+        <activity android:name=".ui.submit.detail.SubmitDetailActivity" />
+        <activity android:name=".ui.inquiry.appeal.AppealActivity" />
+        <activity android:name=".ui.study.answer.StudyAnswerActivity" />
+        <activity android:name=".ui.study.answer.StudyResultActivity" />
     </application>
 
 </manifest>
