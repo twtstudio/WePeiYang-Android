@@ -37,16 +37,14 @@ class LoginActivity : AppCompatActivity() {
         loginPb = findViewById(R.id.pb_login)
         loginBtn = findViewById<Button>(R.id.btn_login).apply {
             setOnClickListener {
-                loginPb.visibility = View.VISIBLE
                 hideSoftInputMethod()
                 val activity = this@LoginActivity.asReference()
-                if(usernameEt.text.isBlank()){
-                    loginPb.visibility = View.INVISIBLE
-                    Toasty.error(this@LoginActivity,"请输入用户名").show()
-                }else if(passwordEt.text.isBlank()){
-                    loginPb.visibility = View.INVISIBLE
-                    Toasty.error(this@LoginActivity,"请输入密码").show()
-                }else {
+                if (usernameEt.text.isBlank()) {
+                    Toasty.error(this@LoginActivity, "请输入用户名").show()
+                } else if (passwordEt.text.isBlank()) {
+                    Toasty.error(this@LoginActivity, "请输入密码").show()
+                } else {
+                    loginPb.visibility = View.VISIBLE
                     loginBtn.isEnabled = false
                     login(usernameEt.text.toString(), passwordEt.text.toString()) {
                         when (it) {
