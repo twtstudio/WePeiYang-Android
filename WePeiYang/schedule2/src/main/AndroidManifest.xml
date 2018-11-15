@@ -1,15 +1,20 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.twt.service.schedule2" >
+    package="com.twt.service.schedule2">
+
     <application>
-        <activity android:name=".view.custom.AddCustomCourseActivity"/>
-        <activity android:name=".view.schedule.ScheduleActivity" android:exported="true">
+        <activity android:name=".view.custom.AddCustomCourseActivity" />
+        <activity
+            android:name=".view.schedule.ScheduleActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.twt.schedule.action.DYNAMIC_OPEN" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.week.WeekTestActivity" android:exported="true"/>
+        <activity
+            android:name=".view.week.WeekTestActivity"
+            android:exported="true" />
         <activity
             android:name=".view.audit.AuditActivity"
             android:exported="true" />

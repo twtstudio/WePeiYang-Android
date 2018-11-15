@@ -1,26 +1,22 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.twt.service.tjunet" >
-
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    package="com.twt.service.tjunet">
 
     <application>
 
         <activity android:name=".view.TjuNetActivity" />
 
         <receiver android:name=".reconnect.AutoConnectReceiver">
-            <intent-filter >
-                <action android:name="android.net.wifi.RSSI_CHANGED"/>
-                <action android:name="android.net.wifi.STATE_CHANGE"/>
-                <action android:name="android.net.wifi.WIFI_STATE_CHANGED"/>
-                <action android:name="android.NET.conn.CONNECTIVITY_CHANGE"/>
+            <intent-filter>
+                <action android:name="android.net.wifi.RSSI_CHANGED" />
+                <action android:name="android.net.wifi.STATE_CHANGE" />
+                <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
+                <action android:name="android.NET.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
 
-        <service android:name=".reconnect.ReconnectJob"
-            android:permission="android.permission.BIND_JOB_SERVICE"/>
+        <service
+            android:name=".reconnect.ReconnectJob"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
 
     </application>
 
