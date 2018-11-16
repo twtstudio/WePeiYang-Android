@@ -153,7 +153,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
                 duration = i
             }
 
-            override fun onNothingSelected(adapterView: AdapterView<*>) {}
+            override fun onNothingSelected(adapterView: AdapterView<*>) = Unit
         }
         cv_release_confirm.setOnClickListener(this)
         cv_release_delete.setOnClickListener(this)
@@ -179,9 +179,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
                     campus = position + 1
                 }
 
-                override fun onNothingSelected(parent: AdapterView<*>?) {
-                    //To change body of created functions use File | Settings | File Templates.
-                }
+                override fun onNothingSelected(parent: AdapterView<*>?) = Unit
             }
         }
     }
@@ -238,21 +236,15 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
                                 }
                             }
 
-                            override fun onNothingSelected(parent: AdapterView<*>?) {
-                                //To change body of created functions use File | Settings | File Templates.
-                            }
+                            override fun onNothingSelected(parent: AdapterView<*>?) = Unit
                         }
                     }
 
-                    override fun onNothingSelected(parent: AdapterView<*>?) {
-                        //To change body of created functions use File | Settings | File Templates.
-                    }
+                    override fun onNothingSelected(parent: AdapterView<*>?) = Unit
                 }
             }
 
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-                //To change body of created functions use File | Settings | File Templates.
-            }
+            override fun onNothingSelected(parent: AdapterView<*>?) = Unit
         }
 
         val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
