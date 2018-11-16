@@ -1,0 +1,6 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.twt.service.slide" >
+    <application>
+        <service android:name=".flash.CoreSlideService"/>
+    </application>
+</manifest>

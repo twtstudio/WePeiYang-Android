@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.support.multidex.MultiDexApplication
+import android.support.v4.content.ContextCompat
 import android.util.Log
 import com.github.piasy.biv.BigImageViewer
 import com.github.piasy.biv.loader.glide.GlideImageLoader
@@ -12,6 +13,7 @@ import com.tencent.bugly.Bugly
 import com.tencent.bugly.crashreport.CrashReport
 import com.twt.service.push.DebugProxyService
 import com.twt.service.settings.SingleBindActivity
+import com.twt.service.slide.flash.CoreSlideService
 import com.twt.service.tjunet.reconnect.ReconnectJob
 import com.twt.service.welcome.WelcomeActivity
 import com.twt.wepeiyang.commons.experimental.CommonContext
@@ -42,6 +44,9 @@ class WePeiYangApp : MultiDexApplication() {
             CrashReport.setIsDevelopmentDevice(it, BuildConfig.DEBUG)
             BigImageViewer.initialize(GlideImageLoader.with(it))
         }
+
+        val intentSer = Intent(this, CoreSlideService::class.java)
+        ContextCompat.startForegroundService(this, intentSer)
 
         val defaults: Defaults = Defaults(
                 primaryColor = CustomTheme.customPollia,

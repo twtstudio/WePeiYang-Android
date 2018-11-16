@@ -30,6 +30,9 @@ import com.twt.wepeiyang.commons.experimental.cache.RefreshState
 import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
 import es.dmoral.toasty.Toasty
 import io.multimoon.colorful.CAppCompatActivity
+import kotlinx.coroutines.experimental.CommonPool
+import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.launch
 import org.jetbrains.anko.*
 import java.net.SocketTimeoutException
 
@@ -155,27 +158,34 @@ class ScheduleActivity : CAppCompatActivity() {
             layoutManager.spanSizeLookup = CourseSpanSizeLookup(adapter.courseList)
             recyclerView.invalidateItemDecorations()
 
-            // todo: 这部分应该去异步执行 但是目前有异常 所以过段时间再看看
-            weekSquareDataList.removeAll { true }
-            for (i in 1..22) {
-                val weekMatrix = it.getWeekCourseMatrix(i)
-                // 硬编码自定义view底部Text的行为比较僵硬 自定义view里面对字符串做判断可能导致维护时候的bug
-                // 但是暂时这样子吧
-                var btmText = ""
-                if (i == week && i != it.getCurrentWeek()) {
-                    btmText = "选中(非本周)"
-                } else if (i == week && i == it.getCurrentWeek()) {
-                    btmText = "选中(本周)"
-                } else if (i != week && i == it.getCurrentWeek()) {
-                    btmText = "本周"
-                }
-                weekSquareDataList.add(WeekSquareView.WeekSquareData(
-                        weekInt = i,
-                        booleanPoints = weekMatrix,
-                        currentWeekText = btmText
-                ))
-            }
             weekSelectAdapter.refreshWeekSquareData(weekSquareDataList)
+
+            launch(kotlinx.coroutines.experimental.android.UI) {
+                // todo: 这部分应该去异步执行 但是目前有异常 所以过段时间再看看
+                val job = async(CommonPool) {
+                    weekSquareDataList.removeAll { true }
+                    for (i in 1..22) {
+                        val weekMatrix = it.getWeekCourseMatrix(i)
+                        // 硬编码自定义view底部Text的行为比较僵硬 自定义view里面对字符串做判断可能导致维护时候的bug
+                        // 但是暂时这样子吧
+                        var btmText = ""
+                        if (i == week && i != it.getCurrentWeek()) {
+                            btmText = "选中(非本周)"
+                        } else if (i == week && i == it.getCurrentWeek()) {
+                            btmText = "选中(本周)"
+                        } else if (i != week && i == it.getCurrentWeek()) {
+                            btmText = "本周"
+                        }
+                        weekSquareDataList.add(WeekSquareView.WeekSquareData(
+                                weekInt = i,
+                                booleanPoints = weekMatrix,
+                                currentWeekText = btmText
+                        ))
+                    }
+                }
+                job.await()
+                weekSelectAdapter.refreshWeekSquareData(weekSquareDataList)
+            }
 
             if (currentWeek == -1) {
                 val smoothScroller = object : LinearSmoothScroller(ctx) {

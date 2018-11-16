@@ -20,6 +20,15 @@
 
     <font
         android:fontStyle="normal"
+        android:fontWeight="500"
+        android:font="@font/montserrat_medium"
+        app:fontStyle="normal"
+        app:fontWeight="500"
+        app:font="@font/montserrat_medium"/>
+
+
+    <font
+        android:fontStyle="normal"
         android:fontWeight="600"
         android:font="@font/montserrat_bold"
         app:fontStyle="normal"

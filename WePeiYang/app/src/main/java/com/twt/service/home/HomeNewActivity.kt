@@ -1,10 +1,14 @@
 package com.twt.service.home
 
 import android.Manifest
+import android.content.ActivityNotFoundException
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.support.annotation.RequiresApi
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -17,13 +21,16 @@ import com.twt.service.R
 import com.twt.service.home.message.*
 import com.twt.service.home.other.homeOthers
 import com.twt.service.home.user.FragmentActivity
+import com.twt.service.schedule2.view.custom.singleText
 import com.twt.service.schedule2.view.home.homeScheduleItem
+import com.twt.service.slide.flash.DropboxOutputManager
+import com.twt.service.slide.flash.FlashFloatWindow
+import com.twt.service.slide.flash.FlashFloatWindow2
 import com.twt.service.tjunet.view.homeTjuNetItem
 import com.twt.service.widget.ScheduleWidgetProvider
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
 import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
 import com.twt.wepeiyang.commons.experimental.extensions.enableLightStatusBarMode
-import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.withItems
 import com.twt.wepeiyang.commons.view.RecyclerViewDivider
 import com.twtstudio.retrox.auth.api.authSelfLiveData
@@ -35,6 +42,7 @@ import org.jetbrains.anko.dip
 import org.jetbrains.anko.startActivity
 import pub.devrel.easypermissions.EasyPermissions
 import xyz.rickygao.gpa2.view.gpaNewHomeItem
+import java.lang.Exception
 
 
 class HomeNewActivity : CAppCompatActivity() {
@@ -66,6 +74,8 @@ class HomeNewActivity : CAppCompatActivity() {
             layoutManager = LinearLayoutManager(this.context)
             addItemDecoration(RecyclerViewDivider.Builder(this@HomeNewActivity).setSize(4f).setColor(Color.TRANSPARENT).build())
         }
+        val flashFloatWindow = FlashFloatWindow(this.applicationContext)
+        val flashFloatWindow2 = FlashFloatWindow2(this.applicationContext)
         val itemManager = rec.withItems {
             // 重写了各个 item 的 areItemsTheSame areContentsTheSame 实现动画刷新主页
             if (MessagePreferences.isDisplayMessage) {
@@ -77,6 +87,25 @@ class HomeNewActivity : CAppCompatActivity() {
             }
             libraryHomeItem(this@HomeNewActivity)
             homeTjuNetItem(this@HomeNewActivity)
+            singleText("开启悬浮") {
+                setOnClickListener {
+                    try {
+                        flashFloatWindow.showFloatWindow()
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                }
+            }
+            singleText("关闭") {
+                setOnClickListener {
+                    flashFloatWindow2.showFloatWindow()
+                }
+            }
+            singleText("获取数据") {
+                setOnClickListener {
+                    DropboxOutputManager.getInstance().printDropboxLog()
+                }
+            }
             homeOthers()
         }
         launch(UI + QuietCoroutineExceptionHandler) {

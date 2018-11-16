@@ -120,6 +120,7 @@ dependencies {
     [':auth', ':bike', ':commons', ':gpa2', ':tjulibrary', ':tjunet', ':party', ':schedule2', ':news2', ':yellowpages2'].each {
         implementation project(it)
     }
+    implementation project(':slide')
     implementation 'com.twt.service:fragmentation:1.1.0'
 
     [*supportLibraries, 'constraint-layout', 'multidex', *archLibraries, 'kotlin-stdlib', 'butterknife', 'anko'].each {
