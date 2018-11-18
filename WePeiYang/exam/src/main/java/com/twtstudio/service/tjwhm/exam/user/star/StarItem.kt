@@ -51,6 +51,7 @@ class StarItem(val context: Context, val problemBean: ProblemBean, val starOrWro
 
                 tvLessonType?.text = item.problemBean.class_id.toLessonType()
                 tvProblemType?.text = item.problemBean.ques_type.toProblemType()
+                tvCourseName?.text = item.problemBean.course_name
                 tvProblemTitle?.text = Html.fromHtml(item.problemBean.content)
                 tvAnswer?.text = "题目答案: ${item.problemBean.answer}"
                 rvSelections?.layoutManager = LinearLayoutManager(item.context)
@@ -165,6 +166,7 @@ class StarItem(val context: Context, val problemBean: ProblemBean, val starOrWro
     private class ItemViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
         val tvLessonType: TextView? = itemView?.findViewById(R.id.tv_star_lesson_type)
         val tvProblemType: TextView? = itemView?.findViewById(R.id.tv_star_problem_type)
+        val tvCourseName: TextView? = itemView?.findViewById(R.id.tv_star_course_name)
         val tvProblemTitle: TextView? = itemView?.findViewById(R.id.tv_star_problem_title)
         val rvSelections: RecyclerView? = itemView?.findViewById(R.id.rv_star_selection)
         val tvAnswer: TextView? = itemView?.findViewById(R.id.tv_star_answer)

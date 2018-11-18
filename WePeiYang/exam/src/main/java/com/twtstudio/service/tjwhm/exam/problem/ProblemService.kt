@@ -118,7 +118,8 @@ data class ProblemBean(
         val answer: String,
         val is_collected: Int,
         val is_mistake: Int,
-        val error_option: String
+        val error_option: String,
+        val course_name: String
 )
 
 data class TestBean(

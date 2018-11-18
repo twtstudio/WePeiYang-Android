@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    tools:ignore="ContentDescription">
 
     <TextView
         android:id="@+id/tv_star_lesson_type"
@@ -30,6 +31,21 @@
         app:layout_constraintLeft_toRightOf="@+id/tv_star_lesson_type"
         app:layout_constraintTop_toTopOf="@+id/tv_star_lesson_type"
         tools:text="单选" />
+
+    <TextView
+        android:id="@+id/tv_star_course_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="26dp"
+        android:ellipsize="end"
+        android:maxEms="11"
+        android:maxLines="1"
+        android:textColor="@color/examTextGray"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@id/tv_star_lesson_type"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tv_star_lesson_type"
+        tools:text="近代革命史的起点" />
 
     <TextView
         android:id="@+id/tv_star_problem_title"

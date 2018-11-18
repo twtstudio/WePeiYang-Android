@@ -84,7 +84,7 @@ class ProblemFragment : Fragment() {
     private var answerIsShown: Boolean = false
     var type: Int = 0
     private var mode: Int? = null
-    private var problemID: Int = 0
+    var problemID: Int = 0
     private var clickable = true
     private var fragmentIndex = -1
     private var singleSelectionAnswer = -1
@@ -212,9 +212,7 @@ class ProblemFragment : Fragment() {
                                     }
                                 }
                             }
-                            if (fragmentIndex == 0)
-                                mark(course_id, ques_type, ques_id.toString(), 0.toString())
-                            else
+                            if (mActivity.currentFragmentIndex == fragmentIndex)
                                 mark(course_id, ques_type, ques_id.toString(), fragmentIndex.toString())
                         }
                         changeMode()
@@ -278,6 +276,7 @@ class ProblemFragment : Fragment() {
             }
         }
     }
+
 
     private fun cancelCollectProblem() {
         val list = MultipartBody.Builder()
@@ -368,7 +367,6 @@ class ProblemFragment : Fragment() {
                 }
             }
         }
-
     }
 
     private fun onSelectionClickForPracticeMulti(clickId: Int) {

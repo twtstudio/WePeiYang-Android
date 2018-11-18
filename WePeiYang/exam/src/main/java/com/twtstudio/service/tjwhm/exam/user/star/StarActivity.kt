@@ -12,6 +12,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import com.twt.wepeiyang.commons.experimental.cache.RefreshState
+import com.twt.wepeiyang.commons.ui.rec.refreshAll
 import com.twt.wepeiyang.commons.ui.rec.withItems
 import com.twtstudio.service.tjwhm.exam.R
 import com.twtstudio.service.tjwhm.exam.commons.joinQQGroupForHelp
@@ -84,6 +85,7 @@ class StarActivity : AppCompatActivity() {
     }
 
     private fun startStarNetwork() {
+        srlStar.isRefreshing = true
         getCollections(starOrWrong.toString()) {
             when (it) {
                 is RefreshState.Failure -> Toasty.error(this@StarActivity, "网络错误", Toast.LENGTH_SHORT).show()
@@ -91,7 +93,8 @@ class StarActivity : AppCompatActivity() {
                     if (it.message.data == null || it.message.data?.size == 0) {
                         ivNoRecord.visibility = View.VISIBLE
                         tvNoRecord.visibility = View.VISIBLE
-                    } else it.message.data?.apply {
+                    }
+                    it.message.data?.apply {
                         rvStar.withItems {
                             for (i in 0 until this@apply.size) {
                                 starItem(this@StarActivity, this@apply[i], starOrWrong)

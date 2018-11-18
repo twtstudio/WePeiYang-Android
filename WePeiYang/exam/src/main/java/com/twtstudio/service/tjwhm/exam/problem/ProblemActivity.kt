@@ -126,6 +126,7 @@ class ProblemActivity : AppCompatActivity(), ProblemActivityInterface {
                 currentFragmentIndex = position
                 if (position > 1 && mode == READ_AND_PRACTICE)
                     write(lessonID.toString(), problemType.toString(), (currentFragmentIndex - 1).toString())
+                mark(lessonID.toString(), problemType.toString(), (pagerAdapter.getItem(position) as ProblemFragment).problemID.toString(), currentFragmentIndex.toString())
             }
         })
         startTime = System.currentTimeMillis()
@@ -259,7 +260,7 @@ class ProblemActivity : AppCompatActivity(), ProblemActivityInterface {
             when (it) {
                 is RefreshState.Failure -> {
                     Toasty.error(this@ProblemActivity, "网络错误", Toast.LENGTH_SHORT).show()
-                    Log.e("ProblemActivity: ", it.throwable.toString())
+                    Log.e("ProblemActivity", it.throwable.toString())
                 }
                 is RefreshState.Success -> {
                     Toasty.success(this@ProblemActivity, "交卷成功！", Toast.LENGTH_SHORT).show()

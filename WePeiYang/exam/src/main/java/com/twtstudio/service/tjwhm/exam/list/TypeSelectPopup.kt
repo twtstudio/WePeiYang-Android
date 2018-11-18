@@ -216,9 +216,11 @@ class TypeSelectPopup(mContext: Context, private val listActivityInterface: List
         val scaleX = ObjectAnimator.ofFloat(view, "scaleX", 0f, 1f)
         val scaleY = ObjectAnimator.ofFloat(view, "scaleY", 0f, 1f)
         val x = ObjectAnimator.ofFloat(view, "X", startXY.first, 30f * density)
-        animSet.duration = 200L
-        animSet.interpolator = AccelerateDecelerateInterpolator()
-        animSet.play(scaleX).with(scaleY).with(alphaAnim).with(x)
+        animSet.apply {
+            duration = 200L
+            interpolator = AccelerateDecelerateInterpolator()
+            play(scaleX).with(scaleY).with(alphaAnim).with(x)
+        }
         return animSet
     }
 
@@ -228,9 +230,11 @@ class TypeSelectPopup(mContext: Context, private val listActivityInterface: List
         val scaleX = ObjectAnimator.ofFloat(view, "scaleX", 1f, 0f)
         val scaleY = ObjectAnimator.ofFloat(view, "scaleY", 1f, 0f)
         val x = ObjectAnimator.ofFloat(view, "X", 30f * density, startXY.first)
-        animSet.duration = 200L
-        animSet.interpolator = AccelerateDecelerateInterpolator()
-        animSet.play(scaleX).with(scaleY).with(contentAnim).with(x)
+        animSet.apply {
+            duration = 200L
+            interpolator = AccelerateDecelerateInterpolator()
+            play(scaleX).with(scaleY).with(contentAnim).with(x)
+        }
         return animSet
     }
 

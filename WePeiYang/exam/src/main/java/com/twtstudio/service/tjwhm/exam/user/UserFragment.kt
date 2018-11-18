@@ -72,7 +72,6 @@ class UserFragment : Fragment() {
         userBean.let {
             Glide.with(context)
                     .load(it.avatar_url)
-                    .placeholder(R.drawable.exam_ic_avatar_default)
                     .error(R.drawable.exam_ic_avatar_default)
                     .into(civAvatar)
 
