@@ -16,7 +16,6 @@ import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.*
-import android.view.KeyEvent
 import android.view.View
 import android.view.Window
 import android.view.inputmethod.InputMethodManager
@@ -28,7 +27,7 @@ import com.orhanobut.hawk.Hawk
 import com.yookiely.lostfond2.SuccessActivity
 import com.yookiely.lostfond2.service.DetailData
 import com.yookiely.lostfond2.service.MyListDataOrSearchBean
-import com.yookiely.lostfond2.service.PermissionsUtils
+import com.yookiely.lostfond2.service.Utils
 import com.zhihu.matisse.Matisse
 import com.zhihu.matisse.MimeType
 import com.zhihu.matisse.engine.impl.GlideEngine
@@ -45,7 +44,6 @@ import kotlinx.android.synthetic.main.lf_release_cardview_publish.*
 import java.io.*
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.OnClickListener {
 
@@ -137,7 +135,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
     //时间选择spinner的具体实现
     private fun initSpinnerOfTime() {
         val dateInt = longArrayOf(7, 15, 30)
-        val spinnerList = ArrayList<String>()
+        val spinnerList = mutableListOf<String>()
         spinnerList.add("7天")
         spinnerList.add("15天")
         spinnerList.add("30天")
@@ -164,7 +162,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
 
     //校区选择spinner的具体实现
     private fun initSpinnerOfCampus() {
-        val spinnerOfCampus = ArrayList<String>()
+        val spinnerOfCampus = mutableListOf<String>()
         spinnerOfCampus.apply {
             add("北洋园")
             add("卫津路")
@@ -186,7 +184,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
 
     //领取站点spinner的具体实现
     private fun initSpinnerOfReceivingSite() {
-        val spinnerListOfGarden = ArrayList<String>()
+        val spinnerListOfGarden = mutableListOf<String>()
         spinnerListOfGarden.apply {
             add("无")
             add("格园")
@@ -195,10 +193,10 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
             add("修园")
             add("齐园")
         }
-        val spinnerListOfRoom = ArrayList<String>()
-        val spinnerListOfEntrance = ArrayList<String>()
-        val dataListOfRoom = ArrayList<Int>()
-        val dataListOfEntrance = ArrayList<Int>()
+        val spinnerListOfRoom = mutableListOf<String>()
+        val spinnerListOfEntrance = mutableListOf<String>()
+        val dataListOfRoom = mutableListOf<Int>()
+        val dataListOfEntrance = mutableListOf<Int>()
 
         //园的选择
         val adapterOfGarden = ArrayAdapter<String>(this, R.layout.lf2_custom_spiner_text_item, spinnerListOfGarden)
@@ -211,14 +209,14 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         sp_receiving_site_garden.adapter = adapterOfGarden
         sp_receiving_site_garden.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                getListOfRoom(spinnerListOfRoom, dataListOfRoom, position)
+                Utils.getListOfRoom(spinnerListOfRoom, dataListOfRoom, position)
 
                 //斋的选择
                 sp_receiving_site_room.adapter = adapterOfRoom
                 sp_receiving_site_room.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                         roomOfReceivingSite = spinnerListOfRoom[position]//dataListOfRoom[position].toString()
-                        getListOfEntrance(spinnerListOfEntrance, dataListOfEntrance, dataListOfRoom[position])
+                        Utils.getListOfEntrance(spinnerListOfEntrance, dataListOfEntrance, dataListOfRoom[position])
                         //口的选择
 
                         if (refreshSpinnerOfRoom) {
@@ -328,6 +326,13 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         finish()
     }
 
+    override fun failCallBack(message: String) {
+        if (progressDialog.isShowing) {
+            progressDialog.dismiss()
+        }
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
     override fun setEditData(detailData: DetailData) {
         if (detailData.picture != null) {
             releasePicAdapter.addPicUrl(detailData.picture)
@@ -357,9 +362,9 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
 
         refreshSpinnerOfRoom = true
         refreshSpinnerOfEntrance = true
-        selectedRecaptureRoom = getPositionOfRoom(detailData.recapture_place!!)
-        selectedRecaptureEntrance = getPositionOfEntrance(detailData.recapture_entrance)
-        sp_receiving_site_garden.setSelection(getPositionOfGarden(detailData.recapture_place))
+        selectedRecaptureRoom = Utils.getPositionOfRoom(detailData.recapture_place!!)
+        selectedRecaptureEntrance = Utils.getPositionOfEntrance(detailData.recapture_entrance)
+        sp_receiving_site_garden.setSelection(Utils.getPositionOfGarden(detailData.recapture_place))
         if (detailData.campus != null) {
             sp_campus_spinner.setSelection(detailData.campus - 1)
         }
@@ -444,19 +449,15 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        //request = 2 代表来自于
         if (requestCode == 2 && resultCode != 0) {
             this.selectedPic = Matisse.obtainResult(data) //将选择的图片加入到上传的列表中
             releasePicAdapter.changePic(this.selectedPic[0]) //加载选择的图片
         }
     }
 
-    //Android自带的三件套的返回键的点击事件
-    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            showExitDialog()
-        }
-
-        return false
+    override fun onBackPressed() {
+        showExitDialog()
     }
 
     //退出编辑发布或丢失页面的dialog
@@ -554,26 +555,6 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         return file
     }
 
-    val mPermissionGrant: PermissionsUtils.PermissionGrant = object : PermissionsUtils.PermissionGrant {
-        override fun onPermissionGranted(requestCode: Int) = when (requestCode) {
-            PermissionsUtils.CODE_RECORD_AUDIO -> Toast.makeText(this@ReleaseActivity, "Result Permission Grant CODE_RECORD_AUDIO", Toast.LENGTH_SHORT).show()
-            PermissionsUtils.CODE_GET_ACCOUNTS -> Toast.makeText(this@ReleaseActivity, "Result Permission Grant CODE_GET_ACCOUNTS", Toast.LENGTH_SHORT).show()
-            PermissionsUtils.CODE_READ_PHONE_STATE -> Toast.makeText(this@ReleaseActivity, "Result Permission Grant CODE_READ_PHONE_STATE", Toast.LENGTH_SHORT).show()
-            PermissionsUtils.CODE_CALL_PHONE -> Toast.makeText(this@ReleaseActivity, "Result Permission Grant CODE_CALL_PHONE", Toast.LENGTH_SHORT).show()
-            PermissionsUtils.CODE_CAMERA -> Toast.makeText(this@ReleaseActivity, "Result Permission Grant CODE_CAMERA", Toast.LENGTH_SHORT).show()
-            PermissionsUtils.CODE_ACCESS_FINE_LOCATION -> Toast.makeText(this@ReleaseActivity, "Result Permission Grant CODE_ACCESS_FINE_LOCATION", Toast.LENGTH_SHORT).show()
-            PermissionsUtils.CODE_ACCESS_COARSE_LOCATION -> Toast.makeText(this@ReleaseActivity, "Result Permission Grant CODE_ACCESS_COARSE_LOCATION", Toast.LENGTH_SHORT).show()
-            PermissionsUtils.CODE_READ_EXTERNAL_STORAGE -> openSeletPic()
-            PermissionsUtils.CODE_WRITE_EXTERNAL_STORAGE -> Toast.makeText(this@ReleaseActivity, "Result Permission Grant CODE_WRITE_EXTERNAL_STORAGE", Toast.LENGTH_SHORT).show()
-            else -> {
-            }
-        }
-    }
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>,
-                                            grantResults: IntArray) = PermissionsUtils.requestPermissionsResult(this, requestCode, permissions, grantResults, mPermissionGrant)
-
-
     //用第三方库打开相册
     @SuppressLint("ResourceType")
     fun openSeletPic() = Matisse.from(this@ReleaseActivity)
@@ -593,7 +574,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         val alertDialogBuilder = AlertDialog.Builder(this@ReleaseActivity)
         alertDialogBuilder.setItems(list) { dialog, item ->
             when (item) {
-                0 -> PermissionsUtils.requestPermission(this@ReleaseActivity, PermissionsUtils.CODE_READ_EXTERNAL_STORAGE, mPermissionGrant)
+                0 -> openSeletPic()
                 1 -> releasePicAdapter.removePic()
                 2 -> dialog.dismiss()
             }
@@ -602,116 +583,13 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         alert.show()
     }
 
-    //以下几个方法是关于领取站点的spinner的一系列内容处理
-    private fun getListOfRoom(list: ArrayList<String>, intList: ArrayList<Int>, position: Int) {
-        list.clear()
-        intList.clear()
-        when (position) {
-            0 -> {
-                list.add("无")
-                intList.add(0)
-            }
-            1 -> {
-                list.add("1斋")
-                list.add("2斋")
-                list.add("3斋")
-                intList.add(1)
-                intList.add(2)
-                intList.add(3)
-            }
-            2 -> {
-                list.add("6斋")
-                list.add("7斋")
-                list.add("8斋")
-                intList.add(6)
-                intList.add(7)
-                intList.add(8)
-            }
-            3 -> {
-                list.add("9斋")
-                list.add("10斋")
-                intList.add(9)
-                intList.add(10)
-            }
-            4 -> {
-                list.add("11斋")
-                list.add("12斋")
-                intList.add(11)
-                intList.add(12)
-            }
-            5 -> {
-                list.add("13斋")
-                list.add("14斋")
-                list.add("15斋")
-                list.add("16斋")
-                intList.add(13)
-                intList.add(14)
-                intList.add(15)
-                intList.add(16)
-            }
-            else -> {
-            }
-        }
-    }
-
-    private fun getListOfEntrance(list: ArrayList<String>, intList: ArrayList<Int>, room: Int) {
-        list.clear()
-        intList.clear()
-
-        when (room) {
-            0 -> {
-                list.add("无")
-                intList.add(0)
-            }
-            1, 2, 9, 10 -> {
-                list.add("只有一个入口")
-                intList.add(0)
-            }
-            11, 12 -> {
-                list.add("只可A口")
-                intList.add(0)
-            }
-            else -> {
-                list.add("A口")
-                list.add("B口")
-                intList.add(1)
-                intList.add(2)
-            }
-        }
-    }
-
     private fun judgeNull(list: List<Uri?>): Boolean {
-        for (i in 0..(list.size - 1)) {
-            if (list[i] != null) {
+        list.forEach {
+            if (it != null) {
                 return false
             }
         }
 
         return true
-    }
-
-    // 返回值数据为其在所对应数组中的位置
-    private fun getPositionOfGarden(i: String): Int = when (i) {
-        "无" -> 0
-        "1斋", "2斋", "3斋" -> 1
-        "6斋", "7斋", "8斋" -> 2
-        "9斋", "10斋" -> 3
-        "11斋", "12斋" -> 4
-        "13斋", "14斋", "15斋", "16斋" -> 5
-        else -> 2333
-    }
-
-    private fun getPositionOfRoom(i: String): Int = when (i) {
-        "无", "1斋", "6斋", "9斋", "11斋", "13斋" -> 0
-        "2斋", "7斋", "10斋", "12斋", "14斋" -> 1
-        "3斋", "8斋", "15斋" -> 2
-        "16斋" -> 3
-        else -> 2333
-    }
-
-    private fun getPositionOfEntrance(i: Int): Int = when (i) {
-        0, 1 -> 0
-        2 -> 1
-        else -> 404
     }
 }

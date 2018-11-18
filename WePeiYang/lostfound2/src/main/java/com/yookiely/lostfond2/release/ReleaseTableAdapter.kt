@@ -54,5 +54,6 @@ class ReleaseTableAdapter(val context: Context, private val positionSelected: In
         }
     }
 
+    //物品种类共有13个
     override fun getItemCount() = 13
 }

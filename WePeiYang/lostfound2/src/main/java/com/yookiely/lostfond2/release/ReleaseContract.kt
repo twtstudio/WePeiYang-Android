@@ -10,6 +10,8 @@ interface ReleaseContract {
 
         fun successCallBack(beanList: List<MyListDataOrSearchBean>)
 
+        fun failCallBack(message: String)
+
         fun setEditData(detailData: DetailData)
 
         fun deleteSuccessCallBack()
@@ -27,11 +29,13 @@ interface ReleaseContract {
 
         fun successCallBack(beanList: List<MyListDataOrSearchBean>)
 
-        fun successEditCallback(beanList: List<MyListDataOrSearchBean>)
+        fun successEditCallBack(beanList: List<MyListDataOrSearchBean>)
+
+        fun failCallback(message: String)
 
         fun delete(id: Int)
 
-        fun deleteSuccessCallBack(beanList: String)
+        fun deleteSuccessCallBack()
 
         fun uploadEditDataWithPic(map: Map<String, Any>, lostOrFound: String, listOfFile: MutableList<File?>, listOfString: MutableList<String?>, id: Int)
 

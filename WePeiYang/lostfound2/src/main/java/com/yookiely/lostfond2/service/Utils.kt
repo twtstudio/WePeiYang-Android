@@ -68,5 +68,108 @@ class Utils {
             "13斋", "14斋", "15斋", "16斋" -> "齐园"
             else -> ""
         }
+
+        //以下几个方法是关于领取站点的spinner的一系列内容处理
+        fun getListOfRoom(list: MutableList<String>, intList: MutableList<Int>, position: Int) {
+            list.clear()
+            intList.clear()
+            when (position) {
+                0 -> {
+                    list.add("无")
+                    intList.add(0)
+                }
+                1 -> {
+                    list.add("1斋")
+                    list.add("2斋")
+                    list.add("3斋")
+                    intList.add(1)
+                    intList.add(2)
+                    intList.add(3)
+                }
+                2 -> {
+                    list.add("6斋")
+                    list.add("7斋")
+                    list.add("8斋")
+                    intList.add(6)
+                    intList.add(7)
+                    intList.add(8)
+                }
+                3 -> {
+                    list.add("9斋")
+                    list.add("10斋")
+                    intList.add(9)
+                    intList.add(10)
+                }
+                4 -> {
+                    list.add("11斋")
+                    list.add("12斋")
+                    intList.add(11)
+                    intList.add(12)
+                }
+                5 -> {
+                    list.add("13斋")
+                    list.add("14斋")
+                    list.add("15斋")
+                    list.add("16斋")
+                    intList.add(13)
+                    intList.add(14)
+                    intList.add(15)
+                    intList.add(16)
+                }
+                else -> {
+                }
+            }
+        }
+
+        fun getListOfEntrance(list: MutableList<String>, intList: MutableList<Int>, room: Int) {
+            list.clear()
+            intList.clear()
+
+            when (room) {
+                0 -> {
+                    list.add("无")
+                    intList.add(0)
+                }
+                1, 2, 9, 10 -> {
+                    list.add("只有一个入口")
+                    intList.add(0)
+                }
+                11, 12 -> {
+                    list.add("只可A口")
+                    intList.add(0)
+                }
+                else -> {
+                    list.add("A口")
+                    list.add("B口")
+                    intList.add(1)
+                    intList.add(2)
+                }
+            }
+        }
+
+        // 返回值数据为其在所对应数组中的位置
+        fun getPositionOfGarden(i: String): Int = when (i) {
+            "无" -> 0
+            "1斋", "2斋", "3斋" -> 1
+            "6斋", "7斋", "8斋" -> 2
+            "9斋", "10斋" -> 3
+            "11斋", "12斋" -> 4
+            "13斋", "14斋", "15斋", "16斋" -> 5
+            else -> 2333
+        }
+
+        fun getPositionOfRoom(i: String): Int = when (i) {
+            "无", "1斋", "6斋", "9斋", "11斋", "13斋" -> 0
+            "2斋", "7斋", "10斋", "12斋", "14斋" -> 1
+            "3斋", "8斋", "15斋" -> 2
+            "16斋" -> 3
+            else -> 2333
+        }
+
+        fun getPositionOfEntrance(i: Int): Int = when (i) {
+            0, 1 -> 0
+            2 -> 1
+            else -> 404
+        }
     }
 }

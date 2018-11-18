@@ -11,7 +11,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.example.lostfond2.R
-import com.yookiely.lostfond2.service.PermissionsUtils
 import com.yookiely.lostfond2.service.Utils
 
 //上传多图的recyclerview的adapter
@@ -38,14 +37,16 @@ class ReleasePicAdapter(val list: MutableList<Any?>,
                 currentPosition = position
 
                 if (list[position] == null) {
-                    PermissionsUtils.requestPermission(releaseActivity, PermissionsUtils.CODE_READ_EXTERNAL_STORAGE, releaseActivity.mPermissionGrant)
+                    releaseActivity.openSeletPic()
                 } else {
                     showDialogOfPic()
                 }
             }
             setOnLongClickListener {
-                currentPosition = position
-                releaseActivity.setPicEdit()
+                if (list[position] != null) {
+                    currentPosition = position
+                    releaseActivity.setPicEdit()
+                }
                 true
             }
         }
@@ -62,7 +63,7 @@ class ReleasePicAdapter(val list: MutableList<Any?>,
             }
         } else {
             Glide.with(context)
-                    .load(Utils.getPicUrl("julao.jpg"))
+                    .load(Utils.getPicUrl(""))
                     .placeholder(R.drawable.lf_choose_pic)
                     .into(holder.releasePic)
         }

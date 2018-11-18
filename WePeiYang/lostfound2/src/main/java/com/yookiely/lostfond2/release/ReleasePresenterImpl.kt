@@ -1,9 +1,9 @@
 package com.yookiely.lostfond2.release
 
-import com.google.gson.JsonArray
+import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
+import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import com.yookiely.lostfond2.service.LostFoundService
 import com.yookiely.lostfond2.service.MyListDataOrSearchBean
-import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 import okhttp3.MediaType
@@ -11,153 +11,155 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import java.io.File
 import java.util.*
-import kotlin.collections.ArrayList
 
 class ReleasePresenterImpl(private var releaseView: ReleaseContract.ReleaseView) : ReleaseContract.ReleasePresenter {
 
 
     override fun uploadReleaseData(map: Map<String, Any>, lostOrFound: String) {
 
-        val builder = MultipartBody.Builder().setType(MultipartBody.FORM)
-        builder.apply {
-            addFormDataPart("title", map["title"].toString())
-            addFormDataPart("time", map["time"].toString())
-            addFormDataPart("place", map["place"].toString())
-            addFormDataPart("detail_type", map["detail_type"].toString())
-            addFormDataPart("card_number", map["card_number"].toString())
-            addFormDataPart("card_name", map["card_name"].toString())
-            addFormDataPart("name", map["name"].toString())
-            addFormDataPart("phone", map["phone"].toString())
-            addFormDataPart("item_description", map["item_description"].toString())
-            addFormDataPart("other_tag", "")
-            addFormDataPart("duration", map["duration"].toString())
-            addFormDataPart("campus", map["campus"].toString())
+        val builder = MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("title", map["title"].toString())
+                .addFormDataPart("time", map["time"].toString())
+                .addFormDataPart("place", map["place"].toString())
+                .addFormDataPart("detail_type", map["detail_type"].toString())
+                .addFormDataPart("card_number", map["card_number"].toString())
+                .addFormDataPart("card_name", map["card_name"].toString())
+                .addFormDataPart("name", map["name"].toString())
+                .addFormDataPart("phone", map["phone"].toString())
+                .addFormDataPart("item_description", map["item_description"].toString())
+                .addFormDataPart("other_tag", "")
+                .addFormDataPart("duration", map["duration"].toString())
+                .addFormDataPart("campus", map["campus"].toString())
 
-            if (lostOrFound == "found") {
-                addFormDataPart("recapture_place", map["recapture_place"].toString())
-                addFormDataPart("recapture_entrance", map["recapture_entrance"].toString())
-            }
+        if (lostOrFound == "found") {
+            builder.addFormDataPart("recapture_place", map["recapture_place"].toString())
+                    .addFormDataPart("recapture_entrance", map["recapture_entrance"].toString())
         }
-        val parts: List<MultipartBody.Part> = builder.build().parts()
+        val list = builder.build().parts()
 
         launch(UI + QuietCoroutineExceptionHandler) {
-            val beanList = LostFoundService.updateReleaseWithPic(lostOrFound, parts).await()
-                    .let {
-                        if (it.error_code == -1) {
-                            this@ReleasePresenterImpl.successCallBack(it.data!!)
-                        }
-                    }
+            LostFoundService.updateReleaseWithPic(lostOrFound, list).awaitAndHandle {
+                this@ReleasePresenterImpl.failCallback("上传失败")
+            }?.let {
+                if (it.error_code == -1) {
+                    this@ReleasePresenterImpl.successCallBack(it.data!!)
+                }
+            }
         }
     }
 
     override fun uploadReleaseDataWithPic(map: Map<String, Any>, lostOrFound: String, listOfFile: MutableList<File?>) {
 
-        val builder = MultipartBody.Builder().setType(MultipartBody.FORM)
+        val builder = MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("title", map["title"].toString())
+                .addFormDataPart("time", map["time"].toString())
+                .addFormDataPart("place", map["place"].toString())
+                .addFormDataPart("detail_type", map["detail_type"].toString())
+                .addFormDataPart("card_number", map["card_number"].toString())
+                .addFormDataPart("card_name", map["card_name"].toString())
+                .addFormDataPart("name", map["name"].toString())
+                .addFormDataPart("phone", map["phone"].toString())
+                .addFormDataPart("item_description", map["item_description"].toString())
+                .addFormDataPart("other_tag", "")
+                .addFormDataPart("duration", map["duration"].toString())
+                .addFormDataPart("campus", map["campus"].toString())
 
-        builder.apply {
-            for (i in listOfFile) {
-                if (i != null) {
-                    val imageBody = RequestBody.create(MediaType.parse("multipart/form-data"), i)
-                    addFormDataPart("pic[]", i.name, imageBody)
-                }
-            }
-
-            addFormDataPart("title", map["title"].toString())
-            addFormDataPart("time", map["time"].toString())
-            addFormDataPart("place", map["place"].toString())
-            addFormDataPart("detail_type", map["detail_type"].toString())
-            addFormDataPart("card_number", map["card_number"].toString())
-            addFormDataPart("card_name", map["card_name"].toString())
-            addFormDataPart("name", map["name"].toString())
-            addFormDataPart("phone", map["phone"].toString())
-            addFormDataPart("item_description", map["item_description"].toString())
-            addFormDataPart("other_tag", "")
-            addFormDataPart("duration", map["duration"].toString())
-            addFormDataPart("campus", map["campus"].toString())
-
-            if (lostOrFound == "found") {
-                addFormDataPart("recapture_place", map["recapture_place"].toString())
-                addFormDataPart("recapture_entrance", map["recapture_entrance"].toString())
+        listOfFile.forEach {
+            if (it != null) {
+                val imageBody = RequestBody.create(MediaType.parse("multipart/form-data"), it)
+                builder.addFormDataPart("pic[]", it.name, imageBody)
             }
         }
-        val parts: List<MultipartBody.Part> = builder.build().parts()
+
+        if (lostOrFound == "found") {
+            builder.addFormDataPart("recapture_place", map["recapture_place"].toString())
+                    .addFormDataPart("recapture_entrance", map["recapture_entrance"].toString())
+        }
+
+        val list = builder.build().parts()
 
         launch(UI + QuietCoroutineExceptionHandler) {
-            val beanList = LostFoundService.updateReleaseWithPic(lostOrFound, parts).await()
-                    .let {
-                        if (it.error_code == -1) {
-                            this@ReleasePresenterImpl.successCallBack(it.data!!)
-                        }
-                    }
+            LostFoundService.updateReleaseWithPic(lostOrFound, list).awaitAndHandle {
+                this@ReleasePresenterImpl.failCallback("上传失败")
+            }?.let {
+                if (it.error_code == -1) {
+                    this@ReleasePresenterImpl.successCallBack(it.data!!)
+                }
+            }
 
         }
     }
 
     override fun successCallBack(beanList: List<MyListDataOrSearchBean>) = releaseView.successCallBack(beanList)
 
-    override fun successEditCallback(beanList: List<MyListDataOrSearchBean>) = releaseView.successCallBack(beanList)
+    override fun successEditCallBack(beanList: List<MyListDataOrSearchBean>) = releaseView.successCallBack(beanList)
 
-    override fun deleteSuccessCallBack(string: String) = releaseView.deleteSuccessCallBack()
+    override fun deleteSuccessCallBack() = releaseView.deleteSuccessCallBack()
+
+    override fun failCallback(message: String) = releaseView.failCallBack(message)
 
     override fun delete(id: Int) {
         launch(UI + QuietCoroutineExceptionHandler) {
-            val commonBodyOfId = LostFoundService.delete(id.toString()).await()
-                    .let {
-                        if (it.error_code == -1) {
-                            this@ReleasePresenterImpl.deleteSuccessCallBack(it.data!!)
-                        }
-                    }
+            LostFoundService.delete(id.toString()).awaitAndHandle {
+                this@ReleasePresenterImpl.failCallback("删除失败")
+            }?.let {
+                if (it.error_code == -1) {
+                    this@ReleasePresenterImpl.deleteSuccessCallBack()
+                }
+            }
         }
     }
 
     override fun uploadEditDataWithPic(map: Map<String, Any>, lostOrFound: String, listOfFile: MutableList<File?>, listOfString: MutableList<String?>, id: Int) {
-        val builder = MultipartBody.Builder().setType(MultipartBody.FORM)
+        val builder = MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("kept_picture", listOfString.toString())
+                .addFormDataPart("title", map["title"].toString())
+                .addFormDataPart("time", map["time"].toString())
+                .addFormDataPart("place", map["place"].toString())
+                .addFormDataPart("detail_type", map["detail_type"].toString())
+                .addFormDataPart("card_number", map["card_number"].toString())
+                .addFormDataPart("card_name", map["card_name"].toString())
+                .addFormDataPart("name", map["name"].toString())
+                .addFormDataPart("phone", map["phone"].toString())
+                .addFormDataPart("item_description", map["item_description"].toString())
+                .addFormDataPart("other_tag", "")
+                .addFormDataPart("duration", map["duration"].toString())
+                .addFormDataPart("campus", map["campus"].toString())
 
-        builder.apply {
-            for (i in listOfFile) {
-                if (i != null) {
-                    val imageBody = RequestBody.create(MediaType.parse("multipart/form-data"), i)
-                    addFormDataPart("pic[]", i.name, imageBody)
-                }
-            }
-
-            addFormDataPart("kept_picture", listOfString.toString())
-
-            addFormDataPart("title", map["title"].toString())
-            addFormDataPart("time", map["time"].toString())
-            addFormDataPart("place", map["place"].toString())
-            addFormDataPart("detail_type", map["detail_type"].toString())
-            addFormDataPart("card_number", map["card_number"].toString())
-            addFormDataPart("card_name", map["card_name"].toString())
-            addFormDataPart("name", map["name"].toString())
-            addFormDataPart("phone", map["phone"].toString())
-            addFormDataPart("item_description", map["item_description"].toString())
-            addFormDataPart("other_tag", "")
-            addFormDataPart("duration", map["duration"].toString())
-            addFormDataPart("campus", map["campus"].toString())
-
-            if (lostOrFound == "editFound") {
-                addFormDataPart("recapture_place", map["recapture_place"].toString())
-                addFormDataPart("recapture_enterance", map["recapture_enterance"].toString())
+        listOfFile.forEach {
+            if (it != null) {
+                val imageBody = RequestBody.create(MediaType.parse("multipart/form-data"), it)
+                builder.addFormDataPart("pic[]", it.name, imageBody)
             }
         }
-        val parts: List<MultipartBody.Part> = builder.build().parts()
+
+        if (lostOrFound == "editFound") {
+            builder.addFormDataPart("recapture_place", map["recapture_place"].toString())
+                    .addFormDataPart("recapture_enterance", map["recapture_enterance"].toString())
+        }
+
+        val list = builder.build().parts()
         val anotherLostOrFound = if (Objects.equals(lostOrFound, "editLost")) "lost" else "found"
 
         launch(UI + QuietCoroutineExceptionHandler) {
-            val beanList = LostFoundService.updateEditWithPic(anotherLostOrFound, id.toString(), parts).await()
-                    .let {
-                        if (it.error_code == -1) {
-                            this@ReleasePresenterImpl.successEditCallback(it.data!!)
-                        }
-                    }
+            LostFoundService.updateEditWithPic(anotherLostOrFound, id.toString(), list).awaitAndHandle {
+                this@ReleasePresenterImpl.failCallback("编辑失败")
+            }?.let {
+                if (it.error_code == -1) {
+                    this@ReleasePresenterImpl.successEditCallBack(it.data!!)
+                }
+            }
         }
     }
 
     override fun loadDetailDataForEdit(id: Int, releaseView: ReleaseContract.ReleaseView) {
         launch(UI + QuietCoroutineExceptionHandler) {
-            val detailData = LostFoundService.getDetailed(id).await()
-                    .let {
+            LostFoundService.getDetailed(id).awaitAndHandle {
+                this@ReleasePresenterImpl.failCallback("数据拉取失败了")
+            }?.let {
                         if (it.error_code == -1) {
                             releaseView.setEditData(it.data!!)
                         }
