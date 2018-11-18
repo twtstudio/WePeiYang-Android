@@ -32,39 +32,42 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.auth_activity_login)
-
         usernameEt = findViewById(R.id.et_username)
         passwordEt = findViewById(R.id.et_password)
         loginPb = findViewById(R.id.pb_login)
         loginBtn = findViewById<Button>(R.id.btn_login).apply {
             setOnClickListener {
-                loginBtn.isEnabled = false
-                loginPb.visibility = View.VISIBLE
                 hideSoftInputMethod()
-
                 val activity = this@LoginActivity.asReference()
-                login(usernameEt.text.toString(), passwordEt.text.toString()) {
-                    when (it) {
-                        is RefreshState.Success ->
-                            authSelfLiveData.refresh(REMOTE) {
-                                when (it) {
-                                    is RefreshState.Success -> {
-                                        Toasty.success(activity(), "登录成功").show()
-                                        startActivity(name = "welcome")
-                                        finish()
-                                    }
-                                    is RefreshState.Failure -> {
-                                        Toasty.error(activity(), "发生错误 ${it.throwable.message}！${it.javaClass.name}").show()
-                                        loginPb.visibility = View.INVISIBLE
-                                        loginBtn.isEnabled = true
+                if (usernameEt.text.isBlank()) {
+                    Toasty.error(this@LoginActivity, "请输入用户名").show()
+                } else if (passwordEt.text.isBlank()) {
+                    Toasty.error(this@LoginActivity, "请输入密码").show()
+                } else {
+                    loginPb.visibility = View.VISIBLE
+                    loginBtn.isEnabled = false
+                    login(usernameEt.text.toString(), passwordEt.text.toString()) {
+                        when (it) {
+                            is RefreshState.Success ->
+                                authSelfLiveData.refresh(REMOTE) {
+                                    when (it) {
+                                        is RefreshState.Success -> {
+                                            Toasty.success(activity(), "登录成功").show()
+                                            startActivity(name = "welcome")
+                                            finish()
+                                        }
+                                        is RefreshState.Failure -> {
+                                            Toasty.error(activity(), "发生错误 ${it.throwable.message}！${it.javaClass.name}").show()
+                                            loginPb.visibility = View.INVISIBLE
+                                            loginBtn.isEnabled = true
+                                        }
                                     }
                                 }
+                            is RefreshState.Failure -> {
+                                Toasty.error(activity(), "发生错误 ${it.throwable.message}！${it.javaClass.name}").show()
+                                loginPb.visibility = View.INVISIBLE
+                                loginBtn.isEnabled = true
                             }
-
-                        is RefreshState.Failure -> {
-                            Toasty.error(activity(), "发生错误 ${it.throwable.message}！${it.javaClass.name}").show()
-                            loginPb.visibility = View.INVISIBLE
-                            loginBtn.isEnabled = true
                         }
                     }
                 }
