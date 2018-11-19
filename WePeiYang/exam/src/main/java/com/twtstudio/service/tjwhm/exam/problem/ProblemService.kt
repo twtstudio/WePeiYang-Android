@@ -3,7 +3,8 @@ package com.twtstudio.service.tjwhm.exam.problem
 import com.twt.wepeiyang.commons.experimental.cache.RefreshState
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import com.twt.wepeiyang.commons.experimental.network.CommonBody
-import com.twt.wepeiyang.commons.experimental.network.ServiceFactoryForExam
+import com.twt.wepeiyang.commons.experimental.network.ServiceFactory
+import com.twtstudio.service.tjwhm.exam.commons.EXAM_BASE_URL
 import kotlinx.coroutines.experimental.Deferred
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
@@ -12,30 +13,30 @@ import retrofit2.http.*
 import java.io.Serializable
 
 interface ProblemService {
-    @GET("remember/getAllId/{lesson_id}/{type}")
+    @GET("${EXAM_BASE_URL}remember/getAllId/{lesson_id}/{type}")
     fun getIDs(@Path("lesson_id") lessonID: String, @Path("type") type: String): Deferred<CommonBody<List<Int>>>
 
-    @GET("remember/getQuesById/{lesson_id}/{type}/{problem_id}")
+    @GET("${EXAM_BASE_URL}remember/getQuesById/{lesson_id}/{type}/{problem_id}")
     fun getProblem(@Path("lesson_id") lessonID: String, @Path("type") type: String, @Path("problem_id") problemID: String): Deferred<CommonBody<ProblemBean>>
 
-    @GET("exercise/getQues/{lesson_id}")
+    @GET("${EXAM_BASE_URL}exercise/getQues/{lesson_id}")
     fun getTestProblems(@Path("lesson_id") lessonID: String): Deferred<CommonBody<TestBean>>
 
-    @POST("exercise/getScore/{lesson_id}/{time}")
+    @POST("${EXAM_BASE_URL}exercise/getScore/{lesson_id}/{time}")
     fun uploadResult(@Path("lesson_id") lessonID: String, @Path("time") time: String, @Body answerList: List<UpdateResultViewModel>): Deferred<CommonBody<ScoreBean>>
 
     @Multipart
-    @POST("remember/mark")
+    @POST("${EXAM_BASE_URL}remember/mark")
     fun mark(@Part list: MutableList<MultipartBody.Part>): Deferred<CommonBody<Unit>>
 
     @Multipart
-    @POST("remember/current_course/write")
+    @POST("${EXAM_BASE_URL}remember/current_course/write")
     fun write(@Part list: MutableList<MultipartBody.Part>): Deferred<CommonBody<Unit>>
 
-    @GET("student/exercise_result")
+    @GET("${EXAM_BASE_URL}student/exercise_result")
     fun getTestHistory(@Query("time") time: String): Deferred<CommonBody<ScoreBean>>
 
-    companion object : ProblemService by ServiceFactoryForExam()
+    companion object : ProblemService by ServiceFactory()
 }
 
 fun getIDs(lessonID: String, type: String, callback: suspend (RefreshState<CommonBody<List<Int>>>) -> Unit) =

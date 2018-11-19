@@ -239,7 +239,7 @@ class ProblemActivity : AppCompatActivity(), ProblemActivityInterface {
             if (userSelectionsForTest[it]?.answer != "")
                 answered++
         }
-        if (mode == CONTEST && answered == size - 1) {
+        if (mode == CONTEST && answered == size) {
             AlertDialog.Builder(this@ProblemActivity).apply {
                 setMessage("本次测试共${testBean?.question?.size}题\n\n你全部完成\n\n" +
                         "是否交卷？")

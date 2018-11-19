@@ -57,7 +57,6 @@
         app:layout_constraintTop_toTopOf="@id/tv_enter_practice" />
 
     <View
-        android:id="@+id/v_lesson_divider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginStart="16dp"

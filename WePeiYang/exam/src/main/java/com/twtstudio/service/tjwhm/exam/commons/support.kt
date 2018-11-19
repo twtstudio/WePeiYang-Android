@@ -35,3 +35,5 @@ class FixedSpeedScroller(context: Context) : Scroller(context) {
     override fun startScroll(startX: Int, startY: Int, dx: Int, dy: Int) =
             super.startScroll(startX, startY, dx, dy, mDuration)
 }
+
+const val EXAM_BASE_URL = "https://exam.twtstudio.com/api/"

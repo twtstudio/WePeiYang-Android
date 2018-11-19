@@ -3,7 +3,8 @@ package com.twtstudio.service.tjwhm.exam.user
 import com.twt.wepeiyang.commons.experimental.cache.*
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import com.twt.wepeiyang.commons.experimental.network.CommonBody
-import com.twt.wepeiyang.commons.experimental.network.ServiceFactoryForExam
+import com.twt.wepeiyang.commons.experimental.network.ServiceFactory
+import com.twtstudio.service.tjwhm.exam.commons.EXAM_BASE_URL
 import com.twtstudio.service.tjwhm.exam.problem.ProblemBean
 import kotlinx.coroutines.experimental.Deferred
 import kotlinx.coroutines.experimental.android.UI
@@ -12,24 +13,24 @@ import okhttp3.MultipartBody
 import retrofit2.http.*
 
 interface UserService {
-    @GET("student")
+    @GET("${EXAM_BASE_URL}student")
     fun getUserInfo(): Deferred<CommonBody<UserBean>>
 
-    @GET("student/history")
+    @GET("${EXAM_BASE_URL}student/history")
     fun getHistory(): Deferred<CommonBody<List<OneHistoryBean>>>
 
-    @GET("special/getQues/{star_or_wrong}")
+    @GET("${EXAM_BASE_URL}special/getQues/{star_or_wrong}")
     fun getCollections(@Path("star_or_wrong") starOrWrong: String): Deferred<CommonBody<List<ProblemBean>>>
 
     @Multipart
-    @POST("special/addQues/{star_or_wrong}")
+    @POST("${EXAM_BASE_URL}special/addQues/{star_or_wrong}")
     fun addCollection(@Path("star_or_wrong") starOrWrong: String, @Part list: MutableList<MultipartBody.Part>): Deferred<CommonBody<Nothing>>
 
     @Multipart
-    @POST("special/deleteQues/{star_or_wrong}")
+    @POST("${EXAM_BASE_URL}special/deleteQues/{star_or_wrong}")
     fun deleteCollection(@Path("star_or_wrong") starOrWrong: String, @Part list: MutableList<MultipartBody.Part>): Deferred<CommonBody<Nothing>>
 
-    companion object : UserService by ServiceFactoryForExam()
+    companion object : UserService by ServiceFactory()
 }
 
 val examUserLocalCache = Cache.hawk<UserBean>("ExamUser")

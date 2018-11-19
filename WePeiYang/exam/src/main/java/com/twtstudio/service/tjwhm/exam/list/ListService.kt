@@ -3,7 +3,8 @@ package com.twtstudio.service.tjwhm.exam.list
 import com.twt.wepeiyang.commons.experimental.cache.RefreshState
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import com.twt.wepeiyang.commons.experimental.network.CommonBody
-import com.twt.wepeiyang.commons.experimental.network.ServiceFactoryForExam
+import com.twt.wepeiyang.commons.experimental.network.ServiceFactory
+import com.twtstudio.service.tjwhm.exam.commons.EXAM_BASE_URL
 import kotlinx.coroutines.experimental.Deferred
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
@@ -11,16 +12,16 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 
 interface ListService {
-    @GET("class/{classId}")
+    @GET("${EXAM_BASE_URL}class/{classId}")
     fun getLessonList(@Path("classId") classId: String): Deferred<CommonBody<List<LessonBean>>>
 
-    @GET("search/{key}")
+    @GET("${EXAM_BASE_URL}search/{key}")
     fun findLessonList(@Path("key") key: String): Deferred<CommonBody<List<LessonBean>>>
 
-    @GET("course/{lessonID}")
+    @GET("${EXAM_BASE_URL}course/{lessonID}")
     fun getLessonInfo(@Path("lessonID") lessonID: String): Deferred<CommonBody<LessonInfoBean>>
 
-    companion object : ListService by ServiceFactoryForExam()
+    companion object : ListService by ServiceFactory()
 }
 
 fun getList(lessonID: String, callback: suspend (RefreshState<CommonBody<List<LessonBean>>>) -> Unit) =
