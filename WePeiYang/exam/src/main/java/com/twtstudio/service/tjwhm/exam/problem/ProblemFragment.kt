@@ -470,7 +470,7 @@ class ProblemFragment : Fragment() {
                     tvAnswer.visibility = View.VISIBLE
                 }
                 TEST_MODE -> {
-                    clickable = false
+                    clickable = true
                     repeat(list.size) {
                         when (it) {
                             in multiSelectionAnswers -> list[it] = SelectionItem(list[it] as SelectionItem, SelectionItem.TRUE)
