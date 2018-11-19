@@ -27,15 +27,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <ImageView
-                    android:id="@+id/iv_search_init_back"
-                    android:layout_width="27dp"
-                    android:layout_height="27dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginStart="5dp"
-                    android:src="@drawable/ic_arrow_back_black_24dp"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                <!--<ImageView-->
+                <!--android:id="@+id/iv_search_init_back"-->
+                <!--android:layout_width="27dp"-->
+                <!--android:layout_height="27dp"-->
+                <!--android:layout_marginTop="10dp"-->
+                <!--android:layout_marginStart="5dp"-->
+                <!--android:src="@drawable/ic_arrow_back_black_24dp"-->
+                <!--app:layout_constraintLeft_toLeftOf="parent"-->
+                <!--app:layout_constraintTop_toTopOf="parent" />-->
 
                 <ImageView
                     android:id="@+id/iv_search_init_icon_right"
@@ -50,13 +50,15 @@
                 <EditText
                     android:theme="@style/myEditText"
                     android:id="@+id/et_search_init_et"
-                    android:layout_width="300dp"
+                    android:layout_width="280dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="6dp"
+                    android:layout_marginStart="12dp"
                     android:layout_marginEnd="12dp"
+                    android:textSize="18sp"
+                    android:textColor="@color/white"
                     android:hint="@string/lf2_search_hint"
                     android:textCursorDrawable="@color/white"
-                    app:layout_constraintRight_toLeftOf="@+id/iv_search_init_icon_right"
+                    app:layout_constraintLeft_toLeftOf="parent"
                     android:singleLine="true" />
 
 

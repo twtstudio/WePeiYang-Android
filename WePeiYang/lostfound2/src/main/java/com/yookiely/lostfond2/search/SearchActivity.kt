@@ -51,7 +51,7 @@ class SearchActivity : AppCompatActivity() {
         imageViewBlue = findViewById(R.id.iv_search_type_blue)
         imageViewGrey = findViewById(R.id.iv_search_type_grey)
         searchType = findViewById(R.id.tl_search_type)
-        backImageView = findViewById(R.id.iv_search_back)
+        //backImageView = findViewById(R.id.iv_search_back)
         // listView = findViewById(R.id.lf2_search_hr_lv)
         lostFragment = SearchFragment.newInstance("lost")
         foundFragment = SearchFragment.newInstance("found")
@@ -69,6 +69,11 @@ class SearchActivity : AppCompatActivity() {
             setSelectedTabIndicatorColor(Color.parseColor("#00a1e9"))
         }
         imageViewBlue.visibility = View.GONE
+        toolbar.apply {
+            setSupportActionBar(this)
+            supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+            setNavigationOnClickListener { onBackPressed() }
+        }
 
         //将上一个activity的数据取出来用
         val bundle = intent.extras
@@ -79,12 +84,12 @@ class SearchActivity : AppCompatActivity() {
         hideInputKeyboard()
         onDetachedFromWindow()
 
-        backImageView.setOnClickListener {
-            hideInputKeyboard()
-            finish()
-            onDetachedFromWindow()
-            onBackPressed()
-        }
+//        backImageView.setOnClickListener {
+//            hideInputKeyboard()
+//            finish()
+//            onDetachedFromWindow()
+//            onBackPressed()
+//        }
         textView.setOnClickListener {
             hideInputKeyboard()
             val intent = Intent()

@@ -27,25 +27,25 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <ImageView
-                    android:id="@+id/iv_search_back"
-                    android:layout_width="27dp"
-                    android:layout_height="27dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginStart="5dp"
-                    android:src="@drawable/ic_arrow_back_black_24dp"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                <!--<ImageView-->
+                <!--android:id="@+id/iv_search_back"-->
+                <!--android:layout_width="27dp"-->
+                <!--android:layout_height="27dp"-->
+                <!--android:layout_marginTop="10dp"-->
+                <!--android:layout_marginStart="5dp"-->
+                <!--android:src="@drawable/ic_arrow_back_black_24dp"-->
+                <!--app:layout_constraintLeft_toLeftOf="parent"-->
+                <!--app:layout_constraintTop_toTopOf="parent" />-->
 
                 <TextView
                     android:id="@+id/tv_search_result"
-                    android:textSize="20sp"
+                    android:textSize="18sp"
                     tools:text="3017218119"
-                    android:layout_width="300dp"
+                    android:textColor="@color/white"
+                    android:layout_width="280dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="14dp"
-                    app:layout_constraintBottom_toBottomOf="@+id/iv_search_back"
-                    app:layout_constraintLeft_toRightOf="@+id/iv_search_back" />
+                    android:layout_marginStart="12dp"
+                    app:layout_constraintLeft_toLeftOf="parent" />
 
                 <ImageView
                     android:background="#ffffff"

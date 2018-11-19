@@ -39,7 +39,7 @@ class SearchInitActivity : AppCompatActivity() {
         recyclerView = findViewById(R.id.rv_search_init_hr_rv)
         imageViewClean = findViewById(R.id.iv_search_init_clean)
         editText = findViewById(R.id.et_search_init_et)
-        imageViewBack = findViewById(R.id.iv_search_init_back)
+        // imageViewBack = findViewById(R.id.iv_search_init_back)
 
         initRV()//初始化搜索历史的rv
 
@@ -65,7 +65,12 @@ class SearchInitActivity : AppCompatActivity() {
             getdatas()
         }
 
-        imageViewBack.setOnClickListener { onBackPressed() }//返回
+        toolbar.apply {
+            setSupportActionBar(this)
+            supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+            setNavigationOnClickListener { onBackPressed() }
+        }
+        //imageViewBack.setOnClickListener { onBackPressed() }//返回
     }
 
     override fun onRestart() {
