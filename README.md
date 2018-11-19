@@ -528,8 +528,8 @@ val typeface = ResourcesCompat.getFont(context, R.font.montserrat_regular)
 ```
 然后在配合字重来做字体效果。比如说这种：`StyleSpan(Typeface.BOLD)`
 
-#### StringSpanDSL使用
-目前StringSpanDSL写在了Schedule2模块中  `com/twt/service/schedule2/extensions/StringExtensions.kt` ，之后会根据应用场景考虑放在Commons里面。
+#### StringSpanDSL使用
+目前StringSpanDSL写在了Schedule2模块中  `com/twt/service/schedule2/extensions/StringExtensions.kt` ，之后会根据应用场景考虑放在Commons里面。
 一段示例：
 ```kotlin 
 val roomCluster = course.arrange[0].room.split("楼")

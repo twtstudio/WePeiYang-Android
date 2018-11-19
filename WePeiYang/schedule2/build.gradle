@@ -2,7 +2,6 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
-//apply plugin: 'me.tatarka'
 
 android {
     compileSdkVersion versions.compileSdk
@@ -42,7 +41,6 @@ kotlin {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-//    implementation 'com.android.support:appcompat-v7:26.1.0'
     implementation (project(':commons')) {
         exclude group: 'io.reactivex', module: 'rxjava'
     }
@@ -55,7 +53,6 @@ dependencies {
         kapt dependenciesMap[it]
     }
 
-//    implementation 'com.haozhang.libary:android-slanted-textview:1.2'
     implementation "org.jetbrains.anko:anko-commons:${versions.anko}"
     implementation 'com.zhihu.android:matisse:0.4.3'
     implementation "org.jetbrains.anko:anko-constraint-layout:${versions.anko}"

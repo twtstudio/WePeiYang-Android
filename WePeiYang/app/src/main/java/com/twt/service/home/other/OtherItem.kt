@@ -49,6 +49,12 @@ class OtherItem : Item {
             val layout = holder.linearLayout as _LinearLayout
             layout.apply {
                 removeAllViews()
+                addItem("黄页", "天大电话簿") {
+                    it.context.startActivity<YellowPageActivity>()
+                }
+                addItem("刷题", "沉迷学习，日渐头秃") {
+                    it.context.startActivity<ExamHomeActivity>()
+                }
                 addItem("学生党建", "和微北洋共建社会主义") {
                     it.context.startActivity<PartyActivity>()
                 }
@@ -57,12 +63,6 @@ class OtherItem : Item {
                 }
                 addItem("新闻", "环宇北洋，心识天下") {
                     it.context.startActivity<NewsActivity>()
-                }
-                addItem("黄页", "天大电话簿") {
-                    it.context.startActivity<YellowPageActivity>()
-                }
-                addItem("题库","沉迷学习，日渐头秃"){
-                    it.context.startActivity<ExamHomeActivity>()
                 }
             }
         }
