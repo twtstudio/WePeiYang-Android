@@ -1,12 +1,15 @@
 package com.yookiely.lostfond2.release
 
+import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.ContentUris
 import android.content.Context
 import android.content.Intent
 import android.content.pm.ActivityInfo
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
@@ -14,6 +17,8 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.DocumentsContract
 import android.provider.MediaStore
+import android.support.v4.app.ActivityCompat
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.*
 import android.view.View
@@ -41,6 +46,7 @@ import kotlinx.android.synthetic.main.lf_release_cardview_delete.*
 import kotlinx.android.synthetic.main.lf_release_cardview_info.*
 import kotlinx.android.synthetic.main.lf_release_cardview_moreinfo.*
 import kotlinx.android.synthetic.main.lf_release_cardview_publish.*
+import pub.devrel.easypermissions.EasyPermissions
 import java.io.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -574,7 +580,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         val alertDialogBuilder = AlertDialog.Builder(this@ReleaseActivity)
         alertDialogBuilder.setItems(list) { dialog, item ->
             when (item) {
-                0 -> openSeletPic()
+                0 -> checkPermAndOpenPic()
                 1 -> releasePicAdapter.removePic()
                 2 -> dialog.dismiss()
             }
@@ -591,5 +597,13 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         }
 
         return true
+    }
+
+    fun checkPermAndOpenPic() {
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            EasyPermissions.requestPermissions(this, "需要外部存储来提供必要的缓存", 0, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
+        } else {
+            openSeletPic()
+        }
     }
 }
