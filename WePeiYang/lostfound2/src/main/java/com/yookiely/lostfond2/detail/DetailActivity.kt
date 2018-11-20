@@ -79,7 +79,6 @@ class DetailActivity : AppCompatActivity() {
 
                             Glide.with(context)
                                     .load<Any>(images[position])
-                                    .placeholder(R.drawable.lf_detail_np)
                                     .error(R.drawable.lf_detail_np)
                                     .into(popupWindowView.findViewById(R.id.lf2_detail_popupwindow))
 

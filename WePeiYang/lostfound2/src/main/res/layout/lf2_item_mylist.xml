@@ -4,15 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="6dp"
     android:layout_marginBottom="6dp"
     android:orientation="vertical">
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="6dp"
         android:layout_marginStart="12dp"
         android:layout_marginEnd="12dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         android:background="@color/white">
 
         <android.support.constraint.ConstraintLayout
@@ -50,9 +53,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:textSize="18sp"
+                android:maxLines="1"
+                android:maxWidth="130dp"
                 app:layout_constraintLeft_toRightOf="@id/iv_mylist_item_pic"
                 app:layout_constraintTop_toTopOf="@id/iv_mylist_item_pic"
-                tools:text="what" />
+                tools:text="whatakjbdkabc kablcblsdnac;andcklbalsdc" />
 
             <ImageView
                 android:id="@+id/iv_mylist_item_pencil"

@@ -87,22 +87,28 @@ class MyListFragement : Fragment(), MyListService.MyListView {
         myListPresenter.loadMyListData(lostOrFound, 1)
     }
 
-    override fun onResume() {
-        super.onResume()
-        myListBean.clear()
-        myListPresenter.loadMyListData(lostOrFound, page)
-    }
+//    override fun onResume() {
+//        super.onResume()
+//        myListBean.clear()
+//        myListPresenter.loadMyListData(lostOrFound, page)
+//    }
 
     private fun initValues() {
         myListNoData.visibility = View.GONE
         myListProgressBar.visibility = View.VISIBLE
 
-        myListLayoutManager = LinearLayoutManager(activity)
+        myListLayoutManager = object : LinearLayoutManager(activity) {
+            override fun generateDefaultLayoutParams(): RecyclerView.LayoutParams {
+                return RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+            }
+        }
+        myListLayoutManager.orientation = LinearLayoutManager.VERTICAL
         tableAdapter = MyListTableAdapter(myListBean, activity, lostOrFound, this)
         myListRecyclerView.apply {
             layoutManager = myListLayoutManager
             adapter = tableAdapter
         }
+        myListPresenter.loadMyListData(lostOrFound, page)
 
 //        myListRecyclerView.myListLayoutManager = LinearLayoutManager(this)
 //

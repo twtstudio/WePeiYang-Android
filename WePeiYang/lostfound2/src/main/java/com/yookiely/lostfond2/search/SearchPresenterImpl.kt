@@ -5,6 +5,7 @@ import com.orhanobut.hawk.Hawk
 import com.yookiely.lostfond2.service.LostFoundService
 import com.yookiely.lostfond2.service.MyListDataOrSearchBean
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
+import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 
@@ -15,10 +16,11 @@ class SearchPresenterImpl(private val searchUIView: SearchContract.SearchUIView)
             val campus: Int = Hawk.get("campus")
             try {
                 launch(UI + QuietCoroutineExceptionHandler) {
-                    Log.d("lf2_search", "1")
-                    val dataList = LostFoundService.getSearch(keyword, campus, time, page).await()
-                    Log.d("lf2_search", "2")
-                    if (dataList.error_code == -1) {
+                    val dataList = LostFoundService.getSearch(keyword, campus, time, page).awaitAndHandle {
+                        val searchBean = emptyList<MyListDataOrSearchBean>()
+                        setWaterfallData(searchBean)
+                    }
+                    if (dataList!!.error_code == -1) {
                         if (dataList.data == null) {
                             val searchBean = emptyList<MyListDataOrSearchBean>()
                             setWaterfallData(searchBean)
@@ -26,9 +28,7 @@ class SearchPresenterImpl(private val searchUIView: SearchContract.SearchUIView)
                             setWaterfallData(dataList.data!!)
                         }
                     } else {
-                        Log.d("lf2_search", "3")
                         val searchBean = emptyList<MyListDataOrSearchBean>()
-                        Log.d("lf2_search", "4")
                         setWaterfallData(searchBean)
                     }
                 }

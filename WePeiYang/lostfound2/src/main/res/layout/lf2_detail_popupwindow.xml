@@ -5,7 +5,8 @@
 
     <ImageView
         android:id="@+id/lf2_detail_popupwindow"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scaleType="centerCrop" />
 
 </android.support.constraint.ConstraintLayout>
