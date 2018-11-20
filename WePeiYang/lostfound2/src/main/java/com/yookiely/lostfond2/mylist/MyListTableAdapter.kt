@@ -40,7 +40,7 @@ class MyListTableAdapter(var myListBean: MutableList<MyListDataOrSearchBean>, va
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: MyListViewHolder, position: Int) {
-        val (id: Int, _: Int, _: String, title: String, place: String, time: String, _: String, detail_type: Int, isback: Int, picture: List<String>?, _: String, _: Int, campus: Int, isExpired: Int) = myListBean[position]
+        val (id: Int, _: Int, _: String, title: String, place: String, time: String, _: String, detail_type: Int, isback: Int, picture: List<String>?, _: String?, _: Int?, campus: Int, isExpired: Int) = myListBean[position]
         val intent = Intent()
         val bundle = Bundle()
 

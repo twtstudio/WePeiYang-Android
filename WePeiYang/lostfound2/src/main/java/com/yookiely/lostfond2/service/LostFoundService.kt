@@ -82,7 +82,7 @@ data class DetailData(
         val publish_end: String,
         val other_tag: String,
         val recapture_place: String?,
-        val recapture_entrance : Int,
+        val recapture_entrance: Int?,
         val campus: Int
 )
 
@@ -103,8 +103,8 @@ data class MyListDataOrSearchBean(
         val detail_type: Int,
         val isback: Int,
         val picture: List<String>?,
-        val recapture_place: String,
-        val recapture_entrance: Int,
+        val recapture_place: String?,
+        val recapture_entrance: Int?,
         val campus: Int,
         val isExpired: Int
 )

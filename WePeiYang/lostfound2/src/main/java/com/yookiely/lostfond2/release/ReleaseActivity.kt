@@ -362,7 +362,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
 
         refreshSpinnerOfRoom = true
         refreshSpinnerOfEntrance = true
-        selectedRecaptureRoom = Utils.getPositionOfRoom(detailData.recapture_place!!)
+        selectedRecaptureRoom = Utils.getPositionOfRoom(detailData.recapture_place)
         selectedRecaptureEntrance = Utils.getPositionOfEntrance(detailData.recapture_entrance)
         sp_receiving_site_garden.setSelection(Utils.getPositionOfGarden(detailData.recapture_place))
         if (detailData.campus != null) {

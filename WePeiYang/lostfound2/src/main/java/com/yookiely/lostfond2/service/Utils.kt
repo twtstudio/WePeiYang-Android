@@ -52,14 +52,14 @@ class Utils {
         //        fun getPicUrl(addUrl: String) = "http://open.twtstudio.com/$addUrl"
         fun getPicUrl(addUrl: String) = "http://open-lostfound.twtstudio.com/$addUrl"
 
-        fun getExit(i: Int) = when (i) {
+        fun getExit(i: Int?) = when (i) {
             0 -> ""
             1 -> "A口"
             2 -> "B口"
             else -> ""
         }
 
-        fun getGarden(i: String): String = when (i) {
+        fun getGarden(i: String?): String = when (i) {
             "无" -> ""
             "1斋", "2斋", "3斋" -> "格园"
             "6斋", "7斋", "8斋" -> "诚园"
@@ -148,28 +148,28 @@ class Utils {
         }
 
         // 返回值数据为其在所对应数组中的位置
-        fun getPositionOfGarden(i: String): Int = when (i) {
+        fun getPositionOfGarden(i: String?): Int = when (i) {
             "无" -> 0
             "1斋", "2斋", "3斋" -> 1
             "6斋", "7斋", "8斋" -> 2
             "9斋", "10斋" -> 3
             "11斋", "12斋" -> 4
             "13斋", "14斋", "15斋", "16斋" -> 5
-            else -> 2333
+            else -> 0
         }
 
-        fun getPositionOfRoom(i: String): Int = when (i) {
+        fun getPositionOfRoom(i: String?): Int = when (i) {
             "无", "1斋", "6斋", "9斋", "11斋", "13斋" -> 0
             "2斋", "7斋", "10斋", "12斋", "14斋" -> 1
             "3斋", "8斋", "15斋" -> 2
             "16斋" -> 3
-            else -> 2333
+            else -> 0
         }
 
-        fun getPositionOfEntrance(i: Int): Int = when (i) {
+        fun getPositionOfEntrance(i: Int?): Int = when (i) {
             0, 1 -> 0
             2 -> 1
-            else -> 404
+            else -> 0
         }
     }
 }
