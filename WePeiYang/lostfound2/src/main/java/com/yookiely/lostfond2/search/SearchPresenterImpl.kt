@@ -21,7 +21,7 @@ class SearchPresenterImpl(private val searchUIView: SearchContract.SearchUIView)
                         setWaterfallData(searchBean)
                     }
                     if (dataList!!.error_code == -1) {
-                        if (dataList.data == null) {
+                        if (dataList.data == null || dataList.data!!.isEmpty()) {
                             val searchBean = emptyList<MyListDataOrSearchBean>()
                             setWaterfallData(searchBean)
                         } else {

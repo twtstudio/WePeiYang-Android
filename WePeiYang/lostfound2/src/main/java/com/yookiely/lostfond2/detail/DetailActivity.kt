@@ -26,7 +26,6 @@ import com.twt.wepeiyang.commons.experimental.network.CommonBody
 import com.twt.wepeiyang.commons.ui.rec.withItems
 import com.youth.banner.Banner
 import com.youth.banner.BannerConfig
-import com.youth.banner.listener.OnBannerListener
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 

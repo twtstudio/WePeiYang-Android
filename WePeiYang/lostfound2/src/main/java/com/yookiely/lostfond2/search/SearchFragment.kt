@@ -1,5 +1,6 @@
 package com.yookiely.lostfond2.search
 
+import android.content.Context
 import android.support.v4.app.Fragment
 import android.os.Bundle
 import android.support.v4.widget.SwipeRefreshLayout
@@ -43,13 +44,6 @@ class SearchFragment : Fragment(), SearchContract.SearchUIView {
         }
     }
 
-    fun setKeyword(keyword: String) {
-        //根据搜索关键字获取内容
-        this.keyword = keyword
-        isSubmit = true
-        loadSearhDataWithTime(this.time)
-    }
-
     fun setTimeAndLoad(time: Int) {
         //可根据时间分类搜索结果
         this.time = time
@@ -63,11 +57,9 @@ class SearchFragment : Fragment(), SearchContract.SearchUIView {
         val searchRefresh = view.findViewById<SwipeRefreshLayout>(R.id.sr_waterfall_refresh)
         searchNoRes = view.findViewById(R.id.ll_waterfall_no_res)
         searchNoRes.visibility = View.GONE
-
         searchRecyclerView = view.findViewById(R.id.rv_waterfall_homepage)
-        searchRecyclerView.layoutManager = searchLayoutManager
-        tableAdapter = WaterfallTableAdapter(beanList, this.activity!!, lostOrFound)
-        searchRecyclerView.adapter = tableAdapter
+
+        init()
         val bundle = arguments
         lostOrFound = bundle!!.getString("index")
         searchRefresh.setOnRefreshListener(this::refresh)
@@ -81,14 +73,20 @@ class SearchFragment : Fragment(), SearchContract.SearchUIView {
                 if (!isLoading && (totalCount == lastPositions + 1)) {
                     page++
                     isLoading = true
-
                     searchPresenter.loadWaterfallDataWithTime(lostOrFound, keyword!!, page, time)
-
                 }
             }
         })
 
         return view
+    }
+
+    private fun init() {
+        ll_waterfall_no_res.visibility = View.GONE
+        searchRecyclerView.layoutManager = searchLayoutManager
+        tableAdapter = WaterfallTableAdapter(beanList, this.activity!!, lostOrFound)
+        searchRecyclerView.adapter = tableAdapter
+        loadSearhDataWithTime(this.time)
     }
 
     private fun refresh() {
@@ -100,32 +98,28 @@ class SearchFragment : Fragment(), SearchContract.SearchUIView {
 
     override fun setSearchData(waterfallBean: List<MyListDataOrSearchBean>) {
         //将获得数据处理之后给adapter
-        ll_waterfall_no_res.apply {
-            visibility = if (waterfallBean.isEmpty() && page == 1) View.VISIBLE else View.GONE
 
-            if (isRefresh) {
-                beanList.clear()
-            }
-            val dataBean: MutableList<MyListDataOrSearchBean> = mutableListOf()
-
-            for (i in waterfallBean) {
-                //1是找到
-                if (lostOrFound == "found" && i.type == 1) {
+        if (isRefresh) {
+            beanList.clear()
+        }
+        val dataBean: MutableList<MyListDataOrSearchBean> = mutableListOf()
+        for (i in waterfallBean) {
+            //1是找到
+            if (lostOrFound == "found" && i.type == 1) {
+                dataBean.add(i)
+            } else {
+                if (i.type == 0 && lostOrFound == "lost") {
                     dataBean.add(i)
-                } else {
-                    if (i.type == 0 && lostOrFound == "lost") {
-                        dataBean.add(i)
-                    }
                 }
             }
-            visibility = if (dataBean.size == 0 && page == 1) View.VISIBLE else View.GONE
-
-            beanList.addAll(dataBean)
-            tableAdapter.notifyDataSetChanged()
-            sr_waterfall_refresh.isRefreshing = false
-            isLoading = false
-            isRefresh = false
         }
+        beanList.addAll(dataBean)
+        tableAdapter.notifyDataSetChanged()
+        sr_waterfall_refresh.isRefreshing = false
+        isLoading = false
+        isRefresh = false
+        ll_waterfall_no_res.visibility = if (dataBean.size > 0) View.GONE else View.VISIBLE
+        Log.d("lf_search", ll_waterfall_no_res.visibility.toString())
     }
 
     override fun loadSearhDataWithTime(time: Int) {
@@ -135,4 +129,10 @@ class SearchFragment : Fragment(), SearchContract.SearchUIView {
         searchPresenter.loadWaterfallDataWithTime(lostOrFound, keyword!!, page, this.time)
     }
 
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        val activity = context as SearchActivity
+        this.keyword = activity.getkey()
+        this.isSubmit = true
+    }
 }

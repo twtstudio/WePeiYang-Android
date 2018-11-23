@@ -33,7 +33,6 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var imageViewBlue: ImageView
     private lateinit var searchType: RelativeLayout
     private lateinit var textView: TextView
-    private lateinit var backImageView: ImageView
 
     lateinit var keyword: String
     var page = 1
@@ -51,8 +50,6 @@ class SearchActivity : AppCompatActivity() {
         imageViewBlue = findViewById(R.id.iv_search_type_blue)
         imageViewGrey = findViewById(R.id.iv_search_type_grey)
         searchType = findViewById(R.id.tl_search_type)
-        //backImageView = findViewById(R.id.iv_search_back)
-        // listView = findViewById(R.id.lf2_search_hr_lv)
         lostFragment = SearchFragment.newInstance("lost")
         foundFragment = SearchFragment.newInstance("found")
         campus = Hawk.get("campus")//1 北洋园 ，2 卫津路
@@ -79,8 +76,8 @@ class SearchActivity : AppCompatActivity() {
         val bundle = intent.extras
         keyword = bundle.getString("query")
         textView.text = keyword
-        lostFragment.setKeyword(keyword)
-        foundFragment.setKeyword(keyword)
+//        lostFragment.setKeyword(keyword)
+//        foundFragment.setKeyword(keyword)
         hideInputKeyboard()
         onDetachedFromWindow()
 
@@ -145,5 +142,9 @@ class SearchActivity : AppCompatActivity() {
         this.time = time
         lostFragment.setTimeAndLoad(this.time)
         foundFragment.setTimeAndLoad(this.time)
+    }
+
+    public fun getkey(): String {
+        return keyword
     }
 }

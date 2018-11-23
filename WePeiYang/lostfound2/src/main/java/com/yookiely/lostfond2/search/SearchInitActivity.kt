@@ -26,7 +26,6 @@ class SearchInitActivity : AppCompatActivity() {
     private lateinit var adapter: SearchAdapter
     private lateinit var imageViewClean: ImageView
     private lateinit var editText: EditText
-    private lateinit var imageViewBack: ImageView
     private var historyRecordData: MutableList<String> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
