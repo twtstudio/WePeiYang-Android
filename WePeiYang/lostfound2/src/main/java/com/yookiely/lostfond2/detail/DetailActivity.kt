@@ -27,6 +27,7 @@ import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 
 class DetailActivity : AppCompatActivity() {
+    private val FOUND = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,7 +48,7 @@ class DetailActivity : AppCompatActivity() {
         launch(UI + QuietCoroutineExceptionHandler) {
             val myList: CommonBody<DetailData> = LostFoundService.getDetailed(id).await()
             if (myList.error_code == -1) {
-                if (myList.data!!.type == 1) {
+                if (myList.data!!.type == FOUND) {
                     toolbar.title = "   捡到物品"
                 } else {
                     toolbar.title = "   丢失物品"

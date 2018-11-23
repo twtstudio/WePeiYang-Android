@@ -23,6 +23,7 @@ class MyListActivity : AppCompatActivity() {
     private lateinit var beiyangyuan: TextView
     private lateinit var weijinlu: TextView
     private var campus: Int = 1// 1 北洋园 ，2 卫津路
+    private val BEIYANGYUAN = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -76,7 +77,7 @@ class MyListActivity : AppCompatActivity() {
 
         // 根据原始校区值，设置颜色，选中的校区为蓝色
         campus = Hawk.get("campus")
-        if (campus == 1) {
+        if (campus == BEIYANGYUAN) {
             beiyangyuan.textColor = Color.parseColor("#4894d5")
             weijinlu.textColor = Color.parseColor("#656565")
         } else {
