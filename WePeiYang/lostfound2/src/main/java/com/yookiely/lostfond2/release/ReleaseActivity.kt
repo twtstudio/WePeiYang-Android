@@ -445,7 +445,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
                 tv_release_lost_content.visibility = View.VISIBLE
                 release_cardinfo_noname.visibility = View.VISIBLE
                 release_cardinfo.visibility = View.GONE
-            } // 身份证
+            } // 银行卡
             else -> {
                 tv_release_lost_content.visibility = View.GONE
                 release_cardinfo_noname.visibility = View.GONE
@@ -455,7 +455,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        //request = 2 代表来自于
+        //request = 2 代表来自于系统相册，requestCode ！= 0 代表选择图片成功
         if (requestCode == 2 && resultCode != 0) {
             this.selectedPic = Matisse.obtainResult(data) //将选择的图片加入到上传的列表中
             releasePicAdapter.changePic(this.selectedPic[0]) //加载选择的图片
@@ -600,6 +600,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
     }
 
     fun checkPermAndOpenPic() {
+        //检查存储权限
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             EasyPermissions.requestPermissions(this, "需要外部存储来提供必要的缓存", 0, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
         } else {
