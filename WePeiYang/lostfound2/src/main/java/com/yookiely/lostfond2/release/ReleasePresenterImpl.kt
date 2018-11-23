@@ -42,7 +42,7 @@ class ReleasePresenterImpl(private var releaseView: ReleaseContract.ReleaseView)
             LostFoundService.updateReleaseWithPic(lostOrFound, list).awaitAndHandle {
                 this@ReleasePresenterImpl.failCallback("上传失败")
             }?.let {
-                if (it.error_code == -1) {
+                if (it.error_code == -1 && it.data != null) {
                     this@ReleasePresenterImpl.successCallBack(it.data!!)
                 }
             }
@@ -84,7 +84,7 @@ class ReleasePresenterImpl(private var releaseView: ReleaseContract.ReleaseView)
             LostFoundService.updateReleaseWithPic(lostOrFound, list).awaitAndHandle {
                 this@ReleasePresenterImpl.failCallback("上传失败")
             }?.let {
-                if (it.error_code == -1) {
+                if (it.error_code == -1 && it.data != null) {
                     this@ReleasePresenterImpl.successCallBack(it.data!!)
                 }
             }
@@ -138,7 +138,7 @@ class ReleasePresenterImpl(private var releaseView: ReleaseContract.ReleaseView)
 
         if (lostOrFound == "editFound") {
             builder.addFormDataPart("recapture_place", map["recapture_place"].toString())
-                    .addFormDataPart("recapture_enterance", map["recapture_enterance"].toString())
+                    .addFormDataPart("recapture_entrance", map["recapture_entrance"].toString())
         }
 
         val list = builder.build().parts()
@@ -148,7 +148,7 @@ class ReleasePresenterImpl(private var releaseView: ReleaseContract.ReleaseView)
             LostFoundService.updateEditWithPic(anotherLostOrFound, id.toString(), list).awaitAndHandle {
                 this@ReleasePresenterImpl.failCallback("编辑失败")
             }?.let {
-                if (it.error_code == -1) {
+                if (it.error_code == -1 && it.data != null) {
                     this@ReleasePresenterImpl.successEditCallBack(it.data!!)
                 }
             }
@@ -160,7 +160,7 @@ class ReleasePresenterImpl(private var releaseView: ReleaseContract.ReleaseView)
             LostFoundService.getDetailed(id).awaitAndHandle {
                 this@ReleasePresenterImpl.failCallback("数据拉取失败了")
             }?.let {
-                        if (it.error_code == -1) {
+                if (it.error_code == -1 && it.data != null) {
                             releaseView.setEditData(it.data!!)
                         }
                     }

@@ -1,12 +1,15 @@
 package com.yookiely.lostfond2.release
 
+import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.ContentUris
 import android.content.Context
 import android.content.Intent
 import android.content.pm.ActivityInfo
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
@@ -14,6 +17,8 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.DocumentsContract
 import android.provider.MediaStore
+import android.support.v4.app.ActivityCompat
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.*
 import android.view.View
@@ -41,6 +46,7 @@ import kotlinx.android.synthetic.main.lf_release_cardview_delete.*
 import kotlinx.android.synthetic.main.lf_release_cardview_info.*
 import kotlinx.android.synthetic.main.lf_release_cardview_moreinfo.*
 import kotlinx.android.synthetic.main.lf_release_cardview_publish.*
+import pub.devrel.easypermissions.EasyPermissions
 import java.io.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -439,7 +445,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
                 tv_release_lost_content.visibility = View.VISIBLE
                 release_cardinfo_noname.visibility = View.VISIBLE
                 release_cardinfo.visibility = View.GONE
-            } // 身份证
+            } // 银行卡
             else -> {
                 tv_release_lost_content.visibility = View.GONE
                 release_cardinfo_noname.visibility = View.GONE
@@ -449,7 +455,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        //request = 2 代表来自于
+        //request = 2 代表来自于系统相册，requestCode ！= 0 代表选择图片成功
         if (requestCode == 2 && resultCode != 0) {
             this.selectedPic = Matisse.obtainResult(data) //将选择的图片加入到上传的列表中
             releasePicAdapter.changePic(this.selectedPic[0]) //加载选择的图片
@@ -574,7 +580,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         val alertDialogBuilder = AlertDialog.Builder(this@ReleaseActivity)
         alertDialogBuilder.setItems(list) { dialog, item ->
             when (item) {
-                0 -> openSeletPic()
+                0 -> checkPermAndOpenPic()
                 1 -> releasePicAdapter.removePic()
                 2 -> dialog.dismiss()
             }
@@ -591,5 +597,14 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         }
 
         return true
+    }
+
+    fun checkPermAndOpenPic() {
+        //检查存储权限
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            EasyPermissions.requestPermissions(this, "需要外部存储来提供必要的缓存", 0, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
+        } else {
+            openSeletPic()
+        }
     }
 }

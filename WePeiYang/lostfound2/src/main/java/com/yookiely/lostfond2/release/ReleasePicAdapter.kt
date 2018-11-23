@@ -37,7 +37,7 @@ class ReleasePicAdapter(val list: MutableList<Any?>,
                 currentPosition = position
 
                 if (list[position] == null) {
-                    releaseActivity.openSeletPic()
+                    releaseActivity.checkPermAndOpenPic()
                 } else {
                     showDialogOfPic()
                 }
