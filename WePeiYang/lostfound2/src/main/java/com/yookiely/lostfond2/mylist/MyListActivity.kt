@@ -22,7 +22,7 @@ class MyListActivity : AppCompatActivity() {
     private lateinit var imageView: ImageView
     private lateinit var beiyangyuan: TextView
     private lateinit var weijinlu: TextView
-    private var campus: Int = 1//1 北洋园 ，2 卫津路
+    private var campus: Int = 1// 1 北洋园 ，2 卫津路
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,11 +58,13 @@ class MyListActivity : AppCompatActivity() {
 
     private fun initPopupWindow(view: View) {
         popupWindow = PopupWindow(view, WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT, true)
-        popupWindow.isFocusable = true
-        popupWindow.isOutsideTouchable = false// 设置PopupWindow是否能响应外部点击事件
-        popupWindow.isTouchable = true// 设置PopupWindow是否能响应点击事件
-        popupWindow.showAsDropDown(imageView, Gravity.LEFT, 0, 30)
-        popupWindow.setBackgroundDrawable(ColorDrawable(ContextCompat.getColor(this@MyListActivity, R.color.white_color)))
+        popupWindow.apply {
+            isFocusable = true
+            isOutsideTouchable = false// 设置PopupWindow是否能响应外部点击事件
+            isTouchable = true// 设置PopupWindow是否能响应点击事件
+            showAsDropDown(imageView, Gravity.LEFT, 0, 30)
+            setBackgroundDrawable(ColorDrawable(ContextCompat.getColor(this@MyListActivity, R.color.white_color)))
+        }
         bgAlpha(0.5f)
         popupWindow.setOnDismissListener {
             // popupWindow隐藏时恢复屏幕正常透明度
@@ -72,7 +74,7 @@ class MyListActivity : AppCompatActivity() {
         beiyangyuan = view.findViewById(R.id.tv_mylist_byy)
         weijinlu = view.findViewById(R.id.tv_mylist_wjl)
 
-        //根据原始校区值，设置颜色，选中的校区为蓝色
+        // 根据原始校区值，设置颜色，选中的校区为蓝色
         campus = Hawk.get("campus")
         if (campus == 1) {
             beiyangyuan.textColor = Color.parseColor("#4894d5")
@@ -82,7 +84,7 @@ class MyListActivity : AppCompatActivity() {
             beiyangyuan.textColor = Color.parseColor("#656565")
         }
 
-        //设置弹窗中的textview的监听事件，修改校区，并修改数据库中的校区对应值
+        // 设置弹窗中的textview的监听事件，修改校区，并修改数据库中的校区对应值
         beiyangyuan.setOnClickListener {
             Hawk.delete("campus")
             Hawk.put("campus", 1)
@@ -100,9 +102,9 @@ class MyListActivity : AppCompatActivity() {
     }
 
     private fun bgAlpha(bgAlpha: Float) {
-        //修改屏幕背景色
+        // 修改屏幕背景色
         val lp = window.attributes
-        lp.alpha = bgAlpha //0.0-1.0
+        lp.alpha = bgAlpha // 0.0-1.0
         window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
         window.attributes = lp
     }

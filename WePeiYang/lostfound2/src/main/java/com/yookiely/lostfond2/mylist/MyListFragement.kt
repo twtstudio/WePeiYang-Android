@@ -22,7 +22,7 @@ class MyListFragement : Fragment(), MyListService.MyListView {
     private var needClear = false
     private lateinit var tableAdapter: MyListTableAdapter
     lateinit var myListLayoutManager: LinearLayoutManager
-    private var myListBean: MutableList<MyListDataOrSearchBean> = ArrayList()//可能会有bug
+    private var myListBean: MutableList<MyListDataOrSearchBean> = ArrayList()// 可能会有bug
     lateinit var lostOrFound: String
     private val myListPresenter: MyListService.MyListPresenter = MyListPresenterImpl(this)
     var page = 1

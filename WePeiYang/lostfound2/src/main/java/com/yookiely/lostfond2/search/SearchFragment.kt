@@ -28,8 +28,8 @@ class SearchFragment : Fragment(), SearchContract.SearchUIView {
     var lostOrFound = "lost"
     var page = 1
     var time = Utils.ALL_TIME
-    private var isSubmit = false//提交过了才能继续分类
-    private var keyword: String? = null//搜索关键字
+    private var isSubmit = false// 提交过了才能继续分类
+    private var keyword: String? = null// 搜索关键字
 
     private val searchPresenter = SearchPresenterImpl(this)
 
@@ -45,7 +45,7 @@ class SearchFragment : Fragment(), SearchContract.SearchUIView {
     }
 
     fun setTimeAndLoad(time: Int) {
-        //可根据时间分类搜索结果
+        // 可根据时间分类搜索结果
         this.time = time
         if (isSubmit && keyword != null) {
             loadSearhDataWithTime(this.time)
@@ -97,14 +97,14 @@ class SearchFragment : Fragment(), SearchContract.SearchUIView {
     }
 
     override fun setSearchData(waterfallBean: List<MyListDataOrSearchBean>) {
-        //将获得数据处理之后给adapter
+        // 将获得数据处理之后给adapter
 
         if (isRefresh) {
             beanList.clear()
         }
         val dataBean: MutableList<MyListDataOrSearchBean> = mutableListOf()
         for (i in waterfallBean) {
-            //1是找到
+            // 1是找到
             if (lostOrFound == "found" && i.type == 1) {
                 dataBean.add(i)
             } else {

@@ -30,7 +30,7 @@ class SearchInitActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        supportRequestWindowFeature(Window.FEATURE_NO_TITLE)//隐藏actionbar，需在setContentView前面
+        supportRequestWindowFeature(Window.FEATURE_NO_TITLE)// 隐藏actionbar，需在setContentView前面
         setContentView(R.layout.lf2_activity_search_init)
         window.statusBarColor = Color.parseColor("#00a1e9")
         toolbar = findViewById(R.id.tb_search_init)
@@ -40,14 +40,14 @@ class SearchInitActivity : AppCompatActivity() {
         editText = findViewById(R.id.et_search_init_et)
         // imageViewBack = findViewById(R.id.iv_search_init_back)
 
-        initRV()//初始化搜索历史的rv
+        initRV()// 初始化搜索历史的rv
 
         imageView.setOnClickListener {
-            //点击放大镜，开始搜索
+            // 点击放大镜，开始搜索
             val query = editText.text.toString()
             if (query != "") {
-                //database(query,db)//处理搜索历史的数据库
-                //并把搜索输入的内容传给展示搜索结果的activity
+                // database(query,db)//处理搜索历史的数据库
+                // 并把搜索输入的内容传给展示搜索结果的activity
                 submit(query)
                 val intent = Intent()
                 val bundle = Bundle()
@@ -59,7 +59,7 @@ class SearchInitActivity : AppCompatActivity() {
         }
 
         imageViewClean.setOnClickListener {
-            //            //清空搜索记录
+            // 清空搜索记录
             Hawk.put<MutableList<String>>("lf_search", mutableListOf())
             getdatas()
         }
@@ -69,14 +69,14 @@ class SearchInitActivity : AppCompatActivity() {
             supportActionBar!!.setDisplayHomeAsUpEnabled(true)
             setNavigationOnClickListener { onBackPressed() }
         }
-        //imageViewBack.setOnClickListener { onBackPressed() }//返回
+        // imageViewBack.setOnClickListener { onBackPressed() }//返回
     }
 
     override fun onRestart() {
         super.onRestart()
         getdatas()
         editText.setText(historyRecordData[0])
-        //从搜索结果界面回到搜索界面
+        // 从搜索结果界面回到搜索界面
     }
 
     private fun initRV() {
@@ -101,8 +101,8 @@ class SearchInitActivity : AppCompatActivity() {
     }
 
     private fun getdatas() {
-        //获取搜索历史的数据
-        //只要每次企图更改hawk内存储的数据，就会调用改方法
+        // 获取搜索历史的数据
+        // 只要每次企图更改hawk内存储的数据，就会调用改方法
         if (Hawk.get<MutableList<String>>("lf_search") != null) {
             historyRecordData.clear()
             historyRecordData.addAll((Hawk.get<MutableList<String>>("lf_search") as MutableList<String>))

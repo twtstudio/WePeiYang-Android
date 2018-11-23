@@ -62,7 +62,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
     private val releaseTypeLayoutManager = StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.HORIZONTAL)
     private val picRecyclerViewManager = LinearLayoutManager(this)
     private lateinit var releasePicAdapter: ReleasePicAdapter
-    private var selectedPic: List<Uri> = mutableListOf() //get a pic's url
+    private var selectedPic: List<Uri> = mutableListOf() // get a pic's url
     private lateinit var lostOrFound: String
     private lateinit var tableAdapter: ReleaseTableAdapter
     private lateinit var progressDialog: ProgressDialog
@@ -102,7 +102,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         }
         campus = Hawk.get("campus") // 得到所在校区
 
-        if (lostOrFound == "editLost" || lostOrFound == "editFound") {//open editwindow
+        if (lostOrFound == "editLost" || lostOrFound == "editFound") {// open editwindow
             cv_release_delete.visibility = View.VISIBLE
             id = bundle.getInt("id")
             selectedItemPosition = bundle.getInt("type") - 1
@@ -204,7 +204,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         val dataListOfRoom = mutableListOf<Int>()
         val dataListOfEntrance = mutableListOf<Int>()
 
-        //园的选择
+        // 园的选择
         val adapterOfGarden = ArrayAdapter<String>(this, R.layout.lf2_custom_spiner_text_item, spinnerListOfGarden)
         adapterOfGarden.setDropDownViewResource(R.layout.lf2_custom_spinner_dropdown_item)
         val adapterOfRoom = ArrayAdapter<String>(this@ReleaseActivity, R.layout.lf2_custom_spiner_text_item, spinnerListOfRoom)
@@ -223,7 +223,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
                     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                         roomOfReceivingSite = spinnerListOfRoom[position]//dataListOfRoom[position].toString()
                         Utils.getListOfEntrance(spinnerListOfEntrance, dataListOfEntrance, dataListOfRoom[position])
-                        //口的选择
+                        // 口的选择
 
                         if (refreshSpinnerOfRoom) {
                             sp_receiving_site_room.setSelection(selectedRecaptureRoom)
@@ -255,7 +255,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         imm.hideSoftInputFromWindow(et_release_title.windowToken, 0)
     }
 
-    //确定和取消按钮的点击事件
+    // 确定和取消按钮的点击事件
     override fun onClick(view: View) {
         val picListOfUri = mutableListOf<Uri?>()
         val picListOfString = mutableListOf<String?>()
@@ -381,7 +381,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         finish()
     }
 
-    //得到release中用户所填内容
+    // 得到release中用户所填内容
     private fun getUpdateMap(): Map<String, Any> {
         val titleString = et_release_title.text.toString()
         val nameString = et_release_content_name.text.toString()
@@ -431,7 +431,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         rv_release_type.adapter = tableAdapter
     }
 
-    //物品类型选择对列表的影响
+    // 物品类型选择对列表的影响
     override fun onTypeItemSelected(position: Int) {
         selectedItemPosition = position
 
@@ -455,7 +455,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        //request = 2 代表来自于系统相册，requestCode ！= 0 代表选择图片成功
+        // request = 2 代表来自于系统相册，requestCode ！= 0 代表选择图片成功
         if (requestCode == 2 && resultCode != 0) {
             this.selectedPic = Matisse.obtainResult(data) //将选择的图片加入到上传的列表中
             releasePicAdapter.changePic(this.selectedPic[0]) //加载选择的图片
@@ -466,7 +466,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         showExitDialog()
     }
 
-    //退出编辑发布或丢失页面的dialog
+    // 退出编辑发布或丢失页面的dialog
     private fun showExitDialog() {
         val isExit = AlertDialog.Builder(this@ReleaseActivity)
                 .setTitle("放弃编辑吗～")
@@ -477,7 +477,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         isExit.show()
     }
 
-    //相册图片路径
+    // 相册图片路径
     private fun handleImageOnKitKat(uri: Uri?): String? {
         var imagePath: String? = null
         if (DocumentsContract.isDocumentUri(this, uri)) {
@@ -561,7 +561,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         return file
     }
 
-    //用第三方库打开相册
+    // 用第三方库打开相册
     @SuppressLint("ResourceType")
     fun openSeletPic() = Matisse.from(this@ReleaseActivity)
             .choose(MimeType.of(MimeType.JPEG, MimeType.PNG, MimeType.GIF))
@@ -574,7 +574,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
             .theme(R.style.Matisse_Zhihu)
             .forResult(2)
 
-    //release界面中长按图片的dialog
+    // release界面中长按图片的dialog
     fun setPicEdit() {
         val list = arrayOf<CharSequence>("更改图片", "删除图片", "取消")
         val alertDialogBuilder = AlertDialog.Builder(this@ReleaseActivity)
@@ -600,7 +600,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
     }
 
     fun checkPermAndOpenPic() {
-        //检查存储权限
+        // 检查存储权限
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             EasyPermissions.requestPermissions(this, "需要外部存储来提供必要的缓存", 0, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
         } else {

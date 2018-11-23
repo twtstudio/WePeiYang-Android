@@ -4,16 +4,13 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.annotation.IntegerRes
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.view.*
-import android.widget.ImageView
 import android.widget.PopupWindow
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import android.view.LayoutInflater
 import android.view.Window
 import com.example.lostfond2.R
@@ -66,7 +63,7 @@ class DetailActivity : AppCompatActivity() {
                 }
 
                 banner.apply {
-                    setImageLoader(GlideImagineLoader(popupWindowView))
+                    setImageLoader(GlideImagineLoader())
                     setImages(images)
 
                     setBannerStyle(BannerConfig.NUM_INDICATOR)
@@ -177,9 +174,9 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun bgAlpha(bgAlpha: Float) {
-        //修改屏幕背景色
+        // 修改屏幕背景色
         val lp = window.attributes
-        lp.alpha = bgAlpha //0.0-1.0
+        lp.alpha = bgAlpha // 0.0-1.0
         window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
         window.attributes = lp
     }

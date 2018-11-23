@@ -6,8 +6,6 @@ import com.twt.wepeiyang.commons.experimental.preference.hawk
 class Utils {
     val PERMISSION_READ_EXTERNAL_STORAGE = Manifest.permission.READ_EXTERNAL_STORAGE
 
-    public var searchHistoryData: MutableSet<String> by hawk("search_history", mutableSetOf())
-
     companion object {
         const val ALL_TYPE = 0
         const val ALL_TIME = 5

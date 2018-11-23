@@ -10,12 +10,6 @@ import com.youth.banner.loader.ImageLoader;
 
 public class GlideImagineLoader extends ImageLoader {
 
-    private View view;
-
-    public GlideImagineLoader(View view) {
-        this.view = view;
-    }
-
     @Override
     public void displayImage(Context context, Object path, ImageView imageView) {
 
