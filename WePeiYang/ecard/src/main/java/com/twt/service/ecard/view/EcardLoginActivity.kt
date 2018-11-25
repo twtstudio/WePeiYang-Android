@@ -4,53 +4,59 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.text.InputType
 import android.text.method.PasswordTransformationMethod
-import android.view.inputmethod.EditorInfo
+import android.widget.Button
 import android.widget.EditText
-import android.widget.Toast
+import com.twt.service.ecard.R
 import com.twt.service.ecard.model.EcardPref
 import com.twt.service.ecard.model.login
 import es.dmoral.toasty.Toasty
 import kotlinx.coroutines.experimental.CommonPool
+import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.launch
 import org.jetbrains.anko.button
+import org.jetbrains.anko.coroutines.experimental.bg
 import org.jetbrains.anko.editText
 import org.jetbrains.anko.sdk25.coroutines.onClick
 import org.jetbrains.anko.textView
 import org.jetbrains.anko.verticalLayout
 
-class EcardLoginActivity: AppCompatActivity() {
+class EcardLoginActivity : AppCompatActivity() {
+
+    private lateinit var etStudentNum: EditText
+    private lateinit var etPassword: EditText
+    private lateinit var btBind: Button
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        verticalLayout {
-            textView {
-                text = "当前校园卡内测阶段，账号和密码都只会被加密存储到本地，所有数据都通过本地模拟请求的方式获取，不会经过天外天服务器"
-            }
-            val usernameEditText = editText {
-                hint = "校园卡账号（学号）"
-                if (EcardPref.ecardUserName != "") setText(EcardPref.ecardUserName)
-            }
 
-            val passwordEditText = editText {
-                hint = "校园卡密码（圈存机上输入的密码）"
-                inputType = InputType.TYPE_TEXT_VARIATION_PASSWORD
-                transformationMethod = PasswordTransformationMethod.getInstance()
-                if (EcardPref.ecardPassword != "") setText(EcardPref.ecardPassword)
-            }
+        setContentView(R.layout.ecard_activity_bind)
 
-            val loginButton = button {
-                text = "LOGIN"
-                onClick {
-                    val username = usernameEditText.text.toString()
-                    val password = passwordEditText.text.toString()
+        etStudentNum = findViewById(R.id.et_ecard_num)
+        etPassword = findViewById(R.id.et_ecard_password)
+        btBind = findViewById(R.id.btn_ecard_bind)
 
-                    val deferred = async(CommonPool) {
-                        login(username, password)
-                        EcardPref.ecardUserName = username
-                        EcardPref.ecardPassword = password
-                    }
-                    deferred.await()
-                    Toasty.success(this@EcardLoginActivity, "校园卡绑定成功").show()
+        if (EcardPref.ecardUserName != "")
+            etStudentNum.setText(EcardPref.ecardUserName)
+
+        btBind.setOnClickListener {
+            val studentNum = etStudentNum.text.toString()
+            val password = etPassword.text.toString()
+
+            if (studentNum.isEmpty()) {
+                Toasty.error(this@EcardLoginActivity, "请输入学号").show()
+            } else if (password.isEmpty()) {
+                Toasty.error(this@EcardLoginActivity, "请输入密码").show()
+            } else {
+                val deferred = async(CommonPool) {
+                    login(studentNum, password)
+                    EcardPref.ecardUserName = studentNum
+                    EcardPref.ecardPassword = password
                 }
+                launch(UI) {
+                    deferred.await()
+                }
+                Toasty.success(this@EcardLoginActivity, "校园卡绑定成功").show()
+                finish()
             }
         }
     }
