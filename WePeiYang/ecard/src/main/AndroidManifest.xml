@@ -1,0 +1,6 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.twt.service.ecard" >
+    <application>
+        <activity android:name=".view.EcardLoginActivity"/>
+    </application>
+</manifest>

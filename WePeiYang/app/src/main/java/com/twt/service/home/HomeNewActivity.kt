@@ -4,9 +4,7 @@ import android.Manifest
 import android.content.Intent
 import android.content.res.Configuration
 import android.graphics.Color
-import android.os.Build
 import android.os.Bundle
-import android.support.annotation.RequiresApi
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
@@ -15,6 +13,9 @@ import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.twt.service.AppPreferences
 import com.twt.service.R
+import com.twt.service.ecard.model.LiveEcardManager
+import com.twt.service.ecard.view.ecardInfoItem
+import com.twt.service.ecard.view.ecardTransactionInfoItem
 import com.twt.service.home.message.*
 import com.twt.service.home.other.homeOthers
 import com.twt.service.home.user.FragmentActivity
@@ -75,6 +76,8 @@ class HomeNewActivity : CAppCompatActivity() {
             if (AppPreferences.isDisplayGpa) {
                 gpaNewHomeItem(this@HomeNewActivity)
             }
+            ecardInfoItem()
+            ecardTransactionInfoItem()
             libraryHomeItem(this@HomeNewActivity)
             homeTjuNetItem(this@HomeNewActivity)
             homeOthers()
@@ -107,5 +110,10 @@ class HomeNewActivity : CAppCompatActivity() {
         if (newConfig?.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             rec.scrollToPosition(0)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        LiveEcardManager.refreshEcardFullInfo()
     }
 }

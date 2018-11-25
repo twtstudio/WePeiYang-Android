@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingStart="16dp"
+    android:paddingTop="6dp"
+    android:paddingEnd="16dp"
+    android:paddingBottom="6dp">
+
+
+    <TextView
+        android:id="@+id/tv_transaction_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/montserrat_regular"
+        android:textColor="@color/black_color"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="学一食堂1层-017" />
+
+
+    <ImageView
+        android:id="@+id/img_transaction"
+        android:layout_width="24dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="4dp"
+        android:src="@drawable/ecard_balance_down2"
+        app:layout_constraintTop_toBottomOf="@id/tv_transaction_title" />
+
+    <TextView
+        android:id="@+id/tv_transaction_detail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:fontFamily="@font/montserrat_regular"
+        android:textColor="@color/black_color"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@id/img_transaction"
+        app:layout_constraintStart_toEndOf="@id/img_transaction"
+        tools:text="POS: -5.00" />
+
+
+</android.support.constraint.ConstraintLayout>

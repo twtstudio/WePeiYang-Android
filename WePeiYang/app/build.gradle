@@ -109,7 +109,7 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-    [':auth', ':bike', ':commons', ':gpa2', ':tjulibrary', ':tjunet', ':party', ':schedule2', ':yellowpages2', ':exam'].each {
+    [':auth', ':bike', ':commons', ':gpa2', ':tjulibrary', ':tjunet', ':party', ':schedule2', ':yellowpages2', ':exam', ':ecard'].each {
         implementation project(it)
     }
 

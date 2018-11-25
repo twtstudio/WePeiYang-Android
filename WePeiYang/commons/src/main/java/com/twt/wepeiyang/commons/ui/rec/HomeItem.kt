@@ -16,6 +16,7 @@ class HomeItem(parent: ViewGroup) {
     val itemName = rootView.tv_name_home_item
     val itemContent = rootView.tv_content_home_item
     val contentContainer = rootView.fl_content
+    val imgGo = rootView.iv_go_home_item
 
     fun setContentView(@LayoutRes layout: Int) {
         val layoutView = inflater.inflate(layout, contentContainer, false)
