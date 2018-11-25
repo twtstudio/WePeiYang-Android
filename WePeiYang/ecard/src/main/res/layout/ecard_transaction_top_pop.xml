@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#F5A623"
+    android:paddingTop="32dp">
+
+    <TextView
+        android:id="@+id/tv_transaction_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="19dp"
+        android:fontFamily="@font/montserrat_bold"
+        android:textColor="@color/white_color"
+        android:textSize="30sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="26.87" />
+
+    <TextView
+        android:id="@+id/tv_trans_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/montserrat_regular"
+        android:textColor="@color/white_color"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="@id/tv_transaction_amount"
+        app:layout_constraintTop_toBottomOf="@id/tv_transaction_amount"
+        tools:text="学三食堂1层-南极王子水吧" />
+
+    <TextView
+        android:id="@+id/tv_trans_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/montserrat_regular"
+        android:textColor="@color/white_color"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="@id/tv_trans_location"
+        app:layout_constraintTop_toBottomOf="@id/tv_trans_location"
+        tools:text="180923 14:35" />
+
+    <TextView
+        android:id="@+id/tv_trans_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:fontFamily="@font/montserrat_regular"
+        android:textColor="@color/white_color"
+        android:textSize="16sp"
+        app:layout_constraintBaseline_toBaselineOf="@id/tv_trans_location"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="POS消费" />
+
+    <TextView
+        android:id="@+id/tv_trans_balance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="24dp"
+        android:fontFamily="@font/montserrat_regular"
+        android:textColor="@color/white_color"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@id/tv_trans_time"
+        app:layout_constraintTop_toBottomOf="@id/tv_trans_time"
+        tools:text="交易后余额：10元" />
+
+</android.support.constraint.ConstraintLayout>
