@@ -14,7 +14,10 @@ class ProblemPagerAdapter(fragmentManager: FragmentManager) : FragmentStatePager
     fun add(fragmentIndex: Int, testProblemBean: TestProblemBean) =
             fragmentList.add(ProblemFragment.newInstance(fragmentIndex, testProblemBean))
 
-    fun changeMode(index: Int) = fragmentList[index].changeMode()
+    fun changeMode(index: Int) {
+        if (index < count)
+            fragmentList[index].changeMode()
+    }
 
     override fun getItem(position: Int): Fragment = fragmentList[position]
 
