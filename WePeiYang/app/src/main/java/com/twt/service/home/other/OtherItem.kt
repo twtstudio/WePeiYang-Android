@@ -65,10 +65,6 @@ class OtherItem : Item {
                 addItem("新闻", "环宇北洋，心识天下") {
                     it.context.startActivity<NewsActivity>()
                 }
-                addItem("失物招领", "失物招领") {
-                    it.context.startActivity<WaterfallActivity>()
-                }
-
             }
         }
 
