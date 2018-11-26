@@ -66,8 +66,8 @@ class DetailActivity : AppCompatActivity() {
             Glide.with(this@DetailActivity)
                     .load(url)
                     .asBitmap()
-                    .placeholder(R.drawable.lib_no_borrow)
-                    .error(R.drawable.lib_no_borrow)
+                    .placeholder(R.drawable.lib_notfound)
+                    .error(R.drawable.lib_notfound)
                     .into(book_pic)
 
             book_name.text = book.data.title

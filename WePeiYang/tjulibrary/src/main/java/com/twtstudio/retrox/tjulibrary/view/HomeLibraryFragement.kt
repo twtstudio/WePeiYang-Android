@@ -95,7 +95,7 @@ class HomeLibraryFragement : Fragment(), ViewPager.OnPageChangeListener {
                                 mylistPagerAdapter.add(BookFragment.newInstance(i, "error", i.callno))
                             }
                             val view1 = View(view.context)
-                            view1.setBackgroundResource(R.drawable.background)
+                            view1.setBackgroundResource(R.drawable.lib_background)
                             view1.isEnabled = false
                             //设置宽高
                             val layoutParams = LinearLayout.LayoutParams(30, 30)
