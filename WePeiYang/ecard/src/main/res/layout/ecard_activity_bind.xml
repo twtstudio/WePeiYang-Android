@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp">
+
+
+    <ImageView
+        android:layout_width="222dp"
+        android:layout_height="222dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="50dp"
+        android:src="@drawable/ecard_bind" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="16dp"
+        android:text="校园卡绑定（测试）"
+        android:textColor="@color/common_lv3" />
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColorHint="@color/common_lv2">
+
+        <EditText
+            android:id="@+id/et_ecard_num"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="学号"
+            android:textColor="@color/common_lv2"
+            android:textSize="16sp" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColorHint="@color/common_lv2">
+
+        <EditText
+            android:id="@+id/et_ecard_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="校园卡密码（圈存机上的密码）"
+            android:inputType="textPassword"
+            android:textColor="@color/common_lv2"
+            android:textSize="16sp" />
+    </android.support.design.widget.TextInputLayout>
+
+    <Button
+        android:id="@+id/btn_ecard_bind"
+        android:layout_width="300dp"
+        android:layout_height="43dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/auth_login_button_selector"
+        android:text="绑定"
+        android:textColor="@color/white_color"
+        android:textSize="18sp" />
+
+</LinearLayout>

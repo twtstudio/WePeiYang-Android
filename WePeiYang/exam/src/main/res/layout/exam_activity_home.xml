@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".home.ExamHomeActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/tb_home"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@color/examToolbarBlue">
+
+        <ImageView
+            android:id="@+id/iv_home_back"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:padding="12dp"
+            android:src="@drawable/exam_ic_arrow_back_24dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="36dp"
+            android:text="天外天刷题"
+            android:textColor="@color/white_color"
+            android:textSize="18sp" />
+    </android.support.v7.widget.Toolbar>
+
+    <android.support.design.widget.TabLayout
+
+        android:id="@+id/tl_home"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/exam_shape_home_tl"
+        android:overScrollMode="never"
+        app:layout_constraintLeft_toLeftOf="@id/tb_home"
+        app:layout_constraintRight_toRightOf="@id/tb_home"
+        app:layout_constraintTop_toBottomOf="@id/tb_home"
+        app:tabBackground="@null"
+        app:tabIndicatorColor="@color/white_color"
+        app:tabSelectedTextColor="@color/white_color"
+        app:tabTextColor="@color/examTabTextColor" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_home"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:overScrollMode="never"
+        app:layout_constraintTop_toBottomOf="@id/tl_home" />
+
+</android.support.constraint.ConstraintLayout>

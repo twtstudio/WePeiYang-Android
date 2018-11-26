@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@drawable/exam_shape_statusbar_gradient">
+
+        <ImageView
+            android:id="@+id/iv_list_back"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:padding="12dp"
+            android:src="@drawable/exam_ic_arrow_back_24dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="36dp"
+            android:text="课程列表"
+            android:textColor="@color/white_color"
+            android:textSize="18sp" />
+    </android.support.v7.widget.Toolbar>
+
+    <EditText
+        android:id="@+id/et_search_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
+        android:background="@drawable/exam_shape_list_search_bar"
+        android:drawableStart="@drawable/exam_shape_search_grey_24dp"
+        android:drawablePadding="8dp"
+        android:hint="搜索"
+        android:inputType="text"
+        android:singleLine="true"
+        android:textColor="@color/examTextBlack"
+        android:textCursorDrawable="@null"
+        android:textSize="14sp" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</LinearLayout>

@@ -15,6 +15,7 @@ import com.twt.wepeiyang.commons.experimental.cache.CacheIndicator.REMOTE
 import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
 import com.twt.wepeiyang.commons.network.RxErrorHandler
 import com.twtstudio.retrox.auth.api.authSelfLiveData
+import es.dmoral.toasty.Toasty
 import rx.android.schedulers.AndroidSchedulers
 import rx.functions.Action1
 import rx.schedulers.Schedulers
@@ -40,14 +41,14 @@ class TjuBindFragment : SlideFragment() {
         button = view.findViewById(R.id.btn_tju_bind)
         numEdit = view.findViewById(R.id.tju_num)
         passwordEdit = view.findViewById(R.id.tju_password)
-        button.setOnClickListener {
+        button.setOnClickListener { _ ->
             RealBindAndDropOutService
                     .bindTju(numEdit.text.toString(), passwordEdit.text.toString())
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .doAfterTerminate { authSelfLiveData.refresh(REMOTE) }
                     .subscribe(Action1 {
-                        Toast.makeText(this.context, "绑定成功", Toast.LENGTH_SHORT).show()
+                        this.context?.let { it1 -> Toasty.success(it1, "绑定成功", Toast.LENGTH_SHORT).show() }
                     }, RxErrorHandler())
         }
         return view

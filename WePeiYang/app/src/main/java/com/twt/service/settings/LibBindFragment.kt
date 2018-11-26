@@ -14,6 +14,7 @@ import com.twt.service.R
 import com.twt.wepeiyang.commons.experimental.cache.CacheIndicator.REMOTE
 import com.twtstudio.retrox.auth.api.authSelfLiveData
 import com.twtstudio.retrox.tjulibrary.provider.TjuLibProvider
+import es.dmoral.toasty.Toasty
 
 /**
  * Created by retrox on 01/03/2017.
@@ -34,10 +35,10 @@ class LibBindFragment : SlideFragment() {
         button.setOnClickListener {
             TjuLibProvider(context).bindLibrary({ integer ->
                 when (integer) {
-                    -1 -> Toast.makeText(this.context, "图书馆绑定完成，点击底部右侧对勾开始新旅程", Toast.LENGTH_SHORT).show()
-                    50003 -> Toast.makeText(this.context, "图书馆已绑定，点击底部右侧对勾开始新旅程", Toast.LENGTH_SHORT).show()
-                    50002 -> Toast.makeText(this.context, "图书馆密码错误", Toast.LENGTH_SHORT).show()
-                    else -> Toast.makeText(this.context, "未知错误", Toast.LENGTH_SHORT).show()
+                    -1 -> this.context?.let { it1 -> Toasty.success(it1, "图书馆绑定完成，点击底部右侧对勾开始新旅程", Toast.LENGTH_SHORT).show() }
+                    50003 -> this.context?.let { it1 -> Toasty.success(it1, "图书馆已绑定，点击底部右侧对勾开始新旅程", Toast.LENGTH_SHORT).show() }
+                    50002 -> this.context?.let { it1 -> Toasty.success(it1, "图书馆密码错误", Toast.LENGTH_SHORT).show() }
+                    else -> this.context?.let { it1 -> Toasty.success(it1, "未知错误", Toast.LENGTH_SHORT).show() }
                 }
                 authSelfLiveData.refresh(REMOTE)
             }, libPasswordEdit.text.toString().takeIf(String::isNotEmpty) ?: "000000")

@@ -15,6 +15,7 @@ import com.twt.wepeiyang.commons.ui.rec.HomeItem
 import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemController
 import com.twtstudio.retrox.bike.bike.ui.main.BikeActivity
+import com.twtstudio.service.tjwhm.exam.home.ExamHomeActivity
 import com.twtstudio.tjliqy.party.ui.home.PartyActivity
 import org.jetbrains.anko.*
 
@@ -49,6 +50,12 @@ class OtherItem : Item {
             val layout = holder.linearLayout as _LinearLayout
             layout.apply {
                 removeAllViews()
+                addItem("黄页", "天大电话簿") {
+                    it.context.startActivity<YellowPageActivity>()
+                }
+                addItem("刷题", "沉迷学习，日渐头秃") {
+                    it.context.startActivity<ExamHomeActivity>()
+                }
                 addItem("学生党建", "和微北洋共建社会主义") {
                     it.context.startActivity<PartyActivity>()
                 }
@@ -57,9 +64,6 @@ class OtherItem : Item {
                 }
                 addItem("新闻", "环宇北洋，心识天下") {
                     it.context.startActivity<NewsActivity>()
-                }
-                addItem("黄页", "天大电话簿") {
-                    it.context.startActivity<YellowPageActivity>()
                 }
                 addItem("失物招领", "失物招领") {
                     it.context.startActivity<WaterfallActivity>()

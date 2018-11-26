@@ -76,5 +76,4 @@ class BookItemComponent(val lifecycleOwner: LifecycleOwner, itemView: View) : Re
         cover.setImageDrawable(drawable)
     }
 
-
 }

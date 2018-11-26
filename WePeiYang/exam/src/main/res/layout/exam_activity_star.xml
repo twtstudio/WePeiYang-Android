@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/tb_star"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_gravity="bottom"
+        android:background="@drawable/exam_shape_statusbar_gradient">
+
+        <ImageView
+            android:id="@+id/iv_star_back"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:padding="12dp"
+            android:src="@drawable/exam_ic_arrow_back_24dp" />
+
+        <TextView
+            android:id="@+id/tv_star_toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="36dp"
+            android:textColor="@color/white_color"
+            android:textSize="18sp"
+            tools:text="我的收藏" />
+
+        <ImageView
+            android:id="@+id/iv_star_help"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="end"
+            android:layout_marginEnd="24dp"
+            android:padding="12dp"
+            android:src="@drawable/exam_ic_help_outline" />
+
+    </android.support.v7.widget.Toolbar>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/srl_star"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tb_star">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_star"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/tb_star" />
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <ImageView
+        android:id="@+id/iv_star_no_record"
+        android:layout_width="match_parent"
+        android:layout_height="222dp"
+        android:layout_below="@id/tb_star"
+        android:layout_marginTop="64dp"
+        android:src="@drawable/exam_pic_no_record"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/tv_star_no_record"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/iv_star_no_record"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="32dp"
+        android:textColor="@color/examTextGray"
+        android:textSize="16sp"
+        android:visibility="gone"
+        tools:text=" 这里还没有收藏题目呢，快去刷题吧~" />
+</RelativeLayout>

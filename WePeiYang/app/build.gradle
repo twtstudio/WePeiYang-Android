@@ -1,8 +1,5 @@
 apply plugin: 'com.android.application'
-//apply plugin: 'me.tatarka.retrolambda'
-//apply plugin: 'com.antfortune.freeline'
 apply plugin: 'kotlin-android'
-//apply plugin: 'fastdex.app'
 
 Properties pro = new Properties()
 pro.load(project.rootProject.file('local.properties').newDataInputStream())
@@ -18,8 +15,8 @@ android {
         renderscriptTargetApi 27
         renderscriptSupportModeEnabled true
         applicationId 'com.twt.service'
-        versionCode 36
-        versionName '3.3.5'
+        versionCode 37
+        versionName '3.4-beta1'
 
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
 
@@ -49,11 +46,6 @@ android {
                 minSdkVersion 21
             }
         }
-
-//        freeline {
-//            hack true
-//            productFlavor 'dev'
-//        }
     }
 
     kotlin {
@@ -112,15 +104,14 @@ kotlin {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     testImplementation 'junit:junit:4.12'
-    testImplementation 'org.mockito:mockito-core:2.16.0'
+    testImplementation "org.mockito:mockito-core:2.16.0"
     androidTestImplementation('com.android.support.test.espresso:espresso-core:3.0.1', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-    [':auth', ':bike', ':commons', ':gpa2', ':tjulibrary', ':tjunet', ':party', ':schedule2', ':yellowpages2', ':lostfound2'].each {
+    [':auth', ':bike', ':commons', ':gpa2', ':tjulibrary', ':tjunet', ':party', ':schedule2', ':yellowpages2', ':exam', ':ecard', ':lostfound2'].each {
         implementation project(it)
     }
-    implementation 'com.twt.service:fragmentation:1.1.0'
 
     [*supportLibraries, 'constraint-layout', 'multidex', *archLibraries, 'kotlin-stdlib', 'butterknife', 'anko'].each {
         implementation dependenciesMap[it]

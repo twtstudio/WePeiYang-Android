@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="16dp">
+
+        <TextView
+            android:id="@+id/tv_type_select_lesson_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="16dp"
+            android:paddingEnd="12dp"
+            android:textColor="@color/examTextBlack"
+            android:textSize="16sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="从爱因斯坦到牛顿" />
+
+        <TextView
+            android:id="@+id/tv_type_select_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="顺序练习-题型选择"
+            android:textColor="@color/examTextBlack"
+            android:textSize="14sp"
+            app:layout_constraintLeft_toLeftOf="@id/tv_type_select_lesson_title"
+            app:layout_constraintTop_toBottomOf="@id/tv_type_select_lesson_title" />
+
+        <TextView
+            android:id="@+id/tv_type_select_single_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="16dp"
+            android:textColor="@color/examTextBlack"
+            app:layout_constraintLeft_toLeftOf="@id/tv_type_select_title"
+            app:layout_constraintTop_toBottomOf="@id/tv_type_select_title"
+            tools:text="单选题   23/50   当前: 7" />
+
+        <TextView
+            android:id="@+id/tv_type_select_single_enter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/exam_shape_blue_tv_with_boundary_small"
+            android:textColor="@color/examTextBlue"
+            app:layout_constraintBottom_toBottomOf="@id/tv_type_select_single_title"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_type_select_single_title"
+            tools:text="继续练习" />
+
+        <View
+            android:id="@+id/v_type_select_divider_one"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="20dp"
+            android:background="@color/examArrowGrey"
+            app:layout_constraintTop_toBottomOf="@id/tv_type_select_single_title" />
+
+        <TextView
+            android:id="@+id/tv_type_select_multi_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textColor="@color/examTextBlack"
+            app:layout_constraintLeft_toLeftOf="@id/tv_type_select_single_title"
+            app:layout_constraintTop_toBottomOf="@id/v_type_select_divider_one"
+            tools:text="多选题   0/40   当前: 0" />
+
+        <TextView
+            android:id="@+id/tv_type_select_multi_enter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/exam_shape_blue_tv_with_boundary_small"
+            android:textColor="@color/examTextBlue"
+            app:layout_constraintBottom_toBottomOf="@id/tv_type_select_multi_title"
+            app:layout_constraintRight_toRightOf="@id/tv_type_select_single_enter"
+            app:layout_constraintTop_toTopOf="@id/tv_type_select_multi_title"
+            tools:text="开始练习" />
+
+        <View
+            android:id="@+id/v_type_select_divider_two"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="20dp"
+            android:background="@color/examArrowGrey"
+            app:layout_constraintTop_toBottomOf="@id/tv_type_select_multi_title" />
+
+        <TextView
+            android:id="@+id/tv_type_select_tf_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textColor="@color/examTextBlack"
+            app:layout_constraintLeft_toLeftOf="@id/tv_type_select_single_title"
+            app:layout_constraintTop_toBottomOf="@id/v_type_select_divider_two"
+            tools:text="判断题   1/50   当前: 6" />
+
+        <TextView
+            android:id="@+id/tv_type_select_tf_enter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/exam_shape_blue_tv_with_boundary_small"
+            android:textColor="@color/examTextBlue"
+            app:layout_constraintBottom_toBottomOf="@id/tv_type_select_tf_title"
+            app:layout_constraintRight_toRightOf="@id/tv_type_select_single_enter"
+            app:layout_constraintTop_toTopOf="@id/tv_type_select_tf_title"
+            tools:text="继续练习" />
+
+        <TextView
+            android:id="@+id/tv_type_select_test_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="模拟测试-随机出题"
+            android:textColor="@color/examTextBlack"
+            android:textSize="14sp"
+            app:layout_constraintLeft_toLeftOf="@id/tv_type_select_title"
+            app:layout_constraintTop_toBottomOf="@id/tv_type_select_tf_title" />
+
+        <TextView
+            android:id="@+id/tv_type_select_test_title_desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="所有题型中随机抽取 25 题"
+            android:textColor="@color/examTextBlack"
+            app:layout_constraintLeft_toLeftOf="@id/tv_type_select_single_title"
+            app:layout_constraintTop_toBottomOf="@id/tv_type_select_test_title" />
+
+        <TextView
+            android:id="@+id/tv_type_select_test_enter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/exam_shape_blue_tv_with_boundary_small"
+            android:text="开始测试"
+            android:textColor="@color/examTextBlue"
+            app:layout_constraintBottom_toBottomOf="@id/tv_type_select_test_title_desc"
+            app:layout_constraintRight_toRightOf="@id/tv_type_select_single_enter"
+            app:layout_constraintTop_toTopOf="@id/tv_type_select_test_title_desc" />
+    </android.support.constraint.ConstraintLayout>
+</android.support.v7.widget.CardView>

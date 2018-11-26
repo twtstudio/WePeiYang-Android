@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/exam_shape_ll_gradient_with_corner"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="8dp"
+            android:text="本次答题数"
+            android:textColor="@color/white_color"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/tv_score_problem_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="8dp"
+            android:textColor="@color/white_color"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            tools:text="25" />
+
+        <TextView
+            android:id="@+id/tv_score_problem_radio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="8dp"
+            android:textColor="@color/white_color"
+            android:textSize="14sp"
+            tools:text="正确率 95%" />
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/divider_score">
+
+                <TextView
+                    android:id="@+id/tv_score_time_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:textColor="@color/white_color"
+                    tools:text="练习时间" />
+
+                <TextView
+                    android:id="@+id/tv_score_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:textColor="@color/white_color"
+                    tools:text="10:05" />
+            </LinearLayout>
+
+            <View
+                android:id="@+id/divider_score"
+                android:layout_width="1dp"
+                android:layout_height="24dp"
+                android:background="@color/examArrowGrey"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                app:layout_constraintLeft_toRightOf="@id/divider_score"
+                app:layout_constraintRight_toRightOf="parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="错题数"
+                    android:textColor="@color/white_color" />
+
+                <TextView
+                    android:id="@+id/tv_score_wrong_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:textColor="@color/white_color"
+                    tools:text="3" />
+            </LinearLayout>
+        </android.support.constraint.ConstraintLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <View
+            android:layout_width="2dp"
+            android:layout_height="12dp"
+            android:layout_marginStart="20dp"
+            android:background="@drawable/exam_shape_home_item" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:gravity="top"
+            android:text="题目答案"
+            android:textColor="@color/examTextBlack"
+            android:textSize="16sp" />
+    </LinearLayout>
+</LinearLayout>

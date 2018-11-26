@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#4A90E2"
+    android:paddingTop="32dp">
+
+    <TextView
+        android:id="@+id/tv_transaction_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="19dp"
+        android:fontFamily="@font/montserrat_bold"
+        android:textColor="@color/white_color"
+        android:textSize="30sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="￥26.87" />
+
+    <TextView
+        android:id="@+id/tv_trans_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/montserrat_regular"
+        android:textColor="@color/white_color"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="@id/tv_transaction_amount"
+        app:layout_constraintTop_toBottomOf="@id/tv_transaction_amount"
+        tools:text="今日消费：15.37" />
+
+    <TextView
+        android:id="@+id/tv_trans_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/montserrat_regular"
+        android:textColor="@color/white_color"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="@id/tv_trans_location"
+        app:layout_constraintTop_toBottomOf="@id/tv_trans_location"
+        tools:text="卡有效期：2020-08-10" />
+
+    <TextView
+        android:id="@+id/tv_ecard_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:fontFamily="@font/montserrat_regular"
+        android:textColor="@color/white_color"
+        android:textSize="16sp"
+        app:layout_constraintBaseline_toBaselineOf="@id/tv_trans_location"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="卡状态：正常" />
+
+    <TextView
+        android:id="@+id/tv_ecard_unused_money"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="24dp"
+        android:fontFamily="@font/montserrat_regular"
+        android:textColor="@color/white_color"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@id/tv_trans_time"
+        app:layout_constraintTop_toBottomOf="@id/tv_trans_time"
+        tools:text="未领取补助：0元" />
+
+</android.support.constraint.ConstraintLayout>

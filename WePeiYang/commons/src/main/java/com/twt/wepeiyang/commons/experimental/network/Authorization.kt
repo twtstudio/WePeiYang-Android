@@ -24,7 +24,7 @@ object AuthorizationInterceptor : Interceptor {
 }
 
 object RealAuthenticator : Authenticator {
-    override fun authenticate(route: Route, response: Response): Request? =
+    override fun authenticate(route: Route?, response: Response): Request? =
             if (response.request().isTrusted) {
                 val code = JSONObject(response.body()?.string()).getInt("error_code")
                 val relogin = fun(): Nothing {

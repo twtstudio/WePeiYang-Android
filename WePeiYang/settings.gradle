@@ -1,4 +1,4 @@
-include ':app',
+include ':app', ':ecard',
         ':commons',
         ':tjulibrary',
         ':gpa2',
@@ -8,5 +8,7 @@ include ':app',
         ':schedule2',
         ':party',
         ':vpbs',
+        ':exam',
         ':yellowpages2',
         ':lostfound2'
+

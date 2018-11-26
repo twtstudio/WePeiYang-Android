@@ -20,11 +20,6 @@
             android:name=".view.EvaluateActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Gpa2Theme" />
-        <activity
-            android:name=".view.GpaLineActivity"
-            android:label="@string/title_activity_gpa_line"
-            android:theme="@style/AppTheme.NoActionBar" />
-
     </application>
 
 </manifest>

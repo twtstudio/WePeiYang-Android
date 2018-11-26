@@ -2,27 +2,23 @@
 
 目录
 
-```
-微北洋开发白皮书
-│
-├── 开发指南
-│   ├── 分模块开发
-│   ├── 模块间依赖关系
-│   └── 应用内框架
-│       ├── 网络请求
-│       ├── 泛型包装
-│       ├── 网络请求 Interface 怎么用
-│       ├── Async/await来处理网络请求以及异步任务
-│       ├── 构建有缓存的响应式网络请求
-│       └── DSL & RecyclerViewDSL
-│ 
-└── 开发规范
- 	├── 架构
- 	├── 依赖规范
- 	└── 命名规范
- 	└── 字体使用
- 	└── StringSpanDSL
-```
+- [微北洋开发白皮书](#微北洋开发白皮书)    
+- [开发指南](#开发指南)        
+    - [分模块开发](#分模块开发)        
+    - [应用依赖关系](#应用依赖关系)        
+    - [应用内框架](#应用内框架)    
+        - [网络请求](#网络请求)            
+        - [泛型包装](#泛型包装)            
+        - [网络请求 Interface 怎么用](#网络请求-interface-怎么用)            
+        - [Async/await来处理网络请求以及异步任务](#asyncawait来处理网络请求以及异步任务)            
+        - [构建有缓存的响应式网络请求](#构建有缓存的响应式网络请求)            
+        - [DSL & RecyclerViewDSL](#dsl--recyclerviewdsl)
+- [开发规范](#开发规范)        
+    - [架构](#架构)        
+    - [依赖规范](#依赖规范)        
+    - [命名规范](#命名规范)        
+    - [字体使用](#字体使用)        
+    - [StringSpanDSL使用](#stringspandsl使用)
 
 ### 开发指南
 
@@ -51,7 +47,7 @@
 
 应用内框架集中在 `commons` 模块中
 
-- 网络请求
+##### 网络请求
 
   微北洋中网络请求统一使用 [Retrofit](http://square.github.io/retrofit/)
 
@@ -94,7 +90,7 @@
     fun getPopluarAudit(): Observable<CommonBody<List<AuditPopluar>>>
     ```
 
-- 泛型包装
+##### 泛型包装
 
   先从微北洋的 Api 返回结构说起，规范的Api返回结构是
     ```json
@@ -162,7 +158,7 @@
     fun getClassTable(): Deferred<CommonBody<Classtable>>
     ```
 
-- 网络请求 Interface 怎么用
+##### 网络请求 Interface 怎么用
 
   Retrofit 对于网络请求的接口采用了动态代理的机制，commons 库中对其进行了封装，具体用法：
 
@@ -187,7 +183,7 @@
 
 推荐使用第二种，对应的源码在`com/twt/wepeiyang/commons/experimental/network/ServiceFactory.kt`，如果你想要看懂这些的话，你需要学`Retrofit`,`Kotlin 代理`,`invoke() 运算符重载`
 
-- Async/await来处理网络请求以及异步任务
+##### Async/await来处理网络请求以及异步任务
 
   目前微北洋里面的异步任务都是使用Kotlin协程来写的。
 
@@ -227,7 +223,7 @@
   到这里，你已经会使用微北洋的基础框架来发起一个网络请求了。请不要另辟蹊径，谢谢！
   继续阅读下去，你会学到：缓存框架的用法
 
-- 构建有缓存的响应式网络请求
+##### 构建有缓存的响应式网络请求
 
   有一部分的网络请求是需要通过添加缓存来提高用户体验的，比如说新闻列表，课程表之类。微北洋已经对这种常用的缓存进行了封装。 这套封装的架构，整体来讲是基于LiveData来做的，所以如果要彻底了解这些，需要些预备知识：[LiveData](https://developer.android.com/topic/libraries/architecture/livedata)
 
@@ -324,7 +320,7 @@
   }
   ```
 
-- DSL & RecyclerViewDSL 
+##### DSL & RecyclerViewDSL 
 
   可直接参考框架作者的其他文章
 
@@ -528,8 +524,8 @@ val typeface = ResourcesCompat.getFont(context, R.font.montserrat_regular)
 ```
 然后在配合字重来做字体效果。比如说这种：`StyleSpan(Typeface.BOLD)`
 
-#### StringSpanDSL使用
-目前StringSpanDSL写在了Schedule2模块中  `com/twt/service/schedule2/extensions/StringExtensions.kt` ，之后会根据应用场景考虑放在Commons里面。
+#### StringSpanDSL使用
+目前StringSpanDSL写在了Schedule2模块中  `com/twt/service/schedule2/extensions/StringExtensions.kt` ，之后会根据应用场景考虑放在Commons里面。
 一段示例：
 ```kotlin 
 val roomCluster = course.arrange[0].room.split("楼")

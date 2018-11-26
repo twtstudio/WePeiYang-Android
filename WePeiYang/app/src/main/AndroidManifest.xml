@@ -19,19 +19,20 @@
     <uses-permission android:name="android.permission.VIBRATE" />
 
     <!--日历同步-->
-    <uses-permission android:name="android.permission.READ_CALENDAR" />
-    <uses-permission android:name="android.permission.WRITE_CALENDAR" />
+    <!--<uses-permission android:name="android.permission.READ_CALENDAR" />-->
+    <!--<uses-permission android:name="android.permission.WRITE_CALENDAR" />-->
 
 
     <!--友盟需要的一些权限-->
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+    <!--<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />-->
+    <!--<uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />-->
 
 
     <!--上网功能的权限-->
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:name=".WePeiYangApp"

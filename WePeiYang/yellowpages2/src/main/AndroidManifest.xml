@@ -1,18 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.yellowpages2">
-
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.CALL_PHONE" />
+    package="com.tjuwhy.yellowpages2">
 
     <application>
-        <activity android:name="com.tjuwhy.yellowpages2.view.YellowPageActivity" />
+        <activity android:name=".view.YellowPageActivity" />
         <activity
-            android:name="com.tjuwhy.yellowpages2.view.SearchActivity"
+            android:name=".view.SearchActivity"
             android:launchMode="singleTask" />
-        <activity android:name="com.tjuwhy.yellowpages2.view.DepartmentActivity" />
+        <activity android:name=".view.DepartmentActivity" />
         <activity
-            android:name="com.tjuwhy.yellowpages2.view.SearchResultActivity"
+            android:name=".view.SearchResultActivity"
             android:launchMode="singleTask" />
     </application>
 

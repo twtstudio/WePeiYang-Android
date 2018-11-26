@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white_color">
+
+    <TextView
+        android:id="@+id/tv_score_item_problem_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="32dp"
+        android:textColor="@color/examTextBlack"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="1.中国共产党是在哪一年成立的？" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_score_item_selections"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tv_score_item_problem_title" />
+
+    <TextView
+        android:id="@+id/tv_score_right_answer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:textColor="@color/examTextBlue"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toLeftOf="@id/tv_score_item_problem_title"
+        app:layout_constraintTop_toBottomOf="@id/rv_score_item_selections"
+        tools:text="正确答案：B" />
+
+    <TextView
+        android:id="@+id/tv_score_user_answer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@id/tv_score_right_answer"
+        app:layout_constraintLeft_toRightOf="@id/tv_score_right_answer"
+        app:layout_constraintTop_toTopOf="@id/tv_score_right_answer"
+        tools:text="你的答案：B" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="2dp"
+        android:background="@color/examDividerBlue"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_score_right_answer" />
+
+    <ImageView
+        android:id="@+id/iv_score_star"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="36dp"
+        android:padding="12dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/exam_ic_star_blank"
+        app:layout_constraintBottom_toBottomOf="@id/tv_score_right_answer"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tv_score_right_answer" />
+</android.support.constraint.ConstraintLayout>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white_color"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/tb_score"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@drawable/exam_shape_statusbar_gradient"
+        android:elevation="0dp"
+        app:layout_scrollFlags="scroll">
+
+        <ImageView
+            android:id="@+id/iv_score_back"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:padding="12dp"
+            android:src="@drawable/exam_ic_arrow_back_24dp" />
+
+        <ImageView
+            android:id="@+id/iv_score_help"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="end"
+            android:layout_marginEnd="12dp"
+            android:padding="12dp"
+            android:src="@drawable/exam_ic_help_outline" />
+    </android.support.v7.widget.Toolbar>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_score"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:overScrollMode="never" />
+</LinearLayout>
