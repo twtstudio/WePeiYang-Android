@@ -46,6 +46,13 @@ android {
                 minSdkVersion 21
             }
         }
+
+        manifestPlaceholders = [
+                //AP6CS8KKB77P 属于应用"微北洋"独有的 Android AppKey, 用于配置SDK
+                MTA_APPKEY : "AP6CS8KKB77P",
+                //标注应用推广渠道用以区分新用户来源，可填写如应用宝，豌豆荚等
+                MTA_CHANNEL: "全渠道"
+        ]
     }
 
     kotlin {
@@ -93,6 +100,8 @@ android {
         // both anko and we created a module named 'commons', so that a conflict occurred.
         exclude 'META-INF/commons_release.kotlin_module'
     }
+
+
 }
 
 kotlin {
