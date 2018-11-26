@@ -1,5 +1,6 @@
 package com.yookiely.lostfond2.detail
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.support.v7.app.AppCompatActivity
@@ -25,6 +26,7 @@ import com.twt.wepeiyang.commons.experimental.network.CommonBody
 import com.twt.wepeiyang.commons.ui.rec.withItems
 import com.youth.banner.Banner
 import com.youth.banner.BannerConfig
+import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.lf2_activity_water_fall.*
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
@@ -50,11 +52,10 @@ class DetailActivity : AppCompatActivity() {
         val banner: Banner = findViewById(R.id.br_detail_banner)
 
         launch(UI + QuietCoroutineExceptionHandler) {
-            val myList: CommonBody<DetailData> = LostFoundService.getDetailed(id).awaitAndHandle {
-                Toast.makeText(this@DetailActivity, "你网络崩啦，拿不到数据啦", Toast.LENGTH_LONG)
-                onBackPressed()
-            }!!
-            if (myList.error_code == -1) {
+            val myList: CommonBody<DetailData>? = LostFoundService.getDetailed(id).awaitAndHandle {
+                it.printStackTrace()
+            }
+            if (myList != null && myList.error_code == -1) {
                 if (myList.data!!.type == FOUND) {
                     toolbar.title = "   捡到物品"
                 } else {
@@ -174,6 +175,9 @@ class DetailActivity : AppCompatActivity() {
                         setOther("附言", "无")
                     }
                 }
+            } else {
+                Toasty.error(this@DetailActivity, "你网络崩啦，拿不到数据啦", Toast.LENGTH_LONG, true).show()
+//                onBackPressed()
             }
         }
         setSupportActionBar(toolbar)
@@ -181,8 +185,8 @@ class DetailActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
+    // 修改屏幕背景色
     private fun bgAlpha(bgAlpha: Float) {
-        // 修改屏幕背景色
         val lp = window.attributes
         lp.alpha = bgAlpha // 0.0-1.0
         window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)

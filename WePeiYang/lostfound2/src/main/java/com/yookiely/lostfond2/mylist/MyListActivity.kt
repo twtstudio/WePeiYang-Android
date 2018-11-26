@@ -25,6 +25,8 @@ class MyListActivity : AppCompatActivity() {
     private var campus: Int = 1// 1 北洋园 ，2 卫津路
     private val BEIYANGYUAN = 1
     private val WEIJINGLU = 2
+    private val found = "found"
+    private val lost = "lost"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,8 +49,8 @@ class MyListActivity : AppCompatActivity() {
         val myListTabLayout: TabLayout = findViewById(R.id.tl_mylist)
         val myListPagerAdapter = MyListPagerAdapter(supportFragmentManager)
         myListPagerAdapter.apply {
-            add(MyListFragement.newInstance("found"), "我捡到的")
-            add(MyListFragement.newInstance("lost"), "我丢失的")
+            add(MyListFragement.newInstance(found), "我捡到的")
+            add(MyListFragement.newInstance(lost), "我丢失的")
         }
         myListPager.adapter = myListPagerAdapter
         myListTabLayout.apply {

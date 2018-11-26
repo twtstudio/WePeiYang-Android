@@ -22,6 +22,7 @@ class SearchFragment : Fragment(), SearchContract.SearchUIView {
     private val searchLayoutManager = GridLayoutManager(activity, 2)
     private lateinit var searchRecyclerView: RecyclerView
     private lateinit var searchNoRes: LinearLayout
+    private lateinit var refreshLayout: SwipeRefreshLayout
     private var isLoading = false
     private var isRefresh = false
     private var beanList = mutableListOf<MyListDataOrSearchBean>()//存放网络请求的数据
@@ -58,6 +59,7 @@ class SearchFragment : Fragment(), SearchContract.SearchUIView {
         searchNoRes = view.findViewById(R.id.ll_waterfall_no_res)
         searchNoRes.visibility = View.GONE
         searchRecyclerView = view.findViewById(R.id.rv_waterfall_homepage)
+        refreshLayout = view.findViewById(R.id.sr_waterfall_refresh)
 
         init()
         val bundle = arguments
@@ -82,7 +84,7 @@ class SearchFragment : Fragment(), SearchContract.SearchUIView {
     }
 
     private fun init() {
-        ll_waterfall_no_res.visibility = View.GONE
+        searchNoRes.visibility = View.GONE
         searchRecyclerView.layoutManager = searchLayoutManager
         tableAdapter = WaterfallTableAdapter(beanList, this.activity!!, lostOrFound)
         searchRecyclerView.adapter = tableAdapter
@@ -115,11 +117,10 @@ class SearchFragment : Fragment(), SearchContract.SearchUIView {
         }
         beanList.addAll(dataBean)
         tableAdapter.notifyDataSetChanged()
-        sr_waterfall_refresh.isRefreshing = false
+        refreshLayout.isRefreshing = false
         isLoading = false
         isRefresh = false
-        ll_waterfall_no_res.visibility = if (dataBean.size > 0) View.GONE else View.VISIBLE
-        Log.d("lf_search", ll_waterfall_no_res.visibility.toString())
+        searchNoRes.visibility = if (dataBean.size > 0) View.GONE else View.VISIBLE
     }
 
     override fun loadSearhDataWithTime(time: Int) {

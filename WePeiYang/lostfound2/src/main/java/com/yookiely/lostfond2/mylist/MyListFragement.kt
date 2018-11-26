@@ -28,9 +28,10 @@ class MyListFragement : Fragment(), MyListService.MyListView {
     var page = 1
 
     companion object {
+        val key = "index"
         fun newInstance(type: String): MyListFragement {
             val args = Bundle()
-            args.putString("index", type)
+            args.putString(key, type)
             val fragment = MyListFragement()
             fragment.arguments = args
             return fragment
@@ -86,12 +87,6 @@ class MyListFragement : Fragment(), MyListService.MyListView {
         needClear = true
         myListPresenter.loadMyListData(lostOrFound, 1)
     }
-
-//    override fun onResume() {
-//        super.onResume()
-//        myListBean.clear()
-//        myListPresenter.loadMyListData(lostOrFound, page)
-//    }
 
     private fun initValues() {
         myListNoData.visibility = View.GONE

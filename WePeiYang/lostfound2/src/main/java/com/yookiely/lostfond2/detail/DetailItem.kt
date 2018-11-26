@@ -11,7 +11,7 @@ import com.twt.wepeiyang.commons.ui.rec.ItemController
 import org.jetbrains.anko.layoutInflater
 import org.jetbrains.anko.sdk25.coroutines.onClick
 
-class DetailItem(val text1: String, val text2: String, val isLast: Boolean) : Item {
+class DetailItem(val specificTitle: String, val content: String, val isLast: Boolean) : Item {
 
     private companion object Controller : ItemController {
         override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
@@ -25,11 +25,11 @@ class DetailItem(val text1: String, val text2: String, val isLast: Boolean) : It
             item as DetailItem
 
             holder.apply {
-                detailTitle.text = item.text1
-                detailContent.text = item.text2
+                detailTitle.text = item.specificTitle
+                detailContent.text = item.content
                 detailRecaptureComment.visibility = View.GONE
                 detailQuestionMark.apply {
-                    visibility = if (item.text1 != "领取站点") View.GONE else View.VISIBLE
+                    visibility = if (item.specificTitle != "领取站点") View.GONE else View.VISIBLE
                     onClick {
                         detailRecaptureComment.visibility = if (detailRecaptureComment.visibility == View.GONE) View.VISIBLE else View.GONE
                     }
@@ -51,4 +51,4 @@ class DetailItem(val text1: String, val text2: String, val isLast: Boolean) : It
         get() = DetailItem
 }
 
-fun MutableList<Item>.setDetail(text1: String, text2: String, isLast: Boolean) = add(DetailItem(text1, text2, isLast))
+fun MutableList<Item>.setDetail(specificTitle: String, content: String, isLast: Boolean) = add(DetailItem(specificTitle, content, isLast))

@@ -23,6 +23,7 @@ import org.jetbrains.anko.textColor
 class MyListTableAdapter(var myListBean: MutableList<MyListDataOrSearchBean>, var context: FragmentActivity?, var lostOrFound: String, var mylistView: MyListService.MyListView) : RecyclerView.Adapter<MyListTableAdapter.MyListViewHolder>() {
 
 
+    private val idofbundle = "id"
     class MyListViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         var myListItemTitle: TextView = view.findViewById(R.id.tv_mylist_item_title)
@@ -136,7 +137,7 @@ class MyListTableAdapter(var myListBean: MutableList<MyListDataOrSearchBean>, va
                     } else {
                         putString("lostOrFound", "editFound")
                     }
-                    putInt("id", id)
+                    putInt(idofbundle, id)
                     putInt("type", detail_type)
                 }
 
