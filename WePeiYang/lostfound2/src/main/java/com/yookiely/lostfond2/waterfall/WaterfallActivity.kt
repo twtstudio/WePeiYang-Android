@@ -44,7 +44,7 @@ class WaterfallActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
         setContentView(R.layout.lf2_activity_water_fall)
-        window.statusBarColor = Color.parseColor("#00a1e9")
+        window.statusBarColor = resources.getColor(R.color.statusBarColor)
         val waterfallLost: FloatingActionButton = findViewById(R.id.fa_waterfall_lost)
         val popupWindowView: View = LayoutInflater.from(this).inflate(R.layout.lf2_waterfall_cardview_types, null, false)
         val snapHelper = LinearSnapHelper()

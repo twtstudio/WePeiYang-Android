@@ -32,7 +32,7 @@ class SearchInitActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE)// 隐藏actionbar，需在setContentView前面
         setContentView(R.layout.lf2_activity_search_init)
-        window.statusBarColor = Color.parseColor("#00a1e9")
+        window.statusBarColor = resources.getColor(R.color.statusBarColor)
         toolbar = findViewById(R.id.tb_search_init)
         imageView = findViewById(R.id.iv_search_init_icon_right)
         recyclerView = findViewById(R.id.rv_search_init_hr_rv)
