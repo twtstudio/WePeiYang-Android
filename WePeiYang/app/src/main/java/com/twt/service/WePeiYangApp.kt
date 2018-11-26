@@ -10,6 +10,7 @@ import com.github.piasy.biv.BigImageViewer
 import com.github.piasy.biv.loader.glide.GlideImageLoader
 import com.tencent.bugly.Bugly
 import com.tencent.bugly.crashreport.CrashReport
+import com.tencent.stat.StatService
 import com.twt.service.push.DebugProxyService
 import com.twt.service.settings.SingleBindActivity
 import com.twt.service.tjunet.reconnect.ReconnectJob
@@ -35,6 +36,8 @@ class WePeiYangApp : MultiDexApplication() {
             registerActivity("welcome", WelcomeActivity::class.java)
             registerActivity("bind", SingleBindActivity::class.java)
         }
+
+        StatService.registerActivityLifecycleCallbacks(this)
 
         applicationContext.let {
             Bugly.init(it, "8ceee186f2", false)
