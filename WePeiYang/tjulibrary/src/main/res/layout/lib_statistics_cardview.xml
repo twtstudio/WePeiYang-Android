@@ -22,11 +22,11 @@
             android:layout_height="70dp"
             android:id="@+id/statistics_img"
             android:padding="15dp"
-            android:src="@drawable/frist"
+            android:src="@drawable/lib_first"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
             />
         <TextView
             android:layout_width="70dp"
@@ -39,14 +39,14 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
             />
         <TextView
             android:layout_width="140dp"
             android:layout_height="0dp"
             android:textSize="15sp"
             android:id="@+id/sta_name"
-            tool:text="新垣结衣"
+            tool:text="新垣结衣新垣结衣新垣结衣"
             android:gravity="center_vertical"
             android:textColor="#333333"
             android:layout_marginTop="10dp"
@@ -63,7 +63,7 @@
             android:id="@+id/jieyue"
             app:layout_constraintLeft_toLeftOf="@+id/sta_name"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="12dp"/>
+            android:layout_marginBottom="9dp"/>
 
 
         <TextView
@@ -74,7 +74,7 @@
             android:id="@+id/borrow_num"
             app:layout_constraintTop_toTopOf="@+id/jieyue"
             app:layout_constraintLeft_toRightOf="@+id/jieyue"
-            android:layout_marginLeft="12dp"/>
+            android:layout_marginStart="12dp"/>
 
 
 

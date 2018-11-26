@@ -12,7 +12,7 @@
             android:layout_width="160dp"
             android:layout_height="202dp"
             android:layout_gravity="center"
-            android:src="@drawable/buliding" />
+            android:src="@drawable/lib_building" />
     </LinearLayout>
 
 

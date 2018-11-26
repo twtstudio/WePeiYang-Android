@@ -22,7 +22,7 @@
         tool:text="1247.5/J9-1(20)v.1"
         android:textColor="#999999"
         android:textSize="16sp"
-        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
         app:layout_constraintLeft_toRightOf="@id/book_status" />
 
     <TextView

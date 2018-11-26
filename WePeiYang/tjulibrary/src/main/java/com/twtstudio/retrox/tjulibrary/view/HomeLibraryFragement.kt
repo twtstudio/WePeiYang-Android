@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.view.ViewPager
 import android.support.v7.widget.CardView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -83,11 +82,17 @@ class HomeLibraryFragement : Fragment(), ViewPager.OnPageChangeListener {
                         mylistPagerAdapter.removeAll()
                         linear.removeAllViews()
                         for (i in info.books) {
-                            if(i.id == null ) continue
+                            if (i.id == null) continue
                             val isbnNumber = LibraryApi.getISBN(i.id).await()
                             val url: List<imgSrc>? = LibraryApi.getImgUrl(isbnNumber.isbn).await()
-                            if (url!![0].result.isEmpty()){mylistPagerAdapter.add(BookFragment.newInstance(i, "error", i.callno))}else{
-                                mylistPagerAdapter.add(BookFragment.newInstance(i, url!![0].result[0].coverlink, i.callno))
+                            if (url != null) {
+                                if (url[0].result.isEmpty()) {
+                                    mylistPagerAdapter.add(BookFragment.newInstance(i, "error", i.callno))
+                                } else {
+                                    mylistPagerAdapter.add(BookFragment.newInstance(i, url[0].result[0].coverlink, i.callno))
+                                }
+                            } else {
+                                mylistPagerAdapter.add(BookFragment.newInstance(i, "error", i.callno))
                             }
                             val view1 = View(view.context)
                             view1.setBackgroundResource(R.drawable.background)

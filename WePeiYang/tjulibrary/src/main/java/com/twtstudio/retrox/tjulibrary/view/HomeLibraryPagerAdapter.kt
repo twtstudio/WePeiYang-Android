@@ -6,12 +6,12 @@ import android.support.v4.app.FragmentPagerAdapter
 import android.view.ViewGroup
 import java.util.ArrayList
 
-class HomeLibraryPagerAdapter(fm : FragmentManager) : FragmentPagerAdapter(fm){
+class HomeLibraryPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
 
     var fragmentsOfMylist: MutableList<Fragment> = ArrayList()
     var fragmentsTitles: MutableList<String> = ArrayList()
 
-    fun add(fragment: Fragment,title  : String) {
+    fun add(fragment: Fragment, title: String) {
         fragmentsOfMylist.add(fragment)
         fragmentsTitles.add(title)
 

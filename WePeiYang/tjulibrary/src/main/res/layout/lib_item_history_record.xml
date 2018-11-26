@@ -8,12 +8,12 @@
         android:id="@+id/hr_textview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="18dp"
+        android:textSize="18sp"
         android:text="陆小凤传奇"
         android:textColor="#616263"
         android:paddingTop="12dp"
         android:paddingBottom="12dp"
-        android:paddingLeft="50dp"
+        android:paddingStart="50dp"
         android:background="@color/white" />
 
     <TextView

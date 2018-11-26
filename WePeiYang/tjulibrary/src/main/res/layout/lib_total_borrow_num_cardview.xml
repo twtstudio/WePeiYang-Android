@@ -19,7 +19,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             android:text="总体借阅次数"
             android:textColor="#333333"
-            android:textSize="17dp" />
+            android:textSize="17sp" />
 
         <TextView
             android:id="@+id/total_borrow_num"
@@ -31,7 +31,7 @@
             app:layout_constraintRight_toRightOf="@+id/total_borrow_num_text2"
             android:text="0"
             android:textColor="#999999"
-            android:textSize="17dp" />
+            android:textSize="17sp" />
 
         <TextView
             android:id="@+id/total_borrow_num_text2"
@@ -43,7 +43,7 @@
             android:layout_marginEnd="30dp"
             android:text="次"
             android:textColor="#333333"
-            android:textSize="17dp" />
+            android:textSize="17sp" />
 
     </android.support.constraint.ConstraintLayout>
 </android.support.v7.widget.CardView>

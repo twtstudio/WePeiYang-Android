@@ -14,48 +14,10 @@ import com.bumptech.glide.Glide
 import com.twtstudio.retrox.tjulibrary.R
 import com.twtstudio.retrox.tjulibrary.tjulibservice.*
 
-class DetailActivity : AppCompatActivity(),LibDetailModel.setBook {
-    override fun setDetailBook(book: Book, url: String, total: TotalNum) {
-        if (book.data.summary != null) {
-            if (book.data.summary.length > MAX_NUM) {
-                val x = book.data.summary.substring(0, MAX_NUM) + "..."
-                book_content.text = x
-            } else {
-                book_content.text = book.data.summary
-            }
-        }
-        Glide.with(this@DetailActivity)
-                .load(url)
-                .asBitmap()
-                .placeholder(R.drawable.srcpic)
-                .error(R.drawable.src2)
-                .into(book_pic)
-
-        book_name.text = book.data.title
-        var author = ""
-        for (i in 0..((book.data.authorPrimary).size - 1)) {
-            author += book.data.authorPrimary[i]
-            if (i != (book.data.authorPrimary.size - 1)) author += "，"
-        }
-        book_author.text = author
-        book_publisher.text = book.data.publisher
-        book_publish_date.text = book.data.year
-        for (state in book.data.holding){
-            if(state.stateCode==0){
-                state.stateCode+=3
-            }
-        }
-        val bookBySort =book.data.holding.sortedBy {
-            it.stateCode
-        }
-        Log.d("book_sort",bookBySort.toString())
-        adapter = DetailConditionAdapter(bookBySort, this)
-        recyclerView.adapter = adapter
-        total_borrow_num.text = total.totalBorrowNum.toString()
-    }
+class DetailActivity : AppCompatActivity() {
 
     val MAX_NUM = 150
-    lateinit var bookDetail : BookDetail
+    lateinit var bookDetail: BookDetail
     lateinit var toolbar: Toolbar
     lateinit var recyclerView: RecyclerView
     lateinit var adapter: DetailConditionAdapter
@@ -89,10 +51,47 @@ class DetailActivity : AppCompatActivity(),LibDetailModel.setBook {
         book_pic = findViewById(R.id.book_pic)
         recyclerView = findViewById(R.id.book_recyclerview)
         total_borrow_num = findViewById(R.id.total_borrow_num)
-        bookDetail = BookDetail(this)
+        bookDetail = BookDetail
         val layoutManager = LinearLayoutManager(this)
         recyclerView.layoutManager = layoutManager
-        bookDetail.getDetail(id)
+        bookDetail.getDetail(id) { book: Book, url: String, totalNum: TotalNum ->
+            if (book.data.summary != null) {
+                if (book.data.summary.length > MAX_NUM) {
+                    val x = book.data.summary.substring(0, MAX_NUM) + "..."
+                    book_content.text = x
+                } else {
+                    book_content.text = book.data.summary
+                }
+            }
+            Glide.with(this@DetailActivity)
+                    .load(url)
+                    .asBitmap()
+                    .placeholder(R.drawable.lib_no_borrow)
+                    .error(R.drawable.lib_no_borrow)
+                    .into(book_pic)
+
+            book_name.text = book.data.title
+            var author = ""
+            for (i in 0..((book.data.authorPrimary).size - 1)) {
+                author += book.data.authorPrimary[i]
+                if (i != (book.data.authorPrimary.size - 1)) author += "，"
+            }
+            book_author.text = author
+            book_publisher.text = book.data.publisher
+            book_publish_date.text = book.data.year
+            for (state in book.data.holding) {
+                if (state.stateCode == 0) {
+                    state.stateCode += 3
+                }
+            }
+            val bookBySort = book.data.holding.sortedBy {
+                it.stateCode
+            }
+            Log.d("book_sort", bookBySort.toString())
+            adapter = DetailConditionAdapter(bookBySort, this)
+            recyclerView.adapter = adapter
+            total_borrow_num.text = totalNum.totalBorrowNum.toString()
+        }
 
 
     }

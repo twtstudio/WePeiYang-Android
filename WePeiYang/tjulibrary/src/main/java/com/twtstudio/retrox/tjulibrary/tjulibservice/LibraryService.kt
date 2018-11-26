@@ -1,45 +1,43 @@
 package com.twtstudio.retrox.tjulibrary.tjulibservice
 
 import com.twt.wepeiyang.commons.experimental.network.CommonBody
-import com.twt.wepeiyang.commons.experimental.network.CoroutineCallAdapterFactory
 import com.twt.wepeiyang.commons.experimental.network.ServiceFactory
 import com.twtstudio.retrox.tjulibrary.provider.Info
 import com.twtstudio.retrox.tjulibrary.provider.RenewResult
 import kotlinx.coroutines.experimental.Deferred
-import retrofit2.Retrofit
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
-import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
 internal const val LIB_IMG_URL = "http://47.95.216.239:5678/"
+
 interface LibraryApi {
     @GET("v1/library/book/getBookImg/{id}")
-    fun getImg(@Path("id") id : String) : Deferred<Img>
+    fun getImg(@Path("id") id: String): Deferred<Img>
 
     @GET("v1/library/book/borrowRank/{time}")
-    fun getRank(@Path("time") time : Int) : Deferred<List<RankList>>
+    fun getRank(@Path("time") time: Int): Deferred<List<RankList>>
 
     @GET("v1/library/book/?title={key}&page={page}")
-    fun getSearch(@Path("key") key : String,@Path("page") page : Int) : Deferred<SearchData>
+    fun getSearch(@Path("key") key: String, @Path("page") page: Int): Deferred<SearchData>
 
     @GET("v1/library/book/getTotalBorrow/{id}")
-    fun getTotalNum(@Path("id") id: String) : Deferred<TotalNum>
+    fun getTotalNum(@Path("id") id: String): Deferred<TotalNum>
 
     @GET("v1/library/book/{index}")
-    fun getBook(@Path("index") index: String) : Deferred<Book>
+    fun getBook(@Path("index") index: String): Deferred<Book>
 
     @GET("v1/library/user/info")
-    fun getUser() : Deferred<CommonBody<Info>>
+    fun getUser(): Deferred<CommonBody<Info>>
 
     @GET("v1/library/book/getISBN/{id}")
     fun getISBN(@Path("id") id: String): Deferred<IsbnNumber>
 
     @GET("v1/library/renew/{barcode}")
     fun renewBook(@Path("barcode") barcode: String): Deferred<CommonBody<List<RenewResult>>>
+
     @GET("${LIB_IMG_URL}getImgs.php")
-    fun getImgUrl(@Query ("isbns") isbns : String) : Deferred<List<imgSrc>>
+    fun getImgUrl(@Query("isbns") isbns: String): Deferred<List<imgSrc>>
 
 
     companion object : LibraryApi by ServiceFactory()
@@ -48,35 +46,33 @@ interface LibraryApi {
 
 data class Img(
         val id: Int,
-        val img_url : String
+        val img_url: String
 )
-
 
 
 data class RankList(
-    val bookID: String,
-    val bookName: String,
-    val borrowNum: String,
-    val publisher: String
+        val bookID: String,
+        val bookName: String,
+        val borrowNum: String,
+        val publisher: String
 )
 
 
-
 data class SearchData(
-    val error_code: Int,
-    val message: String,
-    val data: List<Data>
+        val error_code: Int,
+        val message: String,
+        val data: List<Data>
 )
 
 data class Data(
 
-    val index: String,
-    val title: String,
-    val author: String,
-    val publisher: String,
-    val isbn: String,
-    val year: String,
-    val cover: String
+        val index: String,
+        val title: String,
+        val author: String,
+        val publisher: String,
+        val isbn: String,
+        val year: String,
+        val cover: String
 )
 
 data class TotalNum(
@@ -85,41 +81,41 @@ data class TotalNum(
 )
 
 data class Book(
-    val error_code: Int,
-    val message: String,
-    val data: Datax
+        val error_code: Int,
+        val message: String,
+        val data: Datax
 )
 
 data class Datax(
-    val id: String,
-    val isbn: String,
-    val title: String,
-    val price: String,
-    val authorPrimary: List<String>,
-    val authorSecondary: List<Any>,
-    val publisher: String,
-    val place: String,
-    val year: String,
-    val summary: String?,
-    val topic: List<String>,
-    val cover: String,
-    val holding: List<Holding>
+        val id: String,
+        val isbn: String,
+        val title: String,
+        val price: String,
+        val authorPrimary: List<String>,
+        val authorSecondary: List<Any>,
+        val publisher: String,
+        val place: String,
+        val year: String,
+        val summary: String?,
+        val topic: List<String>,
+        val cover: String,
+        val holding: List<Holding>
 )
 
 data class Holding(
-    val id: Int,
-    val barcode: String,
-    val callno: String,
-    var stateCode: Int,
-    val state: String,
-    val libCode: String,
-    val lib: String,
-    val localCode: String,
-    val local: String,
-    val typeCode: String,
-    val type: String,
-    val indate: String,
-    val loan: Any
+        val id: Int,
+        val barcode: String,
+        val callno: String,
+        var stateCode: Int,
+        val state: String,
+        val libCode: String,
+        val lib: String,
+        val localCode: String,
+        val local: String,
+        val typeCode: String,
+        val type: String,
+        val indate: String,
+        val loan: Any
 )
 
 data class IsbnNumber(
@@ -181,23 +177,23 @@ data class Images(
 
 data class SearchBook(
         var bookID: String,
-        var booktitle : String,
-        var bookartist : String,
-        var bookpublish : String,
-        var number : String
+        var booktitle: String,
+        var bookartist: String,
+        var bookpublish: String,
+        var number: String
 )
 
 data class imgSrc(
-    val result: List<Result>
+        val result: List<Result>
 )
 
 data class Result(
-    val metaResID: Any,
-    val isbn: String,
-    val coverlink: String,
-    val handleTime: Long,
-    val fromRes: Any,
-    val status: Int
+        val metaResID: Any,
+        val isbn: String,
+        val coverlink: String,
+        val handleTime: Long,
+        val fromRes: Any,
+        val status: Int
 )
 
 

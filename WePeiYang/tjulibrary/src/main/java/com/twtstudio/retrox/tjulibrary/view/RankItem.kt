@@ -30,20 +30,22 @@ class RankItem(val id: String, val urlOfPic: String, var titleString: String,
             item as RankItem
 
             holder.apply {
-                if (item.titleString.length>15){item.titleString = item.titleString.substring(0,15)+"..."}// 大于15字加省略号
+                if (item.titleString.length > 15) {
+                    item.titleString = item.titleString.substring(0, 15) + "..."
+                }// 大于15字加省略号
                 title.text = item.titleString
                 borrowNumber.text = item.borrowNumber
                 when (item.rankNumber.toString()) {
                     "1" -> {
-                        statisticsImg.setImageResource(R.drawable.frist)
+                        statisticsImg.setImageResource(R.drawable.lib_first)
                         rankNumber.visibility = View.GONE
                     }
                     "2" -> {
-                        statisticsImg.setImageResource(R.drawable.second)
+                        statisticsImg.setImageResource(R.drawable.lib_second)
                         rankNumber.visibility = View.GONE
                     }
                     "3" -> {
-                        statisticsImg.setImageResource(R.drawable.third)
+                        statisticsImg.setImageResource(R.drawable.lib_third)
                         rankNumber.visibility = View.GONE
                     }
                     else -> {

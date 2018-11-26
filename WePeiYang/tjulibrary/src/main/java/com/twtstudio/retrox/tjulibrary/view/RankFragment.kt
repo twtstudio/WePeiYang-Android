@@ -78,8 +78,8 @@ class RankFragment : Fragment() {
         launch(UI + QuietCoroutineExceptionHandler) {
             try {
                 rankList = LibraryApi.getRank(selectedRank).await()
-            }catch (e : Exception){
-                Log.d("getrank_network_error",e.toString())
+            } catch (e: Exception) {
+                Log.d("getrank_network_error", e.toString())
             }
 
             recyclerView.withItems {

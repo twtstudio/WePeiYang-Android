@@ -9,12 +9,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
-import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
 import com.twtstudio.retrox.tjulibrary.R
-import com.twtstudio.retrox.tjulibrary.tjulibservice.Img
-import com.twtstudio.retrox.tjulibrary.tjulibservice.LibraryApi
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
 
 
 class SearchAdapter(var searchBook: MutableList<SearchBook>, val context: Context) : RecyclerView.Adapter<SearchAdapter.ViewHolder>() {

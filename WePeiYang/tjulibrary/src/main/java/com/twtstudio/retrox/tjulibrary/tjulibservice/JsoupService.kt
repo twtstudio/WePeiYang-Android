@@ -18,7 +18,7 @@ class JsoupService(private var bookProvide: BookProvide.setBook) : BookProvide.g
 
 
     override fun getSearch(key: String, page: Int, activity: Activity) {
-        var list: ArrayList<SearchBook> = ArrayList()
+        val list: ArrayList<SearchBook> = ArrayList()
         val random = Random()
         val rand = random.nextInt()
 
@@ -34,9 +34,9 @@ class JsoupService(private var bookProvide: BookProvide.setBook) : BookProvide.g
                 val bookmessage: Elements = doc.select("div.resultList")
 
                 for (i in bookmessage.select("tr")) {
-                    var book = SearchBook("", "", "", "","")
+                    val book = SearchBook("", "", "", "", "")
                     val bookname: Element = i
-                    val id : String = bookname.select("div.bookmeta").attr("bookrecno")
+                    val id: String = bookname.select("div.bookmeta").attr("bookrecno")
                     val writer: Element = bookname.select("div").first()
                     val title = writer.select("div").select("div")[1].select("span.bookmetaTitle").select("a").text()
                     val artist = writer.select("div").select("div")[2].select("a").text()

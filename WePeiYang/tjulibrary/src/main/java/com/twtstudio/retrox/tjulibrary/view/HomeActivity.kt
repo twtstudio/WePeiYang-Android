@@ -36,7 +36,7 @@ class HomeActivity : AppCompatActivity() {
         myhomePagerAdapter.apply {
             add(HomeLibraryFragement(), "已借阅")
             add(RankFragment(), "借阅统计")
-            add(ReadFragment(),"阅读")
+            add(ReadFragment(), "阅读")
         }
         mybookPager.adapter = myhomePagerAdapter
         mybookTabLayout.apply {

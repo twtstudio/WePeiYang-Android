@@ -59,7 +59,7 @@
             <ImageView
                 android:layout_width="16dp"
                 android:layout_height="16dp"
-                android:src="@drawable/peo"
+                android:src="@drawable/lib_peo"
                 android:id="@+id/img_writer"
                 app:layout_constraintLeft_toLeftOf="parent"
                 android:layout_marginBottom="13dp"
@@ -91,7 +91,7 @@
             <ImageView
                 android:layout_width="18dp"
                 android:layout_height="18dp"
-                android:src="@drawable/data"
+                android:src="@drawable/lib_data"
                 android:id="@+id/img_time"
                 android:layout_marginBottom="13dp"
                 app:layout_constraintBottom_toTopOf="@+id/img_lefttime"
@@ -120,7 +120,7 @@
             <ImageView
                 android:layout_width="18dp"
                 android:layout_height="18dp"
-                android:src="@drawable/book"
+                android:src="@drawable/lib_books"
                 android:id="@+id/img_book"
                 android:layout_marginBottom="13dp"
                 app:layout_constraintBottom_toTopOf="@+id/img_time"
@@ -150,7 +150,7 @@
             <ImageView
                 android:layout_width="16dp"
                 android:layout_height="16dp"
-                android:src="@drawable/time"
+                android:src="@drawable/lib_time"
                 android:id="@+id/img_lefttime"
 
                 app:layout_constraintLeft_toLeftOf="@id/img_book"
