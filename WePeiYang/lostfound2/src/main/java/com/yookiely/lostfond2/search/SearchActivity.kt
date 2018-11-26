@@ -43,7 +43,8 @@ class SearchActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE)//隐藏actionbar，需在setContentView前面
         setContentView(R.layout.lf2_activity_search)
-        window.statusBarColor = Color.parseColor("#00a1e9")
+
+        window.statusBarColor = resources.getColor(R.color.statusBarColor)
         toolbar = findViewById(R.id.tb_search)
         textView = findViewById(R.id.tv_search_result)
         searchTableLayout = findViewById(R.id.tl_search)

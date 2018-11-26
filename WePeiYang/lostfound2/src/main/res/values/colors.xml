@@ -7,4 +7,5 @@
     <color name="wechatGreen">#40af35</color>
     <color name="qzoneYellow">#efc049</color>
     <color name="backgroundGrey">#eeeeee</color>
+    <color name="statusBarColor">#00a1e9</color>
 </resources>

@@ -24,12 +24,15 @@ class MyListActivity : AppCompatActivity() {
     private lateinit var weijinlu: TextView
     private var campus: Int = 1// 1 北洋园 ，2 卫津路
     private val BEIYANGYUAN = 1
+    private val WEIJINGLU = 2
+    private val found = "found"
+    private val lost = "lost"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
         setContentView(R.layout.lf2_activity_my_list)
-        window.statusBarColor = Color.parseColor("#00a1e9")
+        window.statusBarColor = resources.getColor(R.color.statusBarColor)
         val toolbar: Toolbar = findViewById(R.id.tb_mylist)
         setSupportActionBar(toolbar)
         toolbar.title = "我的"
@@ -46,8 +49,8 @@ class MyListActivity : AppCompatActivity() {
         val myListTabLayout: TabLayout = findViewById(R.id.tl_mylist)
         val myListPagerAdapter = MyListPagerAdapter(supportFragmentManager)
         myListPagerAdapter.apply {
-            add(MyListFragement.newInstance("found"), "我捡到的")
-            add(MyListFragement.newInstance("lost"), "我丢失的")
+            add(MyListFragement.newInstance(found), "我捡到的")
+            add(MyListFragement.newInstance(lost), "我丢失的")
         }
         myListPager.adapter = myListPagerAdapter
         myListTabLayout.apply {
@@ -88,14 +91,14 @@ class MyListActivity : AppCompatActivity() {
         // 设置弹窗中的textview的监听事件，修改校区，并修改数据库中的校区对应值
         beiyangyuan.setOnClickListener {
             Hawk.delete("campus")
-            Hawk.put("campus", 1)
+            Hawk.put("campus", BEIYANGYUAN)
             beiyangyuan.textColor = Color.parseColor("#4894d5")
             weijinlu.textColor = Color.parseColor("#656565")
             popupWindow.dismiss()
         }
         weijinlu.setOnClickListener {
             Hawk.delete("campus")
-            Hawk.put("campus", 2)
+            Hawk.put("campus", WEIJINGLU)
             weijinlu.textColor = Color.parseColor("#4894d5")
             beiyangyuan.textColor = Color.parseColor("#656565")
             popupWindow.dismiss()

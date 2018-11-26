@@ -1,5 +1,6 @@
 package com.yookiely.lostfond2.detail
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.support.v7.app.AppCompatActivity
@@ -13,27 +14,32 @@ import android.widget.PopupWindow
 import com.bumptech.glide.Glide
 import android.view.LayoutInflater
 import android.view.Window
+import android.widget.Toast
 import com.example.lostfond2.R
 
 import com.yookiely.lostfond2.service.DetailData
 import com.yookiely.lostfond2.service.LostFoundService
 import com.yookiely.lostfond2.service.Utils
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
+import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import com.twt.wepeiyang.commons.experimental.network.CommonBody
 import com.twt.wepeiyang.commons.ui.rec.withItems
 import com.youth.banner.Banner
 import com.youth.banner.BannerConfig
+import es.dmoral.toasty.Toasty
+import kotlinx.android.synthetic.main.lf2_activity_water_fall.*
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 
 class DetailActivity : AppCompatActivity() {
     private val FOUND = 1
+    private val LOST = 2
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
         setContentView(R.layout.lf2_activity_detail)
-        window.statusBarColor = Color.parseColor("#00a1e9")
+        window.statusBarColor = resources.getColor(R.color.statusBarColor)
         val toolbar: Toolbar = findViewById(R.id.toolbar)
 
         val bundle: Bundle = intent.extras
@@ -46,8 +52,10 @@ class DetailActivity : AppCompatActivity() {
         val banner: Banner = findViewById(R.id.br_detail_banner)
 
         launch(UI + QuietCoroutineExceptionHandler) {
-            val myList: CommonBody<DetailData> = LostFoundService.getDetailed(id).await()
-            if (myList.error_code == -1) {
+            val myList: CommonBody<DetailData>? = LostFoundService.getDetailed(id).awaitAndHandle {
+                it.printStackTrace()
+            }
+            if (myList != null && myList.error_code == -1) {
                 if (myList.data!!.type == FOUND) {
                     toolbar.title = "   捡到物品"
                 } else {
@@ -75,7 +83,7 @@ class DetailActivity : AppCompatActivity() {
                             isFocusable = true
 
                             Glide.with(context)
-                                    .load<Any>(images[position])
+                                    .load(images[position])
                                     .error(R.drawable.lf_detail_np)
                                     .into(popupWindowView.findViewById(R.id.lf2_detail_popupwindow))
 
@@ -126,7 +134,7 @@ class DetailActivity : AppCompatActivity() {
                             setDetail("地点", "", false)
                         }
                     }
-                    if (myListDetailData.detail_type == 2) {
+                    if (myListDetailData.detail_type == LOST) {
                         if (myListDetailData.card_name != "null" && myListDetailData.card_name != null) {
                             setDetail("失主姓名", myListDetailData.card_name, false)
                         } else {
@@ -135,7 +143,7 @@ class DetailActivity : AppCompatActivity() {
                             }
                         }
                     }
-                    if (myListDetailData.detail_type == 2) {
+                    if (myListDetailData.detail_type == LOST) {
                         if (myListDetailData.card_number != "0" && myListDetailData.card_number != null) {
                             setDetail("卡号", myListDetailData.card_number, false)
                         } else {
@@ -167,15 +175,18 @@ class DetailActivity : AppCompatActivity() {
                         setOther("附言", "无")
                     }
                 }
+            } else {
+                Toasty.error(this@DetailActivity, "你网络崩啦，拿不到数据啦", Toast.LENGTH_LONG, true).show()
+//                onBackPressed()
             }
         }
         setSupportActionBar(toolbar)
         toolbar.setNavigationOnClickListener { onBackPressed() }
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
+    // 修改屏幕背景色
     private fun bgAlpha(bgAlpha: Float) {
-        // 修改屏幕背景色
         val lp = window.attributes
         lp.alpha = bgAlpha // 0.0-1.0
         window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
