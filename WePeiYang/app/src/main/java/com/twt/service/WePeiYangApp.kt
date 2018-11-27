@@ -12,12 +12,15 @@ import com.tencent.bugly.Bugly
 import com.tencent.bugly.crashreport.CrashReport
 import com.tencent.stat.StatService
 import com.twt.service.push.DebugProxyService
+import com.twt.service.schedule2.view.theme.ScheduleTheme
 import com.twt.service.settings.SingleBindActivity
 import com.twt.service.tjunet.reconnect.ReconnectJob
 import com.twt.service.welcome.WelcomeActivity
 import com.twt.wepeiyang.commons.experimental.CommonContext
+import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
 import com.twt.wepeiyang.commons.experimental.theme.CustomTheme
 import com.twtstudio.retrox.auth.view.LoginActivity
+import io.multimoon.colorful.Colorful
 import io.multimoon.colorful.Defaults
 import io.multimoon.colorful.initColorful
 
@@ -46,13 +49,8 @@ class WePeiYangApp : MultiDexApplication() {
             BigImageViewer.initialize(GlideImageLoader.with(it))
         }
 
-        val defaults: Defaults = Defaults(
-                primaryColor = CustomTheme.customPollia,
-                accentColor = CustomTheme.customPollia,
-                useDarkTheme = false,
-                translucent = false,
-                customTheme = 0)
-        initColorful(this, defaults)
+        applyTheme()
+
         /**
          * emmmm 怎么弄得优雅一点？
          * 此处@高瑞均
@@ -81,5 +79,37 @@ class WePeiYangApp : MultiDexApplication() {
             }
         }
 
+    }
+
+    private fun applyTheme() {
+        try {
+            val themeIndex = CommonPreferences.customThemeIndex
+            if (themeIndex < 5) {
+                ScheduleTheme.setCurrentTheme("Lex")
+            } else {
+                ScheduleTheme.setCurrentTheme("Pink")
+            }
+
+            val theme = CustomTheme.themeList[themeIndex]
+            val defaults: Defaults = Defaults(
+                    primaryColor = theme,
+                    accentColor = theme,
+                    useDarkTheme = false,
+                    translucent = false,
+                    customTheme = 0)
+
+            initColorful(this, defaults)
+            Colorful().edit().resetPrefs(this)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            val defaults: Defaults = Defaults(
+                    primaryColor = CustomTheme.customPollia,
+                    accentColor = CustomTheme.customPollia,
+                    useDarkTheme = false,
+                    translucent = false,
+                    customTheme = 0)
+
+            initColorful(this, defaults)
+        }
     }
 }

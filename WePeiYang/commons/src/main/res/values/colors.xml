@@ -54,5 +54,10 @@
     <color name="custom_matcha">#748165</color>
     <color name="custom_gold">#7c6a41</color>
 
+    <color name="custom_peppa_pink">#EDC6CD</color>
+    <color name="custom_george_blue">#6595D9</color>
+    <color name="custom_pig_mom_yellow">#F4B17F</color>
+    <color name="custom_pig_dad_green">#6FC6C5</color>
+    <color name="custom_gay_purple">#a04aae</color>
 
 </resources>

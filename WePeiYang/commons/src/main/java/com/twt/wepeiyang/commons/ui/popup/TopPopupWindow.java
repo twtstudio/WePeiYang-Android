@@ -1,4 +1,4 @@
-package com.twt.service.ecard.window;
+package com.twt.wepeiyang.commons.ui.popup;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;

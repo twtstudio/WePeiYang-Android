@@ -36,6 +36,8 @@ object CommonPreferences {
 
     var proxyPort by hawk("proxy_port", 0)
 
+    var customThemeIndex by hawk("custom_theme_index", 0)
+
     fun clear() {
         Hawk.deleteAll()
         CommonContext.defaultSharedPreferences.edit().clear().apply()

@@ -4,7 +4,6 @@ import android.content.Intent
 import android.graphics.Color
 import android.support.v4.content.res.ResourcesCompat
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
@@ -15,12 +14,7 @@ import com.twt.service.ecard.window.ECardInfoPop
 import com.twt.wepeiyang.commons.ui.rec.HomeItem
 import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemController
-import com.twt.wepeiyang.commons.ui.spanned
-import kotlinx.coroutines.experimental.CommonPool
-import kotlinx.coroutines.experimental.CoroutineExceptionHandler
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.async
-import kotlinx.coroutines.experimental.launch
+import com.twt.wepeiyang.commons.ui.text.spanned
 import org.jetbrains.anko.*
 import java.io.EOFException
 import java.net.SocketTimeoutException

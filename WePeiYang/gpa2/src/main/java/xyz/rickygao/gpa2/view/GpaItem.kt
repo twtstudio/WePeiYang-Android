@@ -2,25 +2,17 @@ package xyz.rickygao.gpa2.view
 
 import android.arch.lifecycle.LifecycleOwner
 import android.content.Intent
-import android.graphics.Color
 import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
-import android.text.SpannableString
-import android.text.Spanned
-import android.text.style.AbsoluteSizeSpan
-import android.text.style.BackgroundColorSpan
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
 import com.twt.wepeiyang.commons.ui.rec.HomeItem
 import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemController
-import com.twt.wepeiyang.commons.ui.spanned
-import org.jetbrains.anko.layoutInflater
+import com.twt.wepeiyang.commons.ui.text.spanned
 import xyz.rickygao.gpa2.R
 import xyz.rickygao.gpa2.service.GpaLiveData
-import xyz.rickygao.gpa2.service.Term
 
 
 /**

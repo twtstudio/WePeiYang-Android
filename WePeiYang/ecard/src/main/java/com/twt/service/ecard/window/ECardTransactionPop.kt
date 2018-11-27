@@ -1,13 +1,13 @@
 package com.twt.service.ecard.window
 
 import android.content.Context
-import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import com.twt.service.ecard.R
 import com.twt.service.ecard.model.TransactionInfo
+import com.twt.wepeiyang.commons.ui.popup.TopPopupWindow
 import kotlinx.android.synthetic.main.ecard_transaction_top_pop.view.*
 import org.jetbrains.anko.*
 

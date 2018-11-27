@@ -11,6 +11,8 @@ import com.twt.service.schedule2.R
 import com.twt.service.schedule2.extensions.dp2px
 import com.twt.service.schedule2.extensions.layer
 import com.twt.service.schedule2.extensions.textCenter
+import com.twt.service.schedule2.view.theme.ScheduleStyleType
+import com.twt.service.schedule2.view.theme.ScheduleTheme
 import com.twt.wepeiyang.commons.experimental.color.getColorCompat
 import org.jetbrains.anko.withAlpha
 import java.util.*
@@ -45,7 +47,12 @@ class WeekSquareView @JvmOverloads constructor(context: Context, attrs: Attribut
         color = Color.parseColor("#D0D8D8")
         isAntiAlias = true
     }
-    private val pointPaintFalseWithAlpha = Paint(pointPaintFalse).apply {
+
+    private val pointPaintHaveCourseInUnSelectedMatrix = Paint().apply {
+        color = if (ScheduleTheme.getCurrentTheme().style == ScheduleStyleType.LEX) Color.parseColor("#D0D8D8") else Color.WHITE
+        isAntiAlias = true
+    }
+    private val pointPaintNoCourseInUnSelectedMatrix = Paint(pointPaintHaveCourseInUnSelectedMatrix).apply {
         color = color.withAlpha(0x4F)
     }
 
@@ -118,10 +125,10 @@ class WeekSquareView @JvmOverloads constructor(context: Context, attrs: Attribut
                 for (y in 0 until 5) {
                     val pointX = xBase + (pointMargin / 2) + x * pointMargin
                     val pointY = yBase + (pointMargin / 2) + y * pointMargin
-                    if (list[y]) {
-                        canvas.drawCircle(pointX.toFloat(), pointY.toFloat(), dp2px(3.3f), if (selected) pointPaintTrue else pointPaintFalse) // 原本要绘制的有课程点位
+                    if (list[y]) { // 如果这个点位是True 就是有课 -> 此时需要处理选中矩阵和非选中矩阵的颜色区别
+                        canvas.drawCircle(pointX.toFloat(), pointY.toFloat(), dp2px(3.3f), if (selected) pointPaintTrue else /*有课没选中*/pointPaintHaveCourseInUnSelectedMatrix ) // 原本要绘制的有课程点位
                     } else {
-                        canvas.drawCircle(pointX.toFloat(), pointY.toFloat(), dp2px(3.3f), if (selected) pointPaintFalse else pointPaintFalseWithAlpha)
+                        canvas.drawCircle(pointX.toFloat(), pointY.toFloat(), dp2px(3.3f), if (selected) /*没课选中了*/ pointPaintFalse else pointPaintNoCourseInUnSelectedMatrix)
                     }
                 }
             }

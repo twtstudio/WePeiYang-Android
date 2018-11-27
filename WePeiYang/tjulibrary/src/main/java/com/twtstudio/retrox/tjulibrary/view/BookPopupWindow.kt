@@ -16,7 +16,7 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.FrameLayout
 import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
 import com.twt.wepeiyang.commons.ui.blur.BlurPopupWindow
-import com.twt.wepeiyang.commons.ui.spanned
+import com.twt.wepeiyang.commons.ui.text.spanned
 import com.twtstudio.retrox.tjulibrary.R
 import com.twtstudio.retrox.tjulibrary.home.LibraryViewModel
 import com.twtstudio.retrox.tjulibrary.provider.Book

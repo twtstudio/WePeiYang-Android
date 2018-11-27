@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import com.twt.service.ecard.R
 import com.twt.service.ecard.model.ECardPersonInfo
+import com.twt.wepeiyang.commons.ui.popup.TopPopupWindow
 import kotlinx.android.synthetic.main.ecard_top_pop.view.*
 import org.jetbrains.anko.*
 

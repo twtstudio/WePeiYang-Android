@@ -1,9 +1,9 @@
 package com.twt.service.schedule2.model
 
-import com.twt.service.schedule2.R
 import com.twt.service.schedule2.extensions.currentUnixTime
 import com.twt.service.schedule2.extensions.findConflict
 import com.twt.service.schedule2.extensions.mergeCourses
+import com.twt.service.schedule2.view.theme.ScheduleTheme
 
 class MergedClassTableProvider(
         val tjuClassTable: AbsClasstableProvider,
@@ -12,19 +12,7 @@ class MergedClassTableProvider(
         val duplicateCourseTable: AbsClasstableProvider
 ) : AbsClasstableProvider {
 
-    private val classColors = intArrayOf(
-            R.color.schedule_green,
-            R.color.schedule_orange,
-            R.color.schedule_blue,
-            R.color.schedule_green2,
-            R.color.schedule_pink,
-            R.color.schedule_blue2,
-            R.color.schedule_green3,
-            R.color.schedule_purple,
-            R.color.schedule_red,
-            R.color.schedule_green4,
-            R.color.schedule_purple2
-    )
+    private val classColors = ScheduleTheme.getCurrentTheme().courseColors
 
     val totalCoursesList = getCourseByWeek(3) // 姑且就当做第三周吧 反正只是CheckConfict用
 

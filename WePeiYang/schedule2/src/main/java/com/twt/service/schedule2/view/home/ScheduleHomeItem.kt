@@ -29,7 +29,11 @@ import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
 import com.twt.wepeiyang.commons.ui.rec.HomeItem
 import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemController
-import com.twt.wepeiyang.commons.ui.spanned
+import com.twt.wepeiyang.commons.ui.text.spanned
+import com.twt.wepeiyang.commons.ui.text.absSize
+import com.twt.wepeiyang.commons.ui.text.plus
+import com.twt.wepeiyang.commons.ui.text.span
+import com.twt.wepeiyang.commons.ui.text.spannable
 import org.jetbrains.anko.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -240,7 +244,7 @@ class ScheduleHomeItem(val lifecycleOwner: LifecycleOwner) : Item {
                     textView.text = stringSpan
                     if (course.weekAvailable) {
                         textView.setTextColor(Color.WHITE)
-                        cardView.setCardBackgroundColor(CommonContext.application.resources.getColor(course.courseColor))
+                        cardView.setCardBackgroundColor(course.courseColor)
                     } else {
                         cardView.setCardBackgroundColor(CommonContext.application.resources.getColor(R.color.schedule_background_gray))
                         textView.setTextColor(CommonContext.application.resources.getColor(R.color.schedule_gray))

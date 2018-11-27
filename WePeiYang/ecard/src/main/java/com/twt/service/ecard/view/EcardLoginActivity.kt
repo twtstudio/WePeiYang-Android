@@ -1,25 +1,19 @@
 package com.twt.service.ecard.view
 
+import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.text.InputType
-import android.text.method.PasswordTransformationMethod
 import android.widget.Button
 import android.widget.EditText
 import com.twt.service.ecard.R
 import com.twt.service.ecard.model.EcardPref
 import com.twt.service.ecard.model.login
+import com.twt.wepeiyang.commons.experimental.extensions.enableLightStatusBarMode
 import es.dmoral.toasty.Toasty
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.launch
-import org.jetbrains.anko.button
-import org.jetbrains.anko.coroutines.experimental.bg
-import org.jetbrains.anko.editText
-import org.jetbrains.anko.sdk25.coroutines.onClick
-import org.jetbrains.anko.textView
-import org.jetbrains.anko.verticalLayout
 
 class EcardLoginActivity : AppCompatActivity() {
 
@@ -28,6 +22,8 @@ class EcardLoginActivity : AppCompatActivity() {
     private lateinit var btBind: Button
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        window.statusBarColor = Color.WHITE
+        enableLightStatusBarMode(true)
 
         setContentView(R.layout.ecard_activity_bind)
 

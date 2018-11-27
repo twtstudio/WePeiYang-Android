@@ -3,16 +3,12 @@ package com.twt.service.schedule2.view.schedule
 import android.content.Context
 import android.graphics.Color
 import android.graphics.Typeface
-import android.support.v4.content.res.ResourcesCompat
 import android.support.v7.util.DiffUtil
 import android.support.v7.widget.CardView
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.text.SpannableString
-import android.text.Spanned
 import android.text.style.AbsoluteSizeSpan
 import android.text.style.StyleSpan
-import android.text.style.TypefaceSpan
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -20,10 +16,10 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.TextView
 import com.twt.service.schedule2.R
-import com.twt.service.schedule2.extensions.absSize
-import com.twt.service.schedule2.extensions.plus
-import com.twt.service.schedule2.extensions.span
-import com.twt.service.schedule2.extensions.spannable
+import com.twt.wepeiyang.commons.ui.text.absSize
+import com.twt.wepeiyang.commons.ui.text.plus
+import com.twt.wepeiyang.commons.ui.text.span
+import com.twt.wepeiyang.commons.ui.text.spannable
 import com.twt.service.schedule2.model.Course
 import com.twt.service.schedule2.model.SchedulePref
 import com.twt.wepeiyang.commons.experimental.CommonContext
@@ -171,7 +167,7 @@ class ScheduleAdapter(val context: Context) : RecyclerView.Adapter<ScheduleAdapt
                 textView.text = stringSpan
                 if (course.weekAvailable) {
                     textView.setTextColor(Color.WHITE)
-                    cardView.setCardBackgroundColor(CommonContext.application.resources.getColor(course.courseColor))
+                    cardView.setCardBackgroundColor(course.courseColor)
                 } else {
                     cardView.setCardBackgroundColor(CommonContext.application.resources.getColor(R.color.schedule_background_gray))
                     textView.setTextColor(CommonContext.application.resources.getColor(R.color.schedule_gray))

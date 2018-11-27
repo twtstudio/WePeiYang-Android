@@ -1,4 +1,4 @@
-package com.twt.wepeiyang.commons.ui
+package com.twt.wepeiyang.commons.ui.text
 
 import android.os.Build
 import android.text.Html

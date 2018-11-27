@@ -16,7 +16,7 @@ import com.twt.wepeiyang.commons.experimental.cache.RefreshState
 import com.twt.wepeiyang.commons.experimental.color.getColorCompat
 import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
 import com.twt.wepeiyang.commons.ui.rec.*
-import com.twt.wepeiyang.commons.ui.spanned
+import com.twt.wepeiyang.commons.ui.text.spanned
 import com.twt.wepeiyang.commons.ui.view.ColorCircleView
 import com.twtstudio.retrox.tjulibrary.R
 import com.twtstudio.retrox.tjulibrary.provider.Book

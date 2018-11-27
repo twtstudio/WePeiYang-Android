@@ -62,7 +62,7 @@ fun Course.covertToCalEvent(): List<CalEvent> {
                     startTimeMills = rfcCourseCalExtra.startTimeMills,
                     duration = rfcCourseCalExtra.duration,
                     rRule = rfcCourseCalExtra.rRule,
-                    color = getColorCompat(courseColor)
+                    color = courseColor
             )
             events.add(calEvent)
         }

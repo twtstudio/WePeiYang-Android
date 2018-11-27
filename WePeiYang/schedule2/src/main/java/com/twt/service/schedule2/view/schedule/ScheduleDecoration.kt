@@ -12,6 +12,7 @@ import com.twt.service.schedule2.extensions.*
 import com.twt.service.schedule2.model.AbsClasstableProvider
 import com.twt.service.schedule2.model.Classtable
 import com.twt.service.schedule2.model.CommonClassTable
+import com.twt.service.schedule2.view.theme.ScheduleTheme
 import com.twt.wepeiyang.commons.experimental.CommonContext
 import java.text.SimpleDateFormat
 import java.util.*
@@ -20,10 +21,14 @@ class ScheduleDecoration : RecyclerView.ItemDecoration() {
 
     var week: Int = 1 // 设置Schedule上面的日期指示栏
     val backGroundPaint = Paint().apply {
-        color = rgbPercent(0.97f, 0.97f, 0.95f)
+        // 课程表侧栏顶栏背景色
+//        color = rgbPercent(0.97f, 0.97f, 0.95f)
+        color = ScheduleTheme.getCurrentTheme().scheduleDecoColorPack.backGroundColor
     }
     val textPaint = Paint().apply {
-        color = rgbPercent(0.55f, 0.55f, 0.55f)
+        // 文字颜色
+//        color = rgbPercent(0.55f, 0.55f, 0.55f)
+        color = ScheduleTheme.getCurrentTheme().scheduleDecoColorPack.textColor
         textSize = dp2px(11f)
         isAntiAlias = true
         textAlign = Paint.Align.CENTER
@@ -58,7 +63,7 @@ class ScheduleDecoration : RecyclerView.ItemDecoration() {
             // 绘制上侧栏
             canvas.drawRect(0F, 0F, parentWidth, topMargin, backGroundPaint)
             canvas.drawLine(0f, topMargin, parentWidth, topMargin, Paint().apply {
-                color = rgbPercent(0.94f, 0.94f, 0.92f)
+                color = rgbPercent(0.94f, 0.94f, 0.92f) // 课程表上栏下面的那条小线
                 style = Paint.Style.STROKE
                 strokeWidth = 2f
             })
@@ -83,7 +88,7 @@ class ScheduleDecoration : RecyclerView.ItemDecoration() {
                 if (index + 1 == todayInt) {
                     // 绘制当前的星期 比如说 今天是星期四
                     canvas.drawRect(x - perItemWidth/2,y - topMargin/2,x+perItemWidth/2,y + topMargin/2,Paint().apply {
-                        color = rgbPercent(0.93f, 0.93f, 0.91f)
+                        color = rgbPercent(0.93f, 0.93f, 0.91f) // 星期底色
                     })
                 }
                 canvas.textCenter(strList, textPaint, x, y, Paint.Align.CENTER)

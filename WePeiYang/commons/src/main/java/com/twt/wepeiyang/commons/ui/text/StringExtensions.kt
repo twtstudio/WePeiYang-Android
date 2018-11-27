@@ -1,5 +1,6 @@
-package com.twt.service.schedule2.extensions
+package com.twt.wepeiyang.commons.ui.text
 
+import android.graphics.Typeface
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.TextUtils
@@ -19,8 +20,8 @@ fun span(s: CharSequence, spanStyleList: List<Any>) = (if (s is String) Spannabl
 operator fun SpannableString.plus(s: SpannableString) = SpannableString(TextUtils.concat(this, s))
 operator fun SpannableString.plus(s: String) = SpannableString(TextUtils.concat(this, s))
 
-fun bold(s: CharSequence) = span(s, StyleSpan(android.graphics.Typeface.BOLD))
-fun italic(s: CharSequence) = span(s, StyleSpan(android.graphics.Typeface.ITALIC))
+fun bold(s: CharSequence) = span(s, StyleSpan(Typeface.BOLD))
+fun italic(s: CharSequence) = span(s, StyleSpan(Typeface.ITALIC))
 fun underline(s: CharSequence) = span(s, UnderlineSpan())
 fun strike(s: CharSequence) = span(s, StrikethroughSpan())
 fun sup(s: CharSequence) = span(s, SuperscriptSpan())
