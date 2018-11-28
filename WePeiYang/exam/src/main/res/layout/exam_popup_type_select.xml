@@ -136,7 +136,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="所有题型中随机抽取 25 题"
+            android:text="所有题型中随机抽取若干题目"
             android:textColor="@color/examTextBlack"
             app:layout_constraintLeft_toLeftOf="@id/tv_type_select_single_title"
             app:layout_constraintTop_toBottomOf="@id/tv_type_select_test_title" />
