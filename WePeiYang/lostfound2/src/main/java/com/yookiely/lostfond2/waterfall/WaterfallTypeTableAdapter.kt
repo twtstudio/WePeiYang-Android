@@ -52,5 +52,6 @@ class WaterfallTypeTableAdapter(private val waterfallActivity: WaterfallActivity
         }
     }
 
+    // 物品种类 = 13 + "全部种类"
     override fun getItemCount(): Int = 14
 }

@@ -22,9 +22,6 @@ import org.jetbrains.anko.textColor
 
 class MyListTableAdapter(var myListBean: MutableList<MyListDataOrSearchBean>, var context: FragmentActivity?, var lostOrFound: String, var mylistView: MyListService.MyListView) : RecyclerView.Adapter<MyListTableAdapter.MyListViewHolder>() {
 
-
-    private val idOfBundle = "id"
-
     class MyListViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         var myListItemTitle: TextView = view.findViewById(R.id.tv_mylist_item_title)
@@ -34,9 +31,9 @@ class MyListTableAdapter(var myListBean: MutableList<MyListDataOrSearchBean>, va
         var myListItemPlace: TextView = view.findViewById(R.id.tv_mylist_item_place)
         var myListItemPic: ImageView = view.findViewById(R.id.iv_mylist_item_pic)
         var myListItemPencilTouch: TextView = view.findViewById(R.id.tv_mylist_item_pencil_touch)
-        var mylistItemOutdata: ImageView = view.findViewById(R.id.iv_mylist_detail_isoutdate)
-        var mylistItemButton = view.findViewById<Button>(R.id.bn_mylist_isback)
-        var myListItemButtonOutdate = view.findViewById<Button>(R.id.bn_mylist_item_outdate)
+        var myListItemOutDate: ImageView = view.findViewById(R.id.iv_mylist_detail_isoutdate)
+        var myListItemButton: Button = view.findViewById(R.id.bn_mylist_isback)
+        var myListItemButtonOutDate: Button = view.findViewById(R.id.bn_mylist_item_outdate)
 
     }
 
@@ -58,49 +55,49 @@ class MyListTableAdapter(var myListBean: MutableList<MyListDataOrSearchBean>, va
 
             if (isExpired == 1) {
                 // 0是未过期,1是已过期
-                holder.myListItemButtonOutdate.visibility = View.VISIBLE
-                holder.mylistItemButton.visibility = View.GONE
-                holder.myListItemButtonOutdate.text = "重新编辑"
-                holder.myListItemStatus.textColor = Color.parseColor("#999999")
-                holder.myListItemStatus.text = "已过期"
-                holder.mylistItemOutdata.visibility = View.VISIBLE
+                myListItemButtonOutDate.visibility = View.VISIBLE
+                myListItemButton.visibility = View.GONE
+                myListItemButtonOutDate.text = "重新编辑"
+                myListItemStatus.textColor = Color.parseColor("#999999")
+                myListItemStatus.text = "已过期"
+                myListItemOutDate.visibility = View.VISIBLE
             } else {
-                holder.mylistItemOutdata.visibility = View.GONE
-                holder.myListItemButtonOutdate.visibility = View.GONE
-                holder.mylistItemButton.visibility = View.VISIBLE
+                holder.myListItemOutDate.visibility = View.GONE
+                holder.myListItemButtonOutDate.visibility = View.GONE
+                holder.myListItemButton.visibility = View.VISIBLE
                 if (lostOrFound == "found") {
                     if (isback == 1) {
-                        holder.myListItemStatus.text = "已归还"
-                        holder.myListItemStatus.textColor = Color.parseColor("#999999")
-                        holder.mylistItemButton.text = "取消归还"
+                        myListItemStatus.text = "已归还"
+                        myListItemStatus.textColor = Color.parseColor("#999999")
+                        myListItemButton.text = "取消归还"
                     } else {
-                        holder.myListItemStatus.text = "未归还"
-                        holder.myListItemStatus.textColor = Color.parseColor("#44a0e3")
-                        holder.mylistItemButton.text = "确认归还"
+                        myListItemStatus.text = "未归还"
+                        myListItemStatus.textColor = Color.parseColor("#44a0e3")
+                        myListItemButton.text = "确认归还"
                     }
                 } else {
                     if (isback == 1) {
-                        holder.myListItemStatus.text = "未找到"
-                        holder.myListItemStatus.textColor = Color.parseColor("#999999")
-                        holder.mylistItemButton.text = "确认找到"
+                        myListItemStatus.text = "未找到"
+                        myListItemStatus.textColor = Color.parseColor("#999999")
+                        myListItemButton.text = "确认找到"
                     } else {
-                        holder.myListItemStatus.text = "已找到"
-                        holder.myListItemStatus.textColor = Color.parseColor("#44a0e3")
-                        holder.mylistItemButton.text = "取消找到"
+                        myListItemStatus.text = "已找到"
+                        myListItemStatus.textColor = Color.parseColor("#44a0e3")
+                        myListItemButton.text = "取消找到"
                     }
                 }
             }
 
-            holder.mylistItemButton.setOnClickListener { mylistView.turnStatus(id) }
-            holder.myListItemButtonOutdate.setOnClickListener {
+            myListItemButton.setOnClickListener { mylistView.turnStatus(id) }
+            myListItemButtonOutDate.setOnClickListener {
                 bundle.apply {
                     if (lostOrFound == "lost") {
-                        putString("lostOrFound", "editLost")
+                        putString(Utils.LOSTORFOUND_KEY, "editLost")
                     } else {
-                        putString("lostOrFound", "editFound")
+                        putString(Utils.LOSTORFOUND_KEY, "editFound")
                     }
-                    putInt("id", id)
-                    putInt("type", detail_type)
+                    putInt(Utils.ID_KEY, id)
+                    putInt(Utils.DETAIL_TYPE, detail_type)
                 }
 
                 intent.apply {
@@ -125,7 +122,7 @@ class MyListTableAdapter(var myListBean: MutableList<MyListDataOrSearchBean>, va
             }
 
             itemView.setOnClickListener {
-                bundle.putInt("id", id)
+                bundle.putInt(Utils.ID_KEY, id)
                 intent.putExtras(bundle)
                 intent.setClass(context, DetailActivity::class.java)
                 context?.startActivity(intent)
@@ -134,12 +131,12 @@ class MyListTableAdapter(var myListBean: MutableList<MyListDataOrSearchBean>, va
             myListItemPencilTouch.setOnClickListener {
                 bundle.apply {
                     if (lostOrFound == "lost") {
-                        putString("lostOrFound", "editLost")
+                        putString(Utils.LOSTORFOUND_KEY, "editLost")
                     } else {
-                        putString("lostOrFound", "editFound")
+                        putString(Utils.LOSTORFOUND_KEY, "editFound")
                     }
-                    putInt(idOfBundle, id)
-                    putInt("type", detail_type)
+                    putInt(Utils.ID_KEY, id)
+                    putInt(Utils.DETAIL_TYPE, detail_type)
                 }
 
                 intent.apply {

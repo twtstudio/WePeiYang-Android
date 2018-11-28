@@ -16,6 +16,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import com.example.lostfond2.R
 import com.orhanobut.hawk.Hawk
+import com.yookiely.lostfond2.service.Utils
 import com.yookiely.lostfond2.waterfall.WaterfallPagerAdapter
 
 class SearchActivity : AppCompatActivity() {
@@ -53,7 +54,7 @@ class SearchActivity : AppCompatActivity() {
         searchType = findViewById(R.id.tl_search_type)
         lostFragment = SearchFragment.newInstance("lost")
         foundFragment = SearchFragment.newInstance("found")
-        campus = Hawk.get("campus")//1 北洋园 ，2 卫津路
+        campus = Utils.campus ?: 1//1 北洋园 ，2 卫津路
 
         val waterfallPagerAdapter = WaterfallPagerAdapter(supportFragmentManager)
         val popupWindowView = LayoutInflater.from(this).inflate(R.layout.lf2_popupwindow_search, null, false)

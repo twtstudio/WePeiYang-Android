@@ -11,6 +11,7 @@ import android.widget.LinearLayout
 import android.widget.ProgressBar
 import com.example.lostfond2.R
 import com.yookiely.lostfond2.service.MyListDataOrSearchBean
+import com.yookiely.lostfond2.service.Utils
 
 
 class MyListFragment : Fragment(), MyListService.MyListView {
@@ -28,10 +29,9 @@ class MyListFragment : Fragment(), MyListService.MyListView {
     var page = 1
 
     companion object {
-        val key = "index"
         fun newInstance(type: String): MyListFragment {
             val args = Bundle()
-            args.putString(key, type)
+            args.putString(Utils.INDEX_KEY, type)
             val fragment = MyListFragment()
             fragment.arguments = args
             return fragment
@@ -58,7 +58,7 @@ class MyListFragment : Fragment(), MyListService.MyListView {
         myListProgressBar = view.findViewById(R.id.pb_mylist_progress)
         myListNoData = view.findViewById(R.id.ll_mylist_nodata)
         val bundle = arguments
-        lostOrFound = bundle!!.getString("index")
+        lostOrFound = bundle!!.getString(Utils.INDEX_KEY)
         initValues()
 
         myListRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {

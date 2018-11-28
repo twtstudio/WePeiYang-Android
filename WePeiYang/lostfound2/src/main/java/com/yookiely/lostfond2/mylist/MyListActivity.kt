@@ -14,6 +14,7 @@ import android.widget.PopupWindow
 import android.widget.TextView
 import com.example.lostfond2.R
 import com.orhanobut.hawk.Hawk
+import com.yookiely.lostfond2.service.Utils
 import org.jetbrains.anko.textColor
 
 class MyListActivity : AppCompatActivity() {
@@ -82,7 +83,7 @@ class MyListActivity : AppCompatActivity() {
         weijinlu = view.findViewById(R.id.tv_mylist_wjl)
 
         // 根据原始校区值，设置颜色，选中的校区为蓝色
-        campus = Hawk.get("campus")
+        campus = Utils.campus ?: 1
         if (campus == BEIYANGYUAN) {
             beiyangyuan.textColor = Color.parseColor("#4894d5")
             weijinlu.textColor = Color.parseColor("#656565")
@@ -93,15 +94,13 @@ class MyListActivity : AppCompatActivity() {
 
         // 设置弹窗中的textview的监听事件，修改校区，并修改数据库中的校区对应值
         beiyangyuan.setOnClickListener {
-            Hawk.delete("campus")
-            Hawk.put("campus", BEIYANGYUAN)
+            Utils.campus = BEIYANGYUAN
             beiyangyuan.textColor = Color.parseColor("#4894d5")
             weijinlu.textColor = Color.parseColor("#656565")
             popupWindow.dismiss()
         }
         weijinlu.setOnClickListener {
-            Hawk.delete("campus")
-            Hawk.put("campus", WEIJINGLU)
+            Utils.campus = WEIJINGLU
             weijinlu.textColor = Color.parseColor("#4894d5")
             beiyangyuan.textColor = Color.parseColor("#656565")
             popupWindow.dismiss()

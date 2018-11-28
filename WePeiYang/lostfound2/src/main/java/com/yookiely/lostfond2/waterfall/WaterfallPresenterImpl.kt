@@ -7,6 +7,7 @@ import com.yookiely.lostfond2.service.MyListDataOrSearchBean
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import com.twt.wepeiyang.commons.network.RetrofitProvider
+import com.yookiely.lostfond2.service.Utils
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
@@ -21,12 +22,11 @@ class WaterfallPresenterImpl(var waterfallView: WaterfallContract.WaterfallView)
     }
 
     override fun loadWaterfallData(lostOrFound: String, page: Int, time: Int) {
-        if (Hawk.contains("campus")) {
-            val campus: Int = Hawk.get("campus")
+        if (Utils.campus != null) {
             launch(UI + QuietCoroutineExceptionHandler) {
-                val dataList = when (lostOrFound) {
-                    "lost" -> LostFoundService.getLost(campus, page, 0, time).await()
-                    else -> LostFoundService.getFound(campus, page, 0, time).await()
+                when (lostOrFound) {
+                    "lost" -> LostFoundService.getLost(Utils.campus!!, page, 0, time).await()
+                    else -> LostFoundService.getFound(Utils.campus!!, page, 0, time).await()
                 }.let {
                     if (it.error_code == -1) {
                         setWaterfallData(it.data!!)
@@ -40,12 +40,11 @@ class WaterfallPresenterImpl(var waterfallView: WaterfallContract.WaterfallView)
         if (type == -1) {
             loadWaterfallData(lostOrFound, page, time)
         } else {
-            if (Hawk.contains("campus")) {
-                val campus: Int = Hawk.get("campus")
+            if (Utils.campus != null) {
                 launch(UI + QuietCoroutineExceptionHandler) {
-                    val dataList = when (lostOrFound) {
-                        "lost" -> LostFoundService.getLost(campus, page, type, time).await()
-                        else -> LostFoundService.getFound(campus, page, type, time).await()
+                    when (lostOrFound) {
+                        "lost" -> LostFoundService.getLost(Utils.campus!!, page, type, time).await()
+                        else -> LostFoundService.getFound(Utils.campus!!, page, type, time).await()
                     }.let {
                         if (it.error_code == -1) {
                             setWaterfallData(it.data!!)

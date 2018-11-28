@@ -12,7 +12,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.example.lostfond2.R
-import com.orhanobut.hawk.Hawk
 import com.yookiely.lostfond2.detail.DetailActivity
 import com.yookiely.lostfond2.service.MyListDataOrSearchBean
 import com.yookiely.lostfond2.service.Utils
@@ -57,7 +56,8 @@ class WaterfallTableAdapter(private var waterFallBean: List<MyListDataOrSearchBe
 
         viewHolder.apply {
             waterfallItemTitle.text = dataOfItem.title
-            waterfallItemLocation.text = Utils.getDetailFilterOfPlace(Hawk.get("campus")) + "-" + dataOfItem.place
+            waterfallItemLocation.text = Utils.getDetailFilterOfPlace(Utils.campus
+                    ?: 1) + "-" + dataOfItem.place
             waterfallItemThing.text = Utils.getType(dataOfItem.detail_type)
             waterfallItemData.text = dataOfItem.time
 
@@ -81,8 +81,8 @@ class WaterfallTableAdapter(private var waterFallBean: List<MyListDataOrSearchBe
 
     private fun startDetailActivity(id: Int) {
         val bundle = Bundle()
-        bundle.putInt("id", id)
-        bundle.putString("lostOrFound", lostOrFound)
+        bundle.putInt(Utils.ID_KEY, id)
+        bundle.putString(Utils.LOSTORFOUND_KEY, lostOrFound)
         val intent = Intent()
         intent.putExtras(bundle)
         intent.setClass(context, DetailActivity::class.java)

@@ -32,7 +32,7 @@ class WaterfallFragment : Fragment(), WaterfallContract.WaterfallView {
     companion object {
         fun newInstance(type: String): WaterfallFragment {
             val args = Bundle()
-            args.putString("index", type)
+            args.putString(Utils.INDEX_KEY, type)
             val fragment = WaterfallFragment()
             fragment.arguments = args
 
@@ -48,14 +48,12 @@ class WaterfallFragment : Fragment(), WaterfallContract.WaterfallView {
         val waterfallRecyclerView = view.findViewById<RecyclerView>(R.id.rv_waterfall_homepage)
         val waterfallNoRes = view.findViewById<LinearLayout>(R.id.ll_waterfall_no_res)
 
-        if (Hawk.contains("campus")) {
-            campus = Hawk.get("campus")
-        }
+        campus = Utils.campus ?: 1
 
         waterfallRecyclerView.layoutManager = layoutManager
         waterfallNoRes.visibility = View.GONE
         val bundle = arguments
-        lostOrFound = bundle!!.getString("index")
+        lostOrFound = bundle!!.getString(Utils.INDEX_KEY)
         tableAdapter = WaterfallTableAdapter(beanList, this.activity!!, lostOrFound)
         waterfallRecyclerView.adapter = tableAdapter
         waterfallRefresh.setOnRefreshListener(this::refresh)
@@ -115,11 +113,11 @@ class WaterfallFragment : Fragment(), WaterfallContract.WaterfallView {
     override fun onResume() {
         super.onResume()
 
-        if (Hawk.contains("campus")) {
-            if (campus != Hawk.get("campus")) {
+        if (Utils.campus != null) {
+            if (campus != Utils.campus) {
                 this.type = Utils.ALL_TYPE
                 this.time = Utils.ALL_TIME
-                campus = Hawk.get("campus")
+                campus = Utils.campus!!
                 refresh()
             }
         }

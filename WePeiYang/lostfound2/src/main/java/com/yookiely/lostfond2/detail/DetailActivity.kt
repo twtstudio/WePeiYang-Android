@@ -41,7 +41,7 @@ class DetailActivity : AppCompatActivity() {
 
         val bundle: Bundle = intent.extras
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        val id = bundle.getInt("id")
+        val id = bundle.getInt(Utils.ID_KEY)
         val recyclerView: RecyclerView = findViewById(R.id.rv_detail)
         recyclerView.layoutManager = LinearLayoutManager(this)
         val popupWindowView = LayoutInflater.from(applicationContext).inflate(R.layout.lf2_detail_popupwindow, null, false)

@@ -10,7 +10,7 @@ import es.dmoral.toasty.Toasty
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 
-class MyListPresenterImpl(val myListView: MyListService.MyListView) : MyListService.MyListPresenter {
+class MyListPresenterImpl(private val myListView: MyListService.MyListView) : MyListService.MyListPresenter {
 //    lateinit var mylistApi: LostFoundService
 
     override fun setMyListData(myListBean: List<MyListDataOrSearchBean>) {

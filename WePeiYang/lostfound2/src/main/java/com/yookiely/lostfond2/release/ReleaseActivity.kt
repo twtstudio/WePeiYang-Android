@@ -86,7 +86,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val bundle = intent.extras
-        lostOrFound = bundle.getString("lostOrFound")
+        lostOrFound = bundle.getString(Utils.LOSTORFOUND_KEY)
         super.onCreate(savedInstanceState)
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
         window.statusBarColor = resources.getColor(R.color.statusBarColor)
@@ -100,12 +100,12 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
             toolbar.setNavigationOnClickListener { showExitDialog() }
         }
-        campus = Hawk.get("campus") // 得到所在校区
+        campus = Utils.campus ?: 1 // 得到所在校区
 
         if (lostOrFound == "editLost" || lostOrFound == "editFound") {// open editwindow
             cv_release_delete.visibility = View.VISIBLE
-            id = bundle.getInt("id")
-            selectedItemPosition = bundle.getInt("type") - 1
+            id = bundle.getInt(Utils.ID_KEY)
+            selectedItemPosition = bundle.getInt(Utils.DETAIL_TYPE) - 1
             onTypeItemSelected(selectedItemPosition)
             releasePresenter.loadDetailDataForEdit(id, this)
         }

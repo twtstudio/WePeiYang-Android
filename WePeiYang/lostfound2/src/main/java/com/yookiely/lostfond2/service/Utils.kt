@@ -1,6 +1,7 @@
 package com.yookiely.lostfond2.service
 
 import android.Manifest
+import com.orhanobut.hawk.Hawk
 import com.twt.wepeiyang.commons.experimental.preference.hawk
 
 class Utils {
@@ -13,6 +14,11 @@ class Utils {
         const val TABLE_NAME = "myTable"
         const val ID = "_id"
         const val CONTENT = "content"
+        const val ID_KEY = "id"
+        const val LOSTORFOUND_KEY = "lostOrFound"
+        const val DETAIL_TYPE = "type"
+        const val INDEX_KEY = "index"
+        var campus: Int? by hawk("campus", null)
 
         fun getType(i: Int) = when (i) {
             0 -> "全部"
