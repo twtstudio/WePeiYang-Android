@@ -8,13 +8,16 @@ import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import com.twt.service.ecard.R
 import com.twt.service.ecard.model.*
 import com.twt.service.ecard.window.ECardInfoPop
+import com.twt.wepeiyang.commons.experimental.cache.RefreshState
 import com.twt.wepeiyang.commons.ui.rec.HomeItem
 import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemController
 import com.twt.wepeiyang.commons.ui.text.spanned
+import es.dmoral.toasty.Toasty
 import org.jetbrains.anko.*
 import java.io.EOFException
 import java.net.SocketTimeoutException
@@ -77,44 +80,64 @@ class EcardInfoItem : Item {
 
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: Item) {
             holder as ViewHolder
+            getEcardProfile {
+                when (it) {
+                    is RefreshState.Failure -> {
+                        holder.apply {
+                            balanceText.text = "Fetching Balance Information"
+                            todayCostView.text = "Just a second..."
+                        }
 
-            fun refresh(forceReload: Boolean) {
-                holder.apply {
-                    balanceText.text = "Fetching Balance Infomation"
-                    todayCostView.text = "Just a second..."
-                }
-                LiveEcardManager.refreshEcardFullInfo(forceReload)
-            }
-
-            refresh(false)
-
-            holder.stateText.setOnClickListener { view ->
-                refresh(false)
-            }
-
-            LiveEcardManager.getEcardLiveData().observeForever {
-                it?.apply {
-                    holder.balanceText.text = "校园卡余额：${personInfo.balance}"
-                    holder.todayCostView.text = "今日消费：${todayCost}元"
-                    if (!cache) {
-                        holder.stateText.text = "校园卡数据拉取成功，点击刷新"
                     }
-                    holder.rootView.setOnClickListener {
-                        val infoPop = ECardInfoPop(it.context, personInfo, todayCost)
-                        infoPop.show()
+                    is RefreshState.Success -> {
+                        if (it.message.error_code != -1) {
+                            holder.stateText.text = "<span style=\"color:#E70C57\";>尚未绑定校园卡或校园卡密码错误，点击卡片右上角'绑定设置'绑定</span>".spanned
+                        } else {
+                            Toasty.success(holder.itemView.context, "网络").show()
+                            val ecardProfileBean = it.message.data as EcardProfileBean
+                            holder.balanceText.text = "校园卡余额：${ecardProfileBean.balance}"
+                            holder.todayCostView.text = "有效期：${ecardProfileBean.expiry}"
+                        }
                     }
                 }
             }
-
-            LiveEcardManager.getEcardExceptionLiveData().observeForever {
-                it?.let { throwable ->
-                    if (throwable is EOFException) {
-                        holder.stateText.text = "<span style=\"color:#E70C57\";>尚未绑定校园卡或校园卡密码错误，点击卡片右上角'绑定设置'绑定</span>".spanned
-                    } else if (throwable is SocketTimeoutException) {
-                        holder.stateText.text = "<span style=\"color:#E70C57\";>校园卡服务仅能在tjuwlan访问，切换网络后点击重试</span>".spanned
-                    }
-                }
-            }
+//            fun refresh(forceReload: Boolean) {
+//                holder.apply {
+//                    balanceText.text = "Fetching Balance Information"
+//                    todayCostView.text = "Just a second..."
+//                }
+//                LiveEcardManager.refreshEcardFullInfo(forceReload)
+//            }
+//
+//            refresh(false)
+//
+//            holder.stateText.setOnClickListener { view ->
+//                refresh(false)
+//            }
+//
+//            LiveEcardManager.getEcardLiveData().observeForever {
+//                it?.apply {
+//                    holder.balanceText.text = "校园卡余额：${personInfo.balance}"
+//                    holder.todayCostView.text = "今日消费：${todayCost}元"
+//                    if (!cache) {
+//                        holder.stateText.text = "校园卡数据拉取成功，点击刷新"
+//                    }
+//                    holder.rootView.setOnClickListener {
+//                        val infoPop = ECardInfoPop(it.context, personInfo, todayCost)
+//                        infoPop.show()
+//                    }
+//                }
+//            }
+//
+//            LiveEcardManager.getEcardExceptionLiveData().observeForever {
+//                it?.let { throwable ->
+//                    if (throwable is EOFException) {
+//                        holder.stateText.text = "<span style=\"color:#E70C57\";>尚未绑定校园卡或校园卡密码错误，点击卡片右上角'绑定设置'绑定</span>".spanned
+//                    } else if (throwable is SocketTimeoutException) {
+//                        holder.stateText.text = "<span style=\"color:#E70C57\";>校园卡服务仅能在tjuwlan访问，切换网络后点击重试</span>".spanned
+//                    }
+//                }
+//            }
 
 
         }

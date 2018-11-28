@@ -38,21 +38,21 @@ class EcardLoginActivity : AppCompatActivity() {
             val studentNum = etStudentNum.text.toString()
             val password = etPassword.text.toString()
 
-            if (studentNum.isEmpty()) {
-                Toasty.error(this@EcardLoginActivity, "请输入学号").show()
-            } else if (password.isEmpty()) {
-                Toasty.error(this@EcardLoginActivity, "请输入密码").show()
-            } else {
-                val deferred = async(CommonPool) {
-                    login(studentNum, password)
-                    EcardPref.ecardUserName = studentNum
-                    EcardPref.ecardPassword = password
+            when {
+                studentNum.isEmpty() -> Toasty.error(this@EcardLoginActivity, "请输入学号").show()
+                password.isEmpty() -> Toasty.error(this@EcardLoginActivity, "请输入密码").show()
+                else -> {
+                    val deferred = async(CommonPool) {
+                        //                        login(studentNum, password)
+                        EcardPref.ecardUserName = studentNum
+                        EcardPref.ecardPassword = password
+                    }
+                    launch(UI) {
+                        deferred.await()
+                    }
+                    Toasty.success(this@EcardLoginActivity, "校园卡绑定成功").show()
+                    finish()
                 }
-                launch(UI) {
-                    deferred.await()
-                }
-                Toasty.success(this@EcardLoginActivity, "校园卡绑定成功").show()
-                finish()
             }
         }
     }

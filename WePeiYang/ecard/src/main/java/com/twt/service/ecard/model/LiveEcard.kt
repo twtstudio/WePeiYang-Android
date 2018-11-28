@@ -2,10 +2,8 @@ package com.twt.service.ecard.model
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
-import com.twt.service.ecard.window.ECardInfoPop
 import com.twt.wepeiyang.commons.experimental.cache.Cache
 import com.twt.wepeiyang.commons.experimental.cache.hawk
-import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.CoroutineExceptionHandler
 import kotlinx.coroutines.experimental.android.UI
@@ -55,15 +53,15 @@ object LiveEcardManager {
             val personInfoDeferred = async(CommonPool) {
                 fetchPersonInfo()
             }
-            val historyDeffered = async(CommonPool) {
+            val historyDeferred = async(CommonPool) {
                 fetchHistory()
             }
             val personInfo = personInfoDeferred.await()
-            val todayCost = historyDeffered.await().today().fold(0f) { prev: Float, transactionInfo: TransactionInfo ->
+            val todayCost = historyDeferred.await().today().fold(0f) { prev: Float, transactionInfo: TransactionInfo ->
                 prev + transactionInfo.amount.toFloat()
             }
 
-            val fullInfo = ECardFullInfo(personInfo, historyDeffered.await(), todayCost, false)
+            val fullInfo = ECardFullInfo(personInfo, historyDeferred.await(), todayCost, false)
             ecardFullInfoCache.set(fullInfo) // 更新缓存
 
             eCardFullInfoLiveData.postValue(fullInfo)

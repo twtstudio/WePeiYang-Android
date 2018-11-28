@@ -115,6 +115,6 @@ class HomeNewActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        LiveEcardManager.refreshEcardFullInfo()
+//        LiveEcardManager.refreshEcardFullInfo()
     }
 }
