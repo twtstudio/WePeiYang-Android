@@ -109,6 +109,7 @@ dependencies {
     api 'de.hdodenhof:circleimageview:2.2.0'
 
     // 腾讯 MTA 主包、基础包
-    api 'com.qq.mta:mta:3.4.2'
-    api 'com.tencent.mid:mid:3.73-release'
+    api 'com.qq.mta:mta:3.4.7-release'
+    api 'com.tencent.mid:mid:4.06-release'
+    api 'com.qq.visual:visual:3.4.0.1-beta'
 }

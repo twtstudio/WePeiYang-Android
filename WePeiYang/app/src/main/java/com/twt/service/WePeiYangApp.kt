@@ -10,6 +10,7 @@ import com.github.piasy.biv.BigImageViewer
 import com.github.piasy.biv.loader.glide.GlideImageLoader
 import com.tencent.bugly.Bugly
 import com.tencent.bugly.crashreport.CrashReport
+import com.tencent.mta.track.StatisticsDataAPI
 import com.tencent.stat.StatService
 import com.twt.service.push.DebugProxyService
 import com.twt.service.schedule2.view.theme.ScheduleTheme
@@ -41,6 +42,7 @@ class WePeiYangApp : MultiDexApplication() {
         }
 
         StatService.registerActivityLifecycleCallbacks(this)
+        StatisticsDataAPI.instance(this);
 
         applicationContext.let {
             Bugly.init(it, "8ceee186f2", false)
