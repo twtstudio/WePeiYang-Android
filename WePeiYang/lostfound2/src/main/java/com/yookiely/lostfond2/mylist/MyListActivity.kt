@@ -34,9 +34,12 @@ class MyListActivity : AppCompatActivity() {
         setContentView(R.layout.lf2_activity_my_list)
         window.statusBarColor = resources.getColor(R.color.statusBarColor)
         val toolbar: Toolbar = findViewById(R.id.tb_mylist)
-        setSupportActionBar(toolbar)
-        toolbar.title = "我的"
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        toolbar.apply {
+            title = "我的"
+            setSupportActionBar(this)
+            supportActionBar?.setDisplayHomeAsUpEnabled(true)
+            setNavigationOnClickListener { onBackPressed() }
+        }
 
         imageView = toolbar.findViewById(R.id.iv_list_campus)
 
@@ -49,8 +52,8 @@ class MyListActivity : AppCompatActivity() {
         val myListTabLayout: TabLayout = findViewById(R.id.tl_mylist)
         val myListPagerAdapter = MyListPagerAdapter(supportFragmentManager)
         myListPagerAdapter.apply {
-            add(MyListFragement.newInstance(found), "我捡到的")
-            add(MyListFragement.newInstance(lost), "我丢失的")
+            add(MyListFragment.newInstance(found), "我捡到的")
+            add(MyListFragment.newInstance(lost), "我丢失的")
         }
         myListPager.adapter = myListPagerAdapter
         myListTabLayout.apply {

@@ -114,7 +114,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
             release_receiving_site.visibility = View.GONE
             ll_release_receiving_site_mark.visibility = View.GONE
         }
-        //初始化三个spinner
+        // 初始化三个 spinner
         initSpinnerOfTime()
         initSpinnerOfReceivingSite()
         initSpinnerOfCampus()

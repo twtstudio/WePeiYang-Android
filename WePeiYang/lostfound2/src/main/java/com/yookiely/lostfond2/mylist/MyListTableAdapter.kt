@@ -23,7 +23,8 @@ import org.jetbrains.anko.textColor
 class MyListTableAdapter(var myListBean: MutableList<MyListDataOrSearchBean>, var context: FragmentActivity?, var lostOrFound: String, var mylistView: MyListService.MyListView) : RecyclerView.Adapter<MyListTableAdapter.MyListViewHolder>() {
 
 
-    private val idofbundle = "id"
+    private val idOfBundle = "id"
+
     class MyListViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         var myListItemTitle: TextView = view.findViewById(R.id.tv_mylist_item_title)
@@ -56,7 +57,7 @@ class MyListTableAdapter(var myListBean: MutableList<MyListDataOrSearchBean>, va
             }
 
             if (isExpired == 1) {
-                //0是未过期,1是已过期
+                // 0是未过期,1是已过期
                 holder.myListItemButtonOutdate.visibility = View.VISIBLE
                 holder.mylistItemButton.visibility = View.GONE
                 holder.myListItemButtonOutdate.text = "重新编辑"
@@ -137,7 +138,7 @@ class MyListTableAdapter(var myListBean: MutableList<MyListDataOrSearchBean>, va
                     } else {
                         putString("lostOrFound", "editFound")
                     }
-                    putInt(idofbundle, id)
+                    putInt(idOfBundle, id)
                     putInt("type", detail_type)
                 }
 
@@ -157,7 +158,3 @@ class MyListTableAdapter(var myListBean: MutableList<MyListDataOrSearchBean>, va
 
     override fun getItemCount(): Int = myListBean.size
 }
-
-
-
-

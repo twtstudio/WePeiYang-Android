@@ -73,7 +73,7 @@ class WaterfallActivity : AppCompatActivity() {
         toolbar.apply {
             title = "失物招领"
             setSupportActionBar(this)
-            supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+            supportActionBar?.setDisplayHomeAsUpEnabled(true)
             setNavigationOnClickListener { onBackPressed() }
         }
 

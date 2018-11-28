@@ -23,7 +23,7 @@ class MyListPresenterImpl(val myListView: MyListService.MyListView) : MyListServ
                 it.printStackTrace()
             }
             if (myList == null) {
-                val myListFragement = myListView as MyListFragement
+                val myListFragement = myListView as MyListFragment
                 Toasty.error(myListFragement.context!!, "你网络崩啦，拿不到数据啦", Toast.LENGTH_LONG, true).show()
             } else {
                 if (myList.error_code == -1) {

@@ -13,7 +13,7 @@ import com.example.lostfond2.R
 import com.yookiely.lostfond2.service.MyListDataOrSearchBean
 
 
-class MyListFragement : Fragment(), MyListService.MyListView {
+class MyListFragment : Fragment(), MyListService.MyListView {
 
     private lateinit var myListRecyclerView: RecyclerView
     private lateinit var myListProgressBar: ProgressBar
@@ -29,10 +29,10 @@ class MyListFragement : Fragment(), MyListService.MyListView {
 
     companion object {
         val key = "index"
-        fun newInstance(type: String): MyListFragement {
+        fun newInstance(type: String): MyListFragment {
             val args = Bundle()
             args.putString(key, type)
-            val fragment = MyListFragement()
+            val fragment = MyListFragment()
             fragment.arguments = args
             return fragment
         }
@@ -43,7 +43,6 @@ class MyListFragement : Fragment(), MyListService.MyListView {
             this.myListBean.clear()
             tableAdapter.myListBean.clear()
         }
-//      this.myListBean.message = myListBean.message
         this.myListBean.addAll(myListBean)
         tableAdapter.myListBean = (this.myListBean)
         tableAdapter.notifyDataSetChanged()
@@ -70,7 +69,7 @@ class MyListFragement : Fragment(), MyListService.MyListView {
                 if (!isLoading && totalCount < (lastVisibleItem + 2)) {
                     ++page
                     isLoading = true
-                    MyListPresenterImpl(this@MyListFragement).loadMyListData(lostOrFound, page)
+                    MyListPresenterImpl(this@MyListFragment).loadMyListData(lostOrFound, page)
                 }
             }
 
@@ -105,14 +104,5 @@ class MyListFragement : Fragment(), MyListService.MyListView {
         }
         myListPresenter.loadMyListData(lostOrFound, page)
 
-//        myListRecyclerView.myListLayoutManager = LinearLayoutManager(this)
-//
-//        myListRecyclerView.withItems {
-//            repeat(myListBean.size) {
-//                mylistload(activity, lostOrFound, myListBean[it], this@MyListFragement)
-//            }
-//        }
-
     }
-
 }

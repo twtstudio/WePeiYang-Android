@@ -1,7 +1,5 @@
 package com.yookiely.lostfond2.detail
 
-import android.annotation.SuppressLint
-import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -27,7 +25,6 @@ import com.twt.wepeiyang.commons.ui.rec.withItems
 import com.youth.banner.Banner
 import com.youth.banner.BannerConfig
 import es.dmoral.toasty.Toasty
-import kotlinx.android.synthetic.main.lf2_activity_water_fall.*
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 
@@ -57,9 +54,9 @@ class DetailActivity : AppCompatActivity() {
             }
             if (myList != null && myList.error_code == -1) {
                 if (myList.data!!.type == FOUND) {
-                    toolbar.title = "   捡到物品"
+                    toolbar.title = "捡到物品"
                 } else {
-                    toolbar.title = "   丢失物品"
+                    toolbar.title = "丢失物品"
                 }
 
                 val myListDetailData = myList.data!!
@@ -77,7 +74,7 @@ class DetailActivity : AppCompatActivity() {
 
                     setBannerStyle(BannerConfig.NUM_INDICATOR)
                     isAutoPlay(false)
-                    //点击出现大图
+                    // 点击出现大图
                     setOnBannerListener { position ->
                         popupWindow.apply {
                             isFocusable = true
@@ -93,7 +90,7 @@ class DetailActivity : AppCompatActivity() {
                             showAsDropDown(toolbar, Gravity.CENTER, 0, 0)
                         }
                         popupWindow.setOnDismissListener {
-                            // popupWindow隐藏时恢复屏幕正常透明度
+                            // popupWindow 隐藏时恢复屏幕正常透明度
                             bgAlpha(1f)
                         }
                         // 点击布局文件（也可以理解为点击大图）
@@ -104,7 +101,7 @@ class DetailActivity : AppCompatActivity() {
 
                 recyclerView.withItems {
 
-                    //最后一个参数设置成true，则该detail下面灭有分割线
+                    // 最后一个参数设置成true，则该detail下面灭有分割线
                     setTitle("基本信息")
                     if (myListDetailData.title != null) {
                         setDetail("标题", myListDetailData.title, false)

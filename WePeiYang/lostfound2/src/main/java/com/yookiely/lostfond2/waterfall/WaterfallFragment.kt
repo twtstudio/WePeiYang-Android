@@ -42,7 +42,9 @@ class WaterfallFragment : Fragment(), WaterfallContract.WaterfallView {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.lf_fragment_waterfall, container, false)
-        val waterfallRefresh = view.findViewById<SwipeRefreshLayout>(R.id.sr_waterfall_refresh)
+        val waterfallRefresh = view.findViewById<SwipeRefreshLayout>(R.id.sr_waterfall_refresh).apply {
+            setColorSchemeColors(0x449ff1)
+        }
         val waterfallRecyclerView = view.findViewById<RecyclerView>(R.id.rv_waterfall_homepage)
         val waterfallNoRes = view.findViewById<LinearLayout>(R.id.ll_waterfall_no_res)
 

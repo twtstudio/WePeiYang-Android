@@ -8,7 +8,7 @@ import java.util.ArrayList
 class MyListPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
 
     private var fragmentsOfMyList: MutableList<Fragment> = ArrayList()
-    var fragmentsTitles: MutableList<String> = ArrayList()
+    private var fragmentsTitles: MutableList<String> = ArrayList()
 
     fun add(fragment: Fragment, title: String) {
         fragmentsOfMyList.add(fragment)
