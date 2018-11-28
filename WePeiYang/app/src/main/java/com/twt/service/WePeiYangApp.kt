@@ -100,6 +100,9 @@ class WePeiYangApp : MultiDexApplication() {
 
             initColorful(this, defaults)
             Colorful().edit().resetPrefs(this)
+            Colorful().edit()
+                    .setPrimaryColor(theme)
+                    .setAccentColor(theme).apply(this)
         } catch (e: Exception) {
             e.printStackTrace()
             val defaults: Defaults = Defaults(

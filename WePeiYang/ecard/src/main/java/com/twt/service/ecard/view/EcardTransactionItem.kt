@@ -67,6 +67,9 @@ class EcardTransactionInfoItem : Item {
     override val controller: ItemController
         get() = Controller
 
+    override fun areItemsTheSame(newItem: Item): Boolean = true
+    override fun areContentsTheSame(newItem: Item): Boolean = true
+
     companion object Controller : ItemController {
         override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
             val view = RecyclerView(parent.context).apply {

@@ -9,6 +9,7 @@
         <item name="colorAccent">@color/gpa2_color_primary_dark</item>
         <item name="colorControlActivated">@color/gpa2_color_primary_dark</item>
         <item name="colorControlHighlight">@color/gpa2_color_primary_dark</item>
+        <item name="android:windowAnimationStyle">@style/activityAnim</item>
 
         <item name="android:windowTranslucentStatus">false</item>
         <item name="android:windowTranslucentNavigation">true</item>

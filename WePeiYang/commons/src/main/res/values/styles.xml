@@ -8,70 +8,82 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="theme_custom_coal">
+    <!-- 使用style方式定义activity切换动画 -->
+    <style name="activityAnim" parent="@android:style/Animation">
+        <item name="android:activityOpenEnterAnimation">@anim/slide_right_in</item>
+        <item name="android:activityOpenExitAnimation">@anim/slide_left_out</item>
+        <item name="android:activityCloseEnterAnimation">@anim/slide_left_in</item>
+        <item name="android:activityCloseExitAnimation">@anim/slide_right_out</item>
+    </style>
+
+    <!--这里其实不用写什么东西的 因为aapt的缘故 这边的APPTheme会被APP模块的覆盖-->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    </style>
+
+    <style name="theme_custom_coal" parent="AppTheme">
         <item name="android:colorPrimary">@color/custom_coal</item>
         <item name="colorPrimary">@color/custom_coal</item>
         <item name="android:colorPrimaryDark">@color/custom_coal</item>
         <item name="colorPrimaryDark">@color/custom_coal</item>
     </style>
 
-    <style name="theme_custom_nordic">
+    <style name="theme_custom_nordic" parent="AppTheme">
         <item name="android:colorPrimary">@color/custom_nordic</item>
         <item name="colorPrimary">@color/custom_nordic</item>
         <item name="android:colorPrimaryDark">@color/custom_nordic</item>
         <item name="colorPrimaryDark">@color/custom_nordic</item>
     </style>
 
-    <style name="theme_custom_rose">
+    <style name="theme_custom_rose" parent="AppTheme">
         <item name="android:colorPrimary">@color/custom_rose</item>
         <item name="colorPrimary">@color/custom_rose</item>
         <item name="android:colorPrimaryDark">@color/custom_rose</item>
         <item name="colorPrimaryDark">@color/custom_rose</item>
     </style>
 
-    <style name="theme_custom_matcha">
+    <style name="theme_custom_matcha" parent="AppTheme">
         <item name="android:colorPrimary">@color/custom_matcha</item>
         <item name="colorPrimary">@color/custom_matcha</item>
         <item name="android:colorPrimaryDark">@color/custom_matcha</item>
         <item name="colorPrimaryDark">@color/custom_matcha</item>
     </style>
 
-    <style name="theme_custom_gold">
+    <style name="theme_custom_gold" parent="AppTheme">
         <item name="android:colorPrimary">@color/custom_gold</item>
         <item name="colorPrimary">@color/custom_gold</item>
         <item name="android:colorPrimaryDark">@color/custom_gold</item>
         <item name="colorPrimaryDark">@color/custom_gold</item>
     </style>
 
-    <style name="theme_custom_peppa_pink">
+    <style name="theme_custom_peppa_pink" parent="AppTheme">
         <item name="android:colorPrimary">@color/custom_peppa_pink</item>
         <item name="colorPrimary">@color/custom_peppa_pink</item>
         <item name="android:colorPrimaryDark">@color/custom_peppa_pink</item>
         <item name="colorPrimaryDark">@color/custom_peppa_pink</item>
     </style>
 
-    <style name="theme_custom_george_blue">
+    <style name="theme_custom_george_blue" parent="AppTheme">
         <item name="android:colorPrimary">@color/custom_george_blue</item>
         <item name="colorPrimary">@color/custom_george_blue</item>
         <item name="android:colorPrimaryDark">@color/custom_george_blue</item>
         <item name="colorPrimaryDark">@color/custom_george_blue</item>
     </style>
 
-    <style name="theme_pig_mom_yellow">
+    <style name="theme_pig_mom_yellow" parent="AppTheme">
         <item name="android:colorPrimary">@color/custom_pig_mom_yellow</item>
         <item name="colorPrimary">@color/custom_pig_mom_yellow</item>
         <item name="android:colorPrimaryDark">@color/custom_pig_mom_yellow</item>
         <item name="colorPrimaryDark">@color/custom_pig_mom_yellow</item>
     </style>
 
-    <style name="theme_pig_dad_green">
+    <style name="theme_pig_dad_green" parent="AppTheme">
         <item name="android:colorPrimary">@color/custom_pig_dad_green</item>
         <item name="colorPrimary">@color/custom_pig_dad_green</item>
         <item name="android:colorPrimaryDark">@color/custom_pig_dad_green</item>
         <item name="colorPrimaryDark">@color/custom_pig_dad_green</item>
     </style>
 
-    <style name="theme_gay_purple">
+    <style name="theme_gay_purple" parent="AppTheme">
         <item name="android:colorPrimary">@color/custom_gay_purple</item>
         <item name="colorPrimary">@color/custom_gay_purple</item>
         <item name="android:colorPrimaryDark">@color/custom_gay_purple</item>
