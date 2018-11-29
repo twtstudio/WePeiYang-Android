@@ -38,6 +38,7 @@ class SearchInitActivity : AppCompatActivity() {
         recyclerView = findViewById(R.id.rv_search_init_hr_rv)
         imageViewClean = findViewById(R.id.iv_search_init_clean)
         editText = findViewById(R.id.et_search_init_et)
+        editText.setHintTextColor(Color.parseColor("#28638c"))
         // imageViewBack = findViewById(R.id.iv_search_init_back)
 
         initRV()// 初始化搜索历史的rv
