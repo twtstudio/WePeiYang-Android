@@ -76,7 +76,7 @@ class SearchActivity : AppCompatActivity() {
 
         //将上一个activity的数据取出来用
         val bundle = intent.extras
-        keyword = bundle.getString("query")
+        keyword = bundle.getString(Utils.QUERY_KEY)
         textView.text = keyword
 //        lostFragment.setKeyword(keyword)
 //        foundFragment.setKeyword(keyword)
@@ -146,7 +146,7 @@ class SearchActivity : AppCompatActivity() {
         foundFragment.setTimeAndLoad(this.time)
     }
 
-    public fun getkey(): String {
+    fun getKey(): String {
         return keyword
     }
 }

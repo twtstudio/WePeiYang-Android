@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +14,6 @@ import com.example.lostfond2.R
 import com.yookiely.lostfond2.service.MyListDataOrSearchBean
 import com.yookiely.lostfond2.service.Utils
 import com.yookiely.lostfond2.waterfall.WaterfallTableAdapter
-import kotlinx.android.synthetic.main.lf_fragment_waterfall.*
 
 class SearchFragment : Fragment(), SearchContract.SearchUIView {
     private lateinit var tableAdapter: WaterfallTableAdapter
@@ -37,7 +35,7 @@ class SearchFragment : Fragment(), SearchContract.SearchUIView {
     companion object {
         fun newInstance(type: String): SearchFragment {
             val args = Bundle()
-            args.putString("index", type)
+            args.putString(Utils.INDEX_KEY, type)
             val fragment = SearchFragment()
             fragment.arguments = args
 
@@ -63,7 +61,7 @@ class SearchFragment : Fragment(), SearchContract.SearchUIView {
 
         init()
         val bundle = arguments
-        lostOrFound = bundle!!.getString("index")
+        lostOrFound = bundle!!.getString(Utils.INDEX_KEY)
         searchRefresh.setOnRefreshListener(this::refresh)
 
         searchRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -133,7 +131,7 @@ class SearchFragment : Fragment(), SearchContract.SearchUIView {
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         val activity = context as SearchActivity
-        this.keyword = activity.getkey()
+        this.keyword = activity.getKey()
         this.isSubmit = true
     }
 }

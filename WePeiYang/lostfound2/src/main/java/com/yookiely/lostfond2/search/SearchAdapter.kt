@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.example.lostfond2.R
 import com.orhanobut.hawk.Hawk
+import com.yookiely.lostfond2.service.Utils
 
 
 class SearchAdapter(var hr: MutableList<String>?, val activity: SearchInitActivity) : RecyclerView.Adapter<SearchAdapter.ViewHolder>() {
@@ -24,18 +25,18 @@ class SearchAdapter(var hr: MutableList<String>?, val activity: SearchInitActivi
         holder.textView.text = query
         holder.textView.setOnClickListener {
             var temp = mutableListOf<String>()
-            if (Hawk.get<MutableList<String>>("lf_search") != null) {
-                temp = Hawk.get<MutableList<String>>("lf_search")
+            if (Hawk.get<MutableList<String>>(Utils.SEARCH_LIST_KEY) != null) {
+                temp = Hawk.get<MutableList<String>>(Utils.SEARCH_LIST_KEY)
                 temp.remove(query)
             }
             temp.add(query)
             if (temp.size > 5) {
                 temp.removeAt(0)
             }
-            Hawk.put("lf_search", temp)
+            Hawk.put(Utils.SEARCH_LIST_KEY, temp)
             val intent = Intent()
             val bundle = Bundle()
-            bundle.putString("query", query)
+            bundle.putString(Utils.QUERY_KEY, query)
             intent.putExtras(bundle)
             intent.setClass(activity, SearchActivity::class.java)
             startActivity(activity, intent, bundle)

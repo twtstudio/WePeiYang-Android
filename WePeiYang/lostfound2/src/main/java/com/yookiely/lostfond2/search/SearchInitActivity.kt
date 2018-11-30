@@ -15,6 +15,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import com.example.lostfond2.R
 import com.orhanobut.hawk.Hawk
+import com.yookiely.lostfond2.service.Utils
 import org.jetbrains.anko.db.*
 
 
@@ -52,7 +53,7 @@ class SearchInitActivity : AppCompatActivity() {
                 submit(query)
                 val intent = Intent()
                 val bundle = Bundle()
-                bundle.putString("query", query)
+                bundle.putString(Utils.QUERY_KEY, query)
                 intent.putExtras(bundle)
                 intent.setClass(this@SearchInitActivity, SearchActivity::class.java)
                 ContextCompat.startActivity(this@SearchInitActivity, intent, bundle)
@@ -61,7 +62,7 @@ class SearchInitActivity : AppCompatActivity() {
 
         imageViewClean.setOnClickListener {
             // 清空搜索记录
-            Hawk.put<MutableList<String>>("lf_search", mutableListOf())
+            Hawk.put<MutableList<String>>(Utils.SEARCH_LIST_KEY, mutableListOf())
             getdatas()
         }
 
@@ -90,23 +91,23 @@ class SearchInitActivity : AppCompatActivity() {
 
     private fun submit(query: String) {
         var temp = mutableListOf<String>()
-        if (Hawk.get<MutableList<String>>("lf_search") != null) {
-            temp = Hawk.get<MutableList<String>>("lf_search")
+        if (Hawk.get<MutableList<String>>(Utils.SEARCH_LIST_KEY) != null) {
+            temp = Hawk.get<MutableList<String>>(Utils.SEARCH_LIST_KEY)
             temp.remove(query)
         }
         temp.add(query)
         if (temp.size > 5) {
             temp.removeAt(0)
         }
-        Hawk.put("lf_search", temp)
+        Hawk.put(Utils.SEARCH_LIST_KEY, temp)
     }
 
     private fun getdatas() {
         // 获取搜索历史的数据
         // 只要每次企图更改hawk内存储的数据，就会调用改方法
-        if (Hawk.get<MutableList<String>>("lf_search") != null) {
+        if (Hawk.get<MutableList<String>>(Utils.SEARCH_LIST_KEY) != null) {
             historyRecordData.clear()
-            historyRecordData.addAll((Hawk.get<MutableList<String>>("lf_search") as MutableList<String>))
+            historyRecordData.addAll((Hawk.get<MutableList<String>>(Utils.SEARCH_LIST_KEY) as MutableList<String>))
             historyRecordData.reverse()
         }
         adapter.notifyDataSetChanged()

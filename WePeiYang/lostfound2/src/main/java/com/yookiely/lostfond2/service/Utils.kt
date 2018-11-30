@@ -15,6 +15,8 @@ class Utils {
         const val LOSTORFOUND_KEY = "lostOrFound"
         const val DETAIL_TYPE = "type"
         const val INDEX_KEY = "index"
+        const val SEARCH_LIST_KEY = "lf_search"
+        const val QUERY_KEY = "query"
         var needRefresh = false
         var campus: Int? by hawk("campus", null)
 
