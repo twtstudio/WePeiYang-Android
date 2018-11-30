@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -69,7 +70,7 @@ class SearchFragment : Fragment(), SearchContract.SearchUIView {
                 val totalCount = searchLayoutManager.itemCount
                 val lastPositions = searchLayoutManager.findLastCompletelyVisibleItemPosition()
 
-                if (!isLoading && (totalCount == lastPositions + 1)) {
+                if (!isLoading && (totalCount > lastPositions + 1)) {
                     page++
                     isLoading = true
                     searchPresenter.loadWaterfallDataWithTime(lostOrFound, keyword!!, page, time)
@@ -118,7 +119,6 @@ class SearchFragment : Fragment(), SearchContract.SearchUIView {
         isLoading = false
         isRefresh = false
         searchNoRes.visibility = if (dataBean.size > 0) View.GONE else View.VISIBLE
-        Log.d("search","kule")
     }
 
     override fun loadSearhDataWithTime(time: Int) {

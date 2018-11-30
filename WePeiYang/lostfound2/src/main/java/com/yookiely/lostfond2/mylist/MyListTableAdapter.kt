@@ -20,7 +20,7 @@ import com.yookiely.lostfond2.service.MyListDataOrSearchBean
 import com.yookiely.lostfond2.service.Utils
 import org.jetbrains.anko.textColor
 
-class MyListTableAdapter(var myListBean: MutableList<MyListDataOrSearchBean>, var context: FragmentActivity?, var lostOrFound: String, var mylistView: MyListService.MyListView) : RecyclerView.Adapter<MyListTableAdapter.MyListViewHolder>() {
+class MyListTableAdapter(val myListBean: MutableList<MyListDataOrSearchBean>, var context: FragmentActivity?, var lostOrFound: String, var mylistView: MyListService.MyListView) : RecyclerView.Adapter<MyListTableAdapter.MyListViewHolder>() {
 
     class MyListViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 

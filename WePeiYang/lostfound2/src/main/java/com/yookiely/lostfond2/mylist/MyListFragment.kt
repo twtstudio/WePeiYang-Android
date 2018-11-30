@@ -23,7 +23,7 @@ class MyListFragment : Fragment(), MyListService.MyListView {
     private var needClear = false
     private lateinit var tableAdapter: MyListTableAdapter
     lateinit var myListLayoutManager: LinearLayoutManager
-    private var myListBean: MutableList<MyListDataOrSearchBean> = ArrayList()// 可能会有bug
+    private var myListBean: MutableList<MyListDataOrSearchBean> = mutableListOf()// 可能会有bug
     lateinit var lostOrFound: String
     private val myListPresenter: MyListService.MyListPresenter = MyListPresenterImpl(this)
     var page = 1
@@ -38,13 +38,9 @@ class MyListFragment : Fragment(), MyListService.MyListView {
         }
     }
 
-    override fun setMyListData(myListBean: List<MyListDataOrSearchBean>) {
-        if (needClear) {
-            this.myListBean.clear()
-            tableAdapter.myListBean.clear()
-        }
-        this.myListBean.addAll(myListBean)
-        tableAdapter.myListBean = (this.myListBean)
+    override fun setMyListData(listdata: List<MyListDataOrSearchBean>) {
+        if (page==1 || needClear ) myListBean.clear()
+        myListBean.addAll(listdata)
         tableAdapter.notifyDataSetChanged()
         myListProgressBar.visibility = View.GONE
         myListNoData.visibility = if (tableAdapter.myListBean.size == 0 && page == 1) View.VISIBLE else View.GONE
@@ -66,7 +62,7 @@ class MyListFragment : Fragment(), MyListService.MyListView {
                 super.onScrolled(recyclerView, dx, dy)
                 val totalCount = myListLayoutManager.itemCount
                 val lastVisibleItem = myListLayoutManager.findLastCompletelyVisibleItemPosition()
-                if (!isLoading && totalCount < (lastVisibleItem + 2)) {
+                if (!isLoading && totalCount < (lastVisibleItem + 2) && totalCount > 4) {
                     ++page
                     isLoading = true
                     MyListPresenterImpl(this@MyListFragment).loadMyListData(lostOrFound, page)
@@ -81,8 +77,9 @@ class MyListFragment : Fragment(), MyListService.MyListView {
     override fun onResume() {
         super.onResume()
         if (Utils.needRefresh){
-            myListPresenter.loadMyListData(lostOrFound,1)
-            Utils.needRefresh = false
+            page = 1
+            myListPresenter.loadMyListData(lostOrFound,page)
+            if (lostOrFound == "lost") Utils.needRefresh = false
         }
     }
 
@@ -111,6 +108,5 @@ class MyListFragment : Fragment(), MyListService.MyListView {
             adapter = tableAdapter
         }
         myListPresenter.loadMyListData(lostOrFound, page)
-
     }
 }
