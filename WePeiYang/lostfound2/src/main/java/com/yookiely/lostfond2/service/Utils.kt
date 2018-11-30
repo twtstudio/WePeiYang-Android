@@ -11,13 +11,11 @@ class Utils {
         const val ALL_TYPE = 0
         const val ALL_TIME = 5
         const val TYPE_OF_FOUND = 1
-        const val TABLE_NAME = "myTable"
-        const val ID = "_id"
-        const val CONTENT = "content"
         const val ID_KEY = "id"
         const val LOSTORFOUND_KEY = "lostOrFound"
         const val DETAIL_TYPE = "type"
         const val INDEX_KEY = "index"
+        var needRefresh = false
         var campus: Int? by hawk("campus", null)
 
         fun getType(i: Int) = when (i) {
@@ -99,18 +97,6 @@ class Utils {
                     intList.add(8)
                 }
                 3 -> {
-                    list.add("9斋")
-                    list.add("10斋")
-                    intList.add(9)
-                    intList.add(10)
-                }
-                4 -> {
-                    list.add("11斋")
-                    list.add("12斋")
-                    intList.add(11)
-                    intList.add(12)
-                }
-                5 -> {
                     list.add("13斋")
                     list.add("14斋")
                     list.add("15斋")
@@ -120,6 +106,28 @@ class Utils {
                     intList.add(15)
                     intList.add(16)
                 }
+//                3 -> {
+//                    list.add("9斋")
+//                    list.add("10斋")
+//                    intList.add(9)
+//                    intList.add(10)
+//                }
+//                4 -> {
+//                    list.add("11斋")
+//                    list.add("12斋")
+//                    intList.add(11)
+//                    intList.add(12)
+//                }
+//                5 -> {
+//                    list.add("13斋")
+//                    list.add("14斋")
+//                    list.add("15斋")
+//                    list.add("16斋")
+//                    intList.add(13)
+//                    intList.add(14)
+//                    intList.add(15)
+//                    intList.add(16)
+//                }
                 else -> {
                 }
             }
@@ -156,9 +164,10 @@ class Utils {
             "无" -> 0
             "1斋", "2斋", "3斋" -> 1
             "6斋", "7斋", "8斋" -> 2
-            "9斋", "10斋" -> 3
-            "11斋", "12斋" -> 4
-            "13斋", "14斋", "15斋", "16斋" -> 5
+            "13斋", "14斋", "15斋", "16斋" -> 3
+//            "9斋", "10斋" -> 3
+//            "11斋", "12斋" -> 4
+//            "13斋", "14斋", "15斋", "16斋" -> 5
             else -> 0
         }
 

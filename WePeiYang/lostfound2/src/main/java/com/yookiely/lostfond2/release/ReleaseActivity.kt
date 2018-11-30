@@ -195,8 +195,8 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
             add("无")
             add("格园")
             add("诚园")
-            add("正园")
-            add("修园")
+//            add("正园")
+//            add("修园")
             add("齐园")
         }
         val spinnerListOfRoom = mutableListOf<String>()
@@ -313,21 +313,9 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
     }
 
     override fun successCallBack(beanList: List<MyListDataOrSearchBean>) {
+        Utils.needRefresh = true
         val intent = Intent()
-        val bundle = Bundle()
-        bundle.apply {
-            putString("shareOrSuccess", "success")
-            putString("lostOrFound", lostOrFound)
-            putString("id", beanList[0].id.toString())
-            putString("time", beanList[0].time)
-            putString("place", beanList[0].place)
-            putString("type", beanList[0].detail_type.toString())
-            putString("title", beanList[0].title)
-        }
-        intent.apply {
-            putExtras(bundle)
-            setClass(this@ReleaseActivity, SuccessActivity::class.java)
-        }
+        intent.setClass(this@ReleaseActivity, SuccessActivity::class.java)
         startActivity(intent)
         finish()
     }
@@ -377,6 +365,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
     }
 
     override fun deleteSuccessCallBack() {
+        Utils.needRefresh = true // 判断mylist是否刷新
         Toast.makeText(this, "删除成功", Toast.LENGTH_SHORT).show()
         finish()
     }
@@ -403,7 +392,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         map["item_description"] = if (remarksString.isNotBlank()) remarksString else ""
         map["campus"] = campus
 
-        if (lostOrFound == "found") {
+        if (lostOrFound == "found" || lostOrFound == "editFound") {
             map["recapture_place"] = roomOfReceivingSite
             map["recapture_entrance"] = entranceOfReceivingSite
         }
