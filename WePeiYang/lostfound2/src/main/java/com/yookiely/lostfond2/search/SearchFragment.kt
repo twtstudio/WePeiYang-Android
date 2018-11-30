@@ -55,7 +55,6 @@ class SearchFragment : Fragment(), SearchContract.SearchUIView {
         val view = inflater.inflate(R.layout.lf_fragment_waterfall, container, false)
         val searchRefresh = view.findViewById<SwipeRefreshLayout>(R.id.sr_waterfall_refresh)
         searchNoRes = view.findViewById(R.id.ll_waterfall_no_res)
-        searchNoRes.visibility = View.GONE
         searchRecyclerView = view.findViewById(R.id.rv_waterfall_homepage)
         refreshLayout = view.findViewById(R.id.sr_waterfall_refresh)
 
@@ -119,6 +118,7 @@ class SearchFragment : Fragment(), SearchContract.SearchUIView {
         isLoading = false
         isRefresh = false
         searchNoRes.visibility = if (dataBean.size > 0) View.GONE else View.VISIBLE
+        Log.d("search","kule")
     }
 
     override fun loadSearhDataWithTime(time: Int) {

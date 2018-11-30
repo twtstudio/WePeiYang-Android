@@ -78,6 +78,14 @@ class MyListFragment : Fragment(), MyListService.MyListView {
         return view
     }
 
+    override fun onResume() {
+        super.onResume()
+        if (Utils.needRefresh){
+            myListPresenter.loadMyListData(lostOrFound,1)
+            Utils.needRefresh = false
+        }
+    }
+
     override fun turnStatus(id: Int) {
         myListPresenter.turnStatus(id)
     }
