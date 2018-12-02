@@ -2,12 +2,14 @@ package com.twt.wepeiyang.commons.ui.rec
 
 import android.graphics.Color
 import android.graphics.Typeface
+import android.support.v4.content.res.ResourcesCompat
 import android.support.v7.widget.RecyclerView
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.TextView
+import com.twt.wepeiyang.commons.R
 import org.jetbrains.anko.*
 import kotlin.properties.Delegates
 
@@ -19,7 +21,7 @@ class SingleTextItem(val text: String, val builder: TextView.() -> Unit = {}) : 
                 textView = textView {
                     textSize = 12f
                     textColor = Color.parseColor("#B9B9B9")
-                    typeface = Typeface.create("sans-serif-regular", Typeface.NORMAL)
+                    typeface = ResourcesCompat.getFont(context, R.font.montserrat_regular)
                 }.lparams(width = wrapContent, height = wrapContent) {
                     gravity = Gravity.CENTER_HORIZONTAL
                 }

@@ -4,20 +4,17 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import com.twt.service.ecard.R
 import com.twt.service.ecard.model.*
-import com.twt.service.ecard.window.ECardInfoPop
 import com.twt.service.ecard.window.ECardTransactionPop
-import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
+import com.twt.wepeiyang.commons.experimental.cache.RefreshState
 import com.twt.wepeiyang.commons.ui.rec.*
-import kotlinx.coroutines.experimental.CommonPool
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.async
-import kotlinx.coroutines.experimental.launch
 import org.jetbrains.anko.dip
 import org.jetbrains.anko.horizontalPadding
 import org.jetbrains.anko.layoutInflater
+import org.jetbrains.anko.startActivity
 
 class EcardTransactionItem(val transactionInfo: TransactionInfo) : Item {
     override val controller: ItemController
@@ -46,6 +43,11 @@ class EcardTransactionItem(val transactionInfo: TransactionInfo) : Item {
             holder.apply {
                 title.text = transactionInfo.location
                 detail.text = "POS消费: ${transactionInfo.amount}  $transactionTime"
+                if (transactionInfo.isCost == false) {
+                    // 充钱
+                    detail.text = "POS氪金: ${transactionInfo.amount}  $transactionTime"
+                    icon.setImageResource(R.drawable.ecard_ic_banlance_up)
+                }
             }
             holder.rootView.setOnClickListener {
                 val pop = ECardTransactionPop(it.context, transactionInfo)
@@ -56,6 +58,7 @@ class EcardTransactionItem(val transactionInfo: TransactionInfo) : Item {
         class ViewHolder(itemView: View, val rootView: View) : RecyclerView.ViewHolder(itemView) {
             val title: TextView = itemView.findViewById(R.id.tv_transaction_title)
             val detail: TextView = itemView.findViewById(R.id.tv_transaction_detail)
+            val icon: ImageView = itemView.findViewById(R.id.img_transaction)
         }
 
     }
@@ -86,33 +89,44 @@ class EcardTransactionInfoItem : Item {
 
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: Item) {
             holder as ViewHolder
+            holder.homeItem.apply {
+                itemContent.text = "消费流水"
+                listOf(imgGo, itemContent).forEach {
+                    it.setOnClickListener { view ->
+                        view.context.startActivity<EcardPreviousActivity>()
+                    }
+                }
+            }
             val itemManager = holder.recyclerView.withItems(mutableListOf())
             itemManager.refreshAll {
                 lightText("暂未获取到消费数据")
             }
 
             LiveEcardManager.getEcardLiveData().observeForever {
-                it?.apply {
-                    val transactionList = this.transactionInfoList
-                    itemManager.refreshAll {
-                        if (transactionList.today().isEmpty()) {
-                            holder.homeItem.apply {
-                                itemName.text = "TRANSCATION PREVIOUS"
-                            }
-                            transactionList.subList(0, 4).forEach {
-                                transactionItem(it)
-                            }
-                        } else {
-                            holder.homeItem.apply {
-                                itemName.text = "TRANSCATION TODAY"
-                            }
-                            transactionList.today().forEach {
-                                transactionItem(it)
+                when(it) {
+                    is RefreshState.Success -> it.message.apply {
+                        val transactionList = this.transactionInfoList
+                        itemManager.refreshAll {
+                            if (transactionList.today().isEmpty()) {
+                                holder.homeItem.apply {
+                                    itemName.text = "TRANSACTION PREVIOUS"
+                                }
+                                transactionList.subList(0, 4).forEach {
+                                    transactionItem(it)
+                                }
+                            } else {
+                                holder.homeItem.apply {
+                                    itemName.text = "TRANSACTION TODAY"
+                                }
+                                transactionList.today().forEach {
+                                    transactionItem(it)
+                                }
                             }
                         }
                     }
                 }
             }
+
 
         }
 

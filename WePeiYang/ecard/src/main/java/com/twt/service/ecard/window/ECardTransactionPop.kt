@@ -19,12 +19,12 @@ class ECardTransactionPop(context: Context, val transactionInfo: TransactionInfo
             }
         }
         view.apply {
-            tv_transaction_amount.text = "-￥${transactionInfo.amount}"
+            tv_transaction_amount.text = "${if (transactionInfo.isCost == false) "+" else "-" }￥${transactionInfo.amount}"
             tv_trans_location.text = transactionInfo.location
-            val transactionTime = "${transactionInfo.time.substring(0,2)}:${transactionInfo.time.substring(2,4)}"
+            val transactionTime = "${transactionInfo.time.substring(0, 2)}:${transactionInfo.time.substring(2, 4)}"
             tv_trans_time.text = "${transactionInfo.date} - $transactionTime"
             tv_trans_balance.text = "交易后余额：${transactionInfo.balance}"
-            tv_trans_type.text = "POS消费"
+            tv_trans_type.text = if (transactionInfo.isCost == false) "POS氪金" else "POS消费"
         }
 
         return view

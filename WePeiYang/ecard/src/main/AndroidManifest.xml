@@ -2,5 +2,6 @@
     package="com.twt.service.ecard" >
     <application>
         <activity android:name=".view.EcardLoginActivity"/>
+        <activity android:name=".view.EcardPreviousActivity"/>
     </application>
 </manifest>
