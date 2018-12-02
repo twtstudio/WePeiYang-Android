@@ -95,6 +95,7 @@ allprojects {
         mavenCentral()
         google()
         mavenLocal()
+        maven { url "http://mvn.gt.igexin.com/nexus/content/repositories/releases/" }
         maven { url 'http://dl.bintray.com/piasy/maven' }
         maven { url 'https://jitpack.io' }
         maven { url 'https://nexus.twtstudio.com/repository/maven-public/' }
