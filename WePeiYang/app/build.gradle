@@ -24,9 +24,13 @@ android {
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
 
         multiDexEnabled true
-
+        manifestPlaceholders = [
+                GETUI_APP_ID : "ADDDDnkJDp5mcUoRcbx4D5",
+                GETUI_APP_KEY : "4oENrHh96aAjOpHkK4TUi5",
+                GETUI_APP_SECRET : "vTEABKKRKK8U5FB2gdU3e8"
+        ]
         ndk {
-            abiFilters 'armeabi', 'x86'
+            abiFilters "armeabi", "armeabi-v7a", "x86_64"
         }
 
         lintOptions {
@@ -128,7 +132,7 @@ dependencies {
     ['lifecycle-compiler', 'butterknife-compiler'].each {
         annotationProcessor dependenciesMap[it]
     }
-
+    implementation 'com.getui:sdk:2.12.5.0'
     implementation 'com.github.mukeshsolanki:MarkdownView-Android:1.0.3'
     implementation 'com.prolificinteractive:material-calendarview:1.4.3'
     implementation 'agency.tango.android:material-intro-screen:0.0.5'

@@ -13,6 +13,7 @@ import android.util.Log
 import android.view.WindowManager
 import android.widget.ImageView
 import com.bumptech.glide.Glide
+import com.igexin.sdk.PushManager
 import com.twt.service.AppPreferences
 import com.twt.service.R
 import com.twt.service.home.message.*
@@ -24,7 +25,6 @@ import com.twt.service.widget.ScheduleWidgetProvider
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
 import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
 import com.twt.wepeiyang.commons.experimental.extensions.enableLightStatusBarMode
-import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.withItems
 import com.twt.wepeiyang.commons.view.RecyclerViewDivider
 import com.twtstudio.retrox.auth.api.authSelfLiveData
@@ -68,6 +68,12 @@ class HomeNewActivity : CAppCompatActivity() {
             layoutManager = LinearLayoutManager(this.context)
             addItemDecoration(RecyclerViewDivider.Builder(this@HomeNewActivity).setSize(4f).setColor(Color.TRANSPARENT).build())
         }
+        //注册个推
+        //如果调用了registerPushIntentService方法注册自定义IntentService，则SDK仅通过IntentService回调推送服务事件；
+        //如果未调用registerPushIntentService方法进行注册，则原有的广播接收器仍然可以继续使用。
+        PushManager.getInstance().turnOnPush(this)
+        PushManager.getInstance().initialize(this, MessagePushService::class.java)
+        PushManager.getInstance().registerPushIntentService(this, MessageIntentService::class.java)
         val itemManager = rec.withItems {
             // 重写了各个 item 的 areItemsTheSame areContentsTheSame 实现动画刷新主页
             if (MessagePreferences.isDisplayMessage) {
@@ -102,6 +108,12 @@ class HomeNewActivity : CAppCompatActivity() {
         rec.post {
             (rec.getChildAt(0).layoutParams as RecyclerView.LayoutParams).topMargin = dip(4)
         }
+    }
+
+    override  fun onResume() {
+        super.onResume()
+        PushManager.getInstance().initialize(this, MessagePushService::class.java)
+        PushManager.getInstance().registerPushIntentService(this, MessageIntentService::class.java)
     }
 
     override fun onConfigurationChanged(newConfig: Configuration?) {

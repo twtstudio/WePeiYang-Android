@@ -26,14 +26,19 @@
     <!--友盟需要的一些权限-->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
-
+    <!-- iBeancon功能所需权限 -->
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+    <!-- 个推3.0电子围栏功能所需权限 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <!--上网功能的权限-->
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
-    <application
+    <application android:usesCleartextTraffic="true"
         android:name=".WePeiYangApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -42,7 +47,8 @@
         android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:ignore="GoogleAppIndexingWarning">
+        tools:ignore="GoogleAppIndexingWarning"
+        tools:targetApi="m">
 
         <activity
             android:name=".home.HomeNewActivity"
@@ -104,7 +110,12 @@
             android:permission="android.permission.BIND_REMOTEVIEWS"/>
 
         <service android:name=".push.DebugProxyService"/>
-
+        <service
+            android:name=".home.message.MessagePushService"
+            android:exported="true"
+            android:label="PushService"
+            android:process=":pushservice" />
+        <service android:name=".home.message.MessageIntentService" />
         <meta-data
             android:name="UMENG_APPKEY"
             android:value="561cae6ae0f55abd990035bf" >
