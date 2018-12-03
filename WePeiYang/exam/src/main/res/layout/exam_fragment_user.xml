@@ -21,6 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginTop="8dp"
+        android:fontFamily="@font/montserrat_regular"
         android:textColor="@color/examTextBlue"
         android:textSize="20sp"
         app:layout_constraintLeft_toRightOf="@id/civ_avatar"
@@ -64,6 +65,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="21dp"
+        android:fontFamily="@font/montserrat_bold"
         android:textColor="@color/examTextBlack"
         android:textSize="24sp"
         android:textStyle="bold"
@@ -95,6 +97,7 @@
             android:id="@+id/tv_user_radio_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_regular"
             android:text="正确率"
             android:textColor="@color/examTextBlack" />
 
@@ -103,6 +106,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
+            android:fontFamily="@font/montserrat_regular"
             android:textColor="@color/examTextRed"
             tools:text="95%" />
     </LinearLayout>
@@ -122,6 +126,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="21dp"
+        android:fontFamily="@font/montserrat_bold"
         android:textColor="@color/examTextBlack"
         android:textSize="24sp"
         android:textStyle="bold"

@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/white_color"
+    android:orientation="vertical"
     android:paddingLeft="16dp"
     android:paddingRight="16dp">
 
@@ -32,6 +32,7 @@
             android:id="@+id/et_ecard_num"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_regular"
             android:hint="学号"
             android:textColor="@color/common_lv2"
             android:textSize="16sp" />
@@ -46,6 +47,7 @@
             android:id="@+id/et_ecard_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_regular"
             android:hint="校园卡密码（圈存机上的密码）"
             android:inputType="textPassword"
             android:textColor="@color/common_lv2"

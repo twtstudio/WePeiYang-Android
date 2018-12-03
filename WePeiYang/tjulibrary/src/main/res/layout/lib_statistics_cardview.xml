@@ -1,95 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="83dp"
-    xmlns:tool="http://schemas.android.com/tools"
-    app:cardUseCompatPadding="true"
-    android:orientation="vertical"
+    android:layout_marginLeft="21dp"
+    android:layout_marginRight="21dp"
+    android:layout_marginBottom="7dp"
     android:background="#ffffff"
+    android:orientation="vertical"
     app:cardElevation="2dp"
     app:cardPreventCornerOverlap="true"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_marginBottom="7dp"
-    android:layout_marginLeft="21dp"
-    android:layout_marginRight="21dp">
+    app:cardUseCompatPadding="true">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <ImageView
+            android:id="@+id/statistics_img"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:id="@+id/statistics_img"
+            android:layout_marginStart="10dp"
             android:padding="15dp"
             android:src="@drawable/lib_first"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            android:layout_marginStart="10dp"
-            />
+            app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
+            android:id="@+id/rank_num"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:textSize="20sp"
-            android:textColor="#333333"
+            android:layout_marginStart="10dp"
             android:background="@color/white"
-            android:id="@+id/rank_num"
             android:gravity="center"
-            app:layout_constraintTop_toTopOf="parent"
+            android:textColor="#333333"
+            android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            android:layout_marginStart="10dp"
-            />
+            app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
+            android:id="@+id/sta_name"
             android:layout_width="140dp"
             android:layout_height="0dp"
-            android:textSize="15sp"
-            android:id="@+id/sta_name"
-            tool:text="新垣结衣新垣结衣新垣结衣"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/montserrat_regular"
             android:gravity="center_vertical"
             android:textColor="#333333"
-            android:layout_marginTop="10dp"
-            app:layout_constraintTop_toTopOf="@+id/statistics_img"
+            android:textSize="15sp"
             app:layout_constraintBottom_toTopOf="@+id/jieyue"
             app:layout_constraintLeft_toRightOf="@+id/statistics_img"
-            />
+            app:layout_constraintTop_toTopOf="@+id/statistics_img"
+            tools:text="新垣结衣新垣结衣新垣结衣" />
+
         <TextView
+            android:id="@+id/jieyue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="12sp"
+            android:layout_marginBottom="9dp"
             android:text="借阅数"
             android:textColor="#999999"
-            android:id="@+id/jieyue"
-            app:layout_constraintLeft_toLeftOf="@+id/sta_name"
+            android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="9dp"/>
+            app:layout_constraintLeft_toLeftOf="@+id/sta_name" />
 
 
         <TextView
+            android:id="@+id/borrow_num"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="12sp"
+            android:layout_marginStart="12dp"
+            android:fontFamily="@font/montserrat_regular"
             android:textColor="#999999"
-            android:id="@+id/borrow_num"
-            app:layout_constraintTop_toTopOf="@+id/jieyue"
+            android:textSize="12sp"
             app:layout_constraintLeft_toRightOf="@+id/jieyue"
-            android:layout_marginStart="12dp"/>
-
+            app:layout_constraintTop_toTopOf="@+id/jieyue" />
 
 
         <ImageView
+            android:id="@+id/isborrow"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:src="@drawable/borrowing"
-            android:id="@+id/isborrow"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent"/>
-
-
+            app:layout_constraintRight_toRightOf="parent" />
 
 
     </android.support.constraint.ConstraintLayout>
-    
+
 
 </android.support.v7.widget.CardView>
