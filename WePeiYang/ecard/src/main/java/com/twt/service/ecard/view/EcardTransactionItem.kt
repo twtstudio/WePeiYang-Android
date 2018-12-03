@@ -42,11 +42,13 @@ class EcardTransactionItem(val transactionInfo: TransactionInfo) : Item {
             val transactionTime = "${transactionInfo.time.substring(0, 2)}:${transactionInfo.time.substring(2, 4)}"
             holder.apply {
                 title.text = transactionInfo.location
-                detail.text = "POS消费: ${transactionInfo.amount}  $transactionTime"
                 if (transactionInfo.isCost == false) {
                     // 充钱
                     detail.text = "POS氪金: ${transactionInfo.amount}  $transactionTime"
                     icon.setImageResource(R.drawable.ecard_ic_banlance_up)
+                } else {
+                    detail.text = "POS消费: ${transactionInfo.amount}  $transactionTime"
+                    icon.setImageResource(R.drawable.ecard_balance_down2)
                 }
             }
             holder.rootView.setOnClickListener {
@@ -81,7 +83,7 @@ class EcardTransactionInfoItem : Item {
             }
             val homeItem = HomeItem(parent)
             homeItem.apply {
-                itemName.text = "TRANSCATION TODAY"
+                itemName.text = "TRANSACTION TODAY"
             }
             homeItem.setContentView(view)
             return ViewHolder(homeItem.rootView, view, homeItem)

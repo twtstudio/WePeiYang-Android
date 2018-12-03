@@ -24,48 +24,51 @@ object AuthorizationInterceptor : Interceptor {
 }
 
 object RealAuthenticator : Authenticator {
-    override fun authenticate(route: Route?, response: Response): Request? =
-            if (response.request().isTrusted) {
-                val code = JSONObject(response.body()?.string()).getInt("error_code")
-                val relogin = fun(): Nothing {
-                    launch(UI) {
-                        AuthService.getToken(CommonPreferences.twtuname, CommonPreferences.password)
-                                .awaitAndHandle {
-                                    CommonContext.startActivity(name = "login")
-                                }?.data?.token?.let { CommonPreferences.token = it }
-                    }
-                    throw IOException("登录失效，正在尝试自动重登")
+    override fun authenticate(route: Route?, response: Response): Request? {
+        val responseBodyCopy = response.peekBody(Long.MAX_VALUE) // 避免responseBody被一次性清空
+        val request = if (response.request().isTrusted) {
+            val code = JSONObject(responseBodyCopy?.string()).getInt("error_code")
+            val relogin = fun(): Nothing {
+                launch(UI) {
+                    AuthService.getToken(CommonPreferences.twtuname, CommonPreferences.password)
+                            .awaitAndHandle {
+                                CommonContext.startActivity(name = "login")
+                            }?.data?.token?.let { CommonPreferences.token = it }
                 }
-                when (code) {
-                    10001 ->
-                        if (response.priorResponse()?.request()?.header("Authorization") == null)
-                            CommonPreferences.token
-                        else relogin()
-                    10003, 10004 -> relogin()
+                throw IOException("登录失效，正在尝试自动重登")
+            }
+            when (code) {
+                10001 ->
+                    if (response.priorResponse()?.request()?.header("Authorization") == null)
+                        CommonPreferences.token
+                    else relogin()
+                10003, 10004 -> relogin()
                 //                        20001 -> Bind Tju
-                    30001, 30002 -> {
-                        val loggingIn = CommonContext.getActivity("login")
-                                ?.isInstance(Restarter.getForegroundActivity(null))
-                                ?: false
-                        if (!loggingIn) {
-                            CommonPreferences.isLogin = false
-                            CommonContext.startActivity(name = "login")
-                        }
-                        throw IOException("帐号或密码错误")
+                30001, 30002 -> {
+                    val loggingIn = CommonContext.getActivity("login")
+                            ?.isInstance(Restarter.getForegroundActivity(null))
+                            ?: false
+                    if (!loggingIn) {
+                        CommonPreferences.isLogin = false
+                        CommonContext.startActivity(name = "login")
                     }
-                    else -> {
-                        Logger.d("""
+                    throw IOException("帐号或密码错误")
+                }
+                else -> {
+                    Logger.d("""
                                         Unhandled error code $code, for
                                         Request: ${response.request()}
                                         Response: $response
                                         """.trimIndent())
-                        throw IOException("未知错误")
-                    }
-                }.let {
-                    response.request().newBuilder()
-                            .header("Authorization", "Bearer{$it}").build()
+                    return null // 交给外界处理 不要走Authenticator
                 }
-            } else null
+            }.let {
+                response.request().newBuilder()
+                        .header("Authorization", "Bearer{$it}").build()
+            }
+        } else null
+        return request
+    }
 }
 
 object CodeCorrectionInterceptor : Interceptor {

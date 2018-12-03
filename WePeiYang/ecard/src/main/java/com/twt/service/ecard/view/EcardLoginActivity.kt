@@ -7,13 +7,18 @@ import android.widget.Button
 import android.widget.EditText
 import com.twt.service.ecard.R
 import com.twt.service.ecard.model.EcardPref
+import com.twt.service.ecard.model.EcardService
 import com.twt.service.ecard.model.login
+import com.twt.wepeiyang.commons.experimental.cache.handleError
+import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
+import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import com.twt.wepeiyang.commons.experimental.extensions.enableLightStatusBarMode
 import es.dmoral.toasty.Toasty
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.launch
+import retrofit2.HttpException
 
 class EcardLoginActivity : AppCompatActivity() {
 
@@ -43,16 +48,23 @@ class EcardLoginActivity : AppCompatActivity() {
             } else if (password.isEmpty()) {
                 Toasty.error(this@EcardLoginActivity, "请输入密码").show()
             } else {
-                val deferred = async(CommonPool) {
-                    login(studentNum, password)
-                    EcardPref.ecardUserName = studentNum
-                    EcardPref.ecardPassword = password
+                launch(UI + QuietCoroutineExceptionHandler) {
+                    val loginDeferred = EcardService.getEcardProfile(cardnum = studentNum, password = password)
+                    val loginState = loginDeferred.awaitAndHandle {
+                        it.printStackTrace()
+                        if (it is HttpException) {
+                            it.handleError { _, _, message, _ ->
+                                Toasty.error(this@EcardLoginActivity, "校园卡绑定失败 $message").show()
+                            }
+                        }
+                    }
+                    loginState?.let { _ ->
+                        EcardPref.ecardUserName = studentNum
+                        EcardPref.ecardPassword = password
+                        Toasty.success(this@EcardLoginActivity, "校园卡绑定成功").show()
+                        finish()
+                    }
                 }
-                launch(UI) {
-                    deferred.await()
-                }
-                Toasty.success(this@EcardLoginActivity, "校园卡绑定成功").show()
-                finish()
             }
         }
     }
