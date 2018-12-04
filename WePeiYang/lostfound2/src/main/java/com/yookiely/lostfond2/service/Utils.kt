@@ -20,7 +20,10 @@ object Utils {
     var campus: Int? by hawk("campus", null)
     const val FOUND = 1
     const val LOST = 2
-
+    const val CAMPUS_BEI_YANG_YUAN = 1
+    const val CAMPUS_WEI_JIN_LU = 2
+    const val STRING_FOUND = "found"
+    const val STRING_LOST = "lost"
 
     fun getType(i: Int) = when (i) {
         0 -> "全部"

@@ -15,12 +15,6 @@ class MyListPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
         fragmentsTitles.add(title)
     }
 
-    fun update() {
-        for (item in fragmentsOfMyList) {
-
-        }
-    }
-
     override fun getItem(position: Int): Fragment = fragmentsOfMyList[position]
 
     override fun getCount(): Int = fragmentsOfMyList.size

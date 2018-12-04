@@ -1,5 +1,6 @@
 package com.yookiely.lostfond2.mylist
 
+import android.util.Log
 import android.widget.Toast
 import com.yookiely.lostfond2.service.LostFoundService
 import com.yookiely.lostfond2.service.MyListDataOrSearchBean
@@ -9,6 +10,7 @@ import com.twt.wepeiyang.commons.experimental.network.CommonBody
 import es.dmoral.toasty.Toasty
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
+import kotlin.math.log
 
 class MyListPresenterImpl(private val myListView: MyListService.MyListView) : MyListService.MyListPresenter {
 //    lateinit var mylistApi: LostFoundService
@@ -21,6 +23,7 @@ class MyListPresenterImpl(private val myListView: MyListService.MyListView) : My
         launch(UI + QuietCoroutineExceptionHandler) {
             val myList: CommonBody<List<MyListDataOrSearchBean>>? = LostFoundService.getMyList(lostOrFound, page).awaitAndHandle {
                 it.printStackTrace()
+                Log.d("mylist",it.message)
             }
             if (myList == null) {
                 val myListFragement = myListView as MyListFragment

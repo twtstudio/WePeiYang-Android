@@ -1,5 +1,6 @@
 package com.yookiely.lostfond2.mylist
 
+import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -9,9 +10,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.ProgressBar
+import android.widget.Toast
 import com.example.lostfond2.R
 import com.yookiely.lostfond2.service.MyListDataOrSearchBean
 import com.yookiely.lostfond2.service.Utils
+import es.dmoral.toasty.Toasty
+import org.jetbrains.anko.support.v4.toast
 
 
 class MyListFragment : Fragment(), MyListService.MyListView {
@@ -54,11 +58,15 @@ class MyListFragment : Fragment(), MyListService.MyListView {
         myListProgressBar = view.findViewById(R.id.pb_mylist_progress)
         myListNoData = view.findViewById(R.id.ll_mylist_nodata)
         val bundle = arguments
-        lostOrFound = bundle!!.getString(Utils.INDEX_KEY)
+        if (bundle == null ){
+            Toasty.error(this.context!!,"没有拿到数据",Toast.LENGTH_SHORT,true).show()
+        }else{
+            lostOrFound = bundle.getString(Utils.INDEX_KEY)
+        }
         initValues()
 
         myListRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 val totalCount = myListLayoutManager.itemCount
                 val lastVisibleItem = myListLayoutManager.findLastCompletelyVisibleItemPosition()
@@ -97,9 +105,7 @@ class MyListFragment : Fragment(), MyListService.MyListView {
         myListProgressBar.visibility = View.VISIBLE
 
         myListLayoutManager = object : LinearLayoutManager(activity) {
-            override fun generateDefaultLayoutParams(): RecyclerView.LayoutParams {
-                return RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-            }
+            override fun generateDefaultLayoutParams(): RecyclerView.LayoutParams = RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         }
         myListLayoutManager.orientation = LinearLayoutManager.VERTICAL
         tableAdapter = MyListTableAdapter(myListBean, activity, lostOrFound, this)

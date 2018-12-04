@@ -39,21 +39,21 @@ class MyListTableAdapter(val myListBean: MutableList<MyListDataOrSearchBean>, va
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: MyListViewHolder, position: Int) {
-        val (id: Int, _: Int, _: String, title: String, place: String, time: String, _: String, detail_type: Int, isback: Int, picture: List<String>?, _: String?, _: Int?, campus: Int, isExpired: Int) = myListBean[position]
+        val tempList = myListBean[position]
         val intent = Intent()
         val bundle = Bundle()
 
         holder.apply {
-            myListItemTitle.text = title
-            myListItemType.text = Utils.getType(detail_type)
-            myListItemTime.text = time
-            if (campus == 1) {
-                this.myListItemPlace.text = "北洋园 - $place"
+            myListItemTitle.text = tempList.title
+            myListItemType.text = Utils.getType(tempList.detail_type)
+            myListItemTime.text = tempList.time
+            if (tempList.campus == 1) {
+                this.myListItemPlace.text = "北洋园 - ${tempList.place}"
             } else {
-                this.myListItemPlace.text = "卫津路 - $place"
+                this.myListItemPlace.text = "卫津路 - ${tempList.place}"
             }
 
-            if (isExpired == 1) {
+            if (tempList.isExpired == 1) {
                 // 0是未过期,1是已过期
                 myListItemButtonOutDate.visibility = View.VISIBLE
                 myListItemButton.visibility = View.GONE
@@ -66,7 +66,7 @@ class MyListTableAdapter(val myListBean: MutableList<MyListDataOrSearchBean>, va
                 holder.myListItemButtonOutDate.visibility = View.GONE
                 holder.myListItemButton.visibility = View.VISIBLE
                 if (lostOrFound == "found") {
-                    if (isback == 1) {
+                    if (tempList.isback == 1) {
                         myListItemStatus.text = "已归还"
                         myListItemStatus.textColor = Color.parseColor("#999999")
                         myListItemButton.text = "取消归还"
@@ -76,7 +76,7 @@ class MyListTableAdapter(val myListBean: MutableList<MyListDataOrSearchBean>, va
                         myListItemButton.text = "确认归还"
                     }
                 } else {
-                    if (isback == 1) {
+                    if (tempList.isback == 1) {
                         myListItemStatus.text = "未找到"
                         myListItemStatus.textColor = Color.parseColor("#999999")
                         myListItemButton.text = "确认找到"
@@ -88,7 +88,7 @@ class MyListTableAdapter(val myListBean: MutableList<MyListDataOrSearchBean>, va
                 }
             }
 
-            myListItemButton.setOnClickListener { mylistView.turnStatus(id) }
+            myListItemButton.setOnClickListener { mylistView.turnStatus(tempList.id) }
             myListItemButtonOutDate.setOnClickListener {
                 bundle.apply {
                     if (lostOrFound == "lost") {
@@ -96,8 +96,8 @@ class MyListTableAdapter(val myListBean: MutableList<MyListDataOrSearchBean>, va
                     } else {
                         putString(Utils.LOSTORFOUND_KEY, "editFound")
                     }
-                    putInt(Utils.ID_KEY, id)
-                    putInt(Utils.DETAIL_TYPE, detail_type)
+                    putInt(Utils.ID_KEY, tempList.id)
+                    putInt(Utils.DETAIL_TYPE, tempList.detail_type)
                 }
 
                 intent.apply {
@@ -107,22 +107,22 @@ class MyListTableAdapter(val myListBean: MutableList<MyListDataOrSearchBean>, va
                 }
             }
 
-            if (picture != null) {
+            if (tempList.picture != null) {
                 Glide.with(context)
-                        .load(Utils.getPicUrl(picture[0]))
+                        .load(Utils.getPicUrl(tempList.picture[0]))
                         .placeholder(R.drawable.lf_waterfall_nopic)
                         .error(R.drawable.lf_waterfall_nopic)
                         .into(myListItemPic)
             } else {
                 Glide.with(context)
-                        .load(Utils.getPicUrl("julao.jpg"))
+                        .load(Utils.getPicUrl("null"))
                         .placeholder(R.drawable.lf_waterfall_nopic)
                         .error(R.drawable.lf_waterfall_nopic)
                         .into(myListItemPic)
             }
 
             itemView.setOnClickListener {
-                bundle.putInt(Utils.ID_KEY, id)
+                bundle.putInt(Utils.ID_KEY, tempList.id)
                 intent.putExtras(bundle)
                 intent.setClass(context, DetailActivity::class.java)
                 context?.startActivity(intent)
@@ -135,8 +135,8 @@ class MyListTableAdapter(val myListBean: MutableList<MyListDataOrSearchBean>, va
                     } else {
                         putString(Utils.LOSTORFOUND_KEY, "editFound")
                     }
-                    putInt(Utils.ID_KEY, id)
-                    putInt(Utils.DETAIL_TYPE, detail_type)
+                    putInt(Utils.ID_KEY, tempList.id)
+                    putInt(Utils.DETAIL_TYPE, tempList.detail_type)
                 }
 
                 intent.apply {

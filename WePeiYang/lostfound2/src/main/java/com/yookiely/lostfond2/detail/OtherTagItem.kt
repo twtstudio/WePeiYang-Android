@@ -9,7 +9,7 @@ import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemController
 import org.jetbrains.anko.layoutInflater
 
-class OtherTagItem(val text3: String, val text2: String) : Item {
+class OtherTagItem(val title: String, val content: String) : Item {
 
     private companion object Controller : ItemController {
         override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
@@ -23,8 +23,8 @@ class OtherTagItem(val text3: String, val text2: String) : Item {
             item as OtherTagItem
 
             holder.apply {
-                otherTagTitle.text = item.text3
-                otherTagContent.text = item.text2
+                otherTagTitle.text = item.title
+                otherTagContent.text = item.content
             }
         }
     }
@@ -38,4 +38,4 @@ class OtherTagItem(val text3: String, val text2: String) : Item {
         get() = OtherTagItem
 }
 
-fun MutableList<Item>.setOther(text1: String, text2: String) = add(OtherTagItem(text1, text2))
+fun MutableList<Item>.other(title: String, content: String) = add(OtherTagItem(title, content))

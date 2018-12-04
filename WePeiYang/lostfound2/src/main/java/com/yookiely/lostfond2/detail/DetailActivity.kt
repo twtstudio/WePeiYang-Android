@@ -49,6 +49,7 @@ class DetailActivity : AppCompatActivity() {
         launch(UI + QuietCoroutineExceptionHandler) {
             val myList: CommonBody<DetailData>? = LostFoundService.getDetailed(id).awaitAndHandle {
                 it.printStackTrace()
+                Toasty.error(this@DetailActivity, "你网络崩啦，拿不到数据啦", Toast.LENGTH_LONG, true).show()
             }
             if (myList != null && myList.error_code == -1) {
                 if (myList.data == null) {
@@ -96,51 +97,51 @@ class DetailActivity : AppCompatActivity() {
                     recyclerView.withItems {
 
                         // 最后一个参数设置成true，则该detail下面灭有分割线
-                        setTitle("基本信息")
-                        setDetail("标题", myListDetailData.title.orEmpty(), false)
+                        title("基本信息")
+                        detail("标题", myListDetailData.title.orEmpty(), false)
                         if (myListDetailData.type != null) {
-                            setDetail("类型", Utils.getType(myListDetailData.detail_type), false)
+                            detail("类型", Utils.getType(myListDetailData.detail_type), false)
                         } else {
-                            setDetail("类型", "", false)
+                            detail("类型", "", false)
                         }
-                        setDetail("时间", myListDetailData.time.orEmpty(), false)
-                        if (myListDetailData.detail_type != 2 && myListDetailData.type != 1) {
-                            setDetail("地点", myListDetailData.place.orEmpty(), true)
+                        detail("时间", myListDetailData.time.orEmpty(), false)
+                        if (myListDetailData.detail_type != 2 && myListDetailData.type != Utils.FOUND) {
+                            detail("地点", myListDetailData.place.orEmpty(), true)
                         } else {
-                            setDetail("地点", myListDetailData.place.orEmpty(), false)
+                            detail("地点", myListDetailData.place.orEmpty(), false)
                         }
                         if (myListDetailData.detail_type == Utils.LOST) {
                             if (myListDetailData.card_name != "null" && myListDetailData.card_name != null) {
-                                setDetail("失主姓名", myListDetailData.card_name, false)
+                                detail("失主姓名", myListDetailData.card_name, false)
                             } else {
                                 if (Utils.getType(myListDetailData.detail_type) == "饭卡") {
-                                    setDetail("失主姓名", "", false)
+                                    detail("失主姓名", "", false)
                                 }
                             }
                         }
                         if (myListDetailData.detail_type == Utils.LOST) {
                             if (myListDetailData.card_number != "0" && myListDetailData.card_number != null) {
-                                setDetail("卡号", myListDetailData.card_number, false)
+                                detail("卡号", myListDetailData.card_number, false)
                             } else {
                                 if (Utils.getType(myListDetailData.detail_type) == "饭卡") {
-                                    setDetail("卡号", "", false)
+                                    detail("卡号", "", false)
                                 }
                             }
                         }
                         if (myListDetailData.type != null && myListDetailData.type == Utils.TYPE_OF_FOUND) {
                             if (myListDetailData.recapture_place != null && myListDetailData.recapture_place != "无") {
-                                setDetail("领取站点", Utils.getGarden(myListDetailData.recapture_place) + myListDetailData.recapture_place + Utils.getExit(myListDetailData.recapture_entrance), true)
+                                detail("领取站点", Utils.getGarden(myListDetailData.recapture_place) + myListDetailData.recapture_place + Utils.getExit(myListDetailData.recapture_entrance), true)
                             } else {
-                                setDetail("领取站点", "无", true)
+                                detail("领取站点", "无", true)
                             }
                         }
 
-                        setTitle("联系信息")
-                        setDetail("姓名", myListDetailData.name.orEmpty(), false)
-                        setDetail("电话", myListDetailData.phone.orEmpty(), true)
+                        title("联系信息")
+                        detail("姓名", myListDetailData.name.orEmpty(), false)
+                        detail("电话", myListDetailData.phone.orEmpty(), true)
 
-                        setTitle("附加信息")
-                        setOther("附言", myListDetailData.item_description.orEmpty())
+                        title("附加信息")
+                        other("附言", myListDetailData.item_description.orEmpty())
                     }
                 }
             } else {

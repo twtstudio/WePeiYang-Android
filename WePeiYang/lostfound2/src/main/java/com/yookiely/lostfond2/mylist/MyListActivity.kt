@@ -24,10 +24,6 @@ class MyListActivity : AppCompatActivity() {
     private lateinit var beiyangyuan: TextView
     private lateinit var weijinlu: TextView
     private var campus: Int = 1// 1 北洋园 ，2 卫津路
-    private val BEIYANGYUAN = 1
-    private val WEIJINGLU = 2
-    private val found = "found"
-    private val lost = "lost"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,8 +49,8 @@ class MyListActivity : AppCompatActivity() {
         val myListTabLayout: TabLayout = findViewById(R.id.tl_mylist)
         val myListPagerAdapter = MyListPagerAdapter(supportFragmentManager)
         myListPagerAdapter.apply {
-            add(MyListFragment.newInstance(found), "我捡到的")
-            add(MyListFragment.newInstance(lost), "我丢失的")
+            add(MyListFragment.newInstance(Utils.STRING_FOUND), "我捡到的")
+            add(MyListFragment.newInstance(Utils.STRING_LOST), "我丢失的")
         }
         myListPager.adapter = myListPagerAdapter
         myListTabLayout.apply {
@@ -84,7 +80,7 @@ class MyListActivity : AppCompatActivity() {
 
         // 根据原始校区值，设置颜色，选中的校区为蓝色
         campus = Utils.campus ?: 1
-        if (campus == BEIYANGYUAN) {
+        if (campus == Utils.CAMPUS_BEI_YANG_YUAN) {
             beiyangyuan.textColor = Color.parseColor("#4894d5")
             weijinlu.textColor = Color.parseColor("#656565")
         } else {
@@ -94,13 +90,13 @@ class MyListActivity : AppCompatActivity() {
 
         // 设置弹窗中的textview的监听事件，修改校区，并修改数据库中的校区对应值
         beiyangyuan.setOnClickListener {
-            Utils.campus = BEIYANGYUAN
+            Utils.campus = Utils.CAMPUS_BEI_YANG_YUAN
             beiyangyuan.textColor = Color.parseColor("#4894d5")
             weijinlu.textColor = Color.parseColor("#656565")
             popupWindow.dismiss()
         }
         weijinlu.setOnClickListener {
-            Utils.campus = WEIJINGLU
+            Utils.campus = Utils.CAMPUS_WEI_JIN_LU
             weijinlu.textColor = Color.parseColor("#4894d5")
             beiyangyuan.textColor = Color.parseColor("#656565")
             popupWindow.dismiss()
