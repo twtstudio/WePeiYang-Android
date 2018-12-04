@@ -51,117 +51,96 @@ class DetailActivity : AppCompatActivity() {
                 it.printStackTrace()
             }
             if (myList != null && myList.error_code == -1) {
-                if (myList.data!!.type == Utils.FOUND) {
-                    toolbar.title = "捡到物品"
+                if (myList.data == null) {
+                    toolbar.title = ""
                 } else {
-                    toolbar.title = "丢失物品"
-                }
+                    if (myList.data!!.type == Utils.FOUND) {
+                        toolbar.title = "捡到物品"
+                    } else {
+                        toolbar.title = "丢失物品"
+                    }
+                    val myListDetailData = myList.data!!
+                    val images = myListDetailData.picture.orEmpty().map(Utils::getPicUrl)
 
-                val myListDetailData = myList.data!!
-                val images = myListDetailData.picture.orEmpty().map(Utils::getPicUrl)
+                    banner.apply {
+                        setImageLoader(GlideImagineLoader())
+                        setImages(images)
 
-                banner.apply {
-                    setImageLoader(GlideImagineLoader())
-                    setImages(images)
+                        setBannerStyle(BannerConfig.NUM_INDICATOR)
+                        isAutoPlay(false)
+                        // 点击出现大图
+                        setOnBannerListener { position ->
+                            popupWindow.apply {
+                                isFocusable = true
 
-                    setBannerStyle(BannerConfig.NUM_INDICATOR)
-                    isAutoPlay(false)
-                    // 点击出现大图
-                    setOnBannerListener { position ->
-                        popupWindow.apply {
-                            isFocusable = true
+                                Glide.with(context)
+                                        .load(images[position])
+                                        .error(R.drawable.lf_detail_np)
+                                        .into(popupWindowView.findViewById(R.id.lf2_detail_popupwindow))
 
-                            Glide.with(context)
-                                    .load(images[position])
-                                    .error(R.drawable.lf_detail_np)
-                                    .into(popupWindowView.findViewById(R.id.lf2_detail_popupwindow))
-
-                            isOutsideTouchable = true
-                            popupWindow.setBackgroundDrawable(ColorDrawable(ContextCompat.getColor(this@DetailActivity, R.color.white_color)))
-                            bgAlpha(0.5f)
-                            showAsDropDown(toolbar, Gravity.CENTER, 0, 0)
+                                isOutsideTouchable = true
+                                popupWindow.setBackgroundDrawable(ColorDrawable(ContextCompat.getColor(this@DetailActivity, R.color.white_color)))
+                                bgAlpha(0.5f)
+                                showAsDropDown(toolbar, Gravity.CENTER, 0, 0)
+                                setOnDismissListener {
+                                    // popupWindow 隐藏时恢复屏幕正常透明度
+                                    bgAlpha(1f)
+                                }
+                            }
+                            // 点击布局文件（也可以理解为点击大图）
                         }
-                        popupWindow.setOnDismissListener {
-                            // popupWindow 隐藏时恢复屏幕正常透明度
-                            bgAlpha(1f)
-                        }
-                        // 点击布局文件（也可以理解为点击大图）
+                        start()
                     }
-                    start()
-                }
 
 
-                recyclerView.withItems {
+                    recyclerView.withItems {
 
-                    // 最后一个参数设置成true，则该detail下面灭有分割线
-                    setTitle("基本信息")
-                    if (myListDetailData.title != null) {
-                        setDetail("标题", myListDetailData.title, false)
-                    } else {
-                        setDetail("标题", "", false)
-                    }
-                    if (myListDetailData.type != null) {
-                        setDetail("类型", Utils.getType(myListDetailData.detail_type), false)
-                    } else {
-                        setDetail("类型", "", false)
-                    }
-                    if (myListDetailData.time != null) {
-                        setDetail("时间", myListDetailData.time, false)
-                    } else {
-                        setDetail("时间", "", false)
-                    }
-                    if (myListDetailData.detail_type != 2 && myListDetailData.type != 1) {
-                        if (myListDetailData.place != null) {
-                            setDetail("地点", myListDetailData.place, true)
+                        // 最后一个参数设置成true，则该detail下面灭有分割线
+                        setTitle("基本信息")
+                        setDetail("标题", myListDetailData.title.orEmpty(), false)
+                        if (myListDetailData.type != null) {
+                            setDetail("类型", Utils.getType(myListDetailData.detail_type), false)
                         } else {
-                            setDetail("地点", "", true)
+                            setDetail("类型", "", false)
                         }
-                    } else {
-                        if (myListDetailData.place != null) {
-                            setDetail("地点", myListDetailData.place, false)
+                        setDetail("时间", myListDetailData.time.orEmpty(), false)
+                        if (myListDetailData.detail_type != 2 && myListDetailData.type != 1) {
+                            setDetail("地点", myListDetailData.place.orEmpty(), true)
                         } else {
-                            setDetail("地点", "", false)
+                            setDetail("地点", myListDetailData.place.orEmpty(), false)
                         }
-                    }
-                    if (myListDetailData.detail_type == Utils.LOST) {
-                        if (myListDetailData.card_name != "null" && myListDetailData.card_name != null) {
-                            setDetail("失主姓名", myListDetailData.card_name, false)
-                        } else {
-                            if (Utils.getType(myListDetailData.detail_type) == "饭卡") {
-                                setDetail("失主姓名", "", false)
+                        if (myListDetailData.detail_type == Utils.LOST) {
+                            if (myListDetailData.card_name != "null" && myListDetailData.card_name != null) {
+                                setDetail("失主姓名", myListDetailData.card_name, false)
+                            } else {
+                                if (Utils.getType(myListDetailData.detail_type) == "饭卡") {
+                                    setDetail("失主姓名", "", false)
+                                }
                             }
                         }
-                    }
-                    if (myListDetailData.detail_type == Utils.LOST) {
-                        if (myListDetailData.card_number != "0" && myListDetailData.card_number != null) {
-                            setDetail("卡号", myListDetailData.card_number, false)
-                        } else {
-                            if (Utils.getType(myListDetailData.detail_type) == "饭卡") {
-                                setDetail("卡号", "", false)
+                        if (myListDetailData.detail_type == Utils.LOST) {
+                            if (myListDetailData.card_number != "0" && myListDetailData.card_number != null) {
+                                setDetail("卡号", myListDetailData.card_number, false)
+                            } else {
+                                if (Utils.getType(myListDetailData.detail_type) == "饭卡") {
+                                    setDetail("卡号", "", false)
+                                }
                             }
                         }
-                    }
-                    if (myListDetailData.type != null && myListDetailData.type == Utils.TYPE_OF_FOUND) {
-                        if (myListDetailData.recapture_place != null && myListDetailData.recapture_place != "无") {
-                            setDetail("领取站点", Utils.getGarden(myListDetailData.recapture_place) + myListDetailData.recapture_place + Utils.getExit(myListDetailData.recapture_entrance), true)
-                        } else {
-                            setDetail("领取站点", "无", true)
+                        if (myListDetailData.type != null && myListDetailData.type == Utils.TYPE_OF_FOUND) {
+                            if (myListDetailData.recapture_place != null && myListDetailData.recapture_place != "无") {
+                                setDetail("领取站点", Utils.getGarden(myListDetailData.recapture_place) + myListDetailData.recapture_place + Utils.getExit(myListDetailData.recapture_entrance), true)
+                            } else {
+                                setDetail("领取站点", "无", true)
+                            }
                         }
-                    }
 
-                    setTitle("联系信息")
-                    if (myListDetailData.name != null) {
-                        setDetail("姓名", myListDetailData.name, false)
-                    }
-                    if (myListDetailData.phone != null) {
-                        setDetail("电话", myListDetailData.phone, true)
-                    }
+                        setTitle("联系信息")
+                        setDetail("姓名", myListDetailData.name.orEmpty(), false)
+                        setDetail("电话", myListDetailData.phone.orEmpty(), true)
 
-                    setTitle("附加信息")
-                    if (myListDetailData.item_description != null) {
-                        setOther("附言", myListDetailData.item_description)
-                    } else {
-                        setOther("附言", "无")
+                        setTitle("附加信息")
+                        setOther("附言", myListDetailData.item_description.orEmpty())
                     }
                 }
             } else {
