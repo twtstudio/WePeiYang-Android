@@ -29,8 +29,6 @@ import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 
 class DetailActivity : AppCompatActivity() {
-    private val FOUND = 1
-    private val LOST = 2
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,20 +51,14 @@ class DetailActivity : AppCompatActivity() {
                 it.printStackTrace()
             }
             if (myList != null && myList.error_code == -1) {
-                if (myList.data!!.type == FOUND) {
+                if (myList.data!!.type == Utils.FOUND) {
                     toolbar.title = "捡到物品"
                 } else {
                     toolbar.title = "丢失物品"
                 }
 
                 val myListDetailData = myList.data!!
-                val images = ArrayList<String>()
-                if (myListDetailData.picture != null) {
-                    for (temp in myListDetailData.picture) {
-                        val tempImage = Utils.getPicUrl(temp)
-                        images.add(tempImage)
-                    }
-                }
+                val images = myListDetailData.picture.orEmpty().map(Utils::getPicUrl)
 
                 banner.apply {
                     setImageLoader(GlideImagineLoader())
@@ -131,7 +123,7 @@ class DetailActivity : AppCompatActivity() {
                             setDetail("地点", "", false)
                         }
                     }
-                    if (myListDetailData.detail_type == LOST) {
+                    if (myListDetailData.detail_type == Utils.LOST) {
                         if (myListDetailData.card_name != "null" && myListDetailData.card_name != null) {
                             setDetail("失主姓名", myListDetailData.card_name, false)
                         } else {
@@ -140,7 +132,7 @@ class DetailActivity : AppCompatActivity() {
                             }
                         }
                     }
-                    if (myListDetailData.detail_type == LOST) {
+                    if (myListDetailData.detail_type == Utils.LOST) {
                         if (myListDetailData.card_number != "0" && myListDetailData.card_number != null) {
                             setDetail("卡号", myListDetailData.card_number, false)
                         } else {

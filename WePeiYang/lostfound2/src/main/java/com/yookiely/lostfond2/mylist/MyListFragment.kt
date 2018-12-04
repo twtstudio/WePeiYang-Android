@@ -38,9 +38,9 @@ class MyListFragment : Fragment(), MyListService.MyListView {
         }
     }
 
-    override fun setMyListData(listdata: List<MyListDataOrSearchBean>) {
-        if (page==1 || needClear ) myListBean.clear()
-        myListBean.addAll(listdata)
+    override fun setMyListData(myListBean: List<MyListDataOrSearchBean>) {
+        if (page==1 || needClear ) this.myListBean.clear()
+        this.myListBean.addAll(myListBean)
         tableAdapter.notifyDataSetChanged()
         myListProgressBar.visibility = View.GONE
         myListNoData.visibility = if (tableAdapter.myListBean.size == 0 && page == 1) View.VISIBLE else View.GONE
