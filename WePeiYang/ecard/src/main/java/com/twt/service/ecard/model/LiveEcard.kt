@@ -10,7 +10,7 @@ import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 
 /**
- * 感觉设计的不是很好...
+ * 感觉设计的还行...
  */
 data class ECardFullInfo(val personInfo: ECardPersonInfo, val transactionInfoList: List<TransactionInfo>, val todayCost: Float, val cache: Boolean)
 
@@ -37,7 +37,7 @@ object LiveEcardManager {
     }
 
     fun refreshEcardFullInfo(forceReload: Boolean = true) {
-        val coroutineExceptionHandler = CoroutineExceptionHandler { coroutineContext, throwable ->
+        val coroutineExceptionHandler = CoroutineExceptionHandler { _, throwable ->
             throwable.printStackTrace()
             eCardFullInfoLiveData.postValue(RefreshState.Failure(throwable))
         }
