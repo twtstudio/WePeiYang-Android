@@ -59,7 +59,11 @@ class SearchFragment : Fragment(), SearchContract.SearchUIView {
         searchRecyclerView = view.findViewById(R.id.rv_waterfall_homepage)
         refreshLayout = view.findViewById(R.id.sr_waterfall_refresh)
 
-        init()
+        searchNoRes.visibility = View.GONE
+        searchRecyclerView.layoutManager = searchLayoutManager
+        tableAdapter = WaterfallTableAdapter(beanList, this.activity!!, lostOrFound)
+        searchRecyclerView.adapter = tableAdapter
+        loadSearhDataWithTime(this.time)
         val bundle = arguments
         lostOrFound = bundle!!.getString(Utils.INDEX_KEY)
         searchRefresh.setOnRefreshListener(this::refresh)
@@ -79,14 +83,6 @@ class SearchFragment : Fragment(), SearchContract.SearchUIView {
         })
 
         return view
-    }
-
-    private fun init() {
-        searchNoRes.visibility = View.GONE
-        searchRecyclerView.layoutManager = searchLayoutManager
-        tableAdapter = WaterfallTableAdapter(beanList, this.activity!!, lostOrFound)
-        searchRecyclerView.adapter = tableAdapter
-        loadSearhDataWithTime(this.time)
     }
 
     private fun refresh() {
@@ -131,7 +127,7 @@ class SearchFragment : Fragment(), SearchContract.SearchUIView {
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         val activity = context as SearchActivity
-        this.keyword = activity.getKey()
+        this.keyword = activity.getKeyword()
         this.isSubmit = true
     }
 }

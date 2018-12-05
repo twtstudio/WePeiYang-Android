@@ -35,7 +35,7 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var searchType: RelativeLayout
     private lateinit var textView: TextView
 
-    lateinit var keyword: String
+    private lateinit var keyword: String
     var page = 1
     var campus: Int = 1
     private var time = 5
@@ -146,7 +146,7 @@ class SearchActivity : AppCompatActivity() {
         foundFragment.setTimeAndLoad(this.time)
     }
 
-    fun getKey(): String {
+    fun getKeyword(): String {
         return keyword
     }
 }

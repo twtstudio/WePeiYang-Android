@@ -6,49 +6,49 @@ import kotlinx.coroutines.experimental.Deferred
 import okhttp3.MultipartBody
 import retrofit2.http.*
 
-internal const val LOST_FOUND_BASE_URL = "https://open-lostfound.twtstudio.com/api/"
+internal const val LOST_FOUND_BASE_URL = "https://open-lostfound.twtstudio.com/api/v1/lostfound/"
 interface LostFoundService {
-    @GET("${LOST_FOUND_BASE_URL}v1/lostfound/lost")
+    @GET("${LOST_FOUND_BASE_URL}lost")
     fun getLost(@Query("campus") campus: Int, @Query("page") page: Int, @Query("detail_type") detail_type: Int, @Query("timeblock") timeblock: Int): Deferred<CommonBody<List<MyListDataOrSearchBean>>>
 
-    @GET("${LOST_FOUND_BASE_URL}v1/lostfound/found")
+    @GET("${LOST_FOUND_BASE_URL}found")
     fun getFound(@Query("campus") campus: Int, @Query("page") page: Int, @Query("detail_type") detail_type: Int, @Query("timeblock") timeblock: Int): Deferred<CommonBody<List<MyListDataOrSearchBean>>>
 
-    @GET("${LOST_FOUND_BASE_URL}v1/lostfound/{id}")
+    @GET("$LOST_FOUND_BASE_URL{id}")
     fun getDetailed(@Path("id") id: Int): Deferred<CommonBody<DetailData>>
 
-    @GET("${LOST_FOUND_BASE_URL}v1/lostfound/search")
+    @GET("${LOST_FOUND_BASE_URL}search")
     fun getSearch(@Query("keyword") keyword: String, @Query("campus") campus: Int, @Query("time") time: Int, @Query("page") page: Int): Deferred<CommonBody<List<MyListDataOrSearchBean>>>
 
-    @GET("${LOST_FOUND_BASE_URL}v1/lostfound/user/{lostOrFound}")
+    @GET("${LOST_FOUND_BASE_URL}user/{lostOrFound}")
     fun getMyList(@Path("lostOrFound") lostOrFound: String, @Query("page") page: Int): Deferred<CommonBody<List<MyListDataOrSearchBean>>>
 
-    @GET("${LOST_FOUND_BASE_URL}v1/lostfound/inverse/{id}")
+    @GET("${LOST_FOUND_BASE_URL}inverse/{id}")
     fun turnStatus(@Path("id") id: String): Deferred<CommonBody<String>>
 
 
     @FormUrlEncoded
-    @POST("${LOST_FOUND_BASE_URL}v1/lostfound/{lostOrFound}")
+    @POST("$LOST_FOUND_BASE_URL{lostOrFound}")
     fun updateRelease(@FieldMap map: Map<String, Any>, @Path("lostOrFound") lostOrFound: String): Deferred<CommonBody<List<MyListDataOrSearchBean>>>
 
     @Multipart
-    @POST("${LOST_FOUND_BASE_URL}v1/lostfound/{lostOrFound}")
+    @POST("$LOST_FOUND_BASE_URL{lostOrFound}")
     fun updateReleaseWithPic(@Path("lostOrFound") lostOrFound: String,
                              @Part partList: List<MultipartBody.Part>): Deferred<CommonBody<List<MyListDataOrSearchBean>>>
 
-    @POST("${LOST_FOUND_BASE_URL}v1/lostfound/edit/{lostOrFound}/{id}")
+    @POST("${LOST_FOUND_BASE_URL}edit/{lostOrFound}/{id}")
     @FormUrlEncoded
     fun updateEdit(@FieldMap map: Map<String, Any>,
                    @Path("lostOrFound") lostOrFound: String,
                    @Path("id") id: String): Deferred<CommonBody<List<MyListDataOrSearchBean>>>
 
-    @POST("${LOST_FOUND_BASE_URL}v1/lostfound/edit/{lostOrFound}/{id}")
+    @POST("${LOST_FOUND_BASE_URL}edit/{lostOrFound}/{id}")
     @Multipart
     fun updateEditWithPic(@Path("lostOrFound") lostOrFound: String,
                           @Path("id") id: String,
                           @Part partList: List<MultipartBody.Part>): Deferred<CommonBody<List<MyListDataOrSearchBean>>>
 
-    @DELETE("${LOST_FOUND_BASE_URL}v1/lostfound/{id}")
+    @DELETE("$LOST_FOUND_BASE_URL{id}")
     fun delete(@Path("id") id: String): Deferred<CommonBody<String>>
 
     companion object : LostFoundService by ServiceFactory()

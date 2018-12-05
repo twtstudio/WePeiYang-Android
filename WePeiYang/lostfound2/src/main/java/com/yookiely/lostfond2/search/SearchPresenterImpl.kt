@@ -16,10 +16,10 @@ class SearchPresenterImpl(private val searchUIView: SearchContract.SearchUIView)
 
     override fun loadWaterfallDataWithTime(lostOrFound: String, keyword: String, page: Int, time: Int) {
         if (Utils.campus != null) {
-            val campus = Utils.campus!!
+            val campus = Utils.campus
             try {
                 launch(UI + QuietCoroutineExceptionHandler) {
-                    val dataList = LostFoundService.getSearch(keyword, campus, time, page).awaitAndHandle {
+                    val dataList = LostFoundService.getSearch(keyword, campus!!, time, page).awaitAndHandle {
                         it.printStackTrace()
                     }
                     if (dataList != null && dataList.error_code == -1) {

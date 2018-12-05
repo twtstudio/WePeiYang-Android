@@ -13,7 +13,7 @@ import com.orhanobut.hawk.Hawk
 import com.yookiely.lostfond2.service.Utils
 
 
-class SearchAdapter(var hr: MutableList<String>?, val activity: SearchInitActivity) : RecyclerView.Adapter<SearchAdapter.ViewHolder>() {
+class SearchAdapter(var historyRecords: MutableList<String>, val activity: SearchInitActivity) : RecyclerView.Adapter<SearchAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val textViewDiv: View = view.findViewById(R.id.tv_search_div)
@@ -21,7 +21,7 @@ class SearchAdapter(var hr: MutableList<String>?, val activity: SearchInitActivi
     }
 
     override fun onBindViewHolder(holder: SearchAdapter.ViewHolder, position: Int) {
-        val query = hr!![position]
+        val query = historyRecords[position]
         holder.textView.text = query
         holder.textView.setOnClickListener {
             var temp = mutableListOf<String>()
@@ -41,12 +41,12 @@ class SearchAdapter(var hr: MutableList<String>?, val activity: SearchInitActivi
             intent.setClass(activity, SearchActivity::class.java)
             startActivity(activity, intent, bundle)
         }
-        if (hr!!.size == position) {
+        if (historyRecords!!.size == position) {
             holder.textViewDiv.visibility = View.GONE
         }
     }
 
-    override fun getItemCount(): Int = hr!!.size
+    override fun getItemCount(): Int = historyRecords!!.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchAdapter.ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.lf2_search_hr_rv_item, parent, false)
