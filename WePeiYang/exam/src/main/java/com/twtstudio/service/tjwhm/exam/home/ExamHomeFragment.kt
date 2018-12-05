@@ -7,12 +7,14 @@ import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.StaggeredGridLayoutManager
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import com.tencent.stat.StatService
 import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
 import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemAdapter
@@ -81,6 +83,9 @@ class ExamHomeFragment : Fragment(), View.OnClickListener {
         rvQuick.layoutManager = StaggeredGridLayoutManager(2, LinearLayoutManager.HORIZONTAL)
 
         examUserLiveData.bindNonNull(this, ::bindHomeData)
+//        val prop = Properties();
+//        prop.setProperty("name", "刷题首页")
+//        StatService.trackCustomKVEvent(ivParty.context, "enter", prop)
         return view
     }
 
