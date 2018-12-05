@@ -70,7 +70,7 @@ class MyListFragment : Fragment(), MyListService.MyListView {
                 super.onScrolled(recyclerView, dx, dy)
                 val totalCount = myListLayoutManager.itemCount
                 val lastVisibleItem = myListLayoutManager.findLastCompletelyVisibleItemPosition()
-                if (!isLoading && totalCount < (lastVisibleItem + 2) && totalCount > 4) {
+                if (!isLoading && totalCount < (lastVisibleItem + 2)) {
                     ++page
                     isLoading = true
                     MyListPresenterImpl(this@MyListFragment).loadMyListData(lostOrFound, page)
