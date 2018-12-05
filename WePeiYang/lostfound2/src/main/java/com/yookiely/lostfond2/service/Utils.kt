@@ -25,32 +25,16 @@ object Utils {
     const val STRING_FOUND = "found"
     const val STRING_LOST = "lost"
 
-    fun getType(i: Int) = when (i) {
-        0 -> "全部"
-        1 -> "身份证"
-        2 -> "饭卡"
-        3 -> "手机"
-        4 -> "钥匙"
-        5 -> "书包"
-        6 -> "手表&饰品"
-        7 -> "水杯"
-        8 -> "U盘&硬盘"
-        9 -> "钱包"
-        10 -> "银行卡"
-        11 -> "书"
-        12 -> "伞"
-        13 -> "其他"
-        else -> "wrong_type"
-    }
+    private val typeMap = hashMapOf(0 to "全部", 1 to "身份证",
+            2 to "饭卡",3 to "手机",4 to "钥匙",5 to "书包",6 to "手表&饰品",7 to "水杯",
+            8 to "U盘&硬盘", 9 to "钱包", 10 to "银行卡",11 to "书",12 to "伞",13 to "其他")
 
-    fun getDetailFilterOfTime(i: Int) = when (i) {
-        1 -> "全部时间"
-        2 -> "一天之内"
-        3 -> "1 - 7天"
-        4 -> "7 - 15天"
-        5 -> "15 - 30天"
-        else -> "wrong_time"
-    }
+    private val timeMap = hashMapOf( 1 to "全部时间", 2 to "一天之内",
+            3 to "1 - 7天", 4 to "7 - 15天", 5 to "15 - 30天")
+
+    fun getType(i: Int) = typeMap[i].orEmpty()
+
+    fun getDetailFilterOfTime(i: Int) = timeMap[i].orEmpty()
 
     fun getDetailFilterOfPlace(i: Int) = when (i) {
         1 -> "北洋园"
