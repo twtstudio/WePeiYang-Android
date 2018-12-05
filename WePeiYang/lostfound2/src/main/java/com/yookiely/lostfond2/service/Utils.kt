@@ -24,6 +24,8 @@ object Utils {
     const val CAMPUS_WEI_JIN_LU = 2
     const val STRING_FOUND = "found"
     const val STRING_LOST = "lost"
+    const val STRING_EDIT_FOUND = "editFound"
+    const val STRING_EDIT_LOST = "editLost"
 
     private val typeMap = hashMapOf(0 to "全部", 1 to "身份证",
             2 to "饭卡",3 to "手机",4 to "钥匙",5 to "书包",6 to "手表&饰品",7 to "水杯",
@@ -36,10 +38,10 @@ object Utils {
 
     fun getDetailFilterOfTime(i: Int) = timeMap[i].orEmpty()
 
-    fun getDetailFilterOfPlace(i: Int) = when (i) {
+    fun getDetailFilterOfPlace(i: Int?) = when (i) {
         1 -> "北洋园"
         2 -> "卫津路"
-        else -> "wrong_place"
+        else -> ""
     }
 
     //        fun getPicUrl(addUrl: String) = "http://open.twtstudio.com/$addUrl"

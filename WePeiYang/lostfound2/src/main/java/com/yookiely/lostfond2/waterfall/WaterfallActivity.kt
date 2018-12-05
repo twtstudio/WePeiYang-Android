@@ -62,8 +62,8 @@ class WaterfallActivity : AppCompatActivity() {
             campus = Utils.campus!!
         }
 
-        lostFragment = WaterfallFragment.newInstance("lost")
-        foundFragment = WaterfallFragment.newInstance("found")
+        lostFragment = WaterfallFragment.newInstance(Utils.STRING_LOST)
+        foundFragment = WaterfallFragment.newInstance(Utils.STRING_FOUND)
         val waterfallPagerAdapter = WaterfallPagerAdapter(supportFragmentManager)
         val bundle = Bundle()
         val intent = Intent()
@@ -126,7 +126,7 @@ class WaterfallActivity : AppCompatActivity() {
         }
 
         fa_waterfall_found.setOnClickListener {
-            bundle.putString(Utils.LOSTORFOUND_KEY, "found")
+            bundle.putString(Utils.LOSTORFOUND_KEY, Utils.STRING_FOUND)
             intent.putExtras(bundle)
             intent.setClass(this@WaterfallActivity, ReleaseActivity::class.java)
             startActivity(intent)
@@ -134,7 +134,7 @@ class WaterfallActivity : AppCompatActivity() {
         }
 
         waterfallLost.setOnClickListener {
-            bundle.putString(Utils.LOSTORFOUND_KEY, "lost")
+            bundle.putString(Utils.LOSTORFOUND_KEY, Utils.STRING_LOST)
             intent.putExtras(bundle)
             intent.setClass(this@WaterfallActivity, ReleaseActivity::class.java)
             startActivity(intent)
@@ -201,13 +201,13 @@ class WaterfallActivity : AppCompatActivity() {
                 .setMessage("可以在“我的”修改嗷～")
                 .setCancelable(false)
                 .setPositiveButton("卫津路") { _, _ ->
-                    Utils.campus = 2
+                    Utils.campus = Utils.CAMPUS_WEI_JIN_LU
                     campus = Utils.campus!!
                     lostFragment.loadWaterfallDataWithCondition(type, time)
                     foundFragment.loadWaterfallDataWithCondition(type, time)
                 }
                 .setNegativeButton("北洋园") { _, _ ->
-                    Utils.campus = 1
+                    Utils.campus = Utils.CAMPUS_BEI_YANG_YUAN
                     campus = Utils.campus!!
                     lostFragment.loadWaterfallDataWithCondition(type, time)
                     foundFragment.loadWaterfallDataWithCondition(type, time)

@@ -43,8 +43,7 @@ class WaterfallTableAdapter(private var waterFallBean: List<MyListDataOrSearchBe
 
         if (dataOfItem.picture == null) {
             Glide.with(context)
-                    .load(Utils.getPicUrl("julao.jpg"))
-                    .placeholder(R.drawable.lf_detail_np)
+                    .load(R.drawable.lf_detail_np)
                     .into(viewHolder.waterfallItemPic)
         } else {
             Glide.with(context)
@@ -56,12 +55,11 @@ class WaterfallTableAdapter(private var waterFallBean: List<MyListDataOrSearchBe
 
         viewHolder.apply {
             waterfallItemTitle.text = dataOfItem.title
-            waterfallItemLocation.text = Utils.getDetailFilterOfPlace(Utils.campus
-                    ?: 1) + "-" + dataOfItem.place
+            waterfallItemLocation.text = Utils.getDetailFilterOfPlace(Utils.campus) + "-" + dataOfItem.place
             waterfallItemThing.text = Utils.getType(dataOfItem.detail_type)
             waterfallItemData.text = dataOfItem.time
 
-            if (lostOrFound == "found") {
+            if (lostOrFound == Utils.STRING_FOUND) {
                 waterfallItemRecaptureImage.visibility = View.VISIBLE
                 waterfallItemRecapturePlace.visibility = View.VISIBLE
                 waterfallItemRecapturePlace.text = if (dataOfItem.recapture_place == "无" || dataOfItem.recapture_place == null) {
@@ -73,8 +71,9 @@ class WaterfallTableAdapter(private var waterFallBean: List<MyListDataOrSearchBe
                 waterfallItemRecaptureImage.visibility = View.GONE
                 waterfallItemRecapturePlace.visibility = View.GONE
             }
+
+            itemView.setOnClickListener { startDetailActivity(dataOfItem.id) }
         }
-        viewHolder.itemView.setOnClickListener { startDetailActivity(dataOfItem.id) }
     }
 
     override fun getItemCount(): Int = waterFallBean?.size ?: 0

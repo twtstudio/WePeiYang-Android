@@ -21,9 +21,9 @@ class WaterfallFragment : Fragment(), WaterfallContract.WaterfallView {
     private val layoutManager = GridLayoutManager(activity, 2)//StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
     private var isLoading = false
     private var isRefresh = false
-    private var campus = 0
+    private var campus = Utils.CAMPUS_BEI_YANG_YUAN
     private var beanList = mutableListOf<MyListDataOrSearchBean>()
-    private var lostOrFound = "lost"
+    private var lostOrFound = Utils.STRING_LOST
     private var type = Utils.ALL_TYPE
     private var page = 1
     private var time = Utils.ALL_TIME
@@ -48,7 +48,7 @@ class WaterfallFragment : Fragment(), WaterfallContract.WaterfallView {
         val waterfallRecyclerView = view.findViewById<RecyclerView>(R.id.rv_waterfall_homepage)
         val waterfallNoRes = view.findViewById<LinearLayout>(R.id.ll_waterfall_no_res)
 
-        campus = Utils.campus ?: 1
+        campus = Utils.campus ?: Utils.CAMPUS_BEI_YANG_YUAN
 
         waterfallRecyclerView.layoutManager = layoutManager
         waterfallNoRes.visibility = View.GONE
@@ -83,13 +83,12 @@ class WaterfallFragment : Fragment(), WaterfallContract.WaterfallView {
     }
 
     override fun setWaterfallData(waterfallBean: List<MyListDataOrSearchBean>) {
-        ll_waterfall_no_res.apply {
-            visibility = if (waterfallBean.isEmpty() && page == 1) {
+        ll_waterfall_no_res.visibility = if (waterfallBean.isEmpty() && page == 1) {
                 View.VISIBLE
             } else {
                 View.GONE
             }
-        }
+
 
         if (isRefresh) {
             beanList.clear()
@@ -112,12 +111,12 @@ class WaterfallFragment : Fragment(), WaterfallContract.WaterfallView {
 
     override fun onResume() {
         super.onResume()
-
-        if (Utils.campus != null) {
-            if (campus != Utils.campus) {
+        val newCampus = Utils.campus
+        if (newCampus != null) {
+            if (campus != newCampus) {
                 this.type = Utils.ALL_TYPE
                 this.time = Utils.ALL_TIME
-                campus = Utils.campus!!
+                campus = newCampus
                 refresh()
             }
         }

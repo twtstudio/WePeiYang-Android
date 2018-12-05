@@ -22,11 +22,13 @@ class WaterfallPresenterImpl(var waterfallView: WaterfallContract.WaterfallView)
     }
 
     override fun loadWaterfallData(lostOrFound: String, page: Int, time: Int) {
-        if (Utils.campus != null) {
+        val campus = Utils.campus
+
+        if (campus != null) {
             launch(UI + QuietCoroutineExceptionHandler) {
                 when (lostOrFound) {
-                    "lost" -> LostFoundService.getLost(Utils.campus!!, page, 0, time).await()
-                    else -> LostFoundService.getFound(Utils.campus!!, page, 0, time).await()
+                    "lost" -> LostFoundService.getLost(campus, page, Utils.ALL_TYPE, time).await()
+                    else -> LostFoundService.getFound(campus, page, Utils.ALL_TYPE, time).await()
                 }.let {
                     if (it.error_code == -1) {
                         setWaterfallData(it.data!!)
@@ -37,14 +39,16 @@ class WaterfallPresenterImpl(var waterfallView: WaterfallContract.WaterfallView)
     }
 
     override fun loadWaterfallDataWithCondition(lostOrFound: String, page: Int, type: Int, time: Int) {
+        val campus = Utils.campus
+
         if (type == -1) {
             loadWaterfallData(lostOrFound, page, time)
         } else {
-            if (Utils.campus != null) {
+            if (campus != null) {
                 launch(UI + QuietCoroutineExceptionHandler) {
                     when (lostOrFound) {
-                        "lost" -> LostFoundService.getLost(Utils.campus!!, page, type, time).await()
-                        else -> LostFoundService.getFound(Utils.campus!!, page, type, time).await()
+                        "lost" -> LostFoundService.getLost(campus, page, type, time).await()
+                        else -> LostFoundService.getFound(campus, page, type, time).await()
                     }.let {
                         if (it.error_code == -1) {
                             setWaterfallData(it.data!!)

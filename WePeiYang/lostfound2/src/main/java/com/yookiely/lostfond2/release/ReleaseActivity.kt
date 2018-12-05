@@ -2,7 +2,6 @@ package com.yookiely.lostfond2.release
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.ContentUris
@@ -12,12 +11,10 @@ import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.provider.DocumentsContract
 import android.provider.MediaStore
-import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.*
@@ -28,7 +25,6 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import com.example.lostfond2.R
-import com.orhanobut.hawk.Hawk
 import com.yookiely.lostfond2.SuccessActivity
 import com.yookiely.lostfond2.service.DetailData
 import com.yookiely.lostfond2.service.MyListDataOrSearchBean
@@ -62,14 +58,13 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
     private val releaseTypeLayoutManager = StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.HORIZONTAL)
     private val picRecyclerViewManager = LinearLayoutManager(this)
     private lateinit var releasePicAdapter: ReleasePicAdapter
-    private var selectedPic: List<Uri> = mutableListOf() // get a pic's url
     private lateinit var lostOrFound: String
     private lateinit var tableAdapter: ReleaseTableAdapter
     private lateinit var progressDialog: ProgressDialog
     private var judgementOfRelease = false
-    private var selectPicList = mutableListOf<Any?>()
+    private var selectPicList = mutableListOf<Any>()
     private lateinit var picRecyclerView: RecyclerView // 添加多图的recycler
-    private var campus = 1
+    private var campus = Utils.CAMPUS_BEI_YANG_YUAN
     private var refreshSpinnerOfRoom = false
     private var refreshSpinnerOfEntrance = false
     private var selectedRecaptureRoom = 0
@@ -78,8 +73,8 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
 
     private fun setToolbarView(toolbar: Toolbar) {
         toolbar.title = when (lostOrFound) {
-            "lost" -> "发布丢失"
-            "found" -> "发布捡到"
+            Utils.STRING_LOST -> "发布丢失"
+            Utils.STRING_FOUND -> "发布捡到"
             else -> "编辑"
         }
     }
@@ -100,9 +95,9 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
             toolbar.setNavigationOnClickListener { showExitDialog() }
         }
-        campus = Utils.campus ?: 1 // 得到所在校区
+        campus = Utils.campus ?: Utils.CAMPUS_BEI_YANG_YUAN // 得到所在校区
 
-        if (lostOrFound == "editLost" || lostOrFound == "editFound") {// open editwindow
+        if (lostOrFound == Utils.STRING_EDIT_LOST || lostOrFound == Utils.STRING_EDIT_FOUND) {// open editwindow
             cv_release_delete.visibility = View.VISIBLE
             id = bundle.getInt(Utils.ID_KEY)
             selectedItemPosition = bundle.getInt(Utils.DETAIL_TYPE) - 1
@@ -110,7 +105,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
             releasePresenter.loadDetailDataForEdit(id, this)
         }
 
-        if (lostOrFound == "lost" || lostOrFound == "editLost") {
+        if (lostOrFound == Utils.STRING_LOST || lostOrFound == Utils.STRING_EDIT_LOST) {
             release_receiving_site.visibility = View.GONE
             ll_release_receiving_site_mark.visibility = View.GONE
         }
@@ -124,7 +119,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         onTypeItemSelected(selectedItemPosition)
         sp_campus_spinner.setSelection(campus - 1)
 
-        selectPicList.add(null) // supply a null list
+        selectPicList.add(noSelectPic) // supply a null list
         releasePicAdapter = ReleasePicAdapter(selectPicList, this, this)
         picRecyclerViewManager.orientation = LinearLayoutManager.HORIZONTAL
         picRecyclerView = findViewById(R.id.rv_release_pic)
@@ -260,12 +255,12 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         val picListOfUri = mutableListOf<Uri?>()
         val picListOfString = mutableListOf<String?>()
 
-        for (i in selectPicList) {
-            if (i is Uri) {
-                picListOfUri.add(i)
+        selectPicList.forEach {
+            if (it is Uri) {
+                picListOfUri.add(it)
             }
-            if (i is String) {
-                picListOfString.add(i)
+            if (it is String) {
+                picListOfString.add(it)
             }
         }
 
@@ -286,7 +281,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
             e.printStackTrace()
         }
 
-        if (view === cv_release_confirm && (lostOrFound == "lost" || lostOrFound == "found")) {
+        if (view === cv_release_confirm && (lostOrFound == Utils.STRING_LOST || lostOrFound == Utils.STRING_FOUND)) {
             val map = getUpdateMap()
 
             if (!judgeNull(picListOfUri)) {
@@ -392,7 +387,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         map["item_description"] = if (remarksString.isNotBlank()) remarksString else ""
         map["campus"] = campus
 
-        if (lostOrFound == "found" || lostOrFound == "editFound") {
+        if (lostOrFound == Utils.STRING_FOUND || lostOrFound == Utils.STRING_EDIT_FOUND) {
             map["recapture_place"] = roomOfReceivingSite
             map["recapture_entrance"] = entranceOfReceivingSite
         }
@@ -446,8 +441,8 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         // request = 2 代表来自于系统相册，requestCode ！= 0 代表选择图片成功
         if (requestCode == 2 && resultCode != 0) {
-            this.selectedPic = Matisse.obtainResult(data) //将选择的图片加入到上传的列表中
-            releasePicAdapter.changePic(this.selectedPic[0]) //加载选择的图片
+            val selectedPic = Matisse.obtainResult(data) //将选择的图片加入到上传的列表中
+            releasePicAdapter.changePic(selectedPic[0]) //加载选择的图片
         }
     }
 
@@ -552,7 +547,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
 
     // 用第三方库打开相册
     @SuppressLint("ResourceType")
-    fun openSeletPic() = Matisse.from(this@ReleaseActivity)
+    fun openSelectPic() = Matisse.from(this@ReleaseActivity)
             .choose(MimeType.of(MimeType.JPEG, MimeType.PNG, MimeType.GIF))
             .countable(true)
             .maxSelectable(1)
@@ -593,7 +588,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             EasyPermissions.requestPermissions(this, "需要外部存储来提供必要的缓存", 0, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
         } else {
-            openSeletPic()
+            openSelectPic()
         }
     }
 }

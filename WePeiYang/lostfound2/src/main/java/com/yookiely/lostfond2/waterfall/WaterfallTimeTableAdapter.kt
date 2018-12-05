@@ -28,34 +28,34 @@ class WaterfallTimeTableAdapter(private val waterfallActivity: WaterfallActivity
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val viewHolder = holder as WaterfallFilterTableViewHolder
 
-        viewHolder.waterfallTypeItem.apply {
-            text = Utils.getDetailFilterOfTime(position + 1)
-            typeface = Typeface.DEFAULT
-        }
-
-        if (position == itemCount - 1) {
-            holder.waterfallTypeLine.visibility = View.GONE
-        }
-
-        when (selectedItem) {
-            5 -> if (position == 0) {
-                viewHolder.waterfallTypeItem.typeface = Typeface.defaultFromStyle(Typeface.BOLD)
+        viewHolder.apply {
+            waterfallTypeItem.apply {
+                text = Utils.getDetailFilterOfTime(position + 1)
+                typeface = Typeface.DEFAULT
             }
-            position -> {
-                viewHolder.waterfallTypeItem.typeface = Typeface.defaultFromStyle(Typeface.BOLD)
-            }
-            else -> {
-            }
-        }
 
-        viewHolder.itemView.setOnClickListener {
-            waterfallActivity.apply {
-                popWaterfallFilter.typeface = Typeface.DEFAULT
-                windowpop.dismiss()
+            waterfallTypeLine.visibility = if (position == itemCount - 1) View.GONE else View.VISIBLE
 
-                when (position) {
-                    0 -> setWaterfallTime(Utils.ALL_TIME)
-                    else -> setWaterfallTime(position)
+            when (selectedItem) {
+                5 -> if (position == 0) {
+                    waterfallTypeItem.typeface = Typeface.defaultFromStyle(Typeface.BOLD)
+                }
+                position -> {
+                    waterfallTypeItem.typeface = Typeface.defaultFromStyle(Typeface.BOLD)
+                }
+                else -> {
+                }
+            }
+
+            itemView.setOnClickListener {
+                waterfallActivity.apply {
+                    popWaterfallFilter.typeface = Typeface.DEFAULT
+                    windowpop.dismiss()
+
+                    when (position) {
+                        0 -> setWaterfallTime(Utils.ALL_TIME)
+                        else -> setWaterfallTime(position)
+                    }
                 }
             }
         }
