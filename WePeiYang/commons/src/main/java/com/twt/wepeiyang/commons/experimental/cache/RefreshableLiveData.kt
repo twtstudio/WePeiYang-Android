@@ -46,11 +46,15 @@ sealed class RefreshState<M> {
 typealias HttpExceptionHandler = (errCode: Int, httpErrCode: Int, message: String, throwable: Throwable) -> Unit
 
 fun HttpException.handleError(block: HttpExceptionHandler) {
-    val exception = this
-    val jsonObject = JSONObject(exception.response().errorBody()?.string())
-    val err_code = jsonObject.getInt("error_code") ?: -1
-    val message = jsonObject.getString("message") ?: ""
-    block.invoke(err_code, exception.code(), message, exception)
+    try {
+        val exception = this
+        val jsonObject = JSONObject(exception.response().errorBody()?.string())
+        val err_code = jsonObject.getInt("error_code") ?: -1
+        val message = jsonObject.getString("message") ?: ""
+        block.invoke(err_code, exception.code(), message, exception)
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
 }
 
 fun <M> RefreshState.Failure<M>.handleError(block: HttpExceptionHandler) {

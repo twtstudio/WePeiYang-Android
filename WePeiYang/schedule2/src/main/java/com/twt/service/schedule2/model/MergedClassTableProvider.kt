@@ -77,6 +77,6 @@ class MergedClassTableProvider(
     fun String.toIntSafe(): Int = try {
         java.lang.Integer.parseInt(this)
     } catch (e: Exception) {
-        0
+        hashCode() // emmm避免研究生课程表一个色
     }
 }
