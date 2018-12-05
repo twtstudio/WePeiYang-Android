@@ -35,7 +35,7 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var searchType: RelativeLayout
     private lateinit var textView: TextView
 
-    private lateinit var keyword: String
+    lateinit var keyword: String private set
     var page = 1
     var campus: Int = 1
     private var time = 5
@@ -78,17 +78,9 @@ class SearchActivity : AppCompatActivity() {
         val bundle = intent.extras
         keyword = bundle.getString(Utils.QUERY_KEY)
         textView.text = keyword
-//        lostFragment.setKeyword(keyword)
-//        foundFragment.setKeyword(keyword)
         hideInputKeyboard()
         onDetachedFromWindow()
 
-//        backImageView.setOnClickListener {
-//            hideInputKeyboard()
-//            finish()
-//            onDetachedFromWindow()
-//            onBackPressed()
-//        }
         textView.setOnClickListener {
             hideInputKeyboard()
             val intent = Intent()
@@ -144,9 +136,5 @@ class SearchActivity : AppCompatActivity() {
         this.time = time
         lostFragment.setTimeAndLoad(this.time)
         foundFragment.setTimeAndLoad(this.time)
-    }
-
-    fun getKeyword(): String {
-        return keyword
     }
 }

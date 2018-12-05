@@ -127,7 +127,7 @@ class SearchFragment : Fragment(), SearchContract.SearchUIView {
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         val activity = context as SearchActivity
-        this.keyword = activity.getKeyword()
+        this.keyword = activity.keyword
         this.isSubmit = true
     }
 }
