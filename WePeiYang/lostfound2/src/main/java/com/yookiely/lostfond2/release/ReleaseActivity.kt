@@ -59,7 +59,6 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
     private val picRecyclerViewManager = LinearLayoutManager(this)
     private lateinit var releasePicAdapter: ReleasePicAdapter
     private lateinit var lostOrFound: String
-    private lateinit var tableAdapter: ReleaseTableAdapter
     private lateinit var progressDialog: ProgressDialog
     private var judgementOfRelease = false
     private var selectPicList = mutableListOf<Any>()
@@ -115,7 +114,6 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         initSpinnerOfCampus()
         rv_release_type.layoutManager = releaseTypeLayoutManager
         drawRecyclerView(selectedItemPosition)
-        rv_release_type.adapter = tableAdapter
         onTypeItemSelected(selectedItemPosition)
         sp_campus_spinner.setSelection(campus - 1)
 
@@ -264,15 +262,14 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
             }
         }
 
-        val file1: File
+        var file1: File
         val listOfFile = mutableListOf<File?>()
         try {
-            file1 = File.createTempFile("pic", ".jpg")
-            val outputFile = file1.path
-
             if (!judgeNull(picListOfUri)) {
                 for (i in picListOfUri) {
                     if (i != null) {
+                        file1 = File.createTempFile("pic", ".jpg")
+                        val outputFile = file1.path
                         listOfFile.add(getFile(zipThePic(handleImageOnKitKat(i)), outputFile))
                     }
                 }
@@ -308,7 +305,10 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
     }
 
     override fun successCallBack(beanList: List<MyListDataOrSearchBean>) {
-        Utils.needRefresh = true
+        Utils.apply {
+            needRefreshMylist = true
+            needRefreshWaterfall = 2
+        }
         val intent = Intent()
         intent.setClass(this@ReleaseActivity, SuccessActivity::class.java)
         startActivity(intent)
@@ -333,8 +333,6 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
                 et_release_card_num.setText(detailData.card_number)
             } // 1 = 身份证, 2 = 饭卡
             10 -> et_release_card_num_noname.setText(detailData.card_number) // 10 = 银行卡
-            else -> {
-            }
         }
 
         if (detailData.time != "忘记了") {
@@ -343,6 +341,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         if (detailData.place != "忘记了") {
             et_release_place.setText(detailData.place)
         }
+
         et_release_title.setText(detailData.title)
         et_release_title.setSelection(detailData.title!!.length)
         et_release_phone.setText(detailData.phone)
@@ -360,7 +359,10 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
     }
 
     override fun deleteSuccessCallBack() {
-        Utils.needRefresh = true // 判断mylist是否刷新
+        Utils.apply {
+            needRefreshMylist = true // 判断mylist是否刷新
+            needRefreshWaterfall = 2
+        }
         Toast.makeText(this, "删除成功", Toast.LENGTH_SHORT).show()
         finish()
     }
@@ -392,27 +394,28 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
             map["recapture_entrance"] = entranceOfReceivingSite
         }
 
-        if (selectedItemPosition == 0 || selectedItemPosition == 1) {
-            val cardNumString = et_release_card_num.text.toString()
-            val cardNameString = et_release_card_name.text.toString()
-            judgementOfRelease = judgementOfRelease && !(cardNameString.isBlank() || cardNumString.isBlank())
-            map["card_number"] = cardNumString
-            map["card_name"] = cardNameString
-        } else if (selectedItemPosition == 9) {
-            val cardNumString = et_release_card_num_noname.text.toString()
-            judgementOfRelease = judgementOfRelease && cardNumString.isNotBlank()
-            map["card_number"] = cardNumString
-            map["card_name"] = if (nameString == "") " " else nameString
-        } else if (selectedItemPosition == 12) {
-            map["other_tag"] = " "
+        when (selectedItemPosition) {
+            0, 1 -> {
+                val cardNumString = et_release_card_num.text.toString()
+                val cardNameString = et_release_card_name.text.toString()
+                judgementOfRelease = judgementOfRelease && !(cardNameString.isBlank() || cardNumString.isBlank())
+                map["card_number"] = cardNumString
+                map["card_name"] = cardNameString
+            }
+            9 -> {
+                val cardNumString = et_release_card_num_noname.text.toString()
+                judgementOfRelease = judgementOfRelease && cardNumString.isNotBlank()
+                map["card_number"] = cardNumString
+                map["card_name"] = if (nameString == "") " " else nameString
+            }
+            12 -> map["other_tag"] = " "
         }
 
         return map
     }
 
     override fun drawRecyclerView(position: Int) {
-        tableAdapter = ReleaseTableAdapter(this, position, this)
-        rv_release_type.adapter = tableAdapter
+        rv_release_type.adapter = ReleaseTableAdapter(this, position, this)
     }
 
     // 物品类型选择对列表的影响
@@ -438,32 +441,30 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        // request = 2 代表来自于系统相册，requestCode ！= 0 代表选择图片成功
-        if (requestCode == 2 && resultCode != 0) {
+    // request = 2 代表来自于系统相册，requestCode ！= 0 代表选择图片成功
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) = if (requestCode == 2 && resultCode != 0) {
             val selectedPic = Matisse.obtainResult(data) //将选择的图片加入到上传的列表中
             releasePicAdapter.changePic(selectedPic[0]) //加载选择的图片
-        }
+    } else {
+        // do something
     }
 
-    override fun onBackPressed() {
-        showExitDialog()
-    }
+    override fun onBackPressed() = showExitDialog()
+
 
     // 退出编辑发布或丢失页面的dialog
-    private fun showExitDialog() {
-        val isExit = AlertDialog.Builder(this@ReleaseActivity)
-                .setTitle("放弃编辑吗～")
-                .setCancelable(false)
-                .setPositiveButton("取消") { dialog, _ -> dialog.dismiss() }
-                .setNegativeButton("确定") { _, _ -> this@ReleaseActivity.finish() }
-                .create()
-        isExit.show()
-    }
+    private fun showExitDialog() = AlertDialog.Builder(this@ReleaseActivity)
+            .setTitle("放弃编辑吗～")
+            .setCancelable(false)
+            .setPositiveButton("取消") { dialog, _ -> dialog.dismiss() }
+            .setNegativeButton("确定") { _, _ -> this@ReleaseActivity.finish() }
+            .create()
+            .show()
 
     // 相册图片路径
     private fun handleImageOnKitKat(uri: Uri?): String? {
         var imagePath: String? = null
+
         if (DocumentsContract.isDocumentUri(this, uri)) {
             val docId = DocumentsContract.getDocumentId(uri)
             if ("com.android.providers.media.documents" == uri?.authority) {
@@ -497,9 +498,11 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
 
     private fun zipThePic(filePath: String?): ByteArray {
         val options = BitmapFactory.Options()
-        options.inJustDecodeBounds = true
-        options.inSampleSize = calculateInSampleSize(options, 480, 800)
-        options.inJustDecodeBounds = false
+        options.apply {
+            inJustDecodeBounds = true
+            inSampleSize = calculateInSampleSize(options, 480, 800)
+            inJustDecodeBounds = false
+        }
         val bitmap = BitmapFactory.decodeFile(filePath, options)
         val baos = ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.JPEG, 60, baos)

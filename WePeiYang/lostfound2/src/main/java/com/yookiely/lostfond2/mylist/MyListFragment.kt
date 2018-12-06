@@ -1,6 +1,5 @@
 package com.yookiely.lostfond2.mylist
 
-import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -15,7 +14,6 @@ import com.example.lostfond2.R
 import com.yookiely.lostfond2.service.MyListDataOrSearchBean
 import com.yookiely.lostfond2.service.Utils
 import es.dmoral.toasty.Toasty
-import org.jetbrains.anko.support.v4.toast
 
 
 class MyListFragment : Fragment(), MyListService.MyListView {
@@ -84,10 +82,10 @@ class MyListFragment : Fragment(), MyListService.MyListView {
 
     override fun onResume() {
         super.onResume()
-        if (Utils.needRefresh){
+        if (Utils.needRefreshMylist) {
             page = 1
             myListPresenter.loadMyListData(lostOrFound,page)
-            if (lostOrFound == "lost") Utils.needRefresh = false
+            if (lostOrFound == "lost") Utils.needRefreshMylist = false
         }
     }
 
@@ -98,6 +96,8 @@ class MyListFragment : Fragment(), MyListService.MyListView {
     override fun turnStatusSuccessCallBack() {
         needClear = true
         myListPresenter.loadMyListData(lostOrFound, 1)
+
+        Utils.needRefreshWaterfall = 2 // 提示刷新主页
     }
 
     private fun initValues() {

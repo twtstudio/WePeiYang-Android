@@ -16,7 +16,8 @@ object Utils {
     const val INDEX_KEY = "index"
     const val SEARCH_LIST_KEY = "lf_search"
     const val QUERY_KEY = "query"
-    var needRefresh = false
+    var needRefreshMylist = false
+    var needRefreshWaterfall = 2 // waterfall的lost和found各刷新一次，刷新过一次就减一
     var campus: Int? by hawk("campus", null)
     const val FOUND = 1
     const val LOST = 2
@@ -28,10 +29,10 @@ object Utils {
     const val STRING_EDIT_LOST = "editLost"
 
     private val typeMap = hashMapOf(0 to "全部", 1 to "身份证",
-            2 to "饭卡",3 to "手机",4 to "钥匙",5 to "书包",6 to "手表&饰品",7 to "水杯",
-            8 to "U盘&硬盘", 9 to "钱包", 10 to "银行卡",11 to "书",12 to "伞",13 to "其他")
+            2 to "饭卡", 3 to "手机", 4 to "钥匙", 5 to "书包", 6 to "手表&饰品", 7 to "水杯",
+            8 to "U盘&硬盘", 9 to "钱包", 10 to "银行卡", 11 to "书", 12 to "伞", 13 to "其他")
 
-    private val timeMap = hashMapOf( 1 to "全部时间", 2 to "一天之内",
+    private val timeMap = hashMapOf(1 to "全部时间", 2 to "一天之内",
             3 to "1 - 7天", 4 to "7 - 15天", 5 to "15 - 30天")
 
     fun getType(i: Int) = typeMap[i].orEmpty()
@@ -44,8 +45,8 @@ object Utils {
         else -> ""
     }
 
-    //        fun getPicUrl(addUrl: String) = "http://open.twtstudio.com/$addUrl"
-    fun getPicUrl(addUrl: String) = "http://open-lostfound.twtstudio.com/$addUrl"
+    fun getPicUrl(addUrl: String) = "http://open.twtstudio.com/$addUrl"
+//    fun getPicUrl(addUrl: String) = "http://open-lostfound.twtstudio.com/$addUrl"
 
     fun getExit(i: Int?) = when (i) {
         0 -> ""

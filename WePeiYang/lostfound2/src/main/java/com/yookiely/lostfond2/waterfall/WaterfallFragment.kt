@@ -14,6 +14,7 @@ import com.orhanobut.hawk.Hawk
 import com.yookiely.lostfond2.service.MyListDataOrSearchBean
 import com.yookiely.lostfond2.service.Utils
 import kotlinx.android.synthetic.main.lf_fragment_waterfall.*
+import okhttp3.internal.Util
 
 class WaterfallFragment : Fragment(), WaterfallContract.WaterfallView {
 
@@ -112,13 +113,17 @@ class WaterfallFragment : Fragment(), WaterfallContract.WaterfallView {
     override fun onResume() {
         super.onResume()
         val newCampus = Utils.campus
-        if (newCampus != null) {
-            if (campus != newCampus) {
+
+        if (newCampus != null && campus != newCampus) {
                 this.type = Utils.ALL_TYPE
                 this.time = Utils.ALL_TIME
                 campus = newCampus
                 refresh()
-            }
+        } else if (Utils.needRefreshWaterfall != 0) {
+            Utils.needRefreshWaterfall--
+            this.type = Utils.ALL_TYPE
+            this.time = Utils.ALL_TIME
+            refresh()
         }
     }
 
