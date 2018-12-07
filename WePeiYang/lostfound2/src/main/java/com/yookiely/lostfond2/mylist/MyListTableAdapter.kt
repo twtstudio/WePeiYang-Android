@@ -77,13 +77,13 @@ class MyListTableAdapter(val myListBean: MutableList<MyListDataOrSearchBean>, va
                     }
                 } else {
                     if (tempList.isback == 1) {
-                        myListItemStatus.text = "未找到"
-                        myListItemStatus.textColor = Color.parseColor("#999999")
-                        myListItemButton.text = "确认找到"
-                    } else {
                         myListItemStatus.text = "已找到"
-                        myListItemStatus.textColor = Color.parseColor("#44a0e3")
+                        myListItemStatus.textColor = Color.parseColor("#999999")
                         myListItemButton.text = "取消找到"
+                    } else {
+                        myListItemStatus.text = "未找到"
+                        myListItemStatus.textColor = Color.parseColor("#44a0e3")
+                        myListItemButton.text = "确认找到"
                     }
                 }
             }
