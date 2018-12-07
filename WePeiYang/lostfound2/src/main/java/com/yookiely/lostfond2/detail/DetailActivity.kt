@@ -105,12 +105,14 @@ class DetailActivity : AppCompatActivity() {
                             detail("类型", "", false)
                         }
                         detail("时间", myListDetailData.time.orEmpty(), false)
-                        if (myListDetailData.detail_type != 2 && myListDetailData.type != Utils.FOUND) {
-                            detail("地点", myListDetailData.place.orEmpty(), true)
-                        } else {
+
+                        if (Utils.getType(myListDetailData.detail_type) == "饭卡" ||Utils.getType(myListDetailData.detail_type) == "身份证"||Utils.getType(myListDetailData.detail_type) == "银行卡") {
                             detail("地点", myListDetailData.place.orEmpty(), false)
+                        } else {
+                            if (myListDetailData.type == Utils.LOST) detail("地点", myListDetailData.place.orEmpty(), true)
+                            else detail("地点", myListDetailData.place.orEmpty(), false)
                         }
-                        if (myListDetailData.detail_type == Utils.LOST) {
+                        if (Utils.getType(myListDetailData.detail_type) == "身份证" || Utils.getType(myListDetailData.detail_type) == "饭卡") {
                             if (myListDetailData.card_name != "null" && myListDetailData.card_name != null) {
                                 detail("失主姓名", myListDetailData.card_name, false)
                             } else {
@@ -119,16 +121,27 @@ class DetailActivity : AppCompatActivity() {
                                 }
                             }
                         }
-                        if (myListDetailData.detail_type == Utils.LOST) {
+                        if (Utils.getType(myListDetailData.detail_type) == "饭卡" ||Utils.getType(myListDetailData.detail_type) == "身份证") {
                             if (myListDetailData.card_number != "0" && myListDetailData.card_number != null) {
-                                detail("卡号", myListDetailData.card_number, false)
+                                if (myListDetailData.type == Utils.LOST) detail("卡号", myListDetailData.card_number, true)
+                                else detail("卡号", myListDetailData.card_number, false)
+                            } else {
+                                if (myListDetailData.type == Utils.LOST) detail("卡号", "", true)
+                                else  detail("卡号", "", false)
+                            }
+                        }
+
+                        if (Utils.getType(myListDetailData.detail_type) == "银行卡"){
+                            if (myListDetailData.card_number != "0" && myListDetailData.card_number != null) {
+                                if (myListDetailData.type == Utils.LOST) detail("卡号", numberHandle(myListDetailData.card_number), true)
+                                else detail("卡号", numberHandle(myListDetailData.card_number), false)
                             } else {
                                 if (Utils.getType(myListDetailData.detail_type) == "饭卡") {
                                     detail("卡号", "", false)
                                 }
                             }
                         }
-                        if (myListDetailData.type != null && myListDetailData.type == Utils.TYPE_OF_FOUND) {
+                        if (myListDetailData.type != null && myListDetailData.type == Utils.FOUND) {
                             if (myListDetailData.recapture_place != null && myListDetailData.recapture_place != "无") {
                                 detail("领取站点", Utils.getGarden(myListDetailData.recapture_place) + myListDetailData.recapture_place + Utils.getExit(myListDetailData.recapture_entrance), true)
                             } else {
@@ -160,5 +173,14 @@ class DetailActivity : AppCompatActivity() {
         lp.alpha = bgAlpha // 0.0-1.0
         window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
         window.attributes = lp
+    }
+
+    private fun numberHandle(cardNumber: String) : String{
+        var result: String = ""
+        for (i in 0..cardNumber.length){
+            if (i in 0..6 || i in cardNumber.length-6..cardNumber.length) result+= cardNumber.get(i)
+            else result += "X"
+        }
+        return result
     }
 }

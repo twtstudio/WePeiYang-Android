@@ -9,7 +9,6 @@ object Utils {
 
     const val ALL_TYPE = 0
     const val ALL_TIME = 5
-    const val TYPE_OF_FOUND = 1
     const val ID_KEY = "id"
     const val LOSTORFOUND_KEY = "lostOrFound"
     const val DETAIL_TYPE = "type"
