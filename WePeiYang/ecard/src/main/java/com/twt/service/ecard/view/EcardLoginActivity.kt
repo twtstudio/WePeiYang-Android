@@ -6,9 +6,7 @@ import android.support.v7.app.AppCompatActivity
 import android.widget.Button
 import android.widget.EditText
 import com.twt.service.ecard.R
-import com.twt.service.ecard.model.EcardPref
-import com.twt.service.ecard.model.EcardService
-import com.twt.service.ecard.model.login
+import com.twt.service.ecard.model.*
 import com.twt.wepeiyang.commons.experimental.cache.handleError
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
@@ -36,19 +34,17 @@ class EcardLoginActivity : AppCompatActivity() {
         etPassword = findViewById(R.id.et_ecard_password)
         btBind = findViewById(R.id.btn_ecard_bind)
 
-        if (EcardPref.ecardUserName != "")
+        if (EcardPref.ecardUserName != "" && EcardPref.ecardUserName != "*")
             etStudentNum.setText(EcardPref.ecardUserName)
 
         btBind.setOnClickListener {
             val studentNum = etStudentNum.text.toString()
             val password = etPassword.text.toString()
 
-            if (studentNum.isEmpty()) {
-                Toasty.error(this@EcardLoginActivity, "请输入学号").show()
-            } else if (password.isEmpty()) {
-                Toasty.error(this@EcardLoginActivity, "请输入密码").show()
-            } else {
-                launch(UI + QuietCoroutineExceptionHandler) {
+            when {
+                studentNum.isEmpty() -> Toasty.error(this@EcardLoginActivity, "请输入学号").show()
+                password.isEmpty() -> Toasty.error(this@EcardLoginActivity, "请输入密码").show()
+                else -> launch(UI + QuietCoroutineExceptionHandler) {
                     val loginDeferred = EcardService.getEcardProfile(cardnum = studentNum, password = password)
                     val loginState = loginDeferred.awaitAndHandle {
                         it.printStackTrace()
@@ -58,10 +54,12 @@ class EcardLoginActivity : AppCompatActivity() {
                             }
                         }
                     }
-                    loginState?.let { _ ->
+                    loginState?.let {
                         EcardPref.ecardUserName = studentNum
                         EcardPref.ecardPassword = password
                         Toasty.success(this@EcardLoginActivity, "校园卡绑定成功").show()
+                        isBindECardBoolean = true
+                        isBindECardLiveData.value = true
                         finish()
                     }
                 }
