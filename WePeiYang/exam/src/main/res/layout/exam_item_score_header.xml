@@ -28,6 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="8dp"
+            android:fontFamily="@font/montserrat_bold"
             android:textColor="@color/white_color"
             android:textSize="24sp"
             android:textStyle="bold"
@@ -39,6 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="8dp"
+            android:fontFamily="@font/montserrat_light"
             android:textColor="@color/white_color"
             android:textSize="14sp"
             tools:text="正确率 95%" />
@@ -72,6 +74,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp"
+                    android:fontFamily="@font/montserrat_light"
                     android:textColor="@color/white_color"
                     tools:text="10:05" />
             </LinearLayout>
@@ -107,6 +110,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp"
+                    android:fontFamily="@font/montserrat_light"
                     android:textColor="@color/white_color"
                     tools:text="3" />
             </LinearLayout>

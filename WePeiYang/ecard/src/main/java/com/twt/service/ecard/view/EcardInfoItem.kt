@@ -1,5 +1,6 @@
 package com.twt.service.ecard.view
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Color
 import android.support.v4.content.res.ResourcesCompat
@@ -11,13 +12,13 @@ import android.widget.TextView
 import com.twt.service.ecard.R
 import com.twt.service.ecard.model.*
 import com.twt.service.ecard.window.ECardInfoPop
+import com.twt.wepeiyang.commons.experimental.cache.RefreshState
+import com.twt.wepeiyang.commons.experimental.cache.handleError
 import com.twt.wepeiyang.commons.ui.rec.HomeItem
 import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemController
 import com.twt.wepeiyang.commons.ui.text.spanned
 import org.jetbrains.anko.*
-import java.io.EOFException
-import java.net.SocketTimeoutException
 import kotlin.properties.Delegates
 
 class EcardInfoItem : Item {
@@ -43,6 +44,7 @@ class EcardInfoItem : Item {
             var holder: ViewHolder by Delegates.notNull()
             val view = parent.context.verticalLayout {
                 val balance = textView {
+                    text = "校园卡余额"
                     textSize = 16f
                     typeface = ResourcesCompat.getFont(context, R.font.montserrat_regular)
                     textColor = Color.BLACK
@@ -51,6 +53,7 @@ class EcardInfoItem : Item {
                 }
 
                 val todayCost = textView {
+                    text = "今日消费"
                     textSize = 14f
                     typeface = ResourcesCompat.getFont(context, R.font.montserrat_regular)
                     textColor = Color.BLACK
@@ -64,6 +67,7 @@ class EcardInfoItem : Item {
                     textColor = Color.BLACK
                     textColor = Color.parseColor("#B9B9B9")
                     text = "点击刷新"
+                    gravity = Gravity.CENTER_HORIZONTAL
                 }.lparams(width = wrapContent, height = wrapContent) {
                     gravity = Gravity.CENTER_HORIZONTAL
                     bottomMargin = dip(6)
@@ -75,47 +79,35 @@ class EcardInfoItem : Item {
             return holder
         }
 
+        @SuppressLint("SetTextI18n")
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: Item) {
             holder as ViewHolder
 
-            fun refresh(forceReload: Boolean) {
-                holder.apply {
-                    balanceText.text = "Fetching Balance Infomation"
-                    todayCostView.text = "Just a second..."
-                }
-                LiveEcardManager.refreshEcardFullInfo(forceReload)
-            }
-
-            refresh(false)
-
             holder.stateText.setOnClickListener { view ->
-                refresh(false)
+                LiveEcardManager.refreshEcardFullInfo()
             }
 
-            LiveEcardManager.getEcardLiveData().observeForever {
-                it?.apply {
-                    holder.balanceText.text = "校园卡余额：${personInfo.balance}"
-                    holder.todayCostView.text = "今日消费：${todayCost}元"
-                    if (!cache) {
-                        holder.stateText.text = "校园卡数据拉取成功，点击刷新"
+            LiveEcardManager.getEcardLiveData().observeForever { eCardRefreshState ->
+                when(eCardRefreshState) {
+                    is RefreshState.Success -> eCardRefreshState.message.apply {
+                        holder.balanceText.text = "校园卡余额：${personInfo.balance}"
+                        holder.todayCostView.text = "今日消费：${todayCost}元"
+                        if (!cache) {
+                            holder.stateText.text = "校园卡数据拉取成功，点击刷新"
+                        }
+                        holder.rootView.setOnClickListener {
+                            val infoPop = ECardInfoPop(it.context, personInfo, todayCost)
+                            infoPop.show()
+                        }
                     }
-                    holder.rootView.setOnClickListener {
-                        val infoPop = ECardInfoPop(it.context, personInfo, todayCost)
-                        infoPop.show()
+                    is RefreshState.Refreshing -> {
+                        holder.stateText.text = "正在加载校园卡数据"
                     }
-                }
-            }
-
-            LiveEcardManager.getEcardExceptionLiveData().observeForever {
-                it?.let { throwable ->
-                    if (throwable is EOFException) {
-                        holder.stateText.text = "<span style=\"color:#E70C57\";>尚未绑定校园卡或校园卡密码错误，点击卡片右上角'绑定设置'绑定</span>".spanned
-                    } else if (throwable is SocketTimeoutException) {
-                        holder.stateText.text = "<span style=\"color:#E70C57\";>校园卡服务仅能在tjuwlan访问，切换网络后点击重试</span>".spanned
+                    is RefreshState.Failure -> eCardRefreshState.handleError { _, _, message, _ ->
+                        holder.stateText.text = "<span style=\"color:#E70C57\";>校园卡数据拉取错误 $message 尝试重新绑定或稍后再试 点此可刷新</span>".spanned
                     }
                 }
             }
-
 
         }
 

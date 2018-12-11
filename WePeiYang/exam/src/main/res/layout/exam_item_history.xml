@@ -50,6 +50,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
+        android:fontFamily="@font/montserrat_light"
         android:textColor="@color/examHistoryDate"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="@+id/tv_history_item_title"

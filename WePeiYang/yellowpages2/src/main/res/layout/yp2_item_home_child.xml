@@ -28,6 +28,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="44dp"
+        android:fontFamily="@font/montserrat_light"
         android:textColor="#00a1e9"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"

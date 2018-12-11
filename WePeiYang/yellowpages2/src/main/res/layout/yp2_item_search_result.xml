@@ -24,6 +24,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="6dp"
         android:ellipsize="end"
+        android:fontFamily="@font/montserrat_light"
         android:singleLine="true"
         android:textColor="#b6b6b6"
         android:textSize="12sp"

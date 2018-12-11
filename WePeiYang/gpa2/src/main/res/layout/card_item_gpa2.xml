@@ -10,6 +10,7 @@
 
     <!--<include layout="@layout/gpa2_component_text" />-->
     <xyz.rickygao.gpa2.view.GpaMiniLineChartView
+        android:fontFamily="@font/montserrat_light"
         android:id="@+id/gpa_mini"
         android:layout_width="match_parent"
         android:layout_height="160dp"

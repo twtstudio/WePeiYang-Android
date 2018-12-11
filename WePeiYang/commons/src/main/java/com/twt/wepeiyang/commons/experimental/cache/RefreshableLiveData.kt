@@ -9,6 +9,8 @@ import kotlinx.coroutines.experimental.Job
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 import org.jetbrains.anko.coroutines.experimental.asReference
+import org.json.JSONObject
+import retrofit2.HttpException
 
 /**
  * Created by rickygao on 2018/3/23.
@@ -36,6 +38,32 @@ sealed class RefreshState<M> {
     class Success<M>(val message: M) : RefreshState<M>()
     class Failure<M>(val throwable: Throwable) : RefreshState<M>()
     class Refreshing<M> : RefreshState<M>()
+}
+
+/**
+ * 封装微北洋中标准的错误情况
+ */
+typealias HttpExceptionHandler = (errCode: Int, httpErrCode: Int, message: String, throwable: Throwable) -> Unit
+
+fun HttpException.handleError(block: HttpExceptionHandler) {
+    try {
+        val exception = this
+        val jsonObject = JSONObject(exception.response().errorBody()?.string())
+        val err_code = jsonObject.getInt("error_code") ?: -1
+        val message = jsonObject.getString("message") ?: ""
+        block.invoke(err_code, exception.code(), message, exception)
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+}
+
+fun <M> RefreshState.Failure<M>.handleError(block: HttpExceptionHandler) {
+    if (throwable !is HttpException) {
+        block.invoke(0, 0, "拉取数据出现错误", throwable)
+        return
+    }
+    val exception = throwable
+    exception.handleError(block)
 }
 
 fun Context.simpleCallback(success: String? = "加载成功", error: String? = "发生错误", refreshing: String? = "加载中"): suspend (RefreshState<*>) -> Unit =
