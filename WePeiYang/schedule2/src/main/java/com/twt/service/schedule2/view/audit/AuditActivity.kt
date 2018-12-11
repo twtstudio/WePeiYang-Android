@@ -40,6 +40,7 @@ import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineException
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
 import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
+import com.twt.wepeiyang.commons.mta.mtaExpose
 import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemAdapter
 import com.twt.wepeiyang.commons.ui.rec.ItemManager
@@ -167,6 +168,11 @@ class AuditActivity : CAppCompatActivity() {
                     removeAll { it is AuditCourseItem }
                     removeAll { it is SingleTextItem && it.text == "我的蹭课" }
 
+                    if (it.isNotEmpty()) {
+                        mtaExpose("schedule_蹭课_用户蹭课列表不为空_${it.size}")
+                    } else {
+                        mtaExpose("schedule_蹭课_用户蹭课列表为空")
+                    }
                     singleText("我的蹭课", titleTextBuilder)
                     it.forEach { auditCourse ->
                         auditCourseItem(auditCourse) {

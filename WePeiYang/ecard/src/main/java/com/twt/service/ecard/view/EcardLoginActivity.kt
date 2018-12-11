@@ -11,6 +11,8 @@ import com.twt.wepeiyang.commons.experimental.cache.handleError
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import com.twt.wepeiyang.commons.experimental.extensions.enableLightStatusBarMode
+import com.twt.wepeiyang.commons.mta.mtaClick
+import com.twt.wepeiyang.commons.mta.mtaExpose
 import es.dmoral.toasty.Toasty
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.android.UI
@@ -34,6 +36,14 @@ class EcardLoginActivity : AppCompatActivity() {
         etPassword = findViewById(R.id.et_ecard_password)
         btBind = findViewById(R.id.btn_ecard_bind)
 
+        intent.apply {
+            val from = getStringExtra("from")
+            when(from) {
+                "UserFragment" -> mtaClick("ecard_从用户页面绑定设置进入校园卡绑定")
+                "HomeItem" -> mtaClick("ecard_从主页卡片进入校园卡绑定")
+            }
+        }
+
         if (EcardPref.ecardUserName != "" && EcardPref.ecardUserName != "*")
             etStudentNum.setText(EcardPref.ecardUserName)
 
@@ -51,6 +61,7 @@ class EcardLoginActivity : AppCompatActivity() {
                         if (it is HttpException) {
                             it.handleError { _, _, message, _ ->
                                 Toasty.error(this@EcardLoginActivity, "校园卡绑定失败 $message").show()
+                                mtaExpose("ecard_用户绑定校园卡失败")
                             }
                         }
                     }
@@ -58,6 +69,7 @@ class EcardLoginActivity : AppCompatActivity() {
                         EcardPref.ecardUserName = studentNum
                         EcardPref.ecardPassword = password
                         Toasty.success(this@EcardLoginActivity, "校园卡绑定成功").show()
+                        mtaExpose("ecard_用户成功绑定校园卡")
                         isBindECardBoolean = true
                         isBindECardLiveData.value = true
                         finish()

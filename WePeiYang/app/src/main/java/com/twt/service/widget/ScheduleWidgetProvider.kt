@@ -15,6 +15,8 @@ import com.twt.service.home.HomeNewActivity
 import com.twt.service.schedule2.model.Course
 import com.twt.service.schedule2.model.total.TotalCourseManager
 import com.twt.service.schedule2.view.schedule.ScheduleActivity
+import com.twt.wepeiyang.commons.experimental.CommonContext
+import com.twt.wepeiyang.commons.mta.mtaExpose
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -50,6 +52,11 @@ class ScheduleWidgetProvider : AppWidgetProvider() {
         val cDay = arrayOf("零", "一", "二", "三", "四", "五", "六", "日")
         return cDay[num]
 
+    }
+
+    override fun onEnabled(context: Context?) {
+        super.onEnabled(context)
+        mtaExpose("schedule_课程表小部件被启用", context ?: CommonContext.application.applicationContext)
     }
 
     override fun onReceive(context: Context, intent: Intent) {
@@ -91,7 +98,9 @@ class ScheduleWidgetProvider : AppWidgetProvider() {
         serviceIntent.data = Uri.parse(serviceIntent.toUri(Intent.URI_INTENT_SCHEME))
         Hawk.put("scheduleCache2", list)
 
-        val startActivityIntent = Intent(context, ScheduleActivity::class.java)
+        val startActivityIntent = Intent(context, ScheduleActivity::class.java).apply {
+            putExtra("from", "Widget") // 埋点用
+        }
         val startActivityPendingIntent = PendingIntent.getActivity(context, 0, startActivityIntent, PendingIntent.FLAG_UPDATE_CURRENT)
         remoteViews.setPendingIntentTemplate(R.id.widget_listview, startActivityPendingIntent)
 
@@ -111,8 +120,8 @@ class ScheduleWidgetProvider : AppWidgetProvider() {
             try {
                 val courses = mergedClassTableProvider.getTodayCourse().filter {
                     it.dayAvailable && it.weekAvailable
-                }.sortedBy {
-                    course -> course.arrange.getOrNull(0)?.start ?: 100 //如果越界或者没有就给他个100
+                }.sortedBy { course ->
+                    course.arrange.getOrNull(0)?.start ?: 100 //如果越界或者没有就给他个100
                 }
                 setupList(context, appWidgetId, remoteViews, courses)
             } catch (e: Exception) {

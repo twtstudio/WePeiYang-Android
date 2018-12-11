@@ -12,6 +12,7 @@ import com.twt.service.ecard.model.TransactionInfo
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import com.twt.wepeiyang.commons.experimental.extensions.enableLightStatusBarMode
+import com.twt.wepeiyang.commons.mta.mtaClick
 import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.lightText
 import com.twt.wepeiyang.commons.ui.rec.withItems
@@ -97,6 +98,7 @@ class EcardPreviousActivity : AppCompatActivity() {
                 EcardPref.ecardHistoryLength = length
                 refreshData()
             }
+            mtaClick("ecard_用户设置流水查询时长_${lengthList[it]}")
         }
     }
 }

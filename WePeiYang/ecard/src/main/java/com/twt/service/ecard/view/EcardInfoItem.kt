@@ -14,6 +14,8 @@ import com.twt.service.ecard.model.*
 import com.twt.service.ecard.window.ECardInfoPop
 import com.twt.wepeiyang.commons.experimental.cache.RefreshState
 import com.twt.wepeiyang.commons.experimental.cache.handleError
+import com.twt.wepeiyang.commons.mta.mtaClick
+import com.twt.wepeiyang.commons.mta.mtaExpose
 import com.twt.wepeiyang.commons.ui.rec.HomeItem
 import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemController
@@ -37,7 +39,9 @@ class EcardInfoItem : Item {
             homeItem.itemContent.apply {
                 text = "绑定设置"
                 setOnClickListener {
-                    it.context.startActivity(Intent(it.context, EcardLoginActivity::class.java))
+                    it.context.startActivity(Intent(it.context, EcardLoginActivity::class.java).apply {
+                        putExtra("from", "HomeItem")
+                    })
                 }
             }
 
@@ -98,13 +102,16 @@ class EcardInfoItem : Item {
                         holder.rootView.setOnClickListener {
                             val infoPop = ECardInfoPop(it.context, personInfo, todayCost)
                             infoPop.show()
+                            mtaClick("ecard_点击查看校园卡详情_顶部PopWindow")
                         }
+                        mtaExpose("ecard_校园卡数据被成功刷新")
                     }
                     is RefreshState.Refreshing -> {
                         holder.stateText.text = "正在加载校园卡数据"
                     }
                     is RefreshState.Failure -> eCardRefreshState.handleError { _, _, message, _ ->
                         holder.stateText.text = "<span style=\"color:#E70C57\";>校园卡数据拉取错误 $message 尝试重新绑定或稍后再试 点此可刷新</span>".spanned
+                        mtaExpose("ecard_校园卡无法被成功刷新_一般是没有绑定")
                     }
                 }
             }

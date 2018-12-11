@@ -82,7 +82,9 @@ class StartupActivity : AppCompatActivity() {
                         // this dynamic shortcut set up a back stack using Intents, when pressing back, will go to MainActivity
                         // the last Intent is what the shortcut really opened
                         arrayOf(
-                                Intent("com.twt.schedule.action.DYNAMIC_OPEN"))// intent's action must be set
+                                Intent("com.twt.schedule.action.DYNAMIC_OPEN").apply {
+                                    putExtra("from", "AppShortCut")
+                                })// intent's action must be set
                 )
                 .build()
         //        ShortcutInfo dynamicShortcut4 = new ShortcutInfo.Builder(this, "shortcut_dynamic_4")

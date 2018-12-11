@@ -16,6 +16,8 @@ import biz.laenger.android.vpbs.ViewPagerBottomSheetBehavior
 import biz.laenger.android.vpbs.ViewPagerBottomSheetDialogFragment
 import com.twt.service.schedule2.R
 import com.twt.service.schedule2.model.Course
+import com.twt.wepeiyang.commons.mta.mtaClick
+import com.twt.wepeiyang.commons.mta.mtaExpose
 
 /**
  * 这个是直接用在底部的 因为多门课程冲突的时候 需要用一个TabLayout
@@ -75,6 +77,10 @@ class MultiCourseDetailFragment : ViewPagerBottomSheetDialogFragment() {
             if (fragment.isAdded) return
             fragment.refreshCourse(course = course)
             fragment.show(fragmentManager, TAG_SHARE_BS_DIALOG_FRAGMENT)
+            val courseNameListFold = course.next.fold("") { acc: String, course: Course ->
+                acc + course.coursename
+            }
+            mtaExpose("schedule_展示多课程底部栏_${course.coursename}_$courseNameListFold")
         }
     }
 

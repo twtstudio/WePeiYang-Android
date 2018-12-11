@@ -4,7 +4,6 @@ import android.app.Dialog
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.PorterDuff
-import android.graphics.Typeface
 import android.os.Build
 import android.support.constraint.ConstraintLayout
 import android.support.constraint.ConstraintLayout.LayoutParams.PARENT_ID
@@ -26,6 +25,7 @@ import com.twt.service.schedule2.view.theme.spreadChainLayout
 import com.twt.wepeiyang.commons.experimental.color.getColorCompat
 import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
 import com.twt.wepeiyang.commons.experimental.theme.CustomTheme
+import com.twt.wepeiyang.commons.mta.mtaClick
 import com.twt.wepeiyang.commons.ui.view.colorCircleView
 import es.dmoral.toasty.Toasty
 import io.multimoon.colorful.Colorful
@@ -48,6 +48,7 @@ class CustomSettingBottomFragment : BottomSheetDialogFragment() {
             }
             if (fragment.isAdded) return
             fragment.show(fragmentManager, TAG_SHARE_BS_DIALOG_FRAGMENT)
+            mtaClick("schedule_点击课程表底部设置")
         }
     }
 
@@ -90,6 +91,7 @@ class CustomSettingBottomFragment : BottomSheetDialogFragment() {
                     }
                 }.lparams(width = matchParent, height = dip(48)).apply {
                     setOnClickListener {
+                        mtaClick("schedule_进入蹭课功能")
                         val intent = Intent(activity, AuditActivity::class.java)
                         activity?.startActivity(intent)
                     }
@@ -112,6 +114,7 @@ class CustomSettingBottomFragment : BottomSheetDialogFragment() {
                     }
                 }.lparams(width = matchParent, height = dip(48)).apply {
                     setOnClickListener {
+                        mtaClick("schedule_分享课表")
                         val activity = activity as? ScheduleActivity
                         activity?.shareSchedule()
                     }
@@ -141,6 +144,7 @@ class CustomSettingBottomFragment : BottomSheetDialogFragment() {
                         }
                         onCheckedChange { _, isChecked ->
                             SchedulePref.autoCollapseSchedule = isChecked
+                            mtaClick("schedule_切换自动隐藏周六日状态：$isChecked")
                             post {
                                 if (CommonPreferences.realName.contains("舒")) {
                                     Toasty.success(dialog.context, "给傲娇的舒子同学递课表").show() // 彩蛋
@@ -238,6 +242,7 @@ class CustomSettingBottomFragment : BottomSheetDialogFragment() {
                 ScheduleTheme.setCurrentTheme("Pink")
             }
             CommonPreferences.customThemeIndex = index // 自己搞一个Perf 然后每次都set一下
+            mtaClick("schedule_设置自定义主题：$name")
         }
     }
 

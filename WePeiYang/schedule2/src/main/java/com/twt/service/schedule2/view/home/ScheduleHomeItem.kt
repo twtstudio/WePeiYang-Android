@@ -66,7 +66,9 @@ class ScheduleHomeItem(val lifecycleOwner: LifecycleOwner) : Item {
             item as ScheduleHomeItem
             holder.homeItem.apply {
                 rootView.setOnClickListener {
-                    val intent = Intent(it.context, ScheduleActivity::class.java)
+                    val intent = Intent(it.context, ScheduleActivity::class.java).apply {
+                        putExtra("from", "HomeItem")
+                    }
                     it.context.startActivity(intent)
                 }
             }

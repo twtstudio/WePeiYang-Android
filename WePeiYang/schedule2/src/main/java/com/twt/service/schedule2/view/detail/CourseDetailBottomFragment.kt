@@ -14,6 +14,8 @@ import com.twt.service.schedule2.model.Course
 import com.twt.service.schedule2.view.adapter.CourseDetailViewModel
 import com.twt.service.schedule2.view.adapter.iconLabel
 import com.twt.service.schedule2.view.audit.search.SearchResultActivity
+import com.twt.wepeiyang.commons.mta.mtaClick
+import com.twt.wepeiyang.commons.mta.mtaExpose
 import com.twt.wepeiyang.commons.ui.rec.refreshAll
 import es.dmoral.toasty.Toasty
 import org.jetbrains.anko.alert
@@ -33,6 +35,7 @@ class CourseDetailBottomFragment : BottomSheetDialogFragment() {
             if (fragment.isAdded) return
             fragment.course = course
             fragment.show(fragmentManager, TAG_SHARE_BS_DIALOG_FRAGMENT)
+            mtaExpose("schedule_展示课程底部栏_${course.coursename}")
         }
     }
 
@@ -71,6 +74,7 @@ class CourseDetailBottomFragment : BottomSheetDialogFragment() {
             iconLabel(CourseDetailViewModel(R.drawable.ic_schedule_other, "逻辑班号：${course.classid}\n课程编号：${course.courseid}"))
             indicatorText("自定义（开发中 敬请期待）")
             iconLabel(CourseDetailViewModel(R.drawable.ic_schedule_search, "在蹭课功能中搜索相似课程", clickBlock = {
+                mtaClick("schedule_单节课程底部弹出_${course.coursename}_搜索相似蹭课")
                 SearchResultActivity.searchCourse(it.context, course.coursename)
             }))
             iconLabel(CourseDetailViewModel(R.drawable.ic_schedule_event, "添加自定义课程/事件", clickBlock = {

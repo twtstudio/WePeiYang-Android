@@ -11,6 +11,7 @@ import android.view.View
 import com.twt.service.schedule2.R
 import com.twt.service.schedule2.extensions.RefreshCallback
 import com.twt.service.schedule2.view.detail.CourseDetailAdapter
+import com.twt.wepeiyang.commons.mta.mtaClick
 
 class CourseRefreshBottomFragment : BottomSheetDialogFragment() {
     companion object {
@@ -27,6 +28,7 @@ class CourseRefreshBottomFragment : BottomSheetDialogFragment() {
             if (fragment.isAdded) return
             fragment.refreshCallback = refreshCallback
             fragment.show(fragmentManager, TAG_SHARE_BS_DIALOG_FRAGMENT)
+            mtaClick("schedule_点击顶部刷新按钮")
         }
     }
 

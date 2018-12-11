@@ -10,6 +10,7 @@ import com.twt.service.ecard.R
 import com.twt.service.ecard.model.*
 import com.twt.service.ecard.window.ECardTransactionPop
 import com.twt.wepeiyang.commons.experimental.cache.RefreshState
+import com.twt.wepeiyang.commons.mta.mtaClick
 import com.twt.wepeiyang.commons.ui.rec.*
 import org.jetbrains.anko.dip
 import org.jetbrains.anko.horizontalPadding
@@ -54,6 +55,7 @@ class EcardTransactionItem(val transactionInfo: TransactionInfo) : Item {
             holder.rootView.setOnClickListener {
                 val pop = ECardTransactionPop(it.context, transactionInfo)
                 pop.show()
+                mtaClick("ecard_点击查看校园卡消费_顶部PopWindow")
             }
         }
 
@@ -96,6 +98,7 @@ class EcardTransactionInfoItem : Item {
                 listOf(imgGo, itemContent).forEach {
                     it.setOnClickListener { view ->
                         view.context.startActivity<EcardPreviousActivity>()
+                        mtaClick("ecard_用户查看消费流水详情")
                     }
                 }
             }

@@ -129,7 +129,9 @@ class UserFragment : Fragment() {
                                                     }.setNegativeButton("再绑会...") { dialog, _ -> dialog.dismiss() }
                                             builder.create().show()
                                         } else {
-                                            val intent = Intent(activity, EcardLoginActivity::class.java)
+                                            val intent = Intent(activity, EcardLoginActivity::class.java).apply {
+                                                putExtra("from", "UserFragment")
+                                            }
                                             context.startActivity(intent)
                                         }
                                     },
