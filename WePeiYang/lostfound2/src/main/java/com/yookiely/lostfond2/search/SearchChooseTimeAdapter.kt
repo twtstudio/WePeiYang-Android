@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.PopupWindow
 import android.widget.TextView
 import com.example.lostfond2.R
+import com.twt.wepeiyang.commons.mta.mtaClick
 import com.yookiely.lostfond2.service.Utils
 import kotlinx.android.synthetic.main.lf2_activity_search.*
 
@@ -47,6 +48,7 @@ class SearchChooseTimeAdapter(val context: SearchActivity, val selectedItem: Int
         }
 
         viewHolder.itemView.setOnClickListener {
+            mtaClick("lostfound2_搜索 点击筛选中每一个时间段分类的次数",context)
             context.apply {
                 iv_search_type_blue.visibility = View.GONE
                 iv_search_type_grey.visibility = View.VISIBLE

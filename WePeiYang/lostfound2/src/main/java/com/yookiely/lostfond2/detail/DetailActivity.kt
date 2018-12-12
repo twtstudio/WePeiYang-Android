@@ -21,6 +21,9 @@ import com.yookiely.lostfond2.service.Utils
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import com.twt.wepeiyang.commons.experimental.network.CommonBody
+import com.twt.wepeiyang.commons.mta.mtaBegin
+import com.twt.wepeiyang.commons.mta.mtaClick
+import com.twt.wepeiyang.commons.mta.mtaEnd
 import com.twt.wepeiyang.commons.ui.rec.withItems
 import com.youth.banner.Banner
 import com.youth.banner.BannerConfig
@@ -29,6 +32,8 @@ import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 
 class DetailActivity : AppCompatActivity() {
+    val timeOfLost = "lostfound2_详情 点击丢失详情页平均停留时间"
+    val timeOfFound = "lostfound2_详情 点击捡到详情页平均停留时间"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,8 +62,12 @@ class DetailActivity : AppCompatActivity() {
                 } else {
                     if (myList.data!!.type == Utils.FOUND) {
                         toolbar.title = "捡到物品"
+                        mtaClick("lostfound2_详情 点击捡到详情页次数",this@DetailActivity)
+                        mtaBegin(timeOfFound,this@DetailActivity)
                     } else {
                         toolbar.title = "丢失物品"
+                        mtaClick("lostfound2_详情 点击丢失详情页次数",this@DetailActivity)
+                        mtaBegin(timeOfLost,this@DetailActivity)
                     }
                     val myListDetailData = myList.data!!
                     val images = myListDetailData.picture.orEmpty().map(Utils::getPicUrl)
@@ -163,7 +172,12 @@ class DetailActivity : AppCompatActivity() {
             }
         }
         setSupportActionBar(toolbar)
-        toolbar.setNavigationOnClickListener { onBackPressed() }
+        toolbar.setNavigationOnClickListener {
+            when(toolbar.title.toString()){
+                "捡到物品" -> mtaEnd(timeOfFound,this@DetailActivity)
+                "丢失物品" -> mtaEnd(timeOfLost,this@DetailActivity)
+            }
+            onBackPressed() }
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 

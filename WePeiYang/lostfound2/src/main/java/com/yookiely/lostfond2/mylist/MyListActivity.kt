@@ -14,6 +14,7 @@ import android.widget.PopupWindow
 import android.widget.TextView
 import com.example.lostfond2.R
 import com.orhanobut.hawk.Hawk
+import com.twt.wepeiyang.commons.mta.mtaClick
 import com.yookiely.lostfond2.service.Utils
 import org.jetbrains.anko.textColor
 
@@ -43,7 +44,9 @@ class MyListActivity : AppCompatActivity() {
         val popupWindowView = LayoutInflater.from(this).inflate(R.layout.lf2_popupwindow_campus, null, false)
 
         toolbar.setNavigationOnClickListener { onBackPressed() }
-        imageView.setOnClickListener { initPopupWindow(popupWindowView) }
+        imageView.setOnClickListener {
+            mtaClick("lostfound2_我的 点击右上角切换校区小图标的次数")
+            initPopupWindow(popupWindowView) }
 
         val myListPager: ViewPager = findViewById(R.id.vp_mylist)
         val myListTabLayout: TabLayout = findViewById(R.id.tl_mylist)

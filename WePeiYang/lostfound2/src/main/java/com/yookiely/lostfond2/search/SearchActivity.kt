@@ -16,6 +16,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import com.example.lostfond2.R
 import com.orhanobut.hawk.Hawk
+import com.twt.wepeiyang.commons.mta.mtaClick
 import com.yookiely.lostfond2.service.Utils
 import com.yookiely.lostfond2.waterfall.WaterfallPagerAdapter
 
@@ -89,6 +90,7 @@ class SearchActivity : AppCompatActivity() {
         }
 
         searchType.setOnClickListener {
+            mtaClick("lostfound2_搜索 点击筛选按钮的次数")
             if (imageViewGrey.visibility == View.VISIBLE) run {
                 imageViewBlue.visibility = View.VISIBLE
                 imageViewGrey.visibility = View.GONE

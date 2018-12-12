@@ -13,6 +13,9 @@ import android.widget.EditText
 import android.widget.ImageView
 import com.example.lostfond2.R
 import com.orhanobut.hawk.Hawk
+import com.twt.wepeiyang.commons.mta.mtaBegin
+import com.twt.wepeiyang.commons.mta.mtaClick
+import com.twt.wepeiyang.commons.mta.mtaEnd
 import com.yookiely.lostfond2.service.Utils
 
 
@@ -25,6 +28,7 @@ class SearchInitActivity : AppCompatActivity() {
     private lateinit var imageViewClean: ImageView
     private lateinit var editText: EditText
     private var historyRecordData: MutableList<String> = mutableListOf()
+    private val timeOfEdit = "lostfound2_搜索 光标在搜索框内停留的时长"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,6 +63,7 @@ class SearchInitActivity : AppCompatActivity() {
 
         imageViewClean.setOnClickListener {
             // 清空搜索记录
+            mtaClick("lostfound2_搜索 清除搜索历史的次数",this@SearchInitActivity)
             Hawk.put<MutableList<String>>(Utils.SEARCH_LIST_KEY, mutableListOf())
             getHistoryData()
         }
@@ -69,6 +74,18 @@ class SearchInitActivity : AppCompatActivity() {
             setNavigationOnClickListener { onBackPressed() }
         }
         // imageViewBack.setOnClickListener { onBackPressed() }//返回
+
+        editText.setOnFocusChangeListener { v, hasFocus ->
+            if (hasFocus) {
+                mtaBegin(timeOfEdit, this@SearchInitActivity)
+            } else {
+                mtaEnd(timeOfEdit, this@SearchInitActivity)
+            }
+        }
+
+        recyclerView.setOnClickListener {
+            mtaClick("lostfound2_搜索 光标在搜索框内停留的时长",this@SearchInitActivity)
+        }
     }
 
     override fun onRestart() {

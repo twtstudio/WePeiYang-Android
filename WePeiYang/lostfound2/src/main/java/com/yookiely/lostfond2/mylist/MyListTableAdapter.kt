@@ -14,6 +14,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.example.lostfond2.R
+import com.twt.wepeiyang.commons.mta.mtaClick
 import com.yookiely.lostfond2.detail.DetailActivity
 import com.yookiely.lostfond2.release.ReleaseActivity
 import com.yookiely.lostfond2.service.MyListDataOrSearchBean
@@ -88,7 +89,9 @@ class MyListTableAdapter(val myListBean: MutableList<MyListDataOrSearchBean>, va
                 }
             }
 
-            myListItemButton.setOnClickListener { mylistView.turnStatus(tempList.id) }
+            myListItemButton.setOnClickListener {
+                mtaClick("lostfound2_我的 改变物品状态的次数")
+                mylistView.turnStatus(tempList.id) }
             myListItemButtonOutDate.setOnClickListener {
                 bundle.apply {
                     if (lostOrFound == "lost") {
@@ -122,6 +125,7 @@ class MyListTableAdapter(val myListBean: MutableList<MyListDataOrSearchBean>, va
             }
 
             itemView.setOnClickListener {
+                mtaClick("lostfound2_我的 进入详情页的次数")
                 bundle.putInt(Utils.ID_KEY, tempList.id)
                 intent.putExtras(bundle)
                 intent.setClass(context, DetailActivity::class.java)
@@ -129,6 +133,7 @@ class MyListTableAdapter(val myListBean: MutableList<MyListDataOrSearchBean>, va
             }
 
             myListItemPencilTouch.setOnClickListener {
+                mtaClick("lostfound2_我的 进入编辑页的次数")
                 bundle.apply {
                     if (lostOrFound == "lost") {
                         putString(Utils.LOSTORFOUND_KEY, "editLost")
