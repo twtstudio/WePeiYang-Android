@@ -16,6 +16,7 @@ import android.widget.PopupWindow
 import android.widget.TextView
 import com.example.lostfond2.R
 import com.github.clans.fab.FloatingActionButton
+import com.twt.wepeiyang.commons.mta.mtaClick
 import com.yookiely.lostfond2.mylist.MyListActivity
 import com.yookiely.lostfond2.release.ReleaseActivity
 import com.yookiely.lostfond2.search.SearchInitActivity
@@ -44,7 +45,6 @@ class WaterfallActivity : AppCompatActivity() {
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
         setContentView(R.layout.lf2_activity_water_fall)
         window.statusBarColor = resources.getColor(R.color.statusBarColor)
-        val waterfallLost: FloatingActionButton = findViewById(R.id.fa_waterfall_lost)
         val popupWindowView: View = LayoutInflater.from(this).inflate(R.layout.lf2_waterfall_cardview_types, null, false)
         val snapHelper = LinearSnapHelper()
         popWaterfallTypesAll = popupWindowView.findViewById(R.id.tv_waterfall_types_selection) //全部分类
@@ -85,7 +85,11 @@ class WaterfallActivity : AppCompatActivity() {
             tabGravity = TabLayout.GRAVITY_FILL
             setSelectedTabIndicatorColor(Color.parseColor("#00a1e9"))
         }
+
         rl_waterfall_type.setOnClickListener { it ->
+
+            mtaClick("lostfound2_首页 点击筛选按钮次数")
+
             if (iv_waterfall_type_grey.visibility == View.VISIBLE) run {
                 iv_waterfall_type_blue.visibility = View.VISIBLE
                 iv_waterfall_type_grey.visibility = View.GONE
@@ -109,6 +113,7 @@ class WaterfallActivity : AppCompatActivity() {
 
             popWaterfallTypesAll.typeface = Typeface.DEFAULT
             popWaterfallTypesAll.setOnClickListener {
+                mtaClick("lostfound2_首页 筛选 点击物品分类的次数")
                 popWaterfallTypesAll.textColor = Color.parseColor("#666666")
                 popWaterfallFilter.textColor = Color.parseColor("#D3D3D3")
                 popWaterfallRecyclerView.layoutManager = layoutManagerForType
@@ -116,6 +121,7 @@ class WaterfallActivity : AppCompatActivity() {
             }
 
             popWaterfallFilter.setOnClickListener {
+                mtaClick("lostfound2_首页 筛选 点击筛选时间的次数")
                 popWaterfallFilter.textColor = Color.parseColor("#666666")
                 popWaterfallTypesAll.textColor = Color.parseColor("#D3D3D3")
                 popWaterfallRecyclerView.apply {
@@ -133,7 +139,7 @@ class WaterfallActivity : AppCompatActivity() {
             fm_waterfall_all.close(true)
         }
 
-        waterfallLost.setOnClickListener {
+        fa_waterfall_lost.setOnClickListener {
             bundle.putString(Utils.LOSTORFOUND_KEY, Utils.STRING_LOST)
             intent.putExtras(bundle)
             intent.setClass(this@WaterfallActivity, ReleaseActivity::class.java)
@@ -187,8 +193,14 @@ class WaterfallActivity : AppCompatActivity() {
         val intent = Intent()
 
         when (itemId) {
-            R.id.waterfall_search -> intent.setClass(this@WaterfallActivity, SearchInitActivity::class.java)
-            R.id.waterfall_indi -> intent.setClass(this@WaterfallActivity, MyListActivity::class.java)
+            R.id.waterfall_search -> {
+                mtaClick("lostfound2_首页 点击搜索图标的次数")
+                intent.setClass(this@WaterfallActivity, SearchInitActivity::class.java)
+            }
+            R.id.waterfall_indi -> {
+                mtaClick("lostfound2_首页 点击我的图标的次数")
+                intent.setClass(this@WaterfallActivity, MyListActivity::class.java)
+            }
         }
 
         startActivity(intent)

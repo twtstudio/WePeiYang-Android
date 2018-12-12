@@ -25,6 +25,10 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import com.example.lostfond2.R
+import com.twt.wepeiyang.commons.mta.mtaBegin
+import com.twt.wepeiyang.commons.mta.mtaClick
+import com.twt.wepeiyang.commons.mta.mtaEnd
+import com.twt.wepeiyang.commons.mta.mtaExpose
 import com.yookiely.lostfond2.SuccessActivity
 import com.yookiely.lostfond2.service.DetailData
 import com.yookiely.lostfond2.service.MyListDataOrSearchBean
@@ -32,6 +36,7 @@ import com.yookiely.lostfond2.service.Utils
 import com.zhihu.matisse.Matisse
 import com.zhihu.matisse.MimeType
 import com.zhihu.matisse.engine.impl.GlideEngine
+import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.lf2_activity_release.*
 import kotlinx.android.synthetic.main.lf2_release_cardview_receiving_site.*
 import kotlinx.android.synthetic.main.lf_release_cardview_cardinfo.*
@@ -68,6 +73,8 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
     private var refreshSpinnerOfEntrance = false
     private var selectedRecaptureRoom = 0
     private var selectedRecaptureEntrance = 0
+    private val STAY_ON_LOST = "lostfound2_发布丢失页停留时间"
+    private val STAY_ON_FOUND = "lostfound2_发布捡到页停留时间"
 
 
     private fun setToolbarView(toolbar: Toolbar) {
@@ -95,6 +102,17 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
             toolbar.setNavigationOnClickListener { showExitDialog() }
         }
         campus = Utils.campus ?: Utils.CAMPUS_BEI_YANG_YUAN // 得到所在校区
+
+        when (lostOrFound) {
+            Utils.STRING_EDIT_FOUND -> {
+                mtaExpose("lostfound2_打开发布捡到页次数")
+                mtaBegin(STAY_ON_FOUND)
+            }
+            Utils.STRING_EDIT_LOST -> {
+                mtaExpose("lostfound2_打开发布丢失页次数")
+                mtaBegin(STAY_ON_LOST)
+            }
+        }
 
         if (lostOrFound == Utils.STRING_EDIT_LOST || lostOrFound == Utils.STRING_EDIT_FOUND) {// open editwindow
             cv_release_delete.visibility = View.VISIBLE
@@ -250,6 +268,14 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
 
     // 确定和取消按钮的点击事件
     override fun onClick(view: View) {
+
+        when (lostOrFound) {
+            Utils.STRING_LOST, Utils.STRING_FOUND -> if (campus != Utils.campus) {
+                mtaClick("lostfound2_发布时切换校区的次数")
+            }
+            Utils.STRING_EDIT_FOUND, Utils.STRING_EDIT_LOST -> mtaClick("lostfound2_重新发布的次数")
+        }
+
         val picListOfUri = mutableListOf<Uri?>()
         val picListOfString = mutableListOf<String?>()
 
@@ -319,7 +345,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
         if (progressDialog.isShowing) {
             progressDialog.dismiss()
         }
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+        Toasty.error(this, message, Toast.LENGTH_SHORT).show()
     }
 
     override fun setEditData(detailData: DetailData) {
@@ -363,7 +389,7 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
             needRefreshMylist = true // 判断mylist是否刷新
             needRefreshWaterfall = 2
         }
-        Toast.makeText(this, "删除成功", Toast.LENGTH_SHORT).show()
+        Toasty.success(this, "删除成功", Toast.LENGTH_SHORT).show()
         finish()
     }
 
@@ -443,14 +469,21 @@ class ReleaseActivity : AppCompatActivity(), ReleaseContract.ReleaseView, View.O
 
     // request = 2 代表来自于系统相册，requestCode ！= 0 代表选择图片成功
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) = if (requestCode == 2 && resultCode != 0) {
-            val selectedPic = Matisse.obtainResult(data) //将选择的图片加入到上传的列表中
-            releasePicAdapter.changePic(selectedPic[0]) //加载选择的图片
+        val selectedPic = Matisse.obtainResult(data) //将选择的图片加入到上传的列表中
+        releasePicAdapter.changePic(selectedPic[0]) //加载选择的图片
     } else {
         // do something
     }
 
     override fun onBackPressed() = showExitDialog()
 
+    override fun onStop() {
+        when (lostOrFound) {
+            Utils.STRING_FOUND -> mtaEnd(STAY_ON_FOUND)
+            Utils.STRING_LOST -> mtaEnd(STAY_ON_LOST)
+        }
+        super.onStop()
+    }
 
     // 退出编辑发布或丢失页面的dialog
     private fun showExitDialog() = AlertDialog.Builder(this@ReleaseActivity)

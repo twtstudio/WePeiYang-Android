@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.example.lostfond2.R
+import com.twt.wepeiyang.commons.mta.mtaClick
 import com.yookiely.lostfond2.service.Utils
 
 class WaterfallTypeTableAdapter(private val waterfallActivity: WaterfallActivity,
@@ -43,6 +44,8 @@ class WaterfallTypeTableAdapter(private val waterfallActivity: WaterfallActivity
             }
 
             itemView.setOnClickListener {
+                mtaClick("lostfound2_首页 点击种类筛选${Utils.getType(position)}的次数")
+
                 waterfallActivity.apply {
                     setWaterfallType(position)
                     waterfallTypeItem.typeface = Typeface.defaultFromStyle(Typeface.BOLD)

@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.example.lostfond2.R
+import com.twt.wepeiyang.commons.mta.mtaClick
 import com.yookiely.lostfond2.service.Utils
 
 
@@ -48,6 +49,7 @@ class WaterfallTimeTableAdapter(private val waterfallActivity: WaterfallActivity
             }
 
             itemView.setOnClickListener {
+                mtaClick("lostfound2_首页 点击时间筛选${Utils.getDetailFilterOfTime(position + 1)}的次数")
                 waterfallActivity.apply {
                     popWaterfallFilter.typeface = Typeface.DEFAULT
                     windowpop.dismiss()
