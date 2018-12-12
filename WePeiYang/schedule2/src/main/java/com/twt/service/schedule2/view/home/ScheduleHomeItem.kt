@@ -26,6 +26,7 @@ import com.twt.service.schedule2.model.total.TotalCourseManager
 import com.twt.service.schedule2.view.schedule.ScheduleActivity
 import com.twt.wepeiyang.commons.experimental.CommonContext
 import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
+import com.twt.wepeiyang.commons.mta.mtaClick
 import com.twt.wepeiyang.commons.ui.rec.HomeItem
 import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemController
@@ -69,6 +70,7 @@ class ScheduleHomeItem(val lifecycleOwner: LifecycleOwner) : Item {
                     val intent = Intent(it.context, ScheduleActivity::class.java).apply {
                         putExtra("from", "HomeItem")
                     }
+                    mtaClick("app_首页课程表Item")
                     it.context.startActivity(intent)
                 }
             }

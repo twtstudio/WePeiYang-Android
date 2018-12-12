@@ -15,6 +15,7 @@ import com.twt.wepeiyang.commons.experimental.cache.CacheIndicator
 import com.twt.wepeiyang.commons.experimental.cache.RefreshState
 import com.twt.wepeiyang.commons.experimental.color.getColorCompat
 import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
+import com.twt.wepeiyang.commons.mta.mtaClick
 import com.twt.wepeiyang.commons.ui.rec.*
 import com.twt.wepeiyang.commons.ui.text.spanned
 import com.twt.wepeiyang.commons.ui.view.ColorCircleView
@@ -57,6 +58,7 @@ class LibraryHomeItem(val owner: LifecycleOwner) : Item {
             holder as MyViewHolder
             item as LibraryHomeItem
             holder.homeItem.apply {
+                mtaClick("app_首页图书馆Item右上角文字")
                 itemContent.setOnClickListener { it.context.startActivity<HomeActivity>() }
             }
             val itemManager = (holder.recyclerView.adapter as ItemAdapter).itemManager
@@ -113,6 +115,7 @@ class LibraryHomeItem(val owner: LifecycleOwner) : Item {
                         if (info.books.size > 3) {
                             lightText("${info.books.size - 3}本书被折叠 点击显示") {
                                 setOnClickListener {
+                                    mtaClick("app_首页图书馆Item折叠时点击展示")
                                     collasped = false
                                     LibraryViewModel.infoLiveData.refresh(CacheIndicator.LOCAL)
                                 }
@@ -173,10 +176,12 @@ class BookItem(val book: Book) : Item {
                     else -> colorCircleView.color = Color.parseColor("#FF5D64") //red
                 }
                 rootView.setOnClickListener {
+                    mtaClick("app_首页图书馆Item某本图书")
                     val pop = BookPopupWindow(item.book, it.context)
                     pop.show()
                 }
                 rootView.setOnLongClickListener {
+                    mtaClick("app_首页图书馆Item某本图书")
                     val pop = BookPopupWindow(item.book, it.context)
                     pop.show()
                     true

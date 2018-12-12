@@ -52,22 +52,27 @@ class OtherItem : Item {
             layout.apply {
                 removeAllViews()
                 addItem("黄页", "天大电话簿") {
+                    mtaClick("app_首页OtherItem新闻Item")
                     it.context.startActivity<YellowPageActivity>()
                 }
                 addItem("刷题", "沉迷学习，日渐头秃") {
+                    mtaClick("app_首页OtherItem刷题Item")
                     it.context.startActivity<ExamHomeActivity>()
                 }
                 addItem("失物招领", "我的心丢了，你看到了吗？") {
+                    mtaClick("app_首页OtherItem失物招领Item")
                     it.context.startActivity<WaterfallActivity>()
                 }
                 addItem("学生党建", "和微北洋共建社会主义") {
+                    mtaClick("app_首页OtherItem党建Item")
                     it.context.startActivity<PartyActivity>()
                 }
                 addItem("自行车", "通览状态，畅爽骑行") {
+                    mtaClick("app_首页OtherItem自行车Item")
                     it.context.startActivity<BikeActivity>()
                 }
                 addItem("新闻", "环宇北洋，心识天下") {
-                    mtaClick("app_首页OtherItem 新闻Item")
+                    mtaClick("app_首页OtherItem中新闻Item")
                     it.context.startActivity<NewsActivity>()
                 }
             }

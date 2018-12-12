@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
+import com.twt.wepeiyang.commons.mta.mtaClick
 import com.twt.wepeiyang.commons.ui.rec.HomeItem
 import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemController
@@ -52,6 +53,7 @@ class GpaItem(val owner: LifecycleOwner) : Item {
 
             fun bind(lifecycleOwner: LifecycleOwner) {
                 homeItem.rootView.setOnClickListener {
+                    mtaClick("app_首页GPAItem")
                     val intent = Intent(itemView.context, GpaActivity::class.java)
                     itemView.context.startActivity(intent)
                 }
