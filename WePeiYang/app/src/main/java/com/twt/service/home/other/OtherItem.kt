@@ -52,7 +52,7 @@ class OtherItem : Item {
             layout.apply {
                 removeAllViews()
                 addItem("黄页", "天大电话簿") {
-                    mtaClick("app_首页OtherItem新闻Item")
+                    mtaClick("app_首页OtherItem黄页Item")
                     it.context.startActivity<YellowPageActivity>()
                 }
                 addItem("刷题", "沉迷学习，日渐头秃") {

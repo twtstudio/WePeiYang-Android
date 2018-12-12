@@ -11,6 +11,8 @@ import com.tjuwhy.yellowpages2.R
 import com.tjuwhy.yellowpages2.service.search
 import com.tjuwhy.yellowpages2.utils.SEARCH_CONTENT_KEY
 import com.twt.wepeiyang.commons.experimental.cache.RefreshState
+import com.twt.wepeiyang.commons.mta.mtaBegin
+import com.twt.wepeiyang.commons.mta.mtaEnd
 import com.twt.wepeiyang.commons.ui.rec.withItems
 import es.dmoral.toasty.Toasty
 
@@ -20,9 +22,11 @@ class SearchResultActivity : AppCompatActivity() {
     private lateinit var arrowBackIv: ImageView
     private lateinit var keyWordTv: TextView
     lateinit var recyclerView: RecyclerView
+    val YELLOWPAGES2_SEARCHRESULT_TIME ="yellowpages2_搜索结果时长"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        mtaBegin(YELLOWPAGES2_SEARCHRESULT_TIME)
         setContentView(R.layout.yp2_activity_search_result)
         keyWordTv = findViewById(R.id.search_keyword)
         keyWord = intent.getStringExtra(SEARCH_CONTENT_KEY)
@@ -48,5 +52,15 @@ class SearchResultActivity : AppCompatActivity() {
         arrowBackIv.setOnClickListener {
             onBackPressed()
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        mtaEnd(YELLOWPAGES2_SEARCHRESULT_TIME)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        mtaBegin(YELLOWPAGES2_SEARCHRESULT_TIME)
     }
 }

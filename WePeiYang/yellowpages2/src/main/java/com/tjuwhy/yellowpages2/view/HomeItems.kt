@@ -24,6 +24,7 @@ import com.tjuwhy.yellowpages2.utils.Expandable
 import com.tjuwhy.yellowpages2.utils.FIRST_INDEX_KEY
 import com.tjuwhy.yellowpages2.utils.SECOND_INDEX_KEY
 import com.twt.wepeiyang.commons.experimental.cache.RefreshState
+import com.twt.wepeiyang.commons.mta.mtaClick
 import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemController
 import es.dmoral.toasty.Toasty
@@ -42,6 +43,17 @@ class HeaderItem(val context: Context) : Item {
                     holder.hospitalIv, holder.dormitoryIv, holder.bikeIv, holder.teamIv, holder.bankIv, holder.fixIv)
             viewList.forEachIndexed { index, imageView ->
                 imageView.setOnClickListener {
+                    when(index){
+                        0 -> mtaClick("yellowpages2_订餐图标")
+                        1 -> mtaClick("yellowpages2_图书馆图标")
+                        2 -> mtaClick("yellowpages2_校医院图标")
+                        3 -> mtaClick("yellowpage2_物业图标")
+                        4 -> mtaClick("yellowpages2_交通图标")
+                        5 -> mtaClick("yellowpages2_团委图标")
+                        6 -> mtaClick("yellowpages2_银行图标")
+                        7 -> mtaClick("yellowpages2_保卫处图标")
+                    }
+                    mtaClick("yellowpages2_图标点击总数")
                     startActivity(item.context, index)
                 }
             }
@@ -101,6 +113,7 @@ class GroupItem(val groupData: GroupData, val expandable: Expandable) : Item {
                     item.groupData.isExpanded = false
                     ObjectAnimator.ofFloat(holder.arrowIv, "rotation", 90f, 0f).setDuration(500).start()
                 } else {
+                    mtaClick("yellopages2_${item.groupData.title}点击")
                     item.expandable.expand(item.groupData.groupIndex)
                     item.groupData.isExpanded = true
                     ObjectAnimator.ofFloat(holder.arrowIv, "rotation", 0f, 90f).setDuration(500).start()
@@ -174,10 +187,12 @@ class ChildItem(val context: Context, val name: String, val phoneNum: String, va
                                     Toasty.success(item.context, str, Toast.LENGTH_SHORT).show()
                                     item.isStared = false
                                     holder.isStared.setImageResource(R.drawable.yp2_favourite_dark)
+                                    mtaClick("yellowpages2_收藏小图标被点灭")
                                 } else {
                                     Toasty.success(item.context, str, Toast.LENGTH_SHORT).show()
                                     item.isStared = true
                                     holder.isStared.setImageResource(R.drawable.yp2_favorite_light)
+                                    mtaClick("yellowpages2_收藏小图标被点亮")
                                 }
                             }
                             is RefreshState.Failure -> {
@@ -192,6 +207,7 @@ class ChildItem(val context: Context, val name: String, val phoneNum: String, va
                 val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:${item.phoneNum}"))
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                 item.context.startActivity(intent)
+                mtaClick("yellowpages2_拨号小图标被点击")
             }
             holder.itemView.setOnClickListener {
                 val items = arrayListOf("复制号码", "报错/反馈")
@@ -202,11 +218,14 @@ class ChildItem(val context: Context, val name: String, val phoneNum: String, va
                             val cm = (item.context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager)
                             cm.text = item.phoneNum.trim()
                             Toasty.success(item.context, "已复制到剪贴板", Toast.LENGTH_SHORT).show()
+                            mtaClick("yellowpages2_用户长按复制号码")
                         }
                         1 -> {
+                            mtaClick("yellopages2_报错反馈次数")
                             val normalDialog1 = AlertDialog.Builder(item.context)
                             normalDialog1.setMessage("号码/名称有误？是否要加入天外天用户社区群进行反馈？")
                                     .setPositiveButton("加吧") { _, _ ->
+                                        mtaClick("yellowpages2_报错加群点击次数")
                                         val qq = "738068756"
                                         val url = "mqqwpa://im/chat?chat_type=group&uin=$qq&version=1"
                                         item.context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
@@ -274,6 +293,7 @@ class SearchHistoryItem(val context: Context, val str: String, val block: (Strin
             holder as ViewHolder
             holder.textView.text = item.str
             holder.itemView.setOnClickListener {
+                mtaClick("yellowpage2_点击搜索历史")
                 item.block(item.str)
             }
         }
@@ -294,6 +314,7 @@ class DeleteHistoryItem(val block: () -> Unit) : Item {
             holder as ViewHolder
             item as DeleteHistoryItem
             holder.itemView.setOnClickListener {
+                mtaClick("yellowpages2_清空历史")
                 item.block()
             }
         }
