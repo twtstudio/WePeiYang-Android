@@ -21,13 +21,8 @@ android {
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
 
         multiDexEnabled true
-        manifestPlaceholders = [
-                GETUI_APP_ID : "ADDDDnkJDp5mcUoRcbx4D5",
-                GETUI_APP_KEY : "4oENrHh96aAjOpHkK4TUi5",
-                GETUI_APP_SECRET : "vTEABKKRKK8U5FB2gdU3e8"
-        ]
         ndk {
-            abiFilters "armeabi", "armeabi-v7a", "x86_64"
+            abiFilters 'armeabi', 'x86'
         }
 
         lintOptions {
@@ -55,7 +50,10 @@ android {
                 //AP6CS8KKB77P 属于应用"微北洋"独有的 Android AppKey, 用于配置SDK
                 MTA_APPKEY : "AP6CS8KKB77P",
                 //标注应用推广渠道用以区分新用户来源，可填写如应用宝，豌豆荚等
-                MTA_CHANNEL: "全渠道"
+                MTA_CHANNEL: "全渠道",
+                GETUI_APP_ID : "ADDDDnkJDp5mcUoRcbx4D5",
+                GETUI_APP_KEY : "4oENrHh96aAjOpHkK4TUi5",
+                GETUI_APP_SECRET : "vTEABKKRKK8U5FB2gdU3e8"
         ]
     }
 

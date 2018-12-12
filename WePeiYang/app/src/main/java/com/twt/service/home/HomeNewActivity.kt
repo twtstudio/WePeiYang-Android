@@ -117,10 +117,11 @@ class HomeNewActivity : AppCompatActivity() {
         }
     }
 
-    override  fun onResume() {
+    override fun onResume() {
         super.onResume()
         PushManager.getInstance().initialize(this, MessagePushService::class.java)
         PushManager.getInstance().registerPushIntentService(this, MessageIntentService::class.java)
+        LiveEcardManager.refreshEcardFullInfo()
     }
 
     override fun onConfigurationChanged(newConfig: Configuration?) {
@@ -130,8 +131,4 @@ class HomeNewActivity : AppCompatActivity() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-//        LiveEcardManager.refreshEcardFullInfo()
-    }
 }
