@@ -11,6 +11,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
+import com.twt.wepeiyang.commons.mta.mtaClick
+import com.twt.wepeiyang.commons.mta.mtaExpose
 import com.twt.wepeiyang.commons.ui.rec.withItems
 import com.twtstudio.retrox.tjulibrary.R
 import com.twtstudio.retrox.tjulibrary.tjulibservice.LibraryApi
@@ -48,6 +50,7 @@ class RankFragment : Fragment() {
             total.backgroundColor = Color.parseColor(SELECT)
             month.backgroundColor = Color.parseColor(UNSEL)
             week.backgroundColor = Color.parseColor(UNSEL)
+            mtaClick("tjulibrary_借阅统计总榜")
         }
 
         month.setOnClickListener {
@@ -58,6 +61,7 @@ class RankFragment : Fragment() {
             total.backgroundColor = Color.parseColor(UNSEL)
             month.backgroundColor = Color.parseColor(SELECT)
             week.backgroundColor = Color.parseColor(UNSEL)
+            mtaClick("tjulibrary_借阅统计月榜")
         }
 
         week.setOnClickListener {
@@ -68,9 +72,18 @@ class RankFragment : Fragment() {
             total.backgroundColor = Color.parseColor(UNSEL)
             month.backgroundColor = Color.parseColor(UNSEL)
             week.backgroundColor = Color.parseColor(SELECT)
+            mtaClick("tjulibrary_借阅统计周榜")
         }
 
         return view
+    }
+
+
+    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
+        super.setUserVisibleHint(isVisibleToUser)
+        if (isVisibleToUser) {
+            mtaExpose("tjulibrary_查看借阅统计")
+        }
     }
 
     private fun setRecyclerView() {

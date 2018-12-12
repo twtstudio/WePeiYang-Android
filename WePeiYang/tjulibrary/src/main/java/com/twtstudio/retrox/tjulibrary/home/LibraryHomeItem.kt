@@ -58,8 +58,9 @@ class LibraryHomeItem(val owner: LifecycleOwner) : Item {
             holder as MyViewHolder
             item as LibraryHomeItem
             holder.homeItem.apply {
+                itemContent.setOnClickListener { it.context.startActivity<HomeActivity>()
                 mtaClick("app_首页图书馆Item右上角文字")
-                itemContent.setOnClickListener { it.context.startActivity<HomeActivity>() }
+                }
             }
             val itemManager = (holder.recyclerView.adapter as ItemAdapter).itemManager
             LibraryViewModel.infoLiveData.refresh(CacheIndicator.LOCAL, CacheIndicator.REMOTE, callback = { state ->

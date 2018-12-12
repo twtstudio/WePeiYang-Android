@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.view.ViewPager
 import android.support.v7.widget.CardView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +16,8 @@ import android.widget.Toast
 import com.twt.wepeiyang.commons.experimental.cache.CacheIndicator
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
 import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
+import com.twt.wepeiyang.commons.mta.mtaClick
+import com.twt.wepeiyang.commons.mta.mtaExpose
 import com.twtstudio.retrox.tjulibrary.R
 import com.twtstudio.retrox.tjulibrary.home.LibraryViewModel
 import com.twtstudio.retrox.tjulibrary.tjulibservice.LibraryApi
@@ -112,6 +115,7 @@ class HomeLibraryFragement : Fragment(), ViewPager.OnPageChangeListener {
                     button.setOnClickListener {
                         val pop = BookPopupWindow(info.books[0], it.context)
                         pop.show()
+                        mtaClick("tjulibrary_已借阅点击一键续借")
                     }
                 }
             }
@@ -124,5 +128,16 @@ class HomeLibraryFragement : Fragment(), ViewPager.OnPageChangeListener {
     override fun onPause() {
         super.onPause()
         LibraryViewModel.infoLiveData.refresh(CacheIndicator.LOCAL, CacheIndicator.REMOTE)
+    }
+    override fun onResume() {
+        super.onResume()
+        Log.d("fragment_life","homelibfragment")
+    }
+
+    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
+        super.setUserVisibleHint(isVisibleToUser)
+        if (isVisibleToUser){
+            mtaExpose("tjulibrary_查看已借阅")
+        }
     }
 }

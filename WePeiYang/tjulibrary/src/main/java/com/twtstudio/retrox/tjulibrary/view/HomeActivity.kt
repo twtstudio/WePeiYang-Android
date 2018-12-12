@@ -7,6 +7,7 @@ import android.support.design.widget.TabLayout
 import android.support.v4.view.ViewPager
 import android.support.v7.widget.Toolbar
 import android.view.Window
+import com.twt.wepeiyang.commons.mta.mtaClick
 import com.twtstudio.retrox.tjulibrary.R
 
 
@@ -27,7 +28,8 @@ class HomeActivity : AppCompatActivity() {
         window.statusBarColor = Color.parseColor("#e78fae")
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        toolbar.setNavigationOnClickListener { onBackPressed() }
+        toolbar.setNavigationOnClickListener { onBackPressed()
+        mtaClick(  "tjulibrary_点击返回按钮返回首页")}
 
 
         val mybookPager: ViewPager = findViewById(R.id.booklist_pager)

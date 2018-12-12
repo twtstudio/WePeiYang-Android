@@ -55,14 +55,14 @@ class DetailActivity : AppCompatActivity() {
         val layoutManager = LinearLayoutManager(this)
         recyclerView.layoutManager = layoutManager
         bookDetail.getDetail(id) { book: Book, url: String, totalNum: TotalNum ->
-            if (book.data.summary != null) {
-                if (book.data.summary.length > MAX_NUM) {
-                    val x = book.data.summary.substring(0, MAX_NUM) + "..."
-                    book_content.text = x
-                } else {
-                    book_content.text = book.data.summary
-                }
-            }
+//            if (book.data.summary != null) {
+//                if (book.data.summary.length > MAX_NUM) {
+//                    val x = book.data.summary.substring(0, MAX_NUM) + "..."
+//                    book_content.text = x
+//                } else {
+////                    book_content.text = book.data.summary
+//                }
+//            }
             Glide.with(this@DetailActivity)
                     .load(url)
                     .asBitmap()
