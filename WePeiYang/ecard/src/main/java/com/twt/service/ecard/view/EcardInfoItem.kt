@@ -88,6 +88,7 @@ class EcardInfoItem : Item {
             holder as ViewHolder
 
             holder.stateText.setOnClickListener { view ->
+                mtaClick("ecard_首页ECard Item点击刷新")
                 LiveEcardManager.refreshEcardFullInfo()
             }
 

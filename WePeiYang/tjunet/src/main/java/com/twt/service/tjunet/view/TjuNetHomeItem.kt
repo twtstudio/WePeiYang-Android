@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import com.twt.service.tjunet.R
 import com.twt.service.tjunet.viewmodel.TjuNetViewModel
 import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
+import com.twt.wepeiyang.commons.mta.mtaClick
 import com.twt.wepeiyang.commons.ui.rec.HomeItem
 import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemController
@@ -37,6 +38,7 @@ class TjuNetHomeItem(val lifecycleOwner: LifecycleOwner) : Item {
             holder.homeItem.apply {
                 itemContent.text = "详细设置"
                 itemContent.setOnClickListener {
+                    mtaClick("app_首页上网Item详细设置")
                     it.context.startActivity<TjuNetActivity>()
                 }
             }

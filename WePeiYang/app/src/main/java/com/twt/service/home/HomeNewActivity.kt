@@ -26,6 +26,7 @@ import com.twt.service.widget.ScheduleWidgetProvider
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
 import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
 import com.twt.wepeiyang.commons.experimental.extensions.enableLightStatusBarMode
+import com.twt.wepeiyang.commons.mta.mtaExpose
 import com.twt.wepeiyang.commons.ui.rec.withItems
 import com.twt.wepeiyang.commons.view.RecyclerViewDivider
 import com.twtstudio.retrox.auth.api.authSelfLiveData
@@ -76,10 +77,12 @@ class HomeNewActivity : AppCompatActivity() {
             // 重写了各个 item 的 areItemsTheSame areContentsTheSame 实现动画刷新主页
             if (MessagePreferences.isDisplayMessage) {
                 homeMessageItem()
+                mtaExpose("app_首页显示messageItem")
             }
             homeScheduleItem(this@HomeNewActivity)
             if (AppPreferences.isDisplayGpa) {
                 gpaNewHomeItem(this@HomeNewActivity)
+                mtaExpose("app_首页显示gpaItem")
             }
             ecardInfoItem()
             ecardTransactionInfoItem()

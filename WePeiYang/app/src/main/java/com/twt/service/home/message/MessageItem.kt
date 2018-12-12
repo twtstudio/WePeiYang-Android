@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import com.twt.service.R
+import com.twt.wepeiyang.commons.mta.mtaClick
 import com.twt.wepeiyang.commons.ui.rec.HomeItem
 import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemAdapter
@@ -76,6 +77,7 @@ class MessageItem : Item {
                     typeface = Typeface.defaultFromStyle(Typeface.BOLD)
                     bottomPadding = 12
                     setOnClickListener {
+                        mtaClick("app_首页messageItem点击我知道了")
                         MessagePreferences.isDisplayMessage = false
                         callBack()
                     }
