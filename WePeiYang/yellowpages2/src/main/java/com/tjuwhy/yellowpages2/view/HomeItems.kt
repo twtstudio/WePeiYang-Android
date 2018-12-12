@@ -24,6 +24,7 @@ import com.tjuwhy.yellowpages2.utils.Expandable
 import com.tjuwhy.yellowpages2.utils.FIRST_INDEX_KEY
 import com.tjuwhy.yellowpages2.utils.SECOND_INDEX_KEY
 import com.twt.wepeiyang.commons.experimental.cache.RefreshState
+import com.twt.wepeiyang.commons.mta.mtaClick
 import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemController
 import es.dmoral.toasty.Toasty
@@ -174,10 +175,12 @@ class ChildItem(val context: Context, val name: String, val phoneNum: String, va
                                     Toasty.success(item.context, str, Toast.LENGTH_SHORT).show()
                                     item.isStared = false
                                     holder.isStared.setImageResource(R.drawable.yp2_favourite_dark)
+                                    mtaClick("yellowpages2_收藏小图标被点灭")
                                 } else {
                                     Toasty.success(item.context, str, Toast.LENGTH_SHORT).show()
                                     item.isStared = true
                                     holder.isStared.setImageResource(R.drawable.yp2_favorite_light)
+                                    mtaClick("yellowpages2_收藏小图标被点亮")
                                 }
                             }
                             is RefreshState.Failure -> {
@@ -192,6 +195,7 @@ class ChildItem(val context: Context, val name: String, val phoneNum: String, va
                 val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:${item.phoneNum}"))
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                 item.context.startActivity(intent)
+                mtaClick("yellowpages2_拨号小图标被点击")
             }
             holder.itemView.setOnClickListener {
                 val items = arrayListOf("复制号码", "报错/反馈")
@@ -202,6 +206,7 @@ class ChildItem(val context: Context, val name: String, val phoneNum: String, va
                             val cm = (item.context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager)
                             cm.text = item.phoneNum.trim()
                             Toasty.success(item.context, "已复制到剪贴板", Toast.LENGTH_SHORT).show()
+                            mtaClick("yellowpages2_用户长按复制号码")
                         }
                         1 -> {
                             val normalDialog1 = AlertDialog.Builder(item.context)
