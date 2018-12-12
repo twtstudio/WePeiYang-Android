@@ -51,4 +51,4 @@ class DetailItem(val specificTitle: String, val content: String, val isLast: Boo
         get() = DetailItem
 }
 
-fun MutableList<Item>.setDetail(specificTitle: String, content: String, isLast: Boolean) = add(DetailItem(specificTitle, content, isLast))
+fun MutableList<Item>.detail(specificTitle: String, content: String, isLast: Boolean) = add(DetailItem(specificTitle, content, isLast))

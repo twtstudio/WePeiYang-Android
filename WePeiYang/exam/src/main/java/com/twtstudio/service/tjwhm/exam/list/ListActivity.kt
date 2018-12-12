@@ -16,6 +16,7 @@ import android.text.TextWatcher
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
+import com.twt.wepeiyang.commons.mta.mtaExpose
 import com.twt.wepeiyang.commons.ui.rec.ItemAdapter
 
 
@@ -65,7 +66,7 @@ class ListActivity : AppCompatActivity(), ListActivityInterface {
                             is RefreshState.Success -> {
                                 if (it.message.data == null) {
                                     Toasty.info(this@ListActivity, "搜索结果为空！", Toast.LENGTH_SHORT).show()
-                                } else when (it.message.data!!.size) {
+                                } else when (it.message.data?.size) {
                                     0 -> Toasty.info(this@ListActivity, "搜索结果为空！", Toast.LENGTH_SHORT).show()
                                     else -> rvList.withItems {
                                         for (i in 0 until it.message.data!!.size) {
@@ -104,12 +105,18 @@ class ListActivity : AppCompatActivity(), ListActivityInterface {
         getList(type) {
             when (it) {
                 is RefreshState.Failure -> Toasty.error(this@ListActivity, "网络错误", Toast.LENGTH_SHORT).show()
-                is RefreshState.Success ->
+                is RefreshState.Success -> {
                     rvList.withItems {
                         for (i in 0 until it.message.data!!.size) {
                             lessonItem(this@ListActivity, this@ListActivity, it.message.data!![i], false)
                         }
                     }
+                    when (type) {
+                        PARTY -> mtaExpose("exam_进入党课列表")
+                        POLICY -> mtaExpose("exam_进入形势与政策列表")
+                        ONLINE -> mtaExpose("exam_进入网课列表")
+                    }
+                }
 
             }
         }

@@ -15,7 +15,6 @@ import com.example.lostfond2.R
 import com.yookiely.lostfond2.service.MyListDataOrSearchBean
 import com.yookiely.lostfond2.service.Utils
 import com.yookiely.lostfond2.waterfall.WaterfallTableAdapter
-import kotlinx.android.synthetic.main.lf_fragment_waterfall.*
 
 class SearchFragment : Fragment(), SearchContract.SearchUIView {
     private lateinit var tableAdapter: WaterfallTableAdapter
@@ -37,7 +36,7 @@ class SearchFragment : Fragment(), SearchContract.SearchUIView {
     companion object {
         fun newInstance(type: String): SearchFragment {
             val args = Bundle()
-            args.putString("index", type)
+            args.putString(Utils.INDEX_KEY, type)
             val fragment = SearchFragment()
             fragment.arguments = args
 
@@ -57,13 +56,16 @@ class SearchFragment : Fragment(), SearchContract.SearchUIView {
         val view = inflater.inflate(R.layout.lf_fragment_waterfall, container, false)
         val searchRefresh = view.findViewById<SwipeRefreshLayout>(R.id.sr_waterfall_refresh)
         searchNoRes = view.findViewById(R.id.ll_waterfall_no_res)
-        searchNoRes.visibility = View.GONE
         searchRecyclerView = view.findViewById(R.id.rv_waterfall_homepage)
         refreshLayout = view.findViewById(R.id.sr_waterfall_refresh)
 
-        init()
+        searchNoRes.visibility = View.GONE
+        searchRecyclerView.layoutManager = searchLayoutManager
+        tableAdapter = WaterfallTableAdapter(beanList, this.activity!!, lostOrFound)
+        searchRecyclerView.adapter = tableAdapter
+        loadSearhDataWithTime(this.time)
         val bundle = arguments
-        lostOrFound = bundle!!.getString("index")
+        lostOrFound = bundle!!.getString(Utils.INDEX_KEY)
         searchRefresh.setOnRefreshListener(this::refresh)
 
         searchRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -72,7 +74,7 @@ class SearchFragment : Fragment(), SearchContract.SearchUIView {
                 val totalCount = searchLayoutManager.itemCount
                 val lastPositions = searchLayoutManager.findLastCompletelyVisibleItemPosition()
 
-                if (!isLoading && (totalCount == lastPositions + 1)) {
+                if (!isLoading && (totalCount > lastPositions + 1)) {
                     page++
                     isLoading = true
                     searchPresenter.loadWaterfallDataWithTime(lostOrFound, keyword!!, page, time)
@@ -81,14 +83,6 @@ class SearchFragment : Fragment(), SearchContract.SearchUIView {
         })
 
         return view
-    }
-
-    private fun init() {
-        searchNoRes.visibility = View.GONE
-        searchRecyclerView.layoutManager = searchLayoutManager
-        tableAdapter = WaterfallTableAdapter(beanList, this.activity!!, lostOrFound)
-        searchRecyclerView.adapter = tableAdapter
-        loadSearhDataWithTime(this.time)
     }
 
     private fun refresh() {
@@ -133,7 +127,7 @@ class SearchFragment : Fragment(), SearchContract.SearchUIView {
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         val activity = context as SearchActivity
-        this.keyword = activity.getkey()
+        this.keyword = activity.keyword
         this.isSubmit = true
     }
 }

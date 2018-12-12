@@ -1,8 +1,6 @@
 package com.yookiely.lostfond2.search
 
-import android.content.ContentValues
 import android.content.Intent
-import android.database.sqlite.SQLiteDatabase
 import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
@@ -15,7 +13,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import com.example.lostfond2.R
 import com.orhanobut.hawk.Hawk
-import org.jetbrains.anko.db.*
+import com.yookiely.lostfond2.service.Utils
 
 
 class SearchInitActivity : AppCompatActivity() {
@@ -38,6 +36,7 @@ class SearchInitActivity : AppCompatActivity() {
         recyclerView = findViewById(R.id.rv_search_init_hr_rv)
         imageViewClean = findViewById(R.id.iv_search_init_clean)
         editText = findViewById(R.id.et_search_init_et)
+        editText.setHintTextColor(Color.parseColor("#ffffff"))
         // imageViewBack = findViewById(R.id.iv_search_init_back)
 
         initRV()// 初始化搜索历史的rv
@@ -51,7 +50,7 @@ class SearchInitActivity : AppCompatActivity() {
                 submit(query)
                 val intent = Intent()
                 val bundle = Bundle()
-                bundle.putString("query", query)
+                bundle.putString(Utils.QUERY_KEY, query)
                 intent.putExtras(bundle)
                 intent.setClass(this@SearchInitActivity, SearchActivity::class.java)
                 ContextCompat.startActivity(this@SearchInitActivity, intent, bundle)
@@ -60,8 +59,8 @@ class SearchInitActivity : AppCompatActivity() {
 
         imageViewClean.setOnClickListener {
             // 清空搜索记录
-            Hawk.put<MutableList<String>>("lf_search", mutableListOf())
-            getdatas()
+            Hawk.put<MutableList<String>>(Utils.SEARCH_LIST_KEY, mutableListOf())
+            getHistoryData()
         }
 
         toolbar.apply {
@@ -74,7 +73,7 @@ class SearchInitActivity : AppCompatActivity() {
 
     override fun onRestart() {
         super.onRestart()
-        getdatas()
+        getHistoryData()
         editText.setText(historyRecordData[0])
         // 从搜索结果界面回到搜索界面
     }
@@ -84,28 +83,28 @@ class SearchInitActivity : AppCompatActivity() {
         adapter.setHasStableIds(true)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
-        getdatas()
+        getHistoryData()
     }
 
     private fun submit(query: String) {
         var temp = mutableListOf<String>()
-        if (Hawk.get<MutableList<String>>("lf_search") != null) {
-            temp = Hawk.get<MutableList<String>>("lf_search")
+        if (Hawk.get<MutableList<String>>(Utils.SEARCH_LIST_KEY) != null) {
+            temp = Hawk.get<MutableList<String>>(Utils.SEARCH_LIST_KEY)
             temp.remove(query)
         }
         temp.add(query)
         if (temp.size > 5) {
             temp.removeAt(0)
         }
-        Hawk.put("lf_search", temp)
+        Hawk.put(Utils.SEARCH_LIST_KEY, temp)
     }
 
-    private fun getdatas() {
+    private fun getHistoryData() {
         // 获取搜索历史的数据
         // 只要每次企图更改hawk内存储的数据，就会调用改方法
-        if (Hawk.get<MutableList<String>>("lf_search") != null) {
+        if (Hawk.get<MutableList<String>>(Utils.SEARCH_LIST_KEY) != null) {
             historyRecordData.clear()
-            historyRecordData.addAll((Hawk.get<MutableList<String>>("lf_search") as MutableList<String>))
+            historyRecordData.addAll((Hawk.get<MutableList<String>>(Utils.SEARCH_LIST_KEY) as MutableList<String>))
             historyRecordData.reverse()
         }
         adapter.notifyDataSetChanged()

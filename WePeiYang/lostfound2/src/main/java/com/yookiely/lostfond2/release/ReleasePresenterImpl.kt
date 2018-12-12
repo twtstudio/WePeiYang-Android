@@ -4,6 +4,7 @@ import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineException
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import com.yookiely.lostfond2.service.LostFoundService
 import com.yookiely.lostfond2.service.MyListDataOrSearchBean
+import com.yookiely.lostfond2.service.Utils
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 import okhttp3.MediaType
@@ -32,7 +33,7 @@ class ReleasePresenterImpl(private var releaseView: ReleaseContract.ReleaseView)
                 .addFormDataPart("duration", map["duration"].toString())
                 .addFormDataPart("campus", map["campus"].toString())
 
-        if (lostOrFound == "found") {
+        if (lostOrFound == Utils.STRING_FOUND) {
             builder.addFormDataPart("recapture_place", map["recapture_place"].toString())
                     .addFormDataPart("recapture_entrance", map["recapture_entrance"].toString())
         }
@@ -73,7 +74,7 @@ class ReleasePresenterImpl(private var releaseView: ReleaseContract.ReleaseView)
             }
         }
 
-        if (lostOrFound == "found") {
+        if (lostOrFound == Utils.STRING_FOUND) {
             builder.addFormDataPart("recapture_place", map["recapture_place"].toString())
                     .addFormDataPart("recapture_entrance", map["recapture_entrance"].toString())
         }
@@ -136,13 +137,13 @@ class ReleasePresenterImpl(private var releaseView: ReleaseContract.ReleaseView)
             }
         }
 
-        if (lostOrFound == "editFound") {
+        if (lostOrFound == Utils.STRING_FOUND) {
             builder.addFormDataPart("recapture_place", map["recapture_place"].toString())
                     .addFormDataPart("recapture_entrance", map["recapture_entrance"].toString())
         }
 
         val list = builder.build().parts()
-        val anotherLostOrFound = if (Objects.equals(lostOrFound, "editLost")) "lost" else "found"
+        val anotherLostOrFound = if (Objects.equals(lostOrFound, Utils.STRING_EDIT_LOST)) Utils.STRING_LOST else Utils.STRING_FOUND
 
         launch(UI + QuietCoroutineExceptionHandler) {
             LostFoundService.updateEditWithPic(anotherLostOrFound, id.toString(), list).awaitAndHandle {

@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/hr_textview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:text="陆小凤传奇"
-        android:textColor="#616263"
+        android:background="@color/white"
+        android:fontFamily="@font/montserrat_regular"
+        android:paddingStart="50dp"
         android:paddingTop="12dp"
         android:paddingBottom="12dp"
-        android:paddingStart="50dp"
-        android:background="@color/white" />
+        android:textColor="#616263"
+        android:textSize="18sp"
+        tools:text="陆小凤传奇" />
 
     <TextView
         android:id="@+id/hr_div"

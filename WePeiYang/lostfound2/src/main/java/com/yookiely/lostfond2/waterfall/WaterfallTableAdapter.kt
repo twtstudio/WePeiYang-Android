@@ -12,7 +12,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.example.lostfond2.R
-import com.orhanobut.hawk.Hawk
 import com.yookiely.lostfond2.detail.DetailActivity
 import com.yookiely.lostfond2.service.MyListDataOrSearchBean
 import com.yookiely.lostfond2.service.Utils
@@ -44,8 +43,7 @@ class WaterfallTableAdapter(private var waterFallBean: List<MyListDataOrSearchBe
 
         if (dataOfItem.picture == null) {
             Glide.with(context)
-                    .load(Utils.getPicUrl("julao.jpg"))
-                    .placeholder(R.drawable.lf_detail_np)
+                    .load(R.drawable.lf_detail_np)
                     .into(viewHolder.waterfallItemPic)
         } else {
             Glide.with(context)
@@ -57,11 +55,11 @@ class WaterfallTableAdapter(private var waterFallBean: List<MyListDataOrSearchBe
 
         viewHolder.apply {
             waterfallItemTitle.text = dataOfItem.title
-            waterfallItemLocation.text = Utils.getDetailFilterOfPlace(Hawk.get("campus")) + "-" + dataOfItem.place
+            waterfallItemLocation.text = Utils.getDetailFilterOfPlace(Utils.campus) + "-" + dataOfItem.place
             waterfallItemThing.text = Utils.getType(dataOfItem.detail_type)
             waterfallItemData.text = dataOfItem.time
 
-            if (lostOrFound == "found") {
+            if (lostOrFound == Utils.STRING_FOUND) {
                 waterfallItemRecaptureImage.visibility = View.VISIBLE
                 waterfallItemRecapturePlace.visibility = View.VISIBLE
                 waterfallItemRecapturePlace.text = if (dataOfItem.recapture_place == "无" || dataOfItem.recapture_place == null) {
@@ -73,16 +71,17 @@ class WaterfallTableAdapter(private var waterFallBean: List<MyListDataOrSearchBe
                 waterfallItemRecaptureImage.visibility = View.GONE
                 waterfallItemRecapturePlace.visibility = View.GONE
             }
+
+            itemView.setOnClickListener { startDetailActivity(dataOfItem.id) }
         }
-        viewHolder.itemView.setOnClickListener { startDetailActivity(dataOfItem.id) }
     }
 
     override fun getItemCount(): Int = waterFallBean?.size ?: 0
 
     private fun startDetailActivity(id: Int) {
         val bundle = Bundle()
-        bundle.putInt("id", id)
-        bundle.putString("lostOrFound", lostOrFound)
+        bundle.putInt(Utils.ID_KEY, id)
+        bundle.putString(Utils.LOSTORFOUND_KEY, lostOrFound)
         val intent = Intent()
         intent.putExtras(bundle)
         intent.setClass(context, DetailActivity::class.java)

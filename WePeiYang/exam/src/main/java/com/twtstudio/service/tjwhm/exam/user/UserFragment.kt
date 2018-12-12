@@ -11,6 +11,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
+import com.twt.wepeiyang.commons.mta.mtaExpose
 import com.twtstudio.service.tjwhm.exam.R
 import com.twtstudio.service.tjwhm.exam.user.history.HistoryActivity
 import com.twtstudio.service.tjwhm.exam.user.star.StarActivity
@@ -65,6 +66,11 @@ class UserFragment : Fragment() {
         }
         examUserLiveData.bindNonNull(this, ::bindExamUserData)
         return view
+    }
+
+    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
+        super.setUserVisibleHint(isVisibleToUser)
+        if (isVisibleToUser) mtaExpose("exam_进入刷题我的页")
     }
 
     @SuppressLint("SetTextI18n")

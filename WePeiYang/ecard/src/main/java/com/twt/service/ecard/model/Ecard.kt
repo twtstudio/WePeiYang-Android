@@ -97,7 +97,6 @@ internal fun fetchPersonInfo(): ECardPersonInfo {
     return info
 }
 
-data class TransactionInfo(val date: String, val time: String, val location: String, val amount: String, val balance: String)
 
 /**
  * 获取交易记录 30天

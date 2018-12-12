@@ -14,6 +14,7 @@ import com.orhanobut.hawk.Hawk
 import com.yookiely.lostfond2.service.MyListDataOrSearchBean
 import com.yookiely.lostfond2.service.Utils
 import kotlinx.android.synthetic.main.lf_fragment_waterfall.*
+import okhttp3.internal.Util
 
 class WaterfallFragment : Fragment(), WaterfallContract.WaterfallView {
 
@@ -21,9 +22,9 @@ class WaterfallFragment : Fragment(), WaterfallContract.WaterfallView {
     private val layoutManager = GridLayoutManager(activity, 2)//StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
     private var isLoading = false
     private var isRefresh = false
-    private var campus = 0
+    private var campus = Utils.CAMPUS_BEI_YANG_YUAN
     private var beanList = mutableListOf<MyListDataOrSearchBean>()
-    private var lostOrFound = "lost"
+    private var lostOrFound = Utils.STRING_LOST
     private var type = Utils.ALL_TYPE
     private var page = 1
     private var time = Utils.ALL_TIME
@@ -32,7 +33,7 @@ class WaterfallFragment : Fragment(), WaterfallContract.WaterfallView {
     companion object {
         fun newInstance(type: String): WaterfallFragment {
             val args = Bundle()
-            args.putString("index", type)
+            args.putString(Utils.INDEX_KEY, type)
             val fragment = WaterfallFragment()
             fragment.arguments = args
 
@@ -42,18 +43,18 @@ class WaterfallFragment : Fragment(), WaterfallContract.WaterfallView {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.lf_fragment_waterfall, container, false)
-        val waterfallRefresh = view.findViewById<SwipeRefreshLayout>(R.id.sr_waterfall_refresh)
+        val waterfallRefresh = view.findViewById<SwipeRefreshLayout>(R.id.sr_waterfall_refresh).apply {
+            setColorSchemeColors(0x449ff1)
+        }
         val waterfallRecyclerView = view.findViewById<RecyclerView>(R.id.rv_waterfall_homepage)
         val waterfallNoRes = view.findViewById<LinearLayout>(R.id.ll_waterfall_no_res)
 
-        if (Hawk.contains("campus")) {
-            campus = Hawk.get("campus")
-        }
+        campus = Utils.campus ?: Utils.CAMPUS_BEI_YANG_YUAN
 
         waterfallRecyclerView.layoutManager = layoutManager
         waterfallNoRes.visibility = View.GONE
         val bundle = arguments
-        lostOrFound = bundle!!.getString("index")
+        lostOrFound = bundle!!.getString(Utils.INDEX_KEY)
         tableAdapter = WaterfallTableAdapter(beanList, this.activity!!, lostOrFound)
         waterfallRecyclerView.adapter = tableAdapter
         waterfallRefresh.setOnRefreshListener(this::refresh)
@@ -83,13 +84,12 @@ class WaterfallFragment : Fragment(), WaterfallContract.WaterfallView {
     }
 
     override fun setWaterfallData(waterfallBean: List<MyListDataOrSearchBean>) {
-        ll_waterfall_no_res.apply {
-            visibility = if (waterfallBean.isEmpty() && page == 1) {
+        ll_waterfall_no_res.visibility = if (waterfallBean.isEmpty() && page == 1) {
                 View.VISIBLE
             } else {
                 View.GONE
             }
-        }
+
 
         if (isRefresh) {
             beanList.clear()
@@ -112,14 +112,18 @@ class WaterfallFragment : Fragment(), WaterfallContract.WaterfallView {
 
     override fun onResume() {
         super.onResume()
+        val newCampus = Utils.campus
 
-        if (Hawk.contains("campus")) {
-            if (campus != Hawk.get("campus")) {
+        if (newCampus != null && campus != newCampus) {
                 this.type = Utils.ALL_TYPE
                 this.time = Utils.ALL_TIME
-                campus = Hawk.get("campus")
+                campus = newCampus
                 refresh()
-            }
+        } else if (Utils.needRefreshWaterfall != 0) {
+            Utils.needRefreshWaterfall--
+            this.type = Utils.ALL_TYPE
+            this.time = Utils.ALL_TIME
+            refresh()
         }
     }
 

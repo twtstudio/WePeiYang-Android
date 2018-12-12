@@ -3,15 +3,14 @@ package com.twt.service.ecard.model
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import com.twt.wepeiyang.commons.experimental.cache.Cache
+import com.twt.wepeiyang.commons.experimental.cache.RefreshState
 import com.twt.wepeiyang.commons.experimental.cache.hawk
-import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.CoroutineExceptionHandler
 import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.launch
 
 /**
- * 感觉设计的不是很好...
+ * 感觉设计的还行...
  */
 data class ECardFullInfo(val personInfo: ECardPersonInfo, val transactionInfoList: List<TransactionInfo>, val todayCost: Float, val cache: Boolean)
 
@@ -19,53 +18,50 @@ val ecardCacheKey = "ECARD_FULL_INFO_CACHE"
 val ecardFullInfoCache = Cache.hawk<ECardFullInfo>(ecardCacheKey)
 
 object LiveEcardManager {
-    private val eCardFullInfoLiveData = object : MutableLiveData<ECardFullInfo>() {
+
+    private val eCardFullInfoLiveData = object : MutableLiveData<RefreshState<ECardFullInfo>>() {
         override fun onActive() {
             super.onActive()
             refreshEcardFullInfo()
         }
     }
 
-    private val ecardExceptionLiveData = MutableLiveData<Throwable>()
 
-    // 两个数据的输出 一个是正常数据 一个输出异常
-    fun getEcardLiveData(): LiveData<ECardFullInfo> = eCardFullInfoLiveData
+    fun getEcardLiveData(): LiveData<RefreshState<ECardFullInfo>> = eCardFullInfoLiveData
 
-    fun getEcardExceptionLiveData(): LiveData<Throwable> = ecardExceptionLiveData
+    init {
+        launch(UI) {
+            val cache = ecardFullInfoCache.get().await()
+            cache?.let { eCardFullInfoLiveData.postValue(RefreshState.Success(it.copy(cache = true))) } // 第一次Load Cache
+        }
+    }
 
-    fun refreshEcardFullInfo(forceReload: Boolean = false) {
-
-        val coroutineExceptionHandler = CoroutineExceptionHandler { coroutineContext, throwable ->
+    fun refreshEcardFullInfo(forceReload: Boolean = true) {
+        val coroutineExceptionHandler = CoroutineExceptionHandler { _, throwable ->
             throwable.printStackTrace()
-            ecardExceptionLiveData.postValue(throwable)
+            eCardFullInfoLiveData.postValue(RefreshState.Failure(throwable))
         }
 
         launch(UI + coroutineExceptionHandler) {
 
+            eCardFullInfoLiveData.postValue(RefreshState.Refreshing())
+
             if (!forceReload) {
-                val cache = ecardFullInfoCache.get().await()
-                cache?.let { eCardFullInfoLiveData.postValue(it.copy(cache = true)) } // 拉一下缓存先 因为这个好歹要看看
+                ecardFullInfoCache.get().await()?.let { eCardFullInfoLiveData.postValue(RefreshState.Success(it)) } // Load Cache
             }
 
-            async(CommonPool) {
-                login(EcardPref.ecardUserName, EcardPref.ecardPassword)
-            }.await()
-            val personInfoDeferred = async(CommonPool) {
-                fetchPersonInfo()
-            }
-            val historyDeferred = async(CommonPool) {
-                fetchHistory()
-            }
-            val personInfo = personInfoDeferred.await()
-            val todayCost = historyDeferred.await().today().fold(0f) { prev: Float, transactionInfo: TransactionInfo ->
-                prev + transactionInfo.amount.toFloat()
-            }
+            val profileDeferred = EcardService.getEcardProfile()
+            val historyDeferred = EcardService.getEcardTransaction()
 
-            val fullInfo = ECardFullInfo(personInfo, historyDeferred.await(), todayCost, false)
-            ecardFullInfoCache.set(fullInfo) // 更新缓存
+            val profile = profileDeferred.await().data
+                    ?: throw IllegalStateException("校园卡状态数据为空 联系开发者解决")
+            val history = historyDeferred.await().data
+                    ?: throw IllegalStateException("校园卡历史数据为空 联系开发者解决")
 
-            eCardFullInfoLiveData.postValue(fullInfo)
+            val eCardFullInfo = ECardFullInfo(personInfo = profile.castToECardPersonInfo(), transactionInfoList = history.transaction, todayCost = profile.amount.toFloat(), cache = false)
+            ecardFullInfoCache.set(eCardFullInfo)
+            eCardFullInfoLiveData.postValue(RefreshState.Success(eCardFullInfo))
         }
-
     }
+
 }

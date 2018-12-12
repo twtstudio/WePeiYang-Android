@@ -21,7 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:fontFamily="sans-serif-common"
+        android:fontFamily="@font/montserrat_regular"
         android:maxLines="1"
         android:textColor="#302a2a"
         android:textSize="18sp"

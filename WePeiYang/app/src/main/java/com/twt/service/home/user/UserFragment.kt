@@ -15,11 +15,19 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
 import com.twt.service.R
+import com.twt.service.ecard.model.EcardPref
+import com.twt.service.ecard.model.EcardService
+import com.twt.service.ecard.model.isBindECardBoolean
+import com.twt.service.ecard.model.isBindECardLiveData
+import com.twt.service.ecard.view.EcardLoginActivity
 import com.twt.service.settings.RealBindAndDropOutService
 import com.twt.service.settings.SettingsActivity
 import com.twt.service.settings.SingleBindActivity
 import com.twt.wepeiyang.commons.cache.CacheProvider
 import com.twt.wepeiyang.commons.experimental.cache.CacheIndicator
+import com.twt.wepeiyang.commons.experimental.cache.handleError
+import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
+import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import com.twt.wepeiyang.commons.experimental.extensions.map
 import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
 import com.twt.wepeiyang.commons.network.RxErrorHandler
@@ -28,6 +36,9 @@ import com.twtstudio.retrox.auth.api.authSelfLiveData
 import com.twtstudio.retrox.auth.view.LoginActivity
 import com.twtstudio.retrox.tjulibrary.provider.TjuLibProvider
 import es.dmoral.toasty.Toasty
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.launch
+import retrofit2.HttpException
 import rx.android.schedulers.AndroidSchedulers
 import rx.functions.Action1
 import rx.schedulers.Schedulers
@@ -44,6 +55,7 @@ class UserFragment : Fragment() {
                 findViewById<ImageView>(R.id.iv_fragment_user_back).setOnClickListener {
                     activity?.onBackPressed()
                 }
+
                 findViewById<RecyclerView>(R.id.recyclerView).apply {
                     layoutManager = LinearLayoutManager(context)
                     adapter = UserAdapter(
@@ -97,10 +109,37 @@ class UserFragment : Fragment() {
                                             context.startActivity(intent)
                                         }
                                     },
+
+                                    UserItem.InfoItem(R.drawable.ic_user_ecard, "校园卡", isBindECardLiveData.map {
+                                        if (it) "已绑定" else "未绑定"
+                                    }) {
+                                        if (isBindECardBoolean) {
+                                            val builder = android.support.v7.app.AlertDialog.Builder(context)
+                                                    .setTitle("校园卡解绑")
+                                                    .setMessage("是否要解绑校园卡")
+                                                    .setPositiveButton("解绑") { dialog, _ ->
+                                                        launch(UI + QuietCoroutineExceptionHandler) {
+                                                            EcardPref.ecardUserName = "*"
+                                                            EcardPref.ecardPassword = "*"
+                                                            isBindECardBoolean = false
+                                                            isBindECardLiveData.value = false
+                                                        }
+                                                        Toasty.success(context, "解绑成功", Toast.LENGTH_SHORT).show()
+                                                        dialog.dismiss()
+                                                    }.setNegativeButton("再绑会...") { dialog, _ -> dialog.dismiss() }
+                                            builder.create().show()
+                                        } else {
+                                            val intent = Intent(activity, EcardLoginActivity::class.java).apply {
+                                                putExtra("from", "UserFragment")
+                                            }
+                                            context.startActivity(intent)
+                                        }
+                                    },
+
                                     UserItem.InfoItem(R.drawable.bike_bike_icon, "自行车", MutableLiveData<String>().apply {
                                         value = if (CommonPreferences.isBindBike) "已绑定" else "未绑定"
                                     }) {
-                                        Toast.makeText(activity, "自行车", Toast.LENGTH_SHORT).show()
+                                        activity?.let { Toasty.info(it, "自行车", Toast.LENGTH_SHORT).show() }
                                     },
                                     UserItem.ActionItem(R.drawable.ic_settings, "设置") {
                                         val intent = Intent(context, SettingsActivity::class.java)

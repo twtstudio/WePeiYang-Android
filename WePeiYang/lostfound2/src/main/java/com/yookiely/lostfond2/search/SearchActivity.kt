@@ -16,6 +16,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import com.example.lostfond2.R
 import com.orhanobut.hawk.Hawk
+import com.yookiely.lostfond2.service.Utils
 import com.yookiely.lostfond2.waterfall.WaterfallPagerAdapter
 
 class SearchActivity : AppCompatActivity() {
@@ -34,7 +35,7 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var searchType: RelativeLayout
     private lateinit var textView: TextView
 
-    lateinit var keyword: String
+    lateinit var keyword: String private set
     var page = 1
     var campus: Int = 1
     private var time = 5
@@ -53,7 +54,7 @@ class SearchActivity : AppCompatActivity() {
         searchType = findViewById(R.id.tl_search_type)
         lostFragment = SearchFragment.newInstance("lost")
         foundFragment = SearchFragment.newInstance("found")
-        campus = Hawk.get("campus")//1 北洋园 ，2 卫津路
+        campus = Utils.campus ?: 1//1 北洋园 ，2 卫津路
 
         val waterfallPagerAdapter = WaterfallPagerAdapter(supportFragmentManager)
         val popupWindowView = LayoutInflater.from(this).inflate(R.layout.lf2_popupwindow_search, null, false)
@@ -75,19 +76,11 @@ class SearchActivity : AppCompatActivity() {
 
         //将上一个activity的数据取出来用
         val bundle = intent.extras
-        keyword = bundle.getString("query")
+        keyword = bundle.getString(Utils.QUERY_KEY)
         textView.text = keyword
-//        lostFragment.setKeyword(keyword)
-//        foundFragment.setKeyword(keyword)
         hideInputKeyboard()
         onDetachedFromWindow()
 
-//        backImageView.setOnClickListener {
-//            hideInputKeyboard()
-//            finish()
-//            onDetachedFromWindow()
-//            onBackPressed()
-//        }
         textView.setOnClickListener {
             hideInputKeyboard()
             val intent = Intent()
@@ -143,9 +136,5 @@ class SearchActivity : AppCompatActivity() {
         this.time = time
         lostFragment.setTimeAndLoad(this.time)
         foundFragment.setTimeAndLoad(this.time)
-    }
-
-    public fun getkey(): String {
-        return keyword
     }
 }

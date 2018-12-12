@@ -11,6 +11,7 @@ import com.twt.service.schedule2.extensions.getChineseCharacter
 import com.twt.service.schedule2.model.Course
 import com.twt.service.schedule2.view.adapter.CourseDetailViewModel
 import com.twt.service.schedule2.view.audit.search.SearchResultActivity
+import com.twt.wepeiyang.commons.mta.mtaClick
 import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemController
 import org.jetbrains.anko.alert
@@ -163,6 +164,7 @@ fun createCourseDetailList(course: Course): List<Any> {
     list.add(CourseDetailViewModel(R.drawable.ic_schedule_other, "逻辑班号：${course.classid}\n课程编号：${course.courseid}"))
     list.add("自定义（开发中 敬请期待）")
     list.add(CourseDetailViewModel(R.drawable.ic_schedule_search, "在蹭课功能中搜索相似课程", clickBlock = {
+        mtaClick("schedule_多节课程底部弹出_${course.coursename}_搜索相似蹭课")
         SearchResultActivity.searchCourse(it.context, course.coursename)
     }))
     list.add(CourseDetailViewModel(R.drawable.ic_schedule_event, "添加自定义课程/事件"))

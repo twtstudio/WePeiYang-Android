@@ -1,8 +1,6 @@
 package com.yookiely.lostfond2.mylist
 
-
 import com.yookiely.lostfond2.service.MyListDataOrSearchBean
-
 
 interface MyListService {
 
@@ -19,4 +17,3 @@ interface MyListService {
         fun turnStatusSuccessCallBack(callbackBean: String)
     }
 }
-

@@ -13,9 +13,10 @@ import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
 import com.twtstudio.retrox.auth.view.LoginActivity
 import org.jetbrains.anko.shortcutManager
 import org.jetbrains.anko.startActivity
-import java.lang.reflect.AccessibleObject.setAccessible
-import android.graphics.Typeface
-
+import android.util.Log
+import com.tencent.stat.MtaSDkException
+import com.tencent.stat.StatService
+import com.tencent.stat.e
 
 
 /**
@@ -26,6 +27,19 @@ class StartupActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+
+        // 开启腾讯 MTA 线程
+        val mtaAppKey = "AP6CS8KKB77P"
+        try {
+            // 第三个参数必须为：com.tencent.stat.common.StatConstants.VERSION
+            StatService.startStatService(this, mtaAppKey,
+                    com.tencent.stat.common.StatConstants.VERSION);
+            Log.d("MTA", "MTA 初始化成功")
+        } catch (e: MtaSDkException) {
+            // MTA初始化失败
+            Log.d("MTA", "MTA 初始化失败 $e")
+        }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) createDynamicShortcuts()
 
@@ -68,7 +82,9 @@ class StartupActivity : AppCompatActivity() {
                         // this dynamic shortcut set up a back stack using Intents, when pressing back, will go to MainActivity
                         // the last Intent is what the shortcut really opened
                         arrayOf(
-                                Intent("com.twt.schedule.action.DYNAMIC_OPEN"))// intent's action must be set
+                                Intent("com.twt.schedule.action.DYNAMIC_OPEN").apply {
+                                    putExtra("from", "AppShortCut")
+                                })// intent's action must be set
                 )
                 .build()
         //        ShortcutInfo dynamicShortcut4 = new ShortcutInfo.Builder(this, "shortcut_dynamic_4")

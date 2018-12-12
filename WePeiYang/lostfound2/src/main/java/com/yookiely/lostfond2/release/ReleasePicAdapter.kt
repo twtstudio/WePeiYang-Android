@@ -13,8 +13,13 @@ import com.bumptech.glide.Glide
 import com.example.lostfond2.R
 import com.yookiely.lostfond2.service.Utils
 
+// 用来判断list中是否有图片
+object noSelectPic {
+
+}
+
 // 上传多图的recyclerview的adapter
-class ReleasePicAdapter(val list: MutableList<Any?>,
+class ReleasePicAdapter(val list: MutableList<Any>,
                         private val releaseActivity: ReleaseActivity,
                         val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -36,14 +41,14 @@ class ReleasePicAdapter(val list: MutableList<Any?>,
             setOnClickListener {
                 currentPosition = position
 
-                if (list[position] == null) {
+                if (list[position] == noSelectPic) {
                     releaseActivity.checkPermAndOpenPic()
                 } else {
                     showDialogOfPic()
                 }
             }
             setOnLongClickListener {
-                if (list[position] != null) {
+                if (list[position] != noSelectPic) {
                     currentPosition = position
                     releaseActivity.setPicEdit()
                 }
@@ -51,20 +56,20 @@ class ReleasePicAdapter(val list: MutableList<Any?>,
             }
         }
 
-        if (list.size > position && list[position] != null) {
-            if (list[position] is String) {
-                Glide.with(context)
-                        .load(Utils.getPicUrl(list[position] as String))
+        val tmp = list[position]
+
+        if (list.size > position && tmp != noSelectPic) {
+            when (tmp) {
+                is String -> Glide.with(context)
+                        .load(Utils.getPicUrl(tmp))
                         .into(holder.releasePic)
-            } else if (list[position] is Uri) {
-                Glide.with(context)
-                        .load(list[position] as Uri)
+                is Uri -> Glide.with(context)
+                        .load(tmp)
                         .into(holder.releasePic)
             }
         } else {
             Glide.with(context)
-                    .load(Utils.getPicUrl(""))
-                    .placeholder(R.drawable.lf_choose_pic)
+                    .load(R.drawable.lf_choose_pic)
                     .into(holder.releasePic)
         }
     }
@@ -72,13 +77,13 @@ class ReleasePicAdapter(val list: MutableList<Any?>,
     override fun getItemCount(): Int = list.size
 
     private fun addPic() {
-        list.add(null)
+        list.add(noSelectPic)
         notifyItemChanged(list.size)
     }
 
     fun removePic() {
         list.removeAt(currentPosition)
-        if (list[list.size - 1] != null) {
+        if (list[list.size - 1] != noSelectPic) {
             addPic()
         }
         notifyItemChanged(currentPosition)
@@ -101,28 +106,31 @@ class ReleasePicAdapter(val list: MutableList<Any?>,
 
     private fun showDialogOfPic() {
         val dialog = Dialog(releaseActivity, R.style.edit_AlertDialog_style)
-        dialog.setContentView(R.layout.lf2_dialog_detail_pic)
-        val imageView = dialog.findViewById<ImageView>(R.id.iv_detail_bigpic)
+        dialog.apply {
+            setContentView(R.layout.lf2_dialog_detail_pic)
+            val imageView = findViewById<ImageView>(R.id.iv_detail_bigpic)
+            val tmp = list[currentPosition]
 
-        if (list[currentPosition] is String) {
-            Glide.with(context)
-                    .load(Utils.getPicUrl(list[currentPosition] as String))
-                    .into(imageView)
-        } else {
-            Glide.with(context)
-                    .load(list[currentPosition])
-                    .into(imageView)
-        }
+            when (tmp) {
+                is String -> Glide.with(context)
+                        .load(Utils.getPicUrl(tmp))
+                        .into(imageView)
+                is Uri -> Glide.with(context)
+                        .load(tmp)
+                        .into(imageView)
+                else -> Glide.with(context)
+                        .load(R.drawable.lf_detail_np)
+                        .into(imageView)
+            }
 
-        dialog.setCanceledOnTouchOutside(true)
-        val window = dialog.window
-        val lp = window.attributes
-        lp.x = 4
-        lp.y = 4
-        dialog.onWindowAttributesChanged(lp)
-        imageView.setOnClickListener {
-            dialog.dismiss()
+            setCanceledOnTouchOutside(true)
+            val window = window
+            val lp = window.attributes
+            lp.x = 4
+            lp.y = 4
+            dialog.onWindowAttributesChanged(lp)
+            imageView.setOnClickListener { dismiss() }
+            show()
         }
-        dialog.show()
     }
 }

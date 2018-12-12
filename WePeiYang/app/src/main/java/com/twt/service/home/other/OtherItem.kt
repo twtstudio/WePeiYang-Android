@@ -11,6 +11,7 @@ import com.tjuwhy.yellowpages2.view.YellowPageActivity
 import com.yookiely.lostfond2.waterfall.WaterfallActivity
 import com.twt.service.home.user.FragmentActivity
 import com.twt.service.news.NewsActivity
+import com.twt.wepeiyang.commons.mta.mtaClick
 import com.twt.wepeiyang.commons.ui.rec.HomeItem
 import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemController
@@ -56,6 +57,9 @@ class OtherItem : Item {
                 addItem("刷题", "沉迷学习，日渐头秃") {
                     it.context.startActivity<ExamHomeActivity>()
                 }
+                addItem("失物招领", "我的心丢了，你看到了吗？") {
+                    it.context.startActivity<WaterfallActivity>()
+                }
                 addItem("学生党建", "和微北洋共建社会主义") {
                     it.context.startActivity<PartyActivity>()
                 }
@@ -63,6 +67,7 @@ class OtherItem : Item {
                     it.context.startActivity<BikeActivity>()
                 }
                 addItem("新闻", "环宇北洋，心识天下") {
+                    mtaClick("app_首页OtherItem 新闻Item")
                     it.context.startActivity<NewsActivity>()
                 }
             }

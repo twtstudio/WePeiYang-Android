@@ -10,9 +10,9 @@ import com.twt.wepeiyang.commons.ui.rec.ItemController
 import org.jetbrains.anko.layoutInflater
 
 
-class TitleItem(val text1 : String) : Item {
+class TitleItem(val t: String) : Item {
 
-    private companion object  Controller: ItemController {
+    private companion object Controller : ItemController {
         override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
             val inflater = parent.context.layoutInflater
             val view = inflater.inflate(R.layout.lf2_item_titleitem, parent, false)
@@ -24,11 +24,11 @@ class TitleItem(val text1 : String) : Item {
             holder as TitleItemViewHolder
             item as TitleItem
 
-            holder.title.text = item.text1
+            holder.title.text = item.t
         }
     }
 
-    private class TitleItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
+    private class TitleItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val title: TextView = itemView.findViewById(R.id.tv_title_title)
     }
 
@@ -36,4 +36,4 @@ class TitleItem(val text1 : String) : Item {
         get() = TitleItem
 }
 
-fun MutableList<Item>.setTitle(text1: String) = add(TitleItem(text1))
+fun MutableList<Item>.title(t: String) = add(TitleItem(t))

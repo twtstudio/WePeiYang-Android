@@ -30,7 +30,9 @@ class ToolItemViewHolder(private val mContext: Context, itemView: View) : Recycl
             Glide.with(mContext).load(iconres).into(image)
             titleText.text = title
             layout.setOnClickListener {
-                val intent = Intent(mContext, targetAct)
+                val intent = Intent(mContext, targetAct).apply {
+                    putExtra("from", "Tools")
+                }
                 mContext.startActivity(intent)
             }
         }

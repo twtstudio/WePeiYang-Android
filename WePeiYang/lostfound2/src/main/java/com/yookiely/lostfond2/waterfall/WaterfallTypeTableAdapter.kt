@@ -30,27 +30,28 @@ class WaterfallTypeTableAdapter(private val waterfallActivity: WaterfallActivity
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val viewHolder = holder as WaterFallTypeTableViewHolder
 
-        viewHolder.waterfallTypeItem.apply {
-            text = Utils.getType(position)
-            typeface = Typeface.DEFAULT
-        }
+        viewHolder.apply {
+            waterfallTypeItem.apply {
+                text = Utils.getType(position)
+                typeface = Typeface.DEFAULT
+            }
 
-        if (position == itemCount - 1 || position == itemCount - 2) {
-            holder.waterfallTypeLine.visibility = View.GONE
-        }
+            waterfallTypeLine.visibility = if (position == itemCount - 1 || position == itemCount - 2) View.GONE else View.VISIBLE
 
-        if (position == selectedItem) {
-            viewHolder.waterfallTypeItem.typeface = Typeface.defaultFromStyle(Typeface.BOLD)
-        }
+            if (position == selectedItem) {
+                waterfallTypeItem.typeface = Typeface.defaultFromStyle(Typeface.BOLD)
+            }
 
-        viewHolder.itemView.setOnClickListener {
-            waterfallActivity.apply {
-                setWaterfallType(position)
-                viewHolder.waterfallTypeItem.typeface = Typeface.defaultFromStyle(Typeface.BOLD)
-                windowpop.dismiss()
+            itemView.setOnClickListener {
+                waterfallActivity.apply {
+                    setWaterfallType(position)
+                    waterfallTypeItem.typeface = Typeface.defaultFromStyle(Typeface.BOLD)
+                    windowpop.dismiss()
+                }
             }
         }
     }
 
+    // 物品种类 = 13 + "全部种类"
     override fun getItemCount(): Int = 14
 }

@@ -12,6 +12,7 @@ import com.twt.service.schedule2.model.Classtable
 import com.twt.service.schedule2.model.school.classtableCacheKey
 import com.twt.service.schedule2.model.total.TotalCourseManager
 import com.twt.service.schedule2.view.adapter.CourseDetailViewModel
+import com.twt.wepeiyang.commons.mta.mtaClick
 import org.jetbrains.anko.alert
 import java.text.SimpleDateFormat
 import java.util.*
@@ -52,20 +53,25 @@ fun createRefreshList(refreshCallback: RefreshCallback = {}): List<Any> {
     val classtable: Classtable = Hawk.get(classtableCacheKey) ?: Classtable(courses = listOf())
     list.add(classtable)
     list.add(CourseDetailViewModel(R.drawable.ic_schedule_refresh, "刷新全部课表", {
+        mtaClick("schedule_刷新设置_刷新全部课表")
         TotalCourseManager.getTotalCourseManager(refreshTju = true, refreshAudit = true, refreshCustom = true, refreshCallback = refreshCallback)
     }))
     list.add("其他刷新设置")
     list.add(CourseDetailViewModel(R.drawable.ic_schedule_refresh, "仅刷新办公网", {
+        mtaClick("schedule_刷新设置_仅刷新办公网")
         TotalCourseManager.getTotalCourseManager(refreshTju = true, refreshAudit = false, refreshCustom = false, refreshCallback = refreshCallback)
     }))
     list.add(CourseDetailViewModel(R.drawable.ic_schedule_refresh, "仅刷新蹭课", {
+        mtaClick("schedule_刷新设置_仅刷新蹭课")
         TotalCourseManager.getTotalCourseManager(refreshTju = false, refreshAudit = true, refreshCustom = false, refreshCallback = refreshCallback)
     }))
     list.add(CourseDetailViewModel(R.drawable.ic_schedule_refresh, "仅刷新自定义课程", {
+        mtaClick("schedule_刷新设置_仅刷新自定义课程")
         TotalCourseManager.getTotalCourseManager(refreshTju = false, refreshAudit = false, refreshCustom = true, refreshCallback = refreshCallback)
     }))
     list.add("重要帮助")
     list.add(CourseDetailViewModel(R.drawable.ic_schedule_info, "课程表刷新帮助(重要)/FAQ",{
+        mtaClick("schedule_刷新设置_查看课程表刷新帮助(重要)/FAQ")
         it.context.alert {
             title = "课程表刷新帮助/FAQ"
             message = "暂时还没有做刷新成功的提示... 但是课表确实是会刷新\n\n" +

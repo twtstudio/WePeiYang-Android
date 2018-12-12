@@ -28,6 +28,7 @@ import com.twt.service.schedule2.view.week.WeekSquareView
 import com.twt.wepeiyang.commons.experimental.cache.CacheIndicator
 import com.twt.wepeiyang.commons.experimental.cache.RefreshState
 import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
+import com.twt.wepeiyang.commons.mta.mtaExpose
 import es.dmoral.toasty.Toasty
 import io.multimoon.colorful.CAppCompatActivity
 import org.jetbrains.anko.*
@@ -79,6 +80,17 @@ class ScheduleActivity : CAppCompatActivity() {
         }.apply {
             layoutParams = FrameLayout.LayoutParams(matchParent, wrapContent)
             visibility = View.GONE
+        }
+
+        intent.apply {
+            val from: String? = getStringExtra("from")
+            when(from) {
+                "Widget" -> mtaExpose("schedule_从小部件进入课程表")
+                "AppShortCut" -> mtaExpose("schedule_从AppShortCut进入课程表")
+                "HomeItem" -> mtaExpose("schedule_从主页列表进入课程表")
+                "Tools" -> mtaExpose("schedule_从Tools页面进入课程表")
+                else -> mtaExpose("schedule_从其他途径进入课程表")
+            }
         }
 
         val addButton = findViewById<ImageView>(R.id.iv_toolbar_add)

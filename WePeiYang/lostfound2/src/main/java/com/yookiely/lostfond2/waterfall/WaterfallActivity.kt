@@ -16,7 +16,6 @@ import android.widget.PopupWindow
 import android.widget.TextView
 import com.example.lostfond2.R
 import com.github.clans.fab.FloatingActionButton
-import com.orhanobut.hawk.Hawk
 import com.yookiely.lostfond2.mylist.MyListActivity
 import com.yookiely.lostfond2.release.ReleaseActivity
 import com.yookiely.lostfond2.search.SearchInitActivity
@@ -57,14 +56,14 @@ class WaterfallActivity : AppCompatActivity() {
             snapHelper.attachToRecyclerView(this)
         }
 
-        if (!Hawk.contains("campus")) {
+        if (Utils.campus == null) {
             showDialog()
         } else {
-            campus = Hawk.get("campus")
+            campus = Utils.campus!!
         }
 
-        lostFragment = WaterfallFragment.newInstance("lost")
-        foundFragment = WaterfallFragment.newInstance("found")
+        lostFragment = WaterfallFragment.newInstance(Utils.STRING_LOST)
+        foundFragment = WaterfallFragment.newInstance(Utils.STRING_FOUND)
         val waterfallPagerAdapter = WaterfallPagerAdapter(supportFragmentManager)
         val bundle = Bundle()
         val intent = Intent()
@@ -73,7 +72,7 @@ class WaterfallActivity : AppCompatActivity() {
         toolbar.apply {
             title = "失物招领"
             setSupportActionBar(this)
-            supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+            supportActionBar?.setDisplayHomeAsUpEnabled(true)
             setNavigationOnClickListener { onBackPressed() }
         }
 
@@ -127,7 +126,7 @@ class WaterfallActivity : AppCompatActivity() {
         }
 
         fa_waterfall_found.setOnClickListener {
-            bundle.putString("lostOrFound", "found")
+            bundle.putString(Utils.LOSTORFOUND_KEY, Utils.STRING_FOUND)
             intent.putExtras(bundle)
             intent.setClass(this@WaterfallActivity, ReleaseActivity::class.java)
             startActivity(intent)
@@ -135,7 +134,7 @@ class WaterfallActivity : AppCompatActivity() {
         }
 
         waterfallLost.setOnClickListener {
-            bundle.putString("lostOrFound", "lost")
+            bundle.putString(Utils.LOSTORFOUND_KEY, Utils.STRING_LOST)
             intent.putExtras(bundle)
             intent.setClass(this@WaterfallActivity, ReleaseActivity::class.java)
             startActivity(intent)
@@ -160,8 +159,8 @@ class WaterfallActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-        if (Hawk.contains("campus")) {
-            if (campus == Hawk.get("campus")) {
+        if (Utils.campus != null) {
+            if (campus == Utils.campus) {
                 popWaterfallRecyclerView.adapter = if (popWaterfallRecyclerView.layoutManager == layoutManagerForType) {
                     WaterfallTypeTableAdapter(this, this, type)
                 } else {
@@ -170,7 +169,7 @@ class WaterfallActivity : AppCompatActivity() {
             } else {
                 this.type = Utils.ALL_TYPE
                 this.time = Utils.ALL_TIME
-                campus = Hawk.get("campus")
+                campus = Utils.campus!!
                 popWaterfallRecyclerView.layoutManager = layoutManagerForType
                 popWaterfallRecyclerView.adapter = WaterfallTypeTableAdapter(this, this, type)
             }
@@ -202,14 +201,14 @@ class WaterfallActivity : AppCompatActivity() {
                 .setMessage("可以在“我的”修改嗷～")
                 .setCancelable(false)
                 .setPositiveButton("卫津路") { _, _ ->
-                    Hawk.put("campus", 2)
-                    campus = Hawk.get("campus")
+                    Utils.campus = Utils.CAMPUS_WEI_JIN_LU
+                    campus = Utils.campus!!
                     lostFragment.loadWaterfallDataWithCondition(type, time)
                     foundFragment.loadWaterfallDataWithCondition(type, time)
                 }
                 .setNegativeButton("北洋园") { _, _ ->
-                    Hawk.put("campus", 1)
-                    campus = Hawk.get("campus")
+                    Utils.campus = Utils.CAMPUS_BEI_YANG_YUAN
+                    campus = Utils.campus!!
                     lostFragment.loadWaterfallDataWithCondition(type, time)
                     foundFragment.loadWaterfallDataWithCondition(type, time)
                 }
