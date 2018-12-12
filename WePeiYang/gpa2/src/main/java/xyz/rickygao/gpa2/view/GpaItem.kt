@@ -52,7 +52,9 @@ class GpaItem(val owner: LifecycleOwner) : Item {
 
             fun bind(lifecycleOwner: LifecycleOwner) {
                 homeItem.rootView.setOnClickListener {
-                    val intent = Intent(itemView.context, GpaActivity::class.java)
+                    val intent = Intent(itemView.context, GpaActivity::class.java).apply {
+                        putExtra("from", "HomeItem")
+                    }
                     itemView.context.startActivity(intent)
                 }
                 GpaLiveData.bindNonNull(lifecycleOwner) {

@@ -16,6 +16,8 @@ import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
 import com.twt.wepeiyang.commons.experimental.extensions.enableLightStatusBarMode
 import com.twt.wepeiyang.commons.experimental.extensions.fitSystemWindowWithNavigationBar
 import com.twt.wepeiyang.commons.experimental.extensions.fitSystemWindowWithStatusBar
+import com.twt.wepeiyang.commons.mta.mtaClick
+import com.twt.wepeiyang.commons.mta.mtaExpose
 import xyz.rickygao.gpa2.R
 import xyz.rickygao.gpa2.service.GpaBean
 import xyz.rickygao.gpa2.service.GpaLiveData
@@ -92,6 +94,16 @@ class GpaActivity : AppCompatActivity() {
 
         enableLightStatusBarMode(true)
 
+        // mta expose
+        intent.apply {
+            val from: String? = getStringExtra("from")
+            when (from) {
+                "HomeItem" -> mtaExpose("gpa2_从主页列表进入GPA")
+                "Tools" -> mtaExpose("gpa2_从Others功能列表进入GPA")
+                "AppShortCut" -> mtaExpose("gpa2_从AppShortCut进入课程表")
+                else -> mtaExpose("gpa2_从其它途径进入GPA")
+            }
+        }
         // init toolbar
         toolbar = findViewById<Toolbar>(R.id.toolbar).also {
             fitSystemWindowWithStatusBar(it)
@@ -109,6 +121,7 @@ class GpaActivity : AppCompatActivity() {
         toggleBtn = findViewById<ToggleButton>(R.id.btn_toggle).apply {
             setOnCheckedChangeListener { _, _ ->
                 GpaLiveData.value?.let(::bindGpaBean)
+                mtaClick(if (isChecked) "gpa2_隐藏第二课堂成绩" else "gpa2_显示第二课堂成绩")
             }
         }
         refreshBtn = findViewById<ImageButton>(R.id.btn_refresh).apply {
