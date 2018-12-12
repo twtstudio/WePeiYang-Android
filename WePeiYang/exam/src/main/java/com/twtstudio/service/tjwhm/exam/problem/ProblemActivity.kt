@@ -15,6 +15,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import com.twt.wepeiyang.commons.experimental.cache.RefreshState
+import com.twt.wepeiyang.commons.mta.mtaClick
+import com.twt.wepeiyang.commons.mta.mtaExpose
 import com.twtstudio.service.tjwhm.exam.R
 import es.dmoral.toasty.Toasty
 import com.twtstudio.service.tjwhm.exam.commons.FixedSpeedScroller
@@ -108,6 +110,7 @@ class ProblemActivity : AppCompatActivity(), ProblemActivityInterface {
                 problemType = intent.getIntExtra(PROBLEM_TYPE_KEY, 0)
                 continueIndex = intent.getIntExtra(CONTINUE_INDEX_KEY, 0)
                 startReadAndPracticeNetwork()
+                mtaExpose("exam_进入顺序练习模式")
             }
 
             CONTEST -> {
@@ -116,6 +119,7 @@ class ProblemActivity : AppCompatActivity(), ProblemActivityInterface {
                 tvUpload.visibility = View.VISIBLE
                 ivHelp.visibility = View.GONE
                 startContestNetwork()
+                mtaExpose("exam_进入模拟检测模式")
             }
         }
 
@@ -252,6 +256,7 @@ class ProblemActivity : AppCompatActivity(), ProblemActivityInterface {
     }
 
     private fun uploadResult() {
+        mtaClick("exam_提交一次模拟检测结果")
         val list = mutableListOf<UpdateResultViewModel>()
         repeat(userSelectionsForTest.size) {
             userSelectionsForTest[it]?.let { it1 -> list.add(it1) }

@@ -16,6 +16,8 @@ import android.widget.TextView
 import android.widget.Toast
 import com.tencent.stat.StatService
 import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
+import com.twt.wepeiyang.commons.mta.mtaClick
+import com.twt.wepeiyang.commons.mta.mtaExpose
 import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemAdapter
 import com.twt.wepeiyang.commons.ui.rec.withItems
@@ -83,9 +85,7 @@ class ExamHomeFragment : Fragment(), View.OnClickListener {
         rvQuick.layoutManager = StaggeredGridLayoutManager(2, LinearLayoutManager.HORIZONTAL)
 
         examUserLiveData.bindNonNull(this, ::bindHomeData)
-//        val prop = Properties();
-//        prop.setProperty("name", "刷题首页")
-//        StatService.trackCustomKVEvent(ivParty.context, "enter", prop)
+        mtaExpose("exam_进入刷题首页")
         return view
     }
 
@@ -95,16 +95,22 @@ class ExamHomeFragment : Fragment(), View.OnClickListener {
             ivParty, tvParty -> {
                 intent.putExtra(ListActivity.LESSON_TYPE, ListActivity.PARTY)
                 context?.startActivity(intent)
+                mtaClick("exam_刷题首页点击党课入口")
             }
             ivPolicy, tvPolicy -> {
                 intent.putExtra(ListActivity.LESSON_TYPE, ListActivity.POLICY)
                 context?.startActivity(intent)
+                mtaClick("exam_刷题首页点击形势与政策入口")
             }
             ivOnline, tvOnline -> {
                 intent.putExtra(ListActivity.LESSON_TYPE, ListActivity.ONLINE)
                 context?.startActivity(intent)
+                mtaClick("exam_刷题首页点击网课入口")
             }
-            ivMore, tvMore -> activity?.let { Toasty.info(it, "暂无其他类课程!", Toast.LENGTH_SHORT).show() }
+            ivMore, tvMore -> {
+                activity?.let { Toasty.info(it, "暂无其他类课程!", Toast.LENGTH_SHORT).show() }
+                mtaClick("exam_刷题首页点击其他入口")
+            }
         }
     }
 

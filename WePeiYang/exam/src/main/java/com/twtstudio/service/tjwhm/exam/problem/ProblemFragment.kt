@@ -17,6 +17,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import com.twt.wepeiyang.commons.experimental.cache.RefreshState
+import com.twt.wepeiyang.commons.mta.mtaExpose
 import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemAdapter
 import com.twt.wepeiyang.commons.ui.rec.withItems
@@ -162,6 +163,7 @@ class ProblemFragment : Fragment() {
                 when (it) {
                     is RefreshState.Failure -> context?.let { it1 -> Toasty.error(it1, "网络错误", Toast.LENGTH_SHORT).show() }
                     is RefreshState.Success -> {
+                        mtaExpose("exam_在顺序练习模式浏览了一道题")
                         // 在 service 中已经判断 data 不为空
                         it.message.data!!.apply {
                             tvType.text = this.ques_type.toProblemType()

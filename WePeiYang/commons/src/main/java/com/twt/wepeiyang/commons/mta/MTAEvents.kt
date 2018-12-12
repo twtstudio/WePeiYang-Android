@@ -9,7 +9,6 @@ import java.util.*
  * Created by tjwhm@TWTStudio at 11:18 PM, 2018/12/9.
  * Happy coding!
  * 此文件为对腾讯 MTA 事件埋点进行的封装
- * @see
  */
 
 /**
