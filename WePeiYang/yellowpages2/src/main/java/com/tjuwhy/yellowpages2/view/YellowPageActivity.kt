@@ -15,6 +15,7 @@ import com.tjuwhy.yellowpages2.R
 import com.tjuwhy.yellowpages2.service.*
 import com.tjuwhy.yellowpages2.utils.ExpandableHelper
 import com.twt.wepeiyang.commons.experimental.cache.RefreshState
+import com.twt.wepeiyang.commons.mta.mtaClick
 import com.twt.wepeiyang.commons.ui.rec.ItemAdapter
 import com.twt.wepeiyang.commons.ui.rec.ItemManager
 import es.dmoral.toasty.Toasty
@@ -57,6 +58,7 @@ class YellowPageActivity : AppCompatActivity() {
         }
 
         searchIcon.setOnClickListener {
+            mtaClick("yellowpage2_黄页搜索小图标searchIcon")
             val intent = Intent(this, SearchActivity::class.java)
             startActivity(intent)
         }

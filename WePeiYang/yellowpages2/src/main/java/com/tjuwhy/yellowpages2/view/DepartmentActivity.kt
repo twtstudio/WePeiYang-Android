@@ -12,6 +12,8 @@ import com.tjuwhy.yellowpages2.service.Unit1
 import com.tjuwhy.yellowpages2.service.YellowPagePreference
 import com.tjuwhy.yellowpages2.utils.FIRST_INDEX_KEY
 import com.tjuwhy.yellowpages2.utils.SECOND_INDEX_KEY
+import com.twt.wepeiyang.commons.mta.mtaBegin
+import com.twt.wepeiyang.commons.mta.mtaEnd
 import com.twt.wepeiyang.commons.ui.rec.withItems
 
 class DepartmentActivity : AppCompatActivity() {
@@ -22,9 +24,11 @@ class DepartmentActivity : AppCompatActivity() {
     private lateinit var departmentTv: TextView
     lateinit var recyclerView: RecyclerView
     lateinit var toolbar: Toolbar
+    val YELLOWPAGES2_DEPARTMENT_TIME="yellowpages2_三级部门时长"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        mtaBegin(YELLOWPAGES2_DEPARTMENT_TIME)
         setContentView(R.layout.yp2_activity_department)
 
         toolbar = findViewById(R.id.toolbar)
@@ -53,5 +57,15 @@ class DepartmentActivity : AppCompatActivity() {
             }
             ChildItem(this, unit.item_name, unit.item_phone, flag, unit.id)
         })
+    }
+
+    override fun onResume() {
+        super.onResume()
+        mtaBegin(YELLOWPAGES2_DEPARTMENT_TIME)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        mtaEnd(YELLOWPAGES2_DEPARTMENT_TIME)
     }
 }

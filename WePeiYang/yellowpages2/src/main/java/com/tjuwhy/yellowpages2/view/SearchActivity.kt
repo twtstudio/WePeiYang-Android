@@ -12,6 +12,9 @@ import android.widget.ImageView
 import com.tjuwhy.yellowpages2.R
 import com.tjuwhy.yellowpages2.service.YellowPagePreference
 import com.tjuwhy.yellowpages2.utils.SEARCH_CONTENT_KEY
+import com.twt.wepeiyang.commons.mta.mtaBegin
+import com.twt.wepeiyang.commons.mta.mtaEnd
+import com.twt.wepeiyang.commons.mta.mtaExpose
 import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemAdapter
 import com.twt.wepeiyang.commons.ui.rec.ItemManager
@@ -25,10 +28,13 @@ class SearchActivity : AppCompatActivity() {
     lateinit var editText: EditText
     lateinit var iconSearch: ImageView
     lateinit var recyclerView: RecyclerView
+    val YELLOWPAGES2_SEARCH_TIME="yellowpages2_搜索页时长"
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        mtaExpose("yellowpages2_搜索页面")
+        mtaBegin(YELLOWPAGES2_SEARCH_TIME)
         setContentView(R.layout.yp2_activity_search)
 
         arrowBack = findViewById(R.id.search_arrow_back)
@@ -59,7 +65,6 @@ class SearchActivity : AppCompatActivity() {
         iconSearch.setOnClickListener {
             search(editText.text.trim().toString())
         }
-
     }
 
     private fun search(text: String) {
@@ -86,5 +91,15 @@ class SearchActivity : AppCompatActivity() {
         items.clear()
         YellowPagePreference.searchHistory.clear()
         recyclerView.withItems(items)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        mtaEnd(YELLOWPAGES2_SEARCH_TIME)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        mtaBegin(YELLOWPAGES2_SEARCH_TIME)
     }
 }
