@@ -16,6 +16,9 @@ import com.twtstudio.retrox.auth.api.authSelfLiveData
 import com.twtstudio.retrox.auth.api.login
 import es.dmoral.toasty.Toasty
 import org.jetbrains.anko.coroutines.experimental.asReference
+import com.tencent.stat.StatService
+import com.tencent.stat.StatMultiAccount
+import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
 
 
 /**
@@ -54,6 +57,18 @@ class LoginActivity : AppCompatActivity() {
                                         is RefreshState.Success -> {
                                             Toasty.success(activity(), "登录成功").show()
                                             startActivity(name = "welcome")
+
+                                            // 腾讯 MTA 账号统计
+                                            val account = StatMultiAccount(StatMultiAccount.AccountType.CUSTOM, CommonPreferences.twtuname)
+
+                                            // 登录时间，单位为秒
+                                            val time = System.currentTimeMillis() / 1000
+                                            account.lastTimeSec = time
+
+                                            // 因为现在做了自动重新登录，所以过期时间相当于没有，暂时设置为两年 (365 * 2)，每天 24 小时，每小时 3600 秒
+                                            account.expireTimeSec = time + 365 * 2 * 24 * 3600
+                                            StatService.reportMultiAccount(context, account)
+
                                             finish()
                                         }
                                         is RefreshState.Failure -> {

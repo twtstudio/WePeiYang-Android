@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="16dp"
-        android:text="校园卡绑定（测试）"
+        android:text="校园卡绑定"
         android:textColor="@color/common_lv3" />
 
     <android.support.design.widget.TextInputLayout
