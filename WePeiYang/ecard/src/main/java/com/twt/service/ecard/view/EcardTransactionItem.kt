@@ -108,7 +108,7 @@ class EcardTransactionInfoItem : Item {
             }
 
             LiveEcardManager.getEcardLiveData().observeForever {
-                when(it) {
+                when (it) {
                     is RefreshState.Success -> it.message.apply {
                         val transactionList = this.transactionInfoList
                         itemManager.refreshAll {
@@ -116,7 +116,7 @@ class EcardTransactionInfoItem : Item {
                                 holder.homeItem.apply {
                                     itemName.text = "TRANSACTION PREVIOUS"
                                 }
-                                transactionList.subList(0, 4).forEach {
+                                transactionList.take(4).forEach {
                                     transactionItem(it)
                                 }
                             } else {
