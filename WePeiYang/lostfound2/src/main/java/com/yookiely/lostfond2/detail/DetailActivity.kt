@@ -62,12 +62,12 @@ class DetailActivity : AppCompatActivity() {
                 } else {
                     if (myList.data!!.type == Utils.FOUND) {
                         toolbar.title = "捡到物品"
-                        mtaClick("lostfound2_详情 点击捡到详情页次数",this@DetailActivity)
-                        mtaBegin(timeOfFound,this@DetailActivity)
+                        mtaClick("lostfound2_详情 点击捡到详情页次数", this@DetailActivity)
+                        mtaBegin(timeOfFound, this@DetailActivity)
                     } else {
                         toolbar.title = "丢失物品"
-                        mtaClick("lostfound2_详情 点击丢失详情页次数",this@DetailActivity)
-                        mtaBegin(timeOfLost,this@DetailActivity)
+                        mtaClick("lostfound2_详情 点击丢失详情页次数", this@DetailActivity)
+                        mtaBegin(timeOfLost, this@DetailActivity)
                     }
                     val myListDetailData = myList.data!!
                     val images = myListDetailData.picture.orEmpty().map(Utils::getPicUrl)
@@ -115,7 +115,7 @@ class DetailActivity : AppCompatActivity() {
                         }
                         detail("时间", myListDetailData.time.orEmpty(), false)
 
-                        if (Utils.getType(myListDetailData.detail_type) == "饭卡" ||Utils.getType(myListDetailData.detail_type) == "身份证"||Utils.getType(myListDetailData.detail_type) == "银行卡") {
+                        if (Utils.getType(myListDetailData.detail_type) == "饭卡" || Utils.getType(myListDetailData.detail_type) == "身份证" || Utils.getType(myListDetailData.detail_type) == "银行卡") {
                             detail("地点", myListDetailData.place.orEmpty(), false)
                         } else {
                             if (myListDetailData.type == Utils.LOST) detail("地点", myListDetailData.place.orEmpty(), true)
@@ -130,17 +130,17 @@ class DetailActivity : AppCompatActivity() {
                                 }
                             }
                         }
-                        if (Utils.getType(myListDetailData.detail_type) == "饭卡" ||Utils.getType(myListDetailData.detail_type) == "身份证") {
+                        if (Utils.getType(myListDetailData.detail_type) == "饭卡" || Utils.getType(myListDetailData.detail_type) == "身份证") {
                             if (myListDetailData.card_number != "0" && myListDetailData.card_number != null) {
                                 if (myListDetailData.type == Utils.LOST) detail("卡号", myListDetailData.card_number, true)
                                 else detail("卡号", myListDetailData.card_number, false)
                             } else {
                                 if (myListDetailData.type == Utils.LOST) detail("卡号", "", true)
-                                else  detail("卡号", "", false)
+                                else detail("卡号", "", false)
                             }
                         }
 
-                        if (Utils.getType(myListDetailData.detail_type) == "银行卡"){
+                        if (Utils.getType(myListDetailData.detail_type) == "银行卡") {
                             if (myListDetailData.card_number != "0" && myListDetailData.card_number != null) {
                                 if (myListDetailData.type == Utils.LOST) detail("卡号", numberHandle(myListDetailData.card_number), true)
                                 else detail("卡号", numberHandle(myListDetailData.card_number), false)
@@ -173,11 +173,12 @@ class DetailActivity : AppCompatActivity() {
         }
         setSupportActionBar(toolbar)
         toolbar.setNavigationOnClickListener {
-            when(toolbar.title.toString()){
-                "捡到物品" -> mtaEnd(timeOfFound,this@DetailActivity)
-                "丢失物品" -> mtaEnd(timeOfLost,this@DetailActivity)
+            when (toolbar.title.toString()) {
+                "捡到物品" -> mtaEnd(timeOfFound, this@DetailActivity)
+                "丢失物品" -> mtaEnd(timeOfLost, this@DetailActivity)
             }
-            onBackPressed() }
+            onBackPressed()
+        }
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
@@ -189,10 +190,10 @@ class DetailActivity : AppCompatActivity() {
         window.attributes = lp
     }
 
-    private fun numberHandle(cardNumber: String) : String{
+    private fun numberHandle(cardNumber: String): String {
         var result: String = ""
-        for (i in 0..cardNumber.length){
-            if (i in 0..6 || i in cardNumber.length-6..cardNumber.length) result+= cardNumber.get(i)
+        for (i in 0..cardNumber.length) {
+            if (i in 0..6 || i in cardNumber.length - 6..cardNumber.length) result += cardNumber.get(i)
             else result += "X"
         }
         return result

@@ -58,7 +58,6 @@ class WaterfallFragment : Fragment(), WaterfallContract.WaterfallView {
         tableAdapter = WaterfallTableAdapter(beanList, this.activity!!, lostOrFound)
         waterfallRecyclerView.adapter = tableAdapter
         waterfallRefresh.setOnRefreshListener(this::refresh)
-        loadWaterfallDataWithCondition(Utils.ALL_TYPE, Utils.ALL_TIME)// 加载布局
 
         waterfallRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
@@ -85,10 +84,10 @@ class WaterfallFragment : Fragment(), WaterfallContract.WaterfallView {
 
     override fun setWaterfallData(waterfallBean: List<MyListDataOrSearchBean>) {
         ll_waterfall_no_res.visibility = if (waterfallBean.isEmpty() && page == 1) {
-                View.VISIBLE
-            } else {
-                View.GONE
-            }
+            View.VISIBLE
+        } else {
+            View.GONE
+        }
 
 
         if (isRefresh) {
@@ -115,10 +114,10 @@ class WaterfallFragment : Fragment(), WaterfallContract.WaterfallView {
         val newCampus = Utils.campus
 
         if (newCampus != null && campus != newCampus) {
-                this.type = Utils.ALL_TYPE
-                this.time = Utils.ALL_TIME
-                campus = newCampus
-                refresh()
+            this.type = Utils.ALL_TYPE
+            this.time = Utils.ALL_TIME
+            campus = newCampus
+            refresh()
         } else if (Utils.needRefreshWaterfall != 0) {
             Utils.needRefreshWaterfall--
             this.type = Utils.ALL_TYPE

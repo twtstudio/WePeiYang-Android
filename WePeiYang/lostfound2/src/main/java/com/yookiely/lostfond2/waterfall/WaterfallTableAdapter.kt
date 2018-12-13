@@ -49,7 +49,7 @@ class WaterfallTableAdapter(private var waterFallBean: List<MyListDataOrSearchBe
             Glide.with(context)
                     .load(Utils.getPicUrl(dataOfItem.picture[0])) // 显示第一张图
                     .asBitmap()
-                    .placeholder(R.drawable.lf_waterfall_nopic)
+                    .placeholder(R.drawable.lf_detail_np)
                     .into(viewHolder.waterfallItemPic)
         }
 
