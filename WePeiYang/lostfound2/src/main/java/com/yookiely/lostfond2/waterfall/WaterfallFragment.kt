@@ -10,11 +10,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import com.example.lostfond2.R
-import com.orhanobut.hawk.Hawk
 import com.yookiely.lostfond2.service.MyListDataOrSearchBean
 import com.yookiely.lostfond2.service.Utils
-import kotlinx.android.synthetic.main.lf_fragment_waterfall.*
-import okhttp3.internal.Util
+import kotlinx.android.synthetic.main.lf2_fragment_waterfall.*
 
 class WaterfallFragment : Fragment(), WaterfallContract.WaterfallView {
 
@@ -42,7 +40,7 @@ class WaterfallFragment : Fragment(), WaterfallContract.WaterfallView {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.lf_fragment_waterfall, container, false)
+        val view = inflater.inflate(R.layout.lf2_fragment_waterfall, container, false)
         val waterfallRefresh = view.findViewById<SwipeRefreshLayout>(R.id.sr_waterfall_refresh).apply {
             setColorSchemeColors(0x449ff1)
         }
@@ -89,7 +87,6 @@ class WaterfallFragment : Fragment(), WaterfallContract.WaterfallView {
             View.GONE
         }
 
-
         if (isRefresh) {
             beanList.clear()
         }
@@ -120,6 +117,10 @@ class WaterfallFragment : Fragment(), WaterfallContract.WaterfallView {
             refresh()
         } else if (Utils.needRefreshWaterfall != 0) {
             Utils.needRefreshWaterfall--
+            this.type = Utils.ALL_TYPE
+            this.time = Utils.ALL_TIME
+            refresh()
+        } else if (beanList.isEmpty()) {
             this.type = Utils.ALL_TYPE
             this.time = Utils.ALL_TIME
             refresh()

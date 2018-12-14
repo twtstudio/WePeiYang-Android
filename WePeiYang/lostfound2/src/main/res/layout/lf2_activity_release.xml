@@ -46,7 +46,7 @@
                 android:textSize="35px" />
 
             <include
-                layout="@layout/lf_release_cardview_info"
+                layout="@layout/lf2_release_cardview_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp" />
@@ -106,14 +106,14 @@
 
             <include
                 android:id="@+id/release_cardinfo"
-                layout="@layout/lf_release_cardview_cardinfo"
+                layout="@layout/lf2_release_cardview_cardinfo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp" />
 
             <include
                 android:id="@+id/release_cardinfo_noname"
-                layout="@layout/lf_release_cardview_cardinfo_noname"
+                layout="@layout/lf2_release_cardview_cardinfo_noname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp" />
@@ -127,7 +127,7 @@
                 android:textSize="35px" />
 
             <include
-                layout="@layout/lf_release_cardview_contact"
+                layout="@layout/lf2_release_cardview_contact"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp" />
@@ -141,7 +141,7 @@
                 android:textSize="35px" />
 
             <include
-                layout="@layout/lf_release_cardview_moreinfo"
+                layout="@layout/lf2_release_cardview_moreinfo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp" />
@@ -155,19 +155,19 @@
                 android:textSize="35px" />
 
             <include
-                layout="@layout/lf_release_cardview_publish"
+                layout="@layout/lf2_release_cardview_publish"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp" />
 
             <include
-                layout="@layout/lf_release_cardview_confirm"
+                layout="@layout/lf2_release_cardview_confirm"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp" />
 
             <include
-                layout="@layout/lf_release_cardview_delete"
+                layout="@layout/lf2_release_cardview_delete"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="1dp"

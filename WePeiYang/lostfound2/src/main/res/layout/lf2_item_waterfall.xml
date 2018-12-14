@@ -27,6 +27,9 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="2dp"
             android:layout_marginStart="6dp"
+            android:ellipsize="end"
+            android:maxEms="9"
+            android:singleLine="true"
             android:textColor="#666666"
             android:textSize="16sp"
             app:layout_constraintTop_toBottomOf="@+id/iv_waterfall_lost_pic" />
@@ -55,12 +58,11 @@
         <ImageView
             android:id="@+id/iv_waterfall_time"
             android:layout_width="14dp"
-            android:layout_height="14dp"
-            android:layout_marginBottom="4dp"
+            android:layout_height="11dp"
             android:layout_marginTop="4dp"
             android:src="@drawable/lf_time"
             app:layout_constraintLeft_toLeftOf="@+id/iv_waterfall_thing"
-            app:layout_constraintTop_toBottomOf="@+id/iv_waterfall_thing" />
+            app:layout_constraintTop_toBottomOf="@id/tv_waterfall_thing_content" />
 
         <TextView
             android:id="@+id/tv_waterfall_time_content"
@@ -69,6 +71,9 @@
             android:layout_marginStart="6dp"
             android:textColor="#999999"
             android:textSize="14sp"
+            android:ellipsize="end"
+            android:maxEms="9"
+            android:singleLine="true"
             app:layout_constraintBottom_toBottomOf="@+id/iv_waterfall_time"
             app:layout_constraintLeft_toRightOf="@+id/iv_waterfall_time"
             app:layout_constraintTop_toTopOf="@+id/iv_waterfall_time" />
@@ -81,7 +86,7 @@
             android:layout_marginTop="4dp"
             android:src="@drawable/lf_place"
             app:layout_constraintLeft_toLeftOf="@+id/iv_waterfall_time"
-            app:layout_constraintTop_toBottomOf="@+id/iv_waterfall_time" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_waterfall_time_content" />
 
         <TextView
             android:id="@+id/tv_waterfall_location_content"
@@ -90,6 +95,9 @@
             android:layout_marginStart="6dp"
             android:textColor="#999999"
             android:textSize="14sp"
+            android:ellipsize="end"
+            android:maxEms="9"
+            android:singleLine="true"
             app:layout_constraintBottom_toBottomOf="@+id/iv_waterfall_location"
             app:layout_constraintLeft_toRightOf="@+id/iv_waterfall_location"
             app:layout_constraintTop_toTopOf="@+id/iv_waterfall_location" />
@@ -103,7 +111,7 @@
             android:layout_marginTop="4dp"
             android:src="@drawable/lf2_recapture"
             app:layout_constraintLeft_toLeftOf="@+id/iv_waterfall_location"
-            app:layout_constraintTop_toBottomOf="@+id/iv_waterfall_location" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_waterfall_location_content" />
 
         <TextView
             android:id="@+id/recapture_place"

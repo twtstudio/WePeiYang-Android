@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -53,7 +52,7 @@ class SearchFragment : Fragment(), SearchContract.SearchUIView {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.lf_fragment_waterfall, container, false)
+        val view = inflater.inflate(R.layout.lf2_fragment_waterfall, container, false)
         val searchRefresh = view.findViewById<SwipeRefreshLayout>(R.id.sr_waterfall_refresh)
         searchNoRes = view.findViewById(R.id.ll_waterfall_no_res)
         searchRecyclerView = view.findViewById(R.id.rv_waterfall_homepage)
