@@ -40,13 +40,12 @@
                 <TextView
                     android:id="@+id/tv_search_result"
                     android:textSize="18sp"
-                    tools:text="3017218119"
+                    tools:text="301721kuguyvuvy8119"
                     android:textColor="@color/white"
-                    android:layout_width="280dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:fontFamily="@font/montserrat_regular"
-                    app:layout_constraintLeft_toLeftOf="parent" />
+                    android:paddingLeft="12dp"
+                    android:fontFamily="@font/montserrat_regular" />
 
                 <ImageView
                     android:background="#ffffff"
