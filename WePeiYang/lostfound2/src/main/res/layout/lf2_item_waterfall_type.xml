@@ -11,7 +11,8 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="4dp"
         android:layout_marginStart="2dp"
-        android:layout_marginTop="4dp" />
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/montserrat_regular" />
 
     <View
         android:id="@+id/vw_waterfall_type_line"

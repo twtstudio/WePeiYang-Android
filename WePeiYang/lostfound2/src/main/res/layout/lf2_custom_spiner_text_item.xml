@@ -10,4 +10,5 @@
     android:padding="0dp"
     android:textColor="#9A9A9A"
     android:gravity="center"
+    android:fontFamily="@font/montserrat_regular"
     android:textSize="30px" />

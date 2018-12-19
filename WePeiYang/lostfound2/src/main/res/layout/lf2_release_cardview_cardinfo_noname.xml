@@ -24,13 +24,13 @@
             android:textStyle="normal" />
 
         <EditText
-
             android:id="@+id/et_release_card_num_noname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginStart="8dp"
             android:background="@null"
+            android:fontFamily="@font/montserrat_regular"
             android:hint="请输入卡号"
             android:imeOptions="actionNext"
             android:lines="1"

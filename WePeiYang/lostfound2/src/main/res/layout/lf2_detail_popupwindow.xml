@@ -4,7 +4,7 @@
     android:layout_height="wrap_content">
 
     <ImageView
-        android:id="@+id/lf2_detail_popupwindow"
+        android:id="@+id/iv_detail_popupwindow"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scaleType="fitCenter" />

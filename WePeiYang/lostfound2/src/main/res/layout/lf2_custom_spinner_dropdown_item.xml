@@ -9,5 +9,6 @@
     android:singleLine="true"
     android:textAlignment="inherit"
     android:gravity="center_vertical|left"
+    android:fontFamily="@font/montserrat_regular"
     android:textColor="#9A9A9A"
     android:textSize="30px" />

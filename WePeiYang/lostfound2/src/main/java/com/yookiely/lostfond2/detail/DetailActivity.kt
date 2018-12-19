@@ -86,7 +86,7 @@ class DetailActivity : AppCompatActivity() {
                                 Glide.with(context)
                                         .load(images[position])
                                         .error(R.drawable.lf_detail_np)
-                                        .into(popupWindowView.findViewById(R.id.lf2_detail_popupwindow))
+                                        .into(popupWindowView.findViewById(R.id.iv_detail_popupwindow))
 
                                 isOutsideTouchable = true
                                 popupWindow.setBackgroundDrawable(ColorDrawable(ContextCompat.getColor(this@DetailActivity, R.color.white_color)))

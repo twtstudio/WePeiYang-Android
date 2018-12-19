@@ -45,6 +45,7 @@
                     android:layout_width="280dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="12dp"
+                    android:fontFamily="@font/montserrat_regular"
                     app:layout_constraintLeft_toLeftOf="parent" />
 
                 <ImageView

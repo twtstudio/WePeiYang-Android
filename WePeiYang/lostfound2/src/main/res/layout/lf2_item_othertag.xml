@@ -24,9 +24,7 @@
         android:layout_width="280dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="10dp"
-        tools:text="daakjsfnb
-        ciuqebafciabdcoahbcioabeiohvb
-        cuyiowbaedhubchiabcj chj adcbuahbschabscahbsu"
+        android:fontFamily="@font/montserrat_regular"
         android:textColor="#999999"
         android:textSize="16sp"
         android:paddingBottom="6dp"

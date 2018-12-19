@@ -28,7 +28,6 @@
                 android:textStyle="normal" />
 
             <EditText
-
                 android:id="@+id/et_release_content_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -40,6 +39,7 @@
                 android:lines="1"
                 android:maxLines="1"
                 android:singleLine="true"
+                android:fontFamily="@font/montserrat_regular"
                 android:textSize="40px" />
         </LinearLayout>
 
@@ -67,7 +67,6 @@
                 android:textStyle="normal" />
 
             <EditText
-
                 android:id="@+id/et_release_phone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -79,6 +78,7 @@
                 android:lines="1"
                 android:maxLines="1"
                 android:singleLine="true"
+                android:fontFamily="@font/montserrat_regular"
                 android:textSize="40px" />
 
         </LinearLayout>

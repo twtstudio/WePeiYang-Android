@@ -53,6 +53,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:textSize="18sp"
+                android:fontFamily="@font/montserrat_regular"
                 android:maxLines="1"
                 android:maxWidth="130dp"
                 app:layout_constraintLeft_toRightOf="@id/iv_mylist_item_pic"
@@ -119,6 +120,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
                     android:textColor="#999999"
+                    android:fontFamily="@font/montserrat_regular"
                     android:textSize="12sp"
                     tools:text="@string/mylist_item_type" />
 
@@ -144,6 +146,7 @@
                     android:layout_marginStart="4dp"
                     android:textColor="#999999"
                     android:textSize="12sp"
+                    android:fontFamily="@font/montserrat_regular"
                     tools:text="@string/mylist_item_time" />
 
             </LinearLayout>
@@ -168,6 +171,7 @@
                     android:layout_marginStart="4dp"
                     android:textColor="#999999"
                     android:textSize="12sp"
+                    android:fontFamily="@font/montserrat_regular"
                     tools:text="@string/mylist_item_place" />
 
             </LinearLayout>
