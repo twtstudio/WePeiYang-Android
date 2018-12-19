@@ -49,7 +49,7 @@ class ImagineItem(val images: List<String>, val detailActivity: DetailActivity) 
                         Glide.with(context)
                                 .load(item.images[position])
                                 .error(R.drawable.lf_detail_np)
-                                .into(popupWindowView.findViewById(R.id.lf2_detail_popupwindow))
+                                .into(popupWindowView.findViewById(R.id.iv_detail_popupwindow))
 
                         isOutsideTouchable = true
                         popupWindow.setBackgroundDrawable(ColorDrawable(ContextCompat.getColor(item.detailActivity, R.color.white_color)))
