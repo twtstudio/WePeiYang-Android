@@ -13,12 +13,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            xmlns:tools="http://schemas.android.com/tools"
+        <android.support.v7.widget.Toolbar
             android:id="@+id/tb_waterfall"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+
             android:background="@color/lfcolorPrimary"
             android:elevation="0dp"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
@@ -87,10 +86,10 @@
         android:id="@+id/fm_waterfall_all"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginBottom="24dp"
+        android:layout_alignParentBottom="true"
         android:layout_marginEnd="16dp"
+        android:layout_marginBottom="24dp"
         app:menu_backgroundColor="#00000000"
         app:menu_colorNormal="@color/lfcolorPrimary"
         app:menu_colorPressed="@color/lfcolorPrimary"

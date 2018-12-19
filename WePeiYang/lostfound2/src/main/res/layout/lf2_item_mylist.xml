@@ -10,13 +10,13 @@
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
-        android:layout_marginBottom="6dp"
         android:layout_marginStart="12dp"
+        android:layout_marginTop="6dp"
         android:layout_marginEnd="12dp"
+        android:layout_marginBottom="6dp"
+        android:background="@color/white"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:background="@color/white">
+        app:layout_constraintRight_toRightOf="parent">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
@@ -52,10 +52,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
-                android:textSize="18sp"
                 android:fontFamily="@font/montserrat_regular"
-                android:maxLines="1"
                 android:maxWidth="130dp"
+                android:maxLines="1"
+                android:textSize="18sp"
                 app:layout_constraintLeft_toRightOf="@id/iv_mylist_item_pic"
                 app:layout_constraintTop_toTopOf="@id/iv_mylist_item_pic"
                 tools:text="whatakjbdkabc kablcblsdnac;andcklbalsdc" />
@@ -112,15 +112,15 @@
                     android:layout_width="12dp"
                     android:layout_height="12dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/lf_type" />
+                    android:src="@drawable/lf_ic_type" />
 
                 <TextView
                     android:id="@+id/tv_mylist_item_type"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
-                    android:textColor="#999999"
                     android:fontFamily="@font/montserrat_regular"
+                    android:textColor="#999999"
                     android:textSize="12sp"
                     tools:text="@string/mylist_item_type" />
 
@@ -137,16 +137,16 @@
                     android:layout_width="12dp"
                     android:layout_height="12dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/lf_time" />
+                    android:src="@drawable/lf_ic_clock" />
 
                 <TextView
                     android:id="@+id/tv_mylist_item_time"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
+                    android:fontFamily="@font/montserrat_regular"
                     android:textColor="#999999"
                     android:textSize="12sp"
-                    android:fontFamily="@font/montserrat_regular"
                     tools:text="@string/mylist_item_time" />
 
             </LinearLayout>
@@ -154,7 +154,6 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
                 app:layout_constraintLeft_toLeftOf="@+id/ll_mylist_time"
                 app:layout_constraintTop_toBottomOf="@+id/ll_mylist_time">
 
@@ -162,16 +161,16 @@
                     android:layout_width="12dp"
                     android:layout_height="12dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/lf_place" />
+                    android:src="@drawable/lf_ic_place" />
 
                 <TextView
                     android:id="@+id/tv_mylist_item_place"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
+                    android:fontFamily="@font/montserrat_regular"
                     android:textColor="#999999"
                     android:textSize="12sp"
-                    android:fontFamily="@font/montserrat_regular"
                     tools:text="@string/mylist_item_place" />
 
             </LinearLayout>
@@ -205,8 +204,5 @@
                 tools:textColor="#ffffff" />
 
         </android.support.constraint.ConstraintLayout>
-
-
     </android.support.v7.widget.CardView>
-
 </android.support.constraint.ConstraintLayout>

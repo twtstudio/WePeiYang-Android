@@ -41,7 +41,7 @@
             android:layout_height="14dp"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="4dp"
-            android:src="@drawable/lf_type"
+            android:src="@drawable/lf_ic_type"
             app:layout_constraintLeft_toLeftOf="@+id/tv_waterfall_title_content"
             app:layout_constraintTop_toBottomOf="@+id/tv_waterfall_title_content" />
 
@@ -62,7 +62,7 @@
             android:layout_width="14dp"
             android:layout_height="11dp"
             android:layout_marginTop="4dp"
-            android:src="@drawable/lf_time"
+            android:src="@drawable/lf_ic_clock"
             app:layout_constraintLeft_toLeftOf="@+id/iv_waterfall_thing"
             app:layout_constraintTop_toBottomOf="@id/tv_waterfall_thing_content" />
 
@@ -87,7 +87,7 @@
             android:layout_height="14dp"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="4dp"
-            android:src="@drawable/lf_place"
+            android:src="@drawable/lf_ic_place"
             app:layout_constraintLeft_toLeftOf="@+id/iv_waterfall_time"
             app:layout_constraintTop_toBottomOf="@+id/tv_waterfall_time_content" />
 
@@ -113,7 +113,7 @@
             android:layout_height="14dp"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="4dp"
-            android:src="@drawable/lf2_recapture"
+            android:src="@drawable/lf_ic_flag"
             app:layout_constraintLeft_toLeftOf="@+id/iv_waterfall_location"
             app:layout_constraintTop_toBottomOf="@+id/tv_waterfall_location_content" />
 
