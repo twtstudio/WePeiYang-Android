@@ -1,16 +1,10 @@
 package com.yookiely.lostfond2.detail
 
-import android.graphics.drawable.ColorDrawable
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
-import android.view.*
-import android.widget.PopupWindow
-import com.bumptech.glide.Glide
-import android.view.LayoutInflater
 import android.view.Window
 import android.widget.Toast
 import com.example.lostfond2.R
@@ -25,8 +19,6 @@ import com.twt.wepeiyang.commons.mta.mtaBegin
 import com.twt.wepeiyang.commons.mta.mtaClick
 import com.twt.wepeiyang.commons.mta.mtaEnd
 import com.twt.wepeiyang.commons.ui.rec.withItems
-import com.youth.banner.Banner
-import com.youth.banner.BannerConfig
 import es.dmoral.toasty.Toasty
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
@@ -34,22 +26,23 @@ import kotlinx.coroutines.experimental.launch
 class DetailActivity : AppCompatActivity() {
     val timeOfLost = "lostfound2_详情 点击丢失详情页平均停留时间"
     val timeOfFound = "lostfound2_详情 点击捡到详情页平均停留时间"
+    public lateinit var toolbar: Toolbar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
         setContentView(R.layout.lf2_activity_detail)
         window.statusBarColor = resources.getColor(R.color.statusBarColor)
-        val toolbar: Toolbar = findViewById(R.id.toolbar)
+        toolbar = findViewById(R.id.toolbar)
 
         val bundle: Bundle = intent.extras
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         val id = bundle.getInt(Utils.ID_KEY)
         val recyclerView: RecyclerView = findViewById(R.id.rv_detail)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        val popupWindowView = LayoutInflater.from(applicationContext).inflate(R.layout.lf2_detail_popupwindow, null, false)
-        val popupWindow = PopupWindow(popupWindowView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true)
-        val banner: Banner = findViewById(R.id.br_detail_banner)
+//        val popupWindowView = LayoutInflater.from(applicationContext).inflate(R.layout.lf2_detail_popupwindow, null, false)
+//        val popupWindow = PopupWindow(popupWindowView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true)
+//        val banner: Banner = findViewById(R.id.br_detail_banner)
 
         launch(UI + QuietCoroutineExceptionHandler) {
             val myList: CommonBody<DetailData>? = LostFoundService.getDetailed(id).awaitAndHandle {
@@ -72,39 +65,9 @@ class DetailActivity : AppCompatActivity() {
                     val myListDetailData = myList.data!!
                     val images = myListDetailData.picture.orEmpty().map(Utils::getPicUrl)
 
-                    banner.apply {
-                        setImageLoader(GlideImagineLoader())
-                        setImages(images)
-
-                        setBannerStyle(BannerConfig.NUM_INDICATOR)
-                        isAutoPlay(false)
-                        // 点击出现大图
-                        setOnBannerListener { position ->
-                            popupWindow.apply {
-                                isFocusable = true
-
-                                Glide.with(context)
-                                        .load(images[position])
-                                        .error(R.drawable.lf_detail_np)
-                                        .into(popupWindowView.findViewById(R.id.iv_detail_popupwindow))
-
-                                isOutsideTouchable = true
-                                popupWindow.setBackgroundDrawable(ColorDrawable(ContextCompat.getColor(this@DetailActivity, R.color.white_color)))
-                                bgAlpha(0.5f)
-                                showAsDropDown(toolbar, Gravity.CENTER, 0, 0)
-                                setOnDismissListener {
-                                    // popupWindow 隐藏时恢复屏幕正常透明度
-                                    bgAlpha(1f)
-                                }
-                            }
-                            // 点击布局文件（也可以理解为点击大图）
-                        }
-                        start()
-                    }
-
-
                     recyclerView.withItems {
 
+                        imagines(images,this@DetailActivity)
                         // 最后一个参数设置成true，则该detail下面灭有分割线
                         title("基本信息")
                         detail("标题", myListDetailData.title.orEmpty(), false)
@@ -182,19 +145,19 @@ class DetailActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
-    // 修改屏幕背景色
-    private fun bgAlpha(bgAlpha: Float) {
-        val lp = window.attributes
-        lp.alpha = bgAlpha // 0.0-1.0
-        window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
-        window.attributes = lp
-    }
+//    // 修改屏幕背景色
+//    private fun bgAlpha(bgAlpha: Float) {
+//        val lp = window.attributes
+//        lp.alpha = bgAlpha // 0.0-1.0
+//        window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+//        window.attributes = lp
+//    }
 
-    private fun numberHandle(cardNumber: String): String {
-        var result: String = ""
-        for (i in 0..cardNumber.length) {
-            if (i in 0..6 || i in cardNumber.length - 6..cardNumber.length) result += cardNumber.get(i)
-            else result += "X"
+    private fun numberHandle(cardNumber: String) : String{
+        var result = ""
+        for (i in 0..cardNumber.length){
+            result += if (i in 0..6 || i in cardNumber.length-6..cardNumber.length) cardNumber[i]
+            else "X"
         }
         return result
     }

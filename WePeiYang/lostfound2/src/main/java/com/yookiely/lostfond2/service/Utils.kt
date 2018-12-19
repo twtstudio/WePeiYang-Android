@@ -19,7 +19,7 @@ object Utils {
     var needRefreshWaterfall = 2 // waterfall的lost和found各刷新一次，刷新过一次就减一
     var campus: Int? by hawk("campus", null)
     const val FOUND = 1
-    const val LOST = 2
+    const val LOST = 0
     const val CAMPUS_BEI_YANG_YUAN = 1
     const val CAMPUS_WEI_JIN_LU = 2
     const val STRING_FOUND = "found"

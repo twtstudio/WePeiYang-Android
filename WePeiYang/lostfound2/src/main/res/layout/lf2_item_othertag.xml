@@ -16,15 +16,17 @@
         tools:text="标题"
         android:textColor="#323232"
         android:textSize="16sp"
+
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tv_othertag_detail"
-        android:layout_width="280dp"
+        android:maxWidth="288dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="10dp"
-        android:fontFamily="@font/montserrat_regular"
+        android:layout_marginEnd="5dp"
+        tools:text="daakjaiusfbcoiqwbvycoubhqwafsucobhdbchasdbchabsdchhasldjbcjhsbchjbawejbcejkbdajdbhsh"
         android:textColor="#999999"
         android:textSize="16sp"
         android:paddingBottom="6dp"
