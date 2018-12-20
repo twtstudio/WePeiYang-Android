@@ -44,7 +44,7 @@ object Utils {
         else -> ""
     }
 
-    fun getPicUrl(addUrl: String) = "http://open.twtstudio.com/$addUrl"
+    fun getPicUrl(addUrl: String?) = "http://open.twtstudio.com/$addUrl"
 //    fun getPicUrl(addUrl: String) = "http://open-lostfound.twtstudio.com/$addUrl"
 
     fun getExit(i: Int?) = when (i) {

@@ -3,6 +3,7 @@ package com.yookiely.lostfond2.waterfall
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -10,11 +11,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import com.bumptech.glide.Glide
 import com.example.lostfond2.R
+import com.squareup.picasso.MemoryPolicy
+import com.squareup.picasso.Picasso
+import com.squareup.picasso.Transformation
 import com.yookiely.lostfond2.detail.DetailActivity
 import com.yookiely.lostfond2.service.MyListDataOrSearchBean
 import com.yookiely.lostfond2.service.Utils
+
 
 class WaterfallTableAdapter(private var waterFallBean: List<MyListDataOrSearchBean>?,
                             val context: Context,
@@ -41,17 +45,14 @@ class WaterfallTableAdapter(private var waterFallBean: List<MyListDataOrSearchBe
         val dataOfItem = waterFallBean!![position]
         val viewHolder = holder as WaterfallViewHolder
 
-        if (dataOfItem.picture == null) {
-            Glide.with(context)
-                    .load(R.drawable.lf_detail_np)
-                    .into(viewHolder.waterfallItemPic)
-        } else {
-            Glide.with(context)
-                    .load(Utils.getPicUrl(dataOfItem.picture[0])) // 显示第一张图
-                    .asBitmap()
-                    .placeholder(R.drawable.lf_detail_np)
-                    .into(viewHolder.waterfallItemPic)
-        }
+        Picasso.get().load(Utils.getPicUrl(dataOfItem.picture?.get(0)))
+                .placeholder(R.drawable.lf_detail_np)
+                .fit()
+                .centerInside()
+                .transform(getTransformation(viewHolder.waterfallItemPic.width))
+                .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
+                .config(Bitmap.Config.RGB_565)
+                .into(viewHolder.waterfallItemPic)
 
         viewHolder.apply {
             waterfallItemTitle.text = dataOfItem.title
@@ -86,5 +87,34 @@ class WaterfallTableAdapter(private var waterFallBean: List<MyListDataOrSearchBe
         intent.putExtras(bundle)
         intent.setClass(context, DetailActivity::class.java)
         context.startActivity(intent)
+    }
+
+    fun getTransformation(targetWidth: Int): Transformation {
+        return object : Transformation {
+
+            override fun transform(source: Bitmap): Bitmap {
+                if (source.width == 0) {
+                    return source
+                }
+                // 按宽高比例缩放图片
+                val aspectRatio = source.height.toDouble() / source.width.toDouble()
+                val targetHeight = (targetWidth * aspectRatio).toInt()
+                if (targetHeight != 0 && targetWidth != 0) {
+                    val result = Bitmap.createScaledBitmap(source, targetWidth, targetHeight, false)
+                    if (result !== source) {
+                        // Same bitmap is returned if sizes are the same
+                        source.recycle()
+                    }
+                    return result
+                } else {
+                    return source
+                }
+
+            }
+
+            override fun key(): String {
+                return "transformation" + " desiredWidth"
+            }
+        }
     }
 }

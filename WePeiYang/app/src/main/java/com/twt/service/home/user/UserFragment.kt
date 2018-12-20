@@ -14,6 +14,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
+import com.tencent.stat.StatMultiAccount
+import com.tencent.stat.StatService
 import com.twt.service.R
 import com.twt.service.ecard.model.EcardPref
 import com.twt.service.ecard.model.EcardService
@@ -152,7 +154,7 @@ class UserFragment : Fragment() {
                                                     PreferenceManager.getDefaultSharedPreferences(context).edit().clear().apply()
                                                     CommonPreferences.clear()
                                                     CacheProvider.clearCache()
-
+                                                    StatService.removeMultiAccount(context, StatMultiAccount.AccountType.CUSTOM)
                                                     val intent = Intent(context, LoginActivity::class.java)
 
                                                     context.startActivity(intent)

@@ -3,8 +3,9 @@ package com.yookiely.lostfond2.waterfall
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.widget.SwipeRefreshLayout
-import android.support.v7.widget.GridLayoutManager
+import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.StaggeredGridLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,7 +18,7 @@ import kotlinx.android.synthetic.main.lf2_fragment_waterfall.*
 class WaterfallFragment : Fragment(), WaterfallContract.WaterfallView {
 
     private lateinit var tableAdapter: WaterfallTableAdapter
-    private val layoutManager = GridLayoutManager(activity, 2)//StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
+    private val layoutManager = StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL) // GridLayoutManager(activity, 2)
     private var isLoading = false
     private var isRefresh = false
     private var campus = Utils.CAMPUS_BEI_YANG_YUAN
@@ -27,6 +28,7 @@ class WaterfallFragment : Fragment(), WaterfallContract.WaterfallView {
     private var page = 1
     private var time = Utils.ALL_TIME
     private val waterfallPresenter = WaterfallPresenterImpl(this)
+    private lateinit var waterfallRecyclerView: RecyclerView
 
     companion object {
         fun newInstance(type: String): WaterfallFragment {
@@ -44,7 +46,7 @@ class WaterfallFragment : Fragment(), WaterfallContract.WaterfallView {
         val waterfallRefresh = view.findViewById<SwipeRefreshLayout>(R.id.sr_waterfall_refresh).apply {
             setColorSchemeColors(0x449ff1)
         }
-        val waterfallRecyclerView = view.findViewById<RecyclerView>(R.id.rv_waterfall_homepage)
+        waterfallRecyclerView = view.findViewById<RecyclerView>(R.id.rv_waterfall_homepage)
         val waterfallNoRes = view.findViewById<LinearLayout>(R.id.ll_waterfall_no_res)
 
         campus = Utils.campus ?: Utils.CAMPUS_BEI_YANG_YUAN
@@ -61,9 +63,10 @@ class WaterfallFragment : Fragment(), WaterfallContract.WaterfallView {
             override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 val totalCount = layoutManager.itemCount
-                val lastPositions = layoutManager.findLastCompletelyVisibleItemPosition()
+                val array = IntArray(2)
+                layoutManager.findLastCompletelyVisibleItemPositions(array)
 
-                if (!isLoading && (totalCount == lastPositions + 1)) {
+                if (!isLoading && (totalCount <= array[1] + 2)) {
                     page++
                     isLoading = true
                     waterfallPresenter.apply {
@@ -92,9 +95,11 @@ class WaterfallFragment : Fragment(), WaterfallContract.WaterfallView {
         }
 
         beanList.addAll(waterfallBean)
-        tableAdapter.notifyDataSetChanged()
+        if (isRefresh || !waterfallBean.isEmpty())
+            tableAdapter.notifyDataSetChanged()
         sr_waterfall_refresh.isRefreshing = false
         isLoading = waterfallBean.isEmpty() && page == 1
+        waterfallRecyclerView.scrollToPosition(layoutManager.itemCount)
         isRefresh = false
     }
 
