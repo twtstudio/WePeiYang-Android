@@ -18,7 +18,6 @@ import org.jetbrains.anko.*
 
 class MessageItem : Item {
     companion object Controller : ItemController {
-        var isShow = true
         override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
             val homeItem = HomeItem(parent)
             val view = parent.context.verticalLayout {
@@ -40,13 +39,11 @@ class MessageItem : Item {
             val message = MessagePreferences.messageContent
             val layout = holder.linearLayout as _LinearLayout
             layout.apply {
-                if(isShow) {
-                    isShow = false
-                    addItem(title, message) {
-                        // 实现回调：获取 homeItem 的 itemManager 并调用其 refreshAll 进行对主页 item 增添删除的刷新
-                        val itemManager = ((((holder.itemView).parent) as? RecyclerView)?.adapter as? ItemAdapter)?.itemManager
-                        itemManager?.refreshAll(itemManager.filterNot { it is MessageItem })
-                    }
+                removeAllViews()
+                addItem(title, message) {
+                    // 实现回调：获取 homeItem 的 itemManager 并调用其 refreshAll 进行对主页 item 增添删除的刷新
+                    val itemManager = ((((holder.itemView).parent) as? RecyclerView)?.adapter as? ItemAdapter)?.itemManager
+                    itemManager?.refreshAll(itemManager.filterNot { it is MessageItem })
                 }
             }
         }
