@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.LinearLayout
+import cn.edu.tju.examtable.view.ExamTableActivity
 import com.tjuwhy.yellowpages2.view.YellowPageActivity
 import com.yookiely.lostfond2.waterfall.WaterfallActivity
 import com.twt.service.home.user.FragmentActivity
@@ -51,6 +52,10 @@ class OtherItem : Item {
             val layout = holder.linearLayout as _LinearLayout
             layout.apply {
                 removeAllViews()
+                addItem("考表", "一年用两次") {
+                    mtaClick("app_首页OtherItem考表Item")
+                    it.context.startActivity<ExamTableActivity>()
+                }
                 addItem("黄页", "天大电话簿") {
                     mtaClick("app_首页OtherItem黄页Item")
                     it.context.startActivity<YellowPageActivity>()
