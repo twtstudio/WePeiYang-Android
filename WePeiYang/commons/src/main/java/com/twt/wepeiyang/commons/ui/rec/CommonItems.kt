@@ -1,7 +1,6 @@
 package com.twt.wepeiyang.commons.ui.rec
 
 import android.graphics.Color
-import android.graphics.Typeface
 import android.support.v4.content.res.ResourcesCompat
 import android.support.v7.widget.RecyclerView
 import android.view.Gravity

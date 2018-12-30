@@ -3,6 +3,7 @@ package com.twt.service
 import android.annotation.TargetApi
 import android.content.Intent
 import android.content.pm.ShortcutInfo
+import android.graphics.Color
 import android.graphics.drawable.Icon
 import android.net.Uri
 import android.os.Build
@@ -17,6 +18,7 @@ import android.util.Log
 import com.tencent.stat.MtaSDkException
 import com.tencent.stat.StatService
 import com.tencent.stat.e
+import com.twt.wepeiyang.commons.experimental.extensions.enableLightStatusBarMode
 
 
 /**
@@ -27,7 +29,8 @@ class StartupActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        window.statusBarColor = Color.WHITE
+        enableLightStatusBarMode(true)
 
         // 开启腾讯 MTA 线程
         val mtaAppKey = "AP6CS8KKB77P"

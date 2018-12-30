@@ -15,7 +15,7 @@
 
 
     <style name="Splash" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:colorPrimaryDark">@color/colorAccent</item>
+        <item name="android:colorPrimaryDark">@color/white</item>
         <item name="android:windowBackground">@drawable/splash</item>
     </style>
 

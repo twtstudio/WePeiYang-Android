@@ -51,6 +51,10 @@ class OtherItem : Item {
             val layout = holder.linearLayout as _LinearLayout
             layout.apply {
                 removeAllViews()
+                addItem("考表", "一年用两次") {
+                    mtaClick("app_首页OtherItem考表Item")
+                    it.context.startActivity<ExamTableActivity>()
+                }
                 addItem("黄页", "天大电话簿") {
                     mtaClick("app_首页OtherItem黄页Item")
                     it.context.startActivity<YellowPageActivity>()
@@ -62,10 +66,6 @@ class OtherItem : Item {
                 addItem("失物招领", "我的心丢了，你看到了吗？") {
                     mtaClick("app_首页OtherItem失物招领Item")
                     it.context.startActivity<WaterfallActivity>()
-                }
-                addItem("考表", "一年用两次") {
-                    mtaClick("app_首页OtherItem考表Item")
-                    it.context.startActivity<ExamTableActivity>()
                 }
                 addItem("学生党建", "和微北洋共建社会主义") {
                     mtaClick("app_首页OtherItem党建Item")

@@ -1,11 +1,14 @@
 package com.twt.service.schedule2.view.exam
 
+import android.graphics.Color
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
+import android.view.Gravity
+import android.widget.FrameLayout
 import android.widget.Toast
 import com.twt.service.schedule2.R
 import com.twt.service.schedule2.model.exam.ExamTableBean
@@ -13,14 +16,20 @@ import com.twt.service.schedule2.model.exam.ExamTablePreference
 import com.twt.service.schedule2.model.exam.ExamTableService
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
+import com.twt.wepeiyang.commons.experimental.extensions.enableLightStatusBarMode
 import com.twt.wepeiyang.commons.ui.rec.ItemAdapter
 import com.twt.wepeiyang.commons.ui.rec.ItemManager
 import com.twt.wepeiyang.commons.ui.rec.SingleTextItem
 import com.twt.wepeiyang.commons.ui.rec.lightText
+import com.twt.wepeiyang.commons.ui.text.spanned
 import es.dmoral.toasty.Toasty
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 import org.jetbrains.anko.coroutines.experimental.asReference
+import org.jetbrains.anko.dip
+import org.jetbrains.anko.horizontalMargin
+import org.jetbrains.anko.matchParent
+import org.jetbrains.anko.wrapContent
 
 class ExamTableActivity : AppCompatActivity() {
     lateinit var toolbar: Toolbar
@@ -30,6 +39,8 @@ class ExamTableActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        window.statusBarColor = Color.WHITE
+        enableLightStatusBarMode(true)
         setContentView(R.layout.schedule_activity_exam_table)
 
         toolbar = findViewById(R.id.toolbar)
@@ -61,6 +72,7 @@ class ExamTableActivity : AppCompatActivity() {
             }?.data.apply {
                 val table = this ?: return@launch
                 ExamTablePreference.exams = table.toTypedArray()
+                Toasty.success(activity(), "加载成功", Toast.LENGTH_SHORT).show()
                 load()
             }
         }
@@ -72,8 +84,13 @@ class ExamTableActivity : AppCompatActivity() {
             sortBy { it.date + it.arrange }
         }
         itemManager.refreshAll {
-            add(SingleTextItem("数据来自教育教学信息管理系统\n" +
-                    "具体安排以学院和学校通知为准"))
+            lightText("") {
+                text = "<span style=\"color:#E70C57\";>注意：数据来自教育教学信息管理系统, 具体安排以学院和学校通知为准</span>".spanned
+                layoutParams = FrameLayout.LayoutParams(matchParent, wrapContent).apply {
+                    horizontalMargin = dip(16)
+                }
+                gravity = Gravity.START
+            }
             allList.forEachIndexed { index, examBean ->
                 val nextExam = allList.getOrNull(index + 1)
                 if (index == 0) {

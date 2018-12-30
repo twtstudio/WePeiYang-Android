@@ -2,6 +2,7 @@ package xyz.rickygao.gpa2.view
 
 import android.content.Context
 import android.graphics.*
+import android.support.v4.content.res.ResourcesCompat
 import android.text.Layout
 import android.text.StaticLayout
 import android.text.TextPaint
@@ -9,6 +10,7 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.SoundEffectConstants
 import android.view.View
+import com.twt.wepeiyang.commons.experimental.CommonContext
 import xyz.rickygao.gpa2.R
 import xyz.rickygao.gpa2.extensions.*
 
@@ -101,6 +103,7 @@ class GpaLineChartView @JvmOverloads constructor(context: Context, attrs: Attrib
     private val detailTextPaint = TextPaint().apply {
         textSize = DETAILS_TEXT_SIZE
         isAntiAlias = true
+        typeface = ResourcesCompat.getFont(CommonContext.application.applicationContext, R.font.montserrat_regular)
     }
 
     var lineColor
