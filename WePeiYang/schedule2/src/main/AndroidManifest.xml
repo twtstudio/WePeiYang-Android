@@ -22,5 +22,6 @@
         <activity
             android:name=".calender.CalSyncActivity"
             android:exported="true" />
+        <activity android:name=".view.exam.ExamTableActivity" />
     </application>
 </manifest>

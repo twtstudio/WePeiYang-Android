@@ -1,43 +1,42 @@
-package cn.edu.tju.examtable.view
+package com.twt.service.schedule2.view.exam
 
+import android.annotation.SuppressLint
 import android.support.v7.widget.RecyclerView
-import android.transition.Visibility
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
-import cn.edu.tju.examtable.R
-import cn.edu.tju.examtable.service.ExamBean
-import com.twt.wepeiyang.commons.mta.mtaClick
+import com.twt.service.schedule2.R
+import com.twt.service.schedule2.model.exam.ExamTableBean
 import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemController
 import org.jetbrains.anko.layoutInflater
 import java.text.SimpleDateFormat
 import java.util.*
 
-class ExamItem(val exam: ExamBean) : Item {
+class ExamTableItem(val exam: ExamTableBean) : Item {
     override val controller: ItemController
         get() = Controller
 
     override fun areContentsTheSame(newItem: Item): Boolean {
-        return exam == (newItem as? ExamItem)?.exam
+        return exam == (newItem as? ExamTableItem)?.exam
     }
 
     override fun areItemsTheSame(newItem: Item): Boolean {
-        return exam == (newItem as? ExamItem)?.exam
+        return exam == (newItem as? ExamTableItem)?.exam
     }
 
     companion object Controller : ItemController {
-        var currentTime: String = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale("zh_CN")).format(Date())
+        private var currentTime: String = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale("zh_CN")).format(Date())
 
         override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
-            val view = parent.context.layoutInflater.inflate(R.layout.exam_item_info, parent, false)
+            val view = parent.context.layoutInflater.inflate(R.layout.schedule_exam_item_info, parent, false)
             return ViewHolder(view, view)
         }
 
+        @SuppressLint("SetTextI18n")
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: Item) {
             holder as ViewHolder
-            item as ExamItem
+            item as ExamTableItem
             val exam = item.exam
             holder.apply {
                 name.text = exam.name
@@ -65,4 +64,4 @@ class ExamItem(val exam: ExamBean) : Item {
     }
 }
 
-fun MutableList<Item>.examItem(exam: ExamBean) = add(ExamItem(exam))
+fun MutableList<Item>.examTableItem(exam: ExamTableBean) = add(ExamTableItem(exam))

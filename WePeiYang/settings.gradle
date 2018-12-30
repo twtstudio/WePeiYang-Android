@@ -1,4 +1,4 @@
-include ':app', ':ecard', ':examtable',
+include ':app', ':ecard',
         ':commons',
         ':tjulibrary',
         ':gpa2',
@@ -11,4 +11,3 @@ include ':app', ':ecard', ':examtable',
         ':exam',
         ':yellowpages2',
         ':lostfound2'
-

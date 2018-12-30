@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-android:orientation="vertical"
-tools:context="cn.edu.tju.examtable.view.ExamTableActivity">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.twt.service.schedule2.view.exam.ExamTableActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -17,8 +16,8 @@ tools:context="cn.edu.tju.examtable.view.ExamTableActivity">
             android:layout_width="wrap_content"
             android:layout_height="56dp"
             android:layout_marginStart="16dp"
-            android:text="考表"
             android:gravity="center"
+            android:text="考表"
             android:textColor="@android:color/black"
             android:textSize="18sp" />
 

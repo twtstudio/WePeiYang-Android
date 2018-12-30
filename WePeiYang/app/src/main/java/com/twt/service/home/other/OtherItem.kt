@@ -1,13 +1,12 @@
 package com.twt.service.home.other
 
 import android.graphics.Color
-import android.graphics.Typeface
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.LinearLayout
-import cn.edu.tju.examtable.view.ExamTableActivity
+import com.twt.service.schedule2.view.exam.ExamTableActivity
 import com.tjuwhy.yellowpages2.view.YellowPageActivity
 import com.yookiely.lostfond2.waterfall.WaterfallActivity
 import com.twt.service.home.user.FragmentActivity
@@ -52,10 +51,6 @@ class OtherItem : Item {
             val layout = holder.linearLayout as _LinearLayout
             layout.apply {
                 removeAllViews()
-                addItem("考表", "一年用两次") {
-                    mtaClick("app_首页OtherItem考表Item")
-                    it.context.startActivity<ExamTableActivity>()
-                }
                 addItem("黄页", "天大电话簿") {
                     mtaClick("app_首页OtherItem黄页Item")
                     it.context.startActivity<YellowPageActivity>()
@@ -67,6 +62,10 @@ class OtherItem : Item {
                 addItem("失物招领", "我的心丢了，你看到了吗？") {
                     mtaClick("app_首页OtherItem失物招领Item")
                     it.context.startActivity<WaterfallActivity>()
+                }
+                addItem("考表", "一年用两次") {
+                    mtaClick("app_首页OtherItem考表Item")
+                    it.context.startActivity<ExamTableActivity>()
                 }
                 addItem("学生党建", "和微北洋共建社会主义") {
                     mtaClick("app_首页OtherItem党建Item")
