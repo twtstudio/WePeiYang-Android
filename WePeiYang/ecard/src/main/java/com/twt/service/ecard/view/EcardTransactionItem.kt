@@ -119,6 +119,9 @@ class EcardTransactionInfoItem : Item {
                                 transactionList.take(4).forEach {
                                     transactionItem(it)
                                 }
+                                if (transactionList.isEmpty()) {
+                                    lightText("暂未获取到最近两天消费数据")
+                                }
                             } else {
                                 holder.homeItem.apply {
                                     itemName.text = "TRANSACTION TODAY"

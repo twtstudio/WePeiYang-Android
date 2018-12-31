@@ -96,7 +96,10 @@ class EcardInfoItem : Item {
                 when(eCardRefreshState) {
                     is RefreshState.Success -> eCardRefreshState.message.apply {
                         holder.balanceText.text = "校园卡余额：${personInfo.balance}"
-                        holder.todayCostView.text = "今日消费：${todayCost}元"
+                        val todayCostLocal = transactionInfoList.today().fold(0f) { prev: Float, transactionInfo: TransactionInfo ->
+                            prev + transactionInfo.amount.toFloat()
+                        } // 因为曹浩那个是从折线图取的 有bug fu了
+                        holder.todayCostView.text = "今日消费：${todayCostLocal}元"
                         if (!cache) {
                             holder.stateText.text = "校园卡数据拉取成功，点击刷新"
                         }
