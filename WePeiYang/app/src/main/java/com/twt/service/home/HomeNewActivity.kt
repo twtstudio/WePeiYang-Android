@@ -72,6 +72,7 @@ class HomeNewActivity : AppCompatActivity() {
         rec.apply {
             layoutManager = LinearLayoutManager(this.context)
             addItemDecoration(RecyclerViewDivider.Builder(this@HomeNewActivity).setSize(4f).setColor(Color.TRANSPARENT).build())
+            setItemViewCacheSize(10)
         }
         val itemManager = rec.withItems {
             // 重写了各个 item 的 areItemsTheSame areContentsTheSame 实现动画刷新主页
