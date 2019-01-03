@@ -30,4 +30,20 @@ data class ExamTableBean(
             return results[0] to results[1]
         } else throw IllegalStateException("考试时间状态异常")
     }
+
+    fun calETA(): Pair<Long, Long> {
+        return try {
+            val (start, end) = parseToDatePair()
+            val now = Date()
+            val diff = start.time - now.time
+            val days = diff / (1000 * 60 * 60 * 24)
+
+            val hours = (diff - days * (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+            //            val minutes = (diff - days * (1000 * 60 * 60 * 24) - hours * (1000 * 60 * 60)) / (1000 * 60)
+            days to hours
+        } catch (e: Exception) {
+            e.printStackTrace()
+            0.toLong() to 0
+        }
+    }
 }

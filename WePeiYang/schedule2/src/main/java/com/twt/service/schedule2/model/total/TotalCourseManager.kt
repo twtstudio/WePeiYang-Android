@@ -9,6 +9,7 @@ import com.twt.service.schedule2.model.MergedClassTableProvider
 import com.twt.service.schedule2.model.audit.AuditCourseManager
 import com.twt.service.schedule2.model.custom.CustomCourseManager
 import com.twt.service.schedule2.model.duplicate.DuplicateCourseManager
+import com.twt.service.schedule2.model.exam.ExamTableLocalAdapter
 import com.twt.service.schedule2.model.school.TjuCourseApi
 import com.twt.service.schedule2.model.school.refresh
 import com.twt.wepeiyang.commons.experimental.cache.CacheIndicator
@@ -53,6 +54,8 @@ object TotalCourseManager {
 
             refreshCallback.invoke(RefreshState.Refreshing())
 
+            val examTableDeferred = ExamTableLocalAdapter.getExamMap(true)
+
             val tjuClassTableProvider: Deferred<AbsClasstableProvider> = async(CommonPool) {
                 val classTable = TjuCourseApi.refresh(refreshTju)
                 CommonClassTable(classTable)
@@ -85,6 +88,7 @@ object TotalCourseManager {
                     customCourseProvider.await(),
                     duplicateCourseProvider.await()
             )
+            examTableDeferred.await()
 
             refreshCallback.invoke(RefreshState.Success(CacheIndicator.REMOTE))
             mergedClassTableProvider.value = finalClasstableProvider

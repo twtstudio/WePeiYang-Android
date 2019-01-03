@@ -20,6 +20,7 @@ import com.twt.service.ecard.view.ecardTransactionInfoItem
 import com.twt.service.home.message.*
 import com.twt.service.home.other.homeOthers
 import com.twt.service.home.user.FragmentActivity
+import com.twt.service.schedule2.view.exam.examTableHomeItem
 import com.twt.service.schedule2.view.home.homeScheduleItem
 import com.twt.service.tjunet.view.homeTjuNetItem
 import com.twt.service.widget.ScheduleWidgetProvider
@@ -85,6 +86,7 @@ class HomeNewActivity : AppCompatActivity() {
                 gpaNewHomeItem(this@HomeNewActivity)
                 mtaExpose("app_首页显示gpaItem")
             }
+            examTableHomeItem()
             ecardInfoItem()
             ecardTransactionInfoItem()
             libraryHomeItem(this@HomeNewActivity)

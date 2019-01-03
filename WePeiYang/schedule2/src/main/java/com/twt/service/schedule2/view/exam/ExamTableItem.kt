@@ -1,15 +1,13 @@
 package com.twt.service.schedule2.view.exam
 
 import android.annotation.SuppressLint
-import android.content.Context
-import android.content.Intent
-import android.provider.CalendarContract
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.twt.service.schedule2.R
 import com.twt.service.schedule2.model.exam.ExamTableBean
+import com.twt.service.schedule2.model.exam.addEvent
 import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemController
 import es.dmoral.toasty.Toasty
@@ -44,7 +42,7 @@ class ExamTableItem(val exam: ExamTableBean) : Item {
             val exam = item.exam
             holder.apply {
                 name.text = exam.name
-                location.text = "${exam.location}"
+                location.text = "${exam.location}#${exam.seat}"
                 arrange.text = exam.arrange
                 if (exam.ext.isEmpty() && exam.state == "正常") {
                     ext.visibility = View.GONE
@@ -59,7 +57,7 @@ class ExamTableItem(val exam: ExamTableBean) : Item {
                 rootView.setOnClickListener {
                     try {
                         val (start, end) = exam.parseToDatePair()
-                        addEvent(it.context, exam.name, exam.location, start.time, end.time)
+                        addEvent(it.context, "${exam.name} ${exam.type}", "${exam.location}#${exam.seat}", start.time, end.time, exam)
                     } catch (e: Exception) {
                         e.printStackTrace()
                         if (e is IllegalStateException) {
@@ -71,18 +69,7 @@ class ExamTableItem(val exam: ExamTableBean) : Item {
             }
         }
 
-        private fun addEvent(context: Context, title: String, location: String, begin: Long, end: Long) {
-            val intent = Intent(Intent.ACTION_INSERT).apply {
-                data = CalendarContract.Events.CONTENT_URI
-                putExtra(CalendarContract.Events.TITLE, title)
-                putExtra(CalendarContract.Events.EVENT_LOCATION, location)
-                putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, begin)
-                putExtra(CalendarContract.EXTRA_EVENT_END_TIME, end)
-            }
-            if (intent.resolveActivity(context.packageManager) != null) {
-                context.startActivity(intent)
-            }
-        }
+
 
         class ViewHolder(itemView: View, val rootView: View) : RecyclerView.ViewHolder(itemView) {
             val name: TextView = itemView.findViewById(R.id.tv_name)

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingStart="16dp"
+    android:paddingTop="6dp"
+    android:paddingEnd="16dp"
+    android:paddingBottom="6dp">
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/montserrat_regular"
+        android:textColor="@color/black_color"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="大学物理 / 期末考试" />
+
+    <TextView
+        android:id="@+id/tv_exam_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/montserrat_regular"
+        android:textColor="@color/black_color"
+        android:textSize="14sp"
+        app:layout_constraintTop_toBottomOf="@id/tv_name"
+        tools:text="33教105#25 12:00~14:00" />
+
+    <com.twt.wepeiyang.commons.ui.view.ColorCircleView
+        android:id="@+id/color_circle_exam"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_marginTop="4dp"
+        app:drawCircleBounds="false"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_exam_info" />
+
+    <TextView
+        android:id="@+id/tv_eta"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:fontFamily="@font/montserrat_regular"
+        android:textColor="@color/black_color"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@id/color_circle_exam"
+        app:layout_constraintStart_toEndOf="@id/color_circle_exam"
+        app:layout_constraintTop_toTopOf="@id/color_circle_exam"
+        tools:text="2019-01-24 ETA: 3天12小时" />
+
+    <TextView
+        android:id="@+id/tv_ext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/montserrat_regular"
+        android:text="我慌得一批"
+        android:textColor="@color/common_lv2"
+        android:textSize="14sp"
+        app:layout_constraintBaseline_toBaselineOf="@id/tv_name"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</android.support.constraint.ConstraintLayout>

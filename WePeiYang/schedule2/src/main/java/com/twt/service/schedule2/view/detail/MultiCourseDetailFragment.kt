@@ -16,8 +16,10 @@ import biz.laenger.android.vpbs.ViewPagerBottomSheetBehavior
 import biz.laenger.android.vpbs.ViewPagerBottomSheetDialogFragment
 import com.twt.service.schedule2.R
 import com.twt.service.schedule2.model.Course
-import com.twt.wepeiyang.commons.mta.mtaClick
+import com.twt.service.schedule2.model.exam.ExamTableLocalAdapter
+import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
 import com.twt.wepeiyang.commons.mta.mtaExpose
+import kotlinx.coroutines.experimental.runBlocking
 
 /**
  * 这个是直接用在底部的 因为多门课程冲突的时候 需要用一个TabLayout
@@ -37,10 +39,18 @@ class CourseDetailViewHolder(val itemView: View) {
     fun bind(course: Course) {
         adapter.refreshDataList(createCourseDetailList(course))
 
+        // todo: 这边两个底部Fragment还是有着很多的重复代码 需要重构
+        val exam = runBlocking(QuietCoroutineExceptionHandler) {
+            val courseID = course.classid.toString()
+            val table = ExamTableLocalAdapter.getExamMapFromCache().await()
+            val exam = table[courseID]
+            exam
+        }
+
         itemView.rootView.viewTreeObserver.addOnGlobalLayoutListener {
             // post方法才可以保证child被测量 否则拿到的都是0
             val arrangeSize = course.arrangeBackup.size
-            val totalCollapsedCount = 2 + arrangeSize
+            val totalCollapsedCount = (if (exam == null) 2 else 4) + arrangeSize
             val childCount = layoutManager.childCount
             if (childCount > totalCollapsedCount) {
                 for (i in 0 until totalCollapsedCount) {

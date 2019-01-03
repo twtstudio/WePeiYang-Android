@@ -17,6 +17,7 @@ import com.twt.service.schedule2.model.exam.ExamTablePreference
 import com.twt.service.schedule2.model.exam.ExamTableService
 import com.twt.service.schedule2.model.exam.examTableCache
 import com.twt.wepeiyang.commons.experimental.extensions.*
+import com.twt.wepeiyang.commons.mta.mtaExpose
 import com.twt.wepeiyang.commons.ui.rec.ItemAdapter
 import com.twt.wepeiyang.commons.ui.rec.ItemManager
 import com.twt.wepeiyang.commons.ui.rec.lightText
@@ -64,6 +65,7 @@ class ExamTableActivity : AppCompatActivity() {
                 addAll(exams)
                 sortBy { it.date + it.arrange }
             }
+            mtaExpose("schedule_考表页_刷新成功")
             itemManager.refreshAll {
                 lightText("") {
                     text = "<span style=\"color:#E70C57\";>注意：数据来自教育教学信息管理系统, 具体安排以学院和学校通知为准</span>".spanned
@@ -99,6 +101,7 @@ class ExamTableActivity : AppCompatActivity() {
                 examTableCache.get().await()?.let {
                     liveExamData.postValue(it)
                 }
+                mtaExpose("schedule_考表页_加载出错")
             }?.data.apply {
                 val table = this ?: return@launch
                 examTableCache.set(table)

@@ -11,13 +11,17 @@ import android.view.View
 import com.twt.service.schedule2.R
 import com.twt.service.schedule2.extensions.getChineseCharacter
 import com.twt.service.schedule2.model.Course
+import com.twt.service.schedule2.model.exam.ExamTableLocalAdapter
+import com.twt.service.schedule2.model.exam.addEvent
 import com.twt.service.schedule2.view.adapter.CourseDetailViewModel
 import com.twt.service.schedule2.view.adapter.iconLabel
 import com.twt.service.schedule2.view.audit.search.SearchResultActivity
+import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
 import com.twt.wepeiyang.commons.mta.mtaClick
 import com.twt.wepeiyang.commons.mta.mtaExpose
 import com.twt.wepeiyang.commons.ui.rec.refreshAll
 import es.dmoral.toasty.Toasty
+import kotlinx.coroutines.experimental.runBlocking
 import org.jetbrains.anko.alert
 
 class CourseDetailBottomFragment : BottomSheetDialogFragment() {
@@ -61,6 +65,13 @@ class CourseDetailBottomFragment : BottomSheetDialogFragment() {
 
 //        adapter.refreshDataList(createCourseDetailList(course))
 
+        val exam = runBlocking(QuietCoroutineExceptionHandler) {
+            val courseID = course.classid.toString()
+            val table = ExamTableLocalAdapter.getExamMapFromCache().await()
+            val exam = table[courseID]
+            exam
+        }
+
         recyclerView.refreshAll {
             courseInfo(course = course)
             indicatorText("上课信息")
@@ -70,7 +81,21 @@ class CourseDetailBottomFragment : BottomSheetDialogFragment() {
                 iconLabel(CourseDetailViewModel(R.drawable.ic_schedule_location, "${week.start}-${week.end}周，${it.week}上课，每周${getChineseCharacter(it.day)}第${it.start}-${it.end}节\n${it.room}"))
             }
 
-            indicatorText("其他信息")
+            exam?.let {
+                indicatorText("考试信息")
+                iconLabel(CourseDetailViewModel(R.drawable.ic_schedule_noti, "${it.type} 加油！\n${it.date} ${it.arrange} \n${it.location}#${it.seat}", {
+                    try {
+                        val (start, end) = exam.parseToDatePair()
+                        addEvent(it.context, "${exam.name} ${exam.type}", "${exam.location}#${exam.seat}", start.time, end.time, exam)
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                        if (e is IllegalStateException) {
+                            Toasty.error(it.context, e.message.toString()).show()
+                        }
+                    }
+                }))
+            }
+            indicatorText("课程信息")
             iconLabel(CourseDetailViewModel(R.drawable.ic_schedule_other, "逻辑班号：${course.classid}\n课程编号：${course.courseid}"))
             indicatorText("自定义（开发中 敬请期待）")
             iconLabel(CourseDetailViewModel(R.drawable.ic_schedule_search, "在蹭课功能中搜索相似课程", clickBlock = {
@@ -80,9 +105,9 @@ class CourseDetailBottomFragment : BottomSheetDialogFragment() {
             iconLabel(CourseDetailViewModel(R.drawable.ic_schedule_event, "添加自定义课程/事件", clickBlock = {
                 Toasty.info(it.context, "下一版本中加入").show()
             }))
-            iconLabel(CourseDetailViewModel(R.drawable.ic_schedule_homework, "添加课程作业/考试", clickBlock = {
-                Toasty.info(it.context, "下一版本中加入").show()
-            }))
+//            iconLabel(CourseDetailViewModel(R.drawable.ic_schedule_homework, "添加课程作业/考试", clickBlock = {
+//                Toasty.info(it.context, "下一版本中加入").show()
+//            }))
             indicatorText("帮助")
 
             iconLabel(CourseDetailViewModel(R.drawable.ic_schedule_info, "如何使用课程表的自定义功能", {
@@ -101,7 +126,7 @@ class CourseDetailBottomFragment : BottomSheetDialogFragment() {
         recyclerView.post {
             // post方法才可以保证child被测量 否则拿到的都是0
             val arrangeSize = course.arrangeBackup.size
-            val totalCollapsedCount = 2 + arrangeSize
+            val totalCollapsedCount = (if (exam == null) 2 else 4) + arrangeSize
             val childCount = layoutManager.childCount
             var totalCollapsedHeight = 0
             if (childCount > totalCollapsedCount) {

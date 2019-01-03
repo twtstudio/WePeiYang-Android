@@ -22,7 +22,10 @@ import com.twt.wepeiyang.commons.ui.text.span
 import com.twt.wepeiyang.commons.ui.text.spannable
 import com.twt.service.schedule2.model.Course
 import com.twt.service.schedule2.model.SchedulePref
+import com.twt.service.schedule2.model.exam.ExamTableLocalAdapter
 import com.twt.wepeiyang.commons.experimental.CommonContext
+import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
+import kotlinx.coroutines.experimental.runBlocking
 
 
 /**
@@ -111,9 +114,14 @@ class ScheduleAdapter(val context: Context) : RecyclerView.Adapter<ScheduleAdapt
                 cardView.visibility = View.INVISIBLE
             } else {
                 cardView.visibility = View.VISIBLE
-                var text = ""
-                text += course.statusMessage
-                text += "${course.coursename}\n@${course.arrange[0].room} "
+//                var text = ""
+//                text += course.statusMessage
+//                text += "${course.coursename}\n@${course.arrange[0].room} "
+
+                val examTable = runBlocking(QuietCoroutineExceptionHandler) {
+                    ExamTableLocalAdapter.getExamMapFromCache().await()
+                }
+                val exam = examTable[course.classid.toString()]
 
                 val roomCluster = course.arrange[0].room.split("楼")
                 val divider = "\n \n"
@@ -123,7 +131,7 @@ class ScheduleAdapter(val context: Context) : RecyclerView.Adapter<ScheduleAdapt
                 val stringSpan = spannable {
                     absSize(10, creditDisplayed) +
                             absSize(3, divider) +
-                            span(course.coursename, listOf(StyleSpan(Typeface.BOLD), AbsoluteSizeSpan(courseNameSpanSize, true))) +
+                            span("${exam?.let { "[考]" }?:""}${course.coursename}", listOf(StyleSpan(Typeface.BOLD), AbsoluteSizeSpan(courseNameSpanSize, true))) +
                             absSize(4, divider) +
                             absSize(10, roomCluster.joinToString(separator = "-"))
                 }

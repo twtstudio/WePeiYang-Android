@@ -9,11 +9,17 @@ import android.widget.TextView
 import com.twt.service.schedule2.R
 import com.twt.service.schedule2.extensions.getChineseCharacter
 import com.twt.service.schedule2.model.Course
+import com.twt.service.schedule2.model.exam.ExamTableLocalAdapter
+import com.twt.service.schedule2.model.exam.addEvent
 import com.twt.service.schedule2.view.adapter.CourseDetailViewModel
+import com.twt.service.schedule2.view.adapter.iconLabel
 import com.twt.service.schedule2.view.audit.search.SearchResultActivity
+import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
 import com.twt.wepeiyang.commons.mta.mtaClick
 import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemController
+import es.dmoral.toasty.Toasty
+import kotlinx.coroutines.experimental.runBlocking
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.layoutInflater
 
@@ -160,7 +166,26 @@ fun createCourseDetailList(course: Course): List<Any> {
                 "${week.start}-${week.end}周，${it.week}上课，每周${getChineseCharacter(it.day)}第${it.start}-${it.end}节\n${it.room}"
         ))
     }
-    list.add("其他信息")
+    runBlocking(QuietCoroutineExceptionHandler) {
+        val courseID = course.classid.toString()
+        val table = ExamTableLocalAdapter.getExamMapFromCache().await()
+        val exam = table[courseID]
+        exam?.let {
+            list.add("考试信息")
+            list.add(CourseDetailViewModel(R.drawable.ic_schedule_noti, "${it.type} 加油！\n${it.date} ${it.arrange} \n${it.location}#${it.seat}", {
+                try {
+                    val (start, end) = exam.parseToDatePair()
+                    addEvent(it.context, "${exam.name} ${exam.type}", "${exam.location}#${exam.seat}", start.time, end.time, exam)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    if (e is IllegalStateException) {
+                        Toasty.error(it.context, e.message.toString()).show()
+                    }
+                }
+            }))
+        }
+    }
+    list.add("课程信息")
     list.add(CourseDetailViewModel(R.drawable.ic_schedule_other, "逻辑班号：${course.classid}\n课程编号：${course.courseid}"))
     list.add("自定义（开发中 敬请期待）")
     list.add(CourseDetailViewModel(R.drawable.ic_schedule_search, "在蹭课功能中搜索相似课程", clickBlock = {

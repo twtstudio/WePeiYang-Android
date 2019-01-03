@@ -22,6 +22,14 @@ object ExamTableLocalAdapter {
         examLocalMap
     }
 
+    fun getExamMapFromCache(): Deferred<Map<String, ExamTableBean>> = async(CommonPool) {
+        examLocalMap.clear()
+        val examCache = examTableCache.get().await()
+        examCache?.forEach {
+            examLocalMap[it.id] = it
+        }
+        examLocalMap
+    }
 
     private fun refreshData() = async(CommonPool) {
         val data = ExamTableService.getTable().await().data
