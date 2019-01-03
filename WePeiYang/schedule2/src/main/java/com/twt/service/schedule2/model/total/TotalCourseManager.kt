@@ -88,7 +88,11 @@ object TotalCourseManager {
                     customCourseProvider.await(),
                     duplicateCourseProvider.await()
             )
-            examTableDeferred.await()
+            try {
+                examTableDeferred.await()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
 
             refreshCallback.invoke(RefreshState.Success(CacheIndicator.REMOTE))
             mergedClassTableProvider.value = finalClasstableProvider

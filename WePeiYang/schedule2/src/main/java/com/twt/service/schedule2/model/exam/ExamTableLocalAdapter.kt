@@ -1,5 +1,6 @@
 package com.twt.service.schedule2.model.exam
 
+import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.Deferred
 import kotlinx.coroutines.experimental.async
@@ -11,7 +12,9 @@ object ExamTableLocalAdapter {
         examLocalMap.clear()
         val examCache = examTableCache.get().await()
         if (examCache == null || forceReload) {
-            refreshData().await()?.forEach {
+            refreshData().awaitAndHandle {
+                it.printStackTrace()
+            }?.forEach {
                 examLocalMap[it.id] = it
             }
         } else {
