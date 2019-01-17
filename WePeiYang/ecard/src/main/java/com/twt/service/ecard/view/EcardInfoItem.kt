@@ -21,6 +21,7 @@ import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemController
 import com.twt.wepeiyang.commons.ui.text.spanned
 import org.jetbrains.anko.*
+import java.lang.NumberFormatException
 import kotlin.properties.Delegates
 
 class EcardInfoItem : Item {
@@ -93,13 +94,20 @@ class EcardInfoItem : Item {
             }
 
             LiveEcardManager.getEcardLiveData().observeForever { eCardRefreshState ->
-                when(eCardRefreshState) {
+                when (eCardRefreshState) {
                     is RefreshState.Success -> eCardRefreshState.message.apply {
                         holder.balanceText.text = "校园卡余额：${personInfo.balance}"
-                        val todayCostLocal = transactionInfoList.today().fold(0f) { prev: Float, transactionInfo: TransactionInfo ->
-                            prev + transactionInfo.amount.toFloat()
-                        } // 因为曹浩那个是从折线图取的 有bug fu了
-                        holder.todayCostView.text = "今日消费：${todayCostLocal}元"
+
+                        try {
+                            val todayCostLocal = transactionInfoList.today().fold(0f) { prev: Float, transactionInfo: TransactionInfo ->
+                                prev + transactionInfo.amount.toFloat()
+                            } // 因为曹浩那个是从折线图取的 有bug fu了
+                            holder.todayCostView.text = "今日消费：${todayCostLocal}元"
+                        } catch (e: NumberFormatException) {
+                            e.printStackTrace()
+                            holder.todayCostView.text = "你遇到了待解析的特殊数据，多包涵~"
+                        }
+
                         if (!cache) {
                             holder.stateText.text = "校园卡数据拉取成功，点击刷新"
                         }
