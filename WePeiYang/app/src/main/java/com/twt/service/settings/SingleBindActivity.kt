@@ -34,6 +34,10 @@ class SingleBindActivity : AppCompatActivity() {
         setContentView(R.layout.activity_setting)
         val fragmentTransaction = fragmentManager.beginTransaction()
         val type = intent.getIntExtra(TYPE, 0)
+        val message: String? = intent.getStringExtra("message")
+        message?.let {
+            Toasty.info(this, message).show()
+        }
         if (type == TJU_BIND) {
             fragmentTransaction.add(R.id.settings_container, TjuBindFragment2())
         } else if (type == LIBRARY_BIND) {

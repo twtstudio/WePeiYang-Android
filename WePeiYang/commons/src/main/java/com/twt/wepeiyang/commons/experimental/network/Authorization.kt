@@ -43,7 +43,13 @@ object RealAuthenticator : Authenticator {
                         CommonPreferences.token
                     else relogin()
                 10003, 10004 -> relogin()
-                //                        20001 -> Bind Tju
+                40011 -> {
+                    CommonContext.startActivity(name = "bind") {
+                        putExtra("type", 0xfaee01) // in SingleBindActivity
+                        putExtra("message", "办公网绑定错误，请重新绑定办公网")
+                    }
+                    throw IOException("办公网帐号或密码错误")
+                }
                 30001, 30002 -> {
                     val loggingIn = CommonContext.getActivity("login")
                             ?.isInstance(Restarter.getForegroundActivity(null))
