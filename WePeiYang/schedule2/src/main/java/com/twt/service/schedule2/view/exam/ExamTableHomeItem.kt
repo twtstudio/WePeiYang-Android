@@ -21,7 +21,6 @@ import com.twt.wepeiyang.commons.ui.view.ColorCircleView
 import es.dmoral.toasty.Toasty
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
-import kotlinx.coroutines.experimental.runBlocking
 import org.jetbrains.anko.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -103,11 +102,16 @@ class ExamTableHomeLittleItem(val exam: ExamTableBean) : Item {
 
 fun MutableList<Item>.examTableHomeLittleItem(exam: ExamTableBean) = add(ExamTableHomeLittleItem(exam))
 
-class ExamTableHomeItem() : Item {
+class ExamTableHomeItem : Item {
+    override fun areItemsTheSame(newItem: Item) = true
+
+    override fun areContentsTheSame(newItem: Item) = true
+
     override val controller: ItemController
         get() = Controller
 
     companion object Controller : ItemController {
+        @SuppressLint("SetTextI18n")
         override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
             val homeItem = HomeItem(parent)
             val view = RecyclerView(parent.context)
@@ -131,8 +135,8 @@ class ExamTableHomeItem() : Item {
             holder.homeItem.apply {
                 itemContent.text = "查看考表"
                 listOf(imgGo, itemContent).forEach {
-                    it.setOnClickListener {
-                        it.context.startActivity<ExamTableActivity>()
+                    it.setOnClickListener { it1 ->
+                        it1.context.startActivity<ExamTableActivity>()
                         mtaClick("schedule_首页ExamItem进入考表")
                     }
                 }

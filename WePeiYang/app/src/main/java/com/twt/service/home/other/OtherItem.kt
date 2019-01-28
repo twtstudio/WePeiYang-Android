@@ -10,6 +10,7 @@ import com.twt.service.schedule2.view.exam.ExamTableActivity
 import com.tjuwhy.yellowpages2.view.YellowPageActivity
 import com.yookiely.lostfond2.waterfall.WaterfallActivity
 import com.twt.service.home.user.FragmentActivity
+import com.twt.service.job.JobHomeActivity
 import com.twt.service.news.NewsActivity
 import com.twt.wepeiyang.commons.mta.mtaClick
 import com.twt.wepeiyang.commons.ui.rec.HomeItem
@@ -74,6 +75,10 @@ class OtherItem : Item {
                 addItem("自行车", "通览状态，畅爽骑行") {
                     mtaClick("app_首页OtherItem自行车Item")
                     it.context.startActivity<BikeActivity>()
+                }
+                addItem("就业", "就业信息，一网打尽") {
+                    mtaClick("app_首页OtherItem中就业Item")
+                    it.context.startActivity<JobHomeActivity>()
                 }
                 addItem("新闻", "环宇北洋，心识天下") {
                     mtaClick("app_首页OtherItem中新闻Item")
