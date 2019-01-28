@@ -3,7 +3,7 @@
     package="com.twt.service.job">
 
     <application>
-        <activity android:name=".story.StoryActivity"></activity>
+        <activity android:name=".story.StoryActivity" />
         <activity android:name=".search.SearchResultActivity" />
         <activity android:name=".home.JobHomeActivity" />
     </application>
