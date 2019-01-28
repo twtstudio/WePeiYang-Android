@@ -1,7 +1,8 @@
-package com.twt.service.job
+package com.twt.service.job.home
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import com.twt.service.job.R
 
 class JobHomeActivity : AppCompatActivity() {
 

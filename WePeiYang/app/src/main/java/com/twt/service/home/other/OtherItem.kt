@@ -10,7 +10,7 @@ import com.twt.service.schedule2.view.exam.ExamTableActivity
 import com.tjuwhy.yellowpages2.view.YellowPageActivity
 import com.yookiely.lostfond2.waterfall.WaterfallActivity
 import com.twt.service.home.user.FragmentActivity
-import com.twt.service.job.JobHomeActivity
+import com.twt.service.job.home.JobHomeActivity
 import com.twt.service.news.NewsActivity
 import com.twt.wepeiyang.commons.mta.mtaClick
 import com.twt.wepeiyang.commons.ui.rec.HomeItem
