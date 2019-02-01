@@ -1,0 +1,88 @@
+package com.twt.service.job.service
+
+data class General(
+    val common: List<Common>,
+    val current_page: String,//当前页数
+    val important: List<Important>,
+    val page_count: Int,
+    val rotation: List<Any>,//工作动态的轮换的3条，公告没有
+    val type: String
+)
+
+data class Common(
+    val click: String,
+    val date: String,
+    val id: String,
+    val important: String,
+    val title: String
+)
+
+data class Important(
+    val click: String,
+    val date: String,
+    val id: String,
+    val important: String,
+    val title: String
+)
+
+//工作动态或者公告的某一条的数据详情
+data class Notice(
+    val attach1: String,
+    val attach1_name: String,
+    val attach2: String,
+    val attach2_name: String,
+    val attach3: String,
+    val attach3_name: String,
+    val click: Int,
+    val content: String,
+    val date: String,
+    val id: String,
+    val title: String,
+    val type: String
+)
+
+data class Recruit(
+    val attach1: String,
+    val attach1_name: String,
+    val attach2: String,
+    val attach2_name: String,
+    val attach3: String,
+    val attach3_name: String,
+    val click: Int,
+    val content: String,
+    val corporation: String,
+    val date: String,
+    val deadline: String,
+    val held_date: String,
+    val held_time: String,
+    val id: String,
+    val place: String,
+    val request: String,
+    val title: String,
+    val type: String
+)
+
+data class SearchData(
+    val info: List<Info>,
+    val meeting: List<Meeting>
+)
+
+data class Info(
+    val click: String,
+    val date: String,
+    val held_date: Any,
+    val held_time: Any,
+    val id: String,
+    val place: Any,
+    val title: String
+)
+
+data class Meeting(
+    val click: String,
+    val date: String,
+    val held_date: String,
+    val held_time: String,
+    val id: String,
+    val place: String,
+    val title: String
+)
