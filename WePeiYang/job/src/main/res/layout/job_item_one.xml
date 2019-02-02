@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/job_background"
@@ -16,9 +17,9 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginStart="28dp"
-        android:layout_marginEnd="28dp"
-        android:layout_marginTop="10dp"/>
+        android:layout_marginStart="26dp"
+        android:layout_marginEnd="26dp"
+        android:layout_marginTop="16dp"/>
 
     <ImageView
         android:id="@+id/job_iv_one_time"
@@ -57,7 +58,7 @@
         app:layout_constraintTop_toBottomOf="@+id/job_tv_one_held_date"
         app:layout_constraintLeft_toLeftOf="@+id/job_tv_one_title" />
     <TextView
-        android:id="@+id/job_tv_one_location"
+        android:id="@+id/job_tv_one_place"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:text="北洋园校区55教A204"
@@ -68,24 +69,24 @@
         app:layout_constraintLeft_toRightOf="@+id/job_iv_one_place"/>
 
     <ImageView
-        android:id="@+id/job_iv_one_pageviews"
+        android:id="@+id/job_iv_one_click"
         android:layout_width="34dp"
         android:layout_height="34dp"
-        android:src="@drawable/job_fragment_pageviews_icon"
-        app:layout_constraintTop_toBottomOf="@+id/job_tv_one_location"
+        android:src="@drawable/job_fragment_click_icon"
+        app:layout_constraintTop_toBottomOf="@+id/job_tv_one_place"
         app:layout_constraintLeft_toLeftOf="@+id/job_tv_one_title"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginBottom="12dp"/>
     <TextView
-        android:id="@+id/job_tv_one_date_pageviews"
+        android:id="@+id/job_tv_one_click"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:text="246"
         android:textSize="14sp"
         android:textColor="@color/job_dark_grey"
-        app:layout_constraintTop_toTopOf="@+id/job_iv_one_pageviews"
-        app:layout_constraintBottom_toBottomOf="@+id/job_iv_one_pageviews"
-        app:layout_constraintLeft_toRightOf="@+id/job_iv_one_pageviews" />
+        app:layout_constraintTop_toTopOf="@+id/job_iv_one_click"
+        app:layout_constraintBottom_toBottomOf="@+id/job_iv_one_click"
+        app:layout_constraintLeft_toRightOf="@+id/job_iv_one_click" />
 
     <TextView
         android:id="@+id/job_tv_one_date"
@@ -97,14 +98,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="10dp"/>
+        android:layout_marginBottom="16dp"/>
 
-    <view
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/job_fragment_dividing_line"
-        android:layerType="software"
-        app:layout_constraintTop_toTopOf="@+id/job_tv_one_date"
-        android:layout_marginTop="8dp" />
 
 </android.support.constraint.ConstraintLayout>
