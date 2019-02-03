@@ -30,7 +30,7 @@ object JobHomeModel {
         }
     }
 
-    fun getNotioces(type: Int, page: Int, callback: suspend (RefreshState<Unit>, List<Rotation>?, List<ImportantR>?, List<CommonR>?) -> Unit) {
+    fun getNotioces(type: Int, page: Int, callback: suspend (RefreshState<Unit>, List<ImportantR>?, List<ImportantR>?, List<CommonR>?) -> Unit) {
         launch(UI + QuietCoroutineExceptionHandler) {
             JobService.getNotioces(type, page).awaitAndHandle {
                 callback(RefreshState.Failure(it), null, null, null)
