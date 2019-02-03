@@ -30,17 +30,17 @@ object JobHomeModel {
         }
     }
 
-    fun getNotioces(type: Int, page: Int, callback: suspend (RefreshState<Unit>, List<ImportantR>?, List<CommonR>?) -> Unit) {
+    fun getNotioces(type: Int, page: Int, callback: suspend (RefreshState<Unit>, List<Rotation>?, List<ImportantR>?, List<CommonR>?) -> Unit) {
         launch(UI + QuietCoroutineExceptionHandler) {
             JobService.getNotioces(type, page).awaitAndHandle {
-                callback(RefreshState.Failure(it), null, null)
+                callback(RefreshState.Failure(it), null, null, null)
             }?.data?.let {
                 when (type) {
                 // 把最大页数存下来，便于上拉刷新的时候判断
                     0 -> pagesOfNotice = it.page_count
                     1 -> pagesOfDynamic = it.page_count
                 }
-                callback(RefreshState.Success(Unit), it.important, it.common)
+                callback(RefreshState.Success(Unit), it.rotation, it.important, it.common)
             }
         }
     }

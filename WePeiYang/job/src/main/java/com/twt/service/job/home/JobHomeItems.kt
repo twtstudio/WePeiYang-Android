@@ -107,19 +107,5 @@ class ThreeItem(val click: Int, val title: String, val date: String, val mark: S
     override val controller: ItemController get() = Controller
 }
 
-//class divideItem:Item{
-//    private companion object Controller : ItemController{
-//        override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
-//            val inflater =
-//        }
-//
-//        override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: Item) {
-//        }
-//
-//    }
-//
-//
-//}
-
 fun MutableList<Item>.fair(common: CommonL,isLast: Boolean) = add(FairItem(common,isLast))
 fun MutableList<Item>.three(click: Int, title: String, date: String, mark: String,isLast: Boolean) = add(ThreeItem(click, title, date, mark,isLast))

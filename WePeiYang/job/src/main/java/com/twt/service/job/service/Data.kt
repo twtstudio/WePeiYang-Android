@@ -63,7 +63,7 @@ data class GeneralR(
         val current_page: String,// 当前页数
         val important: List<ImportantR>,
         val page_count: Int,
-        val rotation: List<Rotation>,// 工作动态的轮换的3条，公告没有
+        val rotation: List<ImportantR>,// 工作动态的轮换的3条，公告没有
         val type: String
 )
 
@@ -83,13 +83,13 @@ data class ImportantR(
         val title: String
 )
 
-data class Rotation(
-        val id: Int,
-        val title: String,
-        val click: String,
-        val date: String,
-        val important: Int
-)
+//data class Rotation(
+//        val id: Int,
+//        val title: String,
+//        val click: String,
+//        val date: String,
+//        val important: Int
+//)
 
 data class Recruit(
         val attach1: String,
