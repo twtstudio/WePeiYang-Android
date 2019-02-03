@@ -9,6 +9,6 @@ interface JobHomeContract {
     }
 
     interface JobHomePresenter{
-        fun getGeneral(kind: String,type:Int,page:Int)// 招聘信息--L ； 招聘会 -- M ； 公告&动态-- R
+        fun getGeneral(kind: String,page:Int)// 招聘信息--L ； 招聘会 -- M ； 公告&动态-- R
     }
 }

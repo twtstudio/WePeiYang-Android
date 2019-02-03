@@ -3,7 +3,6 @@ package com.twt.service.job.home
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import com.twt.service.job.R
 import com.twt.service.job.service.COMMON
@@ -14,9 +13,12 @@ import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemController
 import org.jetbrains.anko.layoutInflater
 
+/**
+ * 管理所有的item
+ */
 
 // "招聘会" 标签下列列表项所包含信息与其他三个标签不不⼀一样，且没有置顶项。
-class FairItem(val common: CommonL) : Item {
+class FairItem(val common: CommonL, val isLast: Boolean) : Item {
     private companion object Controller : ItemController {
         override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
             val inflater = parent.context.layoutInflater
@@ -33,6 +35,11 @@ class FairItem(val common: CommonL) : Item {
                 fairTextViewPlace.text = fairItem.common.place
                 fairTextViewClick.text = fairItem.common.click
                 fairTextViewDate.text = fairItem.common.date
+                fairDivide.visibility = if (fairItem.isLast) {
+                    View.GONE // 最后一个 item 看不到分割线
+                } else {
+                    View.VISIBLE
+                }
             }
             // 本应在此处设置点击事件，但是在 acitivity 里的 fragment 里的 item 如何实现两个 activity 通信
         }
@@ -40,6 +47,7 @@ class FairItem(val common: CommonL) : Item {
     }
 
     class FairViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val fairDivide: View = itemView.findViewById(R.id.job_v_one_divide)
         val fairTitle: TextView = itemView.findViewById(R.id.job_tv_one_title)
         val fairHeldDate: TextView = itemView.findViewById(R.id.job_tv_one_held_date)
         val fairHeldTime: TextView = itemView.findViewById(R.id.job_tv_one_held_time)
@@ -52,7 +60,7 @@ class FairItem(val common: CommonL) : Item {
 }
 
 // 剩下三种类型，拿到的数据格式不一样，为了使用统一的Item，并且需要信息不多，所以直接传信息
-class ThreeItem(val click: Int, val title: String, val date: String, val mark: String) : Item {
+class ThreeItem(val click: Int, val title: String, val date: String, val mark: String,val isLast: Boolean) : Item {
     private companion object Controller : ItemController {
         override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
             val inflater = parent.context.layoutInflater
@@ -77,6 +85,11 @@ class ThreeItem(val click: Int, val title: String, val date: String, val mark: S
                     }
                     COMMON -> threeTop.visibility = View.GONE
                 }
+                threeDivide.visibility = if (threeItem.isLast) {
+                    View.GONE
+                }else{
+                    View.VISIBLE
+                }
             }
             // 本应在此处设置点击事件，但是在 acitivity 里的 fragment 里的 item 如何实现两个 activity 通信
         }
@@ -84,6 +97,7 @@ class ThreeItem(val click: Int, val title: String, val date: String, val mark: S
     }
 
     class ThreeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val threeDivide : View = itemView.findViewById(R.id.job_v_three_divide)
         val threeTextViewClick: TextView = itemView.findViewById(R.id.job_tv_three_click)
         val threeTop: TextView = itemView.findViewById(R.id.job_tv_three_top)
         val threeTitle: TextView = itemView.findViewById(R.id.job_tv_three_title)
@@ -93,5 +107,19 @@ class ThreeItem(val click: Int, val title: String, val date: String, val mark: S
     override val controller: ItemController get() = Controller
 }
 
-fun MutableList<Item>.fair(common: CommonL) = add(FairItem(common))
-fun MutableList<Item>.three(click: Int, title: String, date: String, mark: String) = add(ThreeItem(click,title, date, mark))
+//class divideItem:Item{
+//    private companion object Controller : ItemController{
+//        override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
+//            val inflater =
+//        }
+//
+//        override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: Item) {
+//        }
+//
+//    }
+//
+//
+//}
+
+fun MutableList<Item>.fair(common: CommonL,isLast: Boolean) = add(FairItem(common,isLast))
+fun MutableList<Item>.three(click: Int, title: String, date: String, mark: String,isLast: Boolean) = add(ThreeItem(click, title, date, mark,isLast))
