@@ -9,16 +9,20 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.twt.service.job.R
 import com.twt.service.job.service.*
+import com.twt.wepeiyang.commons.ui.rec.withItems
+import es.dmoral.toasty.Toasty
+import org.jetbrains.anko.support.v4.intentFor
 
-class JobFragment : Fragment(),JobHomeContract.JobHomeView {
+class JobFragment : Fragment(), JobHomeContract.JobHomeView {
 
     private lateinit var kind: String// 记录是四种类型中的哪一种
     private var type: Int = 0
     private lateinit var recyclerView: RecyclerView
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
-    private val homePresenterImp : JobHomePresenterImp = JobHomePresenterImp(this)
+    private val homePresenterImp: JobHomePresenterImp = JobHomePresenterImp(this)
 
     companion object {
         fun newInstance(kind: String): JobFragment {
@@ -45,7 +49,7 @@ class JobFragment : Fragment(),JobHomeContract.JobHomeView {
         return view
     }
 
-    private fun initView(view : View) {
+    private fun initView(view: View) {
         recyclerView = view.findViewById(R.id.job_rv_homepage)
         recyclerView.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         swipeRefreshLayout = view.findViewById<SwipeRefreshLayout>(R.id.job_sr_refresh).apply {
@@ -53,32 +57,45 @@ class JobFragment : Fragment(),JobHomeContract.JobHomeView {
         }
     }
 
-    private fun initLoad(){
-        homePresenterImp.getGeneral(kind,1)
+    private fun initLoad() {
+        homePresenterImp.getGeneral(kind, 1)
     }
 
-    private fun initRefresh(){
-
-    }
-
-    private fun initLoadMore(){
+    private fun initRefresh() {
 
     }
 
-    override fun showHomeFair(commonBean: List<CommonL>?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    private fun initLoadMore() {
+
     }
 
-    override fun showHomeMessage(importantBean: List<ImportantL>?, commonBean: List<CommonL>?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun showHomeFair(commonBean: List<HomeDataL>) {
+        recyclerView.withItems {
+            repeat(commonBean.size) { i ->
+                if (i != commonBean.size) fair(commonBean[i - 1], false)
+                else fair(commonBean[i - 1], true)
+            }
+        }
     }
 
-    override fun showHomeRight(importantBean: List<ImportantR>?, commonBean: List<CommonR>?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun showThree(importantBean: List<HomeDataR>, commonBean: List<HomeDataR>) {
+        recyclerView.withItems {
+            if (commonBean.isNotEmpty()) {
+                repeat(importantBean.size) { i ->
+                    importantBean[i-1].apply { three(click.toInt(),title,date,true,false) }
+                }
+                repeat(commonBean.size){i ->
+                    commonBean[i-1].apply {
+                        if (i!=commonBean.size) three(click.toInt(),title,date,true,false)
+                        else three(click.toInt(),title,date,true,false)
+                    }
+                }
+            }
+        }
     }
 
     override fun onError(msg: String) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        Toasty.error(context!!, msg, Toast.LENGTH_LONG, true).show()
     }
 
     override fun onNull() {

@@ -3,4 +3,5 @@
     <string name="job_name">就业</string>
     <string name="job_search_icon">job_search_icon</string>
     <string name="job_top">置顶</string>
+    <string name="Job_Top">置顶</string>
 </resources>

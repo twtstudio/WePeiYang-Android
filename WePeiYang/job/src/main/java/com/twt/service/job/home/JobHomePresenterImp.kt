@@ -11,13 +11,13 @@ class JobHomePresenterImp(val jobHomeView: JobHomeContract.JobHomeView) : JobHom
     override fun getGeneral(kind: String, page: Int) {
         when (kind) {
             JOB_MESSAGE -> {
-                getRecruits(0, page) { refreshState, importantBean, commonBean ->
+                getRecruits(JOB_MESSAGE_TYPE, page) { refreshState, importantBean, commonBean ->
                     when (refreshState) {
                         is RefreshState.Success -> {
                             if ((importantBean == null || importantBean.isEmpty()) && (commonBean == null || commonBean.isEmpty())) {
                                 jobHomeView.onNull()
                             } else {
-                                jobHomeView.showHomeMessage(importantBean, commonBean)
+                                jobHomeView.showThree(funs.convert(importantBean.orEmpty()), funs.convert(commonBean.orEmpty()))
                             }
                         }
                         is RefreshState.Failure -> jobHomeView.onError("${refreshState.throwable}")
@@ -25,7 +25,7 @@ class JobHomePresenterImp(val jobHomeView: JobHomeContract.JobHomeView) : JobHom
                 }
             }
             JOB_FAIR -> {
-                getRecruits(1, page) { refreshState, importantBean, commonBean ->
+                getRecruits(JOB_FAIR_TYPE, page) { refreshState, _, commonBean ->
                     when (refreshState) {
                         is RefreshState.Success -> {
                             if (commonBean == null || commonBean.isEmpty()) {
@@ -39,16 +39,29 @@ class JobHomePresenterImp(val jobHomeView: JobHomeContract.JobHomeView) : JobHom
                 }
             }
             NOTICE, DYNAMIC -> {
-                getNotioces(0, page) { refreshState, rotationBean,importantBean, commonBean ->
+                getNotioces(NOTICE_TYPE, page) { refreshState, rotationBean, importantBean, commonBean ->
                     when (refreshState) {
                         is RefreshState.Success -> {
                             if ((rotationBean == null || rotationBean.isEmpty())&&(importantBean == null || importantBean.isEmpty()) && (commonBean == null || commonBean.isEmpty())) {
                                 jobHomeView.onNull()
                             } else {
-                                val importantR = mutableListOf<ImportantR>()
-                                if (rotationBean != null) importantR.addAll(rotationBean)
-                                if (importantBean != null) importantR.addAll(importantBean)
-                                jobHomeView.showHomeRight(rotationBean,commonBean)
+                                (rotationBean as MutableList<HomeDataR>).addAll(importantBean as MutableList<HomeDataR>)
+                                jobHomeView.showThree(rotationBean.orEmpty(),commonBean.orEmpty())
+                            }
+                        }
+                        is RefreshState.Failure -> jobHomeView.onError("${refreshState.throwable}")
+                    }
+                }
+            }
+            DYNAMIC->{
+                getNotioces(DYNAMIC_TYPE, page) { refreshState, rotationBean, importantBean, commonBean ->
+                    when (refreshState) {
+                        is RefreshState.Success -> {
+                            if ((rotationBean == null || rotationBean.isEmpty())&&(importantBean == null || importantBean.isEmpty()) && (commonBean == null || commonBean.isEmpty())) {
+                                jobHomeView.onNull()
+                            } else {
+                                (rotationBean as MutableList<HomeDataR>).addAll(importantBean as MutableList<HomeDataR>)
+                                jobHomeView.showThree(rotationBean.orEmpty(),commonBean.orEmpty())
                             }
                         }
                         is RefreshState.Failure -> jobHomeView.onError("${refreshState.throwable}")

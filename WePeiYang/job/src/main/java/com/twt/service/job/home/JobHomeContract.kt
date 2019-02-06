@@ -4,9 +4,8 @@ import com.twt.service.job.service.*
 
 interface JobHomeContract {
     interface JobHomeView {
-        fun showHomeFair(commonBean: List<CommonL>?)// 招聘会,没有置顶消息
-        fun showHomeMessage(importantBean: List<ImportantL>?, commonBean: List<CommonL>?) // 招聘信息
-        fun showHomeRight(importantBean: List<ImportantR>?, commonBean: List<CommonR>?) // 公告和动态
+        fun showHomeFair(commonBean: List<HomeDataL>)// 招聘会,没有置顶消息
+        fun showThree(importantBean: List<HomeDataR>, commonBean: List<HomeDataR>) // 公告和动态
         fun onError(msg:String)
         fun onNull()
     }

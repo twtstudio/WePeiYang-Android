@@ -15,7 +15,7 @@ object JobHomeModel {
     var pagesOfNotice: Int by hawk(NOTICE, 0)
     var pagesOfDynamic: Int by hawk(DYNAMIC, 0)
 
-    fun getRecruits(type: Int, page: Int, callback: suspend (RefreshState<Unit>, List<ImportantL>?, List<CommonL>?) -> Unit) {
+    fun getRecruits(type: Int, page: Int, callback: suspend (RefreshState<Unit>, List<HomeDataL>?, List<HomeDataL>?) -> Unit) {
         launch(UI + QuietCoroutineExceptionHandler) {
             JobService.getRecruits(type, page).awaitAndHandle {
                 callback(RefreshState.Failure(it), null, null)
@@ -30,7 +30,7 @@ object JobHomeModel {
         }
     }
 
-    fun getNotioces(type: Int, page: Int, callback: suspend (RefreshState<Unit>, List<ImportantR>?, List<ImportantR>?, List<CommonR>?) -> Unit) {
+    fun getNotioces(type: Int, page: Int, callback: suspend (RefreshState<Unit>, List<HomeDataR>?, List<HomeDataR>?, List<HomeDataR>?) -> Unit) {
         launch(UI + QuietCoroutineExceptionHandler) {
             JobService.getNotioces(type, page).awaitAndHandle {
                 callback(RefreshState.Failure(it), null, null, null)

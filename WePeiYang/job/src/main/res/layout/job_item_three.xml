@@ -36,7 +36,7 @@
         android:paddingBottom="2dp"
         android:paddingStart="4dp"
         android:paddingEnd="4dp"
-        tools:text="置顶"
+        android:text="@string/Job_Top"
         android:textColor="@color/job_green"
         android:textSize="15sp"
         app:layout_constraintRight_toLeftOf="@+id/job_iv_three_click"

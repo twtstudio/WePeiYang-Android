@@ -26,28 +26,27 @@ object funs {
         JOB_MESSAGE, NOTICE -> 0
         else -> 1
     }
+
+    fun convert(commonL: List<HomeDataL>): List<HomeDataR> {
+        val commomRs: MutableList<HomeDataR> = mutableListOf()
+        repeat(commonL.size) { i ->
+            commonL[i - 1].apply {
+                commomRs.add(HomeDataR(click,date, id, important, title) )
+            }
+        }
+        return commomRs
+    }
 }
 
 data class GeneralL(
-        val common: List<CommonL>,
-        val important: List<ImportantL>,
+        val common: List<HomeDataL>,
+        val important: List<HomeDataL>,
         val page: String,
         val page_count: Int,
         val type: String
 )
 
-data class CommonL(
-        val click: String,
-        val date: String,
-        val held_date: String,
-        val held_time: String,
-        val id: String,
-        val important: String,
-        val place: String,
-        val title: String
-)
-
-data class ImportantL(
+data class HomeDataL(
         val click: String,
         val date: String,
         val held_date: String,
@@ -59,37 +58,21 @@ data class ImportantL(
 )
 
 data class GeneralR(
-        val common: List<CommonR>,
+        val common: List<HomeDataR>,
         val current_page: String,// 当前页数
-        val important: List<ImportantR>,
+        val important: List<HomeDataR>,
         val page_count: Int,
-        val rotation: List<ImportantR>,// 工作动态的轮换的3条，公告没有
+        val rotation: List<HomeDataR>,// 工作动态的轮换的3条，公告没有
         val type: String
 )
 
-data class CommonR(
+data class HomeDataR(
         val click: String,
         val date: String,
         val id: String,
         val important: String,
         val title: String
 )
-
-data class ImportantR(
-        val click: String,
-        val date: String,
-        val id: String,
-        val important: String,
-        val title: String
-)
-
-//data class Rotation(
-//        val id: Int,
-//        val title: String,
-//        val click: String,
-//        val date: String,
-//        val important: Int
-//)
 
 data class Recruit(
         val attach1: String,
