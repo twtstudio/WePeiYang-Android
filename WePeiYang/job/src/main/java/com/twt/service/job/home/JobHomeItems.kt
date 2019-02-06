@@ -15,7 +15,7 @@ import org.jetbrains.anko.layoutInflater
  */
 
 // "招聘会" 标签下列列表项所包含信息与其他三个标签不不⼀一样，且没有置顶项。
-class FairItem(val common: HomeDataL, val isLast: Boolean) : Item {
+class FairItem(val common: HomeDataL, val isFirst: Boolean) : Item {
     private companion object Controller : ItemController {
         override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
             val inflater = parent.context.layoutInflater
@@ -32,7 +32,7 @@ class FairItem(val common: HomeDataL, val isLast: Boolean) : Item {
                 fairTextViewPlace.text = fairItem.common.place
                 fairTextViewClick.text = fairItem.common.click
                 fairTextViewDate.text = fairItem.common.date
-                fairDivide.visibility = if (fairItem.isLast) View.GONE else View.VISIBLE
+                fairDivide.visibility = if (fairItem.isFirst) View.GONE else View.VISIBLE
                 // 最后一个 item 看不到分割线
             }
             // 本应在此处设置点击事件，但是在 acitivity 里的 fragment 里的 item 如何实现两个 activity 通信
@@ -54,7 +54,7 @@ class FairItem(val common: HomeDataL, val isLast: Boolean) : Item {
 }
 
 // 剩下三种类型，拿到的数据格式不一样，为了使用统一的Item，并且需要信息不多，所以直接传信息
-class ThreeItem(val click: Int, val title: String, val date: String, val isTop: Boolean, val isLast: Boolean) : Item {
+class ThreeItem(val dataR: HomeDataR, val isFirst: Boolean) : Item {
     private companion object Controller : ItemController {
         override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
             val inflater = parent.context.layoutInflater
@@ -65,11 +65,11 @@ class ThreeItem(val click: Int, val title: String, val date: String, val isTop: 
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: Item) {
             val threeItem = item as ThreeItem
             (holder as ThreeViewHolder).apply {
-                threeTextViewClick.text = threeItem.click.toString()
-                threeTitle.text = threeItem.title
-                threeDate.text = threeItem.date
-                threeTop.visibility=if (threeItem.isTop) View.VISIBLE else View.GONE
-                threeDivide.visibility = if (threeItem.isLast) View.GONE else View.VISIBLE
+                threeTextViewClick.text = threeItem.dataR.click
+                threeTitle.text = threeItem.dataR.title
+                threeDate.text = threeItem.dataR.date
+                threeTop.visibility=if (threeItem.dataR.important == "1") View.VISIBLE else View.GONE
+                threeDivide.visibility = if (threeItem.isFirst) View.GONE else View.VISIBLE
             }
             // 本应在此处设置点击事件，但是在 acitivity 里的 fragment 里的 item 如何实现两个 activity 通信
         }
@@ -87,5 +87,5 @@ class ThreeItem(val click: Int, val title: String, val date: String, val isTop: 
     override val controller: ItemController get() = Controller
 }
 
-fun MutableList<Item>.fair(common: HomeDataL, isLast: Boolean) = add(FairItem(common, isLast))
-fun MutableList<Item>.three(click: Int, title: String, date: String, isTop: Boolean, isLast: Boolean) = add(ThreeItem(click, title, date, isTop, isLast))
+fun MutableList<Item>.fair(common: HomeDataL, isFirst: Boolean) = add(FairItem(common, isFirst))
+fun MutableList<Item>.three(dataR: HomeDataR, isFirst: Boolean) = add(ThreeItem(dataR, isFirst))

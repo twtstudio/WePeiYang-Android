@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,7 +23,6 @@ class JobFragment : Fragment(), JobHomeContract.JobHomeView {
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     private lateinit var linearLayoutManager: LinearLayoutManager
     private val homePresenterImp: JobHomePresenterImp = JobHomePresenterImp(this)
-    private var lastPosition = 0
 
     companion object {
         fun newInstance(kind: String): JobFragment {
@@ -75,32 +73,19 @@ class JobFragment : Fragment(), JobHomeContract.JobHomeView {
     override fun showHomeFair(commonBean: List<HomeDataL>) {
         recyclerView.withItems {
             repeat(commonBean.size) { i ->
-                if (i != commonBean.size) fair(commonBean[i], false)
-                else fair(commonBean[i], true)
+                if (i == 0) fair(commonBean[i], true)
+                else fair(commonBean[i], false)
             }
         }
     }
 
-    override fun showThree(importantBean: List<HomeDataR>, commonBean: List<HomeDataR>) {
+    override fun showThree(dataRBean:List<HomeDataR>) {
         recyclerView.withItems {
-            lastPosition = linearLayoutManager.findLastVisibleItemPosition()
-            Log.d("Home",lastPosition.toString())
-            if (commonBean.isNotEmpty()) {
-                repeat(importantBean.size) { i ->
-                    importantBean[i].apply { three(click.toInt(), title, date, true, false) }
-                }
-                repeat(commonBean.size) { i ->
-                    commonBean[i].apply {
-                        if (i != commonBean.size) three(click.toInt(), title, date, false, false)
-                        else three(click.toInt(), title, date, true, true)
-                    }
-                }
-            } else {
-                repeat(importantBean.size) { i ->
-                    importantBean[i].apply {
-                        if (i != commonBean.size) three(click.toInt(), title, date, false, false)
-                        else three(click.toInt(), title, date, true, true)
-                    }
+            repeat(dataRBean.size) { i ->
+                if (i == 0){
+                    three(dataRBean[i],true)
+                }else {
+                    three(dataRBean[i], false)
                 }
             }
         }

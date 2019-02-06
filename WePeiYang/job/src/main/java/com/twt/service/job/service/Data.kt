@@ -29,7 +29,7 @@ object funs {
         val commomRs: MutableList<HomeDataR> = mutableListOf()
         repeat(commonL.size) { i ->
             commonL[i].apply {
-                commomRs.add(HomeDataR(click,date, id, important, title) )
+                commomRs.add(HomeDataR(click, date, id, important, title))
             }
         }
         return commomRs

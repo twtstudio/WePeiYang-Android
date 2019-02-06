@@ -17,7 +17,7 @@ class JobHomePresenterImp(val jobHomeView: JobHomeContract.JobHomeView) : JobHom
                             if ((importantBean == null || importantBean.isEmpty()) && (commonBean == null || commonBean.isEmpty())) {
                                 jobHomeView.onNull()
                             } else {
-                                jobHomeView.showThree(funs.convert(importantBean.orEmpty()), funs.convert(commonBean.orEmpty()))
+                                jobHomeView.showThree(merge(null,funs.convert(importantBean.orEmpty()),funs.convert(commonBean.orEmpty())))
                             }
                         }
                         is RefreshState.Failure -> jobHomeView.onError("${refreshState.throwable}")
@@ -45,8 +45,8 @@ class JobHomePresenterImp(val jobHomeView: JobHomeContract.JobHomeView) : JobHom
                             if ((rotationBean == null || rotationBean.isEmpty())&&(importantBean == null || importantBean.isEmpty()) && (commonBean == null || commonBean.isEmpty())) {
                                 jobHomeView.onNull()
                             } else {
-                                (rotationBean as MutableList<HomeDataR>).addAll(importantBean as MutableList<HomeDataR>)
-                                jobHomeView.showThree(rotationBean.orEmpty(),commonBean.orEmpty())
+
+                                jobHomeView.showThree(merge(rotationBean,importantBean,commonBean))
                             }
                         }
                         is RefreshState.Failure -> jobHomeView.onError("${refreshState.throwable}")
@@ -60,8 +60,7 @@ class JobHomePresenterImp(val jobHomeView: JobHomeContract.JobHomeView) : JobHom
                             if ((rotationBean == null || rotationBean.isEmpty())&&(importantBean == null || importantBean.isEmpty()) && (commonBean == null || commonBean.isEmpty())) {
                                 jobHomeView.onNull()
                             } else {
-                                (rotationBean as MutableList<HomeDataR>).addAll(importantBean as MutableList<HomeDataR>)
-                                jobHomeView.showThree(rotationBean.orEmpty(),commonBean.orEmpty())
+                                jobHomeView.showThree(merge(rotationBean,importantBean,commonBean))
                             }
                         }
                         is RefreshState.Failure -> jobHomeView.onError("${refreshState.throwable}")
@@ -69,5 +68,13 @@ class JobHomePresenterImp(val jobHomeView: JobHomeContract.JobHomeView) : JobHom
                 }
             }
         }
+    }
+
+    fun merge( rotationBean:List<HomeDataR>?, importantBean:List<HomeDataR>?, commonBean:List<HomeDataR>?):MutableList<HomeDataR>{
+        val dataRBean = mutableListOf<HomeDataR>()
+        dataRBean.addAll(rotationBean.orEmpty())
+        dataRBean.addAll(importantBean.orEmpty())
+        dataRBean.addAll(commonBean.orEmpty())
+        return dataRBean
     }
 }
