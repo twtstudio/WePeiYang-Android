@@ -8,17 +8,15 @@ const val JOB_FAIR_TYPE = 1 // 招聘会
 const val NOTICE_TYPE = 0 // 公告
 const val DYNAMIC_TYPE = 1 // 动态
 
-const val JOB_MESSAGE = "job_message" //招聘信息
-const val JOB_FAIR = "job_fair" // 招聘会
-const val NOTICE = "notice" // 公告
-const val DYNAMIC = "dynamic" // 动态
+const val JOB_MESSAGE = "招聘信息"
+const val JOB_FAIR = "招聘会"
+const val NOTICE = "公告"
+const val DYNAMIC = "动态"
 
 const val KEY_TYPE = "type"
 const val KEY_ID = "id"
 
-const val VIP = "vip"
-const val TOP = "top"
-const val COMMON = "common"
+val listsOfHome = mutableListOf(JOB_MESSAGE, JOB_FAIR, NOTICE, DYNAMIC)
 
 object funs {
     // 根据类型判断对应 type
@@ -30,7 +28,7 @@ object funs {
     fun convert(commonL: List<HomeDataL>): List<HomeDataR> {
         val commomRs: MutableList<HomeDataR> = mutableListOf()
         repeat(commonL.size) { i ->
-            commonL[i - 1].apply {
+            commonL[i].apply {
                 commomRs.add(HomeDataR(click,date, id, important, title) )
             }
         }

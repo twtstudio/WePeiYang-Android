@@ -16,8 +16,9 @@ class JobHomePageAdapter(fm:FragmentManager) : FragmentPagerAdapter(fm){
     override fun getPageTitle(position: Int): CharSequence? = fragmentTitles[position]
 
     // 这样实例化 pageadapter 的时候不用传 fragment 和 title ，并且可以继续添加，如果以后需要删除，可以再添加一个删除方法
-    fun add(fragment: Fragment,title : String){
+    public fun addFragment(fragment: Fragment,title : String){
         fragmentsOfHome.add(fragment)
         fragmentTitles.add(title)
+        notifyDataSetChanged()
     }
 }

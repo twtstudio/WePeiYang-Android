@@ -38,7 +38,7 @@ class JobHomePresenterImp(val jobHomeView: JobHomeContract.JobHomeView) : JobHom
                     }
                 }
             }
-            NOTICE, DYNAMIC -> {
+            NOTICE-> {
                 getNotioces(NOTICE_TYPE, page) { refreshState, rotationBean, importantBean, commonBean ->
                     when (refreshState) {
                         is RefreshState.Success -> {
