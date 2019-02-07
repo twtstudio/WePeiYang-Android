@@ -1,5 +1,7 @@
 package com.twt.service.job.service
 
+import com.twt.wepeiyang.commons.experimental.preference.hawk
+
 
 const val ARG_KIND = "arg_kind"
 
@@ -17,6 +19,12 @@ const val KEY_TYPE = "type"
 const val KEY_ID = "id"
 
 val listsOfHome = mutableListOf(JOB_MESSAGE, JOB_FAIR, NOTICE, DYNAMIC)
+
+// 分别存四个碎片的最大页数
+var pagesOfMsg: Int by hawk(JOB_MESSAGE, 1)
+var pagesOfFair: Int by hawk(JOB_FAIR, 1)
+var pagesOfNotice: Int by hawk(NOTICE, 1)
+var pagesOfDynamic: Int by hawk(DYNAMIC, 1)
 
 object funs {
     // 根据类型判断对应 type

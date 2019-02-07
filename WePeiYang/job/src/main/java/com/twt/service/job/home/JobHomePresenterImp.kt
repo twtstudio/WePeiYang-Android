@@ -1,5 +1,6 @@
 package com.twt.service.job.home
 
+import com.orhanobut.hawk.Hawk
 import com.twt.service.job.service.*
 import com.twt.service.job.service.JobHomeModel.getNotioces
 import com.twt.service.job.service.JobHomeModel.getRecruits
@@ -17,7 +18,11 @@ class JobHomePresenterImp(val jobHomeView: JobHomeContract.JobHomeView) : JobHom
                             if ((importantBean == null || importantBean.isEmpty()) && (commonBean == null || commonBean.isEmpty())) {
                                 jobHomeView.onNull()
                             } else {
-                                jobHomeView.showThree(merge(null,funs.convert(importantBean.orEmpty()),funs.convert(commonBean.orEmpty())))
+                                if (page == 1) {// first time
+                                    jobHomeView.showThree(merge(null, funs.convert(importantBean.orEmpty()), funs.convert(commonBean.orEmpty())))
+                                } else { // up load more
+                                    jobHomeView.loadMoreOther(merge(null, null, funs.convert(commonBean.orEmpty())))
+                                }
                             }
                         }
                         is RefreshState.Failure -> jobHomeView.onError("${refreshState.throwable}")
@@ -31,36 +36,47 @@ class JobHomePresenterImp(val jobHomeView: JobHomeContract.JobHomeView) : JobHom
                             if (commonBean == null || commonBean.isEmpty()) {
                                 jobHomeView.onNull()
                             } else {
-                                jobHomeView.showHomeFair(commonBean)
+                                if (page == 1) {
+                                    jobHomeView.showHomeFair(commonBean)
+                                } else {
+                                    jobHomeView.loadMoreFair(commonBean)
+                                }
                             }
                         }
                         is RefreshState.Failure -> jobHomeView.onError("${refreshState.throwable}")
                     }
                 }
             }
-            NOTICE-> {
+            NOTICE -> {
                 getNotioces(NOTICE_TYPE, page) { refreshState, rotationBean, importantBean, commonBean ->
                     when (refreshState) {
                         is RefreshState.Success -> {
-                            if ((rotationBean == null || rotationBean.isEmpty())&&(importantBean == null || importantBean.isEmpty()) && (commonBean == null || commonBean.isEmpty())) {
+                            if ((rotationBean == null || rotationBean.isEmpty()) && (importantBean == null || importantBean.isEmpty()) && (commonBean == null || commonBean.isEmpty())) {
                                 jobHomeView.onNull()
                             } else {
-
-                                jobHomeView.showThree(merge(rotationBean,importantBean,commonBean))
+                                if (page == 1) {
+                                    jobHomeView.showThree(merge(rotationBean, importantBean, commonBean))
+                                }else{
+                                    jobHomeView.loadMoreOther(merge(null,null,commonBean))
+                                }
                             }
                         }
                         is RefreshState.Failure -> jobHomeView.onError("${refreshState.throwable}")
                     }
                 }
             }
-            DYNAMIC->{
+            DYNAMIC -> {
                 getNotioces(DYNAMIC_TYPE, page) { refreshState, rotationBean, importantBean, commonBean ->
                     when (refreshState) {
                         is RefreshState.Success -> {
-                            if ((rotationBean == null || rotationBean.isEmpty())&&(importantBean == null || importantBean.isEmpty()) && (commonBean == null || commonBean.isEmpty())) {
+                            if ((rotationBean == null || rotationBean.isEmpty()) && (importantBean == null || importantBean.isEmpty()) && (commonBean == null || commonBean.isEmpty())) {
                                 jobHomeView.onNull()
                             } else {
-                                jobHomeView.showThree(merge(rotationBean,importantBean,commonBean))
+                                if (page == 1) {
+                                    jobHomeView.showThree(merge(rotationBean, importantBean, commonBean))
+                                }else{
+                                    jobHomeView.loadMoreOther(merge(null,null,commonBean))
+                                }
                             }
                         }
                         is RefreshState.Failure -> jobHomeView.onError("${refreshState.throwable}")
@@ -70,7 +86,7 @@ class JobHomePresenterImp(val jobHomeView: JobHomeContract.JobHomeView) : JobHom
         }
     }
 
-    fun merge( rotationBean:List<HomeDataR>?, importantBean:List<HomeDataR>?, commonBean:List<HomeDataR>?):MutableList<HomeDataR>{
+    fun merge(rotationBean: List<HomeDataR>?, importantBean: List<HomeDataR>?, commonBean: List<HomeDataR>?): MutableList<HomeDataR> {
         val dataRBean = mutableListOf<HomeDataR>()
         dataRBean.addAll(rotationBean.orEmpty())
         dataRBean.addAll(importantBean.orEmpty())

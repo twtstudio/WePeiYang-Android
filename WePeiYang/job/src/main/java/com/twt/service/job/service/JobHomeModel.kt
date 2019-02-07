@@ -9,12 +9,6 @@ import kotlinx.coroutines.experimental.launch
 
 object JobHomeModel {
 
-    // 分别存四个碎片的最大页数
-    var pagesOfMsg: Int by hawk(JOB_MESSAGE, 0)
-    var pagesOfFair: Int by hawk(JOB_FAIR, 0)
-    var pagesOfNotice: Int by hawk(NOTICE, 0)
-    var pagesOfDynamic: Int by hawk(DYNAMIC, 0)
-
     fun getRecruits(type: Int, page: Int, callback: suspend (RefreshState<Unit>, List<HomeDataL>?, List<HomeDataL>?) -> Unit) {
         launch(UI + QuietCoroutineExceptionHandler) {
             JobService.getRecruits(type, page).awaitAndHandle {
@@ -22,8 +16,8 @@ object JobHomeModel {
             }?.data?.let {
                 when (type) {
                 // 把最大页数存下来，便于上拉刷新的时候判断
-                    0 -> pagesOfMsg = it.page.toInt()
-                    1 -> pagesOfFair = it.page.toInt()
+                    0 -> pagesOfMsg = it.page_count
+                    1 -> pagesOfFair = it.page_count
                 }
                 callback(RefreshState.Success(Unit), it.important, it.common)
             }

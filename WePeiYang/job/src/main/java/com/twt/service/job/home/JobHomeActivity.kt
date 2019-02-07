@@ -30,11 +30,13 @@ class JobHomeActivity : AppCompatActivity(){
         searchImageView = findViewById(R.id.job_home_search)
         tabLayout = findViewById(R.id.job_home_tl_tabs)
         viewPager = findViewById(R.id.job_home_vp_content)
-        viewPagerAdapter = JobHomePageAdapter(supportFragmentManager)
-        viewPager.adapter = viewPagerAdapter
+
     }
 
     private fun initView(){
+        viewPagerAdapter = JobHomePageAdapter(supportFragmentManager)
+        viewPager.adapter = viewPagerAdapter
+        viewPager.offscreenPageLimit = 0
         repeat(4){it->
             viewPagerAdapter.addFragment(JobFragment.newInstance(listsOfHome[it]), listsOfHome[it])
             tabLayout.addTab(tabLayout.newTab().setText(listsOfHome[it])) // 设置 tab 的标题

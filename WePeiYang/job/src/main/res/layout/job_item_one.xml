@@ -63,9 +63,12 @@
         android:id="@+id/job_tv_one_place"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="北洋园校区55教A204"
+        tools:text="北洋园校区55教A204不晓得在哪间办公室"
         android:textSize="15sp"
         android:textColor="@color/job_dark_grey"
+        android:maxEms="14"
+        android:singleLine="true"
+        android:ellipsize="end"
         app:layout_constraintTop_toTopOf="@+id/job_iv_one_place"
         app:layout_constraintBottom_toBottomOf="@+id/job_iv_one_place"
         app:layout_constraintLeft_toRightOf="@+id/job_iv_one_place"/>

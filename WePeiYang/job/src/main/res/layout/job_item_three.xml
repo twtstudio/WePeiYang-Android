@@ -47,7 +47,7 @@
         android:id="@+id/job_tv_three_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:text="山西省2019年定向天津大学选调优秀搞笑哈哈哈哈嘻嘻嘻你好呀"
+        tools:text="山西省2019年定向天津大学选调优秀搞笑哈哈阿狸我的好辛苦比较权威控件啊波动哈哈嘻嘻嘻你好呀"
         android:textColor="@color/job_black"
         android:textSize="19sp"
         android:maxLines="2"
