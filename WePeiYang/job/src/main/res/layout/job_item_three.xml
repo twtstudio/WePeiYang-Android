@@ -8,7 +8,7 @@
 
     <TextView
         android:id="@+id/job_tv_three_click"
-        android:layout_width="wrap_content"
+        android:layout_width="54dp"
         android:layout_height="wrap_content"
         android:textColor="@color/job_dark_grey"
         android:textSize="18sp"
@@ -16,7 +16,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="20dp"/>
+        android:layout_marginEnd="14dp"/>
 
     <ImageView
         android:id="@+id/job_iv_three_click"

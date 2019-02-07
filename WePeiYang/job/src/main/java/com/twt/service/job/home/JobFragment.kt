@@ -90,7 +90,7 @@ class JobFragment : Fragment(), JobHomeContract.JobHomeView {
                 super.onScrolled(recyclerView, dx, dy)
                 lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition()
                 totalCount = linearLayoutManager.itemCount
-                if (lastVisibleItem + 1 == totalCount && !isLoad) {
+                if (lastVisibleItem + 3 >= totalCount && !isLoad) {
                     isLoad = true
                     Toasty.error(context!!, "begin", Toast.LENGTH_LONG, true).show()
                     loadData(++page)
