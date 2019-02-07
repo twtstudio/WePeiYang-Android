@@ -3,7 +3,6 @@ package com.twt.service.job.service
 import com.twt.wepeiyang.commons.experimental.cache.RefreshState
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
-import com.twt.wepeiyang.commons.experimental.preference.hawk
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 
@@ -15,7 +14,7 @@ object JobHomeModel {
                 callback(RefreshState.Failure(it), null, null)
             }?.data?.let {
                 when (type) {
-                // 把最大页数存下来，便于上拉刷新的时候判断
+                    // 把最大页数存下来，便于上拉刷新的时候判断
                     0 -> pagesOfMsg = it.page_count
                     1 -> pagesOfFair = it.page_count
                 }
@@ -26,11 +25,11 @@ object JobHomeModel {
 
     fun getNotioces(type: Int, page: Int, callback: suspend (RefreshState<Unit>, List<HomeDataR>?, List<HomeDataR>?, List<HomeDataR>?) -> Unit) {
         launch(UI + QuietCoroutineExceptionHandler) {
-            JobService.getNotioces(type, page).awaitAndHandle {
+            JobService.getNotices(type, page).awaitAndHandle {
                 callback(RefreshState.Failure(it), null, null, null)
             }?.data?.let {
                 when (type) {
-                // 把最大页数存下来，便于上拉刷新的时候判断
+                    // 把最大页数存下来，便于上拉刷新的时候判断
                     0 -> pagesOfNotice = it.page_count
                     1 -> pagesOfDynamic = it.page_count
                 }

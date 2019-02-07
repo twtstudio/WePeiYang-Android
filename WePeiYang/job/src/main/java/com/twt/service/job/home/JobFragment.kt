@@ -13,9 +13,9 @@ import android.widget.Toast
 import com.orhanobut.hawk.Hawk
 import com.twt.service.job.R
 import com.twt.service.job.service.*
+import com.twt.wepeiyang.commons.ui.rec.ItemAdapter
 import com.twt.wepeiyang.commons.ui.rec.withItems
 import es.dmoral.toasty.Toasty
-import kotlinx.coroutines.experimental.delay
 
 class JobFragment : Fragment(), JobHomeContract.JobHomeView {
 
@@ -65,7 +65,7 @@ class JobFragment : Fragment(), JobHomeContract.JobHomeView {
         }
     }
 
-    private fun loadData(page : Int) {
+    private fun loadData(page: Int) {
         if (page > Hawk.get<Int>(kind)) {
             cannotLoad()
         } else {
@@ -76,7 +76,8 @@ class JobFragment : Fragment(), JobHomeContract.JobHomeView {
 
     private fun refresh() {
         swipeRefreshLayout.setOnRefreshListener {
-            loadData(1)// 得单独传1，刷新永远是第一页，其他地方的 page 就要用全局的，统一多上拉一次，page就+1
+            page = 1
+            loadData(1) // 得单独传1，刷新永远是第一页，其他地方的 page 就要用全局的，统一多上拉一次，page就+1
             swipeRefreshLayout.isRefreshing = false
         }
     }
@@ -130,10 +131,9 @@ class JobFragment : Fragment(), JobHomeContract.JobHomeView {
     }
 
     override fun loadMoreOther(dataRBean: List<HomeDataR>) {
-        recyclerView.withItems {
-            repeat(dataRBean.size) { i ->
-                three(dataRBean[i], false)
-            }
+        val adapter = recyclerView.adapter as ItemAdapter
+        repeat(dataRBean.size) { i ->
+            adapter.itemManager.add(ThreeItem(dataRBean[i], false))
         }
     }
 

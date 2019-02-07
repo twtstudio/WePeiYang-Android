@@ -9,7 +9,7 @@ interface JobHomeContract {
         fun showThree(dataRBean: List<HomeDataR>) // 公告和动态
         fun loadMoreOther(dataRBean: List<HomeDataR>)
         fun cannotLoad()
-        fun onError(msg:String)
+        fun onError(msg: String)
         fun onNull()
     }
 

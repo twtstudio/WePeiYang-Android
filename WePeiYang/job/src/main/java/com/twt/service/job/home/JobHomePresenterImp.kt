@@ -1,6 +1,5 @@
 package com.twt.service.job.home
 
-import com.orhanobut.hawk.Hawk
 import com.twt.service.job.service.*
 import com.twt.service.job.service.JobHomeModel.getNotioces
 import com.twt.service.job.service.JobHomeModel.getRecruits
@@ -8,7 +7,7 @@ import com.twt.wepeiyang.commons.experimental.cache.RefreshState
 
 class JobHomePresenterImp(val jobHomeView: JobHomeContract.JobHomeView) : JobHomeContract.JobHomePresenter {
     //（招聘信息、招聘会）L；（公告、动态）R
-    //如果是招聘会，因为没有在置顶项，只传list<CommonL>
+    // 如果是招聘会，因为没有在置顶项，只传list<CommonL>
     override fun getGeneral(kind: String, page: Int) {
         when (kind) {
             JOB_MESSAGE -> {
@@ -56,7 +55,7 @@ class JobHomePresenterImp(val jobHomeView: JobHomeContract.JobHomeView) : JobHom
                             } else {
                                 if (page == 1) {
                                     jobHomeView.showThree(merge(rotationBean, importantBean, commonBean))
-                                }else{
+                                } else {
                                     jobHomeView.loadMoreOther(commonBean.orEmpty())
                                 }
                             }
@@ -74,7 +73,7 @@ class JobHomePresenterImp(val jobHomeView: JobHomeContract.JobHomeView) : JobHom
                             } else {
                                 if (page == 1) {
                                     jobHomeView.showThree(merge(topRotationBean(rotationBean.orEmpty()), importantBean, commonBean))
-                                }else{
+                                } else {
                                     jobHomeView.loadMoreOther(commonBean.orEmpty())
                                 }
                             }
@@ -94,9 +93,9 @@ class JobHomePresenterImp(val jobHomeView: JobHomeContract.JobHomeView) : JobHom
         return dataRBean
     }
 
-    fun topRotationBean(rotationBean: List<HomeDataR>):List<HomeDataR>{
+    fun topRotationBean(rotationBean: List<HomeDataR>): List<HomeDataR> {
         val newRotationBean = mutableListOf<HomeDataR>()
-        repeat(rotationBean.size){it->
+        repeat(rotationBean.size) {
             rotationBean[it].apply { newRotationBean.add(HomeDataR(click, date, id, "1", title)) }
         }
         return newRotationBean

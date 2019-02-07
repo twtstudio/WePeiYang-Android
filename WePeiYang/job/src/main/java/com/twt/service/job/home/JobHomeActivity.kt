@@ -8,7 +8,7 @@ import android.support.design.widget.TabLayout
 import com.twt.service.job.R
 import com.twt.service.job.service.*
 
-class JobHomeActivity : AppCompatActivity(){
+class JobHomeActivity : AppCompatActivity() {
 
     private lateinit var backImageView: ImageView
     private lateinit var searchImageView: ImageView
@@ -22,10 +22,10 @@ class JobHomeActivity : AppCompatActivity(){
         window.statusBarColor = resources.getColor(R.color.job_green)
         initFindID()
         initView()
-        backImageView.setOnClickListener {onBackPressed()}
+        backImageView.setOnClickListener { onBackPressed() }
     }
 
-    private fun initFindID(){
+    private fun initFindID() {
         backImageView = findViewById(R.id.job_home_iv_back)
         searchImageView = findViewById(R.id.job_home_search)
         tabLayout = findViewById(R.id.job_home_tl_tabs)
@@ -33,11 +33,11 @@ class JobHomeActivity : AppCompatActivity(){
 
     }
 
-    private fun initView(){
+    private fun initView() {
         viewPagerAdapter = JobHomePageAdapter(supportFragmentManager)
         viewPager.adapter = viewPagerAdapter
         viewPager.offscreenPageLimit = 0
-        repeat(4){it->
+        repeat(4) {
             viewPagerAdapter.addFragment(JobFragment.newInstance(listsOfHome[it]), listsOfHome[it])
             tabLayout.addTab(tabLayout.newTab().setText(listsOfHome[it])) // 设置 tab 的标题
         }

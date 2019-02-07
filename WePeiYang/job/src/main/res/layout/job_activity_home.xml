@@ -22,10 +22,9 @@
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:src="@drawable/job_toolbar_back"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                />
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -34,8 +33,8 @@
                 android:text="@string/job_name"
                 android:textColor="#eeeeee"
                 android:textSize="19sp"
-                app:layout_constraintLeft_toRightOf="@+id/job_home_iv_back"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/job_home_iv_back"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
@@ -59,8 +58,8 @@
         android:id="@+id/job_home_tl_tabs"
         android:layout_width="match_parent"
         android:layout_height="52dp"
-        app:tabIndicatorHeight="2dp"
         app:tabIndicatorColor="@color/job_green"
+        app:tabIndicatorHeight="2dp"
         app:tabSelectedTextColor="@color/job_green"
         app:tabTextColor="@color/job_dark_grey" />
 

@@ -14,7 +14,7 @@ import org.jetbrains.anko.layoutInflater
  * 管理所有的item
  */
 
-// "招聘会" 标签下列列表项所包含信息与其他三个标签不不⼀一样，且没有置顶项。
+// "招聘会" 标签下列列表项所包含信息与其他三个标签不一样，且没有置顶项。
 class FairItem(val common: HomeDataL, val isFirst: Boolean) : Item {
     private companion object Controller : ItemController {
         override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
@@ -35,7 +35,7 @@ class FairItem(val common: HomeDataL, val isFirst: Boolean) : Item {
                 fairDivide.visibility = if (fairItem.isFirst) View.GONE else View.VISIBLE
                 // 最后一个 item 看不到分割线
             }
-            // 本应在此处设置点击事件，但是在 acitivity 里的 fragment 里的 item 如何实现两个 activity 通信
+            // 本应在此处设置点击事件，但是在 activity 里的 fragment 里的 item 如何实现两个 activity 通信
         }
 
     }
@@ -68,10 +68,10 @@ class ThreeItem(val dataR: HomeDataR, val isFirst: Boolean) : Item {
                 threeTextViewClick.text = threeItem.dataR.click
                 threeTitle.text = threeItem.dataR.title
                 threeDate.text = threeItem.dataR.date
-                threeTop.visibility=if (threeItem.dataR.important == "1") View.VISIBLE else View.GONE
+                threeTop.visibility = if (threeItem.dataR.important == "1") View.VISIBLE else View.GONE
                 threeDivide.visibility = if (threeItem.isFirst) View.GONE else View.VISIBLE
             }
-            // 本应在此处设置点击事件，但是在 acitivity 里的 fragment 里的 item 如何实现两个 activity 通信
+            // 本应在此处设置点击事件，但是在 activity 里的 fragment 里的 item 如何实现两个 activity 通信
         }
 
     }
