@@ -1,8 +1,8 @@
 package com.twt.service.job.home
 
 import com.twt.service.job.service.*
-import com.twt.service.job.service.JobHomeModel.getNotioces
-import com.twt.service.job.service.JobHomeModel.getRecruits
+import com.twt.service.job.home.JobHomeModel.getNotioces
+import com.twt.service.job.home.JobHomeModel.getRecruits
 import com.twt.wepeiyang.commons.experimental.cache.RefreshState
 
 class JobHomePresenterImp(val jobHomeView: JobHomeContract.JobHomeView) : JobHomeContract.JobHomePresenter {

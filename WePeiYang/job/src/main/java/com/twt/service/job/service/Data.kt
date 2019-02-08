@@ -15,8 +15,9 @@ const val JOB_FAIR = "招聘会"
 const val NOTICE = "公告"
 const val DYNAMIC = "动态"
 
-const val KEY_TYPE = "type"
-const val KEY_ID = "id"
+// acitivity 跳转传递的参数的 key
+const val KEY_KIND = "key_kind"
+const val KEY_ID = "key_id"
 
 val listsOfHome = mutableListOf(JOB_MESSAGE, JOB_FAIR, NOTICE, DYNAMIC)
 
@@ -25,9 +26,6 @@ var pagesOfMsg: Int by hawk(JOB_MESSAGE, 1)
 var pagesOfFair: Int by hawk(JOB_FAIR, 1)
 var pagesOfNotice: Int by hawk(NOTICE, 1)
 var pagesOfDynamic: Int by hawk(DYNAMIC, 1)
-
-object funs {
-}
 
 data class GeneralL(
         val common: List<HomeDataL>,

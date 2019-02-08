@@ -1,5 +1,6 @@
-package com.twt.service.job.service
+package com.twt.service.job.home
 
+import com.twt.service.job.service.*
 import com.twt.wepeiyang.commons.experimental.cache.RefreshState
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
@@ -14,7 +15,7 @@ object JobHomeModel {
                 callback(RefreshState.Failure(it), null, null)
             }?.data?.let {
                 when (type) {
-                    // 把最大页数存下来，便于上拉刷新的时候判断
+                    // 把最大页数存下来，便于上拉刷新的时候判断,这个应该放到presenter做，此处有待修改
                     0 -> pagesOfMsg = it.page_count
                     1 -> pagesOfFair = it.page_count
                 }

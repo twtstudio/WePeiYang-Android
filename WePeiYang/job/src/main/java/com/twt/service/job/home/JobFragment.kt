@@ -21,7 +21,7 @@ import es.dmoral.toasty.Toasty
 class JobFragment : Fragment(), JobHomeContract.JobHomeView {
 
     private lateinit var rootView: View
-    private lateinit var kind: String// 记录是四种类型中的哪一种
+    lateinit var kind: String private set// 记录是四种类型中的哪一种
     private lateinit var recyclerView: RecyclerView
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     private lateinit var linearLayoutManager: LinearLayoutManager
@@ -103,8 +103,8 @@ class JobFragment : Fragment(), JobHomeContract.JobHomeView {
     override fun showHomeFair(commonBean: List<HomeDataL>) {
         recyclerView.withItems {
             repeat(commonBean.size) { i ->
-                if (i == 0) fair(commonBean[i], true)
-                else fair(commonBean[i], false)
+                if (i == 0) fair(commonBean[i], true,this@JobFragment)
+                else fair(commonBean[i], false,this@JobFragment)
             }
         }
         itemManager = (recyclerView.adapter as ItemAdapter).itemManager
@@ -114,9 +114,9 @@ class JobFragment : Fragment(), JobHomeContract.JobHomeView {
         recyclerView.withItems {
             repeat(dataRBean.size) { i ->
                 if (i == 0) {
-                    three(dataRBean[i], true)
+                    three(dataRBean[i], true,this@JobFragment)
                 } else {
-                    three(dataRBean[i], false)
+                    three(dataRBean[i], false,this@JobFragment)
                 }
             }
         }
@@ -125,13 +125,13 @@ class JobFragment : Fragment(), JobHomeContract.JobHomeView {
 
     override fun loadMoreFair(commonBean: List<HomeDataL>) {
         repeat(commonBean.size) { i ->
-            itemManager.add(FairItem(commonBean[i], false))
+            itemManager.add(FairItem(commonBean[i], false,this@JobFragment))
         }
     }
 
     override fun loadMoreOther(dataRBean: List<HomeDataR>) {
         repeat(dataRBean.size) { i ->
-            itemManager.add(ThreeItem(dataRBean[i], false))
+            itemManager.add(ThreeItem(dataRBean[i], false,this@JobFragment))
         }
     }
 
