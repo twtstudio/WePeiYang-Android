@@ -14,6 +14,7 @@ import com.orhanobut.hawk.Hawk
 import com.twt.service.job.R
 import com.twt.service.job.service.*
 import com.twt.wepeiyang.commons.ui.rec.ItemAdapter
+import com.twt.wepeiyang.commons.ui.rec.ItemManager
 import com.twt.wepeiyang.commons.ui.rec.withItems
 import es.dmoral.toasty.Toasty
 
@@ -21,10 +22,10 @@ class JobFragment : Fragment(), JobHomeContract.JobHomeView {
 
     private lateinit var rootView: View
     private lateinit var kind: String// 记录是四种类型中的哪一种
-    private var type: Int = 0
     private lateinit var recyclerView: RecyclerView
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     private lateinit var linearLayoutManager: LinearLayoutManager
+    private lateinit var itemManager: ItemManager
     private val homePresenterImp: JobHomePresenterImp = JobHomePresenterImp(this)
     private var page: Int = 1
     private var isLoad: Boolean = false
@@ -43,14 +44,13 @@ class JobFragment : Fragment(), JobHomeContract.JobHomeView {
         super.onCreate(savedInstanceState)
         arguments?.apply {
             kind = getString(ARG_KIND)
-            type = funs.getType(kind)
         }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         rootView = inflater.inflate(R.layout.job_fragment_home, container, false)
         initView()
-        loadData(page)
+        loadData()
         refresh()
         loadMoreData()
         return rootView
@@ -65,19 +65,10 @@ class JobFragment : Fragment(), JobHomeContract.JobHomeView {
         }
     }
 
-    private fun loadData(page: Int) {
-        if (page > Hawk.get<Int>(kind)) {
-            cannotLoad()
-        } else {
-            homePresenterImp.getGeneral(kind, page)
-        }
-        isLoad = false
-    }
-
     private fun refresh() {
         swipeRefreshLayout.setOnRefreshListener {
             page = 1
-            loadData(1) // 得单独传1，刷新永远是第一页，其他地方的 page 就要用全局的，统一多上拉一次，page就+1
+            loadData()
             swipeRefreshLayout.isRefreshing = false
         }
     }
@@ -91,14 +82,22 @@ class JobFragment : Fragment(), JobHomeContract.JobHomeView {
                 super.onScrolled(recyclerView, dx, dy)
                 lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition()
                 totalCount = linearLayoutManager.itemCount
-                if (lastVisibleItem + 3 >= totalCount && !isLoad) {
+                if (lastVisibleItem + 1 == totalCount && !isLoad) {
                     isLoad = true
-                    Toasty.error(context!!, "begin", Toast.LENGTH_LONG, true).show()
-                    loadData(++page)
-                    Toasty.error(context!!, "end", Toast.LENGTH_LONG, true).show()
+                    ++page
+                    loadData()
                 }
             }
         })
+    }
+
+    private fun loadData() {
+        if (page > pagesOfMsg) {
+            cannotLoad()
+        } else {
+            homePresenterImp.getGeneral(kind, page)
+        }
+        isLoad = false
     }
 
     override fun showHomeFair(commonBean: List<HomeDataL>) {
@@ -108,6 +107,7 @@ class JobFragment : Fragment(), JobHomeContract.JobHomeView {
                 else fair(commonBean[i], false)
             }
         }
+        itemManager = (recyclerView.adapter as ItemAdapter).itemManager
     }
 
     override fun showThree(dataRBean: List<HomeDataR>) {
@@ -120,20 +120,18 @@ class JobFragment : Fragment(), JobHomeContract.JobHomeView {
                 }
             }
         }
+        itemManager = (recyclerView.adapter as ItemAdapter).itemManager
     }
 
     override fun loadMoreFair(commonBean: List<HomeDataL>) {
-        recyclerView.withItems {
-            repeat(commonBean.size) { i ->
-                fair(commonBean[i], false)
-            }
+        repeat(commonBean.size) { i ->
+            itemManager.add(FairItem(commonBean[i], false))
         }
     }
 
     override fun loadMoreOther(dataRBean: List<HomeDataR>) {
-        val adapter = recyclerView.adapter as ItemAdapter
         repeat(dataRBean.size) { i ->
-            adapter.itemManager.add(ThreeItem(dataRBean[i], false))
+            itemManager.add(ThreeItem(dataRBean[i], false))
         }
     }
 

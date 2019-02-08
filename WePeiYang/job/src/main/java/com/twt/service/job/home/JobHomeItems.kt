@@ -87,5 +87,7 @@ class ThreeItem(val dataR: HomeDataR, val isFirst: Boolean) : Item {
     override val controller: ItemController get() = Controller
 }
 
+
+
 fun MutableList<Item>.fair(common: HomeDataL, isFirst: Boolean) = add(FairItem(common, isFirst))
 fun MutableList<Item>.three(dataR: HomeDataR, isFirst: Boolean) = add(ThreeItem(dataR, isFirst))

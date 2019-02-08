@@ -27,21 +27,6 @@ var pagesOfNotice: Int by hawk(NOTICE, 1)
 var pagesOfDynamic: Int by hawk(DYNAMIC, 1)
 
 object funs {
-    // 根据类型判断对应 type
-    fun getType(string: String): Int = when (string) {
-        JOB_MESSAGE, NOTICE -> 0
-        else -> 1
-    }
-
-    fun convert(commonL: List<HomeDataL>): List<HomeDataR> {
-        val commomRs: MutableList<HomeDataR> = mutableListOf()
-        repeat(commonL.size) { i ->
-            commonL[i].apply {
-                commomRs.add(HomeDataR(click, date, id, important, title))
-            }
-        }
-        return commomRs
-    }
 }
 
 data class GeneralL(
