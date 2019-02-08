@@ -22,7 +22,7 @@ class FairItem(val common: HomeDataL, val isFirst: Boolean, val jobFragment: Job
     private companion object Controller : ItemController {
         override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
             val inflater = parent.context.layoutInflater
-            val view = inflater.inflate(R.layout.job_item_one, parent, false)
+            val view = inflater.inflate(R.layout.job_home_item_one, parent, false)
             return FairViewHolder(view)
         }
 
@@ -63,7 +63,7 @@ class ThreeItem(val dataR: HomeDataR, val isFirst: Boolean, val jobFragment: Job
     private companion object Controller : ItemController {
         override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
             val inflater = parent.context.layoutInflater
-            val view = inflater.inflate(R.layout.job_item_three, parent, false)
+            val view = inflater.inflate(R.layout.job_home_item_three, parent, false)
             return ThreeViewHolder(view)
         }
 

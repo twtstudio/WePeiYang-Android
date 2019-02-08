@@ -9,5 +9,6 @@ class StoryActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.job_activity_story)
+        window.statusBarColor = resources.getColor(R.color.job_green)
     }
 }

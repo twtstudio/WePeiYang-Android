@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <ImageView
+        android:id="@+id/job_story_im_date"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:src="@drawable/job_date_icon"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginStart="24dp"/>
+
+    <TextView
+        android:id="@+id/job_story_tv_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="2019-07-19 14:00-16:00"
+        android:textSize="17sp"
+        android:textColor="@color/job_dark_grey"
+        app:layout_constraintTop_toTopOf="@+id/job_story_im_date"
+        app:layout_constraintBottom_toBottomOf="@+id/job_story_im_date"
+        app:layout_constraintLeft_toRightOf="@+id/job_story_im_date"
+        android:layout_marginStart="4dp"/>
+
+    <ImageView
+        android:id="@+id/job_story_im_place"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:src="@drawable/job_place_icon"
+        app:layout_constraintTop_toBottomOf="@id/job_story_im_date"
+        app:layout_constraintLeft_toLeftOf="@id/job_story_im_date" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxEms="14"
+        tools:text="北洋园校区某一动的某"
+        android:textSize="17sp"
+        android:textColor="@color/job_dark_grey"
+        app:layout_constraintLeft_toLeftOf="@+id/job_story_tv_date"
+        app:layout_constraintTop_toBottomOf="@+id/job_story_tv_date"
+        android:layout_marginTop="18dp" />
+
+</android.support.constraint.ConstraintLayout>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/job_background">
+
+    <TextView
+        android:id="@+id/job_story_tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="27sp"
+        android:layout_marginStart="27dp"
+        android:paddingTop="23dp"
+        android:textColor="@color/job_black"
+        android:textSize="21sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="【北洋园】2019年春招在某一个地方会有啥啥的东西在等你哈哈哈哈哈" />
+
+    <TextView
+        android:id="@+id/job_story_tv_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/job_dark_grey"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toLeftOf="@+id/job_story_tv_title"
+        app:layout_constraintTop_toBottomOf="@+id/job_story_tv_title"
+        tools:text="2018-10-17" />
+
+    <TextView
+        android:id="@+id/job_story_tv_click"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/job_dark_grey"
+        android:textSize="16sp"
+        app:layout_constraintRight_toRightOf="@+id/job_story_tv_title"
+        app:layout_constraintTop_toBottomOf="@+id/job_story_tv_title"
+        tools:text="201" />
+
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/job_click_icon"
+        app:layout_constraintBottom_toBottomOf="@+id/job_story_tv_click"
+        app:layout_constraintRight_toLeftOf="@+id/job_story_tv_click"
+        app:layout_constraintTop_toTopOf="@+id/job_story_tv_click" />
+
+    <TextView
+        android:id="@+id/job_story_tv_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="27dp"
+        android:layout_marginStart="27dp"
+        android:layout_marginTop="60dp"
+        android:textColor="@color/job_black"
+        android:textSize="18sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/job_story_tv_title"
+        tools:text="在招聘过程中会发生USBUI小阿宝金额阿熬不出阿 u 饿不想强迫微信哦就你去恶补东西全部的微笑，卡精神病学块钱。娇开车上班斜挎包出现请哦我拿东西去吧卡号把思绪却意外看戏函数" />
+
+    <View
+        android:id="@+id/job_story_v_divide"
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_weight="1"
+        android:background="@drawable/job_dividing_line"
+        android:layerType="software"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/job_story_tv_content"
+        android:layout_marginTop="22dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="12dp"/>
+
+</android.support.constraint.ConstraintLayout>
