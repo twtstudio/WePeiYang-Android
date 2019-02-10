@@ -16,6 +16,7 @@
         android:layout_marginStart="24dp"/>
 
     <TextView
+        android:id="@+id/job_story_tv_attach"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:maxEms="14"

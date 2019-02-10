@@ -52,7 +52,7 @@ class JobStoryPresenterImp(val jobStoryView: JobStoryContract.JobStoryView) : Jo
     }
 
     private fun convertNotice(recruit: Recruit): Notice {
-        val notice: Notice = Notice(recruit.attach1, recruit.attach1_name, recruit.attach2, recruit.attach2_name, recruit.attach3, recruit.attach3_name, recruit.click, recruit.content, recruit.date, recruit.id, recruit.title, recruit.type)
+        val notice = Notice(recruit.attach1, recruit.attach1_name, recruit.attach2, recruit.attach2_name, recruit.attach3, recruit.attach3_name, recruit.click, recruit.content, recruit.date, recruit.id, recruit.title, recruit.type)
         return notice
     }
 }

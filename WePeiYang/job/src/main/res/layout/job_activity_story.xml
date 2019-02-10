@@ -17,7 +17,7 @@
             android:layout_height="56dp">
 
             <ImageView
-                android:id="@+id/job_home_iv_back"
+                android:id="@+id/job_story_iv_back"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:src="@drawable/job_toolbar_back"
@@ -33,7 +33,7 @@
                 android:textColor="#eeeeee"
                 android:textSize="19sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toRightOf="@+id/job_home_iv_back"
+                app:layout_constraintLeft_toRightOf="@+id/job_story_iv_back"
                 app:layout_constraintTop_toTopOf="parent" />
 
         </android.support.constraint.ConstraintLayout>
@@ -41,7 +41,7 @@
     </android.support.v7.widget.Toolbar>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/job_detail_rv"
+        android:id="@+id/job_story_rv_detail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
