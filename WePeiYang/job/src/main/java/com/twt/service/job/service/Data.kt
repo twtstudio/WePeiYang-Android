@@ -64,12 +64,12 @@ data class HomeDataR(
 )
 
 data class Recruit(
-        val attach1: String,
-        val attach1_name: String,
-        val attach2: String,
-        val attach2_name: String,
-        val attach3: String,
-        val attach3_name: String,
+        val attach1: String?,
+        val attach1_name: String?,
+        val attach2: String?,
+        val attach2_name: String?,
+        val attach3: String?,
+        val attach3_name: String?,
         val click: Int,
         val content: String,
         val corporation: String,
@@ -86,18 +86,27 @@ data class Recruit(
 
 //工作动态或者公告的某一条的数据详情
 data class Notice(
-        val attach1: String,
-        val attach1_name: String,
-        val attach2: String,
-        val attach2_name: String,
-        val attach3: String,
-        val attach3_name: String,
+        val attach1: String?,
+        val attach1_name: String?,
+        val attach2: String?,
+        val attach2_name: String?,
+        val attach3: String?,
+        val attach3_name: String?,
         val click: Int,
         val content: String,
         val date: String,
         val id: String,
         val title: String,
         val type: String
+)
+
+data class NoticeAfter(
+        val attachs: Map<String, String>,
+        val click: Int,
+        val content: String,
+        val date: String,
+        val title: String,
+        val hasAttach : Boolean
 )
 
 data class SearchData(

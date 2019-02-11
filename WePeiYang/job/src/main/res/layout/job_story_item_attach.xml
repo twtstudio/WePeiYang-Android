@@ -4,6 +4,7 @@
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/job_story_item_attach"
     android:paddingBottom="6dp"
     android:background="@color/job_background">
 
@@ -13,7 +14,7 @@
         android:layout_height="42dp"
         android:src="@drawable/job_date_icon"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginStart="24dp"/>
+        android:layout_marginStart="22dp"/>
 
     <TextView
         android:id="@+id/job_story_tv_attach"

@@ -8,13 +8,7 @@ class JobStoryPresenterImp(val jobStoryView: JobStoryContract.JobStoryView) : Jo
         when (kind) {
             JOB_MESSAGE -> {
                 JobStoryModel.getRecruitDetail(id, JOB_MESSAGE_TYPE) { refreshState, recruit, msg ->
-                    when (refreshState) {
-                        is RefreshState.Success -> {
-                            if (recruit == null) jobStoryView.onNull(msg)
-                            else jobStoryView.showThree(convertNotice(recruit))
-                        }
-                        is RefreshState.Failure -> jobStoryView.onError("${refreshState.throwable}")
-                    }
+                    process(refreshState, Functions.convertNotice(recruit), msg)
                 }
             }
             JOB_FAIR -> {
@@ -45,15 +39,10 @@ class JobStoryPresenterImp(val jobStoryView: JobStoryContract.JobStoryView) : Jo
         when (refreshState) {
             is RefreshState.Success -> {
                 if (notice == null) jobStoryView.onNull(msg)
-                else jobStoryView.showThree(notice)
+                else jobStoryView.showThree(Functions.convertNoticeAfter(notice))
             }
             is RefreshState.Failure -> jobStoryView.onError("${refreshState.throwable}")
         }
-    }
-
-    private fun convertNotice(recruit: Recruit): Notice {
-        val notice = Notice(recruit.attach1, recruit.attach1_name, recruit.attach2, recruit.attach2_name, recruit.attach3, recruit.attach3_name, recruit.click, recruit.content, recruit.date, recruit.id, recruit.title, recruit.type)
-        return notice
     }
 }
 
