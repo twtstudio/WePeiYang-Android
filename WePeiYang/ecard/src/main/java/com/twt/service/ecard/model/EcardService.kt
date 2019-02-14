@@ -21,7 +21,7 @@ interface EcardService {
      * @day: 查多少天的数据 超出饭卡补办期会导致异常
      */
     @GET("v1/ecard/turnover")
-    fun getEcardTransaction(@Query("cardnum") cardnum: String = EcardPref.ecardUserName, @Query("password") password: String = EcardPref.ecardPassword, @Query("term") term: Int = 1): Deferred<CommonBody<TransactionListWrapper>>
+    fun getEcardTransaction(@Query("cardnum") cardnum: String = EcardPref.ecardUserName, @Query("password") password: String = EcardPref.ecardPassword, @Query("term") term: Int = 2): Deferred<CommonBody<TransactionListWrapper>>
 
     @GET("v1/ecard/total")
     fun getEcardTotalConsumption(@Query("cardnum") cardnum: String = EcardPref.ecardUserName, @Query("password") password: String = EcardPref.ecardPassword): Deferred<CommonBody<EcardTotalConsumptionBean>>

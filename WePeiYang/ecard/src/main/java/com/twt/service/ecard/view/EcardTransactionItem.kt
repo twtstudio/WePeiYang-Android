@@ -1,5 +1,6 @@
 package com.twt.service.ecard.view
 
+import android.annotation.SuppressLint
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
@@ -16,8 +17,9 @@ import org.jetbrains.anko.dip
 import org.jetbrains.anko.horizontalPadding
 import org.jetbrains.anko.layoutInflater
 import org.jetbrains.anko.startActivity
+import java.util.Collections.addAll
 
-class EcardTransactionItem(val transactionInfo: TransactionInfo) : Item {
+class EcardTransactionItem(val transactionInfo: TransactionInfo, val isCost: Boolean) : Item {
     override val controller: ItemController
         get() = Controller
 
@@ -36,22 +38,34 @@ class EcardTransactionItem(val transactionInfo: TransactionInfo) : Item {
             return ViewHolder(view, view)
         }
 
+        @SuppressLint("SetTextI18n")
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: Item) {
             holder as ViewHolder
             item as EcardTransactionItem
             val transactionInfo = item.transactionInfo
+            val isCost = item.isCost
+            val transactionDate = "${transactionInfo.date.substring(4, 6)}-${transactionInfo.date.substring(6, 8)}"
             val transactionTime = "${transactionInfo.time.substring(0, 2)}:${transactionInfo.time.substring(2, 4)}"
+
             holder.apply {
                 title.text = transactionInfo.location
-                if (transactionInfo.isCost == false) {
-                    // 充钱
-                    detail.text = "POS氪金: ${transactionInfo.amount}  $transactionTime"
-                    icon.setImageResource(R.drawable.ecard_ic_banlance_up)
+                detail.text = if (!isCost) {
+                    "POS机氪金"
                 } else {
-                    detail.text = "POS消费: ${transactionInfo.amount}  $transactionTime"
-                    icon.setImageResource(R.drawable.ecard_balance_down2)
-                }
+                    "POS机消费"
+                } + " | " + transactionDate + " " + transactionTime
+                cost.text = if (!isCost) {
+                    "+"
+                } else {
+                    "-"
+                } + transactionInfo.amount
+
+                if (title.text.contains("超市"))
+                    pic.setImageResource(R.drawable.ecard_shoppping)
+                else
+                    pic.setImageResource(R.drawable.ecard_dining_hall)
             }
+
             holder.rootView.setOnClickListener {
                 val pop = ECardTransactionPop(it.context, transactionInfo)
                 pop.show()
@@ -62,13 +76,14 @@ class EcardTransactionItem(val transactionInfo: TransactionInfo) : Item {
         class ViewHolder(itemView: View, val rootView: View) : RecyclerView.ViewHolder(itemView) {
             val title: TextView = itemView.findViewById(R.id.tv_transaction_title)
             val detail: TextView = itemView.findViewById(R.id.tv_transaction_detail)
-            val icon: ImageView = itemView.findViewById(R.id.img_transaction)
+            val cost: TextView = itemView.findViewById(R.id.tv_transaction_cost)
+            val pic: ImageView = itemView.findViewById(R.id.iv_transaction_pic)
         }
 
     }
 }
 
-fun MutableList<Item>.transactionItem(transactionInfo: TransactionInfo) = add(EcardTransactionItem(transactionInfo))
+fun MutableList<Item>.transactionItem(transactionInfo: TransactionInfo, isCost: Boolean) = add(EcardTransactionItem(transactionInfo, isCost))
 
 class EcardTransactionInfoItem : Item {
     override val controller: ItemController
@@ -107,17 +122,25 @@ class EcardTransactionInfoItem : Item {
                 lightText("暂未获取到消费数据")
             }
 
-            LiveEcardManager.getEcardLiveData().observeForever {
-                when (it) {
-                    is RefreshState.Success -> it.message.apply {
-                        val transactionList = this.transactionInfoList
+            LiveEcardManager.getEcardLiveData().observeForever { refreshState ->
+                when (refreshState) {
+                    is RefreshState.Success -> refreshState.message.apply {
+                        val transactionListWrapper = this.transactionListWrapper
+                        val transactionList = mutableListOf<TransactionInfo>()
+                        transactionList.apply {
+                            addAll(transactionListWrapper.recharge)
+                            addAll(transactionListWrapper.consumption)
+                            sortWith(compareBy({ it.date }, { it.time }))
+                            reverse()
+                        }
+
                         itemManager.refreshAll {
                             if (transactionList.today().isEmpty()) {
                                 holder.homeItem.apply {
                                     itemName.text = "TRANSACTION PREVIOUS"
                                 }
                                 transactionList.take(4).forEach {
-                                    transactionItem(it)
+                                    transactionItem(it, transactionListWrapper.recharge.contains(it))
                                 }
                                 if (transactionList.isEmpty()) {
                                     lightText("暂未获取到最近两天消费数据")
@@ -127,7 +150,7 @@ class EcardTransactionInfoItem : Item {
                                     itemName.text = "TRANSACTION TODAY"
                                 }
                                 transactionList.today().forEach {
-                                    transactionItem(it)
+                                    transactionItem(it, transactionListWrapper.recharge.contains(it))
                                 }
                             }
                         }

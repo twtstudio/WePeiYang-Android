@@ -14,7 +14,7 @@ import kotlinx.coroutines.experimental.launch
  */
 data class ECardFullInfo(
         val personInfo: ECardPersonInfo, // 个人基本信息
-        val transactionInfoList: TransactionListWrapper, //
+        val transactionListWrapper: TransactionListWrapper, //
         val todayCost: Float,
         val totalCost: EcardTotalConsumptionBean,
         val cache: Boolean
@@ -67,7 +67,7 @@ object LiveEcardManager {
             val total = totalDeferred.await().data
                     ?: throw IllegalStateException("校园卡历史数据为空 联系开发者解决")
 
-            val eCardFullInfo = ECardFullInfo(personInfo = profile.castToECardPersonInfo(), transactionInfoList = history, todayCost = profile.amount.toFloat(), totalCost = total, cache = false)
+            val eCardFullInfo = ECardFullInfo(personInfo = profile.castToECardPersonInfo(), transactionListWrapper = history, todayCost = profile.amount.toFloat(), totalCost = total, cache = false)
             ecardFullInfoCache.set(eCardFullInfo)
             eCardFullInfoLiveData.postValue(RefreshState.Success(eCardFullInfo))
         }

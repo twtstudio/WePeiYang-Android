@@ -6,19 +6,19 @@
     android:layout_height="wrap_content">
 
     <View
-        android:id="@+id/v_ecard_line"
+        android:id="@+id/v_transaction_line"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/ecardTextColor7"
         app:layout_constraintBottom_toBottomOf="parent" />
 
     <ImageView
-        android:id="@+id/iv_ecard_pic"
+        android:id="@+id/iv_transaction_pic"
         android:layout_width="25dp"
         android:layout_height="26dp"
         android:layout_marginStart="10dp"
-        app:layout_constraintBottom_toTopOf="@id/v_ecard_line"
-        app:layout_constraintLeft_toLeftOf="@id/v_ecard_line"
+        app:layout_constraintBottom_toTopOf="@id/v_transaction_line"
+        app:layout_constraintLeft_toLeftOf="@id/v_transaction_line"
         app:layout_constraintTop_toTopOf="parent"
         tools:background="@drawable/ecard_dining_hall" />
 
@@ -31,7 +31,7 @@
         android:fontFamily="@font/montserrat_bold"
         android:textColor="@color/ecardTextColor1"
         android:textSize="10sp"
-        app:layout_constraintLeft_toRightOf="@id/iv_ecard_pic"
+        app:layout_constraintLeft_toRightOf="@id/iv_transaction_pic"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_goneMarginStart="19dp"
         tools:text="学一食堂1层-017" />
@@ -45,21 +45,21 @@
         android:fontFamily="@font/montserrat_regular"
         android:textColor="@color/ecardTextColor5"
         android:textSize="9sp"
-        app:layout_constraintBottom_toBottomOf="@id/v_ecard_line"
+        app:layout_constraintBottom_toBottomOf="@id/v_transaction_line"
         app:layout_constraintLeft_toLeftOf="@id/tv_transaction_title"
         app:layout_constraintTop_toBottomOf="@id/tv_transaction_title"
         tools:text="POS机消费 | 8-23 11:30" />
 
     <TextView
-        android:id="@+id/tv_ecard_consume_money"
+        android:id="@+id/tv_transaction_cost"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="5dp"
         android:fontFamily="@font/montserrat_bold"
         android:textColor="@color/ecardTextColor6"
         android:textSize="13sp"
-        app:layout_constraintBottom_toBottomOf="@id/v_ecard_line"
-        app:layout_constraintRight_toRightOf="@id/v_ecard_line"
+        app:layout_constraintBottom_toBottomOf="@id/v_transaction_line"
+        app:layout_constraintRight_toRightOf="@id/v_transaction_line"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="-5.0" />
 
