@@ -42,7 +42,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/ab_mylist"
-        tools:layout_editor_absoluteX="0dp" />
+        android:layout_marginStart="27dp"
+        android:layout_marginEnd="27dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
 
 
 </android.support.constraint.ConstraintLayout>
