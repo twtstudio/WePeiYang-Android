@@ -12,7 +12,13 @@ import kotlinx.coroutines.experimental.launch
 /**
  * 感觉设计的还行...
  */
-data class ECardFullInfo(val personInfo: ECardPersonInfo, val transactionInfoList: List<TransactionInfo>, val todayCost: Float, val cache: Boolean)
+data class ECardFullInfo(
+        val personInfo: ECardPersonInfo, // 个人基本信息
+        val transactionInfoList: TransactionListWrapper, //
+        val todayCost: Float,
+        val totalCost: EcardTotalConsumptionBean,
+        val cache: Boolean
+)
 
 val ecardCacheKey = "ECARD_FULL_INFO_CACHE"
 val ecardFullInfoCache = Cache.hawk<ECardFullInfo>(ecardCacheKey)
@@ -52,13 +58,16 @@ object LiveEcardManager {
 
             val profileDeferred = EcardService.getEcardProfile()
             val historyDeferred = EcardService.getEcardTransaction()
+            val totalDeferred = EcardService.getEcardTotalConsumption()
 
             val profile = profileDeferred.await().data
                     ?: throw IllegalStateException("校园卡状态数据为空 联系开发者解决")
             val history = historyDeferred.await().data
                     ?: throw IllegalStateException("校园卡历史数据为空 联系开发者解决")
+            val total = totalDeferred.await().data
+                    ?: throw IllegalStateException("校园卡历史数据为空 联系开发者解决")
 
-            val eCardFullInfo = ECardFullInfo(personInfo = profile.castToECardPersonInfo(), transactionInfoList = history.transaction, todayCost = profile.amount.toFloat(), cache = false)
+            val eCardFullInfo = ECardFullInfo(personInfo = profile.castToECardPersonInfo(), transactionInfoList = history, todayCost = profile.amount.toFloat(), totalCost = total, cache = false)
             ecardFullInfoCache.set(eCardFullInfo)
             eCardFullInfoLiveData.postValue(RefreshState.Success(eCardFullInfo))
         }

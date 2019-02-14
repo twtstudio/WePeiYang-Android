@@ -11,6 +11,23 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <android.support.constraint.Guideline
+            android:id="@+id/guidelineBegin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginBottom="10dp"
+            android:src="@drawable/ecard_main"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="@id/guidelineBegin"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_ecard_number" />
         <TextView
             android:id="@+id/tv_ecard_number"
             android:layout_width="wrap_content"
@@ -106,15 +123,6 @@
             app:layout_constraintBottom_toBottomOf="@id/tv_ecard_consume_month_mark"
             app:layout_constraintLeft_toRightOf="@id/tv_ecard_consume_month" />
 
-        <ImageView
-            android:layout_width="200dp"
-            android:layout_height="0dp"
-            android:layout_marginEnd="4dp"
-            android:layout_marginBottom="10dp"
-            android:src="@drawable/ecard_main"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tv_ecard_number" />
 
         <TextView
             android:id="@+id/tv_ecard_name"

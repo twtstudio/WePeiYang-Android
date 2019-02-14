@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="ecardBindColor">#5dc6bd</color>
-    <color name="ecardThemeColor">#fbe98f</color>
+    <color name="ecardThemeColor">#ffeb86</color>
     <color name="ecardTextColor0">#000000</color>
     <color name="ecardTextColor1">#444444</color>
     <color name="ecardTextColor2">#555555</color>
@@ -12,5 +12,6 @@
     <color name="ecardTextColor7">#b2b2b2</color>
     <color name="ecardTextColor8">#5e8dc5</color>
     <color name="ecardTextColor9">#222222</color>
+    <color name="ecardTextColor10">#a84b4b</color>
 
 </resources>
