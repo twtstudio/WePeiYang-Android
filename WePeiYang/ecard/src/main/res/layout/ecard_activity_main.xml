@@ -15,7 +15,7 @@
         <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools"
-            android:id="@+id/tb_ecard_main"
+            android:id="@+id/tb_main"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/ecardThemeColor"
@@ -24,8 +24,18 @@
             app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
+            <TextView
+                android:id="@+id/tv_main_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/montserrat_bold"
+                android:textColor="@color/ecardTextColor1"
+                android:textSize="17dp"
+                tools:text="校园卡" />
+
             <ImageButton
-                android:id="@+id/ib_ecard_refresh"
+                android:id="@+id/ib_main_refresh"
                 android:layout_width="19dp"
                 android:layout_height="19dp"
                 android:layout_gravity="end"
@@ -38,7 +48,7 @@
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_ecard_main"
+        android:id="@+id/rv_main_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/ab_mylist"
