@@ -99,10 +99,7 @@ class EcardInfoItem : Item {
                         holder.balanceText.text = "校园卡余额：${personInfo.balance}"
 
                         try {
-                            val todayCostLocal = transactionInfoList.today().fold(0f) { prev: Float, transactionInfo: TransactionInfo ->
-                                prev + transactionInfo.amount.toFloat()
-                            } // 因为曹浩那个是从折线图取的 有bug fu了
-                            holder.todayCostView.text = "今日消费：${todayCostLocal}元"
+                            holder.todayCostView.text = "今日消费：${totalCost.total_day}元"
                         } catch (e: NumberFormatException) {
                             e.printStackTrace()
                             holder.todayCostView.text = "你遇到了待解析的特殊数据，多包涵~"
@@ -112,7 +109,7 @@ class EcardInfoItem : Item {
                             holder.stateText.text = "校园卡数据拉取成功，点击刷新"
                         }
                         holder.rootView.setOnClickListener {
-                            val infoPop = ECardInfoPop(it.context, personInfo, todayCost)
+                            val infoPop = ECardInfoPop(it.context, personInfo, this.totalCost.total_day.toFloat())
                             infoPop.show()
                             mtaClick("ecard_点击查看校园卡详情_顶部PopWindow")
                         }

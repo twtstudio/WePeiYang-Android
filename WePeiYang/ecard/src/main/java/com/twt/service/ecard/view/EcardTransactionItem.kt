@@ -25,11 +25,11 @@ class EcardTransactionItem(val transactionInfo: TransactionInfo, val isCost: Boo
 
 
     override fun areContentsTheSame(newItem: Item): Boolean {
-        return transactionInfo == (newItem as? EcardTransactionItem)?.transactionInfo
+        return transactionInfo == (newItem as? EcardTransactionItem)?.transactionInfo && isCost == (newItem as? EcardTransactionItem)?.isCost
     }
 
     override fun areItemsTheSame(newItem: Item): Boolean {
-        return transactionInfo == (newItem as? EcardTransactionItem)?.transactionInfo
+        return transactionInfo == (newItem as? EcardTransactionItem)?.transactionInfo && isCost == (newItem as? EcardTransactionItem)?.isCost
     }
 
     companion object Controller : ItemController {
@@ -67,7 +67,7 @@ class EcardTransactionItem(val transactionInfo: TransactionInfo, val isCost: Boo
             }
 
             holder.rootView.setOnClickListener {
-                val pop = ECardTransactionPop(it.context, transactionInfo)
+                val pop = ECardTransactionPop(it.context, transactionInfo, isCost)
                 pop.show()
                 mtaClick("ecard_点击查看校园卡消费_顶部PopWindow")
             }
