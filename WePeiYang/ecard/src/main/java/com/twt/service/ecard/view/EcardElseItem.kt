@@ -41,7 +41,9 @@ class EcardElseItem(val text: String, val typeOfElse: TypeOfElse) : Item {
 
             when (item.typeOfElse) {
                 TITLE -> showTitle(holder, item)
-                DATE ->
+                DATE -> showDate(holder, item)
+                TEXT -> showText(holder, item)
+                TIPS -> showTip(holder, item)
             }
         }
 
@@ -50,6 +52,11 @@ class EcardElseItem(val text: String, val typeOfElse: TypeOfElse) : Item {
             val title: TextView = itemView.findViewById(R.id.tv_else_title)
             val moreImg: ImageView = itemView.findViewById(R.id.iv_else_more)
             val more: TextView = itemView.findViewById(R.id.tv_else_more)
+            val date: TextView = itemView.findViewById(R.id.tv_else_date)
+            val contentOfText: TextView = itemView.findViewById(R.id.tv_else_content)
+            val underLine: View = itemView.findViewById(R.id.v_else_line)
+            val tip: TextView = itemView.findViewById(R.id.tv_else_tip)
+            val show: TextView = itemView.findViewById(R.id.tv_else_show)
         }
     }
 }
@@ -73,4 +80,26 @@ private fun showTitle(holder: EcardElseItem.Controller.ViewHolder, item: EcardEl
     }
 }
 
-pri
+private fun showDate(holder: EcardElseItem.Controller.ViewHolder, item: EcardElseItem) {
+    holder.apply {
+        date.visibility = View.VISIBLE
+        date.text = item.text
+    }
+}
+
+private fun showText(holder: EcardElseItem.Controller.ViewHolder, item: EcardElseItem) {
+    holder.apply {
+        underLine.visibility = View.VISIBLE
+        contentOfText.visibility = View.VISIBLE
+        contentOfText.text = item.text
+    }
+}
+
+private fun showTip(holder: EcardElseItem.Controller.ViewHolder, item: EcardElseItem) {
+    holder.apply {
+        tip.visibility = View.VISIBLE
+        tip.text = item.text
+        show.visibility = View.VISIBLE
+    }
+}
+
