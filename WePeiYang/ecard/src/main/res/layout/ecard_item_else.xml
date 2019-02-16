@@ -43,13 +43,13 @@
         android:id="@+id/tv_else_more"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="更多流水"
         android:textColor="@color/ecardTextColor4"
         android:textSize="12sp"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@id/iv_else_more"
         app:layout_constraintRight_toLeftOf="@id/iv_else_more"
-        app:layout_constraintTop_toTopOf="@id/iv_else_more"
-        tools:text="更多流水" />
+        app:layout_constraintTop_toTopOf="@id/iv_else_more" />
 
     <TextView
         android:id="@+id/tv_else_tip"
@@ -109,6 +109,7 @@
         android:fontFamily="@font/montserrat_light"
         android:textColor="@color/ecardTextColor3"
         android:textSize="12dp"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@id/v_else_sign"
         app:layout_constraintTop_toTopOf="parent"

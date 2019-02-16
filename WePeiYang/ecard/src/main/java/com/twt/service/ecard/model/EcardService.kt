@@ -47,7 +47,7 @@ data class EcardProfileBean(
         val cardnum: String,
         val cardstatus: String,
         val expiry: String, // 学生卡到期时间
-        val subsidy: String,
+        val subsidy: String, // 补助
         val amount: String
 )
 
@@ -80,8 +80,6 @@ data class EcardPiechartDataBean(
         val total: Double,
         val type: String
 )
-
-fun EcardProfileBean.castToECardPersonInfo() = ECardPersonInfo(number = cardnum, status = cardstatus, balance = balance, validityPeriod = expiry, notReceivedMoney = subsidy)
 
 var isBindECardBoolean = EcardPref.ecardUserName != "*" && EcardPref.ecardUserName != "" && EcardPref.ecardPassword != "*" && EcardPref.ecardPassword != ""
 

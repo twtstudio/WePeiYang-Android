@@ -13,7 +13,7 @@ import org.jetbrains.anko.layoutInflater
 import org.jetbrains.anko.startActivity
 
 enum class TypeOfElse {
-    TITLE, DATE, TIPS, TEXT
+    TODAY, TITLE, DATE, TIPS, TEXT
 }
 
 class EcardElseItem(val text: String, val typeOfElse: TypeOfElse) : Item {
@@ -40,6 +40,7 @@ class EcardElseItem(val text: String, val typeOfElse: TypeOfElse) : Item {
             item as EcardElseItem
 
             when (item.typeOfElse) {
+                TODAY -> showToday(holder, item)
                 TITLE -> showTitle(holder, item)
                 DATE -> showDate(holder, item)
                 TEXT -> showText(holder, item)
@@ -60,6 +61,14 @@ class EcardElseItem(val text: String, val typeOfElse: TypeOfElse) : Item {
         }
 
         private fun showTitle(holder: EcardElseItem.Controller.ViewHolder, item: EcardElseItem) {
+            holder.apply {
+                sign.visibility = View.VISIBLE
+                title.visibility = View.VISIBLE
+                title.text = item.text
+            }
+        }
+
+        private fun showToday(holder: EcardElseItem.Controller.ViewHolder, item: EcardElseItem) {
             holder.apply {
                 sign.visibility = View.VISIBLE
                 moreImg.visibility = View.VISIBLE

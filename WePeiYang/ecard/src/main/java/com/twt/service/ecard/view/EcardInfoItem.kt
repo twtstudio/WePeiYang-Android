@@ -97,7 +97,7 @@ class EcardInfoItem : Item {
             LiveEcardManager.getEcardLiveData().observeForever { eCardRefreshState ->
                 when (eCardRefreshState) {
                     is RefreshState.Success -> eCardRefreshState.message.apply {
-                        holder.balanceText.text = "校园卡余额：${personInfo.balance}"
+                        holder.balanceText.text = "校园卡余额：${ecardProfile.balance}"
 
                         try {
                             holder.todayCostView.text = "今日消费：${totalCost.total_day}元"
@@ -110,7 +110,7 @@ class EcardInfoItem : Item {
                             holder.stateText.text = "校园卡数据拉取成功，点击刷新"
                         }
                         holder.rootView.setOnClickListener {
-                            val infoPop = ECardInfoPop(it.context, personInfo, this.totalCost.total_day.toFloat())
+                            val infoPop = ECardInfoPop(it.context, ecardProfile, this.totalCost.total_day.toFloat())
                             infoPop.show()
                             mtaClick("ecard_点击查看校园卡详情_顶部PopWindow")
                         }
@@ -135,7 +135,7 @@ class EcardInfoItem : Item {
 
 fun MutableList<Item>.ecardInfoItem() = add(EcardInfoItem())
 
-class EcardPersonInfoItem(val ecardProfileBean: EcardProfileBean, val ecardTotalConsumptionBean: EcardTotalConsumptionBean) : Item {
+class EcardPersonInfoItem(val ecardProfile: EcardProfileBean, val ecardTotalConsumption: EcardTotalConsumptionBean) : Item {
     override val controller: ItemController
         get() = Controller
 
@@ -152,15 +152,15 @@ class EcardPersonInfoItem(val ecardProfileBean: EcardProfileBean, val ecardTotal
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: Item) {
             holder as ViewHolder
             item as EcardPersonInfoItem
-            val ecardProfile = item.ecardProfileBean
-            val ecardTotalConsumption = item.ecardTotalConsumptionBean
+            val ecardProfile = item.ecardProfile
+            val ecardTotalConsumption = item.ecardTotalConsumption
 
             holder.apply {
                 cardNum.text = ecardProfile.cardnum
                 name.text = ecardProfile.name
-                balance.text = ecardProfile.balance
-                todayConsume.text = ecardTotalConsumption.total_day.toString()
-                monthConsume.text = ecardTotalConsumption.total_month.toString()
+                balance.text = "￥" + ecardProfile.balance
+                todayConsume.text = "￥${ecardTotalConsumption.total_day}"
+                monthConsume.text = "￥${ecardTotalConsumption.total_month}"
 
                 if (ecardTotalConsumption.total_day >= 50) {
                     crownOfDay.visibility = View.VISIBLE
@@ -189,4 +189,4 @@ class EcardPersonInfoItem(val ecardProfileBean: EcardProfileBean, val ecardTotal
     }
 }
 
-fun MutableList<Item>.ecardPersonInfoItem(ecardProfileBean: EcardProfileBean, ecardTotalConsumptionBean: EcardTotalConsumptionBean) = add(EcardPersonInfoItem(ecardProfileBean, ecardTotalConsumptionBean))
+fun MutableList<Item>.ecardPersonInfoItem(ecardProfile: EcardProfileBean, ecardTotalConsumption: EcardTotalConsumptionBean) = add(EcardPersonInfoItem(ecardProfile, ecardTotalConsumption))
