@@ -58,48 +58,49 @@ class EcardElseItem(val text: String, val typeOfElse: TypeOfElse) : Item {
             val tip: TextView = itemView.findViewById(R.id.tv_else_tip)
             val show: TextView = itemView.findViewById(R.id.tv_else_show)
         }
-    }
-}
 
-private fun showTitle(holder: EcardElseItem.Controller.ViewHolder, item: EcardElseItem) {
-    holder.apply {
-        sign.visibility = View.VISIBLE
-        moreImg.visibility = View.VISIBLE
-        more.visibility = View.VISIBLE
-        title.visibility = View.VISIBLE
-        title.text = item.text
+        private fun showTitle(holder: EcardElseItem.Controller.ViewHolder, item: EcardElseItem) {
+            holder.apply {
+                sign.visibility = View.VISIBLE
+                moreImg.visibility = View.VISIBLE
+                more.visibility = View.VISIBLE
+                title.visibility = View.VISIBLE
+                title.text = item.text
 
-        more.setOnClickListener { view ->
-            view.context.startActivity<EcardPreviousActivity>()
-            mtaClick("ecard_用户查看消费流水详情")
+                more.setOnClickListener { view ->
+                    view.context.startActivity<EcardPreviousActivity>()
+                    mtaClick("ecard_用户查看消费流水详情")
+                }
+                moreImg.setOnClickListener { view ->
+                    view.context.startActivity<EcardPreviousActivity>()
+                    mtaClick("ecard_用户查看消费流水详情")
+                }
+            }
         }
-        moreImg.setOnClickListener { view ->
-            view.context.startActivity<EcardPreviousActivity>()
-            mtaClick("ecard_用户查看消费流水详情")
+
+        private fun showDate(holder: EcardElseItem.Controller.ViewHolder, item: EcardElseItem) {
+            holder.apply {
+                date.visibility = View.VISIBLE
+                date.text = item.text
+            }
+        }
+
+        private fun showText(holder: EcardElseItem.Controller.ViewHolder, item: EcardElseItem) {
+            holder.apply {
+                underLine.visibility = View.VISIBLE
+                contentOfText.visibility = View.VISIBLE
+                contentOfText.text = item.text
+            }
+        }
+
+        private fun showTip(holder: EcardElseItem.Controller.ViewHolder, item: EcardElseItem) {
+            holder.apply {
+                tip.visibility = View.VISIBLE
+                tip.text = item.text
+                show.visibility = View.VISIBLE
+            }
         }
     }
 }
 
-private fun showDate(holder: EcardElseItem.Controller.ViewHolder, item: EcardElseItem) {
-    holder.apply {
-        date.visibility = View.VISIBLE
-        date.text = item.text
-    }
-}
-
-private fun showText(holder: EcardElseItem.Controller.ViewHolder, item: EcardElseItem) {
-    holder.apply {
-        underLine.visibility = View.VISIBLE
-        contentOfText.visibility = View.VISIBLE
-        contentOfText.text = item.text
-    }
-}
-
-private fun showTip(holder: EcardElseItem.Controller.ViewHolder, item: EcardElseItem) {
-    holder.apply {
-        tip.visibility = View.VISIBLE
-        tip.text = item.text
-        show.visibility = View.VISIBLE
-    }
-}
-
+fun MutableList<Item>.ecardElseItem(text: String, typeOfElse: TypeOfElse) = add(EcardElseItem(text, typeOfElse))

@@ -27,9 +27,10 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="@id/guidelineBegin"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tv_ecard_number" />
+            app:layout_constraintTop_toTopOf="@id/tv_profile_number" />
+
         <TextView
-            android:id="@+id/tv_ecard_number"
+            android:id="@+id/tv_profile_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="19dp"
@@ -42,7 +43,7 @@
             tools:text="106677" />
 
         <TextView
-            android:id="@+id/tv_ecard_warning"
+            android:id="@+id/tv_profile_warning"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="19dp"
@@ -50,47 +51,58 @@
             android:textColor="#E91E47"
             android:textSize="10sp"
             android:visibility="invisible"
-            app:layout_constraintLeft_toRightOf="@id/tv_ecard_number"
-            app:layout_constraintTop_toTopOf="@id/tv_ecard_number" />
+            app:layout_constraintLeft_toRightOf="@id/tv_profile_number"
+            app:layout_constraintTop_toTopOf="@id/tv_profile_number" />
 
         <TextView
-            android:id="@+id/tv_ecard_balance"
+            android:id="@+id/tv_profile_balance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:fontFamily="@font/montserrat_bold"
             android:textColor="@color/ecardTextColor1"
             android:textSize="40sp"
-            app:layout_constraintLeft_toLeftOf="@id/tv_ecard_number"
-            app:layout_constraintTop_toBottomOf="@id/tv_ecard_number"
+            app:layout_constraintLeft_toLeftOf="@id/tv_profile_number"
+            app:layout_constraintTop_toBottomOf="@id/tv_profile_number"
             tools:text="￥1000" />
 
         <TextView
-            android:id="@+id/tv_ecard_consume_today_mark"
+            android:id="@+id/tv_profile_consume_today_mark"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:text="今日消费"
             android:textColor="@color/ecardTextColor1"
             android:textSize="12sp"
-            app:layout_constraintLeft_toLeftOf="@id/tv_ecard_number"
-            app:layout_constraintTop_toBottomOf="@id/tv_ecard_balance" />
+            app:layout_constraintLeft_toLeftOf="@id/tv_profile_number"
+            app:layout_constraintTop_toBottomOf="@id/tv_profile_balance" />
 
         <TextView
-            android:id="@+id/tv_ecard_comsume_today"
+            android:id="@+id/tv_profile_comsume_today"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:fontFamily="@font/montserrat_bold"
             android:textColor="@color/ecardTextColor0"
             android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="@id/tv_ecard_consume_today_mark"
-            app:layout_constraintLeft_toRightOf="@id/tv_ecard_consume_today_mark"
-            app:layout_constraintTop_toTopOf="@id/tv_ecard_consume_today_mark"
+            app:layout_constraintBottom_toBottomOf="@id/tv_profile_consume_today_mark"
+            app:layout_constraintLeft_toRightOf="@id/tv_profile_consume_today_mark"
+            app:layout_constraintTop_toTopOf="@id/tv_profile_consume_today_mark"
             tools:text="￥5" />
 
+        <ImageView
+            android:id="@+id/iv_profile_day_crown"
+            android:layout_width="13dp"
+            android:layout_height="13dp"
+            android:layout_marginStart="10dp"
+            android:src="@drawable/ecard_crown"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@id/tv_profile_consume_today_mark"
+            app:layout_constraintLeft_toRightOf="@id/tv_profile_comsume_today"
+            app:layout_constraintTop_toTopOf="@id/tv_profile_consume_today_mark" />
+
         <TextView
-            android:id="@+id/tv_ecard_consume_month_mark"
+            android:id="@+id/tv_profile_consume_month_mark"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
@@ -99,33 +111,35 @@
             android:textColor="@color/ecardTextColor1"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="@id/tv_ecard_number"
-            app:layout_constraintTop_toBottomOf="@id/tv_ecard_consume_today_mark" />
+            app:layout_constraintLeft_toLeftOf="@id/tv_profile_number"
+            app:layout_constraintTop_toBottomOf="@id/tv_profile_consume_today_mark" />
 
         <TextView
-            android:id="@+id/tv_ecard_consume_month"
+            android:id="@+id/tv_profile_consume_month"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:fontFamily="@font/montserrat_bold"
             android:textColor="@color/ecardTextColor0"
             android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="@id/tv_ecard_consume_month_mark"
-            app:layout_constraintLeft_toRightOf="@id/tv_ecard_consume_month_mark"
-            app:layout_constraintTop_toTopOf="@id/tv_ecard_consume_month_mark"
+            app:layout_constraintBottom_toBottomOf="@id/tv_profile_consume_month_mark"
+            app:layout_constraintLeft_toRightOf="@id/tv_profile_consume_month_mark"
+            app:layout_constraintTop_toTopOf="@id/tv_profile_consume_month_mark"
             tools:text="￥2501" />
 
         <ImageView
+            android:id="@+id/iv_profile_month_crown"
             android:layout_width="13dp"
             android:layout_height="13dp"
             android:layout_marginStart="10dp"
             android:src="@drawable/ecard_crown"
-            app:layout_constraintBottom_toBottomOf="@id/tv_ecard_consume_month_mark"
-            app:layout_constraintLeft_toRightOf="@id/tv_ecard_consume_month" />
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@id/tv_profile_consume_month_mark"
+            app:layout_constraintLeft_toRightOf="@id/tv_profile_consume_month" />
 
 
         <TextView
-            android:id="@+id/tv_ecard_name"
+            android:id="@+id/tv_profile_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="15dp"

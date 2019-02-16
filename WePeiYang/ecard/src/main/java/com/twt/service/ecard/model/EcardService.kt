@@ -42,6 +42,7 @@ interface EcardService {
 }
 
 data class EcardProfileBean(
+        val name: String,
         val balance: String, // 余额
         val cardnum: String,
         val cardstatus: String,

@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import com.twt.service.ecard.R
 import com.twt.service.ecard.model.*
@@ -133,3 +134,59 @@ class EcardInfoItem : Item {
 }
 
 fun MutableList<Item>.ecardInfoItem() = add(EcardInfoItem())
+
+class EcardPersonInfoItem(val ecardProfileBean: EcardProfileBean, val ecardTotalConsumptionBean: EcardTotalConsumptionBean) : Item {
+    override val controller: ItemController
+        get() = Controller
+
+    override fun areItemsTheSame(newItem: Item): Boolean = true
+    override fun areContentsTheSame(newItem: Item): Boolean = true
+
+    companion object Controller : ItemController {
+        override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
+            val view = parent.context.layoutInflater.inflate(R.layout.ecard_item_profile, parent, false)
+
+            return ViewHolder(view)
+        }
+
+        override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: Item) {
+            holder as ViewHolder
+            item as EcardPersonInfoItem
+            val ecardProfile = item.ecardProfileBean
+            val ecardTotalConsumption = item.ecardTotalConsumptionBean
+
+            holder.apply {
+                cardNum.text = ecardProfile.cardnum
+                name.text = ecardProfile.name
+                balance.text = ecardProfile.balance
+                todayConsume.text = ecardTotalConsumption.total_day.toString()
+                monthConsume.text = ecardTotalConsumption.total_month.toString()
+
+                if (ecardTotalConsumption.total_day >= 50) {
+                    crownOfDay.visibility = View.VISIBLE
+                }
+
+                if (ecardTotalConsumption.total_month >= 2500) {
+                    crownOfMonth.visibility = View.VISIBLE
+                }
+
+                if (ecardProfile.balance.toFloat() <= 20L) {
+                    warning.visibility = View.VISIBLE
+                }
+            }
+        }
+
+        class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+            val cardNum: TextView = itemView.findViewById(R.id.tv_profile_number)
+            val name: TextView = itemView.findViewById(R.id.tv_profile_name)
+            val balance: TextView = itemView.findViewById(R.id.tv_profile_balance)
+            val crownOfMonth: ImageView = itemView.findViewById(R.id.iv_profile_month_crown)
+            val crownOfDay: ImageView = itemView.findViewById(R.id.iv_profile_day_crown)
+            val todayConsume: TextView = itemView.findViewById(R.id.tv_profile_comsume_today)
+            val monthConsume: TextView = itemView.findViewById(R.id.tv_profile_consume_month)
+            val warning: TextView = itemView.findViewById(R.id.tv_profile_warning)
+        }
+    }
+}
+
+fun MutableList<Item>.ecardPersonInfoItem(ecardProfileBean: EcardProfileBean, ecardTotalConsumptionBean: EcardTotalConsumptionBean) = add(EcardPersonInfoItem(ecardProfileBean, ecardTotalConsumptionBean))
