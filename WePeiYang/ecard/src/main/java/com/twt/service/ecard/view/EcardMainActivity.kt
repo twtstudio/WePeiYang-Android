@@ -4,16 +4,20 @@ import android.arch.lifecycle.Observer
 import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.*
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.Toolbar
 import android.view.Window
 import android.widget.ImageButton
 import android.widget.TextView
 import com.twt.service.ecard.R
-import com.twt.service.ecard.model.LiveEcardManager
-import com.twt.service.ecard.model.TransactionInfo
+import com.twt.service.ecard.model.*
 import com.twt.wepeiyang.commons.experimental.cache.RefreshState
-import com.twt.wepeiyang.commons.ui.rec.lightText
-import com.twt.wepeiyang.commons.ui.rec.withItems
+import com.twt.wepeiyang.commons.mta.mtaClick
+import com.twt.wepeiyang.commons.ui.rec.*
+import org.jetbrains.anko.startActivity
+import java.text.SimpleDateFormat
+import java.util.*
 
 class EcardMainActivity : AppCompatActivity() {
 
@@ -33,7 +37,9 @@ class EcardMainActivity : AppCompatActivity() {
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
             setNavigationOnClickListener { onBackPressed() }
         }
-
+        val today = SimpleDateFormat("yyyyMMdd").format(Date().time)
+        val month = today.substring(3, 5)
+        val day = today.substring(5, 7)
         recyclerView = findViewById(R.id.rv_main_main)
         recyclerView.layoutManager = LinearLayoutManager(this@EcardMainActivity)
         val itemManager = recyclerView.withItems(mutableListOf())
@@ -47,9 +53,9 @@ class EcardMainActivity : AppCompatActivity() {
             LiveEcardManager.refreshEcardFullInfo()
         }
 
-        LiveEcardManager.getEcardLiveData().observe(this, Observer {
-            when (it) {
-                is RefreshState.Success -> it.message.apply {
+        LiveEcardManager.getEcardLiveData().observe(this, Observer { refreshState ->
+            when (refreshState) {
+                is RefreshState.Success -> refreshState.message.apply {
                     val ecardProfile = this.ecardProfile
                     val ecardTotalConsumption = this.totalCost
                     val transactionListWrapper = this.transactionListWrapper
@@ -63,7 +69,46 @@ class EcardMainActivity : AppCompatActivity() {
 
                     itemManager.refreshAll {
                         ecardPersonInfoItem(ecardProfile, ecardTotalConsumption)
+                        ecardElseItem("今日流水", TypeOfElse.TODAY) {
+                            startActivity<EcardPreviousActivity>()
+                            mtaClick("ecard_用户查看消费流水详情")
+                        }
+                        ecardElseItem("$month/$day", TypeOfElse.DATE)
 
+                        if (transactionList.today().isNotEmpty()) {
+                            transactionList.today().take(4).forEach {
+                                transactionItem(it, transactionListWrapper.recharge.contains(it))
+                            }
+
+                            val todayElse = transactionList.today().size - 4
+
+                            if (todayElse > 0) {
+                                ecardElseItem("${todayElse}条记录被折叠", TypeOfElse.TIPS) {
+                                    val item = this
+
+                                    itemManager.autoRefresh {
+
+                                        addAll(7, mutableListOf<Item>().apply {
+                                            transactionList.today().takeLast(todayElse).forEach {
+                                                transactionItem(it, transactionListWrapper.recharge.contains(it))
+                                            }
+                                        })
+                                        remove(item)
+                                    }
+                                }
+
+                            }
+                        } else {
+                            lightText("今天你还没有消费哟～")
+                        }
+
+                        ecardElseItem("帮助", TypeOfElse.TITLE)
+                        ecardElseItem("补办校园卡流程说明", TypeOfElse.TEXT) {
+                            startActivity<EcardAssistanceActivity>("assistance" to "Reissue")
+                        }
+                        ecardElseItem("校园卡常见问题", TypeOfElse.TEXT) {
+                            startActivity<EcardAssistanceActivity>("assistance" to "Problem")
+                        }
                     }
                 }
             }

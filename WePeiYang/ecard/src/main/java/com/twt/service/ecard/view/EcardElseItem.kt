@@ -16,16 +16,16 @@ enum class TypeOfElse {
     TODAY, TITLE, DATE, TIPS, TEXT
 }
 
-class EcardElseItem(val text: String, val typeOfElse: TypeOfElse) : Item {
+class EcardElseItem(val text: String, val typeOfElse: TypeOfElse, val block: EcardElseItem.() -> Unit) : Item {
     override val controller: ItemController
         get() = Controller
 
     override fun areContentsTheSame(newItem: Item): Boolean {
-        return text == (newItem as? EcardElseItem)?.text && typeOfElse == (newItem as? EcardElseItem)?.typeOfElse
+        return text == (newItem as? EcardElseItem)?.text && typeOfElse == (newItem as? EcardElseItem)?.typeOfElse && block == (newItem as? EcardElseItem)?.block
     }
 
     override fun areItemsTheSame(newItem: Item): Boolean {
-        return text == (newItem as? EcardElseItem)?.text && typeOfElse == (newItem as? EcardElseItem)?.typeOfElse
+        return text == (newItem as? EcardElseItem)?.text && typeOfElse == (newItem as? EcardElseItem)?.typeOfElse && block == (newItem as? EcardElseItem)?.block
     }
 
     companion object Controller : ItemController {
@@ -76,14 +76,8 @@ class EcardElseItem(val text: String, val typeOfElse: TypeOfElse) : Item {
                 title.visibility = View.VISIBLE
                 title.text = item.text
 
-                more.setOnClickListener { view ->
-                    view.context.startActivity<EcardPreviousActivity>()
-                    mtaClick("ecard_用户查看消费流水详情")
-                }
-                moreImg.setOnClickListener { view ->
-                    view.context.startActivity<EcardPreviousActivity>()
-                    mtaClick("ecard_用户查看消费流水详情")
-                }
+                more.setOnClickListener { item.block }
+                moreImg.setOnClickListener { item.block }
             }
         }
 
@@ -99,6 +93,7 @@ class EcardElseItem(val text: String, val typeOfElse: TypeOfElse) : Item {
                 underLine.visibility = View.VISIBLE
                 contentOfText.visibility = View.VISIBLE
                 contentOfText.text = item.text
+                contentOfText.setOnClickListener { item.block }
             }
         }
 
@@ -107,9 +102,10 @@ class EcardElseItem(val text: String, val typeOfElse: TypeOfElse) : Item {
                 tip.visibility = View.VISIBLE
                 tip.text = item.text
                 show.visibility = View.VISIBLE
+                show.setOnClickListener { item.block }
             }
         }
     }
 }
 
-fun MutableList<Item>.ecardElseItem(text: String, typeOfElse: TypeOfElse) = add(EcardElseItem(text, typeOfElse))
+fun MutableList<Item>.ecardElseItem(text: String, typeOfElse: TypeOfElse, block: EcardElseItem.() -> Unit = {}) = add(EcardElseItem(text, typeOfElse, block))
