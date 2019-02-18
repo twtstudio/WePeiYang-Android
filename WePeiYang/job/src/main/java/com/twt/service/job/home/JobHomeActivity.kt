@@ -1,11 +1,13 @@
 package com.twt.service.job.home
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.view.ViewPager
 import android.widget.ImageView
 import android.support.design.widget.TabLayout
 import com.twt.service.job.R
+import com.twt.service.job.search.JobSearchActivity
 import com.twt.service.job.service.*
 
 class JobHomeActivity : AppCompatActivity() {
@@ -23,6 +25,9 @@ class JobHomeActivity : AppCompatActivity() {
         bindid()
         initView()
         backImageView.setOnClickListener { onBackPressed() }
+        searchImageView.setOnClickListener {
+            startActivity(Intent(this,JobSearchActivity::class.java))
+        }
     }
 
     private fun bindid() {
@@ -30,7 +35,6 @@ class JobHomeActivity : AppCompatActivity() {
         searchImageView = findViewById(R.id.job_home_search)
         tabLayout = findViewById(R.id.job_home_tl_tabs)
         viewPager = findViewById(R.id.job_home_vp_content)
-
     }
 
     private fun initView() {

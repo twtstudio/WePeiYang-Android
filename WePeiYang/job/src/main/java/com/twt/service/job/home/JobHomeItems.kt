@@ -5,6 +5,7 @@ import android.support.constraint.ConstraintLayout
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import com.twt.service.job.R
 import com.twt.service.job.service.*
@@ -36,16 +37,14 @@ class FairItem(val common: HomeDataL, val isFirst: Boolean, val jobFragment: Job
                 fairTextViewClick.text = fairItem.common.click
                 fairTextViewDate.text = fairItem.common.date
                 fairDivide.visibility = if (fairItem.isFirst) View.GONE else View.VISIBLE
-                fair.setOnClickListener {
-                    startActivity(fairItem.common.id,fairItem.jobFragment)
+                itemView.setOnClickListener {
+                    startActivity(fairItem.common.id, fairItem.jobFragment)
                 }
             }
         }
-
     }
 
     class FairViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val fair = itemView.findViewById<ConstraintLayout>(R.id.job_home_item_one)
         val fairDivide: View = itemView.findViewById(R.id.job_v_one_divide)
         val fairTitle: TextView = itemView.findViewById(R.id.job_tv_one_title)
         val fairHeldDate: TextView = itemView.findViewById(R.id.job_tv_one_held_date)
@@ -73,22 +72,21 @@ class ThreeItem(val dataR: HomeDataR, val isFirst: Boolean, val jobFragment: Job
                 threeTextViewClick.text = threeItem.dataR.click
                 threeTitle.text = threeItem.dataR.title
                 threeDate.text = threeItem.dataR.date
-                threeTop.visibility = if (threeItem.dataR.important == "1") View.VISIBLE else View.GONE
+                threeTopText.visibility = if (threeItem.dataR.important == "1") View.VISIBLE else View.GONE
+                threeTopImg.visibility = if (threeItem.dataR.important == "1") View.VISIBLE else View.GONE
                 threeDivide.visibility = if (threeItem.isFirst) View.GONE else View.VISIBLE
-                three.setOnClickListener {
-                    startActivity(threeItem.dataR.id,threeItem.jobFragment)
+                itemView.setOnClickListener {
+                    startActivity(threeItem.dataR.id, threeItem.jobFragment)
                 }
             }
-            // 本应在此处设置点击事件，但是在 activity 里的 fragment 里的 item 如何实现两个 activity 通信
         }
-
     }
 
     class ThreeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val three  = itemView.findViewById<ConstraintLayout>(R.id.job_home_item_three)
         val threeDivide: View = itemView.findViewById(R.id.job_v_three_divide)
         val threeTextViewClick: TextView = itemView.findViewById(R.id.job_tv_three_click)
-        val threeTop: TextView = itemView.findViewById(R.id.job_tv_three_top)
+        val threeTopText: TextView = itemView.findViewById(R.id.job_tv_three_top)
+        val threeTopImg: ImageView = itemView.findViewById(R.id.job_iv_three_top)
         val threeTitle: TextView = itemView.findViewById(R.id.job_tv_three_title)
         val threeDate: TextView = itemView.findViewById(R.id.job_tv_three_date)
     }
@@ -96,10 +94,10 @@ class ThreeItem(val dataR: HomeDataR, val isFirst: Boolean, val jobFragment: Job
     override val controller: ItemController get() = Controller
 }
 
-private fun startActivity(id: String,fragment: JobFragment) {
-    val intent = Intent(fragment.activity,StoryActivity::class.java)
-    intent.putExtra(KEY_ID,id)
-    intent.putExtra(KEY_KIND,fragment.kind)
+private fun startActivity(id: String, fragment: JobFragment) {
+    val intent = Intent(fragment.activity, StoryActivity::class.java)
+    intent.putExtra(KEY_ID, id)
+    intent.putExtra(KEY_KIND, fragment.kind)
     fragment.activity!!.startActivity(intent)
 }
 

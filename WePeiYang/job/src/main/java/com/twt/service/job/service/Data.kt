@@ -19,6 +19,11 @@ const val DYNAMIC = "动态"
 const val KEY_KIND = "key_kind"
 const val KEY_ID = "key_id"
 
+const val SEARCH_HISTORY = "key_sh"
+
+const val MEETING = "meetings"
+const val INFO = "infos"
+
 val listsOfHome = mutableListOf(JOB_MESSAGE, JOB_FAIR, NOTICE, DYNAMIC)
 
 // 分别存四个碎片的最大页数
@@ -26,6 +31,7 @@ var pagesOfMsg: Int by hawk(JOB_MESSAGE, 1)
 var pagesOfFair: Int by hawk(JOB_FAIR, 1)
 var pagesOfNotice: Int by hawk(NOTICE, 1)
 var pagesOfDynamic: Int by hawk(DYNAMIC, 1)
+var searchHistory: MutableSet<String> by hawk(SEARCH_HISTORY, mutableSetOf())
 
 data class GeneralL(
         val common: List<HomeDataL>,
@@ -106,25 +112,15 @@ data class NoticeAfter(
         val content: String,
         val date: String,
         val title: String,
-        val hasAttach : Boolean
+        val hasAttach: Boolean
 )
 
 data class SearchData(
-        val info: List<Info>,
-        val meeting: List<Meeting>
+        val info: List<InfoOrMeeting>,
+        val meeting: List<InfoOrMeeting>
 )
 
-data class Info(
-        val click: String,
-        val date: String,
-        val held_date: Any,
-        val held_time: Any,
-        val id: String,
-        val place: Any,
-        val title: String
-)
-
-data class Meeting(
+data class InfoOrMeeting(
         val click: String,
         val date: String,
         val held_date: String,
@@ -133,3 +129,4 @@ data class Meeting(
         val place: String,
         val title: String
 )
+

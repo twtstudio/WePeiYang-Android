@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".home.JobHomeActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -18,28 +16,36 @@
             android:layout_height="56dp">
 
             <ImageView
-                android:id="@+id/job_home_iv_back"
+                android:id="@+id/job_search_iv_back"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:src="@drawable/job_toolbar_back"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
-                android:layout_marginStart="10dp"
+                android:layout_marginStart="6dp"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:text="@string/job_name"
+            <EditText
+                android:id="@+id/job_search_et_input"
+                android:layout_width="match_parent"
+                android:layout_marginStart="50dp"
+                android:layout_marginEnd="52dp"
+                android:layout_height="35dp"
+                android:paddingStart="12dp"
+                android:paddingEnd="10dp"
+                android:singleLine="true"
+                android:imeOptions="actionSearch"
+                android:inputType="text"
+                android:background="@drawable/job_search_frame"
                 android:textColor="#eeeeee"
+                android:textColorHint="#c1e3d6"
                 android:textSize="19sp"
+                android:hint="@string/job_search_hint"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toRightOf="@+id/job_home_iv_back"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
-                android:id="@+id/job_home_search"
+                android:id="@+id/job_search_iv_icon"
                 android:layout_width="54dp"
                 android:layout_height="54dp"
                 android:layout_marginEnd="3dp"
@@ -55,18 +61,10 @@
 
     </android.support.v7.widget.Toolbar>
 
-    <android.support.design.widget.TabLayout
-        android:id="@+id/job_home_tl_tabs"
+    <FrameLayout
+        android:id="@+id/job_search_fl_fragment"
         android:layout_width="match_parent"
-        android:layout_height="52dp"
-        app:tabIndicatorColor="@color/job_green"
-        app:tabIndicatorHeight="2dp"
-        app:tabSelectedTextColor="@color/job_green"
-        app:tabTextColor="@color/job_dark_grey" />
-
-    <android.support.v4.view.ViewPager
-        android:id="@+id/job_home_vp_content"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content"
+        android:background="@color/job_background"/>
 
 </LinearLayout>

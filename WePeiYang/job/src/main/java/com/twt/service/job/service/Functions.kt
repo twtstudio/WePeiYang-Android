@@ -28,4 +28,5 @@ object Functions {
         }
         return NoticeAfter(mMap, notice.click, Html.fromHtml(notice.content).toString(), notice.date, notice.title, hasAttach)
     }
+
 }

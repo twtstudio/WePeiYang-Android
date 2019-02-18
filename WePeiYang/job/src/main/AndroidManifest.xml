@@ -4,7 +4,7 @@
 
     <application>
         <activity android:name=".story.StoryActivity" />
-        <activity android:name=".search.SearchResultActivity" />
+        <activity android:name=".search.JobSearchActivity" />
         <activity android:name=".home.JobHomeActivity" />
     </application>
 

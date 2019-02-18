@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/job_home_item_one"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/job_search_tv_meeting_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="26dp"
+        android:layout_marginEnd="26dp"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:textColor="@color/job_black"
+        android:textSize="19sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/job_search_tv_meeting_date"
+        android:layout_marginTop="6dp"
+        tools:text="【北洋园】北京不晓得是啥子的公司天津分公司" />
+
+    <ImageView
+        android:id="@+id/job_search_iv_meeting_time"
+        android:layout_width="34dp"
+        android:layout_height="34dp"
+        android:layout_marginTop="56dp"
+        android:src="@drawable/job_date_icon"
+        app:layout_constraintLeft_toLeftOf="@+id/job_search_tv_meeting_title"
+        app:layout_constraintTop_toTopOf="@+id/job_search_tv_meeting_title" />
+
+    <TextView
+        android:id="@+id/job_search_tv_meeting_held_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/job_dark_grey"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/job_search_iv_meeting_time"
+        app:layout_constraintLeft_toRightOf="@+id/job_search_iv_meeting_time"
+        app:layout_constraintTop_toTopOf="@+id/job_search_iv_meeting_time"
+        tools:text="2019-01-12" />
+
+    <TextView
+        android:id="@+id/job_search_tv_meeting_held_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/job_search_tv_meeting_held_date"
+        app:layout_constraintLeft_toRightOf="@+id/job_search_tv_meeting_held_date"
+        app:layout_constraintTop_toTopOf="@+id/job_search_tv_meeting_held_date"
+        tools:text="14:00-16:00" />
+
+    <ImageView
+        android:id="@+id/job_search_iv_meeting_place"
+        android:layout_width="34dp"
+        android:layout_height="34dp"
+        android:src="@drawable/job_place_icon"
+        app:layout_constraintLeft_toLeftOf="@+id/job_search_tv_meeting_title"
+        app:layout_constraintTop_toBottomOf="@+id/job_search_tv_meeting_held_date" />
+
+    <TextView
+        android:id="@+id/job_search_tv_meeting_place"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxEms="14"
+        android:singleLine="true"
+        android:textColor="@color/job_dark_grey"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/job_search_iv_meeting_place"
+        app:layout_constraintLeft_toRightOf="@+id/job_search_iv_meeting_place"
+        app:layout_constraintTop_toTopOf="@+id/job_search_iv_meeting_place"
+        tools:text="北洋园校区55教A204不晓得在哪间办公室" />
+
+    <ImageView
+        android:id="@+id/job_search_iv_meeting_click"
+        android:layout_width="34dp"
+        android:layout_height="34dp"
+        android:src="@drawable/job_click_icon"
+        app:layout_constraintRight_toLeftOf="@+id/job_search_tv_meeting_click"
+        app:layout_constraintTop_toTopOf="@+id/job_search_tv_meeting_click"
+        app:layout_constraintBottom_toBottomOf="@+id/job_search_tv_meeting_click"/>
+
+    <TextView
+        android:id="@+id/job_search_tv_meeting_click"
+        android:layout_width="54dp"
+        android:layout_height="wrap_content"
+        android:textColor="@color/job_dark_grey"
+        android:textSize="15sp"
+        tools:text="246"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginEnd="14dp"
+        app:layout_constraintTop_toTopOf="@+id/job_search_tv_meeting_date"
+        app:layout_constraintBottom_toBottomOf="@+id/job_search_tv_meeting_date"/>
+
+    <TextView
+        android:id="@+id/job_search_tv_meeting_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="17dp"
+        android:textColor="@color/job_light_grey"
+        android:textSize="17sp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="24dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginStart="22dp"
+        tools:text="2018-09-02" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/job_fragment_top_frame"
+        android:paddingStart="4dp"
+        android:paddingTop="2dp"
+        android:paddingEnd="4dp"
+        android:paddingBottom="2dp"
+        android:text="@string/job_meeting"
+        android:textColor="@color/job_green"
+        android:textSize="14sp"
+        app:layout_constraintLeft_toRightOf="@+id/job_search_tv_meeting_date"
+        android:layout_marginStart="6dp"
+        app:layout_constraintTop_toTopOf="@+id/job_search_tv_meeting_date"
+        app:layout_constraintBottom_toBottomOf="@+id/job_search_tv_meeting_date"/>
+    <View
+        android:id="@+id/job_search_v_meeting_divide"
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="16dp"
+        android:layout_weight="1"
+        android:background="@drawable/job_dividing_dotted_line"
+        android:layerType="software"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</android.support.constraint.ConstraintLayout>
