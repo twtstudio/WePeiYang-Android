@@ -5,8 +5,13 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.Toolbar
 import android.view.Gravity
+import android.view.Window
 import android.widget.FrameLayout
+import android.widget.ImageButton
+import android.widget.TextView
+import com.twt.service.ecard.R
 import com.twt.service.ecard.model.EcardPref
 import com.twt.service.ecard.model.EcardService
 import com.twt.service.ecard.model.TransactionInfo
@@ -24,29 +29,41 @@ import kotlinx.coroutines.experimental.launch
 import org.jetbrains.anko.*
 
 class EcardPreviousActivity : AppCompatActivity() {
-    val recyclerView by lazy {
-        RecyclerView(this).apply {
-            layoutManager = LinearLayoutManager(this@EcardPreviousActivity)
-            layoutParams = FrameLayout.LayoutParams(matchParent, matchParent)
-        }
-    }
-    val itemManager by lazy { recyclerView.withItems(listOf()) }
+    private lateinit var recyclerView: RecyclerView
+    private val itemManager by lazy { recyclerView.withItems(listOf()) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        window.statusBarColor = Color.WHITE
-        enableLightStatusBarMode(true)
-        frameLayout {
-            backgroundColor = Color.WHITE
-            addView(recyclerView)
+        supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
+        setContentView(R.layout.ecard_activity_main)
+        window.statusBarColor = Color.parseColor("#ffeb86")
+        val toolbar: Toolbar = findViewById(R.id.tb_main)
+        val titleOfToolbar: TextView = findViewById(R.id.tv_main_title)
+        val refreshOfToolbar: ImageButton = findViewById(R.id.ib_main_refresh)
+        titleOfToolbar.text = "流水查账"
+        toolbar.apply {
+            title = " "
+            setSupportActionBar(this)
+            supportActionBar?.setDisplayHomeAsUpEnabled(true)
+            setNavigationOnClickListener { onBackPressed() }
         }
 
+        recyclerView = findViewById(R.id.rv_main_main)
+        recyclerView.layoutManager = LinearLayoutManager(this@EcardPreviousActivity)
+
+        refreshOfToolbar.setOnClickListener {
+            //TODO
+        }
         refreshData()
     }
 
     private fun refreshData() {
+        itemManager.refreshAll {
+            lightText("正在加载数据")
+        }
+
         launch(UI + QuietCoroutineExceptionHandler) {
-            val history = EcardService.getEcardTransaction(day = EcardPref.ecardHistoryLength).awaitAndHandle {
+            val transactionListWrapper = EcardService.getEcardTransaction(term = EcardPref.ecardHistoryLength).awaitAndHandle {
                 it.printStackTrace()
                 itemManager.refreshAll {
                     firstSelectItem()
@@ -56,33 +73,24 @@ class EcardPreviousActivity : AppCompatActivity() {
                                 "此情况通常会发生在补办饭卡之后，查询期限超越补办期 \n 当然也可能是是饭卡的账号密码错了...</span>").spanned
                     }
                 }
-            }?.data?.transaction
+            }?.data
 
-            val balanceInHistory = EcardService.getEcardTransaction(day = EcardPref.ecardHistoryLength, type = 1).awaitAndHandle {
-                it.printStackTrace()
-            }?.data?.transaction
-
-            val historyData = history ?: return@launch
+            val historyData = transactionListWrapper ?: return@launch
 
             Toasty.success(this@EcardPreviousActivity, "拉取数据成功：${EcardPref.ecardHistoryLength}天").show()
-            val allList = mutableListOf<TransactionInfo>().apply {
-                addAll(historyData.onEach { it.isCost = true })
-                balanceInHistory?.let { addAll(it.onEach { it.isCost = false }) }
-                sortByDescending { it.date.toLong() }
+            val transactionList = mutableListOf<TransactionInfo>().apply {
+                addAll(historyData.recharge)
+                addAll(historyData.consumption)
+                sortWith(compareBy({ it.date }, { it.time }))
+                reverse()
             }
 
             itemManager.refreshAll {
-                allList.forEachIndexed { index, transactionInfo ->
-                    val nextTransactionInfo = allList.getOrNull(index + 1)
+                transactionList.forEachIndexed { index, transactionInfo ->
                     if (index == 0) {
                         firstSelectItem()
-                        lightText(transactionInfo.date) // 增加日期分割符号
                     }
-                    transactionItem(transactionInfo)
-                    if (transactionInfo.date != nextTransactionInfo?.date) {
-                        nextTransactionInfo?.let { lightText(it.date) } // 增加日期分割符号
-                    }
-
+                    transactionItem(transactionInfo, historyData.recharge.contains(transactionInfo))
                 }
             }
             recyclerView.scrollToPosition(0)

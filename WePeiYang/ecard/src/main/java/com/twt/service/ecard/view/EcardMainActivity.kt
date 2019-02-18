@@ -21,7 +21,7 @@ import java.util.*
 
 class EcardMainActivity : AppCompatActivity() {
 
-    lateinit var recyclerView: RecyclerView
+    private lateinit var recyclerView: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,8 +59,7 @@ class EcardMainActivity : AppCompatActivity() {
                     val ecardProfile = this.ecardProfile
                     val ecardTotalConsumption = this.totalCost
                     val transactionListWrapper = this.transactionListWrapper
-                    val transactionList = mutableListOf<TransactionInfo>()
-                    transactionList.apply {
+                    val transactionList = mutableListOf<TransactionInfo>().apply {
                         addAll(transactionListWrapper.recharge)
                         addAll(transactionListWrapper.consumption)
                         sortWith(compareBy({ it.date }, { it.time }))
@@ -104,10 +103,10 @@ class EcardMainActivity : AppCompatActivity() {
 
                         ecardElseItem("帮助", TypeOfElse.TITLE)
                         ecardElseItem("补办校园卡流程说明", TypeOfElse.TEXT) {
-                            startActivity<EcardAssistanceActivity>("assistance" to "Reissue")
+                            startActivity<EcardAssistanceActivity>(EcardPref.ASSISTANCE_MARK to EcardPref.KEY_REISSUE)
                         }
                         ecardElseItem("校园卡常见问题", TypeOfElse.TEXT) {
-                            startActivity<EcardAssistanceActivity>("assistance" to "Problem")
+                            startActivity<EcardAssistanceActivity>(EcardPref.ASSISTANCE_MARK to EcardPref.KEY_PROBLEM)
                         }
                     }
                 }

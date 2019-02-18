@@ -52,4 +52,4 @@ class EcardAssistanceItem(private val problem: ProblemBean, val isShowChart: Boo
     }
 }
 
-fun MutableList<Item>.ecardassistanceItem(problem: ProblemBean, isShowChart: Boolean) = add(EcardAssistanceItem(problem, isShowChart))
+fun MutableList<Item>.ecardAssistanceItem(problem: ProblemBean, isShowChart: Boolean = false) = add(EcardAssistanceItem(problem, isShowChart))

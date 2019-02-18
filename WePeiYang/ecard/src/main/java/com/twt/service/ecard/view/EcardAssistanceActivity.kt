@@ -8,9 +8,9 @@ import android.support.v7.widget.RecyclerView
 import android.view.Window
 import android.widget.ImageButton
 import android.widget.TextView
-import android.widget.Toolbar
+import android.support.v7.widget.Toolbar
 import com.twt.service.ecard.R
-import com.twt.service.ecard.model.EcardService
+import com.twt.service.ecard.model.*
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import com.twt.wepeiyang.commons.ui.rec.*
@@ -36,7 +36,14 @@ class EcardAssistanceActivity : AppCompatActivity() {
             setNavigationOnClickListener { onBackPressed() }
         }
         val refreshButton: ImageButton = findViewById(R.id.ib_assistance_refresh)
-        val assistance = intent.getStringExtra("assistance")
+        val titleOfAssistance: TextView = findViewById(R.id.tv_assistance_total_title)
+        val assistance = intent.getStringExtra(EcardPref.ASSISTANCE_MARK)
+
+        titleOfAssistance.text = when (assistance) {
+            EcardPref.KEY_PROBLEM -> "补办校园卡流程说明"
+            EcardPref.KEY_REISSUE -> "校园卡常见问题"
+            else -> "加载失败，请退出重试"
+        }
 
         recyclerView = findViewById(R.id.rv_assistance_content)
         recyclerView.layoutManager = LinearLayoutManager(this@EcardAssistanceActivity)
@@ -53,7 +60,7 @@ class EcardAssistanceActivity : AppCompatActivity() {
 
     private fun loadRecyclerView(assistance: String, itemManager: ItemManager) {
         launch(UI + QuietCoroutineExceptionHandler) {
-            val assistanceList = EcardService.getFQA().awaitAndHandle {
+            val list = EcardService.getFQA().awaitAndHandle {
                 it.printStackTrace()
 
                 itemManager.refreshAll {
@@ -61,11 +68,21 @@ class EcardAssistanceActivity : AppCompatActivity() {
                 }
             }
 
+            val assistanceList = list ?: return@launch
 
-            when (assistance) {
-                "Reissue" -> {
-                }
-                "Problem" -> {
+
+            itemManager.refreshAll {
+                when (assistance) {
+                    EcardPref.KEY_REISSUE -> {
+                        assistanceList.toMutableList().filter { it.id == 8 }.forEach {
+                            ecardAssistanceItem(it)
+                        }
+                    }
+                    EcardPref.KEY_PROBLEM -> {
+                        assistanceList.toMutableList().filter { it.id != 8 }.forEach {
+                            ecardAssistanceItem(it)
+                        }
+                    }
                 }
             }
         }
