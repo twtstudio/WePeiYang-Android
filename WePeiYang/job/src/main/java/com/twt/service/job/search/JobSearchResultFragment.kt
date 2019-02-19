@@ -10,6 +10,8 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import android.widget.TextView
 import android.widget.Toast
 import com.twt.service.job.R
 import com.twt.service.job.service.*
@@ -23,10 +25,13 @@ class JobSearchResultFragment : Fragment(), JobSearchContract.JobSearchView {
     private lateinit var recyclerView: RecyclerView
     private val itemManager = ItemManager()
     private val searchPresenter = JobSearchPresenter(this)
+    private lateinit var noResult: LinearLayout
     private var keyword: String = ""
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val view = inflater.inflate(R.layout.job_search_fragment, container, false)
+        noResult = view.findViewById(R.id.job_search_no_res)
+        noResult.visibility = View.GONE
         recyclerView = view.findViewById(R.id.job_search_rv_history)
         recyclerView.layoutManager = LinearLayoutManager(activity)
         recyclerView.adapter = ItemAdapter(itemManager)
@@ -58,6 +63,7 @@ class JobSearchResultFragment : Fragment(), JobSearchContract.JobSearchView {
             }
         }
     }
+
     private fun startActivity(id: String, kind: String) {
         val intent = Intent(activity, StoryActivity::class.java)
         intent.putExtra(KEY_ID, id)
@@ -66,7 +72,11 @@ class JobSearchResultFragment : Fragment(), JobSearchContract.JobSearchView {
     }
 
     override fun onNull() {
-        Toasty.error(context!!, "meiyou,555555~~~~~", Toast.LENGTH_LONG, true).show()
+
+        noResult.visibility = View.VISIBLE
+        val textView = noResult.findViewById<TextView>(R.id.job_search_tv_no_res)
+        textView.text = "没有找到相关\"${keyword}\"的就业信息"
+        recyclerView.withItems(mutableListOf())
     }
 
     override fun onError(msg: String) {
