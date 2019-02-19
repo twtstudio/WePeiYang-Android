@@ -12,6 +12,7 @@
         android:layout_height="42dp"
         android:src="@drawable/job_date_icon"
         app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         android:layout_marginStart="22dp"
         android:layout_marginTop="16dp"/>
 
@@ -22,6 +23,7 @@
         tools:text="2019-07-19 14:00-16:00"
         android:textSize="17sp"
         android:textColor="@color/job_dark_grey"
+        android:fontFamily="@font/montserrat_regular"
         app:layout_constraintTop_toTopOf="@+id/job_story_im_date"
         app:layout_constraintBottom_toBottomOf="@+id/job_story_im_date"
         app:layout_constraintLeft_toRightOf="@+id/job_story_im_date"
@@ -43,6 +45,7 @@
         tools:text="北洋园校区某一动的某"
         android:textSize="17sp"
         android:textColor="@color/job_dark_grey"
+        android:fontFamily="@font/montserrat_regular"
         app:layout_constraintLeft_toLeftOf="@+id/job_story_tv_date"
         app:layout_constraintTop_toBottomOf="@+id/job_story_tv_date"
         android:layout_marginTop="18dp" />

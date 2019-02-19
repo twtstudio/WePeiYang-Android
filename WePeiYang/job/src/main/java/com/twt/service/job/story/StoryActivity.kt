@@ -71,7 +71,7 @@ class StoryActivity : AppCompatActivity(), JobStoryContract.JobStoryView {
     }
 
     override fun onError(msg: String) {
-        Toasty.error(this, "cuowu", Toast.LENGTH_LONG, true).show()
+        Toasty.error(this, "error T_T", Toast.LENGTH_LONG, true).show()
     }
 
 }

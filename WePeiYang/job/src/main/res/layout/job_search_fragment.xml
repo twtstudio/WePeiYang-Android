@@ -36,6 +36,7 @@
             tools:text="没有找到关于什么的就业信息"
             android:textColor="#abd2c3"
             android:textSize="23sp"
+            android:fontFamily="@font/montserrat_regular"
             android:layout_marginTop="40dp"
             android:layout_gravity="center"/>
 

@@ -18,18 +18,17 @@
             <ImageView
                 android:id="@+id/job_search_iv_back"
                 android:layout_width="34dp"
-                android:layout_height="34dp"
+                android:layout_height="28dp"
                 android:src="@drawable/ic_arrow_back_black_24dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
-                android:layout_marginStart="8dp"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
                 android:id="@+id/job_search_et_input"
                 android:layout_width="match_parent"
-                android:layout_marginStart="50dp"
-                android:layout_marginEnd="52dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginEnd="62dp"
                 android:layout_height="35dp"
                 android:paddingStart="12dp"
                 android:paddingEnd="10dp"
@@ -40,6 +39,7 @@
                 android:textColor="#eeeeee"
                 android:textColorHint="#c1e3d6"
                 android:textSize="19sp"
+                android:fontFamily="@font/montserrat_regular"
                 android:hint="@string/job_search_hint"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -48,7 +48,7 @@
                 android:id="@+id/job_search_iv_icon"
                 android:layout_width="54dp"
                 android:layout_height="54dp"
-                android:layout_marginEnd="3dp"
+                android:layout_marginEnd="12dp"
                 android:contentDescription="@string/job_search_icon"
                 android:padding="12dp"
                 android:scaleType="centerCrop"

@@ -8,7 +8,6 @@ interface JobHomeContract {
         fun loadMoreFair(commonBean: List<HomeDataL>)
         fun showThree(dataRBean: List<HomeDataR>) // 公告和动态
         fun loadMoreOther(dataRBean: List<HomeDataR>)
-        fun cannotLoad()
         fun onError(msg: String)
         fun onNull()
     }

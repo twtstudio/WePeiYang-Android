@@ -94,6 +94,22 @@ class ThreeItem(val dataR: HomeDataR, val isFirst: Boolean, val jobFragment: Job
     override val controller: ItemController get() = Controller
 }
 
+class BottomItem : Item {
+    private companion object Controller : ItemController {
+        override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
+            return BottomHolder(parent.context.layoutInflater.inflate(R.layout.job_home_item_bottom, parent, false))
+        }
+
+        override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: Item) {
+        }
+
+    }
+
+    class BottomHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+
+    override val controller: ItemController get() = Controller
+}
+
 private fun startActivity(id: String, fragment: JobFragment) {
     val intent = Intent(fragment.activity, StoryActivity::class.java)
     intent.putExtra(KEY_ID, id)

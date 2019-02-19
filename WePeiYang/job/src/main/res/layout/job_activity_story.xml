@@ -19,9 +19,9 @@
 
             <ImageView
                 android:id="@+id/job_story_iv_back"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:src="@drawable/job_toolbar_back"
+                android:layout_width="34dp"
+                android:layout_height="28dp"
+                android:src="@drawable/ic_arrow_back_black_24dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -32,7 +32,8 @@
                 android:layout_marginStart="10dp"
                 android:text="@string/job_detail"
                 android:textColor="#eeeeee"
-                android:textSize="19sp"
+                android:textSize="20sp"
+                android:fontFamily="@font/montserrat_regular"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toRightOf="@+id/job_story_iv_back"
                 app:layout_constraintTop_toTopOf="parent" />

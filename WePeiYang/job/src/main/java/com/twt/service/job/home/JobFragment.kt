@@ -93,7 +93,7 @@ class JobFragment : Fragment(), JobHomeContract.JobHomeView {
 
     private fun loadData() {
         if (page > pagesOfMsg) {
-            cannotLoad()
+            itemManager.add(BottomItem())
         } else {
             homePresenterImp.getGeneral(kind, page)
         }
@@ -141,9 +141,5 @@ class JobFragment : Fragment(), JobHomeContract.JobHomeView {
 
     override fun onNull() {
         Toasty.error(context!!, "meiyou", Toast.LENGTH_LONG, true).show()
-    }
-
-    override fun cannotLoad() {
-        Toasty.error(context!!, "daodi", Toast.LENGTH_LONG, true).show()
     }
 }

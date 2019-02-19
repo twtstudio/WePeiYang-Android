@@ -14,6 +14,7 @@
         android:layout_height="42dp"
         android:src="@drawable/job_attach_icon"
         app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         android:layout_marginStart="22dp"/>
 
     <TextView
@@ -23,6 +24,7 @@
         android:maxEms="14"
         tools:text="林爱哦是你哇陈述鱼趁姝宇晨术语晨术语.xlms"
         android:textSize="17sp"
+        android:fontFamily="@font/montserrat_regular"
         app:layout_constraintTop_toTopOf="@+id/job_story_im_attach"
         android:layout_marginTop="8dp"
         app:layout_constraintLeft_toRightOf="@+id/job_story_im_attach"

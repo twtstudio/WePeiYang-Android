@@ -26,6 +26,7 @@
         tool:text="陈数属于陈睡衣请问安静数据售价为售价为哦啊吗"
         android:textColor="@color/job_dark_grey"
         android:textSize="20sp"
+        android:fontFamily="@font/montserrat_regular"
         android:singleLine="true"
         android:ellipsize="end"
         app:layout_constraintLeft_toLeftOf="@+id/job_search_iv_history_pic"
