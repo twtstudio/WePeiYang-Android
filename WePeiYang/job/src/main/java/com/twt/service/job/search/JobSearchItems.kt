@@ -90,7 +90,7 @@ class InfoItem(val info: InfoOrMeeting, val isFirst: Boolean, val toDetail: (Str
     override val controller: ItemController get() = Controller
 }
 
-class MeetingItem(val info: InfoOrMeeting, val isFirst: Boolean, val toDetail: (Int) -> Unit) : Item {
+class MeetingItem(val meeting: InfoOrMeeting, val isFirst: Boolean, val toDetail: (Int) -> Unit) : Item {
     companion object Controller : ItemController {
         override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
             return MeetingHolder(parent.context.layoutInflater.inflate(R.layout.job_search_item_result_meeting, parent, false))
@@ -100,12 +100,13 @@ class MeetingItem(val info: InfoOrMeeting, val isFirst: Boolean, val toDetail: (
             holder as MeetingHolder
             item as MeetingItem
             holder.apply {
-                dateOfMeeting.text = item.info.date
-                click.text = item.info.click
-                titleOfMeeting.text = item.info.title
-                held_date.text = item.info.held_date
-                held_time.text = item.info.held_time
-                placeOfMeeting.text = item.info.place
+                dateOfMeeting.text = item.meeting.date
+                click.text = item.meeting.click
+                titleOfMeeting.text = item.meeting.title
+                held_date.text = item.meeting.held_date
+                held_time.text = item.meeting.held_time
+                placeOfMeeting.text = item.meeting.place
+                itemView.setOnClickListener { item.toDetail(item.meeting.id.toInt()) }
                 divide.visibility = if (item.isFirst) View.GONE else View.VISIBLE
             }
         }
