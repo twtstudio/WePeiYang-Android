@@ -35,19 +35,17 @@ class EcardAssistanceItem(private val problem: ProblemBean, val isShowChart: Boo
             val problem = item.problem
             //正则换行
             val numPattern = " +".toRegex()
-            val result = numPattern.replace(problem.content, "\n")
+            val result = numPattern.replace(problem.content, "")
 
             holder.apply {
                 title.text = problem.title
                 textOfProblem.text = result
-                chart.visibility = if (item.isShowChart) View.VISIBLE else View.GONE
             }
         }
 
         class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             val title: TextView = itemView.findViewById(R.id.tv_assistance_item_title)
             val textOfProblem: TextView = itemView.findViewById(R.id.tv_assistance_item_content)
-            val chart: ConstraintLayout = itemView.findViewById(R.id.cl_assistance_position)
         }
     }
 }

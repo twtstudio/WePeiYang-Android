@@ -3,12 +3,14 @@ package com.twt.service.ecard.view
 import android.graphics.Color
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.constraint.ConstraintLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.Window
 import android.widget.ImageButton
 import android.widget.TextView
 import android.support.v7.widget.Toolbar
+import android.view.View
 import com.twt.service.ecard.R
 import com.twt.service.ecard.model.*
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
@@ -19,7 +21,8 @@ import kotlinx.coroutines.experimental.launch
 
 class EcardAssistanceActivity : AppCompatActivity() {
 
-    lateinit var recyclerView: RecyclerView
+    private lateinit var recyclerView: RecyclerView
+    private val itemManager by lazy { recyclerView.withItems(mutableListOf()) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,28 +40,34 @@ class EcardAssistanceActivity : AppCompatActivity() {
         }
         val refreshButton: ImageButton = findViewById(R.id.ib_assistance_refresh)
         val titleOfAssistance: TextView = findViewById(R.id.tv_assistance_total_title)
+        val chart: ConstraintLayout = findViewById(R.id.cl_assistance_position)
         val assistance = intent.getStringExtra(EcardPref.ASSISTANCE_MARK)
 
         titleOfAssistance.text = when (assistance) {
-            EcardPref.KEY_PROBLEM -> "补办校园卡流程说明"
-            EcardPref.KEY_REISSUE -> "校园卡常见问题"
+            EcardPref.KEY_REISSUE -> "补办校园卡流程说明"
+            EcardPref.KEY_PROBLEM -> "校园卡常见问题"
             else -> "加载失败，请退出重试"
+        }
+        chart.visibility = when (assistance) {
+            EcardPref.KEY_REISSUE -> View.VISIBLE
+            else -> View.GONE
         }
 
         recyclerView = findViewById(R.id.rv_assistance_content)
         recyclerView.layoutManager = LinearLayoutManager(this@EcardAssistanceActivity)
-        val itemManager = recyclerView.withItems(mutableListOf())
+
+        refreshButton.setOnClickListener {
+            loadRecyclerView(assistance)
+        }
+
+        loadRecyclerView(assistance)
+    }
+
+    private fun loadRecyclerView(assistance: String) {
         itemManager.refreshAll {
             lightText("正在加载数据")
         }
 
-        refreshButton.setOnClickListener {
-            loadRecyclerView(assistance, itemManager)
-        }
-        loadRecyclerView(assistance, itemManager)
-    }
-
-    private fun loadRecyclerView(assistance: String, itemManager: ItemManager) {
         launch(UI + QuietCoroutineExceptionHandler) {
             val list = EcardService.getFQA().awaitAndHandle {
                 it.printStackTrace()

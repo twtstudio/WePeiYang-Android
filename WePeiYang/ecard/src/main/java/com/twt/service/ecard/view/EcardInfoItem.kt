@@ -170,7 +170,7 @@ class EcardPersonInfoItem(val ecardProfile: EcardProfileBean, val ecardTotalCons
                     crownOfMonth.visibility = View.VISIBLE
                 }
 
-                if (ecardProfile.balance.toFloat() <= 20L) {
+                if (ecardProfile.balance.split("元")[0].toFloat() <= 20L) {
                     warning.visibility = View.VISIBLE
                 }
             }

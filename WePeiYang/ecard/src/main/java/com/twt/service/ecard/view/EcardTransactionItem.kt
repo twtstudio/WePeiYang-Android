@@ -112,7 +112,7 @@ class EcardTransactionInfoItem : Item {
                 itemContent.text = "消费流水"
                 listOf(imgGo, itemContent).forEach {
                     it.setOnClickListener { view ->
-                        view.context.startActivity<EcardPreviousActivity>()
+                        view.context.startActivity<EcardMainActivity>()
                         mtaClick("ecard_用户查看消费流水详情")
                     }
                 }
@@ -140,7 +140,7 @@ class EcardTransactionInfoItem : Item {
                                     itemName.text = "TRANSACTION PREVIOUS"
                                 }
                                 transactionList.take(4).forEach {
-                                    transactionItem(it, transactionListWrapper.recharge.contains(it))
+                                    transactionItem(it, transactionListWrapper.consumption.contains(it))
                                 }
                                 if (transactionList.isEmpty()) {
                                     lightText("暂未获取到最近两天消费数据")
@@ -150,7 +150,7 @@ class EcardTransactionInfoItem : Item {
                                     itemName.text = "TRANSACTION TODAY"
                                 }
                                 transactionList.today().forEach {
-                                    transactionItem(it, transactionListWrapper.recharge.contains(it))
+                                    transactionItem(it, transactionListWrapper.consumption.contains(it))
                                 }
                             }
                         }

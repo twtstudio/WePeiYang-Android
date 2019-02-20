@@ -52,7 +52,7 @@ class EcardPreviousActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this@EcardPreviousActivity)
 
         refreshOfToolbar.setOnClickListener {
-            //TODO
+            refreshData()
         }
         refreshData()
     }
@@ -86,11 +86,10 @@ class EcardPreviousActivity : AppCompatActivity() {
             }
 
             itemManager.refreshAll {
-                transactionList.forEachIndexed { index, transactionInfo ->
-                    if (index == 0) {
-                        firstSelectItem()
-                    }
-                    transactionItem(transactionInfo, historyData.recharge.contains(transactionInfo))
+
+                firstSelectItem()
+                transactionList.forEach {
+                    transactionItem(it, historyData.consumption.contains(it))
                 }
             }
             recyclerView.scrollToPosition(0)

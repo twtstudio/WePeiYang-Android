@@ -7,7 +7,10 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
+import android.view.Gravity
+import android.view.View
 import android.view.Window
+import android.widget.FrameLayout
 import android.widget.ImageButton
 import android.widget.TextView
 import com.twt.service.ecard.R
@@ -15,6 +18,8 @@ import com.twt.service.ecard.model.*
 import com.twt.wepeiyang.commons.experimental.cache.RefreshState
 import com.twt.wepeiyang.commons.mta.mtaClick
 import com.twt.wepeiyang.commons.ui.rec.*
+import es.dmoral.toasty.Toasty
+import org.jetbrains.anko.*
 import org.jetbrains.anko.startActivity
 import java.text.SimpleDateFormat
 import java.util.*
@@ -22,6 +27,7 @@ import java.util.*
 class EcardMainActivity : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
+    private val itemManager by lazy { recyclerView.withItems(mutableListOf()) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,6 +36,7 @@ class EcardMainActivity : AppCompatActivity() {
         window.statusBarColor = Color.parseColor("#ffeb86")
         val toolbar: Toolbar = findViewById(R.id.tb_main)
         val titleOfToolbar: TextView = findViewById(R.id.tv_main_title)
+        val refreshButton: ImageButton = findViewById(R.id.ib_main_refresh)
         titleOfToolbar.text = "校园卡"
         toolbar.apply {
             title = " "
@@ -38,20 +45,16 @@ class EcardMainActivity : AppCompatActivity() {
             setNavigationOnClickListener { onBackPressed() }
         }
         val today = SimpleDateFormat("yyyyMMdd").format(Date().time)
-        val month = today.substring(3, 5)
-        val day = today.substring(5, 7)
+        val month = today.substring(4, 6)
+        val day = today.substring(6, 8)
         recyclerView = findViewById(R.id.rv_main_main)
         recyclerView.layoutManager = LinearLayoutManager(this@EcardMainActivity)
-        val itemManager = recyclerView.withItems(mutableListOf())
-        itemManager.refreshAll {
-            lightText("正在加载数据")
-        }
-
-        val refreshButton: ImageButton = findViewById(R.id.ib_main_refresh)
 
         refreshButton.setOnClickListener {
             LiveEcardManager.refreshEcardFullInfo()
         }
+
+        itemManager.refreshAll { lightText("正在加载数据") }
 
         LiveEcardManager.getEcardLiveData().observe(this, Observer { refreshState ->
             when (refreshState) {
@@ -68,28 +71,28 @@ class EcardMainActivity : AppCompatActivity() {
 
                     itemManager.refreshAll {
                         ecardPersonInfoItem(ecardProfile, ecardTotalConsumption)
-                        ecardElseItem("今日流水", TypeOfElse.TODAY) {
-                            startActivity<EcardPreviousActivity>()
+                        ecardElseItem("今日流水", TypeOfElse.TODAY) { _, view ->
+                            view.context.startActivity<EcardPreviousActivity>()
                             mtaClick("ecard_用户查看消费流水详情")
                         }
                         ecardElseItem("$month/$day", TypeOfElse.DATE)
 
                         if (transactionList.today().isNotEmpty()) {
                             transactionList.today().take(4).forEach {
-                                transactionItem(it, transactionListWrapper.recharge.contains(it))
+                                transactionItem(it, transactionListWrapper.consumption.contains(it))
                             }
 
                             val todayElse = transactionList.today().size - 4
+                            lightText("").apply {
 
+                            }
                             if (todayElse > 0) {
-                                ecardElseItem("${todayElse}条记录被折叠", TypeOfElse.TIPS) {
-                                    val item = this
-
+                                ecardElseItem("${todayElse}条记录被折叠", TypeOfElse.TIPS) { item, _ ->
                                     itemManager.autoRefresh {
 
                                         addAll(7, mutableListOf<Item>().apply {
                                             transactionList.today().takeLast(todayElse).forEach {
-                                                transactionItem(it, transactionListWrapper.recharge.contains(it))
+                                                transactionItem(it, transactionListWrapper.consumption.contains(it))
                                             }
                                         })
                                         remove(item)
@@ -98,18 +101,24 @@ class EcardMainActivity : AppCompatActivity() {
 
                             }
                         } else {
-                            lightText("今天你还没有消费哟～")
+                            lightText("今天你还没有消费哟～") {
+                                layoutParams = FrameLayout.LayoutParams(matchParent, dip(58)).apply {
+                                    verticalMargin = dip(6)
+                                }
+                                gravity = Gravity.CENTER_HORIZONTAL
+                            }
                         }
 
                         ecardElseItem("帮助", TypeOfElse.TITLE)
-                        ecardElseItem("补办校园卡流程说明", TypeOfElse.TEXT) {
-                            startActivity<EcardAssistanceActivity>(EcardPref.ASSISTANCE_MARK to EcardPref.KEY_REISSUE)
+                        ecardElseItem("补办校园卡流程说明", TypeOfElse.TEXT) { _, view ->
+                            view.context.startActivity<EcardAssistanceActivity>(EcardPref.ASSISTANCE_MARK to EcardPref.KEY_REISSUE)
                         }
-                        ecardElseItem("校园卡常见问题", TypeOfElse.TEXT) {
-                            startActivity<EcardAssistanceActivity>(EcardPref.ASSISTANCE_MARK to EcardPref.KEY_PROBLEM)
+                        ecardElseItem("校园卡常见问题", TypeOfElse.TEXT) { _, view ->
+                            view.context.startActivity<EcardAssistanceActivity>(EcardPref.ASSISTANCE_MARK to EcardPref.KEY_PROBLEM)
                         }
                     }
                 }
+                is RefreshState.Failure -> Toasty.error(this@EcardMainActivity, "刷新失败，请稍后重试").show()
             }
         })
 

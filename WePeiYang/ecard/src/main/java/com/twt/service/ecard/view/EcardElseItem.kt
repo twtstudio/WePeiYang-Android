@@ -16,7 +16,7 @@ enum class TypeOfElse {
     TODAY, TITLE, DATE, TIPS, TEXT
 }
 
-class EcardElseItem(val text: String, val typeOfElse: TypeOfElse, val block: EcardElseItem.() -> Unit) : Item {
+class EcardElseItem(val text: String, val typeOfElse: TypeOfElse, val block: (EcardElseItem, View) -> Unit) : Item {
     override val controller: ItemController
         get() = Controller
 
@@ -76,14 +76,19 @@ class EcardElseItem(val text: String, val typeOfElse: TypeOfElse, val block: Eca
                 title.visibility = View.VISIBLE
                 title.text = item.text
 
-                more.setOnClickListener { item.block }
-                moreImg.setOnClickListener { item.block }
+                more.setOnClickListener {
+                    item.block(item, it)
+                }
+                moreImg.setOnClickListener {
+                    item.block(item, it)
+                }
             }
         }
 
         private fun showDate(holder: EcardElseItem.Controller.ViewHolder, item: EcardElseItem) {
             holder.apply {
                 date.visibility = View.VISIBLE
+                sign.visibility = View.INVISIBLE
                 date.text = item.text
             }
         }
@@ -93,7 +98,7 @@ class EcardElseItem(val text: String, val typeOfElse: TypeOfElse, val block: Eca
                 underLine.visibility = View.VISIBLE
                 contentOfText.visibility = View.VISIBLE
                 contentOfText.text = item.text
-                contentOfText.setOnClickListener { item.block }
+                contentOfText.setOnClickListener { item.block(item, it) }
             }
         }
 
@@ -102,10 +107,10 @@ class EcardElseItem(val text: String, val typeOfElse: TypeOfElse, val block: Eca
                 tip.visibility = View.VISIBLE
                 tip.text = item.text
                 show.visibility = View.VISIBLE
-                show.setOnClickListener { item.block }
+                show.setOnClickListener { item.block(item, it) }
             }
         }
     }
 }
 
-fun MutableList<Item>.ecardElseItem(text: String, typeOfElse: TypeOfElse, block: EcardElseItem.() -> Unit = {}) = add(EcardElseItem(text, typeOfElse, block))
+fun MutableList<Item>.ecardElseItem(text: String, typeOfElse: TypeOfElse, block: (EcardElseItem, View) -> Unit = { _, _ -> }) = add(EcardElseItem(text, typeOfElse, block))

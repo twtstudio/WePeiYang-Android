@@ -6,6 +6,7 @@
         <activity android:name=".view.EcardAssistanceActivity"></activity>
         <activity android:name=".view.EcardLoginActivity" />
         <activity android:name=".view.EcardPreviousActivity" />
+        <activity android:name=".view.EcardMainActivity" />
     </application>
 
 </manifest>
