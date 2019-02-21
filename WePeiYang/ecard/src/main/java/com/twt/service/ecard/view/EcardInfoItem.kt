@@ -158,7 +158,7 @@ class EcardPersonInfoItem(val ecardProfile: EcardProfileBean, val ecardTotalCons
             holder.apply {
                 cardNum.text = ecardProfile.cardnum
                 name.text = ecardProfile.name
-                balance.text = "￥" + ecardProfile.balance
+                balance.text = "￥" + ecardProfile.balance.split("元")[0]
                 todayConsume.text = "￥${ecardTotalConsumption.total_day}"
                 monthConsume.text = "￥${ecardTotalConsumption.total_month}"
 

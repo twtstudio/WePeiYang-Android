@@ -83,9 +83,6 @@ class EcardMainActivity : AppCompatActivity() {
                             }
 
                             val todayElse = transactionList.today().size - 4
-                            lightText("").apply {
-
-                            }
                             if (todayElse > 0) {
                                 ecardElseItem("${todayElse}条记录被折叠", TypeOfElse.TIPS) { item, _ ->
                                     itemManager.autoRefresh {
@@ -93,6 +90,10 @@ class EcardMainActivity : AppCompatActivity() {
                                         addAll(7, mutableListOf<Item>().apply {
                                             transactionList.today().takeLast(todayElse).forEach {
                                                 transactionItem(it, transactionListWrapper.consumption.contains(it))
+                                            }
+
+                                            lightText("") {
+                                                layoutParams = FrameLayout.LayoutParams(matchParent, dip(41))
                                             }
                                         })
                                         remove(item)

@@ -52,7 +52,7 @@ data class EcardProfileBean(
 )
 
 data class EcardTotalConsumptionBean(
-        val total_day: Int,
+        val total_day: Double,
         val total_month: Double
 )
 

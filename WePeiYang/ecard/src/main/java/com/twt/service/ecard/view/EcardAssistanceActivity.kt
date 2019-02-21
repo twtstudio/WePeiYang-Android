@@ -10,7 +10,9 @@ import android.view.Window
 import android.widget.ImageButton
 import android.widget.TextView
 import android.support.v7.widget.Toolbar
+import android.view.Gravity
 import android.view.View
+import android.widget.FrameLayout
 import com.twt.service.ecard.R
 import com.twt.service.ecard.model.*
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
@@ -18,6 +20,7 @@ import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import com.twt.wepeiyang.commons.ui.rec.*
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
+import org.jetbrains.anko.*
 
 class EcardAssistanceActivity : AppCompatActivity() {
 
@@ -39,19 +42,14 @@ class EcardAssistanceActivity : AppCompatActivity() {
             setNavigationOnClickListener { onBackPressed() }
         }
         val refreshButton: ImageButton = findViewById(R.id.ib_assistance_refresh)
-        val titleOfAssistance: TextView = findViewById(R.id.tv_assistance_total_title)
-        val chart: ConstraintLayout = findViewById(R.id.cl_assistance_position)
+//        val titleOfAssistance: TextView = findViewById(R.id.tv_assistance_total_title)
         val assistance = intent.getStringExtra(EcardPref.ASSISTANCE_MARK)
 
-        titleOfAssistance.text = when (assistance) {
-            EcardPref.KEY_REISSUE -> "补办校园卡流程说明"
-            EcardPref.KEY_PROBLEM -> "校园卡常见问题"
-            else -> "加载失败，请退出重试"
-        }
-        chart.visibility = when (assistance) {
-            EcardPref.KEY_REISSUE -> View.VISIBLE
-            else -> View.GONE
-        }
+//        titleOfAssistance.text = when (assistance) {
+//            EcardPref.KEY_REISSUE -> "补办校园卡流程说明"
+//            EcardPref.KEY_PROBLEM -> "校园卡常见问题"
+//            else -> "加载失败，请退出重试"
+//        }
 
         recyclerView = findViewById(R.id.rv_assistance_content)
         recyclerView.layoutManager = LinearLayoutManager(this@EcardAssistanceActivity)
@@ -79,17 +77,40 @@ class EcardAssistanceActivity : AppCompatActivity() {
 
             val assistanceList = list ?: return@launch
 
-
             itemManager.refreshAll {
                 when (assistance) {
                     EcardPref.KEY_REISSUE -> {
+                        lightText("") {
+                            text = "补办校园卡流程说明"
+                            textSize = 15f
+                            textColor = Color.parseColor("#222222")
+                            layoutParams = FrameLayout.LayoutParams(matchParent, wrapContent).apply {
+                                verticalMargin = dip(13)
+                            }
+                            gravity = Gravity.CENTER_HORIZONTAL
+                        }
+
                         assistanceList.toMutableList().filter { it.id == 8 }.forEach {
-                            ecardAssistanceItem(it)
+                            ecardAssistanceItem(it, true, true)
                         }
                     }
                     EcardPref.KEY_PROBLEM -> {
-                        assistanceList.toMutableList().filter { it.id != 8 }.forEach {
-                            ecardAssistanceItem(it)
+                        lightText("") {
+                            text = "校园卡常见问题"
+                            textSize = 15f
+                            textColor = Color.parseColor("#222222")
+                            layoutParams = FrameLayout.LayoutParams(matchParent, wrapContent).apply {
+                                verticalMargin = dip(13)
+                            }
+                            gravity = Gravity.CENTER_HORIZONTAL
+                        }
+
+                        assistanceList.toMutableList().filter { it.id != 8 }.forEachIndexed { index, problem ->
+                            if (index == assistanceList.size - 2) {
+                                ecardAssistanceItem(problem, true)
+                            } else {
+                                ecardAssistanceItem(problem)
+                            }
                         }
                     }
                 }

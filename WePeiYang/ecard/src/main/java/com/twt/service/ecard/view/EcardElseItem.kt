@@ -107,6 +107,7 @@ class EcardElseItem(val text: String, val typeOfElse: TypeOfElse, val block: (Ec
                 tip.visibility = View.VISIBLE
                 tip.text = item.text
                 show.visibility = View.VISIBLE
+                show.text = "点击显示"
                 show.setOnClickListener { item.block(item, it) }
             }
         }

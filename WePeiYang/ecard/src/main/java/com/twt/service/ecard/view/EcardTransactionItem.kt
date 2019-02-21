@@ -149,7 +149,7 @@ class EcardTransactionInfoItem : Item {
                                 holder.homeItem.apply {
                                     itemName.text = "TRANSACTION TODAY"
                                 }
-                                transactionList.today().forEach {
+                                transactionList.today().take(4).forEach {
                                     transactionItem(it, transactionListWrapper.consumption.contains(it))
                                 }
                             }

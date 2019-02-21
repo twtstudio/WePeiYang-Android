@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="wrap_content"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:orientation="vertical">
 
 
     <android.support.design.widget.AppBarLayout
@@ -31,17 +32,17 @@
                 android:layout_gravity="center"
                 android:fontFamily="@font/montserrat_bold"
                 android:textColor="@color/ecardTextColor1"
-                android:textSize="17dp"
+                android:textSize="19sp"
                 tools:text="校园卡" />
 
             <ImageButton
                 android:id="@+id/ib_main_refresh"
-                android:layout_width="19dp"
-                android:layout_height="19dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_gravity="end"
-                android:layout_marginTop="13dp"
-                android:layout_marginEnd="12dp"
-                android:layout_marginBottom="14dp"
+                android:layout_marginTop="14dp"
+                android:layout_marginEnd="14dp"
+                android:layout_marginBottom="16dp"
                 android:background="@drawable/ecard_refresh" />
 
         </android.support.v7.widget.Toolbar>
@@ -51,11 +52,9 @@
         android:id="@+id/rv_main_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/ab_mylist"
-        android:layout_marginStart="27dp"
-        android:layout_marginEnd="27dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="20dp" />
 
 
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>
