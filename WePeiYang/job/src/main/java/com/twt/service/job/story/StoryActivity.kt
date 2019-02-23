@@ -55,7 +55,7 @@ class StoryActivity : AppCompatActivity(), JobStoryContract.JobStoryView {
 
     override fun showFair(recruit: Recruit) {
         recruit.apply {
-            val notice = Functions.convertNoticeAfter(Functions.convertNotice(recruit)!!)
+            val notice = recruit.convertNotice()!!.convertNoticeAfter()
             items.add(TopItem(notice, true))
             items.add(PDItem(recruit.date, recruit.place))
             notice.attachs.entries.forEach {

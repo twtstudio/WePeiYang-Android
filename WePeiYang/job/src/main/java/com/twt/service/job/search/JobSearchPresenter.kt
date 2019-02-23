@@ -2,7 +2,7 @@ package com.twt.service.job.search
 
 import com.twt.wepeiyang.commons.experimental.cache.RefreshState
 
-class JobSearchPresenter(val searchView: JobSearchContract.JobSearchView) : JobSearchContract.JobSearchPresenter {
+class JobSearchPresenter(private val searchView: JobSearchContract.JobSearchView) : JobSearchContract.JobSearchPresenter {
 
     override fun searchKeyword(keyword: String) {
         JobSearchModel.jobSearch(keyword) { refresh, info, meeting ->

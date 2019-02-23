@@ -13,7 +13,7 @@ object JobSearchModel {
         launch(UI + QuietCoroutineExceptionHandler) {
             JobService.jobSearch(keyword).awaitAndHandle {
                 callBack(RefreshState.Failure(it), null, null)
-            }!!.data!!.let {
+            }?.data?.let {
                 callBack(RefreshState.Success(Unit), it.info, it.meeting)
             }
         }

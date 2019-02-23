@@ -1,7 +1,7 @@
 package com.twt.service.job.home
 
 import com.twt.service.job.service.*
-import com.twt.service.job.home.JobHomeModel.getNotioces
+import com.twt.service.job.home.JobHomeModel.getNotices
 import com.twt.service.job.home.JobHomeModel.getRecruits
 import com.twt.wepeiyang.commons.experimental.cache.RefreshState
 
@@ -47,7 +47,7 @@ class JobHomePresenterImp(val jobHomeView: JobHomeContract.JobHomeView) : JobHom
                 }
             }
             NOTICE -> {
-                getNotioces(NOTICE_TYPE, page) { refreshState, rotationBean, importantBean, commonBean ->
+                getNotices(NOTICE_TYPE, page) { refreshState, rotationBean, importantBean, commonBean ->
                     when (refreshState) {
                         is RefreshState.Success -> {
                             if ((rotationBean == null || rotationBean.isEmpty()) && (importantBean == null || importantBean.isEmpty()) && (commonBean == null || commonBean.isEmpty())) {
@@ -65,7 +65,7 @@ class JobHomePresenterImp(val jobHomeView: JobHomeContract.JobHomeView) : JobHom
                 }
             }
             DYNAMIC -> {
-                getNotioces(DYNAMIC_TYPE, page) { refreshState, rotationBean, importantBean, commonBean ->
+                getNotices(DYNAMIC_TYPE, page) { refreshState, rotationBean, importantBean, commonBean ->
                     when (refreshState) {
                         is RefreshState.Success -> {
                             if ((rotationBean == null || rotationBean.isEmpty()) && (importantBean == null || importantBean.isEmpty()) && (commonBean == null || commonBean.isEmpty())) {
@@ -85,7 +85,7 @@ class JobHomePresenterImp(val jobHomeView: JobHomeContract.JobHomeView) : JobHom
         }
     }
 
-    fun merge(rotationBean: List<HomeDataR>?, importantBean: List<HomeDataR>?, commonBean: List<HomeDataR>?): MutableList<HomeDataR> {
+     private fun merge(rotationBean: List<HomeDataR>?, importantBean: List<HomeDataR>?, commonBean: List<HomeDataR>?): MutableList<HomeDataR> {
         val dataRBean = mutableListOf<HomeDataR>()
         dataRBean.addAll(rotationBean.orEmpty())
         dataRBean.addAll(importantBean.orEmpty())
@@ -93,7 +93,7 @@ class JobHomePresenterImp(val jobHomeView: JobHomeContract.JobHomeView) : JobHom
         return dataRBean
     }
 
-    fun topRotationBean(rotationBean: List<HomeDataR>): List<HomeDataR> {
+    private fun topRotationBean(rotationBean: List<HomeDataR>): List<HomeDataR> {
         val newRotationBean = mutableListOf<HomeDataR>()
         repeat(rotationBean.size) {
             rotationBean[it].apply { newRotationBean.add(HomeDataR(click, date, id, "1", title)) }
@@ -101,13 +101,13 @@ class JobHomePresenterImp(val jobHomeView: JobHomeContract.JobHomeView) : JobHom
         return newRotationBean
     }
 
-    fun convert(commonL: List<HomeDataL>): List<HomeDataR> {
-        val commomRs: MutableList<HomeDataR> = mutableListOf()
+    private fun convert(commonL: List<HomeDataL>): List<HomeDataR> {
+        val commonRs: MutableList<HomeDataR> = mutableListOf()
         repeat(commonL.size) { i ->
             commonL[i].apply {
-                commomRs.add(HomeDataR(click, date, id, important, title))
+                commonRs.add(HomeDataR(click, date, id, important, title))
             }
         }
-        return commomRs
+        return commonRs
     }
 }

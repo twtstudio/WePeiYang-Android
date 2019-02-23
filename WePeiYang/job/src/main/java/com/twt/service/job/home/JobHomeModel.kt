@@ -24,7 +24,7 @@ object JobHomeModel {
         }
     }
 
-    fun getNotioces(type: Int, page: Int, callback: suspend (RefreshState<Unit>, List<HomeDataR>?, List<HomeDataR>?, List<HomeDataR>?) -> Unit) {
+    fun getNotices(type: Int, page: Int, callback: suspend (RefreshState<Unit>, List<HomeDataR>?, List<HomeDataR>?, List<HomeDataR>?) -> Unit) {
         launch(UI + QuietCoroutineExceptionHandler) {
             JobService.getNotices(type, page).awaitAndHandle {
                 callback(RefreshState.Failure(it), null, null, null)

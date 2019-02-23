@@ -12,6 +12,7 @@ import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemController
 import org.jetbrains.anko.layoutInflater
 
+// 搜索历史的 item
 class SearchHistoryItem(val contentOfSH: String, val fragment: JobSearchHistoryFragment, val search: (String) -> Unit) : Item {
     companion object Controller : ItemController {
         override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
@@ -40,6 +41,7 @@ class SearchHistoryItem(val contentOfSH: String, val fragment: JobSearchHistoryF
     override val controller: ItemController get() = Controller
 }
 
+// 清除搜索历史的 item
 class ClearAllItem(val clearAll: () -> Unit) : Item {
     companion object Controller : ItemController {
         override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
@@ -61,6 +63,7 @@ class ClearAllItem(val clearAll: () -> Unit) : Item {
     override val controller: ItemController get() = Controller
 }
 
+// 搜索结果中招聘信息的 item
 class InfoItem(val info: InfoOrMeeting, val isFirst: Boolean, val toDetail: (String) -> Unit) : Item {
     companion object Controller : ItemController {
         override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
@@ -90,6 +93,7 @@ class InfoItem(val info: InfoOrMeeting, val isFirst: Boolean, val toDetail: (Str
     override val controller: ItemController get() = Controller
 }
 
+// 搜索结果中招聘会的 item
 class MeetingItem(val meeting: InfoOrMeeting, val isFirst: Boolean, val toDetail: (Int) -> Unit) : Item {
     companion object Controller : ItemController {
         override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {

@@ -14,8 +14,8 @@ import com.twt.service.job.R
 class JobSearchActivity : AppCompatActivity() {
 
     private lateinit var back: ImageView
-    private lateinit var searchEditText: EditText
-    private lateinit var searchImageView: ImageView
+    private lateinit var searchEditText: EditText // 搜索框
+    private lateinit var searchImageView: ImageView // 搜索放大镜按钮键
     val manager = supportFragmentManager
     var ft = manager.beginTransaction()
     private var historyFragment: Fragment = JobSearchHistoryFragment()
@@ -26,7 +26,7 @@ class JobSearchActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.job_activity_search)
         window.statusBarColor = resources.getColor(R.color.job_green)
-        bindid()
+        bindId()
         historyFragment = JobSearchHistoryFragment()
         ft.add(R.id.job_search_fl_fragment, historyFragment).commit()
         back.setOnClickListener { onBackPressed() }
@@ -48,7 +48,7 @@ class JobSearchActivity : AppCompatActivity() {
         }
     }
 
-    private fun bindid() {
+    private fun bindId() {
         back = findViewById(R.id.job_search_iv_back)
         searchEditText = findViewById(R.id.job_search_et_input)
         searchImageView = findViewById(R.id.job_search_iv_icon)
@@ -59,7 +59,7 @@ class JobSearchActivity : AppCompatActivity() {
         this.keyword = keyword
         searchHistory.add(keyword)
         if (searchHistory.size > 10) searchHistory.remove(searchHistory.first())
-        if (searchEditText.text.trim().toString()!=keyword) searchEditText.setText(keyword.toCharArray(),0,keyword.length)
+        if (searchEditText.text.trim().toString() != keyword) searchEditText.setText(keyword.toCharArray(), 0, keyword.length)
         ft = manager.beginTransaction()
         ft.remove(historyFragment)
         resultFragment = JobSearchResultFragment()
@@ -69,7 +69,7 @@ class JobSearchActivity : AppCompatActivity() {
 
     @SuppressLint("CommitTransaction")
     private fun showHistory() {
-        ft=manager.beginTransaction()
+        ft = manager.beginTransaction()
         ft.remove(resultFragment)
         historyFragment = JobSearchHistoryFragment()
         ft.replace(R.id.job_search_fl_fragment, historyFragment)

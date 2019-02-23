@@ -10,7 +10,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import com.orhanobut.hawk.Hawk
 import com.twt.service.job.R
 import com.twt.service.job.service.*
 import com.twt.wepeiyang.commons.ui.rec.ItemAdapter
@@ -42,16 +41,14 @@ class JobFragment : Fragment(), JobHomeContract.JobHomeView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.apply {
-            kind = getString(ARG_KIND)
-        }
+        kind = arguments!!.getString(ARG_KIND)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         rootView = inflater.inflate(R.layout.job_fragment_home, container, false)
         initView()
         loadData()
-        refresh()
+        update()
         loadMoreData()
         return rootView
     }
@@ -65,7 +62,7 @@ class JobFragment : Fragment(), JobHomeContract.JobHomeView {
         }
     }
 
-    private fun refresh() {
+    private fun update() {
         swipeRefreshLayout.setOnRefreshListener {
             page = 1
             loadData()
@@ -103,21 +100,17 @@ class JobFragment : Fragment(), JobHomeContract.JobHomeView {
     override fun showHomeFair(commonBean: List<HomeDataL>) {
         recyclerView.withItems {
             repeat(commonBean.size) { i ->
-                if (i == 0) fair(commonBean[i], true,this@JobFragment)
-                else fair(commonBean[i], false,this@JobFragment)
+                fair(commonBean[i], i == 0, this@JobFragment)
             }
         }
-        itemManager = (recyclerView.adapter as ItemAdapter).itemManager
+        itemManager = ItemManager()
+        recyclerView.adapter = ItemAdapter(itemManager)
     }
 
     override fun showThree(dataRBean: List<HomeDataR>) {
         recyclerView.withItems {
             repeat(dataRBean.size) { i ->
-                if (i == 0) {
-                    three(dataRBean[i], true,this@JobFragment)
-                } else {
-                    three(dataRBean[i], false,this@JobFragment)
-                }
+                three(dataRBean[i], i == 0, this@JobFragment)
             }
         }
         itemManager = (recyclerView.adapter as ItemAdapter).itemManager
@@ -125,21 +118,21 @@ class JobFragment : Fragment(), JobHomeContract.JobHomeView {
 
     override fun loadMoreFair(commonBean: List<HomeDataL>) {
         repeat(commonBean.size) { i ->
-            itemManager.add(FairItem(commonBean[i], false,this@JobFragment))
+            itemManager.add(FairItem(commonBean[i], false, this@JobFragment))
         }
     }
 
     override fun loadMoreOther(dataRBean: List<HomeDataR>) {
         repeat(dataRBean.size) { i ->
-            itemManager.add(ThreeItem(dataRBean[i], false,this@JobFragment))
+            itemManager.add(ThreeItem(dataRBean[i], false, this@JobFragment))
         }
     }
 
     override fun onError(msg: String) {
-        Toasty.error(context!!, msg, Toast.LENGTH_LONG, true).show()
+        context?.let { Toasty.error(it, msg, Toast.LENGTH_LONG, true).show() }
     }
 
     override fun onNull() {
-        Toasty.error(context!!, "meiyou", Toast.LENGTH_LONG, true).show()
+        context?.let { Toasty.error(it, "没有相关内容", Toast.LENGTH_LONG, true).show() }
     }
 }

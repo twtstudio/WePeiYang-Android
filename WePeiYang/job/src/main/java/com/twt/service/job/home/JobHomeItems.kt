@@ -114,7 +114,7 @@ private fun startActivity(id: String, fragment: JobFragment) {
     val intent = Intent(fragment.activity, StoryActivity::class.java)
     intent.putExtra(KEY_ID, id)
     intent.putExtra(KEY_KIND, fragment.kind)
-    fragment.activity!!.startActivity(intent)
+    fragment.activity?.startActivity(intent)
 }
 
 fun MutableList<Item>.fair(common: HomeDataL, isFirst: Boolean, jobFragment: JobFragment) = add(FairItem(common, isFirst, jobFragment))

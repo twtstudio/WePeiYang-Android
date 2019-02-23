@@ -49,16 +49,14 @@ class JobSearchResultFragment : Fragment(), JobSearchContract.JobSearchView {
         recyclerView.withItems {
             if (info.isNotEmpty()) {
                 repeat(info.size) { i ->
-                    if (i == 0) addInfo(info[i], true) { startActivity(info[i].id, JOB_MESSAGE) }
-                    else addInfo(info[i], false) { startActivity(info[i].id, JOB_MESSAGE) }
+                    addInfo(info[i], i == 0) { startActivity(info[i].id, JOB_MESSAGE) }
                 }
                 repeat(meeting.size) { i ->
                     addMeeting(meeting[i], false) { startActivity(meeting[i].id, JOB_FAIR) }
                 }
             } else {
                 repeat(meeting.size) { i ->
-                    if (i == 0) addMeeting(meeting[i], true) { startActivity(meeting[i].id, JOB_FAIR) }
-                    else addMeeting(meeting[i], false) { startActivity(meeting[i].id, JOB_FAIR) }
+                    addMeeting(meeting[i], i == 0) { startActivity(meeting[i].id, JOB_FAIR) }
                 }
             }
         }
@@ -72,7 +70,6 @@ class JobSearchResultFragment : Fragment(), JobSearchContract.JobSearchView {
     }
 
     override fun onNull() {
-
         noResult.visibility = View.VISIBLE
         val textView = noResult.findViewById<TextView>(R.id.job_search_tv_no_res)
         textView.text = "没有找到相关\"${keyword}\"的就业信息"

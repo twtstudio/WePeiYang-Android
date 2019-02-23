@@ -22,7 +22,7 @@ class JobHomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.job_activity_home)
         window.statusBarColor = resources.getColor(R.color.job_green)
-        bindid()
+        bindId()
         initView()
         backImageView.setOnClickListener { onBackPressed() }
         searchImageView.setOnClickListener {
@@ -30,7 +30,7 @@ class JobHomeActivity : AppCompatActivity() {
         }
     }
 
-    private fun bindid() {
+    private fun bindId() {
         backImageView = findViewById(R.id.job_home_iv_back)
         searchImageView = findViewById(R.id.job_home_search)
         tabLayout = findViewById(R.id.job_home_tl_tabs)
