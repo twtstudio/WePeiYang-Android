@@ -25,7 +25,6 @@ class StoryActivity : AppCompatActivity(), JobStoryContract.JobStoryView {
         setContentView(R.layout.job_activity_story)
         window.statusBarColor = resources.getColor(R.color.job_green)
         initView()
-        val intent = intent
         val id = intent.getStringExtra(KEY_ID)
         val kind = intent.getStringExtra(KEY_KIND)
         jobStoryPresenter.getDetail(id.toInt(), kind)

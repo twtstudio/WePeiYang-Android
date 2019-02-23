@@ -18,9 +18,9 @@ class JobHomePresenterImp(val jobHomeView: JobHomeContract.JobHomeView) : JobHom
                                 jobHomeView.onNull()
                             } else {
                                 if (page == 1) {// first time
-                                    jobHomeView.showThree(merge(null, convert(importantBean.orEmpty()), convert(commonBean.orEmpty())))
+                                    jobHomeView.showThree(merge(null, importantBean.orEmpty().convertR(), commonBean.orEmpty().convertR()))
                                 } else { // up load more
-                                    jobHomeView.loadMoreOther(convert(commonBean.orEmpty()))
+                                    jobHomeView.loadMoreOther(commonBean.orEmpty().convertR())
                                 }
                             }
                         }
@@ -101,13 +101,7 @@ class JobHomePresenterImp(val jobHomeView: JobHomeContract.JobHomeView) : JobHom
         return newRotationBean
     }
 
-    private fun convert(commonL: List<HomeDataL>): List<HomeDataR> {
-        val commonRs: MutableList<HomeDataR> = mutableListOf()
-        repeat(commonL.size) { i ->
-            commonL[i].apply {
-                commonRs.add(HomeDataR(click, date, id, important, title))
-            }
-        }
-        return commonRs
+    private fun List<HomeDataL>.convertR(): List<HomeDataR>{
+        return this.map { HomeDataR(it.click, it.date, it.id, it.important, it.title) }
     }
 }
