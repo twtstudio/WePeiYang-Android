@@ -68,6 +68,7 @@
         app:layout_constraintTop_toBottomOf="@+id/job_story_tv_title"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginBottom="12dp"
+        android:textIsSelectable="true"
         tools:text="在招聘过程中会发生小阿宝金额阿熬不出阿 u 饿不想强迫微信哦就你去恶补东西全部的微笑，卡精神病学块钱。娇开车上班斜挎包出现请哦我拿东西去吧卡号把思绪却意外看戏函数" />
 
     <View

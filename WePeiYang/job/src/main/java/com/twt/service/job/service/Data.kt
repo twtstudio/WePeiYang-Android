@@ -1,6 +1,9 @@
 package com.twt.service.job.service
 
 import com.twt.wepeiyang.commons.experimental.preference.hawk
+import com.orhanobut.hawk.Hawk
+import kotlin.properties.ReadWriteProperty
+import kotlin.reflect.KProperty
 
 
 const val ARG_KIND = "arg_kind"
@@ -21,9 +24,6 @@ const val KEY_ID = "key_id"
 
 const val SEARCH_HISTORY = "key_sh"
 
-const val MEETING = "meetings"
-const val INFO = "infos"
-
 val listsOfHome = mutableListOf(JOB_MESSAGE, JOB_FAIR, NOTICE, DYNAMIC)
 
 // 分别存四个碎片的最大页数
@@ -31,6 +31,7 @@ var pagesOfMsg: Int by hawk(JOB_MESSAGE, 1)
 var pagesOfFair: Int by hawk(JOB_FAIR, 1)
 var pagesOfNotice: Int by hawk(NOTICE, 1)
 var pagesOfDynamic: Int by hawk(DYNAMIC, 1)
+
 var searchHistory: MutableSet<String> by hawk(SEARCH_HISTORY, mutableSetOf())
 
 data class GeneralL(

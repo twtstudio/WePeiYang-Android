@@ -20,10 +20,12 @@ class JobSearchHistoryFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val view: View = inflater.inflate(R.layout.job_search_fragment, container, false)
         recyclerView = view.findViewById(R.id.job_search_rv_history)
-        val linearLayout : LinearLayout =  view.findViewById(R.id.job_search_no_res)
+        val linearLayout: LinearLayout = view.findViewById(R.id.job_search_no_res)
         linearLayout.visibility = View.GONE
         recyclerView.layoutManager = LinearLayoutManager(activity)
-        if (searchHistory.size > 0) searchHistory()
+        if (searchHistory.size > 0) {
+            searchHistory()
+        }
         return view
     }
 
@@ -31,7 +33,7 @@ class JobSearchHistoryFragment : Fragment() {
         val sh = searchHistory.reversed()
         recyclerView.withItems {
             repeat(sh.size) { i ->
-                addSH(sh[i],this@JobSearchHistoryFragment) {
+                addSH(sh[i], this@JobSearchHistoryFragment) {
                     (activity as JobSearchActivity).search(sh[i])
                 }
             }

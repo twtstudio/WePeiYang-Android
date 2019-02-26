@@ -92,7 +92,7 @@ class JobFragment : Fragment(), JobHomeContract.JobHomeView {
         if (page > pagesOfMsg) {
             itemManager.add(BottomItem())
         } else {
-            homePresenterImp.getGeneral(kind, page)
+             homePresenterImp.getGeneral(kind, page)
         }
         isLoad = false
     }
@@ -103,8 +103,7 @@ class JobFragment : Fragment(), JobHomeContract.JobHomeView {
                 fair(commonBean[i], i == 0, this@JobFragment)
             }
         }
-        itemManager = ItemManager()
-        recyclerView.adapter = ItemAdapter(itemManager)
+        itemManager = (recyclerView.adapter as ItemAdapter).itemManager
     }
 
     override fun showThree(dataRBean: List<HomeDataR>) {

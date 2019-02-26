@@ -40,7 +40,7 @@ class JobHomeActivity : AppCompatActivity() {
     private fun initView() {
         viewPagerAdapter = JobHomePageAdapter(supportFragmentManager)
         viewPager.adapter = viewPagerAdapter
-        viewPager.offscreenPageLimit = 0
+        viewPager.offscreenPageLimit = 3
         repeat(4) {
             viewPagerAdapter.addFragment(JobFragment.newInstance(listsOfHome[it]), listsOfHome[it])
             tabLayout.addTab(tabLayout.newTab().setText(listsOfHome[it])) // 设置 tab 的标题

@@ -48,6 +48,12 @@ class JobSearchActivity : AppCompatActivity() {
         }
     }
 
+    override fun onPause() {
+        super.onPause()
+        val sh = searchHistory
+        searchHistory = sh
+    }
+
     private fun bindId() {
         back = findViewById(R.id.job_search_iv_back)
         searchEditText = findViewById(R.id.job_search_et_input)
@@ -57,6 +63,7 @@ class JobSearchActivity : AppCompatActivity() {
     @SuppressLint("CommitTransaction")
     fun search(keyword: String) {
         this.keyword = keyword
+        searchHistory.remove(keyword)
         searchHistory.add(keyword)
         if (searchHistory.size > 10) searchHistory.remove(searchHistory.first())
         if (searchEditText.text.trim().toString() != keyword) searchEditText.setText(keyword.toCharArray(), 0, keyword.length)
