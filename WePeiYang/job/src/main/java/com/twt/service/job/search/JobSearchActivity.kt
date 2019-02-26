@@ -16,8 +16,8 @@ class JobSearchActivity : AppCompatActivity() {
     private lateinit var back: ImageView
     private lateinit var searchEditText: EditText // 搜索框
     private lateinit var searchImageView: ImageView // 搜索放大镜按钮键
-    val manager = supportFragmentManager
-    var ft = manager.beginTransaction()
+    private val manager = supportFragmentManager
+    private var ft = manager.beginTransaction()
     private var historyFragment: Fragment = JobSearchHistoryFragment()
     private var resultFragment: Fragment = JobSearchResultFragment()
     lateinit var keyword: String private set

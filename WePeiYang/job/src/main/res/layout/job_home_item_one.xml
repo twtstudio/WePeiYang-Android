@@ -17,7 +17,7 @@
         android:ellipsize="end"
         android:maxLines="2"
         android:textColor="@color/job_black"
-        android:textSize="19sp"
+        android:textSize="18sp"
         android:fontFamily="@font/montserrat_regular"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -28,10 +28,10 @@
         android:id="@+id/job_iv_one_time"
         android:layout_width="34dp"
         android:layout_height="34dp"
-        android:layout_marginTop="56dp"
+        android:layout_marginTop="6dp"
         android:src="@drawable/job_date_icon"
         app:layout_constraintLeft_toLeftOf="@+id/job_tv_one_title"
-        app:layout_constraintTop_toTopOf="@+id/job_tv_one_title" />
+        app:layout_constraintTop_toBottomOf="@+id/job_tv_one_title" />
 
     <TextView
         android:id="@+id/job_tv_one_held_date"
