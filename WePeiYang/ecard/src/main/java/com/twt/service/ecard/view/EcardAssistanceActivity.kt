@@ -17,6 +17,7 @@ import com.twt.service.ecard.R
 import com.twt.service.ecard.model.*
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
+import com.twt.wepeiyang.commons.experimental.extensions.enableLightStatusBarMode
 import com.twt.wepeiyang.commons.ui.rec.*
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
@@ -31,6 +32,7 @@ class EcardAssistanceActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
         setContentView(R.layout.ecard_activity_assistance)
+        enableLightStatusBarMode(true)
         window.statusBarColor = Color.parseColor("#ffeb86")
         val toolbar: Toolbar = findViewById(R.id.tb_assistance)
         val titleOfToolbar: TextView = findViewById(R.id.tv_assistance_toolbar_title)

@@ -16,6 +16,7 @@ import android.widget.TextView
 import com.twt.service.ecard.R
 import com.twt.service.ecard.model.*
 import com.twt.wepeiyang.commons.experimental.cache.RefreshState
+import com.twt.wepeiyang.commons.experimental.extensions.enableLightStatusBarMode
 import com.twt.wepeiyang.commons.mta.mtaClick
 import com.twt.wepeiyang.commons.ui.rec.*
 import es.dmoral.toasty.Toasty
@@ -33,6 +34,7 @@ class EcardMainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
         setContentView(R.layout.ecard_activity_main)
+        enableLightStatusBarMode(true)
         window.statusBarColor = Color.parseColor("#ffeb86")
         val toolbar: Toolbar = findViewById(R.id.tb_main)
         val titleOfToolbar: TextView = findViewById(R.id.tv_main_title)
@@ -86,20 +88,19 @@ class EcardMainActivity : AppCompatActivity() {
                             if (todayElse > 0) {
                                 ecardElseItem("${todayElse}条记录被折叠", TypeOfElse.TIPS) { item, _ ->
                                     itemManager.autoRefresh {
-
                                         addAll(7, mutableListOf<Item>().apply {
                                             transactionList.today().takeLast(todayElse).forEach {
                                                 transactionItem(it, transactionListWrapper.consumption.contains(it))
-                                            }
-
-                                            lightText("") {
-                                                layoutParams = FrameLayout.LayoutParams(matchParent, dip(41))
                                             }
                                         })
                                         remove(item)
                                     }
                                 }
 
+                            }
+
+                            lightText("") {
+                                layoutParams = FrameLayout.LayoutParams(matchParent, dip(41))
                             }
                         } else {
                             lightText("今天你还没有消费哟～") {
@@ -116,6 +117,9 @@ class EcardMainActivity : AppCompatActivity() {
                         }
                         ecardElseItem("校园卡常见问题", TypeOfElse.TEXT) { _, view ->
                             view.context.startActivity<EcardAssistanceActivity>(EcardPref.ASSISTANCE_MARK to EcardPref.KEY_PROBLEM)
+                        }
+                        lightText("") {
+                            layoutParams = FrameLayout.LayoutParams(matchParent, dip(5))
                         }
                     }
                 }

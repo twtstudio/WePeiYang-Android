@@ -26,14 +26,13 @@
             android:fontFamily="@font/montserrat_regular"
             android:textColor="@color/ecardTextColor9"
             android:textSize="15sp"
-            app:layout_constraintBottom_toBottomOf="@id/iv_assistance_item_mark"
             app:layout_constraintLeft_toRightOf="@id/iv_assistance_item_mark"
             app:layout_constraintTop_toTopOf="@id/iv_assistance_item_mark"
             tools:text="补办新卡后原来卡上的钱怎么办？ " />
 
         <TextView
             android:id="@+id/tv_assistance_item_content"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:fontFamily="@font/montserrat_regular"

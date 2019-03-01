@@ -3,6 +3,7 @@ package com.twt.service.ecard.view
 import android.annotation.SuppressLint
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -13,23 +14,24 @@ import com.twt.service.ecard.window.ECardTransactionPop
 import com.twt.wepeiyang.commons.experimental.cache.RefreshState
 import com.twt.wepeiyang.commons.mta.mtaClick
 import com.twt.wepeiyang.commons.ui.rec.*
+import org.jetbrains.anko.collections.forEachWithIndex
 import org.jetbrains.anko.dip
 import org.jetbrains.anko.horizontalPadding
 import org.jetbrains.anko.layoutInflater
 import org.jetbrains.anko.startActivity
 import java.util.Collections.addAll
 
-class EcardTransactionItem(val transactionInfo: TransactionInfo, val isCost: Boolean) : Item {
+class EcardTransactionItem(val transactionInfo: TransactionInfo, val isCost: Boolean, val isShowLine: Boolean) : Item {
     override val controller: ItemController
         get() = Controller
 
 
     override fun areContentsTheSame(newItem: Item): Boolean {
-        return transactionInfo == (newItem as? EcardTransactionItem)?.transactionInfo && isCost == (newItem as? EcardTransactionItem)?.isCost
+        return transactionInfo == (newItem as? EcardTransactionItem)?.transactionInfo && isCost == (newItem as? EcardTransactionItem)?.isCost && isShowLine == (newItem as? EcardTransactionItem)?.isShowLine
     }
 
     override fun areItemsTheSame(newItem: Item): Boolean {
-        return transactionInfo == (newItem as? EcardTransactionItem)?.transactionInfo && isCost == (newItem as? EcardTransactionItem)?.isCost
+        return transactionInfo == (newItem as? EcardTransactionItem)?.transactionInfo && isCost == (newItem as? EcardTransactionItem)?.isCost && isShowLine == (newItem as? EcardTransactionItem)?.isShowLine
     }
 
     companion object Controller : ItemController {
@@ -44,6 +46,7 @@ class EcardTransactionItem(val transactionInfo: TransactionInfo, val isCost: Boo
             item as EcardTransactionItem
             val transactionInfo = item.transactionInfo
             val isCost = item.isCost
+            val isShowLine = item.isShowLine
             val transactionDate = "${transactionInfo.date.substring(4, 6)}-${transactionInfo.date.substring(6, 8)}"
             val transactionTime = "${transactionInfo.time.substring(0, 2)}:${transactionInfo.time.substring(2, 4)}"
 
@@ -64,6 +67,8 @@ class EcardTransactionItem(val transactionInfo: TransactionInfo, val isCost: Boo
                     pic.setImageResource(R.drawable.ecard_shoppping)
                 else
                     pic.setImageResource(R.drawable.ecard_dining_hall)
+
+                line.visibility = if (isShowLine) View.VISIBLE else View.GONE
             }
 
             holder.rootView.setOnClickListener {
@@ -78,12 +83,13 @@ class EcardTransactionItem(val transactionInfo: TransactionInfo, val isCost: Boo
             val detail: TextView = itemView.findViewById(R.id.tv_transaction_detail)
             val cost: TextView = itemView.findViewById(R.id.tv_transaction_cost)
             val pic: ImageView = itemView.findViewById(R.id.iv_transaction_pic)
+            val line: View = itemView.findViewById(R.id.v_transaction_line)
         }
 
     }
 }
 
-fun MutableList<Item>.transactionItem(transactionInfo: TransactionInfo, isCost: Boolean) = add(EcardTransactionItem(transactionInfo, isCost))
+fun MutableList<Item>.transactionItem(transactionInfo: TransactionInfo, isCost: Boolean, isShowLine: Boolean = true) = add(EcardTransactionItem(transactionInfo, isCost, isShowLine))
 
 class EcardTransactionInfoItem : Item {
     override val controller: ItemController
@@ -139,8 +145,10 @@ class EcardTransactionInfoItem : Item {
                                 holder.homeItem.apply {
                                     itemName.text = "TRANSACTION PREVIOUS"
                                 }
-                                transactionList.take(4).forEach {
-                                    transactionItem(it, transactionListWrapper.consumption.contains(it))
+                                val list = transactionList.take(4)
+                                list.forEachWithIndex { i, transactionInfo ->
+                                    Log.d("mom", i.toString())
+                                    transactionItem(transactionInfo, transactionListWrapper.consumption.contains(transactionInfo), (i < list.size - 1))
                                 }
                                 if (transactionList.isEmpty()) {
                                     lightText("暂未获取到最近两天消费数据")
@@ -149,8 +157,9 @@ class EcardTransactionInfoItem : Item {
                                 holder.homeItem.apply {
                                     itemName.text = "TRANSACTION TODAY"
                                 }
-                                transactionList.today().take(4).forEach {
-                                    transactionItem(it, transactionListWrapper.consumption.contains(it))
+                                val list = transactionList.today().take(4)
+                                list.forEachWithIndex { i, transactionInfo ->
+                                    transactionItem(transactionInfo, transactionListWrapper.consumption.contains(transactionInfo), (i < list.size - 1))
                                 }
                             }
                         }

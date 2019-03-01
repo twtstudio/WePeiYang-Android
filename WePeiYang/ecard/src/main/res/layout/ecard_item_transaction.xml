@@ -6,7 +6,7 @@
     android:layout_height="wrap_content">
 
     <View
-        android:id="@+id/v_else_line"
+        android:id="@+id/v_transaction_line"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/ecardTextColor13"
@@ -17,8 +17,8 @@
         android:layout_width="28dp"
         android:layout_height="30dp"
         android:layout_marginStart="11dp"
-        app:layout_constraintBottom_toTopOf="@id/v_else_line"
-        app:layout_constraintLeft_toLeftOf="@id/v_else_line"
+        app:layout_constraintBottom_toTopOf="@id/v_transaction_line"
+        app:layout_constraintLeft_toLeftOf="@id/v_transaction_line"
         app:layout_constraintTop_toTopOf="parent"
         tools:background="@drawable/ecard_dining_hall" />
 
@@ -45,7 +45,7 @@
         android:fontFamily="@font/montserrat_regular"
         android:textColor="@color/ecardTextColor5"
         android:textSize="10sp"
-        app:layout_constraintBottom_toBottomOf="@id/v_else_line"
+        app:layout_constraintBottom_toBottomOf="@id/v_transaction_line"
         app:layout_constraintLeft_toLeftOf="@id/tv_transaction_title"
         app:layout_constraintTop_toBottomOf="@id/tv_transaction_title"
         tools:text="POS机消费 | 8-23 11:30" />
@@ -58,8 +58,8 @@
         android:fontFamily="@font/montserrat_bold"
         android:textColor="@color/ecardTextColor6"
         android:textSize="15sp"
-        app:layout_constraintBottom_toBottomOf="@id/v_else_line"
-        app:layout_constraintRight_toRightOf="@id/v_else_line"
+        app:layout_constraintBottom_toBottomOf="@id/v_transaction_line"
+        app:layout_constraintRight_toRightOf="@id/v_transaction_line"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="-5.0" />
 

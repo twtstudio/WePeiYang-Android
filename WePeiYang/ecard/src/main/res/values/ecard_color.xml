@@ -18,5 +18,6 @@
     <color name="ecardTextColor13">#e4e4e4</color>
     <color name="ecardChartColor1">#f8f4de</color>
     <color name="ecardChartColor2">#faf2ca</color>
+    <color name="ecardChartColor3">#fff5c2</color>
 
 </resources>
