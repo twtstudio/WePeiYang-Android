@@ -196,7 +196,7 @@ class ChildItem(val context: Context, val name: String, val phoneNum: String, va
                                 }
                             }
                             is RefreshState.Failure -> {
-                                Toasty.error(item.context, "$str，请检查网络")
+                                Toasty.error(item.context, "$str，请检查网络").show()
                             }
                         }
                     }
