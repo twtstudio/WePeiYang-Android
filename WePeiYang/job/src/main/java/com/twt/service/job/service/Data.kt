@@ -1,10 +1,7 @@
 package com.twt.service.job.service
 
-import com.twt.wepeiyang.commons.experimental.preference.hawk
 import com.orhanobut.hawk.Hawk
-import kotlin.properties.ReadWriteProperty
-import kotlin.reflect.KProperty
-
+import com.twt.wepeiyang.commons.experimental.preference.hawk
 
 const val ARG_KIND = "arg_kind"
 
@@ -31,8 +28,6 @@ var pagesOfMsg: Int by hawk(JOB_MESSAGE, 1)
 var pagesOfFair: Int by hawk(JOB_FAIR, 1)
 var pagesOfNotice: Int by hawk(NOTICE, 1)
 var pagesOfDynamic: Int by hawk(DYNAMIC, 1)
-
-var searchHistory: MutableSet<String> by hawk(SEARCH_HISTORY, mutableSetOf())
 
 data class GeneralL(
         val common: List<HomeDataL>,

@@ -8,6 +8,7 @@ import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.ImageView
+import com.orhanobut.hawk.Hawk
 import com.twt.service.job.service.*
 import com.twt.service.job.R
 
@@ -21,6 +22,7 @@ class JobSearchActivity : AppCompatActivity() {
     private var historyFragment: Fragment = JobSearchHistoryFragment()
     private var resultFragment: Fragment = JobSearchResultFragment()
     lateinit var keyword: String private set
+    private lateinit var sh: MutableList<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,12 +48,10 @@ class JobSearchActivity : AppCompatActivity() {
             }
             flag
         }
-    }
-
-    override fun onPause() {
-        super.onPause()
-        val sh = searchHistory
-        searchHistory = sh
+        if (Hawk.get<MutableList<String>>(SEARCH_HISTORY)==null){
+            Hawk.put<MutableList<String>>(SEARCH_HISTORY, mutableListOf())
+        }
+        sh = Hawk.get<MutableList<String>>(SEARCH_HISTORY)
     }
 
     private fun bindId() {
@@ -63,15 +63,22 @@ class JobSearchActivity : AppCompatActivity() {
     @SuppressLint("CommitTransaction")
     fun search(keyword: String) {
         this.keyword = keyword
-        searchHistory.remove(keyword)
-        searchHistory.add(keyword)
-        if (searchHistory.size > 10) searchHistory.remove(searchHistory.first())
+        sh = Hawk.get(SEARCH_HISTORY)
+        sh.remove(keyword)
+        sh.add(keyword)
+        if (sh.size > 10) {
+            sh.remove(sh.first().toString())
+        }
+        Hawk.put(SEARCH_HISTORY,sh)
         if (searchEditText.text.trim().toString() != keyword) searchEditText.setText(keyword.toCharArray(), 0, keyword.length)
         ft = manager.beginTransaction()
         ft.remove(historyFragment)
         resultFragment = JobSearchResultFragment()
         ft.replace(R.id.job_search_fl_fragment, resultFragment).commit()
-        searchEditText.setOnClickListener { showHistory() }
+        searchEditText.apply {
+            setOnClickListener { showHistory() }
+            setSelection(searchEditText.text.length)
+        }
     }
 
     @SuppressLint("CommitTransaction")

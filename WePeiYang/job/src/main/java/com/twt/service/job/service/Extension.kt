@@ -1,7 +1,5 @@
 package com.twt.service.job.service
 
-import android.text.Html
-
 fun Recruit?.convertNotice(): Notice? {
     if (this == null) return null
     return Notice(attach1, attach1_name, attach2, attach2_name, attach3, attach3_name, click, content, date, id, title, type)
@@ -24,5 +22,5 @@ fun Notice.convertNoticeAfter(): NoticeAfter {
         hasAttach = true
     }
 
-    return NoticeAfter(mMap, click, Html.fromHtml(content).toString(), date, title, hasAttach)
+    return NoticeAfter(mMap, click, content, date, title, hasAttach)
 }

@@ -5,9 +5,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import com.orhanobut.hawk.Hawk
 import com.twt.service.job.R
 import com.twt.service.job.service.InfoOrMeeting
-import com.twt.service.job.service.searchHistory
+import com.twt.service.job.service.SEARCH_HISTORY
 import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemController
 import org.jetbrains.anko.layoutInflater
@@ -25,7 +26,9 @@ class SearchHistoryItem(val contentOfSH: String, val fragment: JobSearchHistoryF
             holder.apply {
                 contentOfSH.text = item.contentOfSH
                 cleaner.setOnClickListener {
+                    val searchHistory = Hawk.get<MutableList<String>>(SEARCH_HISTORY)
                     searchHistory.remove(item.contentOfSH)
+                    Hawk.put(SEARCH_HISTORY,searchHistory)
                     item.fragment.searchHistory()
                 }
                 itemView.setOnClickListener { item.search(item.contentOfSH) }

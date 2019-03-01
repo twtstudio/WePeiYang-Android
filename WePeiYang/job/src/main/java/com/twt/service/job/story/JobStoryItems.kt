@@ -1,18 +1,29 @@
 package com.twt.service.job.story
 
 import android.content.Intent
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.support.constraint.ConstraintLayout
 import android.support.v7.widget.RecyclerView
+import android.text.Html
+import android.text.Spanned
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.WebView
 import android.widget.TextView
 import com.twt.service.job.R
 import com.twt.service.job.service.Notice
 import com.twt.service.job.service.NoticeAfter
 import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemController
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.launch
 import org.jetbrains.anko.layoutInflater
+import java.io.IOException
+import java.lang.Exception
+import java.net.HttpURLConnection
+import java.net.MalformedURLException
+import java.net.URL
 
 class TopItem(val notice: NoticeAfter, val isDivide: Boolean) : Item {
 
@@ -29,20 +40,31 @@ class TopItem(val notice: NoticeAfter, val isDivide: Boolean) : Item {
                 titleTop.text = notice.title
                 dateTop.text = notice.date
                 clickTop.text = notice.click.toString()
-                contentTop.text = notice.content
+                contentTop.loadData(Html.fromHtml(notice.content).toString().getHtmlData(), "text/html; charset=UTF-8", null)
+                val webViewSetting = contentTop.settings
+                webViewSetting.apply {
+                    loadsImagesAutomatically = true
+                    supportZoom()
+                    javaScriptEnabled = true
+                }
                 divide.visibility = if (item.isDivide) View.VISIBLE else View.GONE
             }
         }
 
+        private fun String.getHtmlData(): String {
+            val head = "<head><style>img{max-width: 100%; width:auto; height: auto;}</style></head>"
+            return "<html>$head<body>$this</body></html>"
+        }
     }
 
     class TopHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val titleTop: TextView = itemView.findViewById(R.id.job_story_tv_title)
         val dateTop: TextView = itemView.findViewById(R.id.job_story_tv_date)
         val clickTop: TextView = itemView.findViewById(R.id.job_story_tv_click)
-        val contentTop: TextView = itemView.findViewById(R.id.job_story_tv_content)
+        val contentTop: WebView = itemView.findViewById(R.id.job_story_tv_content)
         val divide: View = itemView.findViewById(R.id.job_story_v_divide)
     }
+
 
     override val controller: ItemController get() = Controller
 }
@@ -96,7 +118,7 @@ class AttachItem(val attach_name: String, val attach: String, val storyActivity:
 
     class AttachHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val attach_name: TextView = itemView.findViewById(R.id.job_story_tv_attach)
-        val itemConstraintLayout :ConstraintLayout = itemView.findViewById(R.id.job_story_item_attach)
+        val itemConstraintLayout: ConstraintLayout = itemView.findViewById(R.id.job_story_item_attach)
     }
 
     override val controller: ItemController get() = Cotroller
