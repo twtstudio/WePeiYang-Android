@@ -1,29 +1,19 @@
 package com.twt.service.job.story
 
+import android.annotation.SuppressLint
 import android.content.Intent
-import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.support.constraint.ConstraintLayout
 import android.support.v7.widget.RecyclerView
-import android.text.Html
-import android.text.Spanned
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebView
 import android.widget.TextView
 import com.twt.service.job.R
-import com.twt.service.job.service.Notice
 import com.twt.service.job.service.NoticeAfter
 import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemController
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
 import org.jetbrains.anko.layoutInflater
-import java.io.IOException
-import java.lang.Exception
-import java.net.HttpURLConnection
-import java.net.MalformedURLException
-import java.net.URL
 
 class TopItem(val notice: NoticeAfter, val isDivide: Boolean) : Item {
 
@@ -34,13 +24,14 @@ class TopItem(val notice: NoticeAfter, val isDivide: Boolean) : Item {
             return TopHolder(view)
         }
 
+        @SuppressLint("SetJavaScriptEnabled")
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: Item) {
             val notice = (item as TopItem).notice
             (holder as TopHolder).apply {
                 titleTop.text = notice.title
                 dateTop.text = notice.date
                 clickTop.text = notice.click.toString()
-                contentTop.loadData(Html.fromHtml(notice.content).toString().getHtmlData(), "text/html; charset=UTF-8", null)
+                contentTop.loadData(notice.content.getHtmlData(), "text/html", "UTF-8")
                 val webViewSetting = contentTop.settings
                 webViewSetting.apply {
                     loadsImagesAutomatically = true
@@ -52,7 +43,10 @@ class TopItem(val notice: NoticeAfter, val isDivide: Boolean) : Item {
         }
 
         private fun String.getHtmlData(): String {
-            val head = "<head><style>img{max-width: 100%; width:auto; height: auto;}</style></head>"
+            val head = "<head><style> " +
+                    "img {max-width: 100% !important;height: auto !important;}" +
+                    "* {color: #222222;background-color: rgb(242,242,242);line-height: 1.6;}" +
+                    "</style></head>"
             return "<html>$head<body>$this</body></html>"
         }
     }
@@ -70,7 +64,7 @@ class TopItem(val notice: NoticeAfter, val isDivide: Boolean) : Item {
 }
 
 class PDItem(val dateTime: String, val place: String) : Item {
-    private companion object Cotroller : ItemController {
+    private companion object Controller : ItemController {
         override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
             val inflater = parent.context.layoutInflater
             val view = inflater.inflate(R.layout.job_story_item_place_date, parent, false)
@@ -91,11 +85,11 @@ class PDItem(val dateTime: String, val place: String) : Item {
         val place: TextView = itemView.findViewById(R.id.job_story_tv_place)
     }
 
-    override val controller: ItemController get() = Cotroller
+    override val controller: ItemController get() = Controller
 }
 
 class AttachItem(val attach_name: String, val attach: String, val storyActivity: StoryActivity) : Item {
-    companion object Cotroller : ItemController {
+    companion object Controller : ItemController {
         override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
             val inflater = parent.context.layoutInflater
             val view = inflater.inflate(R.layout.job_story_item_attach, parent, false)
@@ -121,7 +115,7 @@ class AttachItem(val attach_name: String, val attach: String, val storyActivity:
         val itemConstraintLayout: ConstraintLayout = itemView.findViewById(R.id.job_story_item_attach)
     }
 
-    override val controller: ItemController get() = Cotroller
+    override val controller: ItemController get() = Controller
 }
 
 fun MutableList<Item>.top(notice: NoticeAfter, isDivide: Boolean) = add(TopItem(notice, isDivide))

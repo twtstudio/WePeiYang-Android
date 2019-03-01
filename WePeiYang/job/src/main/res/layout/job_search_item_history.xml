@@ -1,63 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tool="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:background="#fff">
 
     <ImageView
         android:id="@+id/job_search_iv_history_pic"
         android:layout_width="46dp"
         android:layout_height="46dp"
-        android:src="@drawable/job_search_history_icon"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginStart="12dp"
         android:layout_marginTop="12dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="12dp"/>
+        android:layout_marginBottom="12dp"
+        android:src="@drawable/job_search_history_icon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/job_search_tv_history_keyword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tool:text="陈数属于陈睡衣请问安静数据售价为售价为哦啊吗"
-        android:textColor="@color/job_dark_grey"
-        android:textSize="20sp"
+        android:layout_marginStart="62dp"
+        android:layout_marginEnd="70dp"
+        android:layout_marginBottom="3dp"
+        android:ellipsize="end"
         android:fontFamily="@font/montserrat_regular"
         android:singleLine="true"
-        android:ellipsize="end"
+        android:textColor="@color/job_dark_grey"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/job_search_iv_history_pic"
         app:layout_constraintLeft_toLeftOf="@+id/job_search_iv_history_pic"
         app:layout_constraintTop_toTopOf="@+id/job_search_iv_history_pic"
-        app:layout_constraintBottom_toBottomOf="@+id/job_search_iv_history_pic"
-        android:layout_marginBottom="3dp"
-        android:layout_marginStart="62dp"
-        android:layout_marginEnd="70dp"/>
+        tool:text="陈数属于陈睡衣请问安静数据售价为售价为哦啊吗" />
 
     <ImageView
         android:id="@+id/job_search_iv_clear_one"
         android:layout_width="52dp"
         android:layout_height="52dp"
-        android:src="@drawable/job_search_clear_one"
-        app:layout_constraintRight_toRightOf="parent"
         android:layout_marginEnd="10dp"
+        android:src="@drawable/job_search_clear_one"
         app:layout_constraintBottom_toBottomOf="@+id/job_search_tv_history_keyword"
-        app:layout_constraintTop_toTopOf="@+id/job_search_tv_history_keyword"/>
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/job_search_tv_history_keyword" />
 
     <View
         android:id="@+id/job_history_v_divide"
         android:layout_width="0dp"
         android:layout_height="2dp"
-        android:layout_marginEnd="20dp"
         android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="4dp"
         android:layout_weight="1"
         android:background="@drawable/job_dividing_solid_line"
         android:layerType="software"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="4dp" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

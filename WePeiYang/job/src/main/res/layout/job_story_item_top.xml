@@ -9,9 +9,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/job_background"
         android:orientation="vertical"
-        tools:ignore="ScrollViewSize"
-        android:background="@color/job_background">
+        tools:ignore="ScrollViewSize">
 
         <TextView
             android:id="@+id/job_story_tv_title"
@@ -59,8 +59,9 @@
                 tools:text="201" />
 
             <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginEnd="6dp"
                 android:src="@drawable/job_click_icon"
                 app:layout_constraintBottom_toBottomOf="@+id/job_story_tv_click"
                 app:layout_constraintRight_toLeftOf="@+id/job_story_tv_click"
@@ -76,11 +77,12 @@
             android:layout_marginStart="25dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="20dp"
+            android:layout_marginBottom="10dp"
             android:fontFamily="@font/montserrat_regular"
+            android:scrollbars="none"
             android:textColor="@color/job_black"
             android:textIsSelectable="true"
             android:textSize="18sp"
-            android:layout_marginBottom="10dp"
             tools:text="在招聘过程中会发生小阿宝金额阿熬不出阿饿不想强迫微信哦就你去恶补东西全部的微笑，卡精神病学块钱。娇开车上班斜挎包出现请哦我拿东西去吧卡号把思绪却意外看戏函数" />
 
         <View

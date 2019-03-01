@@ -1,53 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/job_background"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:background="@color/job_background">
 
     <ImageView
         android:id="@+id/job_story_im_date"
         android:layout_width="42dp"
         android:layout_height="42dp"
+        android:layout_marginStart="22dp"
+        android:layout_marginTop="16dp"
         android:src="@drawable/job_date_icon"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginStart="22dp"
-        android:layout_marginTop="16dp"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/job_story_tv_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="2019-07-19 14:00-16:00"
-        android:textSize="17sp"
-        android:textColor="@color/job_dark_grey"
+        android:layout_marginStart="4dp"
         android:fontFamily="@font/montserrat_regular"
-        app:layout_constraintTop_toTopOf="@+id/job_story_im_date"
+        android:textColor="@color/job_dark_grey"
+        android:textSize="17sp"
         app:layout_constraintBottom_toBottomOf="@+id/job_story_im_date"
         app:layout_constraintLeft_toRightOf="@+id/job_story_im_date"
-        android:layout_marginStart="4dp"/>
+        app:layout_constraintTop_toTopOf="@+id/job_story_im_date"
+        tools:text="2019-07-19 14:00-16:00" />
 
     <ImageView
         android:id="@+id/job_story_im_place"
         android:layout_width="42dp"
         android:layout_height="42dp"
         android:src="@drawable/job_place_icon"
-        app:layout_constraintTop_toBottomOf="@id/job_story_im_date"
-        app:layout_constraintLeft_toLeftOf="@id/job_story_im_date" />
+        app:layout_constraintLeft_toLeftOf="@id/job_story_im_date"
+        app:layout_constraintTop_toBottomOf="@id/job_story_im_date" />
 
     <TextView
         android:id="@+id/job_story_tv_place"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:maxEms="14"
-        tools:text="北洋园校区某一动的某"
-        android:textSize="17sp"
-        android:textColor="@color/job_dark_grey"
+        android:layout_marginTop="18dp"
         android:fontFamily="@font/montserrat_regular"
+        android:maxEms="14"
+        android:textColor="@color/job_dark_grey"
+        android:textSize="17sp"
         app:layout_constraintLeft_toLeftOf="@+id/job_story_tv_date"
         app:layout_constraintTop_toBottomOf="@+id/job_story_tv_date"
-        android:layout_marginTop="18dp" />
+        tools:text="北洋园校区某一动的某" />
 
 </android.support.constraint.ConstraintLayout>
