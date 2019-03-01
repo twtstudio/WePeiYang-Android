@@ -69,8 +69,10 @@ class SearchActivity : AppCompatActivity() {
 
     private fun search(text: String) {
         if (text != "") {
-            YellowPagePreference.searchHistory.remove(text)
-            YellowPagePreference.searchHistory.add(text)
+            val temp = YellowPagePreference.searchHistory
+            temp.remove(text)
+            temp.add(text)
+            YellowPagePreference.searchHistory = temp
             items = YellowPagePreference.searchHistory
                     .reversed()
                     .asSequence()
