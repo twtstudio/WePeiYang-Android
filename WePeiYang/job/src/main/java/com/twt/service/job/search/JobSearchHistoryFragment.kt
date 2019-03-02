@@ -42,7 +42,7 @@ class JobSearchHistoryFragment : Fragment() {
             }
             addClear {
                 sh.clear()
-                Hawk.put(SEARCH_HISTORY,sh)
+                Hawk.put(SEARCH_HISTORY, sh)
                 recyclerView.withItems(mutableListOf())
             }
         }

@@ -28,7 +28,7 @@ class SearchHistoryItem(val contentOfSH: String, val fragment: JobSearchHistoryF
                 cleaner.setOnClickListener {
                     val searchHistory = Hawk.get<MutableList<String>>(SEARCH_HISTORY)
                     searchHistory.remove(item.contentOfSH)
-                    Hawk.put(SEARCH_HISTORY,searchHistory)
+                    Hawk.put(SEARCH_HISTORY, searchHistory)
                     item.fragment.searchHistory()
                 }
                 itemView.setOnClickListener { item.search(item.contentOfSH) }

@@ -81,8 +81,9 @@
 
     <ImageView
         android:id="@+id/job_search_iv_meeting_click"
-        android:layout_width="34dp"
-        android:layout_height="34dp"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginEnd="6dp"
         android:src="@drawable/job_click_icon"
         app:layout_constraintBottom_toBottomOf="@+id/job_search_tv_meeting_click"
         app:layout_constraintRight_toLeftOf="@+id/job_search_tv_meeting_click"

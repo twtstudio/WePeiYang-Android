@@ -92,7 +92,7 @@ class JobFragment : Fragment(), JobHomeContract.JobHomeView {
         if (page > pagesOfMsg) {
             itemManager.add(BottomItem())
         } else {
-             homePresenterImp.getGeneral(kind, page)
+            homePresenterImp.getGeneral(kind, page)
         }
         isLoad = false
     }

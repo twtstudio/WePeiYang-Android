@@ -15,7 +15,7 @@ const val JOB_FAIR = "招聘会"
 const val NOTICE = "公告"
 const val DYNAMIC = "动态"
 
-// acitivity 跳转传递的参数的 key
+// activity 跳转传递的参数的 key
 const val KEY_KIND = "key_kind"
 const val KEY_ID = "key_id"
 

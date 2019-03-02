@@ -4,7 +4,7 @@ import com.twt.service.job.service.InfoOrMeeting
 
 class JobSearchContract {
     interface JobSearchView {
-        fun onSuccess(info: List<InfoOrMeeting>,meeting:List<InfoOrMeeting>)
+        fun onSuccess(info: List<InfoOrMeeting>, meeting: List<InfoOrMeeting>)
         fun onNull()
         fun onError(msg: String)
     }

@@ -48,7 +48,7 @@ class JobSearchActivity : AppCompatActivity() {
             }
             flag
         }
-        if (Hawk.get<MutableList<String>>(SEARCH_HISTORY)==null){
+        if (Hawk.get<MutableList<String>>(SEARCH_HISTORY) == null) {
             Hawk.put<MutableList<String>>(SEARCH_HISTORY, mutableListOf())
         }
         sh = Hawk.get<MutableList<String>>(SEARCH_HISTORY)
@@ -69,7 +69,7 @@ class JobSearchActivity : AppCompatActivity() {
         if (sh.size > 10) {
             sh.remove(sh.first().toString())
         }
-        Hawk.put(SEARCH_HISTORY,sh)
+        Hawk.put(SEARCH_HISTORY, sh)
         if (searchEditText.text.trim().toString() != keyword) searchEditText.setText(keyword.toCharArray(), 0, keyword.length)
         ft = manager.beginTransaction()
         ft.remove(historyFragment)

@@ -15,7 +15,7 @@ import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemController
 import org.jetbrains.anko.layoutInflater
 
-class TopItem(val notice: NoticeAfter, val isDivide: Boolean) : Item {
+class TopItem(val notice: NoticeAfter?, val isDivide: Boolean) : Item {
 
     private companion object Controller : ItemController {
         override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
@@ -28,10 +28,10 @@ class TopItem(val notice: NoticeAfter, val isDivide: Boolean) : Item {
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: Item) {
             val notice = (item as TopItem).notice
             (holder as TopHolder).apply {
-                titleTop.text = notice.title
-                dateTop.text = notice.date
-                clickTop.text = notice.click.toString()
-                contentTop.loadData(notice.content.getHtmlData(), "text/html", "UTF-8")
+                titleTop.text = notice?.title
+                dateTop.text = notice?.date
+                clickTop.text = notice?.click.toString()
+                contentTop.loadData(notice?.content?.getHtmlData(), "text/html", "UTF-8")
                 val webViewSetting = contentTop.settings
                 webViewSetting.apply {
                     loadsImagesAutomatically = true

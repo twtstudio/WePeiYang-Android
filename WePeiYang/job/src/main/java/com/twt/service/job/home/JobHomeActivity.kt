@@ -26,7 +26,7 @@ class JobHomeActivity : AppCompatActivity() {
         initView()
         backImageView.setOnClickListener { onBackPressed() }
         searchImageView.setOnClickListener {
-            startActivity(Intent(this,JobSearchActivity::class.java))
+            startActivity(Intent(this, JobSearchActivity::class.java))
         }
     }
 

@@ -85,7 +85,7 @@ class JobHomePresenterImp(val jobHomeView: JobHomeContract.JobHomeView) : JobHom
         }
     }
 
-     private fun merge(rotationBean: List<HomeDataR>?, importantBean: List<HomeDataR>?, commonBean: List<HomeDataR>?): MutableList<HomeDataR> {
+    private fun merge(rotationBean: List<HomeDataR>?, importantBean: List<HomeDataR>?, commonBean: List<HomeDataR>?): MutableList<HomeDataR> {
         val dataRBean = mutableListOf<HomeDataR>()
         dataRBean.addAll(rotationBean.orEmpty())
         dataRBean.addAll(importantBean.orEmpty())
@@ -101,7 +101,7 @@ class JobHomePresenterImp(val jobHomeView: JobHomeContract.JobHomeView) : JobHom
         return newRotationBean
     }
 
-    private fun List<HomeDataL>.convertR(): List<HomeDataR>{
+    private fun List<HomeDataL>.convertR(): List<HomeDataR> {
         return this.map { HomeDataR(it.click, it.date, it.id, it.important, it.title) }
     }
 }

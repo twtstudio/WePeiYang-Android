@@ -54,10 +54,10 @@ class StoryActivity : AppCompatActivity(), JobStoryContract.JobStoryView {
 
     override fun showFair(recruit: Recruit) {
         recruit.apply {
-            val notice = recruit.convertNotice()!!.convertNoticeAfter()
+            val notice = recruit.convertNotice()?.convertNoticeAfter()
             items.add(TopItem(notice, true))
             items.add(PDItem(recruit.date, recruit.place))
-            notice.attachs.entries.forEach {
+            notice?.attachs?.entries?.forEach {
                 items.add(AttachItem(it.key, it.value, this@StoryActivity))
             }
             recyclerView.withItems(items)
@@ -66,11 +66,11 @@ class StoryActivity : AppCompatActivity(), JobStoryContract.JobStoryView {
     }
 
     override fun onNull(msg: String) {
-        Toasty.error(this, "meiyou", Toast.LENGTH_LONG, true).show()
+        Toasty.error(this, "not found", Toast.LENGTH_SHORT, true).show()
     }
 
     override fun onError(msg: String) {
-        Toasty.error(this, "error T_T", Toast.LENGTH_LONG, true).show()
+        Toasty.error(this, "error T_T", Toast.LENGTH_SHORT, true).show()
     }
 
 }
