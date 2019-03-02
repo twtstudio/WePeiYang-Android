@@ -56,7 +56,7 @@ class ExamTableHomeLittleItem(val exam: ExamTableBean) : Item {
                 name.text = exam.name
                 info.text = "${exam.location}#${exam.seat}  ${exam.arrange}"
                 val (days, hours) = exam.calETA()
-                eta.text = "${exam.date}  ETA:${days}天${hours}小时"
+                eta.text = "${exam.date}  ETA: ${days}天${hours}小时"
                 if (exam.ext.isEmpty() && exam.state == "正常") {
                     ext.visibility = View.GONE
                 } else {
