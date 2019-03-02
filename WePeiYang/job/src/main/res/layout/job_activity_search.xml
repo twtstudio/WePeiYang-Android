@@ -41,6 +41,7 @@
                 android:textSize="19sp"
                 android:fontFamily="@font/montserrat_regular"
                 android:hint="@string/job_search_hint"
+                android:textCursorDrawable="@drawable/job_search_ev"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
