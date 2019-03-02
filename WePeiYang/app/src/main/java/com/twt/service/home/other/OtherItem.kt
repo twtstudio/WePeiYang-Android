@@ -52,10 +52,6 @@ class OtherItem : Item {
             val layout = holder.linearLayout as _LinearLayout
             layout.apply {
                 removeAllViews()
-                addItem("考表", "一年用两次") {
-                    mtaClick("app_首页OtherItem考表Item")
-                    it.context.startActivity<ExamTableActivity>()
-                }
                 addItem("黄页", "天大电话簿") {
                     mtaClick("app_首页OtherItem黄页Item")
                     it.context.startActivity<YellowPageActivity>()
@@ -68,6 +64,14 @@ class OtherItem : Item {
                     mtaClick("app_首页OtherItem失物招领Item")
                     it.context.startActivity<WaterfallActivity>()
                 }
+                addItem("就业", "就业信息，一网打尽") {
+                    mtaClick("app_首页OtherItem中就业Item")
+                    it.context.startActivity<JobHomeActivity>()
+                }
+                addItem("新闻", "环宇北洋，心识天下") {
+                    mtaClick("app_首页OtherItem中新闻Item")
+                    it.context.startActivity<NewsActivity>()
+                }
                 addItem("学生党建", "和微北洋共建社会主义") {
                     mtaClick("app_首页OtherItem党建Item")
                     it.context.startActivity<PartyActivity>()
@@ -76,13 +80,9 @@ class OtherItem : Item {
                     mtaClick("app_首页OtherItem自行车Item")
                     it.context.startActivity<BikeActivity>()
                 }
-                addItem("就业", "就业信息，一网打尽") {
-                    mtaClick("app_首页OtherItem中就业Item")
-                    it.context.startActivity<JobHomeActivity>()
-                }
-                addItem("新闻", "环宇北洋，心识天下") {
-                    mtaClick("app_首页OtherItem中新闻Item")
-                    it.context.startActivity<NewsActivity>()
+                addItem("考表", "一年用两次") {
+                    mtaClick("app_首页OtherItem考表Item")
+                    it.context.startActivity<ExamTableActivity>()
                 }
             }
         }
