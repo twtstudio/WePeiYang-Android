@@ -1,13 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory android:title="自我奋斗以及历史行程(娱乐性)">
-        <Preference
-            android:key="@string/pref_is_exit_tju"
-            android:summary="退学手续办理"
-            android:title="一键退学" />
-    </PreferenceCategory>
-
 
     <PreferenceCategory android:title="主页设置（可能需要重启微北洋）">
 
@@ -75,7 +68,7 @@
             android:title="意见反馈" />
         <Preference
             android:key="@string/pref_add_group"
-            android:summary="加入微北洋用户大佬群一起讨论问题"
+            android:summary="加入天外天用户社区 QQ 群一起讨论问题"
             android:title="加群讨论" />
         <Preference
             android:key="@string/pref_contact_me"
