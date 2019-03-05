@@ -49,46 +49,49 @@
 
 ##### 网络请求
 
-  微北洋中网络请求统一使用 [Retrofit](http://square.github.io/retrofit/)
+微北洋中网络请求统一使用 [Retrofit](http://square.github.io/retrofit/)
 
-  我们需要根据后端组提供的 API 接口来写对应的 interface
-  一般来讲一个请求的 URL 是由 `BaseUrl + Path` 组成。比如说`https://open.twtstudio.com/api/v1/auditClass/audit` 这个网络请求，我们规定 `BaseUrl = https://open.twtstudio.com/api/`，同时 `Path = v1/auditClass/audit`。因此我们的接口就可以这样子写：
+我们需要根据后端组提供的 API 接口来写对应的 interface。
+一般来讲一个请求的 URL 是由 `BaseUrl + Path` 组成。比如说`https://open.twtstudio.com/api/v1/auditClass/audit` 这个网络请求，我们规定 `BaseUrl = https://open.twtstudio.com/api/`，同时 `Path = v1/auditClass/audit`。因此我们的接口就可以这样子写：
 
-    ```kotlin
-  interface AuditApi {
-    @GET("v1/auditClass/audit")
-    fun getMyAudit(@Query("user_number") userNumber: String = CommonPreferences.studentid): Deferred<CommonBody<List<AuditCourse>>>
-  
-    @GET("v1/auditClass/popular")
-    fun getPopluarAudit(): Deferred<CommonBody<List<AuditPopluar>>>
-  
-    @POST("v1/auditClass/audit")
-    @FormUrlEncoded
-    fun audit(@Field("user_number") userNumber: String, @Field("course_id") courseId: Int, @Field("info_ids") infoIds: String): Deferred<CommonBody<String>>
-  
-    @DELETE("v1/auditClass/audit")
-    fun cancelAudit(@Query("user_number") userNumber: String, @Query("ids") ids: String): Deferred<CommonBody<String>>
-  
-    companion object : AuditApi by ServiceFactory() // 暂时不要管这一行的意思 忽略就好了
-  }
-    ```
-  这基本上就是Retrofit的写法，**需要提及一点是接口方法的返回值**
-  比如说这几个例子中我们的返回值类型是`Deferred<T>`是协程的返回类型(可以`await`那种)，之所以可以用这类型返回值，是因为我们在Retrofit初始化的时候，加入了对应的`CallAdapter`
+~~~kotlin
+interface AuditApi {
+@GET("v1/auditClass/audit")
+fun getMyAudit(@Query("user_number") userNumber: String = CommonPreferences.studentid): Deferred<CommonBody<List<AuditCourse>>>
 
-    ```kotlin
-  .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-  .addCallAdapterFactory(CoroutineCallAdapterFactory())
-  //see code: com/twt/wepeiyang/commons/experimental/network/ServiceFactory.kt
-    ```
-    不添加额外的 CallAdapterFactory 的话，我们在接口中只能写 `Call<T>` 的返回值，现在我们可以写`Deferred<T>`,`Observable<T>`的返回值。例如
+@GET("v1/auditClass/popular")
+fun getPopluarAudit(): Deferred<CommonBody<List<AuditPopluar>>>
+  
+@POST("v1/auditClass/audit")
+@FormUrlEncoded
+fun audit(@Field("user_number") userNumber: String, @Field("course_id") courseId: Int, @Field("info_ids") infoIds: String): Deferred<CommonBody<String>>
+  
+@DELETE("v1/auditClass/audit")
+fun cancelAudit(@Query("user_number") userNumber: String, @Query("ids") ids: String): Deferred<CommonBody<String>>
+  
+companion object : AuditApi by ServiceFactory() // 暂时不要管这一行的意思 忽略就好了
+}
+~~~
 
-    ```kotlin
-    @GET("v1/auditClass/audit")
-    fun getMyAudit(@Query("user_number") userNumber: String = CommonPreferences.studentid): Call<CommonBody<List<AuditCourse>>>
-    
-    @GET("v1/auditClass/popular")
-    fun getPopluarAudit(): Observable<CommonBody<List<AuditPopluar>>>
-    ```
+这基本上就是Retrofit的写法，**需要提及一点是接口方法的返回值**
+比如说这几个例子中我们的返回值类型是`Deferred<T>`是协程的返回类型(可以`await`那种)，之所以可以用这类型返回值，是因为我们在Retrofit初始化的时候，加入了对应的`CallAdapter`
+
+```kotlin
+.addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+.addCallAdapterFactory(CoroutineCallAdapterFactory())
+//see code: com/twt/wepeiyang/commons/experimental/network/ServiceFactory.kt
+```
+
+不添加额外的 CallAdapterFactory 的话，我们在接口中只能写 `Call<T>` 的返回值，现在我们可以写`Deferred<T>`,`Observable<T>`的返回值。例如
+
+```kotlin
+@GET("v1/auditClass/audit")
+fun getMyAudit(@Query("user_number") userNumber: String = CommonPreferences.studentid): Call<CommonBody<List<AuditCourse>>>
+
+@GET("v1/auditClass/popular")
+fun getPopluarAudit(): Observable<CommonBody<List<AuditPopluar>>>
+
+```
 
 ##### 泛型包装
 
@@ -100,9 +103,10 @@
    "data": <这里是你真正需要的数据>
   }
     ```
-    对于这种返回格式，我们客户端也做了一套封装来对应
 
-    ```kotlin 
+​    对于这种返回格式，我们客户端也做了一套封装来对应
+
+```kotlin 
     /**
     * A common wrapper class of respond data from open.twtstudio.com/api.
     *
@@ -115,11 +119,11 @@
     )
     //所有的微北洋Api规范请求都要用这个东西来做
     //see code : com/twt/wepeiyang/commons/experimental/network/ServiceFactory.kt
-  
-    ```
-    因为你真正想要的数据在`data`字段里面，所有你只需要单独写`data`内容对于的`bean`类即可，然后用泛型包装。例如蹭课系统中我的一个请求返回的内容是
+```
 
-    ```json
+因为你真正想要的数据在`data`字段里面，所有你只需要单独写`data`内容对于的`bean`类即可，然后用泛型包装。例如蹭课系统中我的一个请求返回的内容是
+
+```json
   {
    "error_code": -1,
    "message": "",
@@ -133,80 +137,80 @@
          
      }
   }
-    ```
-    返回的`data`字段是一个List，因此我们只需要去写这个 List 内对象的对应类即可
+```
+返回的`data`字段是一个List，因此我们只需要去写这个 List 内对象的对应类即可
 
-    ```kotlin
+```kotlin
   data class AuditCourse(val college: String,
                        val courseId: Int,
                        val courseName: String,
                        val year: String,
                        val semester: String)
-    ```
-    同时在 Retrofit 的 API 里面写
+```
+同时在 Retrofit 的 API 里面写
 
-    ```kotlin
+```kotlin
   @GET("v1/auditClass/audit")
     fun getMyAudit(@Query("user_number") userNumber: String = CommonPreferences.studentid): Deferred<CommonBody<List<AuditCourse>>>
 
     Deferred<CommonBody<List<AuditCourse>>> //这种情况是CommonBody里面包着List<T>
-    ```
-    当然Data字段里面不是List就直接泛型包裹即可，比如说办公网课程表那边
-
-    ```kotlin
+```
+当然Data字段里面不是List就直接泛型包裹即可，比如说办公网课程表那边
+    
+```kotlin
     @GET("v1/classtable")
     fun getClassTable(): Deferred<CommonBody<Classtable>>
-    ```
+```
 
 ##### 网络请求 Interface 怎么用
 
   Retrofit 对于网络请求的接口采用了动态代理的机制，commons 库中对其进行了封装，具体用法：
 
-    - 在类外写
-
-    ```kotlin
+- 在类外写
+  
+```kotlin
   val api: TjuCourseApi by ServiceFactory() // 可以写在一个object里面，单例化
   api.getClassTable()
-    ```
-    - 可以在interface里写一个伴生对象（同时实现该接口，同时被代理）
+```
+- 可以在interface里写一个伴生对象（同时实现该接口，同时被代理）
 
-    ```kotlin
+```kotlin
   interface TjuCourseApi {
-  
+
     @GET("v1/classtable")
     fun getClassTable(): Deferred<CommonBody<Classtable>>
-  
+      
     companion object : TjuCourseApi by ServiceFactory() // 伴生对象实现单例
     }
     TjuCourseApi.getClassTable() // 就可以调用
-    ```
+```
 
 推荐使用第二种，对应的源码在`com/twt/wepeiyang/commons/experimental/network/ServiceFactory.kt`，如果你想要看懂这些的话，你需要学`Retrofit`,`Kotlin 代理`,`invoke() 运算符重载`
 
-##### Async/await来处理网络请求以及异步任务
+##### async/await 来处理网络请求以及异步任务
 
-  目前微北洋里面的异步任务都是使用Kotlin协程来写的。
+目前微北洋里面的异步任务都是使用Kotlin协程来写的。
 
-  作为一个合格的项目开发者，你应该使用Kotlin协程所提供的`async/await`来处理问题。在之前的文档中，我们的网络请求的返回值是`Deferred<T>`类型，至于这是个啥，请自己上网查谢谢。[附一个文章](https://zhuanlan.zhihu.com/p/30019105)
-  一般的做发是，在普通环境(非协程环境)使用`launch(UI){}`方法启动一个协程，在协程里面使用`async/await`来控制。
+作为一个合格的项目开发者，你应该使用Kotlin协程所提供的`async/await`来处理问题。在之前的文档中，我们的网络请求的返回值是`Deferred<T>`类型，至于这是个啥，请自己上网查谢谢。[附一个文章](https://zhuanlan.zhihu.com/p/30019105)
+一般的做发是，在普通环境(非协程环境)使用`launch(UI){}`方法启动一个协程，在协程里面使用`async/await`来控制。
 
-    ```kotlin
+```kotlin
   launch (exceptionHandler + UI) {
                 val result = AuditApi.searchCourse(courseName).await()
                 // do something 这里的代码会等待网络请求出结果才执行
         }
-    ```
-  比如说我们添加一些逻辑
+```
+比如说我们添加一些逻辑
 
-    ```kotlin
+```kotlin
   launch (exceptionHandler + UI) {
                 val result: CommonBody<String> = AuditApi.searchCourse(courseName).await()
                 // do something
                 if (result.error_code == -1) textView.text = result.data 
         }
-    ```
-  协程里面的上下文：通用的有`UI` `CommonPool`表示协程运行在哪个线程中，`CommonPool`是一个线程池，耗时操作要在这里完成，然后通过`await`来协调先后。示例一段伪代码（看个意思就行）
-    ```kotlin
+```
+协程里面的上下文：通用的有`UI` `CommonPool`表示协程运行在哪个线程中，`CommonPool`是一个线程池，耗时操作要在这里完成，然后通过`await`来协调先后。示例一段伪代码（看个意思就行）
+```kotlin
   launch (exceptionHandler + UI) { // 主线程开启
                 val result: CommonBody<String> = AuditApi.searchCourse(courseName).await()
                 // do something
@@ -219,25 +223,25 @@
                     textView.text += it.courseName
                 }
         }
-    ```
-  到这里，你已经会使用微北洋的基础框架来发起一个网络请求了。请不要另辟蹊径，谢谢！
-  继续阅读下去，你会学到：缓存框架的用法
+```
+到这里，你已经会使用微北洋的基础框架来发起一个网络请求了。请不要另辟蹊径，谢谢！
+继续阅读下去，你会学到：缓存框架的用法
 
 ##### 构建有缓存的响应式网络请求
 
-  有一部分的网络请求是需要通过添加缓存来提高用户体验的，比如说新闻列表，课程表之类。微北洋已经对这种常用的缓存进行了封装。 这套封装的架构，整体来讲是基于LiveData来做的，所以如果要彻底了解这些，需要些预备知识：[LiveData](https://developer.android.com/topic/libraries/architecture/livedata)
+有一部分的网络请求是需要通过添加缓存来提高用户体验的，比如说新闻列表，课程表之类。微北洋已经对这种常用的缓存进行了封装。 这套封装的架构，整体来讲是基于LiveData来做的，所以如果要彻底了解这些，需要些预备知识：[LiveData](https://developer.android.com/topic/libraries/architecture/livedata)
 
-  而如果仅仅是使用的话，就非常简单了。
-  ```kotlin
+而如果仅仅是使用的话，就非常简单了。
+```kotlin
   // 这是创建的过程
   val GpaLocalCache = Cache.hawk<GpaBean>("GPA") //本地缓存使用Hawk存储
   // 远程数据的获取方法：通过Retrofit网络请求 -> 一个map操作只取data
   val GpaRemoteCache = Cache.from(GpaService.Companion::get).map(CommonBody<GpaBean>::data) 
   // 最后把它们放在一起，RefreshableLiveData来帮你处理剩下的缓存问题
   val GpaLiveData = RefreshableLiveData.use(GpaLocalCache, GpaRemoteCache)
-  ```
-  因为这套缓存系统是基于LiveData的，而LiveData又是响应式的可观测数据流，就很好用。比如说GPA里面使用：
-  ```kotlin
+```
+因为这套缓存系统是基于LiveData的，而LiveData又是响应式的可观测数据流，就很好用。比如说GPA里面使用：
+```kotlin
   GpaLiveData.bindNonNull(this) {
     // 每次GPALiveData的数据发生变化的时候，这个闭包里面代码就会被回调
     // 回调的时机就是 获得缓存/获得网络数据刷新/手动刷新
@@ -260,10 +264,10 @@
     // attempt to refresh chart view while new data coming
     selectedTermIndex = selectedTermIndex
   }
-  ```
-  如果你可以看懂RefreshableLiveData的源码，你可以看到它的自动刷新时机，Activity/Fragment在Active的时候启动（你可以粗略的理解成`onCreate`或者`onResume`），你也可以手动刷新，甚至加上刷新回调。
+```
+如果你可以看懂RefreshableLiveData的源码，你可以看到它的自动刷新时机，Activity/Fragment在Active的时候启动（你可以粗略的理解成`onCreate`或者`onResume`），你也可以手动刷新，甚至加上刷新回调。
 
-  ```kotlin
+```kotlin
   fun Context.simpleCallback(success: String? = "加载成功", error: String? = "发生错误", refreshing: String? = "加载中"): suspend (RefreshState<*>) -> Unit =
         with(this.asReference()) {
             {
@@ -279,15 +283,15 @@
         GpaLiveData.refresh(REMOTE, callback = simpleCallback()) // 核心刷新方法
     }
   }
-  ```
-  手动调用`refresh`方法即可手动刷新
+```
+手动调用`refresh`方法即可手动刷新
 
-  ```kotlin
-  auditPopluarLiveData.refresh(CacheIndicator.LOCAL, CacheIndicator.REMOTE)// 后面的部分表示，从哪里刷新 Remote就是远程(服务器)
-  ```
-  目前的封装已经可以应对大部分常用的网络请求，在缓存逻辑复杂的时候，你也可以通过继承RefreshableLiveData来做这个事情。例如：
+```kotlin
+auditPopluarLiveData.refresh(CacheIndicator.LOCAL, CacheIndicator.REMOTE)// 后面的部分表示，从哪里刷新 Remote就是远程(服务器)
+```
+目前的封装已经可以应对大部分常用的网络请求，在缓存逻辑复杂的时候，你也可以通过继承RefreshableLiveData来做这个事情。例如：
 
-  ```kotlin
+```kotlin
   // see code : com/twt/service/schedule2/model/audit/AuditApi.kt
   val auditCourseLiveData = object : RefreshableLiveData<List<AuditCourse>, CacheIndicator>() {
   
@@ -318,14 +322,14 @@
         // no need to impl
     }
   }
-  ```
+```
 
 ##### DSL & RecyclerViewDSL 
 
-  可直接参考框架作者的其他文章
+可直接参考框架作者的其他文章
 
-  - [构建 RecyclerViewDSL](https://www.kotliner.cn/2018/06/recyclerviewdsl/)
-  - [DSL in Action](https://www.kotliner.cn/2018/04/dsl-in-action/)
+- [构建 RecyclerViewDSL](https://www.kotliner.cn/2018/06/recyclerviewdsl/)
+- [DSL in Action](https://www.kotliner.cn/2018/04/dsl-in-action/)
 
 ### 开发规范
 
@@ -416,7 +420,7 @@ Schedule2
 
 - Support库使用统一依赖，使用方式参考`gpa2`/`schedule2`模块的`build.gradle`
 
-  ```groovy
+```groovy
       [':auth', ':bike', ':commons', ':gpa2', ':schedule', ':tjulibrary', ':tjunet', ':party', ':schedule2'].each {
           implementation project(it)
       }
@@ -428,7 +432,7 @@ Schedule2
       ['lifecycle-compiler', 'butterknife-compiler'].each {
           annotationProcessor dependenciesMap[it]
       }
-  ```
+```
 
 #### 命名规范
 
@@ -525,7 +529,7 @@ val typeface = ResourcesCompat.getFont(context, R.font.montserrat_regular)
 然后在配合字重来做字体效果。比如说这种：`StyleSpan(Typeface.BOLD)`
 
 #### StringSpanDSL使用
-目前StringSpanDSL写在了Schedule2模块中  `com/twt/service/schedule2/extensions/StringExtensions.kt` ，之后会根据应用场景考虑放在Commons里面。
+目前 StringSpanDSL 写在了 Schedule2 模块中  `com/twt/service/schedule2/extensions/StringExtensions.kt` ，之后会根据应用场景考虑放在 Commons 里面。
 一段示例：
 ```kotlin 
 val roomCluster = course.arrange[0].room.split("楼")
