@@ -96,15 +96,16 @@ fun getPopluarAudit(): Observable<CommonBody<List<AuditPopluar>>>
 ##### 泛型包装
 
   先从微北洋的 Api 返回结构说起，规范的Api返回结构是
-    ```json
+```json
   {
-   "error_code": -1, // 这里是错误码，比如说记录Token过期，办公网绑定错误之类
-   "message": "", // 这里是服务器返回的错误Message，比如说 ‘Token已过期’
-   "data": <这里是你真正需要的数据>
+   "error_code": -1,
+   "message": "", 
+   "data": <>
   }
-    ```
+```
+其中，error_code 为错误码，一般规定 -1 为成功响应，其他数字代表不同的错误，比如 token 过期，办公网绑定错误；message 含有具体的错误信息；data 中为有效数据。
 
-​    对于这种返回格式，我们客户端也做了一套封装来对应
+对于这种返回格式，我们客户端也做了一套封装来对应
 
 ```kotlin 
     /**
