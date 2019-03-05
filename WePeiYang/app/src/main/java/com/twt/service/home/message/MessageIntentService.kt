@@ -23,6 +23,7 @@ class MessageIntentService : GTIntentService() {
 
     override fun onReceiveClientId(context: Context, clientid: String?) {
         Log.e(GTIntentService.TAG, "onReceiveClientId -> " + "clientid = " + clientid)
+        MessagePreferences.gtclietid = clientid.toString()
     }
 
     override fun onReceiveOnlineState(context: Context, online: Boolean) {}

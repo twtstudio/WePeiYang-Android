@@ -27,10 +27,12 @@ import com.twt.service.widget.ScheduleWidgetProvider
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
 import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
 import com.twt.wepeiyang.commons.experimental.extensions.enableLightStatusBarMode
+import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
 import com.twt.wepeiyang.commons.ui.rec.withItems
 import com.twt.wepeiyang.commons.view.RecyclerViewDivider
 import com.twtstudio.retrox.auth.api.authSelfLiveData
 import com.twtstudio.retrox.tjulibrary.home.libraryHomeItem
+import es.dmoral.toasty.Toasty
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 import org.jetbrains.anko.dip
@@ -79,6 +81,10 @@ class HomeNewActivity : AppCompatActivity() {
         PushManager.getInstance().turnOnPush(this)
         PushManager.getInstance().initialize(this, MessagePushService::class.java)
         PushManager.getInstance().registerPushIntentService(this, MessageIntentService::class.java)
+        postRegister(CommonPreferences.twtuname,CommonPreferences.realName,CommonPreferences.studentid,MessagePreferences.gtclietid,1,0,0){
+            Log.d("getui_register",it)
+            Toasty.info(this,"it")
+        }
         val itemManager = rec.withItems {
             // 重写了各个 item 的 areItemsTheSame areContentsTheSame 实现动画刷新主页
             if (MessagePreferences.isDisplayMessage) {
