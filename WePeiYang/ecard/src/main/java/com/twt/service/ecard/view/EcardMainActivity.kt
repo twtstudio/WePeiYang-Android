@@ -12,6 +12,7 @@ import android.view.View
 import android.view.Window
 import android.widget.FrameLayout
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
 import com.twt.service.ecard.R
 import com.twt.service.ecard.model.*
@@ -38,7 +39,7 @@ class EcardMainActivity : AppCompatActivity() {
         window.statusBarColor = Color.parseColor("#ffeb86")
         val toolbar: Toolbar = findViewById(R.id.tb_main)
         val titleOfToolbar: TextView = findViewById(R.id.tv_main_title)
-        val refreshButton: ImageButton = findViewById(R.id.ib_main_refresh)
+        val refreshButton: ImageView = findViewById(R.id.iv_main_refresh)
         titleOfToolbar.text = "校园卡"
         toolbar.apply {
             title = " "

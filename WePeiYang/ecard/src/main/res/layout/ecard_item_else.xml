@@ -51,48 +51,51 @@
         app:layout_constraintRight_toLeftOf="@id/iv_else_more"
         app:layout_constraintTop_toTopOf="@id/iv_else_more" />
 
-    <TextView
-        android:id="@+id/tv_else_tip"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="46dp"
-        android:layout_marginEnd="6dp"
         android:layout_marginBottom="15dp"
-        android:fontFamily="@font/montserrat_regular"
-        android:textColor="@color/ecardTextColor7"
-        android:textSize="11sp"
-        android:visibility="gone"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="3条记录被折叠" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/tv_else_show"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="7dp"
-        android:fontFamily="@font/montserrat_regular"
-        android:textColor="@color/ecardTextColor8"
-        android:textSize="11sp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@id/tv_else_tip"
-        app:layout_constraintLeft_toRightOf="@id/tv_else_tip"
-        app:layout_constraintTop_toTopOf="@id/tv_else_tip"
-        tools:text="点击显示" />
+        <TextView
+            android:id="@+id/tv_else_tip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:fontFamily="@font/montserrat_regular"
+            android:textColor="@color/ecardTextColor7"
+            android:textSize="11sp"
+            android:visibility="gone"
+            tools:text="3条记录被折叠" />
+
+        <TextView
+            android:id="@+id/tv_else_show"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_regular"
+            android:textColor="@color/ecardTextColor8"
+            android:textSize="11sp"
+            android:visibility="gone"
+            tools:text="点击显示" />
+
+    </LinearLayout>
 
     <TextView
         android:id="@+id/tv_else_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/ecardTextColor8"
-        android:textSize="13sp"
         android:layout_marginTop="15dp"
         android:layout_marginBottom="1dp"
+        android:textColor="@color/ecardTextColor8"
+        android:textSize="13sp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:visibility="gone"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="补办校园卡流程说明" />
 
@@ -110,11 +113,11 @@
         android:id="@+id/tv_else_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="5dp"
         android:fontFamily="@font/montserrat_light"
         android:textColor="@color/ecardTextColor3"
         android:textSize="13sp"
-        android:layout_marginTop="3dp"
-        android:layout_marginBottom="5dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@id/v_else_sign"

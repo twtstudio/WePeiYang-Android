@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/ecardThemeColor"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            android:theme="@style/ThemeOverlay.AppCompat.Light"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
@@ -54,7 +54,7 @@
         app:layout_constraintGuide_percent="0.5" />
 
     <include
-        android:id="@+id/spinner_chart_select"
+        android:id="@+id/sp_chart_select"
         layout="@layout/ecard_item_histroy_select"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -69,19 +69,18 @@
         android:textColor="@color/ecardTextColor9"
         android:textSize="15sp"
         app:layout_constraintRight_toLeftOf="@+id/guidelineBegin"
-        app:layout_constraintTop_toBottomOf="@+id/spinner_chart_select"
+        app:layout_constraintTop_toBottomOf="@+id/sp_chart_select"
         tools:text="共计：2501元" />
 
     <TextView
         android:id="@+id/tv_chart_recharge"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
+        android:layout_height="20dp"
         android:fontFamily="@font/montserrat_regular"
         android:textColor="@color/ecardTextColor9"
         android:textSize="15sp"
         app:layout_constraintLeft_toRightOf="@+id/guidelineBegin"
-        app:layout_constraintTop_toBottomOf="@+id/spinner_chart_select"
+        app:layout_constraintTop_toBottomOf="@+id/sp_chart_select"
         tools:text="充值：2500元" />
 
     <com.twt.service.ecard.view.EcardChartView
@@ -101,7 +100,6 @@
         android:layout_height="16dp"
         android:layout_marginTop="20dp"
         android:progressDrawable="@color/ecardChartColor3"
-        android:thumb="@drawable/ecard_thumb"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

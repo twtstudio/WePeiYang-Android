@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/ecardThemeColor"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            android:theme="@style/ThemeOverlay.AppCompat.Light"
             app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
@@ -33,15 +33,15 @@
                 android:textSize="19sp"
                 tools:text="校园卡" />
 
-            <ImageButton
-                android:id="@+id/ib_main_refresh"
+            <ImageView
+                android:id="@+id/iv_main_refresh"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_gravity="end"
                 android:layout_marginTop="14dp"
                 android:layout_marginEnd="14dp"
                 android:layout_marginBottom="16dp"
-                android:background="@drawable/ecard_refresh" />
+                android:src="@drawable/ecard_refresh" />
 
         </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>

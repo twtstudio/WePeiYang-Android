@@ -6,10 +6,9 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
-import android.view.Gravity
 import android.view.Window
-import android.widget.FrameLayout
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
 import com.twt.service.ecard.R
 import com.twt.service.ecard.model.EcardPref
@@ -26,7 +25,9 @@ import com.twt.wepeiyang.commons.ui.text.spanned
 import es.dmoral.toasty.Toasty
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
-import org.jetbrains.anko.*
+import org.jetbrains.anko.dip
+import org.jetbrains.anko.horizontalPadding
+import org.jetbrains.anko.startActivity
 
 class EcardPreviousActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
@@ -40,7 +41,7 @@ class EcardPreviousActivity : AppCompatActivity() {
         window.statusBarColor = Color.parseColor("#ffeb86")
         val toolbar: Toolbar = findViewById(R.id.tb_main)
         val titleOfToolbar: TextView = findViewById(R.id.tv_main_title)
-        val refreshOfToolbar: ImageButton = findViewById(R.id.ib_main_refresh)
+        val refreshOfToolbar: ImageView = findViewById(R.id.iv_main_refresh)
         titleOfToolbar.text = "流水查账"
         toolbar.apply {
             title = " "
@@ -52,8 +53,9 @@ class EcardPreviousActivity : AppCompatActivity() {
         recyclerView = findViewById(R.id.rv_main_main)
         recyclerView.layoutManager = LinearLayoutManager(this@EcardPreviousActivity)
 
+        refreshOfToolbar.setImageResource(R.drawable.ecard_chart)
         refreshOfToolbar.setOnClickListener {
-            refreshData()
+            it.context.startActivity<EcardChartActivity>()
         }
         refreshData()
     }
@@ -87,16 +89,13 @@ class EcardPreviousActivity : AppCompatActivity() {
             }
 
             itemManager.refreshAll {
-
                 firstSelectItem()
                 transactionList.forEach {
                     transactionItem(it, historyData.consumption.contains(it))
                 }
             }
             recyclerView.scrollToPosition(0)
-
         }
-
     }
 
     private fun MutableList<Item>.firstSelectItem() {

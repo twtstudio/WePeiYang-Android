@@ -31,11 +31,13 @@ class EcardHistorySelectItem(val selectionList: List<String>, val historySelectC
             holder as ViewHolder
             item as EcardHistorySelectItem
             val lengthList = item.selectionList
-            val spinner = holder.spinner
-            spinner.adapter = ArrayAdapter(holder.spinner.context, android.R.layout.simple_spinner_dropdown_item, lengthList)
-            spinner.background.setColorFilter(Color.parseColor("#568FFF"), PorterDuff.Mode.SRC_ATOP)
+            val spinner = holder.spinner.apply {
+                adapter = ArrayAdapter(holder.spinner.context, android.R.layout.simple_spinner_dropdown_item, lengthList)
+                background.setColorFilter(Color.parseColor("#568FFF"), PorterDuff.Mode.SRC_ATOP)
+            }
+
             spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                override fun onNothingSelected(parent: AdapterView<*>?) {}
+                override fun onNothingSelected(parent: AdapterView<*>?) = Unit
 
                 override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                     EcardPref.ecardHistorySpinnerIndex = position
@@ -46,6 +48,7 @@ class EcardHistorySelectItem(val selectionList: List<String>, val historySelectC
                     }
                 }
             }
+
             try {
                 spinner.setSelection(EcardPref.ecardHistorySpinnerIndex, true)
             } catch (e: Exception) {
