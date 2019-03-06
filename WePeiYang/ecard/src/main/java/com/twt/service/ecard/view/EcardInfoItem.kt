@@ -23,6 +23,7 @@ import com.twt.wepeiyang.commons.ui.rec.ItemController
 import com.twt.wepeiyang.commons.ui.text.spanned
 import org.jetbrains.anko.*
 import java.lang.NumberFormatException
+import java.text.DecimalFormat
 import kotlin.properties.Delegates
 
 class EcardInfoItem : Item {

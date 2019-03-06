@@ -19,6 +19,7 @@ import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import es.dmoral.toasty.Toasty
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
+import java.text.DecimalFormat
 
 
 class EcardChartActivity : AppCompatActivity() {
@@ -94,8 +95,9 @@ class EcardChartActivity : AppCompatActivity() {
             val totalRecharge = historyData.recharge.fold(0f) { prev: Float, transactionInfo: TransactionInfo ->
                 prev + transactionInfo.amount.toFloat()
             }
-            totalConsumeText.text = "消费：${totalConsume.toDouble()}元"
-            totalRechargeText.text = "充值：${totalRecharge.toDouble()}元"
+
+            totalConsumeText.text = "消费：${totalConsume}元"
+            totalRechargeText.text = "充值：${totalRecharge}元"
 
             historyData.consumption.asSequence().map {
                 EcardChartView.DataWithDetail(it.amount.toDouble(), "${it.date.substring(4, 6)}/${it.date.substring(6, 8)}")

@@ -2,6 +2,7 @@ package com.twt.service.ecard.view
 
 import android.content.Context
 import android.graphics.*
+import android.support.v4.content.res.ResourcesCompat
 import android.util.AttributeSet
 import android.view.View
 import com.twt.service.ecard.R
@@ -37,7 +38,13 @@ class EcardChartView @JvmOverloads constructor(context: Context, attrs: Attribut
         color = Color.WHITE
         isAntiAlias = true
     }
-
+    private val textPaint = Paint().apply {
+        textSize = DETAILS_TEXT_SIZE
+        textAlign = Paint.Align.CENTER
+        isAntiAlias = true
+        color = Color.parseColor("#666666")
+        typeface = ResourcesCompat.getFont(context, R.font.montserrat_regular)
+    }
     private val fillPaint = Paint().apply {
         style = Paint.Style.FILL
         isAntiAlias = true
@@ -135,18 +142,19 @@ class EcardChartView @JvmOverloads constructor(context: Context, attrs: Attribut
         }
 
         bottomLinePath.reuse {
-            moveTo(startX.toFloat(), height.toFloat() - dip(22))
-            lineTo(endX.toFloat(), height.toFloat() - dip(22))
+            moveTo(points.first().x, height.toFloat() - dip(22))
+            lineTo(points.last().x, height.toFloat() - dip(22))
         }
 
         fillPath.reuse {
             addPath(linePath)
-            lineTo(endX.toFloat(), height.toFloat() - dip(22))
-            lineTo(startX.toFloat(), height.toFloat() - dip(22))
+            lineTo(points.last().x, height.toFloat() - dip(22))
+            lineTo(points.first().x, height.toFloat() - dip(22))
             close()
         }
-        val a = points.removeAt(0)
-        val b = points.removeAt(points.size - 1)
+
+        val firstPoint = points.removeAt(0)
+        val lastPoint = points.removeAt(points.size - 1)
         pointPath.reuse {
             points.asSequence()
                     .forEach { (x, y) -> addCircle(x, y, POINT_RADIUS, Path.Direction.CCW) }
@@ -161,8 +169,8 @@ class EcardChartView @JvmOverloads constructor(context: Context, attrs: Attribut
             points.asSequence()
                     .forEach { (x, y) -> addCircle(x, y, CENTER_POINT_RADIUS, Path.Direction.CCW) }
         }
-        points.add(0, a)
-        points.add(b)
+        points.add(0, firstPoint)
+        points.add(lastPoint)
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -181,6 +189,10 @@ class EcardChartView @JvmOverloads constructor(context: Context, attrs: Attribut
             drawPath(whitePointPath, pointPaintWhite)
             drawPath(centerPointPath, pointPaint)
             drawPath(bottomLinePath, bottonLinePaint)
+
+            points.asSequence().forEachIndexed { index, (x, y) ->
+                drawText(dataWithDetail[index].year, x, height.toFloat(), textPaint)
+            }
         }
     }
 
@@ -204,5 +216,6 @@ class EcardChartView @JvmOverloads constructor(context: Context, attrs: Attribut
         const val POINT_RADIUS = 17F
         const val WHITE_POINT_RADIUS = 14F
         const val CENTER_POINT_RADIUS = 8F
+        const val DETAILS_TEXT_SIZE = 30F
     }
 }
