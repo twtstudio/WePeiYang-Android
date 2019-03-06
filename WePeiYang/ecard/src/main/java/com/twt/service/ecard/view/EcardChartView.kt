@@ -19,6 +19,25 @@ class EcardChartView @JvmOverloads constructor(context: Context, attrs: Attribut
         isAntiAlias = true
     }
 
+    private val bottonLinePaint = Paint().apply {
+        style = Paint.Style.STROKE
+        strokeWidth = LINE_STROKE.toFloat()
+        color = Color.parseColor("#555555")
+        isSubpixelText = true
+        isAntiAlias = true
+    }
+
+    private val pointPaint = Paint().apply {
+        style = Paint.Style.FILL
+        isAntiAlias = true
+    }
+
+    private val pointPaintWhite = Paint().apply {
+        style = Paint.Style.FILL
+        color = Color.WHITE
+        isAntiAlias = true
+    }
+
     private val fillPaint = Paint().apply {
         style = Paint.Style.FILL
         isAntiAlias = true
@@ -36,6 +55,12 @@ class EcardChartView @JvmOverloads constructor(context: Context, attrs: Attribut
             fillPaint.color = value
         }
 
+    var pointColor
+        get() = pointPaint.color
+        set(value) {
+            pointPaint.color = value
+        }
+
     var distanceOfBegin: Double = 0.0
         set(value) {
             field = value
@@ -44,7 +69,7 @@ class EcardChartView @JvmOverloads constructor(context: Context, attrs: Attribut
 
     data class DataWithDetail(val data: Double, val year: String)
 
-    var dataWithDetail: List<DataWithDetail> = emptyList()
+    var dataWithDetail: MutableList<DataWithDetail> = mutableListOf()
         set(value) {
             field = value
             selectedIndex = selectedIndex // ha?
@@ -59,6 +84,10 @@ class EcardChartView @JvmOverloads constructor(context: Context, attrs: Attribut
 
     private val linePath = Path()
     private val fillPath = Path()
+    private val pointPath = Path()
+    private val whitePointPath = Path()
+    private val centerPointPath = Path()
+    private val bottomLinePath = Path()
     private val points = mutableListOf<PointF>()
 
     private fun computePath() {
@@ -68,7 +97,7 @@ class EcardChartView @JvmOverloads constructor(context: Context, attrs: Attribut
         val widthStep = contentWidth / 4
 
         val centerY = paddingTop + contentHeight / 2
-        val startX = paddingLeft + distanceOfBegin * widthStep * (dataWithDetail.size - 1)
+        val startX = paddingLeft + distanceOfBegin * widthStep * (dataWithDetail.size - 5)
         val endX = widthStep * (dataWithDetail.size - 1) * (1 - distanceOfBegin)
 
         points.clear()
@@ -79,15 +108,17 @@ class EcardChartView @JvmOverloads constructor(context: Context, attrs: Attribut
             val minDataExtended = 0f
             val maxDataExtended = maxData + extension
             val dataSpanExtended = maxDataExtended - minDataExtended
+
             if (dataWithDetail.size == 1) {
                 points.add(PointF(startX.toFloat(), extension * contentHeight / dataSpanExtended.toFloat()))
             } else {
                 /*单个数据的时候不执行……蜜汁问题*/
+
                 dataWithDetail.asSequence()
                         .map { (it.data - minDataExtended) / dataSpanExtended }
                         .mapIndexedTo(points) { index, ratio ->
                             PointF((startX + widthStep * (index)).toFloat(),
-                                    paddingTop + (1 - ratio.toFloat()) * contentHeight)
+                                    (1 - ratio.toFloat()) * (contentHeight - dip(22)))
                         }
             }
         }
@@ -103,23 +134,53 @@ class EcardChartView @JvmOverloads constructor(context: Context, attrs: Attribut
             }
         }
 
+        bottomLinePath.reuse {
+            moveTo(startX.toFloat(), height.toFloat() - dip(22))
+            lineTo(endX.toFloat(), height.toFloat() - dip(22))
+        }
+
         fillPath.reuse {
             addPath(linePath)
-            lineTo(endX.toFloat(), height - paddingBottom.toFloat())
-            lineTo(startX.toFloat(), height - paddingBottom.toFloat())
+            lineTo(endX.toFloat(), height.toFloat() - dip(22))
+            lineTo(startX.toFloat(), height.toFloat() - dip(22))
             close()
         }
+        val a = points.removeAt(0)
+        val b = points.removeAt(points.size - 1)
+        pointPath.reuse {
+            points.asSequence()
+                    .forEach { (x, y) -> addCircle(x, y, POINT_RADIUS, Path.Direction.CCW) }
+        }
+
+        whitePointPath.reuse {
+            points.asSequence()
+                    .forEach { (x, y) -> addCircle(x, y, WHITE_POINT_RADIUS, Path.Direction.CCW) }
+        }
+
+        centerPointPath.reuse {
+            points.asSequence()
+                    .forEach { (x, y) -> addCircle(x, y, CENTER_POINT_RADIUS, Path.Direction.CCW) }
+        }
+        points.add(0, a)
+        points.add(b)
     }
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        computePath()
+
+        if (dataWithDetail.size > 4) {
+            computePath()
+        }
 
         canvas.apply {
             if (points.size > 1) {
                 drawPath(fillPath, fillPaint)
                 drawPath(linePath, linePaint)
             }
+            drawPath(pointPath, pointPaint)
+            drawPath(whitePointPath, pointPaintWhite)
+            drawPath(centerPointPath, pointPaint)
+            drawPath(bottomLinePath, bottonLinePaint)
         }
     }
 
@@ -128,7 +189,7 @@ class EcardChartView @JvmOverloads constructor(context: Context, attrs: Attribut
 
             fillColor = getColor(R.styleable.EcardChartView_fillColor, EcardChartView.DEFAULT_FILL_COLOR)
 
-//            pointColor = getColor(R.styleable.GpaMiniLineChartView_pointColor, GpaLineChartView.DEFAULT_POINT_COLOR)
+            pointColor = getColor(R.styleable.EcardChartView_pointColor, EcardChartView.DEFAULT_POINT_COLOR)
 
             lineColor = getColor(R.styleable.EcardChartView_lineColor, EcardChartView.DEFAULT_LINE_COLOR)
 
@@ -140,5 +201,8 @@ class EcardChartView @JvmOverloads constructor(context: Context, attrs: Attribut
         const val DEFAULT_LINE_COLOR = 0xFFFFE043.toInt()
         const val DEFAULT_FILL_COLOR = 0xFFFFF5C2.toInt()
         const val DEFAULT_POINT_COLOR = 0xFFFFE043.toInt()
+        const val POINT_RADIUS = 17F
+        const val WHITE_POINT_RADIUS = 14F
+        const val CENTER_POINT_RADIUS = 8F
     }
 }
