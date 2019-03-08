@@ -54,8 +54,7 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="46dp"
-        android:layout_marginBottom="15dp"
+
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -70,7 +69,9 @@
             android:fontFamily="@font/montserrat_regular"
             android:textColor="@color/ecardTextColor7"
             android:textSize="11sp"
+            android:layout_marginTop="46dp"
             android:visibility="gone"
+            android:layout_marginBottom="15dp"
             tools:text="3条记录被折叠" />
 
         <TextView
@@ -80,6 +81,8 @@
             android:fontFamily="@font/montserrat_regular"
             android:textColor="@color/ecardTextColor8"
             android:textSize="11sp"
+            android:layout_marginTop="46dp"
+            android:layout_marginBottom="15dp"
             android:visibility="gone"
             tools:text="点击显示" />
 

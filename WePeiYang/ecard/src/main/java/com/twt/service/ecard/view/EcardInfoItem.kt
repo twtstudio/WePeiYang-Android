@@ -160,8 +160,8 @@ class EcardPersonInfoItem(val ecardProfile: EcardProfileBean, val ecardTotalCons
                 cardNum.text = ecardProfile.cardnum
                 name.text = ecardProfile.name
                 balance.text = "￥" + ecardProfile.balance.split("元")[0]
-                todayConsume.text = "￥${ecardTotalConsumption.total_day}"
-                monthConsume.text = "￥${ecardTotalConsumption.total_month}"
+                todayConsume.text = "￥${String.format("%.2f", ecardTotalConsumption.total_day)}"
+                monthConsume.text = "￥${String.format("%.2f", ecardTotalConsumption.total_month)}"
 
                 if (ecardTotalConsumption.total_day >= 50) {
                     crownOfDay.visibility = View.VISIBLE

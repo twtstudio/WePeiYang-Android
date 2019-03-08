@@ -1,25 +1,22 @@
 package com.twt.service.ecard.view
 
-import android.graphics.*
-import android.graphics.drawable.Drawable
-import android.support.v7.app.AppCompatActivity
+import android.graphics.Color
+import android.graphics.PorterDuff
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
-import android.view.Window
-import com.twt.service.ecard.R
-import com.twt.wepeiyang.commons.experimental.extensions.enableLightStatusBarMode
-import org.jetbrains.anko.dip
-import android.graphics.drawable.BitmapDrawable
 import android.view.View
+import android.view.Window
 import android.widget.*
+import com.twt.service.ecard.R
 import com.twt.service.ecard.model.EcardService
 import com.twt.service.ecard.model.TransactionInfo
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
+import com.twt.wepeiyang.commons.experimental.extensions.enableLightStatusBarMode
 import es.dmoral.toasty.Toasty
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
-import java.text.DecimalFormat
 
 
 class EcardChartActivity : AppCompatActivity() {
@@ -96,8 +93,8 @@ class EcardChartActivity : AppCompatActivity() {
                 prev + transactionInfo.amount.toFloat()
             }
 
-            totalConsumeText.text = "消费：${totalConsume}元"
-            totalRechargeText.text = "充值：${totalRecharge}元"
+            totalConsumeText.text = "消费：${String.format("%.2f", totalConsume)}元"
+            totalRechargeText.text = "充值：${String.format("%.2f", totalRecharge)}元"
 
             historyData.consumption.asSequence().map {
                 EcardChartView.DataWithDetail(it.amount.toDouble(), "${it.date.substring(4, 6)}/${it.date.substring(6, 8)}")
