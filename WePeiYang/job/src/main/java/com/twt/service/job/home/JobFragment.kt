@@ -97,6 +97,10 @@ class JobFragment : Fragment(), JobHomeContract.JobHomeView {
         isLoad = false
     }
 
+    fun toTop(){
+        recyclerView.smoothScrollToPosition(0)
+    }
+
     override fun showHomeFair(commonBean: List<HomeDataL>) {
         recyclerView.withItems {
             repeat(commonBean.size) { i ->

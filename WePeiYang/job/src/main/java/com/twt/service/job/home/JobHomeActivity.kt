@@ -28,6 +28,18 @@ class JobHomeActivity : AppCompatActivity() {
         searchImageView.setOnClickListener {
             startActivity(Intent(this, JobSearchActivity::class.java))
         }
+        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
+            override fun onTabReselected(tab: TabLayout.Tab) {
+                viewPagerAdapter.updateFragment(tab.position)
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+            }
+
+            override fun onTabSelected(tab: TabLayout.Tab) {
+            }
+
+        })
     }
 
     private fun bindId() {

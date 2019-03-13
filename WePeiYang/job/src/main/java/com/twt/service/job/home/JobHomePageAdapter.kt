@@ -3,6 +3,7 @@ package com.twt.service.job.home
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
+import java.lang.IndexOutOfBoundsException
 
 class JobHomePageAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
 
@@ -20,5 +21,13 @@ class JobHomePageAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
         fragmentsOfHome.add(fragment)
         fragmentTitles.add(title)
         notifyDataSetChanged()
+    }
+
+    fun updateFragment(position: Int) {
+        try {
+            (fragmentsOfHome[position] as JobFragment).toTop()
+        }catch (e:IndexOutOfBoundsException){
+            e.printStackTrace()
+        }
     }
 }
