@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar
 import android.view.Window
 import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.Spinner
 import android.widget.TextView
 import com.twt.service.ecard.R
 import com.twt.service.ecard.model.EcardPref
@@ -23,6 +24,7 @@ import com.twt.wepeiyang.commons.ui.rec.lightText
 import com.twt.wepeiyang.commons.ui.rec.withItems
 import com.twt.wepeiyang.commons.ui.text.spanned
 import es.dmoral.toasty.Toasty
+import kotlinx.android.synthetic.main.ecard_activity_precious.*
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 import org.jetbrains.anko.dip
@@ -30,18 +32,20 @@ import org.jetbrains.anko.horizontalPadding
 import org.jetbrains.anko.startActivity
 
 class EcardPreviousActivity : AppCompatActivity() {
-    private lateinit var recyclerView: RecyclerView
-    private val itemManager by lazy { recyclerView.withItems(listOf()) }
+    private lateinit var chartFragment: EcardPreviousFragment
+    private lateinit var preFragment: EcardPreviousFragment
+    private val listOfTime = mutableListOf(7, 30, 60, 90)
+    private lateinit var ecardPagerAdapter: EcardPagerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
-        setContentView(R.layout.ecard_activity_main)
+        setContentView(R.layout.ecard_activity_precious)
         enableLightStatusBarMode(true)
         window.statusBarColor = Color.parseColor("#ffeb86")
-        val toolbar: Toolbar = findViewById(R.id.tb_main)
-        val titleOfToolbar: TextView = findViewById(R.id.tv_main_title)
-        val refreshOfToolbar: ImageView = findViewById(R.id.iv_main_refresh)
+        val toolbar: Toolbar = findViewById(R.id.tb_pre)
+        val titleOfToolbar: TextView = findViewById(R.id.tv_pre_title)
+        val refreshOfToolbar: ImageView = findViewById(R.id.iv_pre_refresh)
         titleOfToolbar.text = "流水查账"
         toolbar.apply {
             title = " "
@@ -49,64 +53,69 @@ class EcardPreviousActivity : AppCompatActivity() {
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
             setNavigationOnClickListener { onBackPressed() }
         }
+        EcardPref.ecardHistorySpinnerIndex = 0
+        setSelection()
 
-        recyclerView = findViewById(R.id.rv_main_main)
-        recyclerView.layoutManager = LinearLayoutManager(this@EcardPreviousActivity)
+        preFragment = EcardPreviousFragment.newInstance(EcardPref.PRE_LIST)
+        chartFragment = EcardPreviousFragment.newInstance(EcardPref.PRE_CHART)
+        ecardPagerAdapter = EcardPagerAdapter(supportFragmentManager).apply {
+            add(preFragment)
+            add(chartFragment)
+        }
+        vp_pre_pager.adapter = ecardPagerAdapter
 
-        refreshOfToolbar.setImageResource(R.drawable.ecard_chart)
+        when (EcardPref.ecardHistorySpinnerIndex) {
+            0 -> iv_pre_lselect.setImageResource(R.drawable.ecard_notime_left)
+            3 -> iv_pre_rselect.setImageResource(R.drawable.ecard_notime_right)
+        }
+
+        iv_pre_lselect.setOnClickListener {
+            if (EcardPref.ecardHistorySpinnerIndex >= 2) {
+                --EcardPref.ecardHistorySpinnerIndex
+                setSelection()
+                refresh()
+            } else if (EcardPref.ecardHistorySpinnerIndex == 1) {
+                --EcardPref.ecardHistorySpinnerIndex
+                iv_pre_lselect.setImageResource(R.drawable.ecard_notime_left)
+                setSelection()
+                refresh()
+            }
+            iv_pre_rselect.setImageResource(R.drawable.ecard_time_right)
+
+        }
+
+        iv_pre_rselect.setOnClickListener {
+            if (EcardPref.ecardHistorySpinnerIndex <= 1) {
+                ++EcardPref.ecardHistorySpinnerIndex
+                setSelection()
+                refresh()
+            } else if (EcardPref.ecardHistorySpinnerIndex == 2) {
+                ++EcardPref.ecardHistorySpinnerIndex
+                iv_pre_rselect.setImageResource(R.drawable.ecard_notime_right)
+                setSelection()
+                refresh()
+            }
+            iv_pre_lselect.setImageResource(R.drawable.ecard_time_left)
+
+        }
+
         refreshOfToolbar.setOnClickListener {
-            it.context.startActivity<EcardChartActivity>()
-        }
-        refreshData()
-    }
-
-    private fun refreshData() {
-        itemManager.refreshAll {
-            lightText("正在加载数据")
-        }
-
-        launch(UI + QuietCoroutineExceptionHandler) {
-            val transactionListWrapper = EcardService.getEcardTransaction(term = EcardPref.ecardHistoryLength).awaitAndHandle {
-                it.printStackTrace()
-                itemManager.refreshAll {
-                    firstSelectItem()
-                    lightText("") {
-                        horizontalPadding = dip(16)
-                        text = ("<span style=\"color:#E70C57\";>拉取${EcardPref.ecardHistoryLength}天校园卡数据失败，这可能是因为您的拉取时长超越了校园卡有效期，" +
-                                "此情况通常会发生在补办饭卡之后，查询期限超越补办期 \n 当然也可能是是饭卡的账号密码错了...</span>").spanned
-                    }
-                }
-            }?.data
-
-            val historyData = transactionListWrapper ?: return@launch
-
-            Toasty.success(this@EcardPreviousActivity, "拉取数据成功：${EcardPref.ecardHistoryLength}天").show()
-            val transactionList = mutableListOf<TransactionInfo>().apply {
-                addAll(historyData.recharge)
-                addAll(historyData.consumption)
-                sortWith(compareBy({ it.date }, { it.time }))
-                reverse()
-            }
-
-            itemManager.refreshAll {
-                firstSelectItem()
-                transactionList.forEach {
-                    transactionItem(it, historyData.consumption.contains(it))
-                }
-            }
-            recyclerView.scrollToPosition(0)
+            refresh()
         }
     }
 
-    private fun MutableList<Item>.firstSelectItem() {
-        val lengthList = listOf("7天", "15天", "30天", "60天", "120天")
-        ecardHistorySelectItem(lengthList) {
-            val length = lengthList[it].split("天")[0].toInt()
-            if (length != EcardPref.ecardHistoryLength) {
-                EcardPref.ecardHistoryLength = length
-                refreshData()
-            }
-            mtaClick("ecard_用户设置流水查询时长_${lengthList[it]}")
+    private fun setSelection() {
+        EcardPref.ecardHistoryLength = listOfTime[EcardPref.ecardHistorySpinnerIndex]
+        tv_pre_select.text = "最近${EcardPref.ecardHistoryLength}天"
+        mtaClick("ecard_用户设置流水查询时长_${EcardPref.ecardHistoryLength}")
+    }
+
+    private fun refresh() {
+        val currentFragment = ecardPagerAdapter.getCurrentFragment() as? EcardPreviousFragment
+        when (currentFragment?.typeOfPrecious) {
+            EcardPref.PRE_LIST -> preFragment.refreshDataForHistory()
+            EcardPref.PRE_CHART -> chartFragment.refreshDataForChart()
         }
     }
+
 }

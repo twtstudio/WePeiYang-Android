@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.*
 import android.support.v4.content.res.ResourcesCompat
 import android.util.AttributeSet
+import android.view.MotionEvent
 import android.view.View
 import com.twt.service.ecard.R
 import com.twt.service.ecard.extansion.*
@@ -38,6 +39,7 @@ class EcardChartView @JvmOverloads constructor(context: Context, attrs: Attribut
         color = Color.WHITE
         isAntiAlias = true
     }
+
     private val textPaint = Paint().apply {
         textSize = DETAILS_TEXT_SIZE
         textAlign = Paint.Align.CENTER
@@ -45,6 +47,7 @@ class EcardChartView @JvmOverloads constructor(context: Context, attrs: Attribut
         color = Color.parseColor("#666666")
         typeface = ResourcesCompat.getFont(context, R.font.montserrat_regular)
     }
+
     private val fillPaint = Paint().apply {
         style = Paint.Style.FILL
         isAntiAlias = true
@@ -192,6 +195,22 @@ class EcardChartView @JvmOverloads constructor(context: Context, attrs: Attribut
 
             points.asSequence().forEachIndexed { index, (x, y) ->
                 drawText(dataWithDetail[index].year, x, height.toFloat(), textPaint)
+            }
+        }
+    }
+
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
+        return super.onTouchEvent(event)
+        var downX = 0F
+        var downY = 0F
+
+        when (event?.action) {
+            MotionEvent.ACTION_DOWN -> {
+                downX = event?.x
+            }
+            MotionEvent.ACTION_MOVE -> {
+                var moveX = event.x - downX
+                distanceOfBegin += moveX
             }
         }
     }

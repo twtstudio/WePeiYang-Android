@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.twt.service.ecard.view.EcardChartView
+        android:id="@+id/ecv_chart"
+        android:layout_width="match_parent"
+        android:layout_height="342dp"
+        android:layout_marginTop="9dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <SeekBar
+        android:id="@+id/sb_chart_select"
+        android:layout_width="match_parent"
+        android:layout_height="16dp"
+        android:layout_marginTop="11dp"
+        android:progressDrawable="@color/ecardChartColor3"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ecv_chart" />
+
+</android.support.constraint.ConstraintLayout>

@@ -1,0 +1,68 @@
+package com.twt.service.ecard.view
+
+import android.support.v7.widget.RecyclerView
+import android.view.View
+import android.view.ViewGroup
+import android.widget.SeekBar
+import com.twt.service.ecard.R
+import com.twt.service.ecard.model.EcardLineChartDataBean
+import com.twt.wepeiyang.commons.ui.rec.Item
+import com.twt.wepeiyang.commons.ui.rec.ItemController
+import org.jetbrains.anko.layoutInflater
+
+class EcardChartItem(val lineChartDataList: List<EcardLineChartDataBean>) : Item {
+    override val controller: ItemController
+        get() = Controller
+
+    override fun areContentsTheSame(newItem: Item): Boolean {
+        return lineChartDataList == (newItem as? EcardChartItem)?.lineChartDataList
+    }
+
+    override fun areItemsTheSame(newItem: Item): Boolean {
+        return lineChartDataList == (newItem as? EcardChartItem)?.lineChartDataList
+    }
+
+    companion object Controller : ItemController {
+        override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
+            val view = parent.context.layoutInflater.inflate(R.layout.ecard_item_chart, parent, false)
+
+            return ViewHolder(view)
+        }
+
+        override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: Item) {
+            holder as ViewHolder
+            item as EcardChartItem
+            val lineChart = holder.chartView
+
+            item.lineChartDataList.asSequence().map {
+                EcardChartView.DataWithDetail(it.count.toDouble(), "${it.date.substring(4, 6)}/${it.date.substring(6, 8)}")
+            }.toList().let {
+                val dataWithDetail = it.toMutableList()
+                dataWithDetail.add(0, EcardChartView.DataWithDetail((dataWithDetail[0].data * 2 / 3), " "))
+                dataWithDetail.add(EcardChartView.DataWithDetail((dataWithDetail.last().data * 4 / 3), " "))
+                lineChart.dataWithDetail = dataWithDetail
+            }
+
+            holder.seekBar.apply {
+                progress = 0
+                max = 100
+                setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+                    override fun onStopTrackingTouch(seekBar: SeekBar?) = Unit
+
+                    override fun onStartTrackingTouch(seekBar: SeekBar?) = Unit
+
+                    override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                        lineChart.distanceOfBegin = -progress.toDouble() / 100
+                    }
+                })
+            }
+        }
+
+        class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+            val chartView: EcardChartView = itemView.findViewById(R.id.ecv_chart)
+            val seekBar: SeekBar = itemView.findViewById(R.id.sb_chart_select)
+        }
+    }
+}
+
+fun MutableList<Item>.ecardChartItem(lineChartDataList: List<EcardLineChartDataBean>) = add(EcardChartItem(lineChartDataList))

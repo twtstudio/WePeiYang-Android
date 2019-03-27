@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/ab_mylist"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/tb_pre"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/ecardThemeColor"
+            android:theme="@style/ThemeOverlay.AppCompat.Light"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+            <TextView
+                android:id="@+id/tv_pre_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/montserrat_bold"
+                android:textColor="@color/ecardTextColor1"
+                android:textSize="19sp"
+                tools:text="校园卡" />
+
+            <ImageView
+                android:id="@+id/iv_pre_refresh"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="end"
+                android:layout_marginTop="14dp"
+                android:layout_marginEnd="14dp"
+                android:layout_marginBottom="16dp"
+                android:src="@drawable/ecard_refresh" />
+
+        </android.support.v7.widget.Toolbar>
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/cv_pre_select"
+            android:layout_width="103dp"
+            android:layout_height="26dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="17dp"
+            app:cardBackgroundColor="@color/ecardThemeColor"
+            app:cardCornerRadius="13dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/tv_pre_select"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/montserrat_light"
+                android:textColor="@color/ecardTextColor1"
+                android:textSize="12dp"
+                tools:text="最近30天" />
+
+        </android.support.v7.widget.CardView>
+
+        <ImageView
+            android:id="@+id/iv_pre_lselect"
+            android:layout_width="6dp"
+            android:layout_height="13dp"
+            android:layout_marginEnd="4dp"
+            android:src="@drawable/ecard_time_left"
+            app:layout_constraintBottom_toBottomOf="@id/cv_pre_select"
+            app:layout_constraintRight_toLeftOf="@id/cv_pre_select"
+            app:layout_constraintTop_toTopOf="@id/cv_pre_select" />
+
+        <ImageView
+            android:id="@+id/iv_pre_rselect"
+            android:layout_width="6dp"
+            android:layout_height="13dp"
+            android:layout_marginStart="4dp"
+            android:src="@drawable/ecard_time_right"
+            app:layout_constraintBottom_toBottomOf="@id/cv_pre_select"
+            app:layout_constraintLeft_toRightOf="@id/cv_pre_select"
+            app:layout_constraintTop_toTopOf="@id/cv_pre_select" />
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_pre_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true" />
+</LinearLayout>

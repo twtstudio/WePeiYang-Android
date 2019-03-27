@@ -10,6 +10,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.twt.service.ecard.R
 import com.twt.service.ecard.model.*
+import com.twt.service.ecard.model.EcardPref.IS_CONSUME
 import com.twt.service.ecard.window.ECardTransactionPop
 import com.twt.wepeiyang.commons.experimental.cache.RefreshState
 import com.twt.wepeiyang.commons.mta.mtaClick
@@ -19,7 +20,6 @@ import org.jetbrains.anko.dip
 import org.jetbrains.anko.horizontalPadding
 import org.jetbrains.anko.layoutInflater
 import org.jetbrains.anko.startActivity
-import java.util.Collections.addAll
 
 class EcardTransactionItem(val transactionInfo: TransactionInfo, val isCost: Boolean, val isShowLine: Boolean) : Item {
     override val controller: ItemController
@@ -99,6 +99,7 @@ class EcardTransactionInfoItem : Item {
     override fun areContentsTheSame(newItem: Item): Boolean = true
 
     companion object Controller : ItemController {
+
         override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
             val view = RecyclerView(parent.context).apply {
                 horizontalPadding = dip(16)
@@ -113,6 +114,7 @@ class EcardTransactionInfoItem : Item {
         }
 
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: Item) {
+
             holder as ViewHolder
             holder.homeItem.apply {
                 itemContent.text = "消费流水"
@@ -131,14 +133,8 @@ class EcardTransactionInfoItem : Item {
             LiveEcardManager.getEcardLiveData().observeForever { refreshState ->
                 when (refreshState) {
                     is RefreshState.Success -> refreshState.message.apply {
-                        val transactionListWrapper = this.transactionListWrapper
-                        val transactionList = mutableListOf<TransactionInfo>()
-                        transactionList.apply {
-                            addAll(transactionListWrapper.recharge)
-                            addAll(transactionListWrapper.consumption)
-                            sortWith(compareBy({ it.date }, { it.time }))
-                            reverse()
-                        }
+
+                        val transactionList = this.transactionList
 
                         itemManager.refreshAll {
                             if (transactionList.today().isEmpty()) {
@@ -148,7 +144,8 @@ class EcardTransactionInfoItem : Item {
                                 val list = transactionList.take(4)
                                 list.forEachWithIndex { i, transactionInfo ->
                                     Log.d("mom", i.toString())
-                                    transactionItem(transactionInfo, transactionListWrapper.consumption.contains(transactionInfo), (i < list.size - 1))
+                                    // type = 2 是消费
+                                    transactionItem(transactionInfo, (transactionInfo.type == IS_CONSUME), (i < list.size - 1))
                                 }
                                 if (transactionList.isEmpty()) {
                                     lightText("暂未获取到最近两天消费数据")
@@ -159,7 +156,7 @@ class EcardTransactionInfoItem : Item {
                                 }
                                 val list = transactionList.today().take(4)
                                 list.forEachWithIndex { i, transactionInfo ->
-                                    transactionItem(transactionInfo, transactionListWrapper.consumption.contains(transactionInfo), (i < list.size - 1))
+                                    transactionItem(transactionInfo, (transactionInfo.type == IS_CONSUME), (i < list.size - 1))
                                 }
                             }
                         }

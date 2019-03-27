@@ -64,13 +64,7 @@ class EcardMainActivity : AppCompatActivity() {
                 is RefreshState.Success -> refreshState.message.apply {
                     val ecardProfile = this.ecardProfile
                     val ecardTotalConsumption = this.totalCost
-                    val transactionListWrapper = this.transactionListWrapper
-                    val transactionList = mutableListOf<TransactionInfo>().apply {
-                        addAll(transactionListWrapper.recharge)
-                        addAll(transactionListWrapper.consumption)
-                        sortWith(compareBy({ it.date }, { it.time }))
-                        reverse()
-                    }
+                    val transactionList = this.transactionList
 
                     itemManager.refreshAll {
                         ecardPersonInfoItem(ecardProfile, ecardTotalConsumption)
@@ -82,7 +76,7 @@ class EcardMainActivity : AppCompatActivity() {
 
                         if (transactionList.today().isNotEmpty()) {
                             transactionList.today().take(4).forEach {
-                                transactionItem(it, transactionListWrapper.consumption.contains(it))
+                                transactionItem(it, (it.type == EcardPref.IS_CONSUME))
                             }
 
                             val todayElse = transactionList.today().size - 4
@@ -91,7 +85,7 @@ class EcardMainActivity : AppCompatActivity() {
                                     itemManager.autoRefresh {
                                         addAll(7, mutableListOf<Item>().apply {
                                             transactionList.today().takeLast(todayElse).forEach {
-                                                transactionItem(it, transactionListWrapper.consumption.contains(it))
+                                                transactionItem(it, (it.type == EcardPref.IS_CONSUME))
                                             }
                                         })
                                         remove(item)

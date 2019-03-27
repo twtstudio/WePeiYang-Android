@@ -21,7 +21,7 @@ interface EcardService {
      * @day: 查多少天的数据 超出饭卡补办期会导致异常
      */
     @GET("v1/ecard/turnover")
-    fun getEcardTransaction(@Query("cardnum") cardnum: String = EcardPref.ecardUserName, @Query("password") password: String = EcardPref.ecardPassword, @Query("term") term: Int = 2): Deferred<CommonBody<TransactionListWrapper>>
+    fun getEcardTransaction(@Query("cardnum") cardnum: String = EcardPref.ecardUserName, @Query("password") password: String = EcardPref.ecardPassword, @Query("term") term: Int = 2): Deferred<CommonBody<List<TransactionInfo>>>
 
     @GET("v1/ecard/total")
     fun getEcardTotalConsumption(@Query("cardnum") cardnum: String = EcardPref.ecardUserName, @Query("password") password: String = EcardPref.ecardPassword): Deferred<CommonBody<EcardTotalConsumptionBean>>
@@ -29,18 +29,20 @@ interface EcardService {
     @GET("v1/ecard/QA")
     fun getFQA(): Deferred<List<ProblemBean>>
 
-    @GET("v1/ecard/dynamic")
-    fun getDynamic(): Deferred<List<ProblemBean>>
-
     /**
      * @term: 天数。今日流水就传term=1，查n天内的就是传term=n
      */
     @GET("/v1/ecard/pieChart")
-    fun getEcardPiechartData(@Query("cardnum") cardnum: String = EcardPref.ecardUserName, @Query("password") password: String = EcardPref.ecardPassword, @Query("term") term: Int = 1): Deferred<CommonBody<List<EcardPiechartDataBean>>>
+    fun getEcardPieChartData(@Query("cardnum") cardnum: String = EcardPref.ecardUserName, @Query("password") password: String = EcardPref.ecardPassword, @Query("term") term: Int = 1): Deferred<CommonBody<List<EcardPieChartDataBean>>>
+
+    // 一共取180天
+    @GET("v1/ecard/lineChart")
+    fun getEcardLineChartData(@Query("cardnum") cardnum: String = EcardPref.ecardUserName, @Query("password") password: String = EcardPref.ecardPassword): Deferred<CommonBody<List<EcardLineChartDataBean>>>
 
     companion object : EcardService by ServiceFactory()
 }
 
+// 个人详情
 data class EcardProfileBean(
         val name: String,
         val balance: String, // 余额
@@ -51,22 +53,25 @@ data class EcardProfileBean(
         val amount: String
 )
 
+// 每日 + 每月 总消费
 data class EcardTotalConsumptionBean(
         val total_day: Double,
         val total_month: Double
 )
 
-data class TransactionListWrapper(
-        val consumption: List<TransactionInfo>,
-        val recharge: List<TransactionInfo>
-)
-
+/**
+ * type = 1 是充值, 2 是消费
+ *
+ * sub_type = "食堂" , "其它", "超市", "充值"
+ */
 data class TransactionInfo(
         val amount: String,
         val balance: String,
         val date: String,
         val location: String,
-        val time: String
+        val sub_type: String,
+        val time: String,
+        val type: Int
 )
 
 data class ProblemBean(
@@ -76,9 +81,14 @@ data class ProblemBean(
         val title: String
 )
 
-data class EcardPiechartDataBean(
+data class EcardPieChartDataBean(
         val total: Double,
         val type: String
+)
+
+data class EcardLineChartDataBean(
+        val count: String,
+        val date: String
 )
 
 var isBindECardBoolean = EcardPref.ecardUserName != "*" && EcardPref.ecardUserName != "" && EcardPref.ecardPassword != "*" && EcardPref.ecardPassword != ""
