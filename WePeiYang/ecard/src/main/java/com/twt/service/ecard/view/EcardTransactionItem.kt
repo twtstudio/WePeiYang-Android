@@ -62,11 +62,12 @@ class EcardTransactionItem(val transactionInfo: TransactionInfo, val isCost: Boo
                 } else {
                     "-"
                 } + transactionInfo.amount
-
-                if (title.text.contains("超市"))
-                    pic.setImageResource(R.drawable.ecard_shoppping)
-                else
-                    pic.setImageResource(R.drawable.ecard_dining_hall)
+                when (transactionInfo.sub_type) {
+                    "食堂" -> pic.setImageResource(R.drawable.ecard_dining_hall)
+                    "超市" -> pic.setImageResource(R.drawable.ecard_shoppping)
+                    "充值" -> pic.setImageResource(R.drawable.ecard_charge)
+                    else -> pic.setImageResource(R.drawable.ecard_dining_hall)
+                }
 
                 line.visibility = if (isShowLine) View.VISIBLE else View.GONE
             }
