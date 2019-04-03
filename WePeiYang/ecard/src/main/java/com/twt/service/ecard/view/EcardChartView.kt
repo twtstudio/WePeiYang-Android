@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.*
 import android.support.v4.content.res.ResourcesCompat
 import android.util.AttributeSet
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import com.twt.service.ecard.R
@@ -12,7 +13,8 @@ import org.jetbrains.anko.dip
 
 class EcardChartView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : View(context, attrs, defStyleAttr) {
     private val LINE_STROKE = dip(2)
-
+    var widthStep: Float = 0F
+    var downX = 0F
     private val linePaint = Paint().apply {
         style = Paint.Style.STROKE
         strokeWidth = LINE_STROKE.toFloat()
@@ -73,7 +75,8 @@ class EcardChartView @JvmOverloads constructor(context: Context, attrs: Attribut
 
     var distanceOfBegin: Double = 0.0
         set(value) {
-            field = value
+            if (value <= 0 && value >= -widthStep * (dataWithDetail.size - 5))
+                field = value
             invalidate()
         }
 
@@ -104,10 +107,10 @@ class EcardChartView @JvmOverloads constructor(context: Context, attrs: Attribut
         val contentWidth = (width - paddingLeft - paddingRight).toFloat()
         val contentHeight = (height - paddingTop - paddingBottom).toFloat()
 
-        val widthStep = contentWidth / 4
+        widthStep = contentWidth / 4
 
         val centerY = paddingTop + contentHeight / 2
-        val startX = paddingLeft + distanceOfBegin * widthStep * (dataWithDetail.size - 5)
+        val startX = paddingLeft + distanceOfBegin // * widthStep * (dataWithDetail.size - 5)
         val endX = widthStep * (dataWithDetail.size - 1) * (1 - distanceOfBegin)
 
         points.clear()
@@ -199,20 +202,22 @@ class EcardChartView @JvmOverloads constructor(context: Context, attrs: Attribut
         }
     }
 
-    override fun onTouchEvent(event: MotionEvent?): Boolean {
-        return super.onTouchEvent(event)
-        var downX = 0F
-        var downY = 0F
+    override fun dispatchTouchEvent(event: MotionEvent?): Boolean {
+        var x = event?.rawX!!
 
         when (event?.action) {
             MotionEvent.ACTION_DOWN -> {
-                downX = event?.x
+                downX = x
+                return true
             }
             MotionEvent.ACTION_MOVE -> {
-                var moveX = event.x - downX
-                distanceOfBegin += moveX
+                parent.requestDisallowInterceptTouchEvent(true)
+                var moveX = x - downX
+                distanceOfBegin += (moveX / 15)
             }
         }
+
+        return super.dispatchTouchEvent(event)
     }
 
     init {

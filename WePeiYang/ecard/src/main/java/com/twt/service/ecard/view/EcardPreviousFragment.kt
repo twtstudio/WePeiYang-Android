@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -120,7 +121,8 @@ class EcardPreviousFragment : Fragment() {
 
             itemManager.refreshAll {
                 ecardPreTotalItem(historyData.toMutableList().filter { it.type == IS_CONSUME }, historyData.toMutableList().filter { it.type == IS_RECHARGE })
-                ecardChartItem(lineChartHistoryData.take(EcardPref.ecardHistoryLength))
+                Log.d("momom", lineChartHistoryData.size.toString())
+                ecardChartItem(lineChartHistoryData.reversed().take(EcardPref.ecardHistoryLength))
             }
         }
     }

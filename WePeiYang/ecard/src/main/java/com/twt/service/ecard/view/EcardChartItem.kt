@@ -15,11 +15,11 @@ class EcardChartItem(val lineChartDataList: List<EcardLineChartDataBean>) : Item
         get() = Controller
 
     override fun areContentsTheSame(newItem: Item): Boolean {
-        return lineChartDataList == (newItem as? EcardChartItem)?.lineChartDataList
+        return false
     }
 
     override fun areItemsTheSame(newItem: Item): Boolean {
-        return lineChartDataList == (newItem as? EcardChartItem)?.lineChartDataList
+        return false
     }
 
     companion object Controller : ItemController {
@@ -33,7 +33,7 @@ class EcardChartItem(val lineChartDataList: List<EcardLineChartDataBean>) : Item
             holder as ViewHolder
             item as EcardChartItem
             val lineChart = holder.chartView
-
+            lineChart.distanceOfBegin = 0.0
             item.lineChartDataList.asSequence().map {
                 EcardChartView.DataWithDetail(it.count.toDouble(), "${it.date.substring(4, 6)}/${it.date.substring(6, 8)}")
             }.toList().let {
@@ -41,20 +41,6 @@ class EcardChartItem(val lineChartDataList: List<EcardLineChartDataBean>) : Item
                 dataWithDetail.add(0, EcardChartView.DataWithDetail((dataWithDetail[0].data * 2 / 3), " "))
                 dataWithDetail.add(EcardChartView.DataWithDetail((dataWithDetail.last().data * 4 / 3), " "))
                 lineChart.dataWithDetail = dataWithDetail
-            }
-
-            holder.seekBar.apply {
-                progress = 0
-                max = 100
-                setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-                    override fun onStopTrackingTouch(seekBar: SeekBar?) = Unit
-
-                    override fun onStartTrackingTouch(seekBar: SeekBar?) = Unit
-
-                    override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                        lineChart.distanceOfBegin = -progress.toDouble() / 100
-                    }
-                })
             }
         }
 
