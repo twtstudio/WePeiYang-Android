@@ -1,21 +1,24 @@
 package com.twt.service.home.message
 
+import com.twt.wepeiyang.commons.experimental.cache.RefreshState
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import com.twt.wepeiyang.commons.experimental.network.CommonBody
-import com.twt.wepeiyang.commons.experimental.network.ServiceFactory
 import kotlinx.coroutines.experimental.Deferred
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
-import retrofit2.http.FieldMap
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.POST
+import retrofit2.http.*
 
-internal const val GETUI_BASE_URL ="47.106.129.155"
+
 interface GeTuiService{
     @FormUrlEncoded
-    @POST("http://$GETUI_BASE_URL/api/register")
+    @POST("register")
     fun register(@FieldMap params : Map<String,String>): Deferred<CommonBody<String>>
-    companion object :GeTuiService by ServiceFactory()
+    @GET("record/{student_number}")
+    fun getRecordMessage(@Path("student_number") student_number: String) : Deferred<RecordMessage>
+    @PUT("record/read/{id}")
+    fun putId(@Path("id") id :Int) : Deferred<CommonBody<String>>
+    companion object :GeTuiService by MessageServiceFactory()
+
 }
 
 internal fun postRegister(uesr_name :String,real_name :String, student_number:String,client_id: String,cover :Int ,school :Int,major: Int,callback: suspend (String) -> (Unit)){
@@ -29,9 +32,34 @@ internal fun postRegister(uesr_name :String,real_name :String, student_number:St
                 "school" to school.toString(),
                 "major" to major.toString()
         )
-        GeTuiService.register(params).awaitAndHandle { callback(it.message.orEmpty())}?.let {
-
-            callback(it.message) }
+        GeTuiService.register(params).awaitAndHandle { callback(it.message.orEmpty())}?.let { callback(it.message) }
+    }
+}
+internal fun getRecordMessage(student_number: String ,callback: suspend (RefreshState<Unit>,RecordMessage?) -> Unit) {
+    launch(UI){
+        GeTuiService.getRecordMessage(student_number).awaitAndHandle {
+            callback(RefreshState.Failure(it),null)
+        }?.let{
+            callback(RefreshState.Success(Unit),it)
+        }
+    }
+}
+internal fun putId(id: Int,callback: suspend (String) -> (Unit)){
+    launch(UI){
+        GeTuiService.putId(id).awaitAndHandle { callback(it.message.orEmpty()) }?.let { callback(it.message) }
     }
 }
 
+data class RecordMessage(
+    val error_code: Int,
+    val info: List<Info>,
+    val message: String
+)
+
+data class Info(
+    val content: String,
+    val created_at: String,
+    val id: Int,
+    val read: Int,
+    val title: String
+)
