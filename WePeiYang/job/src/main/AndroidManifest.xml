@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.twt.service.job">
+
+    <application>
+        <activity android:name=".story.StoryActivity" />
+        <activity android:name=".search.JobSearchActivity" />
+        <activity android:name=".home.JobHomeActivity" />
+    </application>
+
+</manifest>

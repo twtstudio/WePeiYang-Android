@@ -86,7 +86,7 @@ class HomeNewActivity : AppCompatActivity() {
                 gpaNewHomeItem(this@HomeNewActivity)
                 mtaExpose("app_首页显示gpaItem")
             }
-            examTableHomeItem()
+//            examTableHomeItem()
             ecardInfoItem()
             ecardTransactionInfoItem()
             libraryHomeItem(this@HomeNewActivity)

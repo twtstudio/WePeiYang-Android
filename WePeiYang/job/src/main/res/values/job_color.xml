@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="job_green">#64a388</color>
+    <color name="job_dark_grey">#787979</color>
+    <color name="job_light_grey">#a1a1a1</color>
+    <color name="job_black">#3f403f</color>
+    <color name="job_background">#f2f2f2</color>
+</resources>

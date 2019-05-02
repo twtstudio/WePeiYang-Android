@@ -70,130 +70,6 @@ class SettingsActivity : CAppCompatActivity() {
 
         private fun initPrefs() {
 
-            /**
-             * 一键退学
-             */
-
-            val exitTjuPref = findPreference(getString(R.string.pref_is_exit_tju))
-            val dropOutMode = CommonPreferences.dropOut
-            var dropOutSummary = "未操作"//                    prxoyIP.setText();
-            /**
-             * 绑定模块
-             */
-
-            //            Preference isChangeSourceEnabled = findPreference(getString(R.string.pref_is_switch_news_source));
-            //            if (BuildConfig.DEBUG){
-            //                isChangeSourceEnabled.setEnabled(true);
-            //            }else {
-            //                isChangeSourceEnabled.setEnabled(false);
-            //            }
-
-            //null做了处理的 刷新状态
-            //清空缓存 --- 课程表 GPA
-            //退学
-            when (dropOutMode) {
-                0 -> dropOutSummary = "未操作"
-                1 -> dropOutSummary = "已退学"
-                2 -> dropOutSummary = "已复学"
-            }
-            exitTjuPref.summary = "退学状态: $dropOutSummary"
-
-            /**
-             * 这个代码有些冗杂 ... 因为一些内部类的调用关系没有理清楚但是先这样子吧
-             */
-            exitTjuPref.onPreferenceClickListener = Preference.OnPreferenceClickListener {
-                if (CommonPreferences.dropOut == 0 || CommonPreferences.dropOut == 2) {
-                    //退学
-                    val items = arrayOf("我要打游戏！", "我要运动！", "我要睡觉！", "怎么样都好啦！")
-
-                    val builder = AlertDialog.Builder(activity)
-                            .setTitle("你为啥要退学呀？")
-                            .setItems(items) { dialog, which ->
-                                Toast.makeText(activity, "正在办理...", Toast.LENGTH_SHORT).show()
-
-                                RealBindAndDropOutService
-                                        .dropOut(which + 1)
-                                        .subscribeOn(Schedulers.io())
-                                        .observeOn(AndroidSchedulers.mainThread())
-                                        .subscribe({ it ->
-                                            if (!TextUtils.isEmpty(it.data)) {
-                                                Toast.makeText(activity, it.data, Toast.LENGTH_SHORT).show()
-
-                                                when (it.data) {
-                                                    "欢迎回来上学 (〃∀〃)" -> CommonPreferences.dropOut = 2
-                                                    "退学成功 d(`･∀･)b" -> CommonPreferences.dropOut = 1
-                                                }
-
-                                                when (CommonPreferences.dropOut) {
-                                                    0 -> dropOutSummary = "未操作"
-                                                    1 -> dropOutSummary = "已退学"
-                                                    2 -> dropOutSummary = "已复学"
-                                                }
-                                                exitTjuPref.summary = "退学状态: $dropOutSummary"
-
-                                                //清空缓存 --- 课程表 GPA
-                                                CacheProvider.clearCache()
-
-                                                authSelfLiveData.refresh(REMOTE)
-                                            }
-                                            dialog.dismiss()
-                                        }, { throwable ->
-                                            authSelfLiveData.refresh(REMOTE)
-                                            RxErrorHandler().call(throwable)
-                                            dialog.dismiss()
-                                        })
-                            }
-
-                    builder.create().show()
-
-                } else {
-                    val dropInBuilder = AlertDialog.Builder(activity)
-                            .setTitle("复学申请办理处")
-                            .setMessage("浪子回头金不换啊...")
-                            .setPositiveButton("我想好了...") { dialog, _ ->
-                                Toast.makeText(activity, "正在办理...", Toast.LENGTH_SHORT).show()
-
-                                RealBindAndDropOutService
-                                        .dropOut(0)
-                                        .subscribeOn(Schedulers.io())
-                                        .observeOn(AndroidSchedulers.mainThread())
-                                        .subscribe({ it ->
-                                            if (!TextUtils.isEmpty(it.data)) {
-                                                Toast.makeText(activity, it.data, Toast.LENGTH_SHORT).show()
-
-                                                when (it.data) {
-                                                    "欢迎回来上学 (〃∀〃)" -> CommonPreferences.dropOut = 2
-                                                    "退学成功 d(`･∀･)b" -> CommonPreferences.dropOut = 1
-                                                }
-
-                                                when (CommonPreferences.dropOut) {
-                                                    0 -> dropOutSummary = "未操作"
-                                                    1 -> dropOutSummary = "已退学"
-                                                    2 -> dropOutSummary = "已复学"
-                                                }
-                                                exitTjuPref.summary = "退学状态: $dropOutSummary"
-
-                                                //清空缓存 --- 课程表 GPA
-                                                //null做了处理的 刷新状态
-
-                                                CacheProvider.clearCache()
-
-                                                authSelfLiveData.refresh(REMOTE)
-                                            }
-                                            dialog.dismiss()
-                                        }, { throwable ->
-                                            authSelfLiveData.refresh(REMOTE)
-                                            RxErrorHandler().call(throwable)
-                                            dialog.dismiss()
-                                        })
-                            }
-                            .setNegativeButton("我再浪会...") { dialog, _ -> dialog.dismiss() }
-
-                    dropInBuilder.create().show()
-                }
-
-                true
-            }
 
             /**
              * 绑定模块
@@ -345,8 +221,8 @@ class SettingsActivity : CAppCompatActivity() {
 
         /****************
          *
-         * 发起添加群流程。群号：微北洋用户大佬群(738068756) 的 key 为： DqYP6KYECBOV36yk1_RBE6iVjXbKVv0R
-         * 调用 joinQQGroup(DqYP6KYECBOV36yk1_RBE6iVjXbKVv0R) 即可发起手Q客户端申请加群 微北洋用户大佬群(738068756)
+         * 发起添加群流程。群号：天外天用户社区(738068756) 的 key 为： DqYP6KYECBOV36yk1_RBE6iVjXbKVv0R
+         * 调用 joinQQGroup(DqYP6KYECBOV36yk1_RBE6iVjXbKVv0R) 即可发起手Q客户端申请加群 天外天用户社区(738068756)
          *
          * @param key 由官网生成的key
          * @return 返回true表示呼起手Q成功，返回fals表示呼起失败

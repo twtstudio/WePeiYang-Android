@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/job_story_item_attach"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/job_background"
+    android:paddingBottom="6dp">
+
+    <ImageView
+        android:id="@+id/job_story_im_attach"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:layout_marginStart="22dp"
+        android:src="@drawable/job_attach_icon"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/job_story_tv_attach"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/montserrat_regular"
+        android:maxEms="14"
+        android:textSize="17sp"
+        app:layout_constraintLeft_toRightOf="@+id/job_story_im_attach"
+        app:layout_constraintTop_toTopOf="@+id/job_story_im_attach"
+        tools:text="林爱哦是你哇陈述鱼趁姝宇晨术语晨术语.xls" />
+
+</android.support.constraint.ConstraintLayout>

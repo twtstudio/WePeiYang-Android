@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">job</string>
+    <string name="job_name">就业</string>
+    <string name="job_search_icon">job_search_icon</string>
+    <string name="job_top">置顶</string>
+    <string name="job_detail">详情</string>
+    <string name="job_search_hint"> 请输入搜索关键字</string>
+    <string name="job_info">招聘信息</string>
+    <string name="job_meeting">招聘会</string>
+    <string name="job_bottom">恭喜你看完了所有信息！</string>
+</resources>

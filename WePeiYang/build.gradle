@@ -3,40 +3,40 @@ buildscript {
 
     ext {
         versions = [
-                minSdk      : 21,
-                targetSdk   : 27,
-                compileSdk  : 27,
-                buildTools  : '28.0.3',
-                support     : '27.1.1',
-                kotlin      : '1.2.71',
-                anko        : '0.10.4',
-                butterknife : '8.5.1',
-                retrolambda : '3.7.0',
+                minSdk     : 21,
+                targetSdk  : 27,
+                compileSdk : 27,
+                buildTools : '28.0.3',
+                support    : '27.1.1',
+                kotlin     : '1.2.71',
+                anko       : '0.10.4',
+                butterknife: '8.5.1',
+                retrolambda: '3.7.0',
         ]
 
         dependenciesMap = [
-                'fragmentation'        : 'com.twt.service:fragmentation:1.1.0',
+                'fragmentation'       : 'com.twt.service:fragmentation:1.1.0',
 
-                'support-v4'           : "com.android.support:support-v4:${versions.support}",
-                'appcompat-v7'         : "com.android.support:appcompat-v7:${versions.support}",
-                'recyclerview-v7'      : "com.android.support:recyclerview-v7:${versions.support}",
-                'cardview-v7'          : "com.android.support:cardview-v7:${versions.support}",
-                'design'               : "com.android.support:design:${versions.support}",
+                'support-v4'          : "com.android.support:support-v4:${versions.support}",
+                'appcompat-v7'        : "com.android.support:appcompat-v7:${versions.support}",
+                'recyclerview-v7'     : "com.android.support:recyclerview-v7:${versions.support}",
+                'cardview-v7'         : "com.android.support:cardview-v7:${versions.support}",
+                'design'              : "com.android.support:design:${versions.support}",
 
-                'multidex'             : 'com.android.support:multidex:1.0.2',
-                'constraint-layout'    : 'com.android.support.constraint:constraint-layout:1.1.0',
+                'multidex'            : 'com.android.support:multidex:1.0.2',
+                'constraint-layout'   : 'com.android.support.constraint:constraint-layout:1.1.0',
 
-                'lifecycle-extensions' : 'android.arch.lifecycle:extensions:1.1.0',
-                'lifecycle-compiler'   : 'android.arch.lifecycle:compiler:1.1.0',
-                'room'                 : 'android.arch.persistence.room:runtime:1.0.0',
-                'room-compiler'        : 'android.arch.persistence.room:compiler:1.0.0',
+                'lifecycle-extensions': 'android.arch.lifecycle:extensions:1.1.0',
+                'lifecycle-compiler'  : 'android.arch.lifecycle:compiler:1.1.0',
+                'room'                : 'android.arch.persistence.room:runtime:1.0.0',
+                'room-compiler'       : 'android.arch.persistence.room:compiler:1.0.0',
 
-                'kotlin-stdlib'        : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${versions.kotlin}",
-                'kotlinx-coroutines'   : 'org.jetbrains.kotlinx:kotlinx-coroutines-android:0.22.5',
-                'anko'                 : "org.jetbrains.anko:anko:${versions.anko}",
+                'kotlin-stdlib'       : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${versions.kotlin}",
+                'kotlinx-coroutines'  : 'org.jetbrains.kotlinx:kotlinx-coroutines-android:0.22.5',
+                'anko'                : "org.jetbrains.anko:anko:${versions.anko}",
 
-                'butterknife'          : "com.jakewharton:butterknife:${versions.butterknife}",
-                'butterknife-compiler' : "com.jakewharton:butterknife-compiler:${versions.butterknife}",
+                'butterknife'         : "com.jakewharton:butterknife:${versions.butterknife}",
+                'butterknife-compiler': "com.jakewharton:butterknife-compiler:${versions.butterknife}",
         ]
 
         supportLibraries = [
@@ -86,3 +86,4 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+

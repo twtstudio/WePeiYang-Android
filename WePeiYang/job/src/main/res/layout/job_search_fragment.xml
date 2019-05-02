@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/job_background">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/job_search_rv_history"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <LinearLayout
+        android:id="@+id/job_search_no_res"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:paddingTop="140dp">
+
+        <ImageView
+            android:layout_width="240dp"
+            android:layout_height="240dp"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/job_search_no_res"/>
+
+        <TextView
+            android:id="@+id/job_search_tv_no_res"
+            android:layout_width="wrap_content"
+            android:maxWidth="320dp"
+            android:layout_height="wrap_content"
+            tools:text="没有找到关于什么的就业信息"
+            android:textColor="#abd2c3"
+            android:textSize="23sp"
+            android:fontFamily="@font/montserrat_regular"
+            android:layout_marginTop="40dp"
+            android:layout_gravity="center"/>
+
+    </LinearLayout>
+
+</FrameLayout>
