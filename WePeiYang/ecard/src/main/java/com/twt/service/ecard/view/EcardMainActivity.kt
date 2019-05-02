@@ -8,10 +8,8 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.view.Gravity
-import android.view.View
 import android.view.Window
 import android.widget.FrameLayout
-import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import com.twt.service.ecard.R
@@ -69,7 +67,7 @@ class EcardMainActivity : AppCompatActivity() {
                     itemManager.refreshAll {
                         ecardPersonInfoItem(ecardProfile, ecardTotalConsumption)
                         ecardElseItem("今日流水", TypeOfElse.TODAY) { _, view ->
-                            view.context.startActivity<EcardPreviousActivity>()
+                            view.context.startActivity<EcardPreciousActivity>()
                             mtaClick("ecard_用户查看消费流水详情")
                         }
                         ecardElseItem("$month/$day", TypeOfElse.DATE)

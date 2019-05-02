@@ -3,8 +3,8 @@
     android:shape="rectangle">
     <stroke
         android:width="0dp"
-        android:color="@color/ecardChartColor3" />
-    <solid android:color="@color/ecardChartColor3" />
+        android:color="@color/ecardTextColor15" />
+    <solid android:color="@color/ecardTextColor15" />
     <size
         android:width="16dp"
         android:height="4dp" />

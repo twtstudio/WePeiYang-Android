@@ -20,7 +20,11 @@ class EcardChartView @JvmOverloads constructor(context: Context, attrs: Attribut
     var widthStep: Float = 0F
     var downX = 0F
 
-    var onSelectionChangedListener: ((Int) -> Unit)? = null
+    var onSelectionChanged = false
+        set(value) {
+            field = value
+            invalidate()
+        }
 
     private val linePaint = Paint().apply {
         style = Paint.Style.STROKE
@@ -123,6 +127,7 @@ class EcardChartView @JvmOverloads constructor(context: Context, attrs: Attribut
     private val centerPointPath = Path()
     private val bottomLinePath = Path()
     private val popupBoxPath = Path()
+    private val loadingPath = Path()
     private val points = mutableListOf<PointF>()
     private var detailTextLeft = 0F
     private var detailTextTop = 0F
@@ -131,9 +136,7 @@ class EcardChartView @JvmOverloads constructor(context: Context, attrs: Attribut
     private fun computePath() {
         val contentWidth = (width - paddingLeft - paddingRight).toFloat()
         val contentHeight = (height - paddingTop - paddingBottom).toFloat()
-
         widthStep = contentWidth / 4
-
         val centerY = paddingTop + contentHeight / 2
         val startX = paddingLeft + distanceOfBegin // * widthStep * (dataWithDetail.size - 5)
         val endX = widthStep * (dataWithDetail.size - 1) * (1 - distanceOfBegin)
@@ -173,14 +176,14 @@ class EcardChartView @JvmOverloads constructor(context: Context, attrs: Attribut
         }
 
         bottomLinePath.reuse {
-            moveTo(points.first().x, height.toFloat() - dip(22))
-            lineTo(points.last().x, height.toFloat() - dip(22))
+            moveTo(points.first().x, height.toFloat() - dip(24))
+            lineTo(points.last().x, height.toFloat() - dip(24))
         }
 
         fillPath.reuse {
             addPath(linePath)
-            lineTo(points.last().x, height.toFloat() - dip(22))
-            lineTo(points.first().x, height.toFloat() - dip(22))
+            lineTo(points.last().x, height.toFloat() - dip(24))
+            lineTo(points.first().x, height.toFloat() - dip(24))
             close()
         }
 
@@ -191,11 +194,21 @@ class EcardChartView @JvmOverloads constructor(context: Context, attrs: Attribut
                     .forEach { (x, y) -> addCircle(x, y, POINT_RADIUS, Path.Direction.CCW) }
         }
 
+        loadingPath.reuse {
+            addRoundRect(
+                    RectF(0F,
+                            contentHeight - dip(21),
+                            contentWidth,
+                            contentHeight - dip(17)),
+                    dip(4).toFloat(),
+                    dip(4).toFloat(),
+                    Path.Direction.CCW)
+        }
+
         whitePointPath.reuse {
             points.asSequence()
                     .forEach { (x, y) -> addCircle(x, y, WHITE_POINT_RADIUS, Path.Direction.CCW) }
         }
-
         centerPointPath.reuse {
             points.asSequence()
                     .forEach { (x, y) -> addCircle(x, y, CENTER_POINT_RADIUS, Path.Direction.CCW) }
@@ -265,16 +278,19 @@ class EcardChartView @JvmOverloads constructor(context: Context, attrs: Attribut
             drawPath(whitePointPath, pointPaintWhite)
             drawPath(centerPointPath, pointPaint)
             drawPath(bottomLinePath, bottomLinePaint)
+            drawPath(loadingPath, fillPaint)
 
             points.asSequence().forEachIndexed { index, (x, y) ->
                 drawText(dataWithDetail[index].year, x, height.toFloat(), textPaint)
             }
 
-            drawPath(popupBoxPath, popupBoxPaint)
-            save()
-            translate(detailTextLeft, detailTextTop)
-            detailTextLayout?.draw(canvas)
-            restore()
+            if (onSelectionChanged) {
+                drawPath(popupBoxPath, popupBoxPaint)
+                save()
+                translate(detailTextLeft, detailTextTop)
+                detailTextLayout?.draw(canvas)
+                restore()
+            }
         }
     }
 
@@ -286,7 +302,7 @@ class EcardChartView @JvmOverloads constructor(context: Context, attrs: Attribut
                 downX = x
                 checkClickOnPoint(event.x, event.y) {
                     selectedIndex = it
-                    onSelectionChangedListener?.invoke(it)
+                    onSelectionChanged = true
                 }
                 return true
             }
@@ -309,6 +325,8 @@ class EcardChartView @JvmOverloads constructor(context: Context, attrs: Attribut
             if (d2 < POINT_RADIUS * POINT_RADIUS * 4) {
                 callback(index)
                 playSoundEffect(SoundEffectConstants.CLICK)
+            } else {
+                onSelectionChanged = false
             }
         }
         performClick()

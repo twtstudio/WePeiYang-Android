@@ -2,36 +2,20 @@ package com.twt.service.ecard.view
 
 import android.graphics.Color
 import android.os.Bundle
+import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
-import android.view.View
 import android.view.Window
 import android.widget.*
 import com.twt.service.ecard.R
 import com.twt.service.ecard.model.EcardPref
-import com.twt.service.ecard.model.EcardService
-import com.twt.service.ecard.model.TransactionInfo
-import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
-import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import com.twt.wepeiyang.commons.experimental.extensions.enableLightStatusBarMode
 import com.twt.wepeiyang.commons.mta.mtaClick
-import com.twt.wepeiyang.commons.ui.rec.Item
-import com.twt.wepeiyang.commons.ui.rec.lightText
-import com.twt.wepeiyang.commons.ui.rec.withItems
-import com.twt.wepeiyang.commons.ui.text.spanned
-import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.ecard_activity_precious.*
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
-import org.jetbrains.anko.dip
-import org.jetbrains.anko.horizontalPadding
-import org.jetbrains.anko.startActivity
 
-class EcardPreviousActivity : AppCompatActivity() {
-    private lateinit var chartFragment: EcardPreviousFragment
-    private lateinit var preFragment: EcardPreviousFragment
+class EcardPreciousActivity : AppCompatActivity() {
+    private lateinit var chartFragment: EcardPreciousFragment
+    private lateinit var preFragment: EcardPreciousFragment
     private val listOfTime = mutableListOf(7, 30, 60, 90)
     private lateinit var ecardPagerAdapter: EcardPagerAdapter
 
@@ -54,13 +38,35 @@ class EcardPreviousActivity : AppCompatActivity() {
         EcardPref.ecardHistorySpinnerIndex = 0
         setSelection()
 
-        preFragment = EcardPreviousFragment.newInstance(EcardPref.PRE_LIST)
-        chartFragment = EcardPreviousFragment.newInstance(EcardPref.PRE_CHART)
+        preFragment = EcardPreciousFragment.newInstance(EcardPref.PRE_LIST)
+        chartFragment = EcardPreciousFragment.newInstance(EcardPref.PRE_CHART)
         ecardPagerAdapter = EcardPagerAdapter(supportFragmentManager).apply {
             add(preFragment)
             add(chartFragment)
         }
-        vp_pre_pager.adapter = ecardPagerAdapter
+        vp_pre_pager.apply {
+            adapter = ecardPagerAdapter
+            addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+                override fun onPageSelected(position: Int) {
+                    val ecardPreviousFragment = (adapter as? EcardPagerAdapter)?.getItem(position) as? EcardPreciousFragment
+                    when (ecardPreviousFragment?.typeOfPrecious) {
+                        EcardPref.PRE_LIST -> {
+                            iv_pre_loading_left.setImageResource(R.drawable.ecard_round_loading)
+                            iv_pre_loading_right.setImageResource(R.drawable.ecard_round)
+                        }
+                        EcardPref.PRE_CHART -> {
+                            iv_pre_loading_left.setImageResource(R.drawable.ecard_round)
+                            iv_pre_loading_right.setImageResource(R.drawable.ecard_round_loading)
+                        }
+                    }
+                }
+
+                override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) = Unit
+
+                override fun onPageScrollStateChanged(state: Int) = Unit
+
+            })
+        }
 
         when (EcardPref.ecardHistorySpinnerIndex) {
             0 -> iv_pre_lselect.setImageResource(R.drawable.ecard_notime_left)
@@ -109,11 +115,10 @@ class EcardPreviousActivity : AppCompatActivity() {
     }
 
     private fun refresh() {
-        val currentFragment = ecardPagerAdapter.getCurrentFragment() as? EcardPreviousFragment
+        val currentFragment = ecardPagerAdapter.getCurrentFragment() as? EcardPreciousFragment
         when (currentFragment?.typeOfPrecious) {
             EcardPref.PRE_LIST -> preFragment.refreshDataForHistory()
             EcardPref.PRE_CHART -> chartFragment.refreshDataForChart()
         }
     }
-
 }

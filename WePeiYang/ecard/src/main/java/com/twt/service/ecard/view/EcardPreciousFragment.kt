@@ -16,19 +16,16 @@ import com.twt.service.ecard.model.EcardPref.IS_RECHARGE
 import com.twt.service.ecard.model.EcardService
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
-import com.twt.wepeiyang.commons.mta.mtaClick
-import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.lightText
 import com.twt.wepeiyang.commons.ui.rec.withItems
 import com.twt.wepeiyang.commons.ui.text.spanned
 import es.dmoral.toasty.Toasty
-import kotlinx.android.synthetic.main.ecard_fragment_prescious.view.*
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 import org.jetbrains.anko.dip
 import org.jetbrains.anko.horizontalPadding
 
-class EcardPreviousFragment : Fragment() {
+class EcardPreciousFragment : Fragment() {
 
     lateinit var recyclerView: RecyclerView
     lateinit var progressBar: ProgressBar
@@ -36,10 +33,10 @@ class EcardPreviousFragment : Fragment() {
     var typeOfPrecious = EcardPref.PRE_LIST
 
     companion object {
-        fun newInstance(type: String): EcardPreviousFragment {
+        fun newInstance(type: String): EcardPreciousFragment {
             val args = Bundle()
             args.putString(EcardPref.INDEX_KEY, type)
-            val fragment = EcardPreviousFragment()
+            val fragment = EcardPreciousFragment()
             fragment.arguments = args
 
             return fragment
@@ -80,7 +77,7 @@ class EcardPreviousFragment : Fragment() {
 
             progressBar.visibility = View.GONE
             val historyData = transactionList ?: return@launch
-            Toasty.success(this@EcardPreviousFragment.context!!, "拉取数据成功：${EcardPref.ecardHistoryLength}天").show()
+            Toasty.success(this@EcardPreciousFragment.context!!, "拉取数据成功：${EcardPref.ecardHistoryLength}天").show()
 
             itemManager.refreshAll {
                 historyData.forEach {
@@ -121,7 +118,7 @@ class EcardPreviousFragment : Fragment() {
             val historyData = transactionList ?: return@launch
             val lineChartHistoryData = lineChartDataList ?: return@launch
 
-            Toasty.success(this@EcardPreviousFragment.context!!, "拉取数据成功：${EcardPref.ecardHistoryLength}天").show()
+            Toasty.success(this@EcardPreciousFragment.context!!, "拉取数据成功：${EcardPref.ecardHistoryLength}天").show()
 
             itemManager.refreshAll {
                 ecardPreTotalItem(historyData.toMutableList().filter { it.type == IS_CONSUME }, historyData.toMutableList().filter { it.type == IS_RECHARGE })

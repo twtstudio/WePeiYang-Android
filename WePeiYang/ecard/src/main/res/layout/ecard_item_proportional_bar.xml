@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ProgressBar
+        android:id="@+id/pb_proportial_bar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="22dp"
+        android:max="100"
+        android:progress="45"
+        android:progressDrawable="@drawable/ecard_progressbar_style"
+        android:secondaryProgress="69"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="11dp"
+            android:layout_height="11dp"
+            android:background="@drawable/ecard_round"
+            app:layout_constraintLeft_toLeftOf="@id/pb_proportial_bar"
+            app:layout_constraintTop_toBottomOf="@id/pb_proportial_bar" />
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>

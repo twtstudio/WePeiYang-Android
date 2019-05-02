@@ -3,10 +3,9 @@
     package="com.twt.service.ecard">
 
     <application>
-        <activity android:name=".view.EcardChartActivity"></activity>
         <activity android:name=".view.EcardAssistanceActivity" />
         <activity android:name=".view.EcardLoginActivity" />
-        <activity android:name=".view.EcardPreviousActivity" />
+        <activity android:name=".view.EcardPreciousActivity" />
         <activity android:name=".view.EcardMainActivity" />
     </application>
 
