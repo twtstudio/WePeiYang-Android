@@ -95,7 +95,7 @@ class EcardMainActivity : AppCompatActivity() {
                             }
 
                             lightText("") {
-                                layoutParams = FrameLayout.LayoutParams(matchParent, dip(41))
+                                layoutParams = FrameLayout.LayoutParams(matchParent, dip(16))
                             }
                         } else {
                             lightText("今天你还没有消费哟～") {

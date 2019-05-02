@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import com.twt.service.ecard.R
 import com.twt.service.ecard.model.EcardPref
 import com.twt.service.ecard.model.EcardPref.IS_CONSUME
@@ -21,6 +22,7 @@ import com.twt.wepeiyang.commons.ui.rec.lightText
 import com.twt.wepeiyang.commons.ui.rec.withItems
 import com.twt.wepeiyang.commons.ui.text.spanned
 import es.dmoral.toasty.Toasty
+import kotlinx.android.synthetic.main.ecard_fragment_prescious.view.*
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 import org.jetbrains.anko.dip
@@ -29,6 +31,7 @@ import org.jetbrains.anko.horizontalPadding
 class EcardPreviousFragment : Fragment() {
 
     lateinit var recyclerView: RecyclerView
+    lateinit var progressBar: ProgressBar
     private val itemManager by lazy { recyclerView.withItems(listOf()) }
     var typeOfPrecious = EcardPref.PRE_LIST
 
@@ -46,10 +49,11 @@ class EcardPreviousFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.ecard_fragment_prescious, container, false)
         recyclerView = view.findViewById(R.id.rv_ecard_precious)
+        progressBar = view.findViewById(R.id.pb_ecard_loading)
         recyclerView.layoutManager = LinearLayoutManager(this.activity)
         val bundle = arguments
         typeOfPrecious = bundle!!.getString(EcardPref.INDEX_KEY)
-
+        progressBar.visibility = View.GONE
         when (typeOfPrecious) {
             EcardPref.PRE_LIST -> refreshDataForHistory()
             EcardPref.PRE_CHART -> refreshDataForChart()
@@ -59,13 +63,12 @@ class EcardPreviousFragment : Fragment() {
     }
 
     fun refreshDataForHistory() {
-        itemManager.refreshAll {
-            lightText("正在加载数据")
-        }
+        progressBar.visibility = View.VISIBLE
 
         launch(UI + QuietCoroutineExceptionHandler) {
             val transactionList = EcardService.getEcardTransaction(term = EcardPref.ecardHistoryLength).awaitAndHandle {
                 it.printStackTrace()
+                progressBar.visibility = View.GONE
                 itemManager.refreshAll {
                     lightText("") {
                         horizontalPadding = dip(16)
@@ -75,6 +78,7 @@ class EcardPreviousFragment : Fragment() {
                 }
             }?.data
 
+            progressBar.visibility = View.GONE
             val historyData = transactionList ?: return@launch
             Toasty.success(this@EcardPreviousFragment.context!!, "拉取数据成功：${EcardPref.ecardHistoryLength}天").show()
 
@@ -83,14 +87,13 @@ class EcardPreviousFragment : Fragment() {
                     transactionItem(it, it.type == IS_CONSUME)
                 }
             }
+
             recyclerView.scrollToPosition(0)
         }
     }
 
     fun refreshDataForChart() {
-        itemManager.refreshAll {
-            lightText("正在加载数据")
-        }
+        progressBar.visibility = View.VISIBLE
 
         launch(UI + QuietCoroutineExceptionHandler) {
             val transactionList = EcardService.getEcardTransaction(term = EcardPref.ecardHistoryLength).awaitAndHandle {
@@ -105,6 +108,7 @@ class EcardPreviousFragment : Fragment() {
             }?.data
             val lineChartDataList = EcardService.getEcardLineChartData().awaitAndHandle {
                 it.printStackTrace()
+                progressBar.visibility = View.GONE
                 itemManager.refreshAll {
                     lightText("") {
                         horizontalPadding = dip(16)
@@ -113,7 +117,7 @@ class EcardPreviousFragment : Fragment() {
                     }
                 }
             }?.data
-
+            progressBar.visibility = View.GONE
             val historyData = transactionList ?: return@launch
             val lineChartHistoryData = lineChartDataList ?: return@launch
 

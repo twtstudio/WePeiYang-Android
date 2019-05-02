@@ -46,7 +46,6 @@ class EcardChartItem(val lineChartDataList: List<EcardLineChartDataBean>) : Item
 
         class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             val chartView: EcardChartView = itemView.findViewById(R.id.ecv_chart)
-            val seekBar: SeekBar = itemView.findViewById(R.id.sb_chart_select)
         }
     }
 }

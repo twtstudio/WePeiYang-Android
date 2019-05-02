@@ -27,7 +27,7 @@ interface EcardService {
     fun getEcardTotalConsumption(@Query("cardnum") cardnum: String = EcardPref.ecardUserName, @Query("password") password: String = EcardPref.ecardPassword): Deferred<CommonBody<EcardTotalConsumptionBean>>
 
     @GET("v1/ecard/QA")
-    fun getFQA(): Deferred<List<ProblemBean>>
+    fun getFQA(): Deferred<CommonBody<List<ProblemBean>>>
 
     /**
      * @term: 天数。今日流水就传term=1，查n天内的就是传term=n

@@ -10,19 +10,10 @@
         android:layout_width="match_parent"
         android:layout_height="342dp"
         android:layout_marginTop="9dp"
+        android:layout_marginStart="18dp"
+        android:layout_marginEnd="18dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <SeekBar
-        android:id="@+id/sb_chart_select"
-        android:layout_width="match_parent"
-        android:layout_height="16dp"
-        android:layout_marginTop="11dp"
-        android:progressDrawable="@color/ecardChartColor3"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ecv_chart" />
 
 </android.support.constraint.ConstraintLayout>

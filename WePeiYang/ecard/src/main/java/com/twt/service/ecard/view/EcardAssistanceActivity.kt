@@ -75,7 +75,7 @@ class EcardAssistanceActivity : AppCompatActivity() {
                 itemManager.refreshAll {
                     lightText("数据加载失败，请稍后重试")
                 }
-            }
+            }?.data
 
             val assistanceList = list ?: return@launch
 

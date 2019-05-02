@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:paddingBottom="8dp"
     android:orientation="vertical">
 
     <android.support.constraint.ConstraintLayout
@@ -24,10 +25,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/montserrat_regular"
+            android:layout_marginStart="1dp"
             android:textColor="@color/ecardTextColor9"
-            android:textSize="15sp"
+            android:layout_marginTop="7dp"
+            android:textSize="14sp"
             app:layout_constraintLeft_toRightOf="@id/iv_assistance_item_mark"
-            app:layout_constraintTop_toTopOf="@id/iv_assistance_item_mark"
+            app:layout_constraintTop_toTopOf="parent"
             tools:text="补办新卡后原来卡上的钱怎么办？ " />
 
         <TextView
@@ -36,11 +39,11 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:fontFamily="@font/montserrat_regular"
-            android:lineSpacingExtra="6sp"
+            android:lineSpacingExtra="5sp"
             android:textColor="@color/ecardTextColor12"
-            android:textSize="13sp"
+            android:textSize="12sp"
             app:layout_constraintLeft_toLeftOf="@id/iv_assistance_item_mark"
-            app:layout_constraintTop_toBottomOf="@id/iv_assistance_item_mark"
+            app:layout_constraintTop_toBottomOf="@id/tv_assistance_item_title"
             tools:text="补办新卡后，原来卡上的余额自卡挂失之日起 3 日后可转移到新卡上。 \n转移方法：在校园卡服务终端主界面点击“校园卡务”，登录后在左侧菜单点击“余额转 移”，按提示操作。 \n注：原卡小钱包的余额会在转移时退回到主钱包，需要使用小钱包功能的，请重新向小 钱包转账。 " />
     </android.support.constraint.ConstraintLayout>
 
