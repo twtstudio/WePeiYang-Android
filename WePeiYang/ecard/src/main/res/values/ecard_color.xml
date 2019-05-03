@@ -22,5 +22,8 @@
     <color name="ecardChartColor1">#f8f4de</color>
     <color name="ecardChartColor2">#faf2ca</color>
     <color name="ecardChartColor3">#fff5c2</color>
+    <color name="ecardProportionalColor1">#f8d316</color>
+    <color name="ecardProportionalColor2">#fff5c2</color>
+    <color name="ecardProportionalColor3">#ffeb86</color>
 
 </resources>

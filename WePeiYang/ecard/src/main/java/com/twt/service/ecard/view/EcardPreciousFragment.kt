@@ -77,7 +77,7 @@ class EcardPreciousFragment : Fragment() {
 
             progressBar.visibility = View.GONE
             val historyData = transactionList ?: return@launch
-            Toasty.success(this@EcardPreciousFragment.context!!, "拉取数据成功：${EcardPref.ecardHistoryLength}天").show()
+            Toasty.success(this@EcardPreciousFragment.context!!, "拉取历史记录成功：${EcardPref.ecardHistoryLength}天").show()
 
             itemManager.refreshAll {
                 historyData.forEach {
@@ -105,6 +105,16 @@ class EcardPreciousFragment : Fragment() {
             }?.data
             val lineChartDataList = EcardService.getEcardLineChartData().awaitAndHandle {
                 it.printStackTrace()
+                itemManager.refreshAll {
+                    lightText("") {
+                        horizontalPadding = dip(16)
+                        text = ("<span style=\"color:#E70C57\";>拉取${EcardPref.ecardHistoryLength}天校园卡数据失败，这可能是因为您的拉取时长超越了校园卡有效期，" +
+                                "此情况通常会发生在补办饭卡之后，查询期限超越补办期 \n 当然也可能是是饭卡的账号密码错了...</span>").spanned
+                    }
+                }
+            }?.data
+            val proportionalBarList = EcardService.getEcardProportionalBarData(term = EcardPref.ecardHistoryLength).awaitAndHandle {
+                it.printStackTrace()
                 progressBar.visibility = View.GONE
                 itemManager.refreshAll {
                     lightText("") {
@@ -114,16 +124,19 @@ class EcardPreciousFragment : Fragment() {
                     }
                 }
             }?.data
+
             progressBar.visibility = View.GONE
             val historyData = transactionList ?: return@launch
             val lineChartHistoryData = lineChartDataList ?: return@launch
+            val proportionalData = proportionalBarList ?: return@launch
 
             Toasty.success(this@EcardPreciousFragment.context!!, "拉取数据成功：${EcardPref.ecardHistoryLength}天").show()
 
             itemManager.refreshAll {
                 ecardPreTotalItem(historyData.toMutableList().filter { it.type == IS_CONSUME }, historyData.toMutableList().filter { it.type == IS_RECHARGE })
-                Log.d("momom", lineChartHistoryData.size.toString())
                 ecardChartItem(lineChartHistoryData.reversed().take(EcardPref.ecardHistoryLength))
+                ecardElseItem("消费占比", TypeOfElse.TITLE)
+                ecardProportionalItem(proportionalData)
             }
         }
     }

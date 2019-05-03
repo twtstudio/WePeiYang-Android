@@ -4,7 +4,7 @@
     <item android:id="@android:id/background">
         <shape>
             <corners android:radius="11dp" />
-            <solid android:color="#ffeb86" />
+            <solid android:color="@color/ecardProportionalColor3" />
         </shape>
     </item>
 
@@ -12,7 +12,7 @@
         <clip>
             <shape>
                 <corners android:radius="5dip" />
-                <solid android:color="#fff5c2" />
+                <solid android:color="@color/ecardProportionalColor2" />
             </shape>
         </clip>
     </item>
@@ -21,7 +21,7 @@
         <clip>
             <shape>
                 <corners android:radius="10dip" />
-                <solid android:color="#f8d316" />
+                <solid android:color="@color/ecardProportionalColor1" />
             </shape>
         </clip>
     </item>

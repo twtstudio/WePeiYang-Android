@@ -38,6 +38,7 @@ class EcardChartItem(val lineChartDataList: List<EcardLineChartDataBean>) : Item
                 EcardChartView.DataWithDetail(it.count.toDouble(), "${it.date.substring(4, 6)}/${it.date.substring(6, 8)}")
             }.toList().let {
                 val dataWithDetail = it.toMutableList()
+                dataWithDetail.reverse()
                 dataWithDetail.add(0, EcardChartView.DataWithDetail((dataWithDetail[0].data * 2 / 3), " "))
                 dataWithDetail.add(EcardChartView.DataWithDetail((dataWithDetail.last().data * 4 / 3), " "))
                 lineChart.dataWithDetail = dataWithDetail

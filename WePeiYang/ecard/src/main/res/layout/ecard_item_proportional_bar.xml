@@ -2,10 +2,12 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="16dp">
 
     <ProgressBar
-        android:id="@+id/pb_proportial_bar"
+        android:id="@+id/pb_proportional_bar"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
         android:layout_height="22dp"
@@ -16,14 +18,86 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
+        android:id="@+id/ll_proportional_dining"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        app:layout_constraintLeft_toLeftOf="@id/pb_proportional_bar"
+        app:layout_constraintTop_toBottomOf="@id/pb_proportional_bar">
 
         <ImageView
-            android:layout_width="11dp"
-            android:layout_height="11dp"
-            android:background="@drawable/ecard_round"
-            app:layout_constraintLeft_toLeftOf="@id/pb_proportial_bar"
-            app:layout_constraintTop_toBottomOf="@id/pb_proportial_bar" />
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_gravity="center"
+            android:background="@drawable/ecard_proportional_dining"
+            app:layout_constraintLeft_toLeftOf="@id/pb_proportional_bar"
+            app:layout_constraintTop_toBottomOf="@id/pb_proportional_bar" />
+
+        <TextView
+            android:id="@+id/tv_proportional_dining"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:fontFamily="@font/montserrat_regular"
+            android:textSize="10sp"
+            tools:text="食堂400元" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_proportional_shopping"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="0dp"
+        android:orientation="horizontal"
+        app:layout_constraintLeft_toRightOf="@id/ll_proportional_dining"
+        app:layout_constraintRight_toLeftOf="@id/ll_proportional_else"
+        app:layout_constraintTop_toBottomOf="@id/pb_proportional_bar">
+
+        <ImageView
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_gravity="center"
+            android:background="@drawable/ecard_proportional_shopping"
+            app:layout_constraintLeft_toLeftOf="@id/pb_proportional_bar"
+            app:layout_constraintTop_toBottomOf="@id/pb_proportional_bar" />
+
+        <TextView
+            android:id="@+id/tv_proportional_shopping"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:fontFamily="@font/montserrat_regular"
+            android:textSize="10sp"
+            tools:text="超市400元" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_proportional_else"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintRight_toRightOf="@id/pb_proportional_bar"
+        app:layout_constraintTop_toBottomOf="@id/pb_proportional_bar">
+
+        <ImageView
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_gravity="center"
+            android:background="@drawable/ecard_proportional_else"
+            app:layout_constraintLeft_toLeftOf="@id/pb_proportional_bar"
+            app:layout_constraintTop_toBottomOf="@id/pb_proportional_bar" />
+
+        <TextView
+            android:id="@+id/tv_proportional_else"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:fontFamily="@font/montserrat_regular"
+            android:textSize="10sp"
+            tools:text="食堂400元" />
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

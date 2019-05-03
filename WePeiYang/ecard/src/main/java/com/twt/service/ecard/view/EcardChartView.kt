@@ -7,6 +7,7 @@ import android.text.Layout
 import android.text.StaticLayout
 import android.text.TextPaint
 import android.util.AttributeSet
+import android.util.Log
 import android.view.MotionEvent
 import android.view.SoundEffectConstants
 import android.view.View
@@ -20,24 +21,10 @@ class EcardChartView @JvmOverloads constructor(context: Context, attrs: Attribut
     var widthStep: Float = 0F
     var downX = 0F
 
-    var onSelectionChanged = false
-        set(value) {
-            field = value
-            invalidate()
-        }
-
     private val linePaint = Paint().apply {
         style = Paint.Style.STROKE
         strokeWidth = LINE_STROKE.toFloat()
         color = Color.parseColor("#ffe043")
-        isSubpixelText = true
-        isAntiAlias = true
-    }
-
-    private val bottomLinePaint = Paint().apply {
-        style = Paint.Style.STROKE
-        strokeWidth = LINE_STROKE.toFloat()
-        color = Color.parseColor("#555555")
         isSubpixelText = true
         isAntiAlias = true
     }
@@ -47,9 +34,9 @@ class EcardChartView @JvmOverloads constructor(context: Context, attrs: Attribut
         isAntiAlias = true
     }
 
-    private val pointPaintWhite = Paint().apply {
+    private val pointCenterPaint = Paint().apply {
         style = Paint.Style.FILL
-        color = Color.WHITE
+        color = Color.parseColor("#fff9da")
         isAntiAlias = true
     }
 
@@ -57,8 +44,8 @@ class EcardChartView @JvmOverloads constructor(context: Context, attrs: Attribut
         textSize = DETAILS_TEXT_SIZE
         textAlign = Paint.Align.CENTER
         isAntiAlias = true
-        color = Color.parseColor("#666666")
-        typeface = ResourcesCompat.getFont(context, R.font.montserrat_regular)
+        color = Color.parseColor("#ffd942")
+        typeface = ResourcesCompat.getFont(context, R.font.montserrat_light)
     }
 
     private val fillPaint = Paint().apply {
@@ -114,7 +101,7 @@ class EcardChartView @JvmOverloads constructor(context: Context, attrs: Attribut
             invalidate()
         }
 
-    var selectedIndex = 0
+    var selectedIndex = 1
         set(value) {
             field = value.coerceIn(if (dataWithDetail.isNotEmpty()) dataWithDetail.indices else 0..0)
             invalidate()
@@ -125,9 +112,9 @@ class EcardChartView @JvmOverloads constructor(context: Context, attrs: Attribut
     private val pointPath = Path()
     private val whitePointPath = Path()
     private val centerPointPath = Path()
-    private val bottomLinePath = Path()
     private val popupBoxPath = Path()
     private val loadingPath = Path()
+    private val selectedLoadingPath = Path()
     private val points = mutableListOf<PointF>()
     private var detailTextLeft = 0F
     private var detailTextTop = 0F
@@ -139,13 +126,13 @@ class EcardChartView @JvmOverloads constructor(context: Context, attrs: Attribut
         widthStep = contentWidth / 4
         val centerY = paddingTop + contentHeight / 2
         val startX = paddingLeft + distanceOfBegin // * widthStep * (dataWithDetail.size - 5)
-        val endX = widthStep * (dataWithDetail.size - 1) * (1 - distanceOfBegin)
+        val endX = widthStep * (dataWithDetail.size - 1) + distanceOfBegin
 
         points.clear()
         if (dataWithDetail.isNotEmpty()) {
             val maxData = dataWithDetail.maxBy(DataWithDetail::data)?.data!!
             // not all the same
-            val extension = 10f
+            val extension = 40f
             val minDataExtended = 0f
             val maxDataExtended = maxData + extension
             val dataSpanExtended = maxDataExtended - minDataExtended
@@ -174,12 +161,6 @@ class EcardChartView @JvmOverloads constructor(context: Context, attrs: Attribut
                 lineTo(pivotX - endX.toFloat(), centerY)
             }
         }
-
-        bottomLinePath.reuse {
-            moveTo(points.first().x, height.toFloat() - dip(24))
-            lineTo(points.last().x, height.toFloat() - dip(24))
-        }
-
         fillPath.reuse {
             addPath(linePath)
             lineTo(points.last().x, height.toFloat() - dip(24))
@@ -189,22 +170,11 @@ class EcardChartView @JvmOverloads constructor(context: Context, attrs: Attribut
 
         val firstPoint = points.removeAt(0)
         val lastPoint = points.removeAt(points.size - 1)
+
         pointPath.reuse {
             points.asSequence()
                     .forEach { (x, y) -> addCircle(x, y, POINT_RADIUS, Path.Direction.CCW) }
         }
-
-        loadingPath.reuse {
-            addRoundRect(
-                    RectF(0F,
-                            contentHeight - dip(21),
-                            contentWidth,
-                            contentHeight - dip(17)),
-                    dip(4).toFloat(),
-                    dip(4).toFloat(),
-                    Path.Direction.CCW)
-        }
-
         whitePointPath.reuse {
             points.asSequence()
                     .forEach { (x, y) -> addCircle(x, y, WHITE_POINT_RADIUS, Path.Direction.CCW) }
@@ -213,9 +183,10 @@ class EcardChartView @JvmOverloads constructor(context: Context, attrs: Attribut
             points.asSequence()
                     .forEach { (x, y) -> addCircle(x, y, CENTER_POINT_RADIUS, Path.Direction.CCW) }
         }
+
         points.add(0, firstPoint)
         points.add(lastPoint)
-
+        val totalLength = points.last().x - points.first().x
         popupBoxPath.reuse {
             if (dataWithDetail.isEmpty())
                 return@reuse // no need to draw
@@ -228,19 +199,14 @@ class EcardChartView @JvmOverloads constructor(context: Context, attrs: Attribut
             lineTo(triCenter + POPUP_BOX_TRI_WIDTH / 2F, triTop - POPUP_BOX_TRI_HEIGHT)
             close()
 
-            val rectCenter =
-                    when {
-                        triCenter - POPUP_BOX_RECT_WIDTH / 2F < POPUP_BOX_MARGIN -> POPUP_BOX_MARGIN + POPUP_BOX_RECT_WIDTH / 2F
-                        triCenter + POPUP_BOX_RECT_WIDTH / 2F > width - POPUP_BOX_MARGIN -> width - POPUP_BOX_MARGIN - POPUP_BOX_RECT_WIDTH / 2F
-                        else -> triCenter
-                    }
+            val rectCenter = triCenter
             val rectTop = triTop - POPUP_BOX_TRI_HEIGHT
 
             detailTextLayout = StaticLayout(
                     "${dataWithDetail[selectedIndex].data}元",
                     detailTextPaint,
-                    (POPUP_BOX_RECT_WIDTH - POPUP_BOX_PADDING * 2).toInt(),
-                    Layout.Alignment.ALIGN_NORMAL,
+                    (POPUP_BOX_RECT_WIDTH - POPUP_BOX_PADDING / 2).toInt(),
+                    Layout.Alignment.ALIGN_CENTER,
                     1.75F,
                     0F,
                     true
@@ -249,7 +215,7 @@ class EcardChartView @JvmOverloads constructor(context: Context, attrs: Attribut
                 detailTextTop = rectTop - POPUP_BOX_PADDING
             }
 
-            val rectHeight = detailTextLayout?.height?.toFloat() ?: POPUP_BOX_RECT_HEIGHT
+            val rectHeight = POPUP_BOX_RECT_HEIGHT
 
             addRoundRect(
                     RectF(rectCenter - POPUP_BOX_RECT_WIDTH / 2F,
@@ -258,6 +224,28 @@ class EcardChartView @JvmOverloads constructor(context: Context, attrs: Attribut
                             rectTop - rectHeight - POPUP_BOX_PADDING),
                     POPUP_BOX_RECT_ROUND_RADIUS,
                     POPUP_BOX_RECT_ROUND_RADIUS,
+                    Path.Direction.CCW)
+        }
+        loadingPath.reuse {
+            addRoundRect(
+                    RectF(0F,
+                            contentHeight - dip(21),
+                            contentWidth,
+                            contentHeight - dip(17)),
+                    dip(4).toFloat(),
+                    dip(4).toFloat(),
+                    Path.Direction.CCW)
+        }
+        selectedLoadingPath.reuse {
+            val leftDistance = -distanceOfBegin / totalLength * contentWidth
+            val lengthOfSelected = contentWidth / totalLength * contentWidth
+            addRoundRect(
+                    RectF(leftDistance.toFloat(),
+                            contentHeight - dip(21),
+                            lengthOfSelected + leftDistance.toFloat(),
+                            contentHeight - dip(17)),
+                    dip(4).toFloat(),
+                    dip(4).toFloat(),
                     Path.Direction.CCW)
         }
     }
@@ -275,22 +263,18 @@ class EcardChartView @JvmOverloads constructor(context: Context, attrs: Attribut
                 drawPath(linePath, linePaint)
             }
             drawPath(pointPath, pointPaint)
-            drawPath(whitePointPath, pointPaintWhite)
+            drawPath(whitePointPath, pointCenterPaint)
             drawPath(centerPointPath, pointPaint)
-            drawPath(bottomLinePath, bottomLinePaint)
             drawPath(loadingPath, fillPaint)
+            drawPath(selectedLoadingPath, pointPaint)
 
             points.asSequence().forEachIndexed { index, (x, y) ->
                 drawText(dataWithDetail[index].year, x, height.toFloat(), textPaint)
             }
-
-            if (onSelectionChanged) {
-                drawPath(popupBoxPath, popupBoxPaint)
-                save()
-                translate(detailTextLeft, detailTextTop)
-                detailTextLayout?.draw(canvas)
-                restore()
-            }
+            drawPath(popupBoxPath, popupBoxPaint)
+            save()
+            translate(detailTextLeft, detailTextTop - 20F)
+            detailTextLayout?.draw(canvas)
         }
     }
 
@@ -302,7 +286,6 @@ class EcardChartView @JvmOverloads constructor(context: Context, attrs: Attribut
                 downX = x
                 checkClickOnPoint(event.x, event.y) {
                     selectedIndex = it
-                    onSelectionChanged = true
                 }
                 return true
             }
@@ -325,8 +308,6 @@ class EcardChartView @JvmOverloads constructor(context: Context, attrs: Attribut
             if (d2 < POINT_RADIUS * POINT_RADIUS * 4) {
                 callback(index)
                 playSoundEffect(SoundEffectConstants.CLICK)
-            } else {
-                onSelectionChanged = false
             }
         }
         performClick()
@@ -356,10 +337,10 @@ class EcardChartView @JvmOverloads constructor(context: Context, attrs: Attribut
         const val DETAILS_TEXT_SIZE = 30F
         const val POPUP_BOX_TRI_WIDTH = 15F
         const val POPUP_BOX_TRI_HEIGHT = 16F
-        const val POPUP_BOX_MARGIN = 16F
+        const val POPUP_BOX_MARGIN = 8F
         const val POPUP_BOX_RECT_WIDTH = 166F
         const val POPUP_BOX_PADDING = 40F
-        const val POPUP_BOX_RECT_HEIGHT = 72F
+        const val POPUP_BOX_RECT_HEIGHT = 48F
         const val POPUP_BOX_RECT_ROUND_RADIUS = 16F
         const val SHADOW_COLOR = 0xf3f3f3
         const val SHADOW_RADIUS = 35F
