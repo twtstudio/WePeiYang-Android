@@ -1,6 +1,7 @@
 package com.twt.service.ecard.view
 
 import android.os.Bundle
+import android.support.constraint.ConstraintLayout
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -29,7 +30,7 @@ import org.jetbrains.anko.horizontalPadding
 class EcardPreciousFragment : Fragment() {
 
     lateinit var recyclerView: RecyclerView
-    lateinit var progressBar: ProgressBar
+    lateinit var progressBar: ConstraintLayout
     private val itemManager by lazy { recyclerView.withItems(listOf()) }
     var typeOfPrecious = EcardPref.PRE_LIST
 
@@ -46,8 +47,8 @@ class EcardPreciousFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.ecard_fragment_prescious, container, false)
-        recyclerView = view.findViewById(R.id.rv_ecard_precious)
-        progressBar = view.findViewById(R.id.pb_ecard_loading)
+        recyclerView = view.findViewById(R.id.rv_fragment_precious)
+        progressBar = view.findViewById(R.id.cl_fragment_loading)
         recyclerView.layoutManager = LinearLayoutManager(this.activity)
         val bundle = arguments
         typeOfPrecious = bundle!!.getString(EcardPref.INDEX_KEY)
@@ -62,7 +63,7 @@ class EcardPreciousFragment : Fragment() {
 
     fun refreshDataForHistory() {
         progressBar.visibility = View.VISIBLE
-
+        itemManager.refreshAll { }
         launch(UI + QuietCoroutineExceptionHandler) {
             val transactionList = EcardService.getEcardTransaction(term = EcardPref.ecardHistoryLength).awaitAndHandle {
                 it.printStackTrace()
@@ -92,7 +93,7 @@ class EcardPreciousFragment : Fragment() {
 
     fun refreshDataForChart() {
         progressBar.visibility = View.VISIBLE
-
+        itemManager.refreshAll { }
         launch(UI + QuietCoroutineExceptionHandler) {
             val transactionList = EcardService.getEcardTransaction(term = EcardPref.ecardHistoryLength).awaitAndHandle {
                 it.printStackTrace()

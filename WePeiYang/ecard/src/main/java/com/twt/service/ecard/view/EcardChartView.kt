@@ -17,9 +17,22 @@ import com.twt.wepeiyang.commons.experimental.CommonContext
 import org.jetbrains.anko.dip
 
 class EcardChartView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : View(context, attrs, defStyleAttr) {
+    public var viewHolder: EcardChartItem.Controller.ViewHolder? = null
     private val LINE_STROKE = dip(2)
-    var widthStep: Float = 0F
-    var downX = 0F
+    private var widthStep: Float = 0F
+    private var downX = 0F
+    private val linePath = Path()
+    private val fillPath = Path()
+    private val pointPath = Path()
+    private val whitePointPath = Path()
+    private val centerPointPath = Path()
+    private val popupBoxPath = Path()
+    private val loadingPath = Path()
+    private val selectedLoadingPath = Path()
+    private val points = mutableListOf<PointF>()
+    private var detailTextLeft = 0F
+    private var detailTextTop = 0F
+    private var detailTextLayout: StaticLayout? = null
 
     private val linePaint = Paint().apply {
         style = Paint.Style.STROKE
@@ -107,18 +120,6 @@ class EcardChartView @JvmOverloads constructor(context: Context, attrs: Attribut
             invalidate()
         }
 
-    private val linePath = Path()
-    private val fillPath = Path()
-    private val pointPath = Path()
-    private val whitePointPath = Path()
-    private val centerPointPath = Path()
-    private val popupBoxPath = Path()
-    private val loadingPath = Path()
-    private val selectedLoadingPath = Path()
-    private val points = mutableListOf<PointF>()
-    private var detailTextLeft = 0F
-    private var detailTextTop = 0F
-    private var detailTextLayout: StaticLayout? = null
 
     private fun computePath() {
         val contentWidth = (width - paddingLeft - paddingRight).toFloat()
@@ -269,7 +270,12 @@ class EcardChartView @JvmOverloads constructor(context: Context, attrs: Attribut
             drawPath(selectedLoadingPath, pointPaint)
 
             points.asSequence().forEachIndexed { index, (x, y) ->
-                drawText(dataWithDetail[index].year, x, height.toFloat(), textPaint)
+                if (index > 0 && index < points.size - 1) {
+                    drawText("${dataWithDetail[index].year.split("/")[1].toInt()}", x, height.toFloat(), textPaint)
+                }
+                if (index >= 1 && points[index - 1].x < 0 && x >= 0) {
+                    viewHolder?.month?.text = "${dataWithDetail[index].year.split("/")[0].toInt()}月"
+                }
             }
             drawPath(popupBoxPath, popupBoxPaint)
             save()
@@ -292,7 +298,8 @@ class EcardChartView @JvmOverloads constructor(context: Context, attrs: Attribut
             MotionEvent.ACTION_MOVE -> {
                 parent.requestDisallowInterceptTouchEvent(true)
                 val moveX = x - downX
-                distanceOfBegin += (moveX / 15)
+                downX = x
+                distanceOfBegin += moveX
             }
         }
 

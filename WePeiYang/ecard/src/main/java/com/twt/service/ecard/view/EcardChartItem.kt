@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
+import android.widget.TextView
 import com.twt.service.ecard.R
 import com.twt.service.ecard.model.EcardLineChartDataBean
 import com.twt.wepeiyang.commons.ui.rec.Item
@@ -34,11 +35,13 @@ class EcardChartItem(val lineChartDataList: List<EcardLineChartDataBean>) : Item
             item as EcardChartItem
             val lineChart = holder.chartView
             lineChart.distanceOfBegin = 0.0
+            lineChart.viewHolder = holder
             item.lineChartDataList.asSequence().map {
                 EcardChartView.DataWithDetail(it.count.toDouble(), "${it.date.substring(4, 6)}/${it.date.substring(6, 8)}")
             }.toList().let {
                 val dataWithDetail = it.toMutableList()
                 dataWithDetail.reverse()
+                holder.month.text = "${dataWithDetail.first().year.split("/")[0].toInt()}天"
                 dataWithDetail.add(0, EcardChartView.DataWithDetail((dataWithDetail[0].data * 2 / 3), " "))
                 dataWithDetail.add(EcardChartView.DataWithDetail((dataWithDetail.last().data * 4 / 3), " "))
                 lineChart.dataWithDetail = dataWithDetail
@@ -47,6 +50,7 @@ class EcardChartItem(val lineChartDataList: List<EcardLineChartDataBean>) : Item
 
         class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             val chartView: EcardChartView = itemView.findViewById(R.id.ecv_chart)
+            val month: TextView = itemView.findViewById(R.id.tv_chart_month)
         }
     }
 }
