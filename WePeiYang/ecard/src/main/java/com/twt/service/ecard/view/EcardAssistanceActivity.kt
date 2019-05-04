@@ -93,7 +93,7 @@ class EcardAssistanceActivity : AppCompatActivity() {
                         }
 
                         assistanceList.toMutableList().filter { it.id == 8 }.forEach {
-                            ecardAssistanceItem(it, true, true)
+                            ecardAssistanceItem(it, isShowChart = true, isShowEnd = true)
                         }
                     }
                     EcardPref.KEY_PROBLEM -> {
@@ -109,7 +109,7 @@ class EcardAssistanceActivity : AppCompatActivity() {
 
                         assistanceList.toMutableList().filter { it.id != 8 }.forEachIndexed { index, problem ->
                             if (index == assistanceList.size - 2) {
-                                ecardAssistanceItem(problem, true)
+                                ecardAssistanceItem(problem, isShowEnd = true)
                             } else {
                                 ecardAssistanceItem(problem)
                             }

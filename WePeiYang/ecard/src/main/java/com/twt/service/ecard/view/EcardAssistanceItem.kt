@@ -10,7 +10,7 @@ import com.twt.service.ecard.model.*
 import com.twt.wepeiyang.commons.ui.rec.*
 import org.jetbrains.anko.layoutInflater
 
-class EcardAssistanceItem(private val problem: ProblemBean, val isShowEnd: Boolean, val isShowChart: Boolean) : Item {
+class EcardAssistanceItem(private val problem: ProblemBean, val isShowText: Boolean, val isShowEnd: Boolean, val isShowChart: Boolean) : Item {
     override val controller: ItemController
         get() = Controller
 
@@ -40,6 +40,7 @@ class EcardAssistanceItem(private val problem: ProblemBean, val isShowEnd: Boole
             holder.apply {
                 title.text = problem.title
                 textOfProblem.text = result
+                contentOfText.visibility = if (item.isShowText) View.VISIBLE else View.GONE
                 end.visibility = if (item.isShowEnd) View.VISIBLE else View.GONE
                 chart.visibility = if (item.isShowChart) View.VISIBLE else View.GONE
             }
@@ -48,10 +49,11 @@ class EcardAssistanceItem(private val problem: ProblemBean, val isShowEnd: Boole
         class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             val title: TextView = itemView.findViewById(R.id.tv_assistance_item_title)
             val textOfProblem: TextView = itemView.findViewById(R.id.tv_assistance_item_content)
+            val contentOfText: ConstraintLayout = itemView.findViewById(R.id.cl_assistance_text)
             val chart: ConstraintLayout = itemView.findViewById(R.id.cl_assistance_position)
             val end: ConstraintLayout = itemView.findViewById(R.id.cl_assistance_item_end)
         }
     }
 }
 
-fun MutableList<Item>.ecardAssistanceItem(problem: ProblemBean, isShowEnd: Boolean = false, isShowChart: Boolean = false) = add(EcardAssistanceItem(problem, isShowEnd, isShowChart))
+fun MutableList<Item>.ecardAssistanceItem(problem: ProblemBean, isShowText: Boolean = true, isShowEnd: Boolean = false, isShowChart: Boolean = false) = add(EcardAssistanceItem(problem, isShowText, isShowEnd, isShowChart))

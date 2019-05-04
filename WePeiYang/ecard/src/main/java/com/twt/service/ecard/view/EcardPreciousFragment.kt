@@ -14,6 +14,7 @@ import com.twt.service.ecard.model.EcardPref
 import com.twt.service.ecard.model.EcardPref.IS_CONSUME
 import com.twt.service.ecard.model.EcardPref.IS_RECHARGE
 import com.twt.service.ecard.model.EcardService
+import com.twt.service.ecard.model.ProblemBean
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import com.twt.wepeiyang.commons.ui.rec.lightText
@@ -137,6 +138,8 @@ class EcardPreciousFragment : Fragment() {
                 ecardChartItem(lineChartHistoryData.reversed().take(EcardPref.ecardHistoryLength))
                 ecardElseItem("消费占比", TypeOfElse.TITLE)
                 ecardProportionalItem(proportionalData)
+                // 这里的ProblemBean就是一个缺省的
+                ecardAssistanceItem(ProblemBean("", "", 0, ""), isShowText = false, isShowEnd = true)
             }
         }
     }
