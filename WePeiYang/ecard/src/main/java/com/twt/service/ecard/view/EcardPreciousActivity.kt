@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
+import android.util.Log
 import android.view.Window
 import android.widget.*
 import com.twt.service.ecard.R
@@ -18,6 +19,7 @@ class EcardPreciousActivity : AppCompatActivity() {
     private lateinit var preFragment: EcardPreciousFragment
     private val listOfTime = mutableListOf(7, 30, 60, 90)
     private lateinit var ecardPagerAdapter: EcardPagerAdapter
+    private var lastSelectedTime = EcardPref.ecardHistoryLength
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,15 +50,24 @@ class EcardPreciousActivity : AppCompatActivity() {
             adapter = ecardPagerAdapter
             addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
                 override fun onPageSelected(position: Int) {
+
                     val ecardPreviousFragment = (adapter as? EcardPagerAdapter)?.getItem(position) as? EcardPreciousFragment
                     when (ecardPreviousFragment?.typeOfPrecious) {
                         EcardPref.PRE_LIST -> {
                             iv_pre_loading_left.setImageResource(R.drawable.ecard_round_loading)
                             iv_pre_loading_right.setImageResource(R.drawable.ecard_round)
+                            if (lastSelectedTime != EcardPref.ecardHistoryLength) {
+                                preFragment.refreshDataForHistory()
+                                lastSelectedTime = EcardPref.ecardHistoryLength
+                            }
                         }
                         EcardPref.PRE_CHART -> {
                             iv_pre_loading_left.setImageResource(R.drawable.ecard_round)
                             iv_pre_loading_right.setImageResource(R.drawable.ecard_round_loading)
+                            if (lastSelectedTime != EcardPref.ecardHistoryLength) {
+                                chartFragment.refreshDataForChart()
+                                lastSelectedTime = EcardPref.ecardHistoryLength
+                            }
                         }
                     }
                 }
@@ -120,5 +131,10 @@ class EcardPreciousActivity : AppCompatActivity() {
             EcardPref.PRE_LIST -> preFragment.refreshDataForHistory()
             EcardPref.PRE_CHART -> chartFragment.refreshDataForChart()
         }
+    }
+
+    private fun refreshAll() {
+        preFragment.refreshDataForHistory()
+        chartFragment.refreshDataForChart()
     }
 }

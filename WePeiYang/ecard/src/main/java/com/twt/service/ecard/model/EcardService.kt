@@ -32,7 +32,7 @@ interface EcardService {
     /**
      * @term: 天数。今日流水就传term=1，查n天内的就是传term=n
      */
-    @GET("/v1/ecard/pieChart")
+    @GET("v1/ecard/pieChart")
     fun getEcardProportionalBarData(@Query("cardnum") cardnum: String = EcardPref.ecardUserName, @Query("password") password: String = EcardPref.ecardPassword, @Query("term") term: Int = 1): Deferred<CommonBody<List<EcardProportionalBarDataBean>>>
 
     // 一共取180天

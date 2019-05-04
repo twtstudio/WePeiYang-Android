@@ -16,11 +16,11 @@ class EcardProportionalItem(val list: List<EcardProportionalBarDataBean>) : Item
         get() = Controller
 
     override fun areContentsTheSame(newItem: Item): Boolean {
-        return list == (newItem as EcardProportionalItem).list
+        return false
     }
 
     override fun areItemsTheSame(newItem: Item): Boolean {
-        return list == (newItem as EcardProportionalItem).list
+        return false
     }
 
     companion object Controller : ItemController {
@@ -34,20 +34,25 @@ class EcardProportionalItem(val list: List<EcardProportionalBarDataBean>) : Item
             holder as ViewHolder
             item as EcardProportionalItem
             val totalList = item.list
+            val a = totalList.filter { it.type == "canteen" }[0].total.toInt()
+            val b = totalList.filter { it.type != "others" }.fold(0) { p, q -> p + q.total.toInt() }
+            val c = totalList.fold(0) { p, q -> p + q.total.toInt() }
+            holder.proportionalBar.apply {
+                max = c
+                progress = a
+                secondaryProgress = b
+            }
 
             totalList.forEach { data ->
                 when (data.type) {
                     "canteen" -> holder.apply {
                         textOfDining.text = "食堂: ${data.total}"
-                        proportionalBar.progress = data.total.toInt()
                     }
                     "supermarket" -> holder.apply {
                         textOfShopping.text = "超市: ${data.total}"
-                        proportionalBar.secondaryProgress = totalList.filter { it.type != "others" }.fold(0) { p, q -> p + q.total.toInt() }
                     }
                     "others" -> holder.apply {
                         textOfElse.text = "其他: ${data.total}"
-                        proportionalBar.max = totalList.fold(0) { p, q -> p + q.total.toInt() }
                     }
                 }
             }
