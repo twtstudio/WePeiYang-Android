@@ -2,6 +2,7 @@ package com.twt.service.ecard.view
 
 import android.support.constraint.ConstraintLayout
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
@@ -41,7 +42,9 @@ class EcardAssistanceItem(private val problem: ProblemBean, val isShowText: Bool
                 title.text = problem.title
                 textOfProblem.text = result
                 contentOfText.visibility = if (item.isShowText) View.VISIBLE else View.GONE
-                end.visibility = if (item.isShowEnd) View.VISIBLE else View.GONE
+                end.visibility = if (item.isShowEnd) {
+                    View.VISIBLE
+                } else View.GONE
                 chart.visibility = if (item.isShowChart) View.VISIBLE else View.GONE
             }
         }

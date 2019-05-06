@@ -27,6 +27,7 @@ class EcardAssistanceActivity : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
     private val itemManager by lazy { recyclerView.withItems(mutableListOf()) }
+    private lateinit var loading: ConstraintLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,15 +45,9 @@ class EcardAssistanceActivity : AppCompatActivity() {
             setNavigationOnClickListener { onBackPressed() }
         }
         val refreshButton: ImageButton = findViewById(R.id.ib_assistance_refresh)
-//        val titleOfAssistance: TextView = findViewById(R.id.tv_assistance_total_title)
         val assistance = intent.getStringExtra(EcardPref.ASSISTANCE_MARK)
-
-//        titleOfAssistance.text = when (assistance) {
-//            EcardPref.KEY_REISSUE -> "补办校园卡流程说明"
-//            EcardPref.KEY_PROBLEM -> "校园卡常见问题"
-//            else -> "加载失败，请退出重试"
-//        }
-
+        loading = findViewById(R.id.cl_assistance_loading)
+        loading.visibility = View.VISIBLE
         recyclerView = findViewById(R.id.rv_assistance_content)
         recyclerView.layoutManager = LinearLayoutManager(this@EcardAssistanceActivity)
 
@@ -64,19 +59,17 @@ class EcardAssistanceActivity : AppCompatActivity() {
     }
 
     private fun loadRecyclerView(assistance: String) {
-        itemManager.refreshAll {
-            lightText("正在加载数据")
-        }
-
+        loading.visibility = View.VISIBLE
+        itemManager.refreshAll { }
         launch(UI + QuietCoroutineExceptionHandler) {
             val list = EcardService.getFQA().awaitAndHandle {
                 it.printStackTrace()
-
+                loading.visibility = View.GONE
                 itemManager.refreshAll {
                     lightText("数据加载失败，请稍后重试")
                 }
             }?.data
-
+            loading.visibility = View.GONE
             val assistanceList = list ?: return@launch
 
             itemManager.refreshAll {
@@ -108,7 +101,7 @@ class EcardAssistanceActivity : AppCompatActivity() {
                         }
 
                         assistanceList.toMutableList().filter { it.id != 8 }.forEachIndexed { index, problem ->
-                            if (index == assistanceList.size - 2) {
+                            if (problem.id == 9) {
                                 ecardAssistanceItem(problem, isShowEnd = true)
                             } else {
                                 ecardAssistanceItem(problem)

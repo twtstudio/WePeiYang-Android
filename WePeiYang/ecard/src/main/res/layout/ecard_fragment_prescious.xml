@@ -14,7 +14,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ProgressBar
-            android:id="@+id/pb_fragment_loading"
+            android:id="@+id/pb_assistance_loading"
             android:layout_width="52dp"
             android:layout_height="17dp"
             android:indeterminate="false"
@@ -31,8 +31,8 @@
             android:text="跪着加载中..."
             android:textColor="@color/ecardTextColor17"
             android:textSize="10sp"
-            app:layout_constraintLeft_toLeftOf="@id/pb_fragment_loading"
-            app:layout_constraintTop_toBottomOf="@id/pb_fragment_loading" />
+            app:layout_constraintLeft_toLeftOf="@id/pb_assistance_loading"
+            app:layout_constraintTop_toBottomOf="@id/pb_assistance_loading" />
 
     </android.support.constraint.ConstraintLayout>
 

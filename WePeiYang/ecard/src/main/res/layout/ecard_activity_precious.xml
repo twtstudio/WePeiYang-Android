@@ -82,7 +82,7 @@
 
         <ImageView
             android:id="@+id/iv_pre_lselect"
-            android:layout_width="16dp"
+            android:layout_width="17dp"
             android:layout_height="13dp"
             android:layout_marginEnd="4dp"
             android:src="@drawable/ecard_time_left"
@@ -92,7 +92,7 @@
 
         <ImageView
             android:id="@+id/iv_pre_rselect"
-            android:layout_width="16dp"
+            android:layout_width="17dp"
             android:layout_height="13dp"
             android:layout_marginStart="4dp"
             android:src="@drawable/ecard_time_right"
