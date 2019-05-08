@@ -101,7 +101,7 @@ class EcardInfoItem : Item {
                         holder.balanceText.text = "校园卡余额：${ecardProfile.balance}"
 
                         try {
-                            holder.todayCostView.text = "今日消费：${totalCost.total_day}元"
+                            holder.todayCostView.text = "今日消费：${String.format("%.2f", totalCost.total_day)}元"
                         } catch (e: NumberFormatException) {
                             e.printStackTrace()
                             holder.todayCostView.text = "你遇到了待解析的特殊数据，多包涵~"

@@ -118,7 +118,7 @@ class EcardTransactionInfoItem : Item {
 
             holder as ViewHolder
             holder.homeItem.apply {
-                itemContent.text = "消费流水"
+                itemContent.text = "更多流水"
                 listOf(imgGo, itemContent).forEach {
                     it.setOnClickListener { view ->
                         view.context.startActivity<EcardMainActivity>()
@@ -144,7 +144,6 @@ class EcardTransactionInfoItem : Item {
                                 }
                                 val list = transactionList.take(4)
                                 list.forEachWithIndex { i, transactionInfo ->
-                                    Log.d("mom", i.toString())
                                     // type = 2 是消费
                                     transactionItem(transactionInfo, (transactionInfo.type == IS_CONSUME), (i < list.size - 1))
                                 }

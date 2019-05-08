@@ -56,7 +56,8 @@ data class EcardProfileBean(
 // 每日 + 每月 总消费
 data class EcardTotalConsumptionBean(
         val total_day: Double,
-        val total_month: Double
+        val total_month: Double,
+        val total_30_days: Double
 )
 
 /**
