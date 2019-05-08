@@ -308,13 +308,15 @@ class EcardChartView @JvmOverloads constructor(context: Context, attrs: Attribut
 
     private inline fun checkClickOnPoint(x: Float, y: Float, callback: (Int) -> Unit) {
         points.forEachIndexed { index, (px, py) ->
-            val dx = x - px
-            val dy = y - py
-            val d2 = dx * dx + dy * dy
-            // expand area of click on point
-            if (d2 < POINT_RADIUS * POINT_RADIUS * 4) {
-                callback(index)
-                playSoundEffect(SoundEffectConstants.CLICK)
+            if (index > 0 && index < points.size - 1) {
+                val dx = x - px
+                val dy = y - py
+                val d2 = dx * dx + dy * dy
+                // expand area of click on point
+                if (d2 < POINT_RADIUS * POINT_RADIUS * 4) {
+                    callback(index)
+                    playSoundEffect(SoundEffectConstants.CLICK)
+                }
             }
         }
         performClick()
