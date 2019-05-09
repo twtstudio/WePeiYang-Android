@@ -142,5 +142,4 @@ class HomeNewActivity : AppCompatActivity() {
             rec.scrollToPosition(0)
         }
     }
-
 }
