@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guidelineBegin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <TextView
+        android:id="@+id/tv_chart_consume"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="25dp"
+        android:fontFamily="@font/montserrat_regular"
+        android:textColor="@color/ecardTextColor9"
+        android:textSize="12sp"
+        app:layout_constraintRight_toLeftOf="@+id/guidelineBegin"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="共计：2501元" />
+
+    <TextView
+        android:id="@+id/tv_chart_recharge"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:fontFamily="@font/montserrat_regular"
+        android:textColor="@color/ecardTextColor9"
+        android:layout_marginStart="25dp"
+        android:textSize="12sp"
+        app:layout_constraintLeft_toRightOf="@+id/guidelineBegin"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="充值：2500元" />
+
+</android.support.constraint.ConstraintLayout>

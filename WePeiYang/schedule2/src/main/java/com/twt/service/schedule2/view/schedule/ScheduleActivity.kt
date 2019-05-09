@@ -71,6 +71,25 @@ class ScheduleActivity : CAppCompatActivity() {
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
 
+        if (intent != null && intent.data != null) {
+            val uri = intent.data
+            if (uri != null) {
+                // 完整的url信息
+                val url = uri.toString()
+                // scheme部分
+                val scheme = uri.scheme
+                // host部分
+                val host = uri.host
+                //port部分
+                val port = uri.port
+                // 访问路劲
+                val path = uri.path
+                // Query部分
+                val query = uri.query
+                //获取指定参数值
+                val param1 = uri.getQueryParameter("param1")
+            }
+        }
         val frameLayout = findViewById<FrameLayout>(R.id.fl_container)
 
         val view = frameLayout.textView {
@@ -84,7 +103,7 @@ class ScheduleActivity : CAppCompatActivity() {
 
         intent.apply {
             val from: String? = getStringExtra("from")
-            when(from) {
+            when (from) {
                 "Widget" -> mtaExpose("schedule_从小部件进入课程表")
                 "AppShortCut" -> mtaExpose("schedule_从AppShortCut进入课程表")
                 "HomeItem" -> mtaExpose("schedule_从主页列表进入课程表")

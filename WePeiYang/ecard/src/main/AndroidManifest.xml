@@ -1,7 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.twt.service.ecard" >
+    package="com.twt.service.ecard">
+
     <application>
-        <activity android:name=".view.EcardLoginActivity"/>
-        <activity android:name=".view.EcardPreviousActivity"/>
+        <activity android:name=".view.EcardAssistanceActivity" />
+        <activity android:name=".view.EcardLoginActivity" />
+        <activity android:name=".view.EcardPreciousActivity" />
+        <activity android:name=".view.EcardMainActivity" />
     </application>
+
 </manifest>

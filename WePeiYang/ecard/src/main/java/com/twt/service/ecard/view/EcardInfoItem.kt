@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import com.twt.service.ecard.R
 import com.twt.service.ecard.model.*
@@ -22,6 +23,7 @@ import com.twt.wepeiyang.commons.ui.rec.ItemController
 import com.twt.wepeiyang.commons.ui.text.spanned
 import org.jetbrains.anko.*
 import java.lang.NumberFormatException
+import java.text.DecimalFormat
 import kotlin.properties.Delegates
 
 class EcardInfoItem : Item {
@@ -96,13 +98,10 @@ class EcardInfoItem : Item {
             LiveEcardManager.getEcardLiveData().observeForever { eCardRefreshState ->
                 when (eCardRefreshState) {
                     is RefreshState.Success -> eCardRefreshState.message.apply {
-                        holder.balanceText.text = "校园卡余额：${personInfo.balance}"
+                        holder.balanceText.text = "校园卡余额：${ecardProfile.balance}"
 
                         try {
-                            val todayCostLocal = transactionInfoList.today().fold(0f) { prev: Float, transactionInfo: TransactionInfo ->
-                                prev + transactionInfo.amount.toFloat()
-                            } // 因为曹浩那个是从折线图取的 有bug fu了
-                            holder.todayCostView.text = "今日消费：${todayCostLocal}元"
+                            holder.todayCostView.text = "今日消费：${String.format("%.2f", totalCost.total_day)}元"
                         } catch (e: NumberFormatException) {
                             e.printStackTrace()
                             holder.todayCostView.text = "你遇到了待解析的特殊数据，多包涵~"
@@ -112,7 +111,7 @@ class EcardInfoItem : Item {
                             holder.stateText.text = "校园卡数据拉取成功，点击刷新"
                         }
                         holder.rootView.setOnClickListener {
-                            val infoPop = ECardInfoPop(it.context, personInfo, todayCost)
+                            val infoPop = ECardInfoPop(it.context, ecardProfile, this.totalCost.total_day.toFloat())
                             infoPop.show()
                             mtaClick("ecard_点击查看校园卡详情_顶部PopWindow")
                         }
@@ -136,3 +135,59 @@ class EcardInfoItem : Item {
 }
 
 fun MutableList<Item>.ecardInfoItem() = add(EcardInfoItem())
+
+class EcardPersonInfoItem(val ecardProfile: EcardProfileBean, val ecardTotalConsumption: EcardTotalConsumptionBean) : Item {
+    override val controller: ItemController
+        get() = Controller
+
+    override fun areItemsTheSame(newItem: Item): Boolean = true
+    override fun areContentsTheSame(newItem: Item): Boolean = true
+
+    companion object Controller : ItemController {
+        override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
+            val view = parent.context.layoutInflater.inflate(R.layout.ecard_item_profile, parent, false)
+
+            return ViewHolder(view)
+        }
+
+        override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: Item) {
+            holder as ViewHolder
+            item as EcardPersonInfoItem
+            val ecardProfile = item.ecardProfile
+            val ecardTotalConsumption = item.ecardTotalConsumption
+
+            holder.apply {
+                cardNum.text = ecardProfile.cardnum
+                name.text = ecardProfile.name
+                balance.text = "￥" + ecardProfile.balance.split("元")[0]
+                todayConsume.text = "￥${String.format("%.2f", ecardTotalConsumption.total_day)}"
+                monthConsume.text = "￥${String.format("%.2f", ecardTotalConsumption.total_month)}"
+
+                if (ecardTotalConsumption.total_day >= 50) {
+                    crownOfDay.visibility = View.VISIBLE
+                }
+
+                if (ecardTotalConsumption.total_month >= 2500) {
+                    crownOfMonth.visibility = View.VISIBLE
+                }
+
+                if (ecardProfile.balance.split("元")[0].toFloat() <= 20L) {
+                    warning.visibility = View.VISIBLE
+                }
+            }
+        }
+
+        class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+            val cardNum: TextView = itemView.findViewById(R.id.tv_profile_number)
+            val name: TextView = itemView.findViewById(R.id.tv_profile_name)
+            val balance: TextView = itemView.findViewById(R.id.tv_profile_balance)
+            val crownOfMonth: ImageView = itemView.findViewById(R.id.iv_profile_month_crown)
+            val crownOfDay: ImageView = itemView.findViewById(R.id.iv_profile_day_crown)
+            val todayConsume: TextView = itemView.findViewById(R.id.tv_profile_comsume_today)
+            val monthConsume: TextView = itemView.findViewById(R.id.tv_profile_consume_month)
+            val warning: TextView = itemView.findViewById(R.id.tv_profile_warning)
+        }
+    }
+}
+
+fun MutableList<Item>.ecardPersonInfoItem(ecardProfile: EcardProfileBean, ecardTotalConsumption: EcardTotalConsumptionBean) = add(EcardPersonInfoItem(ecardProfile, ecardTotalConsumption))

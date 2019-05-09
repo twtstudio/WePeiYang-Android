@@ -3,44 +3,64 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingStart="16dp"
-    android:paddingTop="6dp"
-    android:paddingEnd="16dp"
-    android:paddingBottom="6dp">
+    android:layout_height="wrap_content">
 
+    <View
+        android:id="@+id/v_transaction_line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/ecardTextColor13"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <ImageView
+        android:id="@+id/iv_transaction_pic"
+        android:layout_width="25dp"
+        android:layout_height="26dp"
+        android:layout_marginStart="10dp"
+        app:layout_constraintBottom_toTopOf="@id/v_transaction_line"
+        app:layout_constraintLeft_toLeftOf="@id/v_transaction_line"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:background="@drawable/ecard_dining_hall" />
 
     <TextView
         android:id="@+id/tv_transaction_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/montserrat_regular"
-        android:textColor="@color/black_color"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="19dp"
+        android:layout_marginTop="9dp"
+        android:fontFamily="@font/montserrat_light"
+        android:textColor="@color/ecardTextColor1"
+        android:textSize="14sp"
+        app:layout_constraintLeft_toRightOf="@id/iv_transaction_pic"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_goneMarginStart="19dp"
         tools:text="学一食堂1层-017" />
-
-
-    <ImageView
-        android:id="@+id/img_transaction"
-        android:layout_width="24dp"
-        android:layout_height="20dp"
-        android:layout_marginTop="4dp"
-        android:src="@drawable/ecard_balance_down2"
-        app:layout_constraintTop_toBottomOf="@id/tv_transaction_title" />
 
     <TextView
         android:id="@+id/tv_transaction_detail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="10dp"
+        android:fontFamily="@font/montserrat_light"
+        android:textColor="@color/ecardTextColor5"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@id/v_transaction_line"
+        app:layout_constraintLeft_toLeftOf="@id/tv_transaction_title"
+        app:layout_constraintTop_toBottomOf="@id/tv_transaction_title"
+        tools:text="POS机消费 | 8-23 11:30" />
+
+    <TextView
+        android:id="@+id/tv_transaction_cost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:fontFamily="@font/montserrat_regular"
-        android:textColor="@color/black_color"
+        android:textColor="@color/ecardTextColor6"
         android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="@id/img_transaction"
-        app:layout_constraintStart_toEndOf="@id/img_transaction"
-        tools:text="POS: -5.00" />
+        app:layout_constraintBottom_toBottomOf="@id/v_transaction_line"
+        app:layout_constraintRight_toRightOf="@id/v_transaction_line"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="-5.0" />
 
 
 </android.support.constraint.ConstraintLayout>

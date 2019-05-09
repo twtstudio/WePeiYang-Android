@@ -101,37 +101,37 @@ internal fun fetchPersonInfo(): ECardPersonInfo {
 /**
  * 获取交易记录 30天
  */
-internal fun fetchHistory(): List<TransactionInfo> {
-
-    val requestBody = FormBody.Builder()
-            .add("_transDtl_WAR_ecardportlet_qdate", "30") // 查多少天 目前只能查40以内 否则会报错
-            .add("_transDtl_WAR_ecardportlet_qtype", "2")
-            .add("_transDtl_WAR_ecardportlet_cur", "1") // page num 分页加载
-            .add("_transDtl_WAR_ecardportlet_delta", "1000") // 一页包含的量 给他一个1k 就不需要分页了
-            .build()
-
-    val request = Request.Builder()
-            .url("http://$ECARD_BASE_URL/web/guest/personal?p_p_id=transDtl_WAR_ecardportlet&p_p_lifecycle=0&p_p_state=exclusive&p_p_mode=view&p_p_col_id=column-4&p_p_col_count=1&_transDtl_WAR_ecardportlet_action=dtlmoreview")
-            .post(requestBody)
-            .build()
-
-    val response = client.newCall(request).execute()
-    val body = response.body()?.string() ?: ""
-    val rootDocument = Jsoup.parse(body)
-    val trs = rootDocument.select(".trade_table").select("tbody").select("tr")
-    if (trs[0].text().contains("交易日期")) {
-        trs.removeAt(0)
-    }
-    val infoList = mutableListOf<TransactionInfo>()
-    trs.forEach {
-        val data = it.text().split(" ")
-        if (data.size == 5) {
-            infoList.add(TransactionInfo(date = data[0], time = data[1], location = data[2], amount = data[3], balance = data[4]))
-        }
-    }
-    println(infoList)
-    return infoList
-}
+//internal fun fetchHistory(): List<TransactionInfo> {
+//
+//    val requestBody = FormBody.Builder()
+//            .add("_transDtl_WAR_ecardportlet_qdate", "30") // 查多少天 目前只能查40以内 否则会报错
+//            .add("_transDtl_WAR_ecardportlet_qtype", "2")
+//            .add("_transDtl_WAR_ecardportlet_cur", "1") // page num 分页加载
+//            .add("_transDtl_WAR_ecardportlet_delta", "1000") // 一页包含的量 给他一个1k 就不需要分页了
+//            .build()
+//
+//    val request = Request.Builder()
+//            .url("http://$ECARD_BASE_URL/web/guest/personal?p_p_id=transDtl_WAR_ecardportlet&p_p_lifecycle=0&p_p_state=exclusive&p_p_mode=view&p_p_col_id=column-4&p_p_col_count=1&_transDtl_WAR_ecardportlet_action=dtlmoreview")
+//            .post(requestBody)
+//            .build()
+//
+//    val response = client.newCall(request).execute()
+//    val body = response.body()?.string() ?: ""
+//    val rootDocument = Jsoup.parse(body)
+//    val trs = rootDocument.select(".trade_table").select("tbody").select("tr")
+//    if (trs[0].text().contains("交易日期")) {
+//        trs.removeAt(0)
+//    }
+//    val infoList = mutableListOf<TransactionInfo>()
+//    trs.forEach {
+//        val data = it.text().split(" ")
+//        if (data.size == 5) {
+//            infoList.add(TransactionInfo(date = data[0], time = data[1], location = data[2], amount = data[3], balance = data[4]))
+//        }
+//    }
+//    println(infoList)
+//    return infoList
+//}
 
 fun List<TransactionInfo>.today(): List<TransactionInfo> {
     val dateFormat = SimpleDateFormat("yyyyMMdd")

@@ -1,8 +1,6 @@
 package com.twt.service.ecard.model
 
-import android.arch.lifecycle.MediatorLiveData
 import android.arch.lifecycle.MutableLiveData
-import com.google.gson.annotations.Expose
 import com.twt.wepeiyang.commons.experimental.network.CommonBody
 import com.twt.wepeiyang.commons.experimental.network.ServiceFactory
 import kotlinx.coroutines.experimental.Deferred
@@ -20,29 +18,79 @@ interface EcardService {
     fun getEcardProfile(@Query("cardnum") cardnum: String = EcardPref.ecardUserName, @Query("password") password: String = EcardPref.ecardPassword): Deferred<CommonBody<EcardProfileBean>>
 
     /**
-     * @type: 1 -> 充值查询 2 -> 消费查询
      * @day: 查多少天的数据 超出饭卡补办期会导致异常
      */
-    @GET("v1/ecard/transaction")
-    fun getEcardTransaction(@Query("cardnum") cardnum: String = EcardPref.ecardUserName, @Query("password") password: String = EcardPref.ecardPassword, @Query("day") day: Int = 2, @Query("type") type: Int = 2): Deferred<CommonBody<TransactionListWrapper>>
+    @GET("v1/ecard/turnover")
+    fun getEcardTransaction(@Query("cardnum") cardnum: String = EcardPref.ecardUserName, @Query("password") password: String = EcardPref.ecardPassword, @Query("term") term: Int = 2): Deferred<CommonBody<List<TransactionInfo>>>
+
+    @GET("v1/ecard/total")
+    fun getEcardTotalConsumption(@Query("cardnum") cardnum: String = EcardPref.ecardUserName, @Query("password") password: String = EcardPref.ecardPassword): Deferred<CommonBody<EcardTotalConsumptionBean>>
+
+    @GET("v1/ecard/QA")
+    fun getFQA(): Deferred<CommonBody<List<ProblemBean>>>
+
+    /**
+     * @term: 天数。今日流水就传term=1，查n天内的就是传term=n
+     */
+    @GET("v1/ecard/pieChart")
+    fun getEcardProportionalBarData(@Query("cardnum") cardnum: String = EcardPref.ecardUserName, @Query("password") password: String = EcardPref.ecardPassword, @Query("term") term: Int = 1): Deferred<CommonBody<List<EcardProportionalBarDataBean>>>
+
+    // 一共取180天
+    @GET("v1/ecard/lineChart")
+    fun getEcardLineChartData(@Query("cardnum") cardnum: String = EcardPref.ecardUserName, @Query("password") password: String = EcardPref.ecardPassword): Deferred<CommonBody<List<EcardLineChartDataBean>>>
 
     companion object : EcardService by ServiceFactory()
 }
 
+// 个人详情
 data class EcardProfileBean(
-        val balance: String,
+        val name: String,
+        val balance: String, // 余额
         val cardnum: String,
         val cardstatus: String,
-        val expiry: String,
-        val subsidy: String,
+        val expiry: String, // 学生卡到期时间
+        val subsidy: String, // 补助
         val amount: String
 )
 
-data class TransactionListWrapper(val transaction: List<TransactionInfo>)
+// 每日 + 每月 总消费
+data class EcardTotalConsumptionBean(
+        val total_day: Double,
+        val total_month: Double,
+        val total_30_days: Double
+)
 
-fun EcardProfileBean.castToECardPersonInfo() = ECardPersonInfo(number = cardnum, status = cardstatus, balance = balance, validityPeriod = expiry, notReceivedMoney = subsidy)
+/**
+ * type = 1 是充值, 2 是消费
+ *
+ * sub_type = "食堂" , "其它", "超市", "充值"
+ */
+data class TransactionInfo(
+        val amount: String,
+        val balance: String,
+        val date: String,
+        val location: String,
+        val sub_type: String,
+        val time: String,
+        val type: Int
+)
 
-data class TransactionInfo(val date: String, val time: String, val location: String, val amount: String, val balance: String, @Expose(serialize = false, deserialize = false) var isCost: Boolean? = true)
+data class ProblemBean(
+        val content: String,
+        val date: String,
+        val id: Int,
+        val title: String
+)
+
+data class EcardProportionalBarDataBean(
+        val total: Double,
+        val type: String
+)
+
+data class EcardLineChartDataBean(
+        val count: String,
+        val date: String
+)
 
 var isBindECardBoolean = EcardPref.ecardUserName != "*" && EcardPref.ecardUserName != "" && EcardPref.ecardPassword != "*" && EcardPref.ecardPassword != ""
 

@@ -7,6 +7,17 @@
             android:name=".view.schedule.ScheduleActivity"
             android:exported="true">
             <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data
+                    android:host="wpy.tju.edu.cn"
+                    android:pathPrefix="/startschedule"
+                    android:scheme="twtstudio" />
+            </intent-filter>
+            <intent-filter>
                 <action android:name="com.twt.schedule.action.DYNAMIC_OPEN" />
 
                 <category android:name="android.intent.category.DEFAULT" />

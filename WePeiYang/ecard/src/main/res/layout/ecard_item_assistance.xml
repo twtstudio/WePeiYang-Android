@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="8dp"
+    android:orientation="vertical">
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/cl_assistance_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/iv_assistance_item_mark"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/ecard_question_mark"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_assistance_item_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_regular"
+            android:layout_marginStart="1dp"
+            android:textColor="@color/ecardTextColor9"
+            android:layout_marginTop="7dp"
+            android:textSize="14sp"
+            app:layout_constraintLeft_toRightOf="@id/iv_assistance_item_mark"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="补办新卡后原来卡上的钱怎么办？ " />
+
+        <TextView
+            android:id="@+id/tv_assistance_item_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/montserrat_regular"
+            android:lineSpacingExtra="5sp"
+            android:textColor="@color/ecardTextColor12"
+            android:textSize="12sp"
+            app:layout_constraintLeft_toLeftOf="@id/iv_assistance_item_mark"
+            app:layout_constraintTop_toBottomOf="@id/tv_assistance_item_title"
+            tools:text="补办新卡后，原来卡上的余额自卡挂失之日起 3 日后可转移到新卡上。 \n转移方法：在校园卡服务终端主界面点击“校园卡务”，登录后在左侧菜单点击“余额转 移”，按提示操作。 \n注：原卡小钱包的余额会在转移时退回到主钱包，需要使用小钱包功能的，请重新向小 钱包转账。 " />
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/cl_assistance_position"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="23dp">
+
+        <ImageView
+            android:id="@+id/iv_assistance_position_mark"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/ecard_position"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_assistance_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="服务网点"
+            android:textColor="@color/ecardTextColor6"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="@id/iv_assistance_position_mark"
+            app:layout_constraintLeft_toRightOf="@id/iv_assistance_position_mark"
+            app:layout_constraintTop_toTopOf="@id/iv_assistance_position_mark" />
+
+        <View
+            android:id="@+id/v_assistance_card"
+            android:layout_width="19dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/ecardChartColor1"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_assistance_position_mark" />
+
+        <ImageView
+            android:layout_width="13dp"
+            android:layout_height="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="4dp"
+            android:src="@drawable/ecard_assistance_card"
+            app:layout_constraintRight_toRightOf="@id/v_assistance_card"
+            app:layout_constraintTop_toTopOf="@id/v_assistance_card" />
+
+        <TextView
+            android:id="@+id/tv_assistance_beiyangyuan"
+            android:layout_width="141dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="2dp"
+            android:background="@color/ecardThemeColor"
+            android:gravity="center"
+            android:text="北洋园校园卡中心"
+            android:textColor="@color/ecardTextColor1"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@id/v_assistance_card"
+            app:layout_constraintLeft_toRightOf="@id/v_assistance_card"
+            app:layout_constraintTop_toTopOf="@id/v_assistance_card" />
+
+        <TextView
+            android:id="@+id/tv_assistance_weijinlu"
+            android:layout_width="141dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="2dp"
+            android:background="@color/ecardThemeColor"
+            android:gravity="center"
+            android:text="卫津路校园卡中心"
+            android:textColor="@color/ecardTextColor1"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@id/v_assistance_card"
+            app:layout_constraintLeft_toRightOf="@id/tv_assistance_beiyangyuan"
+            app:layout_constraintTop_toTopOf="@id/v_assistance_card" />
+
+        <TextView
+            android:id="@+id/tv_assistance_place"
+            android:layout_width="0dp"
+            android:layout_height="61dp"
+            android:layout_marginTop="2dp"
+            android:background="@color/ecardThemeColor"
+            android:ems="1"
+            android:gravity="center"
+            android:text="地点"
+            android:textColor="@color/ecardTextColor1"
+            android:textSize="12sp"
+            app:layout_constraintLeft_toLeftOf="@id/v_assistance_card"
+            app:layout_constraintRight_toRightOf="@id/v_assistance_card"
+            app:layout_constraintTop_toBottomOf="@id/v_assistance_card" />
+
+
+        <TextView
+            android:id="@+id/tv_assistance_beiyangyuan_place"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/ecardChartColor1"
+            android:fontFamily="@font/montserrat_light"
+            android:gravity="center"
+            android:text="1895 行政服务中心\n综合服务大厅\n 1-4 号窗口 "
+            android:textColor="@color/ecardTextColor1"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@id/tv_assistance_place"
+            app:layout_constraintLeft_toLeftOf="@id/tv_assistance_beiyangyuan"
+            app:layout_constraintRight_toRightOf="@id/tv_assistance_beiyangyuan"
+            app:layout_constraintTop_toTopOf="@id/tv_assistance_place" />
+
+        <TextView
+            android:id="@+id/tv_assistance_weijinlu_place"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/ecardChartColor1"
+            android:fontFamily="@font/montserrat_light"
+            android:gravity="center"
+            android:text="会议楼综合服务大厅\n 11 号窗口 "
+            android:textColor="@color/ecardTextColor1"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@id/tv_assistance_place"
+            app:layout_constraintLeft_toLeftOf="@id/tv_assistance_weijinlu"
+            app:layout_constraintRight_toRightOf="@id/tv_assistance_weijinlu"
+            app:layout_constraintTop_toTopOf="@id/tv_assistance_place" />
+
+        <TextView
+            android:id="@+id/tv_assistance_time"
+            android:layout_width="0dp"
+            android:layout_height="123dp"
+            android:layout_marginTop="2dp"
+            android:background="@color/ecardThemeColor"
+            android:gravity="center"
+            android:text="对外服务时间"
+            android:textColor="@color/ecardTextColor1"
+            android:textSize="12sp"
+            app:layout_constraintLeft_toLeftOf="@id/v_assistance_card"
+            app:layout_constraintRight_toRightOf="@id/v_assistance_card"
+            app:layout_constraintTop_toBottomOf="@id/tv_assistance_place" />
+
+        <TextView
+            android:id="@+id/tv_assistance_time_mtot_mark"
+            android:layout_width="49dp"
+            android:layout_height="33dp"
+            android:background="@color/ecardChartColor2"
+            android:fontFamily="@font/montserrat_light"
+            android:gravity="center"
+            android:text="周一至\n周四"
+            android:textColor="@color/ecardTextColor1"
+            android:textSize="12sp"
+            app:layout_constraintLeft_toLeftOf="@id/tv_assistance_beiyangyuan"
+            app:layout_constraintTop_toTopOf="@id/tv_assistance_time" />
+
+        <TextView
+            android:id="@+id/tv_assistance_time_mtot"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="2dp"
+            android:background="@color/ecardChartColor1"
+            android:fontFamily="@font/montserrat_light"
+            android:gravity="center"
+            android:text="8:30--12:00，13:00--16:30"
+            android:textColor="@color/ecardTextColor1"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@id/tv_assistance_time_mtot_mark"
+            app:layout_constraintLeft_toRightOf="@id/tv_assistance_time_mtot_mark"
+            app:layout_constraintRight_toRightOf="@id/tv_assistance_weijinlu"
+            app:layout_constraintTop_toTopOf="@id/tv_assistance_time_mtot_mark" />
+
+        <TextView
+            android:id="@+id/tv_assistance_time_fri_mark"
+            android:layout_width="0dp"
+            android:layout_height="37dp"
+            android:layout_marginTop="2dp"
+            android:background="@color/ecardChartColor2"
+            android:fontFamily="@font/montserrat_light"
+            android:gravity="center"
+            android:text="周五"
+            android:textColor="@color/ecardTextColor1"
+            android:textSize="12dp"
+            app:layout_constraintLeft_toLeftOf="@id/tv_assistance_time_mtot_mark"
+            app:layout_constraintRight_toRightOf="@id/tv_assistance_time_mtot_mark"
+            app:layout_constraintTop_toBottomOf="@id/tv_assistance_time_mtot_mark" />
+
+        <TextView
+            android:id="@+id/tv_assistance_beiyangyuan_time_fri"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/ecardChartColor1"
+            android:fontFamily="@font/montserrat_light"
+            android:gravity="center"
+            android:text="8:30--12:00\n 13:00--14:00 "
+            android:textColor="@color/ecardTextColor1"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@id/tv_assistance_time_fri_mark"
+            app:layout_constraintLeft_toLeftOf="@id/tv_assistance_time_mtot"
+            app:layout_constraintRight_toRightOf="@id/tv_assistance_beiyangyuan"
+            app:layout_constraintTop_toTopOf="@id/tv_assistance_time_fri_mark" />
+
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/ecardChartColor1"
+            android:fontFamily="@font/montserrat_light"
+            android:gravity="center"
+            android:text="8:30--12:00"
+            android:textColor="@color/ecardTextColor1"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@id/tv_assistance_time_fri_mark"
+            app:layout_constraintLeft_toLeftOf="@id/tv_assistance_weijinlu"
+            app:layout_constraintRight_toRightOf="@id/tv_assistance_weijinlu"
+            app:layout_constraintTop_toTopOf="@id/tv_assistance_time_fri_mark" />
+
+        <TextView
+            android:id="@+id/tv_assistance_beiyangyuan_tip"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/ecardChartColor1"
+            android:fontFamily="@font/montserrat_light"
+            android:gravity="center"
+            android:text="其中办卡、补卡、充值\n等涉及现金的业务截止\n 16:00 "
+            android:textColor="@color/ecardTextColor1"
+            android:textSize="12dp"
+            app:layout_constraintBottom_toBottomOf="@id/tv_assistance_time"
+            app:layout_constraintLeft_toLeftOf="@id/tv_assistance_beiyangyuan"
+            app:layout_constraintRight_toRightOf="@id/tv_assistance_beiyangyuan"
+            app:layout_constraintTop_toBottomOf="@+id/tv_assistance_time_fri_mark" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/ecardChartColor1"
+            android:fontFamily="@font/montserrat_light"
+            android:gravity="center"
+            android:text="其中办卡、补卡、充值等涉及现金的业务截止 11:30 "
+            android:textColor="@color/ecardTextColor1"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@id/tv_assistance_beiyangyuan_tip"
+            app:layout_constraintLeft_toLeftOf="@id/tv_assistance_weijinlu"
+            app:layout_constraintRight_toRightOf="@id/tv_assistance_weijinlu"
+            app:layout_constraintTop_toTopOf="@id/tv_assistance_beiyangyuan_tip" />
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/cl_assistance_item_end"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:layout_marginBottom="20dp">
+
+        <TextView
+            android:id="@+id/tv_assistance_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_regular"
+            android:text="微北洋 - 校园卡"
+            android:textColor="@color/ecardTextColor11"
+            android:textSize="9sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginEnd="9dp"
+            android:layout_marginStart="15dp"
+            android:background="@color/ecardTextColor11"
+            app:layout_constraintBottom_toBottomOf="@id/tv_assistance_label"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/tv_assistance_label"
+            app:layout_constraintTop_toTopOf="@id/tv_assistance_label" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginStart="9dp"
+            android:layout_marginEnd="15dp"
+            android:background="@color/ecardTextColor11"
+            app:layout_constraintBottom_toBottomOf="@id/tv_assistance_label"
+            app:layout_constraintLeft_toRightOf="@id/tv_assistance_label"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_assistance_label" />
+
+    </android.support.constraint.ConstraintLayout>
+</LinearLayout>

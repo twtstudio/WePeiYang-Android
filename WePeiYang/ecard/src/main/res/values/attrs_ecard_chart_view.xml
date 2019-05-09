@@ -1,0 +1,12 @@
+<resources>
+    <attr name="lineColor" format="color" />
+    <attr name="fillColor" format="color" />
+    <attr name="pointColor" format="color" />
+    <attr name="textColor" format="color" />
+
+    <declare-styleable name="EcardChartView">
+        <attr name="lineColor" />
+        <attr name="fillColor" />
+        <attr name="pointColor" />
+    </declare-styleable>
+</resources>
