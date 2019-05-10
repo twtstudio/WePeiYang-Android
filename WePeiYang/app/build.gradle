@@ -21,7 +21,6 @@ android {
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
 
         multiDexEnabled true
-
         ndk {
             abiFilters 'armeabi', 'x86'
         }
@@ -51,7 +50,10 @@ android {
                 //AP6CS8KKB77P 属于应用"微北洋"独有的 Android AppKey, 用于配置SDK
                 MTA_APPKEY : "AP6CS8KKB77P",
                 //标注应用推广渠道用以区分新用户来源，可填写如应用宝，豌豆荚等
-                MTA_CHANNEL: "全渠道"
+                MTA_CHANNEL: "全渠道",
+                GETUI_APP_ID : "ADDDDnkJDp5mcUoRcbx4D5",
+                GETUI_APP_KEY : "4oENrHh96aAjOpHkK4TUi5",
+                GETUI_APP_SECRET : "vTEABKKRKK8U5FB2gdU3e8"
         ]
     }
 
@@ -128,7 +130,7 @@ dependencies {
     ['lifecycle-compiler', 'butterknife-compiler'].each {
         annotationProcessor dependenciesMap[it]
     }
-
+    implementation 'com.getui:sdk:2.12.5.0'
     implementation 'com.github.mukeshsolanki:MarkdownView-Android:1.0.3'
     implementation 'com.prolificinteractive:material-calendarview:1.4.3'
     implementation 'agency.tango.android:material-intro-screen:0.0.5'

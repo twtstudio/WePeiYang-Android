@@ -19,14 +19,19 @@
     <uses-permission android:name="android.permission.VIBRATE" />
 
     <!--日历同步-->
-    <!--<uses-permission android:name="android.permission.READ_CALENDAR" />-->
-    <!--<uses-permission android:name="android.permission.WRITE_CALENDAR" />-->
+    <uses-permission android:name="android.permission.READ_CALENDAR" />
+    <uses-permission android:name="android.permission.WRITE_CALENDAR" />
 
 
     <!--友盟需要的一些权限-->
-    <!--<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />-->
-    <!--<uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />-->
-
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+    <!-- iBeancon功能所需权限 -->
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+    <!-- 个推3.0电子围栏功能所需权限 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <!--上网功能的权限-->
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
@@ -34,16 +39,17 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
-    <application
+    <application android:usesCleartextTraffic="true"
         android:name=".WePeiYangApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:label="@string/app_name"
         android:largeHeap="true"
-        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:ignore="GoogleAppIndexingWarning">
+        tools:ignore="GoogleAppIndexingWarning"
+        tools:targetApi="m">
 
         <activity
             android:name=".home.HomeNewActivity"
@@ -54,7 +60,7 @@
 
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="d2d29ff7e7bef685451725cc52f2683f" />
+            android:value="d2d29ff7e7bef685451725cc52f2683f"/>
 
         <activity
             android:name=".settings.SettingsActivity"
@@ -67,9 +73,9 @@
             android:exported="true"
             android:theme="@style/Splash">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
 
             <intent-filter>
@@ -87,11 +93,9 @@
         <activity
             android:name="com.tencent.bugly.beta.ui.BetaActivity"
             android:theme="@android:style/Theme.Translucent" />
-        <activity android:name=".settings.DevTalkActivity" />
+        <activity android:name=".settings.DevTalkActivity"/>
 
         <activity android:name=".settings.SingleBindActivity" />
-        <activity android:name=".news.NewsActivity" />
-
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.twt.service.fileProvider"
@@ -99,7 +103,7 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/provider_paths" />
+                android:resource="@xml/provider_paths"/>
         </provider>
 
         <receiver
@@ -109,7 +113,7 @@
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
             <intent-filter>
-                <action android:name="com.twt.appwidget.refresh" />
+                <action android:name="com.twt.appwidget.refresh"/>
             </intent-filter>
 
             <meta-data
@@ -121,11 +125,17 @@
             android:name=".widget.WidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
 
-        <service android:name=".push.DebugProxyService" />
-
+        <service android:name=".push.DebugProxyService"/>
+        <service
+            android:name=".home.message.MessagePushService"
+            android:exported="true"
+            android:label="PushService"
+            android:process=":pushservice" />
+        <service android:name=".home.message.MessageIntentService" />
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="561cae6ae0f55abd990035bf"></meta-data>
+            android:value="561cae6ae0f55abd990035bf" >
+        </meta-data>
     </application>
 
 </manifest>

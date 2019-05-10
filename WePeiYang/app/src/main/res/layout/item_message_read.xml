@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_marginTop="8dp"
+    android:layout_height="match_parent">
+    <ImageView
+        android:layout_width="22dp"
+        android:layout_height="22dp"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="3dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/message_read_text"
+        app:layout_constraintEnd_toStartOf="@id/message_read_text"
+        android:src="@drawable/history"
+        android:id="@+id/message_ic_history"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="32dp"
+        android:id="@+id/message_read_text"
+        android:text="已读消息"
+        app:layout_constraintStart_toEndOf="@id/message_ic_history"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="3dp"
+        android:layout_marginStart="6dp"
+        android:textSize="20sp" />
+</android.support.constraint.ConstraintLayout>

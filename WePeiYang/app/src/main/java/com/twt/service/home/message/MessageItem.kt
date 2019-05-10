@@ -1,6 +1,7 @@
 package com.twt.service.home.message
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
 import android.support.v7.widget.RecyclerView
@@ -35,6 +36,12 @@ class MessageItem : Item {
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: Item) {
             holder as ViewHolder
             holder.homeItem.itemName.text = "MESSAGE"
+            holder.homeItem.itemContent.apply {
+                text="历史消息和订阅"
+                setOnClickListener {
+                    it.context.startActivity(Intent(it.context,MessageListActivity::class.java))
+                }
+            }
             val title = MessagePreferences.messageTitle
             val message = MessagePreferences.messageContent
             val layout = holder.linearLayout as _LinearLayout
