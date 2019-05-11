@@ -67,7 +67,7 @@
             android:theme="@style/AppThemeActionBar" />
 
         <activity android:name=".settings.BindActivity" />
-
+        <activity android:name=".home.message.MessageListActivity"/>
         <activity
             android:name=".StartupActivity"
             android:exported="true"
