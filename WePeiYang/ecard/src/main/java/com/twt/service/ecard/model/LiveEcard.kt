@@ -5,6 +5,7 @@ import android.arch.lifecycle.MutableLiveData
 import com.twt.wepeiyang.commons.experimental.cache.Cache
 import com.twt.wepeiyang.commons.experimental.cache.RefreshState
 import com.twt.wepeiyang.commons.experimental.cache.hawk
+import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
 import kotlinx.coroutines.experimental.CoroutineExceptionHandler
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
@@ -35,7 +36,7 @@ object LiveEcardManager {
     fun getEcardLiveData(): LiveData<RefreshState<ECardFullInfo>> = eCardFullInfoLiveData
 
     init {
-        launch(UI) {
+        launch(UI + QuietCoroutineExceptionHandler) {
             val cache = ecardFullInfoCache.get().await()
             cache?.let { eCardFullInfoLiveData.postValue(RefreshState.Success(it.copy(cache = true))) } // 第一次Load Cache
         }
