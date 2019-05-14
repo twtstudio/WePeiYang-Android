@@ -29,9 +29,10 @@ class MessageListActivity : AppCompatActivity() {
             when(refreshState){
                 is RefreshState.Success -> {
                     numHistory = recordMessage!!.info.size
-                    if(numHistory > 0){
+                    if(numHistory != MessagePreferences.messageNum){
                         items.add(AllKnowItem{
                             changeId(recordMessage.info)
+                            MessagePreferences.messageNum = numHistory
                             items.clear()
                             recyclerView.withItems(items)
                         })
