@@ -130,7 +130,11 @@
             android:name=".home.message.MessagePushService"
             android:exported="true"
             android:label="PushService"
-            android:process=":pushservice" />
+            android:process=":pushservice" >
+            <intent-filter>
+                <action android:name="com.twt.service.home.message.PUSH_SERVICE"/>
+            </intent-filter>
+        </service>
         <service android:name=".home.message.MessageIntentService" />
         <meta-data
             android:name="UMENG_APPKEY"
