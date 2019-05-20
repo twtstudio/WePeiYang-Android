@@ -11,6 +11,7 @@ import com.tjuwhy.yellowpages2.view.YellowPageActivity
 import com.yookiely.lostfond2.waterfall.WaterfallActivity
 import com.twt.service.home.user.FragmentActivity
 import com.twt.service.job.home.JobHomeActivity
+import com.twt.service.mall.MallActivity
 import com.twt.service.news.NewsActivity
 import com.twt.wepeiyang.commons.mta.mtaClick
 import com.twt.wepeiyang.commons.ui.rec.HomeItem
@@ -83,6 +84,9 @@ class OtherItem : Item {
                 addItem("考表", "一年用两次") {
                     mtaClick("app_首页OtherItem考表Item")
                     it.context.startActivity<ExamTableActivity>()
+                }
+                addItem("商城","剁手买买买！"){
+                    it.context.startActivity<MallActivity>()
                 }
             }
         }
