@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.TheoryActivity">
+
+    <include
+    layout="@layout/theory_common_toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    />
+    <com.youth.banner.Banner
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:id="@+id/main_banner"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"/>
+    <android.support.design.widget.TabLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:id="@+id/main_tablayout"
+        app:layout_constraintTop_toBottomOf="@+id/main_banner"/>
+    <android.support.v4.view.ViewPager
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:id="@+id/main_viewpager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/main_tablayout"/>
+
+
+
+
+</android.support.constraint.ConstraintLayout>
