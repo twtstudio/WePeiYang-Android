@@ -45,6 +45,7 @@ import xyz.rickygao.gpa2.view.gpaNewHomeItem
 
 class HomeNewActivity : AppCompatActivity() {
     lateinit var rec: RecyclerView
+    val messageIntent = Intent()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         EasyPermissions.requestPermissions(this, "微北洋需要外部存储来提供必要的缓存\n 需要位置信息和手机状态来获取校园网连接状态", 0,
@@ -84,6 +85,9 @@ class HomeNewActivity : AppCompatActivity() {
         PushManager.getInstance().turnOnPush(this)
         PushManager.getInstance().initialize(this, MessagePushService::class.java)
         PushManager.getInstance().registerPushIntentService(this, MessageIntentService::class.java)
+        messageIntent.setPackage(packageName)
+        messageIntent.action = "com.twt.service.home.message.PUSH_SERVICE"
+        startService(messageIntent)
         postRegister(CommonPreferences.twtuname,CommonPreferences.realName,CommonPreferences.studentid,MessagePreferences.gtclietid,1,0,0){
             Log.d("getui_register",it)
             Toasty.info(this,"it")
