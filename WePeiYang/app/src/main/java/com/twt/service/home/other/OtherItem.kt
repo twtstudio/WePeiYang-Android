@@ -53,6 +53,9 @@ class OtherItem : Item {
             val layout = holder.linearLayout as _LinearLayout
             layout.apply {
                 removeAllViews()
+                addItem("商城","剁手买买买！"){
+                    it.context.startActivity<MallActivity>()
+                }
                 addItem("黄页", "天大电话簿") {
                     mtaClick("app_首页OtherItem黄页Item")
                     it.context.startActivity<YellowPageActivity>()
@@ -84,9 +87,6 @@ class OtherItem : Item {
                 addItem("考表", "一年用两次") {
                     mtaClick("app_首页OtherItem考表Item")
                     it.context.startActivity<ExamTableActivity>()
-                }
-                addItem("商城","剁手买买买！"){
-                    it.context.startActivity<MallActivity>()
                 }
             }
         }

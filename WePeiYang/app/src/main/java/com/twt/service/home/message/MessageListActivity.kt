@@ -1,5 +1,6 @@
 package com.twt.service.home.message
 
+import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
@@ -24,6 +25,7 @@ class MessageListActivity : AppCompatActivity() {
         arrowBackIv =findViewById(R.id.message_back_arrow)
         recyclerView = findViewById(R.id.message_rec)
         recyclerView.layoutManager = LinearLayoutManager(this)
+        window.statusBarColor = Color.parseColor("#F8749A")
 
         getRecordMessage(CommonPreferences.studentid){ refreshState, recordMessage->
             when(refreshState){

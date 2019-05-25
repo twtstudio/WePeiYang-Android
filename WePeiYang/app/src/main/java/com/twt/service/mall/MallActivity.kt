@@ -1,6 +1,7 @@
 package com.twt.service.mall
 
 import android.annotation.SuppressLint
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
@@ -17,11 +18,11 @@ import org.jetbrains.anko.support.v4.swipeRefreshLayout
 import org.jetbrains.anko.webView
 
 class MallActivity : AppCompatActivity() {
-//    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     private lateinit var webView: WebView
     private val mallUrl = "https://mall.twt.edu.cn/api.php/Login/wpyLogin?model=2"
     private val headerKey = "Authorization"
     private val headerToken = "Bearer{${CommonPreferences.token}}"
+    private var historyStack = mutableListOf<String>()
 
     @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,37 +30,35 @@ class MallActivity : AppCompatActivity() {
         val map = HashMap<String, String>()
         map[headerKey] = headerToken
         window.statusBarColor = Color.parseColor("#f58010")
-//      swipeRefreshLayout = swipeRefreshLayout {
-//      setColorSchemeColors(ContextCompat.getColor(this@MallActivity, R.color.colorMall))
-            webView = webView {
-
-                loadUrl(mallUrl, map)
-                settings.apply {
-                    javaScriptEnabled = true
-                }
-
-                webChromeClient = object : WebChromeClient() {
-                    override fun onProgressChanged(view: WebView, newProgress: Int) {
-                        super.onProgressChanged(view, newProgress)
-//                        swipeRefreshLayout.isRefreshing = newProgress != 100
-                    }
-                }
-                webViewClient = object : WebViewClient() {}
+        webView = webView {
+            loadUrl(mallUrl, map)
+            settings.apply {
+                javaScriptEnabled = true
             }
-//            onRefresh {
-//                webView.loadUrl(mallUrl, map)
-//            }
-//        }
+            webChromeClient = WebChromeClient()
+            webViewClient = object : WebViewClient() {
+                override fun onPageFinished(view: WebView?, url: String) {
+                    super.onPageFinished(view, url)
+                    val index = historyStack.indexOf(url)
+                    if (index != -1) {
+                        historyStack = historyStack.subList(0, index)
+                    }
+                    historyStack.add(url)
+                }
+            }
+        }
     }
 
-    // 拦截 back 键，若非新闻网首页退回新闻网首页，若为新闻网首页结束此 activity
+    // 拦截 back 键，若非新闻网首页退回新闻网首页，结束此 activity
     override fun onBackPressed() {
-        if (webView.url == "https://mall.twt.edu.cn/m/") {
+        if (historyStack.size == 1) {
             super.onBackPressed()
         } else {
             val map = HashMap<String, String>()
             map[headerKey] = headerToken
-            webView.loadUrl(mallUrl,map)
+            historyStack.removeAt(historyStack.size - 1)
+            val url = historyStack.last()
+            webView.loadUrl(url, map)
         }
     }
 }
