@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="90dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:ndroid="http://schemas.android.com/tools">
+    <TextView
+        android:layout_width="12dp"
+        android:layout_height="12dp"
+        android:background="@drawable/circle_shape"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="20dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="20dp"
+        android:id="@+id/shape"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/eaxm_detail_name"
+        android:text="考试时间"
+        android:textColor="#1E90FF"
+        android:textSize="18sp"
+        app:layout_constraintLeft_toRightOf="@+id/shape"
+        app:layout_constraintTop_toTopOf="@+id/shape"
+        app:layout_constraintBottom_toBottomOf="@+id/shape"
+        android:layout_marginLeft="10dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/eaxm_detail_detail"
+        android:textSize="20sp"
+        android:text="2019.4.20"
+        app:layout_constraintLeft_toLeftOf="@+id/eaxm_detail_name"
+        app:layout_constraintTop_toBottomOf="@+id/eaxm_detail_name"
+        android:layout_marginTop="12dp"
+        />
+
+
+</android.support.constraint.ConstraintLayout>
