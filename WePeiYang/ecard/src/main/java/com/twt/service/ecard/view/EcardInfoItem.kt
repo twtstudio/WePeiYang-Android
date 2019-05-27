@@ -110,11 +110,15 @@ class EcardInfoItem : Item {
                         if (!cache) {
                             holder.stateText.text = "校园卡数据拉取成功，点击刷新"
                         }
-                        holder.rootView.setOnClickListener {
-                            val infoPop = ECardInfoPop(it.context, ecardProfile, this.totalCost.total_day.toFloat())
-                            infoPop.show()
-                            mtaClick("ecard_点击查看校园卡详情_顶部PopWindow")
+                        holder.rootView.setOnClickListener { view ->
+                            view.context.startActivity<EcardMainActivity>()
+                            mtaClick("ecard_用户查看消费流水详情")
                         }
+//                        holder.rootView.setOnClickListener {
+//                            val infoPop = ECardInfoPop(it.context, ecardProfile, this.totalCost.total_day.toFloat())
+//                            infoPop.show()
+//                            mtaClick("ecard_点击查看校园卡详情_顶部PopWindow")
+//                        }
                         mtaExpose("ecard_校园卡数据被成功刷新")
                     }
                     is RefreshState.Refreshing -> {

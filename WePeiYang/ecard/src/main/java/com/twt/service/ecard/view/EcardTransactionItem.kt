@@ -163,8 +163,6 @@ class EcardTransactionInfoItem : Item {
                     }
                 }
             }
-
-
         }
 
         class ViewHolder(itemView: View, val recyclerView: RecyclerView, val homeItem: HomeItem) : RecyclerView.ViewHolder(itemView)

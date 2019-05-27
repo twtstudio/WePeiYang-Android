@@ -16,23 +16,23 @@ import com.twt.wepeiyang.commons.ui.rec.withItems
 class MessageListActivity : AppCompatActivity() {
     var items = mutableListOf<Item>()
     private lateinit var arrowBackIv: ImageView
-    private lateinit var orderIv :ImageView
+    private lateinit var orderIv: ImageView
     lateinit var recyclerView: RecyclerView
-    var numHistory : Int= 0
+    var numHistory: Int = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_message_list)
-        arrowBackIv =findViewById(R.id.message_back_arrow)
+        arrowBackIv = findViewById(R.id.message_back_arrow)
         recyclerView = findViewById(R.id.message_rec)
         recyclerView.layoutManager = LinearLayoutManager(this)
         window.statusBarColor = Color.parseColor("#F8749A")
 
-        getRecordMessage(CommonPreferences.studentid){ refreshState, recordMessage->
-            when(refreshState){
+        getRecordMessage(CommonPreferences.studentid) { refreshState, recordMessage ->
+            when (refreshState) {
                 is RefreshState.Success -> {
                     numHistory = recordMessage!!.info.size
-                    if(numHistory != MessagePreferences.messageNum){
-                        items.add(AllKnowItem{
+                    if (numHistory != MessagePreferences.messageNum) {
+                        items.add(AllKnowItem {
                             changeId(recordMessage.info)
                             MessagePreferences.messageNum = numHistory
                             items.clear()
@@ -40,11 +40,11 @@ class MessageListActivity : AppCompatActivity() {
                         })
                     }
                     Log.d("message_record", recordMessage.info.toString())
-                    recordMessage.info.forEach{
-                        if(it.read == 0 ){
-                            items.add(MessageListItem(this,it){item,_->
-                                putId(it.id){ str ->
-                                    Log.d("message_read",str)
+                    recordMessage.info.forEach {
+                        if (it.read == 0) {
+                            items.add(MessageListItem(this, it) { item, _ ->
+                                putId(it.id) { str ->
+                                    Log.d("message_read", str)
                                 }
                                 items.remove(item)
                                 recyclerView.withItems(items)
@@ -54,7 +54,7 @@ class MessageListActivity : AppCompatActivity() {
                     recyclerView.withItems(items)
                 }
                 is RefreshState.Failure -> {
-                    Log.d("message_record2","出了点小问题")
+                    Log.d("message_record2", "出了点小问题")
                 }
             }
         }
@@ -62,10 +62,11 @@ class MessageListActivity : AppCompatActivity() {
             onBackPressed()
         }
     }
-    private fun changeId( info:List<Info>){
+
+    private fun changeId(info: List<Info>) {
         info.forEach { Info ->
-            putId(Info.id){
-                Log.d("message_all_read",it)
+            putId(Info.id) {
+                Log.d("message_all_read", it)
             }
         }
     }
