@@ -53,7 +53,8 @@ class OtherItem : Item {
             val layout = holder.linearLayout as _LinearLayout
             layout.apply {
                 removeAllViews()
-                addItem("商城","剁手买买买！"){
+                addItem("商城", "天大二手交易平台") {
+                    mtaClick("app_首页OtherItem商城Item")
                     it.context.startActivity<MallActivity>()
                 }
                 addItem("黄页", "天大电话簿") {

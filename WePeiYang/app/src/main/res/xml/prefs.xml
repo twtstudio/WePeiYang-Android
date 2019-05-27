@@ -10,12 +10,6 @@
             android:summaryOn="老夫就是要刺激"
             android:title="主页显示GPA" />
 
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="@string/pref_is_boom_gpa"
-            android:summaryOff="装一下又不亏"
-            android:summaryOn="赶快截图分享到朋友圈吧"
-            android:title="GPA一键装逼(暂时不让装了)" />
 
         <SwitchPreference
             android:defaultValue="false"
@@ -24,12 +18,6 @@
             android:summaryOn="显示自行车"
             android:title="主页显示自行车(自行车模块激活后有效）" />
 
-        <!--<SwitchPreference
-            android:defaultValue="false"
-            android:key="@string/pref_is_switch_news_source"
-            android:summaryOff="显示天外天新闻源"
-            android:summaryOn="ONE一个（版权问题需用户承担责任）"
-            android:title="切换新闻源(内测版only)" />-->
     </PreferenceCategory>
 
     <PreferenceCategory android:title="绑定设置">
