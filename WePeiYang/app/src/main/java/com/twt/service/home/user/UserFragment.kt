@@ -38,8 +38,11 @@ import com.twtstudio.retrox.auth.api.authSelfLiveData
 import com.twtstudio.retrox.auth.view.LoginActivity
 import com.twtstudio.retrox.tjulibrary.provider.TjuLibProvider
 import es.dmoral.toasty.Toasty
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.android.Main
+import kotlinx.coroutines.android.UI
+import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import rx.android.schedulers.AndroidSchedulers
 import rx.functions.Action1
@@ -120,7 +123,7 @@ class UserFragment : Fragment() {
                                                     .setTitle("校园卡解绑")
                                                     .setMessage("是否要解绑校园卡")
                                                     .setPositiveButton("解绑") { dialog, _ ->
-                                                        launch(UI + QuietCoroutineExceptionHandler) {
+                                                        GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
                                                             EcardPref.ecardUserName = "*"
                                                             EcardPref.ecardPassword = "*"
                                                             isBindECardBoolean = false

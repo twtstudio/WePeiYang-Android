@@ -75,7 +75,7 @@ class SearchInitActivity : AppCompatActivity() {
         }
         // imageViewBack.setOnClickListener { onBackPressed() }//返回
 
-        editText.setOnFocusChangeListener { v, hasFocus ->
+        editText.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
                 mtaBegin(timeOfEdit, this@SearchInitActivity)
             } else {

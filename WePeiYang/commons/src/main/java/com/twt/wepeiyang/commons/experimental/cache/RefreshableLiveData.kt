@@ -187,7 +187,7 @@ fun <V : Any> RefreshableLiveData.Companion.retrofit(remote: Cache<V>) = object 
 
     override fun refresh(vararg indicators: CacheIndicator, callback: suspend (RefreshState<CacheIndicator>) -> Unit) {
         if (running?.isActive == true) return
-        running = launch(UI + QuietCoroutineExceptionHandler) {
+        running = GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
 
             callback(RefreshState.Refreshing())
 

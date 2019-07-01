@@ -23,8 +23,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.android.Main
 import kotlinx.coroutines.android.UI
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
 import kotlinx.coroutines.launch
 import org.jetbrains.anko.*
 import java.text.SimpleDateFormat
@@ -150,7 +148,7 @@ class ExamTableHomeItem : Item {
             GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
                 mtaExpose("schedule_主页考表刷新成功")
                 val list = ExamTableLocalAdapter.getExamMap().await().values.toList().sortedBy {
-                    it.date + it.range
+                    it.date + it.arrange
                 }.filter {
                     val examTime = "${it.date} ${it.arrange}"
                     currentTime <= examTime

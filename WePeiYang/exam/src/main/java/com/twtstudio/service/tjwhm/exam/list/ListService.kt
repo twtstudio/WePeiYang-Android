@@ -34,7 +34,7 @@ fun getList(lessonID: String, callback: suspend (RefreshState<CommonBody<List<Le
         }
 
 fun findLesson(key: String, callback: suspend (RefreshState<CommonBody<List<LessonBean>>>) -> Unit) =
-        launch(UI) {
+        GlobalScope.launch(Dispatchers.Main) {
             ListService.findLessonList(key).awaitAndHandle {
                 callback(RefreshState.Failure(it))
             }?.let {
@@ -43,7 +43,7 @@ fun findLesson(key: String, callback: suspend (RefreshState<CommonBody<List<Less
         }
 
 fun getLessonInfo(lessonID: String, callback: suspend (RefreshState<CommonBody<LessonInfoBean>>) -> Unit) =
-        launch(UI) {
+        GlobalScope.launch(Dispatchers.Main) {
             ListService.getLessonInfo(lessonID).awaitAndHandle {
                 callback(RefreshState.Failure(it))
             }?.let {

@@ -9,10 +9,8 @@ import com.twt.service.schedule2.model.CommonClassTable
 import com.twt.service.schedule2.model.ScheduleDb
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
-import kotlinx.coroutines.experimental.CommonPool
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.async
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.*
+import kotlinx.coroutines.android.Main
 
 object AuditCourseManager {
 
@@ -51,8 +49,8 @@ object AuditCourseManager {
      * 返回字符串带 '-' 表示列表中的指示器
      */
     fun getSearchSuggestions(keyWord: String, dao: AuditCourseDao = ScheduleDb.auditCourseDao): LiveData<List<String>> {
-        launch(UI + QuietCoroutineExceptionHandler) {
-            val suggestions = async(CommonPool) {
+        GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
+            val suggestions = async(Dispatchers.Default) {
                 val suggestions = mutableListOf<String>()
                 if (keyWord.isBlank()) return@async suggestions
                 /**
@@ -99,7 +97,7 @@ object AuditCourseManager {
     }
 
     fun refreshAuditSearchDatabase(dao: AuditCourseDao = ScheduleDb.auditCourseDao) {
-        async(CommonPool + QuietCoroutineExceptionHandler) {
+        GlobalScope.async(Dispatchers.Default + QuietCoroutineExceptionHandler) {
             val auditCollegeDataList = AuditApi.getAuditCollege().awaitAndHandle { it.printStackTrace() }?.data
                     ?: throw IllegalStateException("刷新课程表搜索提示失败")
             // 先全部清除课程表的缓存

@@ -24,7 +24,7 @@ object JobStoryModel {
     }
 
     fun getNoticeDetail(id: Int, type: Int, callback: suspend (RefreshState<Unit>, Notice?, String) -> Unit) {
-        launch(UI + QuietCoroutineExceptionHandler) {
+        GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
             JobService.getNoticeDetail(id, type).awaitAndHandle {
                 callback(RefreshState.Failure(it), null, "")
             }?.let {

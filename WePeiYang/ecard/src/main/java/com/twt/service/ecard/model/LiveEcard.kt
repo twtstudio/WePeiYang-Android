@@ -6,9 +6,12 @@ import com.twt.wepeiyang.commons.experimental.cache.Cache
 import com.twt.wepeiyang.commons.experimental.cache.RefreshState
 import com.twt.wepeiyang.commons.experimental.cache.hawk
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
-import kotlinx.coroutines.experimental.CoroutineExceptionHandler
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.android.Main
+import kotlinx.coroutines.android.UI
+import kotlinx.coroutines.launch
 
 /**
  * 感觉设计的还行...
@@ -36,7 +39,7 @@ object LiveEcardManager {
     fun getEcardLiveData(): LiveData<RefreshState<ECardFullInfo>> = eCardFullInfoLiveData
 
     init {
-        launch(UI + QuietCoroutineExceptionHandler) {
+        GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
             val cache = ecardFullInfoCache.get().await()
             cache?.let { eCardFullInfoLiveData.postValue(RefreshState.Success(it.copy(cache = true))) } // 第一次Load Cache
         }
@@ -48,7 +51,7 @@ object LiveEcardManager {
             eCardFullInfoLiveData.postValue(RefreshState.Failure(throwable))
         }
 
-        launch(UI + coroutineExceptionHandler) {
+        GlobalScope.launch(Dispatchers.Main + coroutineExceptionHandler) {
 
             eCardFullInfoLiveData.postValue(RefreshState.Refreshing())
 

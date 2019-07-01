@@ -21,7 +21,7 @@ import com.twt.wepeiyang.commons.mta.mtaClick
 import com.twt.wepeiyang.commons.mta.mtaExpose
 import com.twt.wepeiyang.commons.ui.rec.refreshAll
 import es.dmoral.toasty.Toasty
-import kotlinx.coroutines.experimental.runBlocking
+import kotlinx.coroutines.runBlocking
 import org.jetbrains.anko.alert
 
 class CourseDetailBottomFragment : BottomSheetDialogFragment() {

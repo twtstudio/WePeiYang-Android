@@ -9,8 +9,11 @@ import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineException
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import com.yookiely.lostfond2.service.Utils
 import es.dmoral.toasty.Toasty
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.android.Main
+import kotlinx.coroutines.android.UI
+import kotlinx.coroutines.launch
 
 class SearchPresenterImpl(private val searchUIView: SearchContract.SearchUIView) : SearchContract.SearchPresenter {
 
@@ -18,7 +21,7 @@ class SearchPresenterImpl(private val searchUIView: SearchContract.SearchUIView)
         if (Utils.campus != null) {
             val campus = Utils.campus
             try {
-                launch(UI + QuietCoroutineExceptionHandler) {
+                GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
                     val dataList = LostFoundService.getSearch(keyword, campus!!, time, page).awaitAndHandle {
                         it.printStackTrace()
                     }

@@ -31,6 +31,7 @@ import java.net.Inet4Address
 import java.net.NetworkInterface
 import java.net.NetworkInterface.getNetworkInterfaces
 import java.net.SocketException
+import javax.microedition.khronos.opengles.GL
 
 
 /**
@@ -93,7 +94,7 @@ class TjuNetViewComponent(itemView: View, private val owner: LifecycleOwner) : R
     }
 
     private fun login() {
-        async(UI) {
+        GlobalScope.async(Dispatchers.Main) {
             val viewContext = this@TjuNetViewComponent.context
             if (TjuNetPreferences.password == "") {
                 Toasty.info(viewContext, "请前往上网功能页面登陆以保存您的密码").show()
@@ -116,7 +117,7 @@ class TjuNetViewComponent(itemView: View, private val owner: LifecycleOwner) : R
     }
 
     private fun logout() {
-        async(UI) {
+        GlobalScope.async(Dispatchers.Main) {
             val viewContext = this@TjuNetViewComponent.context
             val body = RealTjuNetService.logoutTry(
                     username = TjuNetPreferences.username,

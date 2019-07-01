@@ -21,7 +21,6 @@ import com.twt.service.ecard.view.ecardTransactionInfoItem
 import com.twt.service.home.message.*
 import com.twt.service.home.other.homeOthers
 import com.twt.service.home.user.FragmentActivity
-import com.twt.service.schedule2.view.exam.examTableHomeItem
 import com.twt.service.schedule2.view.home.homeScheduleItem
 import com.twt.service.tjunet.view.homeTjuNetItem
 import com.twt.service.widget.ScheduleWidgetProvider
@@ -35,8 +34,12 @@ import com.twt.wepeiyang.commons.view.RecyclerViewDivider
 import com.twtstudio.retrox.auth.api.authSelfLiveData
 import com.twtstudio.retrox.tjulibrary.home.libraryHomeItem
 import es.dmoral.toasty.Toasty
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.android.Main
+import kotlinx.coroutines.android.UI
+import kotlinx.coroutines.launch
+
 import org.jetbrains.anko.dip
 import org.jetbrains.anko.startActivity
 import pub.devrel.easypermissions.EasyPermissions
@@ -110,7 +113,7 @@ class HomeNewActivity : AppCompatActivity() {
             homeTjuNetItem(this@HomeNewActivity)
             homeOthers()
         }
-        launch(UI + QuietCoroutineExceptionHandler) {
+        GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
             val messageBean = MessageService.getMessage().await()
             val data = messageBean.data
             Log.d("HomeNew-Message-1", data.toString())

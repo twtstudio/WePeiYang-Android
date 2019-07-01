@@ -32,7 +32,7 @@ object LibRepository {
             val networkData: Info? = withContext(Dispatchers.Default) { libApi.libUserInfo.map { it.data }.toBlocking().first() }
             networkData?.let {
                 livedata.value = it
-                bg { Hawk.put(USER_INFO, networkData) }
+                withContext(Dispatchers.Default) { Hawk.put(USER_INFO, networkData) }
             }
         }.invokeOnCompletion {
             it?.let { errorHandler(it) }

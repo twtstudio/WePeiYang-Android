@@ -112,7 +112,7 @@ class LibraryItemViewHolder(private val lifecycleOwner: LifecycleOwner, itemView
         renewBooksBtn.setOnClickListener {
             renewBooksClick()
         }
-        loadMoreBooksBtn.setOnClickListener { view: View ->
+        loadMoreBooksBtn.setOnClickListener {
             if (isExpanded) {
                 // LinearLayout remove的时候会数组顺延 所以要从后往前遍历
                 (bookContainer.childCount - 1 downTo 0)
@@ -211,7 +211,7 @@ class LibraryItemViewHolder(private val lifecycleOwner: LifecycleOwner, itemView
 
     private fun renewBooks() {
         loadingState.value = PROGRESSING
-        async(UI) {
+        GlobalScope.async(Dispatchers.Main) {
             val barcode = "all"
             val data: List<RenewResult>? = withContext(Dispatchers.Default) { libApi.renewBooks(barcode).map { it.data }.toBlocking().first() }
             loadingState.value = OK

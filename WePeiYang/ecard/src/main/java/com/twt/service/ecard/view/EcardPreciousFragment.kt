@@ -22,8 +22,11 @@ import com.twt.wepeiyang.commons.ui.rec.lightText
 import com.twt.wepeiyang.commons.ui.rec.withItems
 import com.twt.wepeiyang.commons.ui.text.spanned
 import es.dmoral.toasty.Toasty
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.android.Main
+import kotlinx.coroutines.android.UI
+import kotlinx.coroutines.launch
 import org.jetbrains.anko.dip
 import org.jetbrains.anko.horizontalPadding
 
@@ -64,7 +67,7 @@ class EcardPreciousFragment : Fragment() {
     fun refreshDataForHistory() {
         progressBar.visibility = View.VISIBLE
         itemManager.refreshAll { }
-        launch(UI + QuietCoroutineExceptionHandler) {
+        GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
             val transactionList = EcardService.getEcardTransaction(term = EcardPref.ecardHistoryLength).awaitAndHandle {
                 it.printStackTrace()
                 progressBar.visibility = View.GONE
@@ -94,7 +97,7 @@ class EcardPreciousFragment : Fragment() {
     fun refreshDataForChart() {
         progressBar.visibility = View.VISIBLE
         itemManager.refreshAll { }
-        launch(UI + QuietCoroutineExceptionHandler) {
+        GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
             val transactionList = EcardService.getEcardTransaction(term = EcardPref.ecardHistoryLength).awaitAndHandle {
                 it.printStackTrace()
                 itemManager.refreshAll {

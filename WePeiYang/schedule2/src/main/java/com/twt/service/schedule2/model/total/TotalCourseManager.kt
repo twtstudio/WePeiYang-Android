@@ -14,10 +14,9 @@ import com.twt.service.schedule2.model.school.TjuCourseApi
 import com.twt.service.schedule2.model.school.refresh
 import com.twt.wepeiyang.commons.experimental.cache.CacheIndicator
 import com.twt.wepeiyang.commons.experimental.cache.RefreshState
-import kotlinx.coroutines.experimental.CommonPool
-import kotlinx.coroutines.experimental.Deferred
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.*
+import kotlinx.coroutines.android.Main
+import kotlinx.coroutines.android.UI
 
 object TotalCourseManager {
 
@@ -50,18 +49,18 @@ object TotalCourseManager {
             refreshCallback.invoke(RefreshState.Success(CacheIndicator.LOCAL))
             return mergedClassTableProvider
         }
-        async(UI) {
+        GlobalScope.async(Dispatchers.Main) {
 
             refreshCallback.invoke(RefreshState.Refreshing())
 
             val examTableDeferred = ExamTableLocalAdapter.getExamMap(true)
 
-            val tjuClassTableProvider: Deferred<AbsClasstableProvider> = async(CommonPool) {
+            val tjuClassTableProvider: Deferred<AbsClasstableProvider> = async(Dispatchers.Default) {
                 val classTable = TjuCourseApi.refresh(refreshTju)
                 CommonClassTable(classTable)
             }
 
-            val auditClasstableProvider: Deferred<AbsClasstableProvider> = async(CommonPool) {
+            val auditClasstableProvider: Deferred<AbsClasstableProvider> = async(Dispatchers.Default) {
                 if (refreshAudit) {
                     try {
                         AuditCourseManager.refreshAuditClasstable() // 这里在网络请求失败的时候会抛出一个异常 需要捕获一下
@@ -72,11 +71,11 @@ object TotalCourseManager {
                 AuditCourseManager.getAuditClasstableProvider()
             }
 
-            val customCourseProvider: Deferred<AbsClasstableProvider> = async(CommonPool) {
+            val customCourseProvider: Deferred<AbsClasstableProvider> = async(Dispatchers.Default) {
                 CustomCourseManager.getCustomClasstableProvider()
             }
 
-            val duplicateCourseProvider = async(CommonPool) {
+            val duplicateCourseProvider = async(Dispatchers.Default) {
                 DuplicateCourseManager.clearDuplicateCache()
                 tjuClassTableProvider.await()
                 DuplicateCourseManager.getDuplicateCourseProvider()

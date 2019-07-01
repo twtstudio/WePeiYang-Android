@@ -5,8 +5,11 @@ import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import com.yookiely.lostfond2.service.LostFoundService
 import com.yookiely.lostfond2.service.MyListDataOrSearchBean
 import com.yookiely.lostfond2.service.Utils
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.android.Main
+import kotlinx.coroutines.android.UI
+import kotlinx.coroutines.launch
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -39,7 +42,7 @@ class ReleasePresenterImpl(private var releaseView: ReleaseContract.ReleaseView)
         }
         val list = builder.build().parts()
 
-        launch(UI + QuietCoroutineExceptionHandler) {
+        GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
             LostFoundService.updateReleaseWithPic(lostOrFound, list).awaitAndHandle {
                 this@ReleasePresenterImpl.failCallback("上传失败")
             }?.let {
@@ -81,7 +84,7 @@ class ReleasePresenterImpl(private var releaseView: ReleaseContract.ReleaseView)
 
         val list = builder.build().parts()
 
-        launch(UI + QuietCoroutineExceptionHandler) {
+        GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
             LostFoundService.updateReleaseWithPic(lostOrFound, list).awaitAndHandle {
                 this@ReleasePresenterImpl.failCallback("上传失败")
             }?.let {
@@ -102,7 +105,7 @@ class ReleasePresenterImpl(private var releaseView: ReleaseContract.ReleaseView)
     override fun failCallback(message: String) = releaseView.failCallBack(message)
 
     override fun delete(id: Int) {
-        launch(UI + QuietCoroutineExceptionHandler) {
+        GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
             LostFoundService.delete(id.toString()).awaitAndHandle {
                 this@ReleasePresenterImpl.failCallback("删除失败")
             }?.let {
@@ -145,7 +148,7 @@ class ReleasePresenterImpl(private var releaseView: ReleaseContract.ReleaseView)
         val list = builder.build().parts()
         val anotherLostOrFound = if (Objects.equals(lostOrFound, Utils.STRING_EDIT_LOST)) Utils.STRING_LOST else Utils.STRING_FOUND
 
-        launch(UI + QuietCoroutineExceptionHandler) {
+        GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
             LostFoundService.updateEditWithPic(anotherLostOrFound, id.toString(), list).awaitAndHandle {
                 this@ReleasePresenterImpl.failCallback("编辑失败")
             }?.let {
@@ -157,14 +160,14 @@ class ReleasePresenterImpl(private var releaseView: ReleaseContract.ReleaseView)
     }
 
     override fun loadDetailDataForEdit(id: Int, releaseView: ReleaseContract.ReleaseView) {
-        launch(UI + QuietCoroutineExceptionHandler) {
+        GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
             LostFoundService.getDetailed(id).awaitAndHandle {
                 this@ReleasePresenterImpl.failCallback("数据拉取失败了")
             }?.let {
                 if (it.error_code == -1 && it.data != null) {
-                            releaseView.setEditData(it.data!!)
-                        }
-                    }
+                    releaseView.setEditData(it.data!!)
+                }
+            }
         }
     }
 }

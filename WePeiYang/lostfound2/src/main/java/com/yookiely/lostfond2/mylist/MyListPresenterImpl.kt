@@ -8,8 +8,11 @@ import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineException
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import com.twt.wepeiyang.commons.experimental.network.CommonBody
 import es.dmoral.toasty.Toasty
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.android.Main
+import kotlinx.coroutines.android.UI
+import kotlinx.coroutines.launch
 import kotlin.math.log
 
 class MyListPresenterImpl(private val myListView: MyListService.MyListView) : MyListService.MyListPresenter {
@@ -20,7 +23,7 @@ class MyListPresenterImpl(private val myListView: MyListService.MyListView) : My
     }
 
     override fun loadMyListData(lostOrFound: String, page: Int) {
-        launch(UI + QuietCoroutineExceptionHandler) {
+        GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
             val myList: CommonBody<List<MyListDataOrSearchBean>>? = LostFoundService.getMyList(lostOrFound, page).awaitAndHandle {
                 it.printStackTrace()
                 Log.d("mylist",it.message)
@@ -47,7 +50,7 @@ class MyListPresenterImpl(private val myListView: MyListService.MyListView) : My
     }
 
     override fun turnStatus(id: Int) {
-        launch(UI + QuietCoroutineExceptionHandler) {
+        GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
             val myList: CommonBody<String> = LostFoundService.turnStatus(id.toString()).await()
 
             if (myList.error_code == -1) {

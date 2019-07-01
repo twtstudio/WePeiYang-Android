@@ -3,9 +3,6 @@ package com.twt.service.schedule2.model
 import android.util.Log
 import com.twt.service.schedule2.extensions.*
 import com.twt.service.schedule2.model.duplicate.DuplicateCourseManager
-import com.twt.service.schedule2.model.exam.ExamTableLocalAdapter
-import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
-import kotlinx.coroutines.experimental.runBlocking
 
 /**
  * Created by retrox on 2018/3/26.
