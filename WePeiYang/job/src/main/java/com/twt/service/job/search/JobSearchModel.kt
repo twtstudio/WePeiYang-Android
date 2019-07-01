@@ -5,12 +5,15 @@ import com.twt.service.job.service.JobService
 import com.twt.wepeiyang.commons.experimental.cache.RefreshState
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.CoroutineStart
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.android.Main
+import kotlinx.coroutines.launch
 
 object JobSearchModel {
     fun jobSearch(keyword: String, callBack: suspend (RefreshState<Unit>, List<InfoOrMeeting>?, List<InfoOrMeeting>?) -> Unit) {
-        launch(UI + QuietCoroutineExceptionHandler) {
+        GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
             JobService.jobSearch(keyword).awaitAndHandle {
                 callBack(RefreshState.Failure(it), null, null)
             }?.data?.let {

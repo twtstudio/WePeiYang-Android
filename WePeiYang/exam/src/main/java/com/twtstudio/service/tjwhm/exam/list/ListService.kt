@@ -5,9 +5,9 @@ import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import com.twt.wepeiyang.commons.experimental.network.CommonBody
 import com.twt.wepeiyang.commons.experimental.network.ServiceFactory
 import com.twtstudio.service.tjwhm.exam.commons.EXAM_BASE_URL
-import kotlinx.coroutines.experimental.Deferred
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.*
+import kotlinx.coroutines.android.Main
+import kotlinx.coroutines.android.UI
 import retrofit2.http.GET
 import retrofit2.http.Path
 
@@ -25,7 +25,7 @@ interface ListService {
 }
 
 fun getList(lessonID: String, callback: suspend (RefreshState<CommonBody<List<LessonBean>>>) -> Unit) =
-        launch(UI) {
+        GlobalScope.launch(Dispatchers.Main) {
             ListService.getLessonList(lessonID).awaitAndHandle {
                 callback(RefreshState.Failure(it))
             }?.let {

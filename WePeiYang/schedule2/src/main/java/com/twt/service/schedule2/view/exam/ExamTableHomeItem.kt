@@ -19,8 +19,13 @@ import com.twt.wepeiyang.commons.mta.mtaExpose
 import com.twt.wepeiyang.commons.ui.rec.*
 import com.twt.wepeiyang.commons.ui.view.ColorCircleView
 import es.dmoral.toasty.Toasty
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.android.Main
+import kotlinx.coroutines.android.UI
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.launch
 import org.jetbrains.anko.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -142,10 +147,10 @@ class ExamTableHomeItem : Item {
                 }
             }
             val currentTime: String = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale("zh_CN")).format(Date())
-            launch(UI + QuietCoroutineExceptionHandler) {
+            GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
                 mtaExpose("schedule_主页考表刷新成功")
                 val list = ExamTableLocalAdapter.getExamMap().await().values.toList().sortedBy {
-                    it.date + it.arrange
+                    it.date + it.range
                 }.filter {
                     val examTime = "${it.date} ${it.arrange}"
                     currentTime <= examTime

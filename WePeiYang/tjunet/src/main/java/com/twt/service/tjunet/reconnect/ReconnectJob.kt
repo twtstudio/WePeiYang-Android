@@ -15,8 +15,10 @@ import com.twt.service.tjunet.ext.fineSSID
 import com.twt.service.tjunet.pref.TjuNetPreferences
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import es.dmoral.toasty.Toasty
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.android.Main
+import kotlinx.coroutines.async
 
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
 /**
@@ -77,7 +79,7 @@ class ReconnectJob : JobService() {
 
     private fun checkAndLogin(params: JobParameters?, mContext: Context) {
         Log.i(TAG, "检查TJU登录状态")
-        async(UI) {
+        GlobalScope.async(Dispatchers.Main) {
             val result = RealTjuNetService.getStatus().awaitAndHandle {
                 Log.e(TAG, "TJU自动连接检查错误${it.message}")
             }

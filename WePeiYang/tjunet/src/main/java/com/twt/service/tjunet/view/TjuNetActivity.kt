@@ -42,24 +42,24 @@ class TjuNetActivity : AppCompatActivity() {
             }
             checkBox("断开时尝试自动重连") {
                 isChecked = TjuNetPreferences.autoConnect
-                onCheckedChange { buttonView, isChecked ->
-                    TjuNetPreferences.autoConnect = isChecked
-                    if (isChecked) {
-                        Toasty.success(this@TjuNetActivity, "已设置自动登录，自动重连在MIUI华为等后台严格的机型可能会失效").show()
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                            val jobinfo = ReconnectJob.getScheduler(this@TjuNetActivity)
-                            val jobService = getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
-                            jobService.schedule(jobinfo)
-                        }
-                    } else {
-                        Toasty.info(this@TjuNetActivity, "已关闭自动登录").show()
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                            val jobService = getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
-                            jobService.cancel(ReconnectJob.jobId)
-                            jobService.cancelAll()
-                        }
-                    }
-                }
+//                onCheckedChange { buttonView, isChecked ->
+//                    TjuNetPreferences.autoConnect = isChecked
+//                    if (isChecked) {
+//                        Toasty.success(this@TjuNetActivity, "已设置自动登录，自动重连在MIUI华为等后台严格的机型可能会失效").show()
+//                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//                            val jobinfo = ReconnectJob.getScheduler(this@TjuNetActivity)
+//                            val jobService = getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
+//                            jobService.schedule(jobinfo)
+//                        }
+//                    } else {
+//                        Toasty.info(this@TjuNetActivity, "已关闭自动登录").show()
+//                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//                            val jobService = getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
+//                            jobService.cancel(ReconnectJob.jobId)
+//                            jobService.cancelAll()
+//                        }
+//                    }
+//                }
             }
 
             val status = textView {

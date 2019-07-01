@@ -11,7 +11,9 @@ import com.twt.service.tjunet.ext.fineSSID
 import com.twt.service.tjunet.pref.TjuNetPreferences
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import es.dmoral.toasty.Toasty
-import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
 
 
 /**
@@ -38,7 +40,7 @@ class AutoConnectReceiver : BroadcastReceiver() {
                 wifiManager?.connectionInfo?.let {
                     val ssid = it.ssid.fineSSID
                     if (ssid == "tjuwlan" || ssid == "tjuwlan-lib") {
-                        async {
+                        GlobalScope.async(Dispatchers.Default) {
                             val body = RealTjuNetService.login(
                                     username = TjuNetPreferences.username,
                                     password = TjuNetPreferences.password

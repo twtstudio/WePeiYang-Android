@@ -142,16 +142,16 @@ class CustomSettingBottomFragment : BottomSheetDialogFragment() {
                             thumbDrawable.setColorFilter(getColorCompat(R.color.colorPrimary), PorterDuff.Mode.MULTIPLY)
                             trackDrawable.setColorFilter(getColorCompat(R.color.colorPrimary), PorterDuff.Mode.MULTIPLY)
                         }
-                        onCheckedChange { _, isChecked ->
-                            SchedulePref.autoCollapseSchedule = isChecked
-                            mtaClick("schedule_切换自动隐藏周六日状态：$isChecked")
-                            post {
-                                if (CommonPreferences.realName.contains("舒")) {
-                                    Toasty.success(dialog.context, "给傲娇的舒子同学递课表").show() // 彩蛋
-                                }
-                                TotalCourseManager.invalidate()
-                            }
-                        }
+//                        onCheckedChange { _, isChecked ->
+//                            SchedulePref.autoCollapseSchedule = isChecked
+//                            mtaClick("schedule_切换自动隐藏周六日状态：$isChecked")
+//                            post {
+//                                if (CommonPreferences.realName.contains("舒")) {
+//                                    Toasty.success(dialog.context, "给傲娇的舒子同学递课表").show() // 彩蛋
+//                                }
+//                                TotalCourseManager.invalidate()
+//                            }
+//                        }
                     }.lparams {
                         topToTop = PARENT_ID
                         bottomToBottom = PARENT_ID

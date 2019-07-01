@@ -6,8 +6,12 @@ import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import com.twt.wepeiyang.commons.experimental.hack.Restarter
 import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
 import com.twt.wepeiyang.commons.experimental.service.AuthService
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.CoroutineStart
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.android.Main
+import kotlinx.coroutines.android.UI
+import kotlinx.coroutines.launch
 import okhttp3.*
 import org.json.JSONObject
 import java.io.IOException
@@ -29,7 +33,7 @@ object RealAuthenticator : Authenticator {
         val request = if (response.request().isTrusted) {
             val code = JSONObject(responseBodyCopy?.string()).getInt("error_code")
             val relogin = fun(): Nothing {
-                launch(UI) {
+                GlobalScope.launch(Dispatchers.Main) {
                     AuthService.getToken(CommonPreferences.twtuname, CommonPreferences.password)
                             .awaitAndHandle {
                                 CommonContext.startActivity(name = "login")

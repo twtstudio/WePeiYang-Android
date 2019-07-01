@@ -5,9 +5,11 @@ import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import com.twt.wepeiyang.commons.experimental.network.CommonBody
 import com.twt.wepeiyang.commons.experimental.network.ServiceFactory
 import com.twtstudio.service.tjwhm.exam.commons.EXAM_BASE_URL
-import kotlinx.coroutines.experimental.Deferred
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.android.Main
+import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
 import retrofit2.http.*
 import java.io.Serializable
@@ -40,7 +42,7 @@ interface ProblemService {
 }
 
 fun getIDs(lessonID: String, type: String, callback: suspend (RefreshState<CommonBody<List<Int>>>) -> Unit) =
-        launch(UI) {
+        GlobalScope.launch(Dispatchers.Main) {
             ProblemService.getIDs(lessonID, type).awaitAndHandle {
                 callback(RefreshState.Failure(it))
             }?.let {
@@ -50,7 +52,7 @@ fun getIDs(lessonID: String, type: String, callback: suspend (RefreshState<Commo
         }
 
 fun getProblem(lessonID: String, type: String, problemID: String, callback: suspend (RefreshState<CommonBody<ProblemBean>>) -> Unit) =
-        launch(UI) {
+        GlobalScope.launch(Dispatchers.Main) {
             ProblemService.getProblem(lessonID, type, problemID).awaitAndHandle {
                 callback(RefreshState.Failure(it))
             }?.let {
@@ -60,7 +62,7 @@ fun getProblem(lessonID: String, type: String, problemID: String, callback: susp
         }
 
 fun getTestProblems(lessonID: String, callback: suspend (RefreshState<CommonBody<TestBean>>) -> Unit) =
-        launch(UI) {
+        GlobalScope.launch(Dispatchers.Main) {
             ProblemService.getTestProblems(lessonID).awaitAndHandle {
                 callback(RefreshState.Failure(it))
             }?.let {
@@ -69,7 +71,7 @@ fun getTestProblems(lessonID: String, callback: suspend (RefreshState<CommonBody
         }
 
 fun getScore(lessonID: String, time: String, answerList: List<UpdateResultViewModel>, callback: suspend (RefreshState<CommonBody<ScoreBean>>) -> Unit) =
-        launch(UI) {
+        GlobalScope.launch(Dispatchers.Main) {
             ProblemService.uploadResult(lessonID, time, answerList).awaitAndHandle {
                 callback(RefreshState.Failure(it))
             }?.let {
@@ -77,7 +79,7 @@ fun getScore(lessonID: String, time: String, answerList: List<UpdateResultViewMo
             }
         }
 
-fun mark(courseID: String, quesType: String, quesID: String, index: String) = launch(UI) {
+fun mark(courseID: String, quesType: String, quesID: String, index: String) = GlobalScope.launch(Dispatchers.Main) {
     val list = MultipartBody.Builder()
             .setType(MultipartBody.FORM)
             .addFormDataPart("course_id", courseID)
@@ -89,7 +91,7 @@ fun mark(courseID: String, quesType: String, quesID: String, index: String) = la
     ProblemService.mark(list)
 }
 
-fun write(courseID: String, quesType: String, index: String) = launch(UI) {
+fun write(courseID: String, quesType: String, index: String) = GlobalScope.launch(Dispatchers.Main) {
     val list = MultipartBody.Builder()
             .setType(MultipartBody.FORM)
             .addFormDataPart("course_id", courseID)
@@ -101,7 +103,7 @@ fun write(courseID: String, quesType: String, index: String) = launch(UI) {
 }
 
 fun getTestHistory(time: String, callback: suspend (RefreshState<CommonBody<ScoreBean>>) -> Unit) =
-        launch(UI) {
+        GlobalScope.launch(Dispatchers.Main) {
             ProblemService.getTestHistory(time).awaitAndHandle {
                 callback(RefreshState.Failure(it))
             }?.let {

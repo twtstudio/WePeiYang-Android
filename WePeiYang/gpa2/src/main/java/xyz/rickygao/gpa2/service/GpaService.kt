@@ -6,9 +6,8 @@ import com.twt.wepeiyang.commons.experimental.cache.*
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import com.twt.wepeiyang.commons.experimental.network.CommonBody
 import com.twt.wepeiyang.commons.experimental.network.ServiceFactory
-import kotlinx.coroutines.experimental.Deferred
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.*
+import kotlinx.coroutines.android.Main
 import retrofit2.http.FieldMap
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
@@ -35,7 +34,7 @@ val GpaRemoteCache = Cache.from(GpaService.Companion::get).map(CommonBody<GpaBea
 val GpaLiveData = RefreshableLiveData.use(GpaLocalCache, GpaRemoteCache)
 
 internal fun postEvaluate(evaluate: Evaluate, q1: Int, q2: Int, q3: Int, q4: Int, q5: Int, note: String, callback: suspend (String) -> (Unit)) {
-    launch(UI) {
+    GlobalScope.launch(Dispatchers.Main) {
         val params = mapOf(
                 "token" to GpaLiveData.value?.session.orEmpty(),
                 "lesson_id" to evaluate.lesson_id,

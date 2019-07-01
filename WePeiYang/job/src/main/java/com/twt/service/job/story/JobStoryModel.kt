@@ -6,12 +6,15 @@ import com.twt.service.job.service.Recruit
 import com.twt.wepeiyang.commons.experimental.cache.RefreshState
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.android.Main
+import kotlinx.coroutines.android.UI
+import kotlinx.coroutines.launch
 
 object JobStoryModel {
     fun getRecruitDetail(id: Int, type: Int, callback: suspend (RefreshState<Unit>, Recruit?, String) -> Unit) {
-        launch(UI + QuietCoroutineExceptionHandler) {
+        GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
             JobService.getRecruitDetail(id, type).awaitAndHandle {
                 callback(RefreshState.Failure(it), null, "")
             }?.let {

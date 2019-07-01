@@ -17,10 +17,13 @@ import com.twt.wepeiyang.commons.experimental.extensions.bind
 import com.twt.wepeiyang.commons.network.RetrofitProvider
 import com.twtstudio.retrox.tjulibrary.R
 import com.twtstudio.retrox.tjulibrary.provider.*
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.android.Main
+import kotlinx.coroutines.android.UI
+import kotlinx.coroutines.async
+import kotlinx.coroutines.withContext
 import okhttp3.ResponseBody
-import org.jetbrains.anko.coroutines.experimental.bg
 import org.jetbrains.anko.textColor
 import org.json.JSONException
 import org.json.JSONObject
@@ -128,20 +131,20 @@ class LibraryItemViewHolder(private val lifecycleOwner: LifecycleOwner, itemView
     }
 
     private fun test() {
-        async(UI) {
-            val data: List<Histroy>? = bg { libApi.libUserHistroy.map { it.data }.toBlocking().first() }.await()
+        GlobalScope.async(Dispatchers.Main){
+            val data: List<Histroy>? = withContext(Dispatchers.Default) { libApi.libUserHistroy.map { it.data }.toBlocking().first() }
             Logger.d(data)
 
-            val search: ResponseBody? = bg { libApi.searchLibBook("Gradle for Android中文版", 0).toBlocking().first() }.await()
+            val search: ResponseBody? = withContext(Dispatchers.Default) { libApi.searchLibBook("Gradle for Android中文版", 0).toBlocking().first() }
             Logger.d(search?.string())
 
-            val detail: ResponseBody? = bg { libApi.getBookDetail("TD002505117").toBlocking().first() }.await()
+            val detail: ResponseBody? = withContext(Dispatchers.Default) { libApi.getBookDetail("TD002505117").toBlocking().first() }
             Logger.d(detail?.string())
         }
     }
 
     private fun refresh(isrefresh: Boolean = false) {
-        async(UI) {
+        GlobalScope.async(Dispatchers.Main) {
             loadingState.value = PROGRESSING
 //            val data: Info? = bg { libApi.libUserInfo.map { it.data }.toBlocking().first() }.await()
             val livedata = LibRepository.getUserInfo(isrefresh, this@LibraryItemViewHolder::handleException) // 还是要自己传入异常处理闭包 绝望
@@ -210,7 +213,7 @@ class LibraryItemViewHolder(private val lifecycleOwner: LifecycleOwner, itemView
         loadingState.value = PROGRESSING
         async(UI) {
             val barcode = "all"
-            val data: List<RenewResult>? = bg { libApi.renewBooks(barcode).map { it.data }.toBlocking().first() }.await()
+            val data: List<RenewResult>? = withContext(Dispatchers.Default) { libApi.renewBooks(barcode).map { it.data }.toBlocking().first() }
             loadingState.value = OK
             message.value = "续借操作完成"
             data?.let {

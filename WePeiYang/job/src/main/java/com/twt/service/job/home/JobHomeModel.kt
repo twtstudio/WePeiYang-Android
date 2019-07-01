@@ -4,13 +4,14 @@ import com.twt.service.job.service.*
 import com.twt.wepeiyang.commons.experimental.cache.RefreshState
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.android.UI
+import kotlinx.coroutines.launch
 
 object JobHomeModel {
 
     fun getRecruits(type: Int, page: Int, callback: suspend (RefreshState<Unit>, List<HomeDataL>?, List<HomeDataL>?) -> Unit) {
-        launch(UI + QuietCoroutineExceptionHandler) {
+        GlobalScope.launch(UI + QuietCoroutineExceptionHandler) {
             JobService.getRecruits(type, page).awaitAndHandle {
                 callback(RefreshState.Failure(it), null, null)
             }?.data?.let {

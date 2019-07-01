@@ -20,8 +20,10 @@ import com.twt.wepeiyang.commons.mta.mtaClick
 import com.twt.wepeiyang.commons.mta.mtaEnd
 import com.twt.wepeiyang.commons.ui.rec.withItems
 import es.dmoral.toasty.Toasty
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.android.Main
+import kotlinx.coroutines.launch
 
 class DetailActivity : AppCompatActivity() {
     val timeOfLost = "lostfound2_详情 点击丢失详情页平均停留时间"
@@ -44,7 +46,7 @@ class DetailActivity : AppCompatActivity() {
 //        val popupWindow = PopupWindow(popupWindowView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true)
 //        val banner: Banner = findViewById(R.id.br_detail_banner)
 
-        launch(UI + QuietCoroutineExceptionHandler) {
+        GlobalScope.launch (Dispatchers.Main + QuietCoroutineExceptionHandler) {
             val myList: CommonBody<DetailData>? = LostFoundService.getDetailed(id).awaitAndHandle {
                 it.printStackTrace()
                 Toasty.error(this@DetailActivity, "你网络崩啦，拿不到数据啦", Toast.LENGTH_LONG, true).show()

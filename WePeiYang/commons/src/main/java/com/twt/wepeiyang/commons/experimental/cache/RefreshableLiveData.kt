@@ -5,9 +5,12 @@ import android.content.Context
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import es.dmoral.toasty.Toasty
-import kotlinx.coroutines.experimental.Job
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.android.Main
+import kotlinx.coroutines.android.UI
+import kotlinx.coroutines.launch
 import org.jetbrains.anko.coroutines.experimental.asReference
 import org.json.JSONObject
 import retrofit2.HttpException
@@ -84,7 +87,7 @@ fun <V : Any> RefreshableLiveData.Companion.use(local: Cache<V>, remote: Cache<V
 
             override fun refresh(vararg indicators: CacheIndicator, callback: suspend (RefreshState<CacheIndicator>) -> Unit) {
                 if (running?.isActive == true) return
-                running = launch(UI + QuietCoroutineExceptionHandler) {
+                running = GlobalScope.launch (QuietCoroutineExceptionHandler) {
 
                     callback(RefreshState.Refreshing())
 
@@ -134,7 +137,7 @@ fun <V : Any> RefreshableLiveData.Companion.use(local: Cache<V>, remote: Cache<V
 
             override fun refresh(vararg indicators: CacheIndicator, callback: suspend (RefreshState<CacheIndicator>) -> Unit) {
                 if (running?.isActive == true) return
-                running = launch(UI) {
+                running = GlobalScope.launch(Dispatchers.Main) {
 
                     callback(RefreshState.Refreshing())
 
