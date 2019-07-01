@@ -10,7 +10,6 @@ import com.twt.service.schedule2.model.ScheduleDb
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import kotlinx.coroutines.*
-import kotlinx.coroutines.android.Main
 
 object AuditCourseManager {
 

@@ -10,8 +10,6 @@ import com.twt.wepeiyang.commons.experimental.network.CommonBody
 import es.dmoral.toasty.Toasty
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.android.Main
-import kotlinx.coroutines.android.UI
 import kotlinx.coroutines.launch
 import kotlin.math.log
 

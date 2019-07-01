@@ -31,7 +31,6 @@ import es.dmoral.toasty.Toasty
 import io.multimoon.colorful.Colorful
 import org.jetbrains.anko.*
 import org.jetbrains.anko.constraint.layout.constraintLayout
-import org.jetbrains.anko.sdk25.coroutines.onCheckedChange
 import org.jetbrains.anko.support.v4.nestedScrollView
 
 class CustomSettingBottomFragment : BottomSheetDialogFragment() {

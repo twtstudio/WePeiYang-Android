@@ -6,7 +6,6 @@ import com.twt.wepeiyang.commons.experimental.network.CommonBody
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.android.Main
 import kotlinx.coroutines.launch
 import retrofit2.http.*
 

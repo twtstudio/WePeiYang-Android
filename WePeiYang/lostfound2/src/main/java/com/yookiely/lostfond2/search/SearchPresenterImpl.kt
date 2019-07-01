@@ -11,8 +11,6 @@ import com.yookiely.lostfond2.service.Utils
 import es.dmoral.toasty.Toasty
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.android.Main
-import kotlinx.coroutines.android.UI
 import kotlinx.coroutines.launch
 
 class SearchPresenterImpl(private val searchUIView: SearchContract.SearchUIView) : SearchContract.SearchPresenter {

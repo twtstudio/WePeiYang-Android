@@ -10,7 +10,6 @@ import com.twt.wepeiyang.commons.network.RetrofitProvider
 import com.yookiely.lostfond2.service.Utils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.android.Main
 import kotlinx.coroutines.launch
 
 class WaterfallPresenterImpl(var waterfallView: WaterfallContract.WaterfallView)

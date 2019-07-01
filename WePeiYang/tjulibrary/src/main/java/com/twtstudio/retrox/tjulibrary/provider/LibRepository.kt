@@ -7,7 +7,6 @@ import com.twt.wepeiyang.commons.network.RetrofitProvider
 import com.twt.wepeiyang.commons.network.RxErrorHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.android.Main
 import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
 import org.jetbrains.anko.coroutines.experimental.bg

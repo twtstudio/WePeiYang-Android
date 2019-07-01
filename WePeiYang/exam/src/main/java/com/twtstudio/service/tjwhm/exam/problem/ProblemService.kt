@@ -8,7 +8,6 @@ import com.twtstudio.service.tjwhm.exam.commons.EXAM_BASE_URL
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.android.Main
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
 import retrofit2.http.*

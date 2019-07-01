@@ -10,8 +10,6 @@ import com.twtstudio.retrox.tjulibrary.provider.Info
 import com.twtstudio.retrox.tjulibrary.provider.RenewResult
 import es.dmoral.toasty.Toasty
 import kotlinx.coroutines.*
-import kotlinx.coroutines.android.Main
-import kotlinx.coroutines.android.UI
 import retrofit2.http.GET
 import retrofit2.http.Path
 

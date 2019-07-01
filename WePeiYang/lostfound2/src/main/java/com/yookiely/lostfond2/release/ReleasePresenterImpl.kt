@@ -7,8 +7,6 @@ import com.yookiely.lostfond2.service.MyListDataOrSearchBean
 import com.yookiely.lostfond2.service.Utils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.android.Main
-import kotlinx.coroutines.android.UI
 import kotlinx.coroutines.launch
 import okhttp3.MediaType
 import okhttp3.MultipartBody

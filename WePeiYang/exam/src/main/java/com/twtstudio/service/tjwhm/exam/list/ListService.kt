@@ -6,8 +6,6 @@ import com.twt.wepeiyang.commons.experimental.network.CommonBody
 import com.twt.wepeiyang.commons.experimental.network.ServiceFactory
 import com.twtstudio.service.tjwhm.exam.commons.EXAM_BASE_URL
 import kotlinx.coroutines.*
-import kotlinx.coroutines.android.Main
-import kotlinx.coroutines.android.UI
 import retrofit2.http.GET
 import retrofit2.http.Path
 

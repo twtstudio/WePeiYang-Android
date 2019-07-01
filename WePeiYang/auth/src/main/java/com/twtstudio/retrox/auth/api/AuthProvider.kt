@@ -8,7 +8,6 @@ import com.twt.wepeiyang.commons.experimental.service.AuthSelfBean
 import com.twt.wepeiyang.commons.experimental.service.AuthService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.android.Main
 import kotlinx.coroutines.launch
 
 

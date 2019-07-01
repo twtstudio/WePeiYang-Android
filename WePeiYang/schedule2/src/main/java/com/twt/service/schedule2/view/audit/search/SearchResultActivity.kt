@@ -38,8 +38,6 @@ import com.twt.wepeiyang.commons.ui.rec.ItemManager
 import es.dmoral.toasty.Toasty
 import io.multimoon.colorful.CAppCompatActivity
 import kotlinx.coroutines.*
-import kotlinx.coroutines.android.Main
-import kotlinx.coroutines.android.UI
 import org.jetbrains.anko.alert
 
 class SearchResultActivity : CAppCompatActivity() {
@@ -154,7 +152,7 @@ class SearchResultActivity : CAppCompatActivity() {
                     duplicateList.isEmpty() -> {
                         message = "蹭课：${auditCourse.courseName}"
                         positiveButton("确认") {
-                            async(UI + QuietCoroutineExceptionHandler) {
+                            async(Dispatchers.Main + QuietCoroutineExceptionHandler) {
                                 val auditResult = audit(auditCourse.courseId, auditCourse.infos[0].id.toString()).awaitAndHandle { it.printStackTrace() }?.message
                                         ?: "蹭课失败"
                                 Toasty.success(this@SearchResultActivity, "$auditResult - ${auditCourse.courseName}").show()
@@ -172,7 +170,7 @@ class SearchResultActivity : CAppCompatActivity() {
                         coursesAlreadyAudit.flatMap { it.infos }.forEach { infoIds += "${it.id}," }
                         infoIds += auditCourse.infos[0].id
                         positiveButton("确认") {
-                            async(UI + QuietCoroutineExceptionHandler) {
+                            async(Dispatchers.Main + QuietCoroutineExceptionHandler) {
                                 val auditResult = audit(auditCourse.courseId, infoIds).awaitAndHandle { it.printStackTrace() }?.message
                                 Toasty.success(this@SearchResultActivity, "$auditResult - ${auditCourse.courseName}").show()
 

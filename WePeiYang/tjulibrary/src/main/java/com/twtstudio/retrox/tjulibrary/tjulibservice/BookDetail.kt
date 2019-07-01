@@ -3,7 +3,6 @@ package com.twtstudio.retrox.tjulibrary.tjulibservice
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.android.Main
 import kotlinx.coroutines.launch
 
 object BookDetail {

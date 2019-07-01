@@ -15,9 +15,10 @@ import com.twt.wepeiyang.commons.experimental.CommonContext
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import es.dmoral.toasty.Toasty
-import kotlinx.coroutines.*
-import kotlinx.coroutines.android.Main
-import kotlinx.coroutines.android.UI
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 import java.net.Inet4Address
 import java.net.NetworkInterface
 import java.net.SocketException
@@ -79,7 +80,7 @@ object TjuNetViewModel {
     }
 
     fun login(context: Context) {
-        GlobalScope.launch(UI + QuietCoroutineExceptionHandler) {
+        GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
             if (TjuNetPreferences.password == "") {
                 Toasty.info(context, "请前往上网功能页面登陆以保存您的密码").show()
                 val intent = Intent(context, TjuNetActivity::class.java)
@@ -103,7 +104,7 @@ object TjuNetViewModel {
     }
 
     fun logout(context: Context) {
-        launch(UI + QuietCoroutineExceptionHandler) {
+        GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
             val body = RealTjuNetService.logoutTry(
                     username = TjuNetPreferences.username,
                     password = TjuNetPreferences.password

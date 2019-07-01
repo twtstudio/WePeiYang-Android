@@ -7,7 +7,6 @@ import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import com.twt.wepeiyang.commons.experimental.network.CommonBody
 import com.twt.wepeiyang.commons.experimental.network.ServiceFactory
 import kotlinx.coroutines.*
-import kotlinx.coroutines.android.Main
 import retrofit2.http.FieldMap
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET

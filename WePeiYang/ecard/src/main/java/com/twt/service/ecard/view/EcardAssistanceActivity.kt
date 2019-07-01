@@ -21,7 +21,6 @@ import com.twt.wepeiyang.commons.experimental.extensions.enableLightStatusBarMod
 import com.twt.wepeiyang.commons.ui.rec.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.android.Main
 import kotlinx.coroutines.launch
 import org.jetbrains.anko.*
 

@@ -11,7 +11,6 @@ import com.twtstudio.service.tjwhm.exam.user.star.StarActivity
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.android.Main
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
 import retrofit2.http.*

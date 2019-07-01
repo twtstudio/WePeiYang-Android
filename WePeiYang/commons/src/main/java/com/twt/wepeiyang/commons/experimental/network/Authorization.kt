@@ -9,8 +9,6 @@ import com.twt.wepeiyang.commons.experimental.service.AuthService
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.android.Main
-import kotlinx.coroutines.android.UI
 import kotlinx.coroutines.launch
 import okhttp3.*
 import org.json.JSONObject

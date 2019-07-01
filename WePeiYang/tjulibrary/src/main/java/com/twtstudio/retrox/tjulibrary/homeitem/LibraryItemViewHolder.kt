@@ -19,8 +19,6 @@ import com.twtstudio.retrox.tjulibrary.R
 import com.twtstudio.retrox.tjulibrary.provider.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.android.Main
-import kotlinx.coroutines.android.UI
 import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
 import okhttp3.ResponseBody

@@ -8,7 +8,6 @@ import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.android.Main
 import kotlinx.coroutines.launch
 
 object JobSearchModel {

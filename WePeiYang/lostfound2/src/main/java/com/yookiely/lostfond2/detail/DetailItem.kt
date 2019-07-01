@@ -12,7 +12,7 @@ import com.twt.wepeiyang.commons.mta.mtaClick
 import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemController
 import org.jetbrains.anko.layoutInflater
-import org.jetbrains.anko.sdk25.coroutines.onClick
+import org.jetbrains.anko.sdk27.coroutines.onClick
 
 class DetailItem(val specificTitle: String, val content: String, val isLast: Boolean) : Item {
 

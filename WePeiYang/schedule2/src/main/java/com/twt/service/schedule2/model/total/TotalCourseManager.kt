@@ -15,8 +15,6 @@ import com.twt.service.schedule2.model.school.refresh
 import com.twt.wepeiyang.commons.experimental.cache.CacheIndicator
 import com.twt.wepeiyang.commons.experimental.cache.RefreshState
 import kotlinx.coroutines.*
-import kotlinx.coroutines.android.Main
-import kotlinx.coroutines.android.UI
 
 object TotalCourseManager {
 
