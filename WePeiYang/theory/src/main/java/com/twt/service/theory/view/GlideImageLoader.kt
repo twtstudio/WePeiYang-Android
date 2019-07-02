@@ -8,7 +8,7 @@ import com.youth.banner.loader.ImageLoader
 open class GlideImageLoader : ImageLoader() {
     override fun displayImage(context: Context?, path: Any?, imageView: ImageView?) {
         Glide.with(context)
-                .load(path)
+                .load(path.toString())
                 .into(imageView)
     }
 

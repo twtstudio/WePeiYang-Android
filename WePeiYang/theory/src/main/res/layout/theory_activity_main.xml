@@ -15,6 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="160dp"
         android:id="@+id/main_banner"
+        app:image_scale_type="fit_center"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"/>
     <android.support.design.widget.TabLayout
         android:layout_width="match_parent"

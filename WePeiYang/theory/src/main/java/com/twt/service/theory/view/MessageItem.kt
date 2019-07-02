@@ -12,8 +12,8 @@ import org.jetbrains.anko.layoutInflater
 class MessageItem : Item{
     private companion object Controller : ItemController {
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: Item) {
-            holder as ExamItemViewHolder
-            item as ExamItem
+            holder as MessageItemViewHolder
+            item as MessageItem
             holder.apply {
                 name.text = "一次小考试"
                 content.text = "一次小考试"
@@ -25,13 +25,13 @@ class MessageItem : Item{
             val inflater = parent.context.layoutInflater
             val view = inflater.inflate(R.layout.theory_item_announce, parent, false)
 
-            return ExamItemViewHolder(view)
+            return MessageItemViewHolder(view)
         }
 
 
     }
 
-    private class ExamItemViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView){
+    private class MessageItemViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView){
         val name = itemView.findViewById<TextView>(R.id.eaxm_announce_name)
         val content = itemView.findViewById<TextView>(R.id.eaxm_announce_detail)
     }
