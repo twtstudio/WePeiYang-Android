@@ -71,7 +71,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
-                        android:textColor="@color/md_blue_A700"
+                        android:textColor="#1E90FF"
                         android:textSize="16sp"
                         tools:text="天外天外天外天" />
 
@@ -99,7 +99,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
-                        android:textColor="@color/md_blue_A700"
+                        android:textColor="#1E90FF"
                         android:textSize="16sp"
                         tools:text="张三" />
 
@@ -127,7 +127,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
-                        android:textColor="@color/md_blue_A700"
+                        android:textColor="#1E90FF"
                         android:textSize="16sp"
                         tools:text="3018000001" />
 

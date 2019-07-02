@@ -2,7 +2,7 @@
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="90dp"
+    android:layout_height="80dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:ndroid="http://schemas.android.com/tools">
     <TextView
@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/eaxm_announce_name"
         android:text="考试时间"
-        android:textSize="20sp"
+        android:textSize="17sp"
         android:textColor="#000000"
         app:layout_constraintLeft_toRightOf="@+id/shape2"
         app:layout_constraintTop_toTopOf="@+id/shape2"
@@ -29,11 +29,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/eaxm_announce_detail"
-        android:textSize="18sp"
+        android:textSize="15sp"
         android:text="2019.4.20"
         app:layout_constraintLeft_toLeftOf="@+id/eaxm_announce_name"
         app:layout_constraintTop_toBottomOf="@+id/eaxm_announce_name"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="10dp"
         />
 
 </android.support.constraint.ConstraintLayout>

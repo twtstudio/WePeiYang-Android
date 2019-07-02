@@ -7,21 +7,16 @@ import android.preference.Preference
 import android.preference.PreferenceFragment
 import android.preference.SwitchPreference
 import android.support.v7.app.AlertDialog
-import android.support.v7.widget.Toolbar
-import android.text.TextUtils
 import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.Toast
 import com.tencent.bugly.crashreport.CrashReport
 import com.twt.service.R
-import com.twt.service.WePeiYangApp
 import com.twt.service.update.UpdateManager
-import com.twt.wepeiyang.commons.cache.CacheProvider
 import com.twt.wepeiyang.commons.experimental.cache.CacheIndicator.REMOTE
 import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
 import com.twt.wepeiyang.commons.network.RxErrorHandler
 import com.twtstudio.retrox.auth.api.authSelfLiveData
-import com.twtstudio.retrox.auth.view.LoginActivity
 import com.twtstudio.retrox.bike.service.BikeServiceProvider
 import com.twtstudio.retrox.tjulibrary.provider.TjuLibProvider
 import es.dmoral.toasty.Toasty
@@ -40,7 +35,7 @@ class SettingsActivity : CAppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_setting)
 
-        setSupportActionBar(findViewById(R.id.toolbar))
+        setSupportActionBar(findViewById(R.id.theory_toolbar))
         title = ""
         findViewById<ImageView>(R.id.iv_activity_setting_back).setOnClickListener { onBackPressed() }
         fragmentManager.beginTransaction()
