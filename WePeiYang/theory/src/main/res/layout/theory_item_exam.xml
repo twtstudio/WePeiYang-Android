@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="75dp"
+    android:layout_height="80dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
         android:id="@+id/exam_necessary"
-        android:layout_width="42dp"
-        android:layout_height="19dp"
+        android:layout_width="45dp"
+        android:layout_height="20dp"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="13dp"
+        android:layout_marginTop="15dp"
         android:background="@drawable/type_circle_shape"
         android:gravity="center"
         android:text="必考"
         android:textColor="#1E90FF"
-        android:textSize="13sp"
+        android:textSize="14sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
     <TextView
@@ -23,14 +23,14 @@
         android:id="@+id/eaxm_name"
         android:text="考试时间"
         android:textColor="@color/black_color"
-        android:textSize="15sp"
+        android:textSize="16sp"
         app:layout_constraintLeft_toRightOf="@+id/exam_necessary"
         app:layout_constraintTop_toTopOf="@+id/exam_necessary"
         app:layout_constraintBottom_toBottomOf="@+id/exam_necessary"
         android:layout_marginLeft="10dp"/>
     <TextView
-        android:layout_width="66dp"
-        android:layout_height="19dp"
+        android:layout_width="69dp"
+        android:layout_height="20dp"
         android:background="@drawable/state_circle_shape"
         app:layout_constraintTop_toTopOf="@id/eaxm_detail"
         app:layout_constraintBottom_toBottomOf="@+id/eaxm_detail"
@@ -38,7 +38,7 @@
         android:layout_marginLeft="20dp"
         android:text="正在进行"
         android:textColor="#75beab"
-        android:textSize="13sp"
+        android:textSize="14sp"
         android:gravity="center"
         android:id="@+id/exam_status"/>
     <TextView

@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import com.twt.service.theory.R
+import com.twt.wepeiyang.commons.experimental.extensions.enableLightStatusBarMode
 import com.twt.wepeiyang.commons.ui.rec.withItems
 import kotlinx.android.synthetic.main.theory_activity_user.*
 import kotlinx.android.synthetic.main.theory_common_toolbar.*
@@ -18,6 +19,7 @@ class UserActivity : AppCompatActivity() {
         setContentView(R.layout.theory_activity_user)
         window.statusBarColor = Color.parseColor("#FFFFFF")
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        enableLightStatusBarMode(true)
         theory_back.setOnClickListener {
             finish()
         }

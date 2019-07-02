@@ -122,6 +122,71 @@ class UserExamItem : Item {
 
 }
 
+class MessageItem : Item {
+    private companion object Controller : ItemController {
+        override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: Item) {
+            holder as MessageItemViewHolder
+            item as MessageItem
+            holder.apply {
+                name.text = "一次小考试"
+                content.text = "一次小考试"
+            }
+
+        }
+
+        override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
+            val inflater = parent.context.layoutInflater
+            val view = inflater.inflate(R.layout.theory_item_announce, parent, false)
+
+            return MessageItemViewHolder(view)
+        }
+
+
+    }
+
+    private class MessageItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val name = itemView.findViewById<TextView>(R.id.eaxm_announce_name)
+        val content = itemView.findViewById<TextView>(R.id.eaxm_announce_detail)
+    }
+
+    override val controller: ItemController
+        get() = MessageItem
+}
+
+class ExamDetailItem : Item {
+    private companion object Controller : ItemController {
+        override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: Item) {
+            holder as ExamDetailItemViewHolder
+            item as ExamDetailItem
+
+            holder.apply {
+                title.text = "考试时间"
+                times.text = "2019-4-20"
+            }
+        }
+
+        override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
+            val inflater = parent.context.layoutInflater
+            val view = inflater.inflate(R.layout.theory_item_examdetail, parent, false)
+
+            return ExamDetailItemViewHolder(view)
+        }
+
+
+
+
+    }
+    private class ExamDetailItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val title = itemView.findViewById<TextView>(R.id.eaxm_detail_name)
+        val times = itemView.findViewById<TextView>(R.id.eaxm_detail_detail)
+    }
+
+
+    override val controller: ItemController
+        get() = ExamDetailItem
+}
+
+fun MutableList<Item>.setMessage() = add(MessageItem())
 
 fun MutableList<Item>.setExamItem() = add(ExamItem())
 

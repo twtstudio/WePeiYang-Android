@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar
 import android.view.Window
 import android.widget.LinearLayout
 import com.twt.service.theory.R
+import com.twt.wepeiyang.commons.experimental.extensions.enableLightStatusBarMode
 import com.youth.banner.Banner
 import com.youth.banner.BannerConfig
 import com.youth.banner.Transformer
@@ -39,7 +40,7 @@ class TheoryActivity : AppCompatActivity(), OnBannerListener {
 
         }
         window.statusBarColor = Color.parseColor("#FFFFFF")
-
+        enableLightStatusBarMode(true)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         list.add("http://ww4.sinaimg.cn/large/006uZZy8jw1faic21363tj30ci08ct96.jpg")
         list.add("http://ww4.sinaimg.cn/large/006uZZy8jw1faic259ohaj30ci08c74r.jpg")
