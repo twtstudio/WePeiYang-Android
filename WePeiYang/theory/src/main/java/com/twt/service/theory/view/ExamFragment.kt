@@ -17,19 +17,10 @@ class ExamFragment : Fragment(){
         val recyclerView  = view.findViewById<RecyclerView>(R.id.main_rec)
         recyclerView.layoutManager = LinearLayoutManager(activity)
         recyclerView.withItems {
-            setExamItem()
-            setExamItem()
-            setExamItem()
-            setExamItem()
-            setExamItem()
-            setExamItem()
-            setExamItem()
-            setExamItem()
-            setExamItem()
-            setExamItem()
-            setExamItem()
-            setExamItem()
-            setExamItem()
+            setExamItem("一次考试","一次考试",this@ExamFragment)
+            setExamItem("一次考试","一次考试",this@ExamFragment)
+            setExamItem("一次考试","一次考试",this@ExamFragment)
+            setExamItem("一次考试","一次考试",this@ExamFragment)
         }
         return view
     }

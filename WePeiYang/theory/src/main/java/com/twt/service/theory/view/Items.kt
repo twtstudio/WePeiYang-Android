@@ -1,5 +1,7 @@
 package com.twt.service.theory.view
 
+import android.content.Intent
+import android.os.Bundle
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
@@ -52,15 +54,23 @@ class ProfileItem : Item {
 }
 
 
-class ExamItem : Item {
+class ExamItem(val titles: String,val detail: String,val examFragment: ExamFragment) : Item {
 
     private companion object Controller : ItemController {
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: Item) {
             holder as ExamItemViewHolder
             item as ExamItem
             holder.apply {
-                name.text = "一次小考试"
-                content.text = "一次小考试"
+                name.text = item.titles
+                content.text = item.detail
+                itemView.setOnClickListener {
+                    val bundle = Bundle()
+//                    bundle.putString("id", item.id)
+                    val intent = Intent()
+                    intent.putExtras(bundle)
+                    intent.setClass(item.examFragment.context, ExamDetailActivity::class.java)
+                    item.examFragment.startActivity(intent)
+                }
             }
 
         }
@@ -153,15 +163,15 @@ class MessageItem : Item {
         get() = MessageItem
 }
 
-class ExamDetailItem : Item {
+class ExamDetailItem(val titles : String, val detail : String) : Item {
     private companion object Controller : ItemController {
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: Item) {
             holder as ExamDetailItemViewHolder
             item as ExamDetailItem
 
             holder.apply {
-                title.text = "考试时间"
-                times.text = "2019-4-20"
+                title.text = item.titles
+                times.text = item.detail
             }
         }
 
@@ -188,8 +198,10 @@ class ExamDetailItem : Item {
 
 fun MutableList<Item>.setMessage() = add(MessageItem())
 
-fun MutableList<Item>.setExamItem() = add(ExamItem())
+fun MutableList<Item>.setExamItem(titles: String,detail: String,examFragment: ExamFragment) = add(ExamItem(titles,detail,examFragment))
 
 fun MutableList<Item>.setProfileItem() = add(ProfileItem())
 
 fun MutableList<Item>.setUserExamItem() = add(UserExamItem())
+
+fun MutableList<Item>.setDetail( titles: String, detail: String) = add(ExamDetailItem(titles,detail))
