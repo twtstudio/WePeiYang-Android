@@ -85,8 +85,7 @@ fun <V : Any> RefreshableLiveData.Companion.use(local: Cache<V>, remote: Cache<V
 
             override fun refresh(vararg indicators: CacheIndicator, callback: suspend (RefreshState<CacheIndicator>) -> Unit) {
                 if (running?.isActive == true) return
-                running = GlobalScope.launch (QuietCoroutineExceptionHandler) {
-
+                running = GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
                     callback(RefreshState.Refreshing())
 
                     val handler: suspend (Throwable) -> Unit = { callback(RefreshState.Failure(it)) }
@@ -125,7 +124,6 @@ fun <V : Any> RefreshableLiveData.Companion.use(local: Cache<V>, remote: Cache<V
             override fun onInactive() {
                 cancel()
             }
-
         }
 
 fun <V : Any> RefreshableLiveData.Companion.use(local: Cache<V>, remote: Cache<V>, callbackOnEach: suspend (V) -> Unit) =
