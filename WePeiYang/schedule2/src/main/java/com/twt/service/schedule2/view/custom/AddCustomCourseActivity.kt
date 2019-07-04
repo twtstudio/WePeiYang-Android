@@ -1,22 +1,55 @@
 package com.twt.service.schedule2.view.custom
 
 import android.os.Bundle
+import android.support.design.widget.TabLayout
+import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.Toolbar
 import android.view.Menu
+import android.widget.TextView
 import com.twt.service.schedule2.R
-import kotlinx.android.synthetic.main.schedule_act_add_custom.*
+import android.view.View
+import android.widget.ImageView
 
 class AddCustomCourseActivity: AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.schedule_act_add_custom)
-        setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        val toolbar: Toolbar = findViewById(R.id.toolbar)
+        setSupportActionBar(toolbar)
         toolbar.setNavigationOnClickListener {
             finish()
         }
 
+        //更改toolbar的标题，隐藏刷新和添加按钮
+        val titleText: TextView = findViewById(R.id.tv_toolbar_title)
+        titleText.apply {
+            text = "自定义事件"
+        }
+        val refreshImg: ImageView = findViewById(R.id.iv_toolbar_refresh)
+        refreshImg.apply {
+            visibility = View.GONE
+        }
+        val addImg: ImageView = findViewById(R.id.iv_toolbar_add)
+        addImg.visibility = View.GONE
+
+        //设置tab
+        val customTabLayout: TabLayout = findViewById(R.id.tab_layout)
+        val customViewPager: ViewPager = findViewById(R.id.custom_view_pager)
+        val myhomePagerAdapter = CustomPagerAdapter(supportFragmentManager)
+
+        myhomePagerAdapter.apply {
+            add(AddCustomFragment(), "设置自定义事件")
+            add(MyCustomFragment(), "我的自定义事件")
+        }
+        customViewPager.adapter = myhomePagerAdapter
+        customTabLayout.apply {
+            setupWithViewPager(customViewPager)
+            tabGravity = TabLayout.GRAVITY_FILL
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

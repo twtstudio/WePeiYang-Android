@@ -6,8 +6,15 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import com.twt.service.schedule2.R
+import com.twt.service.schedule2.model.custom.CustomCourse
+import com.twt.service.schedule2.model.custom.CustomCourseManager
+import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
 import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemController
+import es.dmoral.toasty.Toasty
+import kotlinx.coroutines.experimental.CommonPool
+import kotlinx.coroutines.experimental.launch
 import org.jetbrains.anko.*
 import org.jetbrains.anko.constraint.layout.constraintLayout
 
@@ -66,6 +73,61 @@ class SingleTextItem(val text: String) : Item {
     }
 }
 
+class CustomCourseItem(customCourse: CustomCourse): Item{
+
+    val customCourse: CustomCourse = customCourse
+    var clickBlock: ((View) -> Unit)? = null
+
+    override val controller: ItemController
+        get() = CustomCourseItem
+
+    private companion object Controller : ItemController {
+        override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: Item) {
+            holder as CustomItemViewHolder
+            item as CustomCourseItem
+            holder.apply {
+                name.text = item.customCourse.name
+                teacher.text = item.customCourse.teacher
+                room.text = item.customCourse.arrange[0].room
+                week.text = item.customCourse.arrange[0].week
+                ext.text = item.customCourse.ext
+            }
+
+            holder.itemView.setOnClickListener {
+                holder.itemView.context.alert {
+                    title = "删除自定义事件"
+                    message = "是否删除该自定义事件（所有时段）：${item.customCourse.name}"
+                    positiveButton("删除自定义事件") {
+                        launch(CommonPool + QuietCoroutineExceptionHandler) {
+                            CustomCourseManager.deleteCustomCourse(item.customCourse)
+                            Toasty.info(holder.itemView.context.applicationContext, "删除成功").show()
+                        }
+                    }
+                }.show()
+            }
+
+        }
+
+        override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
+            val inflater = parent.context.layoutInflater
+            val view = inflater.inflate(R.layout.schedule_item_my_custom, parent, false)
+
+            return CustomItemViewHolder(view)
+        }
+
+    }
+
+    private class CustomItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val name = itemView.findViewById<TextView>(R.id.custom_course_name)
+        val teacher = itemView.findViewById<TextView>(R.id.custom_course_teacher)
+        val room = itemView.findViewById<TextView>(R.id.custom_course_room)
+        val week = itemView.findViewById<TextView>(R.id.custom_course_week)
+        val ext = itemView.findViewById<TextView>(R.id.custom_course_ext)
+    }
+
+}
+
 fun MutableList<Item>.singleText(text: String) = add(SingleTextItem(text))
 fun MutableList<Item>.singleText(text: String, builder: (TextView.() -> Unit)) = add(SingleTextItem(text).apply { this.builder = builder })
 
+fun MutableList<Item>.setCustomCourseItem(customCourse: CustomCourse,clickBlock: (View) -> Unit) = add(CustomCourseItem(customCourse).apply {this.clickBlock = clickBlock })
