@@ -1,5 +1,6 @@
 package com.twt.service.theory.view
 
+import android.content.Intent
 import android.graphics.Color
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -21,6 +22,10 @@ class ExamDetailActivity : AppCompatActivity() {
         window.statusBarColor = Color.parseColor("#FFFFFF")
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         enableLightStatusBarMode(true)
+        theory_person_profile.setOnClickListener {
+            val intent = Intent(this, UserActivity::class.java)
+            startActivity(intent)
+        }
         theory_back.setOnClickListener {
             finish()
         }

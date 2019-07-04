@@ -42,8 +42,8 @@ class TheoryActivity : AppCompatActivity(), OnBannerListener {
         window.statusBarColor = Color.parseColor("#FFFFFF")
         enableLightStatusBarMode(true)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        list.add("http://ww4.sinaimg.cn/large/006uZZy8jw1faic21363tj30ci08ct96.jpg")
-        list.add("http://ww4.sinaimg.cn/large/006uZZy8jw1faic259ohaj30ci08c74r.jpg")
+        list.add("http://img2.imgtn.bdimg.com/it/u=667315488,3650645478&fm=26&gp=0.jpg")
+        list.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1562234279114&di=ed79c6a1f531d80673ebe34ea6ed697e&imgtype=0&src=http%3A%2F%2Fimg5q.duitang.com%2Fuploads%2Fitem%2F201502%2F23%2F20150223131655_ffVMV.jpeg")
         val banner = findViewById<Banner>(R.id.main_banner)
         banner.apply {
             setImageLoader(GlideImageLoader())
