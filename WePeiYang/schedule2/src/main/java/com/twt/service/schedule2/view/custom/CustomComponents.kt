@@ -2,19 +2,23 @@ package com.twt.service.schedule2.view.custom
 
 import android.graphics.Color
 import android.support.constraint.ConstraintLayout.LayoutParams.PARENT_ID
+import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.TextView
 import com.twt.service.schedule2.R
 import com.twt.service.schedule2.model.custom.CustomCourse
 import com.twt.service.schedule2.model.custom.CustomCourseManager
+import com.twt.wepeiyang.commons.experimental.color.getColorCompat
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
 import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemController
 import es.dmoral.toasty.Toasty
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.launch
+import me.ele.uetool.base.item.EditTextItem
 import org.jetbrains.anko.*
 import org.jetbrains.anko.constraint.layout.constraintLayout
 
@@ -73,7 +77,7 @@ class SingleTextItem(val text: String) : Item {
     }
 }
 
-class CustomCourseItem(customCourse: CustomCourse): Item{
+class CustomCourseItem(customCourse: CustomCourse) : Item {
 
     val customCourse: CustomCourse = customCourse
     var clickBlock: ((View) -> Unit)? = null
@@ -91,6 +95,7 @@ class CustomCourseItem(customCourse: CustomCourse): Item{
                 room.text = item.customCourse.arrange[0].room
                 week.text = item.customCourse.arrange[0].week
                 ext.text = item.customCourse.ext
+                cardView.setCardBackgroundColor(getColorCompat(R.color.colorPrimary))
             }
 
             holder.itemView.setOnClickListener {
@@ -123,11 +128,17 @@ class CustomCourseItem(customCourse: CustomCourse): Item{
         val room = itemView.findViewById<TextView>(R.id.custom_course_room)
         val week = itemView.findViewById<TextView>(R.id.custom_course_week)
         val ext = itemView.findViewById<TextView>(R.id.custom_course_ext)
+        val cardView = itemView.findViewById<CardView>(R.id.my_custom_card_view)
     }
 
 }
 
+
+
+
+
+
 fun MutableList<Item>.singleText(text: String) = add(SingleTextItem(text))
 fun MutableList<Item>.singleText(text: String, builder: (TextView.() -> Unit)) = add(SingleTextItem(text).apply { this.builder = builder })
 
-fun MutableList<Item>.setCustomCourseItem(customCourse: CustomCourse,clickBlock: (View) -> Unit) = add(CustomCourseItem(customCourse).apply {this.clickBlock = clickBlock })
+fun MutableList<Item>.setCustomCourseItem(customCourse: CustomCourse, clickBlock: (View) -> Unit) = add(CustomCourseItem(customCourse).apply { this.clickBlock = clickBlock })

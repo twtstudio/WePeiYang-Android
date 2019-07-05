@@ -34,6 +34,8 @@
                         android:id="@+id/edit_course_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textColorHint="@color/colorPrimary"
+                        android:theme="@style/TextInputLayoutLineColor"
                         android:hint="自定义课程/事件名" />
                 </android.support.design.widget.TextInputLayout>
 

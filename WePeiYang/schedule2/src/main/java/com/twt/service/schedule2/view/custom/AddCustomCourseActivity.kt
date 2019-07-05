@@ -1,5 +1,6 @@
 package com.twt.service.schedule2.view.custom
 
+import android.graphics.Color
 import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v4.view.ViewPager
@@ -10,6 +11,7 @@ import android.widget.TextView
 import com.twt.service.schedule2.R
 import android.view.View
 import android.widget.ImageView
+import com.twt.wepeiyang.commons.experimental.color.getColorCompat
 
 class AddCustomCourseActivity: AppCompatActivity() {
 
@@ -17,12 +19,14 @@ class AddCustomCourseActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.schedule_act_add_custom)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        window.statusBarColor = getColorCompat(R.color.colorPrimary)
 
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         toolbar.setNavigationOnClickListener {
             finish()
         }
+        toolbar.setBackgroundColor(getColorCompat(R.color.colorPrimaryDark))
 
         //更改toolbar的标题，隐藏刷新和添加按钮
         val titleText: TextView = findViewById(R.id.tv_toolbar_title)
@@ -49,6 +53,9 @@ class AddCustomCourseActivity: AppCompatActivity() {
         customTabLayout.apply {
             setupWithViewPager(customViewPager)
             tabGravity = TabLayout.GRAVITY_FILL
+            setBackgroundColor(Color.parseColor("#F5F5F5"))
+            setTabTextColors(Color.DKGRAY, getColorCompat(R.color.colorPrimary) - 20)
+            setSelectedTabIndicatorColor(getColorCompat(R.color.colorPrimary) - 20)
         }
     }
 

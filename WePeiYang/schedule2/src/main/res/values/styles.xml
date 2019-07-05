@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="TextInputLayoutLineColor" parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">@color/md_grey_100</item>       <!--没有获取焦点时的颜色-->
+        <item name="colorControlActivated">@color/md_grey_500</item>     <!--获取焦点时的颜色-->
+        <item name="android:textColorHint">@color/md_grey_100</item>
+        <item name="colorControlHighlight">@color/md_grey_500</item>
+        <item name="android:windowTranslucentStatus">true</item>
+    </style>
+
+</resources>
