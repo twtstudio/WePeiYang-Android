@@ -27,103 +27,128 @@
                 android:orientation="vertical">
 
                 <android.support.design.widget.TextInputLayout
+                    android:id="@+id/edit_course_name_layout"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:theme="@style/MyTextInputLayout">
 
                     <android.support.design.widget.TextInputEditText
                         android:id="@+id/edit_course_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColorHint="@color/colorPrimary"
-                        android:theme="@style/TextInputLayoutLineColor"
+                        android:singleLine="true"
                         android:hint="自定义课程/事件名" />
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:id="@+id/edit_course_teacher_layout"
+                    android:theme="@style/MyTextInputLayout">
 
                     <android.support.design.widget.TextInputEditText
                         android:id="@+id/edit_course_teacher"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:singleLine="true"
                         android:hint="当事人" />
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:theme="@style/MyTextInputLayout">
 
                     <android.support.design.widget.TextInputEditText
                         android:id="@+id/edit_week_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:singleLine="true"
                         android:hint="单双周" />
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:id="@+id/edit_start_time_layout"
+                    android:theme="@style/MyTextInputLayout">
 
                     <android.support.design.widget.TextInputEditText
                         android:id="@+id/edit_start_time_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:digits="1234567890"
+                        android:singleLine="true"
                         android:hint="第几节开始上课" />
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:id="@+id/edit_end_time_layout"
+                    android:theme="@style/MyTextInputLayout">
 
                     <android.support.design.widget.TextInputEditText
                         android:id="@+id/edit_end_time_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:digits="1234567890"
+                        android:singleLine="true"
                         android:hint="第几节下课" />
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:theme="@style/MyTextInputLayout">
 
                     <android.support.design.widget.TextInputEditText
                         android:id="@+id/edit_weekday_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:digits="1234567890"
+                        android:singleLine="true"
                         android:hint="周几鸭" />
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:theme="@style/MyTextInputLayout">
 
                     <android.support.design.widget.TextInputEditText
                         android:id="@+id/edit_room_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:singleLine="true"
                         android:hint="在哪鸭" />
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:theme="@style/MyTextInputLayout">
 
                     <android.support.design.widget.TextInputEditText
                         android:id="@+id/edit_startWeek_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:digits="1234567890"
+                        android:singleLine="true"
                         android:hint="哪周开始呀" />
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:theme="@style/MyTextInputLayout">
 
                     <android.support.design.widget.TextInputEditText
                         android:id="@+id/edit_endWeek_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:digits="1234567890"
+                        android:singleLine="true"
                         android:hint="哪周结束鸭" />
                 </android.support.design.widget.TextInputLayout>
 
@@ -141,7 +166,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="添加上课时间" />
-
         </LinearLayout>
 
 

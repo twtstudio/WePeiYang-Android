@@ -54,8 +54,8 @@ class AddCustomCourseActivity: AppCompatActivity() {
             setupWithViewPager(customViewPager)
             tabGravity = TabLayout.GRAVITY_FILL
             setBackgroundColor(Color.parseColor("#F5F5F5"))
-            setTabTextColors(Color.DKGRAY, getColorCompat(R.color.colorPrimary) - 20)
-            setSelectedTabIndicatorColor(getColorCompat(R.color.colorPrimary) - 20)
+            setTabTextColors(Color.DKGRAY, getColorCompat(R.color.colorPrimary))
+            setSelectedTabIndicatorColor(getColorCompat(R.color.colorPrimary))
         }
     }
 
