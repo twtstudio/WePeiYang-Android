@@ -6,7 +6,6 @@ import android.support.design.widget.TabLayout
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
-import android.view.Menu
 import android.widget.TextView
 import com.twt.service.schedule2.R
 import android.view.View
@@ -59,8 +58,8 @@ class AddCustomCourseActivity: AppCompatActivity() {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_schedule2,menu)
-        return super.onCreateOptionsMenu(menu)
-    }
+//    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+//        menuInflater.inflate(R.menu.menu_schedule2,menu)
+//        return super.onCreateOptionsMenu(menu)
+//    }
 }

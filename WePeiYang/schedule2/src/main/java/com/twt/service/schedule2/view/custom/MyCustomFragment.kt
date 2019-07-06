@@ -1,35 +1,44 @@
 package com.twt.service.schedule2.view.custom
 
 import android.graphics.Color
+import android.graphics.Typeface
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.transition.Visibility
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import com.twt.service.schedule2.R
 import com.twt.service.schedule2.model.custom.CustomCourseManager
+import com.twt.wepeiyang.commons.experimental.color.getColorCompat
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
 import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
 import com.twt.wepeiyang.commons.mta.mtaExpose
 import com.twt.wepeiyang.commons.ui.rec.ItemAdapter
 import com.twt.wepeiyang.commons.ui.rec.ItemManager
-import es.dmoral.toasty.Toasty
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 import org.jetbrains.anko.backgroundColor
 import org.jetbrains.anko.support.v4.alert
+import org.jetbrains.anko.textColor
 
 
 class MyCustomFragment: Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view: View = inflater.inflate(R.layout.schedule_frag_my_custom, container, false)
         val itemManager = ItemManager()
-        val mContext = view.context
+        val mContext = activity
         val recyclerView = view.findViewById<RecyclerView>(R.id.my_custom_rec)
+        val text = view.findViewById<TextView>(R.id.no_custom_text)
+        text.apply {
+            setTextColor(getColorCompat(R.color.colorPrimary))
+        }
+
         recyclerView.apply {
             layoutManager = LinearLayoutManager(activity)
             itemAnimator = DefaultItemAnimator()
@@ -43,8 +52,11 @@ class MyCustomFragment: Fragment() {
 
                 if (it.isNotEmpty()) {
                     mtaExpose("schedule_自定义课程_用户自定义课程列表不为空_${it.size}")
+                    text.visibility = View.GONE
                 } else {
                     mtaExpose("schedule_自定义课程_用户自定义课程列表为空")
+                    text.visibility = View.VISIBLE
+
                 }
 
                 it.forEach { customCourse ->
