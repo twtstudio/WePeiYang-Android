@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".mall.view.MallActivity2">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/tb_main"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:popupTheme="@style/AppTheme.PopupOverlay">
+
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="天外天商城"
+                android:textSize="24sp" />
+
+        </android.support.v7.widget.Toolbar>
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/mall_shape_search_bg">
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/iv_mall_search"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginStart="10dp"
+                android:src="@drawable/mall_ic_search"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <android.support.v7.widget.AppCompatEditText
+                android:id="@+id/et_mall_search"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="55dp"
+                android:layout_marginEnd="10dp"
+                android:hint="我需要..."
+                android:textColorHint="#797979"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/iv_mall_search"
+                app:layout_constraintTop_toTopOf="parent"
+
+                />
+
+        </android.support.constraint.ConstraintLayout>
+
+
+    </android.support.design.widget.AppBarLayout>
+
+    <include layout="@layout/mall_content_main" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_mine"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        app:srcCompat="@android:drawable/ic_input_add" />
+
+</android.support.design.widget.CoordinatorLayout>

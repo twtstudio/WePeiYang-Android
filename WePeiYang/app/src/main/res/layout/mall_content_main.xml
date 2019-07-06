@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f6f6f6"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".mall.view.MallActivity2"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/mall_vp_header"
+            tools:layout_height="180dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </android.support.v4.view.ViewPager>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/mall_rv_main"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>
