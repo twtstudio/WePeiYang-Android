@@ -1,19 +1,45 @@
 package com.twt.service.mall.model
 
 import com.twt.wepeiyang.commons.experimental.network.CommonBody
+import com.twt.wepeiyang.commons.experimental.network.CoroutineCallAdapterFactory
 import kotlinx.coroutines.experimental.Deferred
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.http.Field
 import retrofit2.http.GET
+import java.net.HttpCookie
 
-val baseUrl = "https://mall.twt.edu.cn"
 
-interface MallService {
+interface MallApi {
     @GET("/api.php/Login/wpyLogin?model=1")
-    fun login(): Deferred<CommonBody<List<Login>>>
+    fun login(@Field("token") token: String): Deferred<CommonBody<List<Login>>>
+
+    @GET("api.php/User/myself_info")
+    fun getPerInfo(@Field("cookies") cookie: HttpCookie): Deferred<CommonBody<List<PerInfo>>>
+
+    @GET("api.php/Items/item_new")
+    fun latestGoods(): Deferred<CommonBody<List<Goods>>>
+
+    @GET("api.php/Items/search")
+    fun schGoods(): Deferred<CommonBody<List<SchGoods>>>
+
+    @GET("api.php/Items/menu")
+    fun getMenu(): Deferred<CommonBody<List<Menu>>>
 
 
+    companion object : MallApi by MallApiService()
+}
 
 
+object MallApiService {
+    private const val baseUrl = "https://mall.twt.edu.cn"
+    val retrofit: Retrofit = Retrofit.Builder()
+            .baseUrl(baseUrl)
+            .addConverterFactory(GsonConverterFactory.create())
+            .addCallAdapterFactory(CoroutineCallAdapterFactory())
+            .build()
 
+    inline operator fun <reified T> invoke(): T = retrofit.create(T::class.java)
 }
 
 data class Login(
@@ -55,7 +81,7 @@ data class Goods(
         val username: String
 )
 
-data class ScGoods(
+data class SchGoods(
         val bargain: String,
         val campus: String,
         val ctime: String,

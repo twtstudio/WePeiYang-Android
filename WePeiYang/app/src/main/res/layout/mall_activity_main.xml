@@ -12,7 +12,7 @@
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/tb_main"
+            android:id="@+id/tb_mall_main"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
@@ -33,13 +33,14 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
             android:layout_marginEnd="15dp"
+            android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
             android:background="@drawable/mall_shape_search_bg">
 
             <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/iv_mall_search"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:layout_marginStart="10dp"
                 android:src="@drawable/mall_ic_search"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -49,12 +50,13 @@
             <android.support.v7.widget.AppCompatEditText
                 android:id="@+id/et_mall_search"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="55dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="45dp"
                 android:layout_marginEnd="10dp"
                 android:hint="我需要..."
+                android:background="@null"
                 android:textColorHint="#797979"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toRightOf="@id/iv_mall_search"
                 app:layout_constraintTop_toTopOf="parent"
@@ -69,7 +71,7 @@
     <include layout="@layout/mall_content_main" />
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab_mine"
+        android:id="@+id/mall_fab_mine"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"

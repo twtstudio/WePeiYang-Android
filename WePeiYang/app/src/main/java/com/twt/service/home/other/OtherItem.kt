@@ -12,6 +12,7 @@ import com.yookiely.lostfond2.waterfall.WaterfallActivity
 import com.twt.service.home.user.FragmentActivity
 import com.twt.service.job.home.JobHomeActivity
 import com.twt.service.mall.MallActivity
+import com.twt.service.mall.view.MallActivity2
 import com.twt.service.news.NewsActivity
 import com.twt.wepeiyang.commons.mta.mtaClick
 import com.twt.wepeiyang.commons.ui.rec.HomeItem
@@ -55,7 +56,7 @@ class OtherItem : Item {
                 removeAllViews()
                 addItem("商城", "天大二手交易平台") {
                     mtaClick("app_首页OtherItem商城Item")
-                    it.context.startActivity<MallActivity>()
+                    it.context.startActivity<MallActivity2>()
                 }
                 addItem("黄页", "天大电话簿") {
                     mtaClick("app_首页OtherItem黄页Item")

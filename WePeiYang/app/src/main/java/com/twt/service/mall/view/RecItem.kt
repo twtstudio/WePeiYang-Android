@@ -45,7 +45,8 @@ class RecItem(val mContext: Context, val info: Goods) : Item {
                         .putExtra("name", info.name)
                         .putExtra("price", info.price)
                         .putExtra("locate", info.location)
-                //emmmm
+                //TODO:其他的信息
+                item.mContext.startActivity(intent)
             }
         }
 
@@ -56,9 +57,7 @@ class RecItem(val mContext: Context, val info: Goods) : Item {
                 val price: TextView,
                 val locate: TextView,
                 val card: CardView
-        ) :
-                RecyclerView.ViewHolder(itemView)
-
+        ) : RecyclerView.ViewHolder(itemView)
     }
 
     override val controller: ItemController
