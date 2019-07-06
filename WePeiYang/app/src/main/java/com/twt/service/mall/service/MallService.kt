@@ -1,30 +1,37 @@
-package com.twt.service.mall.model
+package com.twt.service.mall.service
 
 import com.twt.wepeiyang.commons.experimental.network.CommonBody
 import com.twt.wepeiyang.commons.experimental.network.CoroutineCallAdapterFactory
+import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
 import kotlinx.coroutines.experimental.Deferred
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.Field
-import retrofit2.http.GET
+import retrofit2.http.*
 import java.net.HttpCookie
 
 
 interface MallApi {
+
+
     @GET("/api.php/Login/wpyLogin?model=1")
-    fun login(@Field("token") token: String): Deferred<CommonBody<List<Login>>>
+    fun login(@Header("Authorization") token: String): Deferred<CommonBody<List<Login>>>
 
     @GET("api.php/User/myself_info")
-    fun getPerInfo(@Field("cookies") cookie: HttpCookie): Deferred<CommonBody<List<PerInfo>>>
+    fun getMyInfo(/*@Field("cookies") cookie: HttpCookie*/): Deferred<List<MyInfo>>
+
 
     @GET("api.php/Items/item_new")
-    fun latestGoods(): Deferred<CommonBody<List<Goods>>>
+    fun latestGoods(): Deferred<List<Goods>>
 
-    @GET("api.php/Items/search")
-    fun schGoods(): Deferred<CommonBody<List<SchGoods>>>
+    @POST("api.php/Items/search")
+    fun schGoods(@Field("key") key: String, @Field("yeshu") page: Int): Deferred<List<SchGoods>>
 
     @GET("api.php/Items/menu")
-    fun getMenu(): Deferred<CommonBody<List<Menu>>>
+    fun getMenu(): Deferred<List<Menu>>
+
+    @POST("api.php/Items/sale_fabu")
+    fun upLoadSale(/*data class*/): Deferred<Any>//TODO:么的数据
 
 
     companion object : MallApi by MallApiService()
@@ -32,13 +39,20 @@ interface MallApi {
 
 
 object MallApiService {
+
+    private val clientBuilder = OkHttpClient.Builder()
+            .addInterceptor(AddCookiesInterceptor())
+            .addInterceptor(ReceivedCookiesInterceptor())
+    private val client: OkHttpClient = clientBuilder.build()
+
+
     private const val baseUrl = "https://mall.twt.edu.cn"
     val retrofit: Retrofit = Retrofit.Builder()
             .baseUrl(baseUrl)
+            .client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(CoroutineCallAdapterFactory())
             .build()
-
     inline operator fun <reified T> invoke(): T = retrofit.create(T::class.java)
 }
 
@@ -48,7 +62,7 @@ data class Login(
         val uid: String
 )
 
-data class PerInfo(
+data class MyInfo(
         val avatar: String,
         val email: String,
         val icon: String,

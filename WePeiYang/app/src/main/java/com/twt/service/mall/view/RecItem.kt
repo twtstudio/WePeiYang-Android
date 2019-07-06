@@ -10,7 +10,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.squareup.picasso.Picasso
 import com.twt.service.R
-import com.twt.service.mall.model.Goods
+import com.twt.service.mall.service.Goods
+import com.twt.service.mall.service.Utils
 import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemController
 import kotlinx.android.synthetic.main.mall_item_main_latest.view.*
@@ -38,7 +39,7 @@ class RecItem(val mContext: Context, val info: Goods) : Item {
             Picasso.with(item.mContext).load(info.icon).into(holder.image)
             holder.name.text = info.name
             holder.price.text = info.price
-            holder.locate.text = info.location
+            holder.locate.text = Utils.getCampus(info.campus)
             holder.card.setOnClickListener {
                 val intent = Intent(item.mContext, DetailActivity::class.java)
                         .putExtra("image", info.icon)
