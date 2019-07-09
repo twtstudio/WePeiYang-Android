@@ -138,7 +138,7 @@ dependencies {
     implementation 'agency.tango.android:material-intro-screen:0.0.5'
     implementation 'com.github.shem8:material-login:2.1.1'
 
-    implementation 'com.squareup.picasso:picasso:2.5.2'
+    implementation 'com.squareup.picasso:picasso:2.71828'
 
     debugImplementation 'me.ele:uetool:1.0.12'
     releaseImplementation 'me.ele:uetool-no-op:1.0.12'

@@ -1,10 +1,11 @@
 package com.twt.service.mall.service
 
+import android.util.Log
 import com.twt.wepeiyang.commons.experimental.network.CommonBody
 import com.twt.wepeiyang.commons.experimental.network.CoroutineCallAdapterFactory
 import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
 import kotlinx.coroutines.experimental.Deferred
-import okhttp3.OkHttpClient
+import okhttp3.*
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
@@ -13,36 +14,55 @@ import java.net.HttpCookie
 
 interface MallApi {
 
-
     @GET("/api.php/Login/wpyLogin?model=1")
-    fun login(@Header("Authorization") token: String): Deferred<CommonBody<List<Login>>>
+    fun login(@Header("Authorization") token: String): Deferred<CommonBody<Login>>
 
     @GET("api.php/User/myself_info")
-    fun getMyInfo(/*@Field("cookies") cookie: HttpCookie*/): Deferred<List<MyInfo>>
+    fun getMyInfo(): Deferred<MyInfo>
 
+    @GET("api.php/Upload/img_redirect")
+    fun getImage(@Query("id") id: String): Deferred<String>
 
-    @GET("api.php/Items/item_new")
-    fun latestGoods(): Deferred<List<Goods>>
+    @Multipart
+    @POST("api.php/Items/item_new")
+    fun latestGoods(@Part("yeshu") page: RequestBody): Deferred<List<Goods>>
 
+    @Multipart
     @POST("api.php/Items/search")
-    fun schGoods(@Field("key") key: String, @Field("yeshu") page: Int): Deferred<List<SchGoods>>
+    fun schGoods(@Part("key") key: RequestBody, @Part("yeshu") page: RequestBody): Deferred<List<SchGoods>>
 
     @GET("api.php/Items/menu")
     fun getMenu(): Deferred<List<Menu>>
 
+    //TODO:还没写
     @POST("api.php/Items/sale_fabu")
-    fun upLoadSale(/*data class*/): Deferred<Any>//TODO:么的数据
+    fun upLoadSale(/*data class*/): Deferred<Any>
 
+    @POST("api.php/Items/need_fabu")
+    fun uploadNeed(/*data class*/): Deferred<Any>
 
     companion object : MallApi by MallApiService()
 }
 
 
 object MallApiService {
+    private val cookie = object : CookieJar {
+        val map = HashMap<String, MutableList<Cookie>>()
+
+        override fun saveFromResponse(url: HttpUrl, cookies: MutableList<Cookie>) {
+            map[url.host()] = cookies
+            Utils.saveCookie(cookies.toString())
+        }
+
+        override fun loadForRequest(url: HttpUrl): MutableList<Cookie> {
+            Log.d("login load cookie", map[url.host()].toString())
+            return map[url.host()] ?: ArrayList()
+        }
+    }
+
 
     private val clientBuilder = OkHttpClient.Builder()
-            .addInterceptor(AddCookiesInterceptor())
-            .addInterceptor(ReceivedCookiesInterceptor())
+            .cookieJar(cookie)
     private val client: OkHttpClient = clientBuilder.build()
 
 
@@ -53,6 +73,7 @@ object MallApiService {
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(CoroutineCallAdapterFactory())
             .build()
+
     inline operator fun <reified T> invoke(): T = retrofit.create(T::class.java)
 }
 
@@ -77,6 +98,7 @@ data class MyInfo(
 )
 
 data class Goods(
+        var img: String,
         val bargain: Any,
         val campus: String,
         val ctime: String,

@@ -1,28 +1,49 @@
 package com.twt.service.mall.service
 
+import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
+import okhttp3.MediaType
+import okhttp3.RequestBody
 import java.net.HttpCookie
 
-object Utils {//TODO:接口么有写 全靠猜
-    fun getCampus(i:String) = when(i) {//I have no idea
+object Utils {
+    private val cookies = mutableListOf<String>()
+    private val headerToken = "Bearer{${CommonPreferences.token}}"
+
+    //TODO:还没写
+    fun getCampus(i: String) = when (i) {//I have no idea
         "1" -> "北洋园"
         "2" -> "卫津路"
         else -> ""
     }
 
-    fun getBargin(i: String) = when(i) {//I have no idea
+    fun getBargin(i: String) = when (i) {//I have no idea
         "0" -> ""
         "1" -> "可刀"
         "2" -> ""
         else -> ""
     }
 
-    //保存Cookies
-    fun saveCookie(cookie: HttpCookie){
-
+    //token
+    fun getToken(): String {
+        return headerToken
     }
 
-    fun getCookie(): String {
-        return ""
+    //Cookies
+    fun saveCookie(cookie: String) {
+        cookies.add(cookie)
+    }
+
+    fun getCookie(): MutableList<String> {
+        return cookies
+    }
+
+    //处理request body
+    fun toReqBody(page: Int): RequestBody {
+        return RequestBody.create(MediaType.parse("text/plain"), page.toString())
+    }
+
+    fun toReqBody(key: String): RequestBody {
+        return RequestBody.create(MediaType.parse("text/plain"), key)
     }
 
 }

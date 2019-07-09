@@ -9,21 +9,22 @@
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:background="#FF9A36">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/tb_mall_main"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:layout_scrollFlags="scroll|enterAlways"
-            app:popupTheme="@style/AppTheme.PopupOverlay">
+            android:background="#FF9A36"
+            app:layout_scrollFlags="scroll|enterAlways">
+            <!--app:popupTheme="@style/AppTheme.PopupOverlay">-->
 
             <android.support.v7.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="天外天商城"
+                android:textColor="#ffffff"
                 android:textSize="24sp" />
 
         </android.support.v7.widget.Toolbar>
@@ -32,8 +33,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"
             android:layout_marginTop="5dp"
+            android:layout_marginEnd="15dp"
             android:layout_marginBottom="5dp"
             android:background="@drawable/mall_shape_search_bg">
 
@@ -53,8 +54,8 @@
                 android:layout_height="30dp"
                 android:layout_marginStart="45dp"
                 android:layout_marginEnd="10dp"
-                android:hint="我需要..."
                 android:background="@null"
+                android:hint="我需要..."
                 android:textColorHint="#797979"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -68,13 +69,42 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/mall_content_main" />
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#f6f6f6"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:context=".mall.view.MallActivity2">
+
+        <!--TODO:貌似换不成swipeRefreshLayout…-->
+        <LinearLayout
+            android:id="@+id/mall_srl_main"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/mall_vp_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:layout_height="180dp">
+
+            </android.support.v4.view.ViewPager>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/mall_rv_main"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp" />
+
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/mall_fab_mine"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        app:srcCompat="@android:drawable/ic_input_add" />
+        app:rippleColor="#FF9A36" />
 
 </android.support.design.widget.CoordinatorLayout>

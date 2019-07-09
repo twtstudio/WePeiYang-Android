@@ -23,12 +23,12 @@ class HeaderAdapter(private val mContext: Context, private val info: List<Any>) 
         val view = LayoutInflater.from(mContext).inflate(R.layout.mall_item_header, container, false)
         val img = info[position % info.size].toString()
         val viewHolder = ViewHolder(view)
-        Picasso.with(mContext).load(img)
+        Picasso.get().load(img)
                 .fit()
                 .centerCrop()
                 .into(viewHolder.img)
         viewHolder.img.setOnClickListener {
-            //TODO:么的接口
+            //TODO:莫得接口
         }
         return super.instantiateItem(container, position)
     }

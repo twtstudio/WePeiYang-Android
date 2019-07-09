@@ -36,7 +36,7 @@ class RecItem(val mContext: Context, val info: Goods) : Item {
             item as RecItem
 
             val info = item.info
-            Picasso.with(item.mContext).load(info.icon).into(holder.image)
+            Picasso.get().load(info.img).into(holder.image)
             holder.name.text = info.name
             holder.price.text = info.price
             holder.locate.text = Utils.getCampus(info.campus)

@@ -7,7 +7,7 @@
     android:layout_height="wrap_content"
     android:layout_margin="3dp"
     android:background="#ffffff"
-    app:cardCornerRadius="3dp"
+    app:cardCornerRadius="4dp"
     app:cardElevation="0dp"
     tools:layout_width="200dp">
 
@@ -28,7 +28,7 @@
         <TextView
             android:id="@+id/mall_tv_main_name"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="wrap_content"
             android:layout_below="@id/mall_iv_main_latest"
             android:layout_margin="7dp"
             android:textColor="#000000"
@@ -36,15 +36,27 @@
             tools:text="【随便什么吧】生旦净末丑 神仙老虎狗 擦桌子扫地 给师娘带孩子" />
 
         <TextView
+            android:id="@+id/mall_tv_main_rmb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/mall_tv_main_price"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="7dp"
+            android:text="@string/rmb"
+            android:textColor="#f58010"
+            android:textSize="16sp" />
+
+        <TextView
             android:id="@+id/mall_tv_main_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/mall_tv_main_name"
-            android:layout_alignParentStart="true"
-            android:layout_margin="7dp"
+            android:layout_marginTop="7dp"
+            android:layout_marginBottom="7dp"
+            android:layout_toEndOf="@id/mall_tv_main_rmb"
             android:textColor="#f58010"
             android:textSize="20sp"
-            tools:text="¥20.00" />
+            tools:text="20.00" />
 
         <android.support.v7.widget.AppCompatImageView
             android:layout_width="22dp"
