@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".mall.view.MallActivity2">
+    tools:context=".view.MallActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -76,7 +76,6 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:context=".mall.view.MallActivity2">
 
-        <!--TODO:貌似换不成swipeRefreshLayout…-->
         <LinearLayout
             android:id="@+id/mall_srl_main"
             android:layout_width="match_parent"

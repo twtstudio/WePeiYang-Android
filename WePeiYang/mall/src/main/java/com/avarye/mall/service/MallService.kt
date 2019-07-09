@@ -1,6 +1,8 @@
-package com.twt.service.mall.service
+package com.avarye.mall.service
 
 import android.util.Log
+import com.twt.wepeiyang.commons.experimental.cache.*
+import com.twt.wepeiyang.commons.experimental.cache.Cache
 import com.twt.wepeiyang.commons.experimental.network.CommonBody
 import com.twt.wepeiyang.commons.experimental.network.CoroutineCallAdapterFactory
 import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
@@ -10,6 +12,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
 import java.net.HttpCookie
+import kotlin.io.use
 
 
 interface MallApi {
@@ -21,7 +24,7 @@ interface MallApi {
     fun getMyInfo(): Deferred<MyInfo>
 
     @GET("api.php/Upload/img_redirect")
-    fun getImage(@Query("id") id: String): Deferred<String>
+    fun getImage(@Query("id") id: String): Deferred<Any>
 
     @Multipart
     @POST("api.php/Items/item_new")
@@ -43,7 +46,12 @@ interface MallApi {
 
     companion object : MallApi by MallApiService()
 }
+val util = Utils
+        .toReqBody(1)
 
+//val mallLocalCache = Cache.hawk<List<Goods>>("goods")
+//val mallRemoteCache = Cache.from(MallApi.Companion::latestGoods)
+//val mallLiveData = RefreshableLiveData.use(mallLocalCache, mallRemoteCache)
 
 object MallApiService {
     private val cookie = object : CookieJar {

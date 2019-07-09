@@ -1,4 +1,4 @@
-package com.twt.service.mall.service
+package com.avarye.mall.service
 
 import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
 import okhttp3.MediaType
@@ -10,9 +10,9 @@ object Utils {
     private val headerToken = "Bearer{${CommonPreferences.token}}"
 
     //TODO:还没写
-    fun getCampus(i: String) = when (i) {//I have no idea
-        "1" -> "北洋园"
-        "2" -> "卫津路"
+    fun getCampus(i: String) = when (i) {
+        "1" -> "卫津路"
+        "2" -> "北洋园"
         else -> ""
     }
 

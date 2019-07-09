@@ -1,8 +1,8 @@
-package com.twt.service.mall.view
+package com.avarye.mall.view
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import com.twt.service.R
+import com.avarye.mall.R
 
 class DetailActivity : AppCompatActivity() {
 

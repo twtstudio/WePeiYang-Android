@@ -22,8 +22,7 @@
             android:layout_alignParentTop="true"
             android:adjustViewBounds="true"
             android:scaleType="fitXY"
-            tools:layout_height="180dp"
-            tools:src="@drawable/lf2_question_mark" />
+            tools:layout_height="180dp" />
 
         <TextView
             android:id="@+id/mall_tv_main_name"

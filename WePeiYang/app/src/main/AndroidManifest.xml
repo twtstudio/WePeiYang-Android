@@ -80,9 +80,6 @@
         <activity android:name=".settings.SingleBindActivity" />
         <activity android:name=".news.NewsActivity" />
         <activity android:name=".mall.MallActivity" />
-        <activity android:name=".mall.view.MallActivity2" />
-        <activity android:name=".mall.view.DetailActivity" />
-
 
         <provider
             android:name="android.support.v4.content.FileProvider"

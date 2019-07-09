@@ -1,4 +1,4 @@
-package com.twt.service.mall.view
+package com.avarye.mall.view
 
 import android.content.Context
 import android.content.Intent
@@ -8,10 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import com.squareup.picasso.Picasso
-import com.twt.service.R
-import com.twt.service.mall.service.Goods
-import com.twt.service.mall.service.Utils
+import com.avarye.mall.R
+import com.avarye.mall.service.Goods
+import com.avarye.mall.service.Utils
+import com.bumptech.glide.Glide
 import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemController
 import kotlinx.android.synthetic.main.mall_item_main_latest.view.*
@@ -36,18 +36,22 @@ class RecItem(val mContext: Context, val info: Goods) : Item {
             item as RecItem
 
             val info = item.info
-            Picasso.get().load(info.img).into(holder.image)
-            holder.name.text = info.name
-            holder.price.text = info.price
-            holder.locate.text = Utils.getCampus(info.campus)
-            holder.card.setOnClickListener {
-                val intent = Intent(item.mContext, DetailActivity::class.java)
-                        .putExtra("image", info.icon)
-                        .putExtra("name", info.name)
-                        .putExtra("price", info.price)
-                        .putExtra("locate", info.location)
-                //TODO:其他的信息
-                item.mContext.startActivity(intent)
+            holder.apply {
+                Glide.with(item.mContext)
+                        .load("https://mall.twt.edu.cn/api.php/Upload/img_redirect?id=${info.id}")
+                        .into(image)
+                name.text = info.name
+                price.text = info.price
+                locate.text = Utils.getCampus(info.campus)
+                card.setOnClickListener {
+                    val intent = Intent(item.mContext, DetailActivity::class.java)
+                            .putExtra("image", info.icon)
+                            .putExtra("name", info.name)
+                            .putExtra("price", info.price)
+                            .putExtra("locate", info.location)
+                    //TODO:其他的信息
+                    item.mContext.startActivity(intent)
+                }
             }
         }
 
