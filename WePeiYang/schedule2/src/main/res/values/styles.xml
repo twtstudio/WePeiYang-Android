@@ -8,7 +8,4 @@
         <item name="colorAccent">@color/md_grey_300</item>
         <item name="android:windowTranslucentStatus">true</item>
     </style>
-
-
-
 </resources>

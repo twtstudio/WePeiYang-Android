@@ -40,10 +40,17 @@ public class TopPopupWindow extends FrameLayout {
     private boolean mDismissOnTouchBackground;
     private boolean mDismissOnClickBack;
     private OnDismissListener mOnDismissListener;
+    private boolean bottom = false;
 
     public TopPopupWindow(@NonNull Context context) {
         super(context);
         init();
+    }
+
+    public TopPopupWindow(@NonNull Context context,int flag){
+        super(context);
+        init();
+        bottom = true;
     }
 
     private static int getNaviHeight(Activity activity) {
@@ -149,6 +156,14 @@ public class TopPopupWindow extends FrameLayout {
             public void run() {
                 mContentView.setVisibility(View.VISIBLE);
                 Log.d(TAG, mContentView.getWidth() + " post " + mContentView.getHeight());
+                if (bottom){
+                    WindowManager wm = (WindowManager) mActivity.getSystemService(Context.WINDOW_SERVICE);
+                    DisplayMetrics dm = new DisplayMetrics();
+                    wm.getDefaultDisplay().getMetrics(dm);
+                    int height = dm.heightPixels;
+                    ObjectAnimator.ofFloat(mContentView, "translationY", height, height-mContentView.getHeight()+100).start();
+
+                }
                 ObjectAnimator.ofFloat(mContentView, "translationY", -mContentView.getHeight(), 0f).start();
             }
         });
@@ -219,7 +234,16 @@ public class TopPopupWindow extends FrameLayout {
         if (mAnimating) {
             return;
         }
-        ObjectAnimator animator = ObjectAnimator.ofFloat(mContentView, "translationY", 0f, -mContentView.getHeight());
+        ObjectAnimator animator;
+        if (bottom){
+            WindowManager wm = (WindowManager) mActivity.getSystemService(Context.WINDOW_SERVICE);
+            DisplayMetrics dm = new DisplayMetrics();
+            wm.getDefaultDisplay().getMetrics(dm);
+            int height = dm.heightPixels;
+            animator = ObjectAnimator.ofFloat(mContentView, "translationY", height-mContentView.getHeight()+100, height);
+        } else {
+            animator = ObjectAnimator.ofFloat(mContentView, "translationY", 0f, -mContentView.getHeight());
+        }
         onDismiss();
         if (animator == null) {
             mWindowManager.removeView(this);

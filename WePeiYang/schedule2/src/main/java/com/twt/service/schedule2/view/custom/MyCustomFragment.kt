@@ -1,13 +1,11 @@
 package com.twt.service.schedule2.view.custom
 
 import android.graphics.Color
-import android.graphics.Typeface
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.transition.Visibility
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,7 +23,6 @@ import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 import org.jetbrains.anko.backgroundColor
 import org.jetbrains.anko.support.v4.alert
-import org.jetbrains.anko.textColor
 
 
 class MyCustomFragment: Fragment() {
@@ -75,15 +72,6 @@ class MyCustomFragment: Fragment() {
                         }.show()
                     }
                 }
-//                async(CommonPool + QuietCoroutineExceptionHandler) {
-//                  CustomCourseManager.refreshCustomClasstable()
-//                  var customList: List<CustomCourse> = CustomCourseManager.getAllCustomCourses()
-//                  recyclerView.withItems {
-//                      customList.forEach {
-//                          setCustomCourseItem(it)
-//                      }
-//                    }
-//                 }
             }
         }
      return view
