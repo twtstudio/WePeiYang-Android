@@ -1,11 +1,8 @@
 package com.avarye.mall.service
 
 import android.util.Log
-import com.twt.wepeiyang.commons.experimental.cache.*
-import com.twt.wepeiyang.commons.experimental.cache.Cache
 import com.twt.wepeiyang.commons.experimental.network.CommonBody
 import com.twt.wepeiyang.commons.experimental.network.CoroutineCallAdapterFactory
-import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
 import kotlinx.coroutines.experimental.Deferred
 import okhttp3.*
 import retrofit2.Retrofit
@@ -22,9 +19,6 @@ interface MallApi {
 
     @GET("api.php/User/myself_info")
     fun getMyInfo(): Deferred<MyInfo>
-
-    @GET("api.php/Upload/img_redirect")
-    fun getImage(@Query("id") id: String): Deferred<Any>
 
     @Multipart
     @POST("api.php/Items/item_new")
@@ -46,12 +40,6 @@ interface MallApi {
 
     companion object : MallApi by MallApiService()
 }
-val util = Utils
-        .toReqBody(1)
-
-//val mallLocalCache = Cache.hawk<List<Goods>>("goods")
-//val mallRemoteCache = Cache.from(MallApi.Companion::latestGoods)
-//val mallLiveData = RefreshableLiveData.use(mallLocalCache, mallRemoteCache)
 
 object MallApiService {
     private val cookie = object : CookieJar {
@@ -60,10 +48,11 @@ object MallApiService {
         override fun saveFromResponse(url: HttpUrl, cookies: MutableList<Cookie>) {
             map[url.host()] = cookies
             Utils.saveCookie(cookies.toString())
+            Log.d("login load cookie", Utils.getCookie().toString())
         }
 
         override fun loadForRequest(url: HttpUrl): MutableList<Cookie> {
-            Log.d("login load cookie", map[url.host()].toString())
+            Log.d("login load cookie", Utils.getCookie().toString())
             return map[url.host()] ?: ArrayList()
         }
     }

@@ -1,7 +1,5 @@
 package com.avarye.mall.view
 
-import android.content.Context
-import android.content.Intent
 import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.view.View
@@ -9,15 +7,13 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.avarye.mall.R
-import com.avarye.mall.service.Goods
-import com.avarye.mall.service.Utils
-import com.bumptech.glide.Glide
 import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemController
 import kotlinx.android.synthetic.main.mall_item_main_latest.view.*
 import org.jetbrains.anko.layoutInflater
 
-class RecItem(val mContext: Context, val info: Goods) : Item {
+class RecItem : Item {
+    var builder: (ViewHolder.() -> Unit)? = null
 
     companion object Controller : ItemController {
         override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
@@ -34,25 +30,7 @@ class RecItem(val mContext: Context, val info: Goods) : Item {
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: Item) {
             holder as ViewHolder
             item as RecItem
-
-            val info = item.info
-            holder.apply {
-                Glide.with(item.mContext)
-                        .load("https://mall.twt.edu.cn/api.php/Upload/img_redirect?id=${info.id}")
-                        .into(image)
-                name.text = info.name
-                price.text = info.price
-                locate.text = Utils.getCampus(info.campus)
-                card.setOnClickListener {
-                    val intent = Intent(item.mContext, DetailActivity::class.java)
-                            .putExtra("image", info.icon)
-                            .putExtra("name", info.name)
-                            .putExtra("price", info.price)
-                            .putExtra("locate", info.location)
-                    //TODO:其他的信息
-                    item.mContext.startActivity(intent)
-                }
-            }
+            item.builder?.invoke(holder)
         }
 
         class ViewHolder(
@@ -60,7 +38,7 @@ class RecItem(val mContext: Context, val info: Goods) : Item {
                 val image: ImageView,
                 val name: TextView,
                 val price: TextView,
-                val locate: TextView,
+                val campus: TextView,
                 val card: CardView
         ) : RecyclerView.ViewHolder(itemView)
     }
@@ -68,3 +46,7 @@ class RecItem(val mContext: Context, val info: Goods) : Item {
     override val controller: ItemController
         get() = RecItem
 }
+
+fun MutableList<Item>.recItem() = add(RecItem())
+fun MutableList<Item>.recItem(builder: RecItem.Controller.ViewHolder.() -> Unit) = add(RecItem().apply { this.builder = builder })
+

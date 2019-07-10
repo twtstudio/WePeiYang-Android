@@ -1,10 +1,9 @@
 package com.avarye.mall.view
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
-import android.os.Build
 import android.os.Bundle
-import android.support.annotation.RequiresApi
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView
@@ -12,63 +11,147 @@ import android.support.v7.widget.StaggeredGridLayoutManager
 import com.avarye.mall.Presenter
 import com.avarye.mall.R
 import com.avarye.mall.service.Goods
-import com.twt.wepeiyang.commons.ui.rec.withItems
+import com.avarye.mall.service.SchGoods
+import com.avarye.mall.service.Utils
+import com.bumptech.glide.Glide
+import com.twt.wepeiyang.commons.ui.rec.Item
+import com.twt.wepeiyang.commons.ui.rec.ItemAdapter
+import com.twt.wepeiyang.commons.ui.rec.ItemManager
 import es.dmoral.toasty.Toasty
 
 import kotlinx.android.synthetic.main.mall_activity_main.*
-import org.jetbrains.anko.toast
+import org.jetbrains.anko.support.v4.onRefresh
 
 class MallActivity : AppCompatActivity() {
-    lateinit var recyclerView: RecyclerView
-    lateinit var swipeRefreshLayout: SwipeRefreshLayout//TODO:等等看看
+    var page = 1
+    var totalPage = 1
+    var key = ""
+    var isSearching = false
+    private lateinit var recView: RecyclerView
+    private val itemManager = ItemManager()
 
-    private var presenter = Presenter(this)
+    val presenter = Presenter(this)
 
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.mall_activity_main)
         window.statusBarColor = Color.parseColor("#FF9A36")
         setSupportActionBar(tb_mall_main)//???
-
         //TODO:menuButton
         //TODO:homeButton
-        recyclerView = mall_rv_main
-        recyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-//        mall_vp_header.adapter = BannerAdapter(this, listOf())
+        recView = mall_rv_main.apply {
+            layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+            adapter = ItemAdapter(itemManager)
+            addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
+                    if (recView.computeVerticalScrollExtent() + recView.computeVerticalScrollOffset()
+                            >= recView.computeVerticalScrollRange()
+                            && page < totalPage) {
+                        if (isSearching) {
+                            presenter.search(key, ++page)
+                        } else {
+                            presenter.getLatest(++page)
+                        }
+                    }
+                }
+            })
+        }
 
-        presenter.getLatest(1)//拿最新数据之前先进行了登陆
+        mall_srl_main.setOnRefreshListener {
+            Utils.clearGoods()
+            Utils.clearSchGoods()
+            page = 1
+            totalPage = 1
+            if (isSearching) {
+                presenter.search(key, page)
+            } else {
+                presenter.getLatest(page)
+            }
+
+            mall_srl_main.isRefreshing = false
+        }
+
+        presenter.login()
 
         iv_mall_search.setOnClickListener {
-            //搜索
-            val key = et_mall_search.text.toString()
-            presenter.search(key, 1)
-        }
+            Utils.clearGoods()
+            Utils.clearSchGoods()
+            page = 1
+            totalPage = 1
+            key = et_mall_search.text.toString()
+            if (key.isBlank()) {
+                Toasty.info(this, "啥都莫得输入").show()
+            } else {
+                isSearching = true
+                presenter.search(key, page)
+            }
+        }//搜索
 
 //        menu.setOnClickListener { presenter.getMenu() }
 //        home.setOnClickListener { refresh() }
-
-        mall_fab_mine.setOnClickListener { presenter.getMenu() }
-
+//        mall_fab_mine.setOnClickListener { presenter.getMenu() }
     }
 
-    private fun adaptRec(context: Context, info: List<Goods>) {
-        recyclerView.withItems {
-            for (it in 1 until presenter.infoGoods!!.size) {
-                add(RecItem(context, presenter.infoGoods!![it]))
+    fun bindLatest(mContext: Context, data: List<Goods>) {
+        totalPage = data[0].page
+        itemManager.autoRefresh {
+            removeAll { it is RecItem }
+            val items = mutableListOf<Item>().apply {
+                for (i in 1 until data.size) {
+                    recItem {
+                        Glide.with(mContext)
+                                .load("https://mall.twt.edu.cn/api.php/Upload/img_redirect?id=${data[i].id}")
+                                .into(image)
+                        name.text = data[i].name
+                        price.text = data[i].price
+                        campus.text = Utils.getCampus(data[i].campus)
+                        card.setOnClickListener {
+                            val intent = Intent(mContext, DetailActivity::class.java)
+                            mContext.startActivity(intent)
+                        }
+                    }
+                }
             }
+            addAll(0, items)
         }
     }
-    //                addItem(this@MallActivity2, it)
-//    private fun MutableList<Item>.addItem(context: Context, info: Goods) = add(RecItem(context, info))
 
-    fun refreshView(info: List<Goods>) {//刷新回调
-        adaptRec(this, info)
+    fun bindSearch(mContext: Context, data: List<SchGoods>) {//TODO:imgurl可能有多个
+        totalPage = data[0].page
+        itemManager.autoRefresh {
+            removeAll { it is RecItem }
+            val items = mutableListOf<Item>().apply {
+                for (i in 1 until data.size) {
+                    recItem {
+                        Glide.with(mContext)
+                                .load("https://mall.twt.edu.cn/api.php/Upload/img_redirect?id=${data[i].imgurl}")
+                                .into(image)
+                        name.text = data[i].name
+                        price.text = data[i].price
+                        campus.text = Utils.getCampus(data[i].campus)
+                        card.setOnClickListener {
+                            val intent = Intent(mContext, DetailActivity::class.java)
+                            mContext.startActivity(intent)
+                        }
+                    }
+                }
+            }
+            addAll(0, items)
+        }
     }
 
-    fun notify(message: String) {//显示信息
-        toast(message)
-//        Toasty.
+    override fun onBackPressed() {
+        if (isSearching) {
+            Utils.clearGoods()
+            Utils.clearSchGoods()
+            page = 1
+            totalPage = 1
+            isSearching = false
+            presenter.getLatest(page)
+        } else {
+            super.onBackPressed()
+        }
     }
 }
 

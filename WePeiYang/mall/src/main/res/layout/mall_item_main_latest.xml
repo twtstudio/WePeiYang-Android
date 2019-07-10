@@ -5,7 +5,7 @@
     android:id="@+id/mall_cv_main_latest"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="3dp"
+    android:layout_margin="3.5dp"
     android:background="#ffffff"
     app:cardCornerRadius="4dp"
     app:cardElevation="0dp"

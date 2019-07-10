@@ -36,7 +36,8 @@
             android:layout_marginTop="5dp"
             android:layout_marginEnd="15dp"
             android:layout_marginBottom="5dp"
-            android:background="@drawable/mall_shape_search_bg">
+            android:background="@drawable/mall_shape_search_bg"
+            android:focusable="true">
 
             <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/iv_mall_search"
@@ -56,6 +57,8 @@
                 android:layout_marginEnd="10dp"
                 android:background="@null"
                 android:hint="我需要..."
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
                 android:textColorHint="#797979"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -69,7 +72,8 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.v4.widget.NestedScrollView
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/mall_srl_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#f6f6f6"
@@ -77,27 +81,26 @@
         tools:context=".mall.view.MallActivity2">
 
         <LinearLayout
-            android:id="@+id/mall_srl_main"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <android.support.v4.view.ViewPager
-                android:id="@+id/mall_vp_header"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:layout_height="180dp">
+            <!--<android.support.v4.view.ViewPager-->
+            <!--android:id="@+id/mall_vp_header"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--tools:layout_height="180dp">-->
 
-            </android.support.v4.view.ViewPager>
+            <!--</android.support.v4.view.ViewPager>-->
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/mall_rv_main"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="2dp" />
+                android:layout_margin="3dp" />
 
         </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
+    </android.support.v4.widget.SwipeRefreshLayout>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/mall_fab_mine"

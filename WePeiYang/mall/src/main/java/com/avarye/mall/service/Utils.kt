@@ -8,12 +8,47 @@ import java.net.HttpCookie
 object Utils {
     private val cookies = mutableListOf<String>()
     private val headerToken = "Bearer{${CommonPreferences.token}}"
+    private var infoLogin: Login? = null
+    private val infoGoods = mutableListOf<Goods>()
+    private val infoSearch = mutableListOf<SchGoods>()
+
+    fun getLogin(): Login? {
+        return infoLogin
+    }
+
+    fun setLogin(data: Login?) {
+        infoLogin = data
+    }
+
+    fun getGoods(): List<Goods> {
+        return infoGoods
+    }
+
+    fun addGoods(data: List<Goods>) {
+        this.infoGoods += data
+    }
+
+    fun clearGoods() {
+        this.infoGoods.clear()
+    }
+
+    fun getSchGoods(): List<SchGoods> {
+        return infoSearch
+    }
+
+    fun addSchGoods(data: List<SchGoods>) {
+        infoSearch += data
+    }
+
+    fun clearSchGoods() {
+        this.infoSearch.clear()
+    }
 
     //TODO:还没写
-    fun getCampus(i: String) = when (i) {
+    fun getCampus(i: String?) = when (i) {
         "1" -> "卫津路"
         "2" -> "北洋园"
-        else -> ""
+        else -> "未知"
     }
 
     fun getBargin(i: String) = when (i) {//I have no idea
