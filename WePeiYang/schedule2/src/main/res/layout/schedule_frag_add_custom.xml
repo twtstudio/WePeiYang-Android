@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_gray">
@@ -36,17 +37,16 @@
                     android:gravity="center_vertical"
                     android:text="自定义事件名称"
                     android:textSize="15dp"
-                    app:layout_constraintBottom_toBottomOf="@id/ll1"
-                    app:layout_constraintStart_toStartOf="@id/ll1"
-                    app:layout_constraintTop_toTopOf="@id/ll1" />
+                    app:layout_constraintStart_toStartOf="parent" />
 
                 <EditText
                     android:id="@+id/edit_course_name"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginStart="20dp"
-                    android:layout_marginEnd="12dp"
+                    android:layout_marginEnd="15dp"
                     android:background="@drawable/schedule_edittext_shape"
+                    android:theme="@style/MyTextInputLayout"
                     app:layout_constraintEnd_toEndOf="@id/ll1"
                     app:layout_constraintStart_toEndOf="@id/textView" />
 
@@ -79,8 +79,9 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginStart="20dp"
-                    android:layout_marginEnd="12dp"
+                    android:layout_marginEnd="15dp"
                     android:background="@drawable/schedule_edittext_shape"
+                    android:theme="@style/MyTextInputLayout"
                     app:layout_constraintEnd_toEndOf="@id/ll2"
                     app:layout_constraintStart_toEndOf="@id/textView2" />
 
@@ -105,15 +106,16 @@
                     android:gravity="center_vertical"
                     android:text="地点"
                     android:textSize="15dp"
-                    app:layout_constraintStart_toStartOf="@id/ll3" />
+                    app:layout_constraintStart_toStartOf="parent" />
 
                 <EditText
                     android:id="@+id/edit_room_name"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginStart="20dp"
-                    android:layout_marginEnd="12dp"
+                    android:layout_marginEnd="15dp"
                     android:background="@drawable/schedule_edittext_shape"
+                    android:theme="@style/MyTextInputLayout"
                     app:layout_constraintEnd_toEndOf="@id/ll3"
                     app:layout_constraintStart_toEndOf="@id/textView3" />
 
@@ -148,8 +150,9 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginStart="20dp"
-                    android:layout_marginEnd="12dp"
+                    android:layout_marginEnd="15dp"
                     android:background="@drawable/schedule_edittext_shape"
+                    android:theme="@style/MyTextInputLayout"
                     app:layout_constraintEnd_toEndOf="@id/ll4"
                     app:layout_constraintStart_toEndOf="@id/textView4" />
             </android.support.constraint.ConstraintLayout>
@@ -193,6 +196,7 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="12dp"
                     android:background="@drawable/schedule_edittext_shape"
+                    android:theme="@style/MyTextInputLayout"
                     app:layout_constraintEnd_toStartOf="@id/textView15"
                     app:layout_constraintStart_toEndOf="@id/textView12" />
 
@@ -214,8 +218,9 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginStart="20dp"
-                    android:layout_marginEnd="12dp"
+                    android:layout_marginEnd="15dp"
                     android:background="@drawable/schedule_edittext_shape"
+                    android:theme="@style/MyTextInputLayout"
                     app:layout_constraintEnd_toEndOf="@id/ll6"
                     app:layout_constraintStart_toEndOf="@id/textView15" />
 
@@ -249,6 +254,7 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="12dp"
                     android:background="@drawable/schedule_edittext_shape"
+                    android:theme="@style/MyTextInputLayout"
                     app:layout_constraintEnd_toStartOf="@id/textView18"
                     app:layout_constraintStart_toEndOf="@id/textView16" />
 
@@ -269,8 +275,9 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginStart="20dp"
-                    android:layout_marginEnd="12dp"
+                    android:layout_marginEnd="15dp"
                     android:background="@drawable/schedule_edittext_shape"
+                    android:theme="@style/MyTextInputLayout"
                     app:layout_constraintEnd_toEndOf="@id/ll7"
                     app:layout_constraintStart_toEndOf="@id/textView18" />
 

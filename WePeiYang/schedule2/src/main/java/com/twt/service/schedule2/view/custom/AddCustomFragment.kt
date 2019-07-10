@@ -1,5 +1,6 @@
 package com.twt.service.schedule2.view.custom
 
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.AppCompatCheckBox
@@ -53,6 +54,7 @@ class AddCustomFragment: Fragment() {
         var str = ""
         checkBoxList.forEach {
             it.apply {
+                buttonTintList = ColorStateList.valueOf(getColorCompat(R.color.colorPrimary))
                 setOnCheckedChangeListener { buttonView, isChecked ->
                     if (isChecked) {
                         str = buttonView.text.toString()
