@@ -7,9 +7,7 @@ import com.twt.wepeiyang.commons.experimental.cache.hawk
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import com.twt.wepeiyang.commons.experimental.network.CommonBody
 import com.twt.wepeiyang.commons.experimental.network.ServiceFactory
-import kotlinx.coroutines.experimental.CommonPool
-import kotlinx.coroutines.experimental.Deferred
-import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.*
 import retrofit2.http.GET
 
 interface TjuCourseApi {
@@ -44,7 +42,7 @@ suspend fun TjuCourseApi.Companion.refresh(mustRefresh: Boolean = false): Classt
         return classtable ?: throw IllegalStateException("凉了啊...无法获取课程表,稍后再试（怕是办公网崩了）多刷新试试")
     } else {
         // 这种情况也要静默刷新一下 成功就刷
-        async(CommonPool) {
+        GlobalScope.async(Dispatchers.Default) {
             val classtable = deferredClasstable.awaitAndHandle(handler)?.data
             classtable?.let {
                 tjuCourseCache.set(it)

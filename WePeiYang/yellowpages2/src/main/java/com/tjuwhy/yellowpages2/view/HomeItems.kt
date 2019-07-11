@@ -29,7 +29,7 @@ import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemController
 import es.dmoral.toasty.Toasty
 import org.jetbrains.anko.layoutInflater
-import org.jetbrains.anko.sdk25.coroutines.onClick
+import org.jetbrains.anko.sdk27.coroutines.onClick
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 

@@ -5,8 +5,10 @@ import android.arch.lifecycle.MutableLiveData
 import com.orhanobut.hawk.Hawk
 import com.twt.wepeiyang.commons.network.RetrofitProvider
 import com.twt.wepeiyang.commons.network.RxErrorHandler
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.withContext
 import org.jetbrains.anko.coroutines.experimental.bg
 
 /**
@@ -18,18 +20,18 @@ object LibRepository {
 
     fun getUserInfo(refresh: Boolean = false, errorHandler: (Throwable) -> Unit = RxErrorHandler()::call): LiveData<Info> {
         val livedata = MutableLiveData<Info>()
-        async(UI) {
+        GlobalScope.async(Dispatchers.Main) {
             if (!refresh) {
-                val cacheData: Info? = bg { Hawk.get<Info>(USER_INFO) }.await()
+                val cacheData: Info? = withContext(Dispatchers.Default) { Hawk.get<Info>(USER_INFO) }
                 cacheData?.let {
                     livedata.value = it
                 }
             }
 
-            val networkData: Info? = bg { libApi.libUserInfo.map { it.data }.toBlocking().first() }.await()
+            val networkData: Info? = withContext(Dispatchers.Default) { libApi.libUserInfo.map { it.data }.toBlocking().first() }
             networkData?.let {
                 livedata.value = it
-                bg { Hawk.put(USER_INFO, networkData) }
+                withContext(Dispatchers.Default) { Hawk.put(USER_INFO, networkData) }
             }
         }.invokeOnCompletion {
             it?.let { errorHandler(it) }

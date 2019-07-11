@@ -37,11 +37,7 @@ import com.twt.wepeiyang.commons.ui.rec.ItemAdapter
 import com.twt.wepeiyang.commons.ui.rec.ItemManager
 import es.dmoral.toasty.Toasty
 import io.multimoon.colorful.CAppCompatActivity
-import kotlinx.coroutines.experimental.CommonPool
-import kotlinx.coroutines.experimental.CoroutineExceptionHandler
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.async
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.*
 import org.jetbrains.anko.alert
 
 class SearchResultActivity : CAppCompatActivity() {
@@ -121,7 +117,7 @@ class SearchResultActivity : CAppCompatActivity() {
          * 蹭课搜索以及搜索的错误处理 / 还没有验证
          */
         courseName?.apply {
-            launch(exceptionHandler + UI) {
+            GlobalScope.launch(exceptionHandler + Dispatchers.Main) {
                 val result = AuditApi.searchCourse(courseName).awaitAndHandle { it.printStackTrace() }?.data
                         ?: throw IllegalStateException("蹭课查询失败")
                 itemManager.refreshAll {
@@ -148,20 +144,20 @@ class SearchResultActivity : CAppCompatActivity() {
     private fun showAuditDialog(auditCourse: AuditCourse) {
         alert {
             title = "大佬真的要蹭课吗？"
-            async(UI + QuietCoroutineExceptionHandler) {
-                val duplicateList = async {
+            GlobalScope.async(Dispatchers.Main + QuietCoroutineExceptionHandler) {
+                val duplicateList = withContext(Dispatchers.Default) {
                     ScheduleDb.auditCourseDao.loadAllAuditCourses().filter { it.courseName == auditCourse.courseName }
-                }.await()
+                }
                 when {
                     duplicateList.isEmpty() -> {
                         message = "蹭课：${auditCourse.courseName}"
                         positiveButton("确认") {
-                            async(UI + QuietCoroutineExceptionHandler) {
+                            async(Dispatchers.Main + QuietCoroutineExceptionHandler) {
                                 val auditResult = audit(auditCourse.courseId, auditCourse.infos[0].id.toString()).awaitAndHandle { it.printStackTrace() }?.message
                                         ?: "蹭课失败"
                                 Toasty.success(this@SearchResultActivity, "$auditResult - ${auditCourse.courseName}").show()
 
-                                async(CommonPool + QuietCoroutineExceptionHandler) {
+                                async(Dispatchers.Default + QuietCoroutineExceptionHandler) {
                                     AuditCourseManager.refreshAuditClasstable()
                                 }
                             }
@@ -174,11 +170,11 @@ class SearchResultActivity : CAppCompatActivity() {
                         coursesAlreadyAudit.flatMap { it.infos }.forEach { infoIds += "${it.id}," }
                         infoIds += auditCourse.infos[0].id
                         positiveButton("确认") {
-                            async(UI + QuietCoroutineExceptionHandler) {
+                            async(Dispatchers.Main + QuietCoroutineExceptionHandler) {
                                 val auditResult = audit(auditCourse.courseId, infoIds).awaitAndHandle { it.printStackTrace() }?.message
                                 Toasty.success(this@SearchResultActivity, "$auditResult - ${auditCourse.courseName}").show()
 
-                                async(CommonPool + QuietCoroutineExceptionHandler) {
+                                async(Dispatchers.Default + QuietCoroutineExceptionHandler) {
                                     AuditCourseManager.refreshAuditClasstable()
                                 }
                             }
@@ -229,7 +225,7 @@ class SearchResultActivity : CAppCompatActivity() {
     }
 
     private fun setUpSearchView(editText: EditText) {
-        editText.setOnEditorActionListener { v, actionId, event ->
+        editText.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 editText.clearFocus();
                 searchContainer.visibility = View.INVISIBLE

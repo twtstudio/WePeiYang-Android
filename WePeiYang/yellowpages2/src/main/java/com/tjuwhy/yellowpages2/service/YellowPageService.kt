@@ -5,9 +5,10 @@ import com.tjuwhy.yellowpages2.utils.Selector
 import com.twt.wepeiyang.commons.experimental.cache.RefreshState
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import com.twt.wepeiyang.commons.experimental.network.ServiceFactory
-import kotlinx.coroutines.experimental.Deferred
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import retrofit2.http.*
 
 interface YellowPageService {
@@ -29,7 +30,7 @@ interface YellowPageService {
 }
 
 fun getPhone(callback: suspend (RefreshState<Unit>) -> Unit = {}) {
-    launch(UI) {
+    GlobalScope.launch(Dispatchers.Main) {
         YellowPageService.getPhone().awaitAndHandle {
             callback(RefreshState.Failure(it))
         }?.let { phoneBean ->
@@ -62,7 +63,7 @@ fun getPhone(callback: suspend (RefreshState<Unit>) -> Unit = {}) {
 }
 
 fun getUserCollection(callback: suspend (RefreshState<Unit>) -> Unit = {}) {
-    launch(UI) {
+    GlobalScope.launch(Dispatchers.Main) {
         YellowPageService.getCollectionList().awaitAndHandle {
             callback(RefreshState.Failure(it))
         }?.let { collectionList ->
@@ -90,7 +91,7 @@ fun getUserCollection(callback: suspend (RefreshState<Unit>) -> Unit = {}) {
 }
 
 fun update(id: Int, callback: suspend (RefreshState<Unit>, String) -> Unit) {
-    launch(UI) {
+    GlobalScope.launch(Dispatchers.Main) {
         YellowPageService.updateCollection(id).awaitAndHandle {
             callback(RefreshState.Failure(it), it.toString())
         }?.let { updateBean ->
@@ -107,7 +108,7 @@ fun update(id: Int, callback: suspend (RefreshState<Unit>, String) -> Unit) {
 }
 
 fun search(keyword: String, callback: suspend (RefreshState<Unit>, List<SearchBean>?) -> Unit) {
-    launch(UI) {
+    GlobalScope.launch(Dispatchers.Main) {
         YellowPageService.search(keyword).awaitAndHandle {
             callback(RefreshState.Failure(it), null)
         }?.let {

@@ -19,8 +19,9 @@ import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineException
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import com.twt.wepeiyang.commons.experimental.extensions.enableLightStatusBarMode
 import com.twt.wepeiyang.commons.ui.rec.*
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.jetbrains.anko.*
 
 class EcardAssistanceActivity : AppCompatActivity() {
@@ -61,7 +62,7 @@ class EcardAssistanceActivity : AppCompatActivity() {
     private fun loadRecyclerView(assistance: String) {
         loading.visibility = View.VISIBLE
         itemManager.refreshAll { }
-        launch(UI + QuietCoroutineExceptionHandler) {
+        GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
             val list = EcardService.getFQA().awaitAndHandle {
                 it.printStackTrace()
                 loading.visibility = View.GONE

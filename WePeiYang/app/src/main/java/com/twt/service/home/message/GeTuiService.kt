@@ -3,9 +3,10 @@ package com.twt.service.home.message
 import com.twt.wepeiyang.commons.experimental.cache.RefreshState
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import com.twt.wepeiyang.commons.experimental.network.CommonBody
-import kotlinx.coroutines.experimental.Deferred
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import retrofit2.http.*
 
 
@@ -22,7 +23,7 @@ interface GeTuiService{
 }
 
 internal fun postRegister(uesr_name :String,real_name :String, student_number:String,client_id: String,cover :Int ,school :Int,major: Int,callback: suspend (String) -> (Unit)){
-    launch(UI){
+    GlobalScope.launch(Dispatchers.Main){
         val params = mapOf<String,String>(
                 "user_name" to uesr_name,
                 "real_name" to real_name,
@@ -36,7 +37,7 @@ internal fun postRegister(uesr_name :String,real_name :String, student_number:St
     }
 }
 internal fun getRecordMessage(student_number: String ,callback: suspend (RefreshState<Unit>,RecordMessage?) -> Unit) {
-    launch(UI){
+    GlobalScope.launch(Dispatchers.Main){
         GeTuiService.getRecordMessage(student_number).awaitAndHandle {
             callback(RefreshState.Failure(it),null)
         }?.let{
@@ -45,7 +46,7 @@ internal fun getRecordMessage(student_number: String ,callback: suspend (Refresh
     }
 }
 internal fun putId(id: Int,callback: suspend (String) -> (Unit)){
-    launch(UI){
+    GlobalScope.launch(Dispatchers.Main){
         GeTuiService.putId(id).awaitAndHandle { callback(it.message.orEmpty()) }?.let { callback(it.message) }
     }
 }

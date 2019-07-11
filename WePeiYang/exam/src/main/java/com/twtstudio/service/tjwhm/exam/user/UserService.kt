@@ -8,9 +8,10 @@ import com.twt.wepeiyang.commons.mta.mtaClick
 import com.twtstudio.service.tjwhm.exam.commons.EXAM_BASE_URL
 import com.twtstudio.service.tjwhm.exam.problem.ProblemBean
 import com.twtstudio.service.tjwhm.exam.user.star.StarActivity
-import kotlinx.coroutines.experimental.Deferred
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
 import retrofit2.http.*
 
@@ -44,7 +45,7 @@ val examUserHistoryRemoteCache = Cache.from(UserService.Companion::getHistory).m
 val examUserHistoryLiveData = RefreshableLiveData.use(examUserHistoryLocalCache, examUserHistoryRemoteCache)
 
 fun getCollections(starOrWrong: String, callback: suspend (RefreshState<CommonBody<List<ProblemBean>>>) -> Unit) =
-        launch(UI) {
+        GlobalScope.launch(Dispatchers.Main) {
             UserService.getCollections(starOrWrong).awaitAndHandle {
                 callback(RefreshState.Failure(it))
             }?.let {
@@ -53,7 +54,7 @@ fun getCollections(starOrWrong: String, callback: suspend (RefreshState<CommonBo
         }
 
 fun addCollection(starOrWrong: String, list: MutableList<MultipartBody.Part>, callback: suspend (RefreshState<CommonBody<Nothing>>) -> Unit) =
-        launch(UI) {
+        GlobalScope.launch(Dispatchers.Main) {
             if (starOrWrong == StarActivity.STAR.toString()) mtaClick("exam_用户主动收藏一道题目")
             else if (starOrWrong == StarActivity.WRONG.toString()) mtaClick("exam_自动将一道题目添加到错题本")
             UserService.addCollection(starOrWrong, list).awaitAndHandle {
@@ -65,7 +66,7 @@ fun addCollection(starOrWrong: String, list: MutableList<MultipartBody.Part>, ca
         }
 
 fun deleteCollection(starOrWrong: String, list: MutableList<MultipartBody.Part>, callback: suspend (RefreshState<CommonBody<Nothing>>) -> Unit) =
-        launch(UI) {
+        GlobalScope.launch(Dispatchers.Main) {
             UserService.deleteCollection(starOrWrong, list).awaitAndHandle {
                 callback(RefreshState.Failure(it))
             }?.let {

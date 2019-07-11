@@ -5,9 +5,7 @@ import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import com.twt.wepeiyang.commons.experimental.network.CommonBody
 import com.twt.wepeiyang.commons.experimental.network.ServiceFactory
 import com.twtstudio.service.tjwhm.exam.commons.EXAM_BASE_URL
-import kotlinx.coroutines.experimental.Deferred
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.*
 import retrofit2.http.GET
 import retrofit2.http.Path
 
@@ -25,7 +23,7 @@ interface ListService {
 }
 
 fun getList(lessonID: String, callback: suspend (RefreshState<CommonBody<List<LessonBean>>>) -> Unit) =
-        launch(UI) {
+        GlobalScope.launch(Dispatchers.Main) {
             ListService.getLessonList(lessonID).awaitAndHandle {
                 callback(RefreshState.Failure(it))
             }?.let {
@@ -34,7 +32,7 @@ fun getList(lessonID: String, callback: suspend (RefreshState<CommonBody<List<Le
         }
 
 fun findLesson(key: String, callback: suspend (RefreshState<CommonBody<List<LessonBean>>>) -> Unit) =
-        launch(UI) {
+        GlobalScope.launch(Dispatchers.Main) {
             ListService.findLessonList(key).awaitAndHandle {
                 callback(RefreshState.Failure(it))
             }?.let {
@@ -43,7 +41,7 @@ fun findLesson(key: String, callback: suspend (RefreshState<CommonBody<List<Less
         }
 
 fun getLessonInfo(lessonID: String, callback: suspend (RefreshState<CommonBody<LessonInfoBean>>) -> Unit) =
-        launch(UI) {
+        GlobalScope.launch(Dispatchers.Main) {
             ListService.getLessonInfo(lessonID).awaitAndHandle {
                 callback(RefreshState.Failure(it))
             }?.let {

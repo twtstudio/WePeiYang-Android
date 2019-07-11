@@ -21,13 +21,15 @@ import com.twt.service.tjunet.pref.TjuNetPreferences
 import com.twt.wepeiyang.commons.experimental.color.getColorCompat
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import es.dmoral.toasty.Toasty
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
 import org.jetbrains.anko.textColor
 import java.net.Inet4Address
 import java.net.NetworkInterface
 import java.net.NetworkInterface.getNetworkInterfaces
 import java.net.SocketException
+import javax.microedition.khronos.opengles.GL
 
 
 /**
@@ -75,7 +77,7 @@ class TjuNetViewComponent(itemView: View, private val owner: LifecycleOwner) : R
     }
 
     private fun refreshLoginState() {
-        async(UI) {
+        GlobalScope.async(Dispatchers.Main) {
             val result = RealTjuNetService.getStatus().awaitAndHandle {
                 Toasty.error(this@TjuNetViewComponent.context, "好像出了什么问题，${it.message}").show()
             }
@@ -90,7 +92,7 @@ class TjuNetViewComponent(itemView: View, private val owner: LifecycleOwner) : R
     }
 
     private fun login() {
-        async(UI) {
+        GlobalScope.async(Dispatchers.Main) {
             val viewContext = this@TjuNetViewComponent.context
             if (TjuNetPreferences.password == "") {
                 Toasty.info(viewContext, "请前往上网功能页面登陆以保存您的密码").show()
@@ -113,7 +115,7 @@ class TjuNetViewComponent(itemView: View, private val owner: LifecycleOwner) : R
     }
 
     private fun logout() {
-        async(UI) {
+        GlobalScope.async(Dispatchers.Main) {
             val viewContext = this@TjuNetViewComponent.context
             val body = RealTjuNetService.logoutTry(
                     username = TjuNetPreferences.username,

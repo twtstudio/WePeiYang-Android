@@ -25,7 +25,7 @@ import com.twt.service.schedule2.model.SchedulePref
 import com.twt.service.schedule2.model.exam.ExamTableLocalAdapter
 import com.twt.wepeiyang.commons.experimental.CommonContext
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
-import kotlinx.coroutines.experimental.runBlocking
+import kotlinx.coroutines.runBlocking
 
 
 /**

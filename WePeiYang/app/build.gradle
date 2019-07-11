@@ -1,6 +1,5 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 
 Properties pro = new Properties()
 pro.load(project.rootProject.file('local.properties').newDataInputStream())
@@ -48,13 +47,13 @@ android {
         }
 
         manifestPlaceholders = [
-                //AP6CS8KKB77P 属于应用"微北洋"独有的 Android AppKey, 用于配置SDK
-                MTA_APPKEY      : "AP6CS8KKB77P",
+                //AP6CS8KKB77P 属于应用"微北洋"独有的 Android AppKey, 用于 配置SDK
+                MTA_APPKEY : "AP6CS8KKB77P",
                 //标注应用推广渠道用以区分新用户来源，可填写如应用宝，豌豆荚等
-                MTA_CHANNEL     : "全渠道",
-                GETUI_APP_ID    : "ADDDDnkJDp5mcUoRcbx4D5",
-                GETUI_APP_KEY   : "4oENrHh96aAjOpHkK4TUi5",
-                GETUI_APP_SECRET: "vTEABKKRKK8U5FB2gdU3e8"
+                MTA_CHANNEL: "全渠道",
+                GETUI_APP_ID : "ADDDDnkJDp5mcUoRcbx4D5",
+                GETUI_APP_KEY : "4oENrHh96aAjOpHkK4TUi5",
+                GETUI_APP_SECRET : "vTEABKKRKK8U5FB2gdU3e8"
         ]
     }
 
@@ -115,7 +114,6 @@ kotlin {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     testImplementation 'junit:junit:4.12'
     testImplementation "org.mockito:mockito-core:2.16.0"
     androidTestImplementation('com.android.support.test.espresso:espresso-core:3.0.1', {
@@ -126,7 +124,7 @@ dependencies {
         implementation project(it)
     }
 
-    [*supportLibraries, 'constraint-layout', 'multidex', *archLibraries, 'kotlin-stdlib', 'butterknife', 'anko'].each {
+    [*supportLibraries, 'constraint-layout', 'multidex', *archLibraries, 'kotlin-stdlib', 'kotlinx-coroutines', 'butterknife', 'anko'].each {
         implementation dependenciesMap[it]
     }
     ['lifecycle-compiler', 'butterknife-compiler'].each {
@@ -137,6 +135,7 @@ dependencies {
     implementation 'com.prolificinteractive:material-calendarview:1.4.3'
     implementation 'agency.tango.android:material-intro-screen:0.0.5'
     implementation 'com.github.shem8:material-login:2.1.1'
+
     debugImplementation 'me.ele:uetool:1.0.12'
     releaseImplementation 'me.ele:uetool-no-op:1.0.12'
 

@@ -14,8 +14,9 @@ import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineException
 import com.twt.wepeiyang.commons.ui.rec.ItemAdapter
 import com.twt.wepeiyang.commons.ui.rec.ItemManager
 import es.dmoral.toasty.Toasty
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.jetbrains.anko.textColor
 
 class WeekTestActivity : AppCompatActivity() {
@@ -47,7 +48,7 @@ class WeekTestActivity : AppCompatActivity() {
     }
 
     fun loadPage() {
-        launch(UI + QuietCoroutineExceptionHandler) {
+        GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
             val response = NewsApi.getNewsByPage(page++).await()
             val data = response.data ?: throw IllegalStateException("新闻数据错误")
             itemManager.autoRefresh {

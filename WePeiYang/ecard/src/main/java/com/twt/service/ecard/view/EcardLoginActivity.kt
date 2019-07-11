@@ -14,10 +14,9 @@ import com.twt.wepeiyang.commons.experimental.extensions.enableLightStatusBarMod
 import com.twt.wepeiyang.commons.mta.mtaClick
 import com.twt.wepeiyang.commons.mta.mtaExpose
 import es.dmoral.toasty.Toasty
-import kotlinx.coroutines.experimental.CommonPool
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.async
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import retrofit2.HttpException
 
 class EcardLoginActivity : AppCompatActivity() {
@@ -54,7 +53,7 @@ class EcardLoginActivity : AppCompatActivity() {
             when {
                 studentNum.isEmpty() -> Toasty.error(this@EcardLoginActivity, "请输入学号").show()
                 password.isEmpty() -> Toasty.error(this@EcardLoginActivity, "请输入密码").show()
-                else -> launch(UI + QuietCoroutineExceptionHandler) {
+                else -> GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
                     val loginDeferred = EcardService.getEcardProfile(cardnum = studentNum, password = password)
                     val loginState = loginDeferred.awaitAndHandle {
                         it.printStackTrace()
