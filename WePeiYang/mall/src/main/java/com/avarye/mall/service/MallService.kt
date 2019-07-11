@@ -3,7 +3,7 @@ package com.avarye.mall.service
 import android.util.Log
 import com.twt.wepeiyang.commons.experimental.network.CommonBody
 import com.twt.wepeiyang.commons.experimental.network.CoroutineCallAdapterFactory
-import kotlinx.coroutines.experimental.Deferred
+import kotlinx.coroutines.Deferred
 import okhttp3.*
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

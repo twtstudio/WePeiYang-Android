@@ -1,14 +1,15 @@
 package com.avarye.mall
 
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
 import android.util.Log
 import com.avarye.mall.service.*
 import com.avarye.mall.view.MallActivity
 import com.twt.wepeiyang.commons.experimental.cache.*
 import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
 import es.dmoral.toasty.Toasty
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class Presenter(private var view: MallActivity) {
     var infoGoods: List<Goods>? = null
@@ -28,7 +29,7 @@ class Presenter(private var view: MallActivity) {
     //先后台登陆再拿数据
     //这玩意咋滴用LiveData…orz
     fun login() {
-        launch(UI) {
+        GlobalScope.launch(Dispatchers.Main) {
             MallApi.login(Utils.getToken()).awaitAndHandle {
                 Toasty.error(view, "没网？")
             }?.let {
@@ -52,7 +53,7 @@ class Presenter(private var view: MallActivity) {
     }
 
     fun getLatest(page: Int) {
-        launch(UI) {
+        GlobalScope.launch(Dispatchers.Main) {
             MallApi.latestGoods(Utils.toReqBody(page)).awaitAndHandle {
                 Log.d("login get goods failed", it.message)
             }?.let {
@@ -64,7 +65,7 @@ class Presenter(private var view: MallActivity) {
     }
 
     fun search(key: String, page: Int) {
-        launch(UI) {
+        GlobalScope.launch(Dispatchers.Main) {
             MallApi.schGoods(Utils.toReqBody(key), Utils.toReqBody(page)).awaitAndHandle {
                 Log.d("search failed", "search failed")
             }?.let {
@@ -76,7 +77,7 @@ class Presenter(private var view: MallActivity) {
     }
 
     fun getMyInfo() {
-        launch(UI) {
+        GlobalScope.launch(Dispatchers.Main) {
             MallApi.getMyInfo().awaitAndHandle {
                 Log.d("get mine failed", "get mine failed")
             }?.let {
@@ -86,7 +87,7 @@ class Presenter(private var view: MallActivity) {
     }
 
     fun getMenu() {
-        launch(UI) {
+        GlobalScope.launch(Dispatchers.Main) {
             MallApi.getMenu().awaitAndHandle {
             }?.let {
                 menuLiveData.refresh()
