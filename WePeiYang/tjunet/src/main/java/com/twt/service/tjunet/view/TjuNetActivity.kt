@@ -16,9 +16,26 @@ import org.jetbrains.anko.appcompat.v7.toolbar
 import org.jetbrains.anko.sdk25.coroutines.onCheckedChange
 import org.jetbrains.anko.sdk25.coroutines.onClick
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.PorterDuff
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
+import android.support.constraint.ConstraintLayout
+import android.support.v4.content.ContextCompat
+import android.support.v4.content.res.ResourcesCompat
+import android.view.Gravity
+import android.view.View
+import android.widget.Toast
+import com.twt.service.tjunet.R
+import com.twt.service.tjunet.pref.TjuNetPreferences.password
+import com.twt.service.tjunet.pref.TjuNetPreferences.username
 import com.twt.service.tjunet.reconnect.ReconnectJob
+import com.twt.wepeiyang.commons.experimental.color.getColorCompat
+import kotlinx.android.synthetic.main.tjunet_home_network.view.*
+import org.intellij.lang.annotations.JdkConstants
+import java.lang.reflect.Field
+import javax.annotation.Resource
 
 
 /**
@@ -26,20 +43,60 @@ import com.twt.service.tjunet.reconnect.ReconnectJob
  */
 class TjuNetActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
-        verticalLayout {
+        window.statusBarColor = Color.parseColor("#FFAEB9")
+
+        relativeLayout {
+
             padding = dip(8)
+            backgroundColor = Color.parseColor("#FFFFFF")
             toolbar {
-                title = "上网"
+                backgroundColor = Color.parseColor("#FFAEB9")
+                textView("上网") {
+                    textColor = Color.parseColor("#FFFFFF")
+                }
+            }.lparams(dip(1000), dip(40)) {
+                leftPadding = dip(0)
+                topPadding = dip(0)
+                rightPadding = dip(0)
             }
+
+            imageView {
+                image = resources.getDrawable(R.drawable.wode)
+            }.lparams(width = dip(30), height = dip(30)) {
+                setMargins(200, 200, 200, 270)
+            }
+
+
             val username = editText(TjuNetPreferences.username) {
                 hint = "用户名"
+                background = resources.getDrawable(R.drawable.et_bg)
+                //isCursorVisible=false
+
+
+            }.lparams(dip(180), wrapContent) {
+                setMargins(300, 200, 170, 270)
+
             }
+            imageView {
+                image = resources.getDrawable(R.drawable.mima)
+            }.lparams(dip(30), dip(30)) {
+                setMargins(200, 380, 200, 0)
+            }
+
             val password = editText(TjuNetPreferences.password) {
                 inputType = InputType.TYPE_TEXT_VARIATION_PASSWORD
                 transformationMethod = PasswordTransformationMethod.getInstance()
                 hint = "密码"
+                background = resources.getDrawable(R.drawable.et_bg)
+                // isCursorVisible=false
+
+            }.lparams(dip(180), wrapContent) {
+                setMargins(300, 360, 170, 0)
             }
+
+
             checkBox("断开时尝试自动重连") {
                 isChecked = TjuNetPreferences.autoConnect
                 onCheckedChange { buttonView, isChecked ->
@@ -60,15 +117,24 @@ class TjuNetActivity : AppCompatActivity() {
                         }
                     }
                 }
+            }.lparams() {
+                setMargins(230, 500, 200, 0)
             }
+
 
             val status = textView {
                 text = "当前状态-> 欢迎使用一键上网"
             }.lparams {
-                topMargin = dip(8)
+                setMargins(250, 600, 200, 0)
             }
 
             button("Login") {
+
+                // ResourcesCompat.getDrawable(,R.drawable.values,null)
+                background = resources.getDrawable(R.drawable.values)
+                alpha = 0.5f
+                textColor = Color.parseColor("#FFFFFF")
+                gravity = Gravity.CENTER
                 onClick {
                     TjuNetPreferences.apply {
                         this.username = username.text.toString()
@@ -84,9 +150,16 @@ class TjuNetActivity : AppCompatActivity() {
                         status.text = it.toString()
                     }
                 }
+            }.lparams(dip(270), dip(50)) {
+                setMargins(300, 700, 300, 0)
+
             }
 
             button("Logout") {
+                background = resources.getDrawable(R.drawable.values)
+                alpha = 0.5f
+                textColor = Color.parseColor("#FFFFFF")
+                gravity = Gravity.CENTER
                 onClick {
                     val body = RealTjuNetService.logoutTry(
                             username = username.text.toString(),
@@ -98,9 +171,16 @@ class TjuNetActivity : AppCompatActivity() {
                         status.text = it.toString()
                     }
                 }
+            }.lparams(dip(270), dip(50)) {
+                setMargins(300, 870, 300, 0)
+
             }
 
             button("IP") {
+                background = resources.getDrawable(R.drawable.values)
+                alpha = 0.5f
+                textColor = Color.parseColor("#FFFFFF")
+                gravity = Gravity.CENTER
                 onClick {
                     val result = RealTjuNetService.getIp().awaitAndHandle {
                         Toasty.error(this@TjuNetActivity, "好像出了什么问题，${it.message}").show()
@@ -109,9 +189,17 @@ class TjuNetActivity : AppCompatActivity() {
                         status.text = it.toString()
                     }
                 }
+            }.lparams(dip(270), dip(50)) {
+                setMargins(300, 1040, 300, 0)
+
             }
 
             button("Status") {
+                background = resources.getDrawable(R.drawable.values)
+                //backgroundColor = Color.parseColor("#FF7777")
+                alpha = 0.5f
+                textColor = Color.parseColor("#FFFFFF")
+                gravity = Gravity.CENTER
                 onClick {
                     val result = RealTjuNetService.getStatus().awaitAndHandle {
                         Toasty.error(this@TjuNetActivity, "好像出了什么问题，${it.message}").show()
@@ -120,15 +208,28 @@ class TjuNetActivity : AppCompatActivity() {
                         status.text = it.toString()
                     }
                 }
+            }.lparams(dip(270), dip(50)) {
+                setMargins(300, 1210, 300, 0)
+
             }
 
             button("自服务") {
+                background = resources.getDrawable(R.drawable.values)
+                //backgroundColor = Color.parseColor("#FF7777")
+                alpha = 0.5f
+                textColor = Color.parseColor("#FFFFFF")
+                gravity = Gravity.CENTER
                 onClick {
                     val uri = Uri.parse("http://g.tju.edu.cn ")
                     val intent = Intent(Intent.ACTION_VIEW, uri)
                     startActivity(intent)
                 }
+            }.lparams(dip(270), dip(50)) {
+                setMargins(300, 1380, 300, 700)
+
             }
         }
+
     }
+
 }
