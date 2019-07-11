@@ -90,7 +90,7 @@ class EcardInfoItem : Item {
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: Item) {
             holder as ViewHolder
 
-            holder.stateText.setOnClickListener { view ->
+            holder.stateText.setOnClickListener {
                 mtaClick("ecard_首页ECard Item点击刷新")
                 LiveEcardManager.refreshEcardFullInfo()
             }

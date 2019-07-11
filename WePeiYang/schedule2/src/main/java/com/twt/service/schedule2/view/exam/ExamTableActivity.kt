@@ -23,8 +23,9 @@ import com.twt.wepeiyang.commons.ui.rec.ItemManager
 import com.twt.wepeiyang.commons.ui.rec.lightText
 import com.twt.wepeiyang.commons.ui.text.spanned
 import es.dmoral.toasty.Toasty
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.jetbrains.anko.coroutines.experimental.asReference
 import org.jetbrains.anko.dip
 import org.jetbrains.anko.horizontalMargin
@@ -92,7 +93,7 @@ class ExamTableActivity : AppCompatActivity() {
 
     private fun loadData() {
 
-        launch(UI + QuietCoroutineExceptionHandler) {
+        GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
             val activity = this@ExamTableActivity.asReference()
 
             ExamTableService.getTable().awaitAndHandle {

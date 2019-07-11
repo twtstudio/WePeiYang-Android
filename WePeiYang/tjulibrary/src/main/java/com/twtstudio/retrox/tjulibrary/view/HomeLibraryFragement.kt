@@ -22,8 +22,9 @@ import com.twtstudio.retrox.tjulibrary.R
 import com.twtstudio.retrox.tjulibrary.home.LibraryViewModel
 import com.twtstudio.retrox.tjulibrary.tjulibservice.LibraryApi
 import com.twtstudio.retrox.tjulibrary.tjulibservice.imgSrc
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.jetbrains.anko.backgroundColor
 
 
@@ -81,7 +82,7 @@ class HomeLibraryFragement : Fragment(), ViewPager.OnPageChangeListener {
                     progressBar.visibility = View.VISIBLE
                     mylistPagerAdapter.removeAll()
                     linear.removeAllViews()
-                    launch(UI + QuietCoroutineExceptionHandler) {
+                    GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
                         mylistPagerAdapter.removeAll()
                         linear.removeAllViews()
                         for (i in info.books) {

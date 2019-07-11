@@ -1,14 +1,12 @@
 package com.twt.service.schedule2.model.exam
 
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
-import kotlinx.coroutines.experimental.CommonPool
-import kotlinx.coroutines.experimental.Deferred
-import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.*
 
 object ExamTableLocalAdapter {
     private val examLocalMap = mutableMapOf<String, ExamTableBean>() // courseID -> ExamBean
 
-    fun getExamMap(forceReload: Boolean = false): Deferred<Map<String, ExamTableBean>> = async(CommonPool) {
+    fun getExamMap(forceReload: Boolean = false): Deferred<Map<String, ExamTableBean>> = GlobalScope.async(Dispatchers.Default) {
         examLocalMap.clear()
         val examCache = examTableCache.get().await()
         if (examCache == null || forceReload) {
@@ -25,7 +23,7 @@ object ExamTableLocalAdapter {
         examLocalMap
     }
 
-    fun getExamMapFromCache(): Deferred<Map<String, ExamTableBean>> = async(CommonPool) {
+    fun getExamMapFromCache(): Deferred<Map<String, ExamTableBean>> = GlobalScope.async(Dispatchers.Default) {
         examLocalMap.clear()
         val examCache = examTableCache.get().await()
         examCache?.forEach {
@@ -34,7 +32,7 @@ object ExamTableLocalAdapter {
         examLocalMap
     }
 
-    private fun refreshData() = async(CommonPool) {
+    private fun refreshData() = GlobalScope.async(Dispatchers.Default) {
         val data = ExamTableService.getTable().await().data
         data?.let {
             examTableCache.set(it)

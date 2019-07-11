@@ -1,10 +1,7 @@
 package com.twt.wepeiyang.commons.experimental.cache
 
 import com.orhanobut.hawk.Hawk
-import kotlinx.coroutines.experimental.CommonPool
-import kotlinx.coroutines.experimental.CompletableDeferred
-import kotlinx.coroutines.experimental.Deferred
-import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.HttpException
@@ -42,14 +39,14 @@ fun <V : Any> Cache.Companion.retrofit(generator: () -> Call<V>): Cache<V> = obj
 
                 call.enqueue(object : Callback<V> {
                     override fun onFailure(call: Call<V>, t: Throwable) {
-                        completeExceptionally(t)
+                        cancel(t)
                     }
 
                     override fun onResponse(call: Call<V>, response: Response<V>) {
                         if (response.isSuccessful) {
                             complete(response.body()!!)
                         } else {
-                            completeExceptionally(HttpException(response))
+                            cancel(HttpException(response))
                         }
                     }
                 })
@@ -58,10 +55,10 @@ fun <V : Any> Cache.Companion.retrofit(generator: () -> Call<V>): Cache<V> = obj
 }
 
 fun <V : Any> Cache.Companion.hawk(key: String): Cache<V> = object : Cache<V> {
-    override fun get(): Deferred<V?> = async(CommonPool) { Hawk.get<V>(key) }
+    override fun get(): Deferred<V?> = GlobalScope.async(Dispatchers.Default, CoroutineStart.DEFAULT) { Hawk.get<V>(key) }
 
     override fun set(value: V): Deferred<Unit> =
-            async(CommonPool) { if (!Hawk.put<V>(key, value)) throw RuntimeException("Failed to set value $value for key $key.") }
+            GlobalScope.async(Dispatchers.Default, CoroutineStart.DEFAULT,  { if (!Hawk.put<V>(key, value)) throw RuntimeException("Failed to set value $value for key $key.") })
 
 }
 

@@ -8,7 +8,7 @@ import com.twt.wepeiyang.commons.experimental.cache.hawk
 import com.twt.wepeiyang.commons.experimental.network.CommonBody
 import com.twt.wepeiyang.commons.experimental.network.ServiceFactory
 import es.dmoral.toasty.Toasty
-import kotlinx.coroutines.experimental.Deferred
+import kotlinx.coroutines.Deferred
 import org.jetbrains.anko.alert
 import retrofit2.http.*
 

@@ -46,9 +46,9 @@ import com.twt.wepeiyang.commons.ui.rec.ItemAdapter
 import com.twt.wepeiyang.commons.ui.rec.ItemManager
 import es.dmoral.toasty.Toasty
 import io.multimoon.colorful.CAppCompatActivity
-import kotlinx.coroutines.experimental.CommonPool
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.backgroundColor
 import org.jetbrains.anko.textColor
@@ -180,7 +180,7 @@ class AuditActivity : CAppCompatActivity() {
                                 title = "取消蹭课"
                                 message = "是否取消该课程蹭课（所有时段）：${auditCourse.courseName}"
                                 positiveButton("取消蹭课") {
-                                    launch(UI + QuietCoroutineExceptionHandler) {
+                                    GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
                                         val result = AuditApi.cancelAudit(CommonPreferences.studentid, auditCourse.courseId.toString()).awaitAndHandle { it.printStackTrace() }?.message
                                                 ?: "出现错误"
                                         Toasty.info(this@AuditActivity, "${auditCourse.courseName} -> $result").show()
@@ -197,7 +197,7 @@ class AuditActivity : CAppCompatActivity() {
                                         title = "取消蹭课"
                                         message = "是否取消该课程蹭课（所有时段）：${additional.courseName}"
                                         positiveButton("取消蹭课") {
-                                            launch(UI + QuietCoroutineExceptionHandler) {
+                                            GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
                                                 val result = AuditApi.cancelAudit(CommonPreferences.studentid, additional.courseId.toString()).awaitAndHandle { it.printStackTrace() }?.message
                                                         ?: "出现错误"
                                                 Toasty.info(this@AuditActivity, "${additional.courseName} -> $result").show()
@@ -223,7 +223,7 @@ class AuditActivity : CAppCompatActivity() {
     }
 
     private fun setUpSearchView(editText: EditText) {
-        editText.setOnEditorActionListener { v, actionId, event ->
+        editText.setOnEditorActionListener { v, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 editText.clearFocus();
                 viewGroup.visibility = View.INVISIBLE
@@ -246,7 +246,7 @@ class AuditActivity : CAppCompatActivity() {
     }
 
     private fun refreshData() {
-        launch(CommonPool + QuietCoroutineExceptionHandler) {
+        GlobalScope.launch(Dispatchers.Default + QuietCoroutineExceptionHandler) {
             AuditCourseManager.refreshAuditClasstable()
             auditPopluarLiveData.refresh(CacheIndicator.LOCAL, CacheIndicator.REMOTE)
             AuditCourseManager.refreshAuditSearchDatabase()

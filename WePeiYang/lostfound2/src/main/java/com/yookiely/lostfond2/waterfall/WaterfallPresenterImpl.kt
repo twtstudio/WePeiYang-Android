@@ -8,10 +8,9 @@ import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineException
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import com.twt.wepeiyang.commons.network.RetrofitProvider
 import com.yookiely.lostfond2.service.Utils
-import kotlinx.coroutines.experimental.CommonPool
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.async
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class WaterfallPresenterImpl(var waterfallView: WaterfallContract.WaterfallView)
     : WaterfallContract.WaterfallPresenter {
@@ -25,7 +24,7 @@ class WaterfallPresenterImpl(var waterfallView: WaterfallContract.WaterfallView)
         val campus = Utils.campus
 
         if (campus != null) {
-            launch(UI + QuietCoroutineExceptionHandler) {
+            GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
                 when (lostOrFound) {
                     "lost" -> LostFoundService.getLost(campus, page, Utils.ALL_TYPE, time).await()
                     else -> LostFoundService.getFound(campus, page, Utils.ALL_TYPE, time).await()
@@ -45,7 +44,7 @@ class WaterfallPresenterImpl(var waterfallView: WaterfallContract.WaterfallView)
             loadWaterfallData(lostOrFound, page, time)
         } else {
             if (campus != null) {
-                launch(UI + QuietCoroutineExceptionHandler) {
+                GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
                     when (lostOrFound) {
                         "lost" -> LostFoundService.getLost(campus, page, type, time).await()
                         else -> LostFoundService.getFound(campus, page, type, time).await()

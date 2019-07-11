@@ -6,8 +6,9 @@ import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
 import com.twt.wepeiyang.commons.experimental.service.AuthSelfBean
 import com.twt.wepeiyang.commons.experimental.service.AuthService
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 
 val authSelfLocalCache = Cache.hawk<AuthSelfBean>("AUTH_SELF")
@@ -23,7 +24,7 @@ val authSelfLiveData = RefreshableLiveData.use(authSelfLocalCache, authSelfRemot
 }
 
 fun login(username: String, password: String, callback: suspend (RefreshState<Unit>) -> Unit = {}) {
-    launch(UI) {
+    GlobalScope.launch(Dispatchers.Main) {
         AuthService.getToken(username, password).awaitAndHandle {
             callback(RefreshState.Failure(it))
         }?.data?.let {

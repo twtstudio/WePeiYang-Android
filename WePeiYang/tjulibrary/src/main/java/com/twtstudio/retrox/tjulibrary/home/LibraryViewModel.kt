@@ -9,10 +9,7 @@ import com.twtstudio.retrox.tjulibrary.provider.Book
 import com.twtstudio.retrox.tjulibrary.provider.Info
 import com.twtstudio.retrox.tjulibrary.provider.RenewResult
 import es.dmoral.toasty.Toasty
-import kotlinx.coroutines.experimental.CoroutineExceptionHandler
-import kotlinx.coroutines.experimental.Deferred
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.*
 import retrofit2.http.GET
 import retrofit2.http.Path
 
@@ -37,7 +34,7 @@ object LibraryViewModel : ViewModel() {
             Toasty.error(context, "续借失败").show()
             infoLiveData.refresh(CacheIndicator.REMOTE)
         }
-        launch(UI + exceptionHandler) {
+        GlobalScope.launch(Dispatchers.Main + exceptionHandler) {
             val result = api.renewBook(book.barcode).await()
             Toasty.success(context, "尝试续借完成 以实际还书时间为主").show()
             infoLiveData.refresh(CacheIndicator.REMOTE)

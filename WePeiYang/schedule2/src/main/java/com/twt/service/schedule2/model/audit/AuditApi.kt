@@ -6,9 +6,7 @@ import com.twt.wepeiyang.commons.experimental.cache.*
 import com.twt.wepeiyang.commons.experimental.network.CommonBody
 import com.twt.wepeiyang.commons.experimental.network.ServiceFactory
 import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
-import kotlinx.coroutines.experimental.CommonPool
-import kotlinx.coroutines.experimental.Deferred
-import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.*
 import retrofit2.http.*
 
 interface AuditApi {
@@ -47,7 +45,7 @@ val auditCourseLiveData = object : RefreshableLiveData<List<AuditCourse>, CacheI
 
     override fun refresh(vararg indicators: CacheIndicator, callback: suspend (RefreshState<CacheIndicator>) -> Unit) {
         if (indicators == CacheIndicator.REMOTE) {
-            async(CommonPool) {
+            GlobalScope.async(Dispatchers.Default) {
                 try {
                     AuditCourseManager.refreshAuditClasstable()
                     callback(RefreshState.Success(CacheIndicator.REMOTE))

@@ -2,8 +2,10 @@ package com.twtstudio.retrox.tjulibrary.tjulibservice
 
 import android.app.Activity
 import android.util.Log
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 
-import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.async
 
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
@@ -22,7 +24,7 @@ class JsoupService(private var bookProvide: BookProvide.setBook) : BookProvide.g
         val random = Random()
         val rand = random.nextInt()
 
-        async {
+        GlobalScope.async(Dispatchers.Default) {
 
 
             try {

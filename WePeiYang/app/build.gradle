@@ -47,7 +47,7 @@ android {
         }
 
         manifestPlaceholders = [
-                //AP6CS8KKB77P 属于应用"微北洋"独有的 Android AppKey, 用于配置SDK
+                //AP6CS8KKB77P 属于应用"微北洋"独有的 Android AppKey, 用于 配置SDK
                 MTA_APPKEY : "AP6CS8KKB77P",
                 //标注应用推广渠道用以区分新用户来源，可填写如应用宝，豌豆荚等
                 MTA_CHANNEL: "全渠道",
@@ -124,7 +124,7 @@ dependencies {
         implementation project(it)
     }
 
-    [*supportLibraries, 'constraint-layout', 'multidex', *archLibraries, 'kotlin-stdlib', 'butterknife', 'anko'].each {
+    [*supportLibraries, 'constraint-layout', 'multidex', *archLibraries, 'kotlin-stdlib', 'kotlinx-coroutines', 'butterknife', 'anko'].each {
         implementation dependenciesMap[it]
     }
     ['lifecycle-compiler', 'butterknife-compiler'].each {

@@ -114,7 +114,7 @@ class ScheduleWidgetProvider : AppWidgetProvider() {
 
     fun getData(context: Context, appWidgetId: Int, remoteViews: RemoteViews, update: Boolean) {
 
-        val classTableProviderLiveData = TotalCourseManager.getTotalCourseManager(false, false, false) { cacheIndicatorRefreshState -> null }
+        val classTableProviderLiveData = TotalCourseManager.getTotalCourseManager(false, false, false) { _ -> null }
         classTableProviderLiveData.observeForever { mergedClassTableProvider ->
             if (mergedClassTableProvider == null) return@observeForever
             try {

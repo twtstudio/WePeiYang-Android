@@ -19,7 +19,7 @@ import com.twt.service.schedule2.model.Course
 import com.twt.service.schedule2.model.exam.ExamTableLocalAdapter
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
 import com.twt.wepeiyang.commons.mta.mtaExpose
-import kotlinx.coroutines.experimental.runBlocking
+import kotlinx.coroutines.runBlocking
 
 /**
  * 这个是直接用在底部的 因为多门课程冲突的时候 需要用一个TabLayout

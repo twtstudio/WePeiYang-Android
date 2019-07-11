@@ -14,7 +14,6 @@ import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
 import com.twt.wepeiyang.commons.ui.rec.withItems
 import io.multimoon.colorful.CAppCompatActivity
 import org.jetbrains.anko.*
-import org.jetbrains.anko.sdk25.coroutines.onClick
 import pub.devrel.easypermissions.EasyPermissions
 import java.text.SimpleDateFormat
 import java.util.*
@@ -22,6 +21,7 @@ import android.provider.CalendarContract
 import android.content.pm.PackageManager
 import android.os.Build
 import android.content.ContentResolver
+import org.jetbrains.anko.sdk27.coroutines.onClick
 
 
 class CalSyncActivity : CAppCompatActivity() {

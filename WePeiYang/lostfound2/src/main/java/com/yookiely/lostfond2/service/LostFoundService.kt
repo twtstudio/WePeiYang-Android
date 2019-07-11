@@ -2,7 +2,7 @@ package com.yookiely.lostfond2.service
 
 import com.twt.wepeiyang.commons.experimental.network.CommonBody
 import com.twt.wepeiyang.commons.experimental.network.ServiceFactory
-import kotlinx.coroutines.experimental.Deferred
+import kotlinx.coroutines.Deferred
 import okhttp3.MultipartBody
 import retrofit2.http.*
 
