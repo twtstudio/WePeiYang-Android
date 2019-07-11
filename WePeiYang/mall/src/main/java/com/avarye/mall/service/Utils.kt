@@ -25,6 +25,7 @@ object Utils {
     }
 
     fun addGoods(data: List<Goods>) {
+        infoGoods.clear()
         this.infoGoods += data
     }
 

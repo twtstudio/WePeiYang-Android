@@ -3,7 +3,8 @@
     package="com.avarye.mall">
 
     <application>
-        <activity android:name=".view.DetailActivity"></activity>
+        <activity android:name=".view.SaleActivity"></activity>
+        <activity android:name=".view.DetailActivity" />
         <activity android:name=".view.MallActivity" />
     </application>
 

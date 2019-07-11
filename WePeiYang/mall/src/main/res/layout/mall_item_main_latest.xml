@@ -58,8 +58,8 @@
             tools:text="20.00" />
 
         <android.support.v7.widget.AppCompatImageView
-            android:layout_width="22dp"
-            android:layout_height="wrap_content"
+            android:layout_width="18dp"
+            android:layout_height="22dp"
             android:layout_below="@id/mall_tv_main_name"
             android:layout_alignBottom="@id/mall_tv_main_price"
             android:layout_marginTop="7dp"
@@ -72,7 +72,10 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@id/mall_tv_main_price"
             android:layout_alignParentEnd="true"
-            android:layout_margin="7dp"
+            android:layout_marginTop="7dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="7dp"
+            android:layout_marginBottom="7dp"
             android:textSize="12sp"
             tools:text="北洋园校区" />
     </RelativeLayout>

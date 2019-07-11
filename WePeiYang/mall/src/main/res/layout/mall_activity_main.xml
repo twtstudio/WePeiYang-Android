@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -11,23 +12,7 @@
         android:layout_height="wrap_content"
         android:background="#FF9A36">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/tb_mall_main"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="#FF9A36"
-            app:layout_scrollFlags="scroll|enterAlways">
-            <!--app:popupTheme="@style/AppTheme.PopupOverlay">-->
-
-            <android.support.v7.widget.AppCompatTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="天外天商城"
-                android:textColor="#ffffff"
-                android:textSize="24sp" />
-
-        </android.support.v7.widget.Toolbar>
+        <include layout="@layout/mall_item_toolbar" />
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
@@ -37,7 +22,8 @@
             android:layout_marginEnd="15dp"
             android:layout_marginBottom="5dp"
             android:background="@drawable/mall_shape_search_bg"
-            android:focusable="true">
+            android:focusable="true"
+            android:focusableInTouchMode="true">
 
             <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/iv_mall_search"
@@ -56,7 +42,9 @@
                 android:layout_marginStart="45dp"
                 android:layout_marginEnd="10dp"
                 android:background="@null"
+                android:cursorVisible="false"
                 android:hint="我需要..."
+                android:imeOptions="actionSearch"
                 android:selectAllOnFocus="true"
                 android:singleLine="true"
                 android:textColorHint="#797979"
@@ -69,8 +57,13 @@
 
         </android.support.constraint.ConstraintLayout>
 
-
     </android.support.design.widget.AppBarLayout>
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </TableLayout>
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/mall_srl_main"

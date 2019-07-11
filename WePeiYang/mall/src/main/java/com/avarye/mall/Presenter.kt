@@ -12,19 +12,6 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 class Presenter(private var view: MallActivity) {
-    var infoGoods: List<Goods>? = null
-    var infoLogin: Login? = null
-    var infoSearch: List<SchGoods>? = null
-    var infoMine: MyInfo? = null
-    var infoMenu: List<Menu>? = null
-
-    private val menuLocalData = Cache.hawk<List<Menu>>("MALL_MENU")
-    private val menuRemoteData = Cache.from(MallApi.Companion::getMenu)
-    val menuLiveData = RefreshableLiveData.use(menuLocalData, menuRemoteData)
-
-    private val mineLocalData = Cache.hawk<MyInfo>("MALL_MINE")
-    private val mineRemoteData = Cache.from(MallApi.Companion::getMyInfo)
-    val mineLiveData = RefreshableLiveData.use(mineLocalData, mineRemoteData)
 
     //先后台登陆再拿数据
     //这玩意咋滴用LiveData…orz
@@ -55,14 +42,15 @@ class Presenter(private var view: MallActivity) {
     fun getLatest(page: Int) {
         GlobalScope.launch(Dispatchers.Main) {
             MallApi.latestGoods(Utils.toReqBody(page)).awaitAndHandle {
-                Log.d("login get goods failed", it.message)
+                Log.d("get goods failed", it.message)
             }?.let {
                 Utils.addGoods(it)
                 view.bindLatest(view, Utils.getGoods())
-                Log.d("login goods done", it[0].page.toString())
+                Log.d("get goods done", it[0].page.toString())
             }
         }
     }
+
 
     fun search(key: String, page: Int) {
         GlobalScope.launch(Dispatchers.Main) {

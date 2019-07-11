@@ -1,6 +1,8 @@
 package com.avarye.mall.service
 
 import android.util.Log
+import com.twt.wepeiyang.commons.experimental.cache.*
+import com.twt.wepeiyang.commons.experimental.cache.Cache
 import com.twt.wepeiyang.commons.experimental.network.CommonBody
 import com.twt.wepeiyang.commons.experimental.network.CoroutineCallAdapterFactory
 import kotlinx.coroutines.Deferred
@@ -22,7 +24,7 @@ interface MallApi {
 
     @Multipart
     @POST("api.php/Items/item_new")
-    fun latestGoods(@Part("yeshu") page: RequestBody): Deferred<List<Goods>>
+    fun latestGoods(@Part("yeshu") page: RequestBody, @Part("which") which: RequestBody = Utils.toReqBody(1)): Deferred<List<Goods>>
 
     @Multipart
     @POST("api.php/Items/search")
@@ -30,6 +32,10 @@ interface MallApi {
 
     @GET("api.php/Items/menu")
     fun getMenu(): Deferred<List<Menu>>
+
+    @Multipart
+    @POST("api.php/Items/saler_info")
+    fun getSellerInfo(@Part("token") token: RequestBody, @Part("gid") gid: RequestBody): Deferred<Seller>
 
     //TODO:还没写
     @POST("api.php/Items/sale_fabu")
@@ -40,6 +46,14 @@ interface MallApi {
 
     companion object : MallApi by MallApiService()
 }
+
+private val menuLocalData = Cache.hawk<List<Menu>>("MALL_MENU")
+private val menuRemoteData = Cache.from(MallApi.Companion::getMenu)
+val menuLiveData = RefreshableLiveData.use(menuLocalData, menuRemoteData)
+
+private val mineLocalData = Cache.hawk<MyInfo>("MALL_MINE")
+private val mineRemoteData = Cache.from(MallApi.Companion::getMyInfo)
+val mineLiveData = RefreshableLiveData.use(mineLocalData, mineRemoteData)
 
 object MallApiService {
     private val cookie = object : CookieJar {
@@ -141,4 +155,9 @@ data class Smalllist(
         val b_id: String,
         val id: String,
         val name: String
+)
+data class Seller(
+        val email: String,
+        val phone: String,
+        val qq: String
 )

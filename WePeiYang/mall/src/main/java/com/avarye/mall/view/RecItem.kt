@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.mall_item_main_latest.view.*
 import org.jetbrains.anko.layoutInflater
 
 class RecItem : Item {
-    var builder: (ViewHolder.() -> Unit)? = null
+    internal var builder: (ViewHolder.() -> Unit)? = null
 
     companion object Controller : ItemController {
         override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
@@ -33,12 +33,12 @@ class RecItem : Item {
             item.builder?.invoke(holder)
         }
 
-        class ViewHolder(
+        internal class ViewHolder(
                 itemView: View,
                 val image: ImageView,
                 val name: TextView,
                 val price: TextView,
-                val campus: TextView,
+                val locate: TextView,
                 val card: CardView
         ) : RecyclerView.ViewHolder(itemView)
     }
@@ -48,5 +48,5 @@ class RecItem : Item {
 }
 
 fun MutableList<Item>.recItem() = add(RecItem())
-fun MutableList<Item>.recItem(builder: RecItem.Controller.ViewHolder.() -> Unit) = add(RecItem().apply { this.builder = builder })
+internal fun MutableList<Item>.recItem(builder: RecItem.Controller.ViewHolder.() -> Unit) = add(RecItem().apply { this.builder = builder })
 
