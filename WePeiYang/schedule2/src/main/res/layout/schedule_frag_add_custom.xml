@@ -153,6 +153,8 @@
                     android:layout_marginEnd="15dp"
                     android:background="@drawable/schedule_edittext_shape"
                     android:theme="@style/MyTextInputLayout"
+                    android:digits="1234567890"
+                    android:inputType="number"
                     app:layout_constraintEnd_toEndOf="@id/ll4"
                     app:layout_constraintStart_toEndOf="@id/textView4" />
             </android.support.constraint.ConstraintLayout>
@@ -188,8 +190,7 @@
                     app:layout_constraintEnd_toStartOf="@id/edit_start_time_name"
                     app:layout_constraintStart_toStartOf="@id/ll6" />
 
-
-                <EditText
+                <TextView
                     android:id="@+id/edit_start_time_name"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -198,7 +199,18 @@
                     android:background="@drawable/schedule_edittext_shape"
                     android:theme="@style/MyTextInputLayout"
                     app:layout_constraintEnd_toStartOf="@id/textView15"
-                    app:layout_constraintStart_toEndOf="@id/textView12" />
+                    app:layout_constraintStart_toEndOf="@id/textView12"
+                    />
+                <!--<EditText-->
+                    <!--android:id="@+id/edit_start_time_name"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:layout_marginStart="20dp"-->
+                    <!--android:layout_marginEnd="12dp"-->
+                    <!--android:background="@drawable/schedule_edittext_shape"-->
+                    <!--android:theme="@style/MyTextInputLayout"-->
+                    <!--app:layout_constraintEnd_toStartOf="@id/textView15"-->
+                    <!--app:layout_constraintStart_toEndOf="@id/textView12" />-->
 
 
                 <TextView
@@ -212,8 +224,7 @@
                     app:layout_constraintEnd_toStartOf="@id/edit_end_time_name"
                     app:layout_constraintStart_toEndOf="@id/edit_start_time_name" />
 
-
-                <EditText
+                <TextView
                     android:id="@+id/edit_end_time_name"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -223,6 +234,16 @@
                     android:theme="@style/MyTextInputLayout"
                     app:layout_constraintEnd_toEndOf="@id/ll6"
                     app:layout_constraintStart_toEndOf="@id/textView15" />
+                <!--<EditText-->
+                    <!--android:id="@+id/edit_end_time_name"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:layout_marginStart="20dp"-->
+                    <!--android:layout_marginEnd="15dp"-->
+                    <!--android:background="@drawable/schedule_edittext_shape"-->
+                    <!--android:theme="@style/MyTextInputLayout"-->
+                    <!--app:layout_constraintEnd_toEndOf="@id/ll6"-->
+                    <!--app:layout_constraintStart_toEndOf="@id/textView15" />-->
 
             </android.support.constraint.ConstraintLayout>
 
@@ -247,7 +268,7 @@
                     app:layout_constraintEnd_toStartOf="@id/edit_startWeek_name"
                     app:layout_constraintStart_toStartOf="@id/ll7" />
 
-                <EditText
+                <TextView
                     android:id="@+id/edit_startWeek_name"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -257,6 +278,16 @@
                     android:theme="@style/MyTextInputLayout"
                     app:layout_constraintEnd_toStartOf="@id/textView18"
                     app:layout_constraintStart_toEndOf="@id/textView16" />
+                <!--<EditText-->
+                    <!--android:id="@+id/edit_startWeek_name"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:layout_marginStart="20dp"-->
+                    <!--android:layout_marginEnd="12dp"-->
+                    <!--android:background="@drawable/schedule_edittext_shape"-->
+                    <!--android:theme="@style/MyTextInputLayout"-->
+                    <!--app:layout_constraintEnd_toStartOf="@id/textView18"-->
+                    <!--app:layout_constraintStart_toEndOf="@id/textView16" />-->
 
 
                 <TextView
@@ -270,7 +301,7 @@
                     app:layout_constraintEnd_toStartOf="@id/edit_endWeek_name"
                     app:layout_constraintStart_toEndOf="@id/edit_startWeek_name" />
 
-                <EditText
+                <TextView
                     android:id="@+id/edit_endWeek_name"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -281,6 +312,17 @@
                     app:layout_constraintEnd_toEndOf="@id/ll7"
                     app:layout_constraintStart_toEndOf="@id/textView18" />
 
+                <!--<EditText-->
+                    <!--android:id="@+id/edit_endWeek_name"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:layout_marginStart="20dp"-->
+                    <!--android:layout_marginEnd="15dp"-->
+                    <!--android:background="@drawable/schedule_edittext_shape"-->
+                    <!--android:theme="@style/MyTextInputLayout"-->
+                    <!--app:layout_constraintEnd_toEndOf="@id/ll7"-->
+                    <!--app:layout_constraintStart_toEndOf="@id/textView18" />-->
+
             </android.support.constraint.ConstraintLayout>
 
             <Button
@@ -289,7 +331,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="25dp"
-                android:text="添加上课时间"
+                android:text="添加自定义事件"
                 android:textColor="@color/white"
                 app:layout_constraintTop_toBottomOf="@+id/ll7" />
         </android.support.constraint.ConstraintLayout>
