@@ -47,10 +47,10 @@ public class TopPopupWindow extends FrameLayout {
         init();
     }
 
-    public TopPopupWindow(@NonNull Context context,int flag){
+    public TopPopupWindow(@NonNull Context context,boolean flag){
         super(context);
         init();
-        bottom = true;
+        this.bottom = flag;
     }
 
     private static int getNaviHeight(Activity activity) {
