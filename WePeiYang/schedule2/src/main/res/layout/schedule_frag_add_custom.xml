@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_gray">
@@ -10,12 +11,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/background_gray"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/background_gray"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:orientation="vertical">
 
             <android.support.constraint.ConstraintLayout
@@ -47,6 +52,8 @@
                     android:background="@drawable/schedule_edittext_shape"
                     android:singleLine="true"
                     android:textSize="15dp"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
                     android:theme="@style/MyTextInputLayout"
                     app:layout_constraintEnd_toEndOf="@id/ll1"
                     app:layout_constraintStart_toEndOf="@id/textView" />
@@ -84,6 +91,8 @@
                     android:background="@drawable/schedule_edittext_shape"
                     android:singleLine="true"
                     android:textSize="15dp"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
                     android:theme="@style/MyTextInputLayout"
                     app:layout_constraintEnd_toEndOf="@id/ll2"
                     app:layout_constraintStart_toEndOf="@id/textView2" />
@@ -120,6 +129,8 @@
                     android:background="@drawable/schedule_edittext_shape"
                     android:singleLine="true"
                     android:textSize="15dp"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
                     android:theme="@style/MyTextInputLayout"
                     app:layout_constraintEnd_toEndOf="@id/ll3"
                     app:layout_constraintStart_toEndOf="@id/textView3" />
@@ -137,14 +148,13 @@
                 app:layout_constraintBottom_toTopOf="@+id/ll5"
                 app:layout_constraintTop_toBottomOf="@id/ll3">
 
-
                 <TextView
                     android:id="@+id/textView4"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginStart="12dp"
                     android:gravity="center_vertical"
-                    android:text="周几鸭"
+                    android:text="周几鸭(输入数字)"
                     android:textSize="15dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="@id/ll4"
@@ -161,6 +171,8 @@
                     android:inputType="number"
                     android:singleLine="true"
                     android:textSize="15dp"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
                     android:theme="@style/MyTextInputLayout"
                     app:layout_constraintEnd_toEndOf="@id/ll4"
                     app:layout_constraintStart_toEndOf="@id/textView4" />
@@ -171,6 +183,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 app:layout_constraintTop_toBottomOf="@+id/ll4">
 
                 <include layout="@layout/schedule_add_custom_checkbox" />

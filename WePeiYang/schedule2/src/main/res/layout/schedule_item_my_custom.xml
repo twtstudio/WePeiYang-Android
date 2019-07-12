@@ -68,15 +68,75 @@
                 tools:text="单双周" />
 
             <TextView
-                android:id="@+id/custom_course_ext"
+                android:id="@+id/custom_course_start_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="20dp"
+                android:layout_marginEnd="3dp"
                 android:fontFamily="sans-serif-medium"
                 android:textColor="@color/white"
                 app:layout_constraintBaseline_toBaselineOf="@id/custom_course_room"
+                app:layout_constraintEnd_toStartOf="@+id/textView5"
+                tools:text="1" />
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:text="—"
+                android:fontFamily="sans-serif-medium"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="@+id/custom_course_start_time"
+                app:layout_constraintEnd_toStartOf="@+id/custom_course_end_time"
+                app:layout_constraintTop_toTopOf="@+id/custom_course_start_time" />
+
+            <TextView
+                android:id="@+id/custom_course_end_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="3dp"
+                android:text="3"
+                android:fontFamily="sans-serif-medium"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="@+id/custom_course_start_time"
+                app:layout_constraintEnd_toStartOf="@+id/textView7"
+                app:layout_constraintTop_toTopOf="@+id/custom_course_start_time" />
+
+            <TextView
+                android:id="@+id/textView7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:text="节"
+                android:fontFamily="sans-serif-medium"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="@+id/custom_course_end_time"
                 app:layout_constraintEnd_toEndOf="parent"
-                tools:text="[蹭课][冲突]" />
+                app:layout_constraintTop_toTopOf="@+id/custom_course_end_time" />
+
+            <TextView
+                android:id="@+id/custom_course_weekday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="0dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="一"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="@+id/custom_course_teacher"
+                app:layout_constraintStart_toEndOf="@+id/textView8"
+                app:layout_constraintTop_toTopOf="@+id/custom_course_teacher" />
+
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="周"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="@+id/custom_course_teacher"
+                app:layout_constraintStart_toEndOf="@+id/custom_course_teacher"
+                app:layout_constraintTop_toTopOf="@+id/custom_course_teacher" />
 
         </android.support.constraint.ConstraintLayout>
 

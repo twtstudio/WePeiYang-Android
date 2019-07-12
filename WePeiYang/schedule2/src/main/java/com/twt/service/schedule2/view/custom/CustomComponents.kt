@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.twt.service.schedule2.R
+import com.twt.service.schedule2.extensions.getChineseCharacter
 import com.twt.service.schedule2.model.custom.CustomCourse
 import com.twt.service.schedule2.model.custom.CustomCourseManager
 import com.twt.wepeiyang.commons.experimental.color.getColorCompat
@@ -18,7 +19,6 @@ import es.dmoral.toasty.Toasty
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import me.ele.uetool.base.item.EditTextItem
 import org.jetbrains.anko.*
 import org.jetbrains.anko.constraint.layout.constraintLayout
 
@@ -94,7 +94,9 @@ class CustomCourseItem(customCourse: CustomCourse) : Item {
                 teacher.text = item.customCourse.teacher
                 room.text = item.customCourse.arrange[0].room
                 week.text = item.customCourse.arrange[0].week
-                ext.text = item.customCourse.ext
+                startTime.text = item.customCourse.arrange[0].start.toString()
+                endTime.text = item.customCourse.arrange[0].end.toString()
+                weekDay.text = getChineseCharacter(item.customCourse.arrange[0].day)
                 cardView.setCardBackgroundColor(getColorCompat(R.color.colorPrimary))
             }
 
@@ -126,7 +128,9 @@ class CustomCourseItem(customCourse: CustomCourse) : Item {
         val teacher = itemView.findViewById<TextView>(R.id.custom_course_teacher)
         val room = itemView.findViewById<TextView>(R.id.custom_course_room)
         val week = itemView.findViewById<TextView>(R.id.custom_course_week)
-        val ext = itemView.findViewById<TextView>(R.id.custom_course_ext)
+        val startTime = itemView.findViewById<TextView>(R.id.custom_course_start_time)
+        val endTime = itemView.findViewById<TextView>(R.id.custom_course_end_time)
+        val weekDay = itemView.findViewById<TextView>(R.id.custom_course_weekday)
         val cardView = itemView.findViewById<CardView>(R.id.my_custom_card_view)
     }
 
