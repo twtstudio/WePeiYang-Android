@@ -6,7 +6,6 @@ import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import android.widget.TextView
 import com.twt.service.schedule2.R
 import com.twt.service.schedule2.model.custom.CustomCourse
@@ -16,8 +15,9 @@ import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineException
 import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemController
 import es.dmoral.toasty.Toasty
-import kotlinx.coroutines.experimental.CommonPool
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import me.ele.uetool.base.item.EditTextItem
 import org.jetbrains.anko.*
 import org.jetbrains.anko.constraint.layout.constraintLayout
@@ -103,14 +103,13 @@ class CustomCourseItem(customCourse: CustomCourse) : Item {
                     title = "删除自定义事件"
                     message = "是否删除该自定义事件（所有时段）：${item.customCourse.name}"
                     positiveButton("删除自定义事件") {
-                        launch(CommonPool + QuietCoroutineExceptionHandler) {
+                        GlobalScope.launch(Dispatchers.Default + QuietCoroutineExceptionHandler) {
                             CustomCourseManager.deleteCustomCourse(item.customCourse)
                             Toasty.info(holder.itemView.context.applicationContext, "删除成功").show()
                         }
                     }
                 }.show()
             }
-
         }
 
         override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {

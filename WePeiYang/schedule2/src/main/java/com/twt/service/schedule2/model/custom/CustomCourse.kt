@@ -5,13 +5,10 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.Observer
 import android.arch.persistence.room.*
 import com.twt.service.schedule2.model.*
-import com.twt.service.schedule2.model.audit.AuditCourse
-import com.twt.service.schedule2.model.audit.AuditCourseManager
 import com.twt.wepeiyang.commons.experimental.cache.CacheIndicator
 import com.twt.wepeiyang.commons.experimental.cache.RefreshState
 import com.twt.wepeiyang.commons.experimental.cache.RefreshableLiveData
-import kotlinx.coroutines.experimental.CommonPool
-import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.*;
 
 @Entity(primaryKeys = ["name", "teacher"], tableName = "table_custom_course")
 data class CustomCourse(
@@ -53,7 +50,7 @@ val customCourseLiveData = object :RefreshableLiveData<List<CustomCourse>,CacheI
 
     override fun refresh(vararg indicators: CacheIndicator, callback: suspend (RefreshState<CacheIndicator>) -> Unit) {
         if (indicators == CacheIndicator.REMOTE) {
-            async(CommonPool) {
+           GlobalScope.async(Dispatchers.Default) {
                 try {
                     CustomCourseManager.refreshCustomClasstable()
                     callback(RefreshState.Success(CacheIndicator.REMOTE))

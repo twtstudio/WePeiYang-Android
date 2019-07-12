@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:fontFamily="sans-serif-medium"
-        android:text="课程表"
+        tools:text="课程表"
         android:textColor="@color/white_color"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -10,7 +10,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 import com.twt.service.schedule2.R
 import com.twt.service.schedule2.model.custom.CustomCourseManager
 import com.twt.wepeiyang.commons.experimental.color.getColorCompat
@@ -19,8 +18,10 @@ import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
 import com.twt.wepeiyang.commons.mta.mtaExpose
 import com.twt.wepeiyang.commons.ui.rec.ItemAdapter
 import com.twt.wepeiyang.commons.ui.rec.ItemManager
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
+import es.dmoral.toasty.Toasty
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.jetbrains.anko.backgroundColor
 import org.jetbrains.anko.support.v4.alert
 
@@ -28,8 +29,8 @@ import org.jetbrains.anko.support.v4.alert
 class MyCustomFragment: Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view: View = inflater.inflate(R.layout.schedule_frag_my_custom, container, false)
-        val itemManager = ItemManager()
         val mContext = activity
+        val itemManager = ItemManager()
         val recyclerView = view.findViewById<RecyclerView>(R.id.my_custom_rec)
         val text = view.findViewById<TextView>(R.id.no_custom_text)
         text.apply {
@@ -59,13 +60,12 @@ class MyCustomFragment: Fragment() {
                 it.forEach { customCourse ->
                     setCustomCourseItem(customCourse) {
                         alert {
-                            title = "删除自定义课程"
-                            message = "是否删除该自定义课程（所有时段）：${customCourse.name}"
-                            positiveButton("删除自定义课程") {
-                                launch(UI + QuietCoroutineExceptionHandler) {
+                            title = "删除自定义事件"
+                            message = "是否删除该自定义事件（所有时段）：${customCourse.name}"
+                            positiveButton("删除自定义事件") {
+                                Toasty.info(mContext!!, "自定义事件 ${customCourse.name} 删除成功").show()
+                                GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
                                     CustomCourseManager.deleteCustomCourse(customCourse)
-                                    Toast.makeText(mContext, "${customCourse.name}删除成功", Toast.LENGTH_SHORT).show()
-//                                    Toasty.info(mContext, "${customCourse.name}删除成功").show()
                                     CustomCourseManager.refreshCustomClasstable()
                                 }
                             }

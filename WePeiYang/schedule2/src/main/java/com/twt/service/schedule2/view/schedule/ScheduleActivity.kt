@@ -13,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
+import android.widget.TextView
 import com.twt.service.schedule2.R
 import com.twt.service.schedule2.extensions.RefreshCallback
 import com.twt.service.schedule2.extensions.getScreenHeight
@@ -110,6 +111,11 @@ class ScheduleActivity : CAppCompatActivity() {
                 "Tools" -> mtaExpose("schedule_从Tools页面进入课程表")
                 else -> mtaExpose("schedule_从其他途径进入课程表")
             }
+        }
+
+        val titleText: TextView = findViewById(R.id.tv_toolbar_title)
+        titleText.apply {
+            text = "课程表"
         }
 
         val addButton = findViewById<ImageView>(R.id.iv_toolbar_add)

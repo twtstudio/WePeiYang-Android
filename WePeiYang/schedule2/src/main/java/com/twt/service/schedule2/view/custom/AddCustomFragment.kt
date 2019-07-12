@@ -18,15 +18,15 @@ import com.twt.wepeiyang.commons.experimental.color.getColorCompat
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
 import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.schedule_frag_add_custom.*
-import kotlinx.android.synthetic.main.schedule_number_picker_pop.view.*
-import kotlinx.coroutines.experimental.CommonPool
-import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
 
-class AddCustomFragment: Fragment() {
+class AddCustomFragment : Fragment(){
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.schedule_frag_add_custom, container, false)
 
-        val fragContext = context
+        val fragContext = activity
         val mContext = view.context
 
         /**
@@ -37,20 +37,19 @@ class AddCustomFragment: Fragment() {
         val editStartWeek: TextView = view.findViewById(R.id.edit_startWeek_name)
         val editEndWeek: TextView = view.findViewById(R.id.edit_endWeek_name)
 
-        val timePop = CustomNumberPickerPop(mContext,object : CustomNumberPickerPop.ResultHandler {
+        val timePop = CustomClassPickerPop(mContext,object : CustomClassPickerPop.ResultHandler {
             override fun handle(startTime: Int, endTime: Int) {
                 editStartTime.text  = startTime.toString()
                 editEndTime.text = endTime.toString()
             }
         })
 
-        val weekPop = CustomNumberPickerPop(mContext,object : CustomNumberPickerPop.ResultHandler {
-            override fun handle(startTime: Int, endTime: Int) {
-                editStartWeek.text  = startTime.toString()
+        val weekPop = CustomWeekPickerPop(mContext, object : CustomWeekPickerPop.WeekResultHandler{
+            override fun weekhandle(startTime: Int, endTime: Int) {
+                editStartWeek.text = startTime.toString()
                 editEndWeek.text = endTime.toString()
             }
         })
-//        weekPop.class_tip.text = "周"
 
         editStartTime.setOnClickListener {
             timePop.show()
@@ -106,13 +105,12 @@ class AddCustomFragment: Fragment() {
                 val weekPeriod = Week(startWeek, endWeek)
                 val arrange = Arrange(week, startTime, endTime, weekday, room)
 
-                async(CommonPool + QuietCoroutineExceptionHandler) {
+                Toasty.info(fragContext!!, "自定义事件 ${courseName} 添加成功").show()
+                GlobalScope.async (Dispatchers.Default + QuietCoroutineExceptionHandler) {
                     CustomCourseManager.addCustomCourse(courseName, teacherName, listOf(arrange), weekPeriod)
-                    Toasty.info(fragContext!!, "自定义事件：${courseName}添加成功").show()
                 }
             }
         }
-
         return view
     }
 }

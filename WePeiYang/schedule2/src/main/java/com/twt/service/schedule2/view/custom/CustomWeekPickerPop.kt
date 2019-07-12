@@ -11,18 +11,18 @@ import com.twt.service.schedule2.R
 import com.twt.wepeiyang.commons.experimental.color.getColorCompat
 import com.twt.wepeiyang.commons.ui.popup.TopPopupWindow
 import es.dmoral.toasty.Toasty
-import kotlinx.android.synthetic.main.schedule_number_picker_pop.view.*
+import kotlinx.android.synthetic.main.schedule_week_picker_pop.view.*
 import org.jetbrains.anko.*
 
-class CustomNumberPickerPop(context: Context,resultHandler:ResultHandler) : TopPopupWindow(context,true) {
+class CustomWeekPickerPop(context: Context, resultHandler: WeekResultHandler) : TopPopupWindow(context,true) {
     val mContext = getContext()
     val mHandler = resultHandler
-    var startTime: Int = 0
-    var endTime: Int = 0
+    var startTime: Int = 1
+    var endTime: Int = 1
 
     @SuppressLint("SetTextI18n")
     override fun createContentView(parent: ViewGroup?): View {
-        val view = context.layoutInflater.inflate(R.layout.schedule_number_picker_pop, parent, false).apply {
+        val view = context.layoutInflater.inflate(R.layout.schedule_week_picker_pop, parent, false).apply {
             layoutParams = LayoutParams(matchParent, wrapContent).apply {
                 gravity = Gravity.BOTTOM
                 backgroundColor = Color.WHITE
@@ -31,27 +31,27 @@ class CustomNumberPickerPop(context: Context,resultHandler:ResultHandler) : TopP
             /**
              * 设置开始和结束时间的 numberpicker
              */
-            custom_number_picker1.apply {
+            week_number_picker1.apply {
                 minValue = 1
-                maxValue = 12
-                value = 6
+                maxValue = 22
+                value = 1
                 descendantFocusability = NumberPicker.FOCUS_BLOCK_DESCENDANTS
                 setOnValueChangedListener { numberPicker, oldVal, newVal ->
                     startTime = newVal
-                    mHandler.handle(startTime,endTime)
+                    mHandler.weekhandle(startTime,endTime)
                     Toasty.info(mContext, "您选择的时间是: ${newVal}").show()
                 }
             }
 
-            custom_number_picker2.apply {
+            week_number_picker2.apply {
                 minValue = 1
-                maxValue = 12
-                value = 6
+                maxValue = 22
+                value = 1
                 descendantFocusability = NumberPicker.FOCUS_BLOCK_DESCENDANTS
                 setOnValueChangedListener { numberPicker, oldVal, newVal ->
                     endTime = newVal
-                    mHandler.handle(startTime,endTime)
-                    Toasty.info(mContext, "您选择的时间是：" + newVal.toString()).show()
+                    mHandler.weekhandle(startTime,endTime)
+                    Toasty.info(mContext, "您选择的时间是: ${newVal}").show()
                 }
             }
 
@@ -68,7 +68,7 @@ class CustomNumberPickerPop(context: Context,resultHandler:ResultHandler) : TopP
         isDismissOnTouchBackground = true
     }
 
-    interface ResultHandler{
-        fun handle(startTime:Int, endTime: Int)
+    interface WeekResultHandler{
+        fun weekhandle(startTime:Int, endTime: Int)
     }
 }
