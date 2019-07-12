@@ -18,10 +18,13 @@ class MenuItem : Item {
     var builder: (ViewHolder.() -> Unit)? = null
 
     companion object Controller : ItemController {
-
+        lateinit var name: TextView
         override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
-            val view = ConstraintLayout(parent.context)
-            val name = TextView(parent.context)
+            val view = parent.context.verticalLayout {
+                name = textView{
+
+                }
+            }
             return ViewHolder(view, name)
         }
 

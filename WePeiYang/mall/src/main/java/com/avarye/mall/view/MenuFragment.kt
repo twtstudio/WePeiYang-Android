@@ -22,19 +22,20 @@ class MenuFragment : Fragment() {
         fun newInstance() = MenuFragment()
     }
 
-    private lateinit var viewModel: MenuViewModel
+//    private lateinit var viewModel: MenuViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.mall_fragment_menu, container, false)
+
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(MenuViewModel::class.java)
+//        viewModel = ViewModelProviders.of(this).get(MenuViewModel::class.java)
         menuLiveData.bindNonNull(this) {
             itemManager.autoRefresh {
-                removeAll { it is MenuItem }
+//                removeAll { it is MenuItem }//介不用吧
 
                 val items = mutableListOf<Item>().apply {
                     it.forEach {

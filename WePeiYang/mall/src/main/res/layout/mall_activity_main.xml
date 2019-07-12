@@ -10,7 +10,8 @@
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#FF9A36">
+        android:background="#FF9A36"
+        android:orientation="vertical">
 
         <include layout="@layout/mall_item_toolbar" />
 
@@ -43,6 +44,7 @@
                 android:layout_marginEnd="10dp"
                 android:background="@null"
                 android:cursorVisible="false"
+                android:gravity="center_vertical"
                 android:hint="我需要..."
                 android:imeOptions="actionSearch"
                 android:selectAllOnFocus="true"
@@ -57,49 +59,29 @@
 
         </android.support.constraint.ConstraintLayout>
 
+        <android.support.design.widget.TabLayout
+            android:id="@+id/mall_tl_main"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:tabGravity="fill"
+            app:tabMode="scrollable" />
+
+
     </android.support.design.widget.AppBarLayout>
 
-    <TableLayout
+    <android.support.v4.view.ViewPager
+        android:id="@+id/mall_vp_main"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-    </TableLayout>
-
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/mall_srl_main"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#f6f6f6"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:context=".mall.view.MallActivity2">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <!--<android.support.v4.view.ViewPager-->
-            <!--android:id="@+id/mall_vp_header"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--tools:layout_height="180dp">-->
-
-            <!--</android.support.v4.view.ViewPager>-->
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/mall_rv_main"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="3dp" />
-
-        </LinearLayout>
-    </android.support.v4.widget.SwipeRefreshLayout>
+        android:layout_height="wrap_content"
+        android:background="#f6f6f6" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/mall_fab_mine"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        app:rippleColor="#FF9A36" />
+        app:rippleColor="#FF9A36"
+        tools:layout_height="60dp"
+        tools:layout_width="60dp" />
 
 </android.support.design.widget.CoordinatorLayout>

@@ -1,8 +1,8 @@
-package com.avarye.mall.view
+package com.avarye.mall.detail
 
 import android.graphics.Color
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import com.avarye.mall.R
 import kotlinx.android.synthetic.main.mall_activity_detail.*
 

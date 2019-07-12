@@ -10,32 +10,37 @@ import okhttp3.*
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
-import java.net.HttpCookie
-import kotlin.io.use
 
 
 interface MallApi {
 
     @GET("/api.php/Login/wpyLogin?model=1")
-    fun login(@Header("Authorization") token: String): Deferred<CommonBody<Login>>
+    fun loginAsync(@Header("Authorization") token: String): Deferred<CommonBody<Login>>
 
     @GET("api.php/User/myself_info")
-    fun getMyInfo(): Deferred<MyInfo>
+    fun getMyInfoAsync(): Deferred<MyInfo>
 
     @Multipart
     @POST("api.php/Items/item_new")
-    fun latestGoods(@Part("yeshu") page: RequestBody, @Part("which") which: RequestBody = Utils.toReqBody(1)): Deferred<List<Goods>>
+    fun latestSaleAsync(@Part("yeshu") page: RequestBody, @Part("which") which: RequestBody): Deferred<List<LatestSale>>
+
+    @Multipart
+    @POST("api.php/Items/item_new")
+    fun latestNeedAsync(@Part("yeshu") page: RequestBody, @Part("which") which: RequestBody): Deferred<List<LatestNeed>>
 
     @Multipart
     @POST("api.php/Items/search")
-    fun schGoods(@Part("key") key: RequestBody, @Part("yeshu") page: RequestBody): Deferred<List<SchGoods>>
+    fun searchAsync(@Part("key") key: RequestBody, @Part("yeshu") page: RequestBody): Deferred<List<LatestSale>>
 
     @GET("api.php/Items/menu")
-    fun getMenu(): Deferred<List<Menu>>
+    fun getMenuAsync(): Deferred<List<Menu>>
+
+    @GET("api.php/Items/item_one")
+    fun getDetailAsync(@Query("id") id: String): Deferred<Detail>
 
     @Multipart
     @POST("api.php/Items/saler_info")
-    fun getSellerInfo(@Part("token") token: RequestBody, @Part("gid") gid: RequestBody): Deferred<Seller>
+    fun getSellerInfoAsync(@Part("token") token: RequestBody, @Part("gid") gid: RequestBody): Deferred<Seller>
 
     //TODO:还没写
     @POST("api.php/Items/sale_fabu")
@@ -47,13 +52,16 @@ interface MallApi {
     companion object : MallApi by MallApiService()
 }
 
+
+//感觉只有menu和个人信息能做缓存emm
 private val menuLocalData = Cache.hawk<List<Menu>>("MALL_MENU")
-private val menuRemoteData = Cache.from(MallApi.Companion::getMenu)
+private val menuRemoteData = Cache.from(MallApi.Companion::getMenuAsync)
 val menuLiveData = RefreshableLiveData.use(menuLocalData, menuRemoteData)
 
 private val mineLocalData = Cache.hawk<MyInfo>("MALL_MINE")
-private val mineRemoteData = Cache.from(MallApi.Companion::getMyInfo)
+private val mineRemoteData = Cache.from(MallApi.Companion::getMyInfoAsync)
 val mineLiveData = RefreshableLiveData.use(mineLocalData, mineRemoteData)
+
 
 object MallApiService {
     private val cookie = object : CookieJar {
@@ -61,12 +69,12 @@ object MallApiService {
 
         override fun saveFromResponse(url: HttpUrl, cookies: MutableList<Cookie>) {
             map[url.host()] = cookies
-            Utils.saveCookie(cookies.toString())
-            Log.d("login load cookie", Utils.getCookie().toString())
+            MallManager.saveCookie(cookies.toString())//测试用
+            Log.d("login load cookie", MallManager.getCookie().toString())
         }
 
         override fun loadForRequest(url: HttpUrl): MutableList<Cookie> {
-            Log.d("login load cookie", Utils.getCookie().toString())
+            Log.d("login load cookie", MallManager.getCookie().toString())
             return map[url.host()] ?: ArrayList()
         }
     }
@@ -108,8 +116,22 @@ data class MyInfo(
         val xiaoqu: String
 )
 
-data class Goods(
-        var img: String,
+data class LatestSale(
+        val bargain: String,
+        val campus: String,
+        val ctime: String,
+        val gdesc: String,
+        val id: String,
+        val imgurl: String,
+        val label_name: String,
+        val location: String,
+        val name: String,
+        val page: Int,
+        val price: String,
+        val username: String
+)
+
+data class LatestNeed(
         val bargain: Any,
         val campus: String,
         val ctime: String,
@@ -128,10 +150,12 @@ data class Goods(
         val username: String
 )
 
-data class SchGoods(
+data class Detail(
         val bargain: String,
         val campus: String,
         val ctime: String,
+        val email: String,
+        val exchange: String,
         val gdesc: String,
         val icon: String,
         val id: String,
@@ -139,8 +163,11 @@ data class SchGoods(
         val label_name: String,
         val location: String,
         val name: String,
-        val page: Int,
+        val phone: String,
         val price: String,
+        val qq: String,
+        val state: String,
+        val uid: String,
         val username: String
 )
 
@@ -156,6 +183,7 @@ data class Smalllist(
         val id: String,
         val name: String
 )
+
 data class Seller(
         val email: String,
         val phone: String,

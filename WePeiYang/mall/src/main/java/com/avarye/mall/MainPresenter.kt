@@ -1,51 +1,64 @@
 package com.avarye.mall
 
-import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import android.util.Log
-import com.avarye.mall.service.*
+import com.avarye.mall.service.MallManager
+import com.avarye.mall.service.menuLiveData
+import com.avarye.mall.service.mineLiveData
 import com.avarye.mall.view.MallActivity
-import com.twt.wepeiyang.commons.experimental.cache.*
-import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
+import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import es.dmoral.toasty.Toasty
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-class Presenter(private var view: MallActivity) {
+class MainPresenter(private var view: MallActivity) {
 
     //先后台登陆再拿数据
     //这玩意咋滴用LiveData…orz
     fun login() {
         GlobalScope.launch(Dispatchers.Main) {
-            MallApi.login(Utils.getToken()).awaitAndHandle {
+            MallManager.login().awaitAndHandle {
                 Toasty.error(view, "没网？")
             }?.let {
                 if (it.error_code == -1) {
-                    Utils.setLogin(it.data)
+                    MallManager.setLogin(it.data!!)
                     Toasty.info(view, "login succeed").show()
-                    Log.d("login done", Utils.getToken())
+                    Log.d("login done", MallManager.getToken())
                 } else {
                     Toasty.error(view, "token有问题吧").show()
                 }
             }
 
-            MallApi.latestGoods(Utils.toReqBody(1)).awaitAndHandle {
+            MallManager.latestSale(1).awaitAndHandle {
                 Log.d("login get goods failed", it.message)
             }?.let {
-                Utils.addGoods(it)
-                view.bindLatest(view, Utils.getGoods())
+                MallManager.addGoods(it)
+                view.bindSale(MallManager.getGoods())
+                Toasty.info(view, "init succeed").show()
                 Log.d("login goods done", it[0].page.toString())
             }
         }
     }
 
-    fun getLatest(page: Int) {
+    fun getLatestSale(page: Int) {
         GlobalScope.launch(Dispatchers.Main) {
-            MallApi.latestGoods(Utils.toReqBody(page)).awaitAndHandle {
+            MallManager.latestSale(page).awaitAndHandle {
                 Log.d("get goods failed", it.message)
             }?.let {
-                Utils.addGoods(it)
-                view.bindLatest(view, Utils.getGoods())
+                MallManager.addGoods(it)
+                view.bindSale(MallManager.getGoods())
+                Log.d("get goods done", it[0].page.toString())
+            }
+        }
+    }
+
+    fun getLatestNeed(page: Int) {
+        GlobalScope.launch(Dispatchers.Main) {
+            MallManager.latestNeed(page).awaitAndHandle {
+                Log.d("get goods failed", it.message)
+            }?.let {
+                MallManager.addNeed(it)
+                view.bindNeed(MallManager.getNeed())
                 Log.d("get goods done", it[0].page.toString())
             }
         }
@@ -54,11 +67,11 @@ class Presenter(private var view: MallActivity) {
 
     fun search(key: String, page: Int) {
         GlobalScope.launch(Dispatchers.Main) {
-            MallApi.schGoods(Utils.toReqBody(key), Utils.toReqBody(page)).awaitAndHandle {
+            MallManager.search(key, page).awaitAndHandle {
                 Log.d("search failed", "search failed")
             }?.let {
-                Utils.addSchGoods(it)
-                view.bindSearch(view, Utils.getSchGoods())
+                MallManager.addGoods(it)
+                view.bindSale(MallManager.getGoods())
                 Log.d("search done", "search done")
             }
         }
@@ -66,7 +79,7 @@ class Presenter(private var view: MallActivity) {
 
     fun getMyInfo() {
         GlobalScope.launch(Dispatchers.Main) {
-            MallApi.getMyInfo().awaitAndHandle {
+            MallManager.getMyInfo().awaitAndHandle {
                 Log.d("get mine failed", "get mine failed")
             }?.let {
                 mineLiveData.refresh()
@@ -76,7 +89,7 @@ class Presenter(private var view: MallActivity) {
 
     fun getMenu() {
         GlobalScope.launch(Dispatchers.Main) {
-            MallApi.getMenu().awaitAndHandle {
+            MallManager.getMenu().awaitAndHandle {
             }?.let {
                 menuLiveData.refresh()
             }
