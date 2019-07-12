@@ -39,7 +39,7 @@ class CustomWeekPickerPop(context: Context, resultHandler: WeekResultHandler) : 
                 setOnValueChangedListener { numberPicker, oldVal, newVal ->
                     startTime = newVal
                     mHandler.weekhandle(startTime,endTime)
-                    Toasty.info(mContext, "您选择的时间是: ${newVal}").show()
+//                    Toasty.info(mContext, "您选择的时间是: ${newVal}").show()
                 }
             }
 
@@ -51,7 +51,7 @@ class CustomWeekPickerPop(context: Context, resultHandler: WeekResultHandler) : 
                 setOnValueChangedListener { numberPicker, oldVal, newVal ->
                     endTime = newVal
                     mHandler.weekhandle(startTime,endTime)
-                    Toasty.info(mContext, "您选择的时间是: ${newVal}").show()
+//                    Toasty.info(mContext, "您选择的时间是: ${newVal}").show()
                 }
             }
 

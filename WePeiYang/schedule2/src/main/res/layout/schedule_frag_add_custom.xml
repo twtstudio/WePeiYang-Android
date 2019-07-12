@@ -46,6 +46,7 @@
                     android:layout_marginEnd="15dp"
                     android:background="@drawable/schedule_edittext_shape"
                     android:singleLine="true"
+                    android:textSize="15dp"
                     android:theme="@style/MyTextInputLayout"
                     app:layout_constraintEnd_toEndOf="@id/ll1"
                     app:layout_constraintStart_toEndOf="@id/textView" />
@@ -82,6 +83,7 @@
                     android:layout_marginEnd="15dp"
                     android:background="@drawable/schedule_edittext_shape"
                     android:singleLine="true"
+                    android:textSize="15dp"
                     android:theme="@style/MyTextInputLayout"
                     app:layout_constraintEnd_toEndOf="@id/ll2"
                     app:layout_constraintStart_toEndOf="@id/textView2" />
@@ -117,6 +119,7 @@
                     android:layout_marginEnd="15dp"
                     android:background="@drawable/schedule_edittext_shape"
                     android:singleLine="true"
+                    android:textSize="15dp"
                     android:theme="@style/MyTextInputLayout"
                     app:layout_constraintEnd_toEndOf="@id/ll3"
                     app:layout_constraintStart_toEndOf="@id/textView3" />
@@ -157,6 +160,7 @@
                     android:digits="1234567890"
                     android:inputType="number"
                     android:singleLine="true"
+                    android:textSize="15dp"
                     android:theme="@style/MyTextInputLayout"
                     app:layout_constraintEnd_toEndOf="@id/ll4"
                     app:layout_constraintStart_toEndOf="@id/textView4" />
@@ -201,6 +205,7 @@
                     android:layout_marginEnd="12dp"
                     android:background="@drawable/schedule_edittext_shape"
                     android:theme="@style/MyTextInputLayout"
+                    android:textSize="15dp"
                     app:layout_constraintEnd_toStartOf="@id/textView15"
                     app:layout_constraintStart_toEndOf="@id/textView12" />
 
@@ -223,6 +228,7 @@
                     android:layout_marginEnd="15dp"
                     android:background="@drawable/schedule_edittext_shape"
                     android:theme="@style/MyTextInputLayout"
+                    android:textSize="15dp"
                     app:layout_constraintEnd_toEndOf="@id/ll6"
                     app:layout_constraintStart_toEndOf="@id/textView15" />
 
@@ -257,6 +263,7 @@
                     android:layout_marginEnd="12dp"
                     android:background="@drawable/schedule_edittext_shape"
                     android:theme="@style/MyTextInputLayout"
+                    android:textSize="15dp"
                     app:layout_constraintEnd_toStartOf="@id/textView18"
                     app:layout_constraintStart_toEndOf="@id/textView16" />
 
@@ -279,6 +286,7 @@
                     android:layout_marginEnd="15dp"
                     android:background="@drawable/schedule_edittext_shape"
                     android:theme="@style/MyTextInputLayout"
+                    android:textSize="15dp"
                     app:layout_constraintEnd_toEndOf="@id/ll7"
                     app:layout_constraintStart_toEndOf="@id/textView18" />
 
