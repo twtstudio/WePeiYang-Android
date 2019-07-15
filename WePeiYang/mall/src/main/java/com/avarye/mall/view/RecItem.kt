@@ -9,7 +9,7 @@ import android.widget.TextView
 import com.avarye.mall.R
 import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemController
-import kotlinx.android.synthetic.main.mall_item_main_latest.view.*
+import kotlinx.android.synthetic.main.mall_item_main.view.*
 import org.jetbrains.anko.layoutInflater
 
 class RecItem : Item {
@@ -18,12 +18,12 @@ class RecItem : Item {
     companion object Controller : ItemController {
         override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
             val inflater = parent.context.layoutInflater
-            val view = inflater.inflate(R.layout.mall_item_main_latest, parent, false)
-            val image = view.mall_iv_main_latest
-            val name = view.mall_tv_main_name
-            val price = view.mall_tv_main_price
-            val locate = view.mall_tv_main_locate
-            val card = view.mall_cv_main_latest
+            val view = inflater.inflate(R.layout.mall_item_main, parent, false)
+            val image = view.iv_main_latest
+            val name = view.tv_main_name
+            val price = view.tv_main_price
+            val locate = view.tv_main_locate
+            val card = view.cv_main_latest
             return ViewHolder(view, image, name, price, locate, card)
         }
 

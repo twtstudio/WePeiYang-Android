@@ -19,7 +19,7 @@
         android:layout_height="match_parent">
 
         <ImageView
-            android:id="@+id/iv_mall_detail_goods"
+            android:id="@+id/iv_detail_goods"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             tools:layout_height="300dp" />

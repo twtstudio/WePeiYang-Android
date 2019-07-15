@@ -1,22 +1,20 @@
 package com.avarye.mall.view
 
-import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
 import com.avarye.mall.R
 import com.avarye.mall.service.menuLiveData
 import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
 import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemManager
-import java.util.Collections.addAll
 
 class MenuFragment : Fragment() {
 
     private val itemManager = ItemManager()
+
 
     companion object {
         fun newInstance() = MenuFragment()
@@ -34,6 +32,7 @@ class MenuFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 //        viewModel = ViewModelProviders.of(this).get(MenuViewModel::class.java)
         menuLiveData.bindNonNull(this) {
+
             itemManager.autoRefresh {
 //                removeAll { it is MenuItem }//介不用吧
 
@@ -44,7 +43,7 @@ class MenuFragment : Fragment() {
                             name.setOnClickListener {
                             }
                         }
-                        it.smalllist.forEach { sit->
+                        it.smallList.forEach { sit->
                             addMenuItem {
                                 name.text = sit.name
                             }

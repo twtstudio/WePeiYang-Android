@@ -1,9 +1,7 @@
 package com.avarye.mall
 
 import android.util.Log
-import com.avarye.mall.service.MallManager
-import com.avarye.mall.service.menuLiveData
-import com.avarye.mall.service.mineLiveData
+import com.avarye.mall.service.*
 import com.avarye.mall.view.MallActivity
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import es.dmoral.toasty.Toasty
@@ -32,8 +30,9 @@ class MainPresenter(private var view: MallActivity) {
             MallManager.latestSale(1).awaitAndHandle {
                 Log.d("login get goods failed", it.message)
             }?.let {
-                MallManager.addGoods(it)
-                view.bindSale(MallManager.getGoods())
+//                MallManager.addGoods(it)
+                saleLiveData.postValue(it)
+//                view.bindSale(MallManager.getGoods())
                 Toasty.info(view, "init succeed").show()
                 Log.d("login goods done", it[0].page.toString())
             }
@@ -45,8 +44,9 @@ class MainPresenter(private var view: MallActivity) {
             MallManager.latestSale(page).awaitAndHandle {
                 Log.d("get goods failed", it.message)
             }?.let {
-                MallManager.addGoods(it)
-                view.bindSale(MallManager.getGoods())
+//                MallManager.addGoods(it)
+                saleLiveData.postValue(it)
+//                view.bindSale(MallManager.getGoods())
                 Log.d("get goods done", it[0].page.toString())
             }
         }
@@ -57,8 +57,9 @@ class MainPresenter(private var view: MallActivity) {
             MallManager.latestNeed(page).awaitAndHandle {
                 Log.d("get goods failed", it.message)
             }?.let {
-                MallManager.addNeed(it)
-                view.bindNeed(MallManager.getNeed())
+//                MallManager.addNeed(it)
+                needLiveData.postValue(it)
+//                view.bindNeed(MallManager.getNeed())
                 Log.d("get goods done", it[0].page.toString())
             }
         }
@@ -71,7 +72,7 @@ class MainPresenter(private var view: MallActivity) {
                 Log.d("search failed", "search failed")
             }?.let {
                 MallManager.addGoods(it)
-                view.bindSale(MallManager.getGoods())
+//                view.bindSale(MallManager.getGoods())
                 Log.d("search done", "search done")
             }
         }

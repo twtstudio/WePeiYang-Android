@@ -3,13 +3,14 @@ package com.avarye.mall.service
 import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
 import okhttp3.MediaType
 import okhttp3.RequestBody
+import java.io.File
 
 object MallManager {
     private val cookies = mutableListOf<String>()
     private val headerToken = "Bearer{${CommonPreferences.token}}"
     lateinit var infoLogin: Login
-    private val infoGoods = mutableListOf<LatestSale>()
-    private val infoNeed = mutableListOf<LatestNeed>()
+    private val infoGoods = mutableListOf<Sale>()
+    private val infoNeed = mutableListOf<Need>()
 
 
     //manager
@@ -17,9 +18,20 @@ object MallManager {
 
     fun getMyInfo() = MallApi.getMyInfoAsync()
 
+    fun changeMyInfo(phone: String, email: String, qq: String, campus: Int) =
+            MallApi.changeMyInfoAsync(phone = toReqBody(phone), email = toReqBody(email), qq = toReqBody(qq), campus = toReqBody(campus))
+
+    fun changeCampus(campus: Int) = MallApi.changeCampusAsync(toReqBody(campus))
+
     fun latestSale(page: Int) = MallApi.latestSaleAsync(toReqBody(page), toReqBody(1))
 
     fun latestNeed(page: Int) = MallApi.latestNeedAsync(toReqBody(page), toReqBody(2))
+
+    fun selectSale(category: String, page: Int) = MallApi.selectSaleAsync(which = toReqBody(1),
+            page = toReqBody(page), category = toReqBody(category))
+
+    fun selectNeed(category: String, page: Int) = MallApi.selectNeedAsync(which = toReqBody(2),
+            page = toReqBody(page), category = toReqBody(category))
 
     fun search(key: String, page: Int) = MallApi.searchAsync(toReqBody(key), toReqBody(page))
 
@@ -28,6 +40,10 @@ object MallManager {
     fun getDetail(id: String) = MallApi.getDetailAsync(id)
 
     fun getSellerInfo(gid: String) = MallApi.getSellerInfoAsync(toReqBody(getLogin().token), toReqBody(gid))
+
+    fun getUserInfo(id: String) = MallApi.getUserInfoAsync(id)
+
+    fun uploadImg(file: File) = MallApi.uploadImgAsync(toReqBody(infoLogin.token), toReqBody(file))
 
 
     //data Utils
@@ -39,12 +55,11 @@ object MallManager {
         infoLogin = data
     }
 
-    fun getGoods(): List<LatestSale> {
+    fun getGoods(): List<Sale> {
         return infoGoods
     }
 
-    fun addGoods(data: List<LatestSale>) {
-        infoGoods.clear()
+    fun addGoods(data: List<Sale>) {
         this.infoGoods += data
     }
 
@@ -52,11 +67,11 @@ object MallManager {
         this.infoGoods.clear()
     }
 
-    fun getNeed(): List<LatestNeed> {
+    fun getNeed(): List<Need> {
         return infoNeed
     }
 
-    fun addNeed(data: List<LatestNeed>) {
+    fun addNeed(data: List<Need>) {
         infoNeed += data
     }
 
@@ -129,5 +144,10 @@ object MallManager {
     fun toReqBody(key: String): RequestBody {
         return RequestBody.create(MediaType.parse("text/plain"), key)
     }
+
+    fun toReqBody(file: File): RequestBody {
+        return RequestBody.create(MediaType.parse("text/plain"), file)
+    }
+
 
 }

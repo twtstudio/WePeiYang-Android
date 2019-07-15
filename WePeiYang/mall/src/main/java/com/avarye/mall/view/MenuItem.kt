@@ -1,27 +1,22 @@
 package com.avarye.mall.view
 
-import android.content.Context
-import android.graphics.Color
-import android.support.constraint.ConstraintLayout
-import android.support.v4.app.Fragment
-import android.support.v4.widget.TextViewCompat
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.TextView
-import org.jetbrains.anko.*
 import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemController
+import org.jetbrains.anko.textView
+import org.jetbrains.anko.verticalLayout
 
 class MenuItem : Item {
     var builder: (ViewHolder.() -> Unit)? = null
 
     companion object Controller : ItemController {
-        lateinit var name: TextView
         override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
+            lateinit var name: TextView
             val view = parent.context.verticalLayout {
-                name = textView{
+                name = textView {
 
                 }
             }

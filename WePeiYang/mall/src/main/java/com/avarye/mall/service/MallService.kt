@@ -1,5 +1,6 @@
 package com.avarye.mall.service
 
+import android.arch.lifecycle.MutableLiveData
 import android.util.Log
 import com.twt.wepeiyang.commons.experimental.cache.*
 import com.twt.wepeiyang.commons.experimental.cache.Cache
@@ -21,16 +22,25 @@ interface MallApi {
     fun getMyInfoAsync(): Deferred<MyInfo>
 
     @Multipart
-    @POST("api.php/Items/item_new")
-    fun latestSaleAsync(@Part("yeshu") page: RequestBody, @Part("which") which: RequestBody): Deferred<List<LatestSale>>
+    @POST("api.php/User/myself_change")
+    fun changeMyInfoAsync(@Part("phone") phone: RequestBody? = null, @Part("email") email: RequestBody? = null,
+                          @Part("qq") qq: RequestBody? = null, @Part("xiaoqu") campus: RequestBody? = null): Deferred<Result>
+
+    @Multipart
+    @POST("api.php/User/campus_change")
+    fun changeCampusAsync(@Part("xiaoqu") campus: RequestBody): Deferred<Result>
 
     @Multipart
     @POST("api.php/Items/item_new")
-    fun latestNeedAsync(@Part("yeshu") page: RequestBody, @Part("which") which: RequestBody): Deferred<List<LatestNeed>>
+    fun latestSaleAsync(@Part("yeshu") page: RequestBody, @Part("which") which: RequestBody): Deferred<List<Sale>>
+
+    @Multipart
+    @POST("api.php/Items/item_new")
+    fun latestNeedAsync(@Part("yeshu") page: RequestBody, @Part("which") which: RequestBody): Deferred<List<Need>>
 
     @Multipart
     @POST("api.php/Items/search")
-    fun searchAsync(@Part("key") key: RequestBody, @Part("yeshu") page: RequestBody): Deferred<List<LatestSale>>
+    fun searchAsync(@Part("key") key: RequestBody, @Part("yeshu") page: RequestBody): Deferred<List<Sale>>
 
     @GET("api.php/Items/menu")
     fun getMenuAsync(): Deferred<List<Menu>>
@@ -42,15 +52,47 @@ interface MallApi {
     @POST("api.php/Items/saler_info")
     fun getSellerInfoAsync(@Part("token") token: RequestBody, @Part("gid") gid: RequestBody): Deferred<Seller>
 
-    //TODO:还没写
+    @GET("api.php/User/userinfo")
+    fun getUserInfoAsync(@Query("id") id: String):Deferred<UserInfo>
+
+    @Multipart
+    @POST("api.php/Items/item_new")
+    fun selectSaleAsync(@Part("category") category: RequestBody, @Part("yeshu") page: RequestBody, @Part("which") which: RequestBody): Deferred<List<Sale>>
+
+    @Multipart
+    @POST("api.php/Items/item_new")
+    fun selectNeedAsync(@Part("category") category: RequestBody, @Part("yeshu") page: RequestBody, @Part("which") which: RequestBody): Deferred<List<Need>>
+
+    @Multipart
+    @POST("api.php/Upload/img_upload")
+    fun uploadImgAsync(@Part("token") token: RequestBody, @Part("file") file: RequestBody): Deferred<Result>
+
+
+    //TODO:待测试
+    @Multipart
+    @POST("api.php/Items/shoucang")
+    fun fav(@Part("token") token: RequestBody, @Part("gid") gid: RequestBody)
+
+    @Multipart
+    @POST("api.php/Items/shoucang_list")
+    fun favorites(@Part("token") token: RequestBody)
+
+    @Multipart
+    @POST("api.php/Items/shoucang_quxiao")
+    fun deFav(@Part("token") token: RequestBody, @Part("gid") gid: RequestBody)
+
     @POST("api.php/Items/sale_fabu")
-    fun upLoadSale(/*data class*/): Deferred<Any>
+    fun uploadSale(/*data class*/): Deferred<Any>
 
     @POST("api.php/Items/need_fabu")
     fun uploadNeed(/*data class*/): Deferred<Any>
 
     companion object : MallApi by MallApiService()
 }
+
+
+val saleLiveData = MutableLiveData<List<Sale>>()
+val needLiveData = MutableLiveData<List<Need>>()
 
 
 //感觉只有menu和个人信息能做缓存emm
@@ -96,6 +138,15 @@ object MallApiService {
     inline operator fun <reified T> invoke(): T = retrofit.create(T::class.java)
 }
 
+data class Result(
+        val msg: String,
+        val result_code: String,
+        val img_url: String?,
+        val id: String?
+)
+
+
+
 data class Login(
         val token: String,
         val twt_id: Int,
@@ -116,7 +167,7 @@ data class MyInfo(
         val xiaoqu: String
 )
 
-data class LatestSale(
+data class Sale(
         val bargain: String,
         val campus: String,
         val ctime: String,
@@ -131,7 +182,7 @@ data class LatestSale(
         val username: String
 )
 
-data class LatestNeed(
+data class Need(
         val bargain: Any,
         val campus: String,
         val ctime: String,
@@ -175,10 +226,10 @@ data class Menu(
         val icon: String,
         val id: String,
         val name: String,
-        val smalllist: List<Smalllist>
+        val smalllist: List<SmallList>
 )
 
-data class Smalllist(
+data class SmallList(
         val b_id: String,
         val id: String,
         val name: String
@@ -188,4 +239,21 @@ data class Seller(
         val email: String,
         val phone: String,
         val qq: String
+)
+
+data class UserInfo(
+        val needList: List<Need>?,
+        val saleList: List<Sale>?,
+        val user: User
+)
+
+data class User(
+        val avatar: String,
+        val goods_count: Int,
+        val icon: String,
+        val id: String,
+        val level: String,
+        val needs_count: Int,
+        val nicheng: String,
+        val xiaoqu: String
 )

@@ -27,7 +27,7 @@
             android:focusableInTouchMode="true">
 
             <android.support.v7.widget.AppCompatImageView
-                android:id="@+id/iv_mall_search"
+                android:id="@+id/iv_search"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_marginStart="10dp"
@@ -37,7 +37,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <android.support.v7.widget.AppCompatEditText
-                android:id="@+id/et_mall_search"
+                android:id="@+id/et_search"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:layout_marginStart="45dp"
@@ -52,7 +52,7 @@
                 android:textColorHint="#797979"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toRightOf="@id/iv_mall_search"
+                app:layout_constraintLeft_toRightOf="@id/iv_search"
                 app:layout_constraintTop_toTopOf="parent"
 
                 />
@@ -60,23 +60,25 @@
         </android.support.constraint.ConstraintLayout>
 
         <android.support.design.widget.TabLayout
-            android:id="@+id/mall_tl_main"
+            android:id="@+id/tl_main"
+            app:tabIndicatorColor="#FFFFFF"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="55dp"
             app:tabGravity="fill"
-            app:tabMode="scrollable" />
+            app:tabMode="fixed" />
 
 
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.view.ViewPager
-        android:id="@+id/mall_vp_main"
+        android:id="@+id/vp_main"
         android:layout_width="match_parent"
+        android:layout_marginTop="60dp"
         android:layout_height="wrap_content"
         android:background="#f6f6f6" />
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/mall_fab_mine"
+        android:id="@+id/fab_mine"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"

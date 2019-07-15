@@ -5,14 +5,13 @@ import android.graphics.Color
 import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
+import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
 import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import com.avarye.mall.MainPresenter
 import com.avarye.mall.R
-import com.avarye.mall.service.LatestNeed
-import com.avarye.mall.service.LatestSale
 import com.avarye.mall.service.MallManager
 import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.mall_activity_main.*
@@ -22,6 +21,7 @@ import org.jetbrains.anko.inputMethodManager
 class MallActivity : AppCompatActivity() {
 
     lateinit var tabLayout: TabLayout
+    lateinit var mallViewpager: ViewPager
     private val pagerAdapter = MallPagerAdapter(supportFragmentManager)
     lateinit var current: Fragment
     private var key = ""
@@ -36,22 +36,22 @@ class MallActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.mall_activity_main)
         window.statusBarColor = Color.parseColor("#FF9A36")
-        setSupportActionBar(tb_mall_main)//???
+        setSupportActionBar(tb_main)//???
         //TODO:menuButton
         //TODO:homeButton
 
         sale = MallSaleFragment()
         need = MallNeedFragment()
-        tabLayout = mall_tl_main
+        tabLayout = tl_main
+        mallViewpager = vp_main
         pagerAdapter.apply {
             add(sale, "最新商品")
             add(need, "最新求购")
         }
 
-        mall_vp_main.adapter = pagerAdapter
+        mallViewpager.adapter = pagerAdapter
         tabLayout.apply {
-            setupWithViewPager(mall_vp_main)
-            tabGravity = TabLayout.GRAVITY_FILL
+            setupWithViewPager(mallViewpager)
         }
 
         sale.setDo {
@@ -67,7 +67,7 @@ class MallActivity : AppCompatActivity() {
         current = pagerAdapter.getCurrent()
 
         //回车监听
-        et_mall_search.apply {
+        et_search.apply {
             setOnClickListener {
                 isCursorVisible = true
             }
@@ -84,13 +84,13 @@ class MallActivity : AppCompatActivity() {
         }
 
         //搜索
-        iv_mall_search.setOnClickListener {
-            et_mall_search.isCursorVisible = false
+        iv_search.setOnClickListener {
+            et_search.isCursorVisible = false
             search()
         }
 
         //测试emm
-        mall_fab_mine.setOnClickListener {
+        fab_mine.setOnClickListener {
             val intent = Intent(this, SaleActivity::class.java)
             this.startActivity(intent)
         }
@@ -99,7 +99,7 @@ class MallActivity : AppCompatActivity() {
     private fun search() {
         MallManager.clearGoods()
         MallManager.clearNeed()
-        key = et_mall_search.text.toString()
+        key = et_search.text.toString()
         if (key.isBlank()) {
             Toasty.info(this, "啥都莫得输入").show()
         } else {
@@ -110,13 +110,6 @@ class MallActivity : AppCompatActivity() {
         }
     }
 
-    fun bindSale(data: List<LatestSale>) {
-        sale.bindSale(data)
-    }
-
-    fun bindNeed(data: List<LatestNeed>) {
-        need.bindNeed(data)
-    }
 
     override fun onBackPressed() {
         if (isSearch) {
@@ -124,8 +117,8 @@ class MallActivity : AppCompatActivity() {
             MallManager.clearNeed()
             sale.get().resetPage()
             need.get().resetPage()
-            et_mall_search.text = null
-            et_mall_search.isCursorVisible = false
+            et_search.text = null
+            et_search.isCursorVisible = false
             isSearch = false
             presenter.getLatestSale(1)
         } else {

@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.avarye.mall.R
-import com.avarye.mall.service.LatestSale
+import kotlinx.android.synthetic.main.mall_fragment_latest_sale.view.*
 
 
 class MallSaleFragment : Fragment() {
@@ -19,7 +19,8 @@ class MallSaleFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.mall_fragment_latest_sale, container, false)
 
-        add = addMainItem(view, redo)
+        add = addMainItem(view.sale, this, redo)
+        bindSale()
 
         return view
     }
@@ -28,8 +29,8 @@ class MallSaleFragment : Fragment() {
         this.redo = redo
     }
 
-    fun bindSale(data: List<LatestSale>) {
-        add.bindSale(data)
+    fun bindSale() {
+        add.bindSale()
     }
 
     fun get() = add
