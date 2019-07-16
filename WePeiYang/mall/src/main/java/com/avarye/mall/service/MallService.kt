@@ -53,33 +53,54 @@ interface MallApi {
     fun getSellerInfoAsync(@Part("token") token: RequestBody, @Part("gid") gid: RequestBody): Deferred<Seller>
 
     @GET("api.php/User/userinfo")
-    fun getUserInfoAsync(@Query("id") id: String):Deferred<UserInfo>
+    fun getUserInfoAsync(@Query("id") id: String): Deferred<UserInfo>
 
     @Multipart
     @POST("api.php/Items/item_new")
-    fun selectSaleAsync(@Part("category") category: RequestBody, @Part("yeshu") page: RequestBody, @Part("which") which: RequestBody): Deferred<List<Sale>>
+    fun selectSaleAsync(@Part("category") category: RequestBody, @Part("yeshu") page: RequestBody,
+                        @Part("which") which: RequestBody): Deferred<List<Sale>>
 
     @Multipart
     @POST("api.php/Items/item_new")
-    fun selectNeedAsync(@Part("category") category: RequestBody, @Part("yeshu") page: RequestBody, @Part("which") which: RequestBody): Deferred<List<Need>>
+    fun selectNeedAsync(@Part("category") category: RequestBody, @Part("yeshu") page: RequestBody,
+                        @Part("which") which: RequestBody): Deferred<List<Need>>
 
     @Multipart
     @POST("api.php/Upload/img_upload")
     fun uploadImgAsync(@Part("token") token: RequestBody, @Part("file") file: RequestBody): Deferred<Result>
 
-
-    //TODO:待测试
     @Multipart
     @POST("api.php/Items/shoucang")
-    fun fav(@Part("token") token: RequestBody, @Part("gid") gid: RequestBody)
-
-    @Multipart
-    @POST("api.php/Items/shoucang_list")
-    fun favorites(@Part("token") token: RequestBody)
+    fun favAsync(@Part("token") token: RequestBody, @Part("gid") gid: RequestBody): Deferred<Result>
 
     @Multipart
     @POST("api.php/Items/shoucang_quxiao")
-    fun deFav(@Part("token") token: RequestBody, @Part("gid") gid: RequestBody)
+    fun deFavAsync(@Part("token") token: RequestBody, @Part("gid") gid: RequestBody): Deferred<Result>
+
+    @Multipart
+    @POST("api.php/Items/shoucang_list")
+    fun favoritesAsync(@Part("token") token: RequestBody): Deferred<List<FavList>>
+
+    @Multipart
+    @POST("api.php/Items/comment_list")
+    fun getCommentListAsync(@Part("token") token: RequestBody, @Part("which") which: RequestBody,
+                            @Part("id") id: RequestBody): Deferred<List<CommentList>>
+
+    @Multipart
+    @POST("api.php/Items/comment_do")
+    fun commentAsync(@Part("content") content: RequestBody, @Part("token") token: RequestBody,
+                     @Part("which") which: RequestBody, @Part("tid") tid: RequestBody): Deferred<Result>
+
+    @Multipart
+    @POST("api.php/Items/huifu_list")
+    fun getReplyListAsync(@Part("token") token: RequestBody, @Part("cid") cid: RequestBody): Deferred<List<CommentList>>
+
+    @Multipart
+    @POST("api.php/Items/hui_do")
+    fun replyAsync(@Part("token") token: RequestBody, @Part("cid") cid: RequestBody,
+                   @Part("content") content: RequestBody): Deferred<Result>
+
+    //TODO:待测试
 
     @POST("api.php/Items/sale_fabu")
     fun uploadSale(/*data class*/): Deferred<Any>
@@ -93,7 +114,6 @@ interface MallApi {
 
 val saleLiveData = MutableLiveData<List<Sale>>()
 val needLiveData = MutableLiveData<List<Need>>()
-
 
 //感觉只有menu和个人信息能做缓存emm
 private val menuLocalData = Cache.hawk<List<Menu>>("MALL_MENU")
@@ -138,14 +158,14 @@ object MallApiService {
     inline operator fun <reified T> invoke(): T = retrofit.create(T::class.java)
 }
 
-data class Result(
+data class Result(//不知道能不能这么搞，不然也太麻烦了吧
         val msg: String,
         val result_code: String,
         val img_url: String?,
-        val id: String?
+        val id: String?,
+        val cid: String?,
+        val hid: String?
 )
-
-
 
 data class Login(
         val token: String,
@@ -257,3 +277,26 @@ data class User(
         val nicheng: String,
         val xiaoqu: String
 )
+
+data class FavList(
+        val campus: String,
+        val ctime: String,
+        val id: String,
+        val imgurl: String,
+        val location: String,
+        val name: String,
+        val price: String,
+        val username: String
+)
+
+data class CommentList(
+        val cid: String,
+        val content: String,
+        val ctime: String,
+        val icon: String,
+        val name: String,
+        val uid: String
+
+)
+
+

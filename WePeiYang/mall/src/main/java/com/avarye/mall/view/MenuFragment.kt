@@ -43,7 +43,7 @@ class MenuFragment : Fragment() {
                             name.setOnClickListener {
                             }
                         }
-                        it.smallList.forEach { sit->
+                        it.smalllist.forEach { sit->
                             addMenuItem {
                                 name.text = sit.name
                             }

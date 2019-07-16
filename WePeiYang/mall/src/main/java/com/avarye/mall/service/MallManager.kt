@@ -8,7 +8,7 @@ import java.io.File
 object MallManager {
     private val cookies = mutableListOf<String>()
     private val headerToken = "Bearer{${CommonPreferences.token}}"
-    lateinit var infoLogin: Login
+    private lateinit var infoLogin: Login
     private val infoGoods = mutableListOf<Sale>()
     private val infoNeed = mutableListOf<Need>()
 
@@ -19,7 +19,8 @@ object MallManager {
     fun getMyInfo() = MallApi.getMyInfoAsync()
 
     fun changeMyInfo(phone: String, email: String, qq: String, campus: Int) =
-            MallApi.changeMyInfoAsync(phone = toReqBody(phone), email = toReqBody(email), qq = toReqBody(qq), campus = toReqBody(campus))
+            MallApi.changeMyInfoAsync(phone = toReqBody(phone), email = toReqBody(email),
+                    qq = toReqBody(qq), campus = toReqBody(campus))
 
     fun changeCampus(campus: Int) = MallApi.changeCampusAsync(toReqBody(campus))
 
@@ -43,8 +44,24 @@ object MallManager {
 
     fun getUserInfo(id: String) = MallApi.getUserInfoAsync(id)
 
-    fun uploadImg(file: File) = MallApi.uploadImgAsync(toReqBody(infoLogin.token), toReqBody(file))
+    fun uploadImg(file: File) = MallApi.uploadImgAsync(toReqBody(getLogin().token), toReqBody(file))
 
+    fun fav(gid: String) = MallApi.favAsync(toReqBody(getLogin().token), toReqBody(gid))
+
+    fun deFav(gid: String) = MallApi.deFavAsync(toReqBody(getLogin().token), toReqBody(gid))
+
+    fun favorites() = MallApi.favoritesAsync(toReqBody(getLogin().token))
+
+    fun getCommentList(id: String, which: Int) =
+            MallApi.getCommentListAsync(token = toReqBody(getLogin().token), id = toReqBody(id), which = toReqBody(which))
+
+    fun comment(id: String, which: Int, content: String) = MallApi.commentAsync(token = toReqBody(getLogin().token),
+            content = toReqBody(content), which = toReqBody(which), tid = toReqBody(id))
+
+    fun getReplyList(id: String) = MallApi.getReplyListAsync(token = toReqBody(getLogin().token), cid = toReqBody(id))
+
+    fun reply(id: String, content: String) = MallApi.replyAsync(token = toReqBody(getLogin().token),
+            cid = toReqBody(id), content = toReqBody(content))
 
     //data Utils
     private fun getLogin(): Login {
@@ -137,15 +154,15 @@ object MallManager {
     }
 
     //处理request body
-    fun toReqBody(int: Int): RequestBody {
+    private fun toReqBody(int: Int): RequestBody {
         return RequestBody.create(MediaType.parse("text/plain"), int.toString())
     }
 
-    fun toReqBody(key: String): RequestBody {
+    private fun toReqBody(key: String): RequestBody {
         return RequestBody.create(MediaType.parse("text/plain"), key)
     }
 
-    fun toReqBody(file: File): RequestBody {
+    private fun toReqBody(file: File): RequestBody {
         return RequestBody.create(MediaType.parse("text/plain"), file)
     }
 
