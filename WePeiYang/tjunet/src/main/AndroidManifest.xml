@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.twt.service.tjunet">
 
@@ -7,10 +6,6 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application>
-        <meta-data
-            android:name="com.google.android.actions"
-            android:resource="@xml/edittext_bg_s" />
-
         <activity android:name=".view.TjuNetActivity" />
 
         <receiver android:name=".reconnect.AutoConnectReceiver">
