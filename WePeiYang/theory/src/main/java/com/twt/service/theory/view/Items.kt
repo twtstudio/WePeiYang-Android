@@ -25,7 +25,7 @@ class ProfileItem : Item {
                 account.text = "我爱天外天"
                 number.text = "3019216001"
                 Glide.with(context)
-                        .load("https://pp.myapp.com/ma_icon/0/icon_12114891_1557843941/96")
+                        .load("http://file.market.xiaomi.com/thumbnail/PNG/l114/AppStore/0856d58c8b40e499be90efdff7fe43827ee42ba09")
                         .into(avatar)
 
             }
@@ -173,6 +173,7 @@ class ExamDetailItem(val titles : String, val detail : String) : Item {
                 title.text = item.titles
                 times.text = item.detail
             }
+
         }
 
         override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {

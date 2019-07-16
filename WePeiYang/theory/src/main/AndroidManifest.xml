@@ -3,9 +3,10 @@
     package="com.twt.service.theory">
 
     <application>
+        <activity android:name=".view.AnswerActivity"></activity>
         <activity android:name=".view.UserActivity" />
         <activity android:name=".view.TheoryActivity" />
-        <activity android:name=".view.ExamDetailActivity"></activity>
+        <activity android:name=".view.ExamDetailActivity" />
     </application>
 
 </manifest>

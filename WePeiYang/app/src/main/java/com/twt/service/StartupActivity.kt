@@ -69,7 +69,7 @@ class StartupActivity : AppCompatActivity() {
                 .setLongLabel("GPA")
                 .setIcon(Icon.createWithResource(this, R.drawable.ic_main_gpa))
                 .setIntents(
-                        // this dynamic shortcut set up a back stack using Intents, when pressing back, will go to MainActivity
+                        // this dynamic shortcut set up a theorry_back stack using Intents, when pressing theorry_back, will go to MainActivity
                         // the last Intent is what the shortcut really opened
                         arrayOf(
                                 Intent("xyz.rickygao.gpa2.DYNAMIC_OPEN"))// intent's action must be set
@@ -82,7 +82,7 @@ class StartupActivity : AppCompatActivity() {
                 .setIcon(Icon.createWithResource(this, R.drawable.ic_main_schedule))
                 //com.twt.schedule.action.DYNAMIC_OPEN
                 .setIntents(
-                        // this dynamic shortcut set up a back stack using Intents, when pressing back, will go to MainActivity
+                        // this dynamic shortcut set up a theorry_back stack using Intents, when pressing theorry_back, will go to MainActivity
                         // the last Intent is what the shortcut really opened
                         arrayOf(
                                 Intent("com.twt.schedule.action.DYNAMIC_OPEN").apply {

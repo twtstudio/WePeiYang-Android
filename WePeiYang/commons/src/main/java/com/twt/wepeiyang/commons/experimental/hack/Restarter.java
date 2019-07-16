@@ -53,7 +53,7 @@ import static android.app.ActivityManager.ProcessErrorStateInfo.NO_ERROR;
  * continues running.
  * <li>Restart the app with state persistence (simulates what happens when a user puts an app in
  * the background, then it gets killed by the memory monitor, and then restored when the user
- * brings it back
+ * brings it theorry_back
  * <li>Restart the app completely.
  * </ul>
  */

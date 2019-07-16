@@ -60,7 +60,7 @@ class CourseAdapter : RecyclerView.Adapter<CourseAdapter.CourseViewHolder>() {
         fun bind(course: Course) {
             nameTv.text = course.name
 
-            // TODO: Now types are unavailable (or deprecated?), fix it at the back end or remove it.
+            // TODO: Now types are unavailable (or deprecated?), fix it at the theorry_back end or remove it.
             typeTv.text = when (course.type) {
                 0 -> "必修"
                 else -> "未知"

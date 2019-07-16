@@ -51,7 +51,7 @@ class NewsActivity : AppCompatActivity() {
         }
     }
 
-    // 拦截 back 键，若非新闻网首页退回新闻网首页，若为新闻网首页结束此 activity
+    // 拦截 theorry_back 键，若非新闻网首页退回新闻网首页，若为新闻网首页结束此 activity
     override fun onBackPressed() {
         if (webView.url == twtNewsHomeUrl) {
             super.onBackPressed()

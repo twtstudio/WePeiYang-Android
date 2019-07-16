@@ -26,7 +26,7 @@ interface JobService {
     @GET("${JOB_BASE_URL}api/notice/detail")
     fun getNoticeDetail(@Query("id") id: Int, @Query("type") type: Int, @Header("Connection") value: String = "close"): Deferred<CommonBody<Notice>>
 
-    @GET("${JOB_BASE_URL}api/recruit/search")
+    @GET("${JOB_BASE_URL}api/recruit/theory_search")
     fun jobSearch(@Query("title") title: String, @Header("Connection") value: String = "close"): Deferred<CommonBody<SearchData>>
 
     companion object : JobService by ServiceFactory()

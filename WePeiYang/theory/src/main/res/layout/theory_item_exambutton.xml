@@ -11,7 +11,7 @@
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginStart="12dp"
         android:layout_marginEnd="12dp"
-        android:background="@drawable/button_circle_shape"
+        android:background="@drawable/theory_button_circle_shape"
         android:text="开始考试"
         android:textSize="18sp"
         android:textColor="#ffffff"/>

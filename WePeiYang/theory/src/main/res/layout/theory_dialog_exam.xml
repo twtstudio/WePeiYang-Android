@@ -2,7 +2,7 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="300dp"
     android:layout_height="wrap_content"
-    android:background="@drawable/dialog_circle_shape"
+    android:background="@drawable/theory_dialog_circle_shape"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:textColor="#1E90FF"
         android:text="提示"
-        android:textSize="16dp"
+        android:textSize="16sp"
         android:id="@+id/suggestion"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"

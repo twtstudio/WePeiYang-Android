@@ -8,7 +8,7 @@
     <TextView
         android:layout_width="12dp"
         android:layout_height="12dp"
-        android:background="@drawable/circle_shape"
+        android:background="@drawable/theory_circle_shape"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="20dp"
         app:layout_constraintLeft_toLeftOf="parent"

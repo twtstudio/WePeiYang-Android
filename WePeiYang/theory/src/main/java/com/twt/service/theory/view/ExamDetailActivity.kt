@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView
 import com.twt.service.theory.R
 import com.twt.wepeiyang.commons.experimental.extensions.enableLightStatusBarMode
 import com.twt.wepeiyang.commons.ui.rec.withItems
+import kotlinx.android.synthetic.main.theory_activity_exam_detail.*
 import kotlinx.android.synthetic.main.theory_activity_user.*
 import kotlinx.android.synthetic.main.theory_common_toolbar.*
 import kotlinx.android.synthetic.main.theory_common_toolbar.view.*
@@ -18,7 +19,7 @@ class ExamDetailActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_exam_detail)
+        setContentView(R.layout.theory_activity_exam_detail)
         window.statusBarColor = Color.parseColor("#FFFFFF")
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         enableLightStatusBarMode(true)
@@ -29,7 +30,14 @@ class ExamDetailActivity : AppCompatActivity() {
         theory_back.setOnClickListener {
             finish()
         }
+        theory_exam_detail_button.setOnClickListener {
+            val intent = Intent(this, AnswerActivity::class.java)
+            startActivity(intent)
+        }
+
+
         theory_user_actionbar.title.text = "考试详情"
+
         recyclerView = findViewById(R.id.eaxm_detail_rec)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.withItems {

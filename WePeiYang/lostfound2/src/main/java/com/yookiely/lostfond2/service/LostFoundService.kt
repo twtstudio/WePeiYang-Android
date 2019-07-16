@@ -20,8 +20,8 @@ interface LostFoundService {
     @GET("v1/lostfound/{id}")
     fun getDetailed(@Path("id") id: Int): Deferred<CommonBody<DetailData>>
 
-    //    @GET("${LOST_FOUND_BASE_URL}search")
-    @GET("v1/lostfound/search")
+    //    @GET("${LOST_FOUND_BASE_URL}theory_search")
+    @GET("v1/lostfound/theory_search")
     fun getSearch(@Query("keyword") keyword: String, @Query("campus") campus: Int, @Query("time") time: Int, @Query("page") page: Int): Deferred<CommonBody<List<MyListDataOrSearchBean>>>
 
     @GET("v1/lostfound/user/{lostOrFound}")

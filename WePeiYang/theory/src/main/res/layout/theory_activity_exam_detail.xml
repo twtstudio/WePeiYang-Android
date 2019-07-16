@@ -22,13 +22,13 @@
         app:layout_constraintTop_toBottomOf="@+id/eaxm_detail_rec"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:id="@+id/exam_detail_button"
+        android:id="@+id/theory_exam_detail_button"
         android:text="开始考试"
         android:textSize="16sp"
         android:textColor="@color/white_color"
         android:layout_marginLeft="14dp"
         android:layout_marginRight="14dp"
         android:layout_marginTop="8dp"
-        android:background="@drawable/button_circle_shape"/>
+        android:background="@drawable/theory_button_circle_shape"/>
 
 </android.support.constraint.ConstraintLayout>

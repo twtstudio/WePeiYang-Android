@@ -26,7 +26,7 @@ class JsoupService(private var bookProvide: BookProvide.setBook) : BookProvide.g
 
 
             try {
-                val doc = Jsoup.connect("http://opac.lib.tju.edu.cn/opac/search?q=$key&searchType=standard&isFacet=true&view=standard&rows=10&sortWay=score&sortOrder=desc&hasholding=1&searchWay0=marc&q0=&logical0=AND&page=$page")
+                val doc = Jsoup.connect("http://opac.lib.tju.edu.cn/opac/theory_search?q=$key&searchType=standard&isFacet=true&view=standard&rows=10&sortWay=score&sortOrder=desc&hasholding=1&searchWay0=marc&q0=&logical0=AND&page=$page")
                         .header("Cookie", "JSESSIONID=$rand; org.springframework.web.servlet.i18n.CookieLocaleResolver.LOCALE=zh")
                         .get()
 

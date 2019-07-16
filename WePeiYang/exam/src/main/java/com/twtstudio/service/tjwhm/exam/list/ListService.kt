@@ -15,7 +15,7 @@ interface ListService {
     @GET("${EXAM_BASE_URL}class/{classId}")
     fun getLessonList(@Path("classId") classId: String): Deferred<CommonBody<List<LessonBean>>>
 
-    @GET("${EXAM_BASE_URL}search/{key}")
+    @GET("${EXAM_BASE_URL}theory_search/{key}")
     fun findLessonList(@Path("key") key: String): Deferred<CommonBody<List<LessonBean>>>
 
     @GET("${EXAM_BASE_URL}course/{lessonID}")

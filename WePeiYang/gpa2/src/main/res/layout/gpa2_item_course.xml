@@ -27,7 +27,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="数据结构" />
 
-    <!-- TODO: Now types are unavailable (or deprecated?), fix it at the back end or remove it. -->
+    <!-- TODO: Now types are unavailable (or deprecated?), fix it at the theorry_back end or remove it. -->
     <TextView
         android:id="@+id/tv_course_type"
         android:layout_width="wrap_content"

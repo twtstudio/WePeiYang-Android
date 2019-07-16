@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/theory_toolbar"
     android:layout_width="match_parent"
-    android:layout_height="50dp"
+    android:layout_height="55dp"
     android:background="#ffffff"
     >
     <ImageView
         android:id="@+id/theory_back"
-        android:layout_width="27dp"
-        android:layout_height="27dp"
-        android:src="@drawable/back"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/theorry_back"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -28,21 +28,21 @@
         android:textSize="18sp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
-        android:text="理论答题"/>
+        tools:text="理论答题"/>
     <ImageView
         android:id="@+id/theory_person_profile"
-        android:layout_width="27dp"
-        android:layout_height="27dp"
-        android:src="@drawable/person"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/theory_person"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginEnd="15dp"/>
     <ImageView
         android:id="@+id/theory_search"
-        android:layout_width="27dp"
-        android:layout_height="27dp"
-        android:src="@drawable/search"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/theory_search"
         app:layout_constraintRight_toLeftOf="@id/theory_person_profile"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
