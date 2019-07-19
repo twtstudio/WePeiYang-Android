@@ -15,10 +15,9 @@ import kotlinx.android.synthetic.main.schedule_class_picker_pop.view.*
 import org.jetbrains.anko.*
 
 class CustomClassPickerPop(context: Context, resultHandler:ResultHandler) : TopPopupWindow(context,true) {
-    val mContext = getContext()
     val mHandler = resultHandler
-    var startTime: Int = 6
-    var endTime: Int = 6
+    var startTime: Int = 1
+    var endTime: Int = 1
 
     @SuppressLint("SetTextI18n")
     override fun createContentView(parent: ViewGroup?): View {
@@ -27,14 +26,15 @@ class CustomClassPickerPop(context: Context, resultHandler:ResultHandler) : TopP
                 gravity = Gravity.BOTTOM
                 backgroundColor = Color.WHITE
             }
-
+            val numberPicker1 = findViewById<NumberPicker>(R.id.custom_number_picker1)
+            val numberPicker2 = findViewById<NumberPicker>(R.id.custom_number_picker2)
             /**
-             * 设置开始和结束时间的 numberpicker
+             * 设置开始和结束时间的 number_picker
              */
-            custom_number_picker1.apply {
+            numberPicker1.apply {
                 minValue = 1
                 maxValue = 12
-                value = 6
+                value = numberPicker1.value
                 descendantFocusability = NumberPicker.FOCUS_BLOCK_DESCENDANTS
                 setOnValueChangedListener { numberPicker, oldVal, newVal ->
                     startTime = newVal
@@ -43,10 +43,10 @@ class CustomClassPickerPop(context: Context, resultHandler:ResultHandler) : TopP
                 }
             }
 
-            custom_number_picker2.apply {
-                minValue = 1
+            numberPicker2.apply {
+                minValue = numberPicker1.value
                 maxValue = 12
-                value = 6
+                value = numberPicker2.value
                 descendantFocusability = NumberPicker.FOCUS_BLOCK_DESCENDANTS
                 setOnValueChangedListener { numberPicker, oldVal, newVal ->
                     endTime = newVal

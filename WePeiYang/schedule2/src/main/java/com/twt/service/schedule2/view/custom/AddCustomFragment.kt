@@ -33,12 +33,17 @@ class AddCustomFragment : Fragment(){
         val fragContext = activity
         val mContext = view.context
 
-//        val imm: InputMethodManager = mContext.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-//        val editCourseName: EditText = view.findViewById(R.id.edit_course_name)
-//
-//        editCourseName.setOnFocusChangeListener { view, b ->
-//            imm.hideSoftInputFromWindow(editCourseName.windowToken,0)
-//        }
+        lateinit var courseName: String
+        lateinit var teacherName: String
+        lateinit var week: String
+        var startTime = 0
+        var endTime = 0
+        var weekday = 0
+        lateinit var room: String
+        var startWeek = 0
+        var endWeek = 0
+        lateinit var weekPeriod: Week
+        lateinit var arrange: Arrange
 
         /**
          * 设置需要选择数字的 numberpicker 和 popwindow
@@ -104,22 +109,27 @@ class AddCustomFragment : Fragment(){
             button.apply {
                 setBackgroundColor(getColorCompat(R.color.colorPrimary))
                 setOnClickListener {
-                    val courseName: String = edit_course_name.text.toString()
-                    val teacherName = edit_course_teacher.text.toString()
-                    val week: String = str
-                    val startTime: Int = edit_start_time_name.text.toString().trim().toInt()
-                    val endTime: Int = edit_end_time_name.text.toString().trim().toInt()
-                    val weekday: Int = edit_weekday_name.text.toString().trim().toInt()
-                    val room: String = edit_room_name.text.toString()
-                    val startWeek: Int = edit_startWeek_name.text.toString().trim().toInt()
-                    val endWeek: Int = edit_endWeek_name.text.toString().trim().toInt()
+                    courseName = edit_course_name.text.toString()
+                    teacherName = edit_course_teacher.text.toString()
+                    week = str
+                    startTime = edit_start_time_name.text.toString().trim().toInt()
+                    endTime = edit_end_time_name.text.toString().trim().toInt()
+                    weekday = if (edit_weekday_name.text.toString() != ""){
+                        edit_weekday_name.text.toString().trim().toInt()
+                    } else { 10 }
+                    room = edit_room_name.text.toString()
+                    startWeek = edit_startWeek_name.text.toString().trim().toInt()
+                    endWeek = edit_endWeek_name.text.toString().trim().toInt()
+                    weekPeriod = Week(startWeek, endWeek)
+                    arrange = Arrange(week, startTime, endTime, weekday, room)
 
-                    val weekPeriod = Week(startWeek, endWeek)
-                    val arrange = Arrange(week, startTime, endTime, weekday, room)
-
-                    Toasty.info(fragContext!!, "自定义事件 ${courseName} 添加成功").show()
-                    GlobalScope.async (Dispatchers.Default + QuietCoroutineExceptionHandler) {
-                        CustomCourseManager.addCustomCourse(courseName, teacherName, listOf(arrange), weekPeriod)
+                    if (startTime < endTime && startWeek < endWeek && weekday in 0..7 ){
+                        Toasty.info(fragContext!!, "自定义事件 ${courseName} 添加成功").show()
+                        GlobalScope.async (Dispatchers.Default + QuietCoroutineExceptionHandler) {
+                            CustomCourseManager.addCustomCourse(courseName, teacherName, listOf(arrange), weekPeriod)
+                        }
+                    } else if(startTime >= endTime || startWeek >= endWeek || weekday > 7){
+                        Toasty.info(fragContext!!, "添加失败，请检查自定义的信息").show()
                     }
                 }
             }

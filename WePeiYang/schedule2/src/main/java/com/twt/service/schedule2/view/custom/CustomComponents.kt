@@ -96,7 +96,11 @@ class CustomCourseItem(customCourse: CustomCourse) : Item {
                 week.text = item.customCourse.arrange[0].week
                 startTime.text = item.customCourse.arrange[0].start.toString()
                 endTime.text = item.customCourse.arrange[0].end.toString()
-                weekDay.text = getChineseCharacter(item.customCourse.arrange[0].day)
+                if (item.customCourse.arrange[0].day in 0..7){
+                    weekDay.text = getChineseCharacter(item.customCourse.arrange[0].day)
+                } else {
+                    weekDay.text = "？？？"
+                }
                 cardView.setCardBackgroundColor(getColorCompat(R.color.colorPrimary))
             }
 
