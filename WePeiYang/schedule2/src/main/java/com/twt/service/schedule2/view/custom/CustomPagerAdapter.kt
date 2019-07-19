@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import java.util.ArrayList
 
 
-class CustomPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
+class CustomPagerAdapter (fm: FragmentManager) : FragmentPagerAdapter(fm) {
 
     var fragmentsOfMylist: MutableList<Fragment> = ArrayList()
     var fragmentsTitles: MutableList<String> = ArrayList()
