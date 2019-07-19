@@ -1,10 +1,12 @@
 package com.twt.service.schedule2.view.custom
 
+import android.content.Context
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.AppCompatCheckBox
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
@@ -23,8 +25,8 @@ import kotlinx.android.synthetic.main.schedule_frag_add_custom.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
-import android.content.Context.INPUT_METHOD_SERVICE
 import java.lang.NumberFormatException
+
 
 class AddCustomFragment : Fragment(){
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -102,6 +104,24 @@ class AddCustomFragment : Fragment(){
         }
 
         /**
+         *  设置点击别处收起键盘
+         */
+        val editCourseName = view.findViewById<EditText>(R.id.edit_course_name)
+        val editTeacherName = view.findViewById<EditText>(R.id.edit_course_teacher)
+        val editRoom = view.findViewById<EditText>(R.id.edit_room_name)
+        val editWeekday = view.findViewById<EditText>(R.id.edit_weekday_name)
+        val editList: List<EditText> = listOf<EditText>(editCourseName, editTeacherName, editRoom, editWeekday)
+
+        editList.forEach {
+            it.setOnFocusChangeListener { view, focused ->
+                if (!focused) {
+                    val manager = fragContext?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    manager.hideSoftInputFromWindow(view.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
+                }
+            }
+        }
+
+        /**
          * 设置确定添加的按钮和点击监听
          */
         val button: Button = view.findViewById(R.id.ll_course_arrange)
@@ -137,7 +157,6 @@ class AddCustomFragment : Fragment(){
             Toasty.info(fragContext!!, "事件信息不可为空").show()
             e.printStackTrace()
         }
-
         return view
     }
 }
