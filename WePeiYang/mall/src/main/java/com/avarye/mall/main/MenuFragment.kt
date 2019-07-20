@@ -1,4 +1,4 @@
-package com.avarye.mall.view
+package com.avarye.mall.main
 
 import android.os.Bundle
 import android.support.v4.app.Fragment

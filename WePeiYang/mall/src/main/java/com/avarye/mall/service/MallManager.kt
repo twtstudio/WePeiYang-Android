@@ -9,9 +9,6 @@ object MallManager {
     private val cookies = mutableListOf<String>()
     private val headerToken = "Bearer{${CommonPreferences.token}}"
     private lateinit var infoLogin: Login
-    private val infoGoods = mutableListOf<Sale>()
-    private val infoNeed = mutableListOf<Need>()
-
 
     //manager
     fun login() = MallApi.loginAsync(getToken())
@@ -71,31 +68,6 @@ object MallManager {
     fun setLogin(data: Login) {
         infoLogin = data
     }
-
-    fun getGoods(): List<Sale> {
-        return infoGoods
-    }
-
-    fun addGoods(data: List<Sale>) {
-        this.infoGoods += data
-    }
-
-    fun clearGoods() {
-        this.infoGoods.clear()
-    }
-
-    fun getNeed(): List<Need> {
-        return infoNeed
-    }
-
-    fun addNeed(data: List<Need>) {
-        infoNeed += data
-    }
-
-    fun clearNeed() {
-        this.infoNeed.clear()
-    }
-
 
     //数据处理
     fun getCampus(i: String?) = when (i) {
@@ -165,6 +137,4 @@ object MallManager {
     private fun toReqBody(file: File): RequestBody {
         return RequestBody.create(MediaType.parse("text/plain"), file)
     }
-
-
 }

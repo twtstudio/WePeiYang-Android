@@ -1,39 +1,35 @@
-package com.avarye.mall
+package com.avarye.mall.service
 
 import android.util.Log
-import com.avarye.mall.service.*
-import com.avarye.mall.view.MallActivity
+import com.twt.wepeiyang.commons.experimental.CommonContext
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import es.dmoral.toasty.Toasty
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-class MainPresenter(private var view: MallActivity) {
+class ViewModel {
 
     //先后台登陆再拿数据
-    //这玩意咋滴用LiveData…orz
     fun login() {
         GlobalScope.launch(Dispatchers.Main) {
             MallManager.login().awaitAndHandle {
-                Toasty.error(view, "没网？")
+                Toasty.error(CommonContext.application, "login failed").show()
             }?.let {
                 if (it.error_code == -1) {
                     MallManager.setLogin(it.data!!)
-                    Toasty.info(view, "login succeed").show()
+                    Toasty.info(CommonContext.application, "login succeed").show()
                     Log.d("login done", MallManager.getToken())
                 } else {
-                    Toasty.error(view, "token有问题吧").show()
+                    Toasty.error(CommonContext.application, "token有问题吧").show()
                 }
             }
 
             MallManager.latestSale(1).awaitAndHandle {
                 Log.d("login get goods failed", it.message)
             }?.let {
-//                MallManager.addGoods(it)
                 saleLiveData.postValue(it)
-//                view.bindSale(MallManager.getGoods())
-                Toasty.info(view, "init succeed").show()
+                Toasty.info(CommonContext.application, "init succeed").show()
                 Log.d("login goods done", it[0].page.toString())
             }
         }
@@ -44,9 +40,7 @@ class MainPresenter(private var view: MallActivity) {
             MallManager.latestSale(page).awaitAndHandle {
                 Log.d("get goods failed", it.message)
             }?.let {
-//                MallManager.addGoods(it)
                 saleLiveData.postValue(it)
-//                view.bindSale(MallManager.getGoods())
                 Log.d("get goods done", it[0].page.toString())
             }
         }
@@ -57,9 +51,8 @@ class MainPresenter(private var view: MallActivity) {
             MallManager.latestNeed(page).awaitAndHandle {
                 Log.d("get goods failed", it.message)
             }?.let {
-//                MallManager.addNeed(it)
+                Toasty.info(CommonContext.application, "need succeed").show()
                 needLiveData.postValue(it)
-//                view.bindNeed(MallManager.getNeed())
                 Log.d("get goods done", it[0].page.toString())
             }
         }
@@ -71,8 +64,8 @@ class MainPresenter(private var view: MallActivity) {
             MallManager.search(key, page).awaitAndHandle {
                 Log.d("search failed", "search failed")
             }?.let {
-                MallManager.addGoods(it)
-//                view.bindSale(MallManager.getGoods())
+//                Toasty.info(CommonContext.application, "search succeed").show()
+                searchLiveData.postValue(it)
                 Log.d("search done", "search done")
             }
         }

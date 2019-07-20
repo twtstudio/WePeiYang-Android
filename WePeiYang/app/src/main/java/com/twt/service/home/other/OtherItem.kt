@@ -19,7 +19,7 @@ import com.twt.wepeiyang.commons.ui.rec.ItemController
 import com.twtstudio.retrox.bike.bike.ui.main.BikeActivity
 import com.twtstudio.service.tjwhm.exam.home.ExamHomeActivity
 import com.twtstudio.tjliqy.party.ui.home.PartyActivity
-import com.avarye.mall.view.MallActivity
+import com.avarye.mall.main.MallActivity
 import org.jetbrains.anko.*
 
 class OtherItem : Item {

@@ -114,6 +114,7 @@ interface MallApi {
 
 val saleLiveData = MutableLiveData<List<Sale>>()
 val needLiveData = MutableLiveData<List<Need>>()
+val searchLiveData = MutableLiveData<List<Sale>>()
 
 //感觉只有menu和个人信息能做缓存emm
 private val menuLocalData = Cache.hawk<List<Menu>>("MALL_MENU")

@@ -5,17 +5,18 @@
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
     android:background="#FF9A36"
-    app:layout_scrollFlags="scroll|enterAlways"
-    app:title="">
+    app:titleTextColor="#ffffff"
+    app:layout_collapseMode="pin"
+    app:layout_scrollFlags="scroll|enterAlways">
     <!--app:popupTheme="@styles/AppTheme.PopupOverlay">-->
 
-    <android.support.v7.widget.AppCompatTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="天外天商城"
-        android:textColor="#ffffff"
-        android:textSize="20sp" />
+    <!--<android.support.v7.widget.AppCompatTextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_gravity="center"-->
+    <!--android:text="天外天商城"-->
+    <!--android:textColor="#ffffff"-->
+    <!--android:textSize="20sp" />-->
 
 </android.support.v7.widget.Toolbar>
 

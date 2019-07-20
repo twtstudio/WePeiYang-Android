@@ -1,18 +1,15 @@
-package com.avarye.mall.view
+package com.avarye.mall.main
 
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.support.design.widget.TabLayout
-import android.support.v4.app.Fragment
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
 import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import com.avarye.mall.MainPresenter
 import com.avarye.mall.R
-import com.avarye.mall.service.MallManager
 import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.mall_activity_main.*
 import kotlinx.android.synthetic.main.mall_item_toolbar.*
@@ -20,26 +17,29 @@ import org.jetbrains.anko.inputMethodManager
 
 class MallActivity : AppCompatActivity() {
 
-    lateinit var tabLayout: TabLayout
-    lateinit var mallViewpager: ViewPager
+    private lateinit var tabLayout: TabLayout
+    private lateinit var mallViewpager: ViewPager
     private val pagerAdapter = MallPagerAdapter(supportFragmentManager)
-    lateinit var current: Fragment
+    private lateinit var sale: MallSaleFragment
+    private lateinit var need: MallNeedFragment
     private var key = ""
-    private var isSearch = false
-
-    private val presenter = MainPresenter(this)
-    lateinit var sale: MallSaleFragment
-    lateinit var need: MallNeedFragment
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.mall_activity_main)
         window.statusBarColor = Color.parseColor("#FF9A36")
-        setSupportActionBar(tb_main)//???
+
+        //toolbar
+        tb_main.apply {
+            title = "天外天商城"
+            setSupportActionBar(this)
+            supportActionBar?.setDisplayHomeAsUpEnabled(true)
+            setNavigationOnClickListener { onBackPressed() }
+        }
         //TODO:menuButton
         //TODO:homeButton
 
+        //fragment
         sale = MallSaleFragment()
         need = MallNeedFragment()
         tabLayout = tl_main
@@ -48,23 +48,10 @@ class MallActivity : AppCompatActivity() {
             add(sale, "最新商品")
             add(need, "最新求购")
         }
-
         mallViewpager.adapter = pagerAdapter
         tabLayout.apply {
             setupWithViewPager(mallViewpager)
         }
-
-        sale.setDo {
-            presenter.getLatestNeed(it)
-        }
-
-        need.setDo {
-            presenter.getLatestNeed(it)
-        }
-
-        presenter.login()
-
-        current = pagerAdapter.getCurrent()
 
         //回车监听
         et_search.apply {
@@ -83,46 +70,36 @@ class MallActivity : AppCompatActivity() {
             }
         }
 
-        //搜索
+        //搜索按钮
         iv_search.setOnClickListener {
             et_search.isCursorVisible = false
             search()
         }
-
-        //测试emm
-        fab_mine.setOnClickListener {
-            val intent = Intent(this, SaleActivity::class.java)
-            this.startActivity(intent)
-        }
     }
 
     private fun search() {
-        MallManager.clearGoods()
-        MallManager.clearNeed()
         key = et_search.text.toString()
         if (key.isBlank()) {
             Toasty.info(this, "啥都莫得输入").show()
         } else {
-            isSearch = true
-//            presenter.search(key, )
-            val intent = Intent(this, SaleActivity::class.java)
+            val intent = Intent(this, SearchActivity::class.java)
+                    .putExtra("key", key)
             this.startActivity(intent)
         }
     }
 
-
-    override fun onBackPressed() {
-        if (isSearch) {
-            MallManager.clearGoods()
-            MallManager.clearNeed()
-            sale.get().resetPage()
-            need.get().resetPage()
-            et_search.text = null
-            et_search.isCursorVisible = false
-            isSearch = false
-            presenter.getLatestSale(1)
-        } else {
-            super.onBackPressed()
-        }
-    }
+//    override fun onBackPressed() {
+//        if (isSearch) {
+//            MallManager.clearGoods()
+//            MallManager.clearNeed()
+//            sale.resetPage()
+//            need.resetPage()
+//            et_search.text = null
+//            et_search.isCursorVisible = false
+//            isSearch = false
+//            presenter.getLatestSale(1)
+//        } else {
+//            super.onBackPressed()
+//        }
+//    }
 }
