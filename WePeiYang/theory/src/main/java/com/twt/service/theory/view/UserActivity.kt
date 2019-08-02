@@ -23,7 +23,7 @@ class UserActivity : AppCompatActivity() {
         theory_back.setOnClickListener {
             finish()
         }
-        theory_user_actionbar.title.text = "个人页面"
+        theory_user_actionbar_1.title.text = "个人页面"
         initInfo()
     }
 

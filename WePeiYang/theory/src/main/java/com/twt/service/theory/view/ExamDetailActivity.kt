@@ -38,7 +38,7 @@ class ExamDetailActivity : AppCompatActivity() {
 
         theory_user_actionbar.title.text = "考试详情"
 
-        recyclerView = findViewById(R.id.eaxm_detail_rec)
+        recyclerView = findViewById(R.id.exam_detail_rec)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.withItems {
             setDetail("考试名称","中二病毕业考试")
