@@ -37,7 +37,8 @@ class TheoryActivity : AppCompatActivity(), OnBannerListener {
             finish()
         }
         theory_search.setOnClickListener {
-
+            val intent = Intent(this, SearchActivity::class.java)
+            startActivity(intent)
         }
         window.statusBarColor = Color.parseColor("#FFFFFF")
         enableLightStatusBarMode(true)

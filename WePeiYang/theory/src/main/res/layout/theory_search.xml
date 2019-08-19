@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/theory_search_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    tools:context=".view.SearchActivity">
+
+    <include
+        android:id="@+id/search_toolbar"
+        layout="@layout/theory_common_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <View
+        android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="0.4dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:background="#0000ff"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/search_toolbar" />
+
+    <EditText
+        android:id="@+id/search_content"
+        android:layout_width="240dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/edit_background"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:hint="请输入关键字"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:scrollHorizontally="true"
+        android:singleLine="true"
+        android:textSize="15sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/line" />
+
+    <Button
+        android:id="@+id/search_button"
+        android:layout_width="60dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="14dp"
+        android:background="@drawable/theory_button"
+        android:text="搜索"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.285"
+        app:layout_constraintStart_toEndOf="@id/search_content"
+        app:layout_constraintTop_toBottomOf="@id/line" />
+
+    <ImageView
+        android:id="@+id/triangle1"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/theory_ic_triangle_shape"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/search_content" />
+
+    <TextView
+        android:id="@+id/text1"
+        android:layout_width="60dp"
+        android:layout_height="15dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="16dp"
+        android:text="选择类型:"
+        android:textSize="12sp"
+        app:layout_constraintStart_toEndOf="@id/triangle1"
+        app:layout_constraintTop_toBottomOf="@id/search_content" />
+
+    <ImageView
+        android:id="@+id/triangle2"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="15dp"
+        android:src="@drawable/theory_ic_triangle_shape"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/exam_necessary" />
+
+    <TextView
+        android:id="@+id/text2"
+        android:layout_width="60dp"
+        android:layout_height="15dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="11dp"
+        android:text="选择时间:"
+        android:textSize="12sp"
+        app:layout_constraintStart_toEndOf="@id/triangle2"
+        app:layout_constraintTop_toBottomOf="@id/exam_necessary" />
+
+    <TextView
+        android:id="@+id/exam_necessary"
+        android:layout_width="40dp"
+        android:layout_height="18dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/theory_unselected_circle_shape"
+        android:gravity="center"
+        android:text="必考"
+        android:textColor="@color/grey"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text1" />
+
+    <TextView
+        android:id="@+id/exam_optional"
+        android:layout_width="40dp"
+        android:layout_height="18dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/theory_unselected_circle_shape"
+        android:gravity="center"
+        android:text="选考"
+        android:textColor="@color/grey"
+        android:textSize="12sp"
+        app:layout_constraintStart_toEndOf="@id/exam_necessary"
+        app:layout_constraintTop_toBottomOf="@id/text1" />
+
+    <TextView
+        android:id="@+id/exam_running"
+        android:layout_width="60dp"
+        android:layout_height="18dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/theory_unselected_circle_shape"
+        android:gravity="center"
+        android:text="正在进行"
+        android:textColor="@color/grey"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text2" />
+
+    <TextView
+        android:id="@+id/exam_resit"
+        android:layout_width="60dp"
+        android:layout_height="18dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/theory_unselected_circle_shape"
+        android:gravity="center"
+        android:text="正在补考"
+        android:textColor="@color/grey"
+        android:textSize="12sp"
+        app:layout_constraintStart_toEndOf="@id/exam_running"
+        app:layout_constraintTop_toBottomOf="@id/text2" />
+
+    <TextView
+        android:id="@+id/exam_ending"
+        android:layout_width="60dp"
+        android:layout_height="18dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/theory_unselected_circle_shape"
+        android:gravity="center"
+        android:text="即将结束"
+        android:textColor="@color/grey"
+        android:textSize="12sp"
+        app:layout_constraintStart_toEndOf="@id/exam_resit"
+        app:layout_constraintTop_toBottomOf="@id/text2" />
+
+    <TextView
+        android:id="@+id/exam_end"
+        android:layout_width="60dp"
+        android:layout_height="18dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/theory_unselected_circle_shape"
+        android:gravity="center"
+        android:text="已结束"
+        android:textColor="@color/grey"
+        android:textSize="12sp"
+        app:layout_constraintStart_toEndOf="@id/exam_ending"
+        app:layout_constraintTop_toBottomOf="@id/text2" />
+
+    <android.support.design.widget.TabLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="5dp"
+        android:id="@+id/main_tablayout"
+        app:layout_constraintTop_toBottomOf="@+id/exam_end"/>
+    <android.support.v4.view.ViewPager
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:id="@+id/main_viewpager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/main_tablayout"/>
+</android.support.constraint.ConstraintLayout>
