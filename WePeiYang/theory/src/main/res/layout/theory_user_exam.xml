@@ -20,7 +20,7 @@
             <TextView
                 android:id="@+id/theory_exam_ctg"
                 android:layout_width="45dp"
-                android:layout_height="20dp"
+                android:layout_height="25dp"
                 android:background="@drawable/theory_type_a_circle_shape"
                 android:text="必考"
                 android:gravity="center"

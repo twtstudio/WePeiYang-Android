@@ -1,5 +1,6 @@
 package com.twt.service.theory.view
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.RecyclerView
@@ -13,6 +14,7 @@ import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemController
 import org.jetbrains.anko.layoutInflater
 import org.jetbrains.anko.matchParent
+import org.jetbrains.anko.textColor
 
 class ProfileItem : Item {
 
@@ -54,7 +56,7 @@ class ProfileItem : Item {
 }
 
 
-class ExamItem(val titles: String,val detail: String,val examFragment: ExamFragment) : Item {
+class ExamItem(val titles: String, val detail: String, val examFragment: ExamFragment) : Item {
 
     private companion object Controller : ItemController {
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: Item) {
@@ -163,7 +165,7 @@ class MessageItem : Item {
         get() = MessageItem
 }
 
-class ExamDetailItem(val titles : String, val detail : String) : Item {
+class ExamDetailItem(val titles: String, val detail: String) : Item {
     private companion object Controller : ItemController {
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: Item) {
             holder as ExamDetailItemViewHolder
@@ -185,6 +187,7 @@ class ExamDetailItem(val titles : String, val detail : String) : Item {
 
 
     }
+
     private class ExamDetailItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val title = itemView.findViewById<TextView>(R.id.eaxm_detail_name)
         val times = itemView.findViewById<TextView>(R.id.eaxm_detail_detail)
@@ -195,18 +198,35 @@ class ExamDetailItem(val titles : String, val detail : String) : Item {
         get() = ExamDetailItem
 }
 
-class ExamQuestionItem : Item {
+class ExamQuestionItem(val type: Int) : Item {
     private companion object Controller : ItemController {
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: Item) {
             holder as ExamQuestionItemViewHolder
             item as ExamQuestionItem
 
             holder.apply {
-                repeat(4){
-                    ans_single.text = "中国特色社会主义"
-                    singles.addView(ans_single)
+                if (item.type == 0) {
+                    repeat(4) {
+                        val ans_single = RadioButton(itemView.context)
+                        ans_single.apply {
+                            setPadding(10, 5, 10, 5)
+                            text = "中国特色社会主义"
+                            textSize = 14f
+                        }
+                        singles.addView(ans_single, it)
+                    }
                 }
-
+                else{
+                    repeat(4){
+                        val ans_mult = CheckBox(itemView.context)
+                        ans_mult.apply {
+                            setPadding(10, 5, 10, 5)
+                            text = "管理科学"
+                            textSize = 14f
+                        }
+                        multis.addView(ans_mult)
+                    }
+                }
             }
 
         }
@@ -220,12 +240,11 @@ class ExamQuestionItem : Item {
 
 
     }
+
     private class ExamQuestionItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val title = itemView.findViewById<TextView>(R.id.theory_ques_title)
         val singles = itemView.findViewById<RadioGroup>(R.id.theory_ques_radiogroup)
         val multis = itemView.findViewById<LinearLayout>(R.id.theory_ques_checkgroup)
-        val ans_single = itemView.findViewById<RadioButton>(R.id.theory_ques_single)
-        val ans_mult = itemView.findViewById<CheckBox>(R.id.theory_ques_mult)
     }
 
 
@@ -235,13 +254,13 @@ class ExamQuestionItem : Item {
 
 fun MutableList<Item>.setMessage() = add(MessageItem())
 
-fun MutableList<Item>.setExamItem(titles: String,detail: String,examFragment: ExamFragment) = add(ExamItem(titles,detail,examFragment))
+fun MutableList<Item>.setExamItem(titles: String, detail: String, examFragment: ExamFragment) = add(ExamItem(titles, detail, examFragment))
 
 fun MutableList<Item>.setProfileItem() = add(ProfileItem())
 
 fun MutableList<Item>.setUserExamItem() = add(UserExamItem())
 
-fun MutableList<Item>.setDetail( titles: String, detail: String) = add(ExamDetailItem(titles,detail))
+fun MutableList<Item>.setDetail(titles: String, detail: String) = add(ExamDetailItem(titles, detail))
 
-fun MutableList<Item>.setQuestion() = add(ExamQuestionItem())
+fun MutableList<Item>.setQuestion(type: Int) = add(ExamQuestionItem(type))
 

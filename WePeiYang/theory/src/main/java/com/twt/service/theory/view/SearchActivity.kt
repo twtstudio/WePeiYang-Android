@@ -22,6 +22,10 @@ class SearchActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.theory_search)
+        initView()
+    }
+
+    private fun initView(){
         search_toolbar.theory_back.setOnClickListener {
             finish()
         }

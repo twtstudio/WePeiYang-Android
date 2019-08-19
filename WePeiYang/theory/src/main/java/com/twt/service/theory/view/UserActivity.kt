@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.view.View
 import com.twt.service.theory.R
 import com.twt.wepeiyang.commons.experimental.extensions.enableLightStatusBarMode
 import com.twt.wepeiyang.commons.ui.rec.withItems
@@ -17,6 +18,10 @@ class UserActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.theory_activity_user)
+        initView()
+    }
+
+    private fun initView() {
         window.statusBarColor = Color.parseColor("#FFFFFF")
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         enableLightStatusBarMode(true)
@@ -24,6 +29,8 @@ class UserActivity : AppCompatActivity() {
             finish()
         }
         theory_user_actionbar_1.title.text = "个人页面"
+        theory_search.visibility = View.GONE
+        theory_person_profile.visibility = View.GONE
         initInfo()
     }
 
