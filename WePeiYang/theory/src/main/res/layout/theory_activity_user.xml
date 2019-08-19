@@ -14,7 +14,7 @@
         />
     <android.support.v7.widget.RecyclerView
         android:id="@+id/theory_user_rc"
-        app:layout_constraintTop_toBottomOf="@id/theory_user_actionbar"
+        app:layout_constraintTop_toBottomOf="@id/theory_user_actionbar_1"
         android:layout_width="match_parent"
         android:layout_height="0dp">
 

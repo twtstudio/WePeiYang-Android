@@ -40,11 +40,24 @@
         android:layout_marginEnd="15dp"/>
     <ImageView
         android:id="@+id/theory_search"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
         android:src="@drawable/theory_search"
         app:layout_constraintRight_toLeftOf="@id/theory_person_profile"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginRight="15dp"/>
+    <Button
+        android:id="@+id/theory_submit"
+        android:layout_width="55dp"
+        android:background="@drawable/theory_button_circle_shape"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:visibility="gone"
+        android:textColor="@color/white_color"
+        android:text="提交"
+        android:textSize="15sp"
+        android:layout_marginEnd="20dp"
+        android:layout_height="32dp" />
 </android.support.constraint.ConstraintLayout>

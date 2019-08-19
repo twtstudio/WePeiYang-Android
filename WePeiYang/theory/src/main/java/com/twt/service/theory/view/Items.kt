@@ -5,14 +5,14 @@ import android.os.Bundle
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import com.bumptech.glide.Glide
 import com.twt.service.theory.R
 import com.twt.wepeiyang.commons.experimental.theme.CustomTheme.context
 import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemController
 import org.jetbrains.anko.layoutInflater
+import org.jetbrains.anko.matchParent
 
 class ProfileItem : Item {
 
@@ -184,8 +184,6 @@ class ExamDetailItem(val titles : String, val detail : String) : Item {
         }
 
 
-
-
     }
     private class ExamDetailItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val title = itemView.findViewById<TextView>(R.id.eaxm_detail_name)
@@ -197,6 +195,44 @@ class ExamDetailItem(val titles : String, val detail : String) : Item {
         get() = ExamDetailItem
 }
 
+class ExamQuestionItem : Item {
+    private companion object Controller : ItemController {
+        override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: Item) {
+            holder as ExamQuestionItemViewHolder
+            item as ExamQuestionItem
+
+            holder.apply {
+                repeat(4){
+                    ans_single.text = "中国特色社会主义"
+                    singles.addView(ans_single)
+                }
+
+            }
+
+        }
+
+        override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
+            val inflater = parent.context.layoutInflater
+            val view = inflater.inflate(R.layout.theory_item_examques, parent, false)
+
+            return ExamQuestionItemViewHolder(view)
+        }
+
+
+    }
+    private class ExamQuestionItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val title = itemView.findViewById<TextView>(R.id.theory_ques_title)
+        val singles = itemView.findViewById<RadioGroup>(R.id.theory_ques_radiogroup)
+        val multis = itemView.findViewById<LinearLayout>(R.id.theory_ques_checkgroup)
+        val ans_single = itemView.findViewById<RadioButton>(R.id.theory_ques_single)
+        val ans_mult = itemView.findViewById<CheckBox>(R.id.theory_ques_mult)
+    }
+
+
+    override val controller: ItemController
+        get() = ExamQuestionItem
+}
+
 fun MutableList<Item>.setMessage() = add(MessageItem())
 
 fun MutableList<Item>.setExamItem(titles: String,detail: String,examFragment: ExamFragment) = add(ExamItem(titles,detail,examFragment))
@@ -206,3 +242,6 @@ fun MutableList<Item>.setProfileItem() = add(ProfileItem())
 fun MutableList<Item>.setUserExamItem() = add(UserExamItem())
 
 fun MutableList<Item>.setDetail( titles: String, detail: String) = add(ExamDetailItem(titles,detail))
+
+fun MutableList<Item>.setQuestion() = add(ExamQuestionItem())
+
