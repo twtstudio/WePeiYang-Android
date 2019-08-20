@@ -105,7 +105,7 @@
         android:background="@drawable/theory_unselected_circle_shape"
         android:gravity="center"
         android:text="必考"
-        android:textColor="@color/grey"
+        android:textColor="@color/theory_grey"
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/text1" />
@@ -119,7 +119,7 @@
         android:background="@drawable/theory_unselected_circle_shape"
         android:gravity="center"
         android:text="选考"
-        android:textColor="@color/grey"
+        android:textColor="@color/theory_grey"
         android:textSize="12sp"
         app:layout_constraintStart_toEndOf="@id/exam_necessary"
         app:layout_constraintTop_toBottomOf="@id/text1" />
@@ -133,7 +133,7 @@
         android:background="@drawable/theory_unselected_circle_shape"
         android:gravity="center"
         android:text="正在进行"
-        android:textColor="@color/grey"
+        android:textColor="@color/theory_grey"
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/text2" />
@@ -147,7 +147,7 @@
         android:background="@drawable/theory_unselected_circle_shape"
         android:gravity="center"
         android:text="正在补考"
-        android:textColor="@color/grey"
+        android:textColor="@color/theory_grey"
         android:textSize="12sp"
         app:layout_constraintStart_toEndOf="@id/exam_running"
         app:layout_constraintTop_toBottomOf="@id/text2" />
@@ -161,7 +161,7 @@
         android:background="@drawable/theory_unselected_circle_shape"
         android:gravity="center"
         android:text="即将结束"
-        android:textColor="@color/grey"
+        android:textColor="@color/theory_grey"
         android:textSize="12sp"
         app:layout_constraintStart_toEndOf="@id/exam_resit"
         app:layout_constraintTop_toBottomOf="@id/text2" />
@@ -175,7 +175,7 @@
         android:background="@drawable/theory_unselected_circle_shape"
         android:gravity="center"
         android:text="已结束"
-        android:textColor="@color/grey"
+        android:textColor="@color/theory_grey"
         android:textSize="12sp"
         app:layout_constraintStart_toEndOf="@id/exam_ending"
         app:layout_constraintTop_toBottomOf="@id/text2" />

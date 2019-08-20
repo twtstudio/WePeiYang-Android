@@ -25,7 +25,7 @@
                 android:text="必考"
                 android:gravity="center"
                 android:textSize="14sp"
-                android:textColor="#1E90FF"
+                android:textColor="@color/theory_blue"
                 />
             <TextView
                 android:id="@+id/theory_exam_name"
@@ -50,7 +50,7 @@
                 android:layout_height="20dp"
                 android:background="@drawable/theory_state_a_circle_shape"
                 android:text="正在进行"
-                android:textColor="#75beab"
+                android:textColor="@color/theory_green"
                 android:textSize="14sp"
                 android:gravity="center"
                  />

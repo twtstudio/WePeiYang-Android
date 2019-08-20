@@ -1,6 +1,5 @@
 package com.twt.service.theory.view
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.RecyclerView
@@ -13,8 +12,7 @@ import com.twt.wepeiyang.commons.experimental.theme.CustomTheme.context
 import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemController
 import org.jetbrains.anko.layoutInflater
-import org.jetbrains.anko.matchParent
-import org.jetbrains.anko.textColor
+import org.jetbrains.anko.padding
 
 class ProfileItem : Item {
 
@@ -198,58 +196,64 @@ class ExamDetailItem(val titles: String, val detail: String) : Item {
         get() = ExamDetailItem
 }
 
-class ExamQuestionItem(val type: Int) : Item {
+class ExamSingleAnswerItem() : Item {
     private companion object Controller : ItemController {
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: Item) {
-            holder as ExamQuestionItemViewHolder
-            item as ExamQuestionItem
-
+            holder as ExamSingleAnswerItemViewHolder
+            item as ExamSingleAnswerItem
             holder.apply {
-                if (item.type == 0) {
-                    repeat(4) {
-                        val ans_single = RadioButton(itemView.context)
-                        ans_single.apply {
-                            setPadding(10, 5, 10, 5)
-                            text = "中国特色社会主义"
-                            textSize = 14f
-                        }
-                        singles.addView(ans_single, it)
-                    }
-                }
-                else{
-                    repeat(4){
-                        val ans_mult = CheckBox(itemView.context)
-                        ans_mult.apply {
-                            setPadding(10, 5, 10, 5)
-                            text = "管理科学"
-                            textSize = 14f
-                        }
-                        multis.addView(ans_mult)
-                    }
-                }
+                singles.setOnCheckedChangeListener(null)
             }
-
         }
 
         override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
             val inflater = parent.context.layoutInflater
-            val view = inflater.inflate(R.layout.theory_item_examques, parent, false)
-
-            return ExamQuestionItemViewHolder(view)
+            val view = inflater.inflate(R.layout.theory_item_examques_single, parent, false)
+            return ExamSingleAnswerItemViewHolder(view)
         }
 
 
     }
 
-    private class ExamQuestionItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val title = itemView.findViewById<TextView>(R.id.theory_ques_title)
+    private class ExamSingleAnswerItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val title = itemView.findViewById<TextView>(R.id.theory_ques_title_s)
         val singles = itemView.findViewById<RadioGroup>(R.id.theory_ques_radiogroup)
+    }
+
+
+    override val controller: ItemController
+        get() = ExamSingleAnswerItem
+}
+
+class ExamMultiAnswerItem(val num: Int = 4) : Item {
+    private companion object Controller : ItemController {
+        override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: Item) {
+            holder as ExamMultiAnswerItemViewHolder
+            item as ExamMultiAnswerItem
+            holder.apply {
+                multis.apply {
+                    // TODO()
+                }
+            }
+        }
+
+        override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
+            val inflater = parent.context.layoutInflater
+            val view = inflater.inflate(R.layout.theory_item_examques_single, parent, false)
+            return ExamMultiAnswerItemViewHolder(view)
+        }
+
+
+    }
+
+    private class ExamMultiAnswerItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val title = itemView.findViewById<TextView>(R.id.theory_ques_title_m)
         val multis = itemView.findViewById<LinearLayout>(R.id.theory_ques_checkgroup)
     }
 
 
     override val controller: ItemController
-        get() = ExamQuestionItem
+        get() = ExamMultiAnswerItem
 }
 
 fun MutableList<Item>.setMessage() = add(MessageItem())
@@ -262,5 +266,8 @@ fun MutableList<Item>.setUserExamItem() = add(UserExamItem())
 
 fun MutableList<Item>.setDetail(titles: String, detail: String) = add(ExamDetailItem(titles, detail))
 
-fun MutableList<Item>.setQuestion(type: Int) = add(ExamQuestionItem(type))
+fun MutableList<Item>.setSingleAnsQues() = add(ExamSingleAnswerItem())
+
+fun MutableList<Item>.setMultiAnsQues(num: Int = 4) = add(ExamMultiAnswerItem(num))
+
 

@@ -13,7 +13,7 @@
         android:background="@drawable/theory_type_a_circle_shape"
         android:gravity="center"
         android:text="必考"
-        android:textColor="#0000FF"
+        android:textColor="@color/theory_blue"
         android:textSize="14sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

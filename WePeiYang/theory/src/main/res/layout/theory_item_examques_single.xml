@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/theory_ques_title_s"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingStart="15dp"
+        android:paddingTop="10dp"
+        android:paddingEnd="15dp"
+        android:paddingBottom="5dp"
+        android:text="国家主席习近平在2019年新年贺词中指出，( )是我们执政的最大底气。"
+        android:textColor="@color/black_color"
+        android:textSize="16sp" />
+
+    <RadioGroup
+        android:id="@+id/theory_ques_radiogroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp">
+
+        <RadioButton
+            android:id="@+id/theory_ques_ansA"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            android:text="新时代"
+            android:textColor="@color/black_color"
+            android:textSize="15sp" />
+
+        <RadioButton
+            android:id="@+id/theory_ques_ansB"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            android:text="中国特色社会主义"
+            android:textColor="@color/black_color"
+            android:textSize="14sp" />
+
+        <RadioButton
+            android:id="@+id/theory_ques_ansC"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            android:text="人民"
+            android:textColor="@color/black_color"
+            android:textSize="14sp" />
+
+        <RadioButton
+            android:id="@+id/theory_ques_ansD"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            android:text="改革开放"
+            android:textColor="@color/black_color"
+            android:textSize="14sp" />
+    </RadioGroup>
+
+</LinearLayout>

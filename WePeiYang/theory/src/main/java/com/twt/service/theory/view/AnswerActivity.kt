@@ -9,7 +9,6 @@ import android.view.View
 import com.twt.service.theory.R
 import com.twt.wepeiyang.commons.experimental.extensions.enableLightStatusBarMode
 import com.twt.wepeiyang.commons.ui.rec.withItems
-import kotlinx.android.synthetic.main.theory_activity_answer.*
 import kotlinx.android.synthetic.main.theory_common_toolbar.*
 
 class AnswerActivity : AppCompatActivity() {
@@ -38,14 +37,16 @@ class AnswerActivity : AppCompatActivity() {
         val recyclerView = findViewById<RecyclerView>(R.id.theory_exam_questions)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.withItems {
-            setQuestion(0)
-            setQuestion(1)
-            setQuestion(0)
-            setQuestion(1)
-            setQuestion(0)
-            setQuestion(1)
-            setQuestion(0)
-            setQuestion(1)
+            setSingleAnsQues()
+            setSingleAnsQues()
+            setSingleAnsQues()
+            setSingleAnsQues()
+            setSingleAnsQues()
+            setSingleAnsQues()
+            setSingleAnsQues()
+            setSingleAnsQues()
+            setSingleAnsQues()
+            setSingleAnsQues()
         }
     }
 

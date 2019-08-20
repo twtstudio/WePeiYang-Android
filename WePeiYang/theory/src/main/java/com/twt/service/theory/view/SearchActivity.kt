@@ -2,19 +2,14 @@ package com.twt.service.theory.view
 
 import android.graphics.Color
 import android.os.Bundle
-import android.support.design.R.attr.tabGravity
 import android.support.design.widget.TabLayout
-import android.support.v4.content.ContextCompat
 import android.support.v4.content.res.ResourcesCompat
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import android.view.View
 import com.twt.service.theory.R
-import com.twt.service.theory.R.drawable.theory_unselected_circle_shape
-import kotlinx.android.synthetic.main.theory_common_toolbar.*
+import com.twt.wepeiyang.commons.experimental.extensions.enableLightStatusBarMode
 import kotlinx.android.synthetic.main.theory_common_toolbar.view.*
 import kotlinx.android.synthetic.main.theory_search.*
-import java.security.AccessController.getContext
 
 class SearchActivity : AppCompatActivity() {
     private val state: Array<Boolean> = arrayOf(false, false, false, false)
@@ -26,6 +21,9 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun initView(){
+        window.statusBarColor = Color.parseColor("#FFFFFF")
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        enableLightStatusBarMode(true)
         search_toolbar.theory_back.setOnClickListener {
             finish()
         }
@@ -36,60 +34,60 @@ class SearchActivity : AppCompatActivity() {
         exam_necessary.setOnClickListener {
             if (type[0]) {
                 exam_necessary.background = ResourcesCompat.getDrawable(resources, R.drawable.theory_unselected_circle_shape, null)
-                exam_necessary.setTextColor(resources.getColor(R.color.grey))
+                exam_necessary.setTextColor(resources.getColor(R.color.theory_grey))
             } else {
                 exam_necessary.background = ResourcesCompat.getDrawable(resources, R.drawable.theory_type_a_circle_shape, null)
-                exam_necessary.setTextColor(resources.getColor(R.color.blue))
+                exam_necessary.setTextColor(resources.getColor(R.color.theory_blue))
             }
             type[0] = !type[0]
         }
         exam_optional.setOnClickListener {
             if (type[1]) {
                 exam_optional.background = ResourcesCompat.getDrawable(resources, R.drawable.theory_unselected_circle_shape, null)
-                exam_optional.setTextColor(resources.getColor(R.color.grey))
+                exam_optional.setTextColor(resources.getColor(R.color.theory_grey))
             } else {
                 exam_optional.background = ResourcesCompat.getDrawable(resources, R.drawable.theory_type_b_circle_shape, null)
-                exam_optional.setTextColor(resources.getColor(R.color.blue2))
+                exam_optional.setTextColor(resources.getColor(R.color.theory_blue2))
             }
             type[1] = !type[1]
         }
         exam_running.setOnClickListener {
             if (state[0]) {
                 exam_running.background = ResourcesCompat.getDrawable(resources, R.drawable.theory_unselected_circle_shape, null)
-                exam_running.setTextColor(resources.getColor(R.color.grey))
+                exam_running.setTextColor(resources.getColor(R.color.theory_grey))
             } else {
                 exam_running.background = ResourcesCompat.getDrawable(resources, R.drawable.theory_state_a_circle_shape, null)
-                exam_running.setTextColor(resources.getColor(R.color.green))
+                exam_running.setTextColor(resources.getColor(R.color.theory_green))
             }
             state[0] = !state[0]
         }
         exam_resit.setOnClickListener {
             if (state[1]) {
                 exam_resit.background = ResourcesCompat.getDrawable(resources, R.drawable.theory_unselected_circle_shape, null)
-                exam_resit.setTextColor(resources.getColor(R.color.grey))
+                exam_resit.setTextColor(resources.getColor(R.color.theory_grey))
             } else {
                 exam_resit.background = ResourcesCompat.getDrawable(resources, R.drawable.theory_state_a_circle_shape, null)
-                exam_resit.setTextColor(resources.getColor(R.color.green))
+                exam_resit.setTextColor(resources.getColor(R.color.theory_green))
             }
             state[1] = !state[1]
         }
         exam_ending.setOnClickListener {
             if (state[2]) {
                 exam_ending.background = ResourcesCompat.getDrawable(resources, R.drawable.theory_unselected_circle_shape, null)
-                exam_ending.setTextColor(resources.getColor(R.color.grey))
+                exam_ending.setTextColor(resources.getColor(R.color.theory_grey))
             } else {
                 exam_ending.background = ResourcesCompat.getDrawable(resources, R.drawable.theory_state_b_circle_shape, null)
-                exam_ending.setTextColor(resources.getColor(R.color.yellow))
+                exam_ending.setTextColor(resources.getColor(R.color.theory_yellow))
             }
             state[2] = !state[2]
         }
         exam_end.setOnClickListener {
             if (state[3]) {
                 exam_end.background = ResourcesCompat.getDrawable(resources, R.drawable.theory_unselected_circle_shape, null)
-                exam_end.setTextColor(resources.getColor(R.color.grey))
+                exam_end.setTextColor(resources.getColor(R.color.theory_grey))
             } else {
                 exam_end.background = ResourcesCompat.getDrawable(resources, R.drawable.theory_state_c_circle_shape, null)
-                exam_end.setTextColor(resources.getColor(R.color.black))
+                exam_end.setTextColor(resources.getColor(R.color.theory_black))
             }
             state[3] = !state[3]
         }

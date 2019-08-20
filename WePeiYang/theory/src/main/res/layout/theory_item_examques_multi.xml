@@ -5,27 +5,16 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/theory_ques_title"
+        android:id="@+id/theory_ques_title_m"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingStart="15dp"
         android:paddingTop="10dp"
         android:paddingEnd="15dp"
         android:paddingBottom="5dp"
-        android:text="国家主席习近平在2019年新年贺词中指出，( )是我们执政的最大底气。"
+        android:text="天津大学8个学科领域进入ESI前1%，其中()、()、()进入ESI前1%。"
         android:textColor="@color/black_color"
         android:textSize="14sp" />
-
-    <RadioGroup
-        android:id="@+id/theory_ques_radiogroup"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingStart="15dp"
-        android:paddingEnd="15dp">
-
-    </RadioGroup>
-
     <LinearLayout
         android:id="@+id/theory_ques_checkgroup"
         android:layout_width="match_parent"

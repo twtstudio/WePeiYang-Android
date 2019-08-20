@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/eaxm_detail_name"
         android:text="考试时间"
-        android:textColor="#1E90FF"
+        android:textColor="@color/theory_blue"
         android:textSize="18sp"
         app:layout_constraintLeft_toRightOf="@+id/shape"
         app:layout_constraintTop_toTopOf="@+id/shape"
