@@ -3,10 +3,7 @@ package com.twt.service.schedule2.model.audit
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import com.twt.service.schedule2.extensions.termStart
-import com.twt.service.schedule2.model.AbsClasstableProvider
-import com.twt.service.schedule2.model.Classtable
-import com.twt.service.schedule2.model.CommonClassTable
-import com.twt.service.schedule2.model.ScheduleDb
+import com.twt.service.schedule2.model.*
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import kotlinx.coroutines.*
@@ -37,7 +34,12 @@ object AuditCourseManager {
         val auditCourse = AuditApi.getMyAudit().awaitAndHandle { it.printStackTrace() }?.data
                 ?: throw IllegalStateException("刷新蹭课列表失败")
         deleteAuditCoursesLocal(dao)
-        val array = auditCourse.toTypedArray()
+        var usableCourse :ArrayList<AuditCourse> = ArrayList()
+        auditCourse.forEach {
+            if(it.infos.isNotEmpty())
+                usableCourse.add(it)
+        }
+        val array = usableCourse.toTypedArray()
         dao.insertAuditCourses(*array)
     }
 

@@ -196,7 +196,7 @@ class ScheduleActivity : CAppCompatActivity() {
             weekSquareDataList.removeAll { true }
             for (i in 1..22) {
                 val weekMatrix = it.getWeekCourseMatrix(i)
-                // 硬编码自定义view底部Text的行为比较僵硬 自定义view里面对字符串做判断可能导致维护时候的bug
+                // 硬编码自定义view底部Text的行为比较僵硬 自定义view里面对字符串做判断可能导致维护时候的 bug
                 // 但是暂时这样子吧
                 var btmText = ""
                 if (i == week && i != it.getCurrentWeek()) {
