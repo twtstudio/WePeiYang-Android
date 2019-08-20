@@ -1,11 +1,15 @@
 package com.twt.service.theory.view
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
+import android.support.constraint.ConstraintLayout
+import android.support.v7.content.res.AppCompatResources
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import anim.ExamDetailActivity
 import com.bumptech.glide.Glide
 import com.twt.service.theory.R
 import com.twt.wepeiyang.commons.experimental.theme.CustomTheme.context
@@ -204,6 +208,7 @@ class ExamSingleAnswerItem() : Item {
             holder.apply {
                 singles.setOnCheckedChangeListener(null)
             }
+
         }
 
         override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
@@ -255,6 +260,41 @@ class ExamMultiAnswerItem(val num: Int = 4) : Item {
     override val controller: ItemController
         get() = ExamMultiAnswerItem
 }
+
+class ProblemItem(val id: Int, val done: Boolean) : Item {
+    companion object Controller : ItemController {
+        override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
+            val inflater = parent.context.layoutInflater
+            val view = inflater.inflate(R.layout.theory_circle_layout, parent, false)
+
+            return ProblemItemViewHolder(view)
+        }
+
+        override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: Item) {
+            holder as ProblemItemViewHolder
+            item as ProblemItem
+            holder.idTextView.text = item.id.toString()
+            if (item.done) {
+                holder.idTextView.setTextColor(Color.parseColor("#ffffff"))
+                holder.bg.background = AppCompatResources.getDrawable(holder.itemView.context, R.drawable.theory_circle_a)
+            } else {
+                holder.idTextView.setTextColor(Color.parseColor("#1e90ff"))
+                holder.bg.background = AppCompatResources.getDrawable(holder.itemView.context, R.drawable.theory_circle_b)
+            }
+        }
+    }
+
+    private class ProblemItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val idTextView = itemView.findViewById<TextView>(R.id.idTextView)
+        val bg = itemView.findViewById<ConstraintLayout>(R.id.backGround)
+    }
+
+    override val controller: ItemController
+        get() = ProblemItem
+
+}
+
+fun MutableList<Item>.setProblemItem(id: Int, done: Boolean) = add(ProblemItem(id, done))
 
 fun MutableList<Item>.setMessage() = add(MessageItem())
 

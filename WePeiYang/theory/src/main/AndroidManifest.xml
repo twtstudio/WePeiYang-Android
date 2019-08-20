@@ -6,8 +6,8 @@
         <activity android:name=".view.AnswerActivity"></activity>
         <activity android:name=".view.UserActivity" />
         <activity android:name=".view.TheoryActivity" />
-        <activity android:name=".view.ExamDetailActivity" />
         <activity android:name=".view.SearchActivity" />
+        <activity android:name="anim.ExamDetailActivity" />
     </application>
 
 </manifest>

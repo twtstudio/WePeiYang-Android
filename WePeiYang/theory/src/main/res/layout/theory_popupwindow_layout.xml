@@ -1,47 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white_color"
-    tools:context=".view.AnswerActivity">
-
-    <include
-        android:id="@+id/theory_user_actionbar"
-        layout="@layout/theory_common_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/theory_exam_questions"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="10dp"
-        android:background="#f5f8ff"
-        app:layout_constraintBottom_toTopOf="@id/constraintLayout"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/theory_user_actionbar"
-        app:layout_constraintBottom_toBottomOf="parent">
-
-    </android.support.v7.widget.RecyclerView>
+    android:orientation="vertical">
 
     <android.support.constraint.ConstraintLayout
-        android:id="@+id/constraintLayout"
+        android:id="@+id/constraintLayout2"
         android:layout_width="match_parent"
         android:layout_height="41dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/theory_exam_questions">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/image"
             android:layout_width="15dp"
             android:layout_height="20dp"
             android:layout_gravity="center_horizontal"
-            android:rotation="90"
             android:layout_marginTop="10dp"
+            android:rotation="-90"
             android:src="@drawable/arrow"
             app:layout_constraintBottom_toTopOf="@id/text"
             app:layout_constraintEnd_toEndOf="parent"
@@ -52,15 +31,21 @@
             android:id="@+id/text"
             android:layout_width="wrap_content"
             android:layout_height="18dp"
+            android:layout_marginTop="10dp"
             android:text="题卡"
             android:textColor="#1296db"
             android:textSize="15sp"
-            android:layout_marginTop="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </android.support.constraint.ConstraintLayout>
 
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp" />
 
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>
