@@ -5,17 +5,18 @@ import com.twt.wepeiyang.commons.ui.rec.ItemAdapter
 import com.twt.wepeiyang.commons.ui.rec.withItems
 import kotlinx.android.synthetic.main.theory_popupwindow_layout.view.*
 
-class AnswerManager(private val numOfQue: Int) {
+object AnswerManager {
     //注意：下标从1开始！！
     private var ans: MutableList<Int> = mutableListOf()
     private var numOfDone = 0
     private var popupWindow: PopupWindow? = null
     private var list: MutableList<ProblemItem> = mutableListOf()
+    private var numOfQue: Int = 0
 
-    init {
-        for (i in 0..numOfQue) {
-            ans.add(0)//0表示还没选
-        }
+    fun init(number: Int) {
+        numOfQue = number
+        for (i in 0..numOfQue) ans.add(0)//0表示还没选
+
     }
 
     fun getAnswer(num: Int): Int {//获取一个答案

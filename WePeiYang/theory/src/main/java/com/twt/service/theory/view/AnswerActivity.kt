@@ -20,14 +20,12 @@ import kotlinx.android.synthetic.main.theory_popupwindow_layout.view.*
 import org.jetbrains.anko.dip
 
 class AnswerActivity : AppCompatActivity() {
-    private lateinit var answerManager: AnswerManager
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.theory_activity_answer)
-
         initView()
         loadQuestions()
-        answerManager = AnswerManager(58)//管理题
+//        AnswerManager.init(58)
     }
 
 
@@ -57,10 +55,10 @@ class AnswerActivity : AppCompatActivity() {
             )
             popupWindow.contentView.constraintLayout2.setOnClickListener {
                 popupWindow.dismiss()
-                answerManager.uninstall()
+                AnswerManager.uninstall()
             }
             popupWindow.contentView.recyclerView.layoutManager = GridLayoutManager(this, 8, GridLayoutManager.VERTICAL, false)
-            answerManager.installPopUpWindow(popupWindow)
+            AnswerManager.installPopUpWindow(popupWindow)
         }
     }
 
