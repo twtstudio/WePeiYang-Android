@@ -25,7 +25,6 @@ class AnswerActivity : AppCompatActivity() {
         setContentView(R.layout.theory_activity_answer)
         initView()
         loadQuestions()
-//        AnswerManager.init(58)
     }
 
 

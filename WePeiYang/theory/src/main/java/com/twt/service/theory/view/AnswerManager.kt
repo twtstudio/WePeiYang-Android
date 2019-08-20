@@ -15,6 +15,7 @@ object AnswerManager {
 
     fun init(number: Int) {
         numOfQue = number
+        ans.clear()
         for (i in 0..numOfQue) ans.add(0)//0表示还没选
 
     }
@@ -40,13 +41,13 @@ object AnswerManager {
             ++numOfDone
             if (popupWindow != null) {
                 list[num - 1].done = true
-                (popupWindow?.contentView?.recyclerView?.adapter as ItemAdapter).itemManager.refreshAll(list)
+                popupWindow?.contentView?.recyclerView?.adapter?.notifyItemChanged(num - 1)
             }
         } else if (ans[num] != 0 && answer == 0) {
             --numOfDone
             if (popupWindow != null) {
                 list[num - 1].done = false
-                (popupWindow?.contentView?.recyclerView?.adapter as ItemAdapter).itemManager.refreshAll(list)
+                popupWindow?.contentView?.recyclerView?.adapter?.notifyItemChanged(num - 1)
             }
         }
         ans[num] = answer
