@@ -1,4 +1,4 @@
-package com.twt.service.theory.view
+package anim
 
 import android.content.Intent
 import android.graphics.Color
@@ -7,10 +7,12 @@ import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import com.twt.service.theory.R
+import com.twt.service.theory.view.AnswerActivity
+import com.twt.service.theory.view.UserActivity
+import com.twt.service.theory.view.setDetail
 import com.twt.wepeiyang.commons.experimental.extensions.enableLightStatusBarMode
 import com.twt.wepeiyang.commons.ui.rec.withItems
 import kotlinx.android.synthetic.main.theory_activity_exam_detail.*
-import kotlinx.android.synthetic.main.theory_activity_user.*
 import kotlinx.android.synthetic.main.theory_common_toolbar.*
 import kotlinx.android.synthetic.main.theory_common_toolbar.view.*
 
