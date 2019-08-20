@@ -261,7 +261,7 @@ class ExamMultiAnswerItem(val num: Int = 4) : Item {
         get() = ExamMultiAnswerItem
 }
 
-class ProblemItem(val id: Int, val done: Boolean) : Item {
+class ProblemItem(val id: Int, var done: Boolean) : Item {
     companion object Controller : ItemController {
         override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
             val inflater = parent.context.layoutInflater

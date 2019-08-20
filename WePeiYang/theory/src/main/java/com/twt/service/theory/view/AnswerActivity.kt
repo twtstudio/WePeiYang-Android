@@ -1,8 +1,8 @@
 package com.twt.service.theory.view
 
 import android.graphics.Color
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -20,13 +20,14 @@ import kotlinx.android.synthetic.main.theory_popupwindow_layout.view.*
 import org.jetbrains.anko.dip
 
 class AnswerActivity : AppCompatActivity() {
-
+    private lateinit var answerManager: AnswerManager
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.theory_activity_answer)
 
         initView()
         loadQuestions()
+        answerManager = AnswerManager(58)//管理题
     }
 
 
@@ -56,11 +57,10 @@ class AnswerActivity : AppCompatActivity() {
             )
             popupWindow.contentView.constraintLayout2.setOnClickListener {
                 popupWindow.dismiss()
+                answerManager.uninstall()
             }
             popupWindow.contentView.recyclerView.layoutManager = GridLayoutManager(this, 8, GridLayoutManager.VERTICAL, false)
-            val list = mutableListOf<ProblemItem>()
-            for (i in 1..66) list.add(ProblemItem(i, i % 2 == 0))
-            popupWindow.contentView.recyclerView.withItems(list)
+            answerManager.installPopUpWindow(popupWindow)
         }
     }
 
