@@ -25,6 +25,7 @@ class AnswerActivity : AppCompatActivity() {
         setContentView(R.layout.theory_activity_answer)
         initView()
         loadQuestions()
+
     }
 
 
@@ -75,6 +76,7 @@ class AnswerActivity : AppCompatActivity() {
             setSingleAnsQues()
             setSingleAnsQues()
             setSingleAnsQues()
+            AnswerManager.init(this.size)
         }
 
     }

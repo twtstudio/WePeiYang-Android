@@ -20,23 +20,23 @@ object AnswerManager {
 
     }
 
-    fun getAnswer(num: Int): Int {//获取一个答案
+    fun getAnswer(num: Int): Int { // 获取一个答案
         return ans[num]
     }
 
-    fun isDone(num: Int): Boolean {//查询一个题有没有做，已做返回true
+    fun isDone(num: Int): Boolean { // 查询一个题有没有做，已做返回true
         return ans[num] != 0
     }
 
-    fun getNumberHasDone(): Int {//获取已经做了的题目数量
+    fun getNumberHasDone(): Int { // 获取已经做了的题目数量
         return numOfDone
     }
 
-    fun getTotalNumber(): Int {//获取总的题目数量
+    fun getTotalNumber(): Int { // 获取总的题目数量
         return numOfQue
     }
 
-    fun update(num: Int, answer: Int) {//更新一个答案：num题目编号、ans题目答案。
+    fun update(num: Int, answer: Int) { // 更新一个答案：num题目编号、ans题目答案。
         if (ans[num] == 0 && answer != 0) {
             ++numOfDone
             if (popupWindow != null) {
@@ -53,7 +53,7 @@ object AnswerManager {
         ans[num] = answer
     }
 
-    fun installPopUpWindow(src: PopupWindow) {//安装一个题卡弹窗
+    fun installPopUpWindow(src: PopupWindow) { // 安装一个题卡弹窗
         popupWindow = src
         list.clear()
         for (i in 1..(numOfQue)) list.add(ProblemItem(i, ans[i] != 0))

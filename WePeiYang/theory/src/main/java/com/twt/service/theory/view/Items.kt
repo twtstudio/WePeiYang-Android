@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.support.constraint.ConstraintLayout
 import android.support.v7.content.res.AppCompatResources
 import android.support.v7.widget.RecyclerView
+import android.text.TextUtils
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
@@ -17,6 +18,10 @@ import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemController
 import org.jetbrains.anko.layoutInflater
 import org.jetbrains.anko.padding
+import android.R.attr.button
+import android.support.annotation.IdRes
+import android.util.Log
+
 
 class ProfileItem : Item {
 
@@ -200,29 +205,45 @@ class ExamDetailItem(val titles: String, val detail: String) : Item {
         get() = ExamDetailItem
 }
 
-class ExamSingleAnswerItem() : Item {
+class ExamSingleAnswerItem : Item {
     private companion object Controller : ItemController {
-        override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: Item) {
-            holder as ExamSingleAnswerItemViewHolder
-            item as ExamSingleAnswerItem
-            holder.apply {
-                singles.setOnCheckedChangeListener(null)
-            }
-
-        }
-
         override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
             val inflater = parent.context.layoutInflater
             val view = inflater.inflate(R.layout.theory_item_examques_single, parent, false)
             return ExamSingleAnswerItemViewHolder(view)
         }
 
+        override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: Item) {
+            holder as ExamSingleAnswerItemViewHolder
+            item as ExamSingleAnswerItem
+            holder.apply {
+                singles.setOnCheckedChangeListener(null)
+                singles.clearCheck()
+                val saved_ans = AnswerManager.getAnswer(position+1)
+                if(saved_ans != 0){
+                    singles.check(singles.getChildAt(saved_ans - 1).id)
+                }
+                singles.setOnCheckedChangeListener { radioGroup, i ->
+                    var num = 0
+                    repeat(4) {// 只有四个选项
+                        if (singles.getChildAt(it).id == i)
+                            num = it + 1
+                    }
+                    AnswerManager.update(position + 1, num)
+                }
+            }
+        }
 
     }
+
 
     private class ExamSingleAnswerItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val title = itemView.findViewById<TextView>(R.id.theory_ques_title_s)
         val singles = itemView.findViewById<RadioGroup>(R.id.theory_ques_radiogroup)
+        val ansA = itemView.findViewById<RadioButton>(R.id.theory_ques_ansA)
+        val ansB = itemView.findViewById<RadioButton>(R.id.theory_ques_ansB)
+        val ansC = itemView.findViewById<RadioButton>(R.id.theory_ques_ansC)
+        val ansD = itemView.findViewById<RadioButton>(R.id.theory_ques_ansD)
     }
 
 

@@ -11,16 +11,16 @@ import android.view.ViewGroup
 import com.twt.service.theory.R
 import com.twt.wepeiyang.commons.ui.rec.withItems
 
-class ExamFragment : Fragment(){
+class ExamFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val view: View = inflater.inflate(R.layout.theory_fragment_common, container, false)
-        val recyclerView  = view.findViewById<RecyclerView>(R.id.main_rec)
+        val recyclerView = view.findViewById<RecyclerView>(R.id.main_rec)
         recyclerView.layoutManager = LinearLayoutManager(activity)
         recyclerView.withItems {
-            setExamItem("一次考试","一次考试",this@ExamFragment)
-            setExamItem("一次考试","一次考试",this@ExamFragment)
-            setExamItem("一次考试","一次考试",this@ExamFragment)
-            setExamItem("一次考试","一次考试",this@ExamFragment)
+            setExamItem("一次考试", "一次考试", this@ExamFragment)
+            setExamItem("一次考试", "一次考试", this@ExamFragment)
+            setExamItem("一次考试", "一次考试", this@ExamFragment)
+            setExamItem("一次考试", "一次考试", this@ExamFragment)
         }
         return view
     }

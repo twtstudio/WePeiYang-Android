@@ -43,12 +43,12 @@ class ExamDetailActivity : AppCompatActivity() {
         recyclerView = findViewById(R.id.exam_detail_rec)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.withItems {
-            setDetail("考试名称","中二病毕业考试")
-            setDetail("考试时间","高中毕业")
-            setDetail("历史最高分","99")
-            setDetail("通过状态","通过")
-            setDetail("有效次数","2")
-            setDetail("剩余考试次数","8")
+            setDetail("考试名称", "中二病毕业考试")
+            setDetail("考试时间", "高中毕业")
+            setDetail("历史最高分", "99")
+            setDetail("通过状态", "通过")
+            setDetail("有效次数", "2")
+            setDetail("剩余考试次数", "8")
         }
     }
 }

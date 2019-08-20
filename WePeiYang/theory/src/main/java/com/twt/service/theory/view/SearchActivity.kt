@@ -20,7 +20,7 @@ class SearchActivity : AppCompatActivity() {
         initView()
     }
 
-    private fun initView(){
+    private fun initView() {
         window.statusBarColor = Color.parseColor("#FFFFFF")
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         enableLightStatusBarMode(true)
