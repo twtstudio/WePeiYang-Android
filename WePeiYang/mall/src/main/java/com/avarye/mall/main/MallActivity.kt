@@ -1,15 +1,16 @@
 package com.avarye.mall.main
 
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.support.design.widget.TabLayout
+import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
 import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import com.avarye.mall.R
+import com.avarye.mall.post.PostActivity
 import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.mall_activity_main.*
 import kotlinx.android.synthetic.main.mall_item_toolbar.*
@@ -27,7 +28,7 @@ class MallActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.mall_activity_main)
-        window.statusBarColor = Color.parseColor("#FF9A36")
+        window.statusBarColor = ContextCompat.getColor(this, R.color.mallColorMain)
 
         //toolbar
         tb_main.apply {
@@ -49,8 +50,12 @@ class MallActivity : AppCompatActivity() {
             add(need, "最新求购")
         }
         mallViewpager.adapter = pagerAdapter
-        tabLayout.apply {
-            setupWithViewPager(mallViewpager)
+        tabLayout.setupWithViewPager(mallViewpager)
+        for (i in 0..tabLayout.tabCount) {
+            val tab = tabLayout.getTabAt(i)
+            tab?.customView?.setOnClickListener {
+
+            }
         }
 
         //回车监听
@@ -75,6 +80,13 @@ class MallActivity : AppCompatActivity() {
             et_search.isCursorVisible = false
             search()
         }
+
+        //fab
+        fab_mine.setOnClickListener {
+            val intent = Intent(this, PostActivity::class.java)
+                    .putExtra("type", 1)
+            this.startActivity(intent)
+        }
     }
 
     private fun search() {
@@ -87,19 +99,4 @@ class MallActivity : AppCompatActivity() {
             this.startActivity(intent)
         }
     }
-
-//    override fun onBackPressed() {
-//        if (isSearch) {
-//            MallManager.clearGoods()
-//            MallManager.clearNeed()
-//            sale.resetPage()
-//            need.resetPage()
-//            et_search.text = null
-//            et_search.isCursorVisible = false
-//            isSearch = false
-//            presenter.getLatestSale(1)
-//        } else {
-//            super.onBackPressed()
-//        }
-//    }
 }

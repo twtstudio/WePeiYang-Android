@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/transparent">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cv_category"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cardElevation="1dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/v_line"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Spinner
+            android:id="@+id/sp_category_main"
+            android:layout_width="115dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:dropDownWidth="120dp"
+            android:textSize="12sp"
+            android:theme="@style/SpinnerStyle" />
+    </android.support.v7.widget.CardView>
+
+    <View
+        android:id="@+id/v_line"
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="#dfdfdf"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/cv_category"
+        app:layout_constraintRight_toLeftOf="@id/cv_category_main"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cv_category_main"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cardElevation="1dp"
+        app:layout_constraintLeft_toRightOf="@id/v_line"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Spinner
+            android:id="@+id/sp_category"
+            android:layout_width="115dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:dropDownWidth="120dp"
+            android:textSize="12sp"
+            android:theme="@style/SpinnerStyle" />
+    </android.support.v7.widget.CardView>
+
+</android.support.constraint.ConstraintLayout>

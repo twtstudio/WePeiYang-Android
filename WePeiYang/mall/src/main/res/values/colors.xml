@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="mallColorBgGrey">#f6f6f6</color>
+    <color name="mallColorBgLight">#80F8F1EC</color>
+    <color name="mallColorMain">#FF9A36</color>
+    <color name="mallColorLight">#80FFD3A4</color>
+</resources>

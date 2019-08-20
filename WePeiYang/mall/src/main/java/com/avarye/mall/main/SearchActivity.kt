@@ -1,8 +1,8 @@
 package com.avarye.mall.main
 
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.StaggeredGridLayoutManager
@@ -31,7 +31,7 @@ class SearchActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.mall_activity_search)
-        window.statusBarColor = Color.parseColor("#FF9A36")
+        window.statusBarColor = ContextCompat.getColor(this, R.color.mallColorMain)
         tb_main.apply {
             title = "搜索结果"
             setSupportActionBar(this)
@@ -41,6 +41,7 @@ class SearchActivity : AppCompatActivity() {
         key = intent.getStringExtra("key")
 
         srl_search.apply {
+            setColorSchemeResources(R.color.mallColorMain)
             //下拉刷新加载监听
             setOnRefreshListener {
                 if (!isLoading) {

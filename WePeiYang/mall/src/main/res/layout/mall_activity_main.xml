@@ -5,13 +5,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/mallColorBgGrey"
     android:orientation="vertical"
     tools:context=".main.MallActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#FF9A36"
+        android:background="@color/mallColorMain"
         android:orientation="vertical">
 
         <include layout="@layout/mall_item_toolbar" />
@@ -52,6 +53,7 @@
                 android:singleLine="true"
                 android:textColorHint="#797979"
                 android:textSize="12sp"
+                android:theme="@style/EditTextStyle"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toRightOf="@id/iv_search"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -62,9 +64,11 @@
             android:id="@+id/tl_main"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="#FFFFFF"
             app:tabGravity="fill"
-            app:tabIndicatorColor="#FFFFFF"
-            app:tabMode="fixed" />
+            app:tabIndicatorColor="@color/mallColorMain"
+            app:tabMode="fixed"
+            app:tabSelectedTextColor="@color/mallColorMain" />
 
 
     </android.support.design.widget.AppBarLayout>
@@ -82,7 +86,7 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:background="#f6f6f6" />
+            android:layout_margin="3dp" />
     </RelativeLayout>
 
 
@@ -91,7 +95,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        app:rippleColor="#FF9A36"
+        android:layout_margin="15dp"
+        app:rippleColor="@color/mallColorMain"
         tools:layout_height="60dp"
         tools:layout_width="60dp" />
 

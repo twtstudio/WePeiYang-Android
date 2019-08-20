@@ -13,7 +13,6 @@ import com.avarye.mall.detail.DetailActivity
 import com.avarye.mall.service.MallManager
 import com.avarye.mall.service.ViewModel
 import com.avarye.mall.service.needLiveData
-import com.twt.wepeiyang.commons.experimental.CommonContext
 import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
 import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemAdapter
@@ -32,6 +31,7 @@ class MallNeedFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.mall_fragment_latest_need, container, false)
         view.srl_main_need.apply {
+            setColorSchemeResources(R.color.mallColorMain)
             //下拉刷新加载监听
             setOnRefreshListener {
                 if (!isLoading) {
@@ -41,7 +41,7 @@ class MallNeedFragment : Fragment() {
                     //redo
                     viewModel.getLatestNeed(page)
                     isRefreshing = false
-                    Toasty.info(CommonContext.application, "已刷新").show()
+                    Toasty.info(context, "已刷新").show()
                 }
                 isLoading = false
             }

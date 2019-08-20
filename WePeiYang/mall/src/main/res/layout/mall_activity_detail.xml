@@ -9,7 +9,7 @@
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#FF9A36">
+        android:background="@color/mallColorMain">
         <include layout="@layout/mall_item_toolbar" />
     </android.support.design.widget.AppBarLayout>
 

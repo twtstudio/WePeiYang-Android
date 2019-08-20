@@ -14,7 +14,6 @@ import com.avarye.mall.service.MallManager
 import com.avarye.mall.service.ViewModel
 import com.avarye.mall.service.saleLiveData
 import com.bumptech.glide.Glide
-import com.twt.wepeiyang.commons.experimental.CommonContext
 import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
 import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemAdapter
@@ -33,6 +32,7 @@ class MallSaleFragment : Fragment() {
         val view = inflater.inflate(R.layout.mall_fragment_latest_sale, container, false)
 
         view.srl_main_sale.apply {
+            setColorSchemeResources(R.color.mallColorMain)
             //下拉刷新加载监听
             setOnRefreshListener {
                 if (!isLoading) {
@@ -42,7 +42,7 @@ class MallSaleFragment : Fragment() {
                     //redo
                     viewModel.getLatestSale(page)
                     isRefreshing = false
-                    Toasty.info(CommonContext.application, "已刷新").show()
+                    Toasty.success(context, "已刷新").show()
                 }
                 isLoading = false
             }
@@ -71,8 +71,6 @@ class MallSaleFragment : Fragment() {
 
     private fun bindSale() {
         saleLiveData.bindNonNull(this) { list ->
-            //            MallManager.addSale(list)
-//            val data = MallManager.getSale()
             totalPage = list[0].page
             val items = mutableListOf<Item>().apply {
                 for (i in 1 until list.size) {

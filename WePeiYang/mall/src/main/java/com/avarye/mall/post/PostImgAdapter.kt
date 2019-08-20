@@ -12,7 +12,6 @@ import android.widget.ImageView
 import com.avarye.mall.R
 import com.bumptech.glide.Glide
 
-// 用来判断list中是否有图片
 object NoSelectPic
 
 class PostImgAdapter(val list: MutableList<Any>, private val activity: PostActivity, val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -20,12 +19,11 @@ class PostImgAdapter(val list: MutableList<Any>, private val activity: PostActiv
     private var currentPosition = 0
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val image: ImageView = view.findViewById(R.id.iv_upload)
+        val image: ImageView = view.findViewById(R.id.iv_post)
     }
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val view = LayoutInflater.from(context).inflate(R.layout.mall_item_upload_img, parent, false)
+        val view = LayoutInflater.from(context).inflate(R.layout.mall_item_post_img, parent, false)
         return ViewHolder(view)
     }
 
@@ -35,15 +33,23 @@ class PostImgAdapter(val list: MutableList<Any>, private val activity: PostActiv
             setOnClickListener {
                 currentPosition = position
                 if (list[position] == NoSelectPic) {
-
+                    activity.checkPermAndOpenPic()
+                } else {
+                    showDialogOfPic()
                 }
             }
+            setOnLongClickListener {
+                if (list[position] != NoSelectPic) {
+                    currentPosition = position
+                    activity.setPicEdit()
+                }
+                true
+            }
         }
-        val tmp = list[position]
 
+        val tmp = list[position]
         if (list.size > position && tmp != NoSelectPic) {
             when (tmp) {
-
                 is Uri -> Glide.with(context)
                         .load(tmp)
                         .into(holder.image)
@@ -75,14 +81,9 @@ class PostImgAdapter(val list: MutableList<Any>, private val activity: PostActiv
         list[currentPosition] = pic
         notifyItemChanged(currentPosition)
         notifyDataSetChanged()
-        if (currentPosition == (list.size - 1) && list.size < 5) {
+        if (currentPosition == (list.size - 1) && list.size < 4) {
             addPic()
         }
-    }
-
-    fun addPicUrl(urlList: List<String>) {
-        list.addAll(0, urlList)
-        notifyDataSetChanged()
     }
 
     private fun showDialogOfPic() {
@@ -90,12 +91,8 @@ class PostImgAdapter(val list: MutableList<Any>, private val activity: PostActiv
         dialog.apply {
             setContentView(R.layout.mall_dailog_detail_img)
             val imageView = findViewById<ImageView>(R.id.iv_detail_whole)
-            val tmp = list[currentPosition]
 
-            when (tmp) {
-//                is String -> Glide.with(context)
-//                        .load(Utils.getPicUrl(tmp))
-//                        .into(imageView)
+            when (val tmp = list[currentPosition]) {
                 is Uri -> Glide.with(context)
                         .load(tmp)
                         .into(imageView)

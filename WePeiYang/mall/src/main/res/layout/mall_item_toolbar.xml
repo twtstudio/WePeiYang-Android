@@ -4,19 +4,10 @@
     android:id="@+id/tb_main"
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
-    android:background="#FF9A36"
-    app:titleTextColor="#ffffff"
+    android:background="@color/mallColorMain"
     app:layout_collapseMode="pin"
-    app:layout_scrollFlags="scroll|enterAlways">
-    <!--app:popupTheme="@styles/AppTheme.PopupOverlay">-->
-
-    <!--<android.support.v7.widget.AppCompatTextView-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_gravity="center"-->
-    <!--android:text="天外天商城"-->
-    <!--android:textColor="#ffffff"-->
-    <!--android:textSize="20sp" />-->
+    app:layout_scrollFlags="scroll|enterAlways"
+    app:titleTextColor="#ffffff">
 
 </android.support.v7.widget.Toolbar>
 

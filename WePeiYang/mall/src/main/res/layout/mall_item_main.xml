@@ -5,10 +5,11 @@
     android:id="@+id/cv_main_latest"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:foreground="?android:attr/selectableItemBackground"
     android:layout_margin="3.5dp"
     android:background="#ffffff"
     app:cardCornerRadius="4dp"
-    app:cardElevation="0dp"
+    app:cardElevation="1dp"
     tools:layout_width="200dp">
 
     <RelativeLayout
@@ -43,26 +44,26 @@
             android:layout_marginStart="7dp"
             android:text="@string/rmb"
             android:textColor="#f58010"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/tv_main_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_main_name"
-            android:layout_marginTop="7dp"
+            android:layout_marginTop="6dp"
             android:layout_marginBottom="7dp"
             android:layout_toEndOf="@id/tv_main_rmb"
             android:textColor="#f58010"
-            android:textSize="20sp"
+            android:textSize="18sp"
             tools:text="20.00" />
 
         <android.support.v7.widget.AppCompatImageView
-            android:layout_width="18dp"
-            android:layout_height="22dp"
+            android:layout_width="16dp"
+            android:layout_height="18dp"
             android:layout_below="@id/tv_main_name"
             android:layout_alignBottom="@id/tv_main_price"
-            android:layout_marginTop="7dp"
+            android:layout_marginTop="6dp"
             android:layout_toStartOf="@id/tv_main_locate"
             android:src="@drawable/mall_ic_locate" />
 
@@ -70,12 +71,12 @@
             android:id="@+id/tv_main_locate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/tv_main_price"
             android:layout_alignBottom="@id/tv_main_price"
+            android:gravity="center"
             android:layout_alignParentEnd="true"
-            android:layout_marginTop="7dp"
             android:layout_marginStart="2dp"
             android:layout_marginEnd="7dp"
-            android:layout_marginBottom="7dp"
             android:textSize="12sp"
             tools:text="北洋园校区" />
     </RelativeLayout>

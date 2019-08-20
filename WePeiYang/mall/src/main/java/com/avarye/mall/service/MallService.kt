@@ -23,8 +23,10 @@ interface MallApi {
 
     @Multipart
     @POST("api.php/User/myself_change")
-    fun changeMyInfoAsync(@Part("phone") phone: RequestBody? = null, @Part("email") email: RequestBody? = null,
-                          @Part("qq") qq: RequestBody? = null, @Part("xiaoqu") campus: RequestBody? = null): Deferred<Result>
+    fun changeMyInfoAsync(@Part("phone") phone: RequestBody? = null,
+                          @Part("email") email: RequestBody? = null,
+                          @Part("qq") qq: RequestBody? = null,
+                          @Part("xiaoqu") campus: RequestBody? = null): Deferred<Result>
 
     @Multipart
     @POST("api.php/User/campus_change")
@@ -32,15 +34,18 @@ interface MallApi {
 
     @Multipart
     @POST("api.php/Items/item_new")
-    fun latestSaleAsync(@Part("yeshu") page: RequestBody, @Part("which") which: RequestBody): Deferred<List<Sale>>
+    fun latestSaleAsync(@Part("yeshu") page: RequestBody,
+                        @Part("which") which: RequestBody): Deferred<List<Sale>>
 
     @Multipart
     @POST("api.php/Items/item_new")
-    fun latestNeedAsync(@Part("yeshu") page: RequestBody, @Part("which") which: RequestBody): Deferred<List<Need>>
+    fun latestNeedAsync(@Part("yeshu") page: RequestBody,
+                        @Part("which") which: RequestBody): Deferred<List<Need>>
 
     @Multipart
     @POST("api.php/Items/search")
-    fun searchAsync(@Part("key") key: RequestBody, @Part("yeshu") page: RequestBody): Deferred<List<Sale>>
+    fun searchAsync(@Part("key") key: RequestBody,
+                    @Part("yeshu") page: RequestBody): Deferred<List<Sale>>
 
     @GET("api.php/Items/menu")
     fun getMenuAsync(): Deferred<List<Menu>>
@@ -50,32 +55,37 @@ interface MallApi {
 
     @Multipart
     @POST("api.php/Items/saler_info")
-    fun getSellerInfoAsync(@Part("token") token: RequestBody, @Part("gid") gid: RequestBody): Deferred<Seller>
+    fun getSellerInfoAsync(@Part("token") token: RequestBody,
+                           @Part("gid") gid: RequestBody): Deferred<Seller>
 
     @GET("api.php/User/userinfo")
     fun getUserInfoAsync(@Query("id") id: String): Deferred<UserInfo>
 
     @Multipart
     @POST("api.php/Items/item_new")
-    fun selectSaleAsync(@Part("category") category: RequestBody, @Part("yeshu") page: RequestBody,
+    fun selectSaleAsync(@Part("category") category: RequestBody,
+                        @Part("yeshu") page: RequestBody,
                         @Part("which") which: RequestBody): Deferred<List<Sale>>
 
     @Multipart
     @POST("api.php/Items/item_new")
-    fun selectNeedAsync(@Part("category") category: RequestBody, @Part("yeshu") page: RequestBody,
+    fun selectNeedAsync(@Part("category") category: RequestBody,
+                        @Part("yeshu") page: RequestBody,
                         @Part("which") which: RequestBody): Deferred<List<Need>>
 
     @Multipart
     @POST("api.php/Upload/img_upload")
-    fun uploadImgAsync(@Part("token") token: RequestBody, @Part("file") file: RequestBody): Deferred<Result>
+    fun postImgAsync(@Part partList: List<MultipartBody.Part>): Deferred<Result>
 
     @Multipart
     @POST("api.php/Items/shoucang")
-    fun favAsync(@Part("token") token: RequestBody, @Part("gid") gid: RequestBody): Deferred<Result>
+    fun favAsync(@Part("token") token: RequestBody,
+                 @Part("gid") gid: RequestBody): Deferred<Result>
 
     @Multipart
     @POST("api.php/Items/shoucang_quxiao")
-    fun deFavAsync(@Part("token") token: RequestBody, @Part("gid") gid: RequestBody): Deferred<Result>
+    fun deFavAsync(@Part("token") token: RequestBody,
+                   @Part("gid") gid: RequestBody): Deferred<Result>
 
     @Multipart
     @POST("api.php/Items/shoucang_list")
@@ -83,30 +93,36 @@ interface MallApi {
 
     @Multipart
     @POST("api.php/Items/comment_list")
-    fun getCommentListAsync(@Part("token") token: RequestBody, @Part("which") which: RequestBody,
+    fun getCommentListAsync(@Part("token") token: RequestBody,
+                            @Part("which") which: RequestBody,
                             @Part("id") id: RequestBody): Deferred<List<CommentList>>
 
     @Multipart
     @POST("api.php/Items/comment_do")
-    fun commentAsync(@Part("content") content: RequestBody, @Part("token") token: RequestBody,
-                     @Part("which") which: RequestBody, @Part("tid") tid: RequestBody): Deferred<Result>
+    fun commentAsync(@Part("content") content: RequestBody,
+                     @Part("token") token: RequestBody,
+                     @Part("which") which: RequestBody,
+                     @Part("tid") tid: RequestBody): Deferred<Result>
 
     @Multipart
     @POST("api.php/Items/huifu_list")
-    fun getReplyListAsync(@Part("token") token: RequestBody, @Part("cid") cid: RequestBody): Deferred<List<CommentList>>
+    fun getReplyListAsync(@Part("token") token: RequestBody,
+                          @Part("cid") cid: RequestBody): Deferred<List<CommentList>>
 
     @Multipart
     @POST("api.php/Items/hui_do")
-    fun replyAsync(@Part("token") token: RequestBody, @Part("cid") cid: RequestBody,
+    fun replyAsync(@Part("token") token: RequestBody,
+                   @Part("cid") cid: RequestBody,
                    @Part("content") content: RequestBody): Deferred<Result>
+
+    @Multipart
+    @POST("api.php/Items/sale_fabu")
+    fun postSaleAsync(@Part partList: List<MultipartBody.Part>): Deferred<Result>
 
     //TODO:待测试
 
-    @POST("api.php/Items/sale_fabu")
-    fun uploadSale(/*data class*/): Deferred<Any>
-
     @POST("api.php/Items/need_fabu")
-    fun uploadNeed(/*data class*/): Deferred<Any>
+    fun postNeedAsync(@Part partList: List<MultipartBody.Part>): Deferred<Result>
 
     companion object : MallApi by MallApiService()
 }
@@ -115,6 +131,7 @@ interface MallApi {
 val saleLiveData = MutableLiveData<List<Sale>>()
 val needLiveData = MutableLiveData<List<Need>>()
 val searchLiveData = MutableLiveData<List<Sale>>()
+val imgIdLiveData = MutableLiveData<String>()
 
 //感觉只有menu和个人信息能做缓存emm
 private val menuLocalData = Cache.hawk<List<Menu>>("MALL_MENU")
@@ -159,7 +176,7 @@ object MallApiService {
     inline operator fun <reified T> invoke(): T = retrofit.create(T::class.java)
 }
 
-data class Result(//不知道能不能这么搞，不然也太麻烦了吧
+data class Result(
         val msg: String,
         val result_code: String,
         val img_url: String?,

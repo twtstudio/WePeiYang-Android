@@ -30,11 +30,10 @@ class MenuFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-//        viewModel = ViewModelProviders.of(this).get(MenuViewModel::class.java)
         menuLiveData.bindNonNull(this) {
 
             itemManager.autoRefresh {
-//                removeAll { it is MenuItem }//介不用吧
+                //                removeAll { it is MenuItem }//介不用吧
 
                 val items = mutableListOf<Item>().apply {
                     it.forEach {
@@ -43,9 +42,9 @@ class MenuFragment : Fragment() {
                             name.setOnClickListener {
                             }
                         }
-                        it.smalllist.forEach { sit->
+                        it.smalllist.forEach { list ->
                             addMenuItem {
-                                name.text = sit.name
+                                name.text = list.name
                             }
                         }
                     }

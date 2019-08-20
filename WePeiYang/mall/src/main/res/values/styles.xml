@@ -6,10 +6,21 @@
         <item name="android:windowIsFloating">true</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowNoTitle">false</item>
+        <item name="android:windowActionBar">false</item>
         <!-- 是否启用标题栏 -->
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:background">@android:color/transparent</item>
         <item name="android:backgroundDimEnabled">true</item>
         <!-- 是否使用背景半透明 -->
     </style>
+    <style name="SpinnerStyle">
+        <item name="colorControlNormal">@color/mallColorBgLight</item>
+        <item name="colorControlActivated">@color/mallColorLight</item>
+    </style>
+
+    <style name="EditTextStyle">
+        <item name="colorControlNormal">@color/mallColorLight</item>
+        <item name="colorControlActivated">@color/mallColorMain</item>
+    </style>
+    
 </resources>
