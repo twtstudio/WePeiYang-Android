@@ -14,6 +14,7 @@ import android.widget.PopupWindow
 import com.twt.service.theory.R
 import com.twt.wepeiyang.commons.experimental.extensions.enableLightStatusBarMode
 import com.twt.wepeiyang.commons.ui.rec.withItems
+import kotlinx.android.synthetic.main.theory_activity_answer.*
 import kotlinx.android.synthetic.main.theory_common_toolbar.*
 import kotlinx.android.synthetic.main.theory_popupwindow_layout.view.*
 import org.jetbrains.anko.dip
@@ -26,6 +27,19 @@ class AnswerActivity : AppCompatActivity() {
 
         initView()
         loadQuestions()
+    }
+
+
+    private fun initView() {
+        window.statusBarColor = Color.parseColor("#FFFFFF")
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        enableLightStatusBarMode(true)
+        theory_submit.visibility = View.VISIBLE
+        theory_person_profile.visibility = View.GONE
+        theory_search.visibility = View.GONE
+        theory_back.setOnClickListener {
+            finish()
+        }
         constraintLayout.setOnClickListener {
             val popupWindow = PopupWindow(this)
             val view = LayoutInflater.from(this).inflate(R.layout.theory_popupwindow_layout, null, false)
@@ -47,19 +61,6 @@ class AnswerActivity : AppCompatActivity() {
             val list = mutableListOf<ProblemItem>()
             for (i in 1..66) list.add(ProblemItem(i, i % 2 == 0))
             popupWindow.contentView.recyclerView.withItems(list)
-        }
-    }
-
-
-    private fun initView() {
-        window.statusBarColor = Color.parseColor("#FFFFFF")
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        enableLightStatusBarMode(true)
-        theory_submit.visibility = View.VISIBLE
-        theory_person_profile.visibility = View.GONE
-        theory_search.visibility = View.GONE
-        theory_back.setOnClickListener {
-            finish()
         }
     }
 

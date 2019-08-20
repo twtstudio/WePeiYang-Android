@@ -6,8 +6,8 @@
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/backGround"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
         android:background="@drawable/theory_circle_b"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -16,11 +16,11 @@
 
         <TextView
             android:id="@+id/idTextView"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
             android:gravity="center"
             android:text="2"
-            android:textColor="@color/blue2"
+            android:textColor="@color/theory_blue2"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
