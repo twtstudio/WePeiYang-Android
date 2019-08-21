@@ -21,6 +21,7 @@ import org.jetbrains.anko.padding
 import android.R.attr.button
 import android.support.annotation.IdRes
 import android.util.Log
+import java.lang.Math.pow
 
 
 class ProfileItem : Item {
@@ -217,19 +218,23 @@ class ExamSingleAnswerItem : Item {
             holder as ExamSingleAnswerItemViewHolder
             item as ExamSingleAnswerItem
             holder.apply {
-                singles.setOnCheckedChangeListener(null)
-                singles.clearCheck()
-                val saved_ans = AnswerManager.getAnswer(position+1)
-                if(saved_ans != 0){
-                    singles.check(singles.getChildAt(saved_ans - 1).id)
-                }
-                singles.setOnCheckedChangeListener { radioGroup, i ->
-                    var num = 0
-                    repeat(4) {// 只有四个选项
-                        if (singles.getChildAt(it).id == i)
-                            num = it + 1
+                singles.apply {
+                    setOnCheckedChangeListener(null)
+                    clearCheck()
+                    val saved_ans = AnswerManager.getAnswer(position + 1)
+                    if (saved_ans != 0) {
+                        check(getChildAt(saved_ans - 1).id)
                     }
-                    AnswerManager.update(position + 1, num)
+                    setOnCheckedChangeListener { radioGroup, i ->
+                        var num = 0
+                        repeat(4) {
+                            // 只有四个选项
+                            if (getChildAt(it).id == i)
+                                num = it + 1
+                        }
+                        AnswerManager.update(position + 1, num)
+
+                    }
                 }
             }
         }
@@ -258,14 +263,41 @@ class ExamMultiAnswerItem(val num: Int = 4) : Item {
             item as ExamMultiAnswerItem
             holder.apply {
                 multis.apply {
-                    // TODO()
+                    var saved_ans = AnswerManager.getAnswer(position + 1)
+
+                    repeat(6) {
+                        // 清空复用可能导致的错误
+                        (this.getChildAt(it) as CheckBox).setOnCheckedChangeListener(null)
+                        (this.getChildAt(it) as CheckBox).isChecked = false
+                        if (saved_ans % 10 == 1) {
+                            (this.getChildAt(it) as CheckBox).isChecked = true
+                            saved_ans /= 10
+                        }
+                    }
+                    repeat(6) {
+                        // 设置监听和题目
+                        if (it >= item.num) {
+                            this.getChildAt(it).visibility = View.GONE
+                        } else {
+                            (this.getChildAt(it) as CheckBox).setOnCheckedChangeListener { compoundButton, b ->
+                                var value = AnswerManager.getAnswer(position + 1)
+                                if (!b) {       // 答案以形式上的二进制保存
+                                    value -= pow(10.toDouble(), it.toDouble()).toInt()
+                                    AnswerManager.update(position + 1, value)
+                                } else {
+                                    value += pow(10.toDouble(), it.toDouble()).toInt()
+                                    AnswerManager.update(position + 1, value)
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
 
         override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
             val inflater = parent.context.layoutInflater
-            val view = inflater.inflate(R.layout.theory_item_examques_single, parent, false)
+            val view = inflater.inflate(R.layout.theory_item_examques_multi, parent, false)
             return ExamMultiAnswerItemViewHolder(view)
         }
 
@@ -275,6 +307,12 @@ class ExamMultiAnswerItem(val num: Int = 4) : Item {
     private class ExamMultiAnswerItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val title = itemView.findViewById<TextView>(R.id.theory_ques_title_m)
         val multis = itemView.findViewById<LinearLayout>(R.id.theory_ques_checkgroup)
+        val ansA = itemView.findViewById<CheckBox>(R.id.theory_ques_ansA_m)
+        val ansB = itemView.findViewById<CheckBox>(R.id.theory_ques_ansB_m)
+        val ansC = itemView.findViewById<CheckBox>(R.id.theory_ques_ansC_m)
+        val ansD = itemView.findViewById<CheckBox>(R.id.theory_ques_ansD_m)
+        val ansE = itemView.findViewById<CheckBox>(R.id.theory_ques_ansE_m)
+        val ansF = itemView.findViewById<CheckBox>(R.id.theory_ques_ansF_m)
     }
 
 
@@ -330,5 +368,3 @@ fun MutableList<Item>.setDetail(titles: String, detail: String) = add(ExamDetail
 fun MutableList<Item>.setSingleAnsQues() = add(ExamSingleAnswerItem())
 
 fun MutableList<Item>.setMultiAnsQues(num: Int = 4) = add(ExamMultiAnswerItem(num))
-
-

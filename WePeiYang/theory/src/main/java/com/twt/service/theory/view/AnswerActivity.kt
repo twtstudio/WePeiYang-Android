@@ -25,7 +25,6 @@ class AnswerActivity : AppCompatActivity() {
         setContentView(R.layout.theory_activity_answer)
         initView()
         loadQuestions()
-
     }
 
 
@@ -42,22 +41,25 @@ class AnswerActivity : AppCompatActivity() {
         constraintLayout.setOnClickListener {
             val popupWindow = PopupWindow(this)
             val view = LayoutInflater.from(this).inflate(R.layout.theory_popupwindow_layout, null, false)
-            popupWindow.contentView = view
-            popupWindow.width = WindowManager.LayoutParams.MATCH_PARENT
-            popupWindow.animationStyle = R.style.style_pop_animation
-            popupWindow.setBackgroundDrawable(null)
-            popupWindow.height = dip(280)
-            popupWindow.showAtLocation(
-                    LayoutInflater.from(this).inflate(R.layout.theory_activity_answer, null),
-                    Gravity.BOTTOM,
-                    0,
-                    0
-            )
-            popupWindow.contentView.constraintLayout2.setOnClickListener {
-                popupWindow.dismiss()
-                AnswerManager.uninstall()
+            popupWindow.apply {
+                contentView = view
+                width = WindowManager.LayoutParams.MATCH_PARENT
+                animationStyle = R.style.style_pop_animation
+                setBackgroundDrawable(null)
+                height = dip(280)
+                showAtLocation(
+                        LayoutInflater.from(contentView.context).inflate(R.layout.theory_activity_answer, null),
+                        Gravity.BOTTOM,
+                        0,
+                        0
+                )
+                contentView.constraintLayout2.setOnClickListener {
+                    popupWindow.dismiss()
+                    AnswerManager.uninstall()
+                }
+                contentView.recyclerView.layoutManager = GridLayoutManager(contentView.context, 8, GridLayoutManager.VERTICAL, false)
+
             }
-            popupWindow.contentView.recyclerView.layoutManager = GridLayoutManager(this, 8, GridLayoutManager.VERTICAL, false)
             AnswerManager.installPopUpWindow(popupWindow)
         }
     }
@@ -66,16 +68,12 @@ class AnswerActivity : AppCompatActivity() {
         val recyclerView = findViewById<RecyclerView>(R.id.theory_exam_questions)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.withItems {
-            setSingleAnsQues()
-            setSingleAnsQues()
-            setSingleAnsQues()
-            setSingleAnsQues()
-            setSingleAnsQues()
-            setSingleAnsQues()
-            setSingleAnsQues()
-            setSingleAnsQues()
-            setSingleAnsQues()
-            setSingleAnsQues()
+            repeat(6){
+                setMultiAnsQues(3)
+                setMultiAnsQues(4)
+                setMultiAnsQues(5)
+                setMultiAnsQues(6)
+            }
             AnswerManager.init(this.size)
         }
 

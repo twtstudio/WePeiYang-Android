@@ -15,6 +15,7 @@
         android:text="天津大学8个学科领域进入ESI前1%，其中()、()、()进入ESI前1%。"
         android:textColor="@color/black_color"
         android:textSize="14sp" />
+
     <LinearLayout
         android:id="@+id/theory_ques_checkgroup"
         android:layout_width="match_parent"
@@ -23,5 +24,70 @@
         android:paddingStart="15dp"
         android:paddingEnd="15dp">
 
+        <CheckBox
+            android:id="@+id/theory_ques_ansA_m"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            android:text="管理科学"
+            android:textColor="@color/black_color"
+            android:textSize="14sp" />
+
+        <CheckBox
+            android:id="@+id/theory_ques_ansB_m"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            android:text="工程"
+            android:textColor="@color/black_color"
+            android:textSize="14sp" />
+
+        <CheckBox
+            android:id="@+id/theory_ques_ansC_m"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            android:text="化学"
+            android:textColor="@color/black_color"
+            android:textSize="14sp" />
+
+        <CheckBox
+            android:id="@+id/theory_ques_ansD_m"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            android:text="材料科学"
+            android:textColor="@color/black_color"
+            android:textSize="14sp" />
+
+        <CheckBox
+            android:id="@+id/theory_ques_ansE_m"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            android:text="多选E"
+            android:textColor="@color/black_color"
+            android:textSize="14sp" />
+
+        <CheckBox
+            android:id="@+id/theory_ques_ansF_m"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            android:text="多选F"
+            android:textColor="@color/black_color"
+            android:textSize="14sp" />
     </LinearLayout>
 </LinearLayout>
