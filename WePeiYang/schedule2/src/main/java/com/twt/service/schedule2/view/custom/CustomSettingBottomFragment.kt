@@ -96,7 +96,7 @@ class CustomSettingBottomFragment : BottomSheetDialogFragment() {
                     }
                 }
 
-                indicator("自定义课程test")
+                indicator("自定义课程")
 
                 constraintLayout {
                     backgroundColor = Color.WHITE

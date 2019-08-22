@@ -20,7 +20,7 @@ interface AuditApi {
     fun getAuditCollege(@Query("with_class") withClass: Int = 1): Deferred<CommonBody<List<AuditCollegeData>>>
 
     @GET("v1/auditClass/search")
-    fun searchCourse(@Query("name") courseName: String,@Query("type") type:Int = 1): Deferred<CommonBody<List<AuditSearchCourse>>>
+    fun searchCourse(@Query("name") courseName: String,@Query("type") type:Int = 0): Deferred<CommonBody<List<AuditSearchCourse>>>
 
     @POST("v1/auditClass/audit")
     @FormUrlEncoded
