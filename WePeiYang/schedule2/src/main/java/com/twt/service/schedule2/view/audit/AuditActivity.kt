@@ -82,8 +82,9 @@ class AuditActivity : CAppCompatActivity() {
         }
 
         val refreshImg: ImageView = findViewById(R.id.iv_toolbar_refresh)
-        refreshImg.visibility = View.GONE
-
+        refreshImg.apply {
+            visibility = View.GONE
+        }
         val addImg: ImageView = findViewById(R.id.iv_toolbar_add)
         addImg.visibility = View.GONE
 

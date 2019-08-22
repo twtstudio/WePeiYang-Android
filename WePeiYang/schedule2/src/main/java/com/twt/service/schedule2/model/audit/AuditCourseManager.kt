@@ -3,7 +3,10 @@ package com.twt.service.schedule2.model.audit
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import com.twt.service.schedule2.extensions.termStart
-import com.twt.service.schedule2.model.*
+import com.twt.service.schedule2.model.AbsClasstableProvider
+import com.twt.service.schedule2.model.Classtable
+import com.twt.service.schedule2.model.CommonClassTable
+import com.twt.service.schedule2.model.ScheduleDb
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import kotlinx.coroutines.*

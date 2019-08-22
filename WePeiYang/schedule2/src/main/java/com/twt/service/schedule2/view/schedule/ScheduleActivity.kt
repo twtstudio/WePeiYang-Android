@@ -13,7 +13,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
-import android.widget.TextView
 import com.twt.service.schedule2.R
 import com.twt.service.schedule2.extensions.RefreshCallback
 import com.twt.service.schedule2.extensions.getScreenHeight
@@ -113,11 +112,6 @@ class ScheduleActivity : CAppCompatActivity() {
             }
         }
 
-        val titleText: TextView = findViewById(R.id.tv_toolbar_title)
-        titleText.apply {
-            text = "课程表"
-        }
-
         val addButton = findViewById<ImageView>(R.id.iv_toolbar_add)
         addButton.setOnClickListener {
             CustomSettingBottomFragment.showCustomSettingsBottomSheet(this)
@@ -196,7 +190,7 @@ class ScheduleActivity : CAppCompatActivity() {
             weekSquareDataList.removeAll { true }
             for (i in 1..22) {
                 val weekMatrix = it.getWeekCourseMatrix(i)
-                // 硬编码自定义view底部Text的行为比较僵硬 自定义view里面对字符串做判断可能导致维护时候的 bug
+                // 硬编码自定义view底部Text的行为比较僵硬 自定义view里面对字符串做判断可能导致维护时候的bug
                 // 但是暂时这样子吧
                 var btmText = ""
                 if (i == week && i != it.getCurrentWeek()) {

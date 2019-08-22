@@ -116,41 +116,41 @@ data class AuditCollegeData(
 }
 
 /**
- * 将蹭课Course转化成普通Course来兼容通用 Model
+ * 将蹭课Course转化成普通Course来兼容通用Model
  */
 fun AuditCourse.convertToCourse(): Course {
-        val infoSample = infos[0] // 一个时间段都没有蹭个毛线啊
-        val week = Week(start = infoSample.startWeek, end = infoSample.endWeek)
-        val arrangeList = mutableListOf<Arrange>()
-        infos.forEach {
-            val weekType = when (it.weekType) {
-                1 -> "单周"
-                2 -> "双周"
-                3 -> "单双周"
-                else -> "这是什么玩意？？？？"
-            }
-            val arrange = Arrange(
-                    room = "${it.building}楼${it.room}",
-                    start = it.startTime, // 因为蹭课API的返回节数 是算的大节 但是课程表Course算的是小节 为了复用我们要转换一下 Fuck -> 但是后来数据库又改好了 Fuck222
-                    end = (it.startTime - 1)  + it.courseLength,
-                    day = it.weekDay,
-                    week = weekType
-            )
-            arrangeList.add(arrange)
+    val infoSample = infos[0] // 一个时间段都没有蹭个毛线啊
+    val week = Week(start = infoSample.startWeek, end = infoSample.endWeek)
+    val arrangeList = mutableListOf<Arrange>()
+    infos.forEach {
+        val weekType = when (it.weekType) {
+            1 -> "单周"
+            2 -> "双周"
+            3 -> "单双周"
+            else -> "这是什么玩意？？？？"
         }
-        val course = Course(
-                coursetype = "蹭课",
-                college = college,
-                ext = "老夫就是牛逼，要蹭课咋地",
-                teacher = infoSample.teacher,
-                week = week,
-                coursename = courseName,
-                arrangeBackup = arrangeList,
-                campus = "emmmm自己猜好了",
-                coursenature = "蹭课",
-                credit = "学分有价，蹭课精神无价"
+        val arrange = Arrange(
+                room = "${it.building}楼${it.room}",
+                start = it.startTime, // 因为蹭课API的返回节数 是算的大节 但是课程表Course算的是小节 为了复用我们要转换一下 Fuck -> 但是后来数据库又改好了 Fuck222
+                end = (it.startTime - 1)  + it.courseLength,
+                day = it.weekDay,
+                week = weekType
         )
-        return course
+        arrangeList.add(arrange)
+    }
+    val course = Course(
+            coursetype = "蹭课",
+            college = college,
+            ext = "老夫就是牛逼，要蹭课咋地",
+            teacher = infoSample.teacher,
+            week = week,
+            coursename = courseName,
+            arrangeBackup = arrangeList,
+            campus = "emmmm自己猜好了",
+            coursenature = "蹭课",
+            credit = "学分有价，蹭课精神无价"
+    )
+    return course
 }
 
 class AuditInfoItemTypeConverter {
