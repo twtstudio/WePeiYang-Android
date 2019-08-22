@@ -18,7 +18,6 @@ import com.tencent.stat.StatMultiAccount
 import com.tencent.stat.StatService
 import com.twt.service.R
 import com.twt.service.ecard.model.EcardPref
-import com.twt.service.ecard.model.EcardService
 import com.twt.service.ecard.model.isBindECardBoolean
 import com.twt.service.ecard.model.isBindECardLiveData
 import com.twt.service.ecard.view.EcardLoginActivity
@@ -27,9 +26,7 @@ import com.twt.service.settings.SettingsActivity
 import com.twt.service.settings.SingleBindActivity
 import com.twt.wepeiyang.commons.cache.CacheProvider
 import com.twt.wepeiyang.commons.experimental.cache.CacheIndicator
-import com.twt.wepeiyang.commons.experimental.cache.handleError
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
-import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import com.twt.wepeiyang.commons.experimental.extensions.map
 import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
 import com.twt.wepeiyang.commons.network.RxErrorHandler
@@ -40,7 +37,6 @@ import com.twtstudio.retrox.tjulibrary.provider.TjuLibProvider
 import es.dmoral.toasty.Toasty
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
-import retrofit2.HttpException
 import rx.android.schedulers.AndroidSchedulers
 import rx.functions.Action1
 import rx.schedulers.Schedulers
@@ -58,7 +54,7 @@ class UserFragment : Fragment() {
                     activity?.onBackPressed()
                 }
 
-                findViewById<RecyclerView>(R.id.recyclerView).apply {
+                findViewById<RecyclerView>(R.id.theory_recyclerView).apply {
                     layoutManager = LinearLayoutManager(context)
                     adapter = UserAdapter(
                             listOf(

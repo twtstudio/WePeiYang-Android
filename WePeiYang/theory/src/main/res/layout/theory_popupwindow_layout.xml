@@ -7,7 +7,7 @@
     android:orientation="vertical">
 
     <android.support.constraint.ConstraintLayout
-        android:id="@+id/constraintLayout2"
+        android:id="@+id/theory_constraintLayout2"
         android:layout_width="match_parent"
         android:layout_height="41dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -15,20 +15,20 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/image"
+            android:id="@+id/theory_image"
             android:layout_width="15dp"
             android:layout_height="20dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="10dp"
             android:rotation="-90"
             android:src="@drawable/arrow"
-            app:layout_constraintBottom_toTopOf="@id/text"
+            app:layout_constraintBottom_toTopOf="@id/theory_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/text"
+            android:id="@+id/theory_text"
             android:layout_width="wrap_content"
             android:layout_height="18dp"
             android:layout_marginTop="10dp"
@@ -42,7 +42,7 @@
     </android.support.constraint.ConstraintLayout>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerView"
+        android:id="@+id/theory_recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginStart="10dp"

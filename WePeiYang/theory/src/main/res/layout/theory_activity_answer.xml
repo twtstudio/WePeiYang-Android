@@ -13,13 +13,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <android.support.v7.widget.RecyclerView
+    <com.twt.service.theory.view.ScrollRecyclerView
         android:id="@+id/theory_exam_questions"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="10dp"
         android:background="#f5f8ff"
-        app:layout_constraintBottom_toTopOf="@id/constraintLayout"
+        app:layout_constraintBottom_toTopOf="@id/theory_constraintLayout"
         app:layout_constraintHorizontal_bias="0.0"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
@@ -28,30 +28,30 @@
         app:layout_constraintTop_toBottomOf="@id/theory_user_actionbar"
         app:layout_constraintBottom_toBottomOf="parent">
 
-    </android.support.v7.widget.RecyclerView>
+    </com.twt.service.theory.view.ScrollRecyclerView>
 
     <android.support.constraint.ConstraintLayout
-        android:id="@+id/constraintLayout"
+        android:id="@+id/theory_constraintLayout"
         android:layout_width="match_parent"
         android:layout_height="41dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/theory_exam_questions">
 
         <ImageView
-            android:id="@+id/image"
+            android:id="@+id/theory_image"
             android:layout_width="15dp"
             android:layout_height="20dp"
             android:layout_gravity="center_horizontal"
             android:rotation="90"
             android:layout_marginTop="10dp"
             android:src="@drawable/arrow"
-            app:layout_constraintBottom_toTopOf="@id/text"
+            app:layout_constraintBottom_toTopOf="@id/theory_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/text"
+            android:id="@+id/theory_text"
             android:layout_width="wrap_content"
             android:layout_height="18dp"
             android:text="题卡"

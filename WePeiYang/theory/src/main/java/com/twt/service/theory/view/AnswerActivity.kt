@@ -1,7 +1,9 @@
 package com.twt.service.theory.view
 
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
+import android.support.annotation.RequiresApi
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
@@ -19,7 +21,17 @@ import kotlinx.android.synthetic.main.theory_common_toolbar.*
 import kotlinx.android.synthetic.main.theory_popupwindow_layout.view.*
 import org.jetbrains.anko.dip
 
+@RequiresApi(Build.VERSION_CODES.M)
 class AnswerActivity : AppCompatActivity() {
+    override fun onBackPressed() {
+        if (AnswerManager.isPopUPWindowInstalled()) {
+            AnswerManager.getPopUpWindow()?.dismiss()
+            AnswerManager.uninstall()
+        } else {
+            super.onBackPressed()
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.theory_activity_answer)
@@ -38,7 +50,7 @@ class AnswerActivity : AppCompatActivity() {
         theory_back.setOnClickListener {
             finish()
         }
-        constraintLayout.setOnClickListener {
+        theory_constraintLayout.setOnClickListener {
             val popupWindow = PopupWindow(this)
             val view = LayoutInflater.from(this).inflate(R.layout.theory_popupwindow_layout, null, false)
             popupWindow.apply {
@@ -53,14 +65,15 @@ class AnswerActivity : AppCompatActivity() {
                         0,
                         0
                 )
-                contentView.constraintLayout2.setOnClickListener {
+                contentView.theory_constraintLayout2.setOnClickListener {
                     popupWindow.dismiss()
                     AnswerManager.uninstall()
                 }
-                contentView.recyclerView.layoutManager = GridLayoutManager(contentView.context, 8, GridLayoutManager.VERTICAL, false)
+
+                contentView.theory_recyclerView.layoutManager = GridLayoutManager(contentView.context, 8, GridLayoutManager.VERTICAL, false)
 
             }
-            AnswerManager.installPopUpWindow(popupWindow)
+            AnswerManager.installPopUpWindow(popupWindow, theory_exam_questions)
         }
     }
 
@@ -68,7 +81,7 @@ class AnswerActivity : AppCompatActivity() {
         val recyclerView = findViewById<RecyclerView>(R.id.theory_exam_questions)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.withItems {
-            repeat(6){
+            repeat(6) {
                 setMultiAnsQues(3)
                 setMultiAnsQues(4)
                 setMultiAnsQues(5)

@@ -23,7 +23,7 @@ class ToolsFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
             inflater.inflate(R.layout.fragment_tools, container, false).apply {
                 findViewById<ImageView>(R.id.iv_fragment_tools_back).setOnClickListener { activity?.onBackPressed() }
-                findViewById<RecyclerView>(R.id.recyclerView).apply {
+                findViewById<RecyclerView>(R.id.theory_recyclerView).apply {
                     layoutManager = GridLayoutManager(context, 4)
                     adapter = ToolsAdapter(context, listOf(
                             ToolItem(R.drawable.ic_main_schedule, "课程表", com.twt.service.schedule2.view.schedule.ScheduleActivity::class.java),

@@ -1,9 +1,13 @@
 package com.twt.service.theory.view
 
+import android.os.Build
+import android.support.annotation.RequiresApi
+import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.widget.PopupWindow
-import com.twt.wepeiyang.commons.ui.rec.ItemAdapter
 import com.twt.wepeiyang.commons.ui.rec.withItems
 import kotlinx.android.synthetic.main.theory_popupwindow_layout.view.*
+
 
 object AnswerManager {
     //注意：下标从1开始！！
@@ -41,23 +45,38 @@ object AnswerManager {
             ++numOfDone
             if (popupWindow != null) {
                 list[num - 1].done = true
-                popupWindow?.contentView?.recyclerView?.adapter?.notifyItemChanged(num - 1)
+                popupWindow?.contentView?.theory_recyclerView?.adapter?.notifyItemChanged(num - 1)
             }
         } else if (ans[num] != 0 && answer == 0) {
             --numOfDone
             if (popupWindow != null) {
                 list[num - 1].done = false
-                popupWindow?.contentView?.recyclerView?.adapter?.notifyItemChanged(num - 1)
+                popupWindow?.contentView?.theory_recyclerView?.adapter?.notifyItemChanged(num - 1)
             }
         }
         ans[num] = answer
     }
 
-    fun installPopUpWindow(src: PopupWindow) { // 安装一个题卡弹窗
+    fun isPopUPWindowInstalled(): Boolean {
+        return popupWindow != null
+    }
+
+    fun getPopUpWindow(): PopupWindow? {
+        return popupWindow
+    }
+
+    @RequiresApi(Build.VERSION_CODES.M)
+    fun installPopUpWindow(src: PopupWindow, recyclerView: ScrollRecyclerView) { // 安装一个题卡弹窗
         popupWindow = src
         list.clear()
-        for (i in 1..(numOfQue)) list.add(ProblemItem(i, ans[i] != 0))
-        popupWindow?.contentView?.recyclerView?.withItems(list)
+        for (i in 1..(numOfQue)) {
+            val item = ProblemItem(i, ans[i] != 0) {
+                recyclerView.toPosition(it - 1)
+            }
+            list.add(item)
+        }
+        popupWindow?.contentView?.theory_recyclerView?.withItems(list)
+
     }
 
     fun uninstall() {

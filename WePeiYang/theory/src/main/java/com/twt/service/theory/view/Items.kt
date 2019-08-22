@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.support.constraint.ConstraintLayout
 import android.support.v7.content.res.AppCompatResources
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
@@ -315,7 +316,7 @@ class ExamMultiAnswerItem(val num: Int = 4) : Item {
         get() = ExamMultiAnswerItem
 }
 
-class ProblemItem(val id: Int, var done: Boolean) : Item {
+class ProblemItem(val id: Int, var done: Boolean, val callBack: (Int) -> (Unit)) : Item {
     companion object Controller : ItemController {
         override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
             val inflater = parent.context.layoutInflater
@@ -335,6 +336,9 @@ class ProblemItem(val id: Int, var done: Boolean) : Item {
                 holder.idTextView.setTextColor(Color.parseColor("#1e90ff"))
                 holder.bg.background = AppCompatResources.getDrawable(holder.itemView.context, R.drawable.theory_circle_b)
             }
+            holder.itemView.setOnClickListener {
+                item.callBack(item.id)
+            }
         }
     }
 
@@ -347,8 +351,6 @@ class ProblemItem(val id: Int, var done: Boolean) : Item {
         get() = ProblemItem
 
 }
-
-fun MutableList<Item>.setProblemItem(id: Int, done: Boolean) = add(ProblemItem(id, done))
 
 fun MutableList<Item>.setMessage() = add(MessageItem())
 
