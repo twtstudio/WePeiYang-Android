@@ -16,7 +16,7 @@ object AnswerManager {
     fun init(number: Int) {
         numOfQue = number
         ans.clear()
-        for (i in 0..numOfQue) ans.add(0)//0表示还没选
+        for (i in 0..numOfQue) ans.add(0)// 0表示还没选
 
     }
 

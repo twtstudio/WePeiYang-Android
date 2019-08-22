@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.support.constraint.ConstraintLayout
 import android.support.v7.content.res.AppCompatResources
 import android.support.v7.widget.RecyclerView
-import android.text.TextUtils
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
@@ -17,10 +16,6 @@ import com.twt.wepeiyang.commons.experimental.theme.CustomTheme.context
 import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemController
 import org.jetbrains.anko.layoutInflater
-import org.jetbrains.anko.padding
-import android.R.attr.button
-import android.support.annotation.IdRes
-import android.util.Log
 import java.lang.Math.pow
 
 
@@ -271,8 +266,8 @@ class ExamMultiAnswerItem(val num: Int = 4) : Item {
                         (this.getChildAt(it) as CheckBox).isChecked = false
                         if (saved_ans % 10 == 1) {
                             (this.getChildAt(it) as CheckBox).isChecked = true
-                            saved_ans /= 10
                         }
+                        saved_ans /= 10
                     }
                     repeat(6) {
                         // 设置监听和题目
