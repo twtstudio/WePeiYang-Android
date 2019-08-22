@@ -14,7 +14,7 @@ import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.schedule_class_picker_pop.view.*
 import org.jetbrains.anko.*
 
-class CustomClassPickerPop(context: Context, resultHandler:ResultHandler) : TopPopupWindow(context,true) {
+class CustomClassPickerPop(context: Context, resultHandler:ResultHandler) : TopPopupWindow(context) {
     val mHandler = resultHandler
     var startTime: Int = 1
     var endTime: Int = 1

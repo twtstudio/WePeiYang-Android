@@ -99,23 +99,24 @@ class CourseDetailBottomFragment : BottomSheetDialogFragment() {
             }
             indicatorText("课程信息")
             iconLabel(CourseDetailViewModel(R.drawable.ic_schedule_other, "逻辑班号：${course.classid}\n课程编号：${course.courseid}"))
-            indicatorText("设置自定义事件")
+            indicatorText("自定义")
 //            iconLabel(CourseDetailViewModel(R.drawable.ic_schedule_search, "在蹭课功能中搜索相似课程", clickBlock = {
 //                mtaClick("schedule_单节课程底部弹出_${course.coursename}_搜索相似蹭课")
 //                SearchResultActivity.searchCourse(it.context, course.coursename)
 //            }))
             iconLabel(CourseDetailViewModel(R.drawable.ic_schedule_event, "添加自定义课程/事件", clickBlock = {
-                    startActivity(Intent(context,AddCustomCourseActivity::class.java))
+                mtaClick("schedule_单节课程底部弹出_${course.coursename}_添加自定义课程/事件")
+                startActivity(Intent(context,AddCustomCourseActivity::class.java))
             }))
-//            iconLabel(CourseDetailViewModel(R.drawable.ic_schedule_homework, "添加课程作业/考试", clickBlock = {
-//                Toasty.info(it.context, "下一版本中加入").show()
-//            }))
+            iconLabel(CourseDetailViewModel(R.drawable.ic_schedule_homework, "添加课程作业/考试", clickBlock = {
+                Toasty.info(it.context, "下一版本中加入").show()
+            }))
             indicatorText("帮助")
 
             iconLabel(CourseDetailViewModel(R.drawable.ic_schedule_info, "如何使用课程表的自定义功能", {
                 it.context.alert {
                     title = "课程表使用帮助"
-                    message = "搜索相似课程还没有完全完成,所以不可点击。\n周数切换最近就会添加上去 \n\n" +
+                    message = "蹭课，自定义课程，作业考试添加还没有完全完成,所以不可点击。\n周数切换最近就会添加上去 \n\n" +
                             "多节：在此课程方格中存在多节课程，可能是冲突，也可能是非本周（一般都是非本周），多节课程点击弹出的底部栏可以通过左右滑动来查看不同的课程详情\n\n" +
                             "[非本周]：课程表体现为灰白色课程，有这个课程但是这周不上\n\n" +
                             "[蹭课]：来自于我选择的蹭课\n\n" +

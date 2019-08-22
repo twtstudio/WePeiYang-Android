@@ -19,33 +19,6 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:layout_scrollFlags="scroll|enterAlways"
-                app:title="添加自定义事件"
-                app:titleTextColor="@color/white_color">
-            <include layout="@layout/schedule_toolbar_head1" />
-
-            <!--<android.support.v7.widget.Toolbar-->
-                <!--android:id="@+id/toolbar"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="?attr/actionBarSize"-->
-                <!--app:contentInsetLeft="0dp"-->
-                <!--app:contentInsetStart="0dp"-->
-                <!--app:layout_collapseMode="pin"-->
-                <!--app:title="蹭课"-->
-                <!--app:titleTextColor="@color/white_color">-->
-
-                <!--<include layout="@layout/schedule_toolbar_head1" />-->
-            </android.support.v7.widget.Toolbar>
-
-            <include
-                layout="@layout/schedule_layout_search"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar2"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
                 app:contentInsetLeft="0dp"
                 app:contentInsetStart="0dp"
                 app:layout_collapseMode="pin"
@@ -54,6 +27,11 @@
 
                 <include layout="@layout/schedule_toolbar_head1" />
             </android.support.v7.widget.Toolbar>
+
+            <include
+                layout="@layout/schedule_layout_search"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
 
         </FrameLayout>
     </android.support.design.widget.AppBarLayout>

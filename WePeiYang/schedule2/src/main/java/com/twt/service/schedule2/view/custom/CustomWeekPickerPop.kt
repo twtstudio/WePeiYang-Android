@@ -14,7 +14,7 @@ import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.schedule_week_picker_pop.view.*
 import org.jetbrains.anko.*
 
-class CustomWeekPickerPop(context: Context, resultHandler: WeekResultHandler) : TopPopupWindow(context,true) {
+class CustomWeekPickerPop(context: Context, resultHandler: WeekResultHandler) : TopPopupWindow(context) {
     val mContext = getContext()
     val mHandler = resultHandler
     var startTime: Int = 1

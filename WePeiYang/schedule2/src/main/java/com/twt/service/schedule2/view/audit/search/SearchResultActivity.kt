@@ -118,9 +118,8 @@ class SearchResultActivity : CAppCompatActivity() {
             GlobalScope.launch(exceptionHandler + Dispatchers.Main) {
                 val result = AuditApi.searchCourse(courseName).awaitAndHandle { it.printStackTrace() }?.data
                         ?: throw IllegalStateException("蹭课查询失败")
-
                 itemManager.refreshAll {
-                    //indicatorText("我们为可爱的你找到${result.size}门课程，共${result.flatMap { it.info }.count()}个上课时间")
+//                    indicatorText("我们为可爱的你找到${result.size}门课程，共${result.flatMap { it.info }.count()}个上课时间")
                     var invalidCount = 0
                     result.map(AuditSearchCourse::convertToAuditCourse).forEach { auditCourse: AuditCourse ->
                         /* 办公网的返回数据有问题，所以只能先这样手动判断 */
