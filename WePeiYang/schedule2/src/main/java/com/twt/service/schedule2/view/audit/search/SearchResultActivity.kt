@@ -27,7 +27,6 @@ import com.twt.service.schedule2.model.audit.*
 import com.twt.service.schedule2.view.adapter.indicatorText
 import com.twt.service.schedule2.view.audit.AutoCompletePresenter
 import com.twt.service.schedule2.view.audit.auditCourseItem
-import com.twt.service.schedule2.view.custom.SingleTextItem
 import com.twt.service.schedule2.view.custom.singleText
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
@@ -120,8 +119,10 @@ class SearchResultActivity : CAppCompatActivity() {
                 val result = AuditApi.searchCourse(courseName).awaitAndHandle { it.printStackTrace() }?.data
                         ?: throw IllegalStateException("蹭课查询失败")
                 itemManager.refreshAll {
+
 //                    indicatorText("我们为可爱的你找到${result.size}门课程，共${result.flatMap { it.info }.count()}个上课时间")
                     var invalidCount = 0
+                    var count = 0
                     result.map(AuditSearchCourse::convertToAuditCourse).forEach { auditCourse: AuditCourse ->
                         /* 办公网的返回数据有问题，所以只能先这样手动判断 */
                         val course = auditCourse.convertToCourse()
@@ -142,7 +143,7 @@ class SearchResultActivity : CAppCompatActivity() {
                         }
                     }
                     if (invalidCount == result.size) {
-                        SingleTextItem("无可用搜索结果")
+                        singleText("无可用搜索结果")
                     }
                 }
             }

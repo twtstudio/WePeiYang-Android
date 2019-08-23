@@ -6,6 +6,8 @@ import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.AppCompatActivity
 import android.webkit.*
 import com.twt.service.R
+import com.twt.wepeiyang.commons.experimental.color.getColorCompat
+import com.twt.wepeiyang.commons.experimental.extensions.enableLightStatusBarMode
 import org.jetbrains.anko.support.v4.onRefresh
 import org.jetbrains.anko.support.v4.swipeRefreshLayout
 import org.jetbrains.anko.webView
@@ -24,8 +26,12 @@ class NewsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // 设置沉浸式状态栏
+        window.statusBarColor = getColorCompat(R.color.white)
+        enableLightStatusBarMode(true)
         srl = swipeRefreshLayout {
-            setColorSchemeColors(ContextCompat.getColor(this@NewsActivity, R.color.colorAccent))
+            /*因为放了webview 是白色主题的，所以这里的设置会显得有点丑（？）*/
+//            setColorSchemeColors(ContextCompat.getColor(this@NewsActivity, R.color.colorAccent))
             webView = webView {
                 loadUrl(twtNewsHomeUrl)
 

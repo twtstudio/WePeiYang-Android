@@ -54,7 +54,6 @@ class MyCustomFragment: Fragment() {
                 } else {
                     mtaExpose("schedule_自定义课程_用户自定义课程列表为空")
                     text.visibility = View.VISIBLE
-
                 }
 
                 it.forEach { customCourse ->

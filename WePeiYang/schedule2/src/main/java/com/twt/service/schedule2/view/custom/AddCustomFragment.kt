@@ -2,29 +2,30 @@ package com.twt.service.schedule2.view.custom
 
 import android.content.Context
 import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.AppCompatCheckBox
-import android.view.LayoutInflater
-import android.view.MotionEvent
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.view.inputmethod.InputMethodManager
-import android.widget.Button
-import android.widget.CheckBox
-import android.widget.EditText
-import android.widget.TextView
+import android.widget.*
 import com.twt.service.schedule2.R
+import com.twt.service.schedule2.extensions.customPopUpWindow
 import com.twt.service.schedule2.model.Arrange
 import com.twt.service.schedule2.model.Week
 import com.twt.service.schedule2.model.custom.CustomCourseManager
 import com.twt.wepeiyang.commons.experimental.color.getColorCompat
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
 import es.dmoral.toasty.Toasty
+import kotlinx.android.synthetic.main.schedule_class_picker_pop.view.*
 import kotlinx.android.synthetic.main.schedule_frag_add_custom.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
+import org.jetbrains.anko.backgroundColor
+import org.jetbrains.anko.matchParent
+import org.jetbrains.anko.textColor
+import org.jetbrains.anko.wrapContent
 import java.lang.NumberFormatException
 
 
@@ -55,31 +56,32 @@ class AddCustomFragment : Fragment(){
         val editStartWeek: TextView = view.findViewById(R.id.edit_startWeek_name)
         val editEndWeek: TextView = view.findViewById(R.id.edit_endWeek_name)
 
-        val timePop = CustomClassPickerPop(mContext,object : CustomClassPickerPop.ResultHandler {
-            override fun handle(startTime: Int, endTime: Int) {
-                editStartTime.text  = startTime.toString()
-                editEndTime.text = endTime.toString()
-            }
-        })
-
-        val weekPop = CustomWeekPickerPop(mContext, object : CustomWeekPickerPop.WeekResultHandler{
-            override fun weekhandle(startTime: Int, endTime: Int) {
-                editStartWeek.text = startTime.toString()
-                editEndWeek.text = endTime.toString()
-            }
-        })
+//        val timePop = CustomClassPickerPop(mContext,object : CustomClassPickerPop.ResultHandler {
+//            override fun handle(startTime: Int, endTime: Int) {
+//                editStartTime.text  = startTime.toString()
+//                editEndTime.text = endTime.toString()
+//            }
+//        })
+//
+//        val weekPop = CustomWeekPickerPop(mContext, object : CustomWeekPickerPop.WeekResultHandler{
+//            override fun weekhandle(startTime: Int, endTime: Int) {
+//                editStartWeek.text = startTime.toString()
+//                editEndWeek.text = endTime.toString()
+//            }
+//        })
 
         editStartTime.setOnClickListener {
-            timePop.show()
+            customPopUpWindow(context!!, "请选择节数", "节" , 12, editStartTime, editEndTime)
         }
+
         editEndTime.setOnClickListener {
-            timePop.show()
+            customPopUpWindow(context!!, "请选择节数", "节" , 12, editStartTime, editEndTime)
         }
         editStartWeek.setOnClickListener {
-            weekPop.show()
+            customPopUpWindow(context!!, "请选择周数", "周" , 25, editStartWeek, editEndWeek)
         }
         editEndWeek.setOnClickListener {
-            weekPop.show()
+            customPopUpWindow(context!!, "请选择周数", "周" , 25, editStartWeek, editEndWeek)
         }
 
         /**

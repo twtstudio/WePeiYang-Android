@@ -10,11 +10,14 @@
     </style>
 
     <style name="MyCheckBox" parent="Theme.AppCompat.Light">
-
         <item name="colorControlNormal">@color/md_grey_100</item>
-
         <item name="colorControlActivated">@color/md_grey_100</item>
-
     </style>
+
+    <style name="style_pop_animation">
+        <item name="android:windowEnterAnimation">@anim/anim_pop_in</item>
+        <item name="android:windowExitAnimation">@anim/anim_pop_out</item>
+    </style>
+
 
 </resources>

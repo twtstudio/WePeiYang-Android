@@ -125,7 +125,7 @@ class EcardInfoItem : Item {
                         holder.stateText.text = "正在加载校园卡数据"
                     }
                     is RefreshState.Failure -> eCardRefreshState.handleError { _, _, message, _ ->
-                        holder.stateText.text = "<span style=\"color:#E70C57\";>校园卡数据拉取错误 $message 尝试重新绑定或稍后再试 点此可刷新</span>".spanned
+                        holder.stateText.text = "<span style=\"color:#E70C57\";>校园卡数据拉取错误 尝试重新绑定</span>".spanned
                         mtaExpose("ecard_校园卡无法被成功刷新_一般是没有绑定")
                     }
                 }
