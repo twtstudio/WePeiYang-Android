@@ -5,6 +5,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.provider.Settings
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -153,13 +154,15 @@ class SearchResultActivity : CAppCompatActivity() {
             title = "大佬真的要蹭课吗？"
             GlobalScope.async(Dispatchers.Main + QuietCoroutineExceptionHandler) {
                 val duplicateList = withContext(Dispatchers.Default) {
-                    ScheduleDb.auditCourseDao.loadAllAuditCourses().filter { it.courseName == auditCourse.courseName }
+                    ScheduleDb.auditCourseDao.loadAllAuditCourses().filter {
+                        it.courseName == auditCourse.courseName
+                    }
                 }
                 when {
                     duplicateList.isEmpty() -> {
                         message = "蹭课：${auditCourse.courseName}"
                         positiveButton("确认") {
-                            async(Dispatchers.Main + QuietCoroutineExceptionHandler) {
+                            GlobalScope.async(Dispatchers.Main + QuietCoroutineExceptionHandler) {
                                 val auditResult = audit(auditCourse.courseId, auditCourse.infos[0].id.toString()).awaitAndHandle { it.printStackTrace() }?.message
                                         ?: "蹭课失败"
                                 Toasty.success(this@SearchResultActivity, "$auditResult - ${auditCourse.courseName}").show()
@@ -177,7 +180,7 @@ class SearchResultActivity : CAppCompatActivity() {
                         coursesAlreadyAudit.flatMap { it.infos }.forEach { infoIds += "${it.id}," }
                         infoIds += auditCourse.infos[0].id
                         positiveButton("确认") {
-                            async(Dispatchers.Main + QuietCoroutineExceptionHandler) {
+                            GlobalScope.async(Dispatchers.Main + QuietCoroutineExceptionHandler) {
                                 val auditResult = audit(auditCourse.courseId, infoIds).awaitAndHandle { it.printStackTrace() }?.message
                                 Toasty.success(this@SearchResultActivity, "$auditResult - ${auditCourse.courseName}").show()
 

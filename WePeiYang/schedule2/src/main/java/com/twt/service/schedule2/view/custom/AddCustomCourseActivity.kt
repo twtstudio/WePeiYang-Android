@@ -1,5 +1,7 @@
 package com.twt.service.schedule2.view.custom
 
+import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.support.design.widget.TabLayout
@@ -13,8 +15,17 @@ import android.widget.ImageView
 import com.twt.wepeiyang.commons.experimental.color.getColorCompat
 
 class AddCustomCourseActivity: AppCompatActivity() {
+    /*为了实现在多节课程的底部栏进入自定义课程界面 */
+    companion object {
+        fun startAddCustomActivity(context: Context) {
+            val customIntent = Intent(context, AddCustomCourseActivity::class.java)
+            customIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+            context.startActivity(customIntent)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.schedule_act_add_custom)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)

@@ -99,6 +99,7 @@
         <activity android:name=".news.NewsActivity" />
         <activity android:name=".mall.MallActivity"/>
         <activity android:name=".schedule2.view.custom.AddCustomCourseActivity" />
+        <activity android:name=".schedule2.view.audit.AuditActivity"/>
 
         <provider
             android:name="android.support.v4.content.FileProvider"
