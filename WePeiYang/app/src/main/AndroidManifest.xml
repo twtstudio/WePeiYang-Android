@@ -98,7 +98,9 @@
         <activity android:name=".settings.SingleBindActivity" />
         <activity android:name=".news.NewsActivity" />
         <activity android:name=".mall.MallActivity"/>
-        <activity android:name=".schedule2.view.custom.AddCustomCourseActivity" />
+        <activity
+            android:name=".schedule2.view.custom.AddCustomCourseActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"/>
         <activity android:name=".schedule2.view.audit.AuditActivity"/>
 
         <provider

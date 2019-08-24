@@ -33,7 +33,6 @@ import com.twt.service.schedule2.view.adapter.iconLabel
 import com.twt.service.schedule2.view.adapter.spaceItem
 import com.twt.service.schedule2.view.audit.search.AnimationUtil
 import com.twt.service.schedule2.view.audit.search.SearchResultActivity
-import com.twt.service.schedule2.view.custom.AddCustomCourseActivity
 import com.twt.service.schedule2.view.custom.SingleTextItem
 import com.twt.service.schedule2.view.custom.singleText
 import com.twt.wepeiyang.commons.experimental.cache.CacheIndicator

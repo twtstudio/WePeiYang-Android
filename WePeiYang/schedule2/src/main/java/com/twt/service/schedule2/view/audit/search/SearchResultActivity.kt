@@ -5,7 +5,6 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.provider.Settings
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -39,6 +38,7 @@ import kotlinx.coroutines.*
 import org.jetbrains.anko.alert
 
 class SearchResultActivity : CAppCompatActivity() {
+    /*调用以打开searchResultActivity*/
     companion object {
         val KEY_COURSE_NAME = "CourseName"
         fun searchCourse(context: Context, courseName: String) {
@@ -60,6 +60,12 @@ class SearchResultActivity : CAppCompatActivity() {
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
+        /**
+         * 隐藏软键盘
+         */
+        fun hideSoftInput() =
+                (this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(this.currentFocus?.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
+
         val titleText: TextView = findViewById(R.id.tv_toolbar_title)
         titleText.apply {
             text = "蹭课搜索"
@@ -76,6 +82,7 @@ class SearchResultActivity : CAppCompatActivity() {
 
         val searchReturnImg: ImageView = findViewById(R.id.img_search_back)
         searchReturnImg.setOnClickListener {
+            hideSoftInput()
             searchContainer.visibility = View.INVISIBLE
         }
 

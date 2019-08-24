@@ -9,17 +9,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Toast
 import butterknife.ButterKnife
 import butterknife.Unbinder
 import com.twt.service.R
 import com.twt.wepeiyang.commons.experimental.cache.CacheIndicator
 import com.twt.wepeiyang.commons.experimental.cache.RefreshState
+import com.twt.wepeiyang.commons.experimental.color.getColorCompat
 import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
 import com.twt.wepeiyang.commons.network.RxErrorHandler
 import com.twtstudio.retrox.auth.api.authSelfLiveData
 import com.twtstudio.retrox.auth.api.login
-import com.twtstudio.retrox.auth.api.refreshToken
 import com.twtstudio.retrox.tjulibrary.provider.TjuLibProvider
 import es.dmoral.toasty.Toasty
 import rx.android.schedulers.AndroidSchedulers
@@ -36,6 +37,9 @@ class SingleBindActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_setting)
+
+        findViewById<ImageView>(R.id.iv_activity_setting_back).setOnClickListener { onBackPressed() }
+
         val fragmentTransaction = fragmentManager.beginTransaction()
         val type = intent.getIntExtra(TYPE, 0)
         val message: String? = intent.getStringExtra("message")
@@ -67,13 +71,13 @@ class TjuBindFragment2 : Fragment() {
         button = view.findViewById(R.id.btn_tju_bind)
         numEdit = view.findViewById(R.id.tju_num)
         passwordEdit = view.findViewById(R.id.tju_password)
+
         button.setOnClickListener { _ ->
             RealBindAndDropOutService
                     .bindTju(numEdit.text.toString(), passwordEdit.text.toString())
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .doAfterTerminate {
-//                        refreshToken()
                         login(CommonPreferences.twtuname, CommonPreferences.password) {
                             when (it) {
                                 is RefreshState.Success -> {
@@ -118,23 +122,21 @@ class LibBindFragment2 : Fragment() {
                 TjuLibProvider(context).bindLibrary({ integer ->
                     when (integer) {
                         -1 -> {
+                            login(CommonPreferences.twtuname, CommonPreferences.password) {
+                                when (it) {
+                                    is RefreshState.Success -> {
+                                        authSelfLiveData.refresh(CacheIndicator.REMOTE)
+                                    }
+                                    is RefreshState.Failure -> {
+                                        Toasty.error(activity, "发生错误 ${it.throwable.message}！${it.javaClass.name}").show()
+                                    }
+                                }
+                            }
                             Toasty.success(this.context, "绑定成功", Toast.LENGTH_SHORT).show()
                             activity.finish()
                         }
                         50002 -> Toasty.error(this.context, "图书馆密码错误", Toast.LENGTH_SHORT).show()
                         else -> Toasty.error(this.context, "未知错误", Toast.LENGTH_SHORT).show()
-                    }
-//                    refreshToken()
-//                    authSelfLiveData.refresh(CacheIndicator.REMOTE)
-                    login(CommonPreferences.twtuname, CommonPreferences.password) {
-                        when (it) {
-                            is RefreshState.Success -> {
-                                authSelfLiveData.refresh(CacheIndicator.REMOTE)
-                            }
-                            is RefreshState.Failure -> {
-                                Toasty.error(activity, "发生错误 ${it.throwable.message}！${it.javaClass.name}").show()
-                            }
-                        }
                     }
                 }, libPasswordEdit.text.toString().takeIf(String::isNotEmpty) ?: "000000")
             }

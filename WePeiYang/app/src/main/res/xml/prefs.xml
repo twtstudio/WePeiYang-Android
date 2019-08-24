@@ -20,22 +20,22 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="绑定设置">
-        <Preference
-            android:key="@string/pref_bind_settings"
-            android:summary="点击进入绑定页面，自行选择需要绑定的功能，自行车功能需要在自行车功能模块单独绑定"
-            android:title="绑定关联账号" />
-        <Preference
-            android:key="@string/pref_is_bind_lib"
-            android:title="图书馆绑定状态" />
-        <Preference
-            android:key="@string/pref_is_bind_tju"
-            android:title="办公网绑定状态" />
-        <Preference
-            android:key="@string/pref_is_bind_bike"
-            android:title="自行车绑定状态" />
+<!--    <PreferenceCategory android:title="绑定设置">-->
+<!--        <Preference-->
+<!--            android:key="@string/pref_bind_settings"-->
+<!--            android:summary="点击进入绑定页面，自行选择需要绑定的功能，自行车功能需要在自行车功能模块单独绑定"-->
+<!--            android:title="绑定关联账号" />-->
+<!--        <Preference-->
+<!--            android:key="@string/pref_is_bind_lib"-->
+<!--            android:title="图书馆解绑" />-->
+<!--        <Preference-->
+<!--            android:key="@string/pref_is_bind_tju"-->
+<!--            android:title="办公网解绑" />-->
+<!--        <Preference-->
+<!--            android:key="@string/pref_is_bind_bike"-->
+<!--            android:title="自行车解绑" />-->
 
-    </PreferenceCategory>
+<!--    </PreferenceCategory>-->
 
     <PreferenceCategory android:title="关于微北洋">
         <SwitchPreference

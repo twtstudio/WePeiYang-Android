@@ -13,13 +13,10 @@ import butterknife.Unbinder
 import com.twt.service.R
 import com.twt.wepeiyang.commons.experimental.cache.CacheIndicator.REMOTE
 import com.twt.wepeiyang.commons.experimental.cache.RefreshState
-import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
-import com.twt.wepeiyang.commons.experimental.service.AuthService
 import com.twt.wepeiyang.commons.network.RxErrorHandler
 import com.twtstudio.retrox.auth.api.authSelfLiveData
 import com.twtstudio.retrox.auth.api.login
-import com.twtstudio.retrox.auth.api.refreshToken
 import es.dmoral.toasty.Toasty
 import rx.android.schedulers.AndroidSchedulers
 import rx.functions.Action1
