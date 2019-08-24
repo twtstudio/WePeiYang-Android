@@ -12,7 +12,11 @@ import butterknife.ButterKnife
 import butterknife.Unbinder
 import com.twt.service.R
 import com.twt.wepeiyang.commons.experimental.cache.CacheIndicator.REMOTE
+import com.twt.wepeiyang.commons.experimental.cache.RefreshState
+import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
 import com.twtstudio.retrox.auth.api.authSelfLiveData
+import com.twtstudio.retrox.auth.api.login
+import com.twtstudio.retrox.auth.api.refreshToken
 import com.twtstudio.retrox.tjulibrary.provider.TjuLibProvider
 import es.dmoral.toasty.Toasty
 
@@ -40,7 +44,17 @@ class LibBindFragment : SlideFragment() {
                     50002 -> this.context?.let { it1 -> Toasty.success(it1, "图书馆密码错误", Toast.LENGTH_SHORT).show() }
                     else -> this.context?.let { it1 -> Toasty.success(it1, "未知错误", Toast.LENGTH_SHORT).show() }
                 }
-                authSelfLiveData.refresh(REMOTE)
+//                refreshToken()
+                login(CommonPreferences.twtuname, CommonPreferences.password) {
+                    when (it) {
+                        is RefreshState.Success -> {
+                            authSelfLiveData.refresh(REMOTE)
+                        }
+                        is RefreshState.Failure -> {
+                            Toasty.error(context!!, "发生错误 ${it.throwable.message}！${it.javaClass.name}").show()
+                        }
+                    }
+                }
             }, libPasswordEdit.text.toString().takeIf(String::isNotEmpty) ?: "000000")
         }
         return view
