@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="mallColorBgGrey">#f6f6f6</color>
+    <color name="mallColorTextLight">#bfbfbf</color>
+    <color name="mallColorBgGrey">#CCF6F6F6</color>
     <color name="mallColorBgLight">#80F8F1EC</color>
-    <color name="mallColorMain">#FF9A36</color>
-    <color name="mallColorLight">#80FFD3A4</color>
+    <color name="mallColorMain">#f57f17</color>
+    <color name="mallColorAccent">#ff3d00</color>
+    <color name="mallColorPressed">#CCFE8A01</color>
+    <color name="mallColorLight">#CCFFB26D</color>
+<!--    //FF9A36//原定主色调-->
+<!--    //FFB26D//原pressed-->
 </resources>

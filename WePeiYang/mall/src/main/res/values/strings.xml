@@ -1,7 +1,12 @@
 <resources>
     <string name="app_name">Mall</string>
+    <string name="mallStringTitle">天外天商城</string>
+    <string name="mallStringLatestSale">最新商品</string>
+    <string name="mallStringLatestNeed">最新求购</string>
+    <string name="mallStringMySale">我的商品</string>
+    <string name="mallStringMyNeed">我的求购</string>
+    <string name="mallStringMyFav">我的收藏</string>
+    <string name="mallStringPostSale">发布商品</string>
+    <string name="mallStringPostNeed">发布求购</string>
     <string name="rmb">¥</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

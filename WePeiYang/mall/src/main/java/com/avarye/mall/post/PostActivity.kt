@@ -19,14 +19,17 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.ProgressBar
 import com.avarye.mall.R
 import com.avarye.mall.service.*
+import com.twt.wepeiyang.commons.experimental.cache.CacheIndicator
 import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
 import com.zhihu.matisse.Matisse
 import com.zhihu.matisse.MimeType
 import com.zhihu.matisse.engine.impl.GlideEngine
+import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.mall_activity_post.*
-import kotlinx.android.synthetic.main.mall_item_category.*
+import kotlinx.android.synthetic.main.mall_item_spinner_category.*
 import kotlinx.android.synthetic.main.mall_item_toolbar.*
 import pub.devrel.easypermissions.EasyPermissions
 import java.io.*
@@ -38,6 +41,7 @@ class PostActivity : AppCompatActivity() {
     private lateinit var postImgAdapter: PostImgAdapter
     private val postImgManager = LinearLayoutManager(this)
     private val viewModel = ViewModel()
+    private var token = ""
     private var selectPicList = mutableListOf<Any>()
     private var status = ""
     private var category = ""
@@ -45,7 +49,10 @@ class PostActivity : AppCompatActivity() {
     private var iid = ""
     private var iidTemp = ""
     private var flagSale = false
+    private var flagNeed = false
     private var type = 0
+    private lateinit var map: Map<String, Any>
+    private lateinit var progressBar: ProgressBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,6 +69,8 @@ class PostActivity : AppCompatActivity() {
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
             setNavigationOnClickListener { showExitDialog() }
         }
+        progressBar = pb_post
+        progressBar.visibility = View.GONE
 
         when (type) {
             1 -> {
@@ -75,10 +84,14 @@ class PostActivity : AppCompatActivity() {
                 rv_post_img.visibility = View.GONE
                 rl_post_bargain.visibility = View.GONE
                 tv_post_price.text = "期望价格"
-
             }
         }
 
+        loginLiveData.bindNonNull(this) {
+            token = it.token
+        }
+
+        menuLiveData.refresh(CacheIndicator.REMOTE)
         initSpinnerStatus()
         initSpinnerCategory()
         sp_post_status.setSelection(0)
@@ -93,7 +106,18 @@ class PostActivity : AppCompatActivity() {
             layoutManager = postImgManager
         }
 
-        tv_post_button.setOnClickListener { post() }
+        tv_post_button.setOnClickListener {
+            tv_post_button.isClickable = false
+            map = dataToMap()//更新数据
+            if (flagSale || flagNeed) {
+                progressBar.visibility = View.VISIBLE
+                post()
+//                this.finish()
+            } else {
+                Toasty.info(this, "请填写完整").show()
+                tv_post_button.isClickable = true
+            }
+        }
     }
 
     private fun initSpinnerStatus() {
@@ -189,11 +213,10 @@ class PostActivity : AppCompatActivity() {
     }
 
     private fun post() = when (type) {
-        1 -> viewModel.postSale(dataToMap())
-        2 -> viewModel.postNeed(dataToMap())
+        1 -> viewModel.postSale(map, token)
+        2 -> viewModel.postNeed(map, token)
         else -> Unit
     }
-
 
     private fun dataToMap(): Map<String, Any> {
         val name = et_post_name.text.toString()
@@ -218,7 +241,10 @@ class PostActivity : AppCompatActivity() {
 
         flagSale = name.isNotBlank() && detail.isNotBlank() && location.isNotBlank() && price.isNotBlank()
                 && category.isNotBlank() && categoryMain.isNotBlank() && (phone + qq + weChat).isNotBlank()
-                && status.isNotBlank()
+                && status.isNotBlank() && bargain.isNotBlank()
+
+        flagNeed = name.isNotBlank() && detail.isNotBlank() && location.isNotBlank() && price.isNotBlank()
+                && category.isNotBlank() && categoryMain.isNotBlank() && (phone + qq + weChat).isNotBlank()
 
         val map = HashMap<String, Any>()
         map["name"] = name
@@ -260,7 +286,7 @@ class PostActivity : AppCompatActivity() {
             if (this is Uri) {
                 val file: File = File.createTempFile("pic", ".jpg")
                 val outputFile = file.path
-                viewModel.postImg(getFile(zipThePic(handleImageOnKitKat(this)), outputFile)!!)
+                viewModel.postImg(getFile(zipThePic(handleImageOnKitKat(this)), outputFile)!!, token)
             }
         }
     }
@@ -388,6 +414,7 @@ class PostActivity : AppCompatActivity() {
 
     private fun showExitDialog() = AlertDialog.Builder(this)
             .setTitle("退出后无法保存呦")
+
             .setCancelable(false)
             .setPositiveButton("取消") { dialog, _ -> dialog.dismiss() }
             .setNegativeButton("确定") { _, _ -> this.finish() }

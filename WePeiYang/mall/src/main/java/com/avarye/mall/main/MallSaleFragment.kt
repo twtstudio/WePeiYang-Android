@@ -64,6 +64,7 @@ class MallSaleFragment : Fragment() {
                 }
             })
         }
+
         viewModel.login()
         bindSale()
         return view
@@ -88,6 +89,7 @@ class MallSaleFragment : Fragment() {
                     }
                 }
             }
+            itemManager.removeAll { it is RecItem }
             itemManager.addAll(items)
         }
 

@@ -8,87 +8,81 @@ import okhttp3.RequestBody
 import java.io.File
 
 object MallManager {
-    private val cookies = mutableListOf<String>()
-    private lateinit var infoLogin: Login
+    private val cookies = mutableListOf<String>()//测试用
 
     //manager
-    fun login() = MallApi.loginAsync(getToken())
+    fun loginAsync() = MallApi.loginAsync(getToken())
 
-    fun getMyInfo() = MallApi.getMyInfoAsync()
+//    fun getMyInfoAsync() = MallApi.getMyInfoAsync()
 
-    fun changeMyInfo(phone: String, email: String, qq: String, campus: Int) = MallApi.changeMyInfoAsync(
+    fun changeMyInfoAsync(phone: String, email: String, qq: String, campus: Int) = MallApi.changeMyInfoAsync(
             phone = toReqBody(phone),
             email = toReqBody(email),
             qq = toReqBody(qq),
             campus = toReqBody(campus))
 
-    fun changeCampus(campus: Int) = MallApi.changeCampusAsync(toReqBody(campus))
+    fun changeCampusAsync(campus: Int) = MallApi.changeCampusAsync(toReqBody(campus))
 
-    fun latestSale(page: Int) = MallApi.latestSaleAsync(toReqBody(page), toReqBody(1))
+    fun latestSaleAsync(page: Int) = MallApi.latestSaleAsync(toReqBody(page), toReqBody(1))
 
-    fun latestNeed(page: Int) = MallApi.latestNeedAsync(toReqBody(page), toReqBody(2))
+    fun latestNeedAsync(page: Int) = MallApi.latestNeedAsync(toReqBody(page), toReqBody(2))
 
-    fun selectSale(category: String, page: Int) = MallApi.selectSaleAsync(
-            which = toReqBody(1),
+    fun selectAsync(category: String, which: Int, page: Int) = MallApi.selectAsync(
+            which = toReqBody(which),
             page = toReqBody(page),
             category = toReqBody(category))
 
-    fun selectNeed(category: String, page: Int) = MallApi.selectNeedAsync(
-            which = toReqBody(2),
-            page = toReqBody(page),
-            category = toReqBody(category))
+    fun searchAsync(key: String, page: Int) = MallApi.searchAsync(toReqBody(key), toReqBody(page))
 
-    fun search(key: String, page: Int) = MallApi.searchAsync(toReqBody(key), toReqBody(page))
+//    fun getMenuAsync() = MallApi.getMenuAsync()
 
-    fun getMenu() = MallApi.getMenuAsync()
+    fun getDetailAsync(id: String) = MallApi.getDetailAsync(id)
 
-    fun getDetail(id: String) = MallApi.getDetailAsync(id)
+    fun getSellerInfoAsync(gid: String, token: String) = MallApi.getSellerInfoAsync(toReqBody(token), toReqBody(gid))
 
-    fun getSellerInfo(gid: String) = MallApi.getSellerInfoAsync(toReqBody(getLogin().token), toReqBody(gid))
+    fun getUserInfoAsync(id: String) = MallApi.getUserInfoAsync(id)
 
-    fun getUserInfo(id: String) = MallApi.getUserInfoAsync(id)
-
-    fun postImg(file: File): Deferred<Result> {
+    fun postImgAsync(file: File, token: String): Deferred<Result> {
 
         val imageBody = RequestBody.create(MediaType.parse("multipart/form-data"), file)
 
         val builder = MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
-                .addFormDataPart("token", getLogin().token)
+                .addFormDataPart("token", token)
                 .addFormDataPart("file", file.name, imageBody)
 
         val list = builder.build().parts()
         return MallApi.postImgAsync(list)
     }
 
-    fun fav(gid: String) = MallApi.favAsync(toReqBody(getLogin().token), toReqBody(gid))
+    fun favAsync(gid: String, token: String) = MallApi.favAsync(toReqBody(token), toReqBody(gid))
 
-    fun deFav(gid: String) = MallApi.deFavAsync(toReqBody(getLogin().token), toReqBody(gid))
+    fun deFavAsync(gid: String, token: String) = MallApi.deFavAsync(toReqBody(token), toReqBody(gid))
 
-    fun favorites() = MallApi.favoritesAsync(toReqBody(getLogin().token))
+    fun getFavListAsync(token: String) = MallApi.getFavListAsync(toReqBody(token))
 
-    fun getCommentList(id: String, which: Int) = MallApi.getCommentListAsync(
-            token = toReqBody(getLogin().token),
+    fun getCommentListAsync(id: String, which: Int, token: String) = MallApi.getCommentListAsync(
+            token = toReqBody(token),
             id = toReqBody(id),
             which = toReqBody(which))
 
-    fun comment(id: String, which: Int, content: String) = MallApi.commentAsync(
-            token = toReqBody(getLogin().token),
+    fun commentAsync(id: String, which: Int, content: String, token: String) = MallApi.commentAsync(
+            token = toReqBody(token),
             content = toReqBody(content),
             which = toReqBody(which),
             tid = toReqBody(id))
 
-    fun getReplyList(id: String) = MallApi.getReplyListAsync(toReqBody(getLogin().token), toReqBody(id))
+    fun getReplyListAsync(id: String, token: String) = MallApi.getReplyListAsync(toReqBody(token), toReqBody(id))
 
-    fun reply(id: String, content: String) = MallApi.replyAsync(
-            token = toReqBody(getLogin().token),
+    fun replyAsync(id: String, content: String, token: String) = MallApi.replyAsync(
+            token = toReqBody(token),
             cid = toReqBody(id),
             content = toReqBody(content))
 
-    fun postSale(map: Map<String, Any>): Deferred<Result> {
+    fun postSaleAsync(map: Map<String, Any>, token: String): Deferred<Result> {
         val builder = MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
-                .addFormDataPart("token", getLogin().token)
+                .addFormDataPart("token", token)
                 .addFormDataPart("name", map["name"].toString())
                 .addFormDataPart("desc", map["detail"].toString())
                 .addFormDataPart("campus", map["campus"].toString())
@@ -107,10 +101,10 @@ object MallManager {
         return MallApi.postSaleAsync(list)
     }
 
-    fun postNeed(map: Map<String, Any>): Deferred<Result> {
+    fun postNeedAsync(map: Map<String, Any>, token: String): Deferred<Result> {
         val builder = MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
-                .addFormDataPart("token", getLogin().token)
+                .addFormDataPart("token", token)
                 .addFormDataPart("name", map["name"].toString())
                 .addFormDataPart("gdesc", map["detail"].toString())
                 .addFormDataPart("campus", map["campus"].toString())
@@ -126,13 +120,12 @@ object MallManager {
         return MallApi.postNeedAsync(list)
     }
 
+    fun deleteSaleAsync(gid: String, token: String) = MallApi.deleteSaleAsync(toReqBody(token), toReqBody(gid))
+
     //data Utils
-    private fun getLogin(): Login {
-        return infoLogin
-    }
 
     fun setLogin(data: Login) {
-        infoLogin = data
+        loginLiveData.postValue(data)
     }
 
     //数据处理
@@ -181,7 +174,7 @@ object MallManager {
         }
     }
 
-    //token
+    //微北洋的token
     private fun getToken(): String {
         return "Bearer{${CommonPreferences.token}}"
     }

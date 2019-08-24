@@ -41,7 +41,7 @@ class MallNeedFragment : Fragment() {
                     //redo
                     viewModel.getLatestNeed(page)
                     isRefreshing = false
-                    Toasty.info(context, "已刷新").show()
+                    Toasty.success(context, "已刷新").show()
                 }
                 isLoading = false
             }
@@ -84,9 +84,9 @@ class MallNeedFragment : Fragment() {
                     }
                 }
             }
+            itemManager.removeAll { it is RecItem }
             itemManager.addAll(items)
         }
-
     }
 
     private fun resetPage() {

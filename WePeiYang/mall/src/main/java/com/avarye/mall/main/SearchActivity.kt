@@ -11,6 +11,7 @@ import com.avarye.mall.detail.DetailActivity
 import com.avarye.mall.service.MallManager
 import com.avarye.mall.service.ViewModel
 import com.avarye.mall.service.searchLiveData
+import com.avarye.mall.service.selectLiveData
 import com.bumptech.glide.Glide
 import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
 import com.twt.wepeiyang.commons.ui.rec.Item
@@ -27,18 +28,30 @@ class SearchActivity : AppCompatActivity() {
     private val itemManager = ItemManager()
     private val viewModel = ViewModel()
     private var key = ""
+    private var type = ""
+    private var which = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.mall_activity_search)
         window.statusBarColor = ContextCompat.getColor(this, R.color.mallColorMain)
+
+        key = intent.getStringExtra("key")
+        type = intent.getStringExtra("type")
+        if (type == "select") {
+            which = intent.getIntExtra("which", 1)
+        }
+
         tb_main.apply {
-            title = "搜索结果"
+            title = when (type) {
+                "search" -> "搜索结果"
+                "select" -> "分类结果"
+                else -> "薛定谔"
+            }
             setSupportActionBar(this)
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
             setNavigationOnClickListener { onBackPressed() }
         }
-        key = intent.getStringExtra("key")
 
         srl_search.apply {
             setColorSchemeResources(R.color.mallColorMain)
@@ -47,11 +60,10 @@ class SearchActivity : AppCompatActivity() {
                 if (!isLoading) {
                     isLoading = true
                     resetPage()
-                    itemManager.removeAll { it is RecItem }
                     //redo
-                    viewModel.search(key, page)
+                    getData()
                     isRefreshing = false
-                    Toasty.info(this@SearchActivity, "已刷新").show()
+                    Toasty.success(this@SearchActivity, "已刷新").show()
                 }
                 isLoading = false
             }
@@ -67,17 +79,35 @@ class SearchActivity : AppCompatActivity() {
                     if (!canScrollVertically(1) && page < totalPage && !isLoading) {
                         isLoading = true
                         //more
-                        viewModel.search(key, ++page)
+                        getMoreData()
                     }
                     isLoading = false
                 }
             })
         }
 
-        viewModel.search(key, page)
-        bindSearch()
+        getData()
+
+        when (type) {
+            "search" -> bindSearch()
+            "select" -> when (which) {
+                1 -> bindSelectSale()
+                2 -> bindSelectNeed()
+            }
+        }
     }
 
+    private fun getData() = when (type) {
+        "search" -> viewModel.search(key, page)
+        "select" -> viewModel.getSelect(key, which, page)
+        else -> Unit
+    }
+
+    private fun getMoreData() = when (type) {
+        "search" -> viewModel.search(key, ++page)
+        "select" -> viewModel.getSelect(key, which, ++page)
+        else -> Unit
+    }
 
     private fun bindSearch() {
         searchLiveData.bindNonNull(this) { list ->
@@ -98,10 +128,54 @@ class SearchActivity : AppCompatActivity() {
                     }
                 }
             }
+            itemManager.removeAll { it is RecItem }
             itemManager.addAll(items)
-
         }
+    }
 
+    private fun bindSelectSale() {
+        selectLiveData.bindNonNull(this) { list ->
+            totalPage = list[0].page
+            val items = mutableListOf<Item>().apply {
+                for (i in 1 until list.size) {
+                    recItem {
+                        Glide.with(this@SearchActivity)
+                                .load("https://mall.twt.edu.cn/api.php/Upload/img_redirect?id=${list[i].imgurl}")
+                                .into(image)
+                        name.text = list[i].name
+                        price.text = list[i].price
+                        locate.text = MallManager.dealText(list[i].location)
+                        card.setOnClickListener {
+                            val intent = Intent(this@SearchActivity, DetailActivity::class.java).putExtra("id", list[i].id)
+                            this@SearchActivity.startActivity(intent)
+                        }
+                    }
+                }
+            }
+            itemManager.removeAll { it is RecItem }
+            itemManager.addAll(items)
+        }
+    }
+
+    private fun bindSelectNeed() {
+        selectLiveData.bindNonNull(this) { list ->
+            totalPage = list[0].page
+            val items = mutableListOf<Item>().apply {
+                for (i in 1 until list.size) {
+                    recItem {
+                        name.text = list[i].name
+                        price.text = list[i].price
+                        locate.text = MallManager.dealText(list[i].location)
+                        card.setOnClickListener {
+                            val intent = Intent(this@SearchActivity, DetailActivity::class.java).putExtra("id", list[i].id)
+                            this@SearchActivity.startActivity(intent)
+                        }
+                    }
+                }
+            }
+            itemManager.removeAll { it is RecItem }
+            itemManager.addAll(items)
+        }
     }
 
     private fun resetPage() {

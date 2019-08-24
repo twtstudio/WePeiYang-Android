@@ -40,7 +40,7 @@ interface MallApi {
     @Multipart
     @POST("api.php/Items/item_new")
     fun latestNeedAsync(@Part("yeshu") page: RequestBody,
-                        @Part("which") which: RequestBody): Deferred<List<Need>>
+                        @Part("which") which: RequestBody): Deferred<List<Sale>>
 
     @Multipart
     @POST("api.php/Items/search")
@@ -50,28 +50,22 @@ interface MallApi {
     @GET("api.php/Items/menu")
     fun getMenuAsync(): Deferred<List<Menu>>
 
+    @Multipart
+    @POST("api.php/Items/items_fenlei")
+    fun selectAsync(@Part("category") category: RequestBody,
+                    @Part("yeshu") page: RequestBody,
+                    @Part("which") which: RequestBody): Deferred<List<Sale>>
+
     @GET("api.php/Items/item_one")
-    fun getDetailAsync(@Query("id") id: String): Deferred<Detail>
+    fun getDetailAsync(@Query("id") id: String): Deferred<Sale>
 
     @Multipart
     @POST("api.php/Items/saler_info")
     fun getSellerInfoAsync(@Part("token") token: RequestBody,
                            @Part("gid") gid: RequestBody): Deferred<Seller>
 
-    @GET("api.php/User/userinfo")
+    @GET("api.php/User/userinfo_for_app")
     fun getUserInfoAsync(@Query("id") id: String): Deferred<UserInfo>
-
-    @Multipart
-    @POST("api.php/Items/item_new")
-    fun selectSaleAsync(@Part("category") category: RequestBody,
-                        @Part("yeshu") page: RequestBody,
-                        @Part("which") which: RequestBody): Deferred<List<Sale>>
-
-    @Multipart
-    @POST("api.php/Items/item_new")
-    fun selectNeedAsync(@Part("category") category: RequestBody,
-                        @Part("yeshu") page: RequestBody,
-                        @Part("which") which: RequestBody): Deferred<List<Need>>
 
     @Multipart
     @POST("api.php/Upload/img_upload")
@@ -89,7 +83,7 @@ interface MallApi {
 
     @Multipart
     @POST("api.php/Items/shoucang_list")
-    fun favoritesAsync(@Part("token") token: RequestBody): Deferred<List<FavList>>
+    fun getFavListAsync(@Part("token") token: RequestBody): Deferred<List<Sale>>
 
     @Multipart
     @POST("api.php/Items/comment_list")
@@ -119,6 +113,11 @@ interface MallApi {
     @POST("api.php/Items/sale_fabu")
     fun postSaleAsync(@Part partList: List<MultipartBody.Part>): Deferred<Result>
 
+    @Multipart
+    @POST("api.php/Items/item_off")
+    fun deleteSaleAsync(@Part("token") token: RequestBody,
+                        @Part("gid") cid: RequestBody): Deferred<Result>
+
     //TODO:待测试
 
     @POST("api.php/Items/need_fabu")
@@ -127,13 +126,15 @@ interface MallApi {
     companion object : MallApi by MallApiService()
 }
 
-
+val loginLiveData = MutableLiveData<Login>()
 val saleLiveData = MutableLiveData<List<Sale>>()
-val needLiveData = MutableLiveData<List<Need>>()
+val needLiveData = MutableLiveData<List<Sale>>()
 val searchLiveData = MutableLiveData<List<Sale>>()
+val selectLiveData = MutableLiveData<List<Sale>>()
+val myListLiveData = MutableLiveData<List<Sale>>()
+val myFavLiveData = MutableLiveData<List<Sale>>()
 val imgIdLiveData = MutableLiveData<String>()
 
-//感觉只有menu和个人信息能做缓存emm
 private val menuLocalData = Cache.hawk<List<Menu>>("MALL_MENU")
 private val menuRemoteData = Cache.from(MallApi.Companion::getMenuAsync)
 val menuLiveData = RefreshableLiveData.use(menuLocalData, menuRemoteData)
@@ -202,32 +203,20 @@ data class MyInfo(
         val phone: String,
         val qq: String,
         val token: String,
-        val xiaoqu: String
+        val xiaoqu: String,
+        val goods_count: Int,
+        val needs_count: Int
 )
 
 data class Sale(
-        val bargain: String,
+        val bargain: Any,
         val campus: String,
         val ctime: String,
         val gdesc: String,
         val id: String,
         val imgurl: String,
-        val label_name: String,
-        val location: String,
-        val name: String,
-        val page: Int,
-        val price: String,
-        val username: String
-)
-
-data class Need(
-        val bargain: Any,
-        val campus: String,
-        val ctime: String,
         val email: String,
-        val gdesc: String,
         val icon: String,
-        val id: String,
         val label_name: Any,
         val location: String,
         val name: String,
@@ -236,28 +225,9 @@ data class Need(
         val price: String,
         val qq: String,
         val uid: String,
-        val username: String
-)
-
-data class Detail(
-        val bargain: String,
-        val campus: String,
-        val ctime: String,
-        val email: String,
+        val username: String,
         val exchange: String,
-        val gdesc: String,
-        val icon: String,
-        val id: String,
-        val imgurl: String,
-        val label_name: String,
-        val location: String,
-        val name: String,
-        val phone: String,
-        val price: String,
-        val qq: String,
-        val state: String,
-        val uid: String,
-        val username: String
+        val state: String
 )
 
 data class Menu(
@@ -280,31 +250,9 @@ data class Seller(
 )
 
 data class UserInfo(
-        val needList: List<Need>?,
-        val saleList: List<Sale>?,
-        val user: User
-)
-
-data class User(
-        val avatar: String,
-        val goods_count: Int,
-        val icon: String,
-        val id: String,
-        val level: String,
-        val needs_count: Int,
-        val nicheng: String,
-        val xiaoqu: String
-)
-
-data class FavList(
-        val campus: String,
-        val ctime: String,
-        val id: String,
-        val imgurl: String,
-        val location: String,
-        val name: String,
-        val price: String,
-        val username: String
+        val needs_list: List<Sale>?,
+        val goods_list: List<Sale>?,
+        val user_info: MyInfo
 )
 
 data class CommentList(
@@ -314,7 +262,6 @@ data class CommentList(
         val icon: String,
         val name: String,
         val uid: String
-
 )
 
 

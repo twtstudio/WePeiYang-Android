@@ -6,9 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:foreground="?android:attr/selectableItemBackground"
-    android:layout_margin="3.5dp"
+    android:layout_margin="4dp"
     android:background="#ffffff"
-    app:cardCornerRadius="4dp"
+    app:cardCornerRadius="10dp"
     app:cardElevation="1dp"
     tools:layout_width="200dp">
 
@@ -43,7 +43,8 @@
             android:layout_alignParentStart="true"
             android:layout_marginStart="7dp"
             android:text="@string/rmb"
-            android:textColor="#f58010"
+            android:fontFamily="@font/montserrat_regular"
+            android:textColor="@color/mallColorAccent"
             android:textSize="14sp" />
 
         <TextView
@@ -51,16 +52,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_main_name"
+            android:fontFamily="@font/montserrat_regular"
             android:layout_marginTop="6dp"
             android:layout_marginBottom="7dp"
             android:layout_toEndOf="@id/tv_main_rmb"
-            android:textColor="#f58010"
+            android:textColor="@color/mallColorAccent"
             android:textSize="18sp"
             tools:text="20.00" />
 
         <android.support.v7.widget.AppCompatImageView
-            android:layout_width="16dp"
-            android:layout_height="18dp"
+            android:layout_width="10dp"
+            android:layout_height="13dp"
             android:layout_below="@id/tv_main_name"
             android:layout_alignBottom="@id/tv_main_price"
             android:layout_marginTop="6dp"

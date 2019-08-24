@@ -24,7 +24,7 @@ class DetailActivity : AppCompatActivity() {
 
     fun getDetail() {
         GlobalScope.launch(Dispatchers.Main) {
-            MallManager.getDetail(id).awaitAndHandle {
+            MallManager.getDetailAsync(id).awaitAndHandle {
 
             }?.let {
 
