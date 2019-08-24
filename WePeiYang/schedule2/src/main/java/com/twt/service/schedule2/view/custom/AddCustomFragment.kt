@@ -107,16 +107,22 @@ class AddCustomFragment : Fragment() {
                 courseName = edit_course_name.text.toString()
                 teacherName = edit_course_teacher.text.toString()
                 week = str
-                startTime = edit_start_time_name.text.toString().trim().toInt()
-                endTime = edit_end_time_name.text.toString().trim().toInt()
-                weekday = if (edit_weekday_name.text.toString() != "") {
-                    edit_weekday_name.text.toString().trim().toInt()
-                } else {
-                    10
-                }
                 room = edit_room_name.text.toString()
-                startWeek = edit_startWeek_name.text.toString().trim().toInt()
-                endWeek = edit_endWeek_name.text.toString().trim().toInt()
+                when {
+                    edit_start_time_name.text.toString().isNotEmpty()
+                            &&edit_end_time_name.text.toString().isNotEmpty()
+                            &&edit_weekday_name.text.toString().isNotEmpty()
+                            &&edit_startWeek_name.text.toString().isNotEmpty()
+                            &&edit_endWeek_name.text.toString().isNotEmpty() ->
+                    {
+                        startTime = edit_start_time_name.text.toString().trim().toInt()
+                        endTime = edit_end_time_name.text.toString().trim().toInt()
+                        weekday = edit_weekday_name.text.toString().trim().toInt()
+                        startWeek = edit_startWeek_name.text.toString().trim().toInt()
+                        endWeek = edit_endWeek_name.text.toString().trim().toInt()
+                    }
+                    else -> Toasty.error(fragContext!!, "添加失败，请补全自定义的时间信息").show()
+                }
                 weekPeriod = Week(startWeek, endWeek)
                 arrange = Arrange(week, startTime, endTime, weekday, room)
 
@@ -134,15 +140,6 @@ class AddCustomFragment : Fragment() {
                         }
                     }
                 }
-//
-//                    if (startTime < endTime && startWeek < endWeek && weekday in 0..7 ){
-//                        Toasty.info(fragContext!!, "自定义事件 ${courseName} 添加成功").show()
-//                        GlobalScope.async (Dispatchers.Default + QuietCoroutineExceptionHandler) {
-//                            CustomCourseManager.addCustomCourse(courseName, teacherName, listOf(arrange), weekPeriod)
-//                        }
-//                    } else if(startTime >= endTime || startWeek >= endWeek || weekday > 7){
-//                        Toasty.info(fragContext!!, "添加失败，请检查自定义的信息").show()
-//                    }
             }
         } catch (e: NumberFormatException) {
             Toasty.info(fragContext!!, "事件信息不可为空").show()
