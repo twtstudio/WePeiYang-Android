@@ -28,10 +28,11 @@
 
             <TextView
                 android:id="@+id/tv_mine_p"
-                android:layout_width="wrap_content"
+                android:layout_width="30dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="15dp"
+                android:gravity="center"
                 android:text="手机"
                 android:textColor="@color/mallColorTextLight"
                 android:textSize="12sp"
@@ -41,11 +42,12 @@
 
             <TextView
                 android:id="@+id/tv_mine_q"
-                android:layout_width="wrap_content"
+                android:layout_width="30dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:fontFamily="@font/montserrat_regular"
-                android:text="QQ "
+                android:gravity="center"
+                android:text="QQ"
                 android:textColor="@color/mallColorTextLight"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toTopOf="@id/tv_mine_e"
@@ -54,9 +56,10 @@
 
             <TextView
                 android:id="@+id/tv_mine_e"
-                android:layout_width="wrap_content"
+                android:layout_width="30dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
+                android:gravity="center"
                 android:text="微信"
                 android:textColor="@color/mallColorTextLight"
                 android:textSize="12sp"
@@ -66,10 +69,11 @@
 
             <TextView
                 android:id="@+id/tv_mine_c"
-                android:layout_width="wrap_content"
+                android:layout_width="30dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginBottom="25dp"
+                android:gravity="center"
                 android:text="校区"
                 android:textColor="@color/mallColorTextLight"
                 android:textSize="12sp"
@@ -81,7 +85,7 @@
                 android:id="@+id/tv_mine_campus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
+                android:layout_marginStart="10dp"
                 android:textColor="@color/mallColorTextLight"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="@id/tv_mine_c"
@@ -93,7 +97,7 @@
                 android:id="@+id/tv_mine_phone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
+                android:layout_marginStart="10dp"
                 android:fontFamily="@font/montserrat_regular"
                 android:textColor="@color/mallColorTextLight"
                 android:textSize="12sp"
@@ -106,7 +110,7 @@
                 android:id="@+id/tv_mine_qq"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
+                android:layout_marginStart="10dp"
                 android:fontFamily="@font/montserrat_regular"
                 android:textColor="@color/mallColorTextLight"
                 android:textSize="12sp"
@@ -119,7 +123,7 @@
                 android:id="@+id/tv_mine_email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
+                android:layout_marginStart="10dp"
                 android:fontFamily="@font/montserrat_regular"
                 android:textColor="@color/mallColorTextLight"
                 android:textSize="12sp"
@@ -158,8 +162,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="40dp"
+                app:cardBackgroundColor="@color/transparent"
                 app:cardCornerRadius="50dp"
-                app:cardElevation="1dp"
+                app:cardElevation="0dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
@@ -190,11 +195,12 @@
 
                     <ImageView
                         android:id="@+id/iv_mine_fav"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
                         android:layout_alignParentStart="true"
                         android:layout_centerVertical="true"
                         android:layout_marginStart="20dp"
+                        android:layout_marginEnd="10dp"
                         android:background="@drawable/mall_ic_fav" />
 
                     <ImageView
@@ -202,7 +208,7 @@
                         android:layout_height="25dp"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:background="@drawable/mall_ic_arrow" />
+                        android:background="@drawable/mall_ic_back" />
 
                     <TextView
                         android:id="@+id/tv_mine_fav"
@@ -237,11 +243,12 @@
 
                     <ImageView
                         android:id="@+id/iv_mine_setting"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
                         android:layout_alignParentStart="true"
                         android:layout_centerVertical="true"
                         android:layout_marginStart="20dp"
+                        android:layout_marginEnd="10dp"
                         android:background="@drawable/mall_ic_setting" />
 
                     <ImageView
@@ -249,7 +256,7 @@
                         android:layout_height="25dp"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:background="@drawable/mall_ic_arrow" />
+                        android:background="@drawable/mall_ic_back" />
 
                     <TextView
                         android:id="@+id/tv_mine_setting"
@@ -258,7 +265,7 @@
                         android:layout_centerVertical="true"
                         android:layout_margin="10dp"
                         android:layout_toEndOf="@id/iv_mine_setting"
-                        android:text="设置"
+                        android:text="修改信息"
                         android:textSize="16sp"
                         app:layout_constraintLeft_toRightOf="@+id/iv_mine_setting"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -284,11 +291,12 @@
 
                     <ImageView
                         android:id="@+id/iv_mine_sale"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
                         android:layout_alignParentStart="true"
                         android:layout_centerVertical="true"
                         android:layout_marginStart="20dp"
+                        android:layout_marginEnd="10dp"
                         android:background="@drawable/mall_ic_sale" />
 
                     <ImageView
@@ -296,7 +304,7 @@
                         android:layout_height="25dp"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:background="@drawable/mall_ic_arrow" />
+                        android:background="@drawable/mall_ic_back" />
 
                     <TextView
                         android:id="@+id/tv_mine_sale"
@@ -331,19 +339,20 @@
 
                     <ImageView
                         android:id="@+id/iv_mine_post_sale"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
                         android:layout_alignParentStart="true"
                         android:layout_centerVertical="true"
                         android:layout_marginStart="20dp"
-                        android:background="@drawable/mall_ic_sale" />
+                        android:layout_marginEnd="10dp"
+                        android:background="@drawable/mall_ic_post_sale" />
 
                     <ImageView
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:background="@drawable/mall_ic_arrow" />
+                        android:background="@drawable/mall_ic_back" />
 
                     <TextView
                         android:id="@+id/tv_mine_post_sale"
@@ -378,19 +387,20 @@
 
                     <ImageView
                         android:id="@+id/iv_mine_post_need"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
                         android:layout_alignParentStart="true"
                         android:layout_centerVertical="true"
                         android:layout_marginStart="20dp"
-                        android:background="@drawable/mall_ic_sale" />
+                        android:layout_marginEnd="10dp"
+                        android:background="@drawable/mall_ic_post_need" />
 
                     <ImageView
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:background="@drawable/mall_ic_arrow" />
+                        android:background="@drawable/mall_ic_back" />
 
                     <TextView
                         android:id="@+id/tv_mine_post_need"
@@ -425,11 +435,12 @@
 
                     <ImageView
                         android:id="@+id/iv_mine_need"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
                         android:layout_alignParentStart="true"
                         android:layout_centerVertical="true"
                         android:layout_marginStart="20dp"
+                        android:layout_marginEnd="10dp"
                         android:background="@drawable/mall_ic_need" />
 
                     <ImageView
@@ -437,7 +448,7 @@
                         android:layout_height="25dp"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:background="@drawable/mall_ic_arrow" />
+                        android:background="@drawable/mall_ic_back" />
 
                     <TextView
                         android:id="@+id/tv_mine_need"

@@ -18,7 +18,6 @@ import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
 import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.mall_activity_mine.*
 import kotlinx.android.synthetic.main.mall_item_toolbar.*
-import kotlinx.android.synthetic.main.mall_pop_setting.*
 import kotlinx.android.synthetic.main.mall_pop_setting.view.*
 import org.jetbrains.anko.contentView
 
@@ -55,15 +54,15 @@ class MineActivity : AppCompatActivity() {
             tv_mine_qq.text = dealNull(it.qq)
             tv_mine_email.text = dealNull(it.email)
             tv_mine_campus.text = MallManager.getCampus(it.xiaoqu)
-
-            bind(it.id)
             level = it.level
             numb = it.numb
             token = it.token
             phone = it.phone
             qq = it.qq
             email = it.email
+            campus = it.xiaoqu.toInt()
 
+            bind()
             Toasty.info(this@MineActivity, it.id).show()
         }
     }
@@ -77,7 +76,7 @@ class MineActivity : AppCompatActivity() {
     }
 
     @SuppressLint("InflateParams")
-    private fun bind(id: String) {
+    private fun bind() {
         cv_mine_sale.setOnClickListener {
             val intent = Intent(this, ListActivity::class.java)
                     .putExtra("type", "sale")
@@ -112,29 +111,36 @@ class MineActivity : AppCompatActivity() {
             val popupWindowView: View = LayoutInflater.from(this).inflate(R.layout.mall_pop_setting, null, false)
             val popWindow = PopupWindow(popupWindowView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true)
             popWindow.apply {
-                contentView.bt_setting_cancel.setOnClickListener {
-                    dismiss()
-                }
-                contentView.bt_setting_commit.setOnClickListener {
-                    phone = et_setting_phone.text.toString()
-                    qq = et_setting_qq.text.toString()
-                    email = et_setting_email.text.toString()
-                    campus = when (rg_setting_campus.checkedRadioButtonId) {
-                        rb_setting_campus1.id -> 1
-                        rb_setting_campus2.id -> 2
-                        else -> 1
+                contentView.apply {
+                    et_setting_phone.setText(phone)
+                    et_setting_qq.setText(qq)
+                    et_setting_email.setText(email)
+                    when (campus) {
+                        1 -> rg_setting_campus.check(R.id.rb_setting_campus1)
+                        2 -> rg_setting_campus.check(R.id.rb_setting_campus2)
                     }
-                    viewModel.changeMyInfo(phone, qq, email, campus)
-                    dismiss()
+
+                    bt_setting_cancel.setOnClickListener { dismiss() }
+                    bt_setting_commit.setOnClickListener {
+                        phone = et_setting_phone.text.toString()
+                        qq = et_setting_qq.text.toString()
+                        email = et_setting_email.text.toString()
+                        campus = when (rg_setting_campus.checkedRadioButtonId) {
+                            rb_setting_campus1.id -> 1
+                            rb_setting_campus2.id -> 2
+                            else -> campus
+                        }
+                        viewModel.changeMyInfo(phone, qq, email, campus)
+                        dismiss()
+                    }
                 }
+
                 showAtLocation(this@MineActivity.contentView, Gravity.CENTER, 0, 0)
                 isOutsideTouchable = true
                 isTouchable = true
                 isFocusable = true
                 bgAlpha(0.2f)
-                setOnDismissListener {
-                    bgAlpha(1f)
-                }
+                setOnDismissListener { bgAlpha(1f) }
 
             }
         }
@@ -145,6 +151,16 @@ class MineActivity : AppCompatActivity() {
         lp.alpha = bgAlpha // 0.0-1.0
         window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
         window.attributes = lp
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.mall_menu_refresh, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        mineLiveData.refresh(CacheIndicator.LOCAL, CacheIndicator.REMOTE)
+        return true
     }
 
 }

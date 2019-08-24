@@ -2,6 +2,7 @@ package com.avarye.mall.main
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.Typeface
 import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v4.content.ContextCompat
@@ -58,11 +59,15 @@ class MallActivity : AppCompatActivity() {
                     which = 1
                     tv_menu_sale.textColor = ContextCompat.getColor(this@MallActivity, R.color.mallColorMain)
                     tv_menu_need.textColor = ContextCompat.getColor(this@MallActivity, R.color.mallColorTextLight)
+                    tv_menu_sale.typeface = Typeface.defaultFromStyle(Typeface.BOLD)
+                    tv_menu_need.typeface = Typeface.defaultFromStyle(Typeface.NORMAL)
                 }
                 tv_menu_need.setOnClickListener {
                     which = 2
                     tv_menu_sale.textColor = ContextCompat.getColor(this@MallActivity, R.color.mallColorTextLight)
                     tv_menu_need.textColor = ContextCompat.getColor(this@MallActivity, R.color.mallColorMain)
+                    tv_menu_sale.typeface = Typeface.defaultFromStyle(Typeface.NORMAL)
+                    tv_menu_need.typeface = Typeface.defaultFromStyle(Typeface.BOLD)
                 }
                 elv_menu.apply {
                     setGroupIndicator(null)
@@ -87,7 +92,7 @@ class MallActivity : AppCompatActivity() {
             iv_menu.setOnClickListener { view ->
                 popWindow = PopupWindow(popupWindowView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true)
                 popWindow.apply {
-                    showAsDropDown(view, -150, 10)
+                    showAsDropDown(view, -400, 20)
                     isOutsideTouchable = true
                     isTouchable = true
                     isFocusable = true
@@ -154,7 +159,7 @@ class MallActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.mall_menu, menu)
+        menuInflater.inflate(R.menu.mall_menu_mine, menu)
         return true
     }
 

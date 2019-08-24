@@ -16,7 +16,7 @@
             android:id="@+id/elv_menu"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_margin="8dp"
             android:background="#FFFFFF"
             android:cacheColorHint="@color/mallColorTextLight"
             android:childDivider="@color/mallColorBgLight"
@@ -24,32 +24,53 @@
             android:dividerHeight="4dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_menu_sale"
+            app:layout_constraintTop_toBottomOf="@id/cv_menu_sale"
             tools:layout_height="600dp" />
 
-        <TextView
-            android:id="@+id/tv_menu_need"
-            android:layout_width="wrap_content"
+        <android.support.v7.widget.CardView
+            android:id="@+id/cv_menu_sale"
+            android:layout_width="70dp"
             android:layout_height="wrap_content"
-            android:layout_margin="12dp"
-            android:text="求购"
-            android:textColor="@color/mallColorTextLight"
-            android:textStyle="bold"
-            app:layout_constraintLeft_toRightOf="@id/tv_menu_sale"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tv_menu_sale"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="12dp"
-            android:text="商品"
-            android:textColor="@color/mallColorMain"
-            android:textStyle="bold"
+            android:layout_marginTop="10dp"
+            app:cardElevation="0dp"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@id/tv_menu_need"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintRight_toLeftOf="@id/cv_menu_need"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/tv_menu_sale"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="12dp"
+                android:text="商品"
+                android:textColor="@color/mallColorMain"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+        </android.support.v7.widget.CardView>
+
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/cv_menu_need"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:cardElevation="0dp"
+            app:layout_constraintLeft_toRightOf="@id/cv_menu_sale"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/tv_menu_need"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="12dp"
+                android:text="求购"
+                android:textColor="@color/mallColorTextLight"
+                android:textSize="15sp" />
+
+        </android.support.v7.widget.CardView>
 
     </android.support.constraint.ConstraintLayout>
 </android.support.v7.widget.CardView>

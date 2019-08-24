@@ -61,8 +61,8 @@ class PostActivity : AppCompatActivity() {
         type = intent.getIntExtra("type", 3)
         tb_main.apply {
             title = when (type) {
-                1 -> "发布商品"
-                2 -> "发布需求"
+                1 -> getString(R.string.mallStringPostSale)
+                2 -> getString(R.string.mallStringPostNeed)
                 else -> "薛定谔的页面"
             }
             setSupportActionBar(this)
