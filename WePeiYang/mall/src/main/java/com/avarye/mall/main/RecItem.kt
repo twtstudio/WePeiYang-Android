@@ -48,5 +48,6 @@ class RecItem : Item {
 }
 
 fun MutableList<Item>.recItem() = add(RecItem())
-internal fun MutableList<Item>.recItem(builder: RecItem.Controller.ViewHolder.() -> Unit) = add(RecItem().apply { this.builder = builder })
+internal fun MutableList<Item>.recItem(builder: RecItem.Controller.ViewHolder.() -> Unit) =
+        add(RecItem().apply { this.builder = builder })
 

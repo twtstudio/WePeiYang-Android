@@ -14,6 +14,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.PopupWindow
 import com.avarye.mall.R
 import com.avarye.mall.mine.MineActivity
+import com.avarye.mall.service.MallManager
 import com.avarye.mall.service.menuLiveData
 import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
 import es.dmoral.toasty.Toasty
@@ -31,10 +32,9 @@ class MallActivity : AppCompatActivity() {
     private lateinit var sale: MallSaleFragment
     private lateinit var need: MallNeedFragment
     private var key = ""
-    private var which = 1
+    private var mode = MallManager.W_SALE
     private lateinit var popWindow: PopupWindow
     private lateinit var menuViewAdapter: MenuViewAdapter
-
 
     @SuppressLint("InflateParams")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,15 +55,15 @@ class MallActivity : AppCompatActivity() {
         menuLiveData.bindNonNull(this) { list ->
             menuViewAdapter = MenuViewAdapter(this, list)
             popupWindowView.apply {
-                tv_menu_sale.setOnClickListener {
-                    which = 1
+                cv_menu_sale.setOnClickListener {
+                    mode = MallManager.W_SALE
                     tv_menu_sale.textColor = ContextCompat.getColor(this@MallActivity, R.color.mallColorMain)
                     tv_menu_need.textColor = ContextCompat.getColor(this@MallActivity, R.color.mallColorTextLight)
                     tv_menu_sale.typeface = Typeface.defaultFromStyle(Typeface.BOLD)
                     tv_menu_need.typeface = Typeface.defaultFromStyle(Typeface.NORMAL)
                 }
-                tv_menu_need.setOnClickListener {
-                    which = 2
+                cv_menu_need.setOnClickListener {
+                    mode = MallManager.W_NEED
                     tv_menu_sale.textColor = ContextCompat.getColor(this@MallActivity, R.color.mallColorTextLight)
                     tv_menu_need.textColor = ContextCompat.getColor(this@MallActivity, R.color.mallColorMain)
                     tv_menu_sale.typeface = Typeface.defaultFromStyle(Typeface.NORMAL)
@@ -81,9 +81,9 @@ class MallActivity : AppCompatActivity() {
                     }
                     setOnChildClickListener { _, _, groupPosition, childPosition, _ ->
                         val intent = Intent(this@MallActivity, SearchActivity::class.java)
-                                .putExtra("key", list[groupPosition].smalllist[childPosition].id)
-                                .putExtra("type", "select")
-                                .putExtra("which", which)
+                                .putExtra(MallManager.KEY, list[groupPosition].smalllist[childPosition].id)
+                                .putExtra(MallManager.TYPE, MallManager.SELECT)
+                                .putExtra(MallManager.MODE, mode)
                         this@MallActivity.startActivity(intent)
                         true
                     }
@@ -92,7 +92,7 @@ class MallActivity : AppCompatActivity() {
             iv_menu.setOnClickListener { view ->
                 popWindow = PopupWindow(popupWindowView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true)
                 popWindow.apply {
-                    showAsDropDown(view, -400, 20)
+                    showAsDropDown(view, -400, 0)
                     isOutsideTouchable = true
                     isTouchable = true
                     isFocusable = true
@@ -115,12 +115,6 @@ class MallActivity : AppCompatActivity() {
         }
         mallViewpager.adapter = pagerAdapter
         tabLayout.setupWithViewPager(mallViewpager)
-        for (i in 0..tabLayout.tabCount) {
-            val tab = tabLayout.getTabAt(i)
-            tab?.customView?.setOnClickListener {
-
-            }
-        }
 
         //回车监听
         et_search.apply {
@@ -152,8 +146,8 @@ class MallActivity : AppCompatActivity() {
             Toasty.info(this, "啥都莫得输入").show()
         } else {
             val intent = Intent(this, SearchActivity::class.java)
-                    .putExtra("key", key)
-                    .putExtra("type", "search")
+                    .putExtra(MallManager.KEY, key)
+                    .putExtra(MallManager.TYPE, MallManager.SEARCH)
             startActivity(intent)
         }
     }

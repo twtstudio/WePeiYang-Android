@@ -116,10 +116,10 @@ interface MallApi {
     @Multipart
     @POST("api.php/Items/item_off")
     fun deleteSaleAsync(@Part("token") token: RequestBody,
-                        @Part("gid") cid: RequestBody): Deferred<Result>
+                        @Part("gid") gid: RequestBody): Deferred<Result>
 
     //TODO:待测试
-
+    @Multipart
     @POST("api.php/Items/need_fabu")
     fun postNeedAsync(@Part partList: List<MultipartBody.Part>): Deferred<Result>
 

@@ -11,6 +11,7 @@ import com.avarye.mall.R
 import com.avarye.mall.post.PostActivity
 import com.avarye.mall.service.MallManager
 import com.avarye.mall.service.ViewModel
+import com.avarye.mall.service.loginLiveData
 import com.avarye.mall.service.mineLiveData
 import com.bumptech.glide.Glide
 import com.twt.wepeiyang.commons.experimental.cache.CacheIndicator
@@ -25,10 +26,10 @@ class MineActivity : AppCompatActivity() {
     private var level = ""
     private var numb = ""
     private var token = ""
-    var phone = ""
-    var qq = ""
-    var email = ""
-    var campus = 1
+    private var phone = ""
+    private var qq = ""
+    private var email = ""
+    private var campus = MallManager.WJL
     private val viewModel = ViewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,7 +39,7 @@ class MineActivity : AppCompatActivity() {
 
         //toolbar
         tb_main.apply {
-            title = "我的"
+            title = getString(R.string.mallStringMine)
             setSupportActionBar(this)
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
             setNavigationOnClickListener { onBackPressed() }
@@ -49,7 +50,7 @@ class MineActivity : AppCompatActivity() {
             Glide.with(this@MineActivity)
                     .load(it.avatar)
                     .into(iv_mine_avatar)
-            tv_mine_name.text = it.nicheng
+            tv_mine_name.text = dealNull(it.nicheng)
             tv_mine_phone.text = dealNull(it.phone)
             tv_mine_qq.text = dealNull(it.qq)
             tv_mine_email.text = dealNull(it.email)
@@ -79,31 +80,31 @@ class MineActivity : AppCompatActivity() {
     private fun bind() {
         cv_mine_sale.setOnClickListener {
             val intent = Intent(this, ListActivity::class.java)
-                    .putExtra("type", "sale")
+                    .putExtra(MallManager.TYPE, MallManager.W_SALE)
             startActivity(intent)
         }
 
         cv_mine_need.setOnClickListener {
             val intent = Intent(this, ListActivity::class.java)
-                    .putExtra("type", "need")
+                    .putExtra(MallManager.TYPE, MallManager.W_NEED)
             startActivity(intent)
         }
 
         cv_mine_fav.setOnClickListener {
             val intent = Intent(this, ListActivity::class.java)
-                    .putExtra("type", "fav")
+                    .putExtra(MallManager.TYPE, MallManager.FAV)
             startActivity(intent)
         }
 
         cv_mine_post_sale.setOnClickListener {
             val intent = Intent(this, PostActivity::class.java)
-                    .putExtra("type", 1)
+                    .putExtra(MallManager.TYPE, MallManager.W_SALE)
             startActivity(intent)
         }
 
         cv_mine_post_need.setOnClickListener {
             val intent = Intent(this, PostActivity::class.java)
-                    .putExtra("type", 2)
+                    .putExtra(MallManager.TYPE, MallManager.W_NEED)
             startActivity(intent)
         }
 
@@ -116,8 +117,8 @@ class MineActivity : AppCompatActivity() {
                     et_setting_qq.setText(qq)
                     et_setting_email.setText(email)
                     when (campus) {
-                        1 -> rg_setting_campus.check(R.id.rb_setting_campus1)
-                        2 -> rg_setting_campus.check(R.id.rb_setting_campus2)
+                        MallManager.WJL -> rg_setting_campus.check(R.id.rb_setting_campus1)
+                        MallManager.BYY -> rg_setting_campus.check(R.id.rb_setting_campus2)
                     }
 
                     bt_setting_cancel.setOnClickListener { dismiss() }
@@ -126,11 +127,11 @@ class MineActivity : AppCompatActivity() {
                         qq = et_setting_qq.text.toString()
                         email = et_setting_email.text.toString()
                         campus = when (rg_setting_campus.checkedRadioButtonId) {
-                            rb_setting_campus1.id -> 1
-                            rb_setting_campus2.id -> 2
+                            rb_setting_campus1.id -> MallManager.WJL
+                            rb_setting_campus2.id -> MallManager.BYY
                             else -> campus
                         }
-                        viewModel.changeMyInfo(phone, qq, email, campus)
+                        viewModel.changeMyInfo(phone = phone, qq = qq, email = email, campus = campus)
                         dismiss()
                     }
                 }
@@ -159,6 +160,9 @@ class MineActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        if (loginLiveData.value == null) {
+//            viewModel.login()
+        }
         mineLiveData.refresh(CacheIndicator.LOCAL, CacheIndicator.REMOTE)
         return true
     }

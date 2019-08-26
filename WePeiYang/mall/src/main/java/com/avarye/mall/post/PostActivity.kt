@@ -1,12 +1,8 @@
 package com.avarye.mall.post
 
-import android.Manifest
-import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.ContentUris
 import android.content.Intent
-import android.content.pm.ActivityInfo
-import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
@@ -22,16 +18,12 @@ import android.widget.ArrayAdapter
 import android.widget.ProgressBar
 import com.avarye.mall.R
 import com.avarye.mall.service.*
-import com.twt.wepeiyang.commons.experimental.cache.CacheIndicator
 import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
 import com.zhihu.matisse.Matisse
-import com.zhihu.matisse.MimeType
-import com.zhihu.matisse.engine.impl.GlideEngine
 import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.mall_activity_post.*
 import kotlinx.android.synthetic.main.mall_item_spinner_category.*
 import kotlinx.android.synthetic.main.mall_item_toolbar.*
-import pub.devrel.easypermissions.EasyPermissions
 import java.io.*
 import java.util.*
 import kotlin.math.roundToInt
@@ -43,14 +35,14 @@ class PostActivity : AppCompatActivity() {
     private val viewModel = ViewModel()
     private var token = ""
     private var selectPicList = mutableListOf<Any>()
+    private var iidList = mutableListOf<String>()
     private var status = ""
     private var category = ""
     private var categoryMain = ""
-    private var iid = ""
     private var iidTemp = ""
     private var flagSale = false
     private var flagNeed = false
-    private var type = 0
+    private var type = MallManager.W_SALE
     private lateinit var map: Map<String, Any>
     private lateinit var progressBar: ProgressBar
 
@@ -58,11 +50,11 @@ class PostActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.mall_activity_post)
         window.statusBarColor = ContextCompat.getColor(this, R.color.mallColorMain)
-        type = intent.getIntExtra("type", 3)
+        type = intent.getIntExtra(MallManager.TYPE, MallManager.W_SALE)
         tb_main.apply {
             title = when (type) {
-                1 -> getString(R.string.mallStringPostSale)
-                2 -> getString(R.string.mallStringPostNeed)
+                MallManager.W_SALE -> getString(R.string.mallStringPostSale)
+                MallManager.W_NEED -> getString(R.string.mallStringPostNeed)
                 else -> "薛定谔的页面"
             }
             setSupportActionBar(this)
@@ -73,13 +65,13 @@ class PostActivity : AppCompatActivity() {
         progressBar.visibility = View.GONE
 
         when (type) {
-            1 -> {
+            MallManager.W_SALE -> {
                 tv_post_img.visibility = View.VISIBLE
                 rv_post_img.visibility = View.VISIBLE
                 rl_post_bargain.visibility = View.VISIBLE
                 tv_post_price.text = "价格"
             }
-            2 -> {
+            MallManager.W_NEED -> {
                 tv_post_img.visibility = View.GONE
                 rv_post_img.visibility = View.GONE
                 rl_post_bargain.visibility = View.GONE
@@ -89,9 +81,9 @@ class PostActivity : AppCompatActivity() {
 
         loginLiveData.bindNonNull(this) {
             token = it.token
+            Toasty.info(this, token).show()
         }
 
-        menuLiveData.refresh(CacheIndicator.REMOTE)
         initSpinnerStatus()
         initSpinnerCategory()
         sp_post_status.setSelection(0)
@@ -99,11 +91,15 @@ class PostActivity : AppCompatActivity() {
         sp_category.setSelection(0)
 
         selectPicList.add(NoSelectPic) // supply a null list
-        postImgAdapter = PostImgAdapter(selectPicList, this, this)
+        postImgAdapter = PostImgAdapter(selectPicList, iidList,this, this)
         postImgManager.orientation = LinearLayoutManager.HORIZONTAL
         rv_post_img.apply {
             adapter = postImgAdapter
             layoutManager = postImgManager
+        }
+
+        mineLiveData.bindNonNull(this) {
+            et_post_phone.setText(it.phone)//默认貌似只给一个联系方式…
         }
 
         tv_post_button.setOnClickListener {
@@ -213,8 +209,8 @@ class PostActivity : AppCompatActivity() {
     }
 
     private fun post() = when (type) {
-        1 -> viewModel.postSale(map, token)
-        2 -> viewModel.postNeed(map, token)
+        MallManager.W_SALE -> viewModel.postSale(map, token)
+        MallManager.W_NEED -> viewModel.postNeed(map, token)
         else -> Unit
     }
 
@@ -222,29 +218,33 @@ class PostActivity : AppCompatActivity() {
         val name = et_post_name.text.toString()
         val detail = et_post_detail.text.toString()
         val campus = when (rg_post_campus.checkedRadioButtonId) {
-            rb_post_campus1.id -> 1
-            rb_post_campus2.id -> 2
-            else -> 1
+            rb_post_campus1.id -> MallManager.WJL
+            rb_post_campus2.id -> MallManager.BYY
+            else -> MallManager.WJL
         }.toString()
         val location = et_post_location.text.toString()
         val price = et_post_price.text.toString()
         val bargain = when (rg_post_bargain.checkedRadioButtonId) {
-            rb_post_bargain0.id -> 0
-            rb_post_bargain1.id -> 1
-            rb_post_bargain2.id -> 2
-            else -> 0
+            rb_post_bargain0.id -> MallManager.NO_B
+            rb_post_bargain1.id -> MallManager.TINY_B
+            rb_post_bargain2.id -> MallManager.ABLE_B
+            else -> MallManager.NO_B
         }.toString()
+        var iid = ""
+        for (i in iidList) {
+            iid += "$i,"
+        }
         val exchange = et_post_exchange.text.toString()
         val phone = et_post_phone.text.toString()
         val qq = et_post_qq.text.toString()
-        val weChat = et_post_wechat.text.toString()
+        val email = et_post_email.text.toString()
 
         flagSale = name.isNotBlank() && detail.isNotBlank() && location.isNotBlank() && price.isNotBlank()
-                && category.isNotBlank() && categoryMain.isNotBlank() && (phone + qq + weChat).isNotBlank()
+                && category.isNotBlank() && categoryMain.isNotBlank() && (phone + qq + email).isNotBlank()
                 && status.isNotBlank() && bargain.isNotBlank()
 
         flagNeed = name.isNotBlank() && detail.isNotBlank() && location.isNotBlank() && price.isNotBlank()
-                && category.isNotBlank() && categoryMain.isNotBlank() && (phone + qq + weChat).isNotBlank()
+                && category.isNotBlank() && categoryMain.isNotBlank() && (phone + qq + email).isNotBlank()
 
         val map = HashMap<String, Any>()
         map["name"] = name
@@ -257,32 +257,30 @@ class PostActivity : AppCompatActivity() {
         map["categoryMain"] = categoryMain
         map["status"] = status
         map["exchange"] = exchange
-        map["iid"] = "4000"
+        map["iid"] = iid
         map["phone"] = phone
-        map["email"] = weChat
+        map["email"] = email
         map["qq"] = qq
 
         return map
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) =
-            if (requestCode == 2 && resultCode != 0) {
-                val selectedPic = Matisse.obtainResult(data)
-
-                postImg()
-                imgIdLiveData.bindNonNull(this) {
-                    if (it != iidTemp) {
-                        iidTemp = it
-                        iid += "$it,"
-                        postImgAdapter.changePic(selectedPic[0])
-                    }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == 2 && resultCode != 0) {
+            postImg()
+            imgIdLiveData.bindNonNull(this) {
+                if (it != iidTemp) {
+                    iidTemp = it
+                    val selectedPic = Matisse.obtainResult(data)
+                    postImgAdapter.changePic(selectedPic[0], it)
+                    Toasty.info(this@PostActivity, iidList.toString()).show()
                 }
-
-            } else {
             }
+        }
+    }
 
     private fun postImg() {
-        selectPicList.last().apply {
+        selectPicList[0].apply {
             if (this is Uri) {
                 val file: File = File.createTempFile("pic", ".jpg")
                 val outputFile = file.path
@@ -291,10 +289,56 @@ class PostActivity : AppCompatActivity() {
         }
     }
 
+    private fun getFile(b: ByteArray, outputFile: String): File? {
+        var stream: BufferedOutputStream? = null
+        var file: File? = null
+        try {
+            file = File(outputFile)
+            val fStream = FileOutputStream(file)
+            stream = BufferedOutputStream(fStream)
+            stream.write(b)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        } finally {
+            if (stream != null) {
+                try {
+                    stream.close()
+                } catch (e1: IOException) {
+                    e1.printStackTrace()
+                }
+            }
+        }
+        return file
+    }
+
+    private fun zipThePic(filePath: String?): ByteArray {
+        val options = BitmapFactory.Options()
+        options.apply {
+            inJustDecodeBounds = true
+            inSampleSize = calculateInSampleSize(options, 480, 800)
+            inJustDecodeBounds = false
+        }
+        val bitmap = BitmapFactory.decodeFile(filePath, options)
+        val baos = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 60, baos)
+        return baos.toByteArray()
+    }
+
+    private fun calculateInSampleSize(options: BitmapFactory.Options, reqWidth: Int, reqHeight: Int): Int {
+        val height = options.outHeight
+        val width = options.outWidth
+        var inSampleSize = 1
+        if (height > reqHeight || width > reqWidth) {
+            val heightRatio = (height.toFloat() / reqHeight.toFloat()).roundToInt()
+            val widthRatio = (width.toFloat() / reqWidth.toFloat()).roundToInt()
+            inSampleSize = if (heightRatio < widthRatio) heightRatio else widthRatio
+        }
+        return inSampleSize
+    }
+
     // 相册图片路径
     private fun handleImageOnKitKat(uri: Uri?): String? {
         var imagePath: String? = null
-
         if (DocumentsContract.isDocumentUri(this, uri)) {
             val docId = DocumentsContract.getDocumentId(uri)
             if ("com.android.providers.media.documents" == uri?.authority) {
@@ -325,72 +369,9 @@ class PostActivity : AppCompatActivity() {
         return path
     }
 
-    private fun zipThePic(filePath: String?): ByteArray {
-        val options = BitmapFactory.Options()
-        options.apply {
-            inJustDecodeBounds = true
-            inSampleSize = calculateInSampleSize(options, 480, 800)
-            inJustDecodeBounds = false
-        }
-        val bitmap = BitmapFactory.decodeFile(filePath, options)
-        val baos = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 60, baos)
-
-        return baos.toByteArray()
-    }
-
-    private fun calculateInSampleSize(options: BitmapFactory.Options, reqWidth: Int, reqHeight: Int): Int {
-        val height = options.outHeight
-        val width = options.outWidth
-        var inSampleSize = 1
-
-        if (height > reqHeight || width > reqWidth) {
-            val heightRatio = (height.toFloat() / reqHeight.toFloat()).roundToInt()
-            val widthRatio = (width.toFloat() / reqWidth.toFloat()).roundToInt()
-            inSampleSize = if (heightRatio < widthRatio) heightRatio else widthRatio
-        }
-
-        return inSampleSize
-    }
-
-    private fun getFile(b: ByteArray, outputFile: String): File? {
-        var stream: BufferedOutputStream? = null
-        var file: File? = null
-        try {
-            file = File(outputFile)
-            val fStream = FileOutputStream(file)
-            stream = BufferedOutputStream(fStream)
-            stream.write(b)
-        } catch (e: Exception) {
-            e.printStackTrace()
-        } finally {
-            if (stream != null) {
-                try {
-                    stream.close()
-                } catch (e1: IOException) {
-                    e1.printStackTrace()
-                }
-            }
-        }
-        return file
-    }
-
-    // 用第三方库打开相册
-    @SuppressLint("ResourceType")
-    fun openSelectPic() = Matisse.from(this@PostActivity)
-            .choose(MimeType.of(MimeType.JPEG, MimeType.PNG, MimeType.GIF))
-            .countable(true)
-            .maxSelectable(1)
-            .gridExpectedSize(resources.getDimensionPixelSize(R.dimen.grid_expected_size))
-            .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
-            .thumbnailScale(0.85f)
-            .imageEngine(GlideEngine())
-            .theme(R.style.Matisse_Dracula)
-            .forResult(2)
-
-    fun setPicEdit() {
-        val list = arrayOf<CharSequence>("更改图片", "删除图片", "取消")
-        val alertDialogBuilder = AlertDialog.Builder(this@PostActivity)
+/*    fun setPicEdit() {
+        val list = arrayOf<CharSequence>("删除图片", "取消")
+        val alertDialogBuilder = AlertDialog.Builder(this)
         alertDialogBuilder.setItems(list) { dialog, item ->
             when (item) {
                 0 -> checkPermAndOpenPic()
@@ -412,9 +393,21 @@ class PostActivity : AppCompatActivity() {
         }
     }
 
+    // 用第三方库打开相册
+    @SuppressLint("ResourceType")
+    fun openSelectPic() = Matisse.from(this@PostActivity)
+            .choose(MimeType.of(MimeType.JPEG, MimeType.PNG, MimeType.GIF))
+            .countable(true)
+            .maxSelectable(1)
+            .gridExpectedSize(resources.getDimensionPixelSize(R.dimen.grid_expected_size))
+            .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
+            .thumbnailScale(0.85f)
+            .imageEngine(GlideEngine())
+            .theme(R.style.Matisse_Dracula)
+            .forResult(2)*/
+
     private fun showExitDialog() = AlertDialog.Builder(this)
             .setTitle("退出后无法保存呦")
-
             .setCancelable(false)
             .setPositiveButton("取消") { dialog, _ -> dialog.dismiss() }
             .setNegativeButton("确定") { _, _ -> this.finish() }

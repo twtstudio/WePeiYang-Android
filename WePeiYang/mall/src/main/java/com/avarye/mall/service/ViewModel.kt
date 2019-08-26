@@ -11,7 +11,7 @@ import java.io.File
 
 class ViewModel {
 
-    fun login() {
+    fun init() {
         //先后台登陆再拿数据
         GlobalScope.launch(Dispatchers.Main) {
             MallManager.loginAsync().awaitAndHandle {
@@ -19,6 +19,7 @@ class ViewModel {
             }?.let {
                 if (it.error_code == -1) {
                     loginLiveData.postValue(it.data)
+                    Log.d("token!!", MallManager.getToken())
                 } else {
                     Toasty.error(CommonContext.application, it.message).show()
                 }
@@ -58,9 +59,6 @@ class ViewModel {
             MallManager.searchAsync(key, page).awaitAndHandle {
                 Log.d("search failed", "search failed")
             }?.let {
-                if (it[0].page == 0) {
-                    Toasty.info(CommonContext.application, "搜索结果为空TvT").show()
-                }
                 searchLiveData.postValue(it)
             }
         }
@@ -71,11 +69,7 @@ class ViewModel {
             MallManager.selectAsync(category, which, page).awaitAndHandle {
                 Log.d("select failed", "select failed")
             }?.let {
-                if (it[0].page == 0) {
-                    Toasty.info(CommonContext.application, "此分类下无结果").show()
-                }
                 selectLiveData.postValue(it)
-                Toasty.info(CommonContext.application, "success!").show()
             }
         }
 
@@ -89,9 +83,9 @@ class ViewModel {
             }?.let {
                 if (it.result_code == "02001") {
                     imgIdLiveData.postValue(it.id)
-                    Toasty.info(CommonContext.application, it.msg)
+                    Toasty.info(CommonContext.application, it.msg).show()
                 } else {
-                    Toasty.info(CommonContext.application, it.msg)
+                    Toasty.info(CommonContext.application, it.msg).show()
                 }
             }
         }
@@ -126,8 +120,8 @@ class ViewModel {
                 Toasty.info(CommonContext.application, it.toString()).show()
             }?.let {
                 when (which) {
-                    1 -> myListLiveData.value = it.goods_list
-                    2 -> myListLiveData.value = it.needs_list
+                    MallManager.W_SALE -> myListLiveData.value = it.goods_list
+                    MallManager.W_NEED -> myListLiveData.value = it.needs_list
                 }
                 Toasty.success(CommonContext.application, "加载成功").show()
             }

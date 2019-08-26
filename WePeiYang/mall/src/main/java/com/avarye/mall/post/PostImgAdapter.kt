@@ -1,9 +1,14 @@
 package com.avarye.mall.post
 
+import android.Manifest
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
+import android.content.pm.ActivityInfo
+import android.content.pm.PackageManager
 import android.net.Uri
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -11,10 +16,17 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import com.avarye.mall.R
 import com.bumptech.glide.Glide
+import com.zhihu.matisse.Matisse
+import com.zhihu.matisse.MimeType
+import com.zhihu.matisse.engine.impl.GlideEngine
+import pub.devrel.easypermissions.EasyPermissions
 
-object NoSelectPic
+object NoSelectPic//判断list是否有图片
 
-class PostImgAdapter(val list: MutableList<Any>, private val activity: PostActivity, val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class PostImgAdapter(private val list: MutableList<Any>,
+                     private val iidList: MutableList<String>,
+                     private val activity: PostActivity,
+                     private val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var currentPosition = 0
 
@@ -33,15 +45,15 @@ class PostImgAdapter(val list: MutableList<Any>, private val activity: PostActiv
             setOnClickListener {
                 currentPosition = position
                 if (list[position] == NoSelectPic) {
-                    activity.checkPermAndOpenPic()
+                    checkPermAndOpenPic()
                 } else {
-                    showDialogOfPic()
+                    showBigPic()
                 }
             }
             setOnLongClickListener {
                 if (list[position] != NoSelectPic) {
                     currentPosition = position
-                    activity.setPicEdit()
+                    setPicEdit()
                 }
                 true
             }
@@ -49,11 +61,10 @@ class PostImgAdapter(val list: MutableList<Any>, private val activity: PostActiv
 
         val tmp = list[position]
         if (list.size > position && tmp != NoSelectPic) {
-            when (tmp) {
-                is Uri -> Glide.with(context)
-                        .load(tmp)
-                        .into(holder.image)
-            }
+            Glide.with(context)
+                    .load(tmp)
+                    .into(holder.image)
+
         } else {
             Glide.with(context)
                     .load(R.drawable.mall_pic_add)
@@ -68,7 +79,8 @@ class PostImgAdapter(val list: MutableList<Any>, private val activity: PostActiv
         notifyItemChanged(list.size)
     }
 
-    fun removePic() {
+    private fun removePic() {
+        iidList.removeAt(currentPosition)
         list.removeAt(currentPosition)
         if (list[list.size - 1] != NoSelectPic) {
             addPic()
@@ -77,8 +89,9 @@ class PostImgAdapter(val list: MutableList<Any>, private val activity: PostActiv
         notifyDataSetChanged()
     }
 
-    fun changePic(pic: Any) {
+    fun changePic(pic: Any, iid: String) {
         list[currentPosition] = pic
+        iidList[currentPosition] = iid
         notifyItemChanged(currentPosition)
         notifyDataSetChanged()
         if (currentPosition == (list.size - 1) && list.size < 4) {
@@ -86,7 +99,44 @@ class PostImgAdapter(val list: MutableList<Any>, private val activity: PostActiv
         }
     }
 
-    private fun showDialogOfPic() {
+    private fun setPicEdit() {
+        val list = arrayOf<CharSequence>("更改图片","删除图片", "取消")
+        val alertDialogBuilder = AlertDialog.Builder(activity)
+        alertDialogBuilder.setItems(list) { dialog, item ->
+            when (item) {
+                0 -> checkPermAndOpenPic()
+                1 -> removePic()
+                2 -> dialog.dismiss()
+            }
+        }
+        val alert = alertDialogBuilder.create()
+        alert.show()
+    }
+
+    private fun checkPermAndOpenPic() {
+        // 检查存储权限
+        if (ContextCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            EasyPermissions.requestPermissions(activity, "需要外部存储来提供必要的缓存", 0,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
+        } else {
+            openSelectPic()
+        }
+    }
+
+    // 用第三方库打开相册
+    @SuppressLint("ResourceType")
+    private fun openSelectPic() = Matisse.from(activity)
+            .choose(MimeType.of(MimeType.JPEG, MimeType.PNG, MimeType.GIF))
+            .countable(true)
+            .maxSelectable(1)
+            .gridExpectedSize(activity.resources.getDimensionPixelSize(R.dimen.grid_expected_size))
+            .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
+            .thumbnailScale(0.85f)
+            .imageEngine(GlideEngine())
+            .theme(R.style.Matisse_Dracula)
+            .forResult(2)
+
+    private fun showBigPic() {
         val dialog = Dialog(activity, R.style.edit_AlertDialog_style)
         dialog.apply {
             setContentView(R.layout.mall_dailog_detail_img)

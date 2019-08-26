@@ -18,6 +18,7 @@ import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemAdapter
 import com.twt.wepeiyang.commons.ui.rec.ItemManager
 import es.dmoral.toasty.Toasty
+import kotlinx.android.synthetic.main.mall_fragment_latest_need.*
 import kotlinx.android.synthetic.main.mall_fragment_latest_need.view.*
 
 class MallNeedFragment : Fragment() {
@@ -37,7 +38,7 @@ class MallNeedFragment : Fragment() {
                 if (!isLoading) {
                     isLoading = true
                     resetPage()
-                    itemManager.removeAll { it is RecItem }
+                    itemManager.autoRefresh { removeAll { it is RecItem } }
                     //redo
                     viewModel.getLatestNeed(page)
                     isRefreshing = false
@@ -71,21 +72,34 @@ class MallNeedFragment : Fragment() {
     private fun bindNeed() {
         needLiveData.bindNonNull(this) { list ->
             totalPage = list[0].page
-            val items = mutableListOf<Item>().apply {
-                for (i in 1 until list.size) {
-                    recItem {
-                        name.text = list[i].name
-                        price.text = list[i].price
-                        locate.text = MallManager.dealText(list[i].location)
-                        card.setOnClickListener {
-                            val intent = Intent(this@MallNeedFragment.context, DetailActivity::class.java).putExtra("id", list[i].id)
-                            this@MallNeedFragment.startActivity(intent)
+            if (totalPage == 0) {
+                itemManager.autoRefresh { removeAll { it is RecItem } }
+                iv_need_null.visibility = View.VISIBLE
+            } else {
+                iv_need_null.visibility = View.GONE
+                val items = mutableListOf<Item>().apply {
+                    for (i in 1 until list.size) {
+                        recItem {
+                            name.text = list[i].name
+                            price.text = list[i].price
+                            locate.text = MallManager.dealText(list[i].location)
+                            card.setOnClickListener {
+                                val intent = Intent(this@MallNeedFragment.context, DetailActivity::class.java)
+                                        .putExtra(MallManager.ID, list[i].id)
+                                this@MallNeedFragment.startActivity(intent)
+                            }
                         }
                     }
                 }
+                if (page == 1) {
+                    itemManager.autoRefresh {
+                        removeAll { it is RecItem }
+                        addAll(items)
+                    }
+                } else {
+                    itemManager.addAll(items)
+                }
             }
-            itemManager.removeAll { it is RecItem }
-            itemManager.addAll(items)
         }
     }
 

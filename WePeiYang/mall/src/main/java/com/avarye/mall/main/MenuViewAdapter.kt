@@ -28,7 +28,7 @@ class MenuViewAdapter(val context: Context, private val category: List<Menu>) : 
         val view = inflater.inflate(R.layout.mall_item_menu_child, null)
         view.tv_menu_child.text = category[p0].smalllist[p1].name
 
-        //gridView莫名不好用fk
+        //gridView莫名不好用
         /*val gridView = view.gv_menu
         val dataList = mutableListOf<String>()
         for (item in category[p0].smalllist) {

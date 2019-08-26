@@ -19,6 +19,7 @@ import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemAdapter
 import com.twt.wepeiyang.commons.ui.rec.ItemManager
 import es.dmoral.toasty.Toasty
+import kotlinx.android.synthetic.main.mall_fragment_latest_sale.*
 import kotlinx.android.synthetic.main.mall_fragment_latest_sale.view.*
 
 class MallSaleFragment : Fragment() {
@@ -38,7 +39,7 @@ class MallSaleFragment : Fragment() {
                 if (!isLoading) {
                     isLoading = true
                     resetPage()
-                    itemManager.removeAll { it is RecItem }
+                    itemManager.autoRefresh { removeAll { it is RecItem } }
                     //redo
                     viewModel.getLatestSale(page)
                     isRefreshing = false
@@ -65,7 +66,7 @@ class MallSaleFragment : Fragment() {
             })
         }
 
-        viewModel.login()
+        viewModel.init()
         bindSale()
         return view
     }
@@ -73,24 +74,37 @@ class MallSaleFragment : Fragment() {
     private fun bindSale() {
         saleLiveData.bindNonNull(this) { list ->
             totalPage = list[0].page
-            val items = mutableListOf<Item>().apply {
-                for (i in 1 until list.size) {
-                    recItem {
-                        Glide.with(this@MallSaleFragment)
-                                .load("https://mall.twt.edu.cn/api.php/Upload/img_redirect?id=${list[i].imgurl}")
-                                .into(image)
-                        name.text = list[i].name
-                        price.text = list[i].price
-                        locate.text = MallManager.dealText(list[i].location)
-                        card.setOnClickListener {
-                            val intent = Intent(this@MallSaleFragment.context, DetailActivity::class.java).putExtra("id", list[i].id)
-                            this@MallSaleFragment.startActivity(intent)
+            if (totalPage == 0) {
+                itemManager.autoRefresh { removeAll { it is RecItem } }
+                iv_sale_null.visibility = View.VISIBLE
+            } else {
+                iv_sale_null.visibility = View.GONE
+                val items = mutableListOf<Item>().apply {
+                    for (i in 1 until list.size) {
+                        recItem {
+                            Glide.with(this@MallSaleFragment)
+                                    .load("https://mall.twt.edu.cn/api.php/Upload/img_redirect?id=${list[i].imgurl}")
+                                    .into(image)
+                            name.text = list[i].name
+                            price.text = list[i].price
+                            locate.text = MallManager.dealText(list[i].location)
+                            card.setOnClickListener {
+                                val intent = Intent(this@MallSaleFragment.context, DetailActivity::class.java)
+                                        .putExtra(MallManager.ID, list[i].id)
+                                this@MallSaleFragment.startActivity(intent)
+                            }
                         }
                     }
                 }
+                if (page == 1) {
+                    itemManager.autoRefresh {
+                        removeAll { it is RecItem }
+                        addAll(items)
+                    }
+                } else {
+                    itemManager.addAll(items)
+                }
             }
-            itemManager.removeAll { it is RecItem }
-            itemManager.addAll(items)
         }
 
     }

@@ -8,12 +8,28 @@ import okhttp3.RequestBody
 import java.io.File
 
 object MallManager {
+
+    const val MODE = "which"
+    const val W_SALE = 1
+    const val W_NEED = 2
+    const val WJL = 1
+    const val BYY = 2
+    const val KEY = "key"
+    const val TYPE = "type"
+    const val T_SALE = "sale"
+    const val T_NEED = "need"
+    const val SELECT = "select"
+    const val SEARCH = "search"
+    const val FAV = "fav"
+    const val ID = "id"
+    const val NO_B = 0
+    const val TINY_B = 1
+    const val ABLE_B = 2
+
     private val cookies = mutableListOf<String>()//测试用
 
     //manager
     fun loginAsync() = MallApi.loginAsync(getToken())
-
-//    fun getMyInfoAsync() = MallApi.getMyInfoAsync()
 
     fun changeMyInfoAsync(phone: String, email: String, qq: String, campus: Int) = MallApi.changeMyInfoAsync(
             phone = toReqBody(phone),
@@ -33,8 +49,6 @@ object MallManager {
             category = toReqBody(category))
 
     fun searchAsync(key: String, page: Int) = MallApi.searchAsync(toReqBody(key), toReqBody(page))
-
-//    fun getMenuAsync() = MallApi.getMenuAsync()
 
     fun getDetailAsync(id: String) = MallApi.getDetailAsync(id)
 
@@ -106,7 +120,7 @@ object MallManager {
                 .setType(MultipartBody.FORM)
                 .addFormDataPart("token", token)
                 .addFormDataPart("name", map["name"].toString())
-                .addFormDataPart("gdesc", map["detail"].toString())
+                .addFormDataPart("desc", map["detail"].toString())
                 .addFormDataPart("campus", map["campus"].toString())
                 .addFormDataPart("location", map["location"].toString())
                 .addFormDataPart("price", map["price"].toString())
@@ -124,9 +138,6 @@ object MallManager {
 
     //data Utils
 
-    fun setLogin(data: Login) {
-        loginLiveData.postValue(data)
-    }
 
     //数据处理
     fun getCampus(i: String?) = when (i) {
@@ -175,7 +186,7 @@ object MallManager {
     }
 
     //微北洋的token
-    private fun getToken(): String {
+    fun getToken(): String {
         return "Bearer{${CommonPreferences.token}}"
     }
 
@@ -198,6 +209,8 @@ object MallManager {
     }
 
     private fun toReqBody(file: File): MultipartBody.Part {
+        val imageBody = RequestBody.create(MediaType.parse("multipart/form-data"), file)
+
         val body: RequestBody = RequestBody.create(MediaType.parse("multipart/form-data"), file)
         return MultipartBody.Part.createFormData("file", file.name, body)
     }
