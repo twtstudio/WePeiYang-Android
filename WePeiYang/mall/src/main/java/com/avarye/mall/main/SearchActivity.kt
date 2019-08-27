@@ -180,6 +180,7 @@ class SearchActivity : AppCompatActivity() {
 
     private fun bindSelectNeed() {
         selectLiveData.bindNonNull(this) { list ->
+            totalPage = list[0].page
             if (totalPage == 0) {
                 itemManager.autoRefresh { removeAll { it is RecItem } }
                 iv_search_null.visibility = View.VISIBLE

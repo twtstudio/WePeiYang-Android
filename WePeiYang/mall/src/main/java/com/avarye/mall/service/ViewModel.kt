@@ -2,6 +2,7 @@ package com.avarye.mall.service
 
 import android.util.Log
 import com.twt.wepeiyang.commons.experimental.CommonContext
+import com.twt.wepeiyang.commons.experimental.cache.CacheIndicator
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import es.dmoral.toasty.Toasty
 import kotlinx.coroutines.Dispatchers
@@ -11,6 +12,23 @@ import java.io.File
 
 class ViewModel {
 
+    fun login() {
+        GlobalScope.launch(Dispatchers.Main) {
+            MallManager.loginAsync().awaitAndHandle {
+                Toasty.error(CommonContext.application, "登陆失败").show()
+            }?.let {
+                if (it.error_code == -1) {
+                    loginLiveData.postValue(it.data)
+                    Toasty.info(CommonContext.application, it.message).show()
+                } else {
+                    Toasty.error(CommonContext.application, it.message).show()
+                }
+            }
+
+            mineLiveData.refresh(CacheIndicator.LOCAL, CacheIndicator.REMOTE)
+        }
+    }
+
     fun init() {
         //先后台登陆再拿数据
         GlobalScope.launch(Dispatchers.Main) {
@@ -19,7 +37,6 @@ class ViewModel {
             }?.let {
                 if (it.error_code == -1) {
                     loginLiveData.postValue(it.data)
-                    Log.d("token!!", MallManager.getToken())
                 } else {
                     Toasty.error(CommonContext.application, it.message).show()
                 }
@@ -29,6 +46,7 @@ class ViewModel {
                 Log.d("login get goods failed", it.message)
             }?.let {
                 saleLiveData.postValue(it)
+                Toasty.success(CommonContext.application, "done").show()
             }
         }
     }
@@ -36,7 +54,7 @@ class ViewModel {
     fun getLatestSale(page: Int) {
         GlobalScope.launch(Dispatchers.Main) {
             MallManager.latestSaleAsync(page).awaitAndHandle {
-                Log.d("get goods failed", it.message)
+                Toasty.info(CommonContext.application, it.message.toString()).show()
             }?.let {
                 saleLiveData.postValue(it)
             }
@@ -46,7 +64,7 @@ class ViewModel {
     fun getLatestNeed(page: Int) {
         GlobalScope.launch(Dispatchers.Main) {
             MallManager.latestNeedAsync(page).awaitAndHandle {
-                Log.d("get goods failed", it.message)
+                Toasty.info(CommonContext.application, it.message.toString()).show()
             }?.let {
                 needLiveData.postValue(it)
                 Log.d("get goods done", it[0].page.toString())
@@ -57,7 +75,7 @@ class ViewModel {
     fun search(key: String, page: Int) {
         GlobalScope.launch(Dispatchers.Main) {
             MallManager.searchAsync(key, page).awaitAndHandle {
-                Log.d("search failed", "search failed")
+                Toasty.info(CommonContext.application, it.message.toString()).show()
             }?.let {
                 searchLiveData.postValue(it)
             }
@@ -67,7 +85,7 @@ class ViewModel {
     fun getSelect(category: String, which: Int, page: Int) {
         GlobalScope.launch(Dispatchers.Main) {
             MallManager.selectAsync(category, which, page).awaitAndHandle {
-                Log.d("select failed", "select failed")
+                Toasty.info(CommonContext.application, it.message.toString()).show()
             }?.let {
                 selectLiveData.postValue(it)
             }
@@ -81,9 +99,9 @@ class ViewModel {
             MallManager.postImgAsync(file, token).awaitAndHandle {
                 Toasty.error(CommonContext.application, "图片上传失败").show()
             }?.let {
-                if (it.result_code == "02001") {
+                if (it.result_code == "00201") {
                     imgIdLiveData.postValue(it.id)
-                    Toasty.info(CommonContext.application, it.msg).show()
+                    Toasty.info(CommonContext.application, it.id.toString()).show()
                 } else {
                     Toasty.info(CommonContext.application, it.msg).show()
                 }
@@ -131,10 +149,9 @@ class ViewModel {
     fun getFavList(token: String) {
         GlobalScope.launch(Dispatchers.Main) {
             MallManager.getFavListAsync(token).awaitAndHandle {
-                Toasty.info(CommonContext.application, it.message.toString()).show()
+                Toasty.info(CommonContext.application, "fav: ${it.message.toString()}").show()
             }?.let {
                 myFavLiveData.postValue(it)
-                Toasty.success(CommonContext.application, "fav加载成功").show()
             }
         }
     }
@@ -163,6 +180,7 @@ class ViewModel {
             }?.let {
                 Toasty.info(CommonContext.application, it.msg).show()
             }
+            mineLiveData.refresh(CacheIndicator.LOCAL, CacheIndicator.REMOTE)
         }
     }
 

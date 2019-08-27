@@ -118,7 +118,6 @@ interface MallApi {
     fun deleteSaleAsync(@Part("token") token: RequestBody,
                         @Part("gid") gid: RequestBody): Deferred<Result>
 
-    //TODO:待测试
     @Multipart
     @POST("api.php/Items/need_fabu")
     fun postNeedAsync(@Part partList: List<MultipartBody.Part>): Deferred<Result>
@@ -134,6 +133,9 @@ val selectLiveData = MutableLiveData<List<Sale>>()
 val myListLiveData = MutableLiveData<List<Sale>>()
 val myFavLiveData = MutableLiveData<List<Sale>>()
 val imgIdLiveData = MutableLiveData<String>()
+val commentLiveData = MutableLiveData<List<CommentList>>()
+val detailLiveData = MutableLiveData<Sale>()
+val sellerLiveData= MutableLiveData<Seller>()
 
 private val menuLocalData = Cache.hawk<List<Menu>>("MALL_MENU")
 private val menuRemoteData = Cache.from(MallApi.Companion::getMenuAsync)

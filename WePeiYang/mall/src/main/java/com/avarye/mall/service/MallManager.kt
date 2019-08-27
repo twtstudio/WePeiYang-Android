@@ -39,9 +39,9 @@ object MallManager {
 
     fun changeCampusAsync(campus: Int) = MallApi.changeCampusAsync(toReqBody(campus))
 
-    fun latestSaleAsync(page: Int) = MallApi.latestSaleAsync(toReqBody(page), toReqBody(1))
+    fun latestSaleAsync(page: Int) = MallApi.latestSaleAsync(toReqBody(page), toReqBody(W_SALE))
 
-    fun latestNeedAsync(page: Int) = MallApi.latestNeedAsync(toReqBody(page), toReqBody(2))
+    fun latestNeedAsync(page: Int) = MallApi.latestNeedAsync(toReqBody(page), toReqBody(W_NEED))
 
     fun selectAsync(category: String, which: Int, page: Int) = MallApi.selectAsync(
             which = toReqBody(which),
@@ -186,7 +186,7 @@ object MallManager {
     }
 
     //微北洋的token
-    fun getToken(): String {
+    private fun getToken(): String {
         return "Bearer{${CommonPreferences.token}}"
     }
 
@@ -208,10 +208,10 @@ object MallManager {
         return RequestBody.create(MediaType.parse("multipart/form-data"), key)
     }
 
-    private fun toReqBody(file: File): MultipartBody.Part {
+/*    private fun toReqBody(file: File): MultipartBody.Part {
         val imageBody = RequestBody.create(MediaType.parse("multipart/form-data"), file)
 
         val body: RequestBody = RequestBody.create(MediaType.parse("multipart/form-data"), file)
         return MultipartBody.Part.createFormData("file", file.name, body)
-    }
+    }*/
 }

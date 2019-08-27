@@ -80,13 +80,13 @@ class MineActivity : AppCompatActivity() {
     private fun bind() {
         cv_mine_sale.setOnClickListener {
             val intent = Intent(this, ListActivity::class.java)
-                    .putExtra(MallManager.TYPE, MallManager.W_SALE)
+                    .putExtra(MallManager.TYPE, MallManager.T_SALE)
             startActivity(intent)
         }
 
         cv_mine_need.setOnClickListener {
             val intent = Intent(this, ListActivity::class.java)
-                    .putExtra(MallManager.TYPE, MallManager.W_NEED)
+                    .putExtra(MallManager.TYPE, MallManager.T_NEED)
             startActivity(intent)
         }
 
@@ -98,13 +98,13 @@ class MineActivity : AppCompatActivity() {
 
         cv_mine_post_sale.setOnClickListener {
             val intent = Intent(this, PostActivity::class.java)
-                    .putExtra(MallManager.TYPE, MallManager.W_SALE)
+                    .putExtra(MallManager.TYPE, MallManager.T_SALE)
             startActivity(intent)
         }
 
         cv_mine_post_need.setOnClickListener {
             val intent = Intent(this, PostActivity::class.java)
-                    .putExtra(MallManager.TYPE, MallManager.W_NEED)
+                    .putExtra(MallManager.TYPE, MallManager.T_NEED)
             startActivity(intent)
         }
 
@@ -161,9 +161,11 @@ class MineActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         if (loginLiveData.value == null) {
-//            viewModel.login()
+            viewModel.login()
+        } else {
+            mineLiveData.refresh(CacheIndicator.LOCAL, CacheIndicator.REMOTE)
+            Toasty.info(this, mineLiveData.value.toString()).show()
         }
-        mineLiveData.refresh(CacheIndicator.LOCAL, CacheIndicator.REMOTE)
         return true
     }
 

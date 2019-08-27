@@ -24,11 +24,11 @@ import pub.devrel.easypermissions.EasyPermissions
 object NoSelectPic//判断list是否有图片
 
 class PostImgAdapter(private val list: MutableList<Any>,
-                     private val iidList: MutableList<String>,
                      private val activity: PostActivity,
                      private val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var currentPosition = 0
+    private val iidList =  mutableListOf<String>()
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val image: ImageView = view.findViewById(R.id.iv_post)
@@ -100,8 +100,8 @@ class PostImgAdapter(private val list: MutableList<Any>,
     }
 
     private fun setPicEdit() {
-        val list = arrayOf<CharSequence>("更改图片","删除图片", "取消")
-        val alertDialogBuilder = AlertDialog.Builder(activity)
+        val list = arrayOf<CharSequence>("更改图片", "删除图片", "取消")
+        val alertDialogBuilder = AlertDialog.Builder(context)
         alertDialogBuilder.setItems(list) { dialog, item ->
             when (item) {
                 0 -> checkPermAndOpenPic()
@@ -115,7 +115,7 @@ class PostImgAdapter(private val list: MutableList<Any>,
 
     private fun checkPermAndOpenPic() {
         // 检查存储权限
-        if (ContextCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             EasyPermissions.requestPermissions(activity, "需要外部存储来提供必要的缓存", 0,
                     Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
         } else {
@@ -160,6 +160,10 @@ class PostImgAdapter(private val list: MutableList<Any>,
             imageView.setOnClickListener { dismiss() }
             show()
         }
+    }
+
+    fun getIidList(): List<String> {
+        return iidList
     }
 
 }

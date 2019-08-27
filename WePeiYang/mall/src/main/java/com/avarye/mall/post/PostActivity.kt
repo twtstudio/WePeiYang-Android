@@ -35,14 +35,13 @@ class PostActivity : AppCompatActivity() {
     private val viewModel = ViewModel()
     private var token = ""
     private var selectPicList = mutableListOf<Any>()
-    private var iidList = mutableListOf<String>()
     private var status = ""
     private var category = ""
     private var categoryMain = ""
     private var iidTemp = ""
     private var flagSale = false
     private var flagNeed = false
-    private var type = MallManager.W_SALE
+    private var type = MallManager.T_SALE
     private lateinit var map: Map<String, Any>
     private lateinit var progressBar: ProgressBar
 
@@ -50,11 +49,11 @@ class PostActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.mall_activity_post)
         window.statusBarColor = ContextCompat.getColor(this, R.color.mallColorMain)
-        type = intent.getIntExtra(MallManager.TYPE, MallManager.W_SALE)
+        type = intent.getStringExtra(MallManager.TYPE)
         tb_main.apply {
             title = when (type) {
-                MallManager.W_SALE -> getString(R.string.mallStringPostSale)
-                MallManager.W_NEED -> getString(R.string.mallStringPostNeed)
+                MallManager.T_SALE -> getString(R.string.mallStringPostSale)
+                MallManager.T_NEED -> getString(R.string.mallStringPostNeed)
                 else -> "薛定谔的页面"
             }
             setSupportActionBar(this)
@@ -65,17 +64,19 @@ class PostActivity : AppCompatActivity() {
         progressBar.visibility = View.GONE
 
         when (type) {
-            MallManager.W_SALE -> {
+            MallManager.T_SALE -> {
                 tv_post_img.visibility = View.VISIBLE
                 rv_post_img.visibility = View.VISIBLE
                 rl_post_bargain.visibility = View.VISIBLE
                 tv_post_price.text = "价格"
+                rl_post_status.visibility = View.VISIBLE
             }
-            MallManager.W_NEED -> {
+            MallManager.T_NEED -> {
                 tv_post_img.visibility = View.GONE
                 rv_post_img.visibility = View.GONE
                 rl_post_bargain.visibility = View.GONE
                 tv_post_price.text = "期望价格"
+                rl_post_status.visibility = View.GONE
             }
         }
 
@@ -91,7 +92,7 @@ class PostActivity : AppCompatActivity() {
         sp_category.setSelection(0)
 
         selectPicList.add(NoSelectPic) // supply a null list
-        postImgAdapter = PostImgAdapter(selectPicList, iidList,this, this)
+        postImgAdapter = PostImgAdapter(selectPicList, this, this)
         postImgManager.orientation = LinearLayoutManager.HORIZONTAL
         rv_post_img.apply {
             adapter = postImgAdapter
@@ -209,8 +210,8 @@ class PostActivity : AppCompatActivity() {
     }
 
     private fun post() = when (type) {
-        MallManager.W_SALE -> viewModel.postSale(map, token)
-        MallManager.W_NEED -> viewModel.postNeed(map, token)
+        MallManager.T_SALE -> viewModel.postSale(map, token)
+        MallManager.T_NEED -> viewModel.postNeed(map, token)
         else -> Unit
     }
 
@@ -231,7 +232,7 @@ class PostActivity : AppCompatActivity() {
             else -> MallManager.NO_B
         }.toString()
         var iid = ""
-        for (i in iidList) {
+        for (i in postImgAdapter.getIidList()) {
             iid += "$i,"
         }
         val exchange = et_post_exchange.text.toString()
@@ -267,24 +268,19 @@ class PostActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == 2 && resultCode != 0) {
-            postImg()
-            imgIdLiveData.bindNonNull(this) {
-                if (it != iidTemp) {
-                    iidTemp = it
-                    val selectedPic = Matisse.obtainResult(data)
-                    postImgAdapter.changePic(selectedPic[0], it)
-                    Toasty.info(this@PostActivity, iidList.toString()).show()
-                }
-            }
-        }
-    }
-
-    private fun postImg() {
-        selectPicList[0].apply {
-            if (this is Uri) {
+            val selectedPic = Matisse.obtainResult(data)[0]
+            if (selectedPic is Uri) {
                 val file: File = File.createTempFile("pic", ".jpg")
                 val outputFile = file.path
-                viewModel.postImg(getFile(zipThePic(handleImageOnKitKat(this)), outputFile)!!, token)
+                viewModel.postImg(getFile(zipThePic(handleImageOnKitKat(selectedPic)), outputFile)!!, token)
+            }
+            imgIdLiveData.bindNonNull(this) {
+                Toasty.info(this@PostActivity, postImgAdapter.getIidList().toString()).show()
+                if (it != iidTemp) {
+                    iidTemp = it
+                    postImgAdapter.changePic(selectedPic, it)
+                }
+
             }
         }
     }
@@ -369,8 +365,8 @@ class PostActivity : AppCompatActivity() {
         return path
     }
 
-/*    fun setPicEdit() {
-        val list = arrayOf<CharSequence>("删除图片", "取消")
+    /*fun setPicEdit() {
+        val list = arrayOf<CharSequence>("更改图片", "删除图片", "取消")
         val alertDialogBuilder = AlertDialog.Builder(this)
         alertDialogBuilder.setItems(list) { dialog, item ->
             when (item) {
@@ -395,7 +391,7 @@ class PostActivity : AppCompatActivity() {
 
     // 用第三方库打开相册
     @SuppressLint("ResourceType")
-    fun openSelectPic() = Matisse.from(this@PostActivity)
+    private fun openSelectPic() = Matisse.from(this@PostActivity)
             .choose(MimeType.of(MimeType.JPEG, MimeType.PNG, MimeType.GIF))
             .countable(true)
             .maxSelectable(1)

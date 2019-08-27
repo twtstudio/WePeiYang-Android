@@ -193,37 +193,37 @@ fun getPopluarAudit(): Observable<CommonBody<List<AuditPopluar>>>
 目前微北洋里面的异步任务都是使用Kotlin协程来写的。
 
 作为一个合格的项目开发者，你应该使用Kotlin协程所提供的`async/await`来处理问题。在之前的文档中，我们的网络请求的返回值是`Deferred<T>`类型，至于这是个啥，请自己上网查谢谢。[附一个文章](https://zhuanlan.zhihu.com/p/30019105)
-一般的做发是，在普通环境(非协程环境)使用`launch(UI){}`方法启动一个协程，在协程里面使用`async/await`来控制。
+一般的做法是，在普通环境(非协程环境)使用`GlobalScope.launch(Dispatchers.Main){}`方法启动一个协程，在协程里面使用`async/await`来控制。
 
 ```kotlin
-  launch (exceptionHandler + UI) {
-                val result = AuditApi.searchCourse(courseName).await()
-                // do something 这里的代码会等待网络请求出结果才执行
-        }
+  GlobalScope.launch (exceptionHandler + Dispatchers.Main) {
+          val result = AuditApi.searchCourse(courseName).await()
+          // do something 这里的代码会等待网络请求出结果才执行
+  }
 ```
 比如说我们添加一些逻辑
 
 ```kotlin
-  launch (exceptionHandler + UI) {
-                val result: CommonBody<String> = AuditApi.searchCourse(courseName).await()
-                // do something
-                if (result.error_code == -1) textView.text = result.data 
-        }
+  GlobalScope.launch (exceptionHandler + Dispatchers.Main) {
+          val result: CommonBody<String> = AuditApi.searchCourse(courseName).await()
+          // do something
+          if (result.error_code == -1) textView.text = result.data 
+  }
 ```
-协程里面的上下文：通用的有`UI` `CommonPool`表示协程运行在哪个线程中，`CommonPool`是一个线程池，耗时操作要在这里完成，然后通过`await`来协调先后。示例一段伪代码（看个意思就行）
+协程里面的上下文：通用的有`Dispatchers.Main` `Dispatchers.Default`表示协程运行在哪个线程中，`Dispatchers.Default`是一个线程池，耗时操作要在这里完成，然后通过`await`来协调先后。示例一段伪代码（看个意思就行）
 ```kotlin
-  launch (exceptionHandler + UI) { // 主线程开启
-                val result: CommonBody<String> = AuditApi.searchCourse(courseName).await()
-                // do something
-                if (result.error_code == -1) textView.text = result.data 
-                val dbTask = async(CommonPool) { // 异步开启
-                    ScheduleDb.queryAllCourses() // 耗时操作
-                }
-                val courseList = dbTask.await()
-                courseList.foreach {
-                    textView.text += it.courseName
-                }
-        }
+  GlobalScope.launch (exceptionHandler + Dispatchers.Main) { // 主线程开启
+         val result: CommonBody<String> = AuditApi.searchCourse(courseName).await()
+         // do something
+         if (result.error_code == -1) textView.text = result.data 
+              val dbTask = async(CommonPool) { // 异步开启
+              ScheduleDb.queryAllCourses() // 耗时操作
+         }
+         val courseList = dbTask.await()
+         courseList.foreach {
+             textView.text += it.courseName
+         }
+  }
 ```
 到这里，你已经会使用微北洋的基础框架来发起一个网络请求了。请不要另辟蹊径，谢谢！
 继续阅读下去，你会学到：缓存框架的用法
