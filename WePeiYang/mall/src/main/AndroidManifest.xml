@@ -3,8 +3,8 @@
     package="com.avarye.mall">
 
     <application>
-        <activity android:name=".mine.ListActivity"></activity>
-        <activity android:name=".mine.MineActivity"></activity>
+        <activity android:name=".mine.ListActivity"/>
+        <activity android:name=".mine.MineActivity"/>
         <activity android:name=".main.SearchActivity" />
         <activity android:name=".post.PostActivity" />
         <activity android:name=".detail.DetailActivity" />

@@ -22,5 +22,5 @@
         <item name="colorControlNormal">@color/mallColorLight</item>
         <item name="colorControlActivated">@color/mallColorMain</item>
     </style>
-    
+
 </resources>

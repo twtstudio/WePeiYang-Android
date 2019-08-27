@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+
+
+    <android.support.v7.widget.CardView
+        app:cardCornerRadius="10dp"
+        android:elevation="10dp"
+        app:cardMaxElevation="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+
+            <ImageView
+                android:id="@+id/comment_user_iv"
+                android:background="@drawable/seller_image_detail"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_marginLeft="10dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+
+                android:layout_marginTop="10dp"/>
+
+            <TextView
+                android:id="@+id/coment_user_tv"
+                android:text="uzumaki naruto"
+                android:textSize="7sp"
+                android:textColor="#6495ED"
+                app:layout_constraintTop_toBottomOf="@id/comment_user_iv"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_width="50dp"
+                android:paddingLeft="5dp"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/comment_content"
+                android:text="不是我窦娥罚下这等无头愿，委实的冤情不浅。若没些儿灵圣与世人传，也不见得湛湛青天。我不要半星热血红尘洒，都只在八尺旗枪素练悬。等他四下里皆瞧见，这就是咱苌弘化碧，望帝啼鹃"
+                android:textSize="11sp"
+                app:layout_constraintLeft_toRightOf="@+id/comment_user_iv"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="30dp"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/commet_reply"
+                app:layout_constraintLeft_toRightOf="@id/coment_user_tv"
+                app:layout_constraintTop_toBottomOf="@id/comment_content"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="4dp"
+                android:text="回复"
+                android:textSize="8sp"
+                android:textColor="#6495ED"
+                android:layout_width="30dp"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/comment_time"
+                app:layout_constraintTop_toBottomOf="@id/comment_content"
+                android:text="20190824"
+                android:textSize="8sp"
+                android:layout_marginTop="4dp"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginRight="25dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+
+
+        </android.support.constraint.ConstraintLayout>
+
+
+    </android.support.v7.widget.CardView>
+
+
+
+
+</LinearLayout>

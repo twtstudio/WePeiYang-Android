@@ -2,25 +2,39 @@ package com.twt.service.tjunet.view
 
 import android.app.job.JobScheduler
 import android.content.Context
-import android.content.Intent
-import android.graphics.Color
-import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.text.InputType
 import android.text.method.PasswordTransformationMethod
-import android.view.Gravity
-import com.twt.service.tjunet.R
 import com.twt.service.tjunet.api.RealTjuNetService
+import com.twt.service.tjunet.api.TjuNetService
 import com.twt.service.tjunet.pref.TjuNetPreferences
-import com.twt.service.tjunet.reconnect.ReconnectJob
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import es.dmoral.toasty.Toasty
 import org.jetbrains.anko.*
 import org.jetbrains.anko.appcompat.v7.toolbar
+/*import org.jetbrains.anko.sdk25.coroutines.onCheckedChange
+import org.jetbrains.anko.sdk25.coroutines.onClick*/
+import android.content.Intent
+import android.graphics.Color
+import android.graphics.PorterDuff
+import android.graphics.drawable.Drawable
+import android.net.Uri
+import android.os.Build
+import android.view.Gravity
+import android.view.View
+import android.widget.Toast
+import com.twt.service.tjunet.R
+import com.twt.service.tjunet.pref.TjuNetPreferences.password
+import com.twt.service.tjunet.pref.TjuNetPreferences.username
+import com.twt.service.tjunet.reconnect.ReconnectJob
+import com.twt.wepeiyang.commons.experimental.color.getColorCompat
+import kotlinx.android.synthetic.main.tjunet_home_network.view.*
+import org.intellij.lang.annotations.JdkConstants
 import org.jetbrains.anko.sdk27.coroutines.onCheckedChange
 import org.jetbrains.anko.sdk27.coroutines.onClick
+import java.lang.reflect.Field
+import javax.annotation.Resource
 
 
 /**
