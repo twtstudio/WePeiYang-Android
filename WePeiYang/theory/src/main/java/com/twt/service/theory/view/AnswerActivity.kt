@@ -127,7 +127,8 @@ class AnswerActivity : AppCompatActivity() {
         theory_submit.setOnClickListener {
             val popupWindow = PopupWindow(this)
             val view = LayoutInflater.from(this).inflate(R.layout.theory_dialog_exam, null, false)
-            view.theory_enter_word.text = "你将提交答案"
+            if (AnswerManager.getNumberHasDone() != AnswerManager.getTotalNumber()) view.theory_enter_word.text = "你还有${AnswerManager.getTotalNumber() - AnswerManager.getNumberHasDone()}题未完成，确认提交?"
+            else view.theory_enter_word.text = "你将提交答案"
             popupWindow.apply {
                 isFocusable = true
                 contentView = view

@@ -38,7 +38,7 @@ class ScrollRecyclerView(context: Context, attrs: AttributeSet) : RecyclerView(c
             pos <= firstItem ->
                 smoothScrollToPosition(pos)
             pos <= lastItem -> {
-                val top = getChildAt(pos - firstItem).getTop()
+                val top = getChildAt(pos - firstItem).top
                 smoothScrollBy(0, top)
             }
             else -> {

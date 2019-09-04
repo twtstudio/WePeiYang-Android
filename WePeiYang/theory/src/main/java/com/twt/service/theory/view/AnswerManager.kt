@@ -70,6 +70,7 @@ object AnswerManager {
         popupWindow = src
         list.clear()
         for (i in 1..(numOfQue)) {
+
             val item = ProblemItem(i, ans[i] != 0) {
                 recyclerView.toPosition(it - 1)
             }

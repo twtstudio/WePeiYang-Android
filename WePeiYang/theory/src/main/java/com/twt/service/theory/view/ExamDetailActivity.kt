@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -18,6 +19,7 @@ import com.twt.service.theory.view.AnswerActivity
 import com.twt.service.theory.view.AnswerManager
 import com.twt.service.theory.view.UserActivity
 import com.twt.service.theory.view.setDetail
+import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
 import com.twt.wepeiyang.commons.experimental.extensions.enableLightStatusBarMode
 import com.twt.wepeiyang.commons.ui.rec.withItems
 import kotlinx.android.synthetic.main.theory_activity_exam_detail.*
@@ -26,7 +28,12 @@ import kotlinx.android.synthetic.main.theory_common_toolbar.view.*
 import kotlinx.android.synthetic.main.theory_dialog_exam.*
 import kotlinx.android.synthetic.main.theory_dialog_exam.view.*
 import kotlinx.android.synthetic.main.theory_popupwindow_layout.view.*
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.launch
 import org.jetbrains.anko.dip
+import com.twt.service.theory.model.TheoryApi
+import org.jetbrains.anko.custom.async
+import java.lang.Exception
 
 class ExamDetailActivity : AppCompatActivity() {
     lateinit var recyclerView: RecyclerView
@@ -46,7 +53,7 @@ class ExamDetailActivity : AppCompatActivity() {
         }
     }
 
-    private fun initView(){
+    private fun initView() {
         setContentView(R.layout.theory_activity_exam_detail)
         window.statusBarColor = Color.parseColor("#FFFFFF")
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -75,6 +82,11 @@ class ExamDetailActivity : AppCompatActivity() {
                     popupWindow.dismiss()
                 }
                 contentView.theory_enter_comfirm.setOnClickListener {
+                    launch(UI) {
+                        Log.d("BUG", "I'm here!")
+                        val paperBean = TheoryApi.login().await()
+                        Log.d("BUG", paperBean.status.toString())
+                    }
                     val intent = Intent(contentView.context, AnswerActivity::class.java)
                     startActivity(intent)
                     popupWindow.dismiss()
