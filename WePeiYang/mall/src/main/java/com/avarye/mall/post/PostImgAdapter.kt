@@ -21,8 +21,15 @@ import com.zhihu.matisse.MimeType
 import com.zhihu.matisse.engine.impl.GlideEngine
 import pub.devrel.easypermissions.EasyPermissions
 
-object NoSelectPic//判断list是否有图片
+/**
+ * 添加一个空的item
+ * 判断list是否有图片
+ */
+object NoSelectPic
 
+/**
+ * 上传图片recyclerView的adapter
+ */
 class PostImgAdapter(private val list: MutableList<Any>,
                      private val activity: PostActivity,
                      private val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -113,8 +120,10 @@ class PostImgAdapter(private val list: MutableList<Any>,
         alert.show()
     }
 
+    /**
+     * 检查存储权限
+     */
     private fun checkPermAndOpenPic() {
-        // 检查存储权限
         if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             EasyPermissions.requestPermissions(activity, "需要外部存储来提供必要的缓存", 0,
                     Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
@@ -123,7 +132,9 @@ class PostImgAdapter(private val list: MutableList<Any>,
         }
     }
 
-    // 用第三方库打开相册
+    /**
+     * 用第三方库打开相册
+     */
     @SuppressLint("ResourceType")
     private fun openSelectPic() = Matisse.from(activity)
             .choose(MimeType.of(MimeType.JPEG, MimeType.PNG, MimeType.GIF))
@@ -139,7 +150,7 @@ class PostImgAdapter(private val list: MutableList<Any>,
     private fun showBigPic() {
         val dialog = Dialog(activity, R.style.edit_AlertDialog_style)
         dialog.apply {
-            setContentView(R.layout.mall_dailog_detail_img)
+            setContentView(R.layout.mall_dialog_detail_img)
             val imageView = findViewById<ImageView>(R.id.iv_detail_whole)
 
             when (val tmp = list[currentPosition]) {

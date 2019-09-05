@@ -22,6 +22,9 @@ import kotlinx.android.synthetic.main.mall_item_toolbar.*
 import kotlinx.android.synthetic.main.mall_pop_setting.view.*
 import org.jetbrains.anko.contentView
 
+/**
+ * 个人主页
+ */
 class MineActivity : AppCompatActivity() {
     private var level = ""
     private var numb = ""
@@ -63,7 +66,7 @@ class MineActivity : AppCompatActivity() {
             email = it.email
             campus = it.xiaoqu.toInt()
 
-            bind()
+            bindButton()
             Toasty.info(this@MineActivity, it.id).show()
         }
     }
@@ -77,7 +80,7 @@ class MineActivity : AppCompatActivity() {
     }
 
     @SuppressLint("InflateParams")
-    private fun bind() {
+    private fun bindButton() {
         cv_mine_sale.setOnClickListener {
             val intent = Intent(this, ListActivity::class.java)
                     .putExtra(MallManager.TYPE, MallManager.T_SALE)
@@ -147,6 +150,9 @@ class MineActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * 设置背景透明度
+     */
     private fun bgAlpha(bgAlpha: Float) {
         val lp = window.attributes
         lp.alpha = bgAlpha // 0.0-1.0

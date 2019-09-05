@@ -21,6 +21,9 @@ import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.mall_fragment_latest_need.*
 import kotlinx.android.synthetic.main.mall_fragment_latest_need.view.*
 
+/**
+ * 最新求购
+ */
 class MallNeedFragment : Fragment() {
     private var page = 1
     private var totalPage = 1

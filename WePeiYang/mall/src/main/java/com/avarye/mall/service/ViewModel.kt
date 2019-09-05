@@ -10,6 +10,10 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.io.File
 
+/**
+ * 理论上是所有view的viewModel
+ * 但是一些模块用的mvp
+ */
 class ViewModel {
 
     fun login() {
@@ -29,13 +33,17 @@ class ViewModel {
         }
     }
 
+    /**
+     * 初始化商城模块时调用
+     * 先后台登陆再获得最新发布数据
+     */
     fun init() {
-        //先后台登陆再拿数据
         GlobalScope.launch(Dispatchers.Main) {
             MallManager.loginAsync().awaitAndHandle {
                 Toasty.error(CommonContext.application, "登陆失败").show()
             }?.let {
                 if (it.error_code == -1) {
+                    Log.d("token!!", MallManager.getToken())
                     loginLiveData.postValue(it.data)
                 } else {
                     Toasty.error(CommonContext.application, it.message).show()
@@ -82,6 +90,9 @@ class ViewModel {
         }
     }
 
+    /**
+     * 通过分类菜单获得筛选数据
+     */
     fun getSelect(category: String, which: Int, page: Int) {
         GlobalScope.launch(Dispatchers.Main) {
             MallManager.selectAsync(category, which, page).awaitAndHandle {
@@ -132,6 +143,9 @@ class ViewModel {
 
     }
 
+    /**
+     * 获得我的发布列表、我的需求列表
+     */
     fun getMyList(uid: String, which: Int) {
         GlobalScope.launch(Dispatchers.Main) {
             MallManager.getUserInfoAsync(uid).awaitAndHandle {
@@ -146,6 +160,9 @@ class ViewModel {
         }
     }
 
+    /**
+     * 获得我的收藏列表
+     */
     fun getFavList(token: String) {
         GlobalScope.launch(Dispatchers.Main) {
             MallManager.getFavListAsync(token).awaitAndHandle {
@@ -156,6 +173,9 @@ class ViewModel {
         }
     }
 
+    /**
+     * 删除发布商品
+     */
     fun deleteSale(gid: String, token: String) {
         GlobalScope.launch(Dispatchers.Main) {
             MallManager.deleteSaleAsync(gid, token).awaitAndHandle {
@@ -165,6 +185,9 @@ class ViewModel {
         }
     }
 
+    /**
+     * 取消收藏
+     */
     fun deFav(gid: String, token: String) {
         GlobalScope.launch(Dispatchers.Main) {
             MallManager.deFavAsync(gid, token).awaitAndHandle {
@@ -174,6 +197,9 @@ class ViewModel {
         }
     }
 
+    /**
+     * 修改个人信息
+     */
     fun changeMyInfo(phone: String, email: String, qq: String, campus: Int) {
         GlobalScope.launch(Dispatchers.Main) {
             MallManager.changeMyInfoAsync(phone, email, qq, campus).awaitAndHandle {

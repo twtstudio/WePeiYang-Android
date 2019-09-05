@@ -11,6 +11,9 @@ import com.avarye.mall.service.Menu
 import kotlinx.android.synthetic.main.mall_item_menu_child.view.*
 import kotlinx.android.synthetic.main.mall_item_menu_main.view.*
 
+/**
+ * 分类菜单ExpandableList的adapter
+ */
 class MenuViewAdapter(val context: Context, private val category: List<Menu>) : BaseExpandableListAdapter() {
 
     var inflater: LayoutInflater = LayoutInflater.from(context)

@@ -4,6 +4,9 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentPagerAdapter
 import android.view.ViewGroup
 
+/**
+ * 主界面viewPager的adapter
+ */
 class MallPagerAdapter(fragmentManager: android.support.v4.app.FragmentManager) : FragmentPagerAdapter(fragmentManager) {
 
     private var fragments = mutableListOf<Fragment>()

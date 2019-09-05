@@ -24,6 +24,9 @@ import kotlinx.android.synthetic.main.mall_item_toolbar.*
 import org.jetbrains.anko.inputMethodManager
 import org.jetbrains.anko.textColor
 
+/**
+ * 商城主界面
+ */
 class MallActivity : AppCompatActivity() {
 
     private lateinit var tabLayout: TabLayout
@@ -163,6 +166,10 @@ class MallActivity : AppCompatActivity() {
         return true
     }
 
+    /**
+     * 设置背景透明度
+     * @param bgAlpha 透明度值
+     */
     private fun bgAlpha(bgAlpha: Float) {
         val lp = window.attributes
         lp.alpha = bgAlpha // 0.0-1.0

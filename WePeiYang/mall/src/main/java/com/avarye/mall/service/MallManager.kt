@@ -7,6 +7,10 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import java.io.File
 
+/**
+ * 对网络请求的封装
+ * 以及一些处理数据的工具方法
+ */
 object MallManager {
 
     const val MODE = "which"
@@ -146,7 +150,7 @@ object MallManager {
         else -> "未知"
     }
 
-    fun getBargin(i: String) = when (i) {
+    fun getBargain(i: String) = when (i) {
         "0" -> "不可刀"
         "1" -> "可小刀"
         "2" -> "可刀"
@@ -186,7 +190,7 @@ object MallManager {
     }
 
     //微北洋的token
-    private fun getToken(): String {
+    fun getToken(): String {
         return "Bearer{${CommonPreferences.token}}"
     }
 

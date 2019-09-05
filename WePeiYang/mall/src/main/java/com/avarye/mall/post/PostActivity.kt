@@ -28,6 +28,9 @@ import java.io.*
 import java.util.*
 import kotlin.math.roundToInt
 
+/**
+ * 发布商品/需求
+ */
 class PostActivity : AppCompatActivity() {
 
     private lateinit var postImgAdapter: PostImgAdapter
@@ -117,6 +120,9 @@ class PostActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * 商品成色的spinner具体实现
+     */
     private fun initSpinnerStatus() {
         val spinnerListStatus = mutableListOf<String>()
         spinnerListStatus.apply {
@@ -145,6 +151,9 @@ class PostActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * 商品分类的二级spinner具体实现
+     */
     private fun initSpinnerCategory() {
         val spinnerListMain = mutableListOf<String>()
         val spinnerListCategory = mutableListOf<String>()
@@ -266,6 +275,9 @@ class PostActivity : AppCompatActivity() {
         return map
     }
 
+    /**
+     * 上传图片时用第三方库打开相册获取到图片后的操作
+     */
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == 2 && resultCode != 0) {
             val selectedPic = Matisse.obtainResult(data)[0]
@@ -332,7 +344,9 @@ class PostActivity : AppCompatActivity() {
         return inSampleSize
     }
 
-    // 相册图片路径
+    /**
+     * 相册图片路径
+     */
     private fun handleImageOnKitKat(uri: Uri?): String? {
         var imagePath: String? = null
         if (DocumentsContract.isDocumentUri(this, uri)) {

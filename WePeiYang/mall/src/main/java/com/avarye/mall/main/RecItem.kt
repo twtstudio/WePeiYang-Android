@@ -12,6 +12,9 @@ import com.twt.wepeiyang.commons.ui.rec.ItemController
 import kotlinx.android.synthetic.main.mall_item_main.view.*
 import org.jetbrains.anko.layoutInflater
 
+/**
+ * 所有商品recyclerView的Item
+ */
 class RecItem : Item {
     internal var builder: (ViewHolder.() -> Unit)? = null
 

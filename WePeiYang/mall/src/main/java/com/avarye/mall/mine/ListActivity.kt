@@ -21,6 +21,9 @@ import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.mall_activity_list.*
 import kotlinx.android.synthetic.main.mall_item_toolbar.*
 
+/**
+ * 我的发布/求购/收藏列表
+ */
 class ListActivity : AppCompatActivity() {
 
     private var isLoading = false

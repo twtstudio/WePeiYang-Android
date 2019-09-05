@@ -22,6 +22,9 @@ import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.mall_activity_search.*
 import kotlinx.android.synthetic.main.mall_item_toolbar.*
 
+/**
+ * 搜索界面
+ */
 class SearchActivity : AppCompatActivity() {
     private var page = 1
     private var totalPage = 1

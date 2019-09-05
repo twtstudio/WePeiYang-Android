@@ -1,8 +1,8 @@
 package com.avarye.mall.detail
 
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import com.avarye.mall.R
 import com.avarye.mall.comment.CommentActivity
@@ -21,7 +21,7 @@ class DetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.mall_activity_detail)
-        window.statusBarColor = Color.parseColor("#FF9A36")
+        window.statusBarColor = ContextCompat.getColor(this, R.color.mallColorMain)
 
         id = intent.getStringExtra("id")
         presenter.getId(id)
@@ -42,7 +42,7 @@ class DetailActivity : AppCompatActivity() {
             exchange_locate_text.text=it.location
             seller_tv.text=MallManager.getStatus(it.state)//商品成色
             barter_tv.text=it.exchange
-            dicker_tv.text=MallManager.getBargin(it.bargain.toString())
+            dicker_tv.text=MallManager.getBargain(it.bargain.toString())
 
             seller_name.text=it.username
 

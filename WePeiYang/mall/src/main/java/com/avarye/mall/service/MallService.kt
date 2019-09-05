@@ -12,7 +12,9 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
 
-
+/**
+ * 商城接口、LiveData、数据类
+ */
 interface MallApi {
 
     @GET("/api.php/Login/wpyLogin?model=1")
