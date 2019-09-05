@@ -82,11 +82,6 @@ class ExamDetailActivity : AppCompatActivity() {
                     popupWindow.dismiss()
                 }
                 contentView.theory_enter_comfirm.setOnClickListener {
-                    launch(UI) {
-                        Log.d("BUG", "I'm here!")
-                        val paperBean = TheoryApi.login().await()
-                        Log.d("BUG", paperBean.status.toString())
-                    }
                     val intent = Intent(contentView.context, AnswerActivity::class.java)
                     startActivity(intent)
                     popupWindow.dismiss()

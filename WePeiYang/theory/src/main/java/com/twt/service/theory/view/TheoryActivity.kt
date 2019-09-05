@@ -2,21 +2,21 @@ package com.twt.service.theory.view
 
 import android.content.Intent
 import android.graphics.Color
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v4.view.ViewPager
-import android.support.v7.widget.Toolbar
+import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.Window
-import android.widget.LinearLayout
 import com.twt.service.theory.R
+import com.twt.service.theory.model.TheoryApi
 import com.twt.wepeiyang.commons.experimental.extensions.enableLightStatusBarMode
+import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
 import com.youth.banner.Banner
-import com.youth.banner.BannerConfig
-import com.youth.banner.Transformer
 import com.youth.banner.listener.OnBannerListener
 import kotlinx.android.synthetic.main.theory_common_toolbar.*
-import org.jetbrains.anko.startActivity
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.launch
 
 class TheoryActivity : AppCompatActivity(), OnBannerListener {
     override fun OnBannerClick(position: Int) {
@@ -27,6 +27,10 @@ class TheoryActivity : AppCompatActivity(), OnBannerListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        launch(UI) {
+            val dat = TheoryApi.getTests("Bearer{${CommonPreferences.token}}").await()
+            Log.d("BUG", dat.string())
+        }
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
         setContentView(R.layout.theory_activity_main)
         theory_person_profile.setOnClickListener {

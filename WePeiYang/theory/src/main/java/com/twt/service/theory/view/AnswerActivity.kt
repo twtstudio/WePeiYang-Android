@@ -18,6 +18,7 @@ import android.view.WindowManager
 import android.widget.PopupWindow
 import com.twt.service.theory.R
 import com.twt.wepeiyang.commons.experimental.extensions.enableLightStatusBarMode
+import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
 import com.twt.wepeiyang.commons.ui.rec.withItems
 import kotlinx.android.synthetic.main.theory_activity_answer.*
 import kotlinx.android.synthetic.main.theory_activity_exam_detail.*
