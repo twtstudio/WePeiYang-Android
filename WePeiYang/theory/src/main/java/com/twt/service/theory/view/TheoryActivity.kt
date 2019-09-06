@@ -28,8 +28,10 @@ class TheoryActivity : AppCompatActivity(), OnBannerListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         launch(UI) {
-            val dat = TheoryApi.getTests("Bearer{${CommonPreferences.token}}").await()
-            Log.d("BUG", dat.string())
+            val data = TheoryApi.getTests().await()
+            val tes = TheoryApi.getSession().await()
+            Log.d("BUG", tes.string())
+            Log.d("BUG", data.data?.size.toString())
         }
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
         setContentView(R.layout.theory_activity_main)
@@ -53,7 +55,6 @@ class TheoryActivity : AppCompatActivity(), OnBannerListener {
         banner.apply {
             setImageLoader(GlideImageLoader())
             setImages(list)
-
             this.start()
         }
 
