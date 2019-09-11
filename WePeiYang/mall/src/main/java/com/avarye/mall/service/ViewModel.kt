@@ -11,8 +11,7 @@ import kotlinx.coroutines.launch
 import java.io.File
 
 /**
- * 理论上是所有view的viewModel
- * 但是一些模块用的mvp
+ * 所有view的viewModel
  */
 class ViewModel {
 
@@ -104,6 +103,20 @@ class ViewModel {
 
     }
 
+    fun getDetail(gid: String, token: String) {
+        GlobalScope.launch(Dispatchers.Main) {
+            MallManager.getDetailAsync(gid).awaitAndHandle {
+                Toasty.info(CommonContext.application, it.message.toString()).show()
+            }?.let {
+                detailLiveData.postValue(it)
+            }
+            MallManager.getSellerInfoAsync(gid, token).awaitAndHandle {
+                Toasty.info(CommonContext.application, it.message.toString()).show()
+            }?.let {
+                sellerLiveData.postValue(it)
+            }
+        }
+    }
 
     fun postImg(file: File, token: String) {
         GlobalScope.launch(Dispatchers.Main) {
@@ -141,6 +154,16 @@ class ViewModel {
             }
         }
 
+    }
+
+    fun fav(id: String, token: String) {
+        GlobalScope.launch(Dispatchers.Main) {
+            MallManager.favAsync(id, token).awaitAndHandle {
+                Toasty.error(CommonContext.application, "收藏失败").show()
+            }?.let {
+
+            }
+        }
     }
 
     /**

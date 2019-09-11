@@ -22,7 +22,8 @@
 
             <ImageView
                 android:id="@+id/comment_user_iv"
-                android:background="@drawable/seller_image_detail"
+                android:src="@drawable/mall_ic_mine"
+                android:background="@color/mallColorLight"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:layout_marginLeft="10dp"

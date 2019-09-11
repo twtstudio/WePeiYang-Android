@@ -1,4 +1,4 @@
-package com.avarye.mall.comment
+package com.avarye.mall.detail
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope

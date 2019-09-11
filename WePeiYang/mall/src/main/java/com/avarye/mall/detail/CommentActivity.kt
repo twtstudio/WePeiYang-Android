@@ -1,4 +1,4 @@
-package com.avarye.mall.comment
+package com.avarye.mall.detail
 
 import android.graphics.Color
 import android.os.Bundle
@@ -48,7 +48,7 @@ class CommentActivity : AppCompatActivity() {
 
             expandableListView!!.setGroupIndicator(null)
             //默认展开所有回复
-            adapter = CommentAdapter(this,it)
+            adapter = CommentAdapter(this, it)
             expandableListView!!.setAdapter(adapter)
             for (i in 0 until it!!.size) {
                 expandableListView!!.expandGroup(i)

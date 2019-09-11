@@ -13,5 +13,23 @@
     <string name="mallStringPostNeed">我要求购</string>
     <string name="mallStringDeleteSale">下架商品</string>
     <string name="mallStringDeFav">取消收藏</string>
-    <string name="rmb">¥</string>
+    <string name="mallStringRmb">¥</string>
+    <string name="mallStringImg">商品图片</string>
+    <string name="mallStringInfo">商品信息</string>
+    <string name="mallStringName">商品名称</string>
+    <string name="mallStringDetail">商品详情</string>
+    <string name="mallStringCampus1">卫津路校区</string>
+    <string name="mallStringCampus2">北洋园校区</string>
+    <string name="mallStringCampus">校区</string>
+    <string name="mallStringLocate">交易地点</string>
+    <string name="mallStringBargain">讲价</string>
+    <string name="mallStringCategory">分类</string>
+    <string name="mallStringStatus">商品成色</string>
+    <string name="mallStringExchange">物物交换</string>
+    <string name="mallStringEmail">微信</string>
+    <string name="mallStringQ">QQ</string>
+    <string name="mallStringPhone">手机</string>
+    <string name="mallStringBargain0">不可刀</string>
+    <string name="mallStringBargain1">可小刀</string>
+    <string name="mallStringBargain2">可刀</string>
 </resources>

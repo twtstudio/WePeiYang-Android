@@ -35,7 +35,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                android:text="商品图片"
+                android:text="@string/mallStringImg"
                 android:textColor="@color/mallColorMain"
                 android:textStyle="bold" />
 
@@ -52,7 +52,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                android:text="商品信息"
+                android:text="@string/mallStringInfo"
                 android:textColor="@color/mallColorMain"
                 android:textStyle="bold" />
 
@@ -79,7 +79,7 @@
                     android:layout_centerVertical="true"
                     android:layout_margin="5dp"
                     android:gravity="center"
-                    android:text="商品名称" />
+                    android:text="@string/mallStringName" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -104,7 +104,7 @@
                     android:layout_centerVertical="true"
                     android:layout_margin="5dp"
                     android:gravity="center"
-                    android:text="商品详情" />
+                    android:text="@string/mallStringDetail" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -125,7 +125,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="8dp"
-                        android:text="卫津路校区"
+                        android:text="@string/mallStringCampus1"
                         android:textSize="14sp"
                         android:theme="@style/EditTextStyle" />
 
@@ -133,7 +133,7 @@
                         android:id="@+id/rb_post_campus2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="北洋园校区"
+                        android:text="@string/mallStringCampus2"
                         android:textSize="14sp"
                         android:theme="@style/EditTextStyle" />
                 </RadioGroup>
@@ -146,7 +146,7 @@
                     android:layout_centerVertical="true"
                     android:layout_margin="5dp"
                     android:gravity="center"
-                    android:text="校区" />
+                    android:text="@string/mallStringCampus" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -172,7 +172,7 @@
                     android:layout_centerVertical="true"
                     android:layout_margin="5dp"
                     android:gravity="center"
-                    android:text="交易地点" />
+                    android:text="@string/mallStringLocate" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -221,7 +221,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="8dp"
-                        android:text="不可刀"
+                        android:text="@string/mallStringBargain0"
                         android:textSize="14sp"
                         android:theme="@style/EditTextStyle" />
 
@@ -230,7 +230,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="8dp"
-                        android:text="可小刀"
+                        android:text="@string/mallStringBargain1"
                         android:textSize="14sp"
                         android:theme="@style/EditTextStyle" />
 
@@ -238,7 +238,7 @@
                         android:id="@+id/rb_post_bargain2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="可刀"
+                        android:text="@string/mallStringBargain2"
                         android:textSize="14sp"
                         android:theme="@style/EditTextStyle" />
                 </RadioGroup>
@@ -251,7 +251,7 @@
                     android:layout_centerVertical="true"
                     android:layout_margin="5dp"
                     android:gravity="center"
-                    android:text="讲价" />
+                    android:text="@string/mallStringBargain" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -266,7 +266,7 @@
                     android:layout_centerVertical="true"
                     android:layout_margin="5dp"
                     android:gravity="center"
-                    android:text="分类" />
+                    android:text="@string/mallStringCategory" />
 
                 <include
                     android:id="@+id/sps_post_category"
@@ -291,7 +291,7 @@
                     android:layout_centerVertical="true"
                     android:layout_margin="5dp"
                     android:gravity="center"
-                    android:text="商品成色" />
+                    android:text="@string/mallStringStatus" />
 
                 <android.support.v7.widget.CardView
                     android:layout_width="wrap_content"
@@ -338,7 +338,7 @@
                     android:layout_centerVertical="true"
                     android:layout_margin="5dp"
                     android:gravity="center"
-                    android:text="物物交换" />
+                    android:text="@string/mallStringExchange" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -386,7 +386,7 @@
                     android:layout_centerVertical="true"
                     android:layout_margin="5dp"
                     android:gravity="center"
-                    android:text="手机" />
+                    android:text="@string/mallStringPhone" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -412,7 +412,7 @@
                     android:layout_centerVertical="true"
                     android:layout_margin="5dp"
                     android:gravity="center"
-                    android:text="QQ" />
+                    android:text="@string/mallStringQ" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -438,7 +438,7 @@
                     android:layout_centerVertical="true"
                     android:layout_margin="5dp"
                     android:gravity="center"
-                    android:text="微信" />
+                    android:text="@string/mallStringEmail" />
             </RelativeLayout>
 
             <android.support.constraint.ConstraintLayout

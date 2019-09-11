@@ -42,9 +42,9 @@
             android:layout_alignBottom="@id/tv_main_price"
             android:layout_alignParentStart="true"
             android:layout_marginStart="7dp"
-            android:text="@string/rmb"
+            android:text="@string/mallStringRmb"
             android:fontFamily="@font/montserrat_regular"
-            android:textColor="@color/mallColorAccent"
+            android:textColor="@color/mallColorMain"
             android:textSize="14sp" />
 
         <TextView
@@ -56,7 +56,7 @@
             android:layout_marginTop="6dp"
             android:layout_marginBottom="7dp"
             android:layout_toEndOf="@id/tv_main_rmb"
-            android:textColor="@color/mallColorAccent"
+            android:textColor="@color/mallColorMain"
             android:textSize="18sp"
             tools:text="20.00" />
 

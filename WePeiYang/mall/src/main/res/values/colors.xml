@@ -7,6 +7,11 @@
     <color name="mallColorAccent">#ff3d00</color>
     <color name="mallColorPressed">#CCFE8A01</color>
     <color name="mallColorLight">#CCFFB26D</color>
-<!--    //FF9A36//原定主色调-->
+    <color name="m">#cacbcd</color>
+<!--    <color name="mallColorBlueShadow">#66005FFF</color>
+    <color name="mallColorBlue">#0CC6FF</color>-->
+    <color name="mallColorBlueShadow">#B20099FF</color>
+    <color name="mallColorBlue">#23D3FF</color>
+    <!--    //FF9A36//原定主色调-->
 <!--    //FFB26D//原pressed-->
 </resources>

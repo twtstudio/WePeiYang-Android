@@ -1,16 +1,12 @@
-package com.avarye.mall.comment
+package com.avarye.mall.detail
 
 import android.content.Context
-import android.support.v7.widget.RecyclerView
-import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseExpandableListAdapter
 import android.widget.TextView
 import com.avarye.mall.R
 import com.avarye.mall.service.CommentList
-import com.tencent.bugly.proguard.i
 
 class CommentAdapter(private val context: Context,private val commentList: List<CommentList>?)  : BaseExpandableListAdapter() {
 
@@ -62,22 +58,22 @@ class CommentAdapter(private val context: Context,private val commentList: List<
 
     override fun getGroupView(p0: Int, p1: Boolean, convertView: View?, p3: ViewGroup?): View {
 
-        var convertView = convertView
-        val groupHolder: GroupHolder
-
-        if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.mall_comment_item, p3, false)
-            groupHolder = GroupHolder(convertView!!)
-            convertView.setTag(groupHolder)
-        } else {
-            groupHolder = convertView.getTag() as GroupHolder
-        }
-
-        groupHolder.firstCommentUser?.text = commentList!![p0].name
-        groupHolder.firstCOmmentContent?.text = commentList[p0].content
-        groupHolder.firstCommentTime?.text = commentList[p0].content
-
-        return convertView
+//        var convertView = convertView
+//        val groupHolder: GroupHolder
+//
+//        if (convertView == null) {
+//            convertView = LayoutInflater.from(context).inflate(R.layout.mall_comment_item, p3, false)
+//            groupHolder = GroupHolder(convertView!!)
+//            convertView.setTag(groupHolder)
+//        } else {
+//            groupHolder = convertView.getTag() as GroupHolder
+//        }
+//
+//        groupHolder.firstCommentUser?.text = commentList!![p0].name
+//        groupHolder.firstCOmmentContent?.text = commentList[p0].content
+//        groupHolder.firstCommentTime?.text = commentList[p0].content
+//
+        return convertView!!
     }
 
 
@@ -86,20 +82,20 @@ class CommentAdapter(private val context: Context,private val commentList: List<
     }
 
     override fun getChildView(groupPosition: Int, childPosition: Int, p2: Boolean, convertView: View?, p4: ViewGroup?): View {
-        var convertView = convertView
-        val childHolder: ChildHolder
-        if (convertView == null) {
-            convertView=LayoutInflater.from(context).inflate(R.layout.mall_comment_reply_item,p4,false)
-            childHolder=ChildHolder(convertView)
-            convertView!!.setTag(childHolder)
-
-        } else {
-            childHolder = convertView.getTag() as ChildHolder
-        }
-
-        childHolder.secondCommentUser?.text=commentReplyList!![childPosition].name
-        childHolder.secondCommentContent?.text=commentReplyList[childPosition].content
-        return convertView
+//        var convertView = convertView
+//        val childHolder: ChildHolder
+//        if (convertView == null) {
+//            convertView=LayoutInflater.from(context).inflate(R.layout.mall_comment_reply_item,p4,false)
+//            childHolder=ChildHolder(convertView)
+//            convertView!!.setTag(childHolder)
+//
+//        } else {
+//            childHolder = convertView.getTag() as ChildHolder
+//        }
+//
+//        childHolder.secondCommentUser?.text=commentReplyList!![childPosition].name
+//        childHolder.secondCommentContent?.text=commentReplyList[childPosition].content
+        return convertView!!
     }
 
     override fun getChildId(p0: Int, p1: Int): Long {
