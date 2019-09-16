@@ -42,6 +42,7 @@
                 android:background="@drawable/gpa2_refresh_black" />
 
             <ToggleButton
+                android:visibility="gone"
                 android:id="@+id/btn_toggle"
                 android:layout_width="24dp"
                 android:layout_height="24dp"

@@ -31,6 +31,7 @@ import es.dmoral.toasty.Toasty
 import io.multimoon.colorful.Colorful
 import org.jetbrains.anko.*
 import org.jetbrains.anko.constraint.layout.constraintLayout
+import org.jetbrains.anko.sdk27.coroutines.onCheckedChange
 import org.jetbrains.anko.support.v4.nestedScrollView
 
 class CustomSettingBottomFragment : BottomSheetDialogFragment() {
@@ -59,7 +60,7 @@ class CustomSettingBottomFragment : BottomSheetDialogFragment() {
                 constraintLayout {
                     backgroundColor = getColorCompat(R.color.colorPrimary)
 
-                    val titleText = textView {
+                    textView {
                         text = "课程表设置"
                         id = View.generateViewId()
                         textSize = 20f
@@ -165,16 +166,16 @@ class CustomSettingBottomFragment : BottomSheetDialogFragment() {
                             thumbDrawable.setColorFilter(getColorCompat(R.color.colorPrimary), PorterDuff.Mode.MULTIPLY)
                             trackDrawable.setColorFilter(getColorCompat(R.color.colorPrimary), PorterDuff.Mode.MULTIPLY)
                         }
-//                        onCheckedChange { _, isChecked ->
-//                            SchedulePref.autoCollapseSchedule = isChecked
-//                            mtaClick("schedule_切换自动隐藏周六日状态：$isChecked")
-//                            post {
-//                                if (CommonPreferences.realName.contains("舒")) {
-//                                    Toasty.success(dialog.context, "给傲娇的舒子同学递课表").show() // 彩蛋
-//                                }
-//                                TotalCourseManager.invalidate()
-//                            }
-//                        }
+                        onCheckedChange { _, isChecked ->
+                            SchedulePref.autoCollapseSchedule = isChecked
+                            mtaClick("schedule_切换自动隐藏周六日状态：$isChecked")
+                            post {
+                                if (CommonPreferences.realName.contains("舒")) {
+                                    Toasty.success(dialog.context, "给傲娇的舒子同学递课表").show() // 彩蛋
+                                }
+                                TotalCourseManager.invalidate()
+                            }
+                        }
                     }.lparams {
                         topToTop = PARENT_ID
                         bottomToBottom = PARENT_ID
