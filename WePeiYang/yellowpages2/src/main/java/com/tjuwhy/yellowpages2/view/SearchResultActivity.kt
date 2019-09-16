@@ -16,7 +16,7 @@ import com.twt.wepeiyang.commons.mta.mtaEnd
 import com.twt.wepeiyang.commons.ui.rec.withItems
 import es.dmoral.toasty.Toasty
 
-class SearchResultActivity : AppCompatActivity() {
+class       SearchResultActivity : AppCompatActivity() {
 
     private lateinit var keyWord: String
     private lateinit var arrowBackIv: ImageView
