@@ -8,8 +8,10 @@ import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.Window
+import android.widget.Toast
 import com.twt.service.theory.R
 import com.twt.service.theory.model.TheoryApi
+import com.twt.wepeiyang.commons.experimental.CommonContext
 import com.twt.wepeiyang.commons.experimental.extensions.enableLightStatusBarMode
 import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
 import com.youth.banner.Banner
@@ -29,9 +31,7 @@ class TheoryActivity : AppCompatActivity(), OnBannerListener {
         super.onCreate(savedInstanceState)
         launch(UI) {
             val data = TheoryApi.getTests().await()
-            val tes = TheoryApi.getSession().await()
-            Log.d("BUG", tes.string())
-            Log.d("BUG", data.data?.size.toString())
+           Toast.makeText(CommonContext.application, "取得${data.data?.size}场考试",Toast.LENGTH_SHORT).show()
         }
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
         setContentView(R.layout.theory_activity_main)

@@ -2,6 +2,7 @@ package com.twt.service.theory.model
 
 import com.twt.wepeiyang.commons.experimental.network.CommonBody
 import com.twt.wepeiyang.commons.experimental.network.ServiceFactory
+import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
 import kotlinx.coroutines.experimental.Deferred
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -34,7 +35,7 @@ interface TheoryApi {
     fun getPaper(@Query("paper_id") paper_id: Int): Deferred<CommonBody<String>>
 
     @GET("$THEORY_BASE_URL/getTests")
-    fun getTests(): Deferred<TestBean>
+    fun getTests(@Header("Authorization") token: String = "Bearer{${CommonPreferences.token}}"): Deferred<TestBean>
 
     @GET("$THEORY_BASE_URL/session")
     fun getSession(): Deferred<ResponseBody>
