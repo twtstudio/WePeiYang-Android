@@ -19,6 +19,22 @@ import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 
 class TheoryActivity : AppCompatActivity(), OnBannerListener {
+    private val examFragment = ExamFragment()
+    private val messageFragement = MessageFragement()
+
+    override fun onResume() {
+        super.onResume()
+        launch(UI) {
+            try {
+                val dat = TheoryApi.getTests().await()
+                examFragment.setTestList(dat.data)
+            } catch (e: Exception) {
+                //理论答题中第一个网络请求，在这里处理请求的异常
+                Toasty.error(this@TheoryActivity, "获取试卷失败").show()
+            }
+        }
+    }
+
     override fun OnBannerClick(position: Int) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
@@ -54,8 +70,6 @@ class TheoryActivity : AppCompatActivity(), OnBannerListener {
         val theoryTabLayout: TabLayout = findViewById(R.id.main_tablayout)
         val theoryViewPager: ViewPager = findViewById(R.id.main_viewpager)
         val myhomePagerAdapter = TheoryPagerAdapter(supportFragmentManager)
-        val examFragment = ExamFragment()
-        val messageFragement = MessageFragement()
 
         myhomePagerAdapter.apply {
             add(examFragment, "考试")
@@ -68,14 +82,5 @@ class TheoryActivity : AppCompatActivity(), OnBannerListener {
             setSelectedTabIndicatorColor(Color.parseColor("#1E90FF"))
         }
 
-        launch(UI) {
-            try {
-                val dat = TheoryApi.getTests().await()
-                examFragment.setTestList(dat.data)
-            } catch (e: Exception) {
-                //理论答题中第一个网络请求，在这里处理请求的异常
-                Toasty.error(this@TheoryActivity, "获取试卷失败").show()
-            }
-        }
     }
 }

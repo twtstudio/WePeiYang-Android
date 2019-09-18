@@ -1,5 +1,6 @@
 package com.twt.service.theory.model
 
+import com.google.gson.annotations.SerializedName
 import com.twt.wepeiyang.commons.experimental.network.CommonBody
 import com.twt.wepeiyang.commons.experimental.network.ServiceFactory
 import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
@@ -38,7 +39,7 @@ interface TheoryApi {
     fun getTests(@Header("Authorization") token: String = "Bearer{${CommonPreferences.token}}"): Deferred<TestBean>
 
     @GET("$THEORY_BASE_URL/session")
-    fun getSession(): Deferred<ResponseBody>
+    fun getSession(@Header("Authorization") token: String = "Bearer{${CommonPreferences.token}}"): Deferred<ResponseBody>
 
 //
 //    @GET("loginStatus")
@@ -150,5 +151,43 @@ class PaperBean {
         var type: String? = null
         var objE: String? = null
         var objF: String? = null
+    }
+}
+
+class SessionBean {
+    /**
+     * _token : QvJYCBD3EpKVNTrnLag1cv6viJAhVXjDtFDbHMJS
+     * data : {"id":94481,"user_number":"3018210153","twt_name":"Twifor","avatar":"2018/09/13/1536801644-94481-3018210153.jpg","type":0,"token":"Authorization:Bearer{eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjIyNzI1LCJpc3MiOiJodHRwczovL29wZW4udHd0c3R1ZGlvLmNvbS9hcGkvdjEvYXV0aC90b2tlbi9nZXQiLCJpYXQiOjE1Njg3NzA3MzAsImV4cCI6MTU2OTM3NTUzMCwibmJmIjoxNTY4NzcwNzMwLCJqdGkiOiJlQkR4MjRxQ0RnT1l0MEp6In0.QJMkZFj9GtAQFFPpRTsU_vxzGaKsd9E9NKdYhKjjrZs}","real_name":"李雨寒"}
+     * _flash : {"old":[],"new":[]}
+     */
+
+    var _token: String? = null
+    var data: DataBean? = null
+    var _flash: FlashBean? = null
+
+    class DataBean {
+        /**
+         * id : 123
+         * user_number : 2333
+         * twt_name : xxx
+         * avatar : 2018/09/13/1536801644-94481-3018210153.jpg
+         * type : 0
+         * token : Authorization:Bearer{eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjIyNzI1LCJpc3MiOiJodHRwczovL29wZW4udHd0c3R1ZGlvLmNvbS9hcGkvdjEvYXV0aC90b2tlbi9nZXQiLCJpYXQiOjE1Njg3NzA3MzAsImV4cCI6MTU2OTM3NTUzMCwibmJmIjoxNTY4NzcwNzMwLCJqdGkiOiJlQkR4MjRxQ0RnT1l0MEp6In0.QJMkZFj9GtAQFFPpRTsU_vxzGaKsd9E9NKdYhKjjrZs}
+         * real_name : aaa
+         */
+
+        var id: Int = 0
+        var user_number: String? = null
+        var twt_name: String? = null
+        var avatar: String? = null
+        var type: Int = 0
+        var token: String? = null
+        var real_name: String? = null
+    }
+
+    class FlashBean {
+        var old: List<*>? = null
+        @SerializedName("new")
+        var newX: List<*>? = null
     }
 }

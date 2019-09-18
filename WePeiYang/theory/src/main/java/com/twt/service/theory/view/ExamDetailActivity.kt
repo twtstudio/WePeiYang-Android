@@ -92,6 +92,7 @@ class ExamDetailActivity : AppCompatActivity() {
                         intent.putExtra("id", this@ExamDetailActivity.intent.extras.getInt("id"))
                         startActivity(intent)
                         popupWindow.dismiss()
+                        finish()
                     }
                 }
             }
