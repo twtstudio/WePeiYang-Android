@@ -13,6 +13,8 @@ import android.widget.*
 import anim.ExamDetailActivity
 import com.bumptech.glide.Glide
 import com.twt.service.theory.R
+import com.twt.service.theory.model.PaperBean
+import com.twt.service.theory.model.TestBean
 import com.twt.wepeiyang.commons.experimental.theme.CustomTheme.context
 import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemController
@@ -60,18 +62,25 @@ class ProfileItem : Item {
 }
 
 
-class ExamItem(val titles: String, val detail: String, val examFragment: ExamFragment) : Item {
+class ExamItem(val data: TestBean.DataBean, val examFragment: ExamFragment) : Item {
 
     private companion object Controller : ItemController {
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: Item) {
             holder as ExamItemViewHolder
             item as ExamItem
             holder.apply {
-                name.text = item.titles
-                content.text = item.detail
+                name.text = item.data.name
+                content.text = "${item.data.created_at?.substring(0, 10)}~${item.data.ended_time?.substring(0, 10)}"
                 itemView.setOnClickListener {
                     val bundle = Bundle()
-//                    bundle.putString("id", item.id)
+                    bundle.putInt("id", item.data.id)
+                    bundle.putString("name", item.data.name)
+                    bundle.putString("duration", item.data.duration)
+                    bundle.putString("score", item.data.score)
+                    bundle.putString("status", item.data.stu_status)
+                    bundle.putString("test_time", item.data.test_time)
+                    bundle.putString("tested_time", item.data.tested_time)
+
                     val intent = Intent()
                     intent.putExtras(bundle)
                     intent.setClass(item.examFragment.context, ExamDetailActivity::class.java)
@@ -202,7 +211,7 @@ class ExamDetailItem(val titles: String, val detail: String) : Item {
         get() = ExamDetailItem
 }
 
-class ExamSingleAnswerItem : Item {
+class ExamSingleAnswerItem(val data: PaperBean.BodyBean) : Item {
     private companion object Controller : ItemController {
         override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
             val inflater = parent.context.layoutInflater
@@ -213,6 +222,12 @@ class ExamSingleAnswerItem : Item {
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: Item) {
             holder as ExamSingleAnswerItemViewHolder
             item as ExamSingleAnswerItem
+            holder.title.text = "${holder.position + 1}. ${item.data.question}"
+            holder.ansA.text = item.data.objA
+            holder.ansB.text = item.data.objB
+            holder.ansC.text = item.data.objC
+            holder.ansD.text = item.data.objD
+
             holder.apply {
                 singles.apply {
                     setOnCheckedChangeListener(null)
@@ -229,7 +244,6 @@ class ExamSingleAnswerItem : Item {
                                 num = it + 1
                         }
                         AnswerManager.update(position + 1, num)
-
                     }
                 }
             }
@@ -252,11 +266,31 @@ class ExamSingleAnswerItem : Item {
         get() = ExamSingleAnswerItem
 }
 
-class ExamMultiAnswerItem(val num: Int = 4) : Item {
+class ExamMultiAnswerItem(val data: PaperBean.BodyBean) : Item {
+
     private companion object Controller : ItemController {
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: Item) {
             holder as ExamMultiAnswerItemViewHolder
             item as ExamMultiAnswerItem
+            holder.title.text = "${holder.position + 1}. ${item.data.question}"
+            holder.ansA.text = item.data.objA
+            holder.ansB.text = item.data.objB
+            holder.ansC.text = item.data.objC
+            holder.ansD.text = item.data.objD
+            holder.ansE.text = item.data.objE
+            holder.ansF.text = item.data.objF
+
+
+            val numOfObj = when {
+                item.data.objA!!.isEmpty() -> 0
+                item.data.objB!!.isEmpty() -> 1
+                item.data.objC!!.isEmpty() -> 2
+                item.data.objD!!.isEmpty() -> 3
+                item.data.objE!!.isEmpty() -> 4
+                item.data.objF!!.isEmpty() -> 5
+                else -> 6
+            }
+
             holder.apply {
                 multis.apply {
                     var saved_ans = AnswerManager.getAnswer(position + 1)
@@ -272,7 +306,7 @@ class ExamMultiAnswerItem(val num: Int = 4) : Item {
                     }
                     repeat(6) {
                         // 设置监听和题目
-                        if (it >= item.num) {
+                        if (it >= numOfObj) {
                             this.getChildAt(it).visibility = View.GONE
                         } else {
                             (this.getChildAt(it) as CheckBox).setOnCheckedChangeListener { compoundButton, b ->
@@ -354,7 +388,7 @@ class ProblemItem(val id: Int, var done: Boolean, val callBack: (Int) -> (Unit))
 
 fun MutableList<Item>.setMessage() = add(MessageItem())
 
-fun MutableList<Item>.setExamItem(titles: String, detail: String, examFragment: ExamFragment) = add(ExamItem(titles, detail, examFragment))
+fun MutableList<Item>.setExamItem(data: TestBean.DataBean, examFragment: ExamFragment) = add(ExamItem(data, examFragment))
 
 fun MutableList<Item>.setProfileItem() = add(ProfileItem())
 
@@ -362,6 +396,6 @@ fun MutableList<Item>.setUserExamItem() = add(UserExamItem())
 
 fun MutableList<Item>.setDetail(titles: String, detail: String) = add(ExamDetailItem(titles, detail))
 
-fun MutableList<Item>.setSingleAnsQues() = add(ExamSingleAnswerItem())
+fun MutableList<Item>.setSingleAnsQues(data: PaperBean.BodyBean) = add(ExamSingleAnswerItem(data))
 
-fun MutableList<Item>.setMultiAnsQues(num: Int = 4) = add(ExamMultiAnswerItem(num))
+fun MutableList<Item>.setMultiAnsQues(data: PaperBean.BodyBean) = add(ExamMultiAnswerItem(data))

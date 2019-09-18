@@ -8,14 +8,12 @@ import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.Window
-import android.widget.Toast
 import com.twt.service.theory.R
 import com.twt.service.theory.model.TheoryApi
-import com.twt.wepeiyang.commons.experimental.CommonContext
 import com.twt.wepeiyang.commons.experimental.extensions.enableLightStatusBarMode
-import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
 import com.youth.banner.Banner
 import com.youth.banner.listener.OnBannerListener
+import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.theory_common_toolbar.*
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
@@ -29,10 +27,6 @@ class TheoryActivity : AppCompatActivity(), OnBannerListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        launch(UI) {
-            val data = TheoryApi.getTests().await()
-           Toast.makeText(CommonContext.application, "取得${data.data?.size}场考试",Toast.LENGTH_SHORT).show()
-        }
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
         setContentView(R.layout.theory_activity_main)
         theory_person_profile.setOnClickListener {
@@ -57,15 +51,15 @@ class TheoryActivity : AppCompatActivity(), OnBannerListener {
             setImages(list)
             this.start()
         }
-
-
         val theoryTabLayout: TabLayout = findViewById(R.id.main_tablayout)
         val theoryViewPager: ViewPager = findViewById(R.id.main_viewpager)
         val myhomePagerAdapter = TheoryPagerAdapter(supportFragmentManager)
+        val examFragment = ExamFragment()
+        val messageFragement = MessageFragement()
 
         myhomePagerAdapter.apply {
-            add(ExamFragment(), "考试")
-            add(MessageFragement(), "通知")
+            add(examFragment, "考试")
+            add(messageFragement, "通知")
         }
         theoryViewPager.adapter = myhomePagerAdapter
         theoryTabLayout.apply {
@@ -74,5 +68,14 @@ class TheoryActivity : AppCompatActivity(), OnBannerListener {
             setSelectedTabIndicatorColor(Color.parseColor("#1E90FF"))
         }
 
+        launch(UI) {
+            try {
+                val dat = TheoryApi.getTests().await()
+                examFragment.setTestList(dat.data)
+            } catch (e: Exception) {
+                //理论答题中第一个网络请求，在这里处理请求的异常
+                Toasty.error(this@TheoryActivity, "获取试卷失败").show()
+            }
+        }
     }
 }

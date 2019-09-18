@@ -44,12 +44,12 @@ class ExamDetailActivity : AppCompatActivity() {
         recyclerView = findViewById(R.id.exam_detail_rec)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.withItems {
-            setDetail("考试名称", "中二病毕业考试")
-            setDetail("考试时间", "高中毕业")
-            setDetail("历史最高分", "99")
-            setDetail("通过状态", "通过")
-            setDetail("有效次数", "2")
-            setDetail("剩余考试次数", "8")
+            setDetail("考试名称", intent.extras.getString("name"))
+            setDetail("考试时间", "${intent.extras.getInt("duration")}分钟")
+            setDetail("历史最高分", intent.extras.getString("score"))
+            setDetail("通过状态", intent.extras.getString("status"))
+            setDetail("有效次数", intent.extras.getString("test_time"))
+            setDetail("剩余考试次数", (intent.extras.getString("test_time").toInt() - intent.extras.getString("tested_time").toInt()).toString())
         }
     }
 
@@ -69,6 +69,9 @@ class ExamDetailActivity : AppCompatActivity() {
             popupWindow.apply {
                 isFocusable = true
                 contentView = view
+                if (intent.extras.getString("test_time").toInt() - intent.extras.getString("tested_time").toInt() == 0) {
+                    contentView.theory_enter_word.text = "考试剩余次数为0!"
+                }
                 width = WindowManager.LayoutParams.MATCH_PARENT
                 animationStyle = R.style.style_pop_animation
                 setBackgroundDrawable(null)
@@ -82,14 +85,17 @@ class ExamDetailActivity : AppCompatActivity() {
                     popupWindow.dismiss()
                 }
                 contentView.theory_enter_comfirm.setOnClickListener {
-                    val intent = Intent(contentView.context, AnswerActivity::class.java)
-                    startActivity(intent)
-                    popupWindow.dismiss()
+                    if (intent.extras.getString("test_time").toInt() - intent.extras.getString("tested_time").toInt() == 0) {
+                        popupWindow.dismiss()
+                    } else {
+                        val intent = Intent(contentView.context, AnswerActivity::class.java)
+                        intent.putExtra("id", this@ExamDetailActivity.intent.extras.getInt("id"))
+                        startActivity(intent)
+                        popupWindow.dismiss()
+                    }
                 }
             }
         }
-
-
         theory_user_actionbar.title.text = "考试详情"
     }
 }

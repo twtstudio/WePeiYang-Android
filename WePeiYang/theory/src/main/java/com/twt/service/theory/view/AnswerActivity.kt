@@ -1,8 +1,6 @@
 package com.twt.service.theory.view
 
-import android.content.Intent
 import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
 import android.support.annotation.RequiresApi
@@ -16,16 +14,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
 import android.widget.PopupWindow
+import android.widget.Toast
 import com.twt.service.theory.R
+import com.twt.service.theory.model.PaperBean
+import com.twt.service.theory.model.TheoryApi
 import com.twt.wepeiyang.commons.experimental.extensions.enableLightStatusBarMode
 import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
 import com.twt.wepeiyang.commons.ui.rec.withItems
+import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.theory_activity_answer.*
-import kotlinx.android.synthetic.main.theory_activity_exam_detail.*
 import kotlinx.android.synthetic.main.theory_common_toolbar.*
-import kotlinx.android.synthetic.main.theory_dialog_exam.*
 import kotlinx.android.synthetic.main.theory_dialog_exam.view.*
 import kotlinx.android.synthetic.main.theory_popupwindow_layout.view.*
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.launch
 import org.jetbrains.anko.dip
 
 @RequiresApi(Build.VERSION_CODES.M)
@@ -156,16 +158,21 @@ class AnswerActivity : AppCompatActivity() {
     private fun loadQuestions() {
         val recyclerView = findViewById<RecyclerView>(R.id.theory_exam_questions)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.withItems {
-            repeat(6) {
-                setMultiAnsQues(3)
-                setMultiAnsQues(4)
-                setMultiAnsQues(5)
-                setMultiAnsQues(6)
+        launch(UI) {
+            try {
+                val dat = TheoryApi.getPaper(intent.getIntExtra("id", 0)).await()
+                //务必保证body非空
+                AnswerManager.init(dat.body!!.size)//初始化答案管理器
+                recyclerView.withItems {
+                    for (i: PaperBean.BodyBean in dat.body!!) {
+                        if (i.type == "sc") setSingleAnsQues(i)
+                        else setMultiAnsQues(i)
+                    }
+                }
+            } catch (e: Exception) {
+                Toasty.error(this@AnswerActivity, "获取试卷失败").show()
             }
-            AnswerManager.init(this.size)
         }
-
     }
 
 }
