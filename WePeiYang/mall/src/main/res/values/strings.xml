@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Mall</string>
     <string name="mallStringTitle">天外天商城</string>
+    <string name="mallStringStudio">天外天工作室</string>
     <string name="mallStringLatestSale">最新发布</string>
     <string name="mallStringLatestNeed">最新求购</string>
     <string name="mallStringResultSearch">搜索结果</string>
@@ -11,6 +12,7 @@
     <string name="mallStringMyFav">我的收藏</string>
     <string name="mallStringPostSale">我要发布</string>
     <string name="mallStringPostNeed">我要求购</string>
+    <string name="mallStringSetting">修改信息</string>
     <string name="mallStringDeleteSale">下架商品</string>
     <string name="mallStringDeFav">取消收藏</string>
     <string name="mallStringRmb">¥</string>
@@ -32,4 +34,6 @@
     <string name="mallStringBargain0">不可刀</string>
     <string name="mallStringBargain1">可小刀</string>
     <string name="mallStringBargain2">可刀</string>
+    <string name="mallStringBla">「联系我时，请说明是在天外天商城看到我的哟」</string>
+    <string name="mallStringExpect">期望价格</string>
 </resources>

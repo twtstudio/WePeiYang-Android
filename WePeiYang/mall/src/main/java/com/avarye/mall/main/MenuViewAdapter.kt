@@ -21,8 +21,7 @@ class MenuViewAdapter(val context: Context, private val category: List<Menu>) : 
     @SuppressLint("InflateParams")
     override fun getGroupView(p0: Int, p1: Boolean, p2: View?, p3: ViewGroup?): View {
         val view = inflater.inflate(R.layout.mall_item_menu_main, null)
-        val textView = view.tv_menu_main
-        textView.text = category[p0].name
+        view.tv_menu_main.text = category[p0].name
         return view
     }
 

@@ -1,5 +1,7 @@
 package com.avarye.mall.service
 
+import android.support.v7.app.AppCompatActivity
+import android.view.WindowManager
 import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
 import kotlinx.coroutines.Deferred
 import okhttp3.MediaType
@@ -20,8 +22,8 @@ object MallManager {
     const val BYY = 2
     const val KEY = "key"
     const val TYPE = "type"
-    const val T_SALE = "sale"
-    const val T_NEED = "need"
+    const val SALE = "sale"
+    const val NEED = "need"
     const val SELECT = "select"
     const val SEARCH = "search"
     const val FAV = "fav"
@@ -140,8 +142,17 @@ object MallManager {
 
     fun deleteSaleAsync(gid: String, token: String) = MallApi.deleteSaleAsync(toReqBody(token), toReqBody(gid))
 
-    //data Utils
-
+    /**
+     * 设置背景透明度
+     * @param bgAlpha 透明度值
+     * @param activity Activity
+     */
+    fun bgAlpha(bgAlpha: Float, activity: AppCompatActivity) {
+        val lp = activity.window.attributes
+        lp.alpha = bgAlpha // 0.0-1.0
+        activity.window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+        activity.window.attributes = lp
+    }
 
     //数据处理
     fun getCampus(i: String?) = when (i) {
@@ -150,7 +161,7 @@ object MallManager {
         else -> "未知"
     }
 
-    fun getBargain(i: String) = when (i) {
+    fun getBargain(i: String?) = when (i) {
         "0" -> "不可刀"
         "1" -> "可小刀"
         "2" -> "可刀"

@@ -13,9 +13,9 @@ import kotlinx.android.synthetic.main.mall_item_main.view.*
 import org.jetbrains.anko.layoutInflater
 
 /**
- * 所有商品recyclerView的Item
+ * 所有sale类商品的Item
  */
-class RecItem : Item {
+class SaleItem : Item {
     internal var builder: (ViewHolder.() -> Unit)? = null
 
     companion object Controller : ItemController {
@@ -32,7 +32,7 @@ class RecItem : Item {
 
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: Item) {
             holder as ViewHolder
-            item as RecItem
+            item as SaleItem
             item.builder?.invoke(holder)
         }
 
@@ -47,10 +47,10 @@ class RecItem : Item {
     }
 
     override val controller: ItemController
-        get() = RecItem
+        get() = SaleItem
 }
 
-fun MutableList<Item>.recItem() = add(RecItem())
-internal fun MutableList<Item>.recItem(builder: RecItem.Controller.ViewHolder.() -> Unit) =
-        add(RecItem().apply { this.builder = builder })
+fun MutableList<Item>.saleItem() = add(SaleItem())
+internal fun MutableList<Item>.saleItem(builder: SaleItem.Controller.ViewHolder.() -> Unit) =
+        add(SaleItem().apply { this.builder = builder })
 

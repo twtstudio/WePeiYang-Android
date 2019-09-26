@@ -15,12 +15,13 @@ import android.widget.PopupWindow
 import com.avarye.mall.R
 import com.avarye.mall.mine.MineActivity
 import com.avarye.mall.service.MallManager
+import com.avarye.mall.service.MallManager.bgAlpha
 import com.avarye.mall.service.menuLiveData
 import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
 import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.mall_activity_main.*
-import kotlinx.android.synthetic.main.mall_item_menu.view.*
 import kotlinx.android.synthetic.main.mall_item_toolbar.*
+import kotlinx.android.synthetic.main.mall_popup_menu.view.*
 import org.jetbrains.anko.inputMethodManager
 import org.jetbrains.anko.textColor
 
@@ -54,7 +55,7 @@ class MallActivity : AppCompatActivity() {
         }
 
         //menu
-        val popupWindowView: View = LayoutInflater.from(this).inflate(R.layout.mall_item_menu, null, false)
+        val popupWindowView: View = LayoutInflater.from(this).inflate(R.layout.mall_popup_menu, null, false)
         menuLiveData.bindNonNull(this) { list ->
             menuViewAdapter = MenuViewAdapter(this, list)
             popupWindowView.apply {
@@ -92,16 +93,16 @@ class MallActivity : AppCompatActivity() {
                     }
                 }
             }
-            iv_menu.setOnClickListener { view ->
+            iv_menu.setOnClickListener {
                 popWindow = PopupWindow(popupWindowView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true)
                 popWindow.apply {
-                    showAsDropDown(view, -400, 0)
+                    showAsDropDown(it, -400, 0)
                     isOutsideTouchable = true
                     isTouchable = true
                     isFocusable = true
-                    bgAlpha(0.5f)
+                    bgAlpha(0.5f, this@MallActivity)
                     setOnDismissListener {
-                        bgAlpha(1f)
+                        bgAlpha(1f, this@MallActivity)
                     }
                 }
             }
@@ -146,7 +147,7 @@ class MallActivity : AppCompatActivity() {
     private fun search() {
         key = et_search.text.toString()
         if (key.isBlank()) {
-            Toasty.info(this, "啥都莫得输入").show()
+            Toasty.info(this, "啥都妹有输入").show()
         } else {
             val intent = Intent(this, SearchActivity::class.java)
                     .putExtra(MallManager.KEY, key)
@@ -164,16 +165,5 @@ class MallActivity : AppCompatActivity() {
         val intent = Intent(this, MineActivity::class.java)
         startActivity(intent)
         return true
-    }
-
-    /**
-     * 设置背景透明度
-     * @param bgAlpha 透明度值
-     */
-    private fun bgAlpha(bgAlpha: Float) {
-        val lp = window.attributes
-        lp.alpha = bgAlpha // 0.0-1.0
-        window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
-        window.attributes = lp
     }
 }

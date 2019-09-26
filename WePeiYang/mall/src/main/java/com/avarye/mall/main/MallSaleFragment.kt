@@ -12,6 +12,7 @@ import com.avarye.mall.R
 import com.avarye.mall.detail.DetailActivity
 import com.avarye.mall.service.MallManager
 import com.avarye.mall.service.ViewModel
+import com.avarye.mall.service.detailLiveData
 import com.avarye.mall.service.saleLiveData
 import com.bumptech.glide.Glide
 import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
@@ -42,7 +43,7 @@ class MallSaleFragment : Fragment() {
                 if (!isLoading) {
                     isLoading = true
                     resetPage()
-                    itemManager.autoRefresh { removeAll { it is RecItem } }
+                    itemManager.autoRefresh { removeAll { it is SaleItem } }
                     //redo
                     viewModel.getLatestSale(page)
                     isRefreshing = false
@@ -78,13 +79,13 @@ class MallSaleFragment : Fragment() {
         saleLiveData.bindNonNull(this) { list ->
             totalPage = list[0].page
             if (totalPage == 0) {
-                itemManager.autoRefresh { removeAll { it is RecItem } }
+                itemManager.autoRefresh { removeAll { it is SaleItem } }
                 iv_sale_null.visibility = View.VISIBLE
             } else {
                 iv_sale_null.visibility = View.GONE
                 val items = mutableListOf<Item>().apply {
                     for (i in 1 until list.size) {
-                        recItem {
+                        saleItem {
                             Glide.with(this@MallSaleFragment)
                                     .load("https://mall.twt.edu.cn/api.php/Upload/img_redirect?id=${list[i].imgurl}")
                                     .into(image)
@@ -92,16 +93,18 @@ class MallSaleFragment : Fragment() {
                             price.text = list[i].price
                             locate.text = MallManager.dealText(list[i].location)
                             card.setOnClickListener {
+                                detailLiveData.postValue(list[i])
                                 val intent = Intent(this@MallSaleFragment.context, DetailActivity::class.java)
                                         .putExtra(MallManager.ID, list[i].id)
-                                this@MallSaleFragment.startActivity(intent)
+                                        .putExtra(MallManager.TYPE, MallManager.SALE)
+                                startActivity(intent)
                             }
                         }
                     }
                 }
                 if (page == 1) {
                     itemManager.autoRefresh {
-                        removeAll { it is RecItem }
+                        removeAll { it is SaleItem }
                         addAll(items)
                     }
                 } else {

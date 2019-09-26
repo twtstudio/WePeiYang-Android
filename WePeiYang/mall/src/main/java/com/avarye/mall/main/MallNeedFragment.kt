@@ -12,6 +12,7 @@ import com.avarye.mall.R
 import com.avarye.mall.detail.DetailActivity
 import com.avarye.mall.service.MallManager
 import com.avarye.mall.service.ViewModel
+import com.avarye.mall.service.detailLiveData
 import com.avarye.mall.service.needLiveData
 import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
 import com.twt.wepeiyang.commons.ui.rec.Item
@@ -41,7 +42,7 @@ class MallNeedFragment : Fragment() {
                 if (!isLoading) {
                     isLoading = true
                     resetPage()
-                    itemManager.autoRefresh { removeAll { it is RecItem } }
+                    itemManager.autoRefresh { removeAll { it is SaleItem } }
                     //redo
                     viewModel.getLatestNeed(page)
                     isRefreshing = false
@@ -76,27 +77,28 @@ class MallNeedFragment : Fragment() {
         needLiveData.bindNonNull(this) { list ->
             totalPage = list[0].page
             if (totalPage == 0) {
-                itemManager.autoRefresh { removeAll { it is RecItem } }
+                itemManager.autoRefresh { removeAll { it is SaleItem } }
                 iv_need_null.visibility = View.VISIBLE
             } else {
                 iv_need_null.visibility = View.GONE
                 val items = mutableListOf<Item>().apply {
                     for (i in 1 until list.size) {
-                        recItem {
+                        saleItem {
                             name.text = list[i].name
                             price.text = list[i].price
                             locate.text = MallManager.dealText(list[i].location)
                             card.setOnClickListener {
-                                val intent = Intent(this@MallNeedFragment.context, DetailActivity::class.java)
-                                        .putExtra(MallManager.ID, list[i].id)
-                                this@MallNeedFragment.startActivity(intent)
+                                detailLiveData.postValue(list[i])
+                                val intent = Intent(context, DetailActivity::class.java)
+                                        .putExtra(MallManager.TYPE, MallManager.NEED)
+                                startActivity(intent)
                             }
                         }
                     }
                 }
                 if (page == 1) {
                     itemManager.autoRefresh {
-                        removeAll { it is RecItem }
+                        removeAll { it is SaleItem }
                         addAll(items)
                     }
                 } else {

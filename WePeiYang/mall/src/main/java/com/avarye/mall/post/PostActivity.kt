@@ -44,7 +44,7 @@ class PostActivity : AppCompatActivity() {
     private var iidTemp = ""
     private var flagSale = false
     private var flagNeed = false
-    private var type = MallManager.T_SALE
+    private var type = MallManager.SALE
     private lateinit var map: Map<String, Any>
     private lateinit var progressBar: ProgressBar
 
@@ -55,8 +55,8 @@ class PostActivity : AppCompatActivity() {
         type = intent.getStringExtra(MallManager.TYPE)
         tb_main.apply {
             title = when (type) {
-                MallManager.T_SALE -> getString(R.string.mallStringPostSale)
-                MallManager.T_NEED -> getString(R.string.mallStringPostNeed)
+                MallManager.SALE -> getString(R.string.mallStringPostSale)
+                MallManager.NEED -> getString(R.string.mallStringPostNeed)
                 else -> "薛定谔的页面"
             }
             setSupportActionBar(this)
@@ -67,14 +67,14 @@ class PostActivity : AppCompatActivity() {
         progressBar.visibility = View.GONE
 
         when (type) {
-            MallManager.T_SALE -> {
+            MallManager.SALE -> {
                 tv_post_img.visibility = View.VISIBLE
                 rv_post_img.visibility = View.VISIBLE
                 rl_post_bargain.visibility = View.VISIBLE
                 tv_post_price.text = "价格"
                 rl_post_status.visibility = View.VISIBLE
             }
-            MallManager.T_NEED -> {
+            MallManager.NEED -> {
                 tv_post_img.visibility = View.GONE
                 rv_post_img.visibility = View.GONE
                 rl_post_bargain.visibility = View.GONE
@@ -219,8 +219,8 @@ class PostActivity : AppCompatActivity() {
     }
 
     private fun post() = when (type) {
-        MallManager.T_SALE -> viewModel.postSale(map, token)
-        MallManager.T_NEED -> viewModel.postNeed(map, token)
+        MallManager.SALE -> viewModel.postSale(map, token)
+        MallManager.NEED -> viewModel.postNeed(map, token)
         else -> Unit
     }
 

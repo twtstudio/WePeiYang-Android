@@ -2,14 +2,18 @@ package com.avarye.mall.mine
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
-import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
-import android.view.*
+import android.view.Gravity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.PopupWindow
 import com.avarye.mall.R
 import com.avarye.mall.post.PostActivity
 import com.avarye.mall.service.MallManager
+import com.avarye.mall.service.MallManager.bgAlpha
 import com.avarye.mall.service.ViewModel
 import com.avarye.mall.service.loginLiveData
 import com.avarye.mall.service.mineLiveData
@@ -18,9 +22,9 @@ import com.twt.wepeiyang.commons.experimental.cache.CacheIndicator
 import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
 import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.mall_activity_mine.*
-import kotlinx.android.synthetic.main.mall_item_toolbar.*
-import kotlinx.android.synthetic.main.mall_pop_setting.view.*
+import kotlinx.android.synthetic.main.mall_popup_setting.view.*
 import org.jetbrains.anko.contentView
+import org.jetbrains.anko.withAlpha
 
 /**
  * 个人主页
@@ -38,15 +42,10 @@ class MineActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.mall_activity_mine)
-        window.statusBarColor = ContextCompat.getColor(this, R.color.mallColorMain)
-
-        //toolbar
-        tb_main.apply {
-            title = getString(R.string.mallStringMine)
-            setSupportActionBar(this)
-            supportActionBar?.setDisplayHomeAsUpEnabled(true)
-            setNavigationOnClickListener { onBackPressed() }
-        }
+        window.statusBarColor = Color.TRANSPARENT.withAlpha(90)
+        window.navigationBarColor = Color.TRANSPARENT
+        cv_mine_back.setOnClickListener { onBackPressed() }
+        cv_mine_refresh.setOnClickListener { refresh() }
 
         mineLiveData.refresh(CacheIndicator.LOCAL, CacheIndicator.REMOTE)
         mineLiveData.bindNonNull(this) {
@@ -66,8 +65,7 @@ class MineActivity : AppCompatActivity() {
             email = it.email
             campus = it.xiaoqu.toInt()
 
-            bindButton()
-            Toasty.info(this@MineActivity, it.id).show()
+            bindButtons()
         }
     }
 
@@ -80,16 +78,16 @@ class MineActivity : AppCompatActivity() {
     }
 
     @SuppressLint("InflateParams")
-    private fun bindButton() {
+    private fun bindButtons() {
         cv_mine_sale.setOnClickListener {
             val intent = Intent(this, ListActivity::class.java)
-                    .putExtra(MallManager.TYPE, MallManager.T_SALE)
+                    .putExtra(MallManager.TYPE, MallManager.SALE)
             startActivity(intent)
         }
 
         cv_mine_need.setOnClickListener {
             val intent = Intent(this, ListActivity::class.java)
-                    .putExtra(MallManager.TYPE, MallManager.T_NEED)
+                    .putExtra(MallManager.TYPE, MallManager.NEED)
             startActivity(intent)
         }
 
@@ -101,18 +99,18 @@ class MineActivity : AppCompatActivity() {
 
         cv_mine_post_sale.setOnClickListener {
             val intent = Intent(this, PostActivity::class.java)
-                    .putExtra(MallManager.TYPE, MallManager.T_SALE)
+                    .putExtra(MallManager.TYPE, MallManager.SALE)
             startActivity(intent)
         }
 
         cv_mine_post_need.setOnClickListener {
             val intent = Intent(this, PostActivity::class.java)
-                    .putExtra(MallManager.TYPE, MallManager.T_NEED)
+                    .putExtra(MallManager.TYPE, MallManager.NEED)
             startActivity(intent)
         }
 
         cv_mine_setting.setOnClickListener {
-            val popupWindowView: View = LayoutInflater.from(this).inflate(R.layout.mall_pop_setting, null, false)
+            val popupWindowView: View = LayoutInflater.from(this).inflate(R.layout.mall_popup_setting, null, false)
             val popWindow = PopupWindow(popupWindowView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true)
             popWindow.apply {
                 contentView.apply {
@@ -143,36 +141,19 @@ class MineActivity : AppCompatActivity() {
                 isOutsideTouchable = true
                 isTouchable = true
                 isFocusable = true
-                bgAlpha(0.2f)
-                setOnDismissListener { bgAlpha(1f) }
+                bgAlpha(0.2f, this@MineActivity)
+                setOnDismissListener { bgAlpha(1f, this@MineActivity) }
 
             }
         }
     }
 
-    /**
-     * 设置背景透明度
-     */
-    private fun bgAlpha(bgAlpha: Float) {
-        val lp = window.attributes
-        lp.alpha = bgAlpha // 0.0-1.0
-        window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
-        window.attributes = lp
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.mall_menu_refresh, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+    private fun refresh() {
         if (loginLiveData.value == null) {
             viewModel.login()
         } else {
             mineLiveData.refresh(CacheIndicator.LOCAL, CacheIndicator.REMOTE)
             Toasty.info(this, mineLiveData.value.toString()).show()
         }
-        return true
     }
-
 }

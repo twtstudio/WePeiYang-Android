@@ -21,6 +21,7 @@ class ViewModel {
                 Toasty.error(CommonContext.application, "登陆失败").show()
             }?.let {
                 if (it.error_code == -1) {
+                    Log.d("token!!", MallManager.getToken())
                     loginLiveData.postValue(it.data)
                     Toasty.info(CommonContext.application, it.message).show()
                 } else {
@@ -40,6 +41,7 @@ class ViewModel {
         GlobalScope.launch(Dispatchers.Main) {
             MallManager.loginAsync().awaitAndHandle {
                 Toasty.error(CommonContext.application, "登陆失败").show()
+                Log.d("token!!", MallManager.getToken())
             }?.let {
                 if (it.error_code == -1) {
                     Log.d("token!!", MallManager.getToken())

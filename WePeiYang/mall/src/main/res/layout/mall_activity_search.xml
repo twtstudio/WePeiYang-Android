@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/mallColorBgGrey"
     android:orientation="vertical"
+    android:id="@+id/a123456"
     tools:context=".main.SearchActivity">
 
     <android.support.design.widget.AppBarLayout

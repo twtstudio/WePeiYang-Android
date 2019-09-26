@@ -9,8 +9,8 @@ import android.support.v7.widget.StaggeredGridLayoutManager
 import android.view.View
 import com.avarye.mall.R
 import com.avarye.mall.detail.DetailActivity
-import com.avarye.mall.main.RecItem
-import com.avarye.mall.main.recItem
+import com.avarye.mall.main.SaleItem
+import com.avarye.mall.main.saleItem
 import com.avarye.mall.service.*
 import com.bumptech.glide.Glide
 import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
@@ -47,8 +47,8 @@ class ListActivity : AppCompatActivity() {
 
         tb_main.apply {
             title = when (type) {
-                MallManager.T_SALE -> getString(R.string.mallStringMySale)
-                MallManager.T_NEED -> getString(R.string.mallStringMyNeed)
+                MallManager.SALE -> getString(R.string.mallStringMySale)
+                MallManager.NEED -> getString(R.string.mallStringMyNeed)
                 MallManager.FAV -> getString(R.string.mallStringMyFav)
                 else -> "薛定谔的页面"
             }
@@ -71,16 +71,16 @@ class ListActivity : AppCompatActivity() {
         //发请求 bind
         post()
         when (type) {
-            MallManager.T_SALE -> bindSale()
-            MallManager.T_NEED -> bindNeed()
+            MallManager.SALE -> bindSale()
+            MallManager.NEED -> bindNeed()
             MallManager.FAV -> bindFav()
             else -> Unit
         }
     }
 
     fun post() = when (type) {
-        MallManager.T_SALE -> viewModel.getMyList(uid, MallManager.W_SALE)
-        MallManager.T_NEED -> viewModel.getMyList(uid, MallManager.W_NEED)
+        MallManager.SALE -> viewModel.getMyList(uid, MallManager.W_SALE)
+        MallManager.NEED -> viewModel.getMyList(uid, MallManager.W_NEED)
         MallManager.FAV -> viewModel.getFavList(token)
         else -> Unit
     }
@@ -99,13 +99,13 @@ class ListActivity : AppCompatActivity() {
     private fun bindSale() {
         myListLiveData.bindNonNull(this) { list ->
             if (list.isEmpty()) {
-                itemManager.autoRefresh { removeAll { it is RecItem } }
+                itemManager.autoRefresh { removeAll { it is SaleItem } }
                 iv_list_null.visibility = View.VISIBLE
             } else {
                 iv_list_null.visibility = View.GONE
                 val items = mutableListOf<Item>().apply {
                     for (i in 1 until list.size) {
-                        recItem {
+                        saleItem {
                             Glide.with(this@ListActivity)
                                     .load("https://mall.twt.edu.cn/api.php/Upload/img_redirect?id=${list[i].imgurl}")
                                     .into(image)
@@ -116,6 +116,7 @@ class ListActivity : AppCompatActivity() {
                                 setOnClickListener {
                                     val intent = Intent(this@ListActivity, DetailActivity::class.java)
                                             .putExtra(MallManager.ID, list[i].id)
+                                            .putExtra(MallManager.TYPE, MallManager.SALE)
                                     this@ListActivity.startActivity(intent)
                                 }
                                 setOnLongClickListener {
@@ -128,7 +129,7 @@ class ListActivity : AppCompatActivity() {
                     }
                 }
                 itemManager.autoRefresh {
-                    removeAll { it is RecItem }
+                    removeAll { it is SaleItem }
                     addAll(items)
                 }
             }
@@ -138,13 +139,13 @@ class ListActivity : AppCompatActivity() {
     private fun bindNeed() {
         myListLiveData.bindNonNull(this) { list ->
             if (list.isEmpty()) {
-                itemManager.autoRefresh { removeAll { it is RecItem } }
+                itemManager.autoRefresh { removeAll { it is SaleItem } }
                 iv_list_null.visibility = View.VISIBLE
             } else {
                 iv_list_null.visibility = View.GONE
                 val items = mutableListOf<Item>().apply {
                     for (i in 1 until list.size) {
-                        recItem {
+                        saleItem {
                             name.text = list[i].name
                             price.text = list[i].price
                             locate.text = MallManager.dealText(list[i].location)
@@ -152,6 +153,7 @@ class ListActivity : AppCompatActivity() {
                                 setOnClickListener {
                                     val intent = Intent(this@ListActivity, DetailActivity::class.java)
                                             .putExtra(MallManager.ID, list[i].id)
+                                            .putExtra(MallManager.TYPE, MallManager.NEED)
                                     this@ListActivity.startActivity(intent)
                                 }
                             }
@@ -160,7 +162,7 @@ class ListActivity : AppCompatActivity() {
                     }
                 }
                 itemManager.autoRefresh {
-                    removeAll { it is RecItem }
+                    removeAll { it is SaleItem }
                     addAll(items)
                 }
             }
@@ -170,13 +172,13 @@ class ListActivity : AppCompatActivity() {
     private fun bindFav() {
         myFavLiveData.bindNonNull(this) { list ->
             if (list.isEmpty()) {
-                itemManager.autoRefresh { removeAll { it is RecItem } }
+                itemManager.autoRefresh { removeAll { it is SaleItem } }
                 iv_list_null.visibility = View.VISIBLE
             } else {
                 iv_list_null.visibility = View.GONE
                 val items = mutableListOf<Item>().apply {
                     for (i in 1 until list.size) {
-                        recItem {
+                        saleItem {
                             Glide.with(this@ListActivity)
                                     .load("https://mall.twt.edu.cn/api.php/Upload/img_redirect?id=${list[i].imgurl}")
                                     .into(image)
@@ -187,6 +189,7 @@ class ListActivity : AppCompatActivity() {
                                 setOnClickListener {
                                     val intent = Intent(this@ListActivity, DetailActivity::class.java)
                                             .putExtra(MallManager.ID, list[i].id)
+                                            .putExtra(MallManager.TYPE, MallManager.SALE)
                                     this@ListActivity.startActivity(intent)
                                 }
                                 setOnLongClickListener {
@@ -199,7 +202,7 @@ class ListActivity : AppCompatActivity() {
                     }
                 }
                 itemManager.autoRefresh {
-                    removeAll { it is RecItem }
+                    removeAll { it is SaleItem }
                     addAll(items)
                 }
             }
@@ -208,8 +211,8 @@ class ListActivity : AppCompatActivity() {
 
     private fun deleteDialog(gid: String) = AlertDialog.Builder(this)
             .setTitle(when (type) {
-                MallManager.T_SALE -> getString(R.string.mallStringDeleteSale)
-                MallManager.T_NEED -> getString(R.string.mallStringDeFav)
+                MallManager.SALE -> getString(R.string.mallStringDeleteSale)
+                MallManager.NEED -> getString(R.string.mallStringDeFav)
                 else -> "薛定谔又来了"
             })
             .setCancelable(false)
@@ -217,7 +220,7 @@ class ListActivity : AppCompatActivity() {
             .setNegativeButton("确定") { dialog, _ ->
                 run {
                     when (type) {
-                        MallManager.T_SALE -> {
+                        MallManager.SALE -> {
                             viewModel.deleteSale(gid, token)
                             viewModel.getMyList(gid, MallManager.W_SALE)
                         }
