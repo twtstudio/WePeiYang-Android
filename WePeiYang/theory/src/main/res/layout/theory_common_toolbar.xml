@@ -56,7 +56,7 @@
         android:visibility="gone"
         android:textColor="@color/white_color"
         android:text="提交"
-        android:textSize="15sp"
+        android:textSize="14sp"
         android:layout_marginEnd="20dp"
         android:layout_height="27dp" />
     <View

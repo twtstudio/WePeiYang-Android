@@ -72,7 +72,7 @@ class ExamDetailActivity : AppCompatActivity() {
                 if (intent.extras.getString("test_time").toInt() - intent.extras.getString("tested_time").toInt() == 0) {
                     contentView.theory_enter_word.text = "考试剩余次数为0!"
                 }
-                width = WindowManager.LayoutParams.MATCH_PARENT
+                width = dip(320)
                 animationStyle = R.style.style_pop_animation
                 setBackgroundDrawable(null)
                 showAtLocation(

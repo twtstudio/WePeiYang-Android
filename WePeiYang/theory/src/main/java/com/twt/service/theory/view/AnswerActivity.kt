@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.support.annotation.RequiresApi
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
@@ -32,7 +33,7 @@ import org.jetbrains.anko.dip
 
 @RequiresApi(Build.VERSION_CODES.M)
 class AnswerActivity : AppCompatActivity() {
-    override fun onBackPressed() {
+    override fun onBackPressed() { //监听返回
         if (AnswerManager.isPopUPWindowInstalled()) {
             AnswerManager.getPopUpWindow()?.dismiss()
             AnswerManager.uninstall()
@@ -43,9 +44,9 @@ class AnswerActivity : AppCompatActivity() {
             popupWindow.apply {
                 isFocusable = true
                 contentView = view
-                width = WindowManager.LayoutParams.MATCH_PARENT
                 animationStyle = R.style.style_pop_animation
                 setBackgroundDrawable(null)
+                width = dip(320)
                 showAtLocation(
                         LayoutInflater.from(contentView.context).inflate(R.layout.theory_activity_answer, null),
                         Gravity.CENTER,
@@ -103,41 +104,19 @@ class AnswerActivity : AppCompatActivity() {
             AnswerManager.installPopUpWindow(popupWindow, theory_exam_questions)
         }
         theory_back.setOnClickListener {
-            val popupWindow = PopupWindow(this)
-            val view = LayoutInflater.from(this).inflate(R.layout.theory_dialog_exam, null, false)
-            view.theory_enter_word.text = "你将退出考试"
-            popupWindow.apply {
-                isFocusable = true
-                contentView = view
-                width = WindowManager.LayoutParams.MATCH_PARENT
-                animationStyle = R.style.style_pop_animation
-                setBackgroundDrawable(null)
-                showAtLocation(
-                        LayoutInflater.from(contentView.context).inflate(R.layout.theory_activity_answer, null),
-                        Gravity.CENTER,
-                        0,
-                        0
-                )
-                contentView.theory_enter_cancel.setOnClickListener {
-                    popupWindow.dismiss()
-                }
-                contentView.theory_enter_comfirm.setOnClickListener {
-                    popupWindow.dismiss()
-                    finish()
-                }
-            }
+            onBackPressed()
         }
         theory_submit.setOnClickListener {
             val popupWindow = PopupWindow(this)
             val view = LayoutInflater.from(this).inflate(R.layout.theory_dialog_exam, null, false)
-            if (AnswerManager.getNumberHasDone() != AnswerManager.getTotalNumber()) view.theory_enter_word.text = "你还有${AnswerManager.getTotalNumber() - AnswerManager.getNumberHasDone()}题未完成，确认提交?"
-            else view.theory_enter_word.text = "你将提交答案"
+            view.theory_enter_word.text = if (AnswerManager.getNumberHasDone() != AnswerManager.getTotalNumber()) "你还有${AnswerManager.getTotalNumber() - AnswerManager.getNumberHasDone()}题未完成，确认提交?"
+            else "你将提交答案"
             popupWindow.apply {
                 isFocusable = true
                 contentView = view
-                width = WindowManager.LayoutParams.MATCH_PARENT
                 animationStyle = R.style.style_pop_animation
                 setBackgroundDrawable(null)
+                width = dip(320)
                 showAtLocation(
                         LayoutInflater.from(contentView.context).inflate(R.layout.theory_activity_answer, null),
                         Gravity.CENTER,
@@ -170,9 +149,10 @@ class AnswerActivity : AppCompatActivity() {
                     }
                 }
             } catch (e: Exception) {
-                Toasty.error(this@AnswerActivity, "获取试卷失败").show()
+                Toasty.error(this@AnswerActivity, "获取试卷失败, 请检查是否已连接校园网").show()
             }
         }
     }
 
 }
+
