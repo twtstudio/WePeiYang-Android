@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.twt.service.theory">
 
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <application>
         <activity android:name=".view.AnswerActivity"></activity>
         <activity android:name=".view.UserActivity" />

@@ -1,9 +1,11 @@
 package com.twt.service.theory.view
 
+import android.graphics.Rect
 import android.os.Build
 import android.support.annotation.RequiresApi
 import android.support.v7.widget.RecyclerView
 import android.util.Log
+import android.view.View
 import android.widget.PopupWindow
 import com.twt.wepeiyang.commons.ui.rec.withItems
 import kotlinx.android.synthetic.main.theory_popupwindow_layout.view.*
@@ -70,12 +72,22 @@ object AnswerManager {
         popupWindow = src
         list.clear()
         for (i in 1..(numOfQue)) {
-
             val item = ProblemItem(i, ans[i] != 0) {
                 recyclerView.toPosition(it - 1)
             }
             list.add(item)
         }
+        popupWindow?.contentView?.theory_recyclerView?.addItemDecoration(object : RecyclerView.ItemDecoration() {
+            override fun getItemOffsets(outRect: Rect?, view: View?, parent: RecyclerView?, state: RecyclerView.State?) {
+                super.getItemOffsets(outRect, view, parent, state)
+                outRect?.top = 8
+                outRect?.bottom = 0
+                outRect?.left = 10
+                outRect?.right = 0
+            }
+
+        })
+        popupWindow?.contentView?.theory_recyclerView?.addItemDecoration(GridSpacingItemDecoration(6, 15))
         popupWindow?.contentView?.theory_recyclerView?.withItems(list)
 
     }

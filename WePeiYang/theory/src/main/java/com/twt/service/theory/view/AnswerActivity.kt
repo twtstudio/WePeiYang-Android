@@ -9,18 +9,15 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
 import android.widget.PopupWindow
-import android.widget.Toast
 import com.twt.service.theory.R
 import com.twt.service.theory.model.PaperBean
 import com.twt.service.theory.model.TheoryApi
 import com.twt.wepeiyang.commons.experimental.extensions.enableLightStatusBarMode
-import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
 import com.twt.wepeiyang.commons.ui.rec.withItems
 import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.theory_activity_answer.*
@@ -33,7 +30,12 @@ import org.jetbrains.anko.dip
 
 @RequiresApi(Build.VERSION_CODES.M)
 class AnswerActivity : AppCompatActivity() {
-    override fun onBackPressed() { //监听返回
+    override fun onDestroy() {
+        super.onDestroy()
+        theory_exam_time_fab.end()
+    }
+
+    override fun onBackPressed() {
         if (AnswerManager.isPopUPWindowInstalled()) {
             AnswerManager.getPopUpWindow()?.dismiss()
             AnswerManager.uninstall()
@@ -69,6 +71,13 @@ class AnswerActivity : AppCompatActivity() {
         setContentView(R.layout.theory_activity_answer)
         initView()
         loadQuestions()
+        theory_user_actionbar.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
+        theory_constraintLayout.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
+        theory_exam_time_fab.actionH = theory_user_actionbar.measuredHeight
+        theory_exam_time_fab.ansH = theory_constraintLayout.measuredHeight
+        theory_exam_time_fab.start(50, 20) {//这里处理时间走完的逻辑
+
+        }
     }
 
     private fun initView() {
@@ -97,9 +106,7 @@ class AnswerActivity : AppCompatActivity() {
                     popupWindow.dismiss()
                     AnswerManager.uninstall()
                 }
-
-                contentView.theory_recyclerView.layoutManager = GridLayoutManager(contentView.context, 8, GridLayoutManager.VERTICAL, false)
-
+                contentView.theory_recyclerView.layoutManager = GridLayoutManager(contentView.context, 6, GridLayoutManager.VERTICAL, false)
             }
             AnswerManager.installPopUpWindow(popupWindow, theory_exam_questions)
         }
