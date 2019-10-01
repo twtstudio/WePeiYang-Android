@@ -11,7 +11,6 @@ import android.support.v7.widget.RecyclerView
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
-import android.view.WindowManager
 import android.widget.PopupWindow
 import com.twt.service.theory.R
 import com.twt.service.theory.view.AnswerActivity
@@ -27,6 +26,7 @@ import org.jetbrains.anko.dip
 class ExamDetailActivity : AppCompatActivity() {
     lateinit var recyclerView: RecyclerView
 
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initView()
@@ -41,6 +41,8 @@ class ExamDetailActivity : AppCompatActivity() {
             setDetail("剩余考试次数", (intent.extras.getString("test_time").toInt() - intent.extras.getString("tested_time").toInt()).toString())
         }
     }
+
+
 
     @RequiresApi(Build.VERSION_CODES.M)
     private fun initView() {

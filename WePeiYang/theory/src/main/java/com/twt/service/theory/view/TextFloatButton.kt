@@ -2,15 +2,13 @@ package com.twt.service.theory.view
 
 import android.animation.ObjectAnimator
 import android.content.Context
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
-import android.graphics.Point
+import android.graphics.*
 import android.support.design.widget.FloatingActionButton
 import android.util.AttributeSet
 import android.util.Log
 import android.util.TypedValue
 import android.view.MotionEvent
+import org.jetbrains.anko.sp
 import org.jetbrains.anko.windowManager
 
 class TextFloatButton(context: Context, attrs: AttributeSet) : FloatingActionButton(context, attrs) {
@@ -29,8 +27,6 @@ class TextFloatButton(context: Context, attrs: AttributeSet) : FloatingActionBut
         val screenWidth = point.x
         val screenHeight = point.y
         setOnTouchListener { _, event ->
-            val w = width
-            val h = height
             when {
                 event.action == MotionEvent.ACTION_DOWN -> {
                     lastX = event.x
@@ -39,21 +35,26 @@ class TextFloatButton(context: Context, attrs: AttributeSet) : FloatingActionBut
                 event.action == MotionEvent.ACTION_MOVE -> {
                     val offsetX = event.x - lastX
                     val offsetY = event.y - lastY
-                    layout((left + offsetX).toInt(), (top + offsetY).toInt(), (right + offsetX).toInt(), (bottom + offsetY).toInt())
+                    Log.d("BUG", (right - left).toString())
+                    Log.d("BUG", (bottom - top).toString())
+                    offsetTopAndBottom(offsetY.toInt())
+                    offsetLeftAndRight(offsetX.toInt())
+//                    layout((left + offsetX).toInt(), (top + offsetY).toInt(), (right + offsetX).toInt(), (bottom + offsetY).toInt())
                 }
                 event.action == MotionEvent.ACTION_UP -> {
                     val objectAnimator: ObjectAnimator = if (x > screenWidth / 2.0) {
-                        ObjectAnimator.ofFloat(this, "x", x, (screenWidth - w - 10).toFloat())
+                        ObjectAnimator.ofFloat(this, "x", x, (screenWidth - width - 10).toFloat())
                     } else {
                         ObjectAnimator.ofFloat(this, "x", x, 10.0f)
                     }
                     objectAnimator.start()
+                    when {
+                        y < actionH + height / 2.0 -> ObjectAnimator.ofFloat(this, "y", y, (actionH + height / 2.0).toFloat())
+                        y > screenHeight - ansH - height / 2.0 -> ObjectAnimator.ofFloat(this, "y", y, (screenHeight - ansH - height).toFloat())
+                        else -> null
+                    }?.start()
                 }
             }
-            if (x > screenWidth - w - 10) layout(screenWidth - 10 - w, top, screenWidth - 10, bottom)
-            if (x < 10) layout(10, top, 10 + w, bottom)
-            if (y > screenHeight - h - 10 - ansH) layout(left, screenHeight - 10 - ansH - h, right, screenHeight - 10 - ansH)
-            if (y < actionH) layout(left, actionH, right, actionH + h)
             true
         }
     }
@@ -62,12 +63,25 @@ class TextFloatButton(context: Context, attrs: AttributeSet) : FloatingActionBut
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, value, context.resources.displayMetrics);
     }
 
+    fun sp2px(spValue: Float): Float {
+        val fontScale = context.resources.displayMetrics.scaledDensity
+        return spValue * fontScale + 0.5f
+    }
+
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
         val paint = Paint(Paint.ANTI_ALIAS_FLAG)
+        paint.textSize = sp2px(15.0f)
+        val bounds = Rect()
         paint.color = Color.BLACK
-        paint.textSize = 40.0f
-        canvas?.drawText(time, dp2px(9f, context), dp2px(30f, context), paint)
+        paint.textSize = sp(15).toFloat()
+        paint.getTextBounds(time, 0, time.length, bounds)
+        val textWidth = bounds.width()
+        val fontMetrics = paint.fontMetricsInt
+        val fontHeight = fontMetrics.bottom - fontMetrics.top
+        val textBaseY = height - (height - fontHeight) / 2 - fontMetrics.bottom
+        canvas?.drawText(time, ((width - textWidth) / 2).toFloat(), textBaseY.toFloat(), paint)
+
     }
 
     fun end() {
