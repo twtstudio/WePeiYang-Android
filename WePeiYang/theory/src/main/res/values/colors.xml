@@ -2,6 +2,7 @@
 <resources>
     <color name="theory_blue">#1E90FF</color>
     <color name="theory_blue2">#1EA1FF</color>
+    <color name="theory_blue3">#52b7ff</color>
     <color name="theory_green">#75beab</color>
     <color name="theory_yellow">#E6D705</color>
     <color name="theory_black">#000000</color>

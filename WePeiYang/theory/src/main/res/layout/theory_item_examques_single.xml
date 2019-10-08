@@ -26,6 +26,7 @@
 
         <RadioButton
             android:id="@+id/theory_ques_ansA"
+            android:theme="@style/EditTextStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
@@ -37,6 +38,7 @@
 
         <RadioButton
             android:id="@+id/theory_ques_ansB"
+            android:theme="@style/EditTextStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
@@ -48,6 +50,7 @@
 
         <RadioButton
             android:id="@+id/theory_ques_ansC"
+            android:theme="@style/EditTextStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
@@ -59,6 +62,7 @@
 
         <RadioButton
             android:id="@+id/theory_ques_ansD"
+            android:theme="@style/EditTextStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"

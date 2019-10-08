@@ -15,16 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <View
-        android:id="@+id/line"
-        android:layout_width="match_parent"
-        android:layout_height="0.4dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:background="#0000ff"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/search_toolbar" />
+
 
     <EditText
         android:id="@+id/search_content"
@@ -35,13 +26,15 @@
         android:background="@drawable/edit_background"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        android:hint="请输入关键字"
+        android:hint=" 请输入关键字"
         android:marqueeRepeatLimit="marquee_forever"
         android:scrollHorizontally="true"
         android:singleLine="true"
         android:textSize="15sp"
+        android:paddingLeft="5dp"
+        android:textCursorDrawable="@drawable/theory_crusor_color"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/line" />
+        app:layout_constraintTop_toBottomOf="@id/search_toolbar" />
 
     <Button
         android:id="@+id/search_button"
@@ -53,12 +46,12 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.285"
         app:layout_constraintStart_toEndOf="@id/search_content"
-        app:layout_constraintTop_toBottomOf="@id/line" />
+        app:layout_constraintTop_toBottomOf="@id/search_toolbar" />
 
     <ImageView
         android:id="@+id/triangle1"
-        android:layout_width="10dp"
-        android:layout_height="10dp"
+        android:layout_width="12dp"
+        android:layout_height="12dp"
         android:layout_marginStart="28dp"
         android:layout_marginTop="20dp"
         android:src="@drawable/theory_ic_triangle_shape"
@@ -68,18 +61,18 @@
     <TextView
         android:id="@+id/text1"
         android:layout_width="60dp"
-        android:layout_height="15dp"
+        android:layout_height="18dp"
         android:layout_marginStart="5dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="17dp"
         android:text="选择类型:"
-        android:textSize="12sp"
+        android:textSize="14sp"
         app:layout_constraintStart_toEndOf="@id/triangle1"
         app:layout_constraintTop_toBottomOf="@id/search_content" />
 
     <ImageView
         android:id="@+id/triangle2"
-        android:layout_width="10dp"
-        android:layout_height="10dp"
+        android:layout_width="12dp"
+        android:layout_height="12dp"
         android:layout_marginStart="28dp"
         android:layout_marginTop="15dp"
         android:src="@drawable/theory_ic_triangle_shape"
@@ -89,20 +82,20 @@
     <TextView
         android:id="@+id/text2"
         android:layout_width="60dp"
-        android:layout_height="15dp"
+        android:layout_height="18dp"
         android:layout_marginStart="5dp"
         android:layout_marginTop="11dp"
         android:text="选择时间:"
-        android:textSize="12sp"
+        android:textSize="14sp"
         app:layout_constraintStart_toEndOf="@id/triangle2"
         app:layout_constraintTop_toBottomOf="@id/exam_necessary" />
 
     <TextView
         android:id="@+id/exam_necessary"
         android:layout_width="40dp"
-        android:layout_height="18dp"
+        android:layout_height="20dp"
         android:layout_marginLeft="30dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="10dp"
         android:background="@drawable/theory_unselected_circle_shape"
         android:gravity="center"
         android:text="必考"
@@ -114,9 +107,9 @@
     <TextView
         android:id="@+id/exam_optional"
         android:layout_width="40dp"
-        android:layout_height="18dp"
+        android:layout_height="20dp"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="10dp"
         android:background="@drawable/theory_unselected_circle_shape"
         android:gravity="center"
         android:text="选考"
@@ -128,9 +121,9 @@
     <TextView
         android:id="@+id/exam_running"
         android:layout_width="60dp"
-        android:layout_height="18dp"
+        android:layout_height="20dp"
         android:layout_marginLeft="30dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="10dp"
         android:background="@drawable/theory_unselected_circle_shape"
         android:gravity="center"
         android:text="正在进行"
@@ -142,9 +135,9 @@
     <TextView
         android:id="@+id/exam_resit"
         android:layout_width="60dp"
-        android:layout_height="18dp"
+        android:layout_height="20dp"
         android:layout_marginLeft="12dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="10dp"
         android:background="@drawable/theory_unselected_circle_shape"
         android:gravity="center"
         android:text="正在补考"
@@ -156,9 +149,9 @@
     <TextView
         android:id="@+id/exam_ending"
         android:layout_width="60dp"
-        android:layout_height="18dp"
+        android:layout_height="20dp"
         android:layout_marginLeft="12dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="10dp"
         android:background="@drawable/theory_unselected_circle_shape"
         android:gravity="center"
         android:text="即将结束"
@@ -170,9 +163,9 @@
     <TextView
         android:id="@+id/exam_end"
         android:layout_width="60dp"
-        android:layout_height="18dp"
+        android:layout_height="20dp"
         android:layout_marginLeft="12dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="10dp"
         android:background="@drawable/theory_unselected_circle_shape"
         android:gravity="center"
         android:text="已结束"
@@ -184,7 +177,7 @@
     <android.support.design.widget.TabLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="10dp"
         android:id="@+id/main_tablayout"
         app:layout_constraintTop_toBottomOf="@+id/exam_end"/>
     <android.support.v4.view.ViewPager

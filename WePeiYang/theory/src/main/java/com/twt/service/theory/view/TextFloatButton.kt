@@ -73,7 +73,7 @@ class TextFloatButton(context: Context, attrs: AttributeSet) : FloatingActionBut
         val paint = Paint(Paint.ANTI_ALIAS_FLAG)
         paint.textSize = sp2px(15.0f)
         val bounds = Rect()
-        paint.color = Color.BLACK
+        paint.color = Color.WHITE
         paint.textSize = sp(15).toFloat()
         paint.getTextBounds(time, 0, time.length, bounds)
         val textWidth = bounds.width()

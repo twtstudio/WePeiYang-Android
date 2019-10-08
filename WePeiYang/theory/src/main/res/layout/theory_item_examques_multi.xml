@@ -26,6 +26,7 @@
 
         <CheckBox
             android:id="@+id/theory_ques_ansA_m"
+            android:theme="@style/EditTextStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
@@ -37,6 +38,7 @@
 
         <CheckBox
             android:id="@+id/theory_ques_ansB_m"
+            android:theme="@style/EditTextStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
@@ -48,6 +50,7 @@
 
         <CheckBox
             android:id="@+id/theory_ques_ansC_m"
+            android:theme="@style/EditTextStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
@@ -59,6 +62,7 @@
 
         <CheckBox
             android:id="@+id/theory_ques_ansD_m"
+            android:theme="@style/EditTextStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
@@ -70,6 +74,7 @@
 
         <CheckBox
             android:id="@+id/theory_ques_ansE_m"
+            android:theme="@style/EditTextStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
@@ -81,6 +86,7 @@
 
         <CheckBox
             android:id="@+id/theory_ques_ansF_m"
+            android:theme="@style/EditTextStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"

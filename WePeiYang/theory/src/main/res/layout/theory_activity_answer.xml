@@ -32,7 +32,7 @@
         android:id="@+id/theory_exam_time_fab"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        app:backgroundTint="#ffffffff"
+        app:backgroundTint="@color/theory_blue2"
         app:layout_constraintStart_toStartOf="parent"
         app:elevation="15dp"
         android:layout_margin="5dp"
