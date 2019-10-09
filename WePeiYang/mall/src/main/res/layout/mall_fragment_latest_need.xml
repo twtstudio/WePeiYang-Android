@@ -5,13 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
+    <include
         android:id="@+id/iv_need_null"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_centerInParent="true"
-        android:src="@drawable/mall_ic_null"
-        android:visibility="gone" />
+        layout="@layout/mall_item_null"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" />
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/srl_main_need"
@@ -23,7 +22,8 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_main_need"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent" />
 
     </android.support.v4.widget.SwipeRefreshLayout>
+
 </RelativeLayout>

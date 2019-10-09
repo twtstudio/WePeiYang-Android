@@ -37,13 +37,15 @@ class ListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.mall_activity_list)
         window.statusBarColor = ContextCompat.getColor(this, R.color.mallColorMain)
+        iv_list_null.visibility = View.INVISIBLE
 
-        mineLiveData.bindNonNull(this) {
-            uid = it.id
+        loginLiveData.bindNonNull(this) {
+            uid = it.uid
             token = it.token
+            //发请求 bind
+            post()
         }
         type = intent.getStringExtra(MallManager.TYPE)
-        Toasty.info(this, uid).show()
 
         tb_main.apply {
             title = when (type) {
@@ -66,15 +68,13 @@ class ListActivity : AppCompatActivity() {
         rv_list.apply {
             layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
             adapter = ItemAdapter(itemManager)
+            itemManager.autoRefresh { removeAll { it is SaleItem } }
         }
 
-        //发请求 bind
-        post()
         when (type) {
             MallManager.SALE -> bindSale()
             MallManager.NEED -> bindNeed()
             MallManager.FAV -> bindFav()
-            else -> Unit
         }
     }
 
@@ -88,6 +88,8 @@ class ListActivity : AppCompatActivity() {
     fun refresh() {
         if (!isLoading) {
             isLoading = true
+            iv_list_null.visibility = View.INVISIBLE
+            itemManager.autoRefresh { removeAll { it is SaleItem } }
             //redo
             post()
             srl_list.isRefreshing = false
@@ -102,9 +104,9 @@ class ListActivity : AppCompatActivity() {
                 itemManager.autoRefresh { removeAll { it is SaleItem } }
                 iv_list_null.visibility = View.VISIBLE
             } else {
-                iv_list_null.visibility = View.GONE
+                iv_list_null.visibility = View.INVISIBLE
                 val items = mutableListOf<Item>().apply {
-                    for (i in 1 until list.size) {
+                    for (i in list.indices) {
                         saleItem {
                             Glide.with(this@ListActivity)
                                     .load("https://mall.twt.edu.cn/api.php/Upload/img_redirect?id=${list[i].imgurl}")
@@ -117,11 +119,10 @@ class ListActivity : AppCompatActivity() {
                                     val intent = Intent(this@ListActivity, DetailActivity::class.java)
                                             .putExtra(MallManager.ID, list[i].id)
                                             .putExtra(MallManager.TYPE, MallManager.SALE)
-                                    this@ListActivity.startActivity(intent)
+                                    startActivity(intent)
                                 }
                                 setOnLongClickListener {
-                                    deleteDialog(list[i].id)
-                                    refresh()
+                                    editDialog(list[i].id)
                                     true
                                 }
                             }
@@ -142,19 +143,24 @@ class ListActivity : AppCompatActivity() {
                 itemManager.autoRefresh { removeAll { it is SaleItem } }
                 iv_list_null.visibility = View.VISIBLE
             } else {
-                iv_list_null.visibility = View.GONE
+                iv_list_null.visibility = View.INVISIBLE
                 val items = mutableListOf<Item>().apply {
-                    for (i in 1 until list.size) {
+                    for (i in list.indices) {
                         saleItem {
                             name.text = list[i].name
                             price.text = list[i].price
                             locate.text = MallManager.dealText(list[i].location)
                             card.apply {
                                 setOnClickListener {
+                                    detailLiveData.postValue(list[i])
                                     val intent = Intent(this@ListActivity, DetailActivity::class.java)
                                             .putExtra(MallManager.ID, list[i].id)
                                             .putExtra(MallManager.TYPE, MallManager.NEED)
                                     this@ListActivity.startActivity(intent)
+                                }
+                                setOnLongClickListener {
+                                    editDialog(list[i].id)
+                                    true
                                 }
                             }
 
@@ -170,14 +176,14 @@ class ListActivity : AppCompatActivity() {
     }
 
     private fun bindFav() {
-        myFavLiveData.bindNonNull(this) { list ->
+        myListLiveData.bindNonNull(this) { list ->
             if (list.isEmpty()) {
                 itemManager.autoRefresh { removeAll { it is SaleItem } }
                 iv_list_null.visibility = View.VISIBLE
             } else {
-                iv_list_null.visibility = View.GONE
+                iv_list_null.visibility = View.INVISIBLE
                 val items = mutableListOf<Item>().apply {
-                    for (i in 1 until list.size) {
+                    for (i in list.indices) {
                         saleItem {
                             Glide.with(this@ListActivity)
                                     .load("https://mall.twt.edu.cn/api.php/Upload/img_redirect?id=${list[i].imgurl}")
@@ -193,8 +199,7 @@ class ListActivity : AppCompatActivity() {
                                     this@ListActivity.startActivity(intent)
                                 }
                                 setOnLongClickListener {
-                                    deleteDialog(list[i].id)
-                                    refresh()
+                                    editDialog(list[i].id)
                                     true
                                 }
                             }
@@ -209,31 +214,33 @@ class ListActivity : AppCompatActivity() {
         }
     }
 
-    private fun deleteDialog(gid: String) = AlertDialog.Builder(this)
-            .setTitle(when (type) {
-                MallManager.SALE -> getString(R.string.mallStringDeleteSale)
-                MallManager.NEED -> getString(R.string.mallStringDeFav)
-                else -> "薛定谔又来了"
-            })
-            .setCancelable(false)
-            .setPositiveButton("取消") { dialog, _ -> dialog.dismiss() }
-            .setNegativeButton("确定") { dialog, _ ->
-                run {
-                    when (type) {
-                        MallManager.SALE -> {
-                            viewModel.deleteSale(gid, token)
-                            viewModel.getMyList(gid, MallManager.W_SALE)
+    private fun editDialog(gid: String) {
+        val dialog = AlertDialog.Builder(this)
+                .setMessage(when (type) {
+                    MallManager.SALE -> getString(R.string.mallStringDeleteSale)
+                    MallManager.NEED -> "暂时没有下架求购的接口:P\n所以没事别乱发求购呀~"
+                    MallManager.FAV -> getString(R.string.mallStringDeFav)
+                    else -> "薛定谔又来了"
+                })
+                .setCancelable(false)
+                .setNegativeButton("取消") { dialog, _ -> dialog.dismiss() }
+                .setPositiveButton("确定") { dialog, _ ->
+                    run {
+                        when (type) {
+                            MallManager.SALE -> {
+                                viewModel.deleteSale(gid, token, uid)
+                            }
+                            MallManager.FAV -> {
+                                viewModel.deFav(gid, token)
+                            }
+                            else -> Unit
                         }
-                        MallManager.FAV -> {
-                            viewModel.deFav(gid, token)
-                            viewModel.getFavList(token)
-                        }
-                        else -> Unit
+                        dialog.dismiss()
                     }
-                    dialog.dismiss()
                 }
-            }
-            .create()
-            .show()
-
+                .create()
+        dialog.show()
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(ContextCompat.getColor(this, R.color.mallColorMain))
+        dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(ContextCompat.getColor(this, R.color.mallColorPressed))
+    }
 }

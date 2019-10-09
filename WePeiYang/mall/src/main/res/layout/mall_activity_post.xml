@@ -45,7 +45,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="4dp"
                 android:layout_marginBottom="10dp"
-                tools:layout_height="100dp"/>
+                tools:layout_height="100dp" />
 
             <TextView
                 android:id="@+id/tv_post_info"
@@ -118,7 +118,8 @@
                     android:layout_alignParentEnd="true"
                     android:layout_margin="3dp"
                     android:layout_toEndOf="@id/tv_post_campus"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:theme="@style/EditTextStyle">
 
                     <RadioButton
                         android:id="@+id/rb_post_campus1"
@@ -308,8 +309,7 @@
                         android:layout_gravity="center_vertical"
                         android:dropDownWidth="150dp"
                         android:gravity="center"
-                        android:textSize="14sp"
-                        android:theme="@style/SpinnerStyle" />
+                        android:textSize="14sp" />
                 </android.support.v7.widget.CardView>
 
             </RelativeLayout>
@@ -477,7 +477,7 @@
                         android:layout_gravity="center"
                         android:text="确认发布"
                         android:textColor="#FFFFFF"
-                        android:textSize="20sp"
+                        android:textSize="18sp"
                         android:textStyle="bold" />
                 </android.support.v7.widget.CardView>
 

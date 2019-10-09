@@ -173,6 +173,7 @@
                         android:layout_alignStart="@id/tv_detail_phone"
                         android:fontFamily="@font/montserrat_regular"
                         android:textColor="#ffffff"
+                        android:textIsSelectable="true"
                         android:textSize="18sp"
                         tools:text="12345678912" />
 
@@ -186,6 +187,7 @@
                         android:layout_toEndOf="@id/tv_detail_qq"
                         android:fontFamily="@font/montserrat_regular"
                         android:textColor="#ffffff"
+                        android:textIsSelectable="true"
                         android:textSize="18sp"
                         tools:text="12345678912" />
 
@@ -198,6 +200,7 @@
                         android:layout_marginEnd="10dp"
                         android:fontFamily="@font/montserrat_regular"
                         android:textColor="#ffffff"
+                        android:textIsSelectable="true"
                         android:textSize="18sp"
                         tools:text="12345678912" />
 
@@ -239,7 +242,6 @@
                         android:layout_height="27dp"
                         android:layout_marginEnd="20dp"
                         android:src="@drawable/mall_ic_un_fav"
-                        android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -372,12 +374,12 @@
 
     <android.support.v7.widget.CardView
         android:id="@+id/cv_detail_back"
-        android:layout_width="34dp"
-        android:layout_height="34dp"
-        android:layout_marginStart="20dp"
+        android:layout_width="38dp"
+        android:layout_height="38dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="50dp"
         app:cardBackgroundColor="@color/mallColorBgTran"
-        app:cardCornerRadius="17dp"
+        app:cardCornerRadius="19dp"
         app:cardElevation="0dp"
         app:layout_scrollFlags="scroll|enterAlways">
 

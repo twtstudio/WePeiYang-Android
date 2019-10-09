@@ -58,7 +58,9 @@ object MallManager {
 
     fun getDetailAsync(id: String) = MallApi.getDetailAsync(id)
 
-    fun getSellerInfoAsync(gid: String, token: String) = MallApi.getSellerInfoAsync(toReqBody(token), toReqBody(gid))
+    fun getSellerSaleAsync(gid: String, token: String) = MallApi.getSellerSaleAsync(toReqBody(token), toReqBody(gid))
+
+    fun getSellerNeedAsync(nid: String, token: String) = MallApi.getSellerNeedAsync(toReqBody(token), toReqBody(nid))
 
     fun getUserInfoAsync(id: String) = MallApi.getUserInfoAsync(id)
 
@@ -193,25 +195,22 @@ object MallManager {
     }
 
     fun dealText(text: String): String {
-        return if (text.length <= 3) {
+        return if (text.length < 5) {
             text
         } else {
             text.substring(0, 4) + "..."
         }
     }
 
+    fun dealNull(str: Any?): String = if (str.toString() == "null" || str.toString().isBlank()) {
+        "NULL"
+    } else {
+        str.toString()
+    }
+
     //微北洋的token
     fun getToken(): String {
         return "Bearer{${CommonPreferences.token}}"
-    }
-
-    //Cookies(测试用
-    fun saveCookie(cookie: String) {
-        cookies.add(cookie)
-    }
-
-    fun getCookie(): MutableList<String> {
-        return cookies
     }
 
     //处理request body
@@ -222,11 +221,4 @@ object MallManager {
     private fun toReqBody(key: String): RequestBody {
         return RequestBody.create(MediaType.parse("multipart/form-data"), key)
     }
-
-/*    private fun toReqBody(file: File): MultipartBody.Part {
-        val imageBody = RequestBody.create(MediaType.parse("multipart/form-data"), file)
-
-        val body: RequestBody = RequestBody.create(MediaType.parse("multipart/form-data"), file)
-        return MultipartBody.Part.createFormData("file", file.name, body)
-    }*/
 }

@@ -18,12 +18,17 @@ import android.widget.ArrayAdapter
 import android.widget.ProgressBar
 import com.avarye.mall.R
 import com.avarye.mall.service.*
+import com.twt.wepeiyang.commons.experimental.CommonContext
+import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
 import com.zhihu.matisse.Matisse
 import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.mall_activity_post.*
 import kotlinx.android.synthetic.main.mall_item_spinner_category.*
 import kotlinx.android.synthetic.main.mall_item_toolbar.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.io.*
 import java.util.*
 import kotlin.math.roundToInt
@@ -64,7 +69,7 @@ class PostActivity : AppCompatActivity() {
             setNavigationOnClickListener { showExitDialog() }
         }
         progressBar = pb_post
-        progressBar.visibility = View.GONE
+        progressBar.visibility = View.INVISIBLE
 
         when (type) {
             MallManager.SALE -> {
@@ -103,7 +108,10 @@ class PostActivity : AppCompatActivity() {
         }
 
         mineLiveData.bindNonNull(this) {
-            et_post_phone.setText(it.phone)//默认貌似只给一个联系方式…
+            //其实这玩意没啥意义了  然鹅
+            et_post_phone.setText(it.phone)
+            et_post_qq.setText(it.qq)
+            et_post_email.setText(it.email)
         }
 
         tv_post_button.setOnClickListener {
@@ -112,12 +120,17 @@ class PostActivity : AppCompatActivity() {
             if (flagSale || flagNeed) {
                 progressBar.visibility = View.VISIBLE
                 post()
-//                this.finish()
             } else {
                 Toasty.info(this, "请填写完整").show()
                 tv_post_button.isClickable = true
             }
         }
+    }
+
+    private fun post() = when (type) {
+        MallManager.SALE -> viewModel.postSale(map, token, this)
+        MallManager.NEED -> viewModel.postNeed(map, token, this)
+        else -> Unit
     }
 
     /**
@@ -218,12 +231,6 @@ class PostActivity : AppCompatActivity() {
         }
     }
 
-    private fun post() = when (type) {
-        MallManager.SALE -> viewModel.postSale(map, token)
-        MallManager.NEED -> viewModel.postNeed(map, token)
-        else -> Unit
-    }
-
     private fun dataToMap(): Map<String, Any> {
         val name = et_post_name.text.toString()
         val detail = et_post_detail.text.toString()
@@ -284,15 +291,25 @@ class PostActivity : AppCompatActivity() {
             if (selectedPic is Uri) {
                 val file: File = File.createTempFile("pic", ".jpg")
                 val outputFile = file.path
-                viewModel.postImg(getFile(zipThePic(handleImageOnKitKat(selectedPic)), outputFile)!!, token)
+                postImg(getFile(zipThePic(handleImageOnKitKat(selectedPic)), outputFile)!!, token, selectedPic)
             }
-            imgIdLiveData.bindNonNull(this) {
-                Toasty.info(this@PostActivity, postImgAdapter.getIidList().toString()).show()
-                if (it != iidTemp) {
-                    iidTemp = it
-                    postImgAdapter.changePic(selectedPic, it)
-                }
+        }
+    }
 
+    private fun postImg(file: File, token: String, selectedPic: Any) {
+        GlobalScope.launch(Dispatchers.Main) {
+            MallManager.postImgAsync(file, token).awaitAndHandle {
+                Toasty.error(CommonContext.application, it.message.toString()).show()
+            }?.let {
+                when (it.result_code) {
+                    "00201" -> if (!it.id.isNullOrEmpty() && it.id != iidTemp) {
+                        iidTemp = it.id
+                        postImgAdapter.changePic(selectedPic, it.id)
+
+                        Toasty.success(CommonContext.application, it.msg).show()
+                    }
+                    else -> Toasty.info(CommonContext.application, it.msg).show()
+                }
             }
         }
     }
@@ -379,50 +396,17 @@ class PostActivity : AppCompatActivity() {
         return path
     }
 
-    /*fun setPicEdit() {
-        val list = arrayOf<CharSequence>("更改图片", "删除图片", "取消")
-        val alertDialogBuilder = AlertDialog.Builder(this)
-        alertDialogBuilder.setItems(list) { dialog, item ->
-            when (item) {
-                0 -> checkPermAndOpenPic()
-                1 -> postImgAdapter.removePic()
-                2 -> dialog.dismiss()
-            }
-        }
-        val alert = alertDialogBuilder.create()
-        alert.show()
+    private fun showExitDialog() {
+        val dialog = AlertDialog.Builder(this)
+                .setMessage("退出后无法保存呦")
+                .setCancelable(false)
+                .setNegativeButton("取消") { dialog, _ -> dialog.dismiss() }
+                .setPositiveButton("确定") { _, _ -> this.finish() }
+                .create()
+        dialog.show()
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(ContextCompat.getColor(this, R.color.mallColorPressed))
+        dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(ContextCompat.getColor(this, R.color.mallColorPressed))
     }
-
-    fun checkPermAndOpenPic() {
-        // 检查存储权限
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            EasyPermissions.requestPermissions(this, "需要外部存储来提供必要的缓存", 0,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
-        } else {
-            openSelectPic()
-        }
-    }
-
-    // 用第三方库打开相册
-    @SuppressLint("ResourceType")
-    private fun openSelectPic() = Matisse.from(this@PostActivity)
-            .choose(MimeType.of(MimeType.JPEG, MimeType.PNG, MimeType.GIF))
-            .countable(true)
-            .maxSelectable(1)
-            .gridExpectedSize(resources.getDimensionPixelSize(R.dimen.grid_expected_size))
-            .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
-            .thumbnailScale(0.85f)
-            .imageEngine(GlideEngine())
-            .theme(R.style.Matisse_Dracula)
-            .forResult(2)*/
-
-    private fun showExitDialog() = AlertDialog.Builder(this)
-            .setTitle("退出后无法保存呦")
-            .setCancelable(false)
-            .setPositiveButton("取消") { dialog, _ -> dialog.dismiss() }
-            .setNegativeButton("确定") { _, _ -> this.finish() }
-            .create()
-            .show()
 
     override fun onBackPressed() = showExitDialog()
 

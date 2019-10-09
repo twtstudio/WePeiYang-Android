@@ -14,13 +14,12 @@ import com.avarye.mall.R
 import com.avarye.mall.post.PostActivity
 import com.avarye.mall.service.MallManager
 import com.avarye.mall.service.MallManager.bgAlpha
+import com.avarye.mall.service.MallManager.dealNull
 import com.avarye.mall.service.ViewModel
-import com.avarye.mall.service.loginLiveData
 import com.avarye.mall.service.mineLiveData
 import com.bumptech.glide.Glide
 import com.twt.wepeiyang.commons.experimental.cache.CacheIndicator
 import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
-import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.mall_activity_mine.*
 import kotlinx.android.synthetic.main.mall_popup_setting.view.*
 import org.jetbrains.anko.contentView
@@ -42,12 +41,16 @@ class MineActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.mall_activity_mine)
-        window.statusBarColor = Color.TRANSPARENT.withAlpha(90)
-        window.navigationBarColor = Color.TRANSPARENT
+        window.statusBarColor = Color.TRANSPARENT.withAlpha(60)
         cv_mine_back.setOnClickListener { onBackPressed() }
         cv_mine_refresh.setOnClickListener { refresh() }
 
-        mineLiveData.refresh(CacheIndicator.LOCAL, CacheIndicator.REMOTE)
+        mineLiveData.refresh(CacheIndicator.REMOTE)
+        bindMine()
+        bindButtons()
+    }
+
+    private fun bindMine() {
         mineLiveData.bindNonNull(this) {
             Glide.with(this@MineActivity)
                     .load(it.avatar)
@@ -64,16 +67,6 @@ class MineActivity : AppCompatActivity() {
             qq = it.qq
             email = it.email
             campus = it.xiaoqu.toInt()
-
-            bindButtons()
-        }
-    }
-
-    private fun dealNull(str: String): String {
-        return if (str.isBlank()) {
-            "null"
-        } else {
-            str
         }
     }
 
@@ -143,17 +136,11 @@ class MineActivity : AppCompatActivity() {
                 isFocusable = true
                 bgAlpha(0.2f, this@MineActivity)
                 setOnDismissListener { bgAlpha(1f, this@MineActivity) }
-
             }
         }
     }
 
     private fun refresh() {
-        if (loginLiveData.value == null) {
-            viewModel.login()
-        } else {
-            mineLiveData.refresh(CacheIndicator.LOCAL, CacheIndicator.REMOTE)
-            Toasty.info(this, mineLiveData.value.toString()).show()
-        }
+        viewModel.login()
     }
 }

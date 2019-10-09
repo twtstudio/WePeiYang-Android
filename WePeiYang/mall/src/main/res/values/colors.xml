@@ -12,7 +12,7 @@
     <color name="mallColorBlue">#0CC6FF</color>-->
     <color name="mallColorBlueShadow">#CE047FB8</color>
     <color name="mallColorBlue">#BE0773A5</color>
-    <color name="mallColorBgTran">#14000000</color>
+    <color name="mallColorBgTran">#1F000000</color>
     <!--    //FF9A36//原定主色调-->
 <!--    //FFB26D//原pressed  BF0FA2C7-->
 </resources>

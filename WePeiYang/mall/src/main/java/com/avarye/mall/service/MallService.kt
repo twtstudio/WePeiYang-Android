@@ -1,13 +1,13 @@
 package com.avarye.mall.service
 
 import android.arch.lifecycle.MutableLiveData
-import android.util.Log
 import com.twt.wepeiyang.commons.experimental.cache.*
 import com.twt.wepeiyang.commons.experimental.cache.Cache
 import com.twt.wepeiyang.commons.experimental.network.CommonBody
 import com.twt.wepeiyang.commons.experimental.network.CoroutineCallAdapterFactory
 import kotlinx.coroutines.Deferred
 import okhttp3.*
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
@@ -63,8 +63,13 @@ interface MallApi {
 
     @Multipart
     @POST("api.php/Items/saler_info")
-    fun getSellerInfoAsync(@Part("token") token: RequestBody,
+    fun getSellerSaleAsync(@Part("token") token: RequestBody,
                            @Part("gid") gid: RequestBody): Deferred<Seller>
+
+    @Multipart
+    @POST("api.php/Items/saler_info")
+    fun getSellerNeedAsync(@Part("token") token: RequestBody,
+                           @Part("nid") gid: RequestBody): Deferred<Seller>
 
     @GET("api.php/User/userinfo_for_app")
     fun getUserInfoAsync(@Query("id") id: String): Deferred<UserInfo>
@@ -127,49 +132,58 @@ interface MallApi {
     companion object : MallApi by MallApiService()
 }
 
-val loginLiveData = MutableLiveData<Login>()
-val saleLiveData = MutableLiveData<List<Sale>>()
-val needLiveData = MutableLiveData<List<Sale>>()
-val searchLiveData = MutableLiveData<List<Sale>>()
-val selectLiveData = MutableLiveData<List<Sale>>()
-val myListLiveData = MutableLiveData<List<Sale>>()
-val myFavLiveData = MutableLiveData<List<Sale>>()
-val imgIdLiveData = MutableLiveData<String>()
-val commentLiveData = MutableLiveData<List<CommentList>>()
-val detailLiveData = MutableLiveData<Sale>()
-val sellerLiveData= MutableLiveData<Seller>()
+val loginLiveData = MutableLiveData<Login>()//登陆相关信息 主要是token
+val saleLiveData = MutableLiveData<List<Sale>>()//主页面sale数据
+val needLiveData = MutableLiveData<List<Sale>>()//主页面need数据
+val selectLiveData = MutableLiveData<List<Sale>>()//搜索 分类获得的数据
+val myListLiveData = MutableLiveData<List<Sale>>()//我的发布 求购 搜藏
+val commentLiveData = MutableLiveData<List<CommentList>>()//评论的数据  TODO:还没看orz
+val detailLiveData = MutableLiveData<Sale>()//具体信息 其实只需要里面的imageUrl
+val sellerLiveData = MutableLiveData<Seller>()//卖家信息
 
-private val menuLocalData = Cache.hawk<List<Menu>>("MALL_MENU")
+private val menuLocalData = Cache.hawk<List<Menu>>("MALL_MENU")//分类菜单
 private val menuRemoteData = Cache.from(MallApi.Companion::getMenuAsync)
 val menuLiveData = RefreshableLiveData.use(menuLocalData, menuRemoteData)
 
-private val mineLocalData = Cache.hawk<MyInfo>("MALL_MINE")
+private val mineLocalData = Cache.hawk<MyInfo>("MALL_MINE")//我的信息
 private val mineRemoteData = Cache.from(MallApi.Companion::getMyInfoAsync)
 val mineLiveData = RefreshableLiveData.use(mineLocalData, mineRemoteData)
 
 
 object MallApiService {
+
+    private val loggingInterceptor = HttpLoggingInterceptor()
+            .apply { level = HttpLoggingInterceptor.Level.BODY }
+
     private val cookie = object : CookieJar {
-        val map = HashMap<String, MutableList<Cookie>>()
+        val map = HashMap<String, Cookie>()
+        val list = mutableListOf<Cookie>()
 
         override fun saveFromResponse(url: HttpUrl, cookies: MutableList<Cookie>) {
-            map[url.host()] = cookies
-            MallManager.saveCookie(cookies.toString())//测试用
-            Log.d("login load cookie", MallManager.getCookie().toString())
+            cookies.forEach {
+                when (it.name()) {
+                    "twt_id" -> map["twt_id"] = it
+                    "uid" -> map["uid"] = it
+                    "token" -> map["token"] = it
+                    "PHPSESSID" -> map["PHPSESSID"] = it
+                }
+            }
+            list.clear()
+            for (entry in map) {
+                list.add(entry.value)
+            }
         }
 
         override fun loadForRequest(url: HttpUrl): MutableList<Cookie> {
-            Log.d("login load cookie", MallManager.getCookie().toString())
-            return map[url.host()] ?: ArrayList()
+            return list
         }
     }
 
-
     private val clientBuilder = OkHttpClient.Builder()
             .cookieJar(cookie)
-    private val client: OkHttpClient = clientBuilder.build()
-
-
+    private val client: OkHttpClient = clientBuilder
+            .addNetworkInterceptor(loggingInterceptor)
+            .build()
     private const val baseUrl = "https://mall.twt.edu.cn"
     val retrofit: Retrofit = Retrofit.Builder()
             .baseUrl(baseUrl)

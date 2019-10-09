@@ -6,10 +6,16 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.StaggeredGridLayoutManager
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import com.avarye.mall.R
 import com.avarye.mall.detail.DetailActivity
-import com.avarye.mall.service.*
+import com.avarye.mall.mine.MineActivity
+import com.avarye.mall.service.MallManager
+import com.avarye.mall.service.ViewModel
+import com.avarye.mall.service.detailLiveData
+import com.avarye.mall.service.selectLiveData
 import com.bumptech.glide.Glide
 import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
 import com.twt.wepeiyang.commons.ui.rec.Item
@@ -36,6 +42,7 @@ class SearchActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.mall_activity_search)
         window.statusBarColor = ContextCompat.getColor(this, R.color.mallColorMain)
+        iv_search_null.visibility = View.INVISIBLE
         key = intent.getStringExtra(MallManager.KEY)
         type = intent.getStringExtra(MallManager.TYPE)
         if (type == MallManager.SELECT) {
@@ -58,6 +65,7 @@ class SearchActivity : AppCompatActivity() {
             setOnRefreshListener {
                 if (!isLoading) {
                     isLoading = true
+                    iv_search_null.visibility = View.INVISIBLE
                     resetPage()
                     //redo
                     getData(page)
@@ -71,6 +79,7 @@ class SearchActivity : AppCompatActivity() {
         rv_search.apply {
             layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
             adapter = ItemAdapter(itemManager)
+            itemManager.autoRefresh { removeAll { it is SaleItem } }
             //加载下一页监听
             addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
@@ -103,14 +112,13 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun bindSearch() {
-        searchLiveData.bindNonNull(this) { list ->
+        selectLiveData.bindNonNull(this) { list ->
             totalPage = list[0].page
             if (totalPage == 0) {
                 itemManager.autoRefresh { removeAll { it is SaleItem } }
                 iv_search_null.visibility = View.VISIBLE
-                Toasty.info(this, "搜索结果为空TvT").show()
             } else {
-                iv_search_null.visibility = View.GONE
+                iv_search_null.visibility = View.INVISIBLE
                 val items = mutableListOf<Item>().apply {
                     for (i in 1 until list.size) {
                         saleItem {
@@ -147,9 +155,9 @@ class SearchActivity : AppCompatActivity() {
             if (totalPage == 0) {
                 itemManager.autoRefresh { removeAll { it is SaleItem } }
                 iv_search_null.visibility = View.VISIBLE
-                Toasty.info(this, "此分类下无结果").show()
+//                Toasty.info(this, "此分类下无结果").show()
             } else {
-                iv_search_null.visibility = View.GONE
+                iv_search_null.visibility = View.INVISIBLE
                 val items = mutableListOf<Item>().apply {
                     for (i in 1 until list.size) {
                         saleItem {
@@ -186,9 +194,9 @@ class SearchActivity : AppCompatActivity() {
             if (totalPage == 0) {
                 itemManager.autoRefresh { removeAll { it is SaleItem } }
                 iv_search_null.visibility = View.VISIBLE
-                Toasty.info(this, "此分类下无结果").show()
+//                Toasty.info(this, "此分类下无结果").show()
             } else {
-                iv_search_null.visibility = View.GONE
+                iv_search_null.visibility = View.INVISIBLE
                 val items = mutableListOf<Item>().apply {
                     for (i in 1 until list.size) {
                         saleItem {
@@ -198,6 +206,7 @@ class SearchActivity : AppCompatActivity() {
                             card.setOnClickListener {
                                 detailLiveData.postValue(list[i])
                                 val intent = Intent(this@SearchActivity, DetailActivity::class.java)
+                                        .putExtra(MallManager.ID, list[i].id)
                                         .putExtra(MallManager.TYPE, MallManager.NEED)
                                 startActivity(intent)
                             }
@@ -219,5 +228,16 @@ class SearchActivity : AppCompatActivity() {
     private fun resetPage() {
         page = 1
         totalPage = 1
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.mall_menu_mine, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        val intent = Intent(this, MineActivity::class.java)
+        startActivity(intent)
+        return true
     }
 }

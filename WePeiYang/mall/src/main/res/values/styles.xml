@@ -17,10 +17,14 @@
         <item name="colorControlNormal">@color/mallColorBgLight</item>
         <item name="colorControlActivated">@color/mallColorLight</item>
     </style>
-
     <style name="EditTextStyle">
         <item name="colorControlNormal">@color/mallColorLight</item>
         <item name="colorControlActivated">@color/mallColorMain</item>
+    </style>
+    <style name="AlertDialogStyle" parent="Widget.AppCompat.ButtonBar.AlertDialog">
+        <item name="android:textColor">@color/mallColorMain</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:buttonBarPositiveButtonStyle">@color/mallColorMain</item>
     </style>
 
 </resources>

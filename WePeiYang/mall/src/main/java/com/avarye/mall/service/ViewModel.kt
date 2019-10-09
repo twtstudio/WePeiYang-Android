@@ -1,14 +1,18 @@
 package com.avarye.mall.service
 
+import android.content.Intent
 import android.util.Log
+import android.view.View
+import com.avarye.mall.detail.DetailActivity
+import com.avarye.mall.post.PostActivity
 import com.twt.wepeiyang.commons.experimental.CommonContext
 import com.twt.wepeiyang.commons.experimental.cache.CacheIndicator
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import es.dmoral.toasty.Toasty
+import kotlinx.android.synthetic.main.mall_activity_post.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import java.io.File
 
 /**
  * 所有view的viewModel
@@ -18,18 +22,17 @@ class ViewModel {
     fun login() {
         GlobalScope.launch(Dispatchers.Main) {
             MallManager.loginAsync().awaitAndHandle {
-                Toasty.error(CommonContext.application, "登陆失败").show()
+                Toasty.error(CommonContext.application, it.message.toString()).show()
             }?.let {
                 if (it.error_code == -1) {
-                    Log.d("token!!", MallManager.getToken())
                     loginLiveData.postValue(it.data)
-                    Toasty.info(CommonContext.application, it.message).show()
+                    Toasty.success(CommonContext.application, it.message).show()
+                    mineLiveData.refresh(CacheIndicator.LOCAL, CacheIndicator.REMOTE)
                 } else {
-                    Toasty.error(CommonContext.application, it.message).show()
+                    Toasty.error(CommonContext.application, it.message + "不星 怕要崩").show()
                 }
             }
 
-            mineLiveData.refresh(CacheIndicator.LOCAL, CacheIndicator.REMOTE)
         }
     }
 
@@ -39,12 +42,12 @@ class ViewModel {
      */
     fun init() {
         GlobalScope.launch(Dispatchers.Main) {
+            Log.d("token!!", MallManager.getToken())//测试用
+
             MallManager.loginAsync().awaitAndHandle {
                 Toasty.error(CommonContext.application, "登陆失败").show()
-                Log.d("token!!", MallManager.getToken())
             }?.let {
                 if (it.error_code == -1) {
-                    Log.d("token!!", MallManager.getToken())
                     loginLiveData.postValue(it.data)
                 } else {
                     Toasty.error(CommonContext.application, it.message).show()
@@ -52,10 +55,9 @@ class ViewModel {
             }
 
             MallManager.latestSaleAsync(1).awaitAndHandle {
-                Log.d("login get goods failed", it.message)
+                Toasty.info(CommonContext.application, it.message.toString()).show()
             }?.let {
                 saleLiveData.postValue(it)
-                Toasty.success(CommonContext.application, "done").show()
             }
         }
     }
@@ -76,7 +78,6 @@ class ViewModel {
                 Toasty.info(CommonContext.application, it.message.toString()).show()
             }?.let {
                 needLiveData.postValue(it)
-                Log.d("get goods done", it[0].page.toString())
             }
         }
     }
@@ -86,7 +87,7 @@ class ViewModel {
             MallManager.searchAsync(key, page).awaitAndHandle {
                 Toasty.info(CommonContext.application, it.message.toString()).show()
             }?.let {
-                searchLiveData.postValue(it)
+                selectLiveData.postValue(it)
             }
         }
     }
@@ -105,54 +106,87 @@ class ViewModel {
 
     }
 
-    fun getDetail(gid: String, token: String) {
+    fun getDetail(id: String) {
         GlobalScope.launch(Dispatchers.Main) {
-            MallManager.getDetailAsync(gid).awaitAndHandle {
+            MallManager.getDetailAsync(id).awaitAndHandle {
                 Toasty.info(CommonContext.application, it.message.toString()).show()
             }?.let {
                 detailLiveData.postValue(it)
             }
-            MallManager.getSellerInfoAsync(gid, token).awaitAndHandle {
-                Toasty.info(CommonContext.application, it.message.toString()).show()
+        }
+    }
+
+    fun getSellerSale(id: String, token: String) {
+        GlobalScope.launch(Dispatchers.Main) {
+            MallManager.getSellerSaleAsync(gid = id, token = token).awaitAndHandle {
+                Toasty.info(CommonContext.application, "没拿到用户信息T-T哭了\n${it.message}").show()
             }?.let {
                 sellerLiveData.postValue(it)
             }
         }
     }
 
-    fun postImg(file: File, token: String) {
+    fun getSellerNeed(id: String, token: String) {
+        GlobalScope.launch(Dispatchers.Main) {
+            MallManager.getSellerNeedAsync(nid = id, token = token).awaitAndHandle {
+                Toasty.info(CommonContext.application, "没拿到用户信息T-T哭了\n${it.message}").show()
+            }?.let {
+                sellerLiveData.postValue(it)
+            }
+        }
+    }
+
+    /*fun postImg(file: File, token: String) {
         GlobalScope.launch(Dispatchers.Main) {
             MallManager.postImgAsync(file, token).awaitAndHandle {
                 Toasty.error(CommonContext.application, "图片上传失败").show()
             }?.let {
                 if (it.result_code == "00201") {
-                    imgIdLiveData.postValue(it.id)
+//                    imgIdLiveData.postValue(it.id)
                     Toasty.info(CommonContext.application, it.id.toString()).show()
                 } else {
                     Toasty.info(CommonContext.application, it.msg).show()
                 }
             }
         }
-    }
+    }*/
 
-    fun postSale(map: Map<String, Any>, token: String) {
+    fun postSale(map: Map<String, Any>, token: String, activity: PostActivity) {
         GlobalScope.launch(Dispatchers.Main) {
             MallManager.postSaleAsync(map, token).awaitAndHandle {
                 Toasty.error(CommonContext.application, "上传失败").show()
             }?.let {
-                //TODO：跳转到详情界面
-                Toasty.info(CommonContext.application, it.msg).show()
+                if (it.result_code == "00201") {
+                    val intent = Intent(activity, DetailActivity::class.java)
+                            .putExtra(MallManager.ID, it.id)
+                            .putExtra(MallManager.TYPE, MallManager.SALE)
+                            .putExtra("flag", true)
+                    activity.startActivity(intent)
+                } else {
+                    Toasty.info(activity, it.msg).show()
+                    activity.pb_post.visibility = View.INVISIBLE
+                    activity.tv_post_button.isClickable = true
+                }
             }
         }
     }
 
-    fun postNeed(map: Map<String, Any>, token: String) {
+    fun postNeed(map: Map<String, Any>, token: String, activity: PostActivity) {
         GlobalScope.launch(Dispatchers.Main) {
             MallManager.postNeedAsync(map, token).awaitAndHandle {
                 Toasty.error(CommonContext.application, "上传失败").show()
             }?.let {
-                //TODO：跳转到详情界面
-                Toasty.info(CommonContext.application, it.msg).show()
+                if (it.result_code == "00201") {
+                    val intent = Intent(activity, DetailActivity::class.java)
+                            .putExtra(MallManager.ID, it.id)
+                            .putExtra(MallManager.TYPE, MallManager.NEED)
+                            .putExtra("flag", true)
+                    activity.startActivity(intent)
+                } else {
+                    Toasty.info(activity, it.msg).show()
+                    activity.pb_post.visibility = View.INVISIBLE
+                    activity.tv_post_button.isClickable = true
+                }
             }
         }
 
@@ -161,9 +195,12 @@ class ViewModel {
     fun fav(id: String, token: String) {
         GlobalScope.launch(Dispatchers.Main) {
             MallManager.favAsync(id, token).awaitAndHandle {
-                Toasty.error(CommonContext.application, "收藏失败").show()
+                Toasty.error(CommonContext.application, it.message.toString()).show()
             }?.let {
-
+                when (it.result_code) {
+                    "00021" -> Toasty.success(CommonContext.application, it.msg).show()
+                    "00023" -> Toasty.info(CommonContext.application, it.msg + "\n憋老点 妹变化 取消收藏去我的收藏里长按").show()
+                }
             }
         }
     }
@@ -171,16 +208,15 @@ class ViewModel {
     /**
      * 获得我的发布列表、我的需求列表
      */
-    fun getMyList(uid: String, which: Int) {
+    fun getMyList(id: String, which: Int) {
         GlobalScope.launch(Dispatchers.Main) {
-            MallManager.getUserInfoAsync(uid).awaitAndHandle {
+            MallManager.getUserInfoAsync(id).awaitAndHandle {
                 Toasty.info(CommonContext.application, it.toString()).show()
             }?.let {
                 when (which) {
-                    MallManager.W_SALE -> myListLiveData.value = it.goods_list
-                    MallManager.W_NEED -> myListLiveData.value = it.needs_list
+                    MallManager.W_SALE -> myListLiveData.postValue(it.goods_list)
+                    MallManager.W_NEED -> myListLiveData.postValue(it.needs_list)
                 }
-                Toasty.success(CommonContext.application, "加载成功").show()
             }
         }
     }
@@ -191,9 +227,8 @@ class ViewModel {
     fun getFavList(token: String) {
         GlobalScope.launch(Dispatchers.Main) {
             MallManager.getFavListAsync(token).awaitAndHandle {
-                Toasty.info(CommonContext.application, "fav: ${it.message.toString()}").show()
             }?.let {
-                myFavLiveData.postValue(it)
+                myListLiveData.postValue(it)
             }
         }
     }
@@ -201,11 +236,17 @@ class ViewModel {
     /**
      * 删除发布商品
      */
-    fun deleteSale(gid: String, token: String) {
+    fun deleteSale(gid: String, token: String, uid: String) {
         GlobalScope.launch(Dispatchers.Main) {
             MallManager.deleteSaleAsync(gid, token).awaitAndHandle {
             }?.let {
-                Toasty.info(CommonContext.application, it.msg).show()
+                when (it.result_code) {
+                    "01003" -> {
+                        Toasty.success(CommonContext.application, it.msg).show()
+                        getMyList(uid, MallManager.W_SALE)//重新拿一遍数据
+                    }
+                    else -> Toasty.info(CommonContext.application, it.msg).show()
+                }
             }
         }
     }
@@ -217,7 +258,13 @@ class ViewModel {
         GlobalScope.launch(Dispatchers.Main) {
             MallManager.deFavAsync(gid, token).awaitAndHandle {
             }?.let {
-                Toasty.info(CommonContext.application, it.msg).show()
+                when (it.result_code) {
+                    "00021" -> {
+                        Toasty.success(CommonContext.application, it.msg).show()
+                        getFavList(token)//重新拿一遍数据
+                    }
+                    else -> Toasty.info(CommonContext.application, it.msg).show()
+                }
             }
         }
     }
@@ -229,10 +276,14 @@ class ViewModel {
         GlobalScope.launch(Dispatchers.Main) {
             MallManager.changeMyInfoAsync(phone, email, qq, campus).awaitAndHandle {
             }?.let {
-                Toasty.info(CommonContext.application, it.msg).show()
+                when (it.result_code) {
+                    "50001" -> Toasty.success(CommonContext.application, it.msg).show()
+                    "50002" -> Toasty.info(CommonContext.application, it.msg + "\n是不是啥都没改啊老哥").show()
+                    else -> Toasty.info(CommonContext.application, it.msg).show()
+                }
+                mineLiveData.refresh(CacheIndicator.LOCAL, CacheIndicator.REMOTE)
             }
-            mineLiveData.refresh(CacheIndicator.LOCAL, CacheIndicator.REMOTE)
         }
-    }
 
+    }
 }

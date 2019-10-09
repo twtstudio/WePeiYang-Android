@@ -36,4 +36,5 @@
     <string name="mallStringBargain2">可刀</string>
     <string name="mallStringBla">「联系我时，请说明是在天外天商城看到我的哟」</string>
     <string name="mallStringExpect">期望价格</string>
+    <string name="mallStringNull">暂无结果</string>
 </resources>

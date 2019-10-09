@@ -35,7 +35,7 @@ class PostImgAdapter(private val list: MutableList<Any>,
                      private val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var currentPosition = 0
-    private val iidList =  mutableListOf<String>()
+    private val iidList = mutableListOf<String>()
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val image: ImageView = view.findViewById(R.id.iv_post)
@@ -71,7 +71,6 @@ class PostImgAdapter(private val list: MutableList<Any>,
             Glide.with(context)
                     .load(tmp)
                     .into(holder.image)
-
         } else {
             Glide.with(context)
                     .load(R.drawable.mall_pic_add)
@@ -167,7 +166,7 @@ class PostImgAdapter(private val list: MutableList<Any>,
             val lp = window!!.attributes
             lp.x = 4
             lp.y = 4
-            dialog.onWindowAttributesChanged(lp)
+//            dialog.onWindowAttributesChanged(lp)
             imageView.setOnClickListener { dismiss() }
             show()
         }
