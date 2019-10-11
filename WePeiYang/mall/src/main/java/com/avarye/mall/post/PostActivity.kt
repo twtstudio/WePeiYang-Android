@@ -12,6 +12,7 @@ import android.provider.MediaStore
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -119,7 +120,13 @@ class PostActivity : AppCompatActivity() {
             map = dataToMap()//更新数据
             if (flagSale || flagNeed) {
                 progressBar.visibility = View.VISIBLE
-                post()
+                try {
+                    post()
+                } catch (e: java.lang.Exception) {
+                    Toasty.error(this, e.message.toString()).show()
+                    Log.d("post bug", e.message)
+                    progressBar.visibility = View.INVISIBLE
+                }
             } else {
                 Toasty.info(this, "请填写完整").show()
                 tv_post_button.isClickable = true
@@ -249,14 +256,16 @@ class PostActivity : AppCompatActivity() {
         }.toString()
         var iid = ""
         for (i in postImgAdapter.getIidList()) {
-            iid += "$i,"
+            if (i.isNotEmpty()) {
+                iid += "$i,"
+            }
         }
         val exchange = et_post_exchange.text.toString()
         val phone = et_post_phone.text.toString()
         val qq = et_post_qq.text.toString()
         val email = et_post_email.text.toString()
 
-        flagSale = name.isNotBlank() && detail.isNotBlank() && location.isNotBlank() && price.isNotBlank()
+        flagSale = iid.isNotBlank() && name.isNotBlank() && detail.isNotBlank() && location.isNotBlank() && price.isNotBlank()
                 && category.isNotBlank() && categoryMain.isNotBlank() && (phone + qq + email).isNotBlank()
                 && status.isNotBlank() && bargain.isNotBlank()
 
@@ -404,7 +413,7 @@ class PostActivity : AppCompatActivity() {
                 .setPositiveButton("确定") { _, _ -> this.finish() }
                 .create()
         dialog.show()
-        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(ContextCompat.getColor(this, R.color.mallColorPressed))
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(ContextCompat.getColor(this, R.color.mallColorMain))
         dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(ContextCompat.getColor(this, R.color.mallColorPressed))
     }
 

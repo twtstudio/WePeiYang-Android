@@ -42,6 +42,7 @@ class PostImgAdapter(private val list: MutableList<Any>,
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        iidList.add("")//null list
         val view = LayoutInflater.from(context).inflate(R.layout.mall_item_post_img, parent, false)
         return ViewHolder(view)
     }
@@ -82,6 +83,7 @@ class PostImgAdapter(private val list: MutableList<Any>,
 
     private fun addPic() {
         list.add(NoSelectPic)
+        iidList.add("")
         notifyItemChanged(list.size)
     }
 
