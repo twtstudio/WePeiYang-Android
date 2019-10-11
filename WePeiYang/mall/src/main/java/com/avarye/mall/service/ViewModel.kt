@@ -7,8 +7,10 @@ import com.avarye.mall.detail.DetailActivity
 import com.avarye.mall.post.PostActivity
 import com.twt.wepeiyang.commons.experimental.CommonContext
 import com.twt.wepeiyang.commons.experimental.cache.CacheIndicator
+import com.twt.wepeiyang.commons.experimental.cache.RefreshState
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import es.dmoral.toasty.Toasty
+import kotlinx.android.synthetic.main.mall_activity_detail.*
 import kotlinx.android.synthetic.main.mall_activity_post.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -26,8 +28,12 @@ class ViewModel {
             }?.let {
                 if (it.error_code == -1) {
                     loginLiveData.postValue(it.data)
-                    Toasty.success(CommonContext.application, it.message).show()
-                    mineLiveData.refresh(CacheIndicator.LOCAL, CacheIndicator.REMOTE)
+                    mineLiveData.refresh(CacheIndicator.REMOTE, callback = { state ->
+                        when (state) {
+                            is RefreshState.Success -> Toasty.success(CommonContext.application, "已刷新").show()
+                            is RefreshState.Failure -> Toasty.error(CommonContext.application, "刷新失败").show()
+                        }
+                    })
                 } else {
                     Toasty.error(CommonContext.application, it.message + "不星 怕要崩").show()
                 }
@@ -171,12 +177,17 @@ class ViewModel {
         }
     }
 
-    fun postNeed(map: Map<String, Any>, token: String, activity: PostActivity) {
+    fun postNeed(map: Map<String, Any>, token: String, uid: String, activity: PostActivity) {
         GlobalScope.launch(Dispatchers.Main) {
             MallManager.postNeedAsync(map, token).awaitAndHandle {
                 Toasty.error(CommonContext.application, "上传失败").show()
             }?.let {
                 if (it.result_code == "00201") {
+                    //需求没detail接口 可恶啊 我回头再要
+                    MallManager.getUserInfoAsync(uid).awaitAndHandle {
+                    }?.let { user ->
+                        detailLiveData.postValue(user.needs_list!![0])
+                    }
                     val intent = Intent(activity, DetailActivity::class.java)
                             .putExtra(MallManager.ID, it.id)
                             .putExtra(MallManager.TYPE, MallManager.NEED)
@@ -192,14 +203,18 @@ class ViewModel {
 
     }
 
-    fun fav(id: String, token: String) {
+    fun fav(id: String, token: String, activity: DetailActivity) {
         GlobalScope.launch(Dispatchers.Main) {
             MallManager.favAsync(id, token).awaitAndHandle {
                 Toasty.error(CommonContext.application, it.message.toString()).show()
             }?.let {
                 when (it.result_code) {
-                    "00021" -> Toasty.success(CommonContext.application, it.msg).show()
-                    "00023" -> Toasty.info(CommonContext.application, it.msg + "\n憋老点 妹变化 取消收藏去我的收藏里长按").show()
+                    "00021" -> {
+                        Toasty.success(CommonContext.application, it.msg).show()
+                        activity.iv_detail_faved.visibility = View.VISIBLE
+                        activity.iv_detail_fav.visibility = View.GONE
+                    }
+                    else -> Toasty.info(CommonContext.application, it.msg).show()
                 }
             }
         }
@@ -252,7 +267,25 @@ class ViewModel {
     }
 
     /**
-     * 取消收藏
+     * 删除发布需求
+     */
+    fun deleteNeed(nid: String, token: String, uid: String) {
+        GlobalScope.launch(Dispatchers.Main) {
+            MallManager.deleteNeedAsync(nid, token).awaitAndHandle {
+            }?.let {
+                when (it.result_code) {
+                    "01003" -> {
+                        Toasty.success(CommonContext.application, it.msg).show()
+                        getMyList(uid, MallManager.W_NEED)//重新拿一遍数据
+                    }
+                    else -> Toasty.info(CommonContext.application, it.msg).show()
+                }
+            }
+        }
+    }
+
+    /**
+     * ListActivity里的取消收藏
      */
     fun deFav(gid: String, token: String) {
         GlobalScope.launch(Dispatchers.Main) {
@@ -262,6 +295,25 @@ class ViewModel {
                     "00021" -> {
                         Toasty.success(CommonContext.application, it.msg).show()
                         getFavList(token)//重新拿一遍数据
+                    }
+                    else -> Toasty.info(CommonContext.application, it.msg).show()
+                }
+            }
+        }
+    }
+
+    /**
+     * DetailActivity里的取消收藏
+     */
+    fun deFav(gid: String, token: String, activity: DetailActivity) {
+        GlobalScope.launch(Dispatchers.Main) {
+            MallManager.deFavAsync(gid, token).awaitAndHandle {
+            }?.let {
+                when (it.result_code) {
+                    "00021" -> {
+                        Toasty.success(CommonContext.application, it.msg).show()
+                        activity.iv_detail_faved.visibility = View.GONE
+                        activity.iv_detail_fav.visibility = View.VISIBLE
                     }
                     else -> Toasty.info(CommonContext.application, it.msg).show()
                 }

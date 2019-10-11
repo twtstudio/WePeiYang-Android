@@ -126,6 +126,11 @@ interface MallApi {
                         @Part("gid") gid: RequestBody): Deferred<Result>
 
     @Multipart
+    @POST("api.php/Items/need_off")
+    fun deleteNeedAsync(@Part("token") token: RequestBody,
+                        @Part("nid") nid: RequestBody): Deferred<Result>
+
+    @Multipart
     @POST("api.php/Items/need_fabu")
     fun postNeedAsync(@Part partList: List<MultipartBody.Part>): Deferred<Result>
 
@@ -245,7 +250,8 @@ data class Sale(
         val uid: String,
         val username: String,
         val exchange: String,
-        val state: String
+        val state: String,
+        val is_collected: Boolean
 )
 
 data class Menu(

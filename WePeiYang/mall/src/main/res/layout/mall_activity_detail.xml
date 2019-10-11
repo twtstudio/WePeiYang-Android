@@ -244,6 +244,15 @@
                         android:src="@drawable/mall_ic_un_fav"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent" />
+                    <ImageView
+                        android:id="@+id/iv_detail_faved"
+                        android:layout_width="25dp"
+                        android:layout_height="27dp"
+                        android:layout_marginEnd="20dp"
+                        android:src="@drawable/mall_ic_faved"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent" />
 
                     <ImageView
                         android:id="@+id/iv_detail_comment"

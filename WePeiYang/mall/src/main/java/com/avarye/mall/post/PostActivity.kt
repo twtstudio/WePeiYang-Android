@@ -42,7 +42,9 @@ class PostActivity : AppCompatActivity() {
     private lateinit var postImgAdapter: PostImgAdapter
     private val postImgManager = LinearLayoutManager(this)
     private val viewModel = ViewModel()
+    private var uid = ""
     private var token = ""
+    private var flagLogin = false
     private var selectPicList = mutableListOf<Any>()
     private var status = ""
     private var category = ""
@@ -90,8 +92,9 @@ class PostActivity : AppCompatActivity() {
         }
 
         loginLiveData.bindNonNull(this) {
+            uid = it.uid
             token = it.token
-            Toasty.info(this, token).show()
+            flagLogin = true
         }
 
         initSpinnerStatus()
@@ -118,7 +121,7 @@ class PostActivity : AppCompatActivity() {
         tv_post_button.setOnClickListener {
             tv_post_button.isClickable = false
             map = dataToMap()//更新数据
-            if (flagSale || flagNeed) {
+            if ((flagSale || flagNeed) && flagLogin) {
                 progressBar.visibility = View.VISIBLE
                 try {
                     post()
@@ -127,8 +130,11 @@ class PostActivity : AppCompatActivity() {
                     Log.d("post bug", e.message)
                     progressBar.visibility = View.INVISIBLE
                 }
-            } else {
+            } else if (flagLogin) {
                 Toasty.info(this, "请填写完整").show()
+                tv_post_button.isClickable = true
+            } else {
+                Toasty.info(this, "登陆信息错误").show()
                 tv_post_button.isClickable = true
             }
         }
@@ -136,7 +142,7 @@ class PostActivity : AppCompatActivity() {
 
     private fun post() = when (type) {
         MallManager.SALE -> viewModel.postSale(map, token, this)
-        MallManager.NEED -> viewModel.postNeed(map, token, this)
+        MallManager.NEED -> viewModel.postNeed(map, token, uid, this)
         else -> Unit
     }
 

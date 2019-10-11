@@ -309,7 +309,8 @@
                         android:layout_gravity="center_vertical"
                         android:dropDownWidth="150dp"
                         android:gravity="center"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        android:theme="@style/SpinnerStyle" />
                 </android.support.v7.widget.CardView>
 
             </RelativeLayout>

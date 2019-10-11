@@ -144,6 +144,9 @@ object MallManager {
 
     fun deleteSaleAsync(gid: String, token: String) = MallApi.deleteSaleAsync(toReqBody(token), toReqBody(gid))
 
+    fun deleteNeedAsync(nid: String, token: String) = MallApi.deleteNeedAsync(toReqBody(token), toReqBody(nid))
+
+
     /**
      * 设置背景透明度
      * @param bgAlpha 透明度值

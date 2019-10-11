@@ -214,11 +214,11 @@ class ListActivity : AppCompatActivity() {
         }
     }
 
-    private fun editDialog(gid: String) {
+    private fun editDialog(id: String) {
         val dialog = AlertDialog.Builder(this)
                 .setMessage(when (type) {
                     MallManager.SALE -> getString(R.string.mallStringDeleteSale)
-                    MallManager.NEED -> "暂时没有下架求购的接口:P\n所以没事别乱发求购呀~"
+                    MallManager.NEED -> getString(R.string.mallStringDeleteNeed)
                     MallManager.FAV -> getString(R.string.mallStringDeFav)
                     else -> "薛定谔又来了"
                 })
@@ -228,10 +228,13 @@ class ListActivity : AppCompatActivity() {
                     run {
                         when (type) {
                             MallManager.SALE -> {
-                                viewModel.deleteSale(gid, token, uid)
+                                viewModel.deleteSale(id, token, uid)
+                            }
+                            MallManager.NEED -> {
+                                viewModel.deleteNeed(id, token, uid)
                             }
                             MallManager.FAV -> {
-                                viewModel.deFav(gid, token)
+                                viewModel.deFav(id, token)
                             }
                             else -> Unit
                         }

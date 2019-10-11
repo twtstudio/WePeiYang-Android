@@ -87,6 +87,7 @@ class DetailActivity : AppCompatActivity() {
             else -> Unit
         }
 
+        //TODO:comment
 //        val dialog = BottomSheetDialogFragment().show(supportFragmentManager, "dialog")
 //        val view = layoutInflater.inflate(R.layout.mall_dialog_comment, null)
 
@@ -134,10 +135,27 @@ class DetailActivity : AppCompatActivity() {
             tv_detail_exchangeT.text = dealNull(it.exchange)
             tv_detail_bargainT.text = MallManager.getBargain(dealNull(it.bargain))
             tv_detail_seller.text = dealNull(it.username)
-            iv_detail_fav.setOnClickListener {
-                if (loginFlag) {
+            when (it.is_collected) {
+                true -> {
+                    iv_detail_faved.visibility = View.VISIBLE
+                    iv_detail_fav.visibility = View.GONE
+                }
+                false -> {
+                    iv_detail_faved.visibility = View.GONE
+                    iv_detail_fav.visibility = View.VISIBLE
+                }
+
+            }
+            if (loginFlag) {
+                iv_detail_fav.setOnClickListener {
                     iv_detail_fav.isClickable = false
-                    viewModel.fav(id, token)
+                    iv_detail_faved.isClickable = true
+                    viewModel.fav(id, token, this@DetailActivity)
+                }
+                iv_detail_faved.setOnClickListener {
+                    iv_detail_fav.isClickable = true
+                    iv_detail_faved.isClickable = false
+                    viewModel.deFav(id, token, this@DetailActivity)
                 }
             }
         }

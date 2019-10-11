@@ -14,6 +14,7 @@
     <string name="mallStringPostNeed">我要求购</string>
     <string name="mallStringSetting">修改信息</string>
     <string name="mallStringDeleteSale">下架商品</string>
+    <string name="mallStringDeleteNeed">下架求购</string>
     <string name="mallStringDeFav">取消收藏</string>
     <string name="mallStringRmb">¥</string>
     <string name="mallStringImg">商品图片</string>
