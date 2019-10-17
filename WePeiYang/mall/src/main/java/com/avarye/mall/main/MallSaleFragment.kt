@@ -10,10 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.avarye.mall.R
 import com.avarye.mall.detail.DetailActivity
-import com.avarye.mall.service.MallManager
-import com.avarye.mall.service.ViewModel
-import com.avarye.mall.service.detailLiveData
-import com.avarye.mall.service.saleLiveData
+import com.avarye.mall.service.*
 import com.bumptech.glide.Glide
 import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
 import com.twt.wepeiyang.commons.ui.rec.Item
@@ -27,7 +24,7 @@ import kotlinx.android.synthetic.main.mall_fragment_latest_sale.view.*
 class MallSaleFragment : Fragment() {
     private var page = 1
     private var totalPage = 1
-    private var isLoading = false
+    //    private var isLoading = false
     private val itemManager = ItemManager()
     private val viewModel = ViewModel()
 
@@ -39,16 +36,14 @@ class MallSaleFragment : Fragment() {
             setColorSchemeResources(R.color.mallColorMain)
             //下拉刷新加载监听
             setOnRefreshListener {
-                if (!isLoading) {
-                    isLoading = true
+                if (loadingLiveData.value != true) {
+                    loadingLiveData.postValue(true)
                     view.iv_sale_null.visibility = View.INVISIBLE
                     resetPage()
                     itemManager.autoRefresh { removeAll { it is SaleItem } }
                     //redo
-                    viewModel.init()//重新登陆了一遍 token啥的全变了
-                    isRefreshing = false
+                    viewModel.init(this@MallSaleFragment)//重新登陆了一遍 token啥的全变了
                 }
-                isLoading = false
             }
         }
 
@@ -60,17 +55,17 @@ class MallSaleFragment : Fragment() {
             addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
                     super.onScrolled(recyclerView, dx, dy)
-                    if (!canScrollVertically(1) && page < totalPage && !isLoading) {
-                        isLoading = true
+                    if (!canScrollVertically(1) && page < totalPage && loadingLiveData.value != true) {
+                        loadingLiveData.postValue(true)
                         //more
                         viewModel.getLatestSale(++page)
                     }
-                    isLoading = false
+//                        isLoading = false
                 }
             })
         }
 
-        viewModel.init()
+        viewModel.init(this@MallSaleFragment)
         saleLiveData.bindNonNull(this) { list ->
             totalPage = list[0].page
             if (totalPage == 0) {
@@ -79,7 +74,7 @@ class MallSaleFragment : Fragment() {
             } else {
                 view.iv_sale_null.visibility = View.INVISIBLE
                 val items = mutableListOf<Item>().apply {
-                    for (i in 1 until list.size) {
+                    (1 until list.size).forEach { i ->
                         saleItem {
                             Glide.with(this@MallSaleFragment)
                                     .load("https://mall.twt.edu.cn/api.php/Upload/img_redirect?id=${list[i].imgurl}")

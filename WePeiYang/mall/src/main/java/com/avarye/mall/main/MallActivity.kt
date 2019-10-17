@@ -16,6 +16,7 @@ import com.avarye.mall.R
 import com.avarye.mall.mine.MineActivity
 import com.avarye.mall.service.MallManager
 import com.avarye.mall.service.MallManager.bgAlpha
+import com.avarye.mall.service.loadingLiveData
 import com.avarye.mall.service.menuLiveData
 import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
 import es.dmoral.toasty.Toasty
@@ -77,7 +78,7 @@ class MallActivity : AppCompatActivity() {
                     setGroupIndicator(null)
                     setAdapter(menuViewAdapter)
                     setOnGroupExpandListener {
-                        for (i in 0 until adapter.count) {
+                        repeat(adapter.count) { i ->
                             if (it != i) {
                                 this.collapseGroup(i)
                             }
@@ -94,6 +95,7 @@ class MallActivity : AppCompatActivity() {
                 }
             }
             iv_menu.setOnClickListener {
+                it.isClickable = false
                 popWindow = PopupWindow(popupWindowView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true)
                 popWindow.apply {
                     showAsDropDown(it, -400, 0)
@@ -105,6 +107,7 @@ class MallActivity : AppCompatActivity() {
                         bgAlpha(1f, this@MallActivity)
                     }
                 }
+                it.isClickable = true
             }
         }
 
@@ -142,6 +145,7 @@ class MallActivity : AppCompatActivity() {
             et_search.isCursorVisible = false
             search()
         }
+        loadingLiveData.postValue(false)
     }
 
     private fun search() {

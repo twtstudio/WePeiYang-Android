@@ -16,7 +16,7 @@
 
         <Spinner
             android:id="@+id/sp_category_main"
-            android:layout_width="115dp"
+            android:layout_width="140dp"
             android:layout_height="40dp"
             android:layout_gravity="center"
             android:dropDownWidth="120dp"
@@ -47,7 +47,7 @@
 
         <Spinner
             android:id="@+id/sp_category"
-            android:layout_width="115dp"
+            android:layout_width="140dp"
             android:layout_height="40dp"
             android:layout_gravity="center"
             android:dropDownWidth="120dp"

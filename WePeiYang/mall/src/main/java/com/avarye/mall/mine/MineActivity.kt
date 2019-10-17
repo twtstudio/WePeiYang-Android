@@ -16,6 +16,7 @@ import com.avarye.mall.service.MallManager
 import com.avarye.mall.service.MallManager.bgAlpha
 import com.avarye.mall.service.MallManager.dealNull
 import com.avarye.mall.service.ViewModel
+import com.avarye.mall.service.loadingLiveData
 import com.avarye.mall.service.mineLiveData
 import com.bumptech.glide.Glide
 import com.twt.wepeiyang.commons.experimental.cache.CacheIndicator
@@ -41,7 +42,7 @@ class MineActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.mall_activity_mine)
-        window.statusBarColor = Color.TRANSPARENT.withAlpha(60)
+        window.statusBarColor = Color.BLACK.withAlpha(60)
         cv_mine_back.setOnClickListener { onBackPressed() }
         cv_mine_refresh.setOnClickListener { refresh() }
 
@@ -141,6 +142,8 @@ class MineActivity : AppCompatActivity() {
     }
 
     private fun refresh() {
-        viewModel.login()
+        if (loadingLiveData.value != true) {
+            viewModel.login()
+        }
     }
 }

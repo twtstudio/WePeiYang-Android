@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="mallColorTextLight">#bfbfbf</color>
+    <color name="mallColorTextLight">#A0A0A0</color>
     <color name="mallColorBgGrey">#CCF6F6F6</color>
     <color name="mallColorBgLight">#80F8F1EC</color>
     <color name="mallColorMain">#f57f17</color>

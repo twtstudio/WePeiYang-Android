@@ -106,7 +106,7 @@ class ListActivity : AppCompatActivity() {
             } else {
                 iv_list_null.visibility = View.INVISIBLE
                 val items = mutableListOf<Item>().apply {
-                    for (i in list.indices) {
+                    list.indices.forEach { i ->
                         saleItem {
                             Glide.with(this@ListActivity)
                                     .load("https://mall.twt.edu.cn/api.php/Upload/img_redirect?id=${list[i].imgurl}")
@@ -145,7 +145,7 @@ class ListActivity : AppCompatActivity() {
             } else {
                 iv_list_null.visibility = View.INVISIBLE
                 val items = mutableListOf<Item>().apply {
-                    for (i in list.indices) {
+                    list.indices.forEach { i ->
                         saleItem {
                             name.text = list[i].name
                             price.text = list[i].price
@@ -183,7 +183,7 @@ class ListActivity : AppCompatActivity() {
             } else {
                 iv_list_null.visibility = View.INVISIBLE
                 val items = mutableListOf<Item>().apply {
-                    for (i in list.indices) {
+                    list.indices.forEach { i ->
                         saleItem {
                             Glide.with(this@ListActivity)
                                     .load("https://mall.twt.edu.cn/api.php/Upload/img_redirect?id=${list[i].imgurl}")

@@ -12,10 +12,7 @@ import android.view.View
 import com.avarye.mall.R
 import com.avarye.mall.detail.DetailActivity
 import com.avarye.mall.mine.MineActivity
-import com.avarye.mall.service.MallManager
-import com.avarye.mall.service.ViewModel
-import com.avarye.mall.service.detailLiveData
-import com.avarye.mall.service.selectLiveData
+import com.avarye.mall.service.*
 import com.bumptech.glide.Glide
 import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
 import com.twt.wepeiyang.commons.ui.rec.Item
@@ -31,7 +28,7 @@ import kotlinx.android.synthetic.main.mall_item_toolbar.*
 class SearchActivity : AppCompatActivity() {
     private var page = 1
     private var totalPage = 1
-    private var isLoading = false
+    //    private var isLoading = false
     private val itemManager = ItemManager()
     private val viewModel = ViewModel()
     private var key = ""
@@ -63,8 +60,8 @@ class SearchActivity : AppCompatActivity() {
             setColorSchemeResources(R.color.mallColorMain)
             //下拉刷新加载监听
             setOnRefreshListener {
-                if (!isLoading) {
-                    isLoading = true
+                if (loadingLiveData.value != true) {
+                    loadingLiveData.postValue(true)
                     iv_search_null.visibility = View.INVISIBLE
                     resetPage()
                     //redo
@@ -72,7 +69,6 @@ class SearchActivity : AppCompatActivity() {
                     isRefreshing = false
                     Toasty.success(this@SearchActivity, "已刷新").show()
                 }
-                isLoading = false
             }
         }
 
@@ -84,12 +80,11 @@ class SearchActivity : AppCompatActivity() {
             addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
                     super.onScrolled(recyclerView, dx, dy)
-                    if (!canScrollVertically(1) && page < totalPage && !isLoading) {
-                        isLoading = true
+                    if (!canScrollVertically(1) && page < totalPage && loadingLiveData.value != true) {
+                        loadingLiveData.postValue(true)
                         //more
                         getData(++page)
                     }
-                    isLoading = false
                 }
             })
         }
@@ -108,7 +103,7 @@ class SearchActivity : AppCompatActivity() {
     private fun getData(page: Int) = when (type) {
         MallManager.SEARCH -> viewModel.search(key, page)
         MallManager.SELECT -> viewModel.getSelect(key, which, page)
-        else -> Unit
+        else->Unit
     }
 
     private fun bindSearch() {
@@ -120,7 +115,7 @@ class SearchActivity : AppCompatActivity() {
             } else {
                 iv_search_null.visibility = View.INVISIBLE
                 val items = mutableListOf<Item>().apply {
-                    for (i in 1 until list.size) {
+                    (1 until list.size).forEach { i ->
                         saleItem {
                             Glide.with(this@SearchActivity)
                                     .load("https://mall.twt.edu.cn/api.php/Upload/img_redirect?id=${list[i].imgurl}")
@@ -159,7 +154,7 @@ class SearchActivity : AppCompatActivity() {
             } else {
                 iv_search_null.visibility = View.INVISIBLE
                 val items = mutableListOf<Item>().apply {
-                    for (i in 1 until list.size) {
+                    (1 until list.size).forEach { i ->
                         saleItem {
                             Glide.with(this@SearchActivity)
                                     .load("https://mall.twt.edu.cn/api.php/Upload/img_redirect?id=${list[i].imgurl}")
@@ -198,7 +193,7 @@ class SearchActivity : AppCompatActivity() {
             } else {
                 iv_search_null.visibility = View.INVISIBLE
                 val items = mutableListOf<Item>().apply {
-                    for (i in 1 until list.size) {
+                    (1 until list.size).forEach { i ->
                         saleItem {
                             name.text = list[i].name
                             price.text = list[i].price

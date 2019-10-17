@@ -35,7 +35,7 @@ class DetailActivity : AppCompatActivity() {
             decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                     or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                     or View.SYSTEM_UI_FLAG_LAYOUT_STABLE)
-            statusBarColor = Color.TRANSPARENT.withAlpha(80)
+            statusBarColor = Color.BLACK.withAlpha(80)
         }
 
         isPost = intent.getBooleanExtra("flag", false)

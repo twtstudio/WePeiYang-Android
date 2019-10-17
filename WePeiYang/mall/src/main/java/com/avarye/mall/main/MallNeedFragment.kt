@@ -10,10 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.avarye.mall.R
 import com.avarye.mall.detail.DetailActivity
-import com.avarye.mall.service.MallManager
-import com.avarye.mall.service.ViewModel
-import com.avarye.mall.service.detailLiveData
-import com.avarye.mall.service.needLiveData
+import com.avarye.mall.service.*
 import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
 import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemAdapter
@@ -26,12 +23,11 @@ import kotlinx.android.synthetic.main.mall_fragment_latest_need.view.*
 class MallNeedFragment : Fragment() {
     private var page = 1
     private var totalPage = 1
-    private var isLoading = false
+    //    private var isLoading = false
     private val itemManager = ItemManager()
     private val viewModel = ViewModel()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.mall_fragment_latest_need, container, false)
         view.iv_need_null.visibility = View.INVISIBLE
 
@@ -39,8 +35,8 @@ class MallNeedFragment : Fragment() {
             setColorSchemeResources(R.color.mallColorMain)
             //下拉刷新加载监听
             setOnRefreshListener {
-                if (!isLoading) {
-                    isLoading = true
+                if (loadingLiveData.value != true) {
+                    loadingLiveData.postValue(true)
                     view.iv_need_null.visibility = View.INVISIBLE
                     resetPage()
                     itemManager.autoRefresh { removeAll { it is SaleItem } }
@@ -48,7 +44,6 @@ class MallNeedFragment : Fragment() {
                     viewModel.getLatestNeed(page)
                     isRefreshing = false
                 }
-                isLoading = false
             }
         }
 
@@ -60,12 +55,12 @@ class MallNeedFragment : Fragment() {
             addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
                     super.onScrolled(recyclerView, dx, dy)
-                    if (!canScrollVertically(1) && page < totalPage) {
-                        isLoading = true
+                    if (!canScrollVertically(1) && page < totalPage && loadingLiveData.value != true) {
+                        loadingLiveData.postValue(true)
                         //more
                         viewModel.getLatestNeed(++page)
                     }
-                    isLoading = false
+//                    isLoading = false
                 }
             })
         }
@@ -79,7 +74,7 @@ class MallNeedFragment : Fragment() {
             } else {
                 view.iv_need_null.visibility = View.INVISIBLE
                 val items = mutableListOf<Item>().apply {
-                    for (i in 1 until list.size) {
+                    (1 until list.size).forEach { i ->
                         saleItem {
                             name.text = list[i].name
                             price.text = list[i].price

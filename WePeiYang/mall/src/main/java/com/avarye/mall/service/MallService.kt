@@ -138,6 +138,7 @@ interface MallApi {
 }
 
 val loginLiveData = MutableLiveData<Login>()//登陆相关信息 主要是token
+val loadingLiveData = MutableLiveData<Boolean>()//loading flag
 val saleLiveData = MutableLiveData<List<Sale>>()//主页面sale数据
 val needLiveData = MutableLiveData<List<Sale>>()//主页面need数据
 val selectLiveData = MutableLiveData<List<Sale>>()//搜索 分类获得的数据

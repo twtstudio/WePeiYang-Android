@@ -18,7 +18,7 @@ class MallPagerAdapter(fragmentManager: android.support.v4.app.FragmentManager) 
         titles.add(title)
     }
 
-    fun getCurrent() : Fragment = current
+//    fun getCurrent() : Fragment = current
 
     override fun getCount(): Int = fragments.size
 
