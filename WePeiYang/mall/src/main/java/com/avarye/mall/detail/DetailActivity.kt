@@ -22,12 +22,11 @@ import java.util.regex.Pattern
 
 class DetailActivity : AppCompatActivity() {
 
-    private var isPost = false
     private var loginFlag = false
     private var id = ""
     private var token = ""
     private var type = ""
-    private var flag = MallManager.FROM_MALL
+    private var flag = ""
     private val viewModel = ViewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,10 +39,9 @@ class DetailActivity : AppCompatActivity() {
             statusBarColor = Color.BLACK.withAlpha(80)
         }
 
-        isPost = intent.getBooleanExtra("flag", false)
         id = intent.getStringExtra(MallManager.ID)
         type = intent.getStringExtra(MallManager.TYPE)
-        flag = intent.getIntExtra(MallManager.FROM_FLAG, MallManager.FROM_MALL)
+        flag = intent.getStringExtra(MallManager.FROM_FLAG) ?: ""
         loginLiveData.bindNonNull(this) {
             when (type) {
                 MallManager.SALE -> viewModel.getSellerSale(id, it.token)//拿sellerInfo
@@ -193,19 +191,15 @@ class DetailActivity : AppCompatActivity() {
         return list
     }
 
-    override fun onBackPressed() {
-        if (isPost) {
-            when (flag) {
-                MallManager.FROM_MALL -> {
-                    val intent = Intent(this, MallActivity::class.java)
-                    startActivity(intent)
-                }
-                MallManager.FROM_MINE -> {
-                    val intent = Intent(this, MineActivity::class.java)
-                    startActivity(intent)
-                }
-            }
+    override fun onBackPressed() = when (flag) {
+        MallManager.FROM_MALL -> {
+            val intent = Intent(this, MallActivity::class.java)
+            startActivity(intent)
         }
-        super.onBackPressed()
+        MallManager.FROM_MINE -> {
+            val intent = Intent(this, MineActivity::class.java)
+            startActivity(intent)
+        }
+        else -> super.onBackPressed()
     }
 }

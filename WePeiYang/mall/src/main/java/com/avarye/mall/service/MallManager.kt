@@ -32,8 +32,8 @@ object MallManager {
     const val TINY_B = 1
     const val ABLE_B = 2
     const val FROM_FLAG = "flag"
-    const val FROM_MALL = 1
-    const val FROM_MINE = 2
+    const val FROM_MALL = "mall"
+    const val FROM_MINE = "mine"
 
     private val cookies = mutableListOf<String>()//测试用
 
@@ -197,7 +197,7 @@ object MallManager {
         "9成新" -> 9
         "99新" -> 99
         "全新" -> 10
-        else -> ""
+        else -> 0
     }
 
     fun dealText(text: String): String {

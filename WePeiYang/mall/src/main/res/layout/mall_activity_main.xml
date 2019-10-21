@@ -112,37 +112,33 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginEnd="16dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
         android:layout_marginBottom="24dp"
         app:menu_backgroundColor="#00000000"
         app:menu_showShadow="false"
         app:menu_colorNormal="@color/mallColorMain"
         app:menu_colorPressed="@color/mallColorAccent"
         app:menu_fab_size="normal"
-        app:menu_labels_colorNormal="@color/mallColorBgLight"
+        app:menu_labels_colorNormal="#ffffff"
         app:menu_labels_colorPressed="@color/mallColorBgGrey"
         app:menu_labels_ellipsize="end"
         app:menu_labels_singleLine="true"
-        app:menu_labels_textColor="#000000">
+        app:menu_labels_textColor="@color/mallColorMain">
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/fb_mall_sale"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/mall_ic_post_sale1"
-            app:fab_colorNormal="#eeeeee"
-            app:fab_colorPressed="#999999"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            app:fab_colorNormal="#ffffff"
+            app:fab_colorPressed="@color/mallColorBgGrey"
             app:fab_label="@string/mallStringPostSale"
             app:fab_size="mini" />
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/fb_mall_need"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/mall_ic_post_need1"
-            app:fab_colorNormal="#eeeeee"
-            app:fab_colorPressed="#999999"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            app:fab_colorNormal="#ffffff"
+            app:fab_colorPressed="@color/mallColorBgGrey"
             app:fab_label="@string/mallStringPostNeed"
             app:fab_size="mini" />
     </com.github.clans.fab.FloatingActionMenu>

@@ -62,7 +62,7 @@ class PostActivity : AppCompatActivity() {
         setContentView(R.layout.mall_activity_post)
         window.statusBarColor = ContextCompat.getColor(this, R.color.mallColorMain)
         type = intent.getStringExtra(MallManager.TYPE)
-        flag = intent.getIntExtra(MallManager.FROM_FLAG, MallManager.FROM_MALL)
+        flag = intent.getStringExtra(MallManager.FROM_FLAG)
         tb_main.apply {
             title = when (type) {
                 MallManager.SALE -> getString(R.string.mallStringPostSale)

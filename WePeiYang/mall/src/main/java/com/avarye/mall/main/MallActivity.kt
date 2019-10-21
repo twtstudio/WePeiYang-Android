@@ -19,6 +19,7 @@ import com.avarye.mall.service.MallManager
 import com.avarye.mall.service.MallManager.bgAlpha
 import com.avarye.mall.service.loadingLiveData
 import com.avarye.mall.service.menuLiveData
+import com.bumptech.glide.Glide
 import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
 import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.mall_activity_main.*
@@ -47,6 +48,7 @@ class MallActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.mall_activity_main)
         window.statusBarColor = ContextCompat.getColor(this, R.color.mallColorMain)
+        fm_mall_all.close(true)
         loadingLiveData.postValue(false)
 
         //toolbar
@@ -148,19 +150,19 @@ class MallActivity : AppCompatActivity() {
             search()
         }
 
+        Glide.with(this).load(R.drawable.mall_ic_post_sale1).centerCrop().into(fb_mall_sale)
+        Glide.with(this).load(R.drawable.mall_ic_post_need1).centerCrop().into(fb_mall_need)
         fb_mall_sale.setOnClickListener {
             val intent = Intent(this, PostActivity::class.java)
                     .putExtra(MallManager.TYPE, MallManager.SALE)
                     .putExtra(MallManager.FROM_FLAG, MallManager.FROM_MALL)
             startActivity(intent)
-            fm_mall_all.close(true)
         }
         fb_mall_need.setOnClickListener {
             val intent = Intent(this, PostActivity::class.java)
                     .putExtra(MallManager.TYPE, MallManager.NEED)
                     .putExtra(MallManager.FROM_FLAG, MallManager.FROM_MALL)
             startActivity(intent)
-            fm_mall_all.close(true)
         }
     }
 
