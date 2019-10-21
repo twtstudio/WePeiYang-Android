@@ -4,7 +4,10 @@ import android.content.Intent
 import android.util.Log
 import android.view.View
 import com.avarye.mall.detail.DetailActivity
+import com.avarye.mall.main.MallNeedFragment
 import com.avarye.mall.main.MallSaleFragment
+import com.avarye.mall.main.SearchActivity
+import com.avarye.mall.mine.ListActivity
 import com.avarye.mall.post.PostActivity
 import com.twt.wepeiyang.commons.experimental.CommonContext
 import com.twt.wepeiyang.commons.experimental.cache.CacheIndicator
@@ -12,7 +15,10 @@ import com.twt.wepeiyang.commons.experimental.cache.RefreshState
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.mall_activity_detail.*
+import kotlinx.android.synthetic.main.mall_activity_list.*
 import kotlinx.android.synthetic.main.mall_activity_post.*
+import kotlinx.android.synthetic.main.mall_activity_search.*
+import kotlinx.android.synthetic.main.mall_fragment_latest_need.*
 import kotlinx.android.synthetic.main.mall_fragment_latest_sale.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -86,6 +92,16 @@ class ViewModel {
         loadingLiveData.postValue(false)
     }
 
+    fun getLatestNeed(fragment: MallNeedFragment) = GlobalScope.launch(Dispatchers.Main) {
+        MallManager.latestNeedAsync(1).awaitAndHandle {
+            Toasty.info(CommonContext.application, it.message.toString()).show()
+        }?.let {
+            needLiveData.postValue(it)
+        }
+        loadingLiveData.postValue(false)
+        fragment.srl_main_need.isRefreshing = false
+    }
+
     fun search(key: String, page: Int) = GlobalScope.launch(Dispatchers.Main) {
         MallManager.searchAsync(key, page).awaitAndHandle {
             Toasty.info(CommonContext.application, it.message.toString()).show()
@@ -93,6 +109,16 @@ class ViewModel {
             selectLiveData.postValue(it)
         }
         loadingLiveData.postValue(false)
+    }
+
+    fun search(key: String, activity: SearchActivity) = GlobalScope.launch(Dispatchers.Main) {
+        MallManager.searchAsync(key, 1).awaitAndHandle {
+            Toasty.info(CommonContext.application, it.message.toString()).show()
+        }?.let {
+            selectLiveData.postValue(it)
+        }
+        loadingLiveData.postValue(false)
+        activity.srl_search.isRefreshing = false
     }
 
     /**
@@ -105,6 +131,16 @@ class ViewModel {
             selectLiveData.postValue(it)
         }
         loadingLiveData.postValue(false)
+    }
+
+    fun getSelect(category: String, which: Int, activity: SearchActivity) = GlobalScope.launch(Dispatchers.Main) {
+        MallManager.selectAsync(category, which, 1).awaitAndHandle {
+            Toasty.info(CommonContext.application, it.message.toString()).show()
+        }?.let {
+            selectLiveData.postValue(it)
+        }
+        loadingLiveData.postValue(false)
+        activity.srl_search.isRefreshing = false
     }
 
     fun getDetail(id: String) = GlobalScope.launch(Dispatchers.Main) {
@@ -154,7 +190,7 @@ class ViewModel {
                 val intent = Intent(activity, DetailActivity::class.java)
                         .putExtra(MallManager.ID, it.id)
                         .putExtra(MallManager.TYPE, MallManager.SALE)
-                        .putExtra("flag", true)
+                        .putExtra(MallManager.FROM_FLAG, activity.flag)
                 activity.startActivity(intent)
             } else {
                 Toasty.info(activity, it.msg).show()
@@ -177,7 +213,7 @@ class ViewModel {
                 val intent = Intent(activity, DetailActivity::class.java)
                         .putExtra(MallManager.ID, it.id)
                         .putExtra(MallManager.TYPE, MallManager.NEED)
-                        .putExtra("flag", true)
+                        .putExtra(MallManager.FROM_FLAG, activity.flag)
                 activity.startActivity(intent)
             } else {
                 Toasty.info(activity, it.msg).show()
@@ -214,6 +250,20 @@ class ViewModel {
                 MallManager.W_NEED -> myListLiveData.postValue(it.needs_list)
             }
         }
+        loadingLiveData.postValue(false)
+    }
+
+    fun getMyList(id: String, which: Int, activity: ListActivity) = GlobalScope.launch(Dispatchers.Main) {
+        MallManager.getUserInfoAsync(id).awaitAndHandle {
+            Toasty.info(CommonContext.application, it.toString()).show()
+        }?.let {
+            when (which) {
+                MallManager.W_SALE -> myListLiveData.postValue(it.goods_list)
+                MallManager.W_NEED -> myListLiveData.postValue(it.needs_list)
+            }
+        }
+        loadingLiveData.postValue(false)
+        activity.srl_list.isRefreshing = false
     }
 
     /**
@@ -224,6 +274,16 @@ class ViewModel {
         }?.let {
             myListLiveData.postValue(it)
         }
+        loadingLiveData.postValue(false)
+    }
+
+    fun getFavList(token: String, activity: ListActivity) = GlobalScope.launch(Dispatchers.Main) {
+        MallManager.getFavListAsync(token).awaitAndHandle {
+        }?.let {
+            myListLiveData.postValue(it)
+        }
+        loadingLiveData.postValue(false)
+        activity.srl_list.isRefreshing = false
     }
 
     /**

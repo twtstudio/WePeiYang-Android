@@ -94,12 +94,14 @@ class MineActivity : AppCompatActivity() {
         cv_mine_post_sale.setOnClickListener {
             val intent = Intent(this, PostActivity::class.java)
                     .putExtra(MallManager.TYPE, MallManager.SALE)
+                    .putExtra(MallManager.FROM_FLAG, MallManager.FROM_MINE)
             startActivity(intent)
         }
 
         cv_mine_post_need.setOnClickListener {
             val intent = Intent(this, PostActivity::class.java)
                     .putExtra(MallManager.TYPE, MallManager.NEED)
+                    .putExtra(MallManager.FROM_FLAG, MallManager.FROM_MINE)
             startActivity(intent)
         }
 

@@ -31,6 +31,9 @@ object MallManager {
     const val NO_B = 0
     const val TINY_B = 1
     const val ABLE_B = 2
+    const val FROM_FLAG = "flag"
+    const val FROM_MALL = 1
+    const val FROM_MINE = 2
 
     private val cookies = mutableListOf<String>()//测试用
 

@@ -14,6 +14,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.PopupWindow
 import com.avarye.mall.R
 import com.avarye.mall.mine.MineActivity
+import com.avarye.mall.post.PostActivity
 import com.avarye.mall.service.MallManager
 import com.avarye.mall.service.MallManager.bgAlpha
 import com.avarye.mall.service.loadingLiveData
@@ -46,6 +47,7 @@ class MallActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.mall_activity_main)
         window.statusBarColor = ContextCompat.getColor(this, R.color.mallColorMain)
+        loadingLiveData.postValue(false)
 
         //toolbar
         tb_main.apply {
@@ -145,7 +147,21 @@ class MallActivity : AppCompatActivity() {
             et_search.isCursorVisible = false
             search()
         }
-        loadingLiveData.postValue(false)
+
+        fb_mall_sale.setOnClickListener {
+            val intent = Intent(this, PostActivity::class.java)
+                    .putExtra(MallManager.TYPE, MallManager.SALE)
+                    .putExtra(MallManager.FROM_FLAG, MallManager.FROM_MALL)
+            startActivity(intent)
+            fm_mall_all.close(true)
+        }
+        fb_mall_need.setOnClickListener {
+            val intent = Intent(this, PostActivity::class.java)
+                    .putExtra(MallManager.TYPE, MallManager.NEED)
+                    .putExtra(MallManager.FROM_FLAG, MallManager.FROM_MALL)
+            startActivity(intent)
+            fm_mall_all.close(true)
+        }
     }
 
     private fun search() {
@@ -169,5 +185,10 @@ class MallActivity : AppCompatActivity() {
         val intent = Intent(this, MineActivity::class.java)
         startActivity(intent)
         return true
+    }
+
+    override fun onPause() {
+        fm_mall_all.close(true)
+        super.onPause()
     }
 }

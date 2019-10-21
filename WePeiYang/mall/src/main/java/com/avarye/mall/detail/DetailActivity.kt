@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.ImageView
 import com.avarye.mall.R
+import com.avarye.mall.main.MallActivity
 import com.avarye.mall.mine.MineActivity
 import com.avarye.mall.service.*
 import com.avarye.mall.service.MallManager.dealNull
@@ -26,6 +27,7 @@ class DetailActivity : AppCompatActivity() {
     private var id = ""
     private var token = ""
     private var type = ""
+    private var flag = MallManager.FROM_MALL
     private val viewModel = ViewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,6 +43,7 @@ class DetailActivity : AppCompatActivity() {
         isPost = intent.getBooleanExtra("flag", false)
         id = intent.getStringExtra(MallManager.ID)
         type = intent.getStringExtra(MallManager.TYPE)
+        flag = intent.getIntExtra(MallManager.FROM_FLAG, MallManager.FROM_MALL)
         loginLiveData.bindNonNull(this) {
             when (type) {
                 MallManager.SALE -> viewModel.getSellerSale(id, it.token)//拿sellerInfo
@@ -192,8 +195,16 @@ class DetailActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         if (isPost) {
-            val intent = Intent(this, MineActivity::class.java)
-            startActivity(intent)
+            when (flag) {
+                MallManager.FROM_MALL -> {
+                    val intent = Intent(this, MallActivity::class.java)
+                    startActivity(intent)
+                }
+                MallManager.FROM_MINE -> {
+                    val intent = Intent(this, MineActivity::class.java)
+                    startActivity(intent)
+                }
+            }
         }
         super.onBackPressed()
     }

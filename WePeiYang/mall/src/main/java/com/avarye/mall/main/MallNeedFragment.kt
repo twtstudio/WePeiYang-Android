@@ -23,7 +23,6 @@ import kotlinx.android.synthetic.main.mall_fragment_latest_need.view.*
 class MallNeedFragment : Fragment() {
     private var page = 1
     private var totalPage = 1
-    //    private var isLoading = false
     private val itemManager = ItemManager()
     private val viewModel = ViewModel()
 
@@ -41,8 +40,7 @@ class MallNeedFragment : Fragment() {
                     resetPage()
                     itemManager.autoRefresh { removeAll { it is SaleItem } }
                     //redo
-                    viewModel.getLatestNeed(page)
-                    isRefreshing = false
+                    viewModel.getLatestNeed(this@MallNeedFragment)
                 }
             }
         }
@@ -60,7 +58,6 @@ class MallNeedFragment : Fragment() {
                         //more
                         viewModel.getLatestNeed(++page)
                     }
-//                    isLoading = false
                 }
             })
         }
@@ -99,7 +96,6 @@ class MallNeedFragment : Fragment() {
                 }
             }
         }
-
         return view
     }
 

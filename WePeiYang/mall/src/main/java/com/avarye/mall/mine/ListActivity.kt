@@ -26,7 +26,7 @@ import kotlinx.android.synthetic.main.mall_item_toolbar.*
  */
 class ListActivity : AppCompatActivity() {
 
-    private var isLoading = false
+    //    private var isLoading = false
     private val itemManager = ItemManager()
     private val viewModel = ViewModel()
     private var token = ""
@@ -43,7 +43,7 @@ class ListActivity : AppCompatActivity() {
             uid = it.uid
             token = it.token
             //发请求 bind
-            post()
+            getList()
         }
         type = intent.getStringExtra(MallManager.TYPE)
 
@@ -78,24 +78,30 @@ class ListActivity : AppCompatActivity() {
         }
     }
 
-    fun post() = when (type) {
-        MallManager.SALE -> viewModel.getMyList(uid, MallManager.W_SALE)
-        MallManager.NEED -> viewModel.getMyList(uid, MallManager.W_NEED)
-        MallManager.FAV -> viewModel.getFavList(token)
-        else -> Unit
+    private fun getList() {
+        when (type) {
+            MallManager.SALE -> viewModel.getMyList(uid, MallManager.W_SALE)
+            MallManager.NEED -> viewModel.getMyList(uid, MallManager.W_NEED)
+            MallManager.FAV -> viewModel.getFavList(token)
+        }
     }
 
-    fun refresh() {
-        if (!isLoading) {
-            isLoading = true
+    private fun getList(activity: ListActivity) {
+        when (type) {
+            MallManager.SALE -> viewModel.getMyList(uid, MallManager.W_SALE, activity)
+            MallManager.NEED -> viewModel.getMyList(uid, MallManager.W_NEED, activity)
+            MallManager.FAV -> viewModel.getFavList(token, activity)
+        }
+    }
+
+    private fun refresh() {
+        if (loadingLiveData.value != true) {
+            loadingLiveData.postValue(true)
             iv_list_null.visibility = View.INVISIBLE
             itemManager.autoRefresh { removeAll { it is SaleItem } }
             //redo
-            post()
-            srl_list.isRefreshing = false
-            Toasty.success(this@ListActivity, "已刷新").show()
+            getList(this)
         }
-        isLoading = false
     }
 
     private fun bindSale() {

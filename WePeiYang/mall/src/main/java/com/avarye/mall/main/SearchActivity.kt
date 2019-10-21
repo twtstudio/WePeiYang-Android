@@ -65,9 +65,7 @@ class SearchActivity : AppCompatActivity() {
                     iv_search_null.visibility = View.INVISIBLE
                     resetPage()
                     //redo
-                    getData(page)
-                    isRefreshing = false
-                    Toasty.success(this@SearchActivity, "已刷新").show()
+                    getData(this@SearchActivity)
                 }
             }
         }
@@ -100,10 +98,18 @@ class SearchActivity : AppCompatActivity() {
         }
     }
 
-    private fun getData(page: Int) = when (type) {
-        MallManager.SEARCH -> viewModel.search(key, page)
-        MallManager.SELECT -> viewModel.getSelect(key, which, page)
-        else->Unit
+    private fun getData(page: Int) {
+        when (type) {
+            MallManager.SEARCH -> viewModel.search(key, page)
+            MallManager.SELECT -> viewModel.getSelect(key, which, page)
+        }
+    }
+
+    private fun getData(activity: SearchActivity){
+        when (type) {
+            MallManager.SEARCH -> viewModel.search(key, activity)
+            MallManager.SELECT -> viewModel.getSelect(key, which, activity)
+        }
     }
 
     private fun bindSearch() {

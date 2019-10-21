@@ -3,12 +3,24 @@
     package="com.avarye.mall">
 
     <application>
-        <activity android:name=".mine.ListActivity"/>
-        <activity android:name=".mine.MineActivity" android:launchMode="singleTask"/>
-        <activity android:name=".main.SearchActivity" />
-        <activity android:name=".post.PostActivity" />
-        <activity android:name=".detail.DetailActivity" />
-        <activity android:name=".main.MallActivity" />
+        <activity
+            android:name=".mine.ListActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".mine.MineActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".main.SearchActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".post.PostActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".detail.DetailActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".main.MallActivity"
+            android:launchMode="singleTask" />
     </application>
 
 </manifest>

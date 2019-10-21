@@ -53,6 +53,7 @@ class PostActivity : AppCompatActivity() {
     private var flagSale = false
     private var flagNeed = false
     private var type = MallManager.SALE
+    var flag = MallManager.FROM_MALL
     private lateinit var map: Map<String, Any>
     private lateinit var progressBar: ProgressBar
 
@@ -61,6 +62,7 @@ class PostActivity : AppCompatActivity() {
         setContentView(R.layout.mall_activity_post)
         window.statusBarColor = ContextCompat.getColor(this, R.color.mallColorMain)
         type = intent.getStringExtra(MallManager.TYPE)
+        flag = intent.getIntExtra(MallManager.FROM_FLAG, MallManager.FROM_MALL)
         tb_main.apply {
             title = when (type) {
                 MallManager.SALE -> getString(R.string.mallStringPostSale)
@@ -140,10 +142,11 @@ class PostActivity : AppCompatActivity() {
         }
     }
 
-    private fun post() = when (type) {
-        MallManager.SALE -> viewModel.postSale(map, token, this)
-        MallManager.NEED -> viewModel.postNeed(map, token, uid, this)
-        else -> Unit
+    private fun post() {
+        when (type) {
+            MallManager.SALE -> viewModel.postSale(map, token, this)
+            MallManager.NEED -> viewModel.postNeed(map, token, uid, this)
+        }
     }
 
     /**
