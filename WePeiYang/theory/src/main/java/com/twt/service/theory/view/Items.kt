@@ -75,7 +75,7 @@ class ExamItem(val data: TestBean.DataBean, val examFragment: ExamFragment) : It
                     val bundle = Bundle()
                     bundle.putInt("id", item.data.id)
                     bundle.putString("name", item.data.name)
-                    bundle.putString("duration", item.data.duration)
+                    bundle.putInt("duration", item.data.duration)
                     bundle.putString("score", item.data.score)
                     bundle.putString("status", item.data.stu_status)
                     bundle.putString("test_time", item.data.test_time)

@@ -14,6 +14,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
 import android.widget.PopupWindow
+import com.orhanobut.hawk.Hawk
 import com.twt.service.theory.R
 import com.twt.service.theory.model.PaperBean
 import com.twt.service.theory.model.TheoryApi
@@ -75,8 +76,8 @@ class AnswerActivity : AppCompatActivity() {
         theory_constraintLayout.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
         theory_exam_time_fab.actionH = theory_user_actionbar.measuredHeight
         theory_exam_time_fab.ansH = theory_constraintLayout.measuredHeight
-        theory_exam_time_fab.start(50, 20) {//这里处理时间走完的逻辑
-
+        var time = this@AnswerActivity.intent.extras.getInt("duration")
+        theory_exam_time_fab.start(time, 0) {//这里处理时间走完的逻辑
         }
     }
 
@@ -113,7 +114,7 @@ class AnswerActivity : AppCompatActivity() {
         theory_back.setOnClickListener {
             onBackPressed()
         }
-        theory_submit.setOnClickListener {
+        theory_submit.setOnClickListener {// 提交答案
             val popupWindow = PopupWindow(this)
             val view = LayoutInflater.from(this).inflate(R.layout.theory_dialog_exam, null, false)
             view.theory_enter_word.text = if (AnswerManager.getNumberHasDone() != AnswerManager.getTotalNumber()) "你还有${AnswerManager.getTotalNumber() - AnswerManager.getNumberHasDone()}题未完成，确认提交?"

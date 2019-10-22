@@ -75,7 +75,7 @@ class TestBean {
 
         var college_code: String? = null
         var created_at: String? = null
-        var duration: String? = null
+        var duration: Int = 0
         var ended_time: String? = null
         var id: Int = 0
         var is_exist: String? = null

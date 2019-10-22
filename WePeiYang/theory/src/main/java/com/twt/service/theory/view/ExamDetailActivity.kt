@@ -12,8 +12,10 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.PopupWindow
+import com.orhanobut.hawk.Hawk
 import com.twt.service.theory.R
 import com.twt.service.theory.view.AnswerActivity
+import com.twt.service.theory.view.AnswerManager
 import com.twt.service.theory.view.setDetail
 import com.twt.wepeiyang.commons.experimental.extensions.enableLightStatusBarMode
 import com.twt.wepeiyang.commons.ui.rec.withItems
@@ -82,6 +84,7 @@ class ExamDetailActivity : AppCompatActivity() {
                     } else {
                         val intent = Intent(contentView.context, AnswerActivity::class.java)
                         intent.putExtra("id", this@ExamDetailActivity.intent.extras.getInt("id"))
+                        intent.putExtra("duration",this@ExamDetailActivity.intent.extras.getInt("duration"))
                         startActivity(intent)
                         popupWindow.dismiss()
                         finish()

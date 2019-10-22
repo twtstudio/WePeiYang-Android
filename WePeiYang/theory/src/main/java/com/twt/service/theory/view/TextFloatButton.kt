@@ -99,7 +99,7 @@ class TextFloatButton(context: Context, attrs: AttributeSet) : FloatingActionBut
                     if (!lock) break
                     sleep(1000)
                     var minute = time.substring(0, 2).toInt()
-                    var second = time.substring(3, 5).toInt()
+                    var second = time.substring(3, time.length).toInt()
                     if (second != 0) --second
                     else if (minute != 0) {
                         --minute

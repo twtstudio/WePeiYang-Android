@@ -1,6 +1,7 @@
 package com.twt.service.theory.view
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Bundle
 import android.support.design.widget.TabLayout
@@ -11,6 +12,7 @@ import android.view.Window
 import com.twt.service.theory.R
 import com.twt.service.theory.model.TheoryApi
 import com.twt.wepeiyang.commons.experimental.extensions.enableLightStatusBarMode
+import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
 import com.youth.banner.Banner
 import com.youth.banner.listener.OnBannerListener
 import es.dmoral.toasty.Toasty
@@ -45,6 +47,7 @@ class TheoryActivity : AppCompatActivity(), OnBannerListener {
         super.onCreate(savedInstanceState)
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
         setContentView(R.layout.theory_activity_main)
+        // Log.d("TTTTT", CommonPreferences.token)
         theory_person_profile.setOnClickListener {
             val intent = Intent(this, UserActivity::class.java)
             startActivity(intent)
