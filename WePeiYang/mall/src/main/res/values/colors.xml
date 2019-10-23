@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="mallColorTextLight">#A0A0A0</color>
+    <color name="mallColorBgGrey">#CCF6F6F6</color>
+    <color name="mallColorBgLight">#80F8F1EC</color>
+    <color name="mallColorMain">#f57f17</color>
+    <color name="mallColorAccent">#CEFF5E2A</color>
+    <color name="mallColorPressed">#CCFE8A01</color>
+    <color name="mallColorLight">#FFD0A0</color>
+    <color name="m">#cacbcd</color>
+<!--    <color name="mallColorBlueShadow">#66005FFF</color>
+    <color name="mallColorBlue">#0CC6FF</color>-->
+    <color name="mallColorBlueShadow">#CE047FB8</color>
+    <color name="mallColorBlue">#BE0773A5</color>
+    <color name="mallColorBgTran">#1F000000</color>
+    <!--    //FF9A36//原定主色调-->
+<!--    //FFB26D//原pressed  BF0FA2C7-->
+</resources>

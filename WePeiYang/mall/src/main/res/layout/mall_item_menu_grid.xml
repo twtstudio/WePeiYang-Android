@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/gv_menu"
+    android:stretchMode="spacingWidthUniform"
+    android:horizontalSpacing="4dp"
+    android:verticalSpacing="4dp"
+    android:layout_width="match_parent"
+    android:cacheColorHint="#FFFFFF"
+    android:listSelector="@color/mallColorLight"
+    android:fadeScrollbars="true"
+    android:layout_height="match_parent"
+    android:numColumns="4">
+</GridView>

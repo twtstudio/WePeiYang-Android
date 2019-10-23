@@ -193,7 +193,7 @@ fun getPopluarAudit(): Observable<CommonBody<List<AuditPopluar>>>
 目前微北洋里面的异步任务都是使用Kotlin协程来写的。
 
 作为一个合格的项目开发者，你应该使用Kotlin协程所提供的`async/await`来处理问题。在之前的文档中，我们的网络请求的返回值是`Deferred<T>`类型，至于这是个啥，请自己上网查谢谢。[附一个文章](https://zhuanlan.zhihu.com/p/30019105)
-一般的做发是，在普通环境(非协程环境)使用`GlobalScope.launch(Dispatchers.Main){}`方法启动一个协程，在协程里面使用`async/await`来控制。
+一般的做法是，在普通环境(非协程环境)使用`GlobalScope.launch(Dispatchers.Main){}`方法启动一个协程，在协程里面使用`async/await`来控制。
 
 ```kotlin
   GlobalScope.launch (exceptionHandler + Dispatchers.Main) {

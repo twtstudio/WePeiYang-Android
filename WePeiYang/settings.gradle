@@ -1,4 +1,4 @@
-include ':app', ':ecard',
+include ':app', ':ecard', ':mall',
         ':commons',
         ':tjulibrary',
         ':gpa2',
