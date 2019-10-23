@@ -54,9 +54,9 @@ buildscript {
     }
 
     repositories {
+        google()
         mavenLocal()
         jcenter()
-        google()
 //        maven { url 'https://nexus.twtstudio.com/repository/maven-public/' }
     }
 
@@ -72,9 +72,9 @@ buildscript {
 
 allprojects {
     repositories {
+        google()
         jcenter()
         mavenCentral()
-        google()
         mavenLocal()
         maven { url "http://mvn.gt.igexin.com/nexus/content/repositories/releases/" }
         maven { url 'http://dl.bintray.com/piasy/maven' }

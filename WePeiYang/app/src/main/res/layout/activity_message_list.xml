@@ -10,7 +10,8 @@
     <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="54dp"
-        android:background="#F8749A"
+        android:id="@+id/message_tool"
+        android:background="@color/mes_info_color"
         app:contentInsetStart="0dp">
 
         <android.support.constraint.ConstraintLayout
@@ -18,7 +19,7 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:id="@+id/message_back_arrow"
+                android:id="@+id/message_info_back_arrow"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:scaleType="center"
@@ -28,7 +29,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/message_list_top"
+                android:id="@+id/message_info_top"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="12dp"
@@ -36,9 +37,8 @@
                 android:text="消息列表"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/message_order"
-                app:layout_constraintHorizontal_bias="0.43"
-                app:layout_constraintStart_toEndOf="@id/message_back_arrow"
+                app:layout_constraintEnd_toStartOf="parent"
+                app:layout_constraintStart_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
@@ -52,11 +52,14 @@
                 app:layout_constraintTop_toTopOf="parent" />
         </android.support.constraint.ConstraintLayout>
     </android.support.v7.widget.Toolbar>
-
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/message_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
     <android.support.v7.widget.RecyclerView
         android:id="@+id/message_rec"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"/>
+    </android.support.v4.widget.SwipeRefreshLayout>
 
-    </android.support.v7.widget.RecyclerView>
 </LinearLayout>

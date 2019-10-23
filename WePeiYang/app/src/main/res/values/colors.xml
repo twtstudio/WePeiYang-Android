@@ -46,4 +46,5 @@
     <color name="tju_slide_background_color">#527e7a</color>
     <color name="intro_slide_buttons">#00d096</color>
     <color name="lib_slide_background_color">#e4e3e3</color>
+    <color name="mes_info_color">#646887</color>
 </resources>

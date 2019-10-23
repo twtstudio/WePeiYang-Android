@@ -1,6 +1,7 @@
 package com.twt.service.home.message
 
 import android.content.Context
+import android.content.Intent
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
@@ -40,6 +41,13 @@ class MessageListItem (val context :Context, val info : Info ,val block: (Messag
             holder.imageView.setOnClickListener {
                 holder.imageView.setImageResource(R.drawable.check)
                 item.block(item,it)
+            }
+            holder.itemView.setOnClickListener{
+                val intent = Intent(item.context,MessageInfo::class.java)
+                intent.putExtra("title",item.info.title)
+                intent.putExtra("time",item.info.created_at)
+                intent.putExtra("content",item.info.content)
+                item.context.startActivity(intent)
             }
         }
 
