@@ -22,10 +22,7 @@ import com.otaliastudios.autocomplete.Autocomplete
 import com.otaliastudios.autocomplete.AutocompletePolicy
 import com.twt.service.schedule2.R
 import com.twt.service.schedule2.model.ScheduleDb
-import com.twt.service.schedule2.model.audit.AuditApi
-import com.twt.service.schedule2.model.audit.AuditCourse
-import com.twt.service.schedule2.model.audit.AuditCourseManager
-import com.twt.service.schedule2.model.audit.AuditSearchCourse
+import com.twt.service.schedule2.model.audit.*
 import com.twt.service.schedule2.view.adapter.indicatorText
 import com.twt.service.schedule2.view.audit.AutoCompletePresenter
 import com.twt.service.schedule2.view.audit.auditCourseItem
@@ -41,6 +38,7 @@ import kotlinx.coroutines.*
 import org.jetbrains.anko.alert
 
 class SearchResultActivity : CAppCompatActivity() {
+    /*调用以打开searchResultActivity*/
     companion object {
         val KEY_COURSE_NAME = "CourseName"
         fun searchCourse(context: Context, courseName: String) {
@@ -62,6 +60,12 @@ class SearchResultActivity : CAppCompatActivity() {
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
+        /**
+         * 隐藏软键盘
+         */
+        fun hideSoftInput() =
+                (this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(this.currentFocus?.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
+
         val titleText: TextView = findViewById(R.id.tv_toolbar_title)
         titleText.apply {
             text = "蹭课搜索"
@@ -78,6 +82,7 @@ class SearchResultActivity : CAppCompatActivity() {
 
         val searchReturnImg: ImageView = findViewById(R.id.img_search_back)
         searchReturnImg.setOnClickListener {
+            hideSoftInput()
             searchContainer.visibility = View.INVISIBLE
         }
 
@@ -121,20 +126,31 @@ class SearchResultActivity : CAppCompatActivity() {
                 val result = AuditApi.searchCourse(courseName).awaitAndHandle { it.printStackTrace() }?.data
                         ?: throw IllegalStateException("蹭课查询失败")
                 itemManager.refreshAll {
-                    indicatorText("我们为可爱的你找到${result.size}门课程，共${result.flatMap { it.info }.count()}个上课时间")
+
+//                    indicatorText("我们为可爱的你找到${result.size}门课程，共${result.flatMap { it.info }.count()}个上课时间")
+                    var invalidCount = 0
+                    var count = 0
                     result.map(AuditSearchCourse::convertToAuditCourse).forEach { auditCourse: AuditCourse ->
-                        auditCourseItem(auditCourse) {
-                            showAuditDialog(auditCourse)
-                        }
-                        if (auditCourse.infos.size > 1) {
-                            for (i in 1 until auditCourse.infos.size) {
-                                val additional = auditCourse.copy(infos = listOf(auditCourse.infos[i]))
-                                auditCourseItem(additional) {
-                                    showAuditDialog(additional)
+                        /* 办公网的返回数据有问题，所以只能先这样手动判断 */
+                        val course = auditCourse.convertToCourse()
+                        if (course.arrange[0].room == "楼" || auditCourse.infos[0].teacher == "") {
+                            invalidCount += 1
+                        } else {
+                            auditCourseItem(auditCourse) {
+                                showAuditDialog(auditCourse)
+                            }
+                            if (auditCourse.infos.size > 1) {
+                                for (i in 1 until auditCourse.infos.size) {
+                                    val additional = auditCourse.copy(infos = listOf(auditCourse.infos[i]))
+                                    auditCourseItem(additional) {
+                                        showAuditDialog(additional)
+                                    }
                                 }
                             }
                         }
-
+                    }
+                    if (invalidCount == result.size) {
+                        singleText("无可用搜索结果")
                     }
                 }
             }
@@ -146,13 +162,15 @@ class SearchResultActivity : CAppCompatActivity() {
             title = "大佬真的要蹭课吗？"
             GlobalScope.async(Dispatchers.Main + QuietCoroutineExceptionHandler) {
                 val duplicateList = withContext(Dispatchers.Default) {
-                    ScheduleDb.auditCourseDao.loadAllAuditCourses().filter { it.courseName == auditCourse.courseName }
+                    ScheduleDb.auditCourseDao.loadAllAuditCourses().filter {
+                        it.courseName == auditCourse.courseName
+                    }
                 }
                 when {
                     duplicateList.isEmpty() -> {
                         message = "蹭课：${auditCourse.courseName}"
                         positiveButton("确认") {
-                            async(Dispatchers.Main + QuietCoroutineExceptionHandler) {
+                            GlobalScope.async(Dispatchers.Main + QuietCoroutineExceptionHandler) {
                                 val auditResult = audit(auditCourse.courseId, auditCourse.infos[0].id.toString()).awaitAndHandle { it.printStackTrace() }?.message
                                         ?: "蹭课失败"
                                 Toasty.success(this@SearchResultActivity, "$auditResult - ${auditCourse.courseName}").show()
@@ -170,7 +188,7 @@ class SearchResultActivity : CAppCompatActivity() {
                         coursesAlreadyAudit.flatMap { it.infos }.forEach { infoIds += "${it.id}," }
                         infoIds += auditCourse.infos[0].id
                         positiveButton("确认") {
-                            async(Dispatchers.Main + QuietCoroutineExceptionHandler) {
+                            GlobalScope.async(Dispatchers.Main + QuietCoroutineExceptionHandler) {
                                 val auditResult = audit(auditCourse.courseId, infoIds).awaitAndHandle { it.printStackTrace() }?.message
                                 Toasty.success(this@SearchResultActivity, "$auditResult - ${auditCourse.courseName}").show()
 

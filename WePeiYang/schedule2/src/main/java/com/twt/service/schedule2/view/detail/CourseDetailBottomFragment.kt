@@ -1,6 +1,8 @@
 package com.twt.service.schedule2.view.detail
 
+import android.app.AliasActivity
 import android.app.Dialog
+import android.content.Intent
 import android.support.design.widget.BottomSheetBehavior
 import android.support.design.widget.BottomSheetDialogFragment
 import android.support.v7.app.AppCompatActivity
@@ -15,7 +17,9 @@ import com.twt.service.schedule2.model.exam.ExamTableLocalAdapter
 import com.twt.service.schedule2.model.exam.addEvent
 import com.twt.service.schedule2.view.adapter.CourseDetailViewModel
 import com.twt.service.schedule2.view.adapter.iconLabel
+import com.twt.service.schedule2.view.audit.AuditActivity
 import com.twt.service.schedule2.view.audit.search.SearchResultActivity
+import com.twt.service.schedule2.view.custom.AddCustomCourseActivity
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
 import com.twt.wepeiyang.commons.mta.mtaClick
 import com.twt.wepeiyang.commons.mta.mtaExpose
@@ -97,17 +101,26 @@ class CourseDetailBottomFragment : BottomSheetDialogFragment() {
             }
             indicatorText("课程信息")
             iconLabel(CourseDetailViewModel(R.drawable.ic_schedule_other, "逻辑班号：${course.classid}\n课程编号：${course.courseid}"))
-            indicatorText("自定义（开发中 敬请期待）")
-            iconLabel(CourseDetailViewModel(R.drawable.ic_schedule_search, "在蹭课功能中搜索相似课程", clickBlock = {
-                mtaClick("schedule_单节课程底部弹出_${course.coursename}_搜索相似蹭课")
+            indicatorText("自定义设置")
+//            iconLabel(CourseDetailViewModel(R.drawable.ic_schedule_search, "在蹭课功能中搜索相似课程", clickBlock = {
+//                mtaClick("schedule_单节课程底部弹出_${course.coursename}_搜索相似蹭课")
+//                SearchResultActivity.searchCourse(it.context, course.coursename)
+//            }))
+            iconLabel(CourseDetailViewModel(R.drawable.ic_schedule_event, "进入蹭课功能", clickBlock = {
+                mtaClick("schedule_单节课程底部弹出_${course.coursename}_进入蹭课功能")
+                startActivity(Intent(context, AuditActivity::class.java))
+            }))
+            iconLabel(CourseDetailViewModel(R.drawable.ic_schedule_search, "在蹭课中搜索相似课程", clickBlock = {
+                mtaClick("schedule_单节课程底部弹出_${course.coursename}_进入蹭课中搜索相似课程功能")
                 SearchResultActivity.searchCourse(it.context, course.coursename)
             }))
             iconLabel(CourseDetailViewModel(R.drawable.ic_schedule_event, "添加自定义课程/事件", clickBlock = {
+                mtaClick("schedule_单节课程底部弹出_${course.coursename}_添加自定义课程/事件")
+                startActivity(Intent(context, AddCustomCourseActivity::class.java))
+            }))
+            iconLabel(CourseDetailViewModel(R.drawable.ic_schedule_homework, "添加课程作业/考试", clickBlock = {
                 Toasty.info(it.context, "下一版本中加入").show()
             }))
-//            iconLabel(CourseDetailViewModel(R.drawable.ic_schedule_homework, "添加课程作业/考试", clickBlock = {
-//                Toasty.info(it.context, "下一版本中加入").show()
-//            }))
             indicatorText("帮助")
 
             iconLabel(CourseDetailViewModel(R.drawable.ic_schedule_info, "如何使用课程表的自定义功能", {

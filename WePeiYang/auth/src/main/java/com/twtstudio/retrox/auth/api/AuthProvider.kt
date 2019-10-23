@@ -35,3 +35,13 @@ fun login(username: String, password: String, callback: suspend (RefreshState<Un
         }
     }
 }
+
+fun refreshToken(callback: suspend (RefreshState<Unit>) -> Unit = {})  {
+    GlobalScope.launch(Dispatchers.Main) {
+        AuthService.refreshToken().awaitAndHandle {
+            callback(RefreshState.Failure(it))
+        }?.data?.let {
+            CommonPreferences.token = it.token
+        }
+    }
+}

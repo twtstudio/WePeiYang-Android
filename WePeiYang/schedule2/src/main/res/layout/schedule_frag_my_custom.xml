@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_gray">
+
+    <TextView
+        android:id="@+id/no_custom_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="5dp"
+        android:paddingTop="10dp"
+        android:textSize="18dp"
+        android:gravity="center_vertical"
+        android:text="暂无自定义课程"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/my_custom_rec"
+        android:layout_width="match_parent"
+        app:layout_constraintTop_toBottomOf="@id/no_custom_text"
+        android:layout_height="0dp"
+        android:background="@color/background_gray"
+        tools:layout_editor_absoluteY="10dp" />
+
+</android.support.constraint.ConstraintLayout>

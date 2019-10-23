@@ -37,7 +37,12 @@ object AuditCourseManager {
         val auditCourse = AuditApi.getMyAudit().awaitAndHandle { it.printStackTrace() }?.data
                 ?: throw IllegalStateException("刷新蹭课列表失败")
         deleteAuditCoursesLocal(dao)
-        val array = auditCourse.toTypedArray()
+        var usableCourse :ArrayList<AuditCourse> = ArrayList()
+        auditCourse.forEach {
+            if(it.infos.isNotEmpty())
+                usableCourse.add(it)
+        }
+        val array = usableCourse.toTypedArray()
         dao.insertAuditCourses(*array)
     }
 

@@ -4,6 +4,7 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import com.twt.service.schedule2.extensions.RefreshCallback
 import com.twt.service.schedule2.model.AbsClasstableProvider
+import com.twt.service.schedule2.model.Classtable
 import com.twt.service.schedule2.model.CommonClassTable
 import com.twt.service.schedule2.model.MergedClassTableProvider
 import com.twt.service.schedule2.model.audit.AuditCourseManager
@@ -14,7 +15,11 @@ import com.twt.service.schedule2.model.school.TjuCourseApi
 import com.twt.service.schedule2.model.school.refresh
 import com.twt.wepeiyang.commons.experimental.cache.CacheIndicator
 import com.twt.wepeiyang.commons.experimental.cache.RefreshState
-import kotlinx.coroutines.*
+import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
 
 object TotalCourseManager {
 
@@ -53,9 +58,13 @@ object TotalCourseManager {
 
             val examTableDeferred = ExamTableLocalAdapter.getExamMap(true)
 
-            val tjuClassTableProvider: Deferred<AbsClasstableProvider> = async(Dispatchers.Default) {
-                val classTable = TjuCourseApi.refresh(refreshTju)
-                CommonClassTable(classTable)
+            val tjuClassTableProvider: Deferred<AbsClasstableProvider> = async(Dispatchers.Default + QuietCoroutineExceptionHandler) {
+                try {
+                    val classTable = TjuCourseApi.refresh(refreshTju)
+                    CommonClassTable(classTable)
+                } catch (e: IllegalStateException) {
+                    CommonClassTable(Classtable(courses = mutableListOf()))
+                }
             }
 
             val auditClasstableProvider: Deferred<AbsClasstableProvider> = async(Dispatchers.Default) {

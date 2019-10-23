@@ -18,7 +18,6 @@ import com.tencent.stat.StatMultiAccount
 import com.tencent.stat.StatService
 import com.twt.service.R
 import com.twt.service.ecard.model.EcardPref
-import com.twt.service.ecard.model.EcardService
 import com.twt.service.ecard.model.isBindECardBoolean
 import com.twt.service.ecard.model.isBindECardLiveData
 import com.twt.service.ecard.view.EcardLoginActivity
@@ -27,21 +26,20 @@ import com.twt.service.settings.SettingsActivity
 import com.twt.service.settings.SingleBindActivity
 import com.twt.wepeiyang.commons.cache.CacheProvider
 import com.twt.wepeiyang.commons.experimental.cache.CacheIndicator
-import com.twt.wepeiyang.commons.experimental.cache.handleError
+import com.twt.wepeiyang.commons.experimental.cache.RefreshState
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
-import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import com.twt.wepeiyang.commons.experimental.extensions.map
 import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
 import com.twt.wepeiyang.commons.network.RxErrorHandler
 import com.twt.wepeiyang.commons.view.RecyclerViewDivider
 import com.twtstudio.retrox.auth.api.authSelfLiveData
+import com.twtstudio.retrox.auth.api.login
 import com.twtstudio.retrox.auth.view.LoginActivity
 import com.twtstudio.retrox.tjulibrary.provider.TjuLibProvider
 import es.dmoral.toasty.Toasty
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import retrofit2.HttpException
 import rx.android.schedulers.AndroidSchedulers
 import rx.functions.Action1
 import rx.schedulers.Schedulers
@@ -78,9 +76,21 @@ class UserFragment : Fragment() {
                                                                 .unbindTju(CommonPreferences.twtuname)
                                                                 .subscribeOn(Schedulers.io())
                                                                 .observeOn(AndroidSchedulers.mainThread())
-                                                                .doAfterTerminate { authSelfLiveData.refresh(CacheIndicator.REMOTE) }
-                                                                .subscribe(Action1 { Toasty.success(context, "解绑成功！请重启微北洋", Toast.LENGTH_SHORT).show() }, RxErrorHandler())
+                                                                .doAfterTerminate {
+                                                                    /* 由于后台的接口问题， 每次绑定解绑操作都要重新拿token，干脆用login接口做了假解绑，增加用户体验*/
+                                                                    login(CommonPreferences.twtuname, CommonPreferences.password) {
+                                                                        when (it) {
+                                                                            is RefreshState.Success -> {
+                                                                                authSelfLiveData.refresh(CacheIndicator.REMOTE)
+                                                                            }
+                                                                            is RefreshState.Failure -> {
+                                                                                Toasty.error(context, "发生错误 ${it.throwable.message}！${it.javaClass.name}").show()
+                                                                            }
+                                                                        }
+                                                                    }
 
+                                                                }
+                                                                .subscribe(Action1 { Toasty.success(context, "解绑成功！请重新绑定办公网", Toast.LENGTH_SHORT).show() }, RxErrorHandler())
                                                     }
                                                     .setNegativeButton("再绑会...") { dialog, _ -> dialog.dismiss() }
                                             builder.create().show()
@@ -90,6 +100,7 @@ class UserFragment : Fragment() {
                                             context.startActivity(intent)
                                         }
                                     },
+
                                     UserItem.InfoItem(R.drawable.lib_library, "图书馆", authSelfLiveData.map {
                                         if (it.accounts.lib) "已绑定" else "未绑定"
                                     }) {
@@ -99,8 +110,19 @@ class UserFragment : Fragment() {
                                                     .setMessage("是否要解绑图书馆")
                                                     .setPositiveButton("解绑") { dialog, _ ->
                                                         TjuLibProvider(activity).unbindLibrary {
-                                                            CommonPreferences.isBindLibrary = false
-                                                            Toasty.success(context, "解绑成功！请重启微北洋", Toast.LENGTH_SHORT).show()
+                                                            login(CommonPreferences.twtuname, CommonPreferences.password) {
+                                                                when (it) {
+                                                                    is RefreshState.Success -> {
+                                                                        authSelfLiveData.refresh(CacheIndicator.REMOTE)
+                                                                    }
+                                                                    is RefreshState.Failure -> {
+                                                                        Toasty.error(context, "发生错误 ${it.throwable.message}！${it.javaClass.name}").show()
+                                                                    }
+                                                                }
+                                                            }
+//                                                            refreshToken()
+//                                                            authSelfLiveData.refresh(CacheIndicator.REMOTE)
+                                                            Toasty.success(context, "解绑成功！请重新绑定图书馆", Toast.LENGTH_SHORT).show()
                                                             dialog.dismiss()
                                                         }
                                                     }

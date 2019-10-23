@@ -6,29 +6,14 @@ import android.os.Bundle
 import android.preference.Preference
 import android.preference.PreferenceFragment
 import android.preference.SwitchPreference
-import android.support.v7.app.AlertDialog
-import android.support.v7.widget.Toolbar
-import android.text.TextUtils
 import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.Toast
 import com.tencent.bugly.crashreport.CrashReport
 import com.twt.service.R
-import com.twt.service.WePeiYangApp
 import com.twt.service.update.UpdateManager
-import com.twt.wepeiyang.commons.cache.CacheProvider
-import com.twt.wepeiyang.commons.experimental.cache.CacheIndicator.REMOTE
-import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
-import com.twt.wepeiyang.commons.network.RxErrorHandler
-import com.twtstudio.retrox.auth.api.authSelfLiveData
-import com.twtstudio.retrox.auth.view.LoginActivity
-import com.twtstudio.retrox.bike.service.BikeServiceProvider
-import com.twtstudio.retrox.tjulibrary.provider.TjuLibProvider
 import es.dmoral.toasty.Toasty
 import io.multimoon.colorful.CAppCompatActivity
-import rx.android.schedulers.AndroidSchedulers
-import rx.functions.Action1
-import rx.schedulers.Schedulers
 
 /**
  * Created by retrox on 2017/2/21.
@@ -64,8 +49,7 @@ class SettingsActivity : CAppCompatActivity() {
 
         override fun onResume() {
             super.onResume()
-            val isBindLib = findPreference(getString(R.string.pref_is_bind_lib))
-            isBindLib.summary = if (CommonPreferences.isBindLibrary) "已绑定" else "未绑定"
+//            val isBindLib = findPreference(getString(R.string.pref_is_bind_lib))
         }
 
         private fun initPrefs() {
@@ -75,95 +59,104 @@ class SettingsActivity : CAppCompatActivity() {
              * 绑定模块
              */
 
-            val libBindPref = findPreference(getString(R.string.pref_bind_settings))
-            libBindPref.onPreferenceClickListener = Preference.OnPreferenceClickListener {
-                val builder = AlertDialog.Builder(activity)
-                        .setMessage("是否要跳转到绑定页面")
-                        .setPositiveButton("确定") { _, _ ->
-                            val intent = Intent(activity, BindActivity::class.java)
-                            activity.startActivity(intent)
-                        }
-                builder.create().show()
-                true
-            }
-
-
-            val isBindTju = findPreference(getString(R.string.pref_is_bind_tju))
-            isBindTju.summary = if (CommonPreferences.isBindTju) "已绑定" else "未绑定"
-            isBindTju.setOnPreferenceClickListener {
-                val builder = AlertDialog.Builder(activity)
-                        .setTitle("办公网解绑")
-                        .setMessage("是否要解绑办公网")
-                        .setPositiveButton("解绑") { _, _ ->
-                            if (CommonPreferences.isBindTju) {
-                                RealBindAndDropOutService
-                                        .unbindTju(CommonPreferences.twtuname)
-                                        .subscribeOn(Schedulers.io())
-                                        .observeOn(AndroidSchedulers.mainThread())
-                                        .doAfterTerminate { authSelfLiveData.refresh(REMOTE) }
-                                        .subscribe(Action1 { Toasty.success(activity, "解绑成功！请重启微北洋", Toast.LENGTH_SHORT).show() }, RxErrorHandler())
-                            } else {
-                                Toasty.warning(activity, "你没绑定解绑啥？？？？？\n点击上面按钮进入绑定页面", Toast.LENGTH_SHORT).show()
-                            }
-                        }
-                        .setNegativeButton("再绑会...") { dialog, _ -> dialog.dismiss() }
-                builder.create().show()
-                false
-            }
-
-            val isBindLib = findPreference(getString(R.string.pref_is_bind_lib))
-            isBindLib.summary = if (CommonPreferences.isBindLibrary) "已绑定" else "未绑定"
-            isBindLib.setOnPreferenceClickListener {
-                val builder = AlertDialog.Builder(activity)
-                        .setTitle("图书馆解绑")
-                        .setMessage("是否要解绑图书馆")
-                        .setPositiveButton("解绑") { dialog, _ ->
-                            if (CommonPreferences.isBindLibrary) {
-                                TjuLibProvider(activity).unbindLibrary {
-                                    CommonPreferences.isBindLibrary = false
-                                    Toasty.success(activity, "解绑成功！请重启微北洋", Toast.LENGTH_SHORT).show()
-                                    isBindLib.summary = if (CommonPreferences.isBindLibrary) "已绑定" else "未绑定"
-                                    dialog.dismiss()
-                                }
-                            } else {
-                                Toast.makeText(activity, "你没绑定解绑啥？？？？？\n点击上面按钮进入绑定页面", Toast.LENGTH_SHORT).show()
-                            }
-                        }
-                        .setNegativeButton("再绑会...") { dialog, _ -> dialog.dismiss() }
-                builder.create().show()
-                false
-            }
-
-            val isBindBike = findPreference(getString(R.string.pref_is_bind_bike))
-            isBindBike.summary = if (CommonPreferences.isBindBike) "已绑定" else "未绑定"
-            isBindBike.setOnPreferenceClickListener {
-                val builder = AlertDialog.Builder(activity)
-                        .setTitle("自行车解绑")
-                        .setMessage("是否要解绑自行车")
-                        .setPositiveButton("解绑") { _, _ ->
-                            if (CommonPreferences.isBindBike) {
-                                BikeServiceProvider(activity).unbind()
-                            } else {
-                                Toasty.warning(activity, "你没绑定解绑啥？？？？？\n进入自行车模块完成绑定", Toast.LENGTH_SHORT).show()
-                            }
-                        }
-                        .setNegativeButton("再绑会...") { dialog, _ -> dialog.dismiss() }
-                builder.create().show()
-                false
-            }
-
+//            val libBindPref = findPreference(getString(R.string.pref_bind_settings))
+//            libBindPref.onPreferenceClickListener = Preference.OnPreferenceClickListener {
+//                val builder = AlertDialog.Builder(activity)
+//                        .setMessage("是否要跳转到绑定页面")
+//                        .setPositiveButton("确定") { _, _ ->
+//                            val intent = Intent(activity, BindActivity::class.java)
+//                            activity.startActivity(intent)
+//                        }
+//                builder.create().show()
+//                true
+//            }
+//
+//            val isBindTju = findPreference(getString(R.string.pref_is_bind_tju))
+//            isBindTju.setOnPreferenceClickListener {
+//                val builder = AlertDialog.Builder(activity)
+//                        .setTitle("办公网解绑")
+//                        .setMessage("是否要解绑办公网")
+//                        .setPositiveButton("解绑") { _, _ ->
+//                            if (CommonPreferences.isBindTju) {
+//                                RealBindAndDropOutService
+//                                        .unbindTju(CommonPreferences.twtuname)
+//                                        .subscribeOn(Schedulers.io())
+//                                        .observeOn(AndroidSchedulers.mainThread())
+//                                        .doAfterTerminate {
+//                                            /* 由于后台的接口问题， 每次绑定解绑操作都要重新拿token，干脆用login接口做了假解绑，增加用户体验*/
+//                                            login(CommonPreferences.twtuname, CommonPreferences.password) {
+//                                                when (it) {
+//                                                    is RefreshState.Success -> {
+//                                                        authSelfLiveData.refresh(REMOTE)
+//                                                    }
+//                                                    is RefreshState.Failure -> {
+//                                                        Toasty.error(activity, "发生错误 ${it.throwable.message}！${it.javaClass.name}").show()
+//                                                    }
+//                                                }
+//                                            }
+//                                        }
+//                                        .subscribe(Action1 { Toasty.success(activity, "解绑成功！请重新绑定办公网", Toast.LENGTH_SHORT).show() }, RxErrorHandler())
+//                            } else {
+//                                Toasty.warning(activity, "你没绑定解绑啥？？？？？\n点击上面按钮进入绑定页面", Toast.LENGTH_SHORT).show()
+//                            }
+//                        }
+//                        .setNegativeButton("再绑会...") { dialog, _ -> dialog.dismiss() }
+//                builder.create().show()
+//                false
+//            }
+//
+//            val isBindLib = findPreference(getString(R.string.pref_is_bind_lib))
+//            isBindLib.setOnPreferenceClickListener {
+//                val builder = AlertDialog.Builder(activity)
+//                        .setTitle("图书馆解绑")
+//                        .setMessage("是否要解绑图书馆")
+//                        .setPositiveButton("解绑") { dialog, _ ->
+//                            if (CommonPreferences.isBindLibrary) {
+//                                TjuLibProvider(activity).unbindLibrary {
+//                                    login(CommonPreferences.twtuname, CommonPreferences.password) {
+//                                        when (it) {
+//                                            is RefreshState.Success -> {
+//                                                authSelfLiveData.refresh(CacheIndicator.REMOTE)
+//                                            }
+//                                            is RefreshState.Failure -> {
+//                                                Toasty.warning(activity, "你没绑定解绑啥？？？？？\n点击上面按钮进入绑定页面", Toast.LENGTH_SHORT).show()                                            }
+//                                        }
+//                                    }
+//                                    Toasty.success(activity, "解绑成功！请重新绑定图书馆", Toast.LENGTH_SHORT).show()
+//                                    dialog.dismiss()
+//                                }
+//                            } else {
+//                                Toast.makeText(activity, "你没绑定解绑啥？？？？？\n点击上面按钮进入绑定页面", Toast.LENGTH_SHORT).show()
+//                            }
+//                        }
+//                        .setNegativeButton("再绑会...") { dialog, _ -> dialog.dismiss() }
+//                builder.create().show()
+//                false
+//            }
+//
+//            val isBindBike = findPreference(getString(R.string.pref_is_bind_bike))
+////            isBindBike.summary = if (CommonPreferences.isBindBike) "已绑定" else "未绑定"
+//            isBindBike.setOnPreferenceClickListener {
+//                val builder = AlertDialog.Builder(activity)
+//                        .setTitle("自行车解绑")
+//                        .setMessage("是否要解绑自行车")
+//                        .setPositiveButton("解绑") { _, _ ->
+//                            if (CommonPreferences.isBindBike) {
+//                                BikeServiceProvider(activity).unbind()
+//                            } else {
+//                                Toasty.warning(activity, "你没绑定解绑啥？？？？？\n进入自行车模块完成绑定", Toast.LENGTH_SHORT).show()
+//                            }
+//                        }
+//                        .setNegativeButton("再绑会...") { dialog, _ -> dialog.dismiss() }
+//                builder.create().show()
+//                false
+//            }
+//
             val isDisplayBike = findPreference(getString(R.string.pref_is_display_bike))
             isDisplayBike.onPreferenceChangeListener = Preference.OnPreferenceChangeListener { _, newValue ->
                 if (newValue == true) Toast.makeText(activity, "打开自行车模块以完成自行车功能的激活", Toast.LENGTH_SHORT).show()
                 true
             }
-
-            //            Preference isChangeSourceEnabled = findPreference(getString(R.string.pref_is_switch_news_source));
-            //            if (BuildConfig.DEBUG){
-            //                isChangeSourceEnabled.setEnabled(true);
-            //            }else {
-            //                isChangeSourceEnabled.setEnabled(false);
-            //            }
 
             val devTalking = findPreference(getString(R.string.pref_dev_talking))
             devTalking.setOnPreferenceClickListener {

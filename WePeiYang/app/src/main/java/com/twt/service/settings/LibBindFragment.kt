@@ -12,7 +12,10 @@ import butterknife.ButterKnife
 import butterknife.Unbinder
 import com.twt.service.R
 import com.twt.wepeiyang.commons.experimental.cache.CacheIndicator.REMOTE
+import com.twt.wepeiyang.commons.experimental.cache.RefreshState
+import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
 import com.twtstudio.retrox.auth.api.authSelfLiveData
+import com.twtstudio.retrox.auth.api.login
 import com.twtstudio.retrox.tjulibrary.provider.TjuLibProvider
 import es.dmoral.toasty.Toasty
 
@@ -35,12 +38,24 @@ class LibBindFragment : SlideFragment() {
         button.setOnClickListener {
             TjuLibProvider(context).bindLibrary({ integer ->
                 when (integer) {
-                    -1 -> this.context?.let { it1 -> Toasty.success(it1, "图书馆绑定完成，点击底部右侧对勾开始新旅程", Toast.LENGTH_SHORT).show() }
+                    -1 -> {
+                        /* 由于后台的接口问题， 每次绑定解绑操作都要重新拿token，干脆用login接口，增加用户体验*/
+                        login (CommonPreferences.twtuname, CommonPreferences.password) {
+                            when (it) {
+                                is RefreshState.Success -> {
+                                    authSelfLiveData.refresh(REMOTE)
+                                }
+                                is RefreshState.Failure -> {
+                                    Toasty.error(context!!, "发生错误 ${it.throwable.message}！${it.javaClass.name}").show()
+                                }
+                            }
+                        }
+                        this.context?.let { it1 -> Toasty.success(it1, "图书馆绑定完成，点击底部右侧对勾开始新旅程", Toast.LENGTH_SHORT).show() }
+                    }
                     50003 -> this.context?.let { it1 -> Toasty.success(it1, "图书馆已绑定，点击底部右侧对勾开始新旅程", Toast.LENGTH_SHORT).show() }
                     50002 -> this.context?.let { it1 -> Toasty.success(it1, "图书馆密码错误", Toast.LENGTH_SHORT).show() }
                     else -> this.context?.let { it1 -> Toasty.success(it1, "未知错误", Toast.LENGTH_SHORT).show() }
                 }
-                authSelfLiveData.refresh(REMOTE)
             }, libPasswordEdit.text.toString().takeIf(String::isNotEmpty) ?: "000000")
         }
         return view

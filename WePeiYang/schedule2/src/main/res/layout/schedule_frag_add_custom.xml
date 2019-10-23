@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/add_custom_frag"
+    android:background="@color/background_gray">
+
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/sv_nested"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background_gray"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/background_gray"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
+            android:orientation="vertical">
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/ll1"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="8dp"
+                android:gravity="center_vertical"
+                app:layout_constraintBottom_toTopOf="@+id/ll2"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="12dp"
+                    android:gravity="center_vertical"
+                    android:text="自定义事件名称"
+                    android:textSize="15dp"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <EditText
+                    android:id="@+id/edit_course_name"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="15dp"
+                    android:background="@drawable/schedule_edittext_shape"
+                    android:singleLine="true"
+                    android:textSize="15dp"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:theme="@style/MyTextInputLayout"
+                    app:layout_constraintEnd_toEndOf="@id/ll1"
+                    app:layout_constraintStart_toEndOf="@id/textView" />
+
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/ll2"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="12dp"
+                android:gravity="center_vertical"
+                app:layout_constraintBottom_toTopOf="@+id/ll3"
+                app:layout_constraintTop_toBottomOf="@id/ll1">
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="12dp"
+                    android:gravity="center_vertical"
+                    android:text="当事人"
+                    android:textSize="15dp"
+                    app:layout_constraintBottom_toBottomOf="@id/ll2"
+                    app:layout_constraintStart_toStartOf="@id/ll2"
+                    app:layout_constraintTop_toTopOf="@id/ll2" />
+
+                <EditText
+                    android:id="@+id/edit_course_teacher"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="15dp"
+                    android:background="@drawable/schedule_edittext_shape"
+                    android:singleLine="true"
+                    android:textSize="15dp"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:theme="@style/MyTextInputLayout"
+                    app:layout_constraintEnd_toEndOf="@id/ll2"
+                    app:layout_constraintStart_toEndOf="@id/textView2" />
+
+            </android.support.constraint.ConstraintLayout>
+
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/ll3"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="12dp"
+                android:gravity="center_vertical"
+                app:layout_constraintBottom_toTopOf="@+id/ll4"
+                app:layout_constraintTop_toBottomOf="@id/ll2">
+
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="12dp"
+                    android:gravity="center_vertical"
+                    android:text="地点"
+                    android:textSize="15dp"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <EditText
+                    android:id="@+id/edit_room_name"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="15dp"
+                    android:background="@drawable/schedule_edittext_shape"
+                    android:singleLine="true"
+                    android:textSize="15dp"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:theme="@style/MyTextInputLayout"
+                    app:layout_constraintEnd_toEndOf="@id/ll3"
+                    app:layout_constraintStart_toEndOf="@id/textView3" />
+
+            </android.support.constraint.ConstraintLayout>
+
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/ll4"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="20dp"
+                android:gravity="center_vertical"
+                app:layout_constraintBottom_toTopOf="@+id/ll5"
+                app:layout_constraintTop_toBottomOf="@id/ll3">
+
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="12dp"
+                    android:gravity="center_vertical"
+                    android:text="周几鸭(输入数字)"
+                    android:textSize="15dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/ll4"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <EditText
+                    android:id="@+id/edit_weekday_name"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="15dp"
+                    android:background="@drawable/schedule_edittext_shape"
+                    android:digits="1234567890"
+                    android:inputType="number"
+                    android:singleLine="true"
+                    android:textSize="15dp"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:theme="@style/MyTextInputLayout"
+                    app:layout_constraintEnd_toEndOf="@id/ll4"
+                    app:layout_constraintStart_toEndOf="@id/textView4" />
+            </android.support.constraint.ConstraintLayout>
+
+            <LinearLayout
+                android:id="@+id/ll5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                app:layout_constraintTop_toBottomOf="@+id/ll4">
+
+                <include layout="@layout/schedule_add_custom_checkbox" />
+            </LinearLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/ll6"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="12dp"
+                android:gravity="center_vertical"
+                app:layout_constraintBottom_toTopOf="@+id/ll7"
+                app:layout_constraintTop_toBottomOf="@id/ll5">
+
+                <TextView
+                    android:id="@+id/textView12"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="12dp"
+                    android:gravity="center_vertical"
+                    android:text="第几节开始"
+                    android:textSize="15dp"
+                    app:layout_constraintEnd_toStartOf="@id/edit_start_time_name"
+                    app:layout_constraintStart_toStartOf="@id/ll6" />
+
+                <TextView
+                    android:id="@+id/edit_start_time_name"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="12dp"
+                    android:background="@drawable/schedule_edittext_shape"
+                    android:theme="@style/MyTextInputLayout"
+                    android:textSize="15dp"
+                    app:layout_constraintEnd_toStartOf="@id/textView15"
+                    app:layout_constraintStart_toEndOf="@id/textView12" />
+
+                <TextView
+                    android:id="@+id/textView15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="8dp"
+                    android:gravity="center_vertical"
+                    android:text="第几节结束"
+                    app:layout_constraintEnd_toStartOf="@id/edit_end_time_name"
+                    app:layout_constraintStart_toEndOf="@id/edit_start_time_name" />
+
+                <TextView
+                    android:id="@+id/edit_end_time_name"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="15dp"
+                    android:background="@drawable/schedule_edittext_shape"
+                    android:theme="@style/MyTextInputLayout"
+                    android:textSize="15dp"
+                    app:layout_constraintEnd_toEndOf="@id/ll6"
+                    app:layout_constraintStart_toEndOf="@id/textView15" />
+
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/ll7"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="25dp"
+                android:gravity="center_vertical"
+                app:layout_constraintBottom_toTopOf="@+id/ll_course_arrange"
+                app:layout_constraintTop_toBottomOf="@id/ll6">
+
+                <TextView
+                    android:id="@+id/textView16"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="12dp"
+                    android:gravity="center_vertical"
+                    android:text="第几周开始"
+                    android:textSize="15dp"
+                    app:layout_constraintEnd_toStartOf="@id/edit_startWeek_name"
+                    app:layout_constraintStart_toStartOf="@id/ll7" />
+
+                <TextView
+                    android:id="@+id/edit_startWeek_name"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="12dp"
+                    android:background="@drawable/schedule_edittext_shape"
+                    android:theme="@style/MyTextInputLayout"
+                    android:textSize="15dp"
+                    app:layout_constraintEnd_toStartOf="@id/textView18"
+                    app:layout_constraintStart_toEndOf="@id/textView16" />
+
+                <TextView
+                    android:id="@+id/textView18"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="12dp"
+                    android:gravity="center_vertical"
+                    android:text="第几周结束"
+                    android:textSize="15dp"
+                    app:layout_constraintEnd_toStartOf="@id/edit_endWeek_name"
+                    app:layout_constraintStart_toEndOf="@id/edit_startWeek_name" />
+
+                <TextView
+                    android:id="@+id/edit_endWeek_name"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="15dp"
+                    android:background="@drawable/schedule_edittext_shape"
+                    android:theme="@style/MyTextInputLayout"
+                    android:textSize="15dp"
+                    app:layout_constraintEnd_toEndOf="@id/ll7"
+                    app:layout_constraintStart_toEndOf="@id/textView18" />
+
+            </android.support.constraint.ConstraintLayout>
+
+            <Button
+                android:id="@+id/ll_course_arrange"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="25dp"
+                android:text="添加自定义事件"
+                android:textColor="@color/white"
+                app:layout_constraintTop_toBottomOf="@+id/ll7" />
+        </android.support.constraint.ConstraintLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+</android.support.constraint.ConstraintLayout>

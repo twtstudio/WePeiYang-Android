@@ -12,9 +12,11 @@ import butterknife.ButterKnife
 import butterknife.Unbinder
 import com.twt.service.R
 import com.twt.wepeiyang.commons.experimental.cache.CacheIndicator.REMOTE
+import com.twt.wepeiyang.commons.experimental.cache.RefreshState
 import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
 import com.twt.wepeiyang.commons.network.RxErrorHandler
 import com.twtstudio.retrox.auth.api.authSelfLiveData
+import com.twtstudio.retrox.auth.api.login
 import es.dmoral.toasty.Toasty
 import rx.android.schedulers.AndroidSchedulers
 import rx.functions.Action1
@@ -46,7 +48,19 @@ class TjuBindFragment : SlideFragment() {
                     .bindTju(numEdit.text.toString(), passwordEdit.text.toString())
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .doAfterTerminate { authSelfLiveData.refresh(REMOTE) }
+                    .doAfterTerminate {
+                        /* 由于后台的接口问题， 每次绑定解绑操作都要重新拿token，干脆用login接口做了假解绑，增加用户体验*/
+                        login(CommonPreferences.twtuname, CommonPreferences.password) {
+                            when (it) {
+                                is RefreshState.Success -> {
+                                    authSelfLiveData.refresh(REMOTE)
+                                }
+                                is RefreshState.Failure -> {
+                                    Toasty.error(context!!, "发生错误 ${it.throwable.message}！${it.javaClass.name}").show()
+                                }
+                            }
+                        }
+                    }
                     .subscribe(Action1 {
                         this.context?.let { it1 -> Toasty.success(it1, "绑定成功", Toast.LENGTH_SHORT).show() }
                     }, RxErrorHandler())

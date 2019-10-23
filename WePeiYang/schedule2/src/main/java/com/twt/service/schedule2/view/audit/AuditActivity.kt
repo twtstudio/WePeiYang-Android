@@ -1,6 +1,7 @@
 package com.twt.service.schedule2.view.audit
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
 import android.graphics.drawable.ColorDrawable
@@ -55,10 +56,20 @@ import org.jetbrains.anko.textColor
 
 
 class AuditActivity : CAppCompatActivity() {
+    /*为了实现在多节课程的底部栏进入自定义课程界面 */
+    companion object {
+        fun startAuditActivity(context: Context) {
+            val auditIntent = Intent(context, AuditActivity::class.java)
+            auditIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+            context.startActivity(auditIntent)
+        }
+    }
+
     lateinit var recyclerView: RecyclerView
     lateinit var viewGroup: ViewGroup
     lateinit var autocomplete: Autocomplete<String>
     lateinit var searchEditText: EditText
+    
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.schedule_act_audit)

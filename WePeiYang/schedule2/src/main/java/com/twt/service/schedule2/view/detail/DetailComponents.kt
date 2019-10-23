@@ -1,5 +1,6 @@
 package com.twt.service.schedule2.view.detail
 
+import android.content.Intent
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -13,8 +14,11 @@ import com.twt.service.schedule2.model.exam.ExamTableLocalAdapter
 import com.twt.service.schedule2.model.exam.addEvent
 import com.twt.service.schedule2.view.adapter.CourseDetailViewModel
 import com.twt.service.schedule2.view.adapter.iconLabel
+import com.twt.service.schedule2.view.audit.AuditActivity
 import com.twt.service.schedule2.view.audit.search.SearchResultActivity
+import com.twt.service.schedule2.view.custom.AddCustomCourseActivity
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
+import com.twt.wepeiyang.commons.experimental.theme.CustomTheme.context
 import com.twt.wepeiyang.commons.mta.mtaClick
 import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemController
@@ -187,18 +191,28 @@ fun createCourseDetailList(course: Course): List<Any> {
     }
     list.add("课程信息")
     list.add(CourseDetailViewModel(R.drawable.ic_schedule_other, "逻辑班号：${course.classid}\n课程编号：${course.courseid}"))
-    list.add("自定义（开发中 敬请期待）")
-    list.add(CourseDetailViewModel(R.drawable.ic_schedule_search, "在蹭课功能中搜索相似课程", clickBlock = {
-        mtaClick("schedule_多节课程底部弹出_${course.coursename}_搜索相似蹭课")
+    list.add("自定义设置")
+    list.add(CourseDetailViewModel(R.drawable.ic_schedule_event, "进入蹭课功能", clickBlock = {
+        mtaClick("schedule_多节课程底部弹出_${course.coursename}_进入蹭课功能")
+        AuditActivity.startAuditActivity(context)
+
+    }))
+    list.add(CourseDetailViewModel(R.drawable.ic_schedule_search, "在蹭课中搜索相似课程", clickBlock = {
+        mtaClick("schedule_多节课程底部弹出_${course.coursename}_进入蹭课中搜索相似课程功能")
         SearchResultActivity.searchCourse(it.context, course.coursename)
     }))
-    list.add(CourseDetailViewModel(R.drawable.ic_schedule_event, "添加自定义课程/事件"))
-    list.add(CourseDetailViewModel(R.drawable.ic_schedule_homework, "添加课程作业/考试"))
+    list.add(CourseDetailViewModel(R.drawable.ic_schedule_event, "添加自定义课程/事件", clickBlock = {
+        mtaClick("schedule_多节课程底部弹出_${course.coursename}_添加自定义课程/事件")
+        AddCustomCourseActivity.startAddCustomActivity(context)
+    }))
+    list.add(CourseDetailViewModel(R.drawable.ic_schedule_homework, "添加课程作业/考试", clickBlock = {
+        Toasty.info(it.context, "下一版本中加入").show()
+    }))
     list.add("帮助")
     list.add(CourseDetailViewModel(R.drawable.ic_schedule_info, "如何使用课程表的自定义功能", {
         it.context.alert {
             title = "课程表使用帮助"
-            message = "蹭课，自定义课程，作业考试添加还没有完全完成,所以不可点击。\n周数切换最近就会添加上去 \n\n" +
+            message = "作业考试添加还没有完全完成\n周数切换最近就会添加上去 \n\n" +
                     "多节：在此课程方格中存在多节课程，可能是冲突，也可能是非本周（一般都是非本周），多节课程点击弹出的底部栏可以通过左右滑动来查看不同的课程详情\n\n" +
                     "[非本周]：课程表体现为灰白色课程，有这个课程但是这周不上\n\n" +
                     "[蹭课]：来自于我选择的蹭课\n\n" +
