@@ -15,8 +15,8 @@ android {
         renderscriptTargetApi 27
         renderscriptSupportModeEnabled true
         applicationId 'com.twt.service'
-        versionCode 48
-        versionName '3.7.1'
+        versionCode 49
+        versionName '3.8.0'
 
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
 
