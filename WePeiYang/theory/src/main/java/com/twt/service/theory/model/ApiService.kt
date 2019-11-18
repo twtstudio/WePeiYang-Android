@@ -1,18 +1,17 @@
 package com.twt.service.theory.model
 
+import com.google.gson.JsonObject
 import com.google.gson.annotations.SerializedName
-import com.twt.wepeiyang.commons.experimental.network.CommonBody
 import com.twt.wepeiyang.commons.experimental.network.ServiceFactory
 import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
 import kotlinx.coroutines.experimental.Deferred
+import okhttp3.Call
+import okhttp3.RequestBody
 import okhttp3.ResponseBody
-import retrofit2.Call
-import retrofit2.http.GET
-import retrofit2.http.Header
-import retrofit2.http.Query
-import rx.Observable
+import org.json.JSONObject
+import retrofit2.http.*
 
-const val THEORY_BASE_URL = "https://theory-new.twtstudio.com/index.php/api"
+const val THEORY_BASE_URL = "https://theory-new.twt.edu.cn/index.php"
 
 interface TheoryApi {
 //    //single sign in
@@ -32,14 +31,20 @@ interface TheoryApi {
 //    @GET("v1/theory/user/getUserExam")
 //    fun getUserExam(@Query("user_id") userid: Int): Deferred<CommonBody<String>>
 
-    @GET("$THEORY_BASE_URL/random?")
+    @GET("$THEORY_BASE_URL/api/random?")
     fun getPaper(@Query("paper_id") paper_id: Int, @Header("Authorization") token: String = "Bearer{${CommonPreferences.token}}"): Deferred<PaperBean>
 
-    @GET("$THEORY_BASE_URL/getTests")
+    @GET("$THEORY_BASE_URL/api/getTests")
     fun getTests(@Header("Authorization") token: String = "Bearer{${CommonPreferences.token}}"): Deferred<TestBean>
 
     @GET("$THEORY_BASE_URL/session")
     fun getSession(@Header("Authorization") token: String = "Bearer{${CommonPreferences.token}}"): Deferred<ResponseBody>
+
+    @GET("$THEORY_BASE_URL/notice/getNotice")
+    fun getNotice(@Header("Authorization") token: String = "Bearer{${CommonPreferences.token}}"): Deferred<NoticeBean>
+
+    @POST("$THEORY_BASE_URL/api/score")
+    fun getScore(@Body body: String, @Header("Authorization") token: String = "Bearer{${CommonPreferences.token}}"): Deferred<ResponseBody>
 
 //
 //    @GET("loginStatus")
@@ -189,5 +194,64 @@ class SessionBean {
         var old: List<*>? = null
         @SerializedName("new")
         var newX: List<*>? = null
+    }
+}
+
+class NoticeBean {
+    /**
+     * status : success
+     * data : [{"id":9,"title":"第三十八期形势与政策理论答题考试","content":"第三十八期形势与政策理论答题考试开始了，考试时间为11月17日至12月1日，时限为35分钟，每位同学可以答题10次，最后成绩为各次考试中最高分数。","published_at":"2019-11-17 02:00:00","created_at":"2019-11-12 15:44:33","updated_at":"2019-11-12 15:44:33","college_code":"89","published_date":"2019-11-17"}]
+     */
+
+    var status: String? = null
+    var data: List<DataBean>? = null
+
+    class DataBean {
+        /**
+         * id : 9
+         * title : 第三十八期形势与政策理论答题考试
+         * content : 第三十八期形势与政策理论答题考试开始了，考试时间为11月17日至12月1日，时限为35分钟，每位同学可以答题10次，最后成绩为各次考试中最高分数。
+         * published_at : 2019-11-17 02:00:00
+         * created_at : 2019-11-12 15:44:33
+         * updated_at : 2019-11-12 15:44:33
+         * college_code : 89
+         * published_date : 2019-11-17
+         */
+
+        var id: Int = 0
+        var title: String? = null
+        var content: String? = null
+        var published_at: String? = null
+        var created_at: String? = null
+        var updated_at: String? = null
+        var college_code: String? = null
+        var published_date: String? = null
+    }
+}
+
+class ScoreBean {
+    var paper_id: Int = 0
+    var scq: MutableList<AnswerBean> = mutableListOf()
+    var mcq: MutableList<AnswerBean> = mutableListOf()
+
+    class AnswerBean {
+        var id: String = "233"
+        var ans: String = "ABC"
+    }
+
+    override fun toString(): String {
+        val main = JSONObject()
+        val scqJson = JSONObject()
+        val mcpJson = JSONObject()
+        for (i in scq) {
+            scqJson.put(i.id, i.ans)
+        }
+        for (i in mcq) {
+            mcpJson.put(i.id, i.ans)
+        }
+        main.put("paper_id", paper_id)
+        main.put("scq", scqJson)
+        main.put("mcq", mcpJson)
+        return main.toString()
     }
 }

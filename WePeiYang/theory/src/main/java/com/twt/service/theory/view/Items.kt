@@ -6,18 +6,19 @@ import android.os.Bundle
 import android.support.constraint.ConstraintLayout
 import android.support.v7.content.res.AppCompatResources
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import anim.ExamDetailActivity
 import com.bumptech.glide.Glide
 import com.twt.service.theory.R
+import com.twt.service.theory.model.NoticeBean
 import com.twt.service.theory.model.PaperBean
 import com.twt.service.theory.model.TestBean
 import com.twt.wepeiyang.commons.experimental.theme.CustomTheme.context
 import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemController
+import org.jetbrains.anko.alert
 import org.jetbrains.anko.layoutInflater
 import java.lang.Math.pow
 
@@ -147,16 +148,21 @@ class UserExamItem : Item {
 
 }
 
-class MessageItem : Item {
+class MessageItem(var data: NoticeBean.DataBean, var msgFragment: MessageFragement) : Item {
     private companion object Controller : ItemController {
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: Item) {
             holder as MessageItemViewHolder
             item as MessageItem
             holder.apply {
-                name.text = "一次小考试"
-                content.text = "一次小考试"
+                name.text = item.data.title
+                content.text = item.data.published_at
             }
-
+            holder.bg.setOnClickListener {
+                item.msgFragment.context?.alert {
+                    title = item.data.title.toString()
+                    message = item.data.content.toString()
+                }?.show()
+            }
         }
 
         override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
@@ -172,6 +178,7 @@ class MessageItem : Item {
     private class MessageItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val name = itemView.findViewById<TextView>(R.id.eaxm_announce_name)
         val content = itemView.findViewById<TextView>(R.id.eaxm_announce_detail)
+        val bg = itemView.findViewById<ConstraintLayout>(R.id.exam_announce_bg)
     }
 
     override val controller: ItemController
@@ -386,7 +393,7 @@ class ProblemItem(val id: Int, var done: Boolean, val callBack: (Int) -> (Unit))
 
 }
 
-fun MutableList<Item>.setMessage() = add(MessageItem())
+fun MutableList<Item>.setMessage(data: NoticeBean.DataBean, c: MessageFragement) = add(MessageItem(data, c))
 
 fun MutableList<Item>.setExamItem(data: TestBean.DataBean, examFragment: ExamFragment) = add(ExamItem(data, examFragment))
 

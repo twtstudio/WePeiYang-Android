@@ -8,19 +8,26 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.twt.service.theory.R
+import com.twt.service.theory.model.NoticeBean
+import com.twt.service.theory.model.TestBean
 import com.twt.wepeiyang.commons.ui.rec.withItems
 
 class MessageFragement : Fragment() {
-
+    lateinit var recyclerView: RecyclerView
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val view: View = inflater.inflate(R.layout.theory_fragment_common, container, false)
-        val recyclerView = view.findViewById<RecyclerView>(R.id.main_rec)
+        recyclerView = view.findViewById<RecyclerView>(R.id.main_rec)
         recyclerView.layoutManager = LinearLayoutManager(activity)
-        recyclerView.withItems {
-            setMessage()
-            setMessage()
-            setMessage()
-        }
         return view
+    }
+
+    fun setNoticeList(noticeList: List<NoticeBean.DataBean>?) {
+        if (noticeList == null) return
+        recyclerView.withItems {
+            for (i: NoticeBean.DataBean in noticeList) {
+                setMessage(i, this@MessageFragement)
+            }
+        }
+
     }
 }

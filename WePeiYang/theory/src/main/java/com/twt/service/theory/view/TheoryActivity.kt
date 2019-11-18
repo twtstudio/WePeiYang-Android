@@ -24,15 +24,25 @@ class TheoryActivity : AppCompatActivity(), OnBannerListener {
     private val examFragment = ExamFragment()
     private val messageFragement = MessageFragement()
 
-    override fun onResume() {
+    override fun onResume() {//每次显示都更新
         super.onResume()
-        launch(UI) {
+            launch(UI) {
+            //获取考试
             try {
                 val dat = TheoryApi.getTests().await()
                 examFragment.setTestList(dat.data)
             } catch (e: Exception) {
-                //理论答题中第一个网络请求，在这里处理请求的异常
+                //理论答题中第一个网络请求
                 Toasty.error(this@TheoryActivity, "获取试卷失败, 请检查是否已连接校园网").show()
+            }
+        }
+        launch(UI) {
+            //获取通知
+            try {
+                val dat = TheoryApi.getNotice().await()
+                messageFragement.setNoticeList(dat.data)
+            } catch (e: Exception) {
+                Toasty.error(this@TheoryActivity, "获取通知失败").show()
             }
         }
     }
@@ -62,7 +72,7 @@ class TheoryActivity : AppCompatActivity(), OnBannerListener {
         window.statusBarColor = Color.parseColor("#FFFFFF")
         enableLightStatusBarMode(true)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        list.add("https://theory-new.twtstudio.com/static/media/banner.cae4e845.png")
+        list.add("https://theory-new.twt.edu.cn/static/media/banner.cae4e845.png")
         val banner = findViewById<Banner>(R.id.main_banner)
         banner.apply {
             setImageLoader(GlideImageLoader())
