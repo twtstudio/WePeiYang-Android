@@ -17,9 +17,8 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:layout_scrollFlags="scroll|enterAlways"
-            app:title="添加自定义事件"
+            app:title="自定义事件"
             app:titleTextColor="@color/white_color">
-            <include layout="@layout/schedule_toolbar_head1" />
         </android.support.v7.widget.Toolbar>
 
         <!--选项卡-->

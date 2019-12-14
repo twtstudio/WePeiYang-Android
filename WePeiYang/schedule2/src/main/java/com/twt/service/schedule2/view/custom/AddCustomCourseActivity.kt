@@ -38,18 +38,6 @@ class AddCustomCourseActivity: AppCompatActivity() {
         }
         toolbar.setBackgroundColor(getColorCompat(R.color.colorPrimaryDark))
 
-        //更改toolbar的标题，隐藏刷新和添加按钮
-        val titleText: TextView = findViewById(R.id.tv_toolbar_title)
-        titleText.apply {
-            text = "自定义事件"
-        }
-        val refreshImg: ImageView = findViewById(R.id.iv_toolbar_refresh)
-        refreshImg.apply {
-            visibility = View.GONE
-        }
-        val addImg: ImageView = findViewById(R.id.iv_toolbar_add)
-        addImg.visibility = View.GONE
-
         //设置tab
         val customTabLayout: TabLayout = findViewById(R.id.tab_layout)
         val customViewPager: ViewPager = findViewById(R.id.custom_view_pager)

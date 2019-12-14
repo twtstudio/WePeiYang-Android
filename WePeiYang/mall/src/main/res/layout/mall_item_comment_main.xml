@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <ImageView
+        android:id="@+id/iv_comment_avatar"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        android:background="@color/mallColorLight"
+        android:src="@drawable/mall_ic_mine" />
+
+    <TextView
+        android:id="@+id/tv_comment_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="uzumaki naruto"
+        android:layout_below="@id/iv_comment_avatar"
+        android:textColor="#6495ED"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/comment_content"
+        android:layout_alignParentEnd="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_margin="20dp"
+        android:layout_toEndOf="@id/iv_comment_avatar"
+        tools:text="不是我窦娥罚下这等无头愿，委实的冤情不浅。若没些儿灵圣与世人传，也不见得湛湛青天。我不要半星热血红尘洒，都只在八尺旗枪素练悬。等他四下里皆瞧见，这就是咱苌弘化碧，望帝啼鹃"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/commet_reply"
+        android:layout_width="30dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="4dp"
+        android:text="回复"
+        android:textColor="#6495ED"
+        android:textSize="8sp"
+        app:layout_constraintLeft_toRightOf="@id/tv_comment_name"
+        app:layout_constraintTop_toBottomOf="@id/comment_content" />
+
+    <TextView
+        android:id="@+id/comment_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginRight="25dp"
+        android:text="20190824"
+        android:textSize="8sp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/comment_content" />
+
+</RelativeLayout>

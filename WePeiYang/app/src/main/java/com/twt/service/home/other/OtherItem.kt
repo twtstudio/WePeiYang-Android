@@ -11,7 +11,6 @@ import com.tjuwhy.yellowpages2.view.YellowPageActivity
 import com.yookiely.lostfond2.waterfall.WaterfallActivity
 import com.twt.service.home.user.FragmentActivity
 import com.twt.service.job.home.JobHomeActivity
-import com.twt.service.mall.MallActivity
 import com.twt.service.news.NewsActivity
 import com.twt.wepeiyang.commons.mta.mtaClick
 import com.twt.wepeiyang.commons.ui.rec.HomeItem
@@ -20,6 +19,7 @@ import com.twt.wepeiyang.commons.ui.rec.ItemController
 import com.twtstudio.retrox.bike.bike.ui.main.BikeActivity
 import com.twtstudio.service.tjwhm.exam.home.ExamHomeActivity
 import com.twtstudio.tjliqy.party.ui.home.PartyActivity
+import com.avarye.mall.main.MallActivity
 import org.jetbrains.anko.*
 
 class OtherItem : Item {
