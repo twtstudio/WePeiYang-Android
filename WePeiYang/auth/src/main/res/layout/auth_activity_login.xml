@@ -133,10 +133,12 @@
     <TextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="24dp"
         android:layout_marginEnd="64dp"
         android:layout_marginStart="64dp"
-        android:text="登录错误请检查账号密码是否有问题, 500错误请多次重试(10-20次)"
+        android:textColor="#FF0000"
+        android:textSize="17sp"
+        android:text="请注意！\n由于天外天账号系统升级，天外天账号更改为学号，密码更改为身份证号的13-18位，（若身份证的最后一位为X请大写），您可以在https://i.twt.edu.cn/ 更新密码、绑定邮箱，请广而告之"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
