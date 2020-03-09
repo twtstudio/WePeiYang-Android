@@ -6,7 +6,7 @@ import okhttp3.Request
 internal inline val Request.isTrusted
     get() = url().host() in trustedHosts
 
-private val trustedHosts = setOf("open.twtstudio.com", "exam.twtstudio.com", "open-lostfound.twtstudio.com")
+private val trustedHosts = setOf("open.twtstudio.com", "exam.twtstudio.com", "open-lostfound.twtstudio.com","open.twt.edu.cn")
 /**
  * A wrapped interceptor only applied to trusted request.
  *
