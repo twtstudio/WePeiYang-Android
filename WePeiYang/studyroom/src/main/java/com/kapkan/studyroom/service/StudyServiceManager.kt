@@ -1,6 +1,14 @@
-package com.example.studyroom.service
+package com.kapkan.studyroom.service
+
+import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
 
 object StudyServiceManager{
+
+    fun getDate() = SelfStudyApi.getClassTable()
+
+    fun star(id:String) = SelfStudyApi.starClassroom(id)
+
+    fun unStar(id:String) = SelfStudyApi.unStarClassroom(id)
 
     fun getBuildingList() = SelfStudyApi.getBuildingList()
 
@@ -10,4 +18,9 @@ object StudyServiceManager{
 
     fun getCollection() = SelfStudyApi.getCollectionList()
 
+    fun login() = SelfStudyApi.login(getToken())
+
+    fun getToken(): String {
+        return "Bearer{${CommonPreferences.token}}"
+    }
 }

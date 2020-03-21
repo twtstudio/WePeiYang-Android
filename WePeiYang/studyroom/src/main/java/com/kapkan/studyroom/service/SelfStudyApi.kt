@@ -1,61 +1,67 @@
-package com.example.studyroom.service
+package com.kapkan.studyroom.service
 
 import android.arch.lifecycle.MutableLiveData
+import com.google.gson.annotations.SerializedName
 import com.twt.wepeiyang.commons.experimental.network.CommonBody
 import com.twt.wepeiyang.commons.experimental.network.CoroutineCallAdapterFactory
+import com.twt.wepeiyang.commons.experimental.network.ServiceFactory
 import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
 import kotlinx.coroutines.Deferred
 import okhttp3.OkHttpClient
-import okhttp3.RequestBody
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
 
-const val BASEURL: String = "https://selfstudy.twt.edu.cn"
 
+const val BASEURL: String = "https://selfstudy.twt.edu.cn"
+const val DATEURL = "https://open.twt.edu.cn/api"
 interface SelfStudyApi {
 
+    @GET("$DATEURL/v1/classtable")
+    fun getClassTable(): Deferred<CommonBody<Classtable>>
 
-    @GET("${BASEURL}/api/getBuildingList.php")
+    @GET("$BASEURL/api/getBuildingList.php")
     fun getBuildingList(): Deferred<BuildingList>
 
     //获取当日可以上自习的教室(term暂时写死)
-    @GET("${BASEURL}/api/getDayData.php?term=18191")
-    fun getAvaliableRoom(@Part("week") week: Int,
-                         @Part("day") day: Int): Deferred<AvailableRoomList>
+
+    @GET("$BASEURL/api/getDayData.php?term=18191")
+    fun getAvaliableRoom(@Query("week") week: Int,
+                         @Query("day") day: Int): Deferred<AvailableRoomList>
 
     //获取某节课的可用的自习室(term暂时写死)
-    @GET("${BASEURL}/api/getDayData.php?term=18191")
-    fun getAvaliableRoombyClass(@Part("week") week: Int,
-                                @Part("day") day: Int,
-                                @Part("course") course: Int): Deferred<AvailableRoomList>
+
+    @GET("$BASEURL/api/getDayData.php?term=18191")
+    fun getAvaliableRoombyClass(@Query("week") week: Int,
+                                @Query("day") day: Int,
+                                @Query("course") course: Int): Deferred<AvailableRoomList>
 
     //获得当前用户收藏列表，但是参数没列出来不知道写什么(雾
     //Header
     //Parameters
     //returns
-    @GET("${BASEURL}/api/getCollectionList.php")
-    fun getCollectionList()
+    @GET("$BASEURL/api/getCollectionList.php")
+    fun getCollectionList():Deferred<CollectionList>
 
     //收藏
-    @POST("${BASEURL}/api/addCollection.php")
+    @POST("$BASEURL/api/addCollection.php")
     fun starClassroom(@Part("classroom_ID") roomID: String): Deferred<Response>
 
     //取消收藏
-    @POST("${BASEURL}/api/deleteCollection.php")
+    @POST("$BASEURL/api/deleteCollection.php")
     fun unStarClassroom(@Part("classroom_ID") roomID: String): Deferred<Response>
 
     //获取某教室整周排版情况
     @Multipart
-    @GET("${BASEURL}/api/getClassroomWeekInfo.php")
+    @GET("$BASEURL/api/getClassroomWeekInfo.php")
     fun getClassroomWeekInfo(@Part("classroom_ID") roomID: String,
                              @Part("week") week: Int,
                              @Part("term") term: Int = 18191): Deferred<ClassroomWeekInfo>
 
     //登陆？？？
-    @GET("${BASEURL}/api/login.php")
-    fun login()
+    @GET("$BASEURL/api/login.php")
+    fun login(@Header("Authorization") token: String): Deferred<CommonBody<Login>>
 
     companion object : SelfStudyApi by SelfStudyApiService()
 }
@@ -80,6 +86,17 @@ object SelfStudyApiService {
 val loginLiveData = MutableLiveData<Login>()
 val BuildingListData = MutableLiveData<BuildingList>()
 val AvailableRoomListData = MutableLiveData<AvailableRoomList>()
+val collectionLiveData = MutableLiveData<CollectionList>()
+
+
+interface TjuCourseApi {
+
+    @GET("v1/classtable")
+    fun getClassTable(): Deferred<CommonBody<Classtable>>
+
+    companion object : TjuCourseApi by ServiceFactory()
+
+}
 
 fun getToken(): String {
     return "Bearer{${CommonPreferences.token}}"
@@ -153,4 +170,35 @@ data class weekdata(
         val `7`: String
 )
 
+data class Classtable(val week: Int = 0,
+                      val cache: Boolean = true,
+                      @SerializedName("data") val courses: List<Course>,
+                      @SerializedName("term_start") val termStart: Long = 0L,
+                      @SerializedName("updated_at") val updatedAt: String = "",
+                      val term: String = "")
 
+data class Course(val coursetype: String = "",
+                  val college: String = "",
+                  val ext: String = "",
+                  val classid: Int = 0, // 逻辑班号
+                  val teacher: String = "",
+                  val week: Week,
+                  val coursename: String = "",
+                  @SerializedName("arrange") val arrangeBackup: List<Arrange>,
+                  val campus: String = "",
+                  val coursenature: String = "",
+                  val credit: String = "",
+                  val courseid: String = "0", // 课程编号
+                  var courseColor: Int = 0,
+                  var statusMessage: String? = "", // [蹭课] [非本周] 什么的
+                  var weekAvailable: Boolean = false, // 是不是灰色
+                  var dayAvailable: Boolean = false) // 今天有没有课
+
+data class Week(val start: Int = 0,
+                val end: Int = 0)
+
+data class Arrange(val week: String = "",/*单双周 单周 双周*/
+                   val start: Int = 0,/*第几节开始*/
+                   val end: Int = 0,/*第几节结束*/
+                   val day: Int = 0,/*周几*/
+                   val room: String = ""/*上课地点*/)
