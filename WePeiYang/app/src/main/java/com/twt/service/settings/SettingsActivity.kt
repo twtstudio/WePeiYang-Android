@@ -165,13 +165,13 @@ class SettingsActivity : CAppCompatActivity() {
                 false
             }
 
-            val feedback = findPreference(getString(R.string.pref_feedback))
-            feedback.onPreferenceClickListener = Preference.OnPreferenceClickListener {
-                val intent = Intent(Intent.ACTION_VIEW)
-                intent.data = Uri.parse("https://support.twtstudio.com/category/6/%E7%A7%BB%E5%8A%A8%E5%AE%A2%E6%88%B7%E7%AB%AF")
-                activity.startActivity(intent)
-                false
-            }
+//            val feedback = findPreference(getString(R.string.pref_feedback))
+//            feedback.onPreferenceClickListener = Preference.OnPreferenceClickListener {
+//                val intent = Intent(Intent.ACTION_VIEW)
+//                intent.data = Uri.parse("https://support.twtstudio.com/category/6/%E7%A7%BB%E5%8A%A8%E5%AE%A2%E6%88%B7%E7%AB%AF")
+//                activity.startActivity(intent)
+//                false
+//            }
 
             val contact = findPreference(getString(R.string.pref_contact_me))
             contact.onPreferenceClickListener = Preference.OnPreferenceClickListener {
