@@ -7,7 +7,7 @@ import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Query
 
-internal const val JOB_BASE_URL = "http://job.api.twtstudio.com/"
+internal const val JOB_BASE_URL = "http://job-api.twt.edu.cn/"
 
 interface JobService {
 
