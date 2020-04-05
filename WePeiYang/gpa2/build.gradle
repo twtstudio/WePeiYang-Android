@@ -43,6 +43,7 @@ dependencies {
     androidTestImplementation('com.android.support.test.espresso:espresso-core:3.0.1', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+    implementation 'org.jsoup:jsoup:1.11.3'
 
     implementation project(':commons')
 
