@@ -15,7 +15,7 @@ import okhttp3.HttpUrl;
  * @time 2018/7/20
  * @desc
  */
-public class CookieJarImpl implements CookieJar {
+class CookieJarImpl implements CookieJar {
 
     private CookieStore cookieStore;
     public CookieJarImpl(CookieStore cookieStore) {

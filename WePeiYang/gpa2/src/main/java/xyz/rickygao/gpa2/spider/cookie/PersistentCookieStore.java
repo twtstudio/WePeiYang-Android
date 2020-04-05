@@ -31,7 +31,7 @@ import okhttp3.HttpUrl;
  * @time 2018/7/20
  * @desc
  */
-public class PersistentCookieStore implements CookieStore {
+class PersistentCookieStore implements CookieStore {
 
     private static final String LOG_TAG = "PersistentCookieStore";
     private static final String COOKIE_PREFS = "CookiePrefsFile";

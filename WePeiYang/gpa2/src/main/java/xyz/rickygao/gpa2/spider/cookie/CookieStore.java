@@ -13,7 +13,7 @@ import okhttp3.HttpUrl;
  * @blog https://blog.csdn.net/u012527802
  * @desc
  */
-public interface CookieStore {
+interface CookieStore {
 
     /**  添加cookie */
     void add(HttpUrl httpUrl, Cookie cookie);

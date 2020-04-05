@@ -1,23 +1,33 @@
-package xyz.rickygao.gpa2.spider
+package xyz.rickygao.gpa2.spider.utils
 
 import android.content.Context
-import android.util.Log
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.Request
 import okhttp3.Response
+import org.jsoup.Jsoup
+import xyz.rickygao.gpa2.spider.cookie.OkHttpClientGenerator
 import java.io.IOException
 
-public class Sso( private val context: Context) {
+/**
+ * classes.tju.edu.cn
+ * cookie 获取
+ *
+ */
+public class Classes() {
     private val BASE_URL = "http://classes.tju.edu.cn/eams/homeExt.action"
     private var ssoUrl: String? = ""
 
     private var execution = ""
-    private var user: User = User(ui, context)
+    private var userState: UserState = UserState()
 
-
+    /**
+     * 登录前调用。
+     * 获取 session
+     * 解析登录所需参数 execution
+     */
     fun init() {
-        var okHttpClient = OkHttpClientGenerator.generate(context)
+        var okHttpClient = OkHttpClientGenerator.generate().build()
         var request = Request.Builder()
                 .url(BASE_URL)
                 .get()
@@ -39,15 +49,21 @@ public class Sso( private val context: Context) {
                     }
                 }
                 ssoUrl = headers.get("Location")
-                Log.d("execution", execution)
-                Log.d("ssoUrl", ssoUrl ?: "")
             }
         })
     }
+
+    /**
+     * 登录
+     */
     fun login(userName:String,password:String){
-        user.login(userName,password,execution)
+        userState.login(userName,password,execution)
     }
+
+    /**
+     * 登出
+     */
     fun logout(){
-        user.logout()
+        userState.logout()
     }
 }
