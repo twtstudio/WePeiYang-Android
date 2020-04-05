@@ -30,7 +30,7 @@ object CommonPreferences {
 
     var password by hawk("user_pwd", "")
 
-    var realName by hawk("user_realname","")
+    var realName by hawk("user_realname", "")
 
     var proxyAddress by hawk("proxy_address", "")
 
