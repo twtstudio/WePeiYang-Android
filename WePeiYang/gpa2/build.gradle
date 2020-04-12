@@ -46,7 +46,6 @@ dependencies {
     implementation 'org.jsoup:jsoup:1.11.3'
 
     implementation project(':commons')
-    implementation files('/Users/yangchen/Downloads/jsoup-1.13.1.jar')
 
     [*supportLibraries, 'constraint-layout', *archLibraries, 'kotlin-stdlib', 'kotlinx-coroutines', 'anko'].each {
         implementation dependenciesMap[it]
