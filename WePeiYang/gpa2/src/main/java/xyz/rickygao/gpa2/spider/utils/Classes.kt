@@ -16,29 +16,28 @@ import java.io.IOException
  * cookie 获取
  *
  */
-public class Classes() {
+object Classes {
     private val BASE_URL = "http://classes.tju.edu.cn/eams/homeExt.action"
     private var ssoUrl: String? = ""
 
     private var execution = ""
-    private var userState: UserState = UserState()
 
     /**
      * 登录前调用。
      * 获取 session
      * 解析登录所需参数 execution
      */
-    suspend fun init() {
-        var okHttpClient = OkHttpClientGenerator.generate().build()
-        var request = Request.Builder()
+    private suspend fun init() {
+        val okHttpClient = OkHttpClientGenerator.generate().build()
+        val request = Request.Builder()
                 .url(BASE_URL)
                 .get()
                 .build()
         val body = okHttpClient.newCall(request).execute().body()?.string()
 
 
-        var doc = Jsoup.parse(body)
-        var es = doc.select("input")
+        val doc = Jsoup.parse(body)
+        val es = doc.select("input")
         for (e in es) {
             if (e.attr("name") == "execution") {
                 execution = e.`val`()
@@ -52,13 +51,14 @@ public class Classes() {
      * 登录
      */
     suspend fun login(userName: String, password: String) {
-        userState.login(userName, password, execution)
+        init()
+        UserState.login(userName, password, execution)
     }
 
     /**
      * 登出
      */
     fun logout() {
-        userState.logout()
+        UserState.logout()
     }
 }

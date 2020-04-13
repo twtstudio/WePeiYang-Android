@@ -13,7 +13,7 @@ import java.io.IOException
 /**
  * 登录 登出
  */
-class UserState() {
+object UserState{
     private val BASE_URL = "https://sso.tju.edu.cn/cas/login"
     private val url = "$BASE_URL?service=http://classes.tju.edu.cn/eams/homeExt.action"
     private val logoutUrl = "http://classes.tju.edu.cn/eams/logoutExt.action"
