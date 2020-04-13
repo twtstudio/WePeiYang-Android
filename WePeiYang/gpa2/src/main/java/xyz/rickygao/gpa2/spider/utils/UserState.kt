@@ -17,32 +17,17 @@ class UserState() {
     private val BASE_URL = "https://sso.tju.edu.cn/cas/login"
     private val url = "$BASE_URL?service=http://classes.tju.edu.cn/eams/homeExt.action"
     private val logoutUrl = "http://classes.tju.edu.cn/eams/logoutExt.action"
-    fun login(userName: String, password: String, execution: String) =
-            GlobalScope.launch {
-                var okHttpClient = OkHttpClientGenerator.generate().build()
-                var requestBody = FormBody.Builder()
-                        .add("username", userName)
-                        .add("password", password)
-                        .add("_eventId", "submit")
-                        .add("execution", execution)
-                        .build()
-                var request = Request.Builder().url(url).post(requestBody).build()
-                okHttpClient.newCall(request).enqueue(object : Callback {
-                    override fun onFailure(call: Call, e: IOException) {
-                        e.printStackTrace()
-                        GlobalScope.launch(Dispatchers.Main) {
-
-                        }
-                    }
-
-                    override fun onResponse(call: Call, response: Response) {
-                        Log.d("cookie", response.header("Set-Cookie") ?: "null")
-                        GlobalScope.launch(Dispatchers.Main) {
-                        }
-                    }
-
-                })
-            }
+    suspend fun login(userName: String, password: String, execution: String) {
+        var okHttpClient = OkHttpClientGenerator.generate().build()
+        var requestBody = FormBody.Builder()
+                .add("username", userName)
+                .add("password", password)
+                .add("_eventId", "submit")
+                .add("execution", execution)
+                .build()
+        var request = Request.Builder().url(url).post(requestBody).build()
+        okHttpClient.newCall(request).execute()
+    }
 
 
     fun logout() {

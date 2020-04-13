@@ -82,5 +82,5 @@ class CourseAdapter : RecyclerView.Adapter<CourseAdapter.CourseViewHolder>() {
 
     }
 
-    data class Course(val name: String, val type: Int, val credit: Double, val score: Double, val evaluate: Evaluate?)
+    data class Course(val name: String, val type: Int, val credit: Double, val score: Double, val gpa: Double, val evaluate: Evaluate?)
 }

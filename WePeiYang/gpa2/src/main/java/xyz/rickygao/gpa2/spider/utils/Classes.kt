@@ -1,6 +1,8 @@
 package xyz.rickygao.gpa2.spider.utils
 
 import android.content.Context
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.Request
@@ -26,44 +28,37 @@ public class Classes() {
      * 获取 session
      * 解析登录所需参数 execution
      */
-    fun init() {
+    suspend fun init() {
         var okHttpClient = OkHttpClientGenerator.generate().build()
         var request = Request.Builder()
                 .url(BASE_URL)
                 .get()
                 .build()
-        okHttpClient.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-                e.printStackTrace()
-            }
+        val body = okHttpClient.newCall(request).execute().body()?.string()
 
-            override fun onResponse(call: Call, response: Response) {
-                val body = response.body()
-                val headers = response.headers()
 
-                var doc = Jsoup.parse(body?.string())
-                var es = doc.select("input")
-                for (e in es) {
-                    if (e.attr("name") == "execution") {
-                        execution = e.`val`()
-                    }
-                }
-                ssoUrl = headers.get("Location")
+        var doc = Jsoup.parse(body)
+        var es = doc.select("input")
+        for (e in es) {
+            if (e.attr("name") == "execution") {
+                execution = e.`val`()
             }
-        })
+        }
+
+
     }
 
     /**
      * 登录
      */
-    fun login(userName:String,password:String){
-        userState.login(userName,password,execution)
+    suspend fun login(userName: String, password: String) {
+        userState.login(userName, password, execution)
     }
 
     /**
      * 登出
      */
-    fun logout(){
+    fun logout() {
         userState.logout()
     }
 }
