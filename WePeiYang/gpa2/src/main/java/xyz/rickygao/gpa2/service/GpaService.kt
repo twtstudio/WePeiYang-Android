@@ -70,7 +70,7 @@ data class GpaBean(
 )
 
 data class Stat(
-        val years: List<Year>,
+        val years: List<Year>?,
         val total: Total
 )
 
@@ -82,9 +82,9 @@ data class Year(
 )
 
 data class Total(
-        val score: Double,
-        val gpa: Double,
-        val credit: Double
+        var score: Double,
+        var gpa: Double,
+        var credit: Double
 )
 
 data class Term(

@@ -58,8 +58,6 @@ class GpaItem(val owner: LifecycleOwner) : Item {
                     itemView.context.startActivity(intent)
                 }
                 GpaLiveData.bindNonNull(lifecycleOwner) {
-
-
                     it.data.asSequence().map {
                         GpaMiniLineChartView.DataWithDetail(it.stat.gpa, it.name)
                     }.toMutableList().let {
@@ -73,7 +71,6 @@ class GpaItem(val owner: LifecycleOwner) : Item {
 //                }
 
                     // attempt to refresh chart view while new data coming
-
 
                 }
             }
