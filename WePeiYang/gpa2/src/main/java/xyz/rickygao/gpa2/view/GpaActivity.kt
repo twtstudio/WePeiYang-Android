@@ -79,7 +79,7 @@ class GpaActivity : AppCompatActivity() {
                     .map { GpaRadarChartView.DataWithLabel(it.score, it.name) }
                     .toList()
             courseAdapter.courses = selectedTerm.data.asSequence()
-                    .map { CourseAdapter.Course(it.name, it.type, it.credit, it.score, it.evaluate) }
+                    .map { CourseAdapter.Course(it.name, it.type, it.credit, it.score, it.gpa, it.evaluate) }
                     .toMutableList()
 
             field = realIndex
