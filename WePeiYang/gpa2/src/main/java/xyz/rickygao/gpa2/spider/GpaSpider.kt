@@ -14,7 +14,11 @@ import xyz.rickygao.gpa2.service.*
 import xyz.rickygao.gpa2.spider.cookie.OkHttpClientGenerator
 import xyz.rickygao.gpa2.spider.utils.Classes
 
+
 object GpaSpider {
+    private const val DELAYED = 999.0
+    private val termNameList: List<String> = listOf("大一上", "大一下", "大二上", "大二下", "大三上", "大三下", "大四上", "大四下", "大五上", "大五下")
+
     lateinit var gpaBean: GpaBean
     var termList: MutableList<Term> = ArrayList()
     var currentTermStr: String = ""
@@ -22,14 +26,13 @@ object GpaSpider {
 
 
     private suspend fun login(tjuUName: String, tjuPassword: String) {
-
         Classes.login(tjuUName, tjuPassword)
         Log.d("login", Thread.currentThread().toString())
     }
 
 
-    fun getGpa(tjuUName: String, tjuPassword: String): Deferred<String> = GlobalScope.async(IO +QuietCoroutineExceptionHandler) {
-
+    fun getGpa(tjuUName: String, tjuPassword: String): Deferred<String> = GlobalScope.async(IO + QuietCoroutineExceptionHandler) {
+        clearLocalCache()
         Log.d("gpa", Thread.currentThread().toString())
         login(tjuUName, tjuPassword)
         val okHttpClient = OkHttpClientGenerator.generate().build()
@@ -47,7 +50,6 @@ object GpaSpider {
         // 根据id获取table
         val table: Elements = doc.getElementsByClass("gridtable")
 
-
         // 使用选择器选择该table内所有的<tr> <tr/>
         val totalTrs: Elements = table[0].select("tbody").select("tr")
         val totalThs: Elements = totalTrs[0].select("th")
@@ -61,7 +63,6 @@ object GpaSpider {
         val stat = Stat(null, total)
 
         val courseTrs: Elements = table[1].select("tbody").select("tr")
-
 
         //遍历该表格内的所有的<tr> <tr/>
         for (tr: Element in courseTrs) {
@@ -78,23 +79,35 @@ object GpaSpider {
                 val no = tds[1].text()
                 val name = tds[2].text()
 
-                val type = tds[4].text()
-                var typeNum = 1
-                if (type == "必修") {
-                    typeNum = 0
+                val typeNum = when (val type = tds[4].text()) {
+                    "必修" -> {
+                        0
+                    }
+                    else -> {
+                        1
+                    }
                 }
-                val credits = tds[5].text().toDouble()
-                val scoreStr = tds[6].text().toString()
-                val score: Double
-                if (scoreStr == "P") {
-                    score = 100.0
-                } else {
-                    score = scoreStr.toDouble()
-                }
-                val gpa = tds[8].text().toDouble()
-                val course = Course(no, name, typeNum, credits, 0, score, gpa, null)
 
-                courseList.add(course)
+                val credits = tds[5].text().toDouble()
+
+                val score: Double = when (val scoreStr = tds[6].text().toString()) {
+                    "P" -> {
+                        100.0
+                    }
+                    "--" -> {
+                        DELAYED
+                    }
+                    else -> {
+                        scoreStr.toDouble()
+                    }
+                }
+
+                val gpa = tds[8].text().toDouble()
+
+                if (score != DELAYED) {
+                    val course = Course(no, name, typeNum, credits, 0, score, gpa, null)
+                    courseList.add(course)
+                }
 
             } else if (currentTermStr != term) {
                 var currentTermScore = 0.0
@@ -108,7 +121,11 @@ object GpaSpider {
                     currentTermScore += course.score.times((course.credit) / currentTermTotalCredits)
                 }
                 val currentTermStat = TermStat(currentTermScore, currentTermGpa, currentTermTotalCredits)
-                val currentTerm = Term(currentTermStr, courseList, "", currentTermStat)
+                val deepCopyCourseList: MutableList<Course> = ArrayList()
+                for (temp in courseList) {
+                    deepCopyCourseList.add(temp)
+                }
+                val currentTerm = Term(currentTermStr, deepCopyCourseList, "", currentTermStat)
 
                 termList.add(currentTerm)
 
@@ -118,29 +135,52 @@ object GpaSpider {
                 val no = tds[1].text()
                 val name = tds[2].text()
 
-                val type = tds[3].text()
-                var typeNum = 1
-                if (type == "必修") {
-                    typeNum = 0
+                val typeNum = when (val type = tds[4].text()) {
+                    "必修" -> {
+                        0
+                    }
+                    else -> {
+                        1
+                    }
                 }
+
                 val credits = tds[5].text().toDouble()
-                val scoreStr = tds[6].text().toString()
-                val score: Double
-                if (scoreStr == "P") {
-                    score = 100.0
-                } else {
-                    score = scoreStr.toDouble()
+                val score: Double = when (val scoreStr = tds[6].text().toString()) {
+                    "P" -> {
+                        100.0
+                    }
+                    "--" -> {
+                        DELAYED
+                    }
+                    else -> {
+                        scoreStr.toDouble()
+                    }
                 }
 
                 val gpa = tds[8].text().toDouble()
-                val course = Course(no, name, typeNum, credits, 0, score, gpa, null)
 
-                courseList.add(course)
+                if (score != DELAYED) {
+                    val course = Course(no, name, typeNum, credits, 0, score, gpa, null)
+                    courseList.add(course)
+                }
             }
+        }
+        for ((index, term) in termList.withIndex()) {
+            term.name = termNameList[index]
         }
         gpaBean = GpaBean(stat, termList, "", "")
         return gpaBean
     }
+
+    private fun clearLocalCache() {
+        termList.clear()
+        currentTermStr = ""
+        courseList.clear()
+    }
+
+//    private fun setTermName(termList: MutableList<Term>) {
+//        val termNameList = {"大一上","大一下","大二上","大二下", "大三上""大三下""大四上""大四下""大五上""大五下"}
+//    }
 
 
 //
