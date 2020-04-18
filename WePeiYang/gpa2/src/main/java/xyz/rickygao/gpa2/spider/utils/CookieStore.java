@@ -1,4 +1,4 @@
-package xyz.rickygao.gpa2.spider.cookie;
+package xyz.rickygao.gpa2.spider.utils;
 
 import java.util.List;
 

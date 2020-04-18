@@ -11,8 +11,8 @@ import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
 import org.jsoup.select.Elements
 import xyz.rickygao.gpa2.service.*
-import xyz.rickygao.gpa2.spider.cookie.OkHttpClientGenerator
-import xyz.rickygao.gpa2.spider.utils.Classes
+import xyz.rickygao.gpa2.spider.utils.SpiderTju
+import xyz.rickygao.gpa2.spider.utils.SpiderTjuLogin
 
 
 object GpaSpider {
@@ -25,17 +25,10 @@ object GpaSpider {
     var courseList: MutableList<Course> = ArrayList()
 
 
-    private suspend fun login(tjuUName: String, tjuPassword: String) {
-        Classes.login(tjuUName, tjuPassword)
-        Log.d("login", Thread.currentThread().toString())
-    }
-
-
-    fun getGpa(tjuUName: String, tjuPassword: String): Deferred<String> = GlobalScope.async(IO + QuietCoroutineExceptionHandler) {
+    fun getGpa(): Deferred<String> = GlobalScope.async(IO + QuietCoroutineExceptionHandler) {
         clearLocalCache()
         Log.d("gpa", Thread.currentThread().toString())
-        login(tjuUName, tjuPassword)
-        val okHttpClient = OkHttpClientGenerator.generate().build()
+        val okHttpClient = SpiderTju.getClientBuilder().build()
         val request = Request.Builder()
                 .url("http://classes.tju.edu.cn/eams/teach/grade/course/person!historyCourseGrade.action?projectType=MAJOR")
                 .get()
