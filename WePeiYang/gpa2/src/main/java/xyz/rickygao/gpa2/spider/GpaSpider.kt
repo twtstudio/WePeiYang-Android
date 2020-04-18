@@ -3,6 +3,7 @@ package xyz.rickygao.gpa2.spider
 import android.util.Log
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
 import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import okhttp3.Request
@@ -21,17 +22,13 @@ object GpaSpider {
 
 
     private suspend fun login(tjuUName: String, tjuPassword: String) {
-        val classes = Classes()
-        classes.logout()
 
-        classes.init()
-
-        classes.login(tjuUName, tjuPassword)
+        Classes.login(tjuUName, tjuPassword)
         Log.d("login", Thread.currentThread().toString())
     }
 
 
-    fun getGpa(tjuUName: String, tjuPassword: String): Deferred<String> = GlobalScope.async(QuietCoroutineExceptionHandler) {
+    fun getGpa(tjuUName: String, tjuPassword: String): Deferred<String> = GlobalScope.async(IO +QuietCoroutineExceptionHandler) {
 
         Log.d("gpa", Thread.currentThread().toString())
         login(tjuUName, tjuPassword)
