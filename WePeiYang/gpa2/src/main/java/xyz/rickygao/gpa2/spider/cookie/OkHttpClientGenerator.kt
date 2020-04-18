@@ -10,11 +10,15 @@ import okhttp3.logging.HttpLoggingInterceptor
  */
 object OkHttpClientGenerator {
 
+    private val cookieStore = CookieJarImpl(PersistentCookieStore(CommonContext.application))
     fun generate():OkHttpClient.Builder{
         val loggingInterceptor = HttpLoggingInterceptor()
                 .apply { level = HttpLoggingInterceptor.Level.BODY }
         return OkHttpClient.Builder()
-                .cookieJar(CookieJarImpl(PersistentCookieStore(CommonContext.application)))
+                .cookieJar(cookieStore)
                 .addNetworkInterceptor(loggingInterceptor)
+    }
+    fun clear(){
+        cookieStore.cookieStore.removeAll()
     }
 }
