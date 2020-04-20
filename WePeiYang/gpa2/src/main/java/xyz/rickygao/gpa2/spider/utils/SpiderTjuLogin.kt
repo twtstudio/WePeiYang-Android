@@ -7,6 +7,7 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.logging.HttpLoggingInterceptor
 import org.jsoup.Jsoup
+import java.util.*
 
 /**
  * classes.tju.edu.cn
@@ -20,8 +21,9 @@ object SpiderTjuLogin {
     private val LOGIN_BASE_URL = "https://sso.tju.edu.cn/cas/login"
     private val loginUrl = "$LOGIN_BASE_URL?service=http://classes.tju.edu.cn/eams/homeExt.action"
     private val logoutUrl = "http://classes.tju.edu.cn/eams/logoutExt.action"
+    private val cookieJar = CookieJarImpl(PersistentCookieStore(CommonContext.application))
     private val okHttpClient = OkHttpClient.Builder()
-            .cookieJar(CookieJarImpl(PersistentCookieStore(CommonContext.application)))
+            .cookieJar(cookieJar)
             .addNetworkInterceptor(HttpLoggingInterceptor()
                     .apply { level = HttpLoggingInterceptor.Level.BODY }).build()
 
@@ -58,6 +60,7 @@ object SpiderTjuLogin {
         var requestLogin = Request.Builder().url(loginUrl)
                 .addHeader("Accept-Language", "en-US").post(requestBody).build()
         val loginBody = okHttpClient.newCall(requestLogin).execute().body()?.string().orEmpty()
+        printCookie()
         return !(loginBody.contains("Invalid credentials") || userName.trim() == "" || password.trim() == "")
     }
 
@@ -68,5 +71,8 @@ object SpiderTjuLogin {
     fun logout() {
         var doc = Jsoup.connect(logoutUrl).get()
         Log.d("logout", doc.toString())
+    }
+    private fun printCookie(){
+        Log.d("SpiderCookieLogin", cookieJar.cookieStore.cookies.toString())
     }
 }

@@ -1,6 +1,7 @@
 package xyz.rickygao.gpa2.spider.utils
 
 import android.content.Intent
+import android.util.Log
 import com.twt.wepeiyang.commons.experimental.CommonContext
 import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
 import com.twt.wepeiyang.commons.experimental.startActivity
@@ -36,6 +37,7 @@ object SpiderTjuApi {
         }
 
         checkTjuValid(SpiderTjuLogin.login(CommonPreferences.tjuuname, CommonPreferences.tjupwd))
+        printCookie()
         return clientBuilder
     }
 
@@ -54,6 +56,9 @@ object SpiderTjuApi {
 
     fun clear() {
         cookieJar.cookieStore.removeAll()
+    }
+    fun printCookie(){
+        Log.d("SpiderCookieApi", cookieJar.cookieStore.cookies.toString())
     }
 }
 
