@@ -11,8 +11,7 @@ import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
 import org.jsoup.select.Elements
 import xyz.rickygao.gpa2.service.*
-import xyz.rickygao.gpa2.spider.utils.SpiderTju
-import xyz.rickygao.gpa2.spider.utils.SpiderTjuLogin
+import xyz.rickygao.gpa2.spider.utils.SpiderTjuApi
 
 
 object GpaSpider {
@@ -28,7 +27,7 @@ object GpaSpider {
     fun getGpa(): Deferred<String> = GlobalScope.async(IO + QuietCoroutineExceptionHandler) {
         clearLocalCache()
         Log.d("gpa", Thread.currentThread().toString())
-        val okHttpClient = SpiderTju.getClientBuilder().build()
+        val okHttpClient = SpiderTjuApi.getClientBuilder().build()
         val request = Request.Builder()
                 .url("http://classes.tju.edu.cn/eams/teach/grade/course/person!historyCourseGrade.action?projectType=MAJOR")
                 .get()

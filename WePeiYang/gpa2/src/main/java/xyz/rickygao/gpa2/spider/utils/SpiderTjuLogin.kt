@@ -38,7 +38,7 @@ object SpiderTjuLogin {
                 .url(COOKIE_BASE_URL)
                 .get()
                 .build()
-        val body = okHttpClient.newCall(requestInit).execute().body()?.string()
+        val body = okHttpClient.newCall(requestInit).execute().body()?.string().orEmpty()
         val doc = Jsoup.parse(body)
         val es = doc.select("input")
         for (e in es) {

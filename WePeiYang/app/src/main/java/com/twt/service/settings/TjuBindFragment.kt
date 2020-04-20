@@ -62,7 +62,10 @@ class TjuBindFragment : SlideFragment() {
                         }
                     }
                     .subscribe(Action1 {
-                        this.context?.let { it1 -> Toasty.success(it1, "绑定成功", Toast.LENGTH_SHORT).show() }
+                        this.context?.let { it1 ->
+                            CommonPreferences.tjuuname = numEdit.text.toString()
+                            CommonPreferences.tjupwd = passwordEdit.text.toString()
+                            Toasty.success(it1, "绑定成功", Toast.LENGTH_SHORT).show() }
                     }, RxErrorHandler())
         }
         return view

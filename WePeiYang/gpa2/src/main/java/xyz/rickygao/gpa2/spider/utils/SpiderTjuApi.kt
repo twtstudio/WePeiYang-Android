@@ -1,8 +1,9 @@
 package xyz.rickygao.gpa2.spider.utils
 
+import android.content.Intent
 import com.twt.wepeiyang.commons.experimental.CommonContext
 import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
-import okhttp3.Cookie
+import com.twt.wepeiyang.commons.experimental.startActivity
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 
@@ -10,7 +11,7 @@ import okhttp3.logging.HttpLoggingInterceptor
  * 生成爬虫所需的okHttpClient
  * 设置 CookieJar 在发送请求前设置cookie，接收请求后保存cookie
  */
-object SpiderTju {
+object SpiderTjuApi {
 
     private val cookieJar = CookieJarImpl(PersistentCookieStore(CommonContext.application))
     private val clientBuilder = OkHttpClient.Builder()
@@ -40,7 +41,14 @@ object SpiderTju {
 
     private fun checkTjuValid(valid: Boolean) {
         if (!valid) {
-            //TODO 启动绑定办公网
+//            Toast.makeText(CommonContext.application,"办公网重新绑定（最近更换密码）",Toast.LENGTH_LONG).show()
+            CommonContext.application.startActivity("bind") {
+                // module app 中的com.twt.service.settings.SingleBindActivity
+                val TJU_BIND = 0xfaee01
+                val TYPE = "type"
+                this.putExtra(TYPE, TJU_BIND)
+                this.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+            }
         }
     }
 
