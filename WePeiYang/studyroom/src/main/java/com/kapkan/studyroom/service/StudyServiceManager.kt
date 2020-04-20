@@ -4,11 +4,13 @@ import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
 
 object StudyServiceManager{
 
+    fun getClassWeekInfo(classroomID:String,week: Int) = SelfStudyApi.getClassroomWeekInfo(classroomID,week)
+
     fun getDate() = SelfStudyApi.getClassTable()
 
-    fun star(id:String) = SelfStudyApi.starClassroom(id)
+    fun star(id:String) = SelfStudyApi.starClassroom(getToken(),id)
 
-    fun unStar(id:String) = SelfStudyApi.unStarClassroom(id)
+    fun unStar(id:String) = SelfStudyApi.unStarClassroom(getToken(),id)
 
     fun getBuildingList() = SelfStudyApi.getBuildingList()
 
@@ -21,6 +23,7 @@ object StudyServiceManager{
     fun login() = SelfStudyApi.login(getToken())
 
     fun getToken(): String {
-        return "Bearer{${CommonPreferences.token}}"
+        val a = CommonPreferences.token
+        return a
     }
 }

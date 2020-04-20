@@ -1,5 +1,7 @@
 package com.kapkan.studyroom.service
 
+import com.kapkan.studyroom.items.CollectionItem
+import com.kapkan.studyroom.items.Flooritem
 import com.kapkan.studyroom.view.StudyActivity
 import com.twt.wepeiyang.commons.experimental.CommonContext
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
@@ -61,7 +63,7 @@ class ViewModel {
                 if (it.error_code == -1){
                     Toasty.info(CommonContext.application, "收藏成功").show()
                 }else{
-                    Toasty.info(CommonContext.application, "哎？登陆失败？").show()
+                    Toasty.info(CommonContext.application, it.message).show()
                 }
             }
         }
@@ -75,7 +77,7 @@ class ViewModel {
                 if (it.error_code == -1){
                     Toasty.info(CommonContext.application, "已取消收藏").show()
                 }else{
-                    Toasty.info(CommonContext.application, "哎？登陆失败？").show()
+                    Toasty.info(CommonContext.application, it.message).show()
                 }
             }
         }
@@ -95,11 +97,37 @@ class ViewModel {
 
     fun getAvailableRoom(day:Int,week:Int){
         GlobalScope.launch(Dispatchers.Main) {
-            StudyServiceManager.getAvailableRoom(day,week).awaitAndHandle {
+            StudyServiceManager.getAvailableRoom(week,day).awaitAndHandle {
                 Toasty.info(CommonContext.application, it.message.toString()).show()
             }?.let {
                 if (it.error_code == -1) {
                     AvailableRoomListData.postValue(it)
+                } else Toasty.error(CommonContext.application, it.message).show()
+            }
+        }
+    }
+
+    fun getClassroomWeekInfo(classroomID:String,week: Int,item:Flooritem){
+        GlobalScope.launch(Dispatchers.Main) {
+            StudyServiceManager.getClassWeekInfo(classroomID,week).awaitAndHandle {
+                Toasty.info(CommonContext.application, it.message.toString()).show()
+            }?.let {
+                if (it.error_code == -1) {
+                  //  classroomWeekInfoLiveData.postValue(it)
+                    item.getWeekInfo(it.data)
+                } else Toasty.error(CommonContext.application, it.message).show()
+            }
+        }
+    }
+
+    fun getClassroomWeekInfo(classroomID:String,week: Int,item:CollectionItem){
+        GlobalScope.launch(Dispatchers.Main) {
+            StudyServiceManager.getClassWeekInfo(classroomID,week).awaitAndHandle {
+                Toasty.info(CommonContext.application, it.message.toString()).show()
+            }?.let {
+                if (it.error_code == -1) {
+                    //  classroomWeekInfoLiveData.postValue(it)
+                    item.getWeekInfo(it.data)
                 } else Toasty.error(CommonContext.application, it.message).show()
             }
         }

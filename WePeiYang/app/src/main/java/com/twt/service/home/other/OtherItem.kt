@@ -20,6 +20,7 @@ import com.twtstudio.retrox.bike.bike.ui.main.BikeActivity
 import com.twtstudio.service.tjwhm.exam.home.ExamHomeActivity
 import com.twtstudio.tjliqy.party.ui.home.PartyActivity
 import com.avarye.mall.main.MallActivity
+import com.kapkan.studyroom.view.StudyActivity
 import org.jetbrains.anko.*
 
 class OtherItem : Item {
@@ -89,6 +90,11 @@ class OtherItem : Item {
                     mtaClick("app_首页OtherItem考表Item")
                     it.context.startActivity<ExamTableActivity>()
                 }
+                addItem("自习室","学习"){
+                    mtaClick("app_首页OtherItem考表Item")
+                    it.context.startActivity<StudyActivity>()
+                }
+
             }
         }
 

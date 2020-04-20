@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#6B9DA3">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/study__back"
+                android:layout_width="34dp"
+                android:layout_height="28dp"
+                android:layout_marginHorizontal="10dp"
+                android:src="@drawable/study_back" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="自习室查询"
+                android:textColor="#FFFFFF"
+                android:textSize="25dp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <ImageView
+                android:id="@+id/studyroom_refresh"
+                android:layout_width="34dp"
+                android:layout_height="28dp"
+                android:layout_marginEnd="25dp"
+                android:src="@drawable/icon_refresh" />
+
+        </LinearLayout>
+    </android.support.v7.widget.Toolbar>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp">
+
+        <TextView
+            android:layout_marginStart="30dp"
+            android:id="@+id/current_building"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="XX楼X区"
+            android:textColor="#6B9DA3"
+            android:textSize="28dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            app:layout_constraintStart_toEndOf="@id/current_building"
+            android:id="@+id/linearLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:layout_marginHorizontal="3dp"
+                    android:layout_gravity="center"
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:src="@drawable/block_selected"/>
+                <TextView
+                    android:textColor="#6B9DA3"
+                    android:textSize="10sp"
+                    android:text="表示占用 "
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <ImageView
+                    android:layout_marginHorizontal="3dp"
+                    android:layout_gravity="center"
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:src="@drawable/block_unselected"/>
+                <TextView
+                    android:textColor="#6B9DA3"
+                    android:textSize="10sp"
+                    android:text="表示可用"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+            <TextView
+                android:id="@+id/buildings_time"
+                android:hint="当前选中时间"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_marginTop="30dp"
+        android:id="@+id/buildings_rec"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</LinearLayout>

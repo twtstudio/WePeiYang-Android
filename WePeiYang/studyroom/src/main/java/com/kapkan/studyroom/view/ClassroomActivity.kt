@@ -3,7 +3,7 @@ package com.kapkan.studyroom.view
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.kapkan.studyroom.service.ViewModel
-import kotlinx.android.synthetic.main.activity_classroom.*
+import kotlinx.android.synthetic.main.window_classroom.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
 
 class ClassroomActivity: AppCompatActivity() {
@@ -19,9 +19,6 @@ class ClassroomActivity: AppCompatActivity() {
 
     fun init(){
 
-        study_home_back.onClick {
-            onBackPressed()
-        }
 
 
     }

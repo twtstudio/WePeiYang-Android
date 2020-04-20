@@ -2,13 +2,14 @@
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#FFFFFF"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
     <TextView
         android:textColor="#A0BDC1"
         android:layout_marginTop="5dp"
-        android:textSize="10dp"
+        android:textSize="14dp"
         android:id="@+id/date_select"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -34,11 +35,11 @@
         android:textColor="#A0BDC1"
         android:layout_marginTop="3dp"
         android:layout_marginBottom="5dp"
-        android:textSize="10dp"
+        android:textSize="14sp"
         android:id="@+id/class_select"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="日期选择"
+        android:text="课程选择"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

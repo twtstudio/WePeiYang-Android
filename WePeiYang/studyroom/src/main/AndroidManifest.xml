@@ -2,13 +2,16 @@
     package="com.example.studyroom" >
 
     <application>
-        <activity android:name=".StudyActivity" >
+        <activity android:name="com.kapkan.studyroom.view.StudyActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
 
+        <activity android:name="com.kapkan.studyroom.view.TimeSelcetActivity"/>
+        <activity android:name="com.kapkan.studyroom.view.ClassroomActivity"/>
+        <activity android:name="com.kapkan.studyroom.view.BuildingListActivity"/>
     </application>
 </manifest>
 

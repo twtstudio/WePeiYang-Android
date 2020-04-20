@@ -155,7 +155,6 @@ class ArrangeListTypeConverter {
     fun arrangeListToString(arrangeList: List<Arrange>): String {
         return gson.toJson(arrangeList, type)
     }
-
 }
 
 class WeekTypeConverter {

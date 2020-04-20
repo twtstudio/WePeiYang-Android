@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.widget.Toast
 import com.example.studyroom.R
 import com.kapkan.studyroom.items.Flooritem
 import com.kapkan.studyroom.service.*
@@ -21,10 +22,14 @@ class BuildingListActivity: AppCompatActivity() {
     val viewModel = ViewModel()
     val defaultmap = HashMap<String,Any>()
     var buildingID:String = ""
+    var buildingName:String = ""
+    var month:Int = 1
     var select:BooleanArray = BooleanArray(12){false}
     var selectstr:String = "当前选中时间:"
-    lateinit var classrooms:List<Classroom>
-    lateinit var aclassrooms:List<Classroom>
+    var day:Int = 0
+    var week:Int = 0
+    var classrooms:List<Classroom> = ArrayList()
+    var aclassrooms:List<Classroom> = ArrayList()
     lateinit var recyclerView: RecyclerView
     lateinit var itemManager: ItemManager
     val context:Context = this
@@ -36,15 +41,19 @@ class BuildingListActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_buildingdetails)
-        val buildingName:String = intent.getStringExtra("buildingName")
         current_building.text = buildingName
-        buildingID =  intent.getIntExtra("buildingID",0).toString()
+        buildingID =  intent.getStringExtra("buildingID").toString()
         select = intent.getBooleanArrayExtra("course")
+        day = intent.getIntExtra("day",0)
+        week = intent.getIntExtra("week",0)
+        month = intent.getIntExtra("month",0)
+        buildingName = intent.getStringExtra("buildingName")
         init()
     }
 
     fun init(){
 
+        current_building.text = buildingName
         for (i in 0 .. 11){
             if (select[i]){
                 selectstr += "$i、"
@@ -60,25 +69,31 @@ class BuildingListActivity: AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
         itemManager = ItemManager()
         recyclerView.adapter = ItemAdapter(itemManager)
-        BuildingListData.value?.data!!.forEach {
-            if (it.building_id == buildingID){
-                classrooms = it.classrooms
+
+        if (BuildingListData.value?.data!=null){
+            BuildingListData.value?.data!!.forEach {
+                if (it.building_id == buildingID){
+                    classrooms = it.classrooms
+                }
             }
-        }
-        AvailableRoomListData.value?.data!!.forEach {
-            if (it.building_id == buildingID){
-                aclassrooms = it.classrooms
+            AvailableRoomListData.value?.data!!.forEach {
+                if (it.building_id == buildingID){
+                    aclassrooms = it.classrooms
+                }
             }
+            judgeFloor()
+            itemManager.addAll(itemList)
+            recyclerView.adapter.notifyDataSetChanged()
+        }else{
+            Toast.makeText(this,"网络错误",Toast.LENGTH_SHORT).show()
         }
-        judgeFloor()
-        itemManager.addAll(itemList)
-        recyclerView.adapter.notifyDataSetChanged()
     }
 
     fun judgeFloor(){
         var a = 0
         var curstr:String = ""
         while (true){
+
             val fclassrooms:ArrayList<Classroom> = ArrayList()
             val faclassrooms:ArrayList<Classroom> = ArrayList()
             for (i in a until  classrooms.size){
@@ -94,6 +109,7 @@ class BuildingListActivity: AppCompatActivity() {
                 if (i==0) curstr = str
                 if (curstr == str && i != classrooms.size-1){
                     fclassrooms.add(classrooms[i])
+
                     if (aclassrooms.contains(classrooms[i])){
                         faclassrooms.add(classrooms[i])
                     }
@@ -113,11 +129,14 @@ class BuildingListActivity: AppCompatActivity() {
 
     fun loadByFloor(floor:String,fclassrooms:ArrayList<Classroom>,faclassrooms:ArrayList<Classroom>){
         //加载一层楼的数据
+        val size:ArrayList<String> =ArrayList()
+        val classroomId:ArrayList<String> =ArrayList()
         val defaultmap = HashMap<String, Any>()
         val posList:ArrayList<Int> = ArrayList()
         val sizeList:MutableList<Map<String, Any>> = MutableList(0){defaultmap}
         val roomlist:MutableList<Map<String, Any>> = MutableList(0){defaultmap}
         for (i in 0 until fclassrooms.size){
+            classroomId.add(fclassrooms[i].classroom_id)
             val map:HashMap<String,Any> = HashMap()
             val sizemap:HashMap<String,String> = HashMap()
             val str:String = when {
@@ -125,23 +144,22 @@ class BuildingListActivity: AppCompatActivity() {
                 fclassrooms[i].capacity.toInt()<200 -> "M"
                 else -> "L"
             }
+            size.add(str)
             if (faclassrooms.contains(fclassrooms[i])){
                 //可用
                 map["aclassroomnum"] = fclassrooms[i].classroom_id.substring(2,5)
-                sizemap["aclassroomsize"] = str
-                sizeList.add(sizemap)
+                map["aclassroomsize"] = str
                 roomlist.add(map)
                 posList.add(i)
             }else{
                 //不可用
-                map["classroomnum"] = fclassrooms[i].classroom_id.substring(2,5)
-                sizemap["classroomsize"] = str
-                sizeList.add(sizemap)
+                map["aclassroomnum"] = fclassrooms[i].classroom_id.substring(2,5)
+                map["aclassroomsize"] = str
                 roomlist.add(map)
             }
         }
         val item = Flooritem()
-        item.getMessage(floor,roomlist,sizeList,posList,context)
+        item.getMessage(floor,roomlist,posList,context,viewModel,month,classroomId,week, day,buildingName,size)
         itemList.add(item)
     }
 

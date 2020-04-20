@@ -27,7 +27,6 @@ class TimeSelcetActivity : AppCompatActivity(){
 
     @RequiresApi(Build.VERSION_CODES.M)
     fun init(){
-
         list.add(class1n)
         list.add(class2n)
         list.add(class3n)

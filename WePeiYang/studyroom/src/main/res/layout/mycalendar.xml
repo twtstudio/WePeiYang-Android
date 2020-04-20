@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-    android:background="#FFFFFF"
+    android:background="#f3f9f9"
     android:layout_gravity="center"
     android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="300dp"
     android:layout_height="match_parent">
+    <TextView
+        android:background="@drawable/top"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"/>
     <android.support.constraint.ConstraintLayout
+        android:layout_marginVertical="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent">
@@ -17,7 +22,7 @@
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:layout_marginStart="30dp"
-            android:src="@drawable/icon_goback"
+            android:src="@drawable/arrow_back"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -27,7 +32,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="某月"
-            android:textColor="#0086c2"
+            android:textColor="#6B9DA3"
             android:textSize="20dp"
             app:layout_constraintEnd_toStartOf="@+id/forwardone"
             app:layout_constraintStart_toEndOf="@+id/backone" />
@@ -37,13 +42,14 @@
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:layout_marginEnd="30dp"
-            android:src="@drawable/icon_forward"
+            android:src="@drawable/arrow_foward"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </android.support.constraint.ConstraintLayout>
 
     <LinearLayout
+        android:layout_marginBottom="8dp"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -51,17 +57,19 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"/>
+
         <TextView
-            android:textColor="#0086c2"
-            android:text="一"
+            android:layout_marginStart="10dp"
             android:layout_width="14dp"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:text="一"
+            android:textColor="#6B9DA3" />
         <TextView
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"/>
         <TextView
-            android:textColor="#0086c2"
+            android:textColor="#6B9DA3"
             android:text="二"
             android:layout_width="14dp"
             android:layout_height="match_parent"/>
@@ -70,7 +78,7 @@
             android:layout_weight="1"
             android:layout_height="match_parent"/>
         <TextView
-            android:textColor="#0086c2"
+            android:textColor="#6B9DA3"
             android:text="三"
             android:layout_width="14dp"
             android:layout_height="match_parent"/>
@@ -79,7 +87,7 @@
             android:layout_weight="1"
             android:layout_height="match_parent"/>
         <TextView
-            android:textColor="#0086c2"
+            android:textColor="#6B9DA3"
             android:text="四"
             android:layout_width="14dp"
             android:layout_height="match_parent"/>
@@ -88,7 +96,7 @@
             android:layout_weight="1"
             android:layout_height="match_parent"/>
         <TextView
-            android:textColor="#0086c2"
+            android:textColor="#6B9DA3"
             android:text="五"
             android:layout_width="14dp"
             android:layout_height="match_parent"/>
@@ -97,7 +105,7 @@
             android:layout_weight="1"
             android:layout_height="match_parent"/>
         <TextView
-            android:textColor="#0086c2"
+            android:textColor="#6B9DA3"
             android:text="六"
             android:layout_width="14dp"
             android:layout_height="match_parent"/>
@@ -106,7 +114,8 @@
             android:layout_weight="1"
             android:layout_height="match_parent"/>
         <TextView
-            android:textColor="#0086c2"
+            android:layout_marginEnd="5dp"
+            android:textColor="#6B9DA3"
             android:text="日"
             android:layout_width="14dp"
             android:layout_height="match_parent"/>
@@ -114,10 +123,10 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"/>
-
     </LinearLayout>
 
-    <GridView
+    <com.kapkan.studyroom.Common.MyGirdView
+        android:verticalSpacing="20dp"
         android:layout_marginStart="13dp"
         android:horizontalSpacing="1dp"
         android:layout_gravity="center"
@@ -127,163 +136,7 @@
         android:layout_width="300dp"
         android:layout_height="wrap_content"/>
 
-    <android.support.constraint.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
 
-        <android.support.v7.widget.CardView
-            android:layout_marginVertical="4dp"
-            android:id="@+id/card12"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="4dp"
-            app:layout_constraintBottom_toTopOf="@id/card56"
-            app:layout_constraintEnd_toStartOf="@+id/card34"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <TextView
-                android:layout_marginHorizontal="10dp"
-                android:textSize="16dp"
-                android:textColor="#00A0E9"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="第一、二节"/>
-
-
-        </android.support.v7.widget.CardView>
-
-        <android.support.v7.widget.CardView
-            android:layout_marginVertical="4dp"
-            android:id="@+id/card34"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="4dp"
-            app:layout_constraintBottom_toTopOf="@id/card78"
-            app:layout_constraintStart_toEndOf="@id/card12"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <TextView
-                android:layout_marginHorizontal="10dp"
-                android:textSize="16dp"
-                android:textColor="#00A0E9"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="第三、四节" />
-
-
-        </android.support.v7.widget.CardView>
-
-        <android.support.v7.widget.CardView
-            android:layout_marginVertical="4dp"
-            android:id="@+id/card56"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="4dp"
-            app:layout_constraintBottom_toTopOf="@id/card910"
-            app:layout_constraintEnd_toStartOf="@+id/card78"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/card12">
-
-            <TextView
-                android:layout_marginHorizontal="10dp"
-                android:textSize="16dp"
-                android:textColor="#00A0E9"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="第五、六节" />
-
-
-        </android.support.v7.widget.CardView>
-
-        <android.support.v7.widget.CardView
-            android:layout_marginVertical="4dp"
-            android:id="@+id/card78"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="4dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/card1112"
-            app:layout_constraintStart_toEndOf="@id/card56"
-            app:layout_constraintTop_toBottomOf="@id/card34">
-
-            <TextView
-                android:layout_marginHorizontal="10dp"
-                android:textSize="16dp"
-                android:textColor="#00A0E9"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="第七、八节"/>
-
-        </android.support.v7.widget.CardView>
-
-        <android.support.v7.widget.CardView
-            android:layout_marginVertical="4dp"
-            android:id="@+id/card910"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="4dp"
-            app:layout_constraintBottom_toTopOf="@id/confirm"
-            app:layout_constraintEnd_toStartOf="@+id/card1112"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/card56">
-
-            <TextView
-                android:layout_marginHorizontal="10dp"
-                android:textSize="16dp"
-                android:textColor="#00A0E9"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="第九、十节"/>
-
-
-        </android.support.v7.widget.CardView>
-
-        <android.support.v7.widget.CardView
-            android:layout_marginVertical="4dp"
-            android:id="@+id/card1112"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="4dp"
-            app:layout_constraintBottom_toTopOf="@id/confirm"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/card910"
-            app:layout_constraintTop_toBottomOf="@id/card78">
-
-            <TextView
-                android:layout_marginHorizontal="10dp"
-                android:textSize="16dp"
-                android:textColor="#00A0E9"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="第十一二节"/>
-
-
-        </android.support.v7.widget.CardView>
-
-        <android.support.v7.widget.CardView
-            android:id="@+id/confirm"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:cardBackgroundColor="#00A0E9"
-            app:cardCornerRadius="6dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/card1112">
-
-            <TextView
-                android:textSize="18dp"
-                android:layout_marginHorizontal="24dp"
-                android:layout_marginVertical="3dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="确认"
-                android:textColor="#FFFFFF" />
-        </android.support.v7.widget.CardView>
-
-    </android.support.constraint.ConstraintLayout>
 
 
 

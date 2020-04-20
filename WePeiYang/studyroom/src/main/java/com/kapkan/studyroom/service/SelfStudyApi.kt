@@ -16,6 +16,7 @@ import retrofit2.http.*
 
 const val BASEURL: String = "https://selfstudy.twt.edu.cn"
 const val DATEURL = "https://open.twt.edu.cn/api"
+
 interface SelfStudyApi {
 
     @GET("$DATEURL/v1/classtable")
@@ -26,13 +27,13 @@ interface SelfStudyApi {
 
     //获取当日可以上自习的教室(term暂时写死)
 
-    @GET("$BASEURL/api/getDayData.php?term=18191")
+    @GET("$BASEURL/api/getDayData.php?term=19202")
     fun getAvaliableRoom(@Query("week") week: Int,
                          @Query("day") day: Int): Deferred<AvailableRoomList>
 
     //获取某节课的可用的自习室(term暂时写死)
 
-    @GET("$BASEURL/api/getDayData.php?term=18191")
+    @GET("$BASEURL/api/getDayData.php?term=19202")
     fun getAvaliableRoombyClass(@Query("week") week: Int,
                                 @Query("day") day: Int,
                                 @Query("course") course: Int): Deferred<AvailableRoomList>
@@ -42,25 +43,31 @@ interface SelfStudyApi {
     //Parameters
     //returns
     @GET("$BASEURL/api/getCollectionList.php")
-    fun getCollectionList():Deferred<CollectionList>
+    fun getCollectionList(): Deferred<CollectionList>
 
     //收藏
+    @Multipart
     @POST("$BASEURL/api/addCollection.php")
-    fun starClassroom(@Part("classroom_ID") roomID: String): Deferred<Response>
+    fun starClassroom(@Part("token") token: String,
+                      @Part("classroom_ID") roomID: String): Deferred<Response>
 
     //取消收藏
+    @Multipart
     @POST("$BASEURL/api/deleteCollection.php")
-    fun unStarClassroom(@Part("classroom_ID") roomID: String): Deferred<Response>
+    fun unStarClassroom(@Part("token") token: String,
+                        @Part("classroom_ID") roomID: String): Deferred<Response>
 
     //获取某教室整周排版情况
-    @Multipart
+
     @GET("$BASEURL/api/getClassroomWeekInfo.php")
-    fun getClassroomWeekInfo(@Part("classroom_ID") roomID: String,
-                             @Part("week") week: Int,
-                             @Part("term") term: Int = 18191): Deferred<ClassroomWeekInfo>
+    fun getClassroomWeekInfo(@Query("classroom_ID") roomID: String,
+                             @Query("week") week: Int,
+                             @Query("term") term: Int = 19202): Deferred<ClassroomWeekInfo>
 
     //登陆？？？
-    @GET("$BASEURL/api/login.php")
+    ///api.php/Login/wpyLogin?model=1
+    ///api/login.php
+    @GET("$BASEURL/api.php")
     fun login(@Header("Authorization") token: String): Deferred<CommonBody<Login>>
 
     companion object : SelfStudyApi by SelfStudyApiService()

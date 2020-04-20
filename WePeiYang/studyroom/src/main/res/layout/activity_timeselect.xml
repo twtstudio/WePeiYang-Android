@@ -1,0 +1,493 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#6B9DA3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/study__back"
+                android:layout_width="34dp"
+                android:layout_height="28dp"
+                android:layout_marginHorizontal="10dp"
+                android:src="@drawable/study_back" />
+
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="自习室查询"
+                android:textColor="#FFFFFF"
+                android:textSize="25dp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <ImageView
+                android:id="@+id/studyroom_refresh"
+                android:layout_width="34dp"
+                android:layout_height="28dp"
+                android:layout_marginEnd="25dp"
+                android:src="@drawable/icon_refresh" />
+        </LinearLayout>
+    </android.support.v7.widget.Toolbar>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cardView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="5dp"
+        android:elevation="2dp"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="节次选择"
+            android:textColor="#6B9DA3"
+            android:textSize="30dp" />
+    </android.support.v7.widget.CardView>
+
+    <LinearLayout
+        android:layout_marginBottom="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView2">
+
+        <TextView
+            android:layout_marginStart="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="上午"
+            android:textColor="#6B9DA3"
+            android:textSize="14dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginHorizontal="20dp"
+            android:background="#FFBBD0D2" />
+
+        <LinearLayout
+            android:layout_marginVertical="6dp"
+            android:layout_width="wrap_content"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+            <android.support.v7.widget.CardView
+                android:id="@+id/class1b"
+                android:layout_marginHorizontal="20dp"
+                app:cardCornerRadius="4dp"
+                app:cardBackgroundColor="#6B9DA3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:id="@+id/class1n"
+                    android:layout_width="120dp"
+                    android:layout_height="40dp"
+                    android:layout_margin="1dp"
+                    android:background="#FFFFFF"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/class1text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="第一节"
+                        android:textColor="#6B9DA3"
+                        android:textSize="20dp" />
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/class2b"
+                android:layout_marginHorizontal="20dp"
+                app:cardCornerRadius="4dp"
+                app:cardBackgroundColor="#6B9DA3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:gravity="center"
+                    android:background="#FFFFFF"
+                    android:id="@+id/class2n"
+                    android:layout_margin="1dp"
+                    android:layout_width="120dp"
+                    android:layout_height="40dp">
+                    <TextView
+                        android:id="@+id/class2text"
+                        android:textSize="20dp"
+                        android:layout_gravity="center"
+                        android:textColor="#6B9DA3"
+                        android:text="第二节"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginVertical="6dp"
+            android:layout_width="wrap_content"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+            <android.support.v7.widget.CardView
+                android:id="@+id/class3b"
+                android:layout_marginHorizontal="20dp"
+                app:cardCornerRadius="4dp"
+                app:cardBackgroundColor="#6B9DA3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:id="@+id/class3n"
+                    android:layout_margin="1dp"
+                    android:gravity="center"
+                    android:background="#FFFFFF"
+                    android:layout_width="120dp"
+                    android:layout_height="40dp">
+                    <TextView
+                        android:id="@+id/class3text"
+                        android:textSize="20dp"
+                        android:layout_gravity="center"
+                        android:textColor="#6B9DA3"
+                        android:text="第三节"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/class4b"
+                android:layout_marginHorizontal="20dp"
+                app:cardCornerRadius="4dp"
+                app:cardBackgroundColor="#6B9DA3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:id="@+id/class4n"
+                    android:layout_margin="1dp"
+                    android:gravity="center"
+                    android:background="#FFFFFF"
+                    android:layout_width="120dp"
+                    android:layout_height="40dp">
+                    <TextView
+                        android:id="@+id/class4text"
+                        android:textSize="20dp"
+                        android:layout_gravity="center"
+                        android:textColor="#6B9DA3"
+                        android:text="第四节"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+        </LinearLayout>
+        <TextView
+            android:layout_marginVertical="4dp"
+            android:layout_marginStart="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="下午"
+            android:textColor="#6B9DA3"
+            android:textSize="14dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginHorizontal="20dp"
+            android:background="#FFBBD0D2" />
+
+        <LinearLayout
+            android:layout_marginVertical="6dp"
+            android:layout_width="wrap_content"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+            <android.support.v7.widget.CardView
+                android:id="@+id/class5b"
+                android:layout_marginHorizontal="20dp"
+                app:cardCornerRadius="4dp"
+                app:cardBackgroundColor="#6B9DA3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:id="@+id/class5n"
+                    android:layout_margin="1dp"
+                    android:gravity="center"
+                    android:background="#FFFFFF"
+                    android:layout_width="120dp"
+                    android:layout_height="40dp">
+                    <TextView
+                        android:id="@+id/class5text"
+                        android:textSize="20dp"
+                        android:layout_gravity="center"
+                        android:textColor="#6B9DA3"
+                        android:text="第一节"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/class6b"
+                android:layout_marginHorizontal="20dp"
+                app:cardCornerRadius="4dp"
+                app:cardBackgroundColor="#6B9DA3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:id="@+id/class6n"
+                    android:layout_margin="1dp"
+                    android:gravity="center"
+                    android:background="#FFFFFF"
+                    android:layout_width="120dp"
+                    android:layout_height="40dp">
+                    <TextView
+                        android:id="@+id/class6text"
+                        android:textSize="20dp"
+                        android:layout_gravity="center"
+                        android:textColor="#6B9DA3"
+                        android:text="第二节"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginVertical="6dp"
+            android:layout_width="wrap_content"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+            <android.support.v7.widget.CardView
+                android:id="@+id/class7b"
+                android:layout_marginHorizontal="20dp"
+                app:cardCornerRadius="4dp"
+                app:cardBackgroundColor="#6B9DA3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:id="@+id/class7n"
+                    android:layout_margin="1dp"
+                    android:gravity="center"
+                    android:background="#FFFFFF"
+                    android:layout_width="120dp"
+                    android:layout_height="40dp">
+                    <TextView
+                        android:id="@+id/class7text"
+                        android:textSize="20dp"
+                        android:layout_gravity="center"
+                        android:textColor="#6B9DA3"
+                        android:text="第三节"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/class8b"
+                android:layout_marginHorizontal="20dp"
+                app:cardCornerRadius="4dp"
+                app:cardBackgroundColor="#6B9DA3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:id="@+id/class8n"
+                    android:layout_margin="1dp"
+                    android:gravity="center"
+                    android:background="#FFFFFF"
+                    android:layout_width="120dp"
+                    android:layout_height="40dp">
+                    <TextView
+                        android:id="@+id/class8text"
+                        android:textSize="20dp"
+                        android:layout_gravity="center"
+                        android:textColor="#6B9DA3"
+                        android:text="第四节"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_marginVertical="4dp"
+            android:layout_marginStart="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="晚上"
+            android:textColor="#6B9DA3"
+            android:textSize="14dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginHorizontal="20dp"
+            android:background="#FFBBD0D2" />
+
+        <LinearLayout
+            android:layout_marginVertical="6dp"
+            android:layout_width="wrap_content"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+            <android.support.v7.widget.CardView
+                android:id="@+id/class9b"
+                android:layout_marginHorizontal="20dp"
+                app:cardCornerRadius="4dp"
+                app:cardBackgroundColor="#6B9DA3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:id="@+id/class9n"
+                    android:layout_margin="1dp"
+                    android:gravity="center"
+                    android:background="#FFFFFF"
+                    android:layout_width="120dp"
+                    android:layout_height="40dp">
+                    <TextView
+                        android:id="@+id/class9text"
+                        android:textSize="20dp"
+                        android:layout_gravity="center"
+                        android:textColor="#6B9DA3"
+                        android:text="第一节"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/class10b"
+                android:layout_marginHorizontal="20dp"
+                app:cardCornerRadius="4dp"
+                app:cardBackgroundColor="#6B9DA3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:id="@+id/class10n"
+                    android:layout_margin="1dp"
+                    android:gravity="center"
+                    android:background="#FFFFFF"
+                    android:layout_width="120dp"
+                    android:layout_height="40dp">
+                    <TextView
+                        android:id="@+id/class10text"
+                        android:textSize="20dp"
+                        android:layout_gravity="center"
+                        android:textColor="#6B9DA3"
+                        android:text="第二节"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginVertical="6dp"
+            android:layout_width="wrap_content"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+            <android.support.v7.widget.CardView
+                android:id="@+id/class11b"
+                android:layout_marginHorizontal="20dp"
+                app:cardCornerRadius="4dp"
+                app:cardBackgroundColor="#6B9DA3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:id="@+id/class11n"
+                    android:layout_margin="1dp"
+                    android:gravity="center"
+                    android:background="#FFFFFF"
+                    android:layout_width="120dp"
+                    android:layout_height="40dp">
+                    <TextView
+                        android:id="@+id/class11text"
+                        android:textSize="20dp"
+                        android:layout_gravity="center"
+                        android:textColor="#6B9DA3"
+                        android:text="第三节"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/class12b"
+                android:layout_marginHorizontal="20dp"
+                app:cardCornerRadius="4dp"
+                app:cardBackgroundColor="#6B9DA3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:id="@+id/class12n"
+                    android:layout_margin="1dp"
+                    android:gravity="center"
+                    android:background="#FFFFFF"
+                    android:layout_width="120dp"
+                    android:layout_height="40dp">
+                    <TextView
+                        android:id="@+id/class12text"
+                        android:textSize="20dp"
+                        android:layout_gravity="center"
+                        android:textColor="#6B9DA3"
+                        android:text="第四节"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+        </LinearLayout>
+
+        <android.support.v7.widget.CardView
+            app:cardBackgroundColor="#6B9DA3"
+            android:layout_gravity="center"
+            android:id="@+id/classroom_confirm"
+            android:layout_marginVertical="40dp"
+            app:cardCornerRadius="4dp"
+            android:layout_width="280dp"
+            android:layout_height="40dp">
+            <TextView
+                android:textSize="20dp"
+                android:layout_gravity="center"
+                android:textColor="#ffffff"
+                android:text="确认"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </android.support.v7.widget.CardView>
+    </LinearLayout>
+
+
+
+
+</android.support.constraint.ConstraintLayout>

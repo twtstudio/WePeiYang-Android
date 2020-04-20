@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    android:id="@+id/linearClass"
+    android:background="@drawable/block_selected"
+    android:layout_width="60dp"
+    android:layout_height="40dp"
+    android:orientation="horizontal"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <TextView
+            android:layout_marginStart="15dp"
+            android:gravity="center"
+            android:textSize="18dp"
+            android:text="111"
+            android:id="@+id/classroomnum"
+            android:textColor="#FFFFFF"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"/>
+        <TextView
+            android:layout_marginStart="6dp"
+            android:gravity="bottom"
+            android:textSize="10dp"
+            android:text="L"
+            android:textColor="#FFFFFF"
+            android:id="@+id/classroomsize"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+

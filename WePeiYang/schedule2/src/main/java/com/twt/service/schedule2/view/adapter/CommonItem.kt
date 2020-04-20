@@ -29,7 +29,6 @@ class IndicatorTextItem(val text: String) : Item {
         private class IndicatorTextViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             val indicatorTextView: TextView = itemView.findViewById(R.id.tv_course_indicator)
         }
-
     }
 
     override val controller: ItemController get() = Controller

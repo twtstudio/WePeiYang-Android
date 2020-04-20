@@ -66,6 +66,9 @@
         <activity android:name=".settings.BindActivity" />
         <activity android:name=".home.message.MessageListActivity"/>
         <activity
+            android:name="com.kapkan.studyroom.view.StudyActivity" />
+
+        <activity
             android:name=".StartupActivity"
             android:exported="true"
             android:theme="@style/Splash">
@@ -95,6 +98,7 @@
         <activity android:name=".settings.SingleBindActivity" />
         <activity android:name=".news.NewsActivity" />
         <activity android:name=".mall.MallActivity"/>
+        <activity android:name="com.kapkan.studyroom.view.BuildingListActivity"/>
         <activity
             android:name=".schedule2.view.custom.AddCustomCourseActivity"
             android:windowSoftInputMode="adjustUnspecified|stateHidden"/>
@@ -145,5 +149,4 @@
             android:value="561cae6ae0f55abd990035bf" >
         </meta-data>
     </application>
-
 </manifest>
