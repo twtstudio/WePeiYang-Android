@@ -26,6 +26,7 @@ object GpaSpider {
 
     fun getGpa(): Deferred<String> = GlobalScope.async(IO + QuietCoroutineExceptionHandler) {
         clearLocalCache()
+        SpiderTjuApi.clear()
         Log.d("gpa", Thread.currentThread().toString())
         val okHttpClient = SpiderTjuApi.getClientBuilder().build()
         val request = Request.Builder()
@@ -80,8 +81,6 @@ object GpaSpider {
                     }
                 }
 
-                val credits = tds[5].text().toDouble()
-
                 val score: Double = when (val scoreStr = tds[6].text().toString()) {
                     "P" -> {
                         100.0
@@ -89,9 +88,18 @@ object GpaSpider {
                     "--" -> {
                         DELAYED
                     }
+                    "F" -> {
+                        0.0
+                    }
                     else -> {
                         scoreStr.toDouble()
                     }
+                }
+
+                val credits = if (score < 60) {
+                    0.0
+                } else {
+                    tds[5].text().toDouble()
                 }
 
                 val gpa = tds[8].text().toDouble()
@@ -136,7 +144,6 @@ object GpaSpider {
                     }
                 }
 
-                val credits = tds[5].text().toDouble()
                 val score: Double = when (val scoreStr = tds[6].text().toString()) {
                     "P" -> {
                         100.0
@@ -144,9 +151,18 @@ object GpaSpider {
                     "--" -> {
                         DELAYED
                     }
+                    "F" -> {
+                        0.0
+                    }
                     else -> {
                         scoreStr.toDouble()
                     }
+                }
+
+                val credits = if (score < 60) {
+                    0.0
+                } else {
+                    tds[5].text().toDouble()
                 }
 
                 val gpa = tds[8].text().toDouble()
