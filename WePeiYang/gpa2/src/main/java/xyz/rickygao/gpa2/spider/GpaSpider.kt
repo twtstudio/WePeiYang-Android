@@ -26,7 +26,6 @@ object GpaSpider {
 
     fun getGpa(): Deferred<String> = GlobalScope.async(IO + QuietCoroutineExceptionHandler) {
         clearLocalCache()
-        SpiderTjuApi.clear()
         Log.d("gpa", Thread.currentThread().toString())
         val okHttpClient = SpiderTjuApi.getClientBuilder().build()
         val request = Request.Builder()

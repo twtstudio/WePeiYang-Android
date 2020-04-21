@@ -30,12 +30,14 @@ object SpiderTjuApi {
         printCookie()
         cookieStore.cookies?.let {
             for (cookie in it) {
-                if (!cookie.isExpired()) {
-                    Log.d("SpiderCookieApi", "expired")
+                if (cookie.isExpired()) {
+                    Log.d("SpiderCookieApi", "expired ${cookie.name()}")
                     checkTjuValid(SpiderTjuLogin.login(CommonPreferences.tjuuname, CommonPreferences.tjupwd))
-                    return clientBuilder
+                    printCookie()
+                    break
                 }
             }
+            return clientBuilder
         }
         Log.d("SpiderCookieApi", "no cookie")
         checkTjuValid(SpiderTjuLogin.login(CommonPreferences.tjuuname, CommonPreferences.tjupwd))
