@@ -14,8 +14,9 @@ import okhttp3.logging.HttpLoggingInterceptor
  */
 object SpiderTjuApi {
 
-    private val cookieJar = CookieJarImpl(PersistentCookieStore(CommonContext.application))
-    private val clientBuilder = OkHttpClient.Builder()
+    private val cookieStore = PersistentCookieStore(CommonContext.application)
+    private val cookieJar = CookieJarImpl(cookieStore)
+    val clientBuilder = OkHttpClient.Builder()
             .cookieJar(cookieJar)
             .addNetworkInterceptor(HttpLoggingInterceptor()
                     .apply { level = HttpLoggingInterceptor.Level.BODY })
@@ -26,17 +27,19 @@ object SpiderTjuApi {
      * 并对cookie是否过期进行判断
      */
     suspend fun getClientBuilder(): OkHttpClient.Builder {
-        val cookies = cookieJar.cookieStore.cookies
-        cookies?.let {
+        printCookie()
+        cookieStore.cookies?.let {
             for (cookie in it) {
                 if (!cookie.isExpired()) {
+                    Log.d("SpiderCookieApi", "expired")
                     checkTjuValid(SpiderTjuLogin.login(CommonPreferences.tjuuname, CommonPreferences.tjupwd))
                     return clientBuilder
                 }
             }
         }
-
+        Log.d("SpiderCookieApi", "no cookie")
         checkTjuValid(SpiderTjuLogin.login(CommonPreferences.tjuuname, CommonPreferences.tjupwd))
+//        refreshCookie()
         printCookie()
         return clientBuilder
     }
@@ -53,12 +56,14 @@ object SpiderTjuApi {
             }
         }
     }
-
+//    private fun refreshCookie(){
+//        cookieJar = CookieJarImpl(PersistentCookieStore(CommonContext.application))
+//    }
     fun clear() {
-        cookieJar.cookieStore.removeAll()
+        cookieStore.removeAll()
     }
     fun printCookie(){
-        Log.d("SpiderCookieApi", cookieJar.cookieStore.cookies.toString())
+        Log.d("SpiderCookieApi", cookieStore.cookies.toString())
     }
 }
 

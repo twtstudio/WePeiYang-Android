@@ -12,7 +12,6 @@ import org.jsoup.nodes.Element
 import org.jsoup.select.Elements
 import xyz.rickygao.gpa2.service.*
 import xyz.rickygao.gpa2.spider.utils.SpiderTjuApi
-import xyz.rickygao.gpa2.spider.utils.SpiderTjuLogin
 
 
 object GpaSpider {
@@ -27,6 +26,7 @@ object GpaSpider {
 
     fun getGpa(): Deferred<String> = GlobalScope.async(IO + QuietCoroutineExceptionHandler) {
         clearLocalCache()
+        SpiderTjuApi.clear()
         Log.d("gpa", Thread.currentThread().toString())
         val okHttpClient = SpiderTjuApi.getClientBuilder().build()
         val request = Request.Builder()
@@ -58,7 +58,7 @@ object GpaSpider {
         val courseTrs: Elements = table[1].select("tbody").select("tr")
 
         //遍历该表格内的所有的<tr> <tr/>
-        for (tr: Element in courseTrs) {
+        for ((index, tr: Element) in courseTrs.withIndex()) {
             // 获取一个tr
             // 获取该行的所有td节点
             val tds: Elements = tr.select("td")
@@ -172,7 +172,31 @@ object GpaSpider {
                     courseList.add(course)
                 }
             }
+
+            if (index == courseTrs.size - 1) {
+                var currentTermScore = 0.0
+                var currentTermGpa = 0.0
+                var currentTermTotalCredits = 0.0
+                for (course in courseList) {
+                    currentTermTotalCredits += course.credit
+                }
+                for (course in courseList) {
+                    currentTermGpa += course.gpa.times((course.credit / currentTermTotalCredits))
+                    currentTermScore += course.score.times((course.credit) / currentTermTotalCredits)
+                }
+                val currentTermStat = TermStat(currentTermScore, currentTermGpa, currentTermTotalCredits)
+                val deepCopyCourseList: MutableList<Course> = ArrayList()
+                for (temp in courseList) {
+                    deepCopyCourseList.add(temp)
+                }
+                val currentTerm = Term(currentTermStr, deepCopyCourseList, "", currentTermStat)
+
+                termList.add(currentTerm)
+                courseList.clear()
+            }
         }
+
+
         for ((index, term) in termList.withIndex()) {
             term.name = termNameList[index]
         }

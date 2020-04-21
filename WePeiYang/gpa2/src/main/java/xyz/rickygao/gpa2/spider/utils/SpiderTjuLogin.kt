@@ -21,11 +21,12 @@ object SpiderTjuLogin {
     private val LOGIN_BASE_URL = "https://sso.tju.edu.cn/cas/login"
     private val loginUrl = "$LOGIN_BASE_URL?service=http://classes.tju.edu.cn/eams/homeExt.action"
     private val logoutUrl = "http://classes.tju.edu.cn/eams/logoutExt.action"
-    private val cookieJar = CookieJarImpl(PersistentCookieStore(CommonContext.application))
-    private val okHttpClient = OkHttpClient.Builder()
-            .cookieJar(cookieJar)
-            .addNetworkInterceptor(HttpLoggingInterceptor()
-                    .apply { level = HttpLoggingInterceptor.Level.BODY }).build()
+
+//    private var cookieJar = CookieJarImpl(PersistentCookieStore(CommonContext.application))
+//    private val okHttpClient = OkHttpClient.Builder()
+//            .cookieJar(cookieJar)
+//            .addNetworkInterceptor(HttpLoggingInterceptor()
+//                    .apply { level = HttpLoggingInterceptor.Level.BODY }).build()
 
     /**
      * 登录
@@ -40,7 +41,7 @@ object SpiderTjuLogin {
                 .url(COOKIE_BASE_URL)
                 .get()
                 .build()
-        val body = okHttpClient.newCall(requestInit).execute().body()?.string().orEmpty()
+        val body = SpiderTjuApi.clientBuilder.build().newCall(requestInit).execute().body()?.string().orEmpty()
         val doc = Jsoup.parse(body)
         val es = doc.select("input")
         for (e in es) {
@@ -59,8 +60,9 @@ object SpiderTjuLogin {
                 .build()
         var requestLogin = Request.Builder().url(loginUrl)
                 .addHeader("Accept-Language", "en-US").post(requestBody).build()
-        val loginBody = okHttpClient.newCall(requestLogin).execute().body()?.string().orEmpty()
-        printCookie()
+        val loginBody = SpiderTjuApi.clientBuilder.build().newCall(requestLogin).execute().body()?.string().orEmpty()
+//        refreshCookie()
+//        printCookie()
         return !(loginBody.contains("Invalid credentials") || userName.trim() == "" || password.trim() == "")
     }
 
@@ -72,7 +74,12 @@ object SpiderTjuLogin {
         var doc = Jsoup.connect(logoutUrl).get()
         Log.d("logout", doc.toString())
     }
-    private fun printCookie(){
-        Log.d("SpiderCookieLogin", cookieJar.cookieStore.cookies.toString())
-    }
+//
+//    private fun refreshCookie() {
+//        cookieJar = CookieJarImpl(PersistentCookieStore(CommonContext.application))
+//    }
+//
+//    private fun printCookie() {
+//        Log.d("SpiderCookieLogin", cookieJar.cookieStore.cookies.toString())
+//    }
 }
