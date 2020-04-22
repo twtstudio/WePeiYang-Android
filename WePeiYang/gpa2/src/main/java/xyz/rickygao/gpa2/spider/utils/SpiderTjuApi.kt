@@ -30,13 +30,16 @@ object SpiderTjuApi {
         printCookie()
         if(cookieStore.cookies.isNotEmpty()) {
             for (cookie in cookieStore.cookies) {
+                Log.d("SpiderCookieApi", "\ncookie name: ${cookie.name()}\nexpired: ${cookie.expiresAt()}")
                 if (cookie.isExpired()) {
                     Log.d("SpiderCookieApi", "expired ${cookie.name()}")
                     checkTjuValid(SpiderTjuLogin.login(CommonPreferences.tjuuname, CommonPreferences.tjupwd))
-                    printCookie()
                     break
                 }
             }
+            Log.d("SpiderCookieApi", "now: ${System.currentTimeMillis()}")
+            printCookie()
+
             return clientBuilder
         }
         Log.d("SpiderCookieApi", "no cookie")
@@ -66,6 +69,9 @@ object SpiderTjuApi {
     }
     fun printCookie(){
         Log.d("SpiderCookieApi", cookieStore.cookies.toString())
+        for (cookie in cookieStore.cookies) {
+            Log.d("SpiderCookieApi", "detail: $cookie")
+        }
     }
 }
 
