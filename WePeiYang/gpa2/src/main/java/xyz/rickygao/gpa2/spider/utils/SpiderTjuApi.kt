@@ -28,8 +28,8 @@ object SpiderTjuApi {
      */
     suspend fun getClientBuilder(): OkHttpClient.Builder {
         printCookie()
-        cookieStore.cookies?.let {
-            for (cookie in it) {
+        if(cookieStore.cookies.isNotEmpty()) {
+            for (cookie in cookieStore.cookies) {
                 if (cookie.isExpired()) {
                     Log.d("SpiderCookieApi", "expired ${cookie.name()}")
                     checkTjuValid(SpiderTjuLogin.login(CommonPreferences.tjuuname, CommonPreferences.tjupwd))
