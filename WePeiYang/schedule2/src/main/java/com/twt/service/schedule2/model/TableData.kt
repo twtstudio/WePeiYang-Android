@@ -7,6 +7,7 @@ import com.google.gson.reflect.TypeToken
 import com.twt.service.schedule2.extensions.even
 import java.lang.reflect.Type
 import java.util.*
+import javax.annotation.Nullable
 
 data class Course(val coursetype: String = "",
                   val college: String = "",
@@ -16,6 +17,7 @@ data class Course(val coursetype: String = "",
                   val week: Week,
                   val coursename: String = "",
                   @SerializedName("arrange") val arrangeBackup: List<Arrange>,
+                  @Nullable @SerializedName("arrange2") var arrangeBackup2: List<Arrange2> = mutableListOf(),
                   val campus: String = "",
                   val coursenature: String = "",
                   val credit: String = "",
@@ -65,7 +67,7 @@ data class Course(val coursetype: String = "",
         if (weekInt < week.start || weekInt > week.end) {
             return false
         }
-        
+
         val arrangeTemp = if (arrange.size > 1) mutableListOf(arrange[0]) else arrange // 一天多节课的问题 只看第一个
 
         if (arrangeTemp.any { it.week == "单周" } && !weekInt.even) return true
@@ -138,6 +140,14 @@ data class Arrange(val week: String = "",/*单双周 单周 双周*/
                    val end: Int = 0,/*第几节结束*/
                    val day: Int = 0,/*周几*/
                    val room: String = ""/*上课地点*/)
+
+data class Arrange2(val week: String = "",/*单双周 单周 双周*/
+                    val courseWeek: Week,/*对应原Course的week*/
+                    val actTeacher: String = "",/*对应原Course的teacher 上课老师*/
+                    val start: Int = 0,/*第几节开始*/
+                    val end: Int = 0,/*第几节结束*/
+                    val day: Int = 0,/*周几*/
+                    val room: String = ""/*上课地点*/)
 
 data class Week(val start: Int = 0,
                 val end: Int = 0)
