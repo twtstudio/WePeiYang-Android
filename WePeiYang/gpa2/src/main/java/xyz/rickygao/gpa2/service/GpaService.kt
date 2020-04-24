@@ -26,11 +26,11 @@ interface GpaService {
     @POST("v1/gpa/evaluate")
     fun evaluate(@FieldMap params: Map<String, String>): Deferred<CommonBody<String>>
 
-     companion object: GpaService by ServiceFactory()
+    companion object : GpaService by ServiceFactory()
 }
 
 val GpaLocalCache = Cache.hawk<GpaBean>("GPA")
-val GpaRemoteCache = Cache.from{GpaSpider.getGpa("3017218142","Why_1103")}.map(GpaSpider::parseHtml)
+val GpaRemoteCache = Cache.from { GpaSpider.getGpa() }.map(GpaSpider::parseHtml)
 val GpaLiveData = RefreshableLiveData.use(GpaLocalCache, GpaRemoteCache)
 
 internal fun postEvaluate(evaluate: Evaluate, q1: Int, q2: Int, q3: Int, q4: Int, q5: Int, note: String, callback: suspend (String) -> (Unit)) {
@@ -91,7 +91,7 @@ data class Total(
 data class Term(
         val term: String,
         val data: List<Course>,
-        val name: String,
+        var name: String,
         val stat: TermStat
 )
 

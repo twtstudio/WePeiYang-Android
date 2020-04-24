@@ -90,6 +90,8 @@ class TjuBindFragment2 : Fragment() {
                         }
                     }
                     .subscribe(Action1 {
+                        CommonPreferences.tjuuname = numEdit.text.toString()
+                        CommonPreferences.tjupwd = passwordEdit.text.toString()
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                             Toasty.success(this.context, "绑定成功", Toast.LENGTH_SHORT).show()
                             activity.finish()

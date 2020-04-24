@@ -218,8 +218,8 @@ class GpaActivity : AppCompatActivity() {
             if (toggleBtn.isChecked) it.filter { it.name != "第二课堂" } else it
         }.map(Term::stat).map {
             GpaLineChartView.DataWithDetail(it.score, """
-                        加权：${it.score}
-                        绩点：${it.gpa}
+                        加权：${String.format("%.2f", it.score)}
+                        绩点：${String.format("%.2f", it.gpa)}
                         学分：${it.credit}
                         """.trimIndent())
         }.toList().let {

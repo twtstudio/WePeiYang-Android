@@ -43,6 +43,7 @@ import kotlinx.coroutines.launch
 import rx.android.schedulers.AndroidSchedulers
 import rx.functions.Action1
 import rx.schedulers.Schedulers
+import xyz.rickygao.gpa2.spider.utils.SpiderTjuApi
 
 
 /**
@@ -90,7 +91,11 @@ class UserFragment : Fragment() {
                                                                     }
 
                                                                 }
-                                                                .subscribe(Action1 { Toasty.success(context, "解绑成功！请重新绑定办公网", Toast.LENGTH_SHORT).show() }, RxErrorHandler())
+                                                                .subscribe(Action1 {
+                                                                    //清除办公网登录缓存
+                                                                    SpiderTjuApi.clear()
+                                                                    Toasty.success(context, "解绑成功！请重新绑定办公网", Toast.LENGTH_SHORT).show()
+                                                                }, RxErrorHandler())
                                                     }
                                                     .setNegativeButton("再绑会...") { dialog, _ -> dialog.dismiss() }
                                             builder.create().show()
@@ -178,8 +183,9 @@ class UserFragment : Fragment() {
                                                     CommonPreferences.clear()
                                                     CacheProvider.clearCache()
                                                     StatService.removeMultiAccount(context, StatMultiAccount.AccountType.CUSTOM)
+                                                    //清除办公网登录缓存
+                                                    SpiderTjuApi.clear()
                                                     val intent = Intent(context, LoginActivity::class.java)
-
                                                     context.startActivity(intent)
                                                     (context as Activity).finish()
                                                 }

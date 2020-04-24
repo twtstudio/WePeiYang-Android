@@ -1,4 +1,4 @@
-package xyz.rickygao.gpa2.spider.cookie;
+package xyz.rickygao.gpa2.spider.utils;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -16,7 +16,7 @@ import okhttp3.Cookie;
  * @time 2018/7/20
  * @desc
  */
-class SerializableCookie implements Serializable {
+public class SerializableCookie implements Serializable {
     private static final long serialVersionUID = 6374381828722046732L;
 
     private transient final Cookie cookie;
