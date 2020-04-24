@@ -28,29 +28,30 @@ object SpiderTjuApi {
      */
     suspend fun getClientBuilder(): OkHttpClient.Builder {
         printCookie()
-        if(cookieStore.cookies.isNotEmpty()) {
-            for (cookie in cookieStore.cookies) {
-                Log.d("SpiderCookieApi", "\ncookie name: ${cookie.name()}\nexpired: ${cookie.expiresAt()}")
-                if (cookie.isExpired()) {
-                    Log.d("SpiderCookieApi", "expired ${cookie.name()}")
-                    checkTjuValid(SpiderTjuLogin.login(CommonPreferences.tjuuname, CommonPreferences.tjupwd))
-                    break
+        if (CommonPreferences.tjuloginbind) {
+            // 曾经成功登录办公网，账户密码依然可以继续使用
+            if (cookieStore.cookies.isNotEmpty()) {
+                // 如果有cookie过期就重新登录
+                for (cookie in cookieStore.cookies) {
+                    if (cookie.isExpired()) {
+                        Log.d("SpiderCookieApi", "expired ${cookie.name()}")
+                        checkTjuValid(SpiderTjuLogin.login(CommonPreferences.tjuuname, CommonPreferences.tjupwd))
+                        break
+                    }
                 }
+                return clientBuilder
             }
-            Log.d("SpiderCookieApi", "now: ${System.currentTimeMillis()}")
-            printCookie()
-
-            return clientBuilder
         }
-        Log.d("SpiderCookieApi", "no cookie")
+        // 未曾成功登录过，需要登录
+        Log.d("SpiderCookieApi", "never login")
         checkTjuValid(SpiderTjuLogin.login(CommonPreferences.tjuuname, CommonPreferences.tjupwd))
-//        refreshCookie()
         printCookie()
         return clientBuilder
     }
 
     private fun checkTjuValid(valid: Boolean) {
         if (!valid) {
+            CommonPreferences.tjuloginbind = false
 //            Toast.makeText(CommonContext.application,"办公网重新绑定（最近更换密码）",Toast.LENGTH_LONG).show()
             CommonContext.application.startActivity("bind") {
                 // module app 中的com.twt.service.settings.SingleBindActivity
@@ -59,15 +60,16 @@ object SpiderTjuApi {
                 this.putExtra(TYPE, TJU_BIND)
                 this.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
             }
+        } else {
+            CommonPreferences.tjuloginbind = true
         }
     }
-//    private fun refreshCookie(){
-//        cookieJar = CookieJarImpl(PersistentCookieStore(CommonContext.application))
-//    }
+
     fun clear() {
         cookieStore.removeAll()
     }
-    fun printCookie(){
+
+    fun printCookie() {
         Log.d("SpiderCookieApi", cookieStore.cookies.toString())
         for (cookie in cookieStore.cookies) {
             Log.d("SpiderCookieApi", "detail: $cookie")
