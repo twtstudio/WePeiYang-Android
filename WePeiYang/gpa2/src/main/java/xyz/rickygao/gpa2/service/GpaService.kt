@@ -11,6 +11,7 @@ import retrofit2.http.FieldMap
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.POST
+import xyz.rickygao.gpa2.spider.GpaSpider
 
 
 /**
@@ -25,11 +26,11 @@ interface GpaService {
     @POST("v1/gpa/evaluate")
     fun evaluate(@FieldMap params: Map<String, String>): Deferred<CommonBody<String>>
 
-     companion object: GpaService by ServiceFactory()
+    companion object : GpaService by ServiceFactory()
 }
 
 val GpaLocalCache = Cache.hawk<GpaBean>("GPA")
-val GpaRemoteCache = Cache.from(GpaService.Companion::get).map(CommonBody<GpaBean>::data)
+val GpaRemoteCache = Cache.from { GpaSpider.getGpa() }.map(GpaSpider::parseHtml)
 val GpaLiveData = RefreshableLiveData.use(GpaLocalCache, GpaRemoteCache)
 
 internal fun postEvaluate(evaluate: Evaluate, q1: Int, q2: Int, q3: Int, q4: Int, q5: Int, note: String, callback: suspend (String) -> (Unit)) {
@@ -70,7 +71,7 @@ data class GpaBean(
 )
 
 data class Stat(
-        val years: List<Year>,
+        val years: List<Year>?,
         val total: Total
 )
 
@@ -82,15 +83,15 @@ data class Year(
 )
 
 data class Total(
-        val score: Double,
-        val gpa: Double,
-        val credit: Double
+        var score: Double,
+        var gpa: Double,
+        var credit: Double
 )
 
 data class Term(
         val term: String,
         val data: List<Course>,
-        val name: String,
+        var name: String,
         val stat: TermStat
 )
 
@@ -101,6 +102,7 @@ data class Course(
         val credit: Double,
         val reset: Int,
         val score: Double,
+        val gpa: Double,
         val evaluate: Evaluate?
 )
 
