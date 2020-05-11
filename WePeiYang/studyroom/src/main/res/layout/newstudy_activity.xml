@@ -29,7 +29,7 @@
                 android:layout_height="wrap_content"
                 android:text="自习室查询"
                 android:textColor="#FFFFFF"
-                android:textSize="25dp" />
+                android:textSize="20dp" />
 
             <TextView
                 android:layout_width="0dp"
@@ -81,7 +81,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent">
                     <TextView
-                        android:textSize="20sp"
+                        android:textSize="16sp"
                         android:textColor="#6B9DA3"
                         android:id="@+id/area"
                         android:text="北洋园"
@@ -106,7 +106,7 @@
                     android:layout_height="match_parent">
                     <TextView
 
-                        android:textSize="20sp"
+                        android:textSize="16sp"
                         android:textColor="#6B9DA3"
                         android:text="时间选择"
                         android:layout_width="wrap_content"
@@ -128,7 +128,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent">
                     <TextView
-                        android:textSize="20sp"
+                        android:textSize="16sp"
                         android:textColor="#6B9DA3"
                         android:text="我的收藏"
                         android:layout_width="wrap_content"

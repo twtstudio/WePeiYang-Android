@@ -1,10 +1,12 @@
 package com.kapkan.studyroom.view
 
 import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.view.WindowManager
 import android.widget.Toast
 import com.example.studyroom.R
 import com.kapkan.studyroom.items.Flooritem
@@ -52,6 +54,11 @@ class BuildingListActivity: AppCompatActivity() {
         month = intent.getIntExtra("month",0)
         buildingName = intent.getStringExtra("buildingName")
         array = intent.getBooleanArrayExtra("courseselect")
+        val window = this.window
+        val color = Color.parseColor("#6B9DA3")
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        window.setStatusBarColor(color)
         init()
     }
 
@@ -60,10 +67,12 @@ class BuildingListActivity: AppCompatActivity() {
         current_building.text = buildingName
         for (i in 0 .. 11){
             if (select[i]){
-                selectstr += "$i、"
+                val j = i+1
+                selectstr += "$j,"
             }
         }
-        selectstr = selectstr.substring(0,selectstr.length) + "节"
+
+        selectstr = selectstr.substring(0,selectstr.length-1) + "节"
         buildings_time.text = selectstr
 
         study__back.onClick {

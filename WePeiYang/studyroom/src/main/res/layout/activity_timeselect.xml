@@ -33,7 +33,7 @@
                 android:layout_height="wrap_content"
                 android:text="自习室查询"
                 android:textColor="#FFFFFF"
-                android:textSize="25dp" />
+                android:textSize="20dp" />
 
             <TextView
                 android:layout_width="0dp"
@@ -64,7 +64,7 @@
             android:gravity="center"
             android:text="节次选择"
             android:textColor="#6B9DA3"
-            android:textSize="30dp" />
+            android:textSize="20dp" />
     </android.support.v7.widget.CardView>
 
     <LinearLayout
@@ -119,7 +119,7 @@
                         android:layout_gravity="center"
                         android:text="第一节"
                         android:textColor="#6B9DA3"
-                        android:textSize="20dp" />
+                        android:textSize="16dp" />
                 </LinearLayout>
             </android.support.v7.widget.CardView>
 
@@ -138,14 +138,15 @@
                     android:layout_margin="1dp"
                     android:layout_width="120dp"
                     android:layout_height="40dp">
+
                     <TextView
                         android:id="@+id/class2text"
-                        android:textSize="20dp"
-                        android:layout_gravity="center"
-                        android:textColor="#6B9DA3"
-                        android:text="第二节"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="第二节"
+                        android:textColor="#6B9DA3"
+                        android:textSize="16dp" />
                 </LinearLayout>
             </android.support.v7.widget.CardView>
 
@@ -170,14 +171,15 @@
                     android:background="#FFFFFF"
                     android:layout_width="120dp"
                     android:layout_height="40dp">
+
                     <TextView
                         android:id="@+id/class3text"
-                        android:textSize="20dp"
-                        android:layout_gravity="center"
-                        android:textColor="#6B9DA3"
-                        android:text="第三节"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="第三节"
+                        android:textColor="#6B9DA3"
+                        android:textSize="16dp" />
                 </LinearLayout>
             </android.support.v7.widget.CardView>
 
@@ -196,14 +198,15 @@
                     android:background="#FFFFFF"
                     android:layout_width="120dp"
                     android:layout_height="40dp">
+
                     <TextView
                         android:id="@+id/class4text"
-                        android:textSize="20dp"
-                        android:layout_gravity="center"
-                        android:textColor="#6B9DA3"
-                        android:text="第四节"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="第四节"
+                        android:textColor="#6B9DA3"
+                        android:textSize="16dp" />
                 </LinearLayout>
             </android.support.v7.widget.CardView>
         </LinearLayout>
@@ -241,14 +244,15 @@
                     android:background="#FFFFFF"
                     android:layout_width="120dp"
                     android:layout_height="40dp">
+
                     <TextView
                         android:id="@+id/class5text"
-                        android:textSize="20dp"
-                        android:layout_gravity="center"
-                        android:textColor="#6B9DA3"
-                        android:text="第一节"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="第一节"
+                        android:textColor="#6B9DA3"
+                        android:textSize="16dp" />
                 </LinearLayout>
             </android.support.v7.widget.CardView>
 
@@ -267,14 +271,15 @@
                     android:background="#FFFFFF"
                     android:layout_width="120dp"
                     android:layout_height="40dp">
+
                     <TextView
                         android:id="@+id/class6text"
-                        android:textSize="20dp"
-                        android:layout_gravity="center"
-                        android:textColor="#6B9DA3"
-                        android:text="第二节"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="第二节"
+                        android:textColor="#6B9DA3"
+                        android:textSize="16dp" />
                 </LinearLayout>
             </android.support.v7.widget.CardView>
 
@@ -299,14 +304,15 @@
                     android:background="#FFFFFF"
                     android:layout_width="120dp"
                     android:layout_height="40dp">
+
                     <TextView
                         android:id="@+id/class7text"
-                        android:textSize="20dp"
-                        android:layout_gravity="center"
-                        android:textColor="#6B9DA3"
-                        android:text="第三节"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="17dp"
+                        android:layout_gravity="center"
+                        android:text="第三节"
+                        android:textColor="#6B9DA3"
+                        android:textSize="16dp" />
                 </LinearLayout>
             </android.support.v7.widget.CardView>
 
@@ -325,14 +331,15 @@
                     android:background="#FFFFFF"
                     android:layout_width="120dp"
                     android:layout_height="40dp">
+
                     <TextView
                         android:id="@+id/class8text"
-                        android:textSize="20dp"
-                        android:layout_gravity="center"
-                        android:textColor="#6B9DA3"
-                        android:text="第四节"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="第四节"
+                        android:textColor="#6B9DA3"
+                        android:textSize="16dp" />
                 </LinearLayout>
             </android.support.v7.widget.CardView>
 
@@ -372,14 +379,15 @@
                     android:background="#FFFFFF"
                     android:layout_width="120dp"
                     android:layout_height="40dp">
+
                     <TextView
                         android:id="@+id/class9text"
-                        android:textSize="20dp"
-                        android:layout_gravity="center"
-                        android:textColor="#6B9DA3"
-                        android:text="第一节"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="17dp"
+                        android:layout_gravity="center"
+                        android:text="第一节"
+                        android:textColor="#6B9DA3"
+                        android:textSize="16dp" />
                 </LinearLayout>
             </android.support.v7.widget.CardView>
 
@@ -398,14 +406,15 @@
                     android:background="#FFFFFF"
                     android:layout_width="120dp"
                     android:layout_height="40dp">
+
                     <TextView
                         android:id="@+id/class10text"
-                        android:textSize="20dp"
-                        android:layout_gravity="center"
-                        android:textColor="#6B9DA3"
-                        android:text="第二节"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="第二节"
+                        android:textColor="#6B9DA3"
+                        android:textSize="16dp" />
                 </LinearLayout>
             </android.support.v7.widget.CardView>
 
@@ -430,14 +439,15 @@
                     android:background="#FFFFFF"
                     android:layout_width="120dp"
                     android:layout_height="40dp">
+
                     <TextView
                         android:id="@+id/class11text"
-                        android:textSize="20dp"
-                        android:layout_gravity="center"
-                        android:textColor="#6B9DA3"
-                        android:text="第三节"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="第三节"
+                        android:textColor="#6B9DA3"
+                        android:textSize="16dp" />
                 </LinearLayout>
             </android.support.v7.widget.CardView>
 
@@ -456,14 +466,15 @@
                     android:background="#FFFFFF"
                     android:layout_width="120dp"
                     android:layout_height="40dp">
+
                     <TextView
                         android:id="@+id/class12text"
-                        android:textSize="20dp"
-                        android:layout_gravity="center"
-                        android:textColor="#6B9DA3"
-                        android:text="第四节"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="第四节"
+                        android:textColor="#6B9DA3"
+                        android:textSize="16dp" />
                 </LinearLayout>
             </android.support.v7.widget.CardView>
 

@@ -88,7 +88,7 @@ class Flooritem(): Item {
                     classtable.classroomname.text = item.buildingName+ item.classroomlist[p2]["aclassroomnum"]
                     classtable.classroomsize.text = item.size[p2]
                     classtable.classroom_time.text = item.month.toString() + "月" + (item.day+1).toString() +"日"
-                    val popupWindow = PopupWindow(classtable, 1000, 1500, true)
+                    val popupWindow = PopupWindow(classtable, 740, 1400, true)
                     popupWindow.isOutsideTouchable = true
                     popupWindow.isTouchable = true
                     popupWindow.isOutsideTouchable = true

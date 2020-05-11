@@ -25,7 +25,7 @@
         android:layout_height="match_parent"
         android:text="XX教A110"
         android:textColor="@color/black_color"
-        android:textSize="15dp"
+        android:textSize="12dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/item_star_available"
         app:layout_constraintTop_toTopOf="parent" />

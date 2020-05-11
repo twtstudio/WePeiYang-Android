@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="50dp"
+    android:layout_width="36dp"
     android:gravity="center"
     android:layout_margin="2dp"
     android:background="#FFFFFF"
-    android:layout_height="65dp">
+    android:layout_height="60dp">
     <TextView
         android:id="@+id/coursetext"
         android:text="Mon"
-        android:textSize="20dp"
+        android:textSize="16dp"
         android:textColor="#6B9DA3"
         android:layout_gravity="center"
         android:layout_width="wrap_content"

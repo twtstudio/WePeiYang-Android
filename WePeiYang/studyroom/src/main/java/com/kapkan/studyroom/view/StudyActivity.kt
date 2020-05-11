@@ -3,14 +3,13 @@ package com.kapkan.studyroom.view
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.support.annotation.RequiresApi
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
-import android.view.Gravity
-import android.view.LayoutInflater
-import android.view.View
+import android.view.*
 import android.widget.*
 import com.example.studyroom.R
 import com.kapkan.studyroom.items.CollectionItem
@@ -78,10 +77,16 @@ class StudyActivity : AppCompatActivity() {
     lateinit var simpleAdapter: SimpleAdapter
     lateinit var buildingAdapter: SimpleAdapter
 
+
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.newstudy_activity)
+        val window = this.window
+        val color = Color.parseColor("#6B9DA3")
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        window.setStatusBarColor(color)
         init()
     }
 
@@ -104,7 +109,7 @@ class StudyActivity : AppCompatActivity() {
 
         block_time.setOnClickListener {
             val selectwindow = LayoutInflater.from(this).inflate(R.layout.window_timeselect, null, false)
-            val popupWindow = PopupWindow(selectwindow, 230, 200, false)
+            val popupWindow = PopupWindow(selectwindow, 180, 150, false)
             popupWindow.isOutsideTouchable = true
             popupWindow.isTouchable = true
             popupWindow.isOutsideTouchable = true

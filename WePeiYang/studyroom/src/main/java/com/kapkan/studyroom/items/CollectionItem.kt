@@ -97,7 +97,7 @@ class CollectionItem(): Item{
                 classtable.classroomname.text = item.roomname
                 classtable.classroomsize.text = item.size
                 classtable.classroom_time.text = item.month.toString() + "月" + (item.day).toString() +"日"
-                val popupWindow = PopupWindow(classtable, 1000, 1500, true)
+                val popupWindow = PopupWindow(classtable, 740, 1400, true)
                 popupWindow.isOutsideTouchable = true
                 popupWindow.isTouchable = true
                 popupWindow.isOutsideTouchable = true

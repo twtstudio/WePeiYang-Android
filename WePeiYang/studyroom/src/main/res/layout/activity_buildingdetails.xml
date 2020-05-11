@@ -28,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:text="自习室查询"
                 android:textColor="#FFFFFF"
-                android:textSize="25dp" />
+                android:textSize="20dp" />
 
             <TextView
                 android:layout_width="0dp"
@@ -47,7 +47,7 @@
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp">
+        android:layout_height="80dp">
 
         <TextView
             android:layout_marginStart="30dp"
@@ -56,7 +56,7 @@
             android:layout_height="wrap_content"
             android:text="XX楼X区"
             android:textColor="#6B9DA3"
-            android:textSize="28dp"
+            android:textSize="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -99,11 +99,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
             </LinearLayout>
+
             <TextView
+                android:textSize="8dp"
+                android:singleLine="false"
                 android:id="@+id/buildings_time"
-                android:hint="当前选中时间"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:hint="当前选中时间" />
         </LinearLayout>
     </android.support.constraint.ConstraintLayout>
 

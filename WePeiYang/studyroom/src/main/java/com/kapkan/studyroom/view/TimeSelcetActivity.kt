@@ -2,10 +2,12 @@ package com.kapkan.studyroom.view
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.support.annotation.RequiresApi
 import android.support.v7.app.AppCompatActivity
+import android.view.WindowManager
 import android.widget.LinearLayout
 import com.example.studyroom.R
 import kotlinx.android.synthetic.main.activity_timeselect.*
@@ -22,6 +24,11 @@ class TimeSelcetActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_timeselect)
         select = intent.getBooleanArrayExtra("class")
+        val window = this.window
+        val color = Color.parseColor("#6B9DA3")
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        window.setStatusBarColor(color)
         init()
     }
 
