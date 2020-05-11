@@ -17,6 +17,8 @@ import org.jetbrains.anko.sdk27.coroutines.onClick
 import java.util.ArrayList
 
 class BuildingListActivity: AppCompatActivity() {
+
+    val roomManager = RoomManager()
     var itemList:ArrayList<Item> = ArrayList()
     //查询列表
     val viewModel = ViewModel()
@@ -28,10 +30,11 @@ class BuildingListActivity: AppCompatActivity() {
     var selectstr:String = "当前选中时间:"
     var day:Int = 0
     var week:Int = 0
-    var classrooms:List<Classroom> = ArrayList()
-    var aclassrooms:List<Classroom> = ArrayList()
+    var classrooms:ArrayList<Classroom> = ArrayList()
+    var aclassrooms:ArrayList<Classroom> = ArrayList()
     lateinit var recyclerView: RecyclerView
     lateinit var itemManager: ItemManager
+    lateinit var array:BooleanArray
     val context:Context = this
 
     companion object data{
@@ -48,6 +51,7 @@ class BuildingListActivity: AppCompatActivity() {
         week = intent.getIntExtra("week",0)
         month = intent.getIntExtra("month",0)
         buildingName = intent.getStringExtra("buildingName")
+        array = intent.getBooleanArrayExtra("courseselect")
         init()
     }
 
@@ -65,6 +69,11 @@ class BuildingListActivity: AppCompatActivity() {
         study__back.onClick {
             onBackPressed()
         }
+
+        studyroom_refresh.onClick {
+            Toast.makeText(this@BuildingListActivity,"刷新中",Toast.LENGTH_SHORT).show()
+            refresh()
+        }
         recyclerView = findViewById(R.id.buildings_rec)
         recyclerView.layoutManager = LinearLayoutManager(this)
         itemManager = ItemManager()
@@ -73,58 +82,88 @@ class BuildingListActivity: AppCompatActivity() {
         if (BuildingListData.value?.data!=null){
             BuildingListData.value?.data!!.forEach {
                 if (it.building_id == buildingID){
-                    classrooms = it.classrooms
+                    classrooms.addAll(it.classrooms)
                 }
             }
+        roomManager.getAvailableRoomList(viewModel,array,day,week,classrooms,this)
+            /*判断教室是否可用（待修改
             AvailableRoomListData.value?.data!!.forEach {
                 if (it.building_id == buildingID){
                     aclassrooms = it.classrooms
                 }
             }
-            judgeFloor()
-            itemManager.addAll(itemList)
-            recyclerView.adapter.notifyDataSetChanged()
+            */
         }else{
             Toast.makeText(this,"网络错误",Toast.LENGTH_SHORT).show()
         }
     }
 
-    fun judgeFloor(){
-        var a = 0
-        var curstr:String = ""
-        while (true){
+    fun receiveArooms(aclassrooms:ArrayList<Classroom>){
+        this.aclassrooms = aclassrooms
 
-            val fclassrooms:ArrayList<Classroom> = ArrayList()
-            val faclassrooms:ArrayList<Classroom> = ArrayList()
-            for (i in a until  classrooms.size){
-                val str:String = when{
-                    classrooms[i].classroom_id.substring(2,3) =="1" -> "一楼"
-                    classrooms[i].classroom_id.substring(2,3) =="2" -> "二楼"
-                    classrooms[i].classroom_id.substring(2,3) =="3" -> "三楼"
-                    classrooms[i].classroom_id.substring(2,3) =="4" -> "四楼"
-                    classrooms[i].classroom_id.substring(2,3) =="5" -> "五楼"
-                    classrooms[i].classroom_id.substring(2,3) =="6" -> "六楼"
+        judgeFloor()
+        itemManager.addAll(itemList)
+        recyclerView.adapter.notifyDataSetChanged()
+    }
+
+    fun judgeFloor(){
+        val firstfloorlist = ArrayList<Classroom>()
+        val firstalist = ArrayList<Classroom>()
+        val secondfloorlist = ArrayList<Classroom>()
+        val secondalist = ArrayList<Classroom>()
+        val thirdfloorlist = ArrayList<Classroom>()
+        val thirdalist = ArrayList<Classroom>()
+        val fourthfloorlist = ArrayList<Classroom>()
+        val fourthalist = ArrayList<Classroom>()
+        val fifthfloorlist = ArrayList<Classroom>()
+        val fifthalist = ArrayList<Classroom>()
+
+
+            classrooms.forEach {
+                when{
+                    it.classroom_id.substring(2,3) == "1" -> {
+                        firstfloorlist.add(it)
+                        if (aclassrooms.contains(it)){
+                            firstalist.add(it)
+                        }
+                        val str =  "一楼"
+                    }
+                    it.classroom_id.substring(2,3) == "2" -> {
+                        secondfloorlist.add(it)
+                        if (aclassrooms.contains(it)){
+                            secondalist.add(it)
+                        }
+                    }
+                    it.classroom_id.substring(2,3) == "3" ->  {
+                    thirdfloorlist.add(it)
+                    if (aclassrooms.contains(it)){
+                        thirdalist.add(it)
+                    }
+                }
+                    it.classroom_id.substring(2,3) == "4" -> {
+                        fourthfloorlist.add(it)
+                        if (aclassrooms.contains(it)){
+                            fourthalist.add(it)
+                        }
+                    }
+                    it.classroom_id.substring(2,3) == "5" -> {
+                        fifthfloorlist.add(it)
+                        if (aclassrooms.contains(it)){
+                            fifthalist.add(it)
+                        }
+                    }
                     else -> ""
                 }
-                if (i==0) curstr = str
-                if (curstr == str && i != classrooms.size-1){
-                    fclassrooms.add(classrooms[i])
-
-                    if (aclassrooms.contains(classrooms[i])){
-                        faclassrooms.add(classrooms[i])
-                    }
-                }else{
-                    loadByFloor(curstr,fclassrooms,faclassrooms)
-                    curstr = str
-                    fclassrooms.clear()
-                    faclassrooms.clear()
-                    a = i
-                    break
-                }
             }
-            if (a == classrooms.size-1) break
+        for (i in 1..5){
+            when (i) {
+                1 -> loadByFloor("一楼",firstfloorlist,firstalist)
+                2 -> loadByFloor("二楼",secondfloorlist,secondalist)
+                3 -> loadByFloor("三楼",thirdfloorlist,thirdalist)
+                4 -> loadByFloor("四楼",fourthfloorlist,fourthalist)
+                5 -> loadByFloor("五楼",fifthfloorlist,fifthalist)
+            }
         }
-
     }
 
     fun loadByFloor(floor:String,fclassrooms:ArrayList<Classroom>,faclassrooms:ArrayList<Classroom>){
@@ -135,27 +174,22 @@ class BuildingListActivity: AppCompatActivity() {
         val posList:ArrayList<Int> = ArrayList()
         val sizeList:MutableList<Map<String, Any>> = MutableList(0){defaultmap}
         val roomlist:MutableList<Map<String, Any>> = MutableList(0){defaultmap}
+
         for (i in 0 until fclassrooms.size){
             classroomId.add(fclassrooms[i].classroom_id)
             val map:HashMap<String,Any> = HashMap()
-            val sizemap:HashMap<String,String> = HashMap()
             val str:String = when {
                 fclassrooms[i].capacity.toInt()<100 -> "S"
                 fclassrooms[i].capacity.toInt()<200 -> "M"
                 else -> "L"
             }
             size.add(str)
-            if (faclassrooms.contains(fclassrooms[i])){
-                //可用
-                map["aclassroomnum"] = fclassrooms[i].classroom_id.substring(2,5)
-                map["aclassroomsize"] = str
-                roomlist.add(map)
-                posList.add(i)
-            }else{
+            map["aclassroomnum"] = fclassrooms[i].classroom_id.substring(2,5)
+            map["aclassroomsize"] = str
+            roomlist.add(map)
+            if (!faclassrooms.contains(fclassrooms[i])){
                 //不可用
-                map["aclassroomnum"] = fclassrooms[i].classroom_id.substring(2,5)
-                map["aclassroomsize"] = str
-                roomlist.add(map)
+                posList.add(i)
             }
         }
         val item = Flooritem()
@@ -163,9 +197,10 @@ class BuildingListActivity: AppCompatActivity() {
         itemList.add(item)
     }
 
-
     fun refresh(){
-
+        roomManager.getAvailableRoomList(viewModel,array,day,week,classrooms,this)
     }
+
+
 }
 

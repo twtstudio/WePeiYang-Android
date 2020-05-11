@@ -40,7 +40,6 @@ class TimeSelcetActivity : AppCompatActivity(){
         list.add(class11n)
         list.add(class12n)
 
-
         study__back.onClick {
             val intent = Intent(this@TimeSelcetActivity,StudyActivity::class.java)
             intent.putExtra("class",select)

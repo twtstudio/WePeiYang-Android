@@ -1,8 +1,5 @@
 package com.kapkan.studyroom.items
 
-import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.LifecycleOwner
-import android.arch.lifecycle.Observer
 import android.content.Context
 import android.os.Build
 import android.support.annotation.RequiresApi
@@ -19,17 +16,22 @@ import com.example.studyroom.R
 import com.kapkan.studyroom.Common.MyGirdView
 import com.kapkan.studyroom.service.*
 import com.twt.wepeiyang.commons.ui.rec.Item
-import kotlinx.android.synthetic.main.item_star.view.*
 import kotlinx.android.synthetic.main.window_classroom.view.*
 import org.jetbrains.anko.backgroundColor
+import org.jetbrains.anko.image
+import org.jetbrains.anko.imageResource
 import org.jetbrains.anko.layoutInflater
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.sdk27.coroutines.onItemClick
-import java.lang.Exception
 import java.util.ArrayList
 
 class Flooritem(): Item {
 
+    var sizeList:MutableList<Map<String, Any>> = MutableList(0){defaultmap}
+    val defaultmap = HashMap<String,Any>()
+    private var availablePos:ArrayList<Int> = ArrayList()
+    lateinit var floor:String
+    private var classroomlist:MutableList<Map<String, Any>> = MutableList(0){defaultmap}
     var load = true
     lateinit var item:Flooritem
     lateinit var gridView:MyGirdView
@@ -47,6 +49,7 @@ class Flooritem(): Item {
     lateinit var viewModel: ViewModel
     lateinit var context: Context
     lateinit var simpleAdapter: SimpleAdapter
+
     private companion object Controller:ItemController {
         override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
             val view = parent.context.layoutInflater.inflate(R.layout.item_floor, parent, false)
@@ -65,67 +68,70 @@ class Flooritem(): Item {
             item.simpleAdapter = SimpleAdapter(item.context,item.classroomlist,R.layout.item_availableclassroom,from,to)
             holder.classgrid.adapter = item.simpleAdapter
 
-            //item.availablePos.forEach {
-               // val view = holder.classgrid.getChildAt(it).findViewById<LinearLayout>(R.id.linearClass)
-               // if (view!=null)
-                {
-
-                }
-               // holder.classgrid.getChildAt(it).background = item.context.getDrawable(R.drawable.block_unselected)
-            //}
-
-
-            /*
-            val params:ViewGroup.LayoutParams = holder.classgrid.layoutParams
-            params.height = item.classroomlist.size*40
-            holder.classgrid.layoutParams = params*/
-
             holder.classgrid.onItemClick { p0, p1, p2, p3 ->
                 //点击弹出课表
-                //if (item.load){
+                if (item.load){
                     //加载还有bug
-                    /*
-                    for (i in 0 .. item.availablePos.size) {
-
+                    for (i in 0 until item.availablePos.size) {
                         //是有教室没加载出来吗
-                        try {
+                        holder.classgrid.post {
                             val card:CardView = holder.classgrid.getChildAt(item.availablePos[i]) as CardView
-                            val constraintLayout = card.getChildAt(0)  as ConstraintLayout
-                            constraintLayout.background = item.context.getDrawable(R.drawable.classroom_selected)
-                        }catch (e : Exception){
-                           //null
+                            val linearLayout = card.getChildAt(0) as ConstraintLayout
+                            linearLayout.background = item.context.getDrawable(R.drawable.classroom_selected)
                         }
-                    }*/
-                //}
-               // else{
+                    }
+                    item.load =false
+                }
+                else{
                     item.viewModel.getClassroomWeekInfo(item.roomid[p2],item.week,item.item)
                     val classtable:View = LayoutInflater.from(item.context).inflate(R.layout.window_classroom,null,false)
                     classtable.classroomname.text = item.buildingName+ item.classroomlist[p2]["aclassroomnum"]
                     classtable.classroomsize.text = item.size[p2]
                     classtable.classroom_time.text = item.month.toString() + "月" + (item.day+1).toString() +"日"
-                    val popupWindow = PopupWindow(classtable, 940, 1480, true)
+                    val popupWindow = PopupWindow(classtable, 1000, 1500, true)
                     popupWindow.isOutsideTouchable = true
                     popupWindow.isTouchable = true
                     popupWindow.isOutsideTouchable = true
                     popupWindow.showAtLocation(classtable, Gravity.CENTER, 0, 0)
                     item.gridView = classtable.classtable
+                    if (!collectionLiveData.value?.data.isNullOrEmpty()){
+                        val data = collectionLiveData.value!!.data
+                        for (i in 0 until data.size){
+                            if (item.roomid[p2]==data[i].classroom_ID){
+                                val image = classtable.findViewById<ImageView>(R.id.iconstar)
+                                image.imageResource = R.drawable.icon_love
+                                break
+                            }
+                        }
+                    }
+
+
                     item.loadClasstable(item.gridView)
                     classtable.iconstar.onClick {
                         //收藏
-                        if (collectionLiveData.value!=null){
+                        if (!collectionLiveData.value?.data.isNullOrEmpty()){
                             val data = collectionLiveData.value!!.data
-                            for (i in 0 .. data[0].classrooms.size){
-                                if (item.roomid[p2]==data[0].classrooms[i].classroom_id){
+                            for (i in 0 until data.size){
+                                if (item.roomid[p2]==data[i].classroom_ID){
                                     item.viewModel.unStar(item.roomid[p2])
+                                    val image = classtable.findViewById<ImageView>(R.id.iconstar)
+                                    image.image = item.context.getDrawable(R.drawable.icon_unlove)
+                                    break
                                 }
                             }
+                            val image = classtable.findViewById<ImageView>(R.id.iconstar)
+                            image.image = item.context.getDrawable(R.drawable.icon_love)
+                            item.viewModel.star(item.roomid[p2])
+                        }else{
+                            val image = classtable.findViewById<ImageView>(R.id.iconstar)
+                            image.image = item.context.getDrawable(R.drawable.icon_love)
+                            item.viewModel.star(item.roomid[p2])
+
                         }
-                        item.viewModel.star(item.roomid[p2])
                     }
-               // }
-
+                }
             }
-
+            holder.classgrid.performItemClick(holder.classgrid,0,holder.classgrid.getItemIdAtPosition(0))
         }
 
         private class FloorViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
@@ -139,11 +145,7 @@ class Flooritem(): Item {
     override val controller: ItemController
         get() = Controller
 
-    var sizeList:MutableList<Map<String, Any>> = MutableList(0){defaultmap}
-    val defaultmap = HashMap<String,Any>()
-    private var availablePos:ArrayList<Int> = ArrayList()
-    lateinit var floor:String
-    private var classroomlist:MutableList<Map<String, Any>> = MutableList(0){defaultmap}
+
 
     fun getMessage(floor:String,classrooms:MutableList<Map<String, Any>>,availablerooms:List<Int>,context:Context,viewModel: ViewModel,month:Int,roomid:ArrayList<String>,week:Int,day:Int,name:String,sizeList:ArrayList<String>){
         item = this
@@ -192,6 +194,7 @@ class Flooritem(): Item {
         gridView.adapter = SimpleAdapter(context,classtablelist,R.layout.item_course,from,to)
 
         gridView.onItemClick { p0, p1, p2, p3 ->
+            gridView.post {
             for (i in 0..4){
                 for (j in 0..5)
                 {
@@ -203,6 +206,7 @@ class Flooritem(): Item {
 
                     if (i==1&&b?.substring(2*j,2*j+1)=="1"&&Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
                         //周2的
+
                         val linearLayout:LinearLayout = gridView.getChildAt(6*j+7+i) as LinearLayout
                         linearLayout.backgroundColor = context.getColor(R.color.selected)
                     }
@@ -222,6 +226,7 @@ class Flooritem(): Item {
                         linearLayout.backgroundColor = context.getColor(R.color.selected)
                     }
                 }
+             }
             }
         }
         gridView.performItemClick(gridView,0,gridView.adapter.getItemId(1))

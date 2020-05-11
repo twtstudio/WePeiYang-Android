@@ -116,12 +116,11 @@
                 android:layout_height="16dp"
                 android:layout_gravity="center"
                 android:layout_marginStart="20dp"
-                android:src="@drawable/icon_love" />
+                android:src="@drawable/icon_unlove" />
         </LinearLayout>
 
         <com.kapkan.studyroom.Common.MyGirdView
-            android:layout_marginHorizontal="19dp"
-
+            android:layout_marginHorizontal="26dp"
             android:verticalSpacing="1dp"
             android:layout_gravity="center"
             android:numColumns="6"

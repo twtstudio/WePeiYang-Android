@@ -18,12 +18,10 @@ object StudyServiceManager{
 
     fun getAvailableRoombyCourse(week:Int,day:Int,course:Int) = SelfStudyApi.getAvaliableRoombyClass(week,day,course)
 
-    fun getCollection() = SelfStudyApi.getCollectionList()
-
-    fun login() = SelfStudyApi.login(getToken())
+    fun getCollection() = SelfStudyApi.getCollectionList(getToken())
 
     fun getToken(): String {
         val a = CommonPreferences.token
-        return a
+        return "Bearer{${CommonPreferences.token}}"
     }
 }

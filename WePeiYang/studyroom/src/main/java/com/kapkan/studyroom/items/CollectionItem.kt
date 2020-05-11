@@ -10,11 +10,14 @@ import android.view.ViewGroup
 import android.widget.*
 import com.example.studyroom.R
 import com.kapkan.studyroom.service.ViewModel
+import com.kapkan.studyroom.service.collectionLiveData
 import com.kapkan.studyroom.service.weekdata
 import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemController
 import kotlinx.android.synthetic.main.window_classroom.view.*
 import org.jetbrains.anko.backgroundColor
+import org.jetbrains.anko.image
+import org.jetbrains.anko.imageResource
 import org.jetbrains.anko.layoutInflater
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.sdk27.coroutines.onItemClick
@@ -22,7 +25,7 @@ import org.jetbrains.anko.sdk27.coroutines.onItemClick
 class CollectionItem(): Item{
     override val controller: ItemController
         get() = Controller
-
+    lateinit var courselist: BooleanArray
     lateinit var context: Context
     lateinit var item:CollectionItem
     lateinit var gridView: GridView
@@ -34,16 +37,22 @@ class CollectionItem(): Item{
     var size = "M"
     var buildingName = ""
     var classroomname = ""
-
-
+    lateinit var available:ImageView
     lateinit var viewModel: ViewModel
+    var isavailable = true
 
-    fun getMessage(context: Context,roomid: String,roomname: String, month:Int,viewModel: ViewModel){
+
+    fun getMessage(context: Context,roomid: String,roomname: String, month:Int,day:Int,week:Int,viewModel: ViewModel,courseselect:BooleanArray,available:Boolean){
         this.context = context
         this.roomid = roomid
         this.roomname = roomname
         this.month = month
+        this.day = day
+        this.week = week
         this.viewModel = viewModel
+        courselist = courseselect
+        isavailable = available
+        item = this
     }
 
     var a:String? = "001000000000"
@@ -61,32 +70,85 @@ class CollectionItem(): Item{
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: Item) {
             item as CollectionItem
             holder as CollectViewHolder
+            item.available = holder.available
             holder.roomid.text = item.roomname
+
             holder.starBtn.onClick {
                 //取消收藏
-                item.viewModel.unStar(item.roomid)
+                if (!collectionLiveData.value?.data.isNullOrEmpty()){
+                    val data = collectionLiveData.value!!.data
+                    for (i in 0 until data.size){
+                        if (item.roomid==data[i].classroom_ID){
+                            item.viewModel.unStar(item.roomid)
+                            holder.starBtn.imageResource = R.drawable.icon_unlove
+                            break
+                        }
+                    }
+                }else{
+                    item.viewModel.star(item.roomid)
+                    holder.starBtn.imageResource = R.drawable.icon_love
+                }
             }
 
             holder.roomid.onClick {
                 item.viewModel.getClassroomWeekInfo(item.roomid,item.week,item.item)
+
                 val classtable:View = LayoutInflater.from(item.context).inflate(R.layout.window_classroom,null,false)
-                classtable.classroomname.text = item.buildingName+ item.classroomname
+                classtable.classroomname.text = item.roomname
                 classtable.classroomsize.text = item.size
-                classtable.classroom_time.text = item.month.toString() + "月" + (item.day+1).toString() +"日"
-                val popupWindow = PopupWindow(classtable, 940, 1480, true)
+                classtable.classroom_time.text = item.month.toString() + "月" + (item.day).toString() +"日"
+                val popupWindow = PopupWindow(classtable, 1000, 1500, true)
                 popupWindow.isOutsideTouchable = true
                 popupWindow.isTouchable = true
                 popupWindow.isOutsideTouchable = true
                 popupWindow.showAtLocation(classtable, Gravity.CENTER, 0, 0)
                 item.gridView = classtable.classtable
+
+                classtable.iconstar.onClick {
+                    //收藏
+                    if (!collectionLiveData.value?.data.isNullOrEmpty()){
+                        val data = collectionLiveData.value!!.data
+                        for (i in 0 until data.size){
+                            if (item.roomid==data[i].classroom_ID){
+                                item.viewModel.unStar(item.roomid)
+                                val image = classtable.findViewById<ImageView>(R.id.iconstar)
+                                image.imageResource = R.drawable.icon_unlove
+                                break
+                            }
+                        }
+                        val image = classtable.findViewById<ImageView>(R.id.iconstar)
+                        image.imageResource = R.drawable.icon_love
+                        item.viewModel.star(item.roomid)
+                    }else{
+                        val image = classtable.findViewById<ImageView>(R.id.iconstar)
+                        image.imageResource = R.drawable.icon_love
+                        item.viewModel.star(item.roomid)
+                    }
+                }
+
+                if (!collectionLiveData.value?.data.isNullOrEmpty()){
+                    val data = collectionLiveData.value!!.data
+                    for (i in 0 until data.size){
+                        if (item.roomid==data[i].classroom_ID){
+                            val image = classtable.findViewById<ImageView>(R.id.iconstar)
+                            image.imageResource = R.drawable.icon_love
+                            break
+                        }
+                    }
+                }
                 item.loadClasstable(item.gridView)
+            }
+            if (item.isavailable){
+                item.available.image = item.context.getDrawable(R.drawable.icon_star)
+            }else{
+                item.available.image = item.context.getDrawable(R.drawable.icon_unstar)
             }
         }
 
         private class CollectViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
+            val available = itemView.findViewById<ImageView>(R.id.item_star_available)
             val roomid = itemView.findViewById<TextView>(R.id.roomId)
             val starBtn = itemView.findViewById<ImageView>(R.id.star)
-
         }
     }
 
@@ -121,35 +183,37 @@ class CollectionItem(): Item{
         val to = IntArray(1){R.id.coursetext}
         gridView.adapter = SimpleAdapter(context,classtablelist,R.layout.item_course,from,to)
 
-        gridView.onItemClick { p0, p1, p2, p3 ->
-            for (i in 0..4){
-                for (j in 0..5)
-                {
-                    if (i==0&&a?.substring(2*j,2*j+1)=="1"&& Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-                        //周一的
-                        val linearLayout: LinearLayout = gridView.getChildAt(6*j+7+i) as LinearLayout
-                        linearLayout.backgroundColor = context.getColor(R.color.selected)
-                    }
 
-                    if (i==1&&b?.substring(2*j,2*j+1)=="1"&& Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-                        //周2的
-                        val linearLayout: LinearLayout = gridView.getChildAt(6*j+7+i) as LinearLayout
-                        linearLayout.backgroundColor = context.getColor(R.color.selected)
-                    }
-                    if (i==2&&c?.substring(2*j,2*j+1)=="1"&& Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-                        //周3的
-                        val linearLayout: LinearLayout = gridView.getChildAt(6*j+7+i) as LinearLayout
-                        linearLayout.backgroundColor = context.getColor(R.color.selected)
-                    }
-                    if (i==3&&d?.substring(2*j,2*j+1)=="1"&& Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-                        //周4的
-                        val linearLayout: LinearLayout = gridView.getChildAt(6*j+7+i) as LinearLayout
-                        linearLayout.backgroundColor = context.getColor(R.color.selected)
-                    }
-                    if (i==4&&e?.substring(2*j,2*j+1)=="1"&& Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-                        //周5的
-                        val linearLayout: LinearLayout = gridView.getChildAt(6*j+7+i) as LinearLayout
-                        linearLayout.backgroundColor = context.getColor(R.color.selected)
+        gridView.onItemClick { p0, p1, p2, p3 ->
+            gridView.post {
+                for (i in 0..4) {
+                    for (j in 0..5) {
+                        if (i == 0 && a?.substring(2 * j, 2 * j + 1) == "1" && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            //周一的
+                            val linearLayout: LinearLayout = gridView.getChildAt(6 * j + 7 + i) as LinearLayout
+                            linearLayout.backgroundColor = context.getColor(R.color.selected)
+                        }
+
+                        if (i == 1 && b?.substring(2 * j, 2 * j + 1) == "1" && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            //周2的
+                            val linearLayout: LinearLayout = gridView.getChildAt(6 * j + 7 + i) as LinearLayout
+                            linearLayout.backgroundColor = context.getColor(R.color.selected)
+                        }
+                        if (i == 2 && c?.substring(2 * j, 2 * j + 1) == "1" && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            //周3的
+                            val linearLayout: LinearLayout = gridView.getChildAt(6 * j + 7 + i) as LinearLayout
+                            linearLayout.backgroundColor = context.getColor(R.color.selected)
+                        }
+                        if (i == 3 && d?.substring(2 * j, 2 * j + 1) == "1" && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            //周4的
+                            val linearLayout: LinearLayout = gridView.getChildAt(6 * j + 7 + i) as LinearLayout
+                            linearLayout.backgroundColor = context.getColor(R.color.selected)
+                        }
+                        if (i == 4 && e?.substring(2 * j, 2 * j + 1) == "1" && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            //周5的
+                            val linearLayout: LinearLayout = gridView.getChildAt(6 * j + 7 + i) as LinearLayout
+                            linearLayout.backgroundColor = context.getColor(R.color.selected)
+                        }
                     }
                 }
             }

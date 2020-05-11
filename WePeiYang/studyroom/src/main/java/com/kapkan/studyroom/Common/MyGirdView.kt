@@ -11,8 +11,8 @@ class MyGirdView : GridView {
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {}
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        var height = heightMeasureSpec
-        MeasureSpec.makeMeasureSpec(Integer.MAX_VALUE shr 2, MeasureSpec.AT_MOST)
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+        val a= MeasureSpec.makeMeasureSpec(Integer.MAX_VALUE shr 2, MeasureSpec.AT_MOST)
+        super.onMeasure(widthMeasureSpec, a)
     }
+
 }

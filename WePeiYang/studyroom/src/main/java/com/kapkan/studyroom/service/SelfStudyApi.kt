@@ -11,6 +11,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.scalars.ScalarsConverterFactory
 import retrofit2.http.*
 
 
@@ -34,6 +35,8 @@ interface SelfStudyApi {
     //获取某节课的可用的自习室(term暂时写死)
 
     @GET("$BASEURL/api/getDayData.php?term=19202")
+
+
     fun getAvaliableRoombyClass(@Query("week") week: Int,
                                 @Query("day") day: Int,
                                 @Query("course") course: Int): Deferred<AvailableRoomList>
@@ -42,19 +45,20 @@ interface SelfStudyApi {
     //Header
     //Parameters
     //returns
-    @GET("$BASEURL/api/getCollectionList.php")
-    fun getCollectionList(): Deferred<CollectionList>
+    @POST("$BASEURL/api/getCollectionList.php")
+    fun getCollectionList(@Header("Authorization") token: String
+    ): Deferred<CollectionList>
 
     //收藏
     @Multipart
     @POST("$BASEURL/api/addCollection.php")
-    fun starClassroom(@Part("token") token: String,
+    fun starClassroom(@Header("Authorization") token: String,
                       @Part("classroom_ID") roomID: String): Deferred<Response>
 
     //取消收藏
     @Multipart
     @POST("$BASEURL/api/deleteCollection.php")
-    fun unStarClassroom(@Part("token") token: String,
+    fun unStarClassroom(@Header("Authorization") token: String,
                         @Part("classroom_ID") roomID: String): Deferred<Response>
 
     //获取某教室整周排版情况
@@ -64,11 +68,7 @@ interface SelfStudyApi {
                              @Query("week") week: Int,
                              @Query("term") term: Int = 19202): Deferred<ClassroomWeekInfo>
 
-    //登陆？？？
-    ///api.php/Login/wpyLogin?model=1
-    ///api/login.php
-    @GET("$BASEURL/api.php")
-    fun login(@Header("Authorization") token: String): Deferred<CommonBody<Login>>
+
 
     companion object : SelfStudyApi by SelfStudyApiService()
 }
@@ -83,6 +83,7 @@ object SelfStudyApiService {
     val retrofit = Retrofit.Builder()
             .baseUrl(BASEURL)
             .client(client)
+            .addConverterFactory(ScalarsConverterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(CoroutineCallAdapterFactory())
             .build()
@@ -90,7 +91,6 @@ object SelfStudyApiService {
     inline operator fun <reified T> invoke(): T = retrofit.create(T::class.java)
 }
 
-val loginLiveData = MutableLiveData<Login>()
 val BuildingListData = MutableLiveData<BuildingList>()
 val AvailableRoomListData = MutableLiveData<AvailableRoomList>()
 val collectionLiveData = MutableLiveData<CollectionList>()
@@ -115,6 +115,14 @@ data class BuildingList(
         val error_code: Int,
         val message: String
 )
+
+data class ata(
+     val classroom_ID:String,
+     val classroom:String,
+     val capacity :String,
+     val building:String
+)
+
 
 data class Data(
         val area_id: Any,
@@ -144,7 +152,7 @@ data class AvailableRoombyClass(
 )
 
 data class CollectionList(
-        val `data`: List<Data>,
+        val `data`: List<ata>,
         val error_code: Int,
         val message: String
 )

@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -60,7 +62,7 @@
                 android:layout_gravity="center"
                 android:layout_width="10dp"
                 android:layout_height="10dp"
-                android:src="@drawable/icon_star" />
+                android:src="@drawable/icon_unstar" />
 
             <TextView
                 android:layout_marginEnd="10dp"

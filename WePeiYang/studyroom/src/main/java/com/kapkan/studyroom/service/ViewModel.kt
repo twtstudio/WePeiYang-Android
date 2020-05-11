@@ -12,35 +12,21 @@ import kotlinx.coroutines.launch
 
 class ViewModel {
 
-    fun getTermDate(studyActivity: StudyActivity){
+    fun getCollections(studyActivity: StudyActivity){
         GlobalScope.launch(Dispatchers.Main) {
-            StudyServiceManager.getDate().awaitAndHandle {
+            StudyServiceManager.getCollection().awaitAndHandle {
                 Toasty.info(CommonContext.application, it.message.toString()).show()
             }?.let {
                 if (it.error_code == -1){
-                    studyActivity.gotDate(it.data!!.termStart)
+                    collectionLiveData.postValue(it)
+                    //notify
+                    studyActivity.checkCollection()
                 }else{
-                    Toasty.info(CommonContext.application, "或许开学时间失败？？？？").show()
-                }
-            }
-        }
-
-    }
-
-    fun login(){
-        GlobalScope.launch(Dispatchers.Main) {
-            StudyServiceManager.login().awaitAndHandle {
-                Toasty.info(CommonContext.application, it.message.toString()).show()
-            }?.let {
-                if (it.error_code == -1){
-                    loginLiveData.postValue(it.data)
-                }else{
-                    Toasty.info(CommonContext.application, "哎？登陆失败？").show()
+                    Toasty.info(CommonContext.application, "没登陆吗？").show()
                 }
             }
         }
     }
-
     fun getCollections(){
         GlobalScope.launch(Dispatchers.Main) {
             StudyServiceManager.getCollection().awaitAndHandle {
@@ -48,6 +34,7 @@ class ViewModel {
             }?.let {
                 if (it.error_code == -1){
                     collectionLiveData.postValue(it)
+                    //notify
                 }else{
                     Toasty.info(CommonContext.application, "没登陆吗？").show()
                 }
@@ -62,6 +49,7 @@ class ViewModel {
             }?.let {
                 if (it.error_code == -1){
                     Toasty.info(CommonContext.application, "收藏成功").show()
+                    getCollections()
                 }else{
                     Toasty.info(CommonContext.application, it.message).show()
                 }
@@ -76,6 +64,7 @@ class ViewModel {
             }?.let {
                 if (it.error_code == -1){
                     Toasty.info(CommonContext.application, "已取消收藏").show()
+                    getCollections()
                 }else{
                     Toasty.info(CommonContext.application, it.message).show()
                 }
@@ -120,6 +109,8 @@ class ViewModel {
         }
     }
 
+
+
     fun getClassroomWeekInfo(classroomID:String,week: Int,item:CollectionItem){
         GlobalScope.launch(Dispatchers.Main) {
             StudyServiceManager.getClassWeekInfo(classroomID,week).awaitAndHandle {
@@ -129,6 +120,22 @@ class ViewModel {
                     //  classroomWeekInfoLiveData.postValue(it)
                     item.getWeekInfo(it.data)
                 } else Toasty.error(CommonContext.application, it.message).show()
+            }
+        }
+    }
+
+    fun getClassroomWeekInfo(classroomID:String,week: Int,item:RoomManager){
+        GlobalScope.launch(Dispatchers.Main) {
+            StudyServiceManager.getClassWeekInfo(classroomID,week).awaitAndHandle {
+                Toasty.info(CommonContext.application, it.message.toString()).show()
+            }?.let {
+                if (it.error_code == -1) {
+                    //  classroomWeekInfoLiveData.postValue(it)
+                    item.getWeekInfo(it.data,classroomID)
+                } else {
+                    Toasty.error(CommonContext.application, it.message).show()
+                    item.onGetWeekInfoError(classroomID)
+                }
             }
         }
     }
