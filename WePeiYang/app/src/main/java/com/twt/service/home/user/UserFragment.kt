@@ -92,8 +92,11 @@ class UserFragment : Fragment() {
 
                                                                 }
                                                                 .subscribe(Action1 {
-                                                                    //清除办公网登录缓存
+                                                                    //清除办公网登录cookie缓存
                                                                     SpiderTjuApi.clear()
+                                                                    CommonPreferences.tjuloginbind = false
+                                                                    CommonPreferences.tjuuname = ""
+                                                                    CommonPreferences.tjupwd = ""
                                                                     Toasty.success(context, "解绑成功！请重新绑定办公网", Toast.LENGTH_SHORT).show()
                                                                 }, RxErrorHandler())
                                                     }

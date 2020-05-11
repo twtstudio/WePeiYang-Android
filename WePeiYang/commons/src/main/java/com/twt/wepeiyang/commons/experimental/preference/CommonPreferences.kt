@@ -38,8 +38,9 @@ object CommonPreferences {
 
     var customThemeIndex by hawk("custom_theme_index", 0)
 
-    var tjuuname by hawk("tju_id", "")
-    var tjupwd by hawk("tju_pwd", "")
+    var tjuuname by hawk("tju_id_spider", "")
+    var tjupwd by hawk("tju_pwd_spider", "")
+    var tjuloginbind by hawk("tju_login_spider",false)
     fun clear() {
         Hawk.deleteAll()
         CommonContext.defaultSharedPreferences.edit().clear().apply()

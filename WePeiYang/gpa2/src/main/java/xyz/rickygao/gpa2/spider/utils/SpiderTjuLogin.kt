@@ -30,6 +30,7 @@ object SpiderTjuLogin {
 
     /**
      * 登录
+     * 无论登录是否成功，都会获取cookie session
      */
     suspend fun login(userName: String, password: String): Boolean {
         /*

@@ -184,11 +184,11 @@ class PersistentCookieStore(context: Context) : CookieStore {
     protected fun byteArrayToHexString(bytes: ByteArray): String {
         val sb = StringBuilder(bytes.size * 2)
         for (element in bytes) {
-            val v: Int = element.and(0xff.toByte()).toInt()
-            if (v < 16) {
-                sb.append('0')
+            var hex = Integer.toHexString((element and 0xFF.toByte()).toInt())
+            if (hex.length == 1) {
+                hex = "0$hex"
             }
-            sb.append(Integer.toHexString(v))
+            sb.append(hex)
         }
         return sb.toString().toUpperCase(Locale.US)
     }
