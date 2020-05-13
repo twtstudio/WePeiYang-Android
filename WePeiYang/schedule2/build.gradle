@@ -57,6 +57,7 @@ dependencies {
     implementation 'com.zhihu.android:matisse:0.4.3'
     implementation "org.jetbrains.anko:anko-constraint-layout:${versions.anko}"
     implementation project(':vpbs')
+    implementation project(':gpa2')
     implementation 'com.otaliastudios:autocomplete:1.1.0'
 
     debugImplementation 'me.ele:uetool:1.0.12'
