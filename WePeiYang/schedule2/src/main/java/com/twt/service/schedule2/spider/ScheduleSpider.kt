@@ -12,27 +12,56 @@ import okhttp3.MultipartBody
 import okhttp3.Request
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
+import java.text.SimpleDateFormat
+import java.util.*
 
 object ScheduleSpider {
+    private const val semesterId = "semester.id"
+    private const val ids = "ids"
 
     fun getScheduleAsync(): Deferred<String> = GlobalScope.async(IO + QuietCoroutineExceptionHandler) {
 
         val okHttpClient = SpiderTjuApi.getClientBuilder().build()
-        val request = Request.Builder()
+
+        val request1 = Request.Builder()
+                .url("http://classes.tju.edu.cn/eams/courseTableForStd.action")
+                .get()
+                .build()
+
+        val html1 = okHttpClient.newCall(request1).execute().body()?.string().orEmpty()
+
+        val map = parseHtml(html1)
+
+        val request2 = Request.Builder()
                 .url("http://classes.tju.edu.cn/eams/courseTableForStd!courseTable.action")
                 .post(MultipartBody.Builder().setType(MultipartBody.FORM)
                         .addFormDataPart("ignoreHead", "1")
                         .addFormDataPart("setting.kind", "std")
                         .addFormDataPart("startWeek", "")
-                        .addFormDataPart("semester.id", "31")//TODO  咋个获取
-                        .addFormDataPart("ids", "2143898")//TODO  ?
+                        .addFormDataPart("semester.id", map[semesterId] ?: "31")
+                        .addFormDataPart("ids", map[ids] ?: "2143898")
                         .build())
                 .build()
 
-        okHttpClient.newCall(request).execute().body()?.string().orEmpty()
+        okHttpClient.newCall(request2).execute().body()?.string().orEmpty()
     }
 
-    fun String.parseHtml(): Classtable {
+    private fun parseHtml(html1: String): MutableMap<String, String> {
+
+        val doc = Jsoup.parse(html1)
+        val semesterInput = doc.body().getElementsByTag("script")[2].data()
+        val semesterIndex = semesterInput.indexOf("value:")
+        val semesterId = semesterInput.substring(semesterIndex + 7, semesterIndex + 9)
+
+        val script = doc.getElementsByAttributeValue("language", "JavaScript").first().data()
+        val idsIndex = script.indexOf("\"ids\",")
+        val ids = script.substring(idsIndex + 7, idsIndex + 14)
+//        Log.d("parseHtml", "$semesterId,$ids")
+
+        return mutableMapOf(this.semesterId to semesterId, this.ids to ids)
+    }
+
+    fun String.parseHtml(): Classtable? {
         val courses = mutableListOf<Course>()
         try {
             val doc = Jsoup.parse(this)
@@ -60,6 +89,11 @@ object ScheduleSpider {
                         ""
                     }
                 }
+                val credit = if (tds[4].text().contains(".")) {
+                    tds[4].text()
+                } else {
+                    tds[4].text() + ".0"
+                }
 
                 val course = Course(
                         coursetype = "",//“专业核心”  原数据也没有返回
@@ -72,7 +106,7 @@ object ScheduleSpider {
                         arrangeBackup = mutableListOf(),
                         campus = campus,
                         coursenature = "",//“必修”，但事实上原数据也没有返回
-                        credit = tds[4].text(),
+                        credit = credit,
                         courseid = tds[2].text(), // 课程编号
                         courseColor = 0,
                         statusMessage = "", // [蹭课] [非本周] 什么的
@@ -94,18 +128,20 @@ object ScheduleSpider {
 
             courses.addAll(courseMap.values)
 
-        } catch (e: IllegalStateException) {
-            e.printStackTrace()
-        } finally {
             return Classtable(
                     week = 1,
                     cache = false,
                     courses = courses,
                     termStart = 1581868800L,//TODO  啥意思
-                    updatedAt = "2020-03-10T20:07:41+08:00",//TODO  2020-03-10T20:07:41+08:00
+                    updatedAt = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA).format(Date(System.currentTimeMillis())),// 2020-03-10T20:07:41+08:00 ?
                     term = "19202"//TODO  19202
             )
+
+        } catch (e: IllegalStateException) {
+            e.printStackTrace()
         }
+
+        return null
     }
 
     //手动解析js
@@ -176,10 +212,10 @@ object ScheduleSpider {
             //整合进map里
             if (courseArrangeMap[classId].isNullOrEmpty()) {
                 courseArrangeMap[classId] = arrangeList
-                Log.d("arrange1", arrangeList.toString())
+//                Log.d("arrange1", arrangeList.toString())
             } else {
                 courseArrangeMap[classId]?.addAll(arrangeList)
-                Log.d("arrange1", arrangeList.toString())
+//                Log.d("arrange1", arrangeList.toString())
             }
 
 /*            if (courseArrange2Map[classId].isNullOrEmpty()) {
