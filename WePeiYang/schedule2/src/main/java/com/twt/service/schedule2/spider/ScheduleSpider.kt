@@ -118,14 +118,17 @@ object ScheduleSpider {
 
             //根据js代码的处理
             val arrangeMap = parseJS(script)
+            val removeList = mutableListOf<Int>()
             for ((classId, course) in courseMap) {
                 if (arrangeMap[classId].isNullOrEmpty()) {
-                    courseMap.remove(classId)//暂时这样处理吧emm
+                    removeList.add(classId)
                 } else {
-                    courseMap[classId]!!.arrangeBackup = arrangeMap.getValue(classId)//应该没事了就emm
+                    courseMap[classId]!!.arrangeBackup = arrangeMap.getValue(classId)
                 }
             }
-
+            for (index in removeList) {
+                courseMap.remove(index)
+            }
             courses.addAll(courseMap.values)
 
             return Classtable(
@@ -162,9 +165,12 @@ object ScheduleSpider {
             val actTeacher = act.substring(1, act.length - 1)
             //课程相关那一行
             val courseLine = lineList[14].split(",")
-            //主键
+            //主键 classId
             //希望不会为空emm
-            val classId = courseLine[4].substring(7, 12).toInt()
+            val firstIndex = Regex("\\(").find(courseLine[4])!!.range.first
+            val lastIndex = Regex("\\)").find(courseLine[4])!!.range.last
+            val classId = courseLine[4].substring(firstIndex + 1, lastIndex).toInt()
+            //上课教室
             val room = courseLine[7].substring(1, courseLine[7].length - 1)
             //周时间
             val weekOri = courseLine[8]
@@ -212,10 +218,10 @@ object ScheduleSpider {
             //整合进map里
             if (courseArrangeMap[classId].isNullOrEmpty()) {
                 courseArrangeMap[classId] = arrangeList
-//                Log.d("arrange1", arrangeList.toString())
+                Log.d("arrange1", arrangeList.toString())
             } else {
                 courseArrangeMap[classId]?.addAll(arrangeList)
-//                Log.d("arrange1", arrangeList.toString())
+                Log.d("arrange1", arrangeList.toString())
             }
 
 /*            if (courseArrange2Map[classId].isNullOrEmpty()) {
