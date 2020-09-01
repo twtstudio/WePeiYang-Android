@@ -32,7 +32,7 @@ public class SignInterceptor implements Interceptor {
         /**
          * deal with other requests (not twt requests)
          */
-        if (!originRequest.url().host().equals("open.twtstudio.com")){
+        if (!originRequest.url().host().equals("open.twt.edu.cn")){
             return chain.proceed(originRequest);
         }
 

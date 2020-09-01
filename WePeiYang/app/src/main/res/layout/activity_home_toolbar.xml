@@ -22,11 +22,12 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/iv_toolbar_avatar"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
         android:layout_marginEnd="16dp"
         android:clickable="true"
         android:foreground="?android:attr/selectableItemBackground"
+        android:background="@drawable/ic_avatar_copy"
         android:src="@color/black_color"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
