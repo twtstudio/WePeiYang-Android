@@ -17,15 +17,12 @@ import com.kapkan.studyroom.Common.MyGirdView
 import com.kapkan.studyroom.service.*
 import com.twt.wepeiyang.commons.ui.rec.Item
 import kotlinx.android.synthetic.main.window_classroom.view.*
-import org.jetbrains.anko.backgroundColor
-import org.jetbrains.anko.image
-import org.jetbrains.anko.imageResource
-import org.jetbrains.anko.layoutInflater
+import org.jetbrains.anko.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.sdk27.coroutines.onItemClick
 import java.util.ArrayList
 
-class Flooritem(): Item {
+class Flooritem : Item {
 
     var sizeList:MutableList<Map<String, Any>> = MutableList(0){defaultmap}
     val defaultmap = HashMap<String,Any>()
@@ -87,8 +84,8 @@ class Flooritem(): Item {
                     val classtable:View = LayoutInflater.from(item.context).inflate(R.layout.window_classroom,null,false)
                     classtable.classroomname.text = item.buildingName+ item.classroomlist[p2]["aclassroomnum"]
                     classtable.classroomsize.text = item.size[p2]
-                    classtable.classroom_time.text = item.month.toString() + "月" + (item.day+1).toString() +"日"
-                    val popupWindow = PopupWindow(classtable, 740, 1400, true)
+                    classtable.classroom_time.text = item.month.toString() + "月" + (item.day).toString() +"日"
+                    val popupWindow = PopupWindow(classtable, wrapContent, wrapContent, true)
                     popupWindow.isOutsideTouchable = true
                     popupWindow.isTouchable = true
                     popupWindow.isOutsideTouchable = true
@@ -111,22 +108,26 @@ class Flooritem(): Item {
                         //收藏
                         if (!collectionLiveData.value?.data.isNullOrEmpty()){
                             val data = collectionLiveData.value!!.data
+                            var flag = true
                             for (i in 0 until data.size){
                                 if (item.roomid[p2]==data[i].classroom_ID){
                                     item.viewModel.unStar(item.roomid[p2])
                                     val image = classtable.findViewById<ImageView>(R.id.iconstar)
                                     image.image = item.context.getDrawable(R.drawable.icon_unlove)
+                                    flag = false
                                     break
                                 }
                             }
-                            val image = classtable.findViewById<ImageView>(R.id.iconstar)
-                            image.image = item.context.getDrawable(R.drawable.icon_love)
-                            item.viewModel.star(item.roomid[p2])
+                            if (flag){
+                                val image = classtable.findViewById<ImageView>(R.id.iconstar)
+                                image.image = item.context.getDrawable(R.drawable.icon_love)
+                                item.viewModel.star(item.roomid[p2])
+                                flag = true
+                            }
                         }else{
                             val image = classtable.findViewById<ImageView>(R.id.iconstar)
                             image.image = item.context.getDrawable(R.drawable.icon_love)
                             item.viewModel.star(item.roomid[p2])
-
                         }
                     }
                 }

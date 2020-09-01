@@ -7,8 +7,8 @@
     android:layout_height="wrap_content">
     <android.support.constraint.ConstraintLayout
         android:background="@drawable/block_unselected"
-        android:layout_width="60dp"
-        android:layout_height="40dp"
+        android:layout_width="40dp"
+        android:layout_height="30dp"
         android:orientation="horizontal">
 
         <TextView
@@ -19,7 +19,7 @@
             android:gravity="center"
             android:text="111"
             android:textColor="#6B9DA3"
-            android:textSize="18dp"
+            android:textSize="14dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -29,11 +29,11 @@
             android:id="@+id/aclassroomsize"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginEnd="3dp"
+            android:layout_marginEnd="1dp"
             android:gravity="bottom"
             android:text="L"
             android:textColor="#6B9DA3"
-            android:textSize="10dp"
+            android:textSize="6dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
     </android.support.constraint.ConstraintLayout>

@@ -35,12 +35,7 @@
                 android:layout_height="0dp"
                 android:layout_weight="1" />
 
-            <ImageView
-                android:id="@+id/studyroom_refresh"
-                android:layout_width="34dp"
-                android:layout_height="28dp"
-                android:layout_marginEnd="25dp"
-                android:src="@drawable/icon_refresh" />
+
 
         </LinearLayout>
     </android.support.v7.widget.Toolbar>

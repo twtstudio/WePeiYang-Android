@@ -13,10 +13,7 @@ import android.view.*
 import android.widget.*
 import com.example.studyroom.R
 import com.kapkan.studyroom.items.CollectionItem
-import com.kapkan.studyroom.service.Classroom
-import com.kapkan.studyroom.service.RoomManager
-import com.kapkan.studyroom.service.ViewModel
-import com.kapkan.studyroom.service.collectionLiveData
+import com.kapkan.studyroom.service.*
 import com.twt.wepeiyang.commons.ui.rec.ItemAdapter
 import com.twt.wepeiyang.commons.ui.rec.ItemManager
 import kotlinx.android.synthetic.main.mycalendar.view.*
@@ -25,8 +22,6 @@ import kotlinx.android.synthetic.main.study_activity.study_home_back
 import kotlinx.android.synthetic.main.study_activity.studyroom_refresh
 import kotlinx.android.synthetic.main.window_collection.view.*
 import kotlinx.android.synthetic.main.window_timeselect.view.*
-import org.jetbrains.anko.backgroundColor
-import org.jetbrains.anko.matchParent
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.sdk27.coroutines.onItemClick
 import java.text.SimpleDateFormat
@@ -47,10 +42,14 @@ class StudyActivity : AppCompatActivity() {
     var datelist: MutableList<Map<String, Any>> = MutableList(45) { defaultmap }
     var month = calendar.get(Calendar.MONTH) + 1 //居然是从0开始的
     var courseday = calendar.get(Calendar.DAY_OF_MONTH)
-    var dayofweek = calendar.get(Calendar.DAY_OF_WEEK)
+    //dayofweek
+    var adayofwek =1
+    //表示每个月的第一天是什么
+    var dayofweek = 1
+    var selecteddayofweek = 1
     var year = calendar.get(Calendar.YEAR)
     private val viewModel = ViewModel()
-    var selectedday:Int = 0
+    var selectedday:Int = courseday
     var selectedmonth:Int= 0
     var selectedyear:Int = 0
     val collections = ArrayList<Classroom>()
@@ -61,12 +60,16 @@ class StudyActivity : AppCompatActivity() {
     val buildingaryw = arrayOf(R.drawable.icon_building, "23楼", "12楼", "19楼", "26楼A", "26楼B")
     val wId = arrayOf("0015","0026","0032","1084","1085")
     val pId = arrayOf("1093","1094","1095","1096","1097","1098","1101","1102","1103","1104","1105","1106")
+
+
     val REQUEST_TS = 1
     val ts = "2020-02-17"
     val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
     var termStart: Long = simpleDateFormat.parse(ts).time
     var week: Int = 0
     var blank: Int = 0
+
+    //表示一个月多少天
     var days:Int = 30
 
     lateinit var popupWindow:PopupWindow
@@ -101,11 +104,16 @@ class StudyActivity : AppCompatActivity() {
 
         viewModel.getCollections(this)
         //viewModel.getTermDate(this)
+        adayofwek = calendar.get(Calendar.DAY_OF_WEEK)-1
+        if (dayofweek==0) adayofwek = 7
         calendar.set(Calendar.DAY_OF_MONTH, 1)
-        dayofweek = calendar.get(Calendar.DAY_OF_WEEK)
+        dayofweek = calendar.get(Calendar.DAY_OF_WEEK)-1
+        if (dayofweek==0) dayofweek = 7
+
         mcontext = this
-        initBuilding()
         viewModel.getBuildingList()
+
+        initBuilding()
 
         block_time.setOnClickListener {
             val selectwindow = LayoutInflater.from(this).inflate(R.layout.window_timeselect, null, false)
@@ -159,37 +167,18 @@ class StudyActivity : AppCompatActivity() {
             popupWindow.isTouchable = true
             popupWindow.isOutsideTouchable = true
             if (!collectionLiveData.value?.data.isNullOrEmpty()){
-                collectionItemList.clear()
-                itemManager.clear()
-
+                collections.clear()
                 collectionLiveData.value!!.data.forEach { i ->
-                    val item = CollectionItem()
-                    //
-                    for ( j in 0 .. collections.size){
-                        if (collections.size==0){
-                            item.getMessage(this, i.classroom_ID, i.classroom, month, courseday, week, viewModel, course, false)
-                            break
-                        }
-                        if (collections[j].classroom_id == collections[j].classroom_id){
-                            item.getMessage(this,collections[j].classroom_id,collections[j].classroom,month,courseday,week,viewModel,course,true)
-                            break
-                        }else {
-                            if (j == collections.size) {
-                                item.getMessage(this, collections[j].classroom_id, collections[j].classroom, month, courseday, week, viewModel, course, false)
-                                break
-                            }
-                        }
-                    }
-                    collectionItemList.add(item)
+                    collections.add(Classroom(i.building,i.capacity,i.classroom,i.classroom_ID))
                 }
             }
+            loadCollection()
             collectionrec.layoutManager = LinearLayoutManager(this)
             collectionrec.adapter = ItemAdapter(itemManager)
-            itemManager.addAll(collectionItemList)
+
             collectionrec.adapter.notifyDataSetChanged()
             popupWindow.showAsDropDown(block_collection)
         }
-        checkCollection()
         Buildinglist.addAll(peiyangBuildinglist)
         loadBuilding()
     }
@@ -197,11 +186,26 @@ class StudyActivity : AppCompatActivity() {
     fun refresh() {
         Toast.makeText(this,"刷新中",Toast.LENGTH_SHORT).show()
         viewModel.getBuildingList()
-        viewModel.getAvailableRoom(this.courseday+1, week)
+        viewModel.getCollections(this)
+    }
+
+    fun loadCollection(){
+        itemManager.clear()
+        if (!collectionLiveData.value?.data.isNullOrEmpty()){
+            collectionItemList.clear()
+            itemManager.clear()
+
+            collectionLiveData.value!!.data.forEach { i ->
+                val item = CollectionItem(false)
+                item.getMessage(this, i.classroom_ID, i.classroom, month, courseday, week, viewModel, course, false,adayofwek)
+                collectionItemList.add(item)
+            }
+            itemManager.addAll(collectionItemList)
+        }
+
     }
 
     fun checkCollection(){
-        val collections = ArrayList<Classroom>()
         if (!collectionLiveData.value?.data.isNullOrEmpty()){
             collections.clear()
             collectionLiveData.value!!.data.forEach { i ->
@@ -214,19 +218,8 @@ class StudyActivity : AppCompatActivity() {
     fun getCollection(collection:ArrayList<Classroom>){
         collections.clear()
         collections.addAll(collection)
-    }
+        loadCollection()
 
-    fun refreshCollection(){
-        if (!collectionLiveData.value?.data.isNullOrEmpty()){
-            collectionItemList.clear()
-            itemManager.clear()
-            collectionLiveData.value!!.data.forEach { i ->
-                val name = i.building + i.classroom
-                val item = CollectionItem()
-                //item.getMessage(this,i.classroom_ID,i.classroom,month,courseday,week,viewModel,course)
-                collectionItemList.add(item)
-            }
-        }
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
@@ -239,7 +232,8 @@ class StudyActivity : AppCompatActivity() {
         popupWindow.isOutsideTouchable = true
         popupWindow.showAtLocation(dateView, Gravity.CENTER, 0, 0)
         dateView.month.text = year.toString() + "年" + month.toString() + "月"
-        dayofweek = calendar.get(Calendar.DAY_OF_WEEK)
+        dayofweek = calendar.get(Calendar.DAY_OF_WEEK)-1
+        if (dayofweek==0) dayofweek = 7
         initDateList(month)
         dateView.month.text = year.toString() + "年" + month.toString() + "月"
         loadDate()
@@ -270,7 +264,8 @@ class StudyActivity : AppCompatActivity() {
             calendar.set(Calendar.MONTH, month - 1)
             calendar.set(Calendar.YEAR, year)
             calendar.set(Calendar.DAY_OF_MONTH, 1)
-            dayofweek = calendar.get(Calendar.DAY_OF_WEEK)
+            dayofweek = calendar.get(Calendar.DAY_OF_WEEK)-1
+            if (dayofweek==0) dayofweek = 7
             initDateList(month)
             dateView.month.text = year.toString() + "年" + month.toString() + "月"
             loadDate()
@@ -299,6 +294,8 @@ class StudyActivity : AppCompatActivity() {
             mintent.putExtra("week",week)
             mintent.putExtra("course", course)
             mintent.putExtra("month",month)
+            mintent.putExtra("dayofweek",selecteddayofweek)
+            mintent.putExtra("day",selectedday)
             startActivity(mintent)
         }
     }
@@ -313,13 +310,11 @@ class StudyActivity : AppCompatActivity() {
         gridView.onItemClick { p0, p1, p2, p3 ->
            // gridView.adapter.getView(p2,p1,p0).background = getDrawable(R.drawable.top)
             if (p2>=blank&&p2<days+blank){
-
                 gridView.post {
                     val linearLayout = gridView.getChildAt(p2) as LinearLayout
                     val textView = linearLayout.getChildAt(0) as TextView
-
                     textView.background = getDrawable(R.drawable.block_selected)
-                    if (selectedmonth==month){
+                    if (selectedmonth==month&&selectedday!=p2 - blank+1){
                         val date = gridView.getChildAt(selectedday+blank-1) as LinearLayout
                         val textView = date.getChildAt(0) as TextView
                         textView.background = getDrawable(R.drawable.block_unselected)
@@ -327,6 +322,7 @@ class StudyActivity : AppCompatActivity() {
                     selectedyear = year
                     selectedday = p2 - blank+1
                     selectedmonth = month
+                    adayofwek = p2%7 +1
                 }
 
                 Toast.makeText(mcontext,"选中的时间："+year.toString() + "-" + month.toString() + "-" + (p2 - blank+1).toString(),Toast.LENGTH_SHORT).show()
@@ -384,17 +380,25 @@ class StudyActivity : AppCompatActivity() {
     }
 
     fun initBuilding() {
+        /*
+        BuildingListData.value?.data?.forEach {
+            if (it.campus_id=="1"){
+             //   buildingaryw.add(it.building)
+            }else{
+              //  buildingaryp.add(it.building)
+            }
+        }*/
         val strary: Array<String> = arrayOf("img_building", "text_building")
         for (i in 1..12) {
             val map: HashMap<String, Any> = HashMap()
-            map[strary[0]] = buildingaryp[0]
+            map[strary[0]] = R.drawable.icon_building
             map[strary[1]] = buildingaryp[i]
             peiyangBuildinglist.add(map)
         }
 
         for (i in 1..5) {
             val map: HashMap<String, Any> = HashMap()
-            map[strary[0]] = buildingaryw[0]
+            map[strary[0]] = R.drawable.icon_building
             map[strary[1]] = buildingaryw[i]
             weijinBuildinglist.add(map)
         }
@@ -403,9 +407,10 @@ class StudyActivity : AppCompatActivity() {
     fun caculateWeek(sdate: String) {
         val selectedtime: Long = simpleDateFormat.parse(sdate).time
         val days: Int = ((selectedtime - termStart) / (1000 * 60 * 60 * 24)).toInt()
-        week = days / 7
-        this.dayofweek = days % 7
+        week = (days / 7)+1
+        this.selecteddayofweek = (days+1) % 7
     }
+
 
 
     fun refreshAList(){

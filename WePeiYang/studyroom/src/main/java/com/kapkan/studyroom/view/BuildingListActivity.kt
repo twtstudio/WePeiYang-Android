@@ -30,6 +30,7 @@ class BuildingListActivity: AppCompatActivity() {
     var month:Int = 1
     var select:BooleanArray = BooleanArray(12){false}
     var selectstr:String = "当前选中时间:"
+    var dayofweek = 0
     var day:Int = 0
     var week:Int = 0
     var classrooms:ArrayList<Classroom> = ArrayList()
@@ -54,6 +55,7 @@ class BuildingListActivity: AppCompatActivity() {
         month = intent.getIntExtra("month",0)
         buildingName = intent.getStringExtra("buildingName")
         array = intent.getBooleanArrayExtra("courseselect")
+        dayofweek = intent.getIntExtra("dayofweek",1)
         val window = this.window
         val color = Color.parseColor("#6B9DA3")
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
@@ -79,10 +81,6 @@ class BuildingListActivity: AppCompatActivity() {
             onBackPressed()
         }
 
-        studyroom_refresh.onClick {
-            Toast.makeText(this@BuildingListActivity,"刷新中",Toast.LENGTH_SHORT).show()
-            refresh()
-        }
         recyclerView = findViewById(R.id.buildings_rec)
         recyclerView.layoutManager = LinearLayoutManager(this)
         itemManager = ItemManager()
@@ -94,13 +92,8 @@ class BuildingListActivity: AppCompatActivity() {
                     classrooms.addAll(it.classrooms)
                 }
             }
-        roomManager.getAvailableRoomList(viewModel,array,day,week,classrooms,this)
+        roomManager.getAvailableRoomList(viewModel,array,dayofweek,week,classrooms,this)
             /*判断教室是否可用（待修改
-            AvailableRoomListData.value?.data!!.forEach {
-                if (it.building_id == buildingID){
-                    aclassrooms = it.classrooms
-                }
-            }
             */
         }else{
             Toast.makeText(this,"网络错误",Toast.LENGTH_SHORT).show()
@@ -109,7 +102,7 @@ class BuildingListActivity: AppCompatActivity() {
 
     fun receiveArooms(aclassrooms:ArrayList<Classroom>){
         this.aclassrooms = aclassrooms
-
+        itemManager.clear()
         judgeFloor()
         itemManager.addAll(itemList)
         recyclerView.adapter.notifyDataSetChanged()
@@ -135,7 +128,6 @@ class BuildingListActivity: AppCompatActivity() {
                         if (aclassrooms.contains(it)){
                             firstalist.add(it)
                         }
-                        val str =  "一楼"
                     }
                     it.classroom_id.substring(2,3) == "2" -> {
                         secondfloorlist.add(it)
@@ -193,7 +185,7 @@ class BuildingListActivity: AppCompatActivity() {
                 else -> "L"
             }
             size.add(str)
-            map["aclassroomnum"] = fclassrooms[i].classroom_id.substring(2,5)
+            map["aclassroomnum"] = fclassrooms[i].classroom.substring(fclassrooms[i].classroom.length-3,fclassrooms[i].classroom.length)
             map["aclassroomsize"] = str
             roomlist.add(map)
             if (!faclassrooms.contains(fclassrooms[i])){
@@ -207,7 +199,7 @@ class BuildingListActivity: AppCompatActivity() {
     }
 
     fun refresh(){
-        roomManager.getAvailableRoomList(viewModel,array,day,week,classrooms,this)
+        roomManager.getAvailableRoomList(viewModel,array,dayofweek,week,classrooms,this)
     }
 
 

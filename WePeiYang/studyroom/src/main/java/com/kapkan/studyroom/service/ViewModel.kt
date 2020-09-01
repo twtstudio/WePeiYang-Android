@@ -109,6 +109,19 @@ class ViewModel {
         }
     }
 
+    fun checkCollectionavaliable(classroomID:String,day: Int,week: Int,item:CollectionItem,courselist:BooleanArray){
+        GlobalScope.launch(Dispatchers.Main) {
+            StudyServiceManager.getClassWeekInfo(classroomID,week).awaitAndHandle {
+                Toasty.info(CommonContext.application, it.message.toString()).show()
+            }?.let {
+                if (it.error_code == -1) {
+                    //  classroomWeekInfoLiveData.postValue(it)
+                    item.onAvaliableChanged(judgeAvailable(it.data,day,courselist))
+                } else Toasty.error(CommonContext.application, it.message).show()
+            }
+        }
+    }
+
 
 
     fun getClassroomWeekInfo(classroomID:String,week: Int,item:CollectionItem){
@@ -139,4 +152,40 @@ class ViewModel {
             }
         }
     }
+
+
+    private fun judgeAvailable(wd: weekdata, day: Int, courselist:BooleanArray):Boolean{
+        return when (day) {
+            1 -> {
+                judge(wd.`1`,courselist)
+            }
+            2 -> {
+                judge(wd.`2`,courselist)
+            }
+            3 -> {
+                judge(wd.`3`,courselist)
+            }
+            4 -> {
+                judge(wd.`4`,courselist)
+            }
+            5 -> {
+                judge(wd.`5`,courselist)
+            }
+            else -> true
+        }
+    }
+
+    private fun judge(classes:String, courselist:BooleanArray):Boolean{
+        for (j in 0..5){
+            //选了这段时间，判断是否可用
+            if (courselist[j]){
+                if (classes.substring(2*j,2*j+1) == "1"||(classes.substring(2*j+1,2*j+2)=="1")){
+                    return false
+                }
+            }
+        }
+        return true
+    }
+
+
 }

@@ -5,7 +5,7 @@ import com.kapkan.studyroom.view.StudyActivity
 
 class RoomManager {
     var availableclassrooms:ArrayList<Classroom> = ArrayList()
-    lateinit var classrooms: ArrayList<Classroom>
+    var classrooms: ArrayList<Classroom> = ArrayList()
     var flag:Int = 0
     var week:Int = 0
     var day:Int = 0
@@ -23,6 +23,7 @@ class RoomManager {
         this.courselist = courselist
         this.buildingListActivity =buildingListActivity
         this.classrooms= classrooms
+        activityflag = true
         classrooms.forEach {
             viewModel.getClassroomWeekInfo(it.classroom_id,week,this)
         }
@@ -34,6 +35,8 @@ class RoomManager {
         this.day = day
         this.courselist = courselist
         this.studyActivity =studyActivity
+        this.classrooms= classrooms
+        activityflag =false
         classrooms.forEach {
             viewModel.getClassroomWeekInfo(it.classroom_id,week,this)
         }
@@ -41,27 +44,27 @@ class RoomManager {
 
     fun refresh(viewModel: ViewModel,courselist:ArrayList<Boolean>,day:Int,week:Int,classrooms:ArrayList<Classroom>){
         flag = 0
-        this.week = day
-        this.day = week
+        this.week = week
+        this.day = day
         courselist.clear()
     }
 
     fun judgeAvailable(wd: weekdata):Boolean{
         var available:Boolean =true
            available = when{
-                day == 0 -> {
-                    judge(wd.`1`)
-                }
                 day == 1 -> {
-                    judge(wd.`2`)
+                   judge(wd.`1`)
                 }
                 day == 2 -> {
-                    judge(wd.`3`)
+                    judge(wd.`2`)
                 }
                 day == 3 -> {
-                    judge(wd.`4`)
+                    judge(wd.`3`)
                 }
                 day == 4 -> {
+                    judge(wd.`4`)
+                }
+                day == 5 -> {
                     judge(wd.`5`)
                 }
                else -> true
@@ -95,7 +98,7 @@ class RoomManager {
     }
 
     fun finish(){
-        if (activityflag){
+        if (!activityflag){
             studyActivity.getCollection(availableclassrooms)
         }else{
             buildingListActivity.receiveArooms(availableclassrooms)

@@ -15,14 +15,12 @@ import com.kapkan.studyroom.service.weekdata
 import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemController
 import kotlinx.android.synthetic.main.window_classroom.view.*
-import org.jetbrains.anko.backgroundColor
-import org.jetbrains.anko.image
-import org.jetbrains.anko.imageResource
-import org.jetbrains.anko.layoutInflater
+import org.jetbrains.anko.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.sdk27.coroutines.onItemClick
+import java.time.DayOfWeek
 
-class CollectionItem(): Item{
+class CollectionItem constructor(useable:Boolean): Item{
     override val controller: ItemController
         get() = Controller
     lateinit var courselist: BooleanArray
@@ -34,25 +32,28 @@ class CollectionItem(): Item{
     var month:Int = 1
     var day = 1
     var week = 1
+    var dayOfWeek = 1
     var size = "M"
     var buildingName = ""
     var classroomname = ""
     lateinit var available:ImageView
     lateinit var viewModel: ViewModel
-    var isavailable = true
+    var isavailable = useable
 
 
-    fun getMessage(context: Context,roomid: String,roomname: String, month:Int,day:Int,week:Int,viewModel: ViewModel,courseselect:BooleanArray,available:Boolean){
+    fun getMessage(context: Context,roomid: String,roomname: String, month:Int,day:Int,week:Int,viewModel: ViewModel,courseselect:BooleanArray,available:Boolean,dayOfWeek: Int){
         this.context = context
         this.roomid = roomid
         this.roomname = roomname
         this.month = month
         this.day = day
         this.week = week
+        this.dayOfWeek = dayOfWeek
         this.viewModel = viewModel
         courselist = courseselect
         isavailable = available
         item = this
+        viewModel.checkCollectionavaliable(roomid,dayOfWeek,week,item,courselist)
     }
 
     var a:String? = "001000000000"
@@ -70,9 +71,9 @@ class CollectionItem(): Item{
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: Item) {
             item as CollectionItem
             holder as CollectViewHolder
+
             item.available = holder.available
             holder.roomid.text = item.roomname
-
             holder.starBtn.onClick {
                 //取消收藏
                 if (!collectionLiveData.value?.data.isNullOrEmpty()){
@@ -97,7 +98,7 @@ class CollectionItem(): Item{
                 classtable.classroomname.text = item.roomname
                 classtable.classroomsize.text = item.size
                 classtable.classroom_time.text = item.month.toString() + "月" + (item.day).toString() +"日"
-                val popupWindow = PopupWindow(classtable, 740, 1400, true)
+                val popupWindow = PopupWindow(classtable, wrapContent, wrapContent, true)
                 popupWindow.isOutsideTouchable = true
                 popupWindow.isTouchable = true
                 popupWindow.isOutsideTouchable = true
@@ -106,6 +107,7 @@ class CollectionItem(): Item{
 
                 classtable.iconstar.onClick {
                     //收藏
+                    var flag = true
                     if (!collectionLiveData.value?.data.isNullOrEmpty()){
                         val data = collectionLiveData.value!!.data
                         for (i in 0 until data.size){
@@ -113,12 +115,16 @@ class CollectionItem(): Item{
                                 item.viewModel.unStar(item.roomid)
                                 val image = classtable.findViewById<ImageView>(R.id.iconstar)
                                 image.imageResource = R.drawable.icon_unlove
+                                flag = false
                                 break
                             }
                         }
-                        val image = classtable.findViewById<ImageView>(R.id.iconstar)
-                        image.imageResource = R.drawable.icon_love
-                        item.viewModel.star(item.roomid)
+                        if (flag){
+                            val image = classtable.findViewById<ImageView>(R.id.iconstar)
+                            image.image = item.context.getDrawable(R.drawable.icon_love)
+                            item.viewModel.star(item.roomid)
+                            flag = true
+                        }
                     }else{
                         val image = classtable.findViewById<ImageView>(R.id.iconstar)
                         image.imageResource = R.drawable.icon_love
@@ -138,11 +144,8 @@ class CollectionItem(): Item{
                 }
                 item.loadClasstable(item.gridView)
             }
-            if (item.isavailable){
-                item.available.image = item.context.getDrawable(R.drawable.icon_star)
-            }else{
-                item.available.image = item.context.getDrawable(R.drawable.icon_unstar)
-            }
+
+
         }
 
         private class CollectViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
@@ -151,6 +154,11 @@ class CollectionItem(): Item{
             val starBtn = itemView.findViewById<ImageView>(R.id.star)
         }
     }
+
+    fun checkUsable(){
+
+    }
+
 
     fun loadClasstable(gridView: GridView){
         val defaultmap = HashMap<String, Any>()
@@ -218,6 +226,16 @@ class CollectionItem(): Item{
                 }
             }
         }
+    }
+
+    //自己发送请求自己刷新可用状态
+    fun onAvaliableChanged(result: Boolean){
+        if (result){
+            available.image = context.getDrawable(R.drawable.icon_star)
+        }else{
+            item.available.image = item.context.getDrawable(R.drawable.icon_unstar)
+        }
+        isavailable = result
     }
 
     fun getWeekInfo(wd: weekdata){
