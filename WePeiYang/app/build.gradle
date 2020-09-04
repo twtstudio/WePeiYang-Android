@@ -25,6 +25,13 @@ android {
             abiFilters 'armeabi', 'x86'
         }
 
+        lintOptions {
+            checkReleaseBuilds false
+            // Or, if you prefer, you can continue to check for errors in release builds,
+            // but continue the build even when errors are found:
+            abortOnError false
+        }
+
         flavorDimensions 'dev'
         productFlavors {
             dev {
@@ -39,19 +46,14 @@ android {
             }
         }
 
-        lintOptions {
-            checkReleaseBuilds false
-            abortOnError false
-        }
-
         manifestPlaceholders = [
                 //AP6CS8KKB77P 属于应用"微北洋"独有的 Android AppKey, 用于 配置SDK
-                MTA_APPKEY      : "AP6CS8KKB77P",
+                MTA_APPKEY : "AP6CS8KKB77P",
                 //标注应用推广渠道用以区分新用户来源，可填写如应用宝，豌豆荚等
-                MTA_CHANNEL     : "全渠道",
-                GETUI_APP_ID    : "ADDDDnkJDp5mcUoRcbx4D5",
-                GETUI_APP_KEY   : "4oENrHh96aAjOpHkK4TUi5",
-                GETUI_APP_SECRET: "vTEABKKRKK8U5FB2gdU3e8"
+                MTA_CHANNEL: "全渠道",
+                GETUI_APP_ID : "ADDDDnkJDp5mcUoRcbx4D5",
+                GETUI_APP_KEY : "4oENrHh96aAjOpHkK4TUi5",
+                GETUI_APP_SECRET : "vTEABKKRKK8U5FB2gdU3e8"
         ]
     }
 
@@ -138,6 +140,3 @@ dependencies {
     releaseImplementation 'me.ele:uetool-no-op:1.0.12'
 
 }
-
-
-

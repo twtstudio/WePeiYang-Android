@@ -20,10 +20,10 @@ class WelcomeActivity : MaterialIntroActivity() {
         super.onCreate(savedInstanceState)
         addSlide(GpaWelcomeFragment())
         addSlide(ScheduleWelcomeFragment())
-//        addSlide(BikeWelcomeFragment())
+        addSlide(BikeWelcomeFragment())
         addSlide(BriefWelcomeFragment())
         if (!CommonPreferences.isBindTju) addSlide(TjuBindFragment())
-//        if (!CommonPreferences.isBindLibrary) addSlide(LibBindFragment())
+        if (!CommonPreferences.isBindLibrary) addSlide(LibBindFragment())
     }
 
     override fun onFinish() {

@@ -92,7 +92,6 @@
             android:theme="@android:style/Theme.Translucent" />
         <activity android:name=".settings.DevTalkActivity"/>
 
-        <activity android:name=".settings.PrivacyActivity"/>
         <activity android:name=".settings.SingleBindActivity" />
         <activity android:name=".news.NewsActivity" />
         <activity android:name=".mall.MallActivity"/>

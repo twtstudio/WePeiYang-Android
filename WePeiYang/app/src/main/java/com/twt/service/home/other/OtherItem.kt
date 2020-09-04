@@ -61,9 +61,9 @@ class OtherItem : Item {
                     mtaClick("app_首页OtherItem黄页Item")
                     it.context.startActivity<YellowPageActivity>()
                 }
-                addItemTmp("学生党建（维护中）", "和微北洋共建社会主义") {
+                addItem("学生党建", "和微北洋共建社会主义") {
                     mtaClick("app_首页OtherItem党建Item")
-//                    it.context.startActivity<PartyActivity>()
+                    it.context.startActivity<PartyActivity>()
                 }
 //                addItem("刷题", "沉迷学习，日渐头秃") {
 //                    mtaClick("app_首页OtherItem刷题Item")
@@ -73,9 +73,9 @@ class OtherItem : Item {
                     mtaClick("app_首页OtherItem失物招领Item")
                     it.context.startActivity<WaterfallActivity>()
                 }
-                addItemTmp("就业（维护中）", "就业信息，一网打尽") {
+                addItem("就业", "就业信息，一网打尽") {
                     mtaClick("app_首页OtherItem中就业Item")
-//                    it.context.startActivity<JobHomeActivity>()
+                    it.context.startActivity<JobHomeActivity>()
                 }
                 addItem("新闻", "环宇北洋，心识天下") {
                     mtaClick("app_首页OtherItem中新闻Item")
@@ -106,29 +106,6 @@ class OtherItem : Item {
                     text = message
                     textSize = 12f
                     textColor = Color.parseColor("#444444")
-                }.lparams(matchParent, wrapContent) {
-                    topMargin = dip(4)
-                }
-                setOnClickListener {
-                    onclick(it)
-                }
-            }.lparams(matchParent, wrapContent) {
-                verticalMargin = dip(4)
-            }
-        }
-
-        //功能维护时临时加的灰色item
-        fun _LinearLayout.addItemTmp(title: String, message: String, onclick: (View) -> Unit) {
-            verticalLayout {
-                textView {
-                    text = title
-                    textSize = 16f
-                    textColor = Color.parseColor("#A9A9A9")
-                }.lparams(matchParent, wrapContent)
-                textView {
-                    text = message
-                    textSize = 12f
-                    textColor = Color.parseColor("#A9A9A9")
                 }.lparams(matchParent, wrapContent) {
                     topMargin = dip(4)
                 }

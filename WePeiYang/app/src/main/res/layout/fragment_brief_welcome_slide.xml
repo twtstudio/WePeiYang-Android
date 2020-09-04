@@ -20,11 +20,11 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginLeft="30dp"
-        android:layout_marginTop="60dp"
         android:layout_marginRight="30dp"
+        android:layout_marginTop="60dp"
         android:fontFamily="sans-serif-regular"
         android:gravity="center_horizontal"
-        android:text="不止首页功能优化\n更有众多改进与精简\n只为遇见更好的你\n微北洋 并不微"
+        android:text="不止首页功能优化\n更有众多改进与新功能\n只为遇见更好的你\n微北洋 并不微"
         android:textColor="@color/colorAccent"
         android:textSize="18sp"
         app:layout_parallaxFactor="1.0" />
