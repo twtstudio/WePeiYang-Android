@@ -49,6 +49,10 @@
             android:key="@string/pref_dev_talking"
             android:summary="微北洋开发血泪史"
             android:title="开发者说" />
+        <Preference
+            android:key="pref_privacy_policy"
+            android:summary="微北洋隐私政策"
+            android:title="隐私政策" />
 <!--        <Preference-->
 <!--            android:key="@string/pref_feedback"-->
 <!--            android:summary="到移动客户端版块，说出你的故事"-->

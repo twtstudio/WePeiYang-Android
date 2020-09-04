@@ -165,6 +165,14 @@ class SettingsActivity : CAppCompatActivity() {
                 false
             }
 
+            val privacyPolicy = findPreference(getString(R.string.pref_privacy_policy))
+            privacyPolicy.setOnPreferenceClickListener {
+                val intent = Intent(activity, PrivacyActivity::class.java)
+                startActivity(intent)
+//                activity.startActivity(intent)
+                false
+            }
+
 //            val feedback = findPreference(getString(R.string.pref_feedback))
 //            feedback.onPreferenceClickListener = Preference.OnPreferenceClickListener {
 //                val intent = Intent(Intent.ACTION_VIEW)

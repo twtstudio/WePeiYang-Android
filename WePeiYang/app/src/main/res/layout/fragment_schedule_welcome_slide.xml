@@ -32,11 +32,11 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
         android:layout_marginTop="60dp"
+        android:layout_marginRight="30dp"
         android:fontFamily="sans-serif-regular"
         android:gravity="center_horizontal"
-        android:text="不只是传统课表，更有今日课程、首节课提醒等温馨功能，只为让你的学习生活更加便利"
+        android:text="不只是传统课表，更有今日课程、首节课提醒，自定义日程等温馨功能，只为让你的学习生活更加便利"
         android:textColor="@color/colorAccent"
         android:textSize="18sp"
         app:layout_parallaxFactor="1.0" />
