@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="20dp">
+
+    <TextView
+        android:id="@+id/annoDetailQuestionTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:singleLine="false"
+        android:textAlignment="textStart"
+        android:textColor="#000"
+        android:textSize="20sp"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/annoDetailQuestionContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:singleLine="false"
+        android:textAlignment="textStart"
+        app:layout_constraintTop_toBottomOf="@id/annoDetailQuestionTitle" />
+
+    <TextView
+        android:id="@+id/annoDetailQuestionName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:singleLine="true"
+        android:textAlignment="textEnd"
+        app:layout_constraintRight_toLeftOf="@id/annoDetailQuestionTime"
+        app:layout_constraintTop_toBottomOf="@id/annoDetailQuestionContent" />
+
+    <TextView
+        android:id="@+id/annoDetailQuestionTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:singleLine="true"
+        android:textAlignment="textEnd"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/annoDetailQuestionContent" />
+
+</android.support.constraint.ConstraintLayout>
