@@ -3,17 +3,10 @@ package com.twt.service.settings
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
-
 import com.mukesh.MarkdownView
-
-import java.io.IOException
-
 import es.dmoral.toasty.Toasty
-import okhttp3.Call
-import okhttp3.Callback
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.Response
+import okhttp3.*
+import java.io.IOException
 
 
 /**
@@ -43,9 +36,10 @@ class DevTalkActivity : AppCompatActivity() {
 
             @Throws(IOException::class)
             override fun onResponse(call: Call, response: Response) {
+                val string = response.body()!!.string()
                 this@DevTalkActivity.runOnUiThread {
                     try {
-                        markdownView.setMarkDownText(response.body()!!.string())
+                        markdownView.setMarkDownText(string)
                     } catch (e: IOException) {
                         e.printStackTrace()
                     }
