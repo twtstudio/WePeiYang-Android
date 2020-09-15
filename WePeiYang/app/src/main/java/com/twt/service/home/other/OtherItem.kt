@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import com.tjuwhy.yellowpages2.view.YellowPageActivity
+import com.twt.service.announcement.AnnoActivity
 import com.twt.service.announcement.AnnoTestActivity
 import com.twt.service.home.user.FragmentActivity
 import com.twt.service.news.NewsActivity
@@ -83,7 +84,7 @@ class OtherItem : Item {
 
                 addItem("校务平台", "我先放一个校务平台在这里") {
                     // TODO: 埋点还没做
-                    it.context.startActivity<AnnoTestActivity>()
+                    it.context.startActivity<AnnoActivity>()
                 }
 
 //                addItem("自行车", "通览状态，畅爽骑行") {
