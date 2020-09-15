@@ -10,9 +10,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import com.twt.service.R
 import com.twt.service.schedule2.view.exam.ExamTableActivity
-import com.twt.service.tjunet.view.TjuNetActivity
-import com.twtstudio.retrox.bike.bike.ui.main.BikeActivity
-import com.twtstudio.tjliqy.party.ui.home.PartyActivity
 import com.yookiely.lostfond2.waterfall.WaterfallActivity
 import xyz.rickygao.gpa2.view.GpaActivity
 
@@ -31,8 +28,8 @@ class ToolsFragment : Fragment() {
                             ToolItem(R.drawable.ic_main_schedule, "课程表", com.twt.service.schedule2.view.schedule.ScheduleActivity::class.java),
                             ToolItem(R.drawable.ic_main_gpa, "GPA", GpaActivity::class.java),
                             ToolItem(R.drawable.ic_main_lostfound, "失物招领", WaterfallActivity::class.java),
-                            ToolItem(R.drawable.ic_main_read, "考表", ExamTableActivity::class.java),
-                            ToolItem(R.drawable.ic_main_party, "党建", PartyActivity::class.java)
+                            ToolItem(R.drawable.ic_main_read, "考表", ExamTableActivity::class.java)
+//                            ToolItem(R.drawable.ic_main_party, "党建", PartyActivity::class.java)
 //                            ToolItem(R.drawable.ic_main_network, "上网", TjuNetActivity::class.java)
                     ))
                 }

@@ -6,20 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.LinearLayout
-import com.twt.service.schedule2.view.exam.ExamTableActivity
 import com.tjuwhy.yellowpages2.view.YellowPageActivity
-import com.yookiely.lostfond2.waterfall.WaterfallActivity
+import com.twt.service.announcement.AnnoTestActivity
 import com.twt.service.home.user.FragmentActivity
-import com.twt.service.job.home.JobHomeActivity
 import com.twt.service.news.NewsActivity
 import com.twt.wepeiyang.commons.mta.mtaClick
 import com.twt.wepeiyang.commons.ui.rec.HomeItem
 import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemController
-import com.twtstudio.retrox.bike.bike.ui.main.BikeActivity
-import com.twtstudio.service.tjwhm.exam.home.ExamHomeActivity
-import com.twtstudio.tjliqy.party.ui.home.PartyActivity
-import com.avarye.mall.main.MallActivity
+import com.yookiely.lostfond2.waterfall.WaterfallActivity
 import org.jetbrains.anko.*
 
 class OtherItem : Item {
@@ -61,10 +56,12 @@ class OtherItem : Item {
                     mtaClick("app_首页OtherItem黄页Item")
                     it.context.startActivity<YellowPageActivity>()
                 }
-                addItem("学生党建", "和微北洋共建社会主义") {
-                    mtaClick("app_首页OtherItem党建Item")
-                    it.context.startActivity<PartyActivity>()
-                }
+                addUselessItem("学生党建 (维护中)", "和微北洋共建社会主义")
+//                {
+//                    mtaClick("app_首页OtherItem党建Item")
+//                    it.context.startActivity<PartyActivity>()
+//                }
+
 //                addItem("刷题", "沉迷学习，日渐头秃") {
 //                    mtaClick("app_首页OtherItem刷题Item")
 //                    it.context.startActivity<ExamHomeActivity>()
@@ -73,13 +70,20 @@ class OtherItem : Item {
                     mtaClick("app_首页OtherItem失物招领Item")
                     it.context.startActivity<WaterfallActivity>()
                 }
-                addItem("就业", "就业信息，一网打尽") {
-                    mtaClick("app_首页OtherItem中就业Item")
-                    it.context.startActivity<JobHomeActivity>()
-                }
+                addUselessItem("就业 (维护中)", "就业信息，一网打尽")
+//                {
+//                    mtaClick("app_首页OtherItem中就业Item")
+//                    it.context.startActivity<JobHomeActivity>()
+//                }
+
                 addItem("新闻", "环宇北洋，心识天下") {
                     mtaClick("app_首页OtherItem中新闻Item")
                     it.context.startActivity<NewsActivity>()
+                }
+
+                addItem("校务平台", "我先放一个校务平台在这里") {
+                    // TODO: 埋点还没做
+                    it.context.startActivity<AnnoTestActivity>()
                 }
 
 //                addItem("自行车", "通览状态，畅爽骑行") {
@@ -111,6 +115,28 @@ class OtherItem : Item {
                 }
                 setOnClickListener {
                     onclick(it)
+                }
+            }.lparams(matchParent, wrapContent) {
+                verticalMargin = dip(4)
+            }
+        }
+
+        /**
+         * OTHERS里面的维护中Item
+         */
+        fun _LinearLayout.addUselessItem(title: String, message: String) {
+            verticalLayout {
+                textView {
+                    text = title
+                    textSize = 16f
+                    textColor = Color.parseColor("#BBBBBB")
+                }.lparams(matchParent, wrapContent)
+                textView {
+                    text = message
+                    textSize = 12f
+                    textColor = Color.parseColor("#BBBBBB")
+                }.lparams(matchParent, wrapContent) {
+                    topMargin = dip(4)
                 }
             }.lparams(matchParent, wrapContent) {
                 verticalMargin = dip(4)

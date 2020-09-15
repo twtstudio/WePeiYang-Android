@@ -7,15 +7,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3179b27c-ea39-4e4e-818e-79314e8c5cbf" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/WePeiYang/announcement/src/main/java/com/twt/service/announcement/detail/DetailActivity.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/WePeiYang/announcement/src/main/res/layout/activity_detail.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WePeiYang/announcement/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/WePeiYang/announcement/build.gradle" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/WePeiYang/announcement/consumer-rules.pro" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/WePeiYang/announcement/proguard-rules.pro" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/WePeiYang/announcement/src/androidTest/java/com/twt/service/announcement/ExampleInstrumentedTest.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/WePeiYang/announcement/src/main/AndroidManifest.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/WePeiYang/announcement/src/test/java/com/twt/service/announcement/ExampleUnitTest.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/WePeiYang/settings.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/WePeiYang/settings.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WePeiYang/announcement/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/WePeiYang/announcement/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WePeiYang/announcement/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/WePeiYang/announcement/src/main/AndroidManifest.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,12 +25,6 @@
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-  </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="33" />
-    <option name="y" value="33" />
-    <option name="width" value="1890" />
-    <option name="height" value="930" />
   </component>
   <component name="PropertiesComponent">
     <property name="last_opened_file_path" value="$PROJECT_DIR$/WePeiYang" />
