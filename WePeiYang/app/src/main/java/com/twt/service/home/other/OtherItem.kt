@@ -7,8 +7,7 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import com.tjuwhy.yellowpages2.view.YellowPageActivity
-import com.twt.service.announcement.AnnoActivity
-import com.twt.service.announcement.AnnoTestActivity
+import com.twt.service.announcement.ui.activity.AnnoActivity
 import com.twt.service.home.user.FragmentActivity
 import com.twt.service.news.NewsActivity
 import com.twt.wepeiyang.commons.mta.mtaClick

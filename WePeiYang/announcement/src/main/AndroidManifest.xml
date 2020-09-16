@@ -3,9 +3,8 @@
     package="com.twt.service.announcement">
 
     <application>
-        <activity android:name=".AnnoTestActivity"></activity>
         <activity android:name=".detail.DetailActivity" />
-        <activity android:name=".AnnoActivity" />
+        <activity android:name=".ui.activity.AnnoActivity" />
     </application>
 
 </manifest>
