@@ -11,7 +11,8 @@ import android.view.View
 import cn.edu.twt.retrox.recyclerviewdsl.withItems
 import com.githang.statusbar.StatusBarCompat
 import com.twt.service.announcement.R
-import jp.wasabeef.recyclerview.animators.LandingAnimator
+import com.twt.service.announcement.service.ReplyOrCommit
+import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -27,6 +28,8 @@ class DetailActivity : AppCompatActivity() {
     private lateinit var toolbar: Toolbar
     private lateinit var recyclerView: RecyclerView
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
+    private val replyList: MutableList<ReplyOrCommit> = mutableListOf()
+    private val commentList: MutableList<ReplyOrCommit> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,7 +40,13 @@ class DetailActivity : AppCompatActivity() {
         setToolbar("问题详情") {
             finish()
         }
-        setRecyclerView()
+        GlobalScope.launch {
+            getData()
+        }.invokeOnCompletion {
+            runOnUiThread {
+                setRecyclerView()
+            }
+        }
         setRefresh()
     }
 
@@ -71,7 +80,6 @@ class DetailActivity : AppCompatActivity() {
     private fun setRecyclerView() {
         recyclerView.apply {
             layoutManager = LinearLayoutManager(this@DetailActivity)
-            itemAnimator = LandingAnimator()
             withItems {
                 addDetailQuestionItem(
                         this@DetailActivity.intent.getStringExtra("title"),
@@ -82,21 +90,14 @@ class DetailActivity : AppCompatActivity() {
                         this@DetailActivity.intent.getBooleanExtra("likeState", false),
                         this@DetailActivity.intent.getIntExtra("likeCount", 0)
                 )
-                addDetailReplyItem(
-                        "天津大学 猫先生",
-                        "我觉得这是好的，并且没有任何坏处。喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵",
-                        "1895年(大概",
-                        false,
-                        99
-                )
-                addDetailCommentItem(
-                        "小型pusheen",
-                        "* 愤怒 *\n喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵",
-                        "也是1895年(大概",
-                        false,
-                        2333
-                )
+                replyList.forEach {
+                    addDetailReplyItem(it.user_name, it.contain, it.created_at, false, it.likes)
+                }
+                commentList.forEach {
+                    addDetailCommentItem(it.user_name, it.contain, it.created_at, false, it.likes)
+                }
             }
+            adapter = ScaleInAnimationAdapter(adapter)
         }
     }
 
@@ -106,8 +107,12 @@ class DetailActivity : AppCompatActivity() {
     private fun setRefresh() {
         swipeRefreshLayout.onRefresh {
             GlobalScope.launch {
-                delay(3000)
                 getData()
+                delay(3000)
+
+                runOnUiThread {
+                    setRecyclerView()
+                }
                 swipeRefreshLayout.isRefreshing = false
             }
         }
@@ -117,7 +122,15 @@ class DetailActivity : AppCompatActivity() {
      * 获取评论和回复还有点赞状态
      * 还有用户名
      */
-    private fun getData() {
+    private suspend fun getData() {
+        // TODO: 这里是假请求
+        delay(1000)
+        replyList.add(ReplyOrCommit(114, 514, "校长1", "我觉得还行", -1, "?", 1919, "1895年2月31日", "", listOf("810")))
+        replyList.add(ReplyOrCommit(114, 514, "校长2", "我觉得还行", -1, "?", 1919, "1895年2月31日", "", listOf("810")))
+        replyList.add(ReplyOrCommit(114, 514, "校长3", "我觉得还行", -1, "?", 1919, "1895年2月31日", "", listOf("810")))
+        commentList.add(ReplyOrCommit(114, 514, "天津大学 猫先生", "喵", -1, "?", 1919, "1895年2月31日", "", listOf("810")))
+        commentList.add(ReplyOrCommit(114, 514, "天津大学 猫先生", "喵", -1, "?", 1919, "1895年2月31日", "", listOf("810")))
+        commentList.add(ReplyOrCommit(114, 514, "天津大学 猫先生", "喵", -1, "?", 1919, "1895年2月31日", "", listOf("810")))
 
     }
 }
