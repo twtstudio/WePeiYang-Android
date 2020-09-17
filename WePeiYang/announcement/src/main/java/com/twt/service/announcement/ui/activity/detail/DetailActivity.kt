@@ -2,6 +2,7 @@ package com.twt.service.announcement.ui.activity.detail
 
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
+import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -10,6 +11,11 @@ import android.view.View
 import cn.edu.twt.retrox.recyclerviewdsl.withItems
 import com.githang.statusbar.StatusBarCompat
 import com.twt.service.announcement.R
+import jp.wasabeef.recyclerview.animators.LandingAnimator
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import org.jetbrains.anko.support.v4.onRefresh
 
 /**
  * DetailActivity
@@ -20,6 +26,7 @@ import com.twt.service.announcement.R
 class DetailActivity : AppCompatActivity() {
     private lateinit var toolbar: Toolbar
     private lateinit var recyclerView: RecyclerView
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,6 +38,7 @@ class DetailActivity : AppCompatActivity() {
             finish()
         }
         setRecyclerView()
+        setRefresh()
     }
 
     /**
@@ -39,6 +47,7 @@ class DetailActivity : AppCompatActivity() {
     private fun findViews() {
         toolbar = findViewById(R.id.annoCommonToolbar)
         recyclerView = findViewById(R.id.annoDetailRecyclerView)
+        swipeRefreshLayout = findViewById(R.id.annoDetailSwipeRefreshLayout)
     }
 
     /**
@@ -62,6 +71,7 @@ class DetailActivity : AppCompatActivity() {
     private fun setRecyclerView() {
         recyclerView.apply {
             layoutManager = LinearLayoutManager(this@DetailActivity)
+            itemAnimator = LandingAnimator()
             withItems {
                 addDetailQuestionItem(
                         this@DetailActivity.intent.getStringExtra("title"),
@@ -88,5 +98,26 @@ class DetailActivity : AppCompatActivity() {
                 )
             }
         }
+    }
+
+    /**
+     * 下拉刷新(假的)
+     */
+    private fun setRefresh() {
+        swipeRefreshLayout.onRefresh {
+            GlobalScope.launch {
+                delay(3000)
+                getData()
+                swipeRefreshLayout.isRefreshing = false
+            }
+        }
+    }
+
+    /**
+     * 获取评论和回复还有点赞状态
+     * 还有用户名
+     */
+    private fun getData() {
+
     }
 }
