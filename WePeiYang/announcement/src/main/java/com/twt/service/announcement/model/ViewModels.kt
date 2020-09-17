@@ -11,7 +11,18 @@ class AnnoViewModel : ViewModel() {
     val tagTree
         get() = tagLiveData
 
-    fun setTagTree(data : List<Tag>){
+    fun setTagTree(data: List<Tag>) {
         tagLiveData.postValue(data)
+    }
+}
+
+class QuesViewModel : ViewModel() {
+    private val quesLiveData = MutableLiveData<Int>()
+
+    val quesId
+        get() = quesLiveData
+
+    fun setQuesId(id: Int) {
+        quesLiveData.postValue(id)
     }
 }
