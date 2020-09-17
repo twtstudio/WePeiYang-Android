@@ -1,4 +1,4 @@
-package com.twt.service.announcement.detail
+package com.twt.service.announcement.ui.activity.detail
 
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
@@ -78,6 +78,13 @@ class DetailActivity : AppCompatActivity() {
                         "1895年(大概",
                         false,
                         99
+                )
+                addDetailCommentItem(
+                        "小型pusheen",
+                        "* 愤怒 *\n喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵",
+                        "也是1895年(大概",
+                        false,
+                        2333
                 )
             }
         }

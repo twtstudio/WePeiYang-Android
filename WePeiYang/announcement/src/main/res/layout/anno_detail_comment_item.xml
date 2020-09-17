@@ -16,7 +16,7 @@
             android:padding="20dp">
 
             <ImageView
-                android:id="@+id/annoDetailReplyAvatar"
+                android:id="@+id/annoDetailCommentAvatar"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:contentDescription="@null"
@@ -25,32 +25,19 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/annoDetailReplyName"
+                android:id="@+id/annoDetailCommentName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:ellipsize="end"
                 android:singleLine="true"
+                android:text="你好, 我天大校长"
                 android:textColor="#000"
-                app:layout_constraintLeft_toRightOf="@id/annoDetailReplyAvatar"
+                app:layout_constraintLeft_toRightOf="@id/annoDetailCommentAvatar"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/annoDetailReplyOfficialLogo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:background="@drawable/anno_detail_reply_logo"
-                android:paddingVertical="2dp"
-                android:singleLine="true"
-                android:text="@string/official_logo_label"
-                android:textColor="#FFF"
-                android:textSize="12sp"
-                app:layout_constraintLeft_toRightOf="@id/annoDetailReplyName"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/annoDetailReplyContent"
+                android:id="@+id/annoDetailCommentContent"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -59,43 +46,43 @@
                 android:minLines="1"
                 android:text="我觉得这是好的，并且没有任何坏处"
                 android:textSize="12sp"
-                app:layout_constraintLeft_toLeftOf="@id/annoDetailReplyName"
+                app:layout_constraintLeft_toLeftOf="@id/annoDetailCommentName"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/annoDetailReplyName" />
+                app:layout_constraintTop_toBottomOf="@id/annoDetailCommentName" />
 
             <TextView
-                android:id="@+id/annoDetailReplyTime"
+                android:id="@+id/annoDetailCommentTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
                 android:text="1895"
                 android:textSize="8sp"
-                app:layout_constraintBottom_toBottomOf="@id/annoDetailReplyLikeButton"
-                app:layout_constraintLeft_toLeftOf="@id/annoDetailReplyContent"
-                app:layout_constraintTop_toTopOf="@id/annoDetailReplyLikeButton"
+                app:layout_constraintBottom_toBottomOf="@id/annoDetailCommentLikeButton"
+                app:layout_constraintLeft_toLeftOf="@id/annoDetailCommentContent"
+                app:layout_constraintTop_toTopOf="@id/annoDetailCommentLikeButton"
                 tools:ignore="SmallSp" />
 
             <ImageView
-                android:id="@+id/annoDetailReplyLikeButton"
+                android:id="@+id/annoDetailCommentLikeButton"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="3dp"
                 android:contentDescription="@null"
                 android:src="@drawable/thumb_up"
-                app:layout_constraintRight_toLeftOf="@id/annoDetailReplyLikeCount"
-                app:layout_constraintTop_toBottomOf="@id/annoDetailReplyContent" />
+                app:layout_constraintRight_toLeftOf="@id/annoDetailCommentLikeCount"
+                app:layout_constraintTop_toBottomOf="@id/annoDetailCommentContent" />
 
             <TextView
-                android:id="@+id/annoDetailReplyLikeCount"
+                android:id="@+id/annoDetailCommentLikeCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
                 android:text="1919810"
                 android:textSize="12sp"
-                app:layout_constraintBottom_toBottomOf="@id/annoDetailReplyLikeButton"
+                app:layout_constraintBottom_toBottomOf="@id/annoDetailCommentLikeButton"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="@id/annoDetailReplyLikeButton" />
+                app:layout_constraintTop_toTopOf="@id/annoDetailCommentLikeButton" />
 
         </android.support.constraint.ConstraintLayout>
 

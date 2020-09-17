@@ -1,4 +1,4 @@
-package com.twt.service.announcement.detail
+package com.twt.service.announcement.ui.activity.detail
 
 import android.graphics.Color
 import android.support.v7.widget.RecyclerView
