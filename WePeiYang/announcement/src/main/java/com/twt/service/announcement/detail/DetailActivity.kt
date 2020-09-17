@@ -64,11 +64,13 @@ class DetailActivity : AppCompatActivity() {
             layoutManager = LinearLayoutManager(this@DetailActivity)
             withItems {
                 addDetailQuestionItem(
-                        "如何评价天津大如何评价天津大学校如何评务管理系统学校务管理系统",
-                        "如何评价天津大学校务管理系统如何评价天津大学校务管理系统如何评价天津大学校务管理系统如何评价天津大学校务管理系统",
+                        this@DetailActivity.intent.getStringExtra("title"),
+                        this@DetailActivity.intent.getStringExtra("content"),
                         "蒙古上单",
-                        1,
-                        "1895年一个阳光明媚的夜晚"
+                        this@DetailActivity.intent.getIntExtra("status", 0),
+                        this@DetailActivity.intent.getStringExtra("time"),
+                        true,
+                        114514
                 )
             }
         }

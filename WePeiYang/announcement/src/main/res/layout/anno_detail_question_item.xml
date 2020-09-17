@@ -45,4 +45,35 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/annoDetailQuestionContent" />
 
+    <TextView
+        android:id="@+id/annoDetailQuestionStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:singleLine="true"
+        android:textAlignment="textEnd"
+        android:textColor="#0F0"
+        android:textSize="12sp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/annoDetailQuestionTime" />
+
+    <ImageView
+        android:id="@+id/annoDetailQuestionLikeButton"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="10dp"
+        android:contentDescription="@null"
+        android:src="@mipmap/thumb_up"
+        app:layout_constraintRight_toLeftOf="@id/annoDetailQuestionLikeCount"
+        app:layout_constraintTop_toBottomOf="@id/annoDetailQuestionStatus" />
+
+    <TextView
+        android:id="@+id/annoDetailQuestionLikeCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/annoDetailQuestionStatus" />
+
+
 </android.support.constraint.ConstraintLayout>
