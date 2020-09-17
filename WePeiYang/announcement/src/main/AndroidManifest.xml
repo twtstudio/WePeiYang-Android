@@ -3,7 +3,8 @@
     package="com.twt.service.announcement">
 
     <application>
-        <activity android:name=".detail.DetailActivity" />
+        <activity android:name="com.twt.service.announcement.ui.activity.detail.ReplyActivity"></activity>
+        <activity android:name="com.twt.service.announcement.ui.activity.detail.DetailActivity" />
         <activity android:name=".ui.activity.AnnoActivity" />
     </application>
 

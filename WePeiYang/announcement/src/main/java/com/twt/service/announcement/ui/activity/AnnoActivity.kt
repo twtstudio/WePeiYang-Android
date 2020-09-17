@@ -5,21 +5,15 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
-import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.Toolbar
 import android.util.Log
-import com.githang.statusbar.StatusBarCompat
-import com.google.gson.JsonArray
 import com.twt.service.announcement.R
 import com.twt.service.announcement.detail.DetailActivity
 import com.twt.service.announcement.model.AnnoViewModel
-import com.twt.service.announcement.model.QuesViewModel
 import com.twt.service.announcement.service.AnnoService
 import com.twt.service.announcement.service.Tag
-import com.twt.service.announcement.ui.item.QuestionItem
 import com.twt.service.announcement.ui.item.TagBottomItem
 import com.twt.service.announcement.ui.item.TagsDetailItem
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
@@ -31,8 +25,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.jetbrains.anko.sdk27.coroutines.onClick
-
 //import java.lang.Exception
+import kotlin.Exception
 
 
 val str = "{\"ErrorCode\":0,\"msg\":\"\\u83b7\\u53d6tag\\u6811\\u6210\\u529f\\uff01\",\"data\":[{\"id\":1,\"name\":\"\\u536b\\u6d25\\u8def\",\"children\":[{\"id\":4,\"name\":\"\\u5bbf\\u820d\",\"children\":[{\"id\":8,\"name\":\"\\u70ed\\u6c34\",\"children\":[]}]},{\"id\":5,\"name\":\"\\u6559\\u5ba4\",\"children\":[]}]},{\"id\":2,\"name\":\"\\u5317\\u6d0b\\u56ed\",\"children\":[{\"id\":6,\"name\":\"\\u5bbf\\u820d\",\"children\":[{\"id\":9,\"name\":\"\\u70ed\\u6c34\",\"children\":[]}]},{\"id\":7,\"name\":\"\\u6559\\u5ba4\",\"children\":[]}]},{\"id\":3,\"name\":\"\\u5176\\u4ed6\",\"children\":[]}]}"
@@ -46,7 +40,6 @@ class AnnoActivity : AppCompatActivity() {
     private val detailTags by lazy { ItemManager() }
     private val quesRecController by lazy { ItemManager() }
     private val firstItem by lazy { TagBottomItem("天津大学", 0) {} }
-
     private val data
         get() = tagTreeViewModel.tagTree
 
@@ -107,7 +100,27 @@ class AnnoActivity : AppCompatActivity() {
 
         findViewById<FloatingActionButton>(R.id.fl_btn).apply {
             this.onClick {
-                startActivity(Intent(this@AnnoActivity, DetailActivity::class.java))
+                val testQuestion: Question = Question(
+                        id = -1,
+                        name = "如何评价天津大学补肾猫",
+                        description = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                        user_id = 114514,
+                        solved = 1,
+                        no_commit = 0,
+                        likes = 1919,
+                        created_at = "1895年2月31日",
+                        updated_at = "2020年20月12日"
+                )
+                startActivity(
+                        Intent(this@AnnoActivity, DetailActivity::class.java)
+                                .putExtra("title", testQuestion.name)
+                                .putExtra("content", testQuestion.description)
+                                .putExtra("userId", testQuestion.id)
+                                .putExtra("status", testQuestion.solved)
+                                .putExtra("time", testQuestion.created_at)
+                                .putExtra("likeState", false)
+                                .putExtra("likeCount", testQuestion.likes)
+                )
             }
         }
 
@@ -165,6 +178,12 @@ class AnnoActivity : AppCompatActivity() {
                 runOnUiThread { tagTreeViewModel.setTagTree(it) }
             }
 
+
+
+
+
+
+
         }
     }
 
@@ -172,6 +191,7 @@ class AnnoActivity : AppCompatActivity() {
 
         return mutableListOf<Item>().apply {
             val index = pathTags.itemListSnapshot.size
+
             val items = _data.map { child ->
                 TagsDetailItem(child.name, child.id) {
                     if (child.children.isNotEmpty()) {

@@ -31,6 +31,7 @@ dependencies {
     //noinspection GradleCompatible
     api 'com.android.support:appcompat-v7:27.1.1'
     api 'com.android.support:recyclerview-v7:27.1.1'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
 
     [*supportLibraries, 'constraint-layout', *archLibraries, 'kotlin-stdlib', 'kotlinx-coroutines', 'anko'].each {
         implementation dependenciesMap[it]

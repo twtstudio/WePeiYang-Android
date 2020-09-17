@@ -1,1 +1,4 @@
-<resources></resources>
+<resources>
+    <!--前后各三个空格，嗯排面-->
+    <string name="official_logo_label">&#160;&#160;&#160;官方&#160;&#160;&#160;</string>
+</resources>
