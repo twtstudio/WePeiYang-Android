@@ -5,6 +5,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.activity.AnnoActivity">
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/path_rec"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/detail_rec"/>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/detail_rec"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/path_rec"/>
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fl_btn"
         android:layout_width="70dp"

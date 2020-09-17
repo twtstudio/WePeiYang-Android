@@ -47,7 +47,7 @@ dependencies {
 
     implementation 'com.android.support:design:27.1.1'
     implementation 'com.android.support:support-v4:27.1.1'
-//    implementation('jp.wasabeef:recyclerview-animators:4.0.1')
+    implementation('jp.wasabeef:recyclerview-animators:2.3.0')
 
 
 }
