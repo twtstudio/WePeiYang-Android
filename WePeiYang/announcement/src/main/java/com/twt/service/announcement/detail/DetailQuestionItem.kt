@@ -31,7 +31,6 @@ class DetailQuestionItem(
         val time: String,
         var likeState: Boolean,
         var likeCount: Int
-        // TODO: 呵呵，你觉得这就完了么
 ) : Item {
     companion object DetailQuestionItemController : ItemController {
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: Item) {
@@ -60,18 +59,18 @@ class DetailQuestionItem(
                  */
                 likeButtonIv.apply {
                     if (item.likeState) {
-                        setImageResource(R.mipmap.thumb_up_black)
+                        setImageResource(R.drawable.thumb_up_black)
                     } else {
-                        setImageResource(R.mipmap.thumb_up)
+                        setImageResource(R.drawable.thumb_up)
                     }
                     setOnClickListener {
                         if (item.likeState) {
-                            setImageResource(R.mipmap.thumb_up)
+                            setImageResource(R.drawable.thumb_up)
                             item.likeCount--
                             likeCountTv.text = item.likeCount.toString()
                             item.likeState = !item.likeState
                         } else {
-                            setImageResource(R.mipmap.thumb_up_black)
+                            setImageResource(R.drawable.thumb_up_black)
                             item.likeCount++
                             likeCountTv.text = item.likeCount.toString()
                             item.likeState = !item.likeState

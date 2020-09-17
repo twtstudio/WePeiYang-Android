@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp">
+
+            <ImageView
+                android:id="@+id/annoDetailReplyAvatar"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_avatar"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/annoDetailReplyName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="你好, 我天大校长"
+                android:textColor="#000"
+                app:layout_constraintLeft_toRightOf="@id/annoDetailReplyAvatar"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/annoDetailReplyOfficialLogo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/anno_detail_reply_official_logo"
+                android:paddingVertical="2dp"
+                android:singleLine="true"
+                android:text="   官方   "
+                android:textColor="#FFF"
+                android:textSize="12sp"
+                app:layout_constraintLeft_toRightOf="@id/annoDetailReplyName"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/annoDetailReplyContent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:ellipsize="end"
+                android:maxLines="3"
+                android:minLines="1"
+                android:text="我觉得这是好的，并且没有任何坏处"
+                android:textSize="12sp"
+                app:layout_constraintLeft_toLeftOf="@id/annoDetailReplyName"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/annoDetailReplyName" />
+
+            <TextView
+                android:id="@+id/annoDetailReplyTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:text="1895"
+                android:textSize="8sp"
+                app:layout_constraintBottom_toBottomOf="@id/annoDetailReplyLikeButton"
+                app:layout_constraintLeft_toLeftOf="@id/annoDetailReplyContent"
+                app:layout_constraintTop_toTopOf="@id/annoDetailReplyLikeButton"
+                tools:ignore="SmallSp" />
+
+            <ImageView
+                android:id="@+id/annoDetailReplyLikeButton"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="3dp"
+                android:contentDescription="@null"
+                android:src="@drawable/thumb_up"
+                app:layout_constraintRight_toLeftOf="@id/annoDetailReplyLikeCount"
+                app:layout_constraintTop_toBottomOf="@id/annoDetailReplyContent" />
+
+            <TextView
+                android:id="@+id/annoDetailReplyLikeCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:text="1919810"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="@id/annoDetailReplyLikeButton"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@id/annoDetailReplyLikeButton" />
+
+        </android.support.constraint.ConstraintLayout>
+
+    </android.support.v7.widget.CardView>
+
+</android.support.constraint.ConstraintLayout>

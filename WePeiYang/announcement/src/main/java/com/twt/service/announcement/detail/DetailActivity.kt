@@ -69,8 +69,15 @@ class DetailActivity : AppCompatActivity() {
                         "蒙古上单",
                         this@DetailActivity.intent.getIntExtra("status", 0),
                         this@DetailActivity.intent.getStringExtra("time"),
-                        true,
-                        114514
+                        this@DetailActivity.intent.getBooleanExtra("likeState", false),
+                        this@DetailActivity.intent.getIntExtra("likeCount", 0)
+                )
+                addDetailReplyItem(
+                        "天津大学 猫先生",
+                        "我觉得这是好的，并且没有任何坏处。喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵",
+                        "1895年(大概",
+                        false,
+                        99
                 )
             }
         }
