@@ -86,52 +86,12 @@ class AnnoActivity : AppCompatActivity() {
 //        detailTags.addAll(bindTagPathWithDetailTag(data))
 
         GlobalScope.launch(Dispatchers.IO) {
-//            val tags = AnnoService.getTagTree().awaitAndHandle { it.printStackTrace() }?.data
-//            tags?.let {
-//                Log.d("tag_tree",it.toString())
-//                runOnUiThread {  tagTreeViewModel.setTagTree(it)}
-//            }
+            val tags = AnnoService.getTagTree().awaitAndHandle { it.printStackTrace() }?.data
+            tags?.let {
+                Log.d("tag_tree",it.toString())
+                runOnUiThread {  tagTreeViewModel.setTagTree(it)}
+            }
 
-//            这里有个转码的问题
-//            try {
-//                val question = AnnoService.getQuestion(mapOf("search_string" to "水")).awaitAndHandle { it.printStackTrace() }?.data
-//                question?.let {
-//                    Log.d("questions",it.toString())
-//                }
-//            }catch (e:Exception){
-//              e.printStackTrace()
-//            }
-
-//            try{
-//                val answer = AnnoService.getAnswer(2).awaitAndHandle { it.printStackTrace() }?.data
-//                answer?.let {
-//                    Log.d("answer",it.toString())
-//                }
-//            }catch (e:Exception){
-//                e.printStackTrace()
-//            }
-
-//            点赞暂时有点问题，网络可以连上，okhttp 的 logginginterceptor 拦截到了返回的数据，但是这里获取不到
-//            try {
-//                val isLike = AnnoService.postThumbUp(2,1).awaitAndHandle { it.printStackTrace() }?.message
-//                isLike?.let{
-//                    Log.d("isLike",it)
-//                }
-//            }catch (e:Exception){
-//                Log.d("problemss","what")
-//                e.printStackTrace()
-//            }
-
-//            这个也是null
-//            try {
-//                val isLike = AnnoService.postThumDown(2,1).awaitAndHandle { it.printStackTrace() }?.message
-//                isLike?.let{
-//                    Log.d("isLike",it)
-//                }
-//            }catch (e:Exception){
-//                Log.d("problemss","what")
-//                e.printStackTrace()
-//            }
 
 
 
