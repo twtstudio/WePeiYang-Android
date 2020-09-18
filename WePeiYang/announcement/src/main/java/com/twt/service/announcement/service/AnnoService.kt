@@ -59,8 +59,6 @@ interface AnnoService {
     成功提交返回null，只用解析错误信息
     评价回复 (给官方回复打分)
     http://47.93.253.240:10805/api/user/answer/commit
-
-    这里为什么我们要给answer_id
     */
     @FormUrlEncoded
     @POST("answer/commit")
@@ -81,20 +79,20 @@ interface AnnoService {
                   @Field("contain") contain: String): Deferred<CommonBody<Commit>>
 
     /*
-    ok
     成功返回list，否则不返回
     获得已点赞的问题/评论/回复列表
     http://47.93.253.240:10805/api/user/likes/get/question(commit/answer)?user_id=1
-
-    这里希望能把返回的改成id
-    val data = AnnoService.getLikedQCA(type = "question",user_id = 1).await()
-    ->  CommonBody(Error_code=0, msg=获得点赞问题列表成功！, data=[Liked(id=0), Liked(id=0)])
     */
-    @GET("likes/get/{type}")
-    fun getLikedList(@Path("type") type: String,
-                     @Query("user_id") user_id: Int): Deferred<CommonBody<List<Liked>>>
+    @GET("likes/get/question")
+    fun getLikedQuestions(@Query("user_id") user_id: Int): Deferred<CommonBody<List<LikedQuestions>>>
 
-    /*ok
+    @GET("likes/get/answer")
+    fun getLikedAnswers(@Query("user_id") user_id: Int): Deferred<CommonBody<List<LikedAnswers>>>
+
+    @GET("likes/get/commit")
+    fun getLikedCommits(@Query("user_id") user_id: Int): Deferred<CommonBody<List<LikedCommits>>>
+
+    /*
     成功返回true或false，否则返回错误信息
     获取问题/评论/回复的点赞状态
     http://47.93.253.240:10805/api/user/likes/get/isLiked/question?user_id=1&id=1
@@ -105,7 +103,6 @@ interface AnnoService {
                       @Query("id") id: Int): Deferred<CommonBody<IsLike>>
 
     /*
-    ok
     通过id获取user信息
     http://47.93.253.240:10805/api/user/userData?user_id=1
     */
@@ -113,7 +110,6 @@ interface AnnoService {
     fun getUserImfByUserId(@Query("user_id") user_id: Int): Deferred<CommonBody<UserData>>
 
     /*
-    ok
     通过学号姓名获得user_id
     http://47.93.253.240:10805/api/user/userId?student_id=3344&name=1122
     */
@@ -180,8 +176,16 @@ data class AnswerCommit(
         val commit: List<String>
 )
 
-data class Liked(
-        val id: Int
+data class LikedQuestions(
+        val question_id: Int
+)
+
+data class LikedAnswers(
+        val answer_id: Int
+)
+
+data class LikedCommits(
+        val commit_id: Int
 )
 
 data class Commit(

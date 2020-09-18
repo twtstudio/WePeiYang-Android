@@ -184,12 +184,6 @@ class AnnoActivity : AppCompatActivity() {
                 runOnUiThread { tagTreeViewModel.setTagTree(it) }
             }
 
-
-
-
-
-
-
         }
     }
 
