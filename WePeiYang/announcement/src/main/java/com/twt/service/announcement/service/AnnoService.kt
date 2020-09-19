@@ -120,10 +120,6 @@ interface AnnoService {
     companion object : AnnoService by AnnoServiceFactory()
 }
 
-data class TagList(
-        val tagList: List<Int>
-)
-
 data class Tag(
         val id: Int,
         val name: String,

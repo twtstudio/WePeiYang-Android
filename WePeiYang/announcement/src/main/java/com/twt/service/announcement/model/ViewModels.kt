@@ -7,22 +7,19 @@ import com.twt.service.announcement.service.Tag
 
 class AnnoViewModel : ViewModel() {
     private val tagLiveData = MutableLiveData<List<Tag>>()
-
-    val tagTree
-        get() = tagLiveData
-
-    fun setTagTree(data: List<Tag>) {
-        tagLiveData.postValue(data)
-    }
-}
-
-class QuesViewModel : ViewModel() {
     private val quesLiveData = MutableLiveData<Int>()
 
     val quesId
         get() = quesLiveData
 
+    val tagTree
+        get() = tagLiveData
+
     fun setQuesId(id: Int) {
         quesLiveData.postValue(id)
+    }
+
+    fun setTagTree(data: List<Tag>) {
+        tagLiveData.postValue(data)
     }
 }
