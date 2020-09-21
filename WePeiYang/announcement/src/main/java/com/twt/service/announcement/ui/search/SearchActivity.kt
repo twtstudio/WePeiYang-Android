@@ -1,5 +1,6 @@
 package com.twt.service.announcement.ui.search
 
+import android.annotation.SuppressLint
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
@@ -7,12 +8,14 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.KeyEvent
+import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import com.githang.statusbar.StatusBarCompat
 import com.twt.service.announcement.R
 import com.twt.service.announcement.service.AnnoPreference
@@ -33,21 +36,27 @@ class SearchActivity : AppCompatActivity() {
     private val searchHistoryRecManager by lazy { ItemManager() }
     private val searchResultRecManager by lazy { ItemManager() }
     private lateinit var searchResultRec: RecyclerView
-    private lateinit var backBotton: ImageView
     private lateinit var searchHistoryRec: RecyclerView
     private lateinit var editText: EditText
-    private lateinit var searchButton: ImageView
     private lateinit var problemText: TextView
 
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
 
         StatusBarCompat.setStatusBarColor(this, ContextCompat.getColor(this, R.color.colorPrimary), false)
 
-        backBotton = findViewById(R.id.search_back)
-        searchButton = findViewById(R.id.search_icon)
+        findViewById<ImageView>(R.id.search_back).apply {
+            setOnClickListener { onBackPressed() }
+        }
+
+        findViewById<ImageView>(R.id.refresh_icon).apply {
+            setOnClickListener {
+                search(editText.text.trim().toString())
+            }
+        }
         editText = findViewById(R.id.search_edit)
         problemText = findViewById(R.id.search_problem_text)
 
@@ -60,28 +69,32 @@ class SearchActivity : AppCompatActivity() {
             this.adapter = ItemAdapter(searchHistoryRecManager)
             layoutManager = LinearLayoutManager(this@SearchActivity)
         }
+
         AnnoPreference.searchHistory.reversed().mapTo(historyItems) { t ->
             SearchHistoryItem(t) { search(t) }
         }.takeIf {
             AnnoPreference.searchHistory.size > 0
-        }?.apply {
+        }?.also {
             historyItems.add(DeleteHistoryItem { clearHistory() })
         }
-        searchHistoryRec.withItems {
-            historyItems
-        }
 
-        backBotton.setOnClickListener {
-            onBackPressed()
-        }
 
         editText.apply {
-            this.setOnClickListener {
-                searchResultRec.visibility = View.INVISIBLE
-                searchHistoryRec.visibility = View.VISIBLE
+            setOnTouchListener { _, event ->
+                if (event.action == MotionEvent.ACTION_DOWN) {
+                    GlobalScope.launch(Dispatchers.Main) {
+                        problemText.visibility = View.INVISIBLE
+                        searchResultRec.visibility = View.INVISIBLE
+                        searchHistoryRec.visibility = View.VISIBLE
+                        //这里不能用refreshAll  会出错
+                        searchHistoryRecManager.clear()
+                        searchHistoryRecManager.addAll(historyItems)
+                    }
+                }
+                false
             }
 
-            this.setOnEditorActionListener { _, actionId, event ->
+            setOnEditorActionListener { _, actionId, event ->
                 var flag = true
                 if (actionId == EditorInfo.IME_ACTION_SEND || event?.keyCode == KeyEvent.KEYCODE_ENTER) {
                     search(editText.text.trim().toString())
@@ -92,11 +105,11 @@ class SearchActivity : AppCompatActivity() {
             }
         }
 
-        searchButton.setOnClickListener {
-            search(editText.text.trim().toString())
-        }
+
 
         editText.requestFocus()
+        searchHistoryRec.withItems(historyItems)
+
     }
 
     private fun search(text: String) {
@@ -104,43 +117,44 @@ class SearchActivity : AppCompatActivity() {
             val temp = AnnoPreference.searchHistory
             temp.remove(text)
             temp.add(text)
-            searchResultRec.visibility = View.INVISIBLE
             AnnoPreference.searchHistory = temp
-            historyItems = AnnoPreference.searchHistory
-                    .reversed()
-                    .asSequence()
-                    .map { it -> SearchHistoryItem(it) { search(it) } }
-                    .toMutableList()
-            if (AnnoPreference.searchHistory.size != 0) {
-                historyItems.add(DeleteHistoryItem {
-                    clearHistory()
-                })
+            AnnoPreference.searchHistory.reversed().mapTo(historyItems) { t ->
+                SearchHistoryItem(t) { search(t) }
+            }.takeIf {
+                AnnoPreference.searchHistory.size > 0
+            }?.also {
+                historyItems.add(DeleteHistoryItem { clearHistory() })
             }
-            searchHistoryRecManager.refreshAll(historyItems)
-            editText.setText("")
+            searchHistoryRec.visibility = View.INVISIBLE
+            editText.setText(text)
+            (getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(editText.windowToken, 0)
+            editText.clearFocus()
 
             GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
                 val data = AnnoService.getQuestion(mapOf("search_string" to text)).awaitAndHandle {
-                    it.printStackTrace()
+                    Log.d("announce:load failed", it.message)
+                    searchResultRec.visibility = View.INVISIBLE
+                    problemText.visibility = View.VISIBLE
+                    problemText.text = "网络好像出了点问题"
                 }?.data
                 data?.let { ques ->
                     when (ques.size) {
                         0 -> {
-                            searchHistoryRec.visibility = View.INVISIBLE
-                            problemText.text = "未检索到相关问题"
                             problemText.visibility = View.VISIBLE
-                        }
-                        else -> {
+                            problemText.text = "未检索到相关问题"
                             (getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(editText.windowToken, 0)
                             editText.clearFocus()
-                            searchHistoryRec.visibility = View.INVISIBLE
+                        }
+                        else -> {
+                            problemText.visibility = View.INVISIBLE
                             searchResultRec.visibility = View.VISIBLE
-                            searchResultRec.withItems(ques.map {
+                            searchResultRecManager.refreshAll(ques.map {
                                 QuestionItem(it) {
                                     //详情页跳转
                                     Log.d("jumptodetail", "跳转详情页")
                                 }
                             })
+//                            Toast.makeText(this@SearchActivity,"获取数据成功",Toast.LENGTH_SHORT).show()
                         }
                     }
                 }

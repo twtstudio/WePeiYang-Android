@@ -20,12 +20,44 @@
             android:id="@+id/toolbar">
 
             <android.support.v7.widget.Toolbar
-                android:id="@+id/anno_main_tb"
+                android:id="@+id/anno_tb"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
+                android:layout_height="56dp"
                 android:background="@color/colorPrimary"
-                app:titleTextColor="@color/white_color"
-                app:layout_scrollFlags="scroll|enterAlways" />
+                app:layout_scrollFlags="scroll|enterAlways">
+
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:contentDescription="@string/back_button"
+                        android:id="@+id/anno_back"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:padding="8dp"
+                        android:src="@drawable/left_arrow_white"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/search_edit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:text="教务专区"
+                        android:textSize="23sp"
+                        android:singleLine="true"
+                        android:textColor="@color/white_color"
+                        android:textColorHint="@color/white_color"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/anno_back" />
+
+                </android.support.constraint.ConstraintLayout>
+
+            </android.support.v7.widget.Toolbar>
 
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"

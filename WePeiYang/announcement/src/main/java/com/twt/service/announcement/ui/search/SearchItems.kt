@@ -46,6 +46,14 @@ class SearchHistoryItem(val str: String, val block: (String) -> Unit) : Item {
 
 class DeleteHistoryItem(val block: () -> Unit) : Item {
 
+    override fun areContentsTheSame(newItem: Item): Boolean {
+        return true
+    }
+
+    override fun areItemsTheSame(newItem: Item): Boolean {
+        return true
+    }
+
     companion object Controller : ItemController {
 
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: Item) {

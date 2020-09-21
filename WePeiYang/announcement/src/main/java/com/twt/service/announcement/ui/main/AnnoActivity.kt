@@ -1,6 +1,5 @@
 package com.twt.service.announcement.ui.main
 
-import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
@@ -11,7 +10,9 @@ import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.util.Log
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import com.githang.statusbar.StatusBarCompat
 import com.github.clans.fab.FloatingActionButton
 import com.github.clans.fab.FloatingActionMenu
@@ -22,6 +23,7 @@ import com.twt.service.announcement.service.Tag
 import com.twt.service.announcement.ui.search.SearchActivity
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
+import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
 import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemAdapter
 import com.twt.wepeiyang.commons.ui.rec.ItemManager
@@ -29,12 +31,6 @@ import jp.wasabeef.recyclerview.animators.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import org.jetbrains.anko.sdk27.coroutines.onClick
-//import java.lang.Exception
-import kotlin.Exception
-
-
-val str = "{\"ErrorCode\":0,\"msg\":\"\\u83b7\\u53d6tag\\u6811\\u6210\\u529f\\uff01\",\"data\":[{\"id\":1,\"name\":\"\\u536b\\u6d25\\u8def\",\"children\":[{\"id\":4,\"name\":\"\\u5bbf\\u820d\",\"children\":[{\"id\":8,\"name\":\"\\u70ed\\u6c34\",\"children\":[]}]},{\"id\":5,\"name\":\"\\u6559\\u5ba4\",\"children\":[]}]},{\"id\":2,\"name\":\"\\u5317\\u6d0b\\u56ed\",\"children\":[{\"id\":6,\"name\":\"\\u5bbf\\u820d\",\"children\":[{\"id\":9,\"name\":\"\\u70ed\\u6c34\",\"children\":[]}]},{\"id\":7,\"name\":\"\\u6559\\u5ba4\",\"children\":[]}]},{\"id\":3,\"name\":\"\\u5176\\u4ed6\",\"children\":[]}]}"
 
 
 class AnnoActivity : AppCompatActivity() {
@@ -48,14 +44,9 @@ class AnnoActivity : AppCompatActivity() {
     private lateinit var quesDetailRecyclerView: RecyclerView
     private lateinit var tagPathRecyclerView: RecyclerView
     private lateinit var tagListRecyclerView: RecyclerView
-    private lateinit var cannotConnectText: TextView
+    private lateinit var hintText: TextView
     private lateinit var floatingActionMenu: FloatingActionMenu
-
-    private val data
-        get() = annoViewModel.tagTree
-
-    private val quesId
-        get() = annoViewModel.quesId
+//    private lateinit var toolbar: Toolbar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,22 +54,12 @@ class AnnoActivity : AppCompatActivity() {
 
         StatusBarCompat.setStatusBarColor(this, ContextCompat.getColor(this, R.color.colorPrimary), false)
 
-        findViewById<Toolbar>(R.id.anno_main_tb).apply {
-            this.title = "教务专区"
-            setSupportActionBar(this)
-            supportActionBar?.apply {
-                setHomeButtonEnabled(true)
-                setDisplayHomeAsUpEnabled(true)
-            }
-            this.setNavigationOnClickListener {
-                finish()
-            }
+        hintText = findViewById(R.id.cannot_connect_text)
+        findViewById<ImageView>(R.id.anno_back).setOnClickListener {
+            onBackPressed()
         }
 
-        cannotConnectText = findViewById(R.id.cannot_connect_text)
-
-
-        bindLiveData()
+//        toolbar = findViewById(R.id.toolbar)
 
 
 //        findViewById<FloatingActionButton>(R.id.fl_btn).apply {
@@ -110,6 +91,16 @@ class AnnoActivity : AppCompatActivity() {
 
         initFloatingActionMenu()
 
+        initRecyclerView()
+
+        bindLiveData()
+
+        initTagTree()
+
+        getAllQuestions()
+    }
+
+    private fun initRecyclerView() {
         tagPathRecyclerView = findViewById<RecyclerView>(R.id.path_rec).apply {
             layoutManager = LinearLayoutManager(context).apply {
                 orientation = LinearLayoutManager.HORIZONTAL
@@ -122,6 +113,7 @@ class AnnoActivity : AppCompatActivity() {
                 it.changeDuration = 300
                 it.moveDuration = 500
             }
+
         }
 
         tagListRecyclerView = findViewById<RecyclerView>(R.id.detail_rec).apply {
@@ -152,18 +144,13 @@ class AnnoActivity : AppCompatActivity() {
                 it.changeDuration = 300
                 it.moveDuration = 500
             }
+            addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
+                    super.onScrollStateChanged(recyclerView, newState)
+                    closeFloatingMenu()
+                }
+            })
         }
-
-        pathTags.add(firstItem)
-
-        GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
-            val tags = AnnoService.getTagTree().awaitAndHandle { it.printStackTrace() }?.data
-            tags?.let {
-                Log.d("tag_tree", it.toString())
-                annoViewModel.setTagTree(it)
-            }
-        }
-        annoViewModel.setQuesId(0)
     }
 
     private fun initFloatingActionMenu() {
@@ -171,110 +158,139 @@ class AnnoActivity : AppCompatActivity() {
 
         findViewById<FloatingActionButton>(R.id.fa_a).apply {
             this.setOnClickListener {
-                floatingActionMenu.close(true)
+                closeFloatingMenu()
                 startActivity(Intent(this@AnnoActivity, SearchActivity::class.java))
             }
         }
 
         findViewById<FloatingActionButton>(R.id.fa_b).apply {
-            //添加新的问题
+
+            //TODO(添加新的问题)
+
         }
 
         findViewById<FloatingActionButton>(R.id.fa_c).apply {
             this.setOnClickListener {
-                GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
-                    val tags = AnnoService.getTagTree().awaitAndHandle { it.printStackTrace() }?.data
-                    tags?.let {
-                        Log.d("tag_tree", it.toString())
-                        annoViewModel.setTagTree(it)
-                    }
-                }
-                annoViewModel.setQuesId(0)
-                floatingActionMenu.close(true)
+                initTagTree()
+                getAllQuestions()
+                closeFloatingMenu()
+            }
+        }
+    }
+
+    private fun closeFloatingMenu() = floatingActionMenu.close(true)
+
+    private fun getAllQuestions() = annoViewModel.searchQuestion(0)
+
+    private fun initTagTree() {
+        GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
+            AnnoService.getTagTree().awaitAndHandle {
+//                it.printStackTrace()
+                Toast.makeText(this@AnnoActivity, "出了点问题", Toast.LENGTH_SHORT).show()
+            }?.data?.let {
+                pathTags.clear()
+                pathTags.add(firstItem)
+                Log.d("tag_tree", it.toString())
+                annoViewModel.setTagTree(it)
             }
         }
     }
 
     private fun bindLiveData() {
         annoViewModel = ViewModelProviders.of(this)[AnnoViewModel::class.java]
-        data.observe(this, Observer<List<Tag>> {
-            it?.let {
-                listTags.clear()
-                listTags.addAll(bindTagPathWithDetailTag(it))
-            }
-        })
+        annoViewModel.tagTree.bindNonNull(this) {
+            listTags.clear()
+            listTags.addAll(bindTagPathWithDetailTag(it))
+            closeFloatingMenu()
+        }
 
-        quesId.observe(this, Observer<Int> {
-            it?.let {
-                Log.d("whataaa", it.toString())
-                GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
-                    try {
-                        val data = if (it == 0) {
-                            AnnoService.getQuestion(mapOf()).awaitAndHandle {
-                                cannotConnectText.visibility = View.VISIBLE
-                                quesDetailRecyclerView.visibility = View.INVISIBLE
-                            }?.data
-                        } else {
-                            AnnoService.getQuestion(mapOf("tagList" to listOf(it))).awaitAndHandle {
-                                cannotConnectText.visibility = View.VISIBLE
-                                quesDetailRecyclerView.visibility = View.INVISIBLE
-                            }?.data
+        annoViewModel.quesId.bindNonNull(this) {
+            Log.d("whataaa", it.toString())
+            GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
+                val data = if (it == 0) {
+                    AnnoService.getQuestion(mapOf()).awaitAndHandle {
+                        hintText.visibility = View.VISIBLE
+                        quesDetailRecyclerView.visibility = View.INVISIBLE
+                    }?.data
+                } else {
+                    AnnoService.getQuestion(mapOf("tagList" to listOf(it))).awaitAndHandle {
+                        hintText.visibility = View.VISIBLE
+                        quesDetailRecyclerView.visibility = View.INVISIBLE
+                    }?.data
+                }
+                data?.let { quesList ->
+                    Log.d("quesList", quesList.size.toString())
+                    when (quesList.size) {
+                        0 -> {
+                            hintText.visibility = View.VISIBLE
+                            quesDetailRecyclerView.visibility = View.INVISIBLE
+                            hintText.text = "此标签下暂时没有问题"
                         }
-                        data?.let { quesList ->
-                            Log.d("quesList", quesList.size.toString())
+                        else -> {
                             val items = quesList.map { ques ->
                                 QuestionItem(ques) {
-                                    // 跳转到问题详情页
-                                    // 在问题详情页做网络请求
+                                    closeFloatingMenu()
+
+                                    //TODO(问题详情跳转)
 
                                 }
                             }
+                            hintText.visibility = View.INVISIBLE
+                            quesDetailRecyclerView.visibility = View.VISIBLE
                             quesRecController.refreshAll(items)
+                            quesDetailRecyclerView.scrollToPosition(0)
+
+//                    Toast.makeText(this@AnnoActivity, "获取数据成功", Toast.LENGTH_SHORT).show()
                         }
-                    } catch (e: Exception) {
-                        e.printStackTrace()
                     }
                 }
             }
-        })
-    }
-
-    private fun bindTagPathWithDetailTag(_data: List<Tag>): List<Item> {
-        return mutableListOf<Item>().apply {
-            val index = pathTags.itemListSnapshot.size
-            val items = _data.map { child ->
-                TagsDetailItem(child.name, child.id) {
-                    if (child.children.isNotEmpty()) {
-                        pathTags.add(TagBottomItem(child.name, index) {
-                            tagTree[index + 1]?.let { listTags.refreshAll(it) }
-                            (0 until pathTags.itemListSnapshot.size - index - 1).forEach { _ ->
-                                pathTags.removeAt(pathTags.size - 1)
-                                Log.e("delete tag", "de")
-                            }
-                        })
-                        listTags.refreshAll(bindTagPathWithDetailTag(child.children))
-                    } else {
-                        // 跳转
-                        val path = pathTags.itemListSnapshot.map {
-                            (it as TagBottomItem).content
-                        }.toMutableList().apply {
-                            this.add(child.name)
-                        }
-                        Log.e("tag_path", path.toString())
-                    }
-                    annoViewModel.setQuesId(child.id)
-                }
-            }
-            items.forEach { add(it) }
-            tagTree[index] = items
-
-            if (index == 1) firstItem.onclick = {
-                tagTree.get(index)?.let { listTags.refreshAll(it) }
-                (0 until pathTags.itemListSnapshot.size - 1).forEach { _ ->
-                    pathTags.removeAt(pathTags.size - 1)
-                }
-                annoViewModel.setQuesId(0)
-            }
+            closeFloatingMenu()
         }
     }
+
+    private fun bindTagPathWithDetailTag(_data: List<Tag>): List<Item> =
+            mutableListOf<Item>().apply {
+                val index = pathTags.itemListSnapshot.size
+
+                index.takeIf { it == 1 }?.apply {
+                    firstItem.onclick = {
+                        tagTree.get(index)?.let { listTags.refreshAll(it) }
+                        (0 until pathTags.itemListSnapshot.size - 1).forEach { _ ->
+                            pathTags.removeAt(pathTags.size - 1)
+                        }
+
+                        getAllQuestions()
+                    }
+                }
+
+                tagTree[index] = _data.map { child ->
+                    TagsDetailItem(child.name, child.id) {
+                        if (child.children.isNotEmpty()) {
+                            pathTags.add(TagBottomItem(child.name, index) {
+                                tagTree[index + 1]?.let { listTags.refreshAll(it) }
+                                (0 until pathTags.itemListSnapshot.size - index - 1).forEach { _ ->
+                                    pathTags.removeAt(pathTags.size - 1)
+                                    Log.e("delete tag", "de")
+                                }
+                                closeFloatingMenu()
+                            })
+                            listTags.refreshAll(bindTagPathWithDetailTag(child.children))
+                        } else {
+
+                            // 到最后一层标签后，打印当前路径或其他操作
+                            val path = pathTags.itemListSnapshot.map {
+                                (it as TagBottomItem).content
+                            }.toMutableList().apply {
+                                this.add(child.name)
+                            }
+                            Log.e("tag_path", path.toString())
+                        }
+                        closeFloatingMenu()
+                        annoViewModel.searchQuestion(child.id)
+                    }
+                }.also {
+                    addAll(it)
+                }
+            }
 }

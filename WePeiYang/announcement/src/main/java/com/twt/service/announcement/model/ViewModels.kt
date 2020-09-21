@@ -1,25 +1,22 @@
 package com.twt.service.announcement.model
 
-import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import com.twt.service.announcement.service.Tag
 
 class AnnoViewModel : ViewModel() {
-    private val tagLiveData = MutableLiveData<List<Tag>>()
-    private val quesLiveData = MutableLiveData<Int>()
+    private val tagTreeLiveData = MutableLiveData<List<Tag>>()
+    private val searchQuesLiveData = MutableLiveData<Int>()
 
-    val quesId
-        get() = quesLiveData
+    val quesId get() = searchQuesLiveData
 
-    val tagTree
-        get() = tagLiveData
+    val tagTree get() = tagTreeLiveData
 
-    fun setQuesId(id: Int) {
-        quesLiveData.postValue(id)
+    fun searchQuestion(id: Int) {
+        searchQuesLiveData.postValue(id)
     }
 
     fun setTagTree(data: List<Tag>) {
-        tagLiveData.postValue(data)
+        tagTreeLiveData.postValue(data)
     }
 }
