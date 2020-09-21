@@ -32,7 +32,7 @@ object SpiderTjuLogin {
      * 登录
      * 无论登录是否成功，都会获取cookie session
      */
-    suspend fun login(userName: String, password: String): Boolean {
+    suspend fun login(userName: String, password: String, captcha: String): Boolean {
         /*
          *
          * 获取 session
@@ -58,6 +58,7 @@ object SpiderTjuLogin {
                 .add("password", password)
                 .add("_eventId", "submit")
                 .add("execution", execution)
+                .add("captcha", captcha)
                 .build()
         var requestLogin = Request.Builder().url(loginUrl)
                 .addHeader("Accept-Language", "en-US").post(requestBody).build()

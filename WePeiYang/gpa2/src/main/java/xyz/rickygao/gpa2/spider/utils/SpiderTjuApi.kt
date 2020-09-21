@@ -35,7 +35,9 @@ object SpiderTjuApi {
                 for (cookie in cookieStore.cookies) {
                     if (cookie.isExpired()) {
                         Log.d("SpiderCookieApi", "expired ${cookie.name()}")
-                        checkTjuValid(SpiderTjuLogin.login(CommonPreferences.tjuuname, CommonPreferences.tjupwd))
+                        //get captcha
+                        val captcha = ""
+                        checkTjuValid(SpiderTjuLogin.login(CommonPreferences.tjuuname, CommonPreferences.tjupwd, captcha))
                         break
                     }
                 }
@@ -44,7 +46,9 @@ object SpiderTjuApi {
         }
         // 未曾成功登录过，需要登录
         Log.d("SpiderCookieApi", "never login")
-        checkTjuValid(SpiderTjuLogin.login(CommonPreferences.tjuuname, CommonPreferences.tjupwd))
+        //get captcha
+        val captcha = ""
+        checkTjuValid(SpiderTjuLogin.login(CommonPreferences.tjuuname, CommonPreferences.tjupwd, captcha))
         printCookie()
         return clientBuilder
     }
