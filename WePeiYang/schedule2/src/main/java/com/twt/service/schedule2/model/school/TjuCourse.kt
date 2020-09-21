@@ -33,19 +33,21 @@ val tjuCourseCache = Cache.hawk<Classtable>(classtableCacheKey)
  * 强制刷新的时候 网络错误返回缓存 刷新成功则同时刷写缓存
  */
 suspend fun TjuCourseApi.Companion.refresh(mustRefresh: Boolean = false): Classtable {
-    val deferredClasstable = getScheduleAsync()
+//    val deferredClasstable = getScheduleAsync()
+    val deferredClasstable = getClassTable()
     val handler: suspend (Throwable) -> Unit = { it.printStackTrace() }
     // 要么是必须刷新 要么是没有缓存
     if (mustRefresh || tjuCourseCache.get().await() == null) {
         // 刷新失败就拿缓存 缓存还没有就凉了
-        val classtable: Classtable? = deferredClasstable.awaitAndHandle(handler)?.parseHtml()
+//        val classtable: Classtable? = deferredClasstable.awaitAndHandle(handler)?.parseHtml
+        val classtable: Classtable? = deferredClasstable.awaitAndHandle(handler)?.data
                 ?: tjuCourseCache.get().await()
         try {
             classtable?.let {
                 tjuCourseCache.set(it)
                 SchedulePref.termStart = it.termStart
             }
-        } catch(e: IllegalStateException) {
+        } catch (e: IllegalStateException) {
             e.printStackTrace()
         }
         return classtable ?: throw IllegalStateException("凉了啊...无法获取课程表,稍后再试（怕是办公网崩了）多刷新试试")
@@ -53,7 +55,8 @@ suspend fun TjuCourseApi.Companion.refresh(mustRefresh: Boolean = false): Classt
         // 这种情况也要静默刷新一下 成功就刷
         try {
             GlobalScope.async(Dispatchers.Default) {
-                val classtable = deferredClasstable.awaitAndHandle(handler)?.parseHtml()
+                //                val classtable = deferredClasstable.awaitAndHandle(handler)?.parseHtml()
+                val classtable = deferredClasstable.awaitAndHandle(handler)?.data
                 classtable?.let {
                     tjuCourseCache.set(it)
                     SchedulePref.termStart = it.termStart

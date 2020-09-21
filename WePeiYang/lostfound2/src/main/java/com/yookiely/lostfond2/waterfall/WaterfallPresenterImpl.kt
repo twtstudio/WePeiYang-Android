@@ -1,12 +1,8 @@
 package com.yookiely.lostfond2.waterfall
 
-import android.util.Log
-import com.orhanobut.hawk.Hawk
 import com.yookiely.lostfond2.service.LostFoundService
 import com.yookiely.lostfond2.service.MyListDataOrSearchBean
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
-import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
-import com.twt.wepeiyang.commons.network.RetrofitProvider
 import com.yookiely.lostfond2.service.Utils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope

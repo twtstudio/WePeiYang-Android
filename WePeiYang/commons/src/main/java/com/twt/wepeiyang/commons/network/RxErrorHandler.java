@@ -38,7 +38,7 @@ public class RxErrorHandler implements Action1<Throwable> {
         mContext = CommonContext.INSTANCE.getApplication();
     }
 
-    public static void showToast(Context context, String desc) {
+    private static void showToast(Context context, String desc) {
         if (toast == null) {
             toast = Toast.makeText(context, desc, Toast.LENGTH_SHORT);
         } else {
