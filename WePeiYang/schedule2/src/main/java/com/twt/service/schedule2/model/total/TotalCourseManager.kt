@@ -2,6 +2,7 @@ package com.twt.service.schedule2.model.total
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
+import android.util.Log
 import com.twt.service.schedule2.extensions.RefreshCallback
 import com.twt.service.schedule2.model.AbsClasstableProvider
 import com.twt.service.schedule2.model.Classtable
@@ -52,11 +53,17 @@ object TotalCourseManager {
             refreshCallback.invoke(RefreshState.Success(CacheIndicator.LOCAL))
             return mergedClassTableProvider
         }
+
         GlobalScope.async(Dispatchers.Main) {
 
             refreshCallback.invoke(RefreshState.Refreshing())
 
-            val examTableDeferred = ExamTableLocalAdapter.getExamMap(true)
+            //TODO(这一步有点问题，看看这里为什么会传 true ，进行强制刷新）
+//            val examTableDeferred = ExamTableLocalAdapter.getExamMap(true)
+            val examTableDeferred = ExamTableLocalAdapter.getExamMap()
+
+
+            Log.d("testitemdisplaytime", "network process 1")
 
             val tjuClassTableProvider: Deferred<AbsClasstableProvider> = async(Dispatchers.Default + QuietCoroutineExceptionHandler) {
                 try {
@@ -94,8 +101,13 @@ object TotalCourseManager {
                     customCourseProvider.await(),
                     duplicateCourseProvider.await()
             )
+
             try {
+
+                // 这一步耗时严重
                 examTableDeferred.await()
+                Log.d("testitemdisplaytime", "network process examTableDeferred finish")
+
             } catch (e: Exception) {
                 e.printStackTrace()
             }

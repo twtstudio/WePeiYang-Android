@@ -54,7 +54,6 @@ class OtherItem : Item {
 //                }
 
                 addItem("校务平台", "我先放一个校务平台在这里") {
-                    // TODO: 埋点还没做
                     it.context.startActivity<AnnoActivity>()
                 }
 

@@ -102,7 +102,7 @@ class AnnoActivity : AppCompatActivity() {
 
     private fun initRecyclerView() {
         tagPathRecyclerView = findViewById<RecyclerView>(R.id.path_rec).apply {
-            layoutManager = LinearLayoutManager(context).apply {
+            layoutManager = MyLinearLayoutManager(context).apply {
                 orientation = LinearLayoutManager.HORIZONTAL
             }
             adapter = ItemAdapter(pathTags)
@@ -117,7 +117,7 @@ class AnnoActivity : AppCompatActivity() {
         }
 
         tagListRecyclerView = findViewById<RecyclerView>(R.id.detail_rec).apply {
-            layoutManager = LinearLayoutManager(context).apply {
+            layoutManager = MyLinearLayoutManager(context).apply {
                 orientation = LinearLayoutManager.HORIZONTAL
             }
             adapter = ItemAdapter(listTags).also {
@@ -133,7 +133,7 @@ class AnnoActivity : AppCompatActivity() {
         }
 
         quesDetailRecyclerView = findViewById<RecyclerView>(R.id.ques_rec).apply {
-            layoutManager = LinearLayoutManager(context).apply {
+            layoutManager = MyLinearLayoutManager(context).apply {
                 orientation = LinearLayoutManager.VERTICAL
             }
             adapter = ItemAdapter(quesRecController)
@@ -173,7 +173,7 @@ class AnnoActivity : AppCompatActivity() {
             this.setOnClickListener {
                 initTagTree()
                 getAllQuestions()
-                closeFloatingMenu()
+//                closeFloatingMenu()
             }
         }
     }
@@ -199,8 +199,7 @@ class AnnoActivity : AppCompatActivity() {
     private fun bindLiveData() {
         annoViewModel = ViewModelProviders.of(this)[AnnoViewModel::class.java]
         annoViewModel.tagTree.bindNonNull(this) {
-            listTags.clear()
-            listTags.addAll(bindTagPathWithDetailTag(it))
+            listTags.refreshAll(bindTagPathWithDetailTag(it))
             closeFloatingMenu()
         }
 
@@ -238,7 +237,9 @@ class AnnoActivity : AppCompatActivity() {
                             hintText.visibility = View.INVISIBLE
                             quesDetailRecyclerView.visibility = View.VISIBLE
                             quesRecController.refreshAll(items)
+
                             quesDetailRecyclerView.scrollToPosition(0)
+                            Log.d("bugwhat", "111")
 
 //                    Toast.makeText(this@AnnoActivity, "获取数据成功", Toast.LENGTH_SHORT).show()
                         }
