@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import com.tjuwhy.yellowpages2.view.YellowPageActivity
-import com.twt.service.announcement.ui.activity.AnnoActivity
+import com.twt.service.announcement.ui.main.AnnoActivity
 import com.twt.service.home.user.FragmentActivity
 import com.twt.service.news.NewsActivity
 import com.twt.wepeiyang.commons.mta.mtaClick
@@ -52,6 +52,12 @@ class OtherItem : Item {
 //                    mtaClick("app_首页OtherItem商城Item")
 //                    it.context.startActivity<MallActivity>()
 //                }
+
+                addItem("校务平台", "我先放一个校务平台在这里") {
+                    // TODO: 埋点还没做
+                    it.context.startActivity<AnnoActivity>()
+                }
+
                 addItem("黄页", "天大电话簿") {
                     mtaClick("app_首页OtherItem黄页Item")
                     it.context.startActivity<YellowPageActivity>()
@@ -81,10 +87,6 @@ class OtherItem : Item {
                     it.context.startActivity<NewsActivity>()
                 }
 
-                addItem("校务平台", "我先放一个校务平台在这里") {
-                    // TODO: 埋点还没做
-                    it.context.startActivity<AnnoActivity>()
-                }
 
 //                addItem("自行车", "通览状态，畅爽骑行") {
 //                    mtaClick("app_首页OtherItem自行车Item")

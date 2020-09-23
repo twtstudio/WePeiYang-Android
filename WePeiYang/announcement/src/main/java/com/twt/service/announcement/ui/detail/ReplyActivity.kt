@@ -1,4 +1,4 @@
-package com.twt.service.announcement.ui.activity.detail
+package com.twt.service.announcement.ui.detail
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity

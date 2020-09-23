@@ -1,5 +1,6 @@
 package com.twt.service.announcement.service
 
+import android.arch.lifecycle.MutableLiveData
 import kotlinx.coroutines.Deferred
 import retrofit2.http.*
 
@@ -120,9 +121,6 @@ interface AnnoService {
     companion object : AnnoService by AnnoServiceFactory()
 }
 
-data class TagList(
-        val tagList: List<Int>
-)
 
 data class Tag(
         val id: Int,

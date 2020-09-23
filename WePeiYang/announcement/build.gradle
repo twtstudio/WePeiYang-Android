@@ -50,6 +50,8 @@ dependencies {
     implementation 'com.android.support:support-v4:27.1.1'
     implementation 'com.zhihu.android:matisse:0.4.3'
     implementation('jp.wasabeef:recyclerview-animators:2.3.0')
+    implementation 'com.github.clans:fab:1.6.4'
+
 
 
 }
