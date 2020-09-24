@@ -74,7 +74,12 @@ class ScheduleHomeItem(val lifecycleOwner: LifecycleOwner) : Item {
                     it.context.startActivity(intent)
                 }
             }
+            Log.d("testitemdisplaytime", "start connect network")
+
+            //这个方法里面写的有些问题
             TotalCourseManager.getTotalCourseManager().bindNonNull(item.lifecycleOwner) {
+                Log.d("testitemdisplaytime", "start process data")
+
                 // 定义两个Time 一个是今天 一个是明天
                 val currentUnixTime = it.currentUnixTime
                 val tomorrowUnixTime = it.currentUnixTime + it.dayOfInt
@@ -119,6 +124,7 @@ class ScheduleHomeItem(val lifecycleOwner: LifecycleOwner) : Item {
                     itemContent.text = (contentTextPrefix + contentText).spanned
 
                 }
+
             }
         }
 

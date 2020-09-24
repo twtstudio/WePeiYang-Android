@@ -164,7 +164,8 @@ data class AddQuestion(
         val user_id: List<String>,
         val name: List<String>,
         val description: List<String>,
-        val tagList: List<String>
+        val tagList: List<String>,
+        val question_id: Int
 )
 
 data class AnswerCommit(

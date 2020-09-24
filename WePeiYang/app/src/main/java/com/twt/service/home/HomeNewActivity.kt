@@ -27,6 +27,7 @@ import com.twt.service.tjunet.view.homeTjuNetItem
 import com.twt.service.widget.ScheduleWidgetProvider
 import com.twt.wepeiyang.commons.experimental.color.getColorCompat
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
+import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
 import com.twt.wepeiyang.commons.experimental.extensions.enableLightStatusBarMode
 import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
@@ -111,11 +112,16 @@ class HomeNewActivity : AppCompatActivity() {
             homeTjuNetItem(this@HomeNewActivity)
             homeOthers()
         }
+
+        //TODO(这里后台数据返回的有问题，json无法解析)
         GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
-            val messageBean = MessageService.getMessage().await()
-            val data = messageBean.data
+            val messageBean = MessageService.getMessage().awaitAndHandle {
+
+                Log.d("testjsoncanconvert", it.message.toString())
+            }
+            val data = messageBean?.data
             Log.d("HomeNew-Message-1", data.toString())
-            if (messageBean.error_code == -1 && data != null) {
+            if (messageBean?.error_code == -1 && data != null) {
                 // 通过新的网请和本地的 isDisplayMessage 判断来实现 Message 是否显示
                 if (!MessagePreferences.isDisplayMessage && MessagePreferences.messageVersion != data.version) {
                     MessagePreferences.apply {
