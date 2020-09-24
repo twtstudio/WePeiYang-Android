@@ -1,8 +1,8 @@
 package com.twt.service.announcement.service
 
-import android.arch.lifecycle.MutableLiveData
 import kotlinx.coroutines.Deferred
 import retrofit2.http.*
+import java.io.File
 
 interface AnnoService {
     /*
@@ -80,6 +80,16 @@ interface AnnoService {
                   @Field("contain") contain: String): Deferred<CommonBody<Commit>>
 
     /*
+    上传图片
+    http://47.93.253.240:10805/api/user/image/add
+    */
+    @POST("image/add")
+    fun postPictures(
+            @Field("user_id") user_id: Deferred<CommonBody<UserId>>,
+            @Field("newImg") newImg: File,
+            @Field("question_id") question_id: Deferred<CommonBody<AddQuestion>>)
+
+    /*
     成功返回list，否则不返回
     获得已点赞的问题/评论/回复列表
     http://47.93.253.240:10805/api/user/likes/get/question(commit/answer)?user_id=1
@@ -117,6 +127,8 @@ interface AnnoService {
     @GET("userId")
     fun getUserIDByName(@Query("student_id") student_id: String,
                         @Query("name") name: String): Deferred<CommonBody<UserId>>
+
+
 
     companion object : AnnoService by AnnoServiceFactory()
 }

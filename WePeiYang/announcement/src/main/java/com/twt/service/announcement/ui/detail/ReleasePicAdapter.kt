@@ -1,7 +1,6 @@
 package com.twt.service.announcement.ui.activity.detail
 
 import android.annotation.SuppressLint
-import android.app.Dialog
 import android.content.Context
 import android.net.Uri
 import android.support.v7.widget.RecyclerView
@@ -11,7 +10,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.twt.service.announcement.R
-import com.twt.service.announcement.service.AnnoService
+import com.twt.service.announcement.ui.detail.AskQuestionActivity
 
 // 用来判断list中是否有图片
 object noSelectPic {
@@ -20,7 +19,7 @@ object noSelectPic {
 
 // 上传多图的recyclerview的adapter
 class ReleasePicAdapter(val list: MutableList<Any>,
-                        private val releaseActivity: AskQuestion,
+                        private val releaseActivity: AskQuestionActivity,
                         val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var currentPosition = 0
@@ -30,7 +29,7 @@ class ReleasePicAdapter(val list: MutableList<Any>,
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val view = LayoutInflater.from(context).inflate(R.layout.detail_question, parent, false)
+        val view = LayoutInflater.from(context).inflate(R.layout.activity_ask_question_activity, parent, false)
 
         return ViewHolder(view)
     }

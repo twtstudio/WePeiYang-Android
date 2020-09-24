@@ -7,7 +7,6 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.Toolbar
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
@@ -20,6 +19,7 @@ import com.twt.service.announcement.R
 import com.twt.service.announcement.model.AnnoViewModel
 import com.twt.service.announcement.service.AnnoService
 import com.twt.service.announcement.service.Tag
+import com.twt.service.announcement.ui.detail.AskQuestionActivity
 import com.twt.service.announcement.ui.search.SearchActivity
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
@@ -166,7 +166,10 @@ class AnnoActivity : AppCompatActivity() {
         findViewById<FloatingActionButton>(R.id.fa_b).apply {
 
             //TODO(添加新的问题)
+            this.setOnClickListener {
 
+                startActivity(Intent(this@AnnoActivity, AskQuestionActivity::class.java))
+            }
         }
 
         findViewById<FloatingActionButton>(R.id.fa_c).apply {
