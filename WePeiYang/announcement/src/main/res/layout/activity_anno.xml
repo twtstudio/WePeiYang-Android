@@ -91,11 +91,11 @@
         <!--            android:layout_height="wrap_content" android:layout_width="wrap_content" />-->
 
         <TextView
+            android:id="@+id/cannot_connect_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="加载失败......"
-            android:id="@+id/cannot_connect_text"
             android:layout_gravity="center"
+            android:text="加载失败......"
             android:visibility="invisible" />
 
         <!--        <android.support.design.widget.FloatingActionButton-->
