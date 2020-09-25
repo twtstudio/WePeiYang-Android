@@ -21,7 +21,7 @@ interface AnnoService {
     */
     @JvmSuppressWildcards
     @GET("question/search")
-    fun getQuestion(@QueryMap searchMap: Map<String, Any>): Deferred<CommonBody<List<Question>>>
+    fun getQuestion(@QueryMap searchMap: Map<String, Any>): Deferred<CommonBody<QuestionData>>
 
     /*
     获得问题回复/评论
@@ -137,7 +137,10 @@ data class Question(
         val no_commit: Int,
         val likes: Int,
         val created_at: String,
-        val updated_at: String
+        val updated_at: String,
+        val username: String,
+        val msgCount: Int,
+        val url_list: List<String>
 )
 
 data class ReplyOrCommit(
@@ -211,5 +214,12 @@ data class QuestionBody(
         val name: String,
         val description: String,
         val tagList: List<Int>
+)
+
+data class QuestionData(
+        val data: List<Question>,
+        val to: Int,
+        val total: Int,
+        val next_page_url: String
 )
 
