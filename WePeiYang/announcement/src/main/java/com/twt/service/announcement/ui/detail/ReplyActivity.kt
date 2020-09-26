@@ -9,7 +9,7 @@ import android.support.v7.widget.Toolbar
 import cn.edu.twt.retrox.recyclerviewdsl.withItems
 import com.twt.service.announcement.R
 import com.twt.service.announcement.service.AnnoService
-import com.twt.service.announcement.service.ReplyOrCommit
+import com.twt.service.announcement.service.Reply
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter
 import kotlinx.coroutines.GlobalScope
@@ -66,7 +66,7 @@ class ReplyActivity : AppCompatActivity() {
             withItems {
                 addReplyItem(
                         intent.getStringExtra("title"),
-                        intent.getSerializableExtra("reply") as ReplyOrCommit,
+                        intent.getSerializableExtra("reply") as Reply,
                         likeState, likeCount
                 )
             }

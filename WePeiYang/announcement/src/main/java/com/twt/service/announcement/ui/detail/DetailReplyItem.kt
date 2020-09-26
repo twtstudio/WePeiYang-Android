@@ -10,7 +10,7 @@ import android.widget.TextView
 import cn.edu.twt.retrox.recyclerviewdsl.Item
 import cn.edu.twt.retrox.recyclerviewdsl.ItemController
 import com.twt.service.announcement.R
-import com.twt.service.announcement.service.ReplyOrCommit
+import com.twt.service.announcement.service.Reply
 
 /**
  * DetailReplyItem
@@ -23,7 +23,7 @@ import com.twt.service.announcement.service.ReplyOrCommit
  */
 class DetailReplyItem(
         val title: String,
-        val reply: ReplyOrCommit,
+        val reply: Reply,
         var likeState: Boolean,
         var likeCount: Int
         // TODO: 呵呵，你觉得这就完了么
@@ -102,6 +102,6 @@ class DetailReplyItem(
  */
 fun MutableList<Item>.addDetailReplyItem(
         title: String,
-        reply: ReplyOrCommit,
+        reply: Reply,
         likeState: Boolean,
         likeCount: Int) = add(DetailReplyItem(title, reply, likeState, likeCount))

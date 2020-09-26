@@ -1,16 +1,9 @@
 package com.twt.service.announcement.service
 
-import com.twt.wepeiyang.commons.experimental.cache.RefreshState
-import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
-import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
-import okhttp3.internal.http2.ErrorCode
 import retrofit2.http.*
-import java.io.File
+import java.io.Serializable
 
 interface AnnoService {
     /*
@@ -162,7 +155,7 @@ data class Question(
         val username: String,
         val msgCount: Int,
         val url_list: List<String>
-)
+) : Serializable
 
 data class Reply(
         val id: Int,
@@ -174,7 +167,7 @@ data class Reply(
         val likes: Int,
         val created_at: String,
         val updated_at: String
-)
+) : Serializable
 
 data class Comment(
         val id: Int,
@@ -185,7 +178,7 @@ data class Comment(
         val updated_at: String,
         val username: String,
         val is_liked: Boolean
-)
+) : Serializable
 
 data class IsLike(
         val is_liked: Boolean

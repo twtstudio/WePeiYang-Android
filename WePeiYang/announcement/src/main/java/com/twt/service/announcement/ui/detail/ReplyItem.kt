@@ -11,7 +11,7 @@ import cn.edu.twt.retrox.recyclerviewdsl.ItemController
 import com.twt.service.announcement.R
 import com.twt.service.announcement.service.AnnoPreference
 import com.twt.service.announcement.service.AnnoService
-import com.twt.service.announcement.service.ReplyOrCommit
+import com.twt.service.announcement.service.Reply
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import es.dmoral.toasty.Toasty
@@ -30,7 +30,7 @@ import kotlinx.coroutines.launch
  */
 class ReplyItem(
         val title: String,
-        val reply: ReplyOrCommit,
+        val reply: Reply,
         var likeState: Boolean,
         var likeCount: Int = reply.likes
 
@@ -59,7 +59,7 @@ class ReplyItem(
                     setOnClickListener {
                         if (item.likeState) {
                             GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
-                                AnnoService.postThumbUpORDown(
+                                AnnoService.postThumbUpOrDown(
                                         "answer",
                                         "dislike",
                                         item.reply.id,
@@ -75,7 +75,7 @@ class ReplyItem(
                             }
                         } else {
                             GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
-                                AnnoService.postThumbUpORDown(
+                                AnnoService.postThumbUpOrDown(
                                         "answer",
                                         "like",
                                         item.reply.id,
@@ -122,7 +122,7 @@ class ReplyItem(
 
 fun MutableList<Item>.addReplyItem(
         title: String,
-        reply: ReplyOrCommit,
+        reply: Reply,
         likeState: Boolean,
         likeCount: Int
 ) = add(ReplyItem(title, reply, likeState, likeCount))

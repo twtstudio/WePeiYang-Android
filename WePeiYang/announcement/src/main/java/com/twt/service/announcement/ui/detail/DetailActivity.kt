@@ -11,10 +11,7 @@ import android.support.v7.widget.Toolbar
 import cn.edu.twt.retrox.recyclerviewdsl.withItems
 import com.githang.statusbar.StatusBarCompat
 import com.twt.service.announcement.R
-import com.twt.service.announcement.service.AnnoPreference
-import com.twt.service.announcement.service.AnnoService
-import com.twt.service.announcement.service.Question
-import com.twt.service.announcement.service.ReplyOrCommit
+import com.twt.service.announcement.service.*
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import es.dmoral.toasty.Toasty
@@ -34,9 +31,9 @@ class DetailActivity : AppCompatActivity() {
     private lateinit var toolbar: Toolbar
     private lateinit var recyclerView: RecyclerView
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
-    private val replyList: MutableList<ReplyOrCommit> = mutableListOf()
+    private val replyList: MutableList<Reply> = mutableListOf()
     private val replyLikeList: MutableList<Boolean> = mutableListOf()
-    private val commentList: MutableList<ReplyOrCommit> = mutableListOf()
+    private val commentList: MutableList<Comment> = mutableListOf()
     private val commentLikeList: MutableList<Boolean> = mutableListOf()
     private lateinit var question: Question
     private var likeState: Boolean = false
@@ -90,7 +87,7 @@ class DetailActivity : AppCompatActivity() {
                     addDetailReplyItem(question.name, it, likeState, it.likes)
                 }
                 commentList.forEach {
-                    addDetailCommentItem(it.user_name, it.contain, it.created_at, false, it.likes)
+                    addDetailCommentItem(it.username, it.contain, it.created_at, false, it.likes)
                 }
             }
             adapter = ScaleInAnimationAdapter(adapter)
@@ -121,7 +118,7 @@ class DetailActivity : AppCompatActivity() {
         GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
             swipeRefreshLayout.isRefreshing = true
             // 这里获取问题回复
-            AnnoService.getAnswer("answer", question.id).awaitAndHandle {
+            AnnoService.getAnswer(question.id, AnnoPreference.myId!!).awaitAndHandle {
                 Toasty.error(this@DetailActivity, "获取回复失败").show()
             }?.data?.let {
                 replyList.clear()
@@ -140,7 +137,7 @@ class DetailActivity : AppCompatActivity() {
             }
             // 这里获取问题评论
             // 为什么是commit?
-            AnnoService.getAnswer("commit", question.id).awaitAndHandle {
+            AnnoService.getCommit(question.id, AnnoPreference.myId!!).awaitAndHandle {
                 Toasty.error(this@DetailActivity, "获取评论失败").show()
             }?.data?.let {
                 commentList.clear()
