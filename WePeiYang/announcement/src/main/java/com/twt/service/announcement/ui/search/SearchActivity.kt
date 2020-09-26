@@ -43,6 +43,7 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var problemText: TextView
     private lateinit var resultLayoutManager: LinearLayoutManager
     private var nextUrl: String? = null
+    private val user_id = 1
 
 
     @SuppressLint("ClickableViewAccessibility")
@@ -90,7 +91,7 @@ class SearchActivity : AppCompatActivity() {
                                             mapOf("searchString" to editText.text,
                                                     "tagList" to emptyList<Int>(),
                                                     "limits" to 20,
-                                                    "page" to page)
+                                                    "page" to page, "user_id" to user_id)
                                     ).awaitAndHandle {
                                         it.printStackTrace()
                                     }?.data
@@ -188,7 +189,7 @@ class SearchActivity : AppCompatActivity() {
             editText.clearFocus()
 
             GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
-                AnnoService.getQuestion(mapOf("searchString" to text, "tagList" to emptyList<Int>(), "limits" to 20, "page" to 1)).awaitAndHandle {
+                AnnoService.getQuestion(mapOf("searchString" to text, "tagList" to emptyList<Int>(), "limits" to 20, "page" to 1, "user_id" to user_id)).awaitAndHandle {
                     Log.d("announce:load failed", it.message)
                     searchResultRec.visibility = View.INVISIBLE
                     problemText.visibility = View.VISIBLE

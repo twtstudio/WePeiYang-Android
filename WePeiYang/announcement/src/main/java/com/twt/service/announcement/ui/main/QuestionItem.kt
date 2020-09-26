@@ -50,11 +50,11 @@ class QuestionItem(val context: Context, val questionDetail: Question, var oncli
                     createTime.text = ques.created_at.split("T", ".").subList(0, 2).joinToString(separator = " ")
                     comCount.text = ques.msgCount.toString()
                     likeCount.text = ques.likes.toString()
-                    isAnswer.text = if (ques.solved == 0) "官方未解决" else "官方已解决"
+                    isAnswer.text = if (ques.solved == 0) "未解决" else "已解决"
                     if (ques.url_list.isNotEmpty()) {
                         img.visibility = View.VISIBLE
                         Log.d("questionimg", ques.url_list.first())
-                        Glide.with(item.context).load(ques.url_list.first()).into(img)
+                        Glide.with(item.context).load(ques.thumbImg).fitCenter().into(img)
                     } else {
                         img.visibility = View.GONE
                     }

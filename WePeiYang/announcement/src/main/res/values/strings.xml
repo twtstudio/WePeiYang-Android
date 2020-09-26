@@ -1,6 +1,7 @@
 <resources>
     <!--前后各三个空格，嗯排面-->
     <string name="official_logo_label">&#160;&#160;&#160;官方&#160;&#160;&#160;</string>
+    <string name="submit">发布</string>
     <string name="back_button">返回按钮</string>
     <string name="default_edit_text_fill">请输入你要输入的内容</string>
     <string name="search_refresh_button">刷新按钮</string>

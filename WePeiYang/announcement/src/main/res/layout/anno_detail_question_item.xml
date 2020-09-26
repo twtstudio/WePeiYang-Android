@@ -67,6 +67,25 @@
                 app:layout_constraintTop_toBottomOf="@id/annoDetailQuestionTime" />
 
             <ImageView
+                android:id="@+id/annoDetailQuestionCommentButton"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:contentDescription="@null"
+                android:src="@drawable/baseline_send_black_36"
+                app:layout_constraintBottom_toBottomOf="@id/annoDetailQuestionLikeButton"
+                app:layout_constraintRight_toLeftOf="@id/annoDetailQuestionCommentLabel"
+                app:layout_constraintTop_toTopOf="@id/annoDetailQuestionLikeButton" />
+
+            <TextView
+                android:id="@+id/annoDetailQuestionCommentLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="评论"
+                app:layout_constraintBottom_toBottomOf="@id/annoDetailQuestionLikeButton"
+                app:layout_constraintRight_toLeftOf="@id/annoDetailQuestionLikeButton"
+                app:layout_constraintTop_toTopOf="@id/annoDetailQuestionLikeButton" />
+
+            <ImageView
                 android:id="@+id/annoDetailQuestionLikeButton"
                 android:layout_width="32dp"
                 android:layout_height="32dp"

@@ -1,0 +1,103 @@
+package com.twt.service.announcement.ui.user
+
+import android.support.v7.app.AppCompatActivity
+import android.os.Bundle
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
+import com.github.clans.fab.FloatingActionButton
+import com.github.clans.fab.FloatingActionMenu
+import com.twt.service.announcement.R
+import com.twt.service.announcement.service.AnnoService
+import com.twt.service.announcement.ui.main.MyLinearLayoutManager
+import com.twt.service.announcement.ui.main.QuestionItem
+import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
+import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
+import com.twt.wepeiyang.commons.ui.rec.ItemAdapter
+import com.twt.wepeiyang.commons.ui.rec.ItemManager
+import jp.wasabeef.recyclerview.animators.FadeInAnimator
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+
+enum class Category(name: String) {
+    QUESTION("已点赞的问题"), ANSWER("已点赞的回复"), COMMENT("已点赞的评论")
+}
+
+class UserActivity : AppCompatActivity() {
+    private val likedRecController by lazy { ItemManager() }
+    private lateinit var likedCategoryMenu: FloatingActionMenu
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_user)
+
+        findViewById<RecyclerView>(R.id.liked_rec).apply {
+            layoutManager = MyLinearLayoutManager(context).apply {
+                orientation = LinearLayoutManager.VERTICAL
+            }
+            adapter = ItemAdapter(likedRecController)
+            itemAnimator = FadeInAnimator()
+            itemAnimator?.let {
+                it.addDuration = 100
+                it.removeDuration = 400
+                it.changeDuration = 300
+                it.moveDuration = 200
+            }
+        }
+
+        likedCategoryMenu = findViewById(R.id.liked_menu)
+
+        findViewById<FloatingActionButton>(R.id.liked_ques_rec).setOnClickListener {
+            changeLikedCategory(Category.QUESTION)
+            likedCategoryMenu.close(true)
+        }
+
+        findViewById<FloatingActionButton>(R.id.liked_answer_rec).setOnClickListener {
+            changeLikedCategory(Category.ANSWER)
+            likedCategoryMenu.close(true)
+        }
+
+        findViewById<FloatingActionButton>(R.id.liked_commit_rec).setOnClickListener {
+            changeLikedCategory(Category.COMMENT)
+            likedCategoryMenu.close(true)
+        }
+
+        changeLikedCategory(category = Category.QUESTION)
+
+    }
+
+    private fun changeLikedCategory(category: Category) {
+        val userId = 1
+
+        GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
+            when (category) {
+                Category.QUESTION -> {
+                    AnnoService.getLikedQuestions(user_id = userId).awaitAndHandle {
+                        it.printStackTrace()
+                    }?.takeIf { it.ErrorCode == 0 }?.data?.map {
+                        QuestionItem(this@UserActivity, it) {
+
+                            //TODO:跳转
+                        }
+                    }?.let {
+                        likedRecController.refreshAll(it)
+                    }
+                }
+                Category.ANSWER -> {
+                    AnnoService.getLikedAnswers(user_id = userId).awaitAndHandle {
+                        it.printStackTrace()
+                    }?.takeIf { it.ErrorCode == 0 }?.data?.map {
+
+                    }
+                }
+                Category.COMMENT -> {
+                    AnnoService.getLikedCommits(user_id = userId).awaitAndHandle {
+                        it.printStackTrace()
+                    }?.takeIf { it.ErrorCode == 0 }?.data?.map {
+
+                    }
+                }
+            }
+        }
+    }
+}
