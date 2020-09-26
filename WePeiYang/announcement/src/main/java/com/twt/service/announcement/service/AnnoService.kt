@@ -3,6 +3,7 @@ package com.twt.service.announcement.service
 import kotlinx.coroutines.Deferred
 import retrofit2.http.*
 import java.io.File
+import java.io.Serializable
 
 interface AnnoService {
     /*
@@ -153,7 +154,7 @@ data class Question(
         val username: String,
         val msgCount: Int,
         val url_list: List<String>
-)
+) : Serializable
 
 data class ReplyOrCommit(
         val id: Int,
@@ -166,7 +167,7 @@ data class ReplyOrCommit(
         val created_at: String,
         val updated_at: String,
         val question_id: List<String>
-)
+) : Serializable
 
 data class IsLike(
         val is_liked: Boolean,

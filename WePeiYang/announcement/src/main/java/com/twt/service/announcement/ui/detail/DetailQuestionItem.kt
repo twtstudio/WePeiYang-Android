@@ -10,43 +10,39 @@ import android.widget.TextView
 import cn.edu.twt.retrox.recyclerviewdsl.Item
 import cn.edu.twt.retrox.recyclerviewdsl.ItemController
 import com.twt.service.announcement.R
+import com.twt.service.announcement.service.Question
+import org.jetbrains.anko.sdk27.coroutines.onClick
 
 /**
  * DetailQuestionItem
  * @author TranceDream
  * 这个Item，是问题详情里面学生提出的问题
- * @param title 问题的标题
- * @param content 问题的具体内容
- * @param name 提问者的用户名(也可能是实名上网
- * @param status 问题的状态(指校方有无回复
- * @param time 问题发布的时间
- * @param likeState 该用户是否点过赞
+ * @param question 传进来的问题
+ * @param likeState 该问题的点赞情况
  * @param likeCount 该问题的点赞数量
+ * @param onComment 这里是评论按钮的点击事件
  */
 class DetailQuestionItem(
-        val title: String,
-        val content: String,
-        val name: String,
-        val status: Int,
-        val time: String,
+        val question: Question,
         var likeState: Boolean,
-        var likeCount: Int
+        var likeCount: Int = question.likes,
+        val onComment: () -> Unit
 ) : Item {
     companion object DetailQuestionItemController : ItemController {
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: Item) {
             holder as DetailQuestionItemViewHolder
             item as DetailQuestionItem
             holder.apply {
-                titleTv.text = item.title
-                contentTv.text = item.content
-                timeTv.text = item.time
-                nameTv.text = item.name
-                statusTv.text = when (item.status) {
+                titleTv.text = item.question.name
+                contentTv.text = item.question.description
+                timeTv.text = item.question.created_at
+                nameTv.text = item.question.username
+                statusTv.text = when (item.question.solved) {
                     0 -> "校方未回复"
                     else -> "校方已回复"
                 }
                 statusTv.setTextColor(
-                        when (item.status) {
+                        when (item.question.solved) {
                             0 -> Color.parseColor("#FF5722")
                             else -> Color.parseColor("#00FF00")
                         }
@@ -77,6 +73,12 @@ class DetailQuestionItem(
                         }
                     }
                 }
+                commentButtonIv.onClick {
+                    item.onComment.invoke()
+                }
+                commentLabelTv.onClick {
+                    item.onComment.invoke()
+                }
             }
         }
 
@@ -89,7 +91,9 @@ class DetailQuestionItem(
             val statusTv: TextView = itemView.findViewById(R.id.annoDetailQuestionStatus)
             val likeButtonIv: ImageView = itemView.findViewById(R.id.annoDetailQuestionLikeButton)
             val likeCountTv: TextView = itemView.findViewById(R.id.annoDetailQuestionLikeCount)
-            return DetailQuestionItemViewHolder(itemView, titleTv, contentTv, timeTv, nameTv, statusTv, likeButtonIv, likeCountTv)
+            val commentButtonIv: ImageView = itemView.findViewById(R.id.annoDetailQuestionCommentButton)
+            val commentLabelTv: TextView = itemView.findViewById(R.id.annoDetailQuestionCommentLabel)
+            return DetailQuestionItemViewHolder(itemView, titleTv, contentTv, timeTv, nameTv, statusTv, likeButtonIv, likeCountTv, commentButtonIv, commentLabelTv)
         }
     }
 
@@ -104,11 +108,23 @@ class DetailQuestionItem(
             val nameTv: TextView,
             val statusTv: TextView,
             val likeButtonIv: ImageView,
-            val likeCountTv: TextView
+            val likeCountTv: TextView,
+            val commentButtonIv: ImageView,
+            val commentLabelTv: TextView
     ) : RecyclerView.ViewHolder(itemView)
 }
 
 /**
  * 向Item列表中添加一个[DetailQuestionItem]
  */
-fun MutableList<Item>.addDetailQuestionItem(title: String, content: String, name: String, status: Int, time: String, likeState: Boolean, likeCount: Int) = add(DetailQuestionItem(title, content, name, status, time, likeState, likeCount))
+fun MutableList<Item>.addDetailQuestionItem(
+        question: Question,
+        likeState: Boolean,
+        onComment: () -> Unit
+) = add(
+        DetailQuestionItem(
+                question, likeState
+        ) {
+            onComment.invoke()
+        }
+)

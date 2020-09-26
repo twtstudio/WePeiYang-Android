@@ -18,17 +18,23 @@ import com.github.clans.fab.FloatingActionButton
 import com.github.clans.fab.FloatingActionMenu
 import com.twt.service.announcement.R
 import com.twt.service.announcement.model.AnnoViewModel
+import com.twt.service.announcement.service.AnnoPreference
 import com.twt.service.announcement.service.AnnoService
+import com.twt.service.announcement.service.Question
 import com.twt.service.announcement.service.Tag
 import com.twt.service.announcement.ui.detail.AskQuestionActivity
+import com.twt.service.announcement.ui.detail.DetailActivity
 import com.twt.service.announcement.ui.search.SearchActivity
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
+import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
 import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemAdapter
 import com.twt.wepeiyang.commons.ui.rec.ItemManager
-import jp.wasabeef.recyclerview.animators.*
+import es.dmoral.toasty.Toasty
+import jp.wasabeef.recyclerview.animators.FadeInAnimator
+import jp.wasabeef.recyclerview.animators.SlideInDownAnimator
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -103,6 +109,17 @@ class AnnoActivity : AppCompatActivity() {
         initTagTree()
 
         getAllQuestions()
+
+        // 这里获取一下本机用户的用户ID，存储到缓存
+        GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
+            if (AnnoPreference.myId != null) {
+                AnnoService.getUserIDByName(CommonPreferences.studentid, CommonPreferences.realName).awaitAndHandle {
+                    Toasty.error(this@AnnoActivity, "获取用户ID失败，请重试").show()
+                }?.data?.let {
+                    AnnoPreference.myId = it.user_id
+                }
+            }
+        }
     }
 
     private fun initRecyclerView() {
@@ -178,8 +195,8 @@ class AnnoActivity : AppCompatActivity() {
                                         val items = next.map { ques ->
                                             QuestionItem(context, ques) {
                                                 closeFloatingMenu()
-
-                                                //TODO(问题详情跳转)
+                                                // 跳转至详情页面
+                                                startDetailActivity(ques)
 
                                             }
                                         }
@@ -278,8 +295,8 @@ class AnnoActivity : AppCompatActivity() {
                             val items = quesList.map { ques ->
                                 QuestionItem(context, ques) {
                                     closeFloatingMenu()
-
-                                    //TODO(问题详情跳转)
+                                    // 跳转至详情页面
+                                    startDetailActivity(ques)
 
                                 }
                             }
@@ -344,4 +361,13 @@ class AnnoActivity : AppCompatActivity() {
                     addAll(it)
                 }
             }
+
+    /**
+     * 进入[DetailActivity]，并传入一个[Question]
+     */
+    private fun startDetailActivity(question: Question) {
+        val mIntent: Intent = Intent(this, DetailActivity::class.java)
+                .putExtra("question", question)
+        startActivity(mIntent)
+    }
 }

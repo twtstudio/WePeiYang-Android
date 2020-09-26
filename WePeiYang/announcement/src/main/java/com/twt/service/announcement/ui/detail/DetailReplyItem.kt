@@ -1,5 +1,6 @@
 package com.twt.service.announcement.ui.detail
 
+import android.content.Intent
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -9,21 +10,20 @@ import android.widget.TextView
 import cn.edu.twt.retrox.recyclerviewdsl.Item
 import cn.edu.twt.retrox.recyclerviewdsl.ItemController
 import com.twt.service.announcement.R
+import com.twt.service.announcement.service.ReplyOrCommit
 
 /**
  * DetailReplyItem
  * @author TranceDream
  * 这个是显示校方或者管理员回复的Item
- * @param name 用户名称
- * @param content 回复内容
- * @param time 回复时间
+ * @param title 该回复所属问题的标题
+ * @param reply 该条目显示的回复
  * @param likeState 该用户是否点过赞
  * @param likeCount 该问题的点赞数量
  */
 class DetailReplyItem(
-        val name: String,
-        val content: String,
-        val time: String,
+        val title: String,
+        val reply: ReplyOrCommit,
         var likeState: Boolean,
         var likeCount: Int
         // TODO: 呵呵，你觉得这就完了么
@@ -33,14 +33,16 @@ class DetailReplyItem(
             holder as DetailReplyItemViewHolder
             item as DetailReplyItem
             holder.apply {
-                nameTv.text = item.name
+                nameTv.text = item.reply.user_name
                 contentTv.apply {
-                    text = item.content
+                    text = item.reply.contain
                     setOnClickListener {
-                        // TODO: 这里跳转到评论页面
+                        val mIntent: Intent = Intent(itemView.context, ReplyActivity::class.java)
+                                .putExtra("title", item.title)
+                                .putExtra("reply", item.reply)
                     }
                 }
-                timeTv.text = item.time
+                timeTv.text = item.reply.created_at
                 likeCountTv.text = item.likeCount.toString()
                 /**
                  * 点赞按钮逻辑
@@ -99,8 +101,7 @@ class DetailReplyItem(
  * 向Item列表中添加一个[DetailReplyItem]
  */
 fun MutableList<Item>.addDetailReplyItem(
-        name: String,
-        content: String,
-        time: String,
+        title: String,
+        reply: ReplyOrCommit,
         likeState: Boolean,
-        likeCount: Int) = add(DetailReplyItem(name, content, time, likeState, likeCount))
+        likeCount: Int) = add(DetailReplyItem(title, reply, likeState, likeCount))

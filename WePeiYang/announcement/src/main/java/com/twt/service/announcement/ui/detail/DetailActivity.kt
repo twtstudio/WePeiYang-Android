@@ -1,20 +1,26 @@
 package com.twt.service.announcement.ui.detail
 
 import android.os.Bundle
+import android.support.design.widget.BottomSheetDialog
 import android.support.v4.content.ContextCompat
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
-import android.view.View
 import cn.edu.twt.retrox.recyclerviewdsl.withItems
 import com.githang.statusbar.StatusBarCompat
 import com.twt.service.announcement.R
+import com.twt.service.announcement.service.AnnoPreference
+import com.twt.service.announcement.service.AnnoService
+import com.twt.service.announcement.service.Question
 import com.twt.service.announcement.service.ReplyOrCommit
+import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
+import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
+import es.dmoral.toasty.Toasty
 import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.jetbrains.anko.support.v4.onRefresh
 
@@ -22,22 +28,27 @@ import org.jetbrains.anko.support.v4.onRefresh
  * DetailActivity
  * @author TranceDream
  * 点进问题后显示的问题详情页面，显示详细问题和简略评论
- * TODO: 进入该Activity应该将问题数据传入
+ * 进入该Activity将问题数据传入，是[Question]对象
  */
 class DetailActivity : AppCompatActivity() {
     private lateinit var toolbar: Toolbar
     private lateinit var recyclerView: RecyclerView
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     private val replyList: MutableList<ReplyOrCommit> = mutableListOf()
+    private val replyLikeList: MutableList<Boolean> = mutableListOf()
     private val commentList: MutableList<ReplyOrCommit> = mutableListOf()
+    private val commentLikeList: MutableList<Boolean> = mutableListOf()
+    private lateinit var question: Question
+    private var likeState: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
+        question = intent.getSerializableExtra("question") as Question
         // 设置状态栏的颜色
         StatusBarCompat.setStatusBarColor(this, ContextCompat.getColor(this, R.color.colorPrimary), false)
         findViews()
-        setToolbar("问题详情") {
+        setToolbar(toolbar, this, "问题详情") {
             finish()
         }
         GlobalScope.launch {
@@ -59,20 +70,6 @@ class DetailActivity : AppCompatActivity() {
         swipeRefreshLayout = findViewById(R.id.annoDetailSwipeRefreshLayout)
     }
 
-    /**
-     * 这里设置一下Toolbar的各种乱七八糟的
-     * @param title 标题栏文字
-     * @param onClick 这里是返回按钮的点击监听
-     */
-    fun setToolbar(title: String, onClick: (View) -> Unit) {
-        toolbar.title = title
-        setSupportActionBar(toolbar)
-        supportActionBar?.apply {
-            setHomeButtonEnabled(true)
-            setDisplayHomeAsUpEnabled(true)
-        }
-        toolbar.setNavigationOnClickListener(onClick)
-    }
 
     /**
      * 这里设置一下问题详情页面RecyclerView的相关逻辑
@@ -82,16 +79,15 @@ class DetailActivity : AppCompatActivity() {
             layoutManager = LinearLayoutManager(this@DetailActivity)
             withItems {
                 addDetailQuestionItem(
-                        this@DetailActivity.intent.getStringExtra("title"),
-                        this@DetailActivity.intent.getStringExtra("content"),
-                        "蒙古上单",
-                        this@DetailActivity.intent.getIntExtra("status", 0),
-                        this@DetailActivity.intent.getStringExtra("time"),
-                        this@DetailActivity.intent.getBooleanExtra("likeState", false),
-                        this@DetailActivity.intent.getIntExtra("likeCount", 0)
-                )
+                        question,
+                        likeState
+                ) {
+                    val bottomSheetDialog: BottomSheetDialog = BottomSheetDialog(this@DetailActivity)
+                    bottomSheetDialog.setContentView(R.layout.anno_detail_bottom)
+                    bottomSheetDialog.show()
+                }
                 replyList.forEach {
-                    addDetailReplyItem(it.user_name, it.contain, it.created_at, false, it.likes)
+                    addDetailReplyItem(question.name, it, likeState, it.likes)
                 }
                 commentList.forEach {
                     addDetailCommentItem(it.user_name, it.contain, it.created_at, false, it.likes)
@@ -102,14 +98,13 @@ class DetailActivity : AppCompatActivity() {
     }
 
     /**
-     * 下拉刷新(假的)
+     * 下拉刷新(真的)
+     * TODO: 我也希望这是真的
      */
     private fun setRefresh() {
         swipeRefreshLayout.onRefresh {
             GlobalScope.launch {
                 getData()
-                delay(3000)
-
                 runOnUiThread {
                     setRecyclerView()
                 }
@@ -122,15 +117,53 @@ class DetailActivity : AppCompatActivity() {
      * 获取评论和回复还有点赞状态
      * 还有用户名
      */
-    private suspend fun getData() {
-        // TODO: 这里是假请求
-        delay(1000)
-        replyList.add(ReplyOrCommit(114, 514, "校长1", "我觉得还行", -1, "?", 1919, "1895年2月31日", "", listOf("810")))
-        replyList.add(ReplyOrCommit(114, 514, "校长2", "我觉得还行", -1, "?", 1919, "1895年2月31日", "", listOf("810")))
-        replyList.add(ReplyOrCommit(114, 514, "校长3", "我觉得还行", -1, "?", 1919, "1895年2月31日", "", listOf("810")))
-        commentList.add(ReplyOrCommit(114, 514, "天津大学 猫先生", "喵", -1, "?", 1919, "1895年2月31日", "", listOf("810")))
-        commentList.add(ReplyOrCommit(114, 514, "天津大学 猫先生", "喵", -1, "?", 1919, "1895年2月31日", "", listOf("810")))
-        commentList.add(ReplyOrCommit(114, 514, "天津大学 猫先生", "喵", -1, "?", 1919, "1895年2月31日", "", listOf("810")))
-
+    private fun getData() {
+        GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
+            swipeRefreshLayout.isRefreshing = true
+            // 这里获取问题回复
+            AnnoService.getAnswer("answer", question.id).awaitAndHandle {
+                Toasty.error(this@DetailActivity, "获取回复失败").show()
+            }?.data?.let {
+                replyList.clear()
+                it.forEach { reply ->
+                    replyList.add(reply)
+                }
+                // 这里对问题回复获取点赞状态
+                replyLikeList.clear()
+                replyList.forEach { reply ->
+                    AnnoService.getLikedState("answer", AnnoPreference.myId!!, reply.id).awaitAndHandle {
+                        Toasty.error(this@DetailActivity, "获取回复点赞状态失败").show()
+                    }?.data?.let { replyLike ->
+                        replyLikeList.add(replyLike.is_liked)
+                    }
+                }
+            }
+            // 这里获取问题评论
+            // 为什么是commit?
+            AnnoService.getAnswer("commit", question.id).awaitAndHandle {
+                Toasty.error(this@DetailActivity, "获取评论失败").show()
+            }?.data?.let {
+                commentList.clear()
+                it.forEach { comment ->
+                    commentList.add(comment)
+                }
+                // 这里对问题评论获取点赞状态
+                commentLikeList.clear()
+                commentList.forEach { comment ->
+                    AnnoService.getLikedState("commit", AnnoPreference.myId!!, comment.id).awaitAndHandle {
+                        Toasty.error(this@DetailActivity, "获取评论点赞状态失败").show()
+                    }?.data?.let { commentLike ->
+                        commentLikeList.add(commentLike.is_liked)
+                    }
+                }
+            }
+            // 这里获取问题的点赞状态
+            AnnoService.getLikedState("question", AnnoPreference.myId!!, question.id).awaitAndHandle {
+                Toasty.error(this@DetailActivity, "获取点赞状态失败").show()
+            }?.data?.let {
+                likeState = it.is_liked
+            }
+            swipeRefreshLayout.isRefreshing = false
+        }
     }
 }
