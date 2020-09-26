@@ -19,8 +19,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-enum class Category {
-    QUESTION, ANSWER, COMMENT
+enum class Category(name: String) {
+    QUESTION("已点赞的问题"), ANSWER("已点赞的回复"), COMMENT("已点赞的评论")
 }
 
 class UserActivity : AppCompatActivity() {
@@ -48,17 +48,21 @@ class UserActivity : AppCompatActivity() {
         likedCategoryMenu = findViewById(R.id.liked_menu)
 
         findViewById<FloatingActionButton>(R.id.liked_ques_rec).setOnClickListener {
+            changeLikedCategory(Category.QUESTION)
             likedCategoryMenu.close(true)
         }
 
         findViewById<FloatingActionButton>(R.id.liked_answer_rec).setOnClickListener {
+            changeLikedCategory(Category.ANSWER)
             likedCategoryMenu.close(true)
         }
 
         findViewById<FloatingActionButton>(R.id.liked_commit_rec).setOnClickListener {
+            changeLikedCategory(Category.COMMENT)
             likedCategoryMenu.close(true)
         }
 
+        changeLikedCategory(category = Category.QUESTION)
 
     }
 
@@ -70,17 +74,28 @@ class UserActivity : AppCompatActivity() {
                 Category.QUESTION -> {
                     AnnoService.getLikedQuestions(user_id = userId).awaitAndHandle {
                         it.printStackTrace()
-                    }?.takeIf { it.ErrorCode == 0 }?.data?.map { it.question_id }?.toList()
+                    }?.takeIf { it.ErrorCode == 0 }?.data?.map {
+                        QuestionItem(this@UserActivity, it) {
+
+                            //TODO:跳转
+                        }
+                    }?.let {
+                        likedRecController.refreshAll(it)
+                    }
                 }
                 Category.ANSWER -> {
                     AnnoService.getLikedAnswers(user_id = userId).awaitAndHandle {
                         it.printStackTrace()
-                    }?.takeIf { it.ErrorCode == 0 }?.data?.map { it.answer_id }?.toList()
+                    }?.takeIf { it.ErrorCode == 0 }?.data?.map {
+
+                    }
                 }
                 Category.COMMENT -> {
                     AnnoService.getLikedCommits(user_id = userId).awaitAndHandle {
                         it.printStackTrace()
-                    }?.takeIf { it.ErrorCode == 0 }?.data?.map { it.commit_id }?.toList()
+                    }?.takeIf { it.ErrorCode == 0 }?.data?.map {
+
+                    }
                 }
             }
         }

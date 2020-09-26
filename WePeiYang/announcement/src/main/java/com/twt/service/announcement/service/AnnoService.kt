@@ -101,13 +101,13 @@ interface AnnoService {
     http://47.93.253.240:10805/api/user/likes/get/question(commit/answer)?user_id=1
     */
     @GET("likes/get/question")
-    fun getLikedQuestions(@Query("user_id") user_id: Int): Deferred<CommonBody<List<LikedQuestions>>>
+    fun getLikedQuestions(@Query("user_id") user_id: Int): Deferred<CommonBody<List<Question>>>
 
     @GET("likes/get/answer")
-    fun getLikedAnswers(@Query("user_id") user_id: Int): Deferred<CommonBody<List<LikedAnswers>>>
+    fun getLikedAnswers(@Query("user_id") user_id: Int): Deferred<CommonBody<List<Reply>>>
 
     @GET("likes/get/commit")
-    fun getLikedCommits(@Query("user_id") user_id: Int): Deferred<CommonBody<List<LikedCommits>>>
+    fun getLikedCommits(@Query("user_id") user_id: Int): Deferred<CommonBody<List<Comment>>>
 
     /*
     成功返回true或false，否则返回错误信息
@@ -161,13 +161,13 @@ data class Question(
         val updated_at: String,
         val username: String,
         val msgCount: Int,
-        val url_list: List<String>
+        val url_list: List<String>,
+        val thumbImg: String
 )
 
 data class Reply(
         val id: Int,
         val admin_id: Int,
-        val user_name: String,
         val contain: String,
         val score: Int,
         val commit: String,
@@ -198,18 +198,6 @@ data class AddQuestion(
         val description: List<String>,
         val tagList: List<String>,
         val question_id: Int
-)
-
-data class LikedQuestions(
-        val question_id: Int
-)
-
-data class LikedAnswers(
-        val answer_id: Int
-)
-
-data class LikedCommits(
-        val commit_id: Int
 )
 
 data class UserId(

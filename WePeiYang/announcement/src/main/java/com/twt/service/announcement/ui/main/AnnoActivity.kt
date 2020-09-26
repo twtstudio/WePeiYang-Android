@@ -50,6 +50,7 @@ class AnnoActivity : AppCompatActivity() {
     private lateinit var floatingActionMenu: FloatingActionMenu
     private var nextUrl: String? = null
     private lateinit var quesRecManager: LinearLayoutManager
+    private val user_id = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -141,7 +142,7 @@ class AnnoActivity : AppCompatActivity() {
                                             mapOf("searchString" to "",
                                                     "tagList" to if (tagId != null) listOf(tagId) else emptyList(),
                                                     "limits" to 20,
-                                                    "page" to page)
+                                                    "page" to page, "user_id" to user_id)
                                     ).awaitAndHandle {
                                         it.printStackTrace()
 
@@ -249,7 +250,7 @@ class AnnoActivity : AppCompatActivity() {
                         mapOf("searchString" to "",
                                 "tagList" to if (id == 0) emptyList() else listOf<Int>(id),
                                 "limits" to 20,
-                                "page" to 1)
+                                "page" to 1, "user_id" to user_id)
                 ).awaitAndHandle {
                     hintText.visibility = View.VISIBLE
                     quesDetailRecyclerView.visibility = View.INVISIBLE
@@ -327,7 +328,7 @@ class AnnoActivity : AppCompatActivity() {
                             val path = pathTags.itemListSnapshot.map {
                                 (it as TagBottomItem).content
                             }.toMutableList().apply {
-                                this.add(child.name+":"+child.id.toString())
+                                this.add(child.name + ":" + child.id.toString())
                             }
                             Log.e("tag_path", path.toString())
                         }
