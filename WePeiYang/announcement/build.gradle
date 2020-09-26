@@ -53,6 +53,7 @@ dependencies {
     implementation('jp.wasabeef:recyclerview-animators:2.3.0')
     implementation 'com.github.clans:fab:1.6.4'
 
+    implementation 'com.zhihu.android:matisse:0.4.3'
 
 
 }

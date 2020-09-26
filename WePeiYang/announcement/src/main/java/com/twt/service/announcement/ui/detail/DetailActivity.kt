@@ -11,7 +11,8 @@ import android.view.View
 import cn.edu.twt.retrox.recyclerviewdsl.withItems
 import com.githang.statusbar.StatusBarCompat
 import com.twt.service.announcement.R
-import com.twt.service.announcement.service.ReplyOrCommit
+import com.twt.service.announcement.service.Comment
+import com.twt.service.announcement.service.Reply
 import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
@@ -28,8 +29,8 @@ class DetailActivity : AppCompatActivity() {
     private lateinit var toolbar: Toolbar
     private lateinit var recyclerView: RecyclerView
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
-    private val replyList: MutableList<ReplyOrCommit> = mutableListOf()
-    private val commentList: MutableList<ReplyOrCommit> = mutableListOf()
+    private val replyList: MutableList<Reply> = mutableListOf()
+    private val commentList: MutableList<Comment> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -91,10 +92,10 @@ class DetailActivity : AppCompatActivity() {
                         this@DetailActivity.intent.getIntExtra("likeCount", 0)
                 )
                 replyList.forEach {
-                    addDetailReplyItem(it.user_name, it.contain, it.created_at, false, it.likes)
+//                    addDetailReplyItem(it., it.contain, it.created_at, false, it.likes)
                 }
                 commentList.forEach {
-                    addDetailCommentItem(it.user_name, it.contain, it.created_at, false, it.likes)
+//                    addDetailCommentItem(it.user_name, it.contain, it.created_at, false, it.likes)
                 }
             }
             adapter = ScaleInAnimationAdapter(adapter)
@@ -125,12 +126,12 @@ class DetailActivity : AppCompatActivity() {
     private suspend fun getData() {
         // TODO: 这里是假请求
         delay(1000)
-        replyList.add(ReplyOrCommit(114, 514, "校长1", "我觉得还行", -1, "?", 1919, "1895年2月31日", "", listOf("810")))
-        replyList.add(ReplyOrCommit(114, 514, "校长2", "我觉得还行", -1, "?", 1919, "1895年2月31日", "", listOf("810")))
-        replyList.add(ReplyOrCommit(114, 514, "校长3", "我觉得还行", -1, "?", 1919, "1895年2月31日", "", listOf("810")))
-        commentList.add(ReplyOrCommit(114, 514, "天津大学 猫先生", "喵", -1, "?", 1919, "1895年2月31日", "", listOf("810")))
-        commentList.add(ReplyOrCommit(114, 514, "天津大学 猫先生", "喵", -1, "?", 1919, "1895年2月31日", "", listOf("810")))
-        commentList.add(ReplyOrCommit(114, 514, "天津大学 猫先生", "喵", -1, "?", 1919, "1895年2月31日", "", listOf("810")))
+//        replyList.add(ReplyOrCommit(114, 514, "校长1", "我觉得还行", -1, "?", 1919, "1895年2月31日", "", listOf("810")))
+//        replyList.add(ReplyOrCommit(114, 514, "校长2", "我觉得还行", -1, "?", 1919, "1895年2月31日", "", listOf("810")))
+//        replyList.add(ReplyOrCommit(114, 514, "校长3", "我觉得还行", -1, "?", 1919, "1895年2月31日", "", listOf("810")))
+//        commentList.add(ReplyOrCommit(114, 514, "天津大学 猫先生", "喵", -1, "?", 1919, "1895年2月31日", "", listOf("810")))
+//        commentList.add(ReplyOrCommit(114, 514, "天津大学 猫先生", "喵", -1, "?", 1919, "1895年2月31日", "", listOf("810")))
+//        commentList.add(ReplyOrCommit(114, 514, "天津大学 猫先生", "喵", -1, "?", 1919, "1895年2月31日", "", listOf("810")))
 
     }
 }

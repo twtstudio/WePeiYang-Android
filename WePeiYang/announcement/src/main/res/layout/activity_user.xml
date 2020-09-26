@@ -4,10 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.main.AnnoActivity">
-    <!--    <include-->
-    <!--        layout="@layout/anno_common_toolbar"-->
-    <!--        android:id="@+id/toolbar" />-->
+    tools:context=".ui.user.UserActivity">
 
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
@@ -16,11 +13,9 @@
 
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/toolbar">
+            android:layout_height="wrap_content">
 
             <android.support.v7.widget.Toolbar
-                android:id="@+id/anno_tb"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:background="@color/colorPrimary"
@@ -32,7 +27,7 @@
 
                     <ImageView
                         android:contentDescription="@string/back_button"
-                        android:id="@+id/anno_back"
+                        android:id="@+id/liked_back"
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:padding="8dp"
@@ -42,7 +37,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        android:id="@+id/search_edit"
+                        android:id="@+id/liked_mode"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
@@ -59,29 +54,11 @@
 
             </android.support.v7.widget.Toolbar>
 
-            <android.support.constraint.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white_color"
-                app:layout_scrollFlags="scroll|enterAlways">
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/path_rec"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintBottom_toTopOf="@+id/detail_rec" />
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/detail_rec"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@+id/path_rec" />
-            </android.support.constraint.ConstraintLayout>
         </android.support.design.widget.AppBarLayout>
 
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/ques_rec"
+            android:id="@+id/liked_rec"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
@@ -91,23 +68,15 @@
         <!--            android:layout_height="wrap_content" android:layout_width="wrap_content" />-->
 
         <TextView
-            android:id="@+id/cannot_connect_text"
+            android:id="@+id/liked_no_connect_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="加载失败......"
             android:visibility="invisible" />
 
-        <!--        <android.support.design.widget.FloatingActionButton-->
-        <!--            android:id="@+id/fl_btn"-->
-        <!--            android:layout_width="50dp"-->
-        <!--            android:layout_height="50dp"-->
-        <!--            android:src="@drawable/ic_baseline_double_arrow_24"-->
-        <!--            android:layout_margin="20dp"-->
-        <!--            android:layout_gravity="bottom|end"/>-->
-
         <com.github.clans.fab.FloatingActionMenu
-            android:id="@+id/anno_fl_menu"
+            android:id="@+id/liked_menu"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
@@ -126,7 +95,7 @@
 
 
             <com.github.clans.fab.FloatingActionButton
-                android:id="@+id/fa_a"
+                android:id="@+id/liked_ques_rec"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/search"
@@ -135,7 +104,7 @@
                 app:fab_size="mini" />
 
             <com.github.clans.fab.FloatingActionButton
-                android:id="@+id/fa_b"
+                android:id="@+id/liked_answer_rec"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/add_select"
@@ -144,19 +113,10 @@
                 app:fab_size="mini" />
 
             <com.github.clans.fab.FloatingActionButton
-                android:id="@+id/fa_c"
+                android:id="@+id/liked_commit_rec"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/exchange_rate"
-                app:fab_colorNormal="#eeeeee"
-                app:fab_colorPressed="#999999"
-                app:fab_size="mini" />
-
-            <com.github.clans.fab.FloatingActionButton
-                android:id="@+id/fa_d"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/account"
                 app:fab_colorNormal="#eeeeee"
                 app:fab_colorPressed="#999999"
                 app:fab_size="mini" />
