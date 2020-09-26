@@ -10,7 +10,6 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewParent
 import android.widget.Button
 import android.widget.TextView
 import com.twt.service.tjunet.R
@@ -27,9 +26,7 @@ import kotlinx.coroutines.async
 import org.jetbrains.anko.textColor
 import java.net.Inet4Address
 import java.net.NetworkInterface
-import java.net.NetworkInterface.getNetworkInterfaces
 import java.net.SocketException
-import javax.microedition.khronos.opengles.GL
 
 
 /**

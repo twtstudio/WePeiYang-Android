@@ -1,19 +1,14 @@
 package com.twt.service.schedule2.model.school
 
-import android.content.Context
 import com.twt.service.schedule2.model.Classtable
 import com.twt.service.schedule2.model.SchedulePref
-import com.twt.service.schedule2.spider.ScheduleSpider.parseHtml
-import com.twt.service.schedule2.spider.ScheduleSpider.getScheduleAsync
 import com.twt.wepeiyang.commons.experimental.cache.Cache
 import com.twt.wepeiyang.commons.experimental.cache.hawk
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import com.twt.wepeiyang.commons.experimental.network.CommonBody
 import com.twt.wepeiyang.commons.experimental.network.ServiceFactory
-import es.dmoral.toasty.Toasty
 import kotlinx.coroutines.*
 import retrofit2.http.GET
-import java.lang.NumberFormatException
 
 interface TjuCourseApi {
 

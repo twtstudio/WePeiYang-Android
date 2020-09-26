@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.twt.service.announcement.R
+import com.twt.service.announcement.service.AnnoService
 import com.twt.service.announcement.ui.detail.AskQuestionActivity
 
 // 用来判断list中是否有图片
@@ -59,7 +60,7 @@ class ReleasePicAdapter(val list: MutableList<Any>,
 
         if (list.size > position && tmp != noSelectPic) {
             when (tmp) {
-                is String -> Glide.with(context)//上传图片
+                is String -> Glide.with(context)
                         //.load(AnnoService.getQuestion())
                         //.into(holder.releasePic)
                 is Uri -> Glide.with(context)
