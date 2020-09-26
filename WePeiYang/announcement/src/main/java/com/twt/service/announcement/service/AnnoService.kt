@@ -168,6 +168,7 @@ data class Question(
 data class Reply(
         val id: Int,
         val admin_id: Int,
+        val user_name: String,
         val contain: String,
         val score: Int,
         val commit: String,
