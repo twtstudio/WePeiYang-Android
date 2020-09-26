@@ -80,7 +80,7 @@ tools:context=".ui.detail.AskQuestionActivity">
             <TextView
                 android:id="@+id/sort"
                 android:layout_width="50dp"
-                android:layout_height="60dp"
+                android:layout_height="100dp"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="30dp"
                 android:gravity="center_vertical"
@@ -190,7 +190,7 @@ tools:context=".ui.detail.AskQuestionActivity">
             <EditText
                 android:id="@+id/edit_content"
                 android:layout_width="0dp"
-                android:layout_height="200dp"
+                android:layout_height="130dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="15dp"
                 android:background="@drawable/edit_text_selector"
@@ -210,12 +210,12 @@ tools:context=".ui.detail.AskQuestionActivity">
         <android.support.constraint.ConstraintLayout
             android:id="@+id/ll4"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:layout_marginBottom="3dp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            app:layout_constraintBottom_toTopOf="@+id/release_button"
+            app:layout_constraintBottom_toTopOf="@+id/anno_release_button"
             app:layout_constraintTop_toBottomOf="@id/ll3">
 
             <TextView
@@ -230,19 +230,22 @@ tools:context=".ui.detail.AskQuestionActivity">
                 app:layout_constraintStart_toStartOf="@id/ll4"
                 app:layout_constraintTop_toTopOf="@id/ll4"
                 />
-            <ImageView
-                android:layout_gravity="center"
-                android:id="@+id/publish_picture"
-                android:layout_width="90sp"
-                android:layout_height="90sp"
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/anno_release_pic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 app:layout_constraintStart_toEndOf="@id/picture"
                 app:layout_constraintBottom_toBottomOf="@+id/ll4"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="15dp"/>
 
         </android.support.constraint.ConstraintLayout>
+
+
         <Button
-            android:id="@+id/release_button"
+            android:id="@+id/anno_release_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/ll4"

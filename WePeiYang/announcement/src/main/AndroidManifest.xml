@@ -3,7 +3,11 @@
     package="com.twt.service.announcement">
 
     <application>
-        <activity android:name=".ui.detail.AskQuestionActivity"></activity>
+        <activity android:name=".ui.detail.PublishSuccessActivity"></activity>
+        <activity
+            android:name=".ui.detail.AskQuestionActivity"
+            android:windowSoftInputMode="stateUnspecified|adjustResize">
+        </activity>
         <activity android:name=".ui.search.SearchActivity" />
         <activity android:name=".ui.detail.ReplyActivity" />
         <activity android:name=".ui.detail.DetailActivity" />

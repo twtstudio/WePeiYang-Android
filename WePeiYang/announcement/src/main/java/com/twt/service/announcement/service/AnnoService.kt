@@ -1,6 +1,7 @@
 package com.twt.service.announcement.service
 
 import kotlinx.coroutines.Deferred
+import okhttp3.MultipartBody
 import retrofit2.http.*
 import java.io.File
 
@@ -85,9 +86,9 @@ interface AnnoService {
     */
     @POST("image/add")
     fun postPictures(
-            @Field("user_id") user_id: Int,
-            @Field("newImg") newImg: File,
-            @Field("question_id") question_id:Int)
+            @Part("user_id") user_id: Int,
+            @Part("newImg") newImg: MultipartBody.Part,
+            @Part("question_id") question_id:Int):Deferred<CommonBody<picUrl>>
 
     /*
     成功返回list，否则不返回
@@ -235,3 +236,6 @@ data class QuestionData(
         val next_page_url: String
 )
 
+data class picUrl(
+        val url:String
+)

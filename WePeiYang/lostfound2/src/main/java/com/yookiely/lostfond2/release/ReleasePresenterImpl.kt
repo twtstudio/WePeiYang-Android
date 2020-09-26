@@ -45,8 +45,8 @@ class ReleasePresenterImpl(private var releaseView: ReleaseContract.ReleaseView)
                 this@ReleasePresenterImpl.failCallback("上传失败")
             }?.let {
                 if (it.error_code == -1 && it.data != null) {
-                    this@ReleasePresenterImpl.successCallBack(it.data!!)
-                }
+                this@ReleasePresenterImpl.successCallBack(it.data!!)
+            }
             }
         }
     }
