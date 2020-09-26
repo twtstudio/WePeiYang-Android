@@ -85,9 +85,9 @@ interface AnnoService {
     */
     @POST("image/add")
     fun postPictures(
-            @Field("user_id") user_id: Deferred<CommonBody<UserId>>,
+            @Field("user_id") user_id: Int,
             @Field("newImg") newImg: File,
-            @Field("question_id") question_id: Deferred<CommonBody<AddQuestion>>)
+            @Field("question_id") question_id:Int)
 
     /*
     成功返回list，否则不返回

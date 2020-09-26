@@ -214,7 +214,7 @@ class AnnoActivity : AppCompatActivity() {
 
             //TODO(添加新的问题)
             this.setOnClickListener {
-
+                //initTagTree()
                 startActivity(Intent(this@AnnoActivity, AskQuestionActivity::class.java))
             }
         }
@@ -332,7 +332,7 @@ class AnnoActivity : AppCompatActivity() {
                             val path = pathTags.itemListSnapshot.map {
                                 (it as TagBottomItem).content
                             }.toMutableList().apply {
-                                this.add(child.name)
+                                this.add(child.name+":"+child.id.toString())
                             }
                             Log.e("tag_path", path.toString())
                         }

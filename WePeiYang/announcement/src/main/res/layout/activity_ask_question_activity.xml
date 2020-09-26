@@ -70,7 +70,7 @@ tools:context=".ui.detail.AskQuestionActivity">
         <android.support.constraint.ConstraintLayout
             android:id="@+id/ll1"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="100dp"
             android:layout_marginTop="25dp"
             android:layout_marginBottom="4dp"
             android:gravity="center_vertical"
@@ -80,7 +80,7 @@ tools:context=".ui.detail.AskQuestionActivity">
             <TextView
                 android:id="@+id/sort"
                 android:layout_width="50dp"
-                android:layout_height="30dp"
+                android:layout_height="60dp"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="30dp"
                 android:gravity="center_vertical"
@@ -90,20 +90,31 @@ tools:context=".ui.detail.AskQuestionActivity">
                 app:layout_constraintStart_toStartOf="parent"
                 />
 
-            <EditText
-                android:id="@+id/edit_sort_name"
-                android:layout_width="0dp"
+           <LinearLayout
+               android:id="@+id/detail_sort"
+               app:layout_constraintStart_toEndOf="@+id/sort"
+               app:layout_constraintLeft_toRightOf="@+id/sort"
+                android:layout_marginLeft="80dp"
+               android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="15dp"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:singleLine="true"
-                android:textSize="15dp"
-                android:background="@drawable/edit_text_selector"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@id/ll1"
-                app:layout_constraintStart_toEndOf="@id/sort" />
+               android:orientation="vertical"
+               android:background="@color/white_color"
+               app:layout_scrollFlags="scroll|enterAlways">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/path_rec2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    app:layout_constraintBottom_toTopOf="@+id/detail_rec" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/detail_rec2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toTopOf="@+id/ll2" />
+            </LinearLayout>
+
 
         </android.support.constraint.ConstraintLayout>
         <android.support.constraint.ConstraintLayout
