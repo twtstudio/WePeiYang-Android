@@ -13,7 +13,6 @@ import android.widget.FrameLayout
 import android.widget.Toast
 import com.twt.service.schedule2.R
 import com.twt.service.schedule2.model.exam.ExamTableBean
-import com.twt.service.schedule2.model.exam.ExamTablePreference
 import com.twt.service.schedule2.model.exam.ExamTableService
 import com.twt.service.schedule2.model.exam.examTableCache
 import com.twt.wepeiyang.commons.experimental.extensions.*

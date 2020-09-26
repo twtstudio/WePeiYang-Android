@@ -25,6 +25,7 @@ import com.twt.service.announcement.service.Tag
 import com.twt.service.announcement.ui.detail.AskQuestionActivity
 import com.twt.service.announcement.ui.detail.DetailActivity
 import com.twt.service.announcement.ui.search.SearchActivity
+import com.twt.service.announcement.ui.user.UserActivity
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
@@ -56,58 +57,29 @@ class AnnoActivity : AppCompatActivity() {
     private var nextUrl: String? = null
     private lateinit var quesRecManager: LinearLayoutManager
 
-    //    private lateinit var toolbar: Toolbar
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_anno)
+
+        // AnnoViewModel中有两个LiveData
         annoViewModel = ViewModelProviders.of(this)[AnnoViewModel::class.java]
 
+        //沉浸式任务栏
         StatusBarCompat.setStatusBarColor(this, ContextCompat.getColor(this, R.color.colorPrimary), false)
-
+        //当发生网络连接错误或对应tag下没有问题，就会显示这个TextView
         hintText = findViewById(R.id.cannot_connect_text)
         findViewById<ImageView>(R.id.anno_back).setOnClickListener {
             onBackPressed()
         }
-
-//        toolbar = findViewById(R.id.toolbar)
-
-
-//        findViewById<FloatingActionButton>(R.id.fl_btn).apply {
-//            this.onClick {
-//                val testQuestion: Question = Question(
-//                        id = -1,
-//                        name = "如何评价天津大学补肾猫",
-//                        description = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-//                        user_id = 114514,
-//                        solved = 1,
-//                        no_commit = 0,
-//                        likes = 1919,
-//                        created_at = "1895年2月31日",
-//                        updated_at = "2020年20月12日"
-//                )
-//                startActivity(
-//                        Intent(this@AnnoActivity, DetailActivity::class.java)
-//                                .putExtra("title", testQuestion.name)
-//                                .putExtra("content", testQuestion.description)
-//                                .putExtra("userId", testQuestion.id)
-//                                .putExtra("status", testQuestion.solved)
-//                                .putExtra("time", testQuestion.created_at)
-//                                .putExtra("likeState", false)
-//                                .putExtra("likeCount", testQuestion.likes)
-//                )
-//            }
-//        }
-
-
         initFloatingActionMenu()
-
         initRecyclerView()
 
+        //设置LiveData的观察方法
         bindLiveData(this)
 
+        //进页面的时候，初始化TagTree
         initTagTree()
-
+        //进页面是显示所有问题
         getAllQuestions()
 
         // 这里获取一下本机用户的用户ID，存储到缓存
@@ -123,6 +95,7 @@ class AnnoActivity : AppCompatActivity() {
     }
 
     private fun initRecyclerView() {
+        //对应tagTree路径的rec
         tagPathRecyclerView = findViewById<RecyclerView>(R.id.path_rec).apply {
             layoutManager = MyLinearLayoutManager(context).apply {
                 orientation = LinearLayoutManager.HORIZONTAL
@@ -138,6 +111,7 @@ class AnnoActivity : AppCompatActivity() {
 
         }
 
+        //点击了某个tag后显示它对应的所有子tag
         tagListRecyclerView = findViewById<RecyclerView>(R.id.detail_rec).apply {
             layoutManager = MyLinearLayoutManager(context).apply {
                 orientation = LinearLayoutManager.HORIZONTAL
@@ -169,6 +143,7 @@ class AnnoActivity : AppCompatActivity() {
 
             quesRecManager = layoutManager as LinearLayoutManager
 
+            //滑动到最后一条，会进行加载下一页
             addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
                     super.onScrollStateChanged(recyclerView, newState)
@@ -178,7 +153,6 @@ class AnnoActivity : AppCompatActivity() {
                         nextUrl?.let { url ->
                             GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
                                 val tagId = if (url.contains("tagList")) url.split("tagList")[1][1].toInt() else null
-
                                 url.split("page=")[1].toIntOrNull()?.let { page ->
                                     AnnoService.getQuestion(
                                             mapOf("searchString" to "",
@@ -187,6 +161,8 @@ class AnnoActivity : AppCompatActivity() {
                                                     "page" to page)
                                     ).awaitAndHandle {
                                         it.printStackTrace()
+
+
                                     }?.data
                                 }?.apply {
                                     nextUrl = if (to != total) next_page_url else null
@@ -205,7 +181,11 @@ class AnnoActivity : AppCompatActivity() {
                                         with(quesRecController) {
                                             removeAt(quesRecController.itemListSnapshot.size - 1)
                                             addAll(items)
-                                            add(ButtonItem())
+                                            if (nextUrl != null) {
+                                                add(ButtonItem(ViewType.PROCESS_BAR))
+                                            } else {
+                                                add(ButtonItem(ViewType.BOTTOM_TEXT))
+                                            }
                                         }
                                     }
                                 }
@@ -231,7 +211,7 @@ class AnnoActivity : AppCompatActivity() {
 
             //TODO(添加新的问题)
             this.setOnClickListener {
-
+                //initTagTree()
                 startActivity(Intent(this@AnnoActivity, AskQuestionActivity::class.java))
             }
         }
@@ -241,6 +221,15 @@ class AnnoActivity : AppCompatActivity() {
                 initTagTree()
                 getAllQuestions()
 //                closeFloatingMenu()
+            }
+        }
+
+        findViewById<FloatingActionButton>(R.id.fa_d).apply {
+
+            //TODO(添加新的问题)
+            this.setOnClickListener {
+
+                startActivity(Intent(this@AnnoActivity, UserActivity::class.java))
             }
         }
     }
@@ -268,6 +257,7 @@ class AnnoActivity : AppCompatActivity() {
             closeFloatingMenu()
         }
 
+        //每次设置quesId，就会更新数据
         annoViewModel.quesId.bindNonNull(this) { id ->
             Log.d("whataaa", id.toString())
             closeFloatingMenu()
@@ -303,20 +293,25 @@ class AnnoActivity : AppCompatActivity() {
                             hintText.visibility = View.INVISIBLE
                             quesDetailRecyclerView.visibility = View.VISIBLE
                             quesRecController.refreshAll(items)
-                            quesRecController.add(ButtonItem())
+                            quesRecController.add(
+                                    if (nextUrl != null) {
+                                        ButtonItem(ViewType.PROCESS_BAR)
+                                    } else {
+                                        ButtonItem(ViewType.BOTTOM_TEXT)
+                                    }
+                            )
 
                             quesDetailRecyclerView.scrollToPosition(0)
                             Log.d("bugwhat", "111")
 
-//                    Toast.makeText(this@AnnoActivity, "获取数据成功", Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
             }
-
         }
     }
 
+    //将三个rec，通过LiveData等绑定在一起
     private fun bindTagPathWithDetailTag(_data: List<Tag>): List<Item> =
             mutableListOf<Item>().apply {
                 val index = pathTags.itemListSnapshot.size
@@ -349,7 +344,7 @@ class AnnoActivity : AppCompatActivity() {
                             val path = pathTags.itemListSnapshot.map {
                                 (it as TagBottomItem).content
                             }.toMutableList().apply {
-                                this.add(child.name)
+                                this.add(child.name+":"+child.id.toString())
                             }
                             Log.e("tag_path", path.toString())
                         }

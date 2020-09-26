@@ -1,9 +1,16 @@
 package com.twt.service.announcement.service
 
+import com.twt.wepeiyang.commons.experimental.cache.RefreshState
+import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
+import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import okhttp3.MultipartBody
+import okhttp3.internal.http2.ErrorCode
 import retrofit2.http.*
 import java.io.File
-import java.io.Serializable
 
 interface AnnoService {
     /*
@@ -29,21 +36,28 @@ interface AnnoService {
     http://47.93.253.240:10805/api/user/question/get/answer(commit)?question_id=2
     暂时有点问题 type=commit的时候 没法解析msg的unicode编码
     */
-    @GET("question/get/{type}")
-    fun getAnswer(@Path("type") type: String,
-                  @Query("question_id") question_id: Int): Deferred<CommonBody<List<ReplyOrCommit>>>
+    @GET("question/get/answer")
+    fun getAnswer(
+            @Query("question_id") question_id: Int,
+            @Query("user_id") user_id: Int): Deferred<CommonBody<List<Reply>>>
+
+    @GET("question/get/commit")
+    fun getCommit(
+            @Query("question_id") question_id: Int,
+            @Query("user_id") user_id: Int): Deferred<CommonBody<List<Comment>>>
 
     /*
     成功点赞或取消返回null，只用解析错误信息
     点赞/取消点赞 问题/评论/回复
     http://47.93.253.240:10805/api/user/question(answer/commit)/like(dislike)
     */
+    @JvmSuppressWildcards
     @FormUrlEncoded
     @POST("{type}/{isLike}")
-    fun postThumbUpORDown(@Path("type") type: String,
+    fun postThumbUpOrDown(@Path("type") type: String,
                           @Path("isLike") isLike: String,
                           @Field("id") id: Int,
-                          @Field("user_id") user_id: Int): Deferred<CommonBody<IsLike>>
+                          @Field("user_id") user_id: Int): Deferred<CommonBody<Any>>
 
     /*
      成功添加问题返回null，只用解析错误信息
@@ -62,12 +76,13 @@ interface AnnoService {
     评价回复 (给官方回复打分)
     http://47.93.253.240:10805/api/user/answer/commit
     */
+    @JvmSuppressWildcards
     @FormUrlEncoded
     @POST("answer/commit")
-    fun answerCommit(@Field("user_id") user_id: Int,
-                     @Field("answer_id") answer_id: Int,
-                     @Field("score") score: Int,
-                     @Field("commit") commit: String): Deferred<CommonBody<AnswerCommit>>
+    fun EvaluateAnswer(@Field("user_id") user_id: Int,
+                       @Field("answer_id") answer_id: Int,
+                       @Field("score") score: Int,
+                       @Field("commit") commit: String): Deferred<CommonBody<Any>>
 
     /*
     这个应该是正确data为null，只用解析错误时返回的信息
@@ -78,17 +93,7 @@ interface AnnoService {
     @POST("commit/add/question")
     fun addCommit(@Field("question_id") question_id: Int,
                   @Field("user_id") user_id: Int,
-                  @Field("contain") contain: String): Deferred<CommonBody<Commit>>
-
-    /*
-    上传图片
-    http://47.93.253.240:10805/api/user/image/add
-    */
-    @POST("image/add")
-    fun postPictures(
-            @Field("user_id") user_id: Deferred<CommonBody<UserId>>,
-            @Field("newImg") newImg: File,
-            @Field("question_id") question_id: Deferred<CommonBody<AddQuestion>>)
+                  @Field("contain") contain: String): Deferred<CommonBody<Any>>
 
     /*
     成功返回list，否则不返回
@@ -115,13 +120,6 @@ interface AnnoService {
                       @Query("id") id: Int): Deferred<CommonBody<IsLike>>
 
     /*
-    通过id获取user信息
-    http://47.93.253.240:10805/api/user/userData?user_id=1
-    */
-    @GET("userData")
-    fun getUserImfByUserId(@Query("user_id") user_id: Int): Deferred<CommonBody<UserData>>
-
-    /*
     通过学号姓名获得user_id
     http://47.93.253.240:10805/api/user/userId?student_id=3344&name=1122
     */
@@ -129,6 +127,16 @@ interface AnnoService {
     fun getUserIDByName(@Query("student_id") student_id: String,
                         @Query("name") name: String): Deferred<CommonBody<UserId>>
 
+    /*
+    上传图片
+    http://47.93.253.240:10805/api/user/image/add
+     */
+    @Multipart
+    @POST("image/add")
+    fun postPictures(
+            @Part("user_id") user_id: Int,
+            @Part newImg: MultipartBody.Part,
+            @Part("question_id") question_id: Int): Deferred<CommonBody<picUrl>>
 
 
     companion object : AnnoService by AnnoServiceFactory()
@@ -154,9 +162,9 @@ data class Question(
         val username: String,
         val msgCount: Int,
         val url_list: List<String>
-) : Serializable
+)
 
-data class ReplyOrCommit(
+data class Reply(
         val id: Int,
         val admin_id: Int,
         val user_name: String,
@@ -165,14 +173,22 @@ data class ReplyOrCommit(
         val commit: String,
         val likes: Int,
         val created_at: String,
+        val updated_at: String
+)
+
+data class Comment(
+        val id: Int,
+        val contain: String,
+        val user_id: Int,
+        val likes: Int,
+        val created_at: String,
         val updated_at: String,
-        val question_id: List<String>
-) : Serializable
+        val username: String,
+        val is_liked: Boolean
+)
 
 data class IsLike(
-        val is_liked: Boolean,
-        val id: List<String>,
-        val user_name: List<String>
+        val is_liked: Boolean
 )
 
 
@@ -182,13 +198,6 @@ data class AddQuestion(
         val description: List<String>,
         val tagList: List<String>,
         val question_id: Int
-)
-
-data class AnswerCommit(
-        val user_id: List<String>,
-        val answer_id: List<String>,
-        val score: List<String>,
-        val commit: List<String>
 )
 
 data class LikedQuestions(
@@ -203,31 +212,10 @@ data class LikedCommits(
         val commit_id: Int
 )
 
-data class Commit(
-        val question_id: List<String>,
-        val user_id: List<String>,
-        val contain: List<String>
-)
-
-data class UserData(
-        val id: Int,
-        val name: String,
-        val student_id: String,
-        val user_id: List<String>
-)
-
 data class UserId(
-        val user_id: Int,
-        val student_id: List<String>,
-        val name: List<String>
+        val user_id: Int
 )
 
-data class QuestionBody(
-        val user_id: Int,
-        val name: String,
-        val description: String,
-        val tagList: List<Int>
-)
 
 data class QuestionData(
         val data: List<Question>,
@@ -236,3 +224,6 @@ data class QuestionData(
         val next_page_url: String
 )
 
+data class picUrl(
+        val url: String
+)

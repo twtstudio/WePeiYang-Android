@@ -15,37 +15,63 @@ import android.os.Bundle
 import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.support.v4.content.ContextCompat
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
+import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Spinner
+import android.widget.Toast
 import com.githang.statusbar.StatusBarCompat
+import com.github.clans.fab.FloatingActionMenu
 import com.twt.service.announcement.R
 import com.twt.service.announcement.service.AnnoService
 import com.twt.service.announcement.service.CommonBody
+import com.twt.service.announcement.service.Tag
 import com.twt.service.announcement.service.UserId
 import com.twt.service.announcement.ui.activity.detail.ReleasePicAdapter
+import com.twt.service.announcement.ui.main.MyLinearLayoutManager
+import com.twt.service.announcement.ui.main.TagBottomItem
+import com.twt.service.announcement.ui.main.TagsDetailItem
+import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
+import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
+import com.twt.wepeiyang.commons.ui.rec.Item
+import com.twt.wepeiyang.commons.ui.rec.ItemAdapter
+import com.twt.wepeiyang.commons.ui.rec.ItemManager
 import com.zhihu.matisse.Matisse
 import com.zhihu.matisse.MimeType
 import com.zhihu.matisse.engine.impl.GlideEngine
+import jp.wasabeef.recyclerview.animators.FadeInAnimator
+import jp.wasabeef.recyclerview.animators.SlideInDownAnimator
 import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import pub.devrel.easypermissions.EasyPermissions
 import java.io.*
 
 class AskQuestionActivity : AppCompatActivity() {
 
     //输入的标题和问题内容
-    private lateinit var toolbar: Toolbar
+    private var idd:Int=0
     private lateinit var title: EditText
     private lateinit var detail: EditText
     private var judgementOfRelease = false
     private lateinit var sortSpinner: Spinner
     private lateinit var releasePicAdapter: ReleasePicAdapter
     private var selectPicList = mutableListOf<Any>()
+    private lateinit var tagPathRecyclerView: RecyclerView
+    private lateinit var tagListRecyclerView: RecyclerView
+    private val tagTree by lazy { mutableMapOf<Int, List<Item>>() }
+    private val pathTags by lazy { ItemManager() }
+    private val listTags by lazy { ItemManager() }
+    private val firstItem by lazy { TagBottomItem("天津大学", 0) {} }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ask_question_activity)
@@ -55,10 +81,10 @@ class AskQuestionActivity : AppCompatActivity() {
         findViewById<ImageView>(R.id.anno_back).setOnClickListener {
             onBackPressed()
         }
-        title = findViewById(R.id.edit_sort_name)
+        title = findViewById(R.id.edit_title)
         detail = findViewById(R.id.edit_content)
 
-        title.apply{
+        detail.apply{
             setOnEditorActionListener { _, actionId, event ->
                 var flag = true
                 if (actionId == EditorInfo.IME_ACTION_SEND || event?.keyCode == KeyEvent.KEYCODE_ENTER) {
@@ -70,21 +96,57 @@ class AskQuestionActivity : AppCompatActivity() {
                 flag
             }
         }
-
+      initRecyclerView()
+      initTagTree()
 
     }
 
-    private fun findViews() {
-        toolbar = findViewById(R.id.annoCommonToolbar)
-    }
-    fun setToolbar(title: String, onClick: (View) -> Unit) {
-        toolbar.title = title
-        setSupportActionBar(toolbar)
-        supportActionBar?.apply {
-            setHomeButtonEnabled(true)
-            setDisplayHomeAsUpEnabled(true)
+
+    private fun initRecyclerView() {
+        tagPathRecyclerView = findViewById<RecyclerView>(R.id.path_rec2).apply {
+            layoutManager = MyLinearLayoutManager(context).apply {
+                orientation = LinearLayoutManager.HORIZONTAL
+            }
+            adapter = ItemAdapter(pathTags)
+            itemAnimator = SlideInDownAnimator()
+            itemAnimator?.let {
+                it.addDuration = 300
+                it.removeDuration = 800
+                it.changeDuration = 300
+                it.moveDuration = 500
+            }
+
         }
-        toolbar.setNavigationOnClickListener(onClick)
+
+        tagListRecyclerView = findViewById<RecyclerView>(R.id.detail_rec2).apply {
+            layoutManager = MyLinearLayoutManager(context).apply {
+                orientation = LinearLayoutManager.HORIZONTAL
+            }
+            adapter = ItemAdapter(listTags).also {
+                it.setHasStableIds(true)
+            }
+            itemAnimator = SlideInDownAnimator()
+            itemAnimator?.let {
+                it.addDuration = 300
+                it.removeDuration = 800
+                it.moveDuration = 300
+                it.changeDuration = 500
+            }
+        }
+    }
+
+    private fun initTagTree() {
+        GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
+            AnnoService.getTagTree().awaitAndHandle {
+//                it.printStackTrace()
+                Toast.makeText(this@AskQuestionActivity, "出了点问题", Toast.LENGTH_SHORT).show()
+            }?.data?.let {
+                pathTags.clear()
+                pathTags.add(firstItem)
+                Log.d("tag_tree", it.toString())
+               bindTagPathWithDetailTag(it)
+            }
+        }
     }
 
     private fun AskQuestion(detailTitle:String,description:String){
@@ -94,21 +156,41 @@ class AskQuestionActivity : AppCompatActivity() {
 
     }
     //先通过hawk获得学生的学号和姓名，获取user_id
-    private fun getUsId(): Deferred<CommonBody<UserId>> {
-        val useId= AnnoService.getUserIDByName(CommonPreferences.studentid, CommonPreferences.realName)
-        return useId
+    private fun getUseId(): Int {
+        var userrId: Int = 0
+        GlobalScope.launch (Dispatchers.Main+ QuietCoroutineExceptionHandler ){
+            AnnoService.getUserIDByName(CommonPreferences.studentid, CommonPreferences.realName).awaitAndHandle(
+
+            )?.data?.let{
+                userrId = it.user_id
+            }
+        }
+        return userrId
     }
     //然后上传问题获得question_id
+    private fun getQuestionid():Int{
+        var questionId:Int=0
+        GlobalScope.launch (Dispatchers.Main+ QuietCoroutineExceptionHandler){
+            AnnoService.addQuestion(mapOf("user_id" to getUseId(),"name" to title,"description" to detail, "tagList" to listOf<Int>(idd))).awaitAndHandle(
 
+            )?.data?.let{
+                questionId=it.question_id
+            }
+        }
+        return questionId
+    }
     //根据question_id可以上传图片(useId+Img文件）
 
     //点击确认发布事件
-     fun onClick(p0: View?) {
-        // val data = AnnoService.addQuestion(mapOf("user_id" to 1,"name" to "1122","description" to "食堂没热水", "tagList" to listOf<Int>(8,9))).await()
-
+     private fun onClick(p0: View?) {
         //然后上传问题获得question_id
+
         val questionId= AnnoService.addQuestion(mapOf("user_id" to 1,"name" to title,"description" to detail, "tagList" to listOf<Int>(1)))
         // AnnoService.postPictures(getUsId(),file,questionId)
+        GlobalScope.launch (Dispatchers.Main+ QuietCoroutineExceptionHandler){
+           // AnnoService.postPictures(getUseId(),file,getQuestionid())//将图片压缩成文件上传
+        }
+
 
         //传入图片
         val picListOfUri = mutableListOf<Uri?>()
@@ -281,6 +363,47 @@ class AskQuestionActivity : AppCompatActivity() {
         }
     }
 
+
+    private fun bindTagPathWithDetailTag(_data: List<Tag>): List<Item> =
+            mutableListOf<Item>().apply {
+                val index = pathTags.itemListSnapshot.size
+                index.takeIf { it == 1 }?.apply {
+                    firstItem.onclick = {
+                        tagTree.get(index)?.let { listTags.refreshAll(it) }
+                        (0 until pathTags.itemListSnapshot.size - 1).forEach { _ ->
+                            pathTags.removeAt(pathTags.size - 1)
+                        }
+                    }
+                }
+
+                tagTree[index] = _data.map { child ->
+                    TagsDetailItem(child.name, child.id) {
+                        if (child.children.isNotEmpty()) {
+                            pathTags.add(TagBottomItem(child.name, index) {
+                                tagTree[index + 1]?.let { listTags.refreshAll(it) }
+                                (0 until pathTags.itemListSnapshot.size - index - 1).forEach { _ ->
+                                    pathTags.removeAt(pathTags.size - 1)
+                                    Log.e("delete tag", "de")
+                                }
+
+                            })
+                            listTags.refreshAll(bindTagPathWithDetailTag(child.children))
+                        } else {
+
+                            // 到最后一层标签后，打印当前路径或其他操作
+                            val path = pathTags.itemListSnapshot.map {
+                                (it as TagBottomItem).content
+                            }.toMutableList().apply {
+                                this.add(child.id.toString())
+                            }
+                            Log.e("tag_path", path.toString())
+                        }
+                        idd=child.id
+                    }
+                }.also {
+                    addAll(it)
+                }
+            }
 
 }
 

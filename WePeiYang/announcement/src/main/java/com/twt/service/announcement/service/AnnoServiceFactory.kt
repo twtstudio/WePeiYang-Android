@@ -29,8 +29,8 @@ object AnnoServiceFactory {
 
 }
 
-data class CommonBody <out T>(
-        val error_code: Int,
-        val message: String,
+data class CommonBody<out T>(
+        val ErrorCode: Int,
+        val msg: String,
         val data: T?
 )

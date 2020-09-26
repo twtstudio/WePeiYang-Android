@@ -16,8 +16,6 @@ import com.igexin.sdk.PushManager
 import com.twt.service.AppPreferences
 import com.twt.service.R
 import com.twt.service.ecard.model.LiveEcardManager
-import com.twt.service.ecard.view.ecardInfoItem
-import com.twt.service.ecard.view.ecardTransactionInfoItem
 import com.twt.service.home.message.*
 import com.twt.service.home.other.homeOthers
 import com.twt.service.home.user.FragmentActivity
@@ -35,7 +33,6 @@ import com.twt.wepeiyang.commons.mta.mtaExpose
 import com.twt.wepeiyang.commons.ui.rec.withItems
 import com.twt.wepeiyang.commons.view.RecyclerViewDivider
 import com.twtstudio.retrox.auth.api.authSelfLiveData
-import com.twtstudio.retrox.tjulibrary.home.libraryHomeItem
 import es.dmoral.toasty.Toasty
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
