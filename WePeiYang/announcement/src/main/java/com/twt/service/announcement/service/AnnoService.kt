@@ -72,7 +72,7 @@ interface AnnoService {
     @JvmSuppressWildcards
     @FormUrlEncoded
     @POST("answer/commit")
-    fun EvaluateAnswer(@Field("user_id") user_id: Int,
+    fun evaluateAnswer(@Field("user_id") user_id: Int,
                        @Field("answer_id") answer_id: Int,
                        @Field("score") score: Int,
                        @Field("commit") commit: String): Deferred<CommonBody<Any>>

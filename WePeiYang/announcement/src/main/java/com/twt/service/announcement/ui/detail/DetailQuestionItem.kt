@@ -1,5 +1,6 @@
 package com.twt.service.announcement.ui.detail
 
+import android.app.Dialog
 import android.content.Context
 import android.graphics.Color
 import android.support.v7.widget.RecyclerView
@@ -33,7 +34,7 @@ import org.jetbrains.anko.sdk27.coroutines.onClick
  * @param question 传进来的问题
  * @param likeState 该问题的点赞情况
  * @param likeCount 该问题的点赞数量
- * @param isLikeable 是否能够点赞(狂暴Typo轰入DetailQuestionItem  (* 愤怒 *
+ * @param isLikable 是否能够点赞(狂暴Typo轰入DetailQuestionItem  (* 愤怒 *
  * @param onComment 这里是评论按钮的点击事件
  */
 class DetailQuestionItem(
@@ -41,7 +42,7 @@ class DetailQuestionItem(
         var likeState: Boolean,
         val onRefresh: () -> Unit,
         var likeCount: Int = question.likes,
-        var isLikeable: Boolean = true,
+        var isLikable: Boolean = true,
         val onComment: () -> Unit
 ) : Item {
     companion object DetailQuestionItemController : ItemController {
@@ -77,41 +78,29 @@ class DetailQuestionItem(
                         setImageResource(R.drawable.thumb_up)
                     }
                     setOnClickListener {
-                        if (item.isLikeable) {
-                            item.isLikeable = false
+                        if (item.isLikable) {
+                            item.isLikable = false
                             if (item.likeState) {
                                 GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
                                     AnnoService.postThumbUpOrDown("question", "dislike", item.question.id, AnnoPreference.myId!!).awaitAndHandle {
                                         Toasty.error(context, "点赞错误").show()
-                                    }?.ErrorCode?.let {
-                                        if (it == 0) {
-                                            Toasty.success(context, "成功").show()
-                                            setImageResource(R.drawable.thumb_up)
-                                            item.likeCount--
-                                            likeCountTv.text = item.likeCount.toString()
-                                            item.likeState = !item.likeState
-                                            item.isLikeable = true
-                                            item.onRefresh.invoke()
-                                        }
+                                    }?.data?.let {
+                                        Toasty.success(context, "成功").show()
+                                        likeCountTv.text = it.toString()
+                                        item.onRefresh.invoke()
+                                        item.isLikable = true
                                     }
-                                }.invokeOnCompletion {
                                 }
                             } else {
                                 GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
                                     AnnoService.postThumbUpOrDown("question", "like", item.question.id, AnnoPreference.myId!!).awaitAndHandle {
                                         Toasty.error(context, "点赞错误").show()
-                                    }?.ErrorCode?.let {
-                                        if (it == 0) {
-                                            Toasty.success(context, "成功").show()
-                                            setImageResource(R.drawable.thumb_up)
-                                            item.likeCount--
-                                            likeCountTv.text = item.likeCount.toString()
-                                            item.likeState = !item.likeState
-                                            item.isLikeable = true
-                                            item.onRefresh
-                                        }
+                                    }?.data?.let {
+                                        Toasty.success(context, "成功").show()
+                                        likeCountTv.text = it.toString()
+                                        item.onRefresh.invoke()
+                                        item.isLikable = true
                                     }
-                                }.invokeOnCompletion {
                                 }
                             }
                         }
@@ -127,6 +116,29 @@ class DetailQuestionItem(
                 val myAdapter: NineGridImageViewAdapter<String> = object : NineGridImageViewAdapter<String>() {
                     override fun onDisplayImage(context: Context?, imageView: ImageView?, t: String?) {
                         Glide.with(context).load(t!!).thumbnail(0.2f).into(imageView)
+                    }
+
+                    override fun onItemImageClick(context: Context?, index: Int, list: MutableList<String>?) {
+                        showDialogOfPic(list!!.elementAt(index))
+                    }
+
+                    private fun showDialogOfPic(url: String) {
+                        val dialog = Dialog(itemView.context, R.style.edit_AlertDialog_style)
+                        dialog.apply {
+                            setContentView(R.layout.big_image_layout)
+                            val imageView = findViewById<ImageView>(R.id.annoBigImage)
+                            Glide.with(context)
+                                    .load(url)
+                                    .into(imageView)
+                            setCanceledOnTouchOutside(true)
+                            val window = window
+                            val lp = window.attributes
+                            lp.x = 4
+                            lp.y = 4
+                            dialog.onWindowAttributesChanged(lp)
+                            imageView.setOnClickListener { dismiss() }
+                            show()
+                        }
                     }
                 }
                 nineGridImageView.setAdapter(myAdapter)

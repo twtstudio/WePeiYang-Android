@@ -97,10 +97,26 @@ class DetailActivity : AppCompatActivity() {
                     }
                 }
                 replyList.forEach {
-                    addDetailReplyItem(question.name, it, likeState, it.likes)
+                    addDetailReplyItem(question.name, it, likeState, it.likes) {
+                        GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
+                            getData()
+                        }.invokeOnCompletion {
+                            runOnUiThread {
+                                setRecyclerView()
+                            }
+                        }
+                    }
                 }
                 commentList.forEach {
-                    addDetailCommentItem(it.username, it.contain, it.created_at, false, it.likes)
+                    addDetailCommentItem(it.id, it.username, it.contain, it.created_at, false, it.likes) {
+                        GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
+                            getData()
+                        }.invokeOnCompletion {
+                            runOnUiThread {
+                                setRecyclerView()
+                            }
+                        }
+                    }
                 }
             }
         }

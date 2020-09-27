@@ -11,7 +11,15 @@ import android.widget.TextView
 import cn.edu.twt.retrox.recyclerviewdsl.Item
 import cn.edu.twt.retrox.recyclerviewdsl.ItemController
 import com.twt.service.announcement.R
+import com.twt.service.announcement.service.AnnoPreference
+import com.twt.service.announcement.service.AnnoService
 import com.twt.service.announcement.service.Reply
+import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
+import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
+import es.dmoral.toasty.Toasty
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 /**
  * DetailReplyItem
@@ -26,7 +34,9 @@ class DetailReplyItem(
         val title: String,
         val reply: Reply,
         var likeState: Boolean,
-        var likeCount: Int
+        var likeCount: Int,
+        var onRefresh: () -> Unit,
+        var isLikable: Boolean = true
         // TODO: 呵呵，你觉得这就完了么
 ) : Item {
     companion object DetailReplyItemController : ItemController {
@@ -52,22 +62,42 @@ class DetailReplyItem(
                  * 同时发送请求
                  */
                 likeButtonIv.apply {
-                    if (item.likeState) {
-                        setImageResource(R.drawable.thumb_up_black)
-                    } else {
-                        setImageResource(R.drawable.thumb_up)
-                    }
-                    setOnClickListener {
+                    if (item.isLikable) {
+                        item.isLikable = false
                         if (item.likeState) {
-                            setImageResource(R.drawable.thumb_up)
-                            item.likeCount--
-                            likeCountTv.text = item.likeCount.toString()
-                            item.likeState = !item.likeState
+                            GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
+                                AnnoService.postThumbUpOrDown("answer", "dislike", item.reply.id, AnnoPreference.myId!!).awaitAndHandle {
+                                    Toasty.error(context, "点赞错误").show()
+                                }?.ErrorCode?.let {
+                                    if (it == 0) {
+                                        Toasty.success(context, "成功").show()
+                                        setImageResource(R.drawable.thumb_up)
+                                        item.likeCount--
+                                        likeCountTv.text = item.likeCount.toString()
+                                        item.likeState = !item.likeState
+                                        item.isLikable = true
+                                        item.onRefresh.invoke()
+                                    }
+                                }
+                            }.invokeOnCompletion {
+                            }
                         } else {
-                            setImageResource(R.drawable.thumb_up_black)
-                            item.likeCount++
-                            likeCountTv.text = item.likeCount.toString()
-                            item.likeState = !item.likeState
+                            GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
+                                AnnoService.postThumbUpOrDown("answer", "like", item.reply.id, AnnoPreference.myId!!).awaitAndHandle {
+                                    Toasty.error(context, "点赞错误").show()
+                                }?.ErrorCode?.let {
+                                    if (it == 0) {
+                                        Toasty.success(context, "成功").show()
+                                        setImageResource(R.drawable.thumb_up)
+                                        item.likeCount--
+                                        likeCountTv.text = item.likeCount.toString()
+                                        item.likeState = !item.likeState
+                                        item.isLikable = true
+                                        item.onRefresh
+                                    }
+                                }
+                            }.invokeOnCompletion {
+                            }
                         }
                     }
                 }
@@ -106,4 +136,6 @@ fun MutableList<Item>.addDetailReplyItem(
         title: String,
         reply: Reply,
         likeState: Boolean,
-        likeCount: Int) = add(DetailReplyItem(title, reply, likeState, likeCount))
+        likeCount: Int,
+        onRefresh: () -> Unit
+) = add(DetailReplyItem(title, reply, likeState, likeCount, onRefresh))

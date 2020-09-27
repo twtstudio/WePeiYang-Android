@@ -34,8 +34,9 @@ class ReplyItem(
         val title: String,
         val reply: Reply,
         var likeState: Boolean,
-        var likeCount: Int = reply.likes
-
+        var likeCount: Int = reply.likes,
+        val onRefresh: () -> Unit,
+        var isLikable: Boolean = true
 ) : Item {
     companion object ReplyItemController : ItemController {
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: Item) {
@@ -59,36 +60,41 @@ class ReplyItem(
                     } else {
                         setImageResource(R.drawable.thumb_up)
                     }
-                    setOnClickListener {
+                    if (item.isLikable) {
+                        item.isLikable = false
                         if (item.likeState) {
                             GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
-                                AnnoService.postThumbUpOrDown(
-                                        "answer",
-                                        "dislike",
-                                        item.reply.id,
-                                        AnnoPreference.myId!!
-                                ).awaitAndHandle {
-                                    Toasty.error(holder.itemView.context, "出了点问题").show()
-                                }?.data?.let {
-                                    setImageResource(R.drawable.thumb_up)
-                                    item.likeCount--
-                                    likeCountTv.text = item.likeCount.toString()
-                                    item.likeState = !item.likeState
+                                AnnoService.postThumbUpOrDown("question", "dislike", item.reply.id, AnnoPreference.myId!!).awaitAndHandle {
+                                    Toasty.error(context, "点赞错误").show()
+                                }?.ErrorCode?.let {
+                                    if (it == 0) {
+                                        Toasty.success(context, "成功").show()
+                                        setImageResource(R.drawable.thumb_up)
+                                        item.likeCount--
+                                        likeCountTv.text = item.likeCount.toString()
+                                        item.likeState = !item.likeState
+                                        item.isLikable = true
+                                        item.onRefresh.invoke()
+                                    }
                                 }
+                            }.invokeOnCompletion {
                             }
                         } else {
                             GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
-                                AnnoService.postThumbUpOrDown(
-                                        "answer",
-                                        "like",
-                                        item.reply.id,
-                                        AnnoPreference.myId!!
-                                ).awaitAndHandle {
-                                    setImageResource(R.drawable.thumb_up_black)
-                                    item.likeCount++
-                                    likeCountTv.text = item.likeCount.toString()
-                                    item.likeState = !item.likeState
+                                AnnoService.postThumbUpOrDown("question", "like", item.reply.id, AnnoPreference.myId!!).awaitAndHandle {
+                                    Toasty.error(context, "点赞错误").show()
+                                }?.ErrorCode?.let {
+                                    if (it == 0) {
+                                        Toasty.success(context, "成功").show()
+                                        setImageResource(R.drawable.thumb_up)
+                                        item.likeCount--
+                                        likeCountTv.text = item.likeCount.toString()
+                                        item.likeState = !item.likeState
+                                        item.isLikable = true
+                                        item.onRefresh
+                                    }
                                 }
+                            }.invokeOnCompletion {
                             }
                         }
                     }
@@ -127,5 +133,6 @@ fun MutableList<Item>.addReplyItem(
         title: String,
         reply: Reply,
         likeState: Boolean,
-        likeCount: Int
-) = add(ReplyItem(title, reply, likeState, likeCount))
+        likeCount: Int,
+        onRefresh: () -> Unit
+) = add(ReplyItem(title, reply, likeState, likeCount, onRefresh))
