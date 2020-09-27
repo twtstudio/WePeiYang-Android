@@ -14,6 +14,8 @@ import com.twt.service.announcement.service.AnnoService
 import com.twt.service.announcement.service.Reply
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
+import com.zzhoujay.richtext.ImageHolder
+import com.zzhoujay.richtext.RichText
 import es.dmoral.toasty.Toasty
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -43,7 +45,8 @@ class ReplyItem(
                 titleTv.text = item.title
                 nameTv.text = item.reply.user_name
                 timeTv.text = item.reply.created_at
-                contentTv.text = item.reply.contain
+                RichText.initCacheDir(itemView.context)
+                RichText.fromHtml(item.reply.contain).scaleType(ImageHolder.ScaleType.fit_auto).into(contentTv)
                 likeCountTv.text = item.likeCount.toString()
                 /**
                  * 点赞按钮逻辑

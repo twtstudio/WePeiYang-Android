@@ -75,7 +75,16 @@ class DetailActivity : AppCompatActivity() {
             withItems {
                 addDetailQuestionItem(
                         question,
-                        likeState
+                        likeState,
+                        {
+                            GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
+                                getData()
+                            }.invokeOnCompletion {
+                                runOnUiThread {
+                                    setRecyclerView()
+                                }
+                            }
+                        }
                 ) {
                     DetailReplyBottomFragment.showDetailReplyBottomFragment(this@DetailActivity, question.id) {
                         GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {

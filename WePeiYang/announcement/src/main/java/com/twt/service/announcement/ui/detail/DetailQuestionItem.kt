@@ -10,7 +10,15 @@ import android.widget.TextView
 import cn.edu.twt.retrox.recyclerviewdsl.Item
 import cn.edu.twt.retrox.recyclerviewdsl.ItemController
 import com.twt.service.announcement.R
+import com.twt.service.announcement.service.AnnoPreference
+import com.twt.service.announcement.service.AnnoService
 import com.twt.service.announcement.service.Question
+import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
+import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
+import es.dmoral.toasty.Toasty
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.jetbrains.anko.sdk27.coroutines.onClick
 
 /**
@@ -20,12 +28,15 @@ import org.jetbrains.anko.sdk27.coroutines.onClick
  * @param question 传进来的问题
  * @param likeState 该问题的点赞情况
  * @param likeCount 该问题的点赞数量
+ * @param isLikeable 是否能够点赞(狂暴Typo轰入DetailQuestionItem  (* 愤怒 *
  * @param onComment 这里是评论按钮的点击事件
  */
 class DetailQuestionItem(
         val question: Question,
         var likeState: Boolean,
+        val onRefresh: () -> Unit,
         var likeCount: Int = question.likes,
+        var isLikeable: Boolean = true,
         val onComment: () -> Unit
 ) : Item {
     companion object DetailQuestionItemController : ItemController {
@@ -52,6 +63,7 @@ class DetailQuestionItem(
                  * 点赞按钮逻辑
                  * 点击按钮时在本地操作点赞数量
                  * 同时发送请求
+                 * TODO:
                  */
                 likeButtonIv.apply {
                     if (item.likeState) {
@@ -60,16 +72,43 @@ class DetailQuestionItem(
                         setImageResource(R.drawable.thumb_up)
                     }
                     setOnClickListener {
-                        if (item.likeState) {
-                            setImageResource(R.drawable.thumb_up)
-                            item.likeCount--
-                            likeCountTv.text = item.likeCount.toString()
-                            item.likeState = !item.likeState
-                        } else {
-                            setImageResource(R.drawable.thumb_up_black)
-                            item.likeCount++
-                            likeCountTv.text = item.likeCount.toString()
-                            item.likeState = !item.likeState
+                        if (item.isLikeable) {
+                            item.isLikeable = false
+                            if (item.likeState) {
+                                GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
+                                    AnnoService.postThumbUpOrDown("question", "dislike", item.question.id, AnnoPreference.myId!!).awaitAndHandle {
+                                        Toasty.error(context, "点赞错误").show()
+                                    }?.ErrorCode?.let {
+                                        if (it == 0) {
+                                            Toasty.success(context, "成功").show()
+                                            setImageResource(R.drawable.thumb_up)
+                                            item.likeCount--
+                                            likeCountTv.text = item.likeCount.toString()
+                                            item.likeState = !item.likeState
+                                            item.isLikeable = true
+                                            item.onRefresh.invoke()
+                                        }
+                                    }
+                                }.invokeOnCompletion {
+                                }
+                            } else {
+                                GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
+                                    AnnoService.postThumbUpOrDown("question", "like", item.question.id, AnnoPreference.myId!!).awaitAndHandle {
+                                        Toasty.error(context, "点赞错误").show()
+                                    }?.ErrorCode?.let {
+                                        if (it == 0) {
+                                            Toasty.success(context, "成功").show()
+                                            setImageResource(R.drawable.thumb_up)
+                                            item.likeCount--
+                                            likeCountTv.text = item.likeCount.toString()
+                                            item.likeState = !item.likeState
+                                            item.isLikeable = true
+                                            item.onRefresh
+                                        }
+                                    }
+                                }.invokeOnCompletion {
+                                }
+                            }
                         }
                     }
                 }
@@ -120,10 +159,11 @@ class DetailQuestionItem(
 fun MutableList<Item>.addDetailQuestionItem(
         question: Question,
         likeState: Boolean,
+        onRefresh: () -> Unit,
         onComment: () -> Unit
 ) = add(
         DetailQuestionItem(
-                question, likeState
+                question, likeState, onRefresh
         ) {
             onComment.invoke()
         }
