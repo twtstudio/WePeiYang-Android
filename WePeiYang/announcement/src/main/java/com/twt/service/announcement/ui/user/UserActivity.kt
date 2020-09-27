@@ -2,11 +2,17 @@ package com.twt.service.announcement.ui.user
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.view.View
+import android.widget.ImageView
+import android.widget.TextView
+import com.githang.statusbar.StatusBarCompat
 import com.github.clans.fab.FloatingActionButton
 import com.github.clans.fab.FloatingActionMenu
 import com.twt.service.announcement.R
+import com.twt.service.announcement.service.AnnoPreference
 import com.twt.service.announcement.service.AnnoService
 import com.twt.service.announcement.ui.main.MyLinearLayoutManager
 import com.twt.service.announcement.ui.main.QuestionItem
@@ -25,13 +31,18 @@ enum class Category(name: String) {
 
 class UserActivity : AppCompatActivity() {
     private val likedRecController by lazy { ItemManager() }
-    private lateinit var likedCategoryMenu: FloatingActionMenu
+    private lateinit var likedRec: RecyclerView
+    private lateinit var stateText: TextView
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user)
 
-        findViewById<RecyclerView>(R.id.liked_rec).apply {
+        StatusBarCompat.setStatusBarColor(this, ContextCompat.getColor(this, R.color.colorPrimary), false)
+
+        stateText = findViewById(R.id.liked_no_connect_text)
+        likedRec = findViewById<RecyclerView>(R.id.liked_rec).apply {
             layoutManager = MyLinearLayoutManager(context).apply {
                 orientation = LinearLayoutManager.VERTICAL
             }
@@ -45,56 +56,40 @@ class UserActivity : AppCompatActivity() {
             }
         }
 
-        likedCategoryMenu = findViewById(R.id.liked_menu)
-
-        findViewById<FloatingActionButton>(R.id.liked_ques_rec).setOnClickListener {
-            changeLikedCategory(Category.QUESTION)
-            likedCategoryMenu.close(true)
-        }
-
-        findViewById<FloatingActionButton>(R.id.liked_answer_rec).setOnClickListener {
-            changeLikedCategory(Category.ANSWER)
-            likedCategoryMenu.close(true)
-        }
-
-        findViewById<FloatingActionButton>(R.id.liked_commit_rec).setOnClickListener {
-            changeLikedCategory(Category.COMMENT)
-            likedCategoryMenu.close(true)
-        }
-
-        changeLikedCategory(category = Category.QUESTION)
-
-    }
-
-    private fun changeLikedCategory(category: Category) {
-        val userId = 1
-
         GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
-            when (category) {
-                Category.QUESTION -> {
-                    AnnoService.getLikedQuestions(user_id = userId).awaitAndHandle {
-                        it.printStackTrace()
-                    }?.takeIf { it.ErrorCode == 0 }?.data?.map {
-                        QuestionItem(this@UserActivity, it) {
+            AnnoPreference.myId?.let { id ->
+                AnnoService.getLikedQuestions(user_id = id).awaitAndHandle {
+                    stateText.visibility = View.VISIBLE
+                    likedRec.visibility = View.INVISIBLE
+                    stateText.text = "网络异常"
+                }?.let {
+                    when (it.ErrorCode) {
+                        0 -> {
+                            it.data?.let { list ->
+                                if (list.isNotEmpty()) {
+                                    stateText.visibility = View.INVISIBLE
+                                    likedRec.visibility = View.VISIBLE
+                                    likedRecController.refreshAll {
+                                        list.map { qd ->
+                                            QuestionItem(this@UserActivity, qd) {
 
-                            //TODO:跳转
+                                                //TODO(跳转)
+
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    stateText.visibility = View.VISIBLE
+                                    likedRec.visibility = View.INVISIBLE
+                                    stateText.text = "您还没有点了赞的问题"
+                                }
+                            }
                         }
-                    }?.let {
-                        likedRecController.refreshAll(it)
-                    }
-                }
-                Category.ANSWER -> {
-                    AnnoService.getLikedAnswers(user_id = userId).awaitAndHandle {
-                        it.printStackTrace()
-                    }?.takeIf { it.ErrorCode == 0 }?.data?.map {
-
-                    }
-                }
-                Category.COMMENT -> {
-                    AnnoService.getLikedCommits(user_id = userId).awaitAndHandle {
-                        it.printStackTrace()
-                    }?.takeIf { it.ErrorCode == 0 }?.data?.map {
-
+                        else -> {
+                            stateText.visibility = View.VISIBLE
+                            likedRec.visibility = View.INVISIBLE
+                            stateText.text = "服务出现异常"
+                        }
                     }
                 }
             }

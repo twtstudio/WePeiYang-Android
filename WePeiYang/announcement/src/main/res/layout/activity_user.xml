@@ -37,11 +37,11 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        android:id="@+id/liked_mode"
+                        android:id="@+id/liked_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
-                        android:text="教务专区"
+                        android:text="点赞的问题"
                         android:textSize="23sp"
                         android:singleLine="true"
                         android:textColor="@color/white_color"
@@ -74,54 +74,6 @@
             android:layout_gravity="center"
             android:text="加载失败......"
             android:visibility="invisible" />
-
-        <com.github.clans.fab.FloatingActionMenu
-            android:id="@+id/liked_menu"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="24dp"
-            app:menu_backgroundColor="#00000000"
-            app:menu_colorNormal="@color/colorPrimary"
-            app:menu_colorPressed="@color/colorPrimary"
-            app:menu_fab_size="normal"
-            app:menu_labels_colorNormal="#eeeeee"
-            app:menu_labels_colorPressed="#999999"
-            app:menu_labels_ellipsize="end"
-            app:menu_labels_singleLine="true"
-            app:menu_labels_textColor="@color/black_color">
-
-
-            <com.github.clans.fab.FloatingActionButton
-                android:id="@+id/liked_ques_rec"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/search"
-                app:fab_colorNormal="#eeeeee"
-                app:fab_colorPressed="#999999"
-                app:fab_size="mini" />
-
-            <com.github.clans.fab.FloatingActionButton
-                android:id="@+id/liked_answer_rec"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/add_select"
-                app:fab_colorNormal="#eeeeee"
-                app:fab_colorPressed="#999999"
-                app:fab_size="mini" />
-
-            <com.github.clans.fab.FloatingActionButton
-                android:id="@+id/liked_commit_rec"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/exchange_rate"
-                app:fab_colorNormal="#eeeeee"
-                app:fab_colorPressed="#999999"
-                app:fab_size="mini" />
-
-        </com.github.clans.fab.FloatingActionMenu>
 
 
     </android.support.design.widget.CoordinatorLayout>

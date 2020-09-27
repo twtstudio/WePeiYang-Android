@@ -363,7 +363,7 @@ class AnnoActivity : AppCompatActivity() {
      */
     private fun startDetailActivity(question: Question) {
         val mIntent: Intent = Intent(this, DetailActivity::class.java)
-                .putExtra("question", question)
+//                .putExtra("question", question)
         startActivity(mIntent)
     }
 }
