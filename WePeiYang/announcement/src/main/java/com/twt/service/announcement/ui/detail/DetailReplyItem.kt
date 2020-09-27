@@ -2,6 +2,7 @@ package com.twt.service.announcement.ui.detail
 
 import android.content.Intent
 import android.support.v7.widget.RecyclerView
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,11 +36,12 @@ class DetailReplyItem(
             holder.apply {
                 nameTv.text = item.reply.user_name
                 contentTv.apply {
-                    text = item.reply.contain
+                    text = Html.fromHtml(item.reply.contain.replace(Regex("<img.*?>"), ""))
                     setOnClickListener {
                         val mIntent: Intent = Intent(itemView.context, ReplyActivity::class.java)
                                 .putExtra("title", item.title)
                                 .putExtra("reply", item.reply)
+                        itemView.context.startActivity(mIntent)
                     }
                 }
                 timeTv.text = item.reply.created_at

@@ -1,7 +1,6 @@
 package com.twt.service.announcement.ui.detail
 
 import android.os.Bundle
-import android.support.design.widget.BottomSheetDialog
 import android.support.v4.content.ContextCompat
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.AppCompatActivity
@@ -15,7 +14,6 @@ import com.twt.service.announcement.service.*
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import es.dmoral.toasty.Toasty
-import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -48,7 +46,7 @@ class DetailActivity : AppCompatActivity() {
         setToolbar(toolbar, this, "问题详情") {
             finish()
         }
-        GlobalScope.launch {
+        GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
             getData()
         }.invokeOnCompletion {
             runOnUiThread {
@@ -79,9 +77,15 @@ class DetailActivity : AppCompatActivity() {
                         question,
                         likeState
                 ) {
-                    val bottomSheetDialog: BottomSheetDialog = BottomSheetDialog(this@DetailActivity)
-                    bottomSheetDialog.setContentView(R.layout.anno_detail_bottom)
-                    bottomSheetDialog.show()
+                    DetailReplyBottomFragment.showDetailReplyBottomFragment(this@DetailActivity, question.id) {
+                        GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
+                            getData()
+                        }.invokeOnCompletion {
+                            runOnUiThread {
+                                setRecyclerView()
+                            }
+                        }
+                    }
                 }
                 replyList.forEach {
                     addDetailReplyItem(question.name, it, likeState, it.likes)
@@ -90,7 +94,6 @@ class DetailActivity : AppCompatActivity() {
                     addDetailCommentItem(it.username, it.contain, it.created_at, false, it.likes)
                 }
             }
-            adapter = ScaleInAnimationAdapter(adapter)
         }
     }
 
@@ -114,18 +117,17 @@ class DetailActivity : AppCompatActivity() {
      * 获取评论和回复还有点赞状态
      * 还有用户名
      */
-    private fun getData() {
-        GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
-            swipeRefreshLayout.isRefreshing = true
-            // 这里获取问题回复
-            AnnoService.getAnswer(question.id, AnnoPreference.myId!!).awaitAndHandle {
-                Toasty.error(this@DetailActivity, "获取回复失败").show()
-            }?.data?.let {
-                replyList.clear()
-                it.forEach { reply ->
-                    replyList.add(reply)
-                }
-                // 这里对问题回复获取点赞状态
+    private suspend fun getData() {
+        swipeRefreshLayout.isRefreshing = true
+        // 这里获取问题回复
+        AnnoService.getAnswer(question.id, AnnoPreference.myId!!).awaitAndHandle {
+            Toasty.error(this@DetailActivity, "获取回复失败").show()
+        }?.data?.let {
+            replyList.clear()
+            it.forEach { reply ->
+                replyList.add(reply)
+            }
+            // 这里对问题回复获取点赞状态
                 replyLikeList.clear()
                 replyList.forEach { reply ->
                     AnnoService.getLikedState("answer", AnnoPreference.myId!!, reply.id).awaitAndHandle {
@@ -161,6 +163,5 @@ class DetailActivity : AppCompatActivity() {
                 likeState = it.is_liked
             }
             swipeRefreshLayout.isRefreshing = false
-        }
     }
 }

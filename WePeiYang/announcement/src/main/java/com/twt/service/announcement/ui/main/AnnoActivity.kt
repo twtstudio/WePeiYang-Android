@@ -85,7 +85,7 @@ class AnnoActivity : AppCompatActivity() {
 
         // 这里获取一下本机用户的用户ID，存储到缓存
         GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
-            if (AnnoPreference.myId != null) {
+            if (AnnoPreference.myId == null) {
                 AnnoService.getUserIDByName(CommonPreferences.studentid, CommonPreferences.realName).awaitAndHandle {
                     Toasty.error(this@AnnoActivity, "获取用户ID失败，请重试").show()
                 }?.data?.let {
