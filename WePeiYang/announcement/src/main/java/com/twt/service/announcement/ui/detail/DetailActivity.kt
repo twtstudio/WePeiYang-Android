@@ -112,7 +112,7 @@ class DetailActivity : AppCompatActivity() {
      */
     private fun setRefresh() {
         swipeRefreshLayout.onRefresh {
-            GlobalScope.launch {
+            GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
                 getData()
                 runOnUiThread {
                     setRecyclerView()

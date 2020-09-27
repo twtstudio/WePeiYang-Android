@@ -1,7 +1,9 @@
 package com.twt.service.announcement.ui.detail
 
+import android.content.Context
 import android.graphics.Color
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +11,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import cn.edu.twt.retrox.recyclerviewdsl.Item
 import cn.edu.twt.retrox.recyclerviewdsl.ItemController
+import com.bumptech.glide.Glide
+import com.jaeger.ninegridimageview.NineGridImageView
+import com.jaeger.ninegridimageview.NineGridImageViewAdapter
 import com.twt.service.announcement.R
 import com.twt.service.announcement.service.AnnoPreference
 import com.twt.service.announcement.service.AnnoService
@@ -118,6 +123,18 @@ class DetailQuestionItem(
                 commentLabelTv.onClick {
                     item.onComment.invoke()
                 }
+                Log.d("tranced", item.question.url_list.toString())
+                val myAdapter: NineGridImageViewAdapter<String> = object : NineGridImageViewAdapter<String>() {
+                    override fun onDisplayImage(context: Context?, imageView: ImageView?, t: String?) {
+                        Glide.with(context).load(t!!).thumbnail(0.2f).into(imageView)
+                    }
+                }
+                nineGridImageView.setAdapter(myAdapter)
+                if (item.question.url_list.isNotEmpty()) {
+                    nineGridImageView.setImagesData(item.question.url_list)
+                } else {
+                    nineGridImageView.visibility = View.GONE
+                }
             }
         }
 
@@ -132,7 +149,8 @@ class DetailQuestionItem(
             val likeCountTv: TextView = itemView.findViewById(R.id.annoDetailQuestionLikeCount)
             val commentButtonIv: ImageView = itemView.findViewById(R.id.annoDetailQuestionCommentButton)
             val commentLabelTv: TextView = itemView.findViewById(R.id.annoDetailQuestionCommentLabel)
-            return DetailQuestionItemViewHolder(itemView, titleTv, contentTv, timeTv, nameTv, statusTv, likeButtonIv, likeCountTv, commentButtonIv, commentLabelTv)
+            val nineGridImageView: NineGridImageView<String> = itemView.findViewById(R.id.annoDetailQuestionImages)
+            return DetailQuestionItemViewHolder(itemView, titleTv, contentTv, timeTv, nameTv, statusTv, likeButtonIv, likeCountTv, commentButtonIv, commentLabelTv, nineGridImageView)
         }
     }
 
@@ -149,7 +167,8 @@ class DetailQuestionItem(
             val likeButtonIv: ImageView,
             val likeCountTv: TextView,
             val commentButtonIv: ImageView,
-            val commentLabelTv: TextView
+            val commentLabelTv: TextView,
+            val nineGridImageView: NineGridImageView<String>
     ) : RecyclerView.ViewHolder(itemView)
 }
 
