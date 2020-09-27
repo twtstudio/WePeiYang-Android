@@ -1,6 +1,7 @@
 package com.twt.service.announcement.ui.activity.detail
 
 import android.annotation.SuppressLint
+import android.app.Dialog
 import android.content.Context
 import android.net.Uri
 import android.support.v7.widget.RecyclerView
@@ -26,11 +27,11 @@ class ReleasePicAdapter(val list: MutableList<Any>,
     private var currentPosition = 0
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val releasePic: ImageView = view.findViewById(R.id.publish_picture)
+        val releasePic: ImageView = view.findViewById(R.id.anno_release_card_pic)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val view = LayoutInflater.from(context).inflate(R.layout.activity_ask_question_activity, parent, false)
+        val view = LayoutInflater.from(context).inflate(R.layout.anno_release_pic_cardview, parent, false)
 
         return ViewHolder(view)
     }
@@ -44,7 +45,7 @@ class ReleasePicAdapter(val list: MutableList<Any>,
                 if (list[position] == noSelectPic) {
                     releaseActivity.checkPermAndOpenPic()
                 } else {
-                    //showDialogOfPic()
+                    showDialogOfPic()
                 }
             }
             setOnLongClickListener {
@@ -60,9 +61,6 @@ class ReleasePicAdapter(val list: MutableList<Any>,
 
         if (list.size > position && tmp != noSelectPic) {
             when (tmp) {
-                is String -> Glide.with(context)
-                        //.load(AnnoService.getQuestion())
-                        //.into(holder.releasePic)
                 is Uri -> Glide.with(context)
                         .load(tmp)
                         .into(holder.releasePic)
@@ -99,22 +97,16 @@ class ReleasePicAdapter(val list: MutableList<Any>,
         }
     }
 
-    fun addPicUrl(urlList: List<String>) {
-        list.addAll(0, urlList)
-        notifyDataSetChanged()
-    }
-/*
+
+
     private fun showDialogOfPic() {
         val dialog = Dialog(releaseActivity, R.style.edit_AlertDialog_style)
         dialog.apply {
-            setContentView(R.layout.lf2_dialog_detail_pic)
-            val imageView = findViewById<ImageView>(R.id.iv_detail_bigpic)
+            setContentView(R.layout.anno_dialog_detail_pic)
+            val imageView = findViewById<ImageView>(R.id.anno_iv_detail_bigpic)
             val tmp = list[currentPosition]
 
             when (tmp) {
-                is String -> Glide.with(context)
-                        .load(Utils.getPicUrl(tmp))
-                        .into(imageView)
                 is Uri -> Glide.with(context)
                         .load(tmp)
                         .into(imageView)
@@ -135,5 +127,5 @@ class ReleasePicAdapter(val list: MutableList<Any>,
     }
 
 
- */
+
 }

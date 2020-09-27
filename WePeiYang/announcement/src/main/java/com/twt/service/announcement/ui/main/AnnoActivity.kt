@@ -93,8 +93,6 @@ class AnnoActivity : AppCompatActivity() {
                 }
             }
         }
-
-        Log.d("myId", AnnoPreference.myId.toString())
     }
 
     private fun initRecyclerView() {
@@ -215,7 +213,7 @@ class AnnoActivity : AppCompatActivity() {
             //TODO(添加新的问题)
             this.setOnClickListener {
                 //initTagTree()
-//                startActivity(Intent(this@AnnoActivity, AskQuestionActivity::class.java))
+                startActivity(Intent(this@AnnoActivity, AskQuestionActivity::class.java))
             }
         }
 
@@ -344,13 +342,12 @@ class AnnoActivity : AppCompatActivity() {
                         } else {
 
                             // 到最后一层标签后，打印当前路径或其他操作
-//                            val path = pathTags.itemListSnapshot.map {
-//                                (it as TagBottomItem).content
-//                            }.toMutableList().apply {
-//                                this.add(child.name + ":" + child.id.toString())
-//                            }
-//                            Log.e("tag_path", path.toString())
-
+                            val path = pathTags.itemListSnapshot.map {
+                                (it as TagBottomItem).content
+                            }.toMutableList().apply {
+                                this.add(child.name + ":" + child.id.toString())
+                            }
+                            Log.e("tag_path", path.toString())
                         }
 
                         closeFloatingMenu()
