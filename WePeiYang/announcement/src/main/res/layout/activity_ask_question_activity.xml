@@ -80,13 +80,13 @@ tools:context=".ui.detail.AskQuestionActivity">
             <TextView
                 android:id="@+id/sort"
                 android:layout_width="50dp"
-                android:layout_height="100dp"
+                android:layout_height="30dp"
                 android:layout_marginStart="12dp"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="2dp"
                 android:gravity="center_vertical"
                 android:text="分类:"
                 android:textSize="15dp"
-                app:layout_constraintBottom_toBottomOf="@id/ll1"
+                app:layout_constraintTop_toTopOf="@id/ll1"
                 app:layout_constraintStart_toStartOf="parent"
                 />
 
@@ -94,23 +94,23 @@ tools:context=".ui.detail.AskQuestionActivity">
                android:id="@+id/detail_sort"
                app:layout_constraintStart_toEndOf="@+id/sort"
                app:layout_constraintLeft_toRightOf="@+id/sort"
-                android:layout_marginLeft="80dp"
+               android:layout_marginLeft="80dp"
                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+               android:layout_height="match_parent"
                android:orientation="vertical"
                android:background="@color/white_color"
                app:layout_scrollFlags="scroll|enterAlways">
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/path_rec2"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
 
                     app:layout_constraintBottom_toTopOf="@+id/detail_rec" />
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/detail_rec2"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:layout_constraintBottom_toTopOf="@+id/ll2" />
             </LinearLayout>
@@ -180,7 +180,7 @@ tools:context=".ui.detail.AskQuestionActivity">
                 android:layout_marginStart="12dp"
                 android:gravity="center_vertical"
                 android:text="正文:"
-                android:textSize="15dp"
+                android:textSize="15sp"
                 app:layout_constraintBottom_toBottomOf="@id/ll3"
                 app:layout_constraintStart_toStartOf="@id/ll3"
                 app:layout_constraintTop_toTopOf="@id/ll3"
@@ -190,11 +190,11 @@ tools:context=".ui.detail.AskQuestionActivity">
             <EditText
                 android:id="@+id/edit_content"
                 android:layout_width="0dp"
-                android:layout_height="130dp"
+                android:layout_height="200dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="15dp"
                 android:background="@drawable/edit_text_selector"
-                android:textSize="15dp"
+                android:textSize="15sp"
                 android:hint="不超过200个字"
                 android:maxLength="200"
                 android:focusable="true"
@@ -217,18 +217,19 @@ tools:context=".ui.detail.AskQuestionActivity">
             android:orientation="horizontal"
             app:layout_constraintBottom_toTopOf="@+id/anno_release_button"
             app:layout_constraintTop_toBottomOf="@id/ll3">
-
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
             <TextView
                 android:id="@+id/picture"
                 android:layout_width="50dp"
                 android:layout_height="30dp"
                 android:layout_marginStart="12dp"
                 android:gravity="center_vertical"
-                android:text="配图："
+                android:text="配图:"
                 android:textSize="15sp"
-                app:layout_constraintBottom_toBottomOf="@id/ll4"
-                app:layout_constraintStart_toStartOf="@id/ll4"
-                app:layout_constraintTop_toTopOf="@id/ll4"
                 />
 
             <android.support.v7.widget.RecyclerView
@@ -236,10 +237,10 @@ tools:context=".ui.detail.AskQuestionActivity">
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                app:layout_constraintStart_toEndOf="@id/picture"
-                app:layout_constraintBottom_toBottomOf="@+id/ll4"
                 android:layout_marginStart="20dp"
-                android:layout_marginEnd="15dp"/>
+
+                />
+        </LinearLayout>
 
         </android.support.constraint.ConstraintLayout>
 

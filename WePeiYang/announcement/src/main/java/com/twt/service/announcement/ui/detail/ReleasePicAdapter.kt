@@ -103,7 +103,7 @@ class ReleasePicAdapter(val list: MutableList<Any>,
         val dialog = Dialog(releaseActivity, R.style.edit_AlertDialog_style)
         dialog.apply {
             setContentView(R.layout.anno_dialog_detail_pic)
-            val imageView = findViewById<ImageView>(R.id.iv_detail_bigpic)
+            val imageView = findViewById<ImageView>(R.id.anno_iv_detail_bigpic)
             val tmp = list[currentPosition]
 
             when (tmp) {

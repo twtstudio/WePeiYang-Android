@@ -171,42 +171,12 @@ class AskQuestionActivity : AppCompatActivity() {
 
     }
 
-    //先通过hawk获得学生的学号和姓名，获取user_id
-    private fun getUseId(): Int {
-        var userrId: Int = 0
-        GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
-            Log.d("useridwwwwwww",(CommonPreferences.studentid to CommonPreferences.realName).toString())
-
-            AnnoService.getUserIDByName("3019244290", "闫璟").awaitAndHandle(
-
-            )?.data?.let {
-                userrId = it.user_id
-                Log.d("whataaaaaaa1aaaaaa",userrId.toString()+" "+it.toString())
-            }
-        }
-        return userrId
-    }
-
-    //然后上传问题获得question_id
-    private fun getQuestionid(): Int {
-        var questionId: Int = 0
-        val titleString = title.text.toString()
-        val detailString = detail.text.toString()
-        GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
-            AnnoService.addQuestion(mapOf("user_id" to getUseId(), "name" to titleString, "description" to detailString, "tagList" to listOf<Int>(idd))).awaitAndHandle(
-
-            )?.data?.let {
-                questionId = it.question_id
-            }
-        }
-        return questionId
-    }
     //根据question_id可以上传图片(useId+Img文件）
 
     //点击确认发布事件,绑定在button上
     private fun onClick() {
-        val titleString2 = title.text.toString()
-        val detailString2 = detail.text.toString()
+        val titleString = title.text.toString()
+        val detailString = detail.text.toString()
 
         //传入图片
         val picListOfUri = mutableListOf<Uri?>()
@@ -221,7 +191,10 @@ class AskQuestionActivity : AppCompatActivity() {
             }
         }
 
+        Log.d("myID", AnnoPreference.myId.toString())
+
         var file1: File
+        Log.d("dfsdfsf",picListOfUri.toString())
         val listOfFile = mutableListOf<File?>()
         try {
             if (!judgeNull(picListOfUri)) {
@@ -231,34 +204,45 @@ class AskQuestionActivity : AppCompatActivity() {
                         val outputFile = file1.path
                         //val outputfile=getFile(zipThePic(handleImageOnKitKat(i)),outputFile)
                         listOfFile.add(getFile(zipThePic(handleImageOnKitKat(i)), outputFile))
-                        val pics = listOfFile.map {
-                            val requestBody = RequestBody.create(MediaType.parse("image/jpg"), it)
-                            MultipartBody.Part.createFormData("newImg", it?.name, requestBody)
-                        }
-                        //添加带图片的问题
-                        GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
-                            //AnnoService.addQuestion()
-                            addPicture(getUseId(), pics, getQuestionid())
+
+                    }
+                }
+                val pics = listOfFile.map {
+                    val requestBody = RequestBody.create(MediaType.parse("image/jpg"), it)
+                    MultipartBody.Part.createFormData("newImg", it?.name, requestBody)
+                }
+
+                //添加带图片的问题
+
+                AnnoPreference.myId?.let { id ->
+                    GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
+                        AnnoService.addQuestion(mapOf("user_id" to id, "name" to titleString, "description" to detailString, "tagList" to listOf<Int>(idd))).awaitAndHandle(
+
+                        )?.data?.let {
+                            addPicture(id, pics, it.question_id)
+                            Toast.makeText(this@AskQuestionActivity,"上传成功",Toast.LENGTH_SHORT).show()
+                            finish()
                         }
                     }
                 }
             } else {
                 //添加不带图片的问题
-                GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
-                    AnnoService.addQuestion(mapOf("user_id" to getUseId(), "name" to titleString2, "description" to detailString2, "tagList" to listOf<Int>(idd))).awaitAndHandle {
-                        failCallBack("上传失败")
-                    }?.let {
-                        Log.d("whataaaaaaaaaaaaaa", "ok")
-                        Log.d("whataaaaaaaaaaaaaa",it.toString())
-                        if (it.ErrorCode == 0 && it.data != null) {
-                            Log.d("whataaaaaaaaaaaaaa", "ok2")
-                            successCallBack(it.data!!)
+                AnnoPreference.myId?.let { id ->
+                    GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
+                        AnnoService.addQuestion(mapOf("user_id" to id, "name" to titleString, "description" to detailString, "tagList" to listOf<Int>(idd))).awaitAndHandle {
+                            failCallBack("上传失败")
+                        }?.let {
+                            Log.d("itttttt",it.toString())
+                           if (it.ErrorCode == 0) {
+                                successCallBack(it.data!!)
+                            }
                         }
                     }
                 }
             }
         } catch (e: IOException) {
             e.printStackTrace()
+            //Log.d("Dsdsdd",e.message)
         }
     }
 
@@ -282,6 +266,7 @@ class AskQuestionActivity : AppCompatActivity() {
         // do something
     }
 
+    override fun onBackPressed() = showExitDialog()
 
     // 相册图片路径
     private fun handleImageOnKitKat(uri: Uri?): String? {
@@ -430,26 +415,38 @@ class AskQuestionActivity : AppCompatActivity() {
 
                 tagTree[index] = _data.map { child ->
                     TagsDetailItem(child.name, child.id) {
+                        idd = child.id
                         if (child.children.isNotEmpty()) {
                             pathTags.add(TagBottomItem(child.name, index) {
-                                tagTree[index + 1]?.let { listTags.refreshAll(it) }
+                                tagTree[index + 1]?.let {
+                                    listTags.refreshAll(it)
+                                }
                                 (0 until pathTags.itemListSnapshot.size - index - 1).forEach { _ ->
                                     pathTags.removeAt(pathTags.size - 1)
                                     Log.e("delete tag", "de")
                                 }
-
                             })
                             listTags.refreshAll(bindTagPathWithDetailTag(child.children))
-                        } else {
 
+                        } else {
                             // 到最后一层标签后，打印当前路径或其他操作
                             val path = pathTags.itemListSnapshot.map {
                                 (it as TagBottomItem).content
                             }.toMutableList().apply {
                                 this.add(child.id.toString())
                             }
-                            Log.e("tag_path", path.toString())
-                            idd = child.id
+                            pathTags.add(TagBottomItem(child.name,index){
+                                tagTree[index + 1]?.let {
+                                    listTags.refreshAll(it)
+                                }
+                                (0 until pathTags.itemListSnapshot.size - index - 1).forEach { _ ->
+                                    pathTags.removeAt(pathTags.size - 1)
+                                }
+                                }
+                            )
+                            if((pathTags.itemListSnapshot[pathTags.size-2] as TagBottomItem).content==child.name)
+                                pathTags.removeAt(pathTags.itemListSnapshot.lastIndex)
+                            Log.d("tag_path", path.toString())
                         }
 
                     }
@@ -459,10 +456,8 @@ class AskQuestionActivity : AppCompatActivity() {
             }
 
     fun successCallBack(data: AddQuestion) {
-//        val intent = Intent()
-//        intent.setClass(this@AskQuestionActivity, PublishSuccessActivity::class.java)
-        startActivity(Intent(this@AskQuestionActivity, PublishSuccessActivity::class.java))
-//        finish()
+        Toast.makeText(this,"上传成功",Toast.LENGTH_SHORT).show()
+        finish()
     }
 
     fun failCallBack(message: String) {
