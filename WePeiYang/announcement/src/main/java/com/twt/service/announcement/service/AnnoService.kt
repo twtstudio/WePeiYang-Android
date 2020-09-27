@@ -57,7 +57,7 @@ interface AnnoService {
     fun postThumbUpOrDown(@Path("type") type: String,
                           @Path("isLike") isLike: String,
                           @Field("id") id: Int,
-                          @Field("user_id") user_id: Int): Deferred<CommonBody<Any>>
+                          @Field("user_id") user_id: Int): Deferred<CommonBody<Int>>
 
     /*
      成功添加问题返回null，只用解析错误信息

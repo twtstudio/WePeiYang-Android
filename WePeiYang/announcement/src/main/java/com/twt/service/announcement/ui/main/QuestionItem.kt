@@ -54,7 +54,7 @@ class QuestionItem(val context: Context, val questionDetail: Question, var oncli
                     if (ques.url_list.isNotEmpty()) {
                         img.visibility = View.VISIBLE
                         Log.d("questionimg", ques.url_list.first())
-                        Glide.with(item.context).load(ques.thumbImg).fitCenter().into(img)
+                        Glide.with(item.context).load(ques.url_list.first()).asBitmap().thumbnail(0.1f).fitCenter().into(img)
                     } else {
                         img.visibility = View.GONE
                     }

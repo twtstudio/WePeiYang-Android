@@ -39,7 +39,7 @@ class DetailReplyItem(
                     setOnClickListener {
                         val mIntent: Intent = Intent(itemView.context, ReplyActivity::class.java)
                                 .putExtra("title", item.title)
-                                .putExtra("reply", item.reply)
+//                                .putExtra("reply", item.reply)
                     }
                 }
                 timeTv.text = item.reply.created_at
