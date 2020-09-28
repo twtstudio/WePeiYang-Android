@@ -85,7 +85,7 @@ tools:context=".ui.detail.AskQuestionActivity">
                 android:layout_marginTop="5dp"
                 android:gravity="center_vertical"
                 android:text="分类:"
-                android:textSize="15dp"
+                android:textSize="15sp"
                 app:layout_constraintTop_toTopOf="@id/ll1"
                 app:layout_constraintStart_toStartOf="parent"
                 />
