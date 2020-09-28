@@ -1,10 +1,12 @@
 package com.twt.service.announcement.ui.user
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -14,6 +16,7 @@ import com.github.clans.fab.FloatingActionMenu
 import com.twt.service.announcement.R
 import com.twt.service.announcement.service.AnnoPreference
 import com.twt.service.announcement.service.AnnoService
+import com.twt.service.announcement.ui.detail.DetailActivity
 import com.twt.service.announcement.ui.main.MyLinearLayoutManager
 import com.twt.service.announcement.ui.main.QuestionItem
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
@@ -40,6 +43,12 @@ class UserActivity : AppCompatActivity() {
         setContentView(R.layout.activity_user)
 
         StatusBarCompat.setStatusBarColor(this, ContextCompat.getColor(this, R.color.colorPrimary), false)
+
+        findViewById<ImageView>(R.id.liked_back).apply {
+            setOnClickListener {
+                onBackPressed()
+            }
+        }
 
         stateText = findViewById(R.id.liked_no_connect_text)
         likedRec = findViewById<RecyclerView>(R.id.liked_rec).apply {
@@ -69,15 +78,16 @@ class UserActivity : AppCompatActivity() {
                                 if (list.isNotEmpty()) {
                                     stateText.visibility = View.INVISIBLE
                                     likedRec.visibility = View.VISIBLE
-                                    likedRecController.refreshAll {
-                                        list.map { qd ->
-                                            QuestionItem(this@UserActivity, qd) {
+                                    val itemList = list.map { qd ->
+                                        QuestionItem(this@UserActivity, qd) {
 
-                                                //TODO(跳转)
+                                            val mIntent: Intent = Intent(this@UserActivity, DetailActivity::class.java)
+                                                    .putExtra("question", qd)
+                                            startActivity(mIntent)
 
-                                            }
                                         }
                                     }
+                                    likedRecController.refreshAll(itemList)
                                 } else {
                                     stateText.visibility = View.VISIBLE
                                     likedRec.visibility = View.INVISIBLE
