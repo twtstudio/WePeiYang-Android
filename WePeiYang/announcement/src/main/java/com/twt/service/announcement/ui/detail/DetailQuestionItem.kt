@@ -2,7 +2,9 @@ package com.twt.service.announcement.ui.detail
 
 import android.app.Dialog
 import android.content.Context
+import android.graphics.Bitmap
 import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,9 +12,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import cn.edu.twt.retrox.recyclerviewdsl.Item
 import cn.edu.twt.retrox.recyclerviewdsl.ItemController
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.GlideDrawable
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.animation.GlideAnimation
+import com.bumptech.glide.request.target.SimpleTarget
+import com.bumptech.glide.request.target.Target
 import com.jaeger.ninegridimageview.NineGridImageView
 import com.jaeger.ninegridimageview.NineGridImageViewAdapter
 import com.twt.service.announcement.R
@@ -24,8 +32,11 @@ import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import es.dmoral.toasty.Toasty
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.jetbrains.anko.sdk27.coroutines.onClick
+import java.lang.Exception
+
 
 /**
  * DetailQuestionItem
@@ -38,6 +49,7 @@ import org.jetbrains.anko.sdk27.coroutines.onClick
  * @param onComment 这里是评论按钮的点击事件
  */
 class DetailQuestionItem(
+        val context: Context,
         val question: Question,
         var likeState: Boolean,
         val onRefresh: () -> Unit,
@@ -115,35 +127,84 @@ class DetailQuestionItem(
                 Log.d("tranced", item.question.url_list.toString())
                 val myAdapter: NineGridImageViewAdapter<String> = object : NineGridImageViewAdapter<String>() {
                     override fun onDisplayImage(context: Context?, imageView: ImageView?, t: String?) {
-                        Glide.with(context).load(t!!).thumbnail(0.2f).into(imageView)
+                        //TODO:让后端返回压缩后的图片，在点击查看大图时，再显示原图
+                        t?.let {
+                            Glide.with(context)
+                                    .load(it)
+//                                .skipMemoryCache(true)
+                                    .crossFade()
+                                    .fitCenter()
+                                    .listener(object : RequestListener<String, GlideDrawable> {
+                                        override fun onException(e: Exception?, model: String?, target: Target<GlideDrawable>?, isFirstResource: Boolean): Boolean {
+                                            //图片加载失败
+                                            Toast.makeText(item.context, "图片加载失败", Toast.LENGTH_SHORT).show()
+                                            return false
+                                        }
+
+                                        override fun onResourceReady(resource: GlideDrawable?, model: String?, target: Target<GlideDrawable>?, isFromMemoryCache: Boolean, isFirstResource: Boolean): Boolean {
+                                            return false
+                                        }
+
+                                    })
+                                    .into(imageView)
+                        }
                     }
 
                     override fun onItemImageClick(context: Context?, index: Int, list: MutableList<String>?) {
-                        showDialogOfPic(list!!.elementAt(index))
+                        showDialogOfPic(item.question.url_list.elementAt(index), item.context)
                     }
 
-                    private fun showDialogOfPic(url: String) {
+                    private fun showDialogOfPic(url: String, mainPage: Context) {
                         val dialog = Dialog(itemView.context, R.style.edit_AlertDialog_style)
                         dialog.apply {
                             setContentView(R.layout.big_image_layout)
                             val imageView = findViewById<ImageView>(R.id.annoBigImage)
+
                             Glide.with(context)
                                     .load(url)
+                                    .crossFade()
+                                    .fitCenter()
+                                    .listener(object : RequestListener<String, GlideDrawable> {
+                                        override fun onException(e: Exception?, model: String?, target: Target<GlideDrawable>?, isFirstResource: Boolean): Boolean {
+                                            //如果加载失败，就等一秒，然后dismiss
+                                            GlobalScope.launch(Dispatchers.Main) {
+                                                delay(1000)
+                                                dismiss()
+                                            }
+                                            Toast.makeText(mainPage, "图片加载失败", Toast.LENGTH_SHORT).show()
+                                            //这里返回true表示事件已经消化了，不会往下传递，返回false表示没有消耗
+                                            //如果设置为true error(int resid)设置异常占位图将会失效
+                                            return false
+                                        }
+
+                                        override fun onResourceReady(resource: GlideDrawable?, model: String?, target: Target<GlideDrawable>?, isFromMemoryCache: Boolean, isFirstResource: Boolean): Boolean {
+                                            //这里返回true表示事件已经消化了，不会往下传递，返回false表示没有消耗
+                                            //设置为ture了，就不会调用Target的onResourceReady()方法了
+                                            return false
+                                        }
+
+                                    })
                                     .into(imageView)
+
                             setCanceledOnTouchOutside(true)
-                            val window = window
-                            val lp = window.attributes
-                            lp.x = 4
-                            lp.y = 4
-                            dialog.onWindowAttributesChanged(lp)
-                            imageView.setOnClickListener { dismiss() }
-                            show()
+                            window?.let {
+                                val lp = it.attributes
+                                lp.x = 4
+                                lp.y = 4
+                                dialog.onWindowAttributesChanged(lp)
+                                imageView.setOnClickListener { dismiss() }
+                                show()
+                            }
                         }
                     }
                 }
                 nineGridImageView.setAdapter(myAdapter)
-                if (item.question.url_list.isNotEmpty()) {
-                    nineGridImageView.setImagesData(item.question.url_list)
+                if (item.question.thumb_url_list.isNotEmpty()) {
+                    if (item.question.thumb_url_list.size == item.question.url_list.size) {
+                        nineGridImageView.setImagesData(item.question.thumb_url_list)
+                    } else {
+                        Toast.makeText(item.context, "服务器数据出错", Toast.LENGTH_SHORT).show()
+                    }
                 } else {
                     nineGridImageView.visibility = View.GONE
                 }
@@ -188,13 +249,14 @@ class DetailQuestionItem(
  * 向Item列表中添加一个[DetailQuestionItem]
  */
 fun MutableList<Item>.addDetailQuestionItem(
+        context: Context,
         question: Question,
         likeState: Boolean,
         onRefresh: () -> Unit,
         onComment: () -> Unit
 ) = add(
         DetailQuestionItem(
-                question, likeState, onRefresh
+                context, question, likeState, onRefresh
         ) {
             onComment.invoke()
         }
