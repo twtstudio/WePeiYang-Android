@@ -9,14 +9,6 @@ import android.widget.TextView
 import cn.edu.twt.retrox.recyclerviewdsl.Item
 import cn.edu.twt.retrox.recyclerviewdsl.ItemController
 import com.twt.service.announcement.R
-import com.twt.service.announcement.service.AnnoPreference
-import com.twt.service.announcement.service.AnnoService
-import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
-import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
-import es.dmoral.toasty.Toasty
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 
 /**
  * DetailReplyItem
@@ -65,44 +57,7 @@ class DetailCommentItem(
                         setImageResource(R.drawable.thumb_up)
                     }
                     setOnClickListener {
-                        if (item.isLikable) {
-                            item.isLikable = false
-                            if (item.likeState) {
-                                GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
-                                    AnnoService.postThumbUpOrDown("question", "dislike", item.id, AnnoPreference.myId!!).awaitAndHandle {
-                                        Toasty.error(context, "点赞错误").show()
-                                    }?.ErrorCode?.let {
-                                        if (it == 0) {
-                                            Toasty.success(context, "成功").show()
-                                            setImageResource(R.drawable.thumb_up)
-                                            item.likeCount--
-                                            likeCountTv.text = item.likeCount.toString()
-                                            item.likeState = !item.likeState
-                                            item.isLikable = true
-                                            item.onRefresh.invoke()
-                                        }
-                                    }
-                                }.invokeOnCompletion {
-                                }
-                            } else {
-                                GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
-                                    AnnoService.postThumbUpOrDown("question", "like", item.id, AnnoPreference.myId!!).awaitAndHandle {
-                                        Toasty.error(context, "点赞错误").show()
-                                    }?.ErrorCode?.let {
-                                        if (it == 0) {
-                                            Toasty.success(context, "成功").show()
-                                            setImageResource(R.drawable.thumb_up)
-                                            item.likeCount--
-                                            likeCountTv.text = item.likeCount.toString()
-                                            item.likeState = !item.likeState
-                                            item.isLikable = true
-                                            item.onRefresh
-                                        }
-                                    }
-                                }.invokeOnCompletion {
-                                }
-                            }
-                        }
+                        // TODO: 删除了点赞逻辑
                     }
                 }
             }

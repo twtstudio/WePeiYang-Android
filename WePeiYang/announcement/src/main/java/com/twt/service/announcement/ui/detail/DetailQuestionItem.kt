@@ -16,15 +16,7 @@ import com.bumptech.glide.Glide
 import com.jaeger.ninegridimageview.NineGridImageView
 import com.jaeger.ninegridimageview.NineGridImageViewAdapter
 import com.twt.service.announcement.R
-import com.twt.service.announcement.service.AnnoPreference
-import com.twt.service.announcement.service.AnnoService
 import com.twt.service.announcement.service.Question
-import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
-import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
-import es.dmoral.toasty.Toasty
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import org.jetbrains.anko.sdk27.coroutines.onClick
 
 /**
@@ -72,39 +64,7 @@ class DetailQuestionItem(
                  * TODO:
                  */
                 likeButtonIv.apply {
-                    if (item.likeState) {
-                        setImageResource(R.drawable.thumb_up_black)
-                    } else {
-                        setImageResource(R.drawable.thumb_up)
-                    }
-                    setOnClickListener {
-                        if (item.isLikable) {
-                            item.isLikable = false
-                            if (item.likeState) {
-                                GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
-                                    AnnoService.postThumbUpOrDown("question", "dislike", item.question.id, AnnoPreference.myId!!).awaitAndHandle {
-                                        Toasty.error(context, "点赞错误").show()
-                                    }?.data?.let {
-                                        Toasty.success(context, "成功").show()
-                                        likeCountTv.text = it.toString()
-                                        item.onRefresh.invoke()
-                                        item.isLikable = true
-                                    }
-                                }
-                            } else {
-                                GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
-                                    AnnoService.postThumbUpOrDown("question", "like", item.question.id, AnnoPreference.myId!!).awaitAndHandle {
-                                        Toasty.error(context, "点赞错误").show()
-                                    }?.data?.let {
-                                        Toasty.success(context, "成功").show()
-                                        likeCountTv.text = it.toString()
-                                        item.onRefresh.invoke()
-                                        item.isLikable = true
-                                    }
-                                }
-                            }
-                        }
-                    }
+                    // TODO: 删除了刷新逻辑
                 }
                 commentButtonIv.onClick {
                     item.onComment.invoke()
