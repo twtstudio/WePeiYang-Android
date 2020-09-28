@@ -1,11 +1,13 @@
 package com.twt.service.announcement.ui.main
 
 import android.content.Context
+import android.content.res.ColorStateList
+import android.graphics.Color
+import android.support.v4.content.res.ResourcesCompat
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -15,15 +17,9 @@ import com.bumptech.glide.load.resource.drawable.GlideDrawable
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.twt.service.announcement.R
-import com.twt.service.announcement.service.AnnoService
 import com.twt.service.announcement.service.Question
-import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
-import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemController
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import org.jetbrains.anko.layoutInflater
 import java.lang.Exception
 
@@ -47,17 +43,36 @@ class QuestionItem(val context: Context, val questionDetail: Question, var oncli
             holder as ViewHolder
             item as QuestionItem
 
+            val typeface = ResourcesCompat.getFont(item.context, R.font.simkai)
+
             item.questionDetail.let { ques ->
                 holder.apply {
                     title.text = ques.name
+                    title.paint.isFakeBoldText = true
+                    title.setTextColor(Color.BLACK)
+//                    typeface?.let { title.typeface = it }
                     detail.text = ques.description
-                    userId.text = ques.user_id.toString()
-                    createTime.text = ques.created_at.split("T", ".").subList(0, 2).joinToString(separator = " ")
+
+                    userName.text = ques.username
+                    userName.paint.isFakeBoldText = true
+                    createTime.text = ques.created_at
+                            .split("T", ".")
+                            .subList(0, 2)
+                            .joinToString(separator = " ")
+
+                    createTime.paint.isFakeBoldText = true
                     comCount.text = ques.msgCount.toString()
                     likeCount.text = ques.likes.toString()
-                    isAnswer.text = if (ques.solved == 0) "未解决" else "已解决"
+                    if (ques.solved == 0) {
+                        isAnswer.text = "未解决"
+                        isAnswer.setTextColor(Color.RED)
+                    } else {
+                        isAnswer.text = "解决"
+                        isAnswer.setTextColor(Color.GREEN)
+                    }
+
                     if (ques.url_list.isNotEmpty() && ques.thumb_url_list.isNotEmpty()) {
-                        img.visibility = View.VISIBLE
+                        picLayout.visibility = View.VISIBLE
                         Log.d("questionimg", ques.url_list.first())
                         Glide.with(item.context)
                                 .load(ques.thumb_url_list.first())
@@ -76,7 +91,8 @@ class QuestionItem(val context: Context, val questionDetail: Question, var oncli
                                 })
                                 .into(img)
                     } else {
-                        img.visibility = View.GONE
+                        picLayout.visibility = View.GONE
+                        detail.minLines = 1
                     }
                 }
             }
@@ -93,12 +109,14 @@ class QuestionItem(val context: Context, val questionDetail: Question, var oncli
         private class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             val title: TextView = itemView.findViewById(R.id.ques_title)
             val detail: TextView = itemView.findViewById(R.id.ques_detail_text)
-            val userId: TextView = itemView.findViewById(R.id.ques_user_id)
+            val userName: TextView = itemView.findViewById(R.id.ques_user_name)
             val createTime: TextView = itemView.findViewById(R.id.ques_create_time)
             val comCount: TextView = itemView.findViewById(R.id.ques_comment_count)
             val likeCount: TextView = itemView.findViewById(R.id.ques_like_count)
             val isAnswer: TextView = itemView.findViewById(R.id.ques_is_admin_answer)
             val img: ImageView = itemView.findViewById(R.id.ques_detail_img)
+            val picLayout: LinearLayout = itemView.findViewById(R.id.pic_layout)
+
         }
     }
 }

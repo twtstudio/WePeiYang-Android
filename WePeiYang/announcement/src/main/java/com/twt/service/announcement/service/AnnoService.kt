@@ -137,7 +137,7 @@ interface AnnoService {
     /**
      * 发送点赞请求
      */
-    open suspend fun sendLikeRequest(type: String, up: Boolean, id: Int, userId: Int, context: Context, onRefresh: () -> Unit): Int? {
+    suspend fun sendLikeRequest(type: String, up: Boolean, id: Int, userId: Int, context: Context, onRefresh: () -> Unit): Int? {
         AnnoService.postThumbUpOrDown(
                 type,
                 when (up) {
