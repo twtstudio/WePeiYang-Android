@@ -11,7 +11,15 @@ import android.widget.TextView
 import cn.edu.twt.retrox.recyclerviewdsl.Item
 import cn.edu.twt.retrox.recyclerviewdsl.ItemController
 import com.twt.service.announcement.R
+import com.twt.service.announcement.service.AnnoPreference
+import com.twt.service.announcement.service.AnnoService
 import com.twt.service.announcement.service.Reply
+import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
+import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
+import es.dmoral.toasty.Toasty
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 /**
  * DetailReplyItem
@@ -54,7 +62,41 @@ class DetailReplyItem(
                  * 同时发送请求
                  */
                 likeButtonIv.apply {
-                    // TODO: 删除了刷新逻辑
+                    setImageResource(
+                            when (item.likeState) {
+                                true -> R.drawable.thumb_up_black
+                                false -> R.drawable.thumb_up
+                            }
+                    )
+                    setOnClickListener {
+                        if (item.isLikable) {
+                            item.isLikable = false
+                            GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
+                                AnnoService.postThumbUpOrDown(
+                                        "answer",
+                                        when (item.likeState) {
+                                            true -> "dislike"
+                                            false -> "like"
+                                        },
+                                        item.reply.id,
+                                        AnnoPreference.myId!!
+                                ).awaitAndHandle {
+                                    Toasty.error(context, "获取点赞状态失败")
+                                    item.isLikable = true
+                                }?.data?.let {
+                                    likeCountTv.text = it.toString()
+                                    likeButtonIv.setImageResource(
+                                            when (item.likeState) {
+                                                true -> R.drawable.thumb_up_black
+                                                false -> R.drawable.thumb_up
+                                            }
+                                    )
+                                    item.likeState = !item.likeState
+                                    item.isLikable = true
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }

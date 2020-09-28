@@ -85,7 +85,10 @@ class DetailQuestionItem(
                         }
                     }
                 }
-                likeCountTv.text = item.likeCount.toString()
+                likeCountTv.text = when (item.likeState) {
+                    true -> (item.likeCount + 1).toString()
+                    false -> item.likeCount.toString()
+                }
                 /**
                  * 点赞按钮逻辑
                  * 点击按钮时在本地操作点赞数量
@@ -142,7 +145,7 @@ class DetailQuestionItem(
                 Log.d("tranced", item.question.url_list.toString())
                 val myAdapter: NineGridImageViewAdapter<String> = object : NineGridImageViewAdapter<String>() {
                     override fun onDisplayImage(context: Context?, imageView: ImageView?, t: String?) {
-                        //TODO:让后端返回压缩后的图片，在点击查看大图时，再显示原图
+                        // TODO:让后端返回压缩后的图片，在点击查看大图时，再显示原图
                         t?.let {
                             Glide.with(context)
                                     .load(it)
