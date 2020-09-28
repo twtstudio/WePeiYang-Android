@@ -20,6 +20,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.KeyEvent
+import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
 import android.widget.Button
@@ -72,6 +73,7 @@ class AskQuestionActivity : AppCompatActivity(),LoadingDialogManager {
     private val pathTags by lazy { ItemManager() }
     private val listTags by lazy { ItemManager() }
     private val firstItem by lazy { TagBottomItem("天津大学", 0) {} }
+    private lateinit var publishButton:Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -111,9 +113,10 @@ class AskQuestionActivity : AppCompatActivity(),LoadingDialogManager {
             }
         }
 
-        findViewById<Button>(R.id.anno_release_button).apply {
+        publishButton=findViewById<Button>(R.id.anno_release_button).apply {
             this.setOnClickListener {
                 //点击button时显示progressDialog
+                isEnabled = false
                 showLoadingDialog(this@AskQuestionActivity)
                 onClick()
                 //hideLoadingDialog()
@@ -204,7 +207,7 @@ class AskQuestionActivity : AppCompatActivity(),LoadingDialogManager {
                     if (i != null) {
                         file1 = File.createTempFile("pic", ".jpg")
                         val outputFile = file1.path
-                        //val outputfile=getFile(zipThePic(handleImageOnKitKat(i)),outputFile)
+
                         listOfFile.add(getFile(zipThePic(handleImageOnKitKat(i)), outputFile))
 
                     }
@@ -447,11 +450,14 @@ class AskQuestionActivity : AppCompatActivity(),LoadingDialogManager {
                                 (0 until pathTags.itemListSnapshot.size - index - 1).forEach { _ ->
                                     pathTags.removeAt(pathTags.size - 1)
                                 }
+                                tagListRecyclerView.visibility=View.VISIBLE
                                 }
                             )
                             if((pathTags.itemListSnapshot[pathTags.size-2] as TagBottomItem).content==child.name)
                                 pathTags.removeAt(pathTags.itemListSnapshot.lastIndex)
+                            tagListRecyclerView.visibility= View.GONE
                             Log.d("tag_path", path.toString())
+
                         }
 
                     }
@@ -470,6 +476,7 @@ class AskQuestionActivity : AppCompatActivity(),LoadingDialogManager {
             progressDialog.dismiss()
         }
         Toasty.error(this, message, Toast.LENGTH_SHORT).show()
+        publishButton.isEnabled=true
     }
 
     // 退出编辑发布或丢失页面的dialog
