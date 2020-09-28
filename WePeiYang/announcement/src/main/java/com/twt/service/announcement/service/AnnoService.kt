@@ -1,6 +1,7 @@
 package com.twt.service.announcement.service
 
 import android.content.Context
+import android.util.Log
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import es.dmoral.toasty.Toasty
 import kotlinx.coroutines.Deferred
@@ -136,8 +137,14 @@ interface AnnoService {
 
     /**
      * 发送点赞请求
+     * @param type 点赞对象的类型，可以是"question"或"answer"或"commit"
+     * @param up 是否已经点赞(脑瘫命名)，如果是true的话
+     * @param id 点赞对象的id
+     * @param userId 这个不用废话，就是[AnnoPreference.myId]
+     * @param context 传入上下文
+     * @param onRefresh 刷新事件
      */
-    open suspend fun sendLikeRequest(type: String, up: Boolean, id: Int, userId: Int, context: Context, onRefresh: () -> Unit): Int? {
+    suspend fun sendLikeRequest(type: String, up: Boolean, id: Int, userId: Int, context: Context, onRefresh: (likeCount: Int, likeState: Boolean) -> Unit) {
         AnnoService.postThumbUpOrDown(
                 type,
                 when (up) {
@@ -149,10 +156,9 @@ interface AnnoService {
         ).awaitAndHandle() {
             Toasty.error(context, "点赞状态更新失败").show()
         }?.data?.let {
-            onRefresh.invoke()
-            return it
+            onRefresh(it, !up)
+            Log.d("tranced", "这里是点赞测试$it")
         }
-        return null
     }
 
     companion object : AnnoService by AnnoServiceFactory()
