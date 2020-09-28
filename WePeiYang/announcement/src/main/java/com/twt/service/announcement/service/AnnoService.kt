@@ -1,16 +1,12 @@
 package com.twt.service.announcement.service
 
-import com.twt.wepeiyang.commons.experimental.cache.RefreshState
-import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
+import android.content.Context
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
+import es.dmoral.toasty.Toasty
 import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
-import okhttp3.internal.http2.ErrorCode
 import retrofit2.http.*
-import java.io.File
+import java.io.Serializable
 
 interface AnnoService {
     /*
@@ -57,7 +53,7 @@ interface AnnoService {
     fun postThumbUpOrDown(@Path("type") type: String,
                           @Path("isLike") isLike: String,
                           @Field("id") id: Int,
-                          @Field("user_id") user_id: Int): Deferred<CommonBody<Any>>
+                          @Field("user_id") user_id: Int): Deferred<CommonBody<Int>>
 
     /*
      成功添加问题返回null，只用解析错误信息
@@ -79,7 +75,7 @@ interface AnnoService {
     @JvmSuppressWildcards
     @FormUrlEncoded
     @POST("answer/commit")
-    fun EvaluateAnswer(@Field("user_id") user_id: Int,
+    fun evaluateAnswer(@Field("user_id") user_id: Int,
                        @Field("answer_id") answer_id: Int,
                        @Field("score") score: Int,
                        @Field("commit") commit: String): Deferred<CommonBody<Any>>
@@ -138,6 +134,26 @@ interface AnnoService {
             @Part newImg: MultipartBody.Part,
             @Part("question_id") question_id: Int): Deferred<CommonBody<picUrl>>
 
+    /**
+     * 发送点赞请求
+     */
+    open suspend fun sendLikeRequest(type: String, up: Boolean, id: Int, userId: Int, context: Context, onRefresh: () -> Unit): Int? {
+        AnnoService.postThumbUpOrDown(
+                type,
+                when (up) {
+                    true -> "dislike"
+                    false -> "like"
+                },
+                id,
+                userId
+        ).awaitAndHandle() {
+            Toasty.error(context, "点赞状态更新失败").show()
+        }?.data?.let {
+            onRefresh.invoke()
+            return it
+        }
+        return null
+    }
 
     companion object : AnnoService by AnnoServiceFactory()
 }
@@ -162,8 +178,9 @@ data class Question(
         val username: String,
         val msgCount: Int,
         val url_list: List<String>,
+        val thumb_url_list: List<String>,
         val thumbImg: String
-)
+) : Serializable
 
 data class Reply(
         val id: Int,
@@ -175,7 +192,7 @@ data class Reply(
         val likes: Int,
         val created_at: String,
         val updated_at: String
-)
+) : Serializable
 
 data class Comment(
         val id: Int,
@@ -186,7 +203,7 @@ data class Comment(
         val updated_at: String,
         val username: String,
         val is_liked: Boolean
-)
+) : Serializable
 
 data class IsLike(
         val is_liked: Boolean

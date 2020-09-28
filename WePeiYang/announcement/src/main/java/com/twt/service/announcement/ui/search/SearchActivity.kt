@@ -2,9 +2,10 @@ package com.twt.service.announcement.ui.search
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.support.v7.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
@@ -20,6 +21,7 @@ import com.githang.statusbar.StatusBarCompat
 import com.twt.service.announcement.R
 import com.twt.service.announcement.service.AnnoPreference
 import com.twt.service.announcement.service.AnnoService
+import com.twt.service.announcement.ui.detail.DetailActivity
 import com.twt.service.announcement.ui.main.ButtonItem
 import com.twt.service.announcement.ui.main.QuestionItem
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
@@ -44,7 +46,6 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var resultLayoutManager: LinearLayoutManager
     private var nextUrl: String? = null
     private val user_id = 1
-
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -101,9 +102,11 @@ class SearchActivity : AppCompatActivity() {
                                     takeIf { next.isNotEmpty() }?.apply {
                                         val items = next.map { ques ->
                                             QuestionItem(context, ques) {
-
-                                                //TODO(问题详情跳转)
-
+                                                // 问题详情跳转
+                                                Log.i("tranced", "已经跳转")
+                                                val mIntent: Intent = Intent(this@SearchActivity, DetailActivity::class.java)
+                                                        .putExtra("question", ques)
+                                                startActivity(mIntent)
                                             }
                                         }
                                         searchResultRec.visibility = View.VISIBLE
@@ -210,7 +213,9 @@ class SearchActivity : AppCompatActivity() {
                             searchResultRecManager.refreshAll(ques.map {
                                 QuestionItem(context, it) {
                                     //详情页跳转
-                                    Log.d("jumptodetail", "跳转详情页")
+                                    val mIntent: Intent = Intent(this@SearchActivity, DetailActivity::class.java)
+                                            .putExtra("question", it)
+                                    startActivity(mIntent)
                                 }
                             })
                             searchResultRecManager.add(ButtonItem())

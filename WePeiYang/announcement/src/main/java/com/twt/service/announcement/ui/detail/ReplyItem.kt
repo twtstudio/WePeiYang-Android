@@ -9,15 +9,9 @@ import android.widget.TextView
 import cn.edu.twt.retrox.recyclerviewdsl.Item
 import cn.edu.twt.retrox.recyclerviewdsl.ItemController
 import com.twt.service.announcement.R
-import com.twt.service.announcement.service.AnnoPreference
-import com.twt.service.announcement.service.AnnoService
 import com.twt.service.announcement.service.Reply
-import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
-import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
-import es.dmoral.toasty.Toasty
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import com.zzhoujay.richtext.ImageHolder
+import com.zzhoujay.richtext.RichText
 
 /**
  * ReplyItem
@@ -32,8 +26,9 @@ class ReplyItem(
         val title: String,
         val reply: Reply,
         var likeState: Boolean,
-        var likeCount: Int = reply.likes
-
+        var likeCount: Int = reply.likes,
+        val onRefresh: () -> Unit,
+        var isLikable: Boolean = true
 ) : Item {
     companion object ReplyItemController : ItemController {
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: Item) {
@@ -43,7 +38,8 @@ class ReplyItem(
                 titleTv.text = item.title
                 nameTv.text = item.reply.user_name
                 timeTv.text = item.reply.created_at
-                contentTv.text = item.reply.contain
+                RichText.initCacheDir(itemView.context)
+                RichText.fromHtml(item.reply.contain).scaleType(ImageHolder.ScaleType.fit_auto).into(contentTv)
                 likeCountTv.text = item.likeCount.toString()
                 /**
                  * 点赞按钮逻辑
@@ -51,44 +47,7 @@ class ReplyItem(
                  * 同时发送请求
                  */
                 likeButtonIv.apply {
-                    if (item.likeState) {
-                        setImageResource(R.drawable.thumb_up_black)
-                    } else {
-                        setImageResource(R.drawable.thumb_up)
-                    }
-                    setOnClickListener {
-                        if (item.likeState) {
-                            GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
-                                AnnoService.postThumbUpOrDown(
-                                        "answer",
-                                        "dislike",
-                                        item.reply.id,
-                                        AnnoPreference.myId!!
-                                ).awaitAndHandle {
-                                    Toasty.error(holder.itemView.context, "出了点问题").show()
-                                }?.data?.let {
-                                    setImageResource(R.drawable.thumb_up)
-                                    item.likeCount--
-                                    likeCountTv.text = item.likeCount.toString()
-                                    item.likeState = !item.likeState
-                                }
-                            }
-                        } else {
-                            GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
-                                AnnoService.postThumbUpOrDown(
-                                        "answer",
-                                        "like",
-                                        item.reply.id,
-                                        AnnoPreference.myId!!
-                                ).awaitAndHandle {
-                                    setImageResource(R.drawable.thumb_up_black)
-                                    item.likeCount++
-                                    likeCountTv.text = item.likeCount.toString()
-                                    item.likeState = !item.likeState
-                                }
-                            }
-                        }
-                    }
+                    // TODO: 删除了点赞逻辑
                 }
             }
         }
@@ -124,5 +83,6 @@ fun MutableList<Item>.addReplyItem(
         title: String,
         reply: Reply,
         likeState: Boolean,
-        likeCount: Int
-) = add(ReplyItem(title, reply, likeState, likeCount))
+        likeCount: Int,
+        onRefresh: () -> Unit
+) = add(ReplyItem(title, reply, likeState, likeCount, onRefresh))

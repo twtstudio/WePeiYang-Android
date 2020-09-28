@@ -9,7 +9,11 @@ import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.GlideDrawable
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 import com.twt.service.announcement.R
 import com.twt.service.announcement.service.AnnoService
 import com.twt.service.announcement.service.Question
@@ -21,6 +25,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.jetbrains.anko.layoutInflater
+import java.lang.Exception
 
 class QuestionItem(val context: Context, val questionDetail: Question, var onclick: () -> Unit) : Item {
     override fun areContentsTheSame(newItem: Item): Boolean {
@@ -51,10 +56,25 @@ class QuestionItem(val context: Context, val questionDetail: Question, var oncli
                     comCount.text = ques.msgCount.toString()
                     likeCount.text = ques.likes.toString()
                     isAnswer.text = if (ques.solved == 0) "未解决" else "已解决"
-                    if (ques.url_list.isNotEmpty()) {
+                    if (ques.url_list.isNotEmpty() && ques.thumb_url_list.isNotEmpty()) {
                         img.visibility = View.VISIBLE
                         Log.d("questionimg", ques.url_list.first())
-                        Glide.with(item.context).load(ques.thumbImg).fitCenter().into(img)
+                        Glide.with(item.context)
+                                .load(ques.thumb_url_list.first())
+                                .fitCenter()
+                                .listener(object : RequestListener<String, GlideDrawable> {
+                                    override fun onException(e: Exception?, model: String?, target: Target<GlideDrawable>?, isFirstResource: Boolean): Boolean {
+                                        //图片加载失败
+                                        Toast.makeText(item.context, "图片加载失败", Toast.LENGTH_SHORT).show()
+                                        return false
+                                    }
+
+                                    override fun onResourceReady(resource: GlideDrawable?, model: String?, target: Target<GlideDrawable>?, isFromMemoryCache: Boolean, isFirstResource: Boolean): Boolean {
+                                        return false
+                                    }
+
+                                })
+                                .into(img)
                     } else {
                         img.visibility = View.GONE
                     }

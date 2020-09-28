@@ -2,6 +2,7 @@ package com.twt.service.announcement.ui.detail
 
 import android.content.Intent
 import android.support.v7.widget.RecyclerView
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,7 +26,9 @@ class DetailReplyItem(
         val title: String,
         val reply: Reply,
         var likeState: Boolean,
-        var likeCount: Int
+        var likeCount: Int,
+        var onRefresh: () -> Unit,
+        var isLikable: Boolean = true
         // TODO: 呵呵，你觉得这就完了么
 ) : Item {
     companion object DetailReplyItemController : ItemController {
@@ -35,11 +38,12 @@ class DetailReplyItem(
             holder.apply {
                 nameTv.text = item.reply.user_name
                 contentTv.apply {
-                    text = item.reply.contain
+                    text = Html.fromHtml(item.reply.contain.replace(Regex("<img.*?>"), ""))
                     setOnClickListener {
                         val mIntent: Intent = Intent(itemView.context, ReplyActivity::class.java)
                                 .putExtra("title", item.title)
-                               // .putExtra("reply", item.reply)
+                                .putExtra("reply", item.reply)
+                        itemView.context.startActivity(mIntent)
                     }
                 }
                 timeTv.text = item.reply.created_at
@@ -50,24 +54,7 @@ class DetailReplyItem(
                  * 同时发送请求
                  */
                 likeButtonIv.apply {
-                    if (item.likeState) {
-                        setImageResource(R.drawable.thumb_up_black)
-                    } else {
-                        setImageResource(R.drawable.thumb_up)
-                    }
-                    setOnClickListener {
-                        if (item.likeState) {
-                            setImageResource(R.drawable.thumb_up)
-                            item.likeCount--
-                            likeCountTv.text = item.likeCount.toString()
-                            item.likeState = !item.likeState
-                        } else {
-                            setImageResource(R.drawable.thumb_up_black)
-                            item.likeCount++
-                            likeCountTv.text = item.likeCount.toString()
-                            item.likeState = !item.likeState
-                        }
-                    }
+                    // TODO: 删除了刷新逻辑
                 }
             }
         }
@@ -104,4 +91,6 @@ fun MutableList<Item>.addDetailReplyItem(
         title: String,
         reply: Reply,
         likeState: Boolean,
-        likeCount: Int) = add(DetailReplyItem(title, reply, likeState, likeCount))
+        likeCount: Int,
+        onRefresh: () -> Unit
+) = add(DetailReplyItem(title, reply, likeState, likeCount, onRefresh))

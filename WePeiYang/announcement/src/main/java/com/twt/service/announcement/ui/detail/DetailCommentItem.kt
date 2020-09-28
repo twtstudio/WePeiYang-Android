@@ -21,11 +21,14 @@ import com.twt.service.announcement.R
  * @param likeCount 该问题的点赞数量
  */
 class DetailCommentItem(
+        val id: Int,
         val name: String,
         val content: String,
         val time: String,
         var likeState: Boolean,
-        var likeCount: Int
+        var likeCount: Int,
+        var onRefresh: () -> Unit,
+        var isLikable: Boolean = true
         // TODO: 呵呵，你觉得这就完了么
 ) : Item {
     companion object DetailCommentItemController : ItemController {
@@ -54,17 +57,7 @@ class DetailCommentItem(
                         setImageResource(R.drawable.thumb_up)
                     }
                     setOnClickListener {
-                        if (item.likeState) {
-                            setImageResource(R.drawable.thumb_up)
-                            item.likeCount--
-                            likeCountTv.text = item.likeCount.toString()
-                            item.likeState = !item.likeState
-                        } else {
-                            setImageResource(R.drawable.thumb_up_black)
-                            item.likeCount++
-                            likeCountTv.text = item.likeCount.toString()
-                            item.likeState = !item.likeState
-                        }
+                        // TODO: 删除了点赞逻辑
                     }
                 }
             }
@@ -99,8 +92,11 @@ class DetailCommentItem(
  * 向Item列表中添加一个[DetailCommentItem]
  */
 fun MutableList<Item>.addDetailCommentItem(
+        id: Int,
         name: String,
         content: String,
         time: String,
         likeState: Boolean,
-        likeCount: Int) = add(DetailCommentItem(name, content, time, likeState, likeCount))
+        likeCount: Int,
+        onRefresh: () -> Unit
+) = add(DetailCommentItem(id, name, content, time, likeState, likeCount, onRefresh))

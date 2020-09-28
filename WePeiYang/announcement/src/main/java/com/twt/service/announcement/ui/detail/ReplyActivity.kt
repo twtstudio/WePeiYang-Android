@@ -10,8 +10,10 @@ import cn.edu.twt.retrox.recyclerviewdsl.withItems
 import com.twt.service.announcement.R
 import com.twt.service.announcement.service.AnnoService
 import com.twt.service.announcement.service.Reply
+import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -68,7 +70,15 @@ class ReplyActivity : AppCompatActivity() {
                         intent.getStringExtra("title"),
                         intent.getSerializableExtra("reply") as Reply,
                         likeState, likeCount
-                )
+                ) {
+                    GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
+                        getData()
+                    }.invokeOnCompletion {
+                        runOnUiThread {
+                            setRecyclerView()
+                        }
+                    }
+                }
             }
             adapter = ScaleInAnimationAdapter(adapter)
         }
