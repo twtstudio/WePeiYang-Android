@@ -75,6 +75,7 @@ class DetailActivity : AppCompatActivity() {
             layoutManager = LinearLayoutManager(this@DetailActivity)
             withItems {
                 addDetailQuestionItem(
+                        this@DetailActivity,
                         question,
                         likeState,
                         {

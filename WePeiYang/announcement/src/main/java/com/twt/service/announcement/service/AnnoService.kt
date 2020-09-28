@@ -178,6 +178,7 @@ data class Question(
         val username: String,
         val msgCount: Int,
         val url_list: List<String>,
+        val thumb_url_list: List<String>,
         val thumbImg: String
 ) : Serializable
 
