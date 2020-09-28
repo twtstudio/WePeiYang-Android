@@ -1,18 +1,15 @@
 package com.twt.service.announcement.ui.user
 
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import com.githang.statusbar.StatusBarCompat
-import com.github.clans.fab.FloatingActionButton
-import com.github.clans.fab.FloatingActionMenu
 import com.twt.service.announcement.R
 import com.twt.service.announcement.service.AnnoPreference
 import com.twt.service.announcement.service.AnnoService
@@ -80,11 +77,10 @@ class UserActivity : AppCompatActivity() {
                                     likedRec.visibility = View.VISIBLE
                                     val itemList = list.map { qd ->
                                         QuestionItem(this@UserActivity, qd) {
-
                                             val mIntent: Intent = Intent(this@UserActivity, DetailActivity::class.java)
                                                     .putExtra("question", qd)
+                                                    .putExtra("likeState", qd)
                                             startActivity(mIntent)
-
                                         }
                                     }
                                     likedRecController.refreshAll(itemList)

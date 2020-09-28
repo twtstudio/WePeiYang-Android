@@ -16,7 +16,6 @@ import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import es.dmoral.toasty.Toasty
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import org.jetbrains.anko.support.v4.onRefresh
 
@@ -92,7 +91,6 @@ class DetailActivity : AppCompatActivity() {
                         }
                     }
                 }
-                lateinit var job: Job
                 replyList.forEach {
                     addDetailReplyItem(question.name, it, likeState, it.likes) {
                         GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {

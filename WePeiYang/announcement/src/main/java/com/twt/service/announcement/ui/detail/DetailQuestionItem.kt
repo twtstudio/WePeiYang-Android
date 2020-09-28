@@ -2,9 +2,7 @@ package com.twt.service.announcement.ui.detail
 
 import android.app.Dialog
 import android.content.Context
-import android.graphics.Bitmap
 import android.graphics.Color
-import android.graphics.drawable.Drawable
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
@@ -18,12 +16,12 @@ import cn.edu.twt.retrox.recyclerviewdsl.ItemController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.GlideDrawable
 import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.animation.GlideAnimation
-import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.target.Target
 import com.jaeger.ninegridimageview.NineGridImageView
 import com.jaeger.ninegridimageview.NineGridImageViewAdapter
 import com.twt.service.announcement.R
+import com.twt.service.announcement.service.AnnoPreference
+import com.twt.service.announcement.service.AnnoService
 import com.twt.service.announcement.service.Question
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
@@ -33,7 +31,6 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.jetbrains.anko.sdk27.coroutines.onClick
-import java.lang.Exception
 
 
 /**
@@ -52,6 +49,7 @@ class DetailQuestionItem(
         var likeState: Boolean,
         val onRefresh: () -> Unit,
         var likeCount: Int = question.likes,
+        var isCommentEnabled: Boolean = true,
         var isLikable: Boolean = true,
         val onComment: () -> Unit
 ) : Item {
@@ -74,26 +72,80 @@ class DetailQuestionItem(
                             else -> Color.parseColor("#00FF00")
                         }
                 )
-                likeCountTv.text = item.likeCount.toString()
+                AnnoPreference.myId?.let {
+                    GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
+                        AnnoService.getLikedState("question", it, item.question.id).awaitAndHandle {
+                            Toasty.error(itemView.context, "请求点赞数据失败").show()
+                        }?.data?.let { likeState ->
+                            item.likeState = likeState.is_liked
+                            when (item.likeState) {
+                                true -> likeButtonIv.setImageResource(R.drawable.thumb_up_black)
+                                false -> likeButtonIv.setImageResource(R.drawable.thumb_up)
+                            }
+                        }
+                    }
+                }
+                likeCountTv.text = when (item.likeState) {
+                    true -> (item.likeCount + 1).toString()
+                    false -> item.likeCount.toString()
+                }
                 /**
                  * 点赞按钮逻辑
                  * 点击按钮时在本地操作点赞数量
                  * 同时发送请求
-                 * TODO:
                  */
                 likeButtonIv.apply {
-                    // TODO: 删除了刷新逻辑
+                    setImageResource(
+                            when (item.likeState) {
+                                true -> R.drawable.thumb_up_black
+                                false -> R.drawable.thumb_up
+                            }
+                    )
+                    setOnClickListener {
+                        if (item.isLikable) {
+                            item.isLikable = false
+                            GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
+                                AnnoService.postThumbUpOrDown(
+                                        "question",
+                                        when (item.likeState) {
+                                            true -> "dislike"
+                                            false -> "like"
+                                        },
+                                        item.question.id,
+                                        AnnoPreference.myId!!
+                                ).awaitAndHandle {
+                                    Toasty.error(itemView.context, "点赞状态更新失败").show()
+                                    item.isLikable = true
+                                }?.data?.let {
+                                    likeCountTv.text = it.toString()
+                                    likeButtonIv.setImageResource(when (item.likeState) {
+                                        false -> R.drawable.thumb_up_black
+                                        true -> R.drawable.thumb_up
+                                    })
+                                    item.likeState = !item.likeState
+                                    item.isLikable = true
+                                }
+                            }
+                        }
+                    }
                 }
+
                 commentButtonIv.onClick {
-                    item.onComment.invoke()
+                    if (item.isCommentEnabled) {
+                        item.isCommentEnabled = false
+                        item.onComment.invoke()
+                    }
                 }
                 commentLabelTv.onClick {
-                    item.onComment.invoke()
+                    if (item.isCommentEnabled) {
+                        item.isCommentEnabled
+                        item.onComment.invoke()
+                    }
                 }
                 Log.d("tranced", item.question.url_list.toString())
                 val myAdapter: NineGridImageViewAdapter<String> = object : NineGridImageViewAdapter<String>() {
                     override fun onDisplayImage(context: Context?, imageView: ImageView?, t: String?) {
-                        //TODO:让后端返回压缩后的图片，在点击查看大图时，再显示原图
+                        // TODO:让后端返回压缩后的图片，在点击查看大图时，再显示原图
                         t?.let {
                             Glide.with(context)
                                     .load(it)
