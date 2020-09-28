@@ -11,21 +11,26 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.support.v4.content.ContextCompat
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.KeyEvent
 import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
-import android.widget.*
+import android.widget.Button
+import android.widget.EditText
+import android.widget.ImageView
+import android.widget.Toast
 import com.githang.statusbar.StatusBarCompat
 import com.twt.service.announcement.R
-import com.twt.service.announcement.service.*
+import com.twt.service.announcement.service.AnnoPreference
+import com.twt.service.announcement.service.AnnoService
+import com.twt.service.announcement.service.Tag
 import com.twt.service.announcement.ui.activity.detail.ReleasePicAdapter
 import com.twt.service.announcement.ui.activity.detail.noSelectPic
 import com.twt.service.announcement.ui.main.MyLinearLayoutManager
@@ -33,7 +38,6 @@ import com.twt.service.announcement.ui.main.TagBottomItem
 import com.twt.service.announcement.ui.main.TagsDetailItem
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
-import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
 import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemAdapter
 import com.twt.wepeiyang.commons.ui.rec.ItemManager
@@ -51,7 +55,7 @@ import okhttp3.RequestBody
 import pub.devrel.easypermissions.EasyPermissions
 import java.io.*
 
-class AskQuestionActivity : AppCompatActivity() {
+class AskQuestionActivity : AppCompatActivity(),LoadingDialogManager {
 
     //输入的标题和问题内容
     private var idd: Int = 0
@@ -109,7 +113,10 @@ class AskQuestionActivity : AppCompatActivity() {
 
         findViewById<Button>(R.id.anno_release_button).apply {
             this.setOnClickListener {
+                //点击button时显示progressDialog
+                showLoadingDialog(this@AskQuestionActivity)
                 onClick()
+                //hideLoadingDialog()
             }
         }
 
@@ -165,10 +172,8 @@ class AskQuestionActivity : AppCompatActivity() {
 
 
     private fun AskQuestion(detailTitle: String, description: String) {
-
         title.setText(detailTitle)
         detail.setText(description)
-
     }
 
     //根据question_id可以上传图片(useId+Img文件）
@@ -191,10 +196,7 @@ class AskQuestionActivity : AppCompatActivity() {
             }
         }
 
-        Log.d("myID", AnnoPreference.myId.toString())
-
         var file1: File
-        Log.d("dfsdfsf",picListOfUri.toString())
         val listOfFile = mutableListOf<File?>()
         try {
             if (!judgeNull(picListOfUri)) {
@@ -213,15 +215,16 @@ class AskQuestionActivity : AppCompatActivity() {
                 }
 
                 //添加带图片的问题
-
                 AnnoPreference.myId?.let { id ->
                     GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
-                        AnnoService.addQuestion(mapOf("user_id" to id, "name" to titleString, "description" to detailString, "tagList" to listOf<Int>(idd))).awaitAndHandle(
-
-                        )?.data?.let {
+                        AnnoService.addQuestion(mapOf("user_id" to id, "name" to titleString, "description" to detailString, "tagList" to listOf<Int>(idd))).awaitAndHandle {
+                            hideLoadingDialog()
+                            failCallBack("上传失败")
+                        }?.data?.let {
                             addPicture(id, pics, it.question_id)
-                            Toast.makeText(this@AskQuestionActivity,"上传成功",Toast.LENGTH_SHORT).show()
-                            finish()
+                        //判断拿到数据后，不显示dialog（hide)
+                            hideLoadingDialog()
+                            successCallBack()
                         }
                     }
                 }
@@ -230,19 +233,20 @@ class AskQuestionActivity : AppCompatActivity() {
                 AnnoPreference.myId?.let { id ->
                     GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
                         AnnoService.addQuestion(mapOf("user_id" to id, "name" to titleString, "description" to detailString, "tagList" to listOf<Int>(idd))).awaitAndHandle {
+                            hideLoadingDialog()
                             failCallBack("上传失败")
                         }?.let {
-                            Log.d("itttttt",it.toString())
                            if (it.ErrorCode == 0) {
-                                successCallBack(it.data!!)
+                               hideLoadingDialog()
+                                successCallBack()
                             }
+                            //判断拿到数据后，不显示dialog（hide)
                         }
                     }
                 }
             }
         } catch (e: IOException) {
             e.printStackTrace()
-            //Log.d("Dsdsdd",e.message)
         }
     }
 
@@ -251,6 +255,7 @@ class AskQuestionActivity : AppCompatActivity() {
                 picPaths.map { pic ->
                     AnnoService.postPictures(user_id = userId, newImg = pic, question_id = quesId).awaitAndHandle {
                         println("addPicture error:" + it.message)
+                        hideLoadingDialog()
                         failCallBack("上传失败")
                     }?.data?.url?.let {
                         this.add(it)
@@ -455,7 +460,7 @@ class AskQuestionActivity : AppCompatActivity() {
                 }
             }
 
-    fun successCallBack(data: AddQuestion) {
+    fun successCallBack() {
         Toast.makeText(this,"上传成功",Toast.LENGTH_SHORT).show()
         finish()
     }
@@ -475,4 +480,7 @@ class AskQuestionActivity : AppCompatActivity() {
             .setNegativeButton("确定") { _, _ -> this@AskQuestionActivity.finish() }
             .create()
             .show()
+
+
+    override val loadingDialog by lazy { LoadingDialog(this) }
 }
