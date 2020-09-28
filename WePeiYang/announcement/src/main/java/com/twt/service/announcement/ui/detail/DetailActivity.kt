@@ -16,6 +16,7 @@ import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import es.dmoral.toasty.Toasty
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import org.jetbrains.anko.support.v4.onRefresh
 
@@ -78,13 +79,7 @@ class DetailActivity : AppCompatActivity() {
                         question,
                         likeState,
                         {
-                            GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
-                                getData()
-                            }.invokeOnCompletion {
-                                runOnUiThread {
-                                    setRecyclerView()
-                                }
-                            }
+                            Toasty.warning(context, "OnRefresh")
                         }
                 ) {
                     DetailReplyBottomFragment.showDetailReplyBottomFragment(this@DetailActivity, question.id) {
@@ -97,25 +92,18 @@ class DetailActivity : AppCompatActivity() {
                         }
                     }
                 }
+                lateinit var job: Job
                 replyList.forEach {
                     addDetailReplyItem(question.name, it, likeState, it.likes) {
                         GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
-                            getData()
-                        }.invokeOnCompletion {
-                            runOnUiThread {
-                                setRecyclerView()
-                            }
+                            Toasty.warning(context, "您点击了赞赞")
                         }
                     }
                 }
                 commentList.forEach {
                     addDetailCommentItem(it.id, it.username, it.contain, it.created_at, false, it.likes) {
                         GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
-                            getData()
-                        }.invokeOnCompletion {
-                            runOnUiThread {
-                                setRecyclerView()
-                            }
+                            Toasty.warning(context, "您点击了一下赞赞")
                         }
                     }
                 }

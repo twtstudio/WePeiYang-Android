@@ -1,5 +1,8 @@
 package com.twt.service.announcement.service
 
+import android.content.Context
+import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
+import es.dmoral.toasty.Toasty
 import kotlinx.coroutines.Deferred
 import okhttp3.MultipartBody
 import retrofit2.http.*
@@ -131,6 +134,26 @@ interface AnnoService {
             @Part newImg: MultipartBody.Part,
             @Part("question_id") question_id: Int): Deferred<CommonBody<picUrl>>
 
+    /**
+     * 发送点赞请求
+     */
+    open suspend fun sendLikeRequest(type: String, up: Boolean, id: Int, userId: Int, context: Context, onRefresh: () -> Unit): Int? {
+        AnnoService.postThumbUpOrDown(
+                type,
+                when (up) {
+                    true -> "dislike"
+                    false -> "like"
+                },
+                id,
+                userId
+        ).awaitAndHandle() {
+            Toasty.error(context, "点赞状态更新失败").show()
+        }?.data?.let {
+            onRefresh.invoke()
+            return it
+        }
+        return null
+    }
 
     companion object : AnnoService by AnnoServiceFactory()
 }
