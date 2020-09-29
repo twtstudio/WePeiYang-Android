@@ -3,13 +3,16 @@ package com.twt.service.announcement.ui.detail
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.AlertDialog
+import android.app.Dialog
 import android.app.ProgressDialog
 import android.content.ContentUris
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.provider.DocumentsContract
@@ -23,10 +26,7 @@ import android.view.KeyEvent
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.Toast
+import android.widget.*
 import com.githang.statusbar.StatusBarCompat
 import com.twt.service.announcement.R
 import com.twt.service.announcement.service.AnnoPreference
@@ -53,17 +53,19 @@ import kotlinx.coroutines.launch
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import org.jetbrains.anko.textColor
 import pub.devrel.easypermissions.EasyPermissions
 import java.io.*
 
-class AskQuestionActivity : AppCompatActivity(),LoadingDialogManager {
+class AskQuestionActivity : AppCompatActivity(), LoadingDialogManager {
 
     //输入的标题和问题内容
     private var idd: Int = 0
     private lateinit var title: EditText
     private lateinit var detail: EditText
     private lateinit var releasePicAdapter: ReleasePicAdapter
-    private lateinit var progressDialog: ProgressDialog
+
+    //    private lateinit var progressDialog: ProgressDialog
     private lateinit var picRecyclerView: RecyclerView // 添加多图的recycler
     private val picRecyclerViewManager = LinearLayoutManager(this)
     private var selectPicList = mutableListOf<Any>() //选择上传的图片
@@ -73,7 +75,7 @@ class AskQuestionActivity : AppCompatActivity(),LoadingDialogManager {
     private val pathTags by lazy { ItemManager() }
     private val listTags by lazy { ItemManager() }
     private val firstItem by lazy { TagBottomItem("天津大学", 0) {} }
-    private lateinit var publishButton:Button
+    private lateinit var publishButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -85,6 +87,11 @@ class AskQuestionActivity : AppCompatActivity(),LoadingDialogManager {
         findViewById<ImageView>(R.id.anno_back).setOnClickListener {
             showExitDialog()
         }
+
+        findViewById<TextView>(R.id.prompt).apply {
+            textColor = Color.GRAY
+        }
+
         title = findViewById(R.id.edit_title)
         detail = findViewById(R.id.edit_content)
 
@@ -101,7 +108,9 @@ class AskQuestionActivity : AppCompatActivity(),LoadingDialogManager {
             }
         }
         initRecyclerView()
+
         initTagTree()
+
         selectPicList.add(noSelectPic) // supply a null list
         releasePicAdapter = ReleasePicAdapter(selectPicList, this, this)
 
@@ -113,16 +122,42 @@ class AskQuestionActivity : AppCompatActivity(),LoadingDialogManager {
             }
         }
 
-        publishButton=findViewById<Button>(R.id.anno_release_button).apply {
+        publishButton = findViewById<Button>(R.id.anno_release_button).apply {
             this.setOnClickListener {
                 //点击button时显示progressDialog
                 isEnabled = false
-                showLoadingDialog(this@AskQuestionActivity)
-                onClick()
+                if (pathTags.itemListSnapshot.size >= 3) {
+//                    if (title.text.isNotEmpty() && detail.text.isNotEmpty()){
+//                        showLoadingDialog(this@AskQuestionActivity)
+//                        onClick()
+//                    }else if (title.text.isEmpty()&& detail.text.isNotEmpty()){
+//                        showDialog("请为问题添加标题")
+//                    }else if (detail.text.isEmpty()&& title.text.isNotEmpty()){
+//                        showDialog("请为问题添加描述")
+//                    }else{
+//                        showDialog("请为问题添加标题和描述")
+//                    }
+
+                    showLoadingDialog(this@AskQuestionActivity)
+                    onClick()
+
+                } else {
+                    showDialog("请在分类栏至少选择三个标签！\n 如不确定问题所属标签，或没找到您问题所属的标签，请选择\" 其他\" ")
+                }
                 //hideLoadingDialog()
             }
         }
 
+    }
+
+    private fun showDialog(text: String) {
+        AlertDialog.Builder(this)
+                .setTitle("温馨提示")
+                .setMessage(text)
+                .setPositiveButton("好的") { dialog, _ ->
+                    dialog?.dismiss()
+                }.show()
+        publishButton.isEnabled = true
     }
 
 
@@ -168,7 +203,7 @@ class AskQuestionActivity : AppCompatActivity(),LoadingDialogManager {
                 pathTags.clear()
                 pathTags.add(firstItem)
                 Log.d("tag_tree", it.toString())
-                bindTagPathWithDetailTag(it)
+                listTags.refreshAll(bindTagPathWithDetailTag(it))
             }
         }
     }
@@ -223,11 +258,18 @@ class AskQuestionActivity : AppCompatActivity(),LoadingDialogManager {
                         AnnoService.addQuestion(mapOf("user_id" to id, "name" to titleString, "description" to detailString, "tagList" to listOf<Int>(idd))).awaitAndHandle {
                             hideLoadingDialog()
                             failCallBack("上传失败")
-                        }?.data?.let {
-                            addPicture(id, pics, it.question_id)
-                        //判断拿到数据后，不显示dialog（hide)
-                            hideLoadingDialog()
-                            successCallBack()
+                        }?.let {
+                            if (it.ErrorCode == 1) {
+                                it.data?.question_id?.let {
+                                    addPicture(id, pics, it)
+                                    //判断拿到数据后，不显示dialog（hide)
+                                    hideLoadingDialog()
+                                    successCallBack()
+                                }
+                            } else {
+                                hideLoadingDialog()
+                                failCallBack("上传失败")
+                            }
                         }
                     }
                 }
@@ -239,9 +281,12 @@ class AskQuestionActivity : AppCompatActivity(),LoadingDialogManager {
                             hideLoadingDialog()
                             failCallBack("上传失败")
                         }?.let {
-                           if (it.ErrorCode == 0) {
-                               hideLoadingDialog()
+                            if (it.ErrorCode == 0) {
+                                hideLoadingDialog()
                                 successCallBack()
+                            } else {
+                                hideLoadingDialog()
+                                failCallBack("上传失败")
                             }
                             //判断拿到数据后，不显示dialog（hide)
                         }
@@ -445,18 +490,18 @@ class AskQuestionActivity : AppCompatActivity(),LoadingDialogManager {
                             }.toMutableList().apply {
                                 this.add(child.id.toString())
                             }
-                            pathTags.add(TagBottomItem(child.name,index){
+                            pathTags.add(TagBottomItem(child.name, index) {
                                 tagTree[index + 1]?.let {
                                     listTags.refreshAll(it)
                                 }
                                 (0 until pathTags.itemListSnapshot.size - index - 1).forEach { _ ->
                                     pathTags.removeAt(pathTags.size - 1)
                                 }
-                                }
+                            }
                             )
-                            if((pathTags.itemListSnapshot[pathTags.size-2] as TagBottomItem).content==child.name)
+                            if ((pathTags.itemListSnapshot[pathTags.size - 2] as TagBottomItem).content == child.name)
                                 pathTags.removeAt(pathTags.itemListSnapshot.lastIndex)
-                            tagListRecyclerView.visibility= View.GONE
+                            tagListRecyclerView.visibility = View.GONE
                             Log.d("tag_path", path.toString())
 
                         }
@@ -468,16 +513,13 @@ class AskQuestionActivity : AppCompatActivity(),LoadingDialogManager {
             }
 
     fun successCallBack() {
-        Toast.makeText(this,"上传成功",Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "上传成功", Toast.LENGTH_SHORT).show()
         finish()
     }
 
     fun failCallBack(message: String) {
-        if (progressDialog.isShowing) {
-            progressDialog.dismiss()
-        }
         Toasty.error(this, message, Toast.LENGTH_SHORT).show()
-        publishButton.isEnabled=true
+        publishButton.isEnabled = true
     }
 
     // 退出编辑发布或丢失页面的dialog

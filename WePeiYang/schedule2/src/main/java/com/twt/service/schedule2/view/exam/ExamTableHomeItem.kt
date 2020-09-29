@@ -9,11 +9,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.TextView
+import android.widget.Toast
 import com.twt.service.schedule2.R
 import com.twt.service.schedule2.model.exam.ExamTableBean
 import com.twt.service.schedule2.model.exam.ExamTableLocalAdapter
 import com.twt.service.schedule2.model.exam.addEvent
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
+import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import com.twt.wepeiyang.commons.mta.mtaClick
 import com.twt.wepeiyang.commons.mta.mtaExpose
 import com.twt.wepeiyang.commons.ui.rec.*
@@ -146,20 +148,27 @@ class ExamTableHomeItem : Item {
             GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
                 mtaExpose("schedule_主页考表刷新成功")
                 //TODO(这里可能会在请求时由于拿不到数据崩掉，好像没做错误处理，的确如此)
-                val list = ExamTableLocalAdapter.getExamMap().await().values.toList().sortedBy {
+                val list = ExamTableLocalAdapter.getExamMap().awaitAndHandle {
+                    Toast.makeText(holder.itemView.context, "获取不到考表，服务器错误", Toast.LENGTH_SHORT).show()
+                }?.values?.toList()?.sortedBy {
                     it.date + it.arrange
-                }.filter {
+                }?.filter {
                     val examTime = "${it.date} ${it.arrange}"
                     currentTime <= examTime
                 }
                 holder.recyclerView.refreshAll {
-                    list.forEach { exam ->
-                        examTableHomeLittleItem(exam)
-                    }
-                    when {
-                        list.isEmpty() -> lightText("暂未查询到考试安排，舒服")
-                        list.first().calETA().first > 1 -> lightText("问题不大")
-                        list.first().calETA().first <= 1 -> lightText("我是微北洋，我慌得一批")
+                    list?.let {
+                        it.forEach { exam ->
+                            examTableHomeLittleItem(exam)
+                        }
+                        when {
+                            it.isEmpty() -> lightText("暂未查询到考试安排，舒服")
+                            it.first().calETA().first > 1 -> lightText("问题不大")
+                            it.first().calETA().first <= 1 -> lightText("我是微北洋，我慌得一批")
+                            else -> {
+                                //do something
+                            }
+                        }
                     }
                 }
             }

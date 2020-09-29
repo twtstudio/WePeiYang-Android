@@ -67,7 +67,7 @@ tools:context=".ui.detail.AskQuestionActivity">
             </android.support.constraint.ConstraintLayout>
 
         </android.support.v7.widget.Toolbar>
-        <android.support.constraint.ConstraintLayout
+        <LinearLayout
             android:id="@+id/ll1"
             android:layout_width="match_parent"
             android:layout_height="100dp"
@@ -75,48 +75,60 @@ tools:context=".ui.detail.AskQuestionActivity">
             android:layout_marginBottom="4dp"
             android:gravity="center_vertical"
             app:layout_constraintBottom_toTopOf="@+id/ll2"
-            app:layout_constraintTop_toBottomOf="@+id/anno_tb" >
+            app:layout_constraintTop_toBottomOf="@+id/anno_tb">
 
-            <TextView
-                android:id="@+id/sort"
-                android:layout_width="50dp"
-                android:layout_height="30dp"
-                android:layout_marginStart="12dp"
-                android:layout_marginTop="5dp"
-                android:gravity="center_vertical"
-                android:text="分类:"
-                android:textSize="15sp"
-                app:layout_constraintTop_toTopOf="@id/ll1"
-                app:layout_constraintStart_toStartOf="parent"
-                />
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
 
-           <LinearLayout
-               android:id="@+id/detail_sort"
-               app:layout_constraintStart_toEndOf="@+id/sort"
-               app:layout_constraintLeft_toRightOf="@+id/sort"
-               android:layout_marginLeft="80dp"
-               android:layout_width="match_parent"
-               android:layout_height="match_parent"
-               android:orientation="vertical"
-               android:background="@color/white_color"
-               app:layout_scrollFlags="scroll|enterAlways">
+                <TextView
+                    android:id="@+id/sort"
+                    android:layout_width="50dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center_vertical"
+                    android:text="分类:"
+                    android:textSize="15sp"
+                    app:layout_constraintTop_toTopOf="@id/ll1"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/prompt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="12dp"
+                    android:textSize="10sp"
+                    android:text="请选择至少三个标签,若没有找到，请选择其他" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/detail_sort"
+                android:layout_marginEnd="20dp"
+                android:layout_width="0dp"
+                android:layout_weight="4"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:background="@color/white_color">
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/path_rec2"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-
-                    app:layout_constraintBottom_toTopOf="@+id/detail_rec" />
+                    android:layout_height="wrap_content" />
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/detail_rec2"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintBottom_toTopOf="@+id/ll2" />
+                    android:layout_height="wrap_content" />
             </LinearLayout>
 
 
-        </android.support.constraint.ConstraintLayout>
+        </LinearLayout>
         <android.support.constraint.ConstraintLayout
             android:id="@+id/ll2"
             android:layout_width="match_parent"

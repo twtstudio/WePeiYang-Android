@@ -62,6 +62,9 @@ object RealAuthenticator : Authenticator {
                     }
                     throw IOException("帐号或密码错误")
                 }
+                23000 -> {
+                    throw IOException("服务器数据库错误")
+                }
                 else -> {
                     Logger.d("""
                                         Unhandled error code $code, for

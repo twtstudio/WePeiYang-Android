@@ -2,6 +2,7 @@ package com.twtstudio.retrox.auth.api
 
 import com.tencent.bugly.crashreport.CrashReport
 import com.twt.wepeiyang.commons.experimental.cache.*
+import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
 import com.twt.wepeiyang.commons.experimental.service.AuthSelfBean
@@ -24,7 +25,7 @@ val authSelfLiveData = RefreshableLiveData.use(authSelfLocalCache, authSelfRemot
 }
 
 fun login(username: String, password: String, callback: suspend (RefreshState<Unit>) -> Unit = {}) {
-    GlobalScope.launch(Dispatchers.Main) {
+    GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
         AuthService.getToken(username, password).awaitAndHandle {
             callback(RefreshState.Failure(it))
         }?.data?.let {

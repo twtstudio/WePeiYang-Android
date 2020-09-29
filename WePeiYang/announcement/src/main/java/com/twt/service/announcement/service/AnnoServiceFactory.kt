@@ -7,6 +7,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 
 object AnnoServiceFactory {
     private val loggingInterceptor = HttpLoggingInterceptor()
@@ -16,6 +17,10 @@ object AnnoServiceFactory {
 
     val client = OkHttpClient.Builder()
             .addInterceptor(loggingInterceptor)
+            .retryOnConnectionFailure(false)
+            .connectTimeout(10, TimeUnit.SECONDS)
+            .readTimeout(10, TimeUnit.SECONDS)
+            .writeTimeout(10, TimeUnit.SECONDS)
             .build()
 
     val retrofit = Retrofit.Builder()

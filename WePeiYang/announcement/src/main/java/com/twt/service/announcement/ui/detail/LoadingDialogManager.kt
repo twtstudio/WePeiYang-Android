@@ -1,5 +1,6 @@
 package com.twt.service.announcement.ui.detail
 
+import android.app.Dialog
 import android.content.Context
 
 interface LoadingDialogManager {
@@ -11,5 +12,9 @@ interface LoadingDialogManager {
 
     fun hideLoadingDialog() {
         loadingDialog.dismiss()
+    }
+
+    fun getDialog(): Dialog {
+        return loadingDialog
     }
 }
