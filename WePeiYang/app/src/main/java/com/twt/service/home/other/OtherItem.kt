@@ -53,7 +53,7 @@ class OtherItem : Item {
 //                    it.context.startActivity<MallActivity>()
 //                }
 
-                addItem("校务平台", "我先放一个校务平台在这里") {
+                addItem("校务平台", "校内信息官方反馈渠道") {
                     it.context.startActivity<AnnoActivity>()
                 }
 

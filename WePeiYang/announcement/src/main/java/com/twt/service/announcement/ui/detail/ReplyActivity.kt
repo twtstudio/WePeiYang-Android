@@ -1,12 +1,14 @@
 package com.twt.service.announcement.ui.detail
 
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import cn.edu.twt.retrox.recyclerviewdsl.withItems
+import com.githang.statusbar.StatusBarCompat
 import com.twt.service.announcement.R
 import com.twt.service.announcement.service.AnnoService
 import com.twt.service.announcement.service.Reply
@@ -36,6 +38,8 @@ class ReplyActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_reply)
+        // 设置状态栏的颜色
+        StatusBarCompat.setStatusBarColor(this, ContextCompat.getColor(this, R.color.colorPrimary), false)
         findViews()
         setToolbar(toolbar, this, "回复详情") {
             finish()
