@@ -433,6 +433,8 @@ class AskQuestionActivity : AppCompatActivity(),LoadingDialogManager {
                                     pathTags.removeAt(pathTags.size - 1)
                                     Log.e("delete tag", "de")
                                 }
+                                tagListRecyclerView.visibility = View.VISIBLE
+
                             })
                             listTags.refreshAll(bindTagPathWithDetailTag(child.children))
 
@@ -450,7 +452,6 @@ class AskQuestionActivity : AppCompatActivity(),LoadingDialogManager {
                                 (0 until pathTags.itemListSnapshot.size - index - 1).forEach { _ ->
                                     pathTags.removeAt(pathTags.size - 1)
                                 }
-                                tagListRecyclerView.visibility=View.VISIBLE
                                 }
                             )
                             if((pathTags.itemListSnapshot[pathTags.size-2] as TagBottomItem).content==child.name)

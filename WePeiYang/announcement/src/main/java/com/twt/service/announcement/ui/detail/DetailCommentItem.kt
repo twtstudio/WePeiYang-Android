@@ -9,6 +9,14 @@ import android.widget.TextView
 import cn.edu.twt.retrox.recyclerviewdsl.Item
 import cn.edu.twt.retrox.recyclerviewdsl.ItemController
 import com.twt.service.announcement.R
+import com.twt.service.announcement.service.AnnoPreference
+import com.twt.service.announcement.service.AnnoService
+import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
+import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
+import es.dmoral.toasty.Toasty
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 /**
  * DetailReplyItem
@@ -44,6 +52,24 @@ class DetailCommentItem(
                     }
                 }
                 timeTv.text = item.time
+                        .split("T", ".")
+                        .subList(0, 2)
+                        .joinToString(separator = " ")
+
+                AnnoPreference.myId?.let {
+                    GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
+                        AnnoService.getLikedState("commit", it, item.id).awaitAndHandle {
+                            Toasty.error(itemView.context, "请求点赞数据失败").show()
+                        }?.data?.let { likeState ->
+                            item.likeState = likeState.is_liked
+                            when (item.likeState) {
+                                true -> likeButtonIv.setImageResource(R.drawable.good_fill)
+                                false -> likeButtonIv.setImageResource(R.drawable.good)
+                            }
+                        }
+                    }
+                }
+
                 likeCountTv.text = item.likeCount.toString()
                 /**
                  * 点赞按钮逻辑
@@ -51,13 +77,39 @@ class DetailCommentItem(
                  * 同时发送请求
                  */
                 likeButtonIv.apply {
-                    if (item.likeState) {
-                        setImageResource(R.drawable.thumb_up_black)
-                    } else {
-                        setImageResource(R.drawable.thumb_up)
-                    }
+                    setImageResource(
+                            when (item.likeState) {
+                                true -> R.drawable.good_fill
+                                false -> R.drawable.good
+                            }
+                    )
                     setOnClickListener {
-                        // TODO: 删除了点赞逻辑
+                        if (item.isLikable && AnnoPreference.myId != null) {
+                            item.isLikable = false
+                            GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
+                                AnnoService.postThumbUpOrDown(
+                                        "commit",
+                                        when (item.likeState) {
+                                            true -> "dislike"
+                                            false -> "like"
+                                        },
+                                        item.id,
+                                        AnnoPreference.myId!!
+                                ).awaitAndHandle {
+                                    Toasty.error(itemView.context, "点赞状态更新失败").show()
+                                    item.isLikable = true
+                                }?.data?.let {
+                                    likeCountTv.text = it.toString()
+                                    item.likeCount = it
+                                    item.likeState = !item.likeState
+                                    likeButtonIv.setImageResource(when (item.likeState) {
+                                        true -> R.drawable.good_fill
+                                        false -> R.drawable.good
+                                    })
+                                    item.isLikable = true
+                                }
+                            }
+                        }
                     }
                 }
             }

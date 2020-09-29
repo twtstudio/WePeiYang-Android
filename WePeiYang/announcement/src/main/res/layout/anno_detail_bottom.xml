@@ -21,7 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="#0FFF"
-        android:src="@drawable/baseline_send_black_36"
+        android:src="@drawable/comments"
         app:layout_constraintBottom_toBottomOf="@id/annoDetailBottomEditText"
         app:layout_constraintTop_toTopOf="@id/annoDetailBottomEditText"
         app:layout_constraintRight_toRightOf="parent" />

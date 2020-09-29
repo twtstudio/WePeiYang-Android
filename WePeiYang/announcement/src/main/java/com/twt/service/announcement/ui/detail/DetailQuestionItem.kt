@@ -2,6 +2,7 @@ package com.twt.service.announcement.ui.detail
 
 import android.app.Dialog
 import android.content.Context
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.support.v7.widget.RecyclerView
 import android.util.Log
@@ -61,10 +62,20 @@ class DetailQuestionItem(
                 titleTv.text = item.question.name
                 contentTv.text = item.question.description
                 timeTv.text = item.question.created_at
+                        .split("T", ".")
+                        .subList(0, 2)
+                        .joinToString(separator = " ")
                 nameTv.text = item.question.username
+                nameTv.maxEms = 10
                 statusTv.text = when (item.question.solved) {
-                    0 -> "校方未回复"
-                    else -> "校方已回复"
+                    0 -> {
+                        statusTv.setTextColor(Color.RED)
+                        "校方未回复"
+                    }
+                    else -> {
+                        statusTv.setTextColor(Color.GREEN)
+                        "校方已回复"
+                    }
                 }
                 statusTv.setTextColor(
                         when (item.question.solved) {
@@ -79,16 +90,14 @@ class DetailQuestionItem(
                         }?.data?.let { likeState ->
                             item.likeState = likeState.is_liked
                             when (item.likeState) {
-                                true -> likeButtonIv.setImageResource(R.drawable.thumb_up_black)
-                                false -> likeButtonIv.setImageResource(R.drawable.thumb_up)
+                                true -> likeButtonIv.setImageResource(R.drawable.good_fill)
+                                false -> likeButtonIv.setImageResource(R.drawable.good)
                             }
                         }
                     }
                 }
-                likeCountTv.text = when (item.likeState) {
-                    true -> (item.likeCount + 1).toString()
-                    false -> item.likeCount.toString()
-                }
+                likeCountTv.text = item.likeCount.toString()
+
                 /**
                  * 点赞按钮逻辑
                  * 点击按钮时在本地操作点赞数量
@@ -97,12 +106,12 @@ class DetailQuestionItem(
                 likeButtonIv.apply {
                     setImageResource(
                             when (item.likeState) {
-                                true -> R.drawable.thumb_up_black
-                                false -> R.drawable.thumb_up
+                                true -> R.drawable.good_fill
+                                false -> R.drawable.good
                             }
                     )
                     setOnClickListener {
-                        if (item.isLikable) {
+                        if (item.isLikable && AnnoPreference.myId != null) {
                             item.isLikable = false
                             GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
                                 AnnoService.postThumbUpOrDown(
@@ -118,11 +127,12 @@ class DetailQuestionItem(
                                     item.isLikable = true
                                 }?.data?.let {
                                     likeCountTv.text = it.toString()
-                                    likeButtonIv.setImageResource(when (item.likeState) {
-                                        false -> R.drawable.thumb_up_black
-                                        true -> R.drawable.thumb_up
-                                    })
+                                    item.likeCount = it
                                     item.likeState = !item.likeState
+                                    likeButtonIv.setImageResource(when (item.likeState) {
+                                        false -> R.drawable.good
+                                        true -> R.drawable.good_fill
+                                    })
                                     item.isLikable = true
                                 }
                             }
@@ -134,6 +144,8 @@ class DetailQuestionItem(
                     if (item.isCommentEnabled) {
                         item.isCommentEnabled = false
                         item.onComment.invoke()
+                        item.isCommentEnabled = true
+
                     }
                 }
                 commentLabelTv.onClick {
@@ -216,6 +228,8 @@ class DetailQuestionItem(
                     }
                 }
                 nineGridImageView.setAdapter(myAdapter)
+                nineGridImageView.setGap(20)
+                nineGridImageView.setSingleImgSize(800)
                 if (item.question.thumb_url_list.isNotEmpty()) {
                     if (item.question.thumb_url_list.size == item.question.url_list.size) {
                         nineGridImageView.setImagesData(item.question.thumb_url_list)

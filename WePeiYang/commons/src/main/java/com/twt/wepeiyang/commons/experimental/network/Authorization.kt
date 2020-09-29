@@ -1,5 +1,6 @@
 package com.twt.wepeiyang.commons.experimental.network
 
+import android.util.Log
 import com.orhanobut.logger.Logger
 import com.twt.wepeiyang.commons.experimental.CommonContext
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
@@ -81,6 +82,7 @@ object RealAuthenticator : Authenticator {
 object CodeCorrectionInterceptor : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response =
             chain.proceed(chain.request()).run {
+                Log.d("whatfuckinterface", chain.request().url().toString())
                 if (code() == HttpURLConnection.HTTP_BAD_REQUEST)
                     newBuilder().code(HttpURLConnection.HTTP_UNAUTHORIZED).build() else this
             }

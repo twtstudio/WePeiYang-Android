@@ -55,7 +55,27 @@ class DetailReplyItem(
                     }
                 }
                 timeTv.text = item.reply.created_at
+                        .split("T", ".")
+                        .subList(0, 2)
+                        .joinToString(separator = " ")
+
+                AnnoPreference.myId?.let {
+                    GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
+                        AnnoService.getLikedState("answer", it, item.reply.id).awaitAndHandle {
+                            Toasty.error(itemView.context, "请求点赞数据失败").show()
+                        }?.data?.let { likeState ->
+                            item.likeState = likeState.is_liked
+                            when (item.likeState) {
+                                true -> likeButtonIv.setImageResource(R.drawable.good_fill)
+                                false -> likeButtonIv.setImageResource(R.drawable.good)
+                            }
+                        }
+                    }
+                }
+
                 likeCountTv.text = item.likeCount.toString()
+
+
                 /**
                  * 点赞按钮逻辑
                  * 点击按钮时在本地操作点赞数量
@@ -64,12 +84,12 @@ class DetailReplyItem(
                 likeButtonIv.apply {
                     setImageResource(
                             when (item.likeState) {
-                                true -> R.drawable.thumb_up_black
-                                false -> R.drawable.thumb_up
+                                true -> R.drawable.good_fill
+                                false -> R.drawable.good
                             }
                     )
                     setOnClickListener {
-                        if (item.isLikable) {
+                        if (item.isLikable && AnnoPreference.myId != null) {
                             item.isLikable = false
                             GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
                                 AnnoService.postThumbUpOrDown(
@@ -81,17 +101,16 @@ class DetailReplyItem(
                                         item.reply.id,
                                         AnnoPreference.myId!!
                                 ).awaitAndHandle {
-                                    Toasty.error(context, "获取点赞状态失败")
+                                    Toasty.error(itemView.context, "点赞状态更新失败").show()
                                     item.isLikable = true
                                 }?.data?.let {
                                     likeCountTv.text = it.toString()
-                                    likeButtonIv.setImageResource(
-                                            when (item.likeState) {
-                                                true -> R.drawable.thumb_up_black
-                                                false -> R.drawable.thumb_up
-                                            }
-                                    )
+                                    item.likeCount = it
                                     item.likeState = !item.likeState
+                                    likeButtonIv.setImageResource(when (item.likeState) {
+                                        false -> R.drawable.good
+                                        true -> R.drawable.good_fill
+                                    })
                                     item.isLikable = true
                                 }
                             }

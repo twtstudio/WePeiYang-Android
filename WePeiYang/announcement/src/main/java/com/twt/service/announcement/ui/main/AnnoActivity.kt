@@ -38,6 +38,7 @@ import jp.wasabeef.recyclerview.animators.FadeInAnimator
 import jp.wasabeef.recyclerview.animators.SlideInDownAnimator
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 
@@ -56,7 +57,8 @@ class AnnoActivity : AppCompatActivity() {
     private lateinit var floatingActionMenu: FloatingActionMenu
     private var nextUrl: String? = null
     private lateinit var quesRecManager: LinearLayoutManager
-    private val user_id = 1
+    private var user_id = 1
+    private var canRefresh = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -90,6 +92,7 @@ class AnnoActivity : AppCompatActivity() {
                     Toasty.error(this@AnnoActivity, "获取用户ID失败，请重试").show()
                 }?.data?.let {
                     AnnoPreference.myId = it.user_id
+                    user_id = it.user_id
                 }
             }
         }
@@ -219,9 +222,13 @@ class AnnoActivity : AppCompatActivity() {
 
         findViewById<FloatingActionButton>(R.id.fa_c).apply {
             this.setOnClickListener {
-                initTagTree()
-                getAllQuestions()
+                if (canRefresh) {
+                    canRefresh = false
+                    quesRecController.clear()
+                    initTagTree()
+                    getAllQuestions()
 //                closeFloatingMenu()
+                }
             }
         }
 
@@ -271,9 +278,16 @@ class AnnoActivity : AppCompatActivity() {
                 ).awaitAndHandle {
                     hintText.visibility = View.VISIBLE
                     quesDetailRecyclerView.visibility = View.INVISIBLE
+                    canRefresh = true
                 }?.data?.apply {
                     nextUrl = if (to != total) next_page_url else null
                 }?.data?.let { quesList ->
+
+                    GlobalScope.launch {
+                        delay(1000)
+                        canRefresh = true
+                    }
+
                     Log.d("quesList", quesList.size.toString())
                     when (quesList.size) {
                         0 -> {
@@ -315,6 +329,9 @@ class AnnoActivity : AppCompatActivity() {
     //将三个rec，通过LiveData等绑定在一起
     private fun bindTagPathWithDetailTag(_data: List<Tag>): List<Item> =
             mutableListOf<Item>().apply {
+
+                tagListRecyclerView.visibility = View.VISIBLE
+
                 val index = pathTags.itemListSnapshot.size
 
                 if (index == 1) {
@@ -323,6 +340,7 @@ class AnnoActivity : AppCompatActivity() {
                         (0 until pathTags.itemListSnapshot.size - 1).forEach { _ ->
                             pathTags.removeAt(pathTags.size - 1)
                         }
+                        tagListRecyclerView.visibility = View.VISIBLE
                         getAllQuestions()
                     }
                 }
@@ -336,6 +354,7 @@ class AnnoActivity : AppCompatActivity() {
                                     pathTags.removeAt(pathTags.size - 1)
                                     Log.e("delete tag", "de")
                                 }
+                                tagListRecyclerView.visibility = View.VISIBLE
                                 closeFloatingMenu()
                             })
                             listTags.refreshAll(bindTagPathWithDetailTag(child.children))
@@ -347,8 +366,23 @@ class AnnoActivity : AppCompatActivity() {
                             }.toMutableList().apply {
                                 this.add(child.name + ":" + child.id.toString())
                             }
+
+                            pathTags.add(TagBottomItem(child.name, index) {
+                                tagTree[index + 1]?.let {
+                                    listTags.refreshAll(it)
+                                }
+                                (0 until pathTags.itemListSnapshot.size - index - 1).forEach { _ ->
+                                    pathTags.removeAt(pathTags.size - 1)
+                                }
+                            }
+                            )
+                            if ((pathTags.itemListSnapshot[pathTags.size - 2] as TagBottomItem).content == child.name)
+                                pathTags.removeAt(pathTags.itemListSnapshot.lastIndex)
+                            tagListRecyclerView.visibility = View.INVISIBLE
+
                             Log.e("tag_path", path.toString())
                         }
+
 
                         closeFloatingMenu()
                         annoViewModel.searchQuestion(child.id)

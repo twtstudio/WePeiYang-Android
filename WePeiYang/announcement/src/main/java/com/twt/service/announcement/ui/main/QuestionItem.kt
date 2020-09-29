@@ -1,7 +1,6 @@
 package com.twt.service.announcement.ui.main
 
 import android.content.Context
-import android.content.res.ColorStateList
 import android.graphics.Color
 import android.support.v4.content.res.ResourcesCompat
 import android.support.v7.widget.RecyclerView
@@ -21,7 +20,6 @@ import com.twt.service.announcement.service.Question
 import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemController
 import org.jetbrains.anko.layoutInflater
-import java.lang.Exception
 
 class QuestionItem(val context: Context, val questionDetail: Question, var onclick: () -> Unit) : Item {
     override fun areContentsTheSame(newItem: Item): Boolean {
@@ -81,6 +79,7 @@ class QuestionItem(val context: Context, val questionDetail: Question, var oncli
                                     override fun onException(e: Exception?, model: String?, target: Target<GlideDrawable>?, isFirstResource: Boolean): Boolean {
                                         //图片加载失败
                                         Toast.makeText(item.context, "图片加载失败", Toast.LENGTH_SHORT).show()
+                                        picLayout.visibility = View.INVISIBLE
                                         return false
                                     }
 
