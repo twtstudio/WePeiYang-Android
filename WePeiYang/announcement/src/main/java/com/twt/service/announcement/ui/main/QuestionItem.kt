@@ -62,10 +62,10 @@ class QuestionItem(val context: Context, val questionDetail: Question, var oncli
                     comCount.text = ques.msgCount.toString()
                     likeCount.text = ques.likes.toString()
                     if (ques.solved == 0) {
-                        isAnswer.text = "未解决"
+                        isAnswer.text = "未回复"
                         isAnswer.setTextColor(Color.RED)
                     } else {
-                        isAnswer.text = "解决"
+                        isAnswer.text = "已回复"
                         isAnswer.setTextColor(Color.GREEN)
                     }
 

@@ -59,10 +59,13 @@ import java.io.*
 
 class AskQuestionActivity : AppCompatActivity(), LoadingDialogManager {
 
+    override val loadingDialog by lazy { LoadingDialog(this) }
+
     //输入的标题和问题内容
     private var idd: Int = 0
     private lateinit var title: EditText
     private lateinit var detail: EditText
+
     private lateinit var releasePicAdapter: ReleasePicAdapter
 
     //    private lateinit var progressDialog: ProgressDialog
@@ -75,6 +78,7 @@ class AskQuestionActivity : AppCompatActivity(), LoadingDialogManager {
     private val pathTags by lazy { ItemManager() }
     private val listTags by lazy { ItemManager() }
     private val firstItem by lazy { TagBottomItem("天津大学", 0) {} }
+
     private lateinit var publishButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -127,19 +131,18 @@ class AskQuestionActivity : AppCompatActivity(), LoadingDialogManager {
                 //点击button时显示progressDialog
                 isEnabled = false
                 if (pathTags.itemListSnapshot.size >= 3) {
-//                    if (title.text.isNotEmpty() && detail.text.isNotEmpty()){
-//                        showLoadingDialog(this@AskQuestionActivity)
-//                        onClick()
-//                    }else if (title.text.isEmpty()&& detail.text.isNotEmpty()){
-//                        showDialog("请为问题添加标题")
-//                    }else if (detail.text.isEmpty()&& title.text.isNotEmpty()){
-//                        showDialog("请为问题添加描述")
-//                    }else{
-//                        showDialog("请为问题添加标题和描述")
-//                    }
-
-                    showLoadingDialog(this@AskQuestionActivity)
-                    onClick()
+                    if (title.text.isNotEmpty() && detail.text.isNotEmpty()) {
+                        confirmAgain {
+                            showLoadingDialog(this@AskQuestionActivity)
+                            onClick()
+                        }
+                    } else if (title.text.isEmpty() && detail.text.isNotEmpty()) {
+                        showDialog("请为问题添加标题")
+                    } else if (detail.text.isEmpty() && title.text.isNotEmpty()) {
+                        showDialog("请为问题添加描述")
+                    } else {
+                        showDialog("请为问题添加标题和描述")
+                    }
 
                 } else {
                     showDialog("请在分类栏至少选择三个标签！\n 如不确定问题所属标签，或没找到您问题所属的标签，请选择\" 其他\" ")
@@ -150,6 +153,7 @@ class AskQuestionActivity : AppCompatActivity(), LoadingDialogManager {
 
     }
 
+
     private fun showDialog(text: String) {
         AlertDialog.Builder(this)
                 .setTitle("温馨提示")
@@ -159,7 +163,6 @@ class AskQuestionActivity : AppCompatActivity(), LoadingDialogManager {
                 }.show()
         publishButton.isEnabled = true
     }
-
 
     private fun initRecyclerView() {
         tagPathRecyclerView = findViewById<RecyclerView>(R.id.path_rec2).apply {
@@ -194,6 +197,7 @@ class AskQuestionActivity : AppCompatActivity(), LoadingDialogManager {
         }
     }
 
+
     private fun initTagTree() {
         GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
             AnnoService.getTagTree().awaitAndHandle {
@@ -207,7 +211,6 @@ class AskQuestionActivity : AppCompatActivity(), LoadingDialogManager {
             }
         }
     }
-
 
     private fun AskQuestion(detailTitle: String, description: String) {
         title.setText(detailTitle)
@@ -296,6 +299,20 @@ class AskQuestionActivity : AppCompatActivity(), LoadingDialogManager {
         } catch (e: IOException) {
             e.printStackTrace()
         }
+    }
+
+    private fun confirmAgain(todo: () -> Unit) {
+        AlertDialog.Builder(this)
+                .setTitle("再次确认是否提交")
+                .setPositiveButton("好的") { dialog, _ ->
+                    dialog?.dismiss()
+                    todo.invoke()
+                }
+                .setNegativeButton("再看看") { dialog, _ ->
+                    dialog?.dismiss()
+                    publishButton.isEnabled = true
+                }
+                .show()
     }
 
     suspend fun addPicture(userId: Int, picPaths: List<MultipartBody.Part>, quesId: Int): List<String> =
@@ -463,6 +480,7 @@ class AskQuestionActivity : AppCompatActivity(), LoadingDialogManager {
                         (0 until pathTags.itemListSnapshot.size - 1).forEach { _ ->
                             pathTags.removeAt(pathTags.size - 1)
                         }
+                        tagListRecyclerView.visibility = View.VISIBLE
                     }
                 }
 
@@ -522,6 +540,7 @@ class AskQuestionActivity : AppCompatActivity(), LoadingDialogManager {
         publishButton.isEnabled = true
     }
 
+
     // 退出编辑发布或丢失页面的dialog
     private fun showExitDialog() = AlertDialog.Builder(this@AskQuestionActivity)
             .setTitle("放弃编辑吗～")
@@ -530,7 +549,4 @@ class AskQuestionActivity : AppCompatActivity(), LoadingDialogManager {
             .setNegativeButton("确定") { _, _ -> this@AskQuestionActivity.finish() }
             .create()
             .show()
-
-
-    override val loadingDialog by lazy { LoadingDialog(this) }
 }

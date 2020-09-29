@@ -11,10 +11,7 @@ interface LoadingDialogManager {
     }
 
     fun hideLoadingDialog() {
-        loadingDialog.dismiss()
+        loadingDialog.dismissDialog()
     }
 
-    fun getDialog(): Dialog {
-        return loadingDialog
-    }
 }

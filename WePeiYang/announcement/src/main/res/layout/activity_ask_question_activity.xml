@@ -102,7 +102,7 @@ tools:context=".ui.detail.AskQuestionActivity">
                     android:layout_marginStart="12dp"
                     android:layout_marginTop="5dp"
                     android:layout_marginEnd="12dp"
-                    android:textSize="10sp"
+                    android:textSize="7sp"
                     android:text="请选择至少三个标签,若没有找到，请选择其他" />
 
             </LinearLayout>
@@ -118,12 +118,12 @@ tools:context=".ui.detail.AskQuestionActivity">
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/path_rec2"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/detail_rec2"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>
 
@@ -225,7 +225,7 @@ tools:context=".ui.detail.AskQuestionActivity">
             android:id="@+id/ll4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="15dp"
             android:layout_marginBottom="3dp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
