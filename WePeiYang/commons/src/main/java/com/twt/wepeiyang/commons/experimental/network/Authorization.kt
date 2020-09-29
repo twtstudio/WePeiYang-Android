@@ -82,7 +82,7 @@ object RealAuthenticator : Authenticator {
 object CodeCorrectionInterceptor : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response =
             chain.proceed(chain.request()).run {
-                Log.d("whatfuckinterface", chain.request().url().toString())
+                Log.d("whathappenedoninterface", chain.request().url().toString())
                 if (code() == HttpURLConnection.HTTP_BAD_REQUEST)
                     newBuilder().code(HttpURLConnection.HTTP_UNAUTHORIZED).build() else this
             }
