@@ -101,13 +101,13 @@ class SearchActivity : AppCompatActivity() {
                                 }?.data?.let { next ->
                                     takeIf { next.isNotEmpty() }?.apply {
                                         val items = next.map { ques ->
-                                            QuestionItem(context, ques) {
+                                            QuestionItem(context, ques, onClick = {
                                                 // 问题详情跳转
                                                 Log.i("tranced", "已经跳转")
                                                 val mIntent: Intent = Intent(this@SearchActivity, DetailActivity::class.java)
                                                         .putExtra("question", ques)
                                                 startActivity(mIntent)
-                                            }
+                                            })
                                         }
                                         searchResultRec.visibility = View.VISIBLE
                                         with(searchResultRecManager) {
@@ -131,14 +131,7 @@ class SearchActivity : AppCompatActivity() {
             layoutManager = LinearLayoutManager(this@SearchActivity)
         }
 
-        AnnoPreference.searchHistory.reversed().mapTo(historyItems) { t ->
-            SearchHistoryItem(t) { search(this, t) }
-        }.takeIf {
-            AnnoPreference.searchHistory.size > 0
-        }?.also {
-            historyItems.add(DeleteHistoryItem { clearHistory() })
-        }
-
+        refreshHistory()
 
         editText.apply {
             setOnTouchListener { _, event ->
@@ -148,6 +141,8 @@ class SearchActivity : AppCompatActivity() {
                         searchResultRec.visibility = View.INVISIBLE
                         searchHistoryRec.visibility = View.VISIBLE
                         //这里不能用refreshAll  会出错
+                        Log.d("whynohistory", "whalkdsjfljdsafl")
+                        refreshHistory()
                         searchHistoryRecManager.clear()
                         searchHistoryRecManager.addAll(historyItems)
                     }
@@ -171,6 +166,16 @@ class SearchActivity : AppCompatActivity() {
         editText.requestFocus()
         searchHistoryRec.withItems(historyItems)
 
+    }
+
+    private fun refreshHistory() {
+        AnnoPreference.searchHistory.reversed().mapTo(historyItems) { t ->
+            SearchHistoryItem(t) { search(this, t) }
+        }.takeIf {
+            AnnoPreference.searchHistory.size > 0
+        }?.also {
+            historyItems.add(DeleteHistoryItem { clearHistory() })
+        }
     }
 
     private fun search(context: Context, text: String) {
@@ -211,12 +216,12 @@ class SearchActivity : AppCompatActivity() {
                             problemText.visibility = View.INVISIBLE
                             searchResultRec.visibility = View.VISIBLE
                             searchResultRecManager.refreshAll(ques.map {
-                                QuestionItem(context, it) {
+                                QuestionItem(context, it, onClick = {
                                     //详情页跳转
                                     val mIntent: Intent = Intent(this@SearchActivity, DetailActivity::class.java)
                                             .putExtra("question", it)
                                     startActivity(mIntent)
-                                }
+                                })
                             })
                             searchResultRecManager.add(ButtonItem())
 //                            Toast.makeText(this@SearchActivity,"获取数据成功",Toast.LENGTH_SHORT).show()

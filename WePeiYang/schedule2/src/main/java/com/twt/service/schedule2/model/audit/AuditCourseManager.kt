@@ -2,6 +2,7 @@ package com.twt.service.schedule2.model.audit
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
+import android.util.Log
 import com.twt.service.schedule2.extensions.termStart
 import com.twt.service.schedule2.model.AbsClasstableProvider
 import com.twt.service.schedule2.model.Classtable
@@ -34,12 +35,18 @@ object AuditCourseManager {
      * 网络拉取课程刷新信息 并且更新数据库
      */
     suspend fun refreshAuditClasstable(dao: AuditCourseDao = ScheduleDb.auditCourseDao) {
-        val auditCourse = AuditApi.getMyAudit().awaitAndHandle { it.printStackTrace() }?.data
+        val auditCourse = AuditApi.getMyAudit().awaitAndHandle {
+            Log.d("testitemd audit error", it.message)
+            it.printStackTrace()
+        }?.data
                 ?: throw IllegalStateException("刷新蹭课列表失败")
+
+        Log.d("testitemd audit good", auditCourse.toString())
+
         deleteAuditCoursesLocal(dao)
-        var usableCourse :ArrayList<AuditCourse> = ArrayList()
+        var usableCourse: ArrayList<AuditCourse> = ArrayList()
         auditCourse.forEach {
-            if(it.infos.isNotEmpty())
+            if (it.infos.isNotEmpty())
                 usableCourse.add(it)
         }
         val array = usableCourse.toTypedArray()

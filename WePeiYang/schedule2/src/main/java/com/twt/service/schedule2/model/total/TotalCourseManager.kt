@@ -79,6 +79,7 @@ object TotalCourseManager {
                     try {
                         AuditCourseManager.refreshAuditClasstable() // 这里在网络请求失败的时候会抛出一个异常 需要捕获一下
                     } catch (e: Exception) {
+                        Log.d("testitemd audit error", e.message)
                         e.printStackTrace()
                     }
                 }
@@ -95,12 +96,14 @@ object TotalCourseManager {
                 DuplicateCourseManager.getDuplicateCourseProvider()
             }
 
+            Log.d("testitemdisplaytime", "network process examTableDeferred finish")
             val finalClasstableProvider = MergedClassTableProvider(
                     tjuClassTableProvider.await(),
                     auditClasstableProvider.await(),
                     customCourseProvider.await(),
                     duplicateCourseProvider.await()
             )
+            Log.d("testitemdisplaytime", finalClasstableProvider.totalCoursesList.toString())
 
             try {
 

@@ -35,6 +35,7 @@ import com.twt.service.announcement.service.Tag
 import com.twt.service.announcement.ui.activity.detail.ReleasePicAdapter
 import com.twt.service.announcement.ui.activity.detail.noSelectPic
 import com.twt.service.announcement.ui.main.MyLinearLayoutManager
+import com.twt.service.announcement.ui.main.QuestionItem
 import com.twt.service.announcement.ui.main.TagBottomItem
 import com.twt.service.announcement.ui.main.TagsDetailItem
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
@@ -130,7 +131,7 @@ class AskQuestionActivity : AppCompatActivity(), LoadingDialogManager {
             this.setOnClickListener {
                 //点击button时显示progressDialog
                 isEnabled = false
-                if (pathTags.itemListSnapshot.size >= 3) {
+                if (((pathTags.last() as TagBottomItem).content == "其他") or (pathTags.itemListSnapshot.size >= 3)) {
                     if (title.text.isNotEmpty() && detail.text.isNotEmpty()) {
                         confirmAgain {
                             showLoadingDialog(this@AskQuestionActivity)

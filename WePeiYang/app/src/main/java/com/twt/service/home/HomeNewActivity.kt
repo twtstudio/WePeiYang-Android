@@ -111,27 +111,27 @@ class HomeNewActivity : AppCompatActivity() {
         }
 
         //TODO(这里后台数据返回的有问题，json无法解析)
-//        GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
-//            val messageBean = MessageService.getMessage().awaitAndHandle {
-//
-//                Log.d("testjsoncanconvert", it.message.toString())
-//            }
-//            val data = messageBean?.data
-//            Log.d("HomeNew-Message-1", data.toString())
-//            if (messageBean?.error_code == -1 && data != null) {
-//                // 通过新的网请和本地的 isDisplayMessage 判断来实现 Message 是否显示
-//                if (!MessagePreferences.isDisplayMessage && MessagePreferences.messageVersion != data.version) {
-//                    MessagePreferences.apply {
-//                        isDisplayMessage = true
-//                        messageTitle = data.title
-//                        messageContent = data.message
-//                        messageVersion = data.version
-//                    }
-//                    itemManager.homeMessageItemAtFirst()
-//                    rec.scrollToPosition(0)
-//                }
-//            }
-//        }
+        GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
+            val messageBean = MessageService.getMessage().awaitAndHandle {
+
+                Log.d("testjsoncanconvert", it.message.toString())
+            }
+            val data = messageBean?.data
+            Log.d("HomeNew-Message-1", data.toString())
+            if (messageBean?.error_code == -1 && data != null) {
+                // 通过新的网请和本地的 isDisplayMessage 判断来实现 Message 是否显示
+                if (!MessagePreferences.isDisplayMessage && MessagePreferences.messageVersion != data.version) {
+                    MessagePreferences.apply {
+                        isDisplayMessage = true
+                        messageTitle = data.title
+                        messageContent = data.message
+                        messageVersion = data.version
+                    }
+                    itemManager.homeMessageItemAtFirst()
+                    rec.scrollToPosition(0)
+                }
+            }
+        }
 
         rec.post {
             (rec.getChildAt(0)?.layoutParams as? RecyclerView.LayoutParams)?.topMargin = dip(4)

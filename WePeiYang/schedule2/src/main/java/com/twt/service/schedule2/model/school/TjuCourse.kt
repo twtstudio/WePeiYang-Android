@@ -1,5 +1,6 @@
 package com.twt.service.schedule2.model.school
 
+import android.util.Log
 import com.twt.service.schedule2.model.Classtable
 import com.twt.service.schedule2.model.SchedulePref
 import com.twt.wepeiyang.commons.experimental.cache.Cache
@@ -30,13 +31,19 @@ val tjuCourseCache = Cache.hawk<Classtable>(classtableCacheKey)
 suspend fun TjuCourseApi.Companion.refresh(mustRefresh: Boolean = false): Classtable {
 //    val deferredClasstable = getScheduleAsync()
     val deferredClasstable = getClassTable()
-    val handler: suspend (Throwable) -> Unit = { it.printStackTrace() }
+    val handler: suspend (Throwable) -> Unit = {
+        Log.d("testitemd refresh error", it.localizedMessage.toString())
+        it.printStackTrace()
+    }
     // 要么是必须刷新 要么是没有缓存
     if (mustRefresh || tjuCourseCache.get().await() == null) {
         // 刷新失败就拿缓存 缓存还没有就凉了
 //        val classtable: Classtable? = deferredClasstable.awaitAndHandle(handler)?.parseHtml
         val classtable: Classtable? = deferredClasstable.awaitAndHandle(handler)?.data
                 ?: tjuCourseCache.get().await()
+
+        Log.d("testitemd classtable", classtable?.courses.toString())
+
         try {
             classtable?.let {
                 tjuCourseCache.set(it)

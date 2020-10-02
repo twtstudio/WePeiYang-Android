@@ -56,8 +56,12 @@ class DetailReplyItem(
                 }
                 timeTv.text = item.reply.created_at
                         .split("T", ".")
-                        .subList(0, 2)
-                        .joinToString(separator = " ")
+                        .subList(0, 2).joinToString(separator = " ") {
+                            if (it.contains(":"))
+                                it.split(":").subList(0, 2).joinToString(separator = ":")
+                            else
+                                it
+                        }
 
                 AnnoPreference.myId?.let {
                     GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {

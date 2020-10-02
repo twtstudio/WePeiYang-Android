@@ -18,11 +18,7 @@ interface AnnoService {
     fun getTagTree(): Deferred<CommonBody<List<Tag>>>
 
     /*
-    没有searchMap的话返回所有数据，否则根据传递的map筛选
     搜索问题
-    http://47.93.253.240:10805/api/user/question/search?search_string=水&tagList=[2]
-    两个参数都可空，此时返回全部question
-    tagList -> listof<Int>(2)
     */
     @JvmSuppressWildcards
     @GET("question/search")
@@ -125,6 +121,13 @@ interface AnnoService {
                         @Query("name") name: String): Deferred<CommonBody<UserId>>
 
     /*
+    通过user_id获得userData
+    http://47.93.253.240:10805/api/user/userData?user_id=1
+     */
+    @GET("userData")
+    fun getUserDataById(@Query("user_id") user_id: Int): Deferred<CommonBody<UserData>>
+
+    /*
     上传图片
     http://47.93.253.240:10805/api/user/image/add
      */
@@ -135,41 +138,51 @@ interface AnnoService {
             @Part newImg: MultipartBody.Part,
             @Part("question_id") question_id: Int): Deferred<CommonBody<picUrl>>
 
-    /**
-     * 发送点赞请求
-     * @param type 点赞对象的类型，可以是"question"或"answer"或"commit"
-     * @param up 是否已经点赞(脑瘫命名)，如果是true的话
-     * @param id 点赞对象的id
-     * @param userId 这个不用废话，就是[AnnoPreference.myId]
-     * @param context 传入上下文
-     * @param onRefresh 刷新事件
+    /*
+    获取自己发布的问题
+    http://47.93.253.240:10805/api/user/question/get/myQuestion?user_id=1&limits=0
      */
-    suspend fun sendLikeRequest(type: String, up: Boolean, id: Int, userId: Int, context: Context, onRefresh: (likeCount: Int, likeState: Boolean) -> Unit) {
-        AnnoService.postThumbUpOrDown(
-                type,
-                when (up) {
-                    true -> "dislike"
-                    false -> "like"
-                },
-                id,
-                userId
-        ).awaitAndHandle() {
-            Toasty.error(context, "点赞状态更新失败").show()
-        }?.data?.let {
-            onRefresh(it, !up)
-            Log.d("tranced", "这里是点赞测试$it")
-        }
-    }
+    @GET("question/get/myQuestion")
+    fun getMyQuestion(
+            @Query("user_id") user_id: Int,
+            @Query("limits") limits: Int = 0): Deferred<CommonBody<List<Question>>>
+
+    /*
+    删除问题
+    http://47.93.253.240:10805/api/user/question/delete
+     */
+    @JvmSuppressWildcards
+    @FormUrlEncoded
+    @POST("question/delete")
+    fun deleteQuestion(
+            @Field("user_id") user_id: Int,
+            @Field("question_id") question_id: Int): Deferred<CommonBody<Any>>
+
+    /*
+    通过questionID获取问题
+    http://47.93.253.240:10805/api/user/question/get/byId?id=199&user_id=2
+     */
+    @GET("question/get/byId")
+    fun getDetailQuestion(@Query("id") id: Int, @Query("user_id") user_id: Int): Deferred<CommonBody<Question>>
 
     companion object : AnnoService by AnnoServiceFactory()
 }
 
+data class UserData(
+        val id: Int,
+        val name: String,
+        val student_id: String,
+        val my_question_num: Int,
+        val my_solved_question_num: Int,
+        val my_liked_question_num: Int,
+        val my_commit_num: Int
+)
 
 data class Tag(
         val id: Int,
         val name: String,
         val children: List<Tag>
-)
+) : Serializable
 
 data class Question(
         val id: Int,
@@ -185,7 +198,9 @@ data class Question(
         val msgCount: Int,
         val url_list: List<String>,
         val thumb_url_list: List<String>,
-        val thumbImg: String
+        val thumbImg: String,
+        val tags: List<Tag>,
+        val is_liked: Boolean
 ) : Serializable
 
 data class Reply(

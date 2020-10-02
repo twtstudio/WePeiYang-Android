@@ -38,6 +38,13 @@ class ReplyItem(
                 titleTv.text = item.title
                 nameTv.text = item.reply.user_name
                 timeTv.text = item.reply.created_at
+                        .split("T", ".")
+                        .subList(0, 2).joinToString(separator = " ") {
+                            if (it.contains(":"))
+                                it.split(":").subList(0, 2).joinToString(separator = ":")
+                            else
+                                it
+                        }
                 RichText.initCacheDir(itemView.context)
                 RichText.fromHtml(item.reply.contain).scaleType(ImageHolder.ScaleType.fit_auto).into(contentTv)
 //                likeCountTv.text = item.likeCount.toString()

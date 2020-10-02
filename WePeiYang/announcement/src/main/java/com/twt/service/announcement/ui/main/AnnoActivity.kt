@@ -4,6 +4,7 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.support.design.widget.AppBarLayout
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
@@ -53,6 +54,7 @@ class AnnoActivity : AppCompatActivity() {
     private lateinit var quesDetailRecyclerView: RecyclerView
     private lateinit var tagPathRecyclerView: RecyclerView
     private lateinit var tagListRecyclerView: RecyclerView
+    private lateinit var appBar: AppBarLayout
     private lateinit var hintText: TextView
     private lateinit var floatingActionMenu: FloatingActionMenu
     private var nextUrl: String? = null
@@ -63,6 +65,7 @@ class AnnoActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_anno)
+        appBar = findViewById(R.id.toolbar)
 
         // AnnoViewModel中有两个LiveData
         annoViewModel = ViewModelProviders.of(this)[AnnoViewModel::class.java]
@@ -96,6 +99,20 @@ class AnnoActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        //TODO:这里我想判断是否从发送页面退出来的，但是还不知道怎么搞
+//        val currentQuestionId = annoViewModel.quesId.value
+//        currentQuestionId?.let {
+//            Log.d("currentquestionid", it.toString())
+//            GlobalScope.launch {
+//                delay(500)
+//                annoViewModel.searchQuestion(it)
+//            }
+//        }
     }
 
     private fun initRecyclerView() {
@@ -173,12 +190,14 @@ class AnnoActivity : AppCompatActivity() {
                                 }?.data?.let { next ->
                                     takeIf { next.isNotEmpty() }?.apply {
                                         val items = next.map { ques ->
-                                            QuestionItem(context, ques) {
+                                            QuestionItem(context, ques, onClick = {
+
                                                 closeFloatingMenu()
                                                 // 跳转至详情页面
                                                 startDetailActivity(ques)
 
-                                            }
+
+                                            })
                                         }
                                         hintText.visibility = View.INVISIBLE
                                         quesDetailRecyclerView.visibility = View.VISIBLE
@@ -216,6 +235,7 @@ class AnnoActivity : AppCompatActivity() {
             //TODO(添加新的问题)
             this.setOnClickListener {
                 //initTagTree()
+                closeFloatingMenu()
                 startActivity(Intent(this@AnnoActivity, AskQuestionActivity::class.java))
             }
         }
@@ -225,6 +245,7 @@ class AnnoActivity : AppCompatActivity() {
                 if (canRefresh) {
                     canRefresh = false
                     quesRecController.clear()
+                    appBar.setExpanded(true)
                     initTagTree()
                     getAllQuestions()
 //                closeFloatingMenu()
@@ -236,7 +257,7 @@ class AnnoActivity : AppCompatActivity() {
 
             //TODO(添加新的问题)
             this.setOnClickListener {
-
+                closeFloatingMenu()
                 startActivity(Intent(this@AnnoActivity, UserActivity::class.java))
             }
         }
@@ -276,12 +297,15 @@ class AnnoActivity : AppCompatActivity() {
                                 "limits" to 20,
                                 "page" to 1, "user_id" to user_id)
                 ).awaitAndHandle {
+                    Log.d("getQuestion error", it.message)
                     hintText.visibility = View.VISIBLE
                     quesDetailRecyclerView.visibility = View.INVISIBLE
                     canRefresh = true
                 }?.data?.apply {
+                    Log.d("whatquestion", this.data.toString())
                     nextUrl = if (to != total) next_page_url else null
                 }?.data?.let { quesList ->
+                    Log.d("whataaa", quesList.map { it.name }.toString())
 
                     GlobalScope.launch {
                         delay(1000)
@@ -298,12 +322,12 @@ class AnnoActivity : AppCompatActivity() {
                         else -> {
 
                             val items = quesList.map { ques ->
-                                QuestionItem(context, ques) {
+                                QuestionItem(context, ques, onClick = {
                                     closeFloatingMenu()
                                     // 跳转至详情页面
                                     startDetailActivity(ques)
 
-                                }
+                                })
                             }
                             hintText.visibility = View.INVISIBLE
                             quesDetailRecyclerView.visibility = View.VISIBLE
@@ -349,10 +373,14 @@ class AnnoActivity : AppCompatActivity() {
                     TagsDetailItem(child.name, child.id) {
                         if (child.children.isNotEmpty()) {
                             pathTags.add(TagBottomItem(child.name, index) {
-                                tagTree[index + 1]?.let { listTags.refreshAll(it) }
+                                tagTree[index + 1]?.let {
+                                    listTags.refreshAll(it)
+                                }
+                                //改了个bug
+                                annoViewModel.searchQuestion(child.id)
                                 (0 until pathTags.itemListSnapshot.size - index - 1).forEach { _ ->
                                     pathTags.removeAt(pathTags.size - 1)
-                                    Log.e("delete tag", "de")
+                                    Log.d("delete tag", "de")
                                 }
                                 tagListRecyclerView.visibility = View.VISIBLE
                                 closeFloatingMenu()
@@ -378,7 +406,7 @@ class AnnoActivity : AppCompatActivity() {
                             )
                             if ((pathTags.itemListSnapshot[pathTags.size - 2] as TagBottomItem).content == child.name)
                                 pathTags.removeAt(pathTags.itemListSnapshot.lastIndex)
-                            tagListRecyclerView.visibility = View.INVISIBLE
+                            tagListRecyclerView.visibility = View.GONE
 
                             Log.e("tag_path", path.toString())
                         }
