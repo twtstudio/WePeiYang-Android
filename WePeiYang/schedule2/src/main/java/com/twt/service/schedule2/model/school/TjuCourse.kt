@@ -32,7 +32,7 @@ suspend fun TjuCourseApi.Companion.refresh(mustRefresh: Boolean = false): Classt
 //    val deferredClasstable = getScheduleAsync()
     val deferredClasstable = getClassTable()
     val handler: suspend (Throwable) -> Unit = {
-        Log.d("testitemd refresh error", it.localizedMessage.toString())
+        Log.d("testitemd refresh error", " testitemd refresh error " + it.localizedMessage.toString())
         it.printStackTrace()
     }
     // 要么是必须刷新 要么是没有缓存
@@ -42,7 +42,7 @@ suspend fun TjuCourseApi.Companion.refresh(mustRefresh: Boolean = false): Classt
         val classtable: Classtable? = deferredClasstable.awaitAndHandle(handler)?.data
                 ?: tjuCourseCache.get().await()
 
-        Log.d("testitemd classtable", classtable?.courses.toString())
+        Log.d("testitemd classtable", classtable.toString())
 
         try {
             classtable?.let {

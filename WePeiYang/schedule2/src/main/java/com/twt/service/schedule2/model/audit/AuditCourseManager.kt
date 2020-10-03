@@ -36,11 +36,12 @@ object AuditCourseManager {
      */
     suspend fun refreshAuditClasstable(dao: AuditCourseDao = ScheduleDb.auditCourseDao) {
         val auditCourse = AuditApi.getMyAudit().awaitAndHandle {
-            Log.d("testitemd audit error", it.message)
+            Log.d("testitemd audit error", "refreshAuditClasstable: " + it.message)
             it.printStackTrace()
         }?.data
                 ?: throw IllegalStateException("刷新蹭课列表失败")
 
+        // 这个能获取到信息
         Log.d("testitemd audit good", auditCourse.toString())
 
         deleteAuditCoursesLocal(dao)

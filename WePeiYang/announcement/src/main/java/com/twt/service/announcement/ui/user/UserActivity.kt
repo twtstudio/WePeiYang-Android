@@ -262,7 +262,7 @@ class UserActivity : AppCompatActivity() {
                                 } else {
                                     stateText.visibility = View.VISIBLE
                                     questionRec.visibility = View.INVISIBLE
-                                    stateText.text = "您还没有点了赞的问题"
+                                    stateText.text = "你还没有提出过问题"
                                 }
                             }
                         }

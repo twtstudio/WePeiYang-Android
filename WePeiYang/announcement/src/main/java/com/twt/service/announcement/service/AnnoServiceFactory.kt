@@ -13,7 +13,7 @@ object AnnoServiceFactory {
     private val loggingInterceptor = HttpLoggingInterceptor()
             .apply { level = HttpLoggingInterceptor.Level.BODY }
 
-    const val BASE_URL = "http://47.93.253.240:10805/api/user/"
+    const val BASE_URL = "https://areas.twt.edu.cn/api/user/"
 
     val client = OkHttpClient.Builder()
             .addInterceptor(loggingInterceptor)

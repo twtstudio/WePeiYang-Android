@@ -21,7 +21,7 @@ object ExamTableLocalAdapter {
             // refreshData 耗时严重
             refreshData().awaitAndHandle {
                 it.printStackTrace()
-                Log.d("testitemdisplaytime", it.message)
+                Log.d("testitemdisplaytime", "refreshData: " + it.message)
 
             }?.forEach {
                 examLocalMap[it.id] = it

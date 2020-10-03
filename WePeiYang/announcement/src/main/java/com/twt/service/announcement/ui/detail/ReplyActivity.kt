@@ -114,9 +114,9 @@ class ReplyActivity : AppCompatActivity() {
      */
     private suspend fun getData() {
 //        delay(1000) // 模拟网络请求的艰辛
-        AnnoService.getLikedState("answer", intent.getIntExtra("userId", 0), intent.getIntExtra("id", 0)).awaitAndHandle {
-
-        }
+//        AnnoService.getLikedState("answer", intent.getIntExtra("userId", 0), intent.getIntExtra("id", 0)).awaitAndHandle {
+//
+//        }
         likeCount += 50
     }
 }
