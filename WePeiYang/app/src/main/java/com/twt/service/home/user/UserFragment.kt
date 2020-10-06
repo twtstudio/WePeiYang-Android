@@ -43,7 +43,7 @@ import kotlinx.coroutines.launch
 import rx.android.schedulers.AndroidSchedulers
 import rx.functions.Action1
 import rx.schedulers.Schedulers
-import xyz.rickygao.gpa2.spider.utils.SpiderTjuApi
+import xyz.rickygao.gpa2.spider.utils.SpiderCookieManager
 
 
 /**
@@ -93,7 +93,7 @@ class UserFragment : Fragment() {
                                                                 }
                                                                 .subscribe(Action1 {
                                                                     //清除办公网登录cookie缓存
-                                                                    SpiderTjuApi.clear()
+                                                                    SpiderCookieManager.clear()
                                                                     CommonPreferences.tjuloginbind = false
                                                                     CommonPreferences.tjuuname = ""
                                                                     CommonPreferences.tjupwd = ""
@@ -187,7 +187,7 @@ class UserFragment : Fragment() {
                                                     CacheProvider.clearCache()
                                                     StatService.removeMultiAccount(context, StatMultiAccount.AccountType.CUSTOM)
                                                     //清除办公网登录缓存
-                                                    SpiderTjuApi.clear()
+                                                    SpiderCookieManager.clear()
                                                     val intent = Intent(context, LoginActivity::class.java)
                                                     context.startActivity(intent)
                                                     (context as Activity).finish()

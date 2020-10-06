@@ -21,7 +21,7 @@ object ScheduleSpider {
 
     fun getScheduleAsync(): Deferred<String> = GlobalScope.async(IO + QuietCoroutineExceptionHandler) {
 
-        val okHttpClient = SpiderTjuApi.getClientBuilder().build()
+        val okHttpClient = SpiderCookieManager.getClientBuilder().build()
 
         val request1 = Request.Builder()
                 .url("http://classes.tju.edu.cn/eams/courseTableForStd.action")

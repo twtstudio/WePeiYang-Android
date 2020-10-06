@@ -1,79 +1,95 @@
 package xyz.rickygao.gpa2.spider.utils
 
-import android.content.Intent
 import android.util.Log
-import com.twt.wepeiyang.commons.experimental.CommonContext
-import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
-import com.twt.wepeiyang.commons.experimental.startActivity
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
+import okhttp3.FormBody
+import okhttp3.Request
+import org.jsoup.Jsoup
 
 /**
- * 生成爬虫所需的okHttpClient
- * 设置 CookieJar 在发送请求前设置cookie，接收请求后保存cookie
+ * classes.tju.edu.cn
+ * cookie 获取
+ *
  */
 object SpiderTjuApi {
+    //    private val COOKIE_BASE_URL = "http://classes.tju.edu.cn/eams/homeExt.action"
+    private var execution = ""
 
-    private val cookieStore = PersistentCookieStore(CommonContext.application)
-    private val cookieJar = CookieJarImpl(cookieStore)
-    val clientBuilder = OkHttpClient.Builder()
-            .cookieJar(cookieJar)
-            .addNetworkInterceptor(HttpLoggingInterceptor()
-                    .apply { level = HttpLoggingInterceptor.Level.BODY })
+    private val KAPTCHA_URL = "https://sso.tju.edu.cn/cas/images/kaptcha.jpg"
+    private val LOGIN_URL = "https://sso.tju.edu.cn/cas/login"
+
+    //    private val loginUrl = "$LOGIN_BASE_URL?service=http://classes.tju.edu.cn/eams/homeExt.action"
+    private val logoutUrl = "http://classes.tju.edu.cn/eams/logoutExt.action"
+
+//    private var cookieJar = CookieJarImpl(PersistentCookieStore(CommonContext.application))
+//    private val okHttpClient = OkHttpClient.Builder()
+//            .cookieJar(cookieJar)
+//            .addNetworkInterceptor(HttpLoggingInterceptor()
+//                    .apply { level = HttpLoggingInterceptor.Level.BODY }).build()
+
+    suspend fun getSession():String?{
+        /*
+         *
+         * 获取 session
+         * 解析登录所需参数 execution
+         */
+        val requestInit = Request.Builder()
+                .url(LOGIN_URL)
+                .get()
+                .build()
+        val body = SpiderCookieManager.clientBuilder.build().newCall(requestInit).execute().body()?.string().orEmpty()
+        val doc = Jsoup.parse(body)
+        val es = doc.select("input")
+        for (e in es) {
+            if (e.attr("name") == "execution") {
+                execution = e.`val`()
+            }
+        }
+        for(cookie in SpiderCookieManager.cookieStore.cookies){
+            if(cookie.name() == "SESSION"){
+                return cookie.value()
+            }
+        }
+        return null
+    }
+    /**
+     * 登录
+     * 无论登录是否成功，都会获取cookie session
+     */
+    suspend fun login(userName: String, password: String, captcha: String): Boolean {
+
+        /*
+         * 登录
+         */
+        var requestBody = FormBody.Builder()
+                .add("username", userName)
+                .add("password", password)
+                .add("_eventId", "submit")
+                .add("execution", execution)
+                .add("captcha", captcha)
+                .build()
+        var requestLogin = Request.Builder().url(LOGIN_URL)
+                .addHeader("Accept-Language", "en-US").post(requestBody).build()
+
+        val loginBody = SpiderCookieManager.clientBuilder.build().newCall(requestLogin).execute().body()?.string().orEmpty()
+//        refreshCookie()
+//        printCookie()
+        return !(loginBody.contains("Invalid credentials") || userName.trim() == "" || password.trim() == "")
+    }
+
 
     /**
-     * 构造爬虫所需 OkHttpClient.Builder
-     * 设置了cookieJar 缓存cookie
-     * 并对cookie是否过期进行判断
+     * 登出
      */
-    suspend fun getClientBuilder(): OkHttpClient.Builder {
-        printCookie()
-        if (CommonPreferences.tjuloginbind) {
-            // 曾经成功登录办公网，账户密码依然可以继续使用
-            if (cookieStore.cookies.isNotEmpty()) {
-                // 如果有cookie过期就重新登录
-                for (cookie in cookieStore.cookies) {
-                    if (cookie.isExpired()) {
-                        Log.d("SpiderCookieApi", "expired ${cookie.name()}")
-                        checkTjuValid(SpiderTjuLogin.login(CommonPreferences.tjuuname, CommonPreferences.tjupwd))
-                        break
-                    }
-                }
-                return clientBuilder
-            }
-        }
-        // 未曾成功登录过，需要登录
-        Log.d("SpiderCookieApi", "never login")
-        checkTjuValid(SpiderTjuLogin.login(CommonPreferences.tjuuname, CommonPreferences.tjupwd))
-        printCookie()
-        return clientBuilder
+    fun logout() {
+        var doc = Jsoup.connect(logoutUrl).get()
+        Log.d("logout", doc.toString())
     }
-
-    private fun checkTjuValid(valid: Boolean) {
-        if (!valid) {
-            CommonPreferences.tjuloginbind = false
-//            Toast.makeText(CommonContext.application,"办公网重新绑定（最近更换密码）",Toast.LENGTH_LONG).show()
-            CommonContext.application.startActivity("bind") {
-                // module app 中的com.twt.service.settings.SingleBindActivity
-                val TJU_BIND = 0xfaee01
-                val TYPE = "type"
-                this.putExtra(TYPE, TJU_BIND)
-                this.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
-            }
-        } else {
-            CommonPreferences.tjuloginbind = true
-        }
-    }
-
-    fun clear() {
-        cookieStore.removeAll()
-    }
-
-    fun printCookie() {
-        Log.d("SpiderCookieApi", cookieStore.cookies.toString())
-        for (cookie in cookieStore.cookies) {
-            Log.d("SpiderCookieApi", "detail: $cookie")
-        }
-    }
+//
+//    private fun refreshCookie() {
+//        cookieJar = CookieJarImpl(PersistentCookieStore(CommonContext.application))
+//    }
+//
+//    private fun printCookie() {
+//        Log.d("SpiderCookieLogin", cookieJar.cookieStore.cookies.toString())
+//    }
 }
-

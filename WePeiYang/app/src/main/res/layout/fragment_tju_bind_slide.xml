@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -50,6 +52,31 @@
             android:textSize="16sp" />
     </android.support.design.widget.TextInputLayout>
 
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:textColorHint="@color/common_lv2">
+            <EditText
+                android:id="@+id/tju_kaptcha"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="输入验证码"
+                android:inputType="textPassword"
+                android:textColor="@color/common_lv2"
+                android:textSize="16sp" />
+        </android.support.design.widget.TextInputLayout>
+        <ImageView
+            android:id="@+id/iv_kaptcha"
+            android:layout_gravity="center_vertical"
+            tools:src="@drawable/uet_edit_attr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
     <Button
         android:id="@+id/btn_tju_bind"
         android:layout_width="300dp"
