@@ -4,6 +4,7 @@ import android.app.Fragment
 import android.os.Build
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.text.SpannableStringBuilder
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,19 +14,26 @@ import android.widget.ImageView
 import android.widget.Toast
 import butterknife.ButterKnife
 import butterknife.Unbinder
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.model.GlideUrl
+import com.bumptech.glide.load.model.LazyHeaders
 import com.twt.service.R
 import com.twt.wepeiyang.commons.experimental.cache.CacheIndicator
 import com.twt.wepeiyang.commons.experimental.cache.RefreshState
-import com.twt.wepeiyang.commons.experimental.color.getColorCompat
+import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
 import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
-import com.twt.wepeiyang.commons.network.RxErrorHandler
 import com.twtstudio.retrox.auth.api.authSelfLiveData
 import com.twtstudio.retrox.auth.api.login
 import com.twtstudio.retrox.tjulibrary.provider.TjuLibProvider
 import es.dmoral.toasty.Toasty
-import rx.android.schedulers.AndroidSchedulers
-import rx.functions.Action1
-import rx.schedulers.Schedulers
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import xyz.rickygao.gpa2.spider.utils.SpiderTjuApi
+
 
 class SingleBindActivity : AppCompatActivity() {
     companion object {
@@ -59,10 +67,11 @@ class TjuBindFragment2 : Fragment() {
 
     private lateinit var numEdit: EditText
     private lateinit var passwordEdit: EditText
+    private lateinit var etCaptcha: EditText
+    private lateinit var imgCaptcha: ImageView
     lateinit var button: Button
     private lateinit var unbinder: Unbinder
-
-
+    private var session: String? = null
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         val view: View = inflater.inflate(R.layout.fragment_tju_bind_slide, container, false).also {
@@ -71,34 +80,94 @@ class TjuBindFragment2 : Fragment() {
         button = view.findViewById(R.id.btn_tju_bind)
         numEdit = view.findViewById(R.id.tju_num)
         passwordEdit = view.findViewById(R.id.tju_password)
+        etCaptcha = view.findViewById(R.id.tju_kaptcha)
+        imgCaptcha = view.findViewById(R.id.iv_captcha)
+        GlobalScope.launch {
+            withContext(IO + QuietCoroutineExceptionHandler) {
+                SpiderTjuApi.prepare()
+                session = SpiderTjuApi.getSession()
+            }
+            withContext(Main) {
+                refreshCaptcha()
+            }
+        }
+        if (CommonPreferences.tjuloginbind) {
+            numEdit.text = SpannableStringBuilder(CommonPreferences.tjuuname)
+            passwordEdit.text = SpannableStringBuilder(CommonPreferences.tjupwd)
+        }
+        imgCaptcha.setOnClickListener {
+            refreshCaptcha()
+        }
+        button.setOnClickListener {
+            it.isClickable = false
+            it.alpha = 0.5f
+            val userNumber = numEdit.text.toString()
+            val password = passwordEdit.text.toString()
+            val captcha = etCaptcha.text.toString()
+            if (userNumber.trim() == "" || password.trim() == "" || captcha.trim() == "") {
+                Toasty.warning(activity, "以上三个空不能为空").show()
+            } else {
+                GlobalScope.launch(Main) {
 
-        button.setOnClickListener { _ ->
-            RealBindAndDropOutService
-                    .bindTju(numEdit.text.toString(), passwordEdit.text.toString())
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .doAfterTerminate {
-                        login(CommonPreferences.twtuname, CommonPreferences.password) {
-                            when (it) {
-                                is RefreshState.Success -> {
-                                    authSelfLiveData.refresh(CacheIndicator.REMOTE)
-                                }
-                                is RefreshState.Failure -> {
-                                    Toasty.error(activity, "发生错误 ${it.throwable.message}！${it.javaClass.name}").show()
-                                }
-                            }
-                        }
+                    val login = withContext(IO) {
+                        SpiderTjuApi.login(userNumber, password, captcha)
                     }
-                    .subscribe(Action1 {
-                        CommonPreferences.tjuuname = numEdit.text.toString()
-                        CommonPreferences.tjupwd = passwordEdit.text.toString()
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                            Toasty.success(this.context, "绑定成功", Toast.LENGTH_SHORT).show()
-                            activity.finish()
+                    if (login) {
+                        CommonPreferences.tjuuname = userNumber
+                        CommonPreferences.tjupwd = password
+                        CommonPreferences.tjuloginbind = true
+                        Toasty.success(activity, "成功登录办公网").show()
+                        activity.finish()
+                    } else {
+
+                        Toasty.error(activity, "信息填写有误").show()
+                        refreshCaptcha()
+                        withContext(IO) {
+                            SpiderTjuApi.prepare()
+
                         }
-                    }, RxErrorHandler())
+
+                    }
+                }
+            }
+            it.isClickable = true
+            it.alpha = 1f
+//            RealBindAndDropOutService
+//                    .bindTju(numEdit.text.toString(), passwordEdit.text.toString())
+//                    .subscribeOn(Schedulers.io())
+//                    .observeOn(AndroidSchedulers.mainThread())
+//                    .doAfterTerminate {
+//                        login(CommonPreferences.twtuname, CommonPreferences.password) {
+//                            when (it) {
+//                                is RefreshState.Success -> {
+//                                    authSelfLiveData.refresh(CacheIndicator.REMOTE)
+//                                }
+//                                is RefreshState.Failure -> {
+//                                    Toasty.error(activity, "发生错误 ${it.throwable.message}！${it.javaClass.name}").show()
+//                                }
+//                            }
+//                        }
+//                    }
+//                    .subscribe(Action1 {
+//                        CommonPreferences.tjuuname = numEdit.text.toString()
+//                        CommonPreferences.tjupwd = passwordEdit.text.toString()
+//                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//                            Toasty.success(this.context, "绑定成功", Toast.LENGTH_SHORT).show()
+//                            activity.finish()
+//                        }
+//                    }, RxErrorHandler())
+
         }
         return view
+    }
+
+    private fun refreshCaptcha() {
+        val cookie = GlideUrl(SpiderTjuApi.KAPTCHA_URL, LazyHeaders.Builder().addHeader("Cookie", session).build())
+        Glide.with(activity).load(cookie)
+                .skipMemoryCache(true)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .placeholder(R.drawable.ecard_loading2).into(imgCaptcha)
+
     }
 
     override fun onDestroyView() {

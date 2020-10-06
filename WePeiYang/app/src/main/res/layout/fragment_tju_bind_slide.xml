@@ -71,11 +71,11 @@
                 android:textSize="16sp" />
         </android.support.design.widget.TextInputLayout>
         <ImageView
-            android:id="@+id/iv_kaptcha"
+            android:id="@+id/iv_captcha"
             android:layout_gravity="center_vertical"
-            tools:src="@drawable/uet_edit_attr"
+            tools:src="@drawable/ecard_loading2"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="match_parent"/>
     </LinearLayout>
     <Button
         android:id="@+id/btn_tju_bind"
