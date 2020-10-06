@@ -33,7 +33,7 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-    implementation project(':commons')
+    api project(':commons')
 
     [*supportLibraries, 'constraint-layout', *archLibraries, 'kotlin-stdlib', 'kotlinx-coroutines', 'anko'].each {
         implementation dependenciesMap[it]

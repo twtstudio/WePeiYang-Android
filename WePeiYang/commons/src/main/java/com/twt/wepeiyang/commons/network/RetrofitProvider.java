@@ -71,9 +71,9 @@ public class RetrofitProvider {
         boolean isUseHttps = sharedPreferences.getBoolean("pref_use_https", true);
         String baseurl;
         if (isUseHttps) {
-            baseurl = "https://open.twtstudio.com/api/v1/";
+            baseurl = "https://open.twt.edu.cn/api/v1/";
         } else {
-            baseurl = "http://open.twtstudio.com/api/v1/";
+            baseurl = "http://open.twt.edu.cn/api/v1/";
         }
 
         Retrofit.Builder builder = new Retrofit.Builder()

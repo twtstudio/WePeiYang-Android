@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="lfcolorPrimary">#00a1e9</color>
+    <color name="lfcolorPrimaryDark">#00a1e9</color>
+    <color name="lfcolorAccent">#a0d5ed</color>
+    <color name="white">#ffffff</color>
+    <color name="wechatGreen">#40af35</color>
+    <color name="qzoneYellow">#efc049</color>
+    <color name="backgroundGrey">#eeeeee</color>
+    <color name="statusBarColor">#00a1e9</color>
+</resources>

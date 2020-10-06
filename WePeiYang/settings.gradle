@@ -1,3 +1,4 @@
+include ':announcement'
 include ':app', ':ecard', ':mall',
         ':commons',
         ':tjulibrary',

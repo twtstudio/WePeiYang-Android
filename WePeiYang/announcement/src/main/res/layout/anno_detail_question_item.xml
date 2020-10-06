@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp">
+
+            <TextView
+                android:id="@+id/annoDetailQuestionTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="false"
+                android:textAlignment="textStart"
+                android:textColor="#000"
+                android:textSize="20sp"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/annoDetailQuestionContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:singleLine="false"
+                android:textAlignment="textStart"
+                app:layout_constraintTop_toBottomOf="@id/annoDetailQuestionTitle" />
+
+            <com.jaeger.ninegridimageview.NineGridImageView
+                android:layout_marginTop="10dp"
+                android:id="@+id/annoDetailQuestionImages"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/annoDetailQuestionContent" />
+
+            <TextView
+                android:id="@+id/annoDetailQuestionName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:singleLine="true"
+                android:textAlignment="textEnd"
+                app:layout_constraintRight_toLeftOf="@id/annoDetailQuestionTime"
+                app:layout_constraintTop_toBottomOf="@id/annoDetailQuestionImages" />
+
+            <TextView
+                android:id="@+id/annoDetailQuestionTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:singleLine="true"
+                android:textAlignment="textEnd"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/annoDetailQuestionImages" />
+
+            <TextView
+                android:id="@+id/annoDetailQuestionStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:singleLine="true"
+                android:textAlignment="textEnd"
+                android:textColor="#0F0"
+                android:textSize="12sp"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/annoDetailQuestionTime" />
+
+            <ImageView
+                android:id="@+id/annoDetailQuestionCommentButton"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:contentDescription="@null"
+                android:src="@drawable/comments"
+                app:layout_constraintBottom_toBottomOf="@id/annoDetailQuestionLikeButton"
+                app:layout_constraintRight_toLeftOf="@id/annoDetailQuestionCommentLabel"
+                app:layout_constraintTop_toTopOf="@id/annoDetailQuestionLikeButton" />
+
+            <TextView
+                android:id="@+id/annoDetailQuestionCommentLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:text="评论"
+                app:layout_constraintBottom_toBottomOf="@id/annoDetailQuestionLikeButton"
+                app:layout_constraintRight_toLeftOf="@id/annoDetailQuestionLikeButton"
+                app:layout_constraintTop_toTopOf="@id/annoDetailQuestionLikeButton" />
+
+            <ImageView
+                android:id="@+id/annoDetailQuestionLikeButton"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="3dp"
+                android:contentDescription="@null"
+                android:src="@drawable/good_fill"
+                app:layout_constraintRight_toLeftOf="@id/annoDetailQuestionLikeCount"
+                app:layout_constraintTop_toBottomOf="@id/annoDetailQuestionStatus" />
+
+            <TextView
+                android:id="@+id/annoDetailQuestionLikeCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                app:layout_constraintBottom_toBottomOf="@id/annoDetailQuestionLikeButton"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@id/annoDetailQuestionLikeButton" />
+
+        </android.support.constraint.ConstraintLayout>
+
+    </android.support.v7.widget.CardView>
+
+</android.support.constraint.ConstraintLayout>

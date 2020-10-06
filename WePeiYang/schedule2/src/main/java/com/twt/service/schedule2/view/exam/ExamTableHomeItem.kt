@@ -145,6 +145,7 @@ class ExamTableHomeItem : Item {
             val currentTime: String = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale("zh_CN")).format(Date())
             GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
                 mtaExpose("schedule_主页考表刷新成功")
+                //TODO(这里可能会在请求时由于拿不到数据崩掉，好像没做错误处理，的确如此)
                 val list = ExamTableLocalAdapter.getExamMap().await().values.toList().sortedBy {
                     it.date + it.arrange
                 }.filter {

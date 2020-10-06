@@ -104,6 +104,7 @@ class GpaActivity : AppCompatActivity() {
                 else -> mtaExpose("gpa2_从其它途径进入GPA")
             }
         }
+
         // init toolbar
         toolbar = findViewById<Toolbar>(R.id.toolbar).also {
             fitSystemWindowWithStatusBar(it)

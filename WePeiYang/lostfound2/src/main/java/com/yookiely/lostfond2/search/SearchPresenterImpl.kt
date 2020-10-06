@@ -1,8 +1,6 @@
 package com.yookiely.lostfond2.search
 
-import android.util.Log
 import android.widget.Toast
-import com.orhanobut.hawk.Hawk
 import com.yookiely.lostfond2.service.LostFoundService
 import com.yookiely.lostfond2.service.MyListDataOrSearchBean
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler

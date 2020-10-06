@@ -1,12 +1,12 @@
 package com.twt.wepeiyang.commons.experimental.network
 
+import android.util.Log
 import com.orhanobut.logger.Logger
 import com.twt.wepeiyang.commons.experimental.CommonContext
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import com.twt.wepeiyang.commons.experimental.hack.Restarter
 import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
 import com.twt.wepeiyang.commons.experimental.service.AuthService
-import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -82,6 +82,7 @@ object RealAuthenticator : Authenticator {
 object CodeCorrectionInterceptor : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response =
             chain.proceed(chain.request()).run {
+                Log.d("whathappenedoninterface", chain.request().url().toString())
                 if (code() == HttpURLConnection.HTTP_BAD_REQUEST)
                     newBuilder().code(HttpURLConnection.HTTP_UNAUTHORIZED).build() else this
             }
