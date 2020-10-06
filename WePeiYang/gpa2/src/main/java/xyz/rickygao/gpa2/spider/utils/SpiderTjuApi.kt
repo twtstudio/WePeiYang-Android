@@ -26,7 +26,7 @@ object SpiderTjuApi {
 //            .addNetworkInterceptor(HttpLoggingInterceptor()
 //                    .apply { level = HttpLoggingInterceptor.Level.BODY }).build()
 
-    suspend fun getSession():String?{
+    suspend fun getSession(): String? {
         /*
          *
          * 获取 session
@@ -44,13 +44,14 @@ object SpiderTjuApi {
                 execution = e.`val`()
             }
         }
-        for(cookie in SpiderCookieManager.cookieStore.cookies){
-            if(cookie.name() == "SESSION"){
+        for (cookie in SpiderCookieManager.cookieStore.cookies) {
+            if (cookie.name() == "SESSION") {
                 return cookie.value()
             }
         }
         return null
     }
+
     /**
      * 登录
      * 无论登录是否成功，都会获取cookie session
@@ -73,7 +74,7 @@ object SpiderTjuApi {
         val loginBody = SpiderCookieManager.clientBuilder.build().newCall(requestLogin).execute().body()?.string().orEmpty()
 //        refreshCookie()
 //        printCookie()
-        return !(loginBody.contains("Invalid credentials") || userName.trim() == "" || password.trim() == "")
+        return !(userName.trim() == "" || password.trim() == "" || loginBody.contains("Invalid credentials"))
     }
 
 
