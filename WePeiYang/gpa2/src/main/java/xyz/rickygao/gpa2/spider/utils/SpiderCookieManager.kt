@@ -6,6 +6,9 @@ import com.twt.wepeiyang.commons.experimental.CommonContext
 import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
 import com.twt.wepeiyang.commons.experimental.startActivity
 import es.dmoral.toasty.Toasty
+import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 
@@ -36,7 +39,10 @@ object SpiderCookieManager {
                 for (cookie in cookieStore.cookies) {
                     if (cookie.isExpired()) {
                         Log.d("SpiderCookieApi", "expired ${cookie.name()}")
-                        Toasty.info(CommonContext.application, "办公网登录已过期").show()
+                        GlobalScope.launch(Main) {
+                            Toasty.info(CommonContext.application, "办公网登录已过期").show()
+
+                        }
 //                        checkTjuValid(SpiderTjuLogin.login(CommonPreferences.tjuuname, CommonPreferences.tjupwd))
                         break
                     }
@@ -46,7 +52,10 @@ object SpiderCookieManager {
         }
         // 未曾成功登录过，需要登录
         Log.d("SpiderCookieApi", "never login")
-        Toasty.warning(CommonContext.application, "尚未登录办公网").show()
+        GlobalScope.launch(Main) {
+
+            Toasty.warning(CommonContext.application, "尚未登录办公网").show()
+        }
 //        checkTjuValid(SpiderTjuLogin.login(CommonPreferences.tjuuname, CommonPreferences.tjupwd))
 //        printCookie()
         return clientBuilder

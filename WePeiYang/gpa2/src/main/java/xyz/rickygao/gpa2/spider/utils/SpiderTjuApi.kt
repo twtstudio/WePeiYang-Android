@@ -97,7 +97,7 @@ object SpiderTjuApi {
                 .post(requestBody).build()
 
         val response = SpiderCookieManager.clientBuilder
-                .followRedirects(false) // 禁用自动重定向
+//                .followRedirects(false) // 禁用自动重定向
                 .build().newCall(requestLogin).execute()
 //        val loginBody = response.body()?.string().orEmpty()
 //        refreshCookie()
