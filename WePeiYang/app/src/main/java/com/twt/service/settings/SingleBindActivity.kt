@@ -106,32 +106,41 @@ class TjuBindFragment2 : Fragment() {
             val captcha = etCaptcha.text.toString()
             if (userNumber.trim() == "" || password.trim() == "" || captcha.trim() == "") {
                 Toasty.warning(activity, "以上三个空不能为空").show()
+                it.isClickable = true
+                it.alpha = 1f
             } else {
                 GlobalScope.launch(Main) {
 
                     val login = withContext(IO) {
                         SpiderTjuApi.login(userNumber, password, captcha)
                     }
-                    if (login) {
-                        CommonPreferences.tjuuname = userNumber
-                        CommonPreferences.tjupwd = password
-                        CommonPreferences.tjuloginbind = true
-                        Toasty.success(activity, "成功登录办公网").show()
-                        activity.finish()
-                    } else {
+                    when (login) {
+                        200 -> {
+                            CommonPreferences.tjuuname = userNumber
+                            CommonPreferences.tjupwd = password
+                            CommonPreferences.tjuloginbind = true
+                            Toasty.success(activity, "成功登录办公网").show()
+                            activity.finish()
+                        }
+                        302 -> {
+                            Toasty.success(activity, "已经登陆过啦").show()
+                            activity.finish()
+                        }
+                        else -> {
+                            Toasty.error(activity, "信息填写有误").show()
+                            refreshCaptcha()
+                            withContext(IO) {
+                                SpiderTjuApi.prepare()
 
-                        Toasty.error(activity, "信息填写有误").show()
-                        refreshCaptcha()
-                        withContext(IO) {
-                            SpiderTjuApi.prepare()
+                            }
 
                         }
-
                     }
+                    it.isClickable = true
+                    it.alpha = 1f
                 }
             }
-            it.isClickable = true
-            it.alpha = 1f
+
 //            RealBindAndDropOutService
 //                    .bindTju(numEdit.text.toString(), passwordEdit.text.toString())
 //                    .subscribeOn(Schedulers.io())

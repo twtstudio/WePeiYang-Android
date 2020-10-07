@@ -81,7 +81,7 @@ object SpiderTjuApi {
     /**
      * 登录
      */
-    suspend fun login(userName: String, password: String, captcha: String): Boolean {
+    suspend fun login(userName: String, password: String, captcha: String): Int {
 
         /*
          * 登录
@@ -97,10 +97,10 @@ object SpiderTjuApi {
                 .post(requestBody).build()
 
         val response = SpiderCookieManager.clientBuilder.build().newCall(requestLogin).execute()
-        val loginBody = response.body()?.string().orEmpty()
+//        val loginBody = response.body()?.string().orEmpty()
 //        refreshCookie()
 //        printCookie()
-        return response.code() == 200 || (response.code() == 302)
+        return response.code()
 
     }
 

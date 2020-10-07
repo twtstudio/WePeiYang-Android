@@ -87,23 +87,29 @@ class TjuBindFragment : SlideFragment() {
                 val login = withContext(IO) {
                     SpiderTjuApi.login(userNumber, password, captcha)
                 }
-                if (login) {
-                    CommonPreferences.tjuuname = userNumber
-                    CommonPreferences.tjupwd = password
-                    CommonPreferences.tjuloginbind = true
-                } else {
-
-                    refreshCaptcha()
-                    withContext(IO) {
-                        SpiderTjuApi.prepare()
+                when (login) {
+                    200 -> {
+                        CommonPreferences.tjuuname = userNumber
+                        CommonPreferences.tjupwd = password
+                        CommonPreferences.tjuloginbind = true
+                    }
+                    302 -> {
 
                     }
+                    else -> {
+                        refreshCaptcha()
+                        withContext(IO) {
+                            SpiderTjuApi.prepare()
 
+                        }
+
+                    }
                 }
+                it.isClickable = true
+                it.alpha = 1f
             }
 
-            it.isClickable = true
-            it.alpha = 1f
+
 //            RealBindAndDropOutService
 //                    .bindTju(numEdit.text.toString(), passwordEdit.text.toString())
 //                    .subscribeOn(Schedulers.io())
