@@ -66,7 +66,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="输入验证码"
-                android:inputType="textPassword"
                 android:textColor="@color/common_lv2"
                 android:textSize="16sp" />
         </android.support.design.widget.TextInputLayout>
