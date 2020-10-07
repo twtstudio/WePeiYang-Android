@@ -109,7 +109,7 @@ class QuestionItem(val context: Context,
                                 .listener(object : RequestListener<String, GlideDrawable> {
                                     override fun onException(e: Exception?, model: String?, target: Target<GlideDrawable>?, isFirstResource: Boolean): Boolean {
                                         //图片加载失败
-                                        Toast.makeText(item.context, "图片加载失败", Toast.LENGTH_SHORT).show()
+//                                        Toast.makeText(item.context, "图片加载失败", Toast.LENGTH_SHORT).show()
                                         picLayout.visibility = View.INVISIBLE
                                         return false
                                     }

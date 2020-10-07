@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.Toast
 import com.twt.service.announcement.R
 import com.twt.service.announcement.service.AnnoPreference
 import com.twt.service.announcement.service.AnnoService
@@ -60,8 +61,10 @@ class DetailReplyBottomFragment : BottomSheetDialogFragment() {
                 GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
                     sendComment()
                 }.invokeOnCompletion {
-                    isCommentable = true
-                    onRefresh.invoke()
+                    if (commentContent != "") {
+                        isCommentable = true
+                        onRefresh.invoke()
+                    }
                 }
             }
         }
@@ -83,10 +86,10 @@ class DetailReplyBottomFragment : BottomSheetDialogFragment() {
      */
     private suspend fun sendComment() {
         if (commentContent == "") {
-            Toasty.error(this.context!!, "内容不能为空").show()
+            Toast.makeText(this.context!!, "内容不能为空", Toast.LENGTH_SHORT).show()
         } else {
             AnnoService.addCommit(questionId, AnnoPreference.myId!!, commentContent).awaitAndHandle {
-                Toasty.error(this.context!!, "发送评论错误").show()
+                Toast.makeText(this.context!!, "发送评论失败", Toast.LENGTH_SHORT).show()
             }?.ErrorCode?.let {
                 if (it == 0) {
                     Toasty.success(this.context!!, "发送成功").show()

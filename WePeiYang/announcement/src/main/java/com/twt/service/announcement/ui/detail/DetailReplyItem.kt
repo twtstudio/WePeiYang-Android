@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import cn.edu.twt.retrox.recyclerviewdsl.Item
 import cn.edu.twt.retrox.recyclerviewdsl.ItemController
 import com.twt.service.announcement.R
@@ -66,7 +67,7 @@ class DetailReplyItem(
                 AnnoPreference.myId?.let {
                     GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
                         AnnoService.getLikedState("answer", it, item.reply.id).awaitAndHandle {
-                            Toasty.error(itemView.context, "请求点赞数据失败").show()
+//                            Toast.makeText(itemView.context, "请求点赞数据失败",Toast.LENGTH_SHORT).show()
                         }?.data?.let { likeState ->
                             item.likeState = likeState.is_liked
                             when (item.likeState) {
@@ -105,7 +106,7 @@ class DetailReplyItem(
                                         item.reply.id,
                                         AnnoPreference.myId!!
                                 ).awaitAndHandle {
-                                    Toasty.error(itemView.context, "点赞状态更新失败").show()
+//                                    Toast.makeText(itemView.context, "点赞状态更新失败",Toast.LENGTH_SHORT).show()
                                     item.isLikable = true
                                 }?.data?.let {
                                     likeCountTv.text = it.toString()

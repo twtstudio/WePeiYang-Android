@@ -202,7 +202,7 @@ class AskQuestionActivity : AppCompatActivity(), LoadingDialogManager {
     private fun initTagTree() {
         GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
             AnnoService.getTagTree().awaitAndHandle {
-//                it.printStackTrace()
+                it.printStackTrace()
                 Toast.makeText(this@AskQuestionActivity, "出了点问题", Toast.LENGTH_SHORT).show()
             }?.data?.let {
                 pathTags.clear()
@@ -262,8 +262,9 @@ class AskQuestionActivity : AppCompatActivity(), LoadingDialogManager {
                         AnnoService.addQuestion(mapOf("user_id" to id, "name" to titleString, "description" to detailString, "tagList" to listOf<Int>(idd))).awaitAndHandle {
                             hideLoadingDialog()
                             failCallBack("上传失败")
+                            Log.d("addQuestion error:", it.message)
                         }?.let {
-                            if (it.ErrorCode == 1) {
+                            if (it.ErrorCode == 0) {
                                 it.data?.question_id?.let {
                                     addPicture(id, pics, it)
                                     //判断拿到数据后，不显示dialog（hide)
@@ -284,6 +285,7 @@ class AskQuestionActivity : AppCompatActivity(), LoadingDialogManager {
                         AnnoService.addQuestion(mapOf("user_id" to id, "name" to titleString, "description" to detailString, "tagList" to listOf<Int>(idd))).awaitAndHandle {
                             hideLoadingDialog()
                             failCallBack("上传失败")
+                            Log.d("addQuestion error:", it.message)
                         }?.let {
                             if (it.ErrorCode == 0) {
                                 hideLoadingDialog()

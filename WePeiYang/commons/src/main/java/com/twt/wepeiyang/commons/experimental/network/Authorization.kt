@@ -83,10 +83,13 @@ object RealAuthenticator : Authenticator {
 }
 
 object CodeCorrectionInterceptor : Interceptor {
-    override fun intercept(chain: Interceptor.Chain): Response =
-            chain.proceed(chain.request()).run {
-                Log.d("whathappenedoninterface", chain.request().url().toString())
-                if (code() == HttpURLConnection.HTTP_BAD_REQUEST)
-                    newBuilder().code(HttpURLConnection.HTTP_UNAUTHORIZED).build() else this
-            }
+    override fun intercept(chain: Interceptor.Chain): Response {
+        Log.d("whathappenedoninterface", chain.request().url().toString())
+
+        return chain.proceed(chain.request()).run {
+            if (code() == HttpURLConnection.HTTP_BAD_REQUEST)
+                newBuilder().code(HttpURLConnection.HTTP_UNAUTHORIZED).build() else this
+        }
+
+    }
 }

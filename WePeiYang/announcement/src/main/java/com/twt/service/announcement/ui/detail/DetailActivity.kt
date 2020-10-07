@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
+import android.util.Log
+import android.widget.Toast
 import cn.edu.twt.retrox.recyclerviewdsl.withItems
 import com.githang.statusbar.StatusBarCompat
 import com.twt.service.announcement.R
@@ -133,7 +135,8 @@ class DetailActivity : AppCompatActivity() {
         swipeRefreshLayout.isRefreshing = true
         // 这里获取问题回复
         AnnoService.getAnswer(question.id, AnnoPreference.myId!!).awaitAndHandle {
-            Toasty.error(this@DetailActivity, "获取回复失败").show()
+            Log.d("getAnswererror", "获取回复失败: " + it.message)
+//            Toast.makeText(this@DetailActivity, "获取回复失败",Toast.LENGTH_SHORT).show()
         }?.data?.let {
             replyList.clear()
             it.forEach { reply ->
@@ -143,7 +146,7 @@ class DetailActivity : AppCompatActivity() {
                 replyLikeList.clear()
                 replyList.forEach { reply ->
                     AnnoService.getLikedState("answer", AnnoPreference.myId!!, reply.id).awaitAndHandle {
-                        Toasty.error(this@DetailActivity, "获取回复点赞状态失败").show()
+//                        Toast.makeText(this@DetailActivity, "获取回复点赞状态失败",Toast.LENGTH_SHORT).show()
                     }?.data?.let { replyLike ->
                         replyLikeList.add(replyLike.is_liked)
                     }
@@ -152,7 +155,7 @@ class DetailActivity : AppCompatActivity() {
             // 这里获取问题评论
             // 为什么是commit?
             AnnoService.getCommit(question.id, AnnoPreference.myId!!).awaitAndHandle {
-                Toasty.error(this@DetailActivity, "获取评论失败").show()
+//                Toast.makeText(this@DetailActivity, "获取评论失败",Toast.LENGTH_SHORT).show()
             }?.data?.let {
                 commentList.clear()
                 it.forEach { comment ->
@@ -162,7 +165,7 @@ class DetailActivity : AppCompatActivity() {
                 commentLikeList.clear()
                 commentList.forEach { comment ->
                     AnnoService.getLikedState("commit", AnnoPreference.myId!!, comment.id).awaitAndHandle {
-                        Toasty.error(this@DetailActivity, "获取评论点赞状态失败").show()
+//                        Toast.makeText(this@DetailActivity, "获取评论点赞状态失败",Toast.LENGTH_SHORT).show()
                     }?.data?.let { commentLike ->
                         commentLikeList.add(commentLike.is_liked)
                     }
@@ -170,7 +173,7 @@ class DetailActivity : AppCompatActivity() {
             }
             // 这里获取问题的点赞状态
             AnnoService.getLikedState("question", AnnoPreference.myId!!, question.id).awaitAndHandle {
-                Toasty.error(this@DetailActivity, "获取点赞状态失败").show()
+//                Toast.makeText(this@DetailActivity, "获取点赞状态失败",Toast.LENGTH_SHORT).show()
             }?.data?.let {
                 likeState = it.is_liked
             }

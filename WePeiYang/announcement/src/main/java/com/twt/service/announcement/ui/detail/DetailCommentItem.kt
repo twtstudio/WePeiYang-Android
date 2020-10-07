@@ -64,7 +64,7 @@ class DetailCommentItem(
                 AnnoPreference.myId?.let {
                     GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
                         AnnoService.getLikedState("commit", it, item.id).awaitAndHandle {
-                            Toasty.error(itemView.context, "请求点赞数据失败").show()
+//                            Toast.makeText(itemView.context, "请求点赞数据失败",Toast.LENGTH_SHORT).show()
                         }?.data?.let { likeState ->
                             item.likeState = likeState.is_liked
                             when (item.likeState) {
@@ -101,7 +101,7 @@ class DetailCommentItem(
                                         item.id,
                                         AnnoPreference.myId!!
                                 ).awaitAndHandle {
-                                    Toasty.error(itemView.context, "点赞状态更新失败").show()
+//                                    Toast.makeText(itemView.context, "点赞状态更新失败",Toast.LENGTH_SHORT).show()
                                     item.isLikable = true
                                 }?.data?.let {
                                     likeCountTv.text = it.toString()

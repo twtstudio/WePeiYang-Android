@@ -94,7 +94,7 @@ class CoroutineCallAdapterFactory private constructor() : CallAdapter.Factory() 
                     if (response.isSuccessful) {
                         deferred.complete(response.body()!!)
                     } else {
-                        deferred.cancel(HttpException(response))
+                        deferred.completeExceptionally(HttpException(response))
                     }
                 }
             })

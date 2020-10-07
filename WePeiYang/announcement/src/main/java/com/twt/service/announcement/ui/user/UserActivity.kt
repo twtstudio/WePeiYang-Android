@@ -287,15 +287,15 @@ class UserActivity : AppCompatActivity() {
                         dialog.dismiss()
                         GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
                             AnnoService.deleteQuestion(user_id = user_id, question_id = question_id).awaitAndHandle {
-                                Toasty.error(this@UserActivity, "服务器连接错误", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(this@UserActivity, "连接不到服务器", Toast.LENGTH_SHORT).show()
                             }?.ErrorCode?.let {
                                 when (it) {
                                     0 -> {
-                                        Toast.makeText(this@UserActivity, "删除问题成功", Toast.LENGTH_SHORT).show()
+                                        Toasty.success(this@UserActivity, "删除问题成功", Toast.LENGTH_SHORT).show()
                                         loadMyQuestions()
                                     }
                                     else -> {
-                                        Toasty.error(this@UserActivity, "删除问题失败", Toast.LENGTH_SHORT).show()
+                                        Toast.makeText(this@UserActivity, "删除问题失败", Toast.LENGTH_SHORT).show()
                                     }
                                 }
                             }

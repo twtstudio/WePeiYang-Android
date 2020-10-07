@@ -246,7 +246,7 @@ class DetailQuestionItem(
                                                 delay(1000)
                                                 dismiss()
                                             }
-                                            Toast.makeText(mainPage, "图片加载失败", Toast.LENGTH_SHORT).show()
+//                                            Toast.makeText(mainPage, "图片加载失败", Toast.LENGTH_SHORT).show()
                                             //这里返回true表示事件已经消化了，不会往下传递，返回false表示没有消耗
                                             //如果设置为true error(int resid)设置异常占位图将会失效
                                             return false

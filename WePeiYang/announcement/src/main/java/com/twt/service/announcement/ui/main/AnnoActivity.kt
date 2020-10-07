@@ -90,13 +90,11 @@ class AnnoActivity : AppCompatActivity() {
 
         // 这里获取一下本机用户的用户ID，存储到缓存
         GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
-            if (AnnoPreference.myId == null) {
-                AnnoService.getUserIDByName(CommonPreferences.studentid, CommonPreferences.realName).awaitAndHandle {
-                    Toasty.error(this@AnnoActivity, "获取用户ID失败，请重试").show()
-                }?.data?.let {
-                    AnnoPreference.myId = it.user_id
-                    user_id = it.user_id
-                }
+            AnnoService.getUserIDByName(CommonPreferences.studentid, CommonPreferences.realName).awaitAndHandle {
+//                Toast.makeText(this@AnnoActivity, "获取用户ID失败",Toast.LENGTH_SHORT).show()
+            }?.data?.let {
+                AnnoPreference.myId = it.user_id
+                user_id = it.user_id
             }
         }
     }
@@ -182,7 +180,7 @@ class AnnoActivity : AppCompatActivity() {
                                                     "page" to page, "user_id" to user_id)
                                     ).awaitAndHandle {
                                         it.printStackTrace()
-
+                                        Log.d("getQuestionerror", "获取问题列表失败: " + it.message)
 
                                     }?.data
                                 }?.apply {
@@ -301,6 +299,7 @@ class AnnoActivity : AppCompatActivity() {
                     hintText.visibility = View.VISIBLE
                     quesDetailRecyclerView.visibility = View.INVISIBLE
                     canRefresh = true
+                    throw it
                 }?.data?.apply {
                     Log.d("whatquestion", this.data.toString())
                     nextUrl = if (to != total) next_page_url else null

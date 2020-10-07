@@ -1,6 +1,7 @@
 package com.twt.service.schedule2.model.exam
 
 import android.util.Log
+import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import kotlinx.coroutines.*
 
@@ -45,7 +46,7 @@ object ExamTableLocalAdapter {
         examLocalMap
     }
 
-    private fun refreshData() = GlobalScope.async(Dispatchers.Default) {
+    private fun refreshData() = GlobalScope.async(Dispatchers.Default + QuietCoroutineExceptionHandler) {
         val data = ExamTableService.getTable().await().data
         data?.let {
             examTableCache.set(it)
