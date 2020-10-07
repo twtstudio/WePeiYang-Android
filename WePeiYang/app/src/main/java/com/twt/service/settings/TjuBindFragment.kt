@@ -61,6 +61,7 @@ class TjuBindFragment : SlideFragment() {
         imgCaptcha = view.findViewById(R.id.iv_captcha)
         GlobalScope.launch {
             withContext(IO + QuietCoroutineExceptionHandler) {
+                SpiderTjuApi.logout()
                 SpiderTjuApi.prepare()
                 session = SpiderTjuApi.getSession()
             }
@@ -93,15 +94,16 @@ class TjuBindFragment : SlideFragment() {
                         CommonPreferences.tjupwd = password
                         CommonPreferences.tjuloginbind = true
                     }
-                    302 -> {
-
-                    }
+//                    302 -> {
+//
+//                    }
                     else -> {
                         refreshCaptcha()
                         withContext(IO) {
                             SpiderTjuApi.prepare()
 
                         }
+                        etCaptcha.text = SpannableStringBuilder("")
 
                     }
                 }

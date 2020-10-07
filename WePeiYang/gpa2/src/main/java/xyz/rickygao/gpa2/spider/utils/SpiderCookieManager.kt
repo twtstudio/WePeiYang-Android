@@ -77,7 +77,7 @@ object SpiderCookieManager {
         }
     }
 
-    fun clear() {
+    fun clearCookie() {
         cookieStore.removeAll()
     }
 

@@ -84,6 +84,7 @@ class TjuBindFragment2 : Fragment() {
         imgCaptcha = view.findViewById(R.id.iv_captcha)
         GlobalScope.launch {
             withContext(IO + QuietCoroutineExceptionHandler) {
+                SpiderTjuApi.logout()
                 SpiderTjuApi.prepare()
                 session = SpiderTjuApi.getSession()
             }
@@ -122,10 +123,10 @@ class TjuBindFragment2 : Fragment() {
                             Toasty.success(activity, "成功登录办公网").show()
                             activity.finish()
                         }
-                        302 -> {
-                            Toasty.success(activity, "已经登陆过啦").show()
-                            activity.finish()
-                        }
+//                        302 -> {
+//                            Toasty.success(activity, "已经登陆过啦").show()
+//                            activity.finish()
+//                        }
                         else -> {
                             Toasty.error(activity, "信息填写有误").show()
                             refreshCaptcha()
@@ -133,7 +134,7 @@ class TjuBindFragment2 : Fragment() {
                                 SpiderTjuApi.prepare()
 
                             }
-
+                            etCaptcha.text = SpannableStringBuilder("")
                         }
                     }
                     it.isClickable = true

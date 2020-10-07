@@ -99,6 +99,12 @@ object SpiderTjuApi {
         val response = SpiderCookieManager.clientBuilder
 //                .followRedirects(false) // 禁用自动重定向
                 .build().newCall(requestLogin).execute()
+
+//        if(response.code() == 302){
+//            var redirect = Request.Builder().url(response.header("Location")).get().build()
+//            val redirectResponse = SpiderCookieManager.clientBuilder.build().newCall(redirect).execute()
+//
+//        }
 //        val loginBody = response.body()?.string().orEmpty()
 //        refreshCookie()
 //        printCookie()
@@ -110,9 +116,15 @@ object SpiderTjuApi {
     /**
      * 登出
      */
-    fun logout() {
-        var doc = Jsoup.connect(logoutUrl).get()
-        Log.d("logout", doc.toString())
+    suspend fun logout() {
+        val requestLogout = Request.Builder()
+                .url(logoutUrl)
+                .get()
+                .build()
+        val response = SpiderCookieManager.clientBuilder.build().newCall(requestLogout).execute()
+//        var doc = Jsoup.connect(logoutUrl).get()
+        SpiderCookieManager.clearCookie()
+        Log.d("logout", response.body()?.string().orEmpty())
     }
 //
 //    private fun refreshCookie() {
