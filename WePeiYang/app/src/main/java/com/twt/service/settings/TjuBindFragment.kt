@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.Toast
 import butterknife.ButterKnife
 import butterknife.Unbinder
 import com.bumptech.glide.Glide
@@ -17,22 +16,13 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.model.GlideUrl
 import com.bumptech.glide.load.model.LazyHeaders
 import com.twt.service.R
-import com.twt.wepeiyang.commons.experimental.cache.CacheIndicator.REMOTE
-import com.twt.wepeiyang.commons.experimental.cache.RefreshState
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
 import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
-import com.twt.wepeiyang.commons.network.RxErrorHandler
-import com.twtstudio.retrox.auth.api.authSelfLiveData
-import com.twtstudio.retrox.auth.api.login
-import es.dmoral.toasty.Toasty
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import rx.android.schedulers.AndroidSchedulers
-import rx.functions.Action1
-import rx.schedulers.Schedulers
 import xyz.rickygao.gpa2.spider.utils.SpiderTjuApi
 
 /**
@@ -140,7 +130,7 @@ class TjuBindFragment : SlideFragment() {
     }
 
     private fun refreshCaptcha() {
-        val cookie = GlideUrl(SpiderTjuApi.KAPTCHA_URL, LazyHeaders.Builder().addHeader("Cookie", session).build())
+        val cookie = GlideUrl(SpiderTjuApi.CAPTCHA_URL, LazyHeaders.Builder().addHeader("Cookie", session).build())
         Glide.with(activity).load(cookie)
                 .skipMemoryCache(true)
                 .diskCacheStrategy(DiskCacheStrategy.NONE)

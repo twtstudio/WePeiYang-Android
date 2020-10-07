@@ -172,7 +172,7 @@ class TjuBindFragment2 : Fragment() {
     }
 
     private fun refreshCaptcha() {
-        val cookie = GlideUrl(SpiderTjuApi.KAPTCHA_URL, LazyHeaders.Builder().addHeader("Cookie", session).build())
+        val cookie = GlideUrl(SpiderTjuApi.CAPTCHA_URL, LazyHeaders.Builder().addHeader("Cookie", session).build())
         Glide.with(activity).load(cookie)
                 .skipMemoryCache(true)
                 .diskCacheStrategy(DiskCacheStrategy.NONE)

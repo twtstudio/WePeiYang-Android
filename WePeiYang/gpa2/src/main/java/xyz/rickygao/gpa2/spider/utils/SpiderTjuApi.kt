@@ -27,15 +27,16 @@ object SpiderTjuApi {
 
     private var execution = ""
     private var session: Cookie? = null
-    val KAPTCHA_URL = "https://sso.tju.edu.cn/cas/images/kaptcha.jpg"
-    private val LOGIN_URL = "https://sso.tju.edu.cn/cas/login"
+    const val CAPTCHA_URL = "https://sso.tju.edu.cn/cas/images/kaptcha.jpg"
+    private const val LOGIN_URL = "https://sso.tju.edu.cn/cas/login"
 
     //    private val loginUrl = "$LOGIN_BASE_URL?service=http://classes.tju.edu.cn/eams/homeExt.action"
-    private val logoutUrl = "http://classes.tju.edu.cn/eams/logoutExt.action"
+    private const val LOGOUT_URL = "http://classes.tju.edu.cn/eams/logoutExt.action"
 
     /**
      * 必须在每次登录前调用
-     *
+     * 每次登录操作和不同的execution一一对应。
+     * 登录前调用prepare获取execution和session
      */
     suspend fun prepare() {
         // 获取 session
@@ -45,7 +46,6 @@ object SpiderTjuApi {
                 .get()
                 .build()
         val response = SpiderCookieManager.clientBuilder.build().newCall(requestInit).execute()
-        val newCookie = response.header("Set-Cookie")
         val body = response.body()?.string().orEmpty()
         val doc = Jsoup.parse(body)
         val es = doc.select("input")
@@ -55,9 +55,7 @@ object SpiderTjuApi {
                 Log.d("Log execution", execution)
             }
         }
-        Log.d("Log session", newCookie ?: "null")
 
-//        return newCookie
         for (cookie in SpiderCookieManager.cookieStore.cookies) {
             if (cookie.name() == "SESSION") {
                 session = cookie
@@ -66,7 +64,7 @@ object SpiderTjuApi {
     }
 
     /**
-     *  获取cookie session. execution
+     *  获取cookie中的session
      *  验证码的请求放在app模块中 com.twt.service.settings.SingleBindActivity，使用glide将验证码图片加载
      *
      */
@@ -83,9 +81,6 @@ object SpiderTjuApi {
      */
     suspend fun login(userName: String, password: String, captcha: String): Int {
 
-        /*
-         * 登录
-         */
         var requestBody = FormBody.Builder()
                 .add("username", userName)
                 .add("password", password)
@@ -99,15 +94,6 @@ object SpiderTjuApi {
         val response = SpiderCookieManager.clientBuilder
 //                .followRedirects(false) // 禁用自动重定向
                 .build().newCall(requestLogin).execute()
-
-//        if(response.code() == 302){
-//            var redirect = Request.Builder().url(response.header("Location")).get().build()
-//            val redirectResponse = SpiderCookieManager.clientBuilder.build().newCall(redirect).execute()
-//
-//        }
-//        val loginBody = response.body()?.string().orEmpty()
-//        refreshCookie()
-//        printCookie()
         return response.code()
 
     }
@@ -118,20 +104,11 @@ object SpiderTjuApi {
      */
     suspend fun logout() {
         val requestLogout = Request.Builder()
-                .url(logoutUrl)
+                .url(LOGOUT_URL)
                 .get()
                 .build()
         val response = SpiderCookieManager.clientBuilder.build().newCall(requestLogout).execute()
-//        var doc = Jsoup.connect(logoutUrl).get()
         SpiderCookieManager.clearCookie()
         Log.d("logout", response.body()?.string().orEmpty())
     }
-//
-//    private fun refreshCookie() {
-//        cookieJar = CookieJarImpl(PersistentCookieStore(CommonContext.application))
-//    }
-//
-//    private fun printCookie() {
-//        Log.d("SpiderCookieLogin", cookieJar.cookieStore.cookies.toString())
-//    }
 }

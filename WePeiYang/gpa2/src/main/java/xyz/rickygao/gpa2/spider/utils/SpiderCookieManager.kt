@@ -1,5 +1,6 @@
 package xyz.rickygao.gpa2.spider.utils
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.util.Log
 import com.twt.wepeiyang.commons.experimental.CommonContext
@@ -40,6 +41,7 @@ object SpiderCookieManager {
                     if (cookie.isExpired()) {
                         Log.d("SpiderCookieApi", "expired ${cookie.name()}")
                         GlobalScope.launch(Main) {
+
                             Toasty.info(CommonContext.application, "办公网登录已过期").show()
 
                         }
