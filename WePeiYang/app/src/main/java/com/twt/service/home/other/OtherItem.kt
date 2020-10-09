@@ -53,14 +53,25 @@ class OtherItem : Item {
 //                    it.context.startActivity<MallActivity>()
 //                }
 
-                addItem("校务平台", "校内信息官方反馈渠道") {
-                    it.context.startActivity<AnnoActivity>()
+//                addItem("校务平台", "校内信息官方反馈渠道") {
+//                    it.context.startActivity<AnnoActivity>()
+//                }
+
+                addItem("新闻", "环宇北洋，心识天下") {
+                    mtaClick("app_首页OtherItem中新闻Item")
+                    it.context.startActivity<NewsActivity>()
                 }
 
                 addItem("黄页", "天大电话簿") {
                     mtaClick("app_首页OtherItem黄页Item")
                     it.context.startActivity<YellowPageActivity>()
                 }
+
+                addItem("失物招领", "我的心丢了，你看到了吗？") {
+                    mtaClick("app_首页OtherItem失物招领Item")
+                    it.context.startActivity<WaterfallActivity>()
+                }
+
                 addUselessItem("学生党建 (维护中)", "和微北洋共建社会主义")
 //                {
 //                    mtaClick("app_首页OtherItem党建Item")
@@ -71,21 +82,12 @@ class OtherItem : Item {
 //                    mtaClick("app_首页OtherItem刷题Item")
 //                    it.context.startActivity<ExamHomeActivity>()
 //                }
-                addItem("失物招领", "我的心丢了，你看到了吗？") {
-                    mtaClick("app_首页OtherItem失物招领Item")
-                    it.context.startActivity<WaterfallActivity>()
-                }
+
                 addUselessItem("就业 (维护中)", "就业信息，一网打尽")
 //                {
 //                    mtaClick("app_首页OtherItem中就业Item")
 //                    it.context.startActivity<JobHomeActivity>()
 //                }
-
-                addItem("新闻", "环宇北洋，心识天下") {
-                    mtaClick("app_首页OtherItem中新闻Item")
-                    it.context.startActivity<NewsActivity>()
-                }
-
 
 //                addItem("自行车", "通览状态，畅爽骑行") {
 //                    mtaClick("app_首页OtherItem自行车Item")

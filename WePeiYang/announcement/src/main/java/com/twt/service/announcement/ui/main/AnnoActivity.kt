@@ -41,6 +41,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.net.URLDecoder
+import java.net.URLEncoder
 
 
 class AnnoActivity : AppCompatActivity() {
@@ -171,43 +173,55 @@ class AnnoActivity : AppCompatActivity() {
                     if (newState == RecyclerView.SCROLL_STATE_IDLE && quesRecManager.findLastVisibleItemPosition() == quesRecController.itemListSnapshot.size - 1) {
                         nextUrl?.let { url ->
                             GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
-                                val tagId = if (url.contains("tagList")) url.split("tagList")[1][1].toInt() else null
+                                val currentUrl = URLDecoder.decode(url, "GBK")
+                                val str1 = currentUrl.split("tagList=[")[1]
+                                var tag: String? = null
+                                if (!str1.startsWith("]")) {
+                                    tag = str1.split("]")[1]
+                                }
                                 url.split("page=")[1].toIntOrNull()?.let { page ->
                                     AnnoService.getQuestion(
                                             mapOf("searchString" to "",
-                                                    "tagList" to if (tagId != null) listOf(tagId) else emptyList(),
+                                                    "tagList" to if (tag != null) listOf(tag) else emptyList(),
                                                     "limits" to 20,
-                                                    "page" to page, "user_id" to user_id)
+                                                    "user_id" to user_id,
+                                                    "page" to page)
                                     ).awaitAndHandle {
                                         it.printStackTrace()
-                                        Log.d("getQuestionerror", "获取问题列表失败: " + it.message)
-
-                                    }?.data
-                                }?.apply {
-                                    nextUrl = if (to != total) next_page_url else null
-                                }?.data?.let { next ->
-                                    takeIf { next.isNotEmpty() }?.apply {
-                                        val items = next.map { ques ->
-                                            QuestionItem(context, ques, onClick = {
-
-                                                closeFloatingMenu()
-                                                // 跳转至详情页面
-                                                startDetailActivity(ques)
-
-
-                                            })
-                                        }
-                                        hintText.visibility = View.INVISIBLE
-                                        quesDetailRecyclerView.visibility = View.VISIBLE
-                                        with(quesRecController) {
-                                            removeAt(quesRecController.itemListSnapshot.size - 1)
-                                            addAll(items)
-                                            if (nextUrl != null) {
-                                                add(ButtonItem(ViewType.PROCESS_BAR))
-                                            } else {
-                                                add(ButtonItem(ViewType.BOTTOM_TEXT))
+                                        Log.d("getQuestionerror", "获取问题列表失败: " + tag)
+                                        quesRecController.removeAt(quesRecController.itemListSnapshot.size - 1)
+                                        Toast.makeText(this@AnnoActivity, "网络连接失败", Toast.LENGTH_SHORT).show()
+                                    }
+                                }?.let {
+                                    if (it.ErrorCode == 0) {
+                                        it.data?.apply {
+                                            nextUrl = if (to != total) next_page_url else null
+                                        }?.data?.let { next ->
+                                            takeIf { next.isNotEmpty() }?.apply {
+                                                val items = next.map { ques ->
+                                                    QuestionItem(context, ques, onClick = {
+                                                        closeFloatingMenu()
+                                                        // 跳转至详情页面
+                                                        startDetailActivity(ques)
+                                                    })
+                                                }
+                                                hintText.visibility = View.INVISIBLE
+                                                quesDetailRecyclerView.visibility = View.VISIBLE
+                                                with(quesRecController) {
+                                                    removeAt(quesRecController.itemListSnapshot.size - 1)
+                                                    addAll(items)
+                                                    if (nextUrl != null) {
+                                                        add(ButtonItem(ViewType.PROCESS_BAR))
+                                                    } else {
+                                                        add(ButtonItem(ViewType.BOTTOM_TEXT))
+                                                    }
+                                                }
                                             }
                                         }
+                                    } else {
+                                        quesRecController.removeAt(quesRecController.itemListSnapshot.size - 1)
+                                        quesRecController.add(ButtonItem(ViewType.BOTTOM_TEXT))
+                                        Toast.makeText(this@AnnoActivity, "服务器返回数据出错", Toast.LENGTH_SHORT).show()
                                     }
                                 }
                             }
@@ -384,6 +398,14 @@ class AnnoActivity : AppCompatActivity() {
                                 tagListRecyclerView.visibility = View.VISIBLE
                                 closeFloatingMenu()
                             })
+
+                            try {
+                                if ((pathTags.itemListSnapshot[pathTags.size - 2] as TagBottomItem).content == child.name)
+                                    pathTags.removeAt(pathTags.itemListSnapshot.lastIndex)
+                            } catch (e: Exception) {
+                                // 越界
+                            }
+
                             listTags.refreshAll(bindTagPathWithDetailTag(child.children))
                         } else {
 
@@ -403,8 +425,12 @@ class AnnoActivity : AppCompatActivity() {
                                 }
                             }
                             )
-                            if ((pathTags.itemListSnapshot[pathTags.size - 2] as TagBottomItem).content == child.name)
-                                pathTags.removeAt(pathTags.itemListSnapshot.lastIndex)
+                            try {
+                                if ((pathTags.itemListSnapshot[pathTags.size - 2] as TagBottomItem).content == child.name)
+                                    pathTags.removeAt(pathTags.itemListSnapshot.lastIndex)
+                            } catch (e: Exception) {
+                                // 越界
+                            }
                             tagListRecyclerView.visibility = View.GONE
 
                             Log.e("tag_path", path.toString())

@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide
 import com.igexin.sdk.PushManager
 import com.twt.service.AppPreferences
 import com.twt.service.R
+import com.twt.service.announcement.ui.annoHomeItem
 import com.twt.service.ecard.model.LiveEcardManager
 import com.twt.service.home.message.*
 import com.twt.service.home.other.homeOthers
@@ -102,11 +103,13 @@ class HomeNewActivity : AppCompatActivity() {
                 gpaNewHomeItem(this@HomeNewActivity)
                 mtaExpose("app_首页显示gpaItem")
             }
+
+            annoHomeItem()
             examTableHomeItem()
 //            ecardInfoItem()
 //            ecardTransactionInfoItem()
 //            libraryHomeItem(this@HomeNewActivity)
-            homeTjuNetItem(this@HomeNewActivity)
+//            homeTjuNetItem(this@HomeNewActivity)
             homeOthers()
         }
 

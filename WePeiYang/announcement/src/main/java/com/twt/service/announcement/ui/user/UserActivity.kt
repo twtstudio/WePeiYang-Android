@@ -49,6 +49,7 @@ class UserActivity : AppCompatActivity() {
     private lateinit var mineNum: TextView
     private lateinit var userBar: AppBarLayout
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
+    private var showToast = false
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -76,6 +77,7 @@ class UserActivity : AppCompatActivity() {
                         loadLikedQuestions()
                     }
                     userTitle.text == "提出的问题" -> {
+                        showToast = true
                         loadMyQuestions()
                     }
                 }
@@ -135,6 +137,7 @@ class UserActivity : AppCompatActivity() {
             setOnClickListener {
                 userPage.visibility = View.INVISIBLE
                 questionRec.visibility = View.VISIBLE
+                showToast = true
                 loadMyQuestions()
             }
         }
@@ -255,9 +258,12 @@ class UserActivity : AppCompatActivity() {
                                             }
                                         })
                                     }
+                                    if (showToast) {
+                                        Toasty.normal(this@UserActivity, "长按问题即可删除", Toast.LENGTH_LONG).show()
+                                        showToast = false
+                                    }
                                     recController.refreshAll(itemList)
                                     recController.add(ButtonItem(ViewType.BOTTOM_TEXT))
-
                                     userTitle.text = "提出的问题"
                                 } else {
                                     stateText.visibility = View.VISIBLE

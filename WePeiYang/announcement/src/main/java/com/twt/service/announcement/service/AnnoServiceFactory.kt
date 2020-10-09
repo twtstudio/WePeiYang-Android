@@ -25,7 +25,7 @@ object AnnoServiceFactory {
             .connectTimeout(10, TimeUnit.SECONDS)
             .readTimeout(10, TimeUnit.SECONDS)
             .writeTimeout(10, TimeUnit.SECONDS)
-            .retryOnConnectionFailure(false)
+//            .retryOnConnectionFailure(false)
             .addNetworkInterceptor(HeaderInterceptor())
             .addNetworkInterceptor(loggingInterceptor)
             .build()
