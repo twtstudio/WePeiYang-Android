@@ -16,8 +16,6 @@ import com.igexin.sdk.PushManager
 import com.twt.service.AppPreferences
 import com.twt.service.R
 import com.twt.service.ecard.model.LiveEcardManager
-import com.twt.service.ecard.view.ecardInfoItem
-import com.twt.service.ecard.view.ecardTransactionInfoItem
 import com.twt.service.home.message.*
 import com.twt.service.home.other.homeOthers
 import com.twt.service.home.user.FragmentActivity
@@ -27,6 +25,7 @@ import com.twt.service.tjunet.view.homeTjuNetItem
 import com.twt.service.widget.ScheduleWidgetProvider
 import com.twt.wepeiyang.commons.experimental.color.getColorCompat
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
+import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
 import com.twt.wepeiyang.commons.experimental.extensions.enableLightStatusBarMode
 import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
@@ -34,7 +33,6 @@ import com.twt.wepeiyang.commons.mta.mtaExpose
 import com.twt.wepeiyang.commons.ui.rec.withItems
 import com.twt.wepeiyang.commons.view.RecyclerViewDivider
 import com.twtstudio.retrox.auth.api.authSelfLiveData
-import com.twtstudio.retrox.tjulibrary.home.libraryHomeItem
 import es.dmoral.toasty.Toasty
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -111,11 +109,16 @@ class HomeNewActivity : AppCompatActivity() {
             homeTjuNetItem(this@HomeNewActivity)
             homeOthers()
         }
+
+        //TODO(这里后台数据返回的有问题，json无法解析)
         GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
-            val messageBean = MessageService.getMessage().await()
-            val data = messageBean.data
+            val messageBean = MessageService.getMessage().awaitAndHandle {
+
+                Log.d("testjsoncanconvert", it.message.toString())
+            }
+            val data = messageBean?.data
             Log.d("HomeNew-Message-1", data.toString())
-            if (messageBean.error_code == -1 && data != null) {
+            if (messageBean?.error_code == -1 && data != null) {
                 // 通过新的网请和本地的 isDisplayMessage 判断来实现 Message 是否显示
                 if (!MessagePreferences.isDisplayMessage && MessagePreferences.messageVersion != data.version) {
                     MessagePreferences.apply {

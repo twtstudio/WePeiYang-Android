@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.main.AnnoActivity">
+    <!--    <include-->
+    <!--        layout="@layout/anno_common_toolbar"-->
+    <!--        android:id="@+id/toolbar" />-->
+
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/toolbar">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/anno_tb"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:background="@color/colorPrimary"
+                app:layout_scrollFlags="scroll|enterAlways">
+
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:contentDescription="@string/back_button"
+                        android:id="@+id/anno_back"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:padding="8dp"
+                        android:src="@drawable/left_arrow_white"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/search_edit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:text="校务专区"
+                        android:textSize="23sp"
+                        android:singleLine="true"
+                        android:textColor="@color/white_color"
+                        android:textColorHint="@color/white_color"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/anno_back" />
+
+                </android.support.constraint.ConstraintLayout>
+
+            </android.support.v7.widget.Toolbar>
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white_color"
+                app:layout_scrollFlags="scroll|enterAlways">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/path_rec"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toTopOf="@+id/detail_rec" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/detail_rec"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@+id/path_rec" />
+            </android.support.constraint.ConstraintLayout>
+        </android.support.design.widget.AppBarLayout>
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/ques_rec"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+        <!--        <include layout="@layout/no_question_list" android:visibility="invisible" android:layout_gravity="center"-->
+        <!--            android:layout_height="wrap_content" android:layout_width="wrap_content" />-->
+
+        <TextView
+            android:id="@+id/cannot_connect_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="加载失败......"
+            android:visibility="invisible" />
+
+        <!--        <android.support.design.widget.FloatingActionButton-->
+        <!--            android:id="@+id/fl_btn"-->
+        <!--            android:layout_width="50dp"-->
+        <!--            android:layout_height="50dp"-->
+        <!--            android:src="@drawable/ic_baseline_double_arrow_24"-->
+        <!--            android:layout_margin="20dp"-->
+        <!--            android:layout_gravity="bottom|end"/>-->
+
+        <com.github.clans.fab.FloatingActionMenu
+            android:id="@+id/anno_fl_menu"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="24dp"
+            app:menu_backgroundColor="#00000000"
+            app:menu_colorNormal="@color/colorPrimary"
+            app:menu_colorPressed="@color/colorPrimary"
+            app:menu_fab_size="normal"
+            app:menu_labels_colorNormal="#eeeeee"
+            app:menu_labels_colorPressed="#999999"
+            app:menu_labels_ellipsize="end"
+            app:menu_labels_singleLine="true"
+            app:menu_labels_textColor="@color/black_color">
+
+
+            <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/fa_a"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/search"
+                app:fab_colorNormal="#eeeeee"
+                app:fab_colorPressed="#999999"
+                app:fab_size="mini" />
+
+            <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/fa_b"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/add_select"
+                app:fab_colorNormal="#eeeeee"
+                app:fab_colorPressed="#999999"
+                app:fab_size="mini" />
+
+            <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/fa_c"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/exchange_rate"
+                app:fab_colorNormal="#eeeeee"
+                app:fab_colorPressed="#999999"
+                app:fab_size="mini" />
+
+            <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/fa_d"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/account"
+                app:fab_colorNormal="#eeeeee"
+                app:fab_colorPressed="#999999"
+                app:fab_size="mini" />
+
+        </com.github.clans.fab.FloatingActionMenu>
+
+
+    </android.support.design.widget.CoordinatorLayout>
+
+</android.support.constraint.ConstraintLayout>

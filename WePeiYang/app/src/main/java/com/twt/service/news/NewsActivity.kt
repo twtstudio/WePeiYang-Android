@@ -1,5 +1,6 @@
 package com.twt.service.news
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v4.widget.SwipeRefreshLayout
@@ -24,6 +25,7 @@ class NewsActivity : AppCompatActivity() {
     private lateinit var srl: SwipeRefreshLayout
     private lateinit var webView: WebView
 
+    @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // 设置沉浸式状态栏
@@ -33,6 +35,10 @@ class NewsActivity : AppCompatActivity() {
             /*因为放了webview 是白色主题的，所以这里的设置会显得有点丑（？）*/
 //            setColorSchemeColors(ContextCompat.getColor(this@NewsActivity, R.color.colorAccent))
             webView = webView {
+
+                //微北洋新闻页面有问题的原因是 之前没有允许js执行
+                settings.javaScriptEnabled = true;
+
                 loadUrl(twtNewsHomeUrl)
 
                 // 根据网页加载进度设置 swipeRefreshLayout isRefreshing

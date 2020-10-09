@@ -1,4 +1,23 @@
-<manifest package="com.twt.service.announcement">
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.twt.service.announcement">
 
-    /
+    <application>
+        <activity
+            android:name=".ui.detail.AskQuestionActivity"
+            android:windowSoftInputMode="stateUnspecified|adjustResize"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".ui.user.UserActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.search.SearchActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.detail.ReplyActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.detail.DetailActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.main.AnnoActivity"
+            android:screenOrientation="portrait"/>
+    </application>
+
 </manifest>

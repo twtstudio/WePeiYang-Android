@@ -1,19 +1,16 @@
 package com.twt.service.schedule2.model.school
 
-import android.content.Context
 import com.twt.service.schedule2.model.Classtable
 import com.twt.service.schedule2.model.SchedulePref
-import com.twt.service.schedule2.spider.ScheduleSpider.parseHtml
 import com.twt.service.schedule2.spider.ScheduleSpider.getScheduleAsync
+import com.twt.service.schedule2.spider.ScheduleSpider.parseHtml
 import com.twt.wepeiyang.commons.experimental.cache.Cache
 import com.twt.wepeiyang.commons.experimental.cache.hawk
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import com.twt.wepeiyang.commons.experimental.network.CommonBody
 import com.twt.wepeiyang.commons.experimental.network.ServiceFactory
-import es.dmoral.toasty.Toasty
 import kotlinx.coroutines.*
 import retrofit2.http.GET
-import java.lang.NumberFormatException
 
 interface TjuCourseApi {
 
@@ -33,14 +30,14 @@ val tjuCourseCache = Cache.hawk<Classtable>(classtableCacheKey)
  * 强制刷新的时候 网络错误返回缓存 刷新成功则同时刷写缓存
  */
 suspend fun TjuCourseApi.Companion.refresh(mustRefresh: Boolean = false): Classtable {
-//    val deferredClasstable = getScheduleAsync()
-    val deferredClasstable = getClassTable()
+    val deferredClasstable = getScheduleAsync()
+//    val deferredClasstable = getClassTable()
     val handler: suspend (Throwable) -> Unit = { it.printStackTrace() }
     // 要么是必须刷新 要么是没有缓存
     if (mustRefresh || tjuCourseCache.get().await() == null) {
         // 刷新失败就拿缓存 缓存还没有就凉了
-//        val classtable: Classtable? = deferredClasstable.awaitAndHandle(handler)?.parseHtml
-        val classtable: Classtable? = deferredClasstable.awaitAndHandle(handler)?.data
+        val classtable: Classtable? = deferredClasstable.awaitAndHandle(handler)?.parseHtml()
+//        val classtable: Classtable? = deferredClasstable.awaitAndHandle(handler)?.data
                 ?: tjuCourseCache.get().await()
         try {
             classtable?.let {
@@ -55,8 +52,8 @@ suspend fun TjuCourseApi.Companion.refresh(mustRefresh: Boolean = false): Classt
         // 这种情况也要静默刷新一下 成功就刷
         try {
             GlobalScope.async(Dispatchers.Default) {
-                //                val classtable = deferredClasstable.awaitAndHandle(handler)?.parseHtml()
-                val classtable = deferredClasstable.awaitAndHandle(handler)?.data
+                                val classtable = deferredClasstable.awaitAndHandle(handler)?.parseHtml()
+//                val classtable = deferredClasstable.awaitAndHandle(handler)?.data
                 classtable?.let {
                     tjuCourseCache.set(it)
                     SchedulePref.termStart = it.termStart

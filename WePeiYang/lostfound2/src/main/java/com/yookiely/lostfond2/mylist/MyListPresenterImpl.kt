@@ -11,7 +11,6 @@ import es.dmoral.toasty.Toasty
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import kotlin.math.log
 
 class MyListPresenterImpl(private val myListView: MyListService.MyListView) : MyListService.MyListPresenter {
 //    lateinit var mylistApi: LostFoundService
