@@ -67,10 +67,10 @@ class OtherItem : Item {
                     it.context.startActivity<YellowPageActivity>()
                 }
 
-                addItem("失物招领", "我的心丢了，你看到了吗？") {
-                    mtaClick("app_首页OtherItem失物招领Item")
-                    it.context.startActivity<WaterfallActivity>()
-                }
+//                addItem("失物招领", "我的心丢了，你看到了吗？") {
+//                    mtaClick("app_首页OtherItem失物招领Item")
+//                    it.context.startActivity<WaterfallActivity>()
+//                }
 
                 addUselessItem("学生党建 (维护中)", "和微北洋共建社会主义")
 //                {

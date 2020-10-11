@@ -56,7 +56,7 @@ class UserFragment : Fragment() {
                                         UserItem.AvatarBean(it.avatar, it.twtuname, it.realname)
                                     }, R.drawable.ic_avatar_copy),
                                     UserItem.InfoItem(R.drawable.ic_tju_little_icon, "办公网", authSelfLiveData.map {
-                                        if (it.accounts.tju) "已绑定" else "未绑定"
+                                        if (it.accounts.tju) "" else ""
                                     }) {
                                         if (CommonPreferences.isBindTju) {
                                             val builder = android.support.v7.app.AlertDialog.Builder(context)
