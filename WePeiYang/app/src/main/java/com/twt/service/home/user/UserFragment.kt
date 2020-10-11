@@ -2,7 +2,6 @@ package com.twt.service.home.user
 
 import android.app.Activity
 import android.app.AlertDialog
-import android.arch.lifecycle.MutableLiveData
 import android.content.Intent
 import android.os.Bundle
 import android.preference.PreferenceManager
@@ -17,17 +16,12 @@ import android.widget.Toast
 import com.tencent.stat.StatMultiAccount
 import com.tencent.stat.StatService
 import com.twt.service.R
-import com.twt.service.ecard.model.EcardPref
-import com.twt.service.ecard.model.isBindECardBoolean
-import com.twt.service.ecard.model.isBindECardLiveData
-import com.twt.service.ecard.view.EcardLoginActivity
 import com.twt.service.settings.RealBindAndDropOutService
 import com.twt.service.settings.SettingsActivity
 import com.twt.service.settings.SingleBindActivity
 import com.twt.wepeiyang.commons.cache.CacheProvider
 import com.twt.wepeiyang.commons.experimental.cache.CacheIndicator
 import com.twt.wepeiyang.commons.experimental.cache.RefreshState
-import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
 import com.twt.wepeiyang.commons.experimental.extensions.map
 import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
 import com.twt.wepeiyang.commons.network.RxErrorHandler
@@ -35,15 +29,11 @@ import com.twt.wepeiyang.commons.view.RecyclerViewDivider
 import com.twtstudio.retrox.auth.api.authSelfLiveData
 import com.twtstudio.retrox.auth.api.login
 import com.twtstudio.retrox.auth.view.LoginActivity
-import com.twtstudio.retrox.tjulibrary.provider.TjuLibProvider
 import es.dmoral.toasty.Toasty
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import rx.android.schedulers.AndroidSchedulers
 import rx.functions.Action1
 import rx.schedulers.Schedulers
-import xyz.rickygao.gpa2.spider.utils.SpiderTjuApi
+import xyz.rickygao.gpa2.spider.utils.SpiderCookieManager
 
 
 /**
@@ -93,7 +83,7 @@ class UserFragment : Fragment() {
                                                                 }
                                                                 .subscribe(Action1 {
                                                                     //清除办公网登录cookie缓存
-                                                                    SpiderTjuApi.clear()
+                                                                    SpiderCookieManager.clearCookie()
                                                                     CommonPreferences.tjuloginbind = false
                                                                     CommonPreferences.tjuuname = ""
                                                                     CommonPreferences.tjupwd = ""
@@ -188,7 +178,7 @@ class UserFragment : Fragment() {
                                                     CacheProvider.clearCache()
                                                     StatService.removeMultiAccount(context, StatMultiAccount.AccountType.CUSTOM)
                                                     //清除办公网登录缓存
-                                                    SpiderTjuApi.clear()
+                                                    SpiderCookieManager.clearCookie()
                                                     val intent = Intent(context, LoginActivity::class.java)
                                                     context.startActivity(intent)
                                                     (context as Activity).finish()
