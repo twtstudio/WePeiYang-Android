@@ -165,6 +165,11 @@ class UserFragment : Fragment() {
 //                                        activity?.let { Toasty.info(it, "自行车", Toast.LENGTH_SHORT).show() }
 //                                    },
 
+                                    UserItem.ActionItem(R.drawable.ic_settings, "隐私政策") {
+                                        val intent = Intent(context, SettingsActivity::class.java)
+                                        context.startActivity(intent)
+                                    },
+
                                     UserItem.ActionItem(R.drawable.ic_settings, "设置") {
                                         val intent = Intent(context, SettingsActivity::class.java)
                                         context.startActivity(intent)

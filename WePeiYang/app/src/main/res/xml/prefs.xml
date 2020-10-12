@@ -54,6 +54,11 @@
 <!--            android:summary="到移动客户端版块，说出你的故事"-->
 <!--            android:title="意见反馈" />-->
         <Preference
+            android:key="pref_privacy_policy"
+            android:summary="微北洋隐私政策"
+            android:title="隐私政策" />
+
+        <Preference
             android:key="@string/pref_add_group"
             android:summary="加入天外天用户社区 QQ 群一起讨论问题"
             android:title="加群讨论" />

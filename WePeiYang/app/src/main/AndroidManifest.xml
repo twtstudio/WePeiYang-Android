@@ -41,6 +41,7 @@
             android:theme="@style/AppThemeActionBar" />
 
         <activity android:name=".settings.BindActivity" />
+        <activity android:name=".settings.PrivacyActivity"/>
 
         <activity android:name=".home.message.MessageListActivity" />
         <activity
