@@ -41,7 +41,7 @@
             android:layout_alignBottom="@id/mall_tv_main_price"
             android:layout_alignParentStart="true"
             android:layout_marginStart="7dp"
-            android:text="@string/rmb"
+            android:text="@string/mallStringRmb"
             android:textColor="#f58010"
             android:textSize="16sp" />
 

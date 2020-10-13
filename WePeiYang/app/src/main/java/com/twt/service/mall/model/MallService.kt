@@ -1,7 +1,7 @@
 package com.twt.service.mall.model
 
 import com.twt.wepeiyang.commons.experimental.network.CommonBody
-import kotlinx.coroutines.experimental.Deferred
+import kotlinx.coroutines.Deferred
 import retrofit2.http.GET
 
 val baseUrl = "https://mall.twt.edu.cn"
