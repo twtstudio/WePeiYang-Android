@@ -30,9 +30,21 @@ object ScheduleSpider {
 
         val html1 = okHttpClient.newCall(request1).execute().body()?.string().orEmpty()
 
-        val map = parseHtml(html1)
+        val map = if (checkMinor(html1)) {
+            //有辅修 再发一个
+            val request2 = Request.Builder()
+                    .url("http://classes.tju.edu.cn/eams/courseTableForStd!innerIndex.action?projectId=1&_=${System.currentTimeMillis()}")
+                    .get()
+                    .build()
 
-        val request2 = Request.Builder()
+            val html2 = okHttpClient.newCall(request2).execute().body()?.string().orEmpty()
+            parseHtml(html2)
+        } else {
+            //一般情况
+            parseHtml(html1)
+        }
+
+        val request0 = Request.Builder()
                 .url("http://classes.tju.edu.cn/eams/courseTableForStd!courseTable.action")
                 .post(MultipartBody.Builder().setType(MultipartBody.FORM)
                         .addFormDataPart("ignoreHead", "1")
@@ -43,13 +55,16 @@ object ScheduleSpider {
                         .build())
                 .build()
 
-        okHttpClient.newCall(request2).execute().body()?.string().orEmpty()
+        okHttpClient.newCall(request0).execute().body()?.string().orEmpty()
     }
 
-    //拿出第一个request里的一些参数
-    private fun parseHtml(html1: String): MutableMap<String, String> {
+    //辅修情况
+    private fun checkMinor(html1: String): Boolean = Jsoup.parse(html1).body().getElementsByTag("script").first().data().contains("bg.ready")
 
-        val doc = Jsoup.parse(html1)
+    //拿出有用的request里的两个参数
+    private fun parseHtml(html: String): MutableMap<String, String> {
+
+        val doc = Jsoup.parse(html)
         val semesterInput = doc.body().getElementsByTag("script")[2].data()
         val semesterIndex = semesterInput.indexOf("value:")
         val semesterId = semesterInput.substring(semesterIndex + 7, semesterIndex + 9)
@@ -238,6 +253,7 @@ object ScheduleSpider {
         return courseArrangeMap
     }
 
+    //arrange不重复添加
     private fun MutableList<Arrange>.deduplicateAdd(arrange: Arrange) {
         var flag = true//可以添加
         forEach {
