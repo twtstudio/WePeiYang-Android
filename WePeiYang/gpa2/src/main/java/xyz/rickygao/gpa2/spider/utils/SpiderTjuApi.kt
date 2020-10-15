@@ -101,7 +101,7 @@ object SpiderTjuApi {
 
 
     /**
-     * 登出
+     * 登出办公网,清除缓存和Cookie
      */
     suspend fun logout() {
         val requestLogout = Request.Builder()
@@ -111,6 +111,8 @@ object SpiderTjuApi {
         val response = SpiderCookieManager.clientBuilder.build().newCall(requestLogout).execute()
         SpiderCookieManager.clearCookie()
         CommonPreferences.tjuloginbind = false
+        CommonPreferences.tjuuname = ""
+        CommonPreferences.tjupwd = ""
         Log.d("logout", response.body()?.string().orEmpty())
     }
 }

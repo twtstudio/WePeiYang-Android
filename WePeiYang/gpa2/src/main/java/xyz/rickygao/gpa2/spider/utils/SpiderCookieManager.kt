@@ -21,7 +21,7 @@ import okhttp3.logging.HttpLoggingInterceptor
  */
 object SpiderCookieManager {
 
-//    const val DIALOG_ACTION = "gpa2.spider.utils.dialog"
+    //    const val DIALOG_ACTION = "gpa2.spider.utils.dialog"
     val cookieStore = PersistentCookieStore(CommonContext.application)
     private val cookieJar = CookieJarImpl(cookieStore)
     val clientBuilder = OkHttpClient.Builder()
@@ -55,9 +55,13 @@ object SpiderCookieManager {
                         Log.d("SpiderCookieApi", "expired ${cookie.name()}")
                         GlobalScope.launch(Main) {
 
-                            Toasty.info(CommonContext.application, "办公网登录已过期，更新课表、GPA等信息请重新登录", Toast.LENGTH_LONG).show()
+                            Toasty.info(CommonContext.application, "办公网登录已过期，更新课表、GPA等信息要先重新登录", Toast.LENGTH_LONG).show()
 
                         }
+                        //因为进入首页会自动使用爬虫爬取课表与gpa,所以会调用这部分代码,更新办公网登录状态,
+                        //确保了 CommonPreferences.tjuloginbind 的实时性
+                        CommonPreferences.tjuloginbind = false
+                        //有验证码 无法自动登录 只能用户手动登录
 //                        checkTjuValid(SpiderTjuLogin.login(CommonPreferences.tjuuname, CommonPreferences.tjupwd))
                         break
                     }

@@ -52,7 +52,6 @@ class TjuBindFragment : SlideFragment() {
         imgCaptcha = view.findViewById(R.id.iv_captcha)
         GlobalScope.launch {
             withContext(IO + QuietCoroutineExceptionHandler) {
-                SpiderTjuApi.logout()
                 SpiderTjuApi.prepare()
                 session = SpiderTjuApi.getSession()
             }
