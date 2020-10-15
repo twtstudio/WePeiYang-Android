@@ -1,7 +1,8 @@
 package xyz.rickygao.gpa2.spider.utils
 
-import android.app.AlertDialog
 import android.content.Intent
+import android.content.IntentFilter
+import android.support.v4.content.LocalBroadcastManager
 import android.util.Log
 import com.twt.wepeiyang.commons.experimental.CommonContext
 import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
@@ -19,12 +20,22 @@ import okhttp3.logging.HttpLoggingInterceptor
  */
 object SpiderCookieManager {
 
+    const val DIALOG_ACTION = "gpa2.spider.utils.dialog"
     val cookieStore = PersistentCookieStore(CommonContext.application)
     private val cookieJar = CookieJarImpl(cookieStore)
     val clientBuilder = OkHttpClient.Builder()
             .cookieJar(cookieJar)
             .addNetworkInterceptor(HttpLoggingInterceptor()
                     .apply { level = HttpLoggingInterceptor.Level.BODY })
+
+    private val localBroadcastManager: LocalBroadcastManager = LocalBroadcastManager.getInstance(CommonContext.application)
+
+    init {
+        val intentFilter = IntentFilter()
+        intentFilter.addAction(DIALOG_ACTION)
+        val localReceiver = TjuLoginDialogReceiver()
+        localBroadcastManager.registerReceiver(localReceiver, intentFilter)
+    }
 
     /**
      * 构造爬虫所需 OkHttpClient.Builder
@@ -55,7 +66,9 @@ object SpiderCookieManager {
         // 未曾成功登录过，需要登录
         Log.d("SpiderCookieApi", "never login")
         GlobalScope.launch(Main) {
-
+//            val intent = Intent(DIALOG_ACTION)
+//            localBroadcastManager.sendBroadcast(intent)
+//            CommonContext.application.sendBroadcast(intent)
             Toasty.warning(CommonContext.application, "尚未登录办公网").show()
         }
 //        checkTjuValid(SpiderTjuLogin.login(CommonPreferences.tjuuname, CommonPreferences.tjupwd))
