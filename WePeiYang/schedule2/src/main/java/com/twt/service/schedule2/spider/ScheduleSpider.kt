@@ -30,25 +30,41 @@ object ScheduleSpider {
 
         val html1 = okHttpClient.newCall(request1).execute().body()?.string().orEmpty()
 
-        val map = parseHtml(html1)
+        val map = if (checkMinor(html1)) {
+            //有辅修 再发一个
+            val request2 = Request.Builder()
+                    .url("http://classes.tju.edu.cn/eams/courseTableForStd!innerIndex.action?projectId=1&_=${System.currentTimeMillis()}")
+                    .get()
+                    .build()
 
-        val request2 = Request.Builder()
+            val html2 = okHttpClient.newCall(request2).execute().body()?.string().orEmpty()
+            parseHtml(html2)
+        } else {
+            //一般情况
+            parseHtml(html1)
+        }
+
+        val request0 = Request.Builder()
                 .url("http://classes.tju.edu.cn/eams/courseTableForStd!courseTable.action")
                 .post(MultipartBody.Builder().setType(MultipartBody.FORM)
                         .addFormDataPart("ignoreHead", "1")
                         .addFormDataPart("setting.kind", "std")
                         .addFormDataPart("startWeek", "")
-                        .addFormDataPart("semester.id", map[semesterId] ?: "31")
-                        .addFormDataPart("ids", map[ids] ?: "2143898")
+                        .addFormDataPart("semester.id", map[semesterId] ?: "47")//找不到规律
+                        .addFormDataPart("ids", map[ids] ?: "0000000")//用户自己的id
                         .build())
                 .build()
 
-        okHttpClient.newCall(request2).execute().body()?.string().orEmpty()
+        okHttpClient.newCall(request0).execute().body()?.string().orEmpty()
     }
 
-    private fun parseHtml(html1: String): MutableMap<String, String> {
+    //辅修情况
+    private fun checkMinor(html1: String): Boolean = Jsoup.parse(html1).body().getElementsByTag("script").first().data().contains("bg.ready")
 
-        val doc = Jsoup.parse(html1)
+    //拿出有用的request里的两个参数
+    private fun parseHtml(html: String): MutableMap<String, String> {
+
+        val doc = Jsoup.parse(html)
         val semesterInput = doc.body().getElementsByTag("script")[2].data()
         val semesterIndex = semesterInput.indexOf("value:")
         val semesterId = semesterInput.substring(semesterIndex + 7, semesterIndex + 9)
@@ -61,6 +77,7 @@ object ScheduleSpider {
         return mutableMapOf(this.semesterId to semesterId, this.ids to ids)
     }
 
+    //解析课表信息
     fun String.parseHtml(): Classtable? {
         val courses = mutableListOf<Course>()
         try {
@@ -77,7 +94,7 @@ object ScheduleSpider {
                 //一节课
                 val tds = tr.select("td")
 
-//            val arrange1List = mutableListOf<Arrange>()
+//                val arrange1List = mutableListOf<Arrange>()
                 val weeks = tds[6].text().split("-")
                 val classId = tds[1].text().substring(1).toInt() // 逻辑班号
                 val teacher = tds[5].text()
@@ -135,9 +152,9 @@ object ScheduleSpider {
                     week = 1,
                     cache = false,
                     courses = courses,
-                    termStart = 1581868800L,//TODO  啥意思
+                    termStart = 1598803200L,//TODO  unix时间戳 2020/8/31 0:0:0
                     updatedAt = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA).format(Date(System.currentTimeMillis())),// 2020-03-10T20:07:41+08:00 ?
-                    term = "19202"//TODO  19202
+                    term = "20211"//TODO  只能手动改了马
             )
 
         } catch (e: IllegalStateException) {
@@ -150,7 +167,6 @@ object ScheduleSpider {
     //手动解析js
     private fun parseJS(script: String): Map<Int, List<Arrange>> {
 
-
         val courseArrangeMap = mutableMapOf<Int, MutableList<Arrange>>()
 
 //        val arrange2List = mutableListOf<Arrange2>()
@@ -161,8 +177,8 @@ object ScheduleSpider {
             //一节课
             val lineList = courseList[i].split(";")
             //上课老师
-            val act = Regex("\"\\w*\"").find(lineList[1])!!.value
-            val actTeacher = act.substring(1, act.length - 1)
+//            val act = Regex("\"\\w*\"").find(lineList[1])!!.value
+//            val actTeacher = act.substring(1, act.length - 1)
             //课程相关那一行
             val courseLine = lineList[14].split(",")
             //主键 classId
@@ -171,7 +187,11 @@ object ScheduleSpider {
             val lastIndex = Regex("\\)").find(courseLine[4])!!.range.last
             val classId = courseLine[4].substring(firstIndex + 1, lastIndex).toInt()
             //上课教室
-            val room = courseLine[7].substring(1, courseLine[7].length - 1)
+            val room = if (courseLine[7].isBlank()) {
+                ""
+            } else {
+                courseLine[7].substring(1, courseLine[7].length - 1)
+            }
             //周时间
             val weekOri = courseLine[8]
             val finder = Regex("1").findAll(weekOri)
@@ -180,8 +200,8 @@ object ScheduleSpider {
                 finder.first().range.first % 2 == 1 -> "双周"
                 else -> "单周"
             }
-            val weekStart = finder.first().range.first - 1
-            val weekEnd = finder.last().range.last - 1
+//            val weekStart = finder.first().range.first - 1
+//            val weekEnd = finder.last().range.last - 1
             //课时间
             val day = Regex("(\\d+)").find(lineList[15])?.value!!.toInt() + 1
             val start = Regex("(\\d+)").findAll(lineList[15]).elementAt(1).value.toInt() + 1
@@ -218,10 +238,10 @@ object ScheduleSpider {
             //整合进map里
             if (courseArrangeMap[classId].isNullOrEmpty()) {
                 courseArrangeMap[classId] = arrangeList
-                Log.d("arrange1", arrangeList.toString())
+//                Log.d("arrange1", arrangeList.toString())
             } else {
-                courseArrangeMap[classId]?.addAll(arrangeList)
-                Log.d("arrange1", arrangeList.toString())
+                courseArrangeMap[classId]?.deduplicateAdd(arrange)
+//                Log.d("arrange1", arrangeList.toString())
             }
 
 /*            if (courseArrange2Map[classId].isNullOrEmpty()) {
@@ -231,5 +251,20 @@ object ScheduleSpider {
             }*/
         }
         return courseArrangeMap
+    }
+
+    //arrange不重复添加
+    private fun MutableList<Arrange>.deduplicateAdd(arrange: Arrange) {
+        var flag = true//可以添加
+        forEach {
+            flag = flag && !it.sameArrange(arrange)
+        }
+        if (flag) {
+            add(arrange)
+        }
+    }
+
+    private fun Arrange.sameArrange(arrange: Arrange): Boolean {
+        return arrange.day == day && arrange.end == end && arrange.room == room && arrange.start == start && arrange.week == week
     }
 }
