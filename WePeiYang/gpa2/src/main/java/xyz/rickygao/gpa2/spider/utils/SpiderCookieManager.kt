@@ -45,30 +45,29 @@ object SpiderCookieManager {
      */
     suspend fun getClientBuilder(): OkHttpClient.Builder {
         printCookie()
-        if (CommonPreferences.tjuloginbind) {
-            // 曾经成功登录办公网，账户密码依然可以继续使用
-            if (cookieStore.cookies.isNotEmpty()) {
-                Log.d("SpiderCookieApi", "has cookies")
-                // 如果有cookie过期就重新登录
-                for (cookie in cookieStore.cookies) {
-                    if (cookie.isExpired()) {
-                        Log.d("SpiderCookieApi", "expired ${cookie.name()}")
-                        GlobalScope.launch(Main) {
+        // 曾经成功登录办公网，账户密码依然可以继续使用
+        if (cookieStore.cookies.isNotEmpty()) {
+            Log.d("SpiderCookieApi", "has cookies")
+            // 如果有cookie过期就重新登录
+            for (cookie in cookieStore.cookies) {
+                if (cookie.isExpired()) {
+                    Log.d("SpiderCookieApi", "expired ${cookie.name()}")
+                    GlobalScope.launch(Main) {
 
-                            Toasty.info(CommonContext.application, "办公网登录已过期，更新课表、GPA等信息要先重新登录", Toast.LENGTH_LONG).show()
+                        Toasty.info(CommonContext.application, "办公网登录已过期，更新课表、GPA等信息要先重新登录", Toast.LENGTH_LONG).show()
 
-                        }
-                        //因为进入首页会自动使用爬虫爬取课表与gpa,所以会调用这部分代码,更新办公网登录状态,
-                        //确保了 CommonPreferences.tjuloginbind 的实时性
-                        CommonPreferences.tjuloginbind = false
-                        //有验证码 无法自动登录 只能用户手动登录
-//                        checkTjuValid(SpiderTjuLogin.login(CommonPreferences.tjuuname, CommonPreferences.tjupwd))
-                        break
                     }
+                    //因为进入首页会自动使用爬虫爬取课表与gpa,所以会调用这部分代码,更新办公网登录状态,
+                    //确保了 CommonPreferences.tjuloginbind 的实时性
+                    CommonPreferences.tjuloginbind = false
+                    //有验证码 无法自动登录 只能用户手动登录
+//                        checkTjuValid(SpiderTjuLogin.login(CommonPreferences.tjuuname, CommonPreferences.tjupwd))
+                    break
                 }
-                return clientBuilder
             }
+            return clientBuilder
         }
+
         // 未曾成功登录过，需要登录
         Log.d("SpiderCookieApi", "never login")
         GlobalScope.launch(Main) {
