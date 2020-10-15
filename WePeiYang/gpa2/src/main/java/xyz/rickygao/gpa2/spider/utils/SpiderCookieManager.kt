@@ -4,6 +4,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.support.v4.content.LocalBroadcastManager
 import android.util.Log
+import android.widget.Toast
 import com.twt.wepeiyang.commons.experimental.CommonContext
 import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
 import com.twt.wepeiyang.commons.experimental.startActivity
@@ -20,7 +21,7 @@ import okhttp3.logging.HttpLoggingInterceptor
  */
 object SpiderCookieManager {
 
-    const val DIALOG_ACTION = "gpa2.spider.utils.dialog"
+//    const val DIALOG_ACTION = "gpa2.spider.utils.dialog"
     val cookieStore = PersistentCookieStore(CommonContext.application)
     private val cookieJar = CookieJarImpl(cookieStore)
     val clientBuilder = OkHttpClient.Builder()
@@ -28,14 +29,14 @@ object SpiderCookieManager {
             .addNetworkInterceptor(HttpLoggingInterceptor()
                     .apply { level = HttpLoggingInterceptor.Level.BODY })
 
-    private val localBroadcastManager: LocalBroadcastManager = LocalBroadcastManager.getInstance(CommonContext.application)
+//    private val localBroadcastManager: LocalBroadcastManager = LocalBroadcastManager.getInstance(CommonContext.application)
 
-    init {
-        val intentFilter = IntentFilter()
-        intentFilter.addAction(DIALOG_ACTION)
-        val localReceiver = TjuLoginDialogReceiver()
-        localBroadcastManager.registerReceiver(localReceiver, intentFilter)
-    }
+//    init {
+//        val intentFilter = IntentFilter()
+//        intentFilter.addAction(DIALOG_ACTION)
+//        val localReceiver = TjuLoginDialogReceiver()
+//        localBroadcastManager.registerReceiver(localReceiver, intentFilter)
+//    }
 
     /**
      * 构造爬虫所需 OkHttpClient.Builder
@@ -43,19 +44,18 @@ object SpiderCookieManager {
      * 并对cookie是否过期进行判断
      */
     suspend fun getClientBuilder(): OkHttpClient.Builder {
-//        printCookie()
+        printCookie()
         if (CommonPreferences.tjuloginbind) {
             // 曾经成功登录办公网，账户密码依然可以继续使用
             if (cookieStore.cookies.isNotEmpty()) {
-                Log.i("SpiderCookieApi", "has cookies")
-
+                Log.d("SpiderCookieApi", "has cookies")
                 // 如果有cookie过期就重新登录
                 for (cookie in cookieStore.cookies) {
                     if (cookie.isExpired()) {
-                        Log.i("SpiderCookieApi", "expired ${cookie.name()}")
+                        Log.d("SpiderCookieApi", "expired ${cookie.name()}")
                         GlobalScope.launch(Main) {
 
-                            Toasty.info(CommonContext.application, "办公网登录已过期").show()
+                            Toasty.info(CommonContext.application, "办公网登录已过期，更新课表、GPA等信息请重新登录", Toast.LENGTH_LONG).show()
 
                         }
 //                        checkTjuValid(SpiderTjuLogin.login(CommonPreferences.tjuuname, CommonPreferences.tjupwd))
@@ -66,39 +66,39 @@ object SpiderCookieManager {
             }
         }
         // 未曾成功登录过，需要登录
-        Log.i("SpiderCookieApi", "never login")
+        Log.d("SpiderCookieApi", "never login")
         GlobalScope.launch(Main) {
 //            val intent = Intent(DIALOG_ACTION)
 //            localBroadcastManager.sendBroadcast(intent)
 //            CommonContext.application.sendBroadcast(intent)
+//            throw NotLoginException("尚未登录办公网")
             Toasty.warning(CommonContext.application, "尚未登录办公网").show()
         }
-//        checkTjuValid(SpiderTjuLogin.login(CommonPreferences.tjuuname, CommonPreferences.tjupwd))
 //        printCookie()
         return clientBuilder
     }
 
-    private fun checkTjuValid(valid: Boolean) {
-        if (!valid) {
-            CommonPreferences.tjuloginbind = false
-//            Toast.makeText(CommonContext.application,"办公网重新绑定（最近更换密码）",Toast.LENGTH_LONG).show()
-            CommonContext.application.startActivity("bind") {
-                // module app 中的com.twt.service.settings.SingleBindActivity
-                val TJU_BIND = 0xfaee01
-                val TYPE = "type"
-                this.putExtra(TYPE, TJU_BIND)
-                this.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
-            }
-        } else {
-            CommonPreferences.tjuloginbind = true
-        }
-    }
+//    private fun checkTjuValid(valid: Boolean) {
+//        if (!valid) {
+//            CommonPreferences.tjuloginbind = false
+////            Toast.makeText(CommonContext.application,"办公网重新绑定（最近更换密码）",Toast.LENGTH_LONG).show()
+//            CommonContext.application.startActivity("bind") {
+//                // module app 中的com.twt.service.settings.SingleBindActivity
+//                val TJU_BIND = 0xfaee01
+//                val TYPE = "type"
+//                this.putExtra(TYPE, TJU_BIND)
+//                this.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+//            }
+//        } else {
+//            CommonPreferences.tjuloginbind = true
+//        }
+//    }
 
     fun clearCookie() {
         cookieStore.removeAll()
     }
 
-    fun printCookie() {
+    private fun printCookie() {
         Log.d("SpiderCookieApi", cookieStore.cookies.toString())
         for (cookie in cookieStore.cookies) {
             Log.d("SpiderCookieApi", "detail: $cookie")
