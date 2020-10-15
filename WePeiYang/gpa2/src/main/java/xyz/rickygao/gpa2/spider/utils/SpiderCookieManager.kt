@@ -47,10 +47,12 @@ object SpiderCookieManager {
         if (CommonPreferences.tjuloginbind) {
             // 曾经成功登录办公网，账户密码依然可以继续使用
             if (cookieStore.cookies.isNotEmpty()) {
+                Log.i("SpiderCookieApi", "has cookies")
+
                 // 如果有cookie过期就重新登录
                 for (cookie in cookieStore.cookies) {
                     if (cookie.isExpired()) {
-                        Log.d("SpiderCookieApi", "expired ${cookie.name()}")
+                        Log.i("SpiderCookieApi", "expired ${cookie.name()}")
                         GlobalScope.launch(Main) {
 
                             Toasty.info(CommonContext.application, "办公网登录已过期").show()
@@ -64,7 +66,7 @@ object SpiderCookieManager {
             }
         }
         // 未曾成功登录过，需要登录
-        Log.d("SpiderCookieApi", "never login")
+        Log.i("SpiderCookieApi", "never login")
         GlobalScope.launch(Main) {
 //            val intent = Intent(DIALOG_ACTION)
 //            localBroadcastManager.sendBroadcast(intent)

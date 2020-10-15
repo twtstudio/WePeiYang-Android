@@ -18,6 +18,7 @@ import com.bumptech.glide.load.model.LazyHeaders
 import com.twt.service.R
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
 import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
+import es.dmoral.toasty.Toasty
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.GlobalScope
@@ -83,10 +84,11 @@ class TjuBindFragment : SlideFragment() {
                         CommonPreferences.tjuuname = userNumber
                         CommonPreferences.tjupwd = password
                         CommonPreferences.tjuloginbind = true
+                        context?.let { context ->
+                            Toasty.normal(context, "登录成功").show()
+
+                        }
                     }
-//                    302 -> {
-//
-//                    }
                     else -> {
                         refreshCaptcha()
                         withContext(IO) {
@@ -94,7 +96,9 @@ class TjuBindFragment : SlideFragment() {
 
                         }
                         etCaptcha.text = SpannableStringBuilder("")
-
+                        context?.let { context ->
+                            Toasty.error(context, "登录失败").show()
+                        }
                     }
                 }
                 it.isClickable = true
@@ -143,7 +147,7 @@ class TjuBindFragment : SlideFragment() {
         unbinder.unbind()
     }
 
-    override fun canMoveFurther() = CommonPreferences.isBindTju
+    override fun canMoveFurther() = CommonPreferences.tjuloginbind
 
     override fun buttonsColor() = R.color.intro_slide_buttons
 

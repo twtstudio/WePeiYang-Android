@@ -20,20 +20,7 @@
             android:name=".home.HomeNewActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="true"
-            android:launchMode="singleTask">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-
-                <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="mtaautotrack.6bcee3102206bb6df63982145d6671e8" />
-            </intent-filter>
-        </activity>
+            android:launchMode="singleTask"></activity>
         <activity android:name=".home.user.FragmentActivity" />
 
         <activity
@@ -47,19 +34,19 @@
             android:name=".StartupActivity"
             android:exported="true"
             android:theme="@style/Splash">
-            <!--            <intent-filter>-->
-            <!--                <action android:name="android.intent.action.MAIN"/>-->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-            <!--                <category android:name="android.intent.category.LAUNCHER"/>-->
-            <!--            </intent-filter>-->
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
 
-            <!--            <intent-filter>-->
-            <!--                <data android:scheme="mtaautotrack.6bcee3102206bb6df63982145d6671e8" />-->
-            <!--                <action android:name="android.intent.action.VIEW" />-->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
 
-            <!--                <category android:name="android.intent.category.DEFAULT" />-->
-            <!--                <category android:name="android.intent.category.BROWSABLE" />-->
-            <!--            </intent-filter>-->
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="mtaautotrack.6bcee3102206bb6df63982145d6671e8" />
+            </intent-filter>
 
         </activity>
         <activity
