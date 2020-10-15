@@ -1,6 +1,7 @@
 package xyz.rickygao.gpa2.spider.utils
 
 import android.util.Log
+import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
 import okhttp3.Cookie
 import okhttp3.FormBody
 import okhttp3.Request
@@ -28,7 +29,7 @@ object SpiderTjuApi {
     private var execution = ""
     private var session: Cookie? = null
     const val CAPTCHA_URL = "https://sso.tju.edu.cn/cas/images/kaptcha.jpg"
-    private const val LOGIN_URL = "https://sso.tju.edu.cn/cas/login"
+    private const val LOGIN_URL = "https://sso.tju.edu.cn/cas/login?service=http://classes.tju.edu.cn/eams/homeExt.action"
 
     //    private val loginUrl = "$LOGIN_BASE_URL?service=http://classes.tju.edu.cn/eams/homeExt.action"
     private const val LOGOUT_URL = "http://classes.tju.edu.cn/eams/logoutExt.action"
@@ -100,7 +101,7 @@ object SpiderTjuApi {
 
 
     /**
-     * 登出
+     * 登出办公网,清除缓存和Cookie
      */
     suspend fun logout() {
         val requestLogout = Request.Builder()
@@ -109,6 +110,9 @@ object SpiderTjuApi {
                 .build()
         val response = SpiderCookieManager.clientBuilder.build().newCall(requestLogout).execute()
         SpiderCookieManager.clearCookie()
+        CommonPreferences.tjuloginbind = false
+        CommonPreferences.tjuuname = ""
+        CommonPreferences.tjupwd = ""
         Log.d("logout", response.body()?.string().orEmpty())
     }
 }

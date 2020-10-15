@@ -30,10 +30,16 @@ import com.twtstudio.retrox.auth.api.authSelfLiveData
 import com.twtstudio.retrox.auth.api.login
 import com.twtstudio.retrox.auth.view.LoginActivity
 import es.dmoral.toasty.Toasty
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import rx.android.schedulers.AndroidSchedulers
 import rx.functions.Action1
 import rx.schedulers.Schedulers
 import xyz.rickygao.gpa2.spider.utils.SpiderCookieManager
+import xyz.rickygao.gpa2.spider.utils.SpiderTjuApi
 
 
 /**
@@ -56,47 +62,86 @@ class UserFragment : Fragment() {
                                         UserItem.AvatarBean(it.avatar, it.twtuname, it.realname)
                                     }, R.drawable.ic_avatar_copy),
                                     UserItem.InfoItem(R.drawable.ic_tju_little_icon, "办公网", authSelfLiveData.map {
-                                        if (it.accounts.tju) "" else ""
-                                    }) {
-                                        if (CommonPreferences.isBindTju) {
-                                            val builder = android.support.v7.app.AlertDialog.Builder(context)
-                                                    .setTitle("办公网解绑")
-                                                    .setMessage("是否要解绑办公网")
-                                                    .setPositiveButton("解绑") { _, _ ->
-                                                        RealBindAndDropOutService
-                                                                .unbindTju(CommonPreferences.twtuname)
-                                                                .subscribeOn(Schedulers.io())
-                                                                .observeOn(AndroidSchedulers.mainThread())
-                                                                .doAfterTerminate {
-                                                                    /* 由于后台的接口问题， 每次绑定解绑操作都要重新拿token，干脆用login接口做了假解绑，增加用户体验*/
-                                                                    login(CommonPreferences.twtuname, CommonPreferences.password) {
-                                                                        when (it) {
-                                                                            is RefreshState.Success -> {
-                                                                                authSelfLiveData.refresh(CacheIndicator.REMOTE)
-                                                                            }
-                                                                            is RefreshState.Failure -> {
-                                                                                Toasty.error(context, "发生错误 ${it.throwable.message}！${it.javaClass.name}").show()
-                                                                            }
-                                                                        }
-                                                                    }
+//                                        if (it.accounts.tju) "已绑定" else "未绑定"
+                                        when {
+                                            CommonPreferences.tjuloginbind -> "已登录"
+                                            CommonPreferences.tjuuname != "" -> {
+                                                "登录已过期"
+                                            }
+                                            else -> {
+                                                "未登录"
+                                            }
+                                        }
 
-                                                                }
-                                                                .subscribe(Action1 {
-                                                                    //清除办公网登录cookie缓存
-                                                                    SpiderCookieManager.clearCookie()
-                                                                    CommonPreferences.tjuloginbind = false
-                                                                    CommonPreferences.tjuuname = ""
-                                                                    CommonPreferences.tjupwd = ""
-                                                                    Toasty.success(context, "解绑成功！请重新绑定办公网", Toast.LENGTH_SHORT).show()
-                                                                }, RxErrorHandler())
+                                    }) {
+                                        if (CommonPreferences.tjuloginbind) {
+                                            val builder = AlertDialog.Builder(context)
+                                                    .setTitle("重新登录")
+                                                    .setMessage("是否要登出办公网")
+                                                    .setPositiveButton("登出") { _, _ ->
+
+                                                        GlobalScope.launch(Main) {
+                                                            withContext(IO) {
+
+                                                                SpiderTjuApi.logout()
+                                                            }
+
+                                                            Toasty.success(context, "已登出办公网,请重新登录").show()
+                                                            val intent = Intent(activity, SingleBindActivity::class.java)
+                                                            intent.putExtra(SingleBindActivity.TYPE, SingleBindActivity.TJU_BIND)
+                                                            context.startActivity(intent)
+                                                        }
+
+
                                                     }
-                                                    .setNegativeButton("再绑会...") { dialog, _ -> dialog.dismiss() }
+                                                    .setNegativeButton("手滑点错了..") { dialog, _ ->
+                                                        dialog.dismiss()
+                                                    }
                                             builder.create().show()
                                         } else {
                                             val intent = Intent(activity, SingleBindActivity::class.java)
                                             intent.putExtra(SingleBindActivity.TYPE, SingleBindActivity.TJU_BIND)
                                             context.startActivity(intent)
                                         }
+//                                        if (CommonPreferences.isBindTju) {
+//                                            val builder = android.support.v7.app.AlertDialog.Builder(context)
+//                                                    .setTitle("办公网解绑")
+//                                                    .setMessage("是否要解绑办公网")
+//                                                    .setPositiveButton("解绑") { _, _ ->
+//                                                        RealBindAndDropOutService
+//                                                                .unbindTju(CommonPreferences.twtuname)
+//                                                                .subscribeOn(Schedulers.io())
+//                                                                .observeOn(AndroidSchedulers.mainThread())
+//                                                                .doAfterTerminate {
+//                                                                    /* 由于后台的接口问题， 每次绑定解绑操作都要重新拿token，干脆用login接口做了假解绑，增加用户体验*/
+//                                                                    login(CommonPreferences.twtuname, CommonPreferences.password) {
+//                                                                        when (it) {
+//                                                                            is RefreshState.Success -> {
+//                                                                                authSelfLiveData.refresh(CacheIndicator.REMOTE)
+//                                                                            }
+//                                                                            is RefreshState.Failure -> {
+//                                                                                Toasty.error(context, "发生错误 ${it.throwable.message}！${it.javaClass.name}").show()
+//                                                                            }
+//                                                                        }
+//                                                                    }
+//
+//                                                                }
+//                                                                .subscribe(Action1 {
+//                                                                    //清除办公网登录cookie缓存
+//                                                                    SpiderCookieManager.clearCookie()
+//                                                                    CommonPreferences.tjuloginbind = false
+//                                                                    CommonPreferences.tjuuname = ""
+//                                                                    CommonPreferences.tjupwd = ""
+//                                                                    Toasty.success(context, "解绑成功！请重新绑定办公网", Toast.LENGTH_SHORT).show()
+//                                                                }, RxErrorHandler())
+//                                                    }
+//                                                    .setNegativeButton("再绑会...") { dialog, _ -> dialog.dismiss() }
+//                                            builder.create().show()
+//                                        } else {
+//                                            val intent = Intent(activity, SingleBindActivity::class.java)
+//                                            intent.putExtra(SingleBindActivity.TYPE, SingleBindActivity.TJU_BIND)
+//                                            context.startActivity(intent)
+//                                        }
                                     },
 
 //                                    UserItem.InfoItem(R.drawable.lib_library, "图书馆", authSelfLiveData.map {
@@ -164,6 +209,7 @@ class UserFragment : Fragment() {
 //                                    }) {
 //                                        activity?.let { Toasty.info(it, "自行车", Toast.LENGTH_SHORT).show() }
 //                                    },
+
                                     UserItem.ActionItem(R.drawable.ic_settings, "设置") {
                                         val intent = Intent(context, SettingsActivity::class.java)
                                         context.startActivity(intent)

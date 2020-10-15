@@ -3,6 +3,7 @@ package xyz.rickygao.gpa2.spider.utils
 import android.content.Context
 import android.content.SharedPreferences
 import android.text.TextUtils
+import android.util.Base64
 import android.util.Log
 import okhttp3.Cookie
 import okhttp3.HttpUrl
@@ -182,26 +183,28 @@ class PersistentCookieStore(context: Context) : CookieStore {
     }
 
     protected fun byteArrayToHexString(bytes: ByteArray): String {
-        val sb = StringBuilder(bytes.size * 2)
-        for (element in bytes) {
-            var hex = Integer.toHexString((element and 0xFF.toByte()).toInt())
-            if (hex.length == 1) {
-                hex = "0$hex"
-            }
-            sb.append(hex)
-        }
-        return sb.toString().toUpperCase(Locale.US)
+        return Base64.encodeToString(bytes,Base64.DEFAULT)
+//        val sb = StringBuilder(bytes.size * 2)
+//        for (element in bytes) {
+//            var hex = Integer.toHexString((element and 0xFF.toByte()).toInt())
+//            if (hex.length == 1) {
+//                hex = "0$hex"
+//            }
+//            sb.append(hex)
+//        }
+//        return sb.toString()
     }
 
-    protected fun hexStringToByteArray(hexString: String): ByteArray {
-        val len = hexString.length
-        val data = ByteArray(len / 2)
-        var i = 0
-        while (i < len) {
-            data[i / 2] = ((Character.digit(hexString[i], 16) shl 4) + Character.digit(hexString[i + 1], 16)).toByte()
-            i += 2
-        }
-        return data
+    protected fun hexStringToByteArray(str: String): ByteArray {
+        return Base64.decode(str,Base64.DEFAULT)
+//        val len = hexString.length
+//        val data = ByteArray(len / 2)
+//        var i = 0
+//        while (i < len) {
+//            data[i / 2] = ((Character.digit(hexString[i], 16) shl 4) + Character.digit(hexString[i + 1], 16)).toByte()
+//            i += 2
+//        }
+//        return data
     }
 
     companion object {
