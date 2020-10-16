@@ -44,13 +44,13 @@ object SpiderCookieManager {
      * 并对cookie是否过期进行判断
      */
     suspend fun getClientBuilder(): OkHttpClient.Builder {
-        printCookie()
+        printCookie("getClientBuilder")
         // 曾经成功登录办公网，账户密码依然可以继续使用
         if (cookieStore.cookies.isNotEmpty()) {
             Log.d("SpiderCookieApi", "has cookies")
             // 如果有cookie过期就重新登录
             for (cookie in cookieStore.cookies) {
-                if (cookie.isExpired()) {
+                if (cookie.isExpired()||(!CommonPreferences.tjuloginbind&&CommonPreferences.tjuuname!="")) {
                     Log.d("SpiderCookieApi", "expired ${cookie.name()}")
                     GlobalScope.launch(Main) {
                         // 因为进入首页会自动爬取课表与gpa,所以改提示会连续出现两次
@@ -102,8 +102,9 @@ object SpiderCookieManager {
         cookieStore.removeAll()
     }
 
-    private fun printCookie() {
-        Log.d("SpiderCookieApi", cookieStore.cookies.toString())
+    fun printCookie(tag: String) {
+        Log.d("SpiderCookieApi", "$tag=======================================")
+//        Log.d("SpiderCookieApi", cookieStore.cookies.toString())
         for (cookie in cookieStore.cookies) {
             Log.d("SpiderCookieApi", "detail: $cookie")
         }

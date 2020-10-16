@@ -79,7 +79,7 @@
             <ImageView
                 android:id="@+id/iv_captcha"
                 android:layout_gravity="center_vertical"
-                tools:src="@drawable/ecard_loading2"
+                android:src="@drawable/ecard_loading2"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"/>
         </LinearLayout>
