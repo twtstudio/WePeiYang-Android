@@ -35,7 +35,7 @@ class AnnoHomeItem : Item {
                 }
             }
             homeItem.apply {
-                itemName.text = "校务专区（测试中）"
+                itemName.text = "校务专区"
                 itemContent.visibility = View.VISIBLE
                 setContentView(view)
             }

@@ -111,7 +111,7 @@ object GpaSpider {
             "P" -> {
                 100.0
             }
-            "--" -> {
+            "缓考" -> {
                 DELAYED
             }
             "F" -> {
@@ -142,10 +142,12 @@ object GpaSpider {
         } else {
             tds[5].text().toDouble()
         }
-
-        val gpa = tds[8].text().toDouble()
+//        if(score != DELAYED && score != IGNORED) {
+//            val gpa = tds[8].text().toDouble()
+//        }
 
         if (score != DELAYED && score != IGNORED) {
+            val gpa = tds[8].text().toDouble()
             val course = Course(no, name, typeNum, credits, 0, score, gpa, null)
             courseList.add(course)
         }
