@@ -101,11 +101,12 @@ class PersistentCookieStore(context: Context) : CookieStore {
         if (cookies.containsKey(hostKey)) {
             val cookies: Collection<Cookie> = cookies[hostKey]!!.values
             for (cookie in cookies) {
-                if (cookie.isExpired()) {
-                    this.remove(hostKey, cookie)
-                } else {
+                //取消对过期cookie的判断，因为SpiderCookieManager中需要使用过期信息
+//                if (cookie.isExpired()) {
+//                    this.remove(hostKey, cookie)
+//                } else {
                     result.add(cookie)
-                }
+//                }
             }
         }
         return result
@@ -240,6 +241,8 @@ class PersistentCookieStore(context: Context) : CookieStore {
             }
         }
         tempCookieMap.clear()
-        clearExpired()
+        //取消对过期cookie的判断，因为SpiderCookieManager中需要使用过期信息
+
+//        clearExpired()
     }
 }
