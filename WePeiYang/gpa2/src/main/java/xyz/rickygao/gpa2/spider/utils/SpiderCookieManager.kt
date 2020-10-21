@@ -49,22 +49,16 @@ object SpiderCookieManager {
         if (cookieStore.cookies.isNotEmpty()) {
             Log.d("SpiderCookieApi", "has cookies")
             // 如果有cookie过期就重新登录
-            for (cookie in cookieStore.cookies) {
-                if (cookie.isExpired()||(!CommonPreferences.tjuloginbind&&CommonPreferences.tjuuname!="")) {
-                    Log.d("SpiderCookieApi", "expired ${cookie.name()}")
-                    GlobalScope.launch(Main) {
-                        // 因为进入首页会自动爬取课表与gpa,所以改提示会连续出现两次
-                        // 虽然字很长,但因为连续出现两次,将时间设置为SHORT
-                        Toasty.info(CommonContext.application, "办公网登录已过期，更新课表、GPA等信息要先重新登录").show()
+            if (!CommonPreferences.tjuloginbind && CommonPreferences.tjuuname != "") {
+                GlobalScope.launch(Main) {
+                    // 因为进入首页会自动爬取课表与gpa,所以改提示会连续出现两次
+                    // 虽然字很长,但因为连续出现两次,将时间设置为SHORT
+                    Toasty.info(CommonContext.application, "办公网登录已过期，更新课表、GPA等信息要先重新登录").show()
 
-                    }
-                    //因为进入首页会自动使用爬虫爬取课表与gpa,所以会调用这部分代码,更新办公网登录状态,
-                    //确保了 CommonPreferences.tjuloginbind 的实时性
-                    CommonPreferences.tjuloginbind = false
-                    //有验证码 无法自动登录 只能用户手动登录
-//                        checkTjuValid(SpiderTjuLogin.login(CommonPreferences.tjuuname, CommonPreferences.tjupwd))
-                    break
                 }
+
+                //有验证码 无法自动登录 只能用户手动登录
+//                        checkTjuValid(SpiderTjuLogin.login(CommonPreferences.tjuuname, CommonPreferences.tjupwd))
             }
             return clientBuilder
         }

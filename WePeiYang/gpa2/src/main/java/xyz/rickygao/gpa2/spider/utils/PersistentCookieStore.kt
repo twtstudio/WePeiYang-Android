@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import android.text.TextUtils
 import android.util.Base64
 import android.util.Log
+import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
 import okhttp3.Cookie
 import okhttp3.HttpUrl
 import java.io.*
@@ -33,6 +34,10 @@ class PersistentCookieStore(context: Context) : CookieStore {
             var changeFlag = false
             for ((name, cookie) in cookies[key]!!) {
                 if (cookie.isExpired()) {
+                    //因为进入首页会自动使用爬虫爬取课表与gpa,所以会调用这部分代码,更新办公网登录状态,
+                    //确保了 CommonPreferences.tjuloginbind 的实时性
+                    Log.d("SpiderCookieApi", "cookie expired \n$cookie")
+                    CommonPreferences.tjuloginbind = false
                     // Clear cookies from local store
                     cookies[key]!!.remove(name!!)
 
@@ -101,12 +106,13 @@ class PersistentCookieStore(context: Context) : CookieStore {
         if (cookies.containsKey(hostKey)) {
             val cookies: Collection<Cookie> = cookies[hostKey]!!.values
             for (cookie in cookies) {
-                //取消对过期cookie的判断，因为SpiderCookieManager中需要使用过期信息
-//                if (cookie.isExpired()) {
-//                    this.remove(hostKey, cookie)
-//                } else {
+                if (cookie.isExpired()) {
+                    Log.d("SpiderCookieApi", "cookie expired \n$cookie")
+                    CommonPreferences.tjuloginbind = false
+                    this.remove(hostKey, cookie)
+                } else {
                     result.add(cookie)
-//                }
+                }
             }
         }
         return result
@@ -184,7 +190,7 @@ class PersistentCookieStore(context: Context) : CookieStore {
     }
 
     protected fun byteArrayToHexString(bytes: ByteArray): String {
-        return Base64.encodeToString(bytes,Base64.DEFAULT)
+        return Base64.encodeToString(bytes, Base64.DEFAULT)
 //        val sb = StringBuilder(bytes.size * 2)
 //        for (element in bytes) {
 //            var hex = Integer.toHexString((element and 0xFF.toByte()).toInt())
@@ -197,7 +203,7 @@ class PersistentCookieStore(context: Context) : CookieStore {
     }
 
     protected fun hexStringToByteArray(str: String): ByteArray {
-        return Base64.decode(str,Base64.DEFAULT)
+        return Base64.decode(str, Base64.DEFAULT)
 //        val len = hexString.length
 //        val data = ByteArray(len / 2)
 //        var i = 0
@@ -241,8 +247,7 @@ class PersistentCookieStore(context: Context) : CookieStore {
             }
         }
         tempCookieMap.clear()
-        //取消对过期cookie的判断，因为SpiderCookieManager中需要使用过期信息
 
-//        clearExpired()
+        clearExpired()
     }
 }

@@ -84,6 +84,7 @@ class TjuBindFragment2 : Fragment() {
         imgCaptcha = view.findViewById(R.id.iv_captcha)
         GlobalScope.launch {
             withContext(IO + QuietCoroutineExceptionHandler) {
+                SpiderTjuApi.logout()
                 SpiderTjuApi.prepare()
                 session = SpiderTjuApi.getSession()
             }
@@ -91,10 +92,10 @@ class TjuBindFragment2 : Fragment() {
                 refreshCaptcha()
             }
         }
-        if (CommonPreferences.tjuloginbind) {
-            numEdit.text = SpannableStringBuilder(CommonPreferences.tjuuname)
-            passwordEdit.text = SpannableStringBuilder(CommonPreferences.tjupwd)
-        }
+
+        numEdit.text = SpannableStringBuilder(CommonPreferences.tjuuname)
+        passwordEdit.text = SpannableStringBuilder(CommonPreferences.tjupwd)
+
         imgCaptcha.setOnClickListener {
             refreshCaptcha()
         }
