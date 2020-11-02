@@ -152,11 +152,11 @@ class SettingsActivity : CAppCompatActivity() {
 //                false
 //            }
 //
-            val isDisplayBike = findPreference(getString(R.string.pref_is_display_bike))
-            isDisplayBike.onPreferenceChangeListener = Preference.OnPreferenceChangeListener { _, newValue ->
-                if (newValue == true) Toast.makeText(activity, "打开自行车模块以完成自行车功能的激活", Toast.LENGTH_SHORT).show()
-                true
-            }
+//            val isDisplayBike = findPreference(getString(R.string.pref_is_display_bike))
+//            isDisplayBike.onPreferenceChangeListener = Preference.OnPreferenceChangeListener { _, newValue ->
+//                if (newValue == true) Toast.makeText(activity, "打开自行车模块以完成自行车功能的激活", Toast.LENGTH_SHORT).show()
+//                true
+//            }
 
             val devTalking = findPreference(getString(R.string.pref_dev_talking))
             devTalking.setOnPreferenceClickListener {
