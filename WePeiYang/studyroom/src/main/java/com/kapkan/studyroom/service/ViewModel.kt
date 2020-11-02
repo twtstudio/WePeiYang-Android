@@ -72,13 +72,28 @@ class ViewModel {
         }
     }
 
-    fun getBuildingList() {
+    fun getBuildingList(studyActivity: StudyActivity) {
         GlobalScope.launch(Dispatchers.Main) {
             StudyServiceManager.getBuildingList().awaitAndHandle {
                 Toasty.info(CommonContext.application, it.message.toString()).show()
             }?.let {
                 if (it.error_code == -1) {
+
                     BuildingListData.postValue(it)
+                    studyActivity.buildingaryw.clear()
+                    studyActivity.wId.clear()
+                    studyActivity.buildingaryp.clear()
+                    studyActivity.pId.clear()
+                    it.data.forEach {
+                        if (it.campus_id=="1") {
+                            studyActivity.buildingaryw.add(it.building)
+                            studyActivity.wId.add(it.building_id)
+                        }else{
+                            studyActivity.buildingaryp.add(it.building)
+                            studyActivity.pId.add(it.building_id)
+                        }
+                    }
+                    studyActivity.initBuilding()
                 } else Toasty.error(CommonContext.application, it.message).show()
             }
         }

@@ -56,14 +56,19 @@ class StudyActivity : AppCompatActivity() {
 
     var peiyangBuildinglist: MutableList<Map<String, Any>> = MutableList(0) { defaultmap }
     var weijinBuildinglist: MutableList<Map<String, Any>> = MutableList(0) { defaultmap }
-    val buildingaryp = arrayOf(R.drawable.icon_building, "55楼", "43楼", "50楼", "33楼(文学院)", "31楼", "32楼","33楼","37楼", "44楼A", "44楼B", "45楼", "46楼")
-    val buildingaryw = arrayOf(R.drawable.icon_building, "23楼", "12楼", "19楼", "26楼A", "26楼B")
-    val wId = arrayOf("0015","0026","0032","1084","1085")
-    val pId = arrayOf("1093","1094","1095","1096","1097","1098","1101","1102","1103","1104","1105","1106")
+    //val buildingaryp = arrayOf(R.drawable.icon_building, "55楼", "43楼", "50楼", "33楼(文学院)", "31楼", "32楼","33楼","37楼", "44楼A", "44楼B", "45楼", "46楼")
+    //val buildingaryw = arrayOf(R.drawable.icon_building, "23楼", "12楼", "19楼", "26楼A", "26楼B")
+    //val wId = arrayOf("0015","0026","0032","1084","1085")
+    //val pId = arrayOf("1093","1094","1095","1096","1097","1098","1101","1102","1103","1104","1105","1106")
+
+    val buildingaryp = ArrayList<String>()
+    val buildingaryw = ArrayList<String>()
+    val wId = ArrayList<String>()
+    val pId = ArrayList<String>()
 
 
     val REQUEST_TS = 1
-    val ts = "2020-02-17"
+    val ts = "2020-08-31"
     val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
     var termStart: Long = simpleDateFormat.parse(ts).time
     var week: Int = 0
@@ -101,7 +106,7 @@ class StudyActivity : AppCompatActivity() {
           month >= 10 && this.courseday < 10 -> caculateWeek(year.toString() + "-" + month.toString() + "-0" + (this.courseday).toString())
           else -> caculateWeek(year.toString() + "-" + month.toString() + "-" + (this.courseday).toString())
         }
-
+        viewModel.getBuildingList(this)
         viewModel.getCollections(this)
         //viewModel.getTermDate(this)
         adayofwek = calendar.get(Calendar.DAY_OF_WEEK)-1
@@ -111,9 +116,6 @@ class StudyActivity : AppCompatActivity() {
         if (dayofweek==0) dayofweek = 7
 
         mcontext = this
-        viewModel.getBuildingList()
-
-        initBuilding()
 
         block_time.setOnClickListener {
             val selectwindow = LayoutInflater.from(this).inflate(R.layout.window_timeselect, null, false)
@@ -175,18 +177,23 @@ class StudyActivity : AppCompatActivity() {
             loadCollection()
             collectionrec.layoutManager = LinearLayoutManager(this)
             collectionrec.adapter = ItemAdapter(itemManager)
-
             collectionrec.adapter.notifyDataSetChanged()
             popupWindow.showAsDropDown(block_collection)
         }
-        Buildinglist.addAll(peiyangBuildinglist)
-        loadBuilding()
     }
 
     fun refresh() {
         Toast.makeText(this,"刷新中",Toast.LENGTH_SHORT).show()
-        viewModel.getBuildingList()
-        viewModel.getCollections(this)
+
+        viewModel.getBuildingList(this)
+        Buildinglist.clear()
+        buildingView.adapter = null
+
+        buildingaryw.clear()
+        wId.clear()
+        buildingaryp.clear()
+        pId.clear()
+
     }
 
     fun loadCollection(){
@@ -284,10 +291,10 @@ class StudyActivity : AppCompatActivity() {
             val mintent = Intent(mcontext, BuildingListActivity::class.java)
             if (ispeiyang) {
                 mintent.putExtra("buildingID", pId[p2])
-                mintent.putExtra("buildingName", buildingaryp[p2 + 1].toString())
+                mintent.putExtra("buildingName", buildingaryp[p2].toString())
             } else {
                 mintent.putExtra("buildingID", wId[p2])
-                mintent.putExtra("buildingName", buildingaryw[p2 + 1].toString())
+                mintent.putExtra("buildingName", buildingaryw[p2].toString())
             }
             mintent.putExtra("courseselect",course)
             mintent.putExtra("courseday", this@StudyActivity.courseday)
@@ -380,6 +387,7 @@ class StudyActivity : AppCompatActivity() {
     }
 
     fun initBuilding() {
+        //初步加载教学楼信息
         /*
         BuildingListData.value?.data?.forEach {
             if (it.campus_id=="1"){
@@ -388,20 +396,28 @@ class StudyActivity : AppCompatActivity() {
               //  buildingaryp.add(it.building)
             }
         }*/
+        peiyangBuildinglist.clear()
+        weijinBuildinglist.clear()
         val strary: Array<String> = arrayOf("img_building", "text_building")
-        for (i in 1..12) {
+        for (i in 0 until buildingaryp.size) {
             val map: HashMap<String, Any> = HashMap()
             map[strary[0]] = R.drawable.icon_building
             map[strary[1]] = buildingaryp[i]
             peiyangBuildinglist.add(map)
         }
 
-        for (i in 1..5) {
+        for (i in 0 until buildingaryw.size) {
             val map: HashMap<String, Any> = HashMap()
             map[strary[0]] = R.drawable.icon_building
             map[strary[1]] = buildingaryw[i]
             weijinBuildinglist.add(map)
         }
+        if (ispeiyang){
+            Buildinglist.addAll(peiyangBuildinglist)
+        }else{
+            Buildinglist.addAll(weijinBuildinglist)
+        }
+        loadBuilding()
     }
 
     fun caculateWeek(sdate: String) {
@@ -410,8 +426,6 @@ class StudyActivity : AppCompatActivity() {
         week = (days / 7)+1
         this.selecteddayofweek = (days+1) % 7
     }
-
-
 
     fun refreshAList(){
         viewModel.getAvailableRoom(this.courseday, week)

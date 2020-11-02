@@ -66,9 +66,7 @@ interface SelfStudyApi {
     @GET("$BASEURL/api/getClassroomWeekInfo.php")
     fun getClassroomWeekInfo(@Query("classroom_ID") roomID: String,
                              @Query("week") week: Int,
-                             @Query("term") term: Int = 19202): Deferred<ClassroomWeekInfo>
-
-
+                             @Query("term") term: Int = 20211): Deferred<ClassroomWeekInfo>
 
     companion object : SelfStudyApi by SelfStudyApiService()
 }
@@ -97,7 +95,6 @@ val collectionLiveData = MutableLiveData<CollectionList>()
 
 
 interface TjuCourseApi {
-
     @GET("v1/classtable")
     fun getClassTable(): Deferred<CommonBody<Classtable>>
 

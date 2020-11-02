@@ -155,10 +155,6 @@ class CollectionItem constructor(useable:Boolean): Item{
         }
     }
 
-    fun checkUsable(){
-
-    }
-
 
     fun loadClasstable(gridView: GridView){
         val defaultmap = HashMap<String, Any>()

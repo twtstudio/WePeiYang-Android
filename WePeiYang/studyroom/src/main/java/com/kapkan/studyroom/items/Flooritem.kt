@@ -142,7 +142,6 @@ class Flooritem : Item {
         }
     }
 
-
     override val controller: ItemController
         get() = Controller
 
