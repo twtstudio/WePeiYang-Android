@@ -101,7 +101,7 @@ object ScheduleSpider {
                 val week = Week(start = weeks[0].toInt(), end = weeks[1].toInt())
                 val campus = tds[9].text().let {
                     if (it.isNotEmpty()) {
-                        it.substring(0, 5)
+                        "${Regex("\\w*校区").find(it)}校区"
                     } else {
                         ""
                     }
@@ -172,14 +172,13 @@ object ScheduleSpider {
 //        val arrange2List = mutableListOf<Arrange2>()
 //        val courseArrange2Map = mutableMapOf<Int, MutableList<Arrange2>>()
         val courseList = script.split("var teachers =")
-//        val arrangeList = mutableListOf<Arrange>()
 
         for (i in 1 until courseList.size) {
             //一节课
             val lineList = courseList[i].split(";")
             //上课老师
-            val act = Regex("\"\\w*\"").find(lineList[1])!!.value
-            val actTeacher = act.substring(1, act.length - 1)
+//            val act = Regex("\"\\w*\"").find(lineList[1])!!.value
+//            val actTeacher = act.substring(1, act.length - 1)
             //课程相关那一行
             val courseLine = lineList[14].split(",")
             //主键 classId
@@ -188,7 +187,11 @@ object ScheduleSpider {
             val lastIndex = Regex("\\)").find(courseLine[4])!!.range.last
             val classId = courseLine[4].substring(firstIndex + 1, lastIndex).toInt()
             //上课教室
-            val room = courseLine[7].substring(1, courseLine[7].length - 1)
+            val room = if (courseLine[7].isBlank()) {
+                ""
+            } else {
+                courseLine[7].substring(1, courseLine[7].length - 1)
+            }
             //周时间
             val weekOri = courseLine[8]
             val finder = Regex("1").findAll(weekOri)
@@ -197,8 +200,8 @@ object ScheduleSpider {
                 finder.first().range.first % 2 == 1 -> "双周"
                 else -> "单周"
             }
-            val weekStart = finder.first().range.first - 1
-            val weekEnd = finder.last().range.last - 1
+//            val weekStart = finder.first().range.first - 1
+//            val weekEnd = finder.last().range.last - 1
             //课时间
             val day = Regex("(\\d+)").find(lineList[15])?.value!!.toInt() + 1
             val start = Regex("(\\d+)").findAll(lineList[15]).elementAt(1).value.toInt() + 1
@@ -258,12 +261,10 @@ object ScheduleSpider {
         }
         if (flag) {
             add(arrange)
-            Log.d("arrange11", arrange.day.toString() + "  " + arrange.start)
         }
     }
 
     private fun Arrange.sameArrange(arrange: Arrange): Boolean {
-        Log.d("arrange12", arrange.day.toString() + "  " + arrange.start)
-        return arrange.day == day && arrange.end == end && arrange.room == room && arrange.start == start && arrange.week == week
+        return arrange.day == day && arrange.end == end && /*arrange.room == room && */arrange.start == start && arrange.week == week
     }
 }
