@@ -40,7 +40,7 @@ object CommonPreferences {
 
     var tjuuname by hawk("tju_id_spider", "")// 办公网账号
     var tjupwd by hawk("tju_pwd_spider", "")// 办公网密码
-    var tjuloginbind by hawk("tju_login_spider",false) // 办公网登陆状态是否有效
+    var tjulogin:Boolean? by hawk("tju_login_spider",null) // 办公网登陆状态是否有效, true: 已登录，false: 登录过期，null: 从未登录过，无登录状态
     fun clear() {
         Hawk.deleteAll()
         CommonContext.defaultSharedPreferences.edit().clear().apply()

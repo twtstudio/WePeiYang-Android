@@ -1,13 +1,8 @@
 package xyz.rickygao.gpa2.spider.utils
 
-import android.content.Intent
-import android.content.IntentFilter
-import android.support.v4.content.LocalBroadcastManager
 import android.util.Log
-import android.widget.Toast
 import com.twt.wepeiyang.commons.experimental.CommonContext
 import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
-import com.twt.wepeiyang.commons.experimental.startActivity
 import es.dmoral.toasty.Toasty
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.GlobalScope
@@ -49,7 +44,7 @@ object SpiderCookieManager {
         if (cookieStore.cookies.isNotEmpty()) {
             Log.d("SpiderCookieApi", "has cookies")
             // 如果有cookie过期就重新登录
-            if (!CommonPreferences.tjuloginbind && CommonPreferences.tjuuname != "") {
+            if (CommonPreferences.tjulogin == false) {
                 GlobalScope.launch(Main) {
                     // 因为进入首页会自动爬取课表与gpa,所以改提示会连续出现两次
                     // 虽然字很长,但因为连续出现两次,将时间设置为SHORT

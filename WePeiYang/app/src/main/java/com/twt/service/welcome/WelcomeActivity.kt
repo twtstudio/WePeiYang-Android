@@ -22,7 +22,7 @@ class WelcomeActivity : MaterialIntroActivity() {
         addSlide(ScheduleWelcomeFragment())
         addSlide(BikeWelcomeFragment())
         addSlide(BriefWelcomeFragment())
-        if (!CommonPreferences.tjuloginbind) addSlide(TjuBindFragment())
+        if (CommonPreferences.tjulogin != true) addSlide(TjuBindFragment())
         if (!CommonPreferences.isBindLibrary) addSlide(LibBindFragment())
     }
 

@@ -11,7 +11,6 @@ import okhttp3.HttpUrl
 import java.io.*
 import java.util.*
 import java.util.concurrent.ConcurrentHashMap
-import kotlin.experimental.and
 
 /**
  * Cookie缓存持久化实现类
@@ -37,7 +36,7 @@ class PersistentCookieStore(context: Context) : CookieStore {
                     //因为进入首页会自动使用爬虫爬取课表与gpa,所以会调用这部分代码,更新办公网登录状态,
                     //确保了 CommonPreferences.tjuloginbind 的实时性
                     Log.d("SpiderCookieApi", "cookie expired \n$cookie")
-                    CommonPreferences.tjuloginbind = false
+                    CommonPreferences.tjulogin = false
                     // Clear cookies from local store
                     cookies[key]!!.remove(name!!)
 
@@ -108,7 +107,7 @@ class PersistentCookieStore(context: Context) : CookieStore {
             for (cookie in cookies) {
                 if (cookie.isExpired()) {
                     Log.d("SpiderCookieApi", "cookie expired \n$cookie")
-                    CommonPreferences.tjuloginbind = false
+                    CommonPreferences.tjulogin = false
                     this.remove(hostKey, cookie)
                 } else {
                     result.add(cookie)

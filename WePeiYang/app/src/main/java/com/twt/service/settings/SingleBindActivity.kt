@@ -92,9 +92,13 @@ class TjuBindFragment2 : Fragment() {
                 refreshCaptcha()
             }
         }
+        if (CommonPreferences.tjulogin == false) {
+            // 如果是登录过期，才会使用上次登录的账号密码。
+            // 如果是已登录状态进行重登，默认切换账号，所以不填入
+            numEdit.text = SpannableStringBuilder(CommonPreferences.tjuuname)
+            passwordEdit.text = SpannableStringBuilder(CommonPreferences.tjupwd)
+        }
 
-        numEdit.text = SpannableStringBuilder(CommonPreferences.tjuuname)
-        passwordEdit.text = SpannableStringBuilder(CommonPreferences.tjupwd)
 
         imgCaptcha.setOnClickListener {
             refreshCaptcha()
@@ -119,7 +123,7 @@ class TjuBindFragment2 : Fragment() {
                         200 -> {
                             CommonPreferences.tjuuname = userNumber
                             CommonPreferences.tjupwd = password
-                            CommonPreferences.tjuloginbind = true
+                            CommonPreferences.tjulogin = true
                             Toasty.success(activity, "成功登录办公网").show()
                             activity.finish()
                         }

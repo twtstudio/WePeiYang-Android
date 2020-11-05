@@ -60,8 +60,13 @@ class TjuBindFragment : SlideFragment() {
                 refreshCaptcha()
             }
         }
-        numEdit.text = SpannableStringBuilder(CommonPreferences.tjuuname)
-        passwordEdit.text = SpannableStringBuilder(CommonPreferences.tjupwd)
+        if (CommonPreferences.tjulogin == false) {
+            // 如果是登录过期，才会使用上次登录的账号密码。
+            // 如果是已登录状态进行重登，默认切换账号，所以不填入
+            numEdit.text = SpannableStringBuilder(CommonPreferences.tjuuname)
+            passwordEdit.text = SpannableStringBuilder(CommonPreferences.tjupwd)
+        }
+
 
         imgCaptcha.setOnClickListener {
             refreshCaptcha()
@@ -82,7 +87,7 @@ class TjuBindFragment : SlideFragment() {
                     200 -> {
                         CommonPreferences.tjuuname = userNumber
                         CommonPreferences.tjupwd = password
-                        CommonPreferences.tjuloginbind = true
+                        CommonPreferences.tjulogin = true
                         context?.let { context ->
                             Toasty.normal(context, "登录成功").show()
 
@@ -146,7 +151,7 @@ class TjuBindFragment : SlideFragment() {
         unbinder.unbind()
     }
 
-    override fun canMoveFurther() = CommonPreferences.tjuloginbind
+    override fun canMoveFurther() = CommonPreferences.tjulogin == true
 
     override fun buttonsColor() = R.color.intro_slide_buttons
 

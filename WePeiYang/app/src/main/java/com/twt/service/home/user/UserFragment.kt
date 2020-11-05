@@ -16,18 +16,13 @@ import android.widget.Toast
 import com.tencent.stat.StatMultiAccount
 import com.tencent.stat.StatService
 import com.twt.service.R
-import com.twt.service.settings.RealBindAndDropOutService
 import com.twt.service.settings.SettingsActivity
 import com.twt.service.settings.SingleBindActivity
 import com.twt.wepeiyang.commons.cache.CacheProvider
-import com.twt.wepeiyang.commons.experimental.cache.CacheIndicator
-import com.twt.wepeiyang.commons.experimental.cache.RefreshState
 import com.twt.wepeiyang.commons.experimental.extensions.map
 import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
-import com.twt.wepeiyang.commons.network.RxErrorHandler
 import com.twt.wepeiyang.commons.view.RecyclerViewDivider
 import com.twtstudio.retrox.auth.api.authSelfLiveData
-import com.twtstudio.retrox.auth.api.login
 import com.twtstudio.retrox.auth.view.LoginActivity
 import es.dmoral.toasty.Toasty
 import kotlinx.coroutines.Dispatchers.IO
@@ -35,9 +30,6 @@ import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import rx.android.schedulers.AndroidSchedulers
-import rx.functions.Action1
-import rx.schedulers.Schedulers
 import xyz.rickygao.gpa2.spider.utils.SpiderCookieManager
 import xyz.rickygao.gpa2.spider.utils.SpiderTjuApi
 
@@ -63,26 +55,23 @@ class UserFragment : Fragment() {
                                     }, R.drawable.ic_avatar_copy),
                                     UserItem.InfoItem(R.drawable.ic_tju_little_icon, "办公网", authSelfLiveData.map {
 //                                        if (it.accounts.tju) "已绑定" else "未绑定"
-                                        when {
-                                            CommonPreferences.tjuloginbind -> "已登录"
-                                            CommonPreferences.tjuuname != "" -> {
+                                        when (CommonPreferences.tjulogin) {
+                                            true -> "已登录"
+                                            false -> {
                                                 "登录已过期"
                                             }
                                             else -> {
                                                 "未登录"
                                             }
                                         }
-
                                     }) {
-                                        if (CommonPreferences.tjuloginbind) {
+                                        if (CommonPreferences.tjulogin == true) {
                                             val builder = AlertDialog.Builder(context)
                                                     .setTitle("重新登录")
                                                     .setMessage("是否要登出办公网")
                                                     .setPositiveButton("登出") { _, _ ->
-
                                                         GlobalScope.launch(Main) {
                                                             withContext(IO) {
-
                                                                 SpiderTjuApi.logout()
                                                             }
 

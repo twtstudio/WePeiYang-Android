@@ -110,7 +110,7 @@ object SpiderTjuApi {
                 .build()
         val response = SpiderCookieManager.clientBuilder.build().newCall(requestLogout).execute()
         SpiderCookieManager.clearCookie()
-        CommonPreferences.tjuloginbind = false
+        CommonPreferences.tjulogin = null
         CommonPreferences.tjuuname = ""
         CommonPreferences.tjupwd = ""
         Log.d("logout", response.body()?.string().orEmpty())
