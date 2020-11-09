@@ -49,9 +49,6 @@ class HeaderItem(val context: Context) : Item {
                         2 -> mtaClick("yellowpages2_校医院图标")
                         3 -> mtaClick("yellowpage2_物业图标")
                         4 -> mtaClick("yellowpages2_交通图标")
-                        5 -> mtaClick("yellowpages2_团委图标")
-                        6 -> mtaClick("yellowpages2_银行图标")
-                        7 -> mtaClick("yellowpages2_保卫处图标")
                     }
                     mtaClick("yellowpages2_图标点击总数")
                     startActivity(item.context, index)
