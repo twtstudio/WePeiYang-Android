@@ -103,7 +103,6 @@ class SearchActivity : AppCompatActivity() {
                                         val items = next.map { ques ->
                                             QuestionItem(context, ques, onClick = {
                                                 // 问题详情跳转
-                                                Log.i("tranced", "已经跳转")
                                                 val mIntent: Intent = Intent(this@SearchActivity, DetailActivity::class.java)
                                                         .putExtra("question", ques)
                                                 startActivity(mIntent)

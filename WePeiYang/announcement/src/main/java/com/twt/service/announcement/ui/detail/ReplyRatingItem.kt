@@ -1,7 +1,6 @@
 package com.twt.service.announcement.ui.detail
 
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,12 +30,10 @@ class ReplyRatingItem(
                     ratingBar.rating = item.score.toFloat() / 2f
                 }
                 button.onClick(Dispatchers.Main + QuietCoroutineExceptionHandler) {
-                    Log.d("tranced is debugging!!!", item.id.toString())
                     AnnoService.evaluateAnswer(3/*TODO*/, item.id, (ratingBar.rating * 2).toInt(), "test"/* 为什么事commit为什么事commit为什么事commit */).awaitAndHandle {
-                        Log.d("tranced is debugging!!!", "Maybe there are some problems with the evaluate stuff T_T")
+                        Toasty.error(itemView.context, "拉取数据失败，请稍后再试").show()
                     }?.msg?.let {
                         Toasty.success(itemView.context, "评价成功").show()
-                        Log.d("tranced is debugging!!!", it)
                     }
                 }
             }

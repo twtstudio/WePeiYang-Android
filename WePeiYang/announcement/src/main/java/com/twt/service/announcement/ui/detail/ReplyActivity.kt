@@ -11,8 +11,11 @@ import cn.edu.twt.retrox.recyclerviewdsl.withItems
 import com.githang.statusbar.StatusBarCompat
 import com.twt.service.announcement.R
 import com.twt.service.announcement.service.AnnoPreference
+import com.twt.service.announcement.service.AnnoService
 import com.twt.service.announcement.service.Reply
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
+import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
+import es.dmoral.toasty.Toasty
 import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -33,6 +36,8 @@ class ReplyActivity : AppCompatActivity() {
 
     private lateinit var title: String
     private lateinit var reply: Reply
+    private var replyIndex: Int = 0
+    private var questionId: Int = 0
     private var userId: Int = 0
     private var likeCount: Int = 0
     private var likeState: Boolean = false
@@ -43,6 +48,7 @@ class ReplyActivity : AppCompatActivity() {
         // 设置状态栏的颜色
         StatusBarCompat.setStatusBarColor(this, ContextCompat.getColor(this, R.color.colorPrimary), false)
         findViews()
+        getDataFromPreviousActivity()
         setToolbar(toolbar, this, "回复详情") {
             finish()
         }
@@ -52,6 +58,7 @@ class ReplyActivity : AppCompatActivity() {
         }.invokeOnCompletion {
             runOnUiThread {
                 setRecyclerView()
+                swipeRefreshLayout.isRefreshing = false
             }
         }
     }
@@ -62,6 +69,7 @@ class ReplyActivity : AppCompatActivity() {
     private fun getDataFromPreviousActivity() {
         title = intent.getStringExtra("title")
         reply = intent.getSerializableExtra("reply") as Reply
+        questionId = intent.getIntExtra("questionId", 0)
         userId = intent.getIntExtra("userId", 0)
     }
 
@@ -84,19 +92,20 @@ class ReplyActivity : AppCompatActivity() {
                 addReplyItem(
                         title,
                         reply,
-                        likeState, likeCount
+                        likeState,
+                        likeCount
                 ) {
                     GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
                         getData()
                     }.invokeOnCompletion {
                         runOnUiThread {
+                            swipeRefreshLayout.isRefreshing = false
                             setRecyclerView()
                         }
                     }
                 }
-                // TODO: 别忘了把这个改了
-//                if (intent.getIntExtra("userId", 0) == AnnoPreference.myId) {
-                if (AnnoPreference.myId == 18) {
+                if (userId == AnnoPreference.myId) {
+//                if (AnnoPreference.myId == 18) {
                     addReplyRatingItem(userId, reply.id, reply.score)
                 }
             }
@@ -130,9 +139,16 @@ class ReplyActivity : AppCompatActivity() {
      */
     private suspend fun getData() {
         swipeRefreshLayout.isRefreshing = true
-
-//        AnnoService.getLikedState("answer", intent.getIntExtra("userId", 0), intent.getIntExtra("id", 0)).awaitAndHandle {
-//
-//        }
+        AnnoService.getAnswer(questionId, AnnoPreference.myId!!).awaitAndHandle {
+            Toasty.error(this, "拉取数据失败，请稍后再试").show()
+        }?.data?.let {
+            reply = it[replyIndex]
+            likeCount = it[replyIndex].likes
+            AnnoService.getLikedState("answer", AnnoPreference.myId!!, reply.id).awaitAndHandle {
+                Toasty.error(this, "拉取数据失败，请稍后再试").show()
+            }?.data?.let {
+                likeState = it.is_liked
+            }
+        }
     }
 }

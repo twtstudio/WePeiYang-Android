@@ -3,7 +3,6 @@ package com.twt.service.announcement.ui.detail
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
-import android.content.res.ColorStateList
 import android.graphics.Color
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -12,7 +11,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import cn.edu.twt.retrox.recyclerviewdsl.Item
@@ -28,12 +26,8 @@ import com.twt.service.announcement.R
 import com.twt.service.announcement.service.AnnoPreference
 import com.twt.service.announcement.service.AnnoService
 import com.twt.service.announcement.service.Question
-import com.twt.service.announcement.ui.main.MyLinearLayoutManager
-import com.twt.service.announcement.ui.main.ViewType
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
-import es.dmoral.toasty.Toasty
-import jp.wasabeef.recyclerview.animators.SlideInDownAnimator
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
@@ -200,7 +194,6 @@ class DetailQuestionItem(
                         item.onComment.invoke()
                     }
                 }
-                Log.d("tranced", item.question.url_list.toString())
                 val myAdapter: NineGridImageViewAdapter<String> = object : NineGridImageViewAdapter<String>() {
                     override fun onDisplayImage(context: Context?, imageView: ImageView?, t: String?) {
                         // TODO:让后端返回压缩后的图片，在点击查看大图时，再显示原图

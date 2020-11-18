@@ -63,7 +63,6 @@
                 android:layout_marginEnd="3dp"
                 android:contentDescription="@null"
                 android:src="@drawable/good_fill"
-                android:visibility="gone"
                 app:layout_constraintRight_toLeftOf="@id/annoReplyLikeCount"
                 app:layout_constraintTop_toBottomOf="@id/annoReplyContent" />
 
@@ -71,7 +70,6 @@
                 android:id="@+id/annoReplyLikeCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="@id/annoReplyLikeButton"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="@id/annoReplyLikeButton" />

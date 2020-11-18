@@ -34,7 +34,6 @@ import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
 import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemAdapter
 import com.twt.wepeiyang.commons.ui.rec.ItemManager
-import es.dmoral.toasty.Toasty
 import jp.wasabeef.recyclerview.animators.FadeInAnimator
 import jp.wasabeef.recyclerview.animators.SlideInDownAnimator
 import kotlinx.coroutines.Dispatchers
@@ -42,7 +41,6 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.net.URLDecoder
-import java.net.URLEncoder
 
 
 class AnnoActivity : AppCompatActivity() {
@@ -99,20 +97,6 @@ class AnnoActivity : AppCompatActivity() {
                 user_id = it.user_id
             }
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-
-        //TODO:这里我想判断是否从发送页面退出来的，但是还不知道怎么搞
-//        val currentQuestionId = annoViewModel.quesId.value
-//        currentQuestionId?.let {
-//            Log.d("currentquestionid", it.toString())
-//            GlobalScope.launch {
-//                delay(500)
-//                annoViewModel.searchQuestion(it)
-//            }
-//        }
     }
 
     private fun initRecyclerView() {
@@ -364,86 +348,86 @@ class AnnoActivity : AppCompatActivity() {
     }
 
     //将三个rec，通过LiveData等绑定在一起
-    private fun bindTagPathWithDetailTag(_data: List<Tag>): List<Item> =
-            mutableListOf<Item>().apply {
-
-                tagListRecyclerView.visibility = View.VISIBLE
-
-                val index = pathTags.itemListSnapshot.size
-
-                if (index == 1) {
-                    firstItem.onclick = {
-                        tagTree.get(1)?.let { listTags.refreshAll(it) }
-                        (0 until pathTags.itemListSnapshot.size - 1).forEach { _ ->
-                            pathTags.removeAt(pathTags.size - 1)
-                        }
-                        tagListRecyclerView.visibility = View.VISIBLE
-                        getAllQuestions()
-                    }
-                }
-
-                tagTree[index] = _data.map { child ->
-                    TagsDetailItem(child.name, child.id) {
-                        if (child.children.isNotEmpty()) {
-                            pathTags.add(TagBottomItem(child.name, index) {
-                                tagTree[index + 1]?.let {
-                                    listTags.refreshAll(it)
-                                }
-                                //改了个bug
-                                annoViewModel.searchQuestion(child.id)
-                                (0 until pathTags.itemListSnapshot.size - index - 1).forEach { _ ->
-                                    pathTags.removeAt(pathTags.size - 1)
-                                    Log.d("delete tag", "de")
-                                }
-                                tagListRecyclerView.visibility = View.VISIBLE
-                                closeFloatingMenu()
-                            })
-
-                            try {
-                                if ((pathTags.itemListSnapshot[pathTags.size - 2] as TagBottomItem).content == child.name)
-                                    pathTags.removeAt(pathTags.itemListSnapshot.lastIndex)
-                            } catch (e: Exception) {
-                                // 越界
-                            }
-
-                            listTags.refreshAll(bindTagPathWithDetailTag(child.children))
-                        } else {
-
-                            // 到最后一层标签后，打印当前路径或其他操作
-                            val path = pathTags.itemListSnapshot.map {
-                                (it as TagBottomItem).content
-                            }.toMutableList().apply {
-                                this.add(child.name + ":" + child.id.toString())
-                            }
-
-                            pathTags.add(TagBottomItem(child.name, index) {
-                                tagTree[index + 1]?.let {
-                                    listTags.refreshAll(it)
-                                }
-                                (0 until pathTags.itemListSnapshot.size - index - 1).forEach { _ ->
-                                    pathTags.removeAt(pathTags.size - 1)
-                                }
-                            }
-                            )
-                            try {
-                                if ((pathTags.itemListSnapshot[pathTags.size - 2] as TagBottomItem).content == child.name)
-                                    pathTags.removeAt(pathTags.itemListSnapshot.lastIndex)
-                            } catch (e: Exception) {
-                                // 越界
-                            }
-                            tagListRecyclerView.visibility = View.GONE
-
-                            Log.e("tag_path", path.toString())
-                        }
-
-
-                        closeFloatingMenu()
-                        annoViewModel.searchQuestion(child.id)
-                    }
-                }.also {
-                    addAll(it)
-                }
-            }
+    private fun bindTagPathWithDetailTag(_data: List<Tag>): List<Item> = listOf()
+//            mutableListOf<Item>().apply {
+//
+//                tagListRecyclerView.visibility = View.VISIBLE
+//
+//                val index = pathTags.itemListSnapshot.size
+//
+//                if (index == 1) {
+//                    firstItem.onclick = {
+//                        tagTree.get(1)?.let { listTags.refreshAll(it) }
+//                        (0 until pathTags.itemListSnapshot.size - 1).forEach { _ ->
+//                            pathTags.removeAt(pathTags.size - 1)
+//                        }
+//                        tagListRecyclerView.visibility = View.VISIBLE
+//                        getAllQuestions()
+//                    }
+//                }
+//
+//                tagTree[index] = _data.map { child ->
+//                    TagsDetailItem(child.name, child.id) {
+//                        if (child.children.isNotEmpty()) {
+//                            pathTags.add(TagBottomItem(child.name, index) {
+//                                tagTree[index + 1]?.let {
+//                                    listTags.refreshAll(it)
+//                                }
+//                                //改了个bug
+//                                annoViewModel.searchQuestion(child.id)
+//                                (0 until pathTags.itemListSnapshot.size - index - 1).forEach { _ ->
+//                                    pathTags.removeAt(pathTags.size - 1)
+//                                    Log.d("delete tag", "de")
+//                                }
+//                                tagListRecyclerView.visibility = View.VISIBLE
+//                                closeFloatingMenu()
+//                            })
+//
+//                            try {
+//                                if ((pathTags.itemListSnapshot[pathTags.size - 2] as TagBottomItem).content == child.name)
+//                                    pathTags.removeAt(pathTags.itemListSnapshot.lastIndex)
+//                            } catch (e: Exception) {
+//                                // 越界
+//                            }
+//
+//                            listTags.refreshAll(bindTagPathWithDetailTag(child.children))
+//                        } else {
+//
+//                            // 到最后一层标签后，打印当前路径或其他操作
+//                            val path = pathTags.itemListSnapshot.map {
+//                                (it as TagBottomItem).content
+//                            }.toMutableList().apply {
+//                                this.add(child.name + ":" + child.id.toString())
+//                            }
+//
+//                            pathTags.add(TagBottomItem(child.name, index) {
+//                                tagTree[index + 1]?.let {
+//                                    listTags.refreshAll(it)
+//                                }
+//                                (0 until pathTags.itemListSnapshot.size - index - 1).forEach { _ ->
+//                                    pathTags.removeAt(pathTags.size - 1)
+//                                }
+//                            }
+//                            )
+//                            try {
+//                                if ((pathTags.itemListSnapshot[pathTags.size - 2] as TagBottomItem).content == child.name)
+//                                    pathTags.removeAt(pathTags.itemListSnapshot.lastIndex)
+//                            } catch (e: Exception) {
+//                                // 越界
+//                            }
+//                            tagListRecyclerView.visibility = View.GONE
+//
+//                            Log.e("tag_path", path.toString())
+//                        }
+//
+//
+//                        closeFloatingMenu()
+//                        annoViewModel.searchQuestion(child.id)
+//                    }
+//                }.also {
+//                    addAll(it)
+//                }
+//            }
 
     /**
      * 进入[DetailActivity]，并传入一个[Question]
