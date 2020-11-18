@@ -10,10 +10,9 @@ import android.support.v7.widget.Toolbar
 import cn.edu.twt.retrox.recyclerviewdsl.withItems
 import com.githang.statusbar.StatusBarCompat
 import com.twt.service.announcement.R
-import com.twt.service.announcement.service.AnnoService
+import com.twt.service.announcement.service.AnnoPreference
 import com.twt.service.announcement.service.Reply
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
-import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -32,6 +31,9 @@ class ReplyActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
+    private lateinit var title: String
+    private lateinit var reply: Reply
+    private var userId: Int = 0
     private var likeCount: Int = 0
     private var likeState: Boolean = false
 
@@ -55,6 +57,15 @@ class ReplyActivity : AppCompatActivity() {
     }
 
     /**
+     * 获取传入的数据
+     */
+    private fun getDataFromPreviousActivity() {
+        title = intent.getStringExtra("title")
+        reply = intent.getSerializableExtra("reply") as Reply
+        userId = intent.getIntExtra("userId", 0)
+    }
+
+    /**
      * findViewById罢了
      */
     private fun findViews() {
@@ -71,8 +82,8 @@ class ReplyActivity : AppCompatActivity() {
             layoutManager = LinearLayoutManager(this@ReplyActivity)
             withItems {
                 addReplyItem(
-                        intent.getStringExtra("title"),
-                        intent.getSerializableExtra("reply") as Reply,
+                        title,
+                        reply,
                         likeState, likeCount
                 ) {
                     GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
@@ -82,6 +93,11 @@ class ReplyActivity : AppCompatActivity() {
                             setRecyclerView()
                         }
                     }
+                }
+                // TODO: 别忘了把这个改了
+//                if (intent.getIntExtra("userId", 0) == AnnoPreference.myId) {
+                if (AnnoPreference.myId == 18) {
+                    addReplyRatingItem(userId, reply.id, reply.score)
                 }
             }
             adapter = ScaleInAnimationAdapter(adapter)
@@ -110,13 +126,13 @@ class ReplyActivity : AppCompatActivity() {
 
     /**
      * 刷新数据
-     * // TODO: 假的假的假的
+     * // TODO: 这个要做，现在处于鸽鸽状态
      */
     private suspend fun getData() {
-//        delay(1000) // 模拟网络请求的艰辛
+        swipeRefreshLayout.isRefreshing = true
+
 //        AnnoService.getLikedState("answer", intent.getIntExtra("userId", 0), intent.getIntExtra("id", 0)).awaitAndHandle {
 //
 //        }
-        likeCount += 50
     }
 }

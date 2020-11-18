@@ -53,6 +53,9 @@ class ReplyItem(
                  * 点击按钮时在本地操作点赞数量
                  * 同时发送请求
                  */
+                likeButtonIv.apply {
+
+                }
 //                likeButtonIv.apply {
 //                    // TODO: 删除了点赞逻辑
 //                }
@@ -66,10 +69,9 @@ class ReplyItem(
             val nameTv: TextView = itemView.findViewById(R.id.annoReplyName)
             val timeTv: TextView = itemView.findViewById(R.id.annoReplyTime)
             val contentTv: TextView = itemView.findViewById(R.id.annoReplyContent)
-//            val likeButtonIv: ImageView = itemView.findViewById(R.id.annoReplyLikeButton)
-//            val likeCountTv: TextView = itemView.findViewById(R.id.annoReplyLikeCount)
-//            return ReplyItemViewHolder(itemView, titleTv, nameTv, timeTv, contentTv, likeButtonIv, likeCountTv)
-            return ReplyItemViewHolder(itemView, titleTv, nameTv, timeTv, contentTv)
+            val likeButtonIv: ImageView = itemView.findViewById(R.id.annoReplyLikeButton)
+            val likeCountTv: TextView = itemView.findViewById(R.id.annoReplyLikeCount)
+            return ReplyItemViewHolder(itemView, titleTv, nameTv, timeTv, contentTv, likeButtonIv, likeCountTv)
         }
     }
 
@@ -81,9 +83,9 @@ class ReplyItem(
             val titleTv: TextView,
             val nameTv: TextView,
             val timeTv: TextView,
-            val contentTv: TextView
-//            val likeButtonIv: ImageView,
-//            val likeCountTv: TextView
+            val contentTv: TextView,
+            val likeButtonIv: ImageView,
+            val likeCountTv: TextView
     ) : RecyclerView.ViewHolder(itemView)
 }
 

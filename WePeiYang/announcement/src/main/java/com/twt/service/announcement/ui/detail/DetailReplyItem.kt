@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import cn.edu.twt.retrox.recyclerviewdsl.Item
 import cn.edu.twt.retrox.recyclerviewdsl.ItemController
 import com.twt.service.announcement.R
@@ -17,7 +16,6 @@ import com.twt.service.announcement.service.AnnoService
 import com.twt.service.announcement.service.Reply
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
-import es.dmoral.toasty.Toasty
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -37,6 +35,7 @@ class DetailReplyItem(
         var likeState: Boolean,
         var likeCount: Int,
         var onRefresh: () -> Unit,
+        val userId: Int,
         var isLikable: Boolean = true
         // TODO: 呵呵，你觉得这就完了么
 ) : Item {
@@ -52,6 +51,7 @@ class DetailReplyItem(
                         val mIntent: Intent = Intent(itemView.context, ReplyActivity::class.java)
                                 .putExtra("title", item.title)
                                 .putExtra("reply", item.reply)
+                                .putExtra("userId", item.userId)
                         itemView.context.startActivity(mIntent)
                     }
                 }
@@ -158,5 +158,6 @@ fun MutableList<Item>.addDetailReplyItem(
         reply: Reply,
         likeState: Boolean,
         likeCount: Int,
+        userId: Int,
         onRefresh: () -> Unit
-) = add(DetailReplyItem(title, reply, likeState, likeCount, onRefresh))
+) = add(DetailReplyItem(title, reply, likeState, likeCount, onRefresh, userId))

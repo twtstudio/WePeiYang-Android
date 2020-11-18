@@ -7,7 +7,7 @@
             android:name=".ui.detail.AskQuestionActivity"
             android:windowSoftInputMode="stateUnspecified|adjustResize"
             android:screenOrientation="portrait"
-            android:launchMode="singleTop"></activity>
+            android:launchMode="singleTop" />
         <activity
             android:name=".ui.user.UserActivity"
             android:screenOrientation="portrait"

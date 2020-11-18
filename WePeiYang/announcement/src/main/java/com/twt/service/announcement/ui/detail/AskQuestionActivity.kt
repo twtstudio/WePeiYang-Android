@@ -3,16 +3,12 @@ package com.twt.service.announcement.ui.detail
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.AlertDialog
-import android.app.Dialog
-import android.app.ProgressDialog
 import android.content.ContentUris
-import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.provider.DocumentsContract
@@ -26,7 +22,10 @@ import android.view.KeyEvent
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
-import android.widget.*
+import android.widget.Button
+import android.widget.EditText
+import android.widget.ImageView
+import android.widget.Toast
 import com.githang.statusbar.StatusBarCompat
 import com.twt.service.announcement.R
 import com.twt.service.announcement.service.AnnoPreference
@@ -35,7 +34,6 @@ import com.twt.service.announcement.service.Tag
 import com.twt.service.announcement.ui.activity.detail.ReleasePicAdapter
 import com.twt.service.announcement.ui.activity.detail.noSelectPic
 import com.twt.service.announcement.ui.main.MyLinearLayoutManager
-import com.twt.service.announcement.ui.main.QuestionItem
 import com.twt.service.announcement.ui.main.TagBottomItem
 import com.twt.service.announcement.ui.main.TagsDetailItem
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
@@ -54,7 +52,6 @@ import kotlinx.coroutines.launch
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import org.jetbrains.anko.textColor
 import pub.devrel.easypermissions.EasyPermissions
 import java.io.*
 
@@ -84,17 +81,13 @@ class AskQuestionActivity : AppCompatActivity(), LoadingDialogManager {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
         setContentView(R.layout.activity_ask_question_activity)
 
         StatusBarCompat.setStatusBarColor(this, ContextCompat.getColor(this, R.color.colorPrimary), false)
 
         findViewById<ImageView>(R.id.anno_back).setOnClickListener {
             showExitDialog()
-        }
-
-        findViewById<TextView>(R.id.prompt).apply {
-            textColor = Color.GRAY
         }
 
         title = findViewById(R.id.edit_title)
