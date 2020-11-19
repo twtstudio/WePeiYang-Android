@@ -51,6 +51,7 @@ class TagsDetailItem(val content: String, val id: Int, var state: Boolean, val o
                     }
                     item.state = !item.state
                     item.onclick.invoke()
+                    Log.d("tranced is debugging", item.state.toString())
                     Log.d("tagsDetail is clicked", item.content + " " + it.id)
                 }
             }

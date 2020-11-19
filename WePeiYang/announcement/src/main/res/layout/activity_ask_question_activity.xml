@@ -64,6 +64,7 @@
 
             </android.support.v7.widget.Toolbar>
 
+            <!-- 这里高度为什么写死了 -->
             <LinearLayout
                 android:id="@+id/ll1"
                 android:layout_width="match_parent"

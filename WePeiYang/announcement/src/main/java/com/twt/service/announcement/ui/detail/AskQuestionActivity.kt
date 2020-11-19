@@ -45,7 +45,6 @@ import com.zhihu.matisse.Matisse
 import com.zhihu.matisse.MimeType
 import com.zhihu.matisse.engine.impl.GlideEngine
 import es.dmoral.toasty.Toasty
-import jp.wasabeef.recyclerview.animators.SlideInDownAnimator
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -60,7 +59,6 @@ class AskQuestionActivity : AppCompatActivity(), LoadingDialogManager {
     override val loadingDialog by lazy { LoadingDialog(this) }
 
     //输入的标题和问题内容
-    private var idd: Int = 0
     private lateinit var title: EditText
     private lateinit var detail: EditText
 
@@ -76,6 +74,8 @@ class AskQuestionActivity : AppCompatActivity(), LoadingDialogManager {
     private val pathTags by lazy { ItemManager() }
     private val listTags by lazy { ItemManager() }
     private val firstItem by lazy { TagBottomItem("天津大学", 0) {} }
+    private var selectedTagId = -1
+    private val tagList = mutableListOf<Tag>()
 
     private lateinit var publishButton: Button
 
@@ -124,7 +124,7 @@ class AskQuestionActivity : AppCompatActivity(), LoadingDialogManager {
             this.setOnClickListener {
                 //点击button时显示progressDialog
                 isEnabled = false
-                if (((pathTags.last() as TagBottomItem).content == "其他") or (pathTags.itemListSnapshot.size >= 3)) {
+                if (selectedTagId != -1) {
                     if (title.text.isNotEmpty() && detail.text.isNotEmpty()) {
                         confirmAgain {
                             showLoadingDialog(this@AskQuestionActivity)
@@ -137,9 +137,8 @@ class AskQuestionActivity : AppCompatActivity(), LoadingDialogManager {
                     } else {
                         showDialog("请为问题添加标题和描述")
                     }
-
                 } else {
-                    showDialog("请在分类栏至少选择三个标签！\n 如不确定问题所属标签，或没找到您问题所属的标签，请选择\" 其他\" ")
+                    showDialog("请在分类栏至少选择一个标签！\n 如不确定问题所属标签，或没找到您问题所属的标签，请选择\" 其他\" ")
                 }
                 //hideLoadingDialog()
             }
@@ -159,34 +158,12 @@ class AskQuestionActivity : AppCompatActivity(), LoadingDialogManager {
     }
 
     private fun initRecyclerView() {
-        tagPathRecyclerView = findViewById<RecyclerView>(R.id.path_rec2).apply {
-            layoutManager = MyLinearLayoutManager(context).apply {
-                orientation = LinearLayoutManager.HORIZONTAL
-            }
-            adapter = ItemAdapter(pathTags)
-            itemAnimator = SlideInDownAnimator()
-            itemAnimator?.let {
-                it.addDuration = 300
-                it.removeDuration = 800
-                it.changeDuration = 300
-                it.moveDuration = 500
-            }
-
-        }
-
         tagListRecyclerView = findViewById<RecyclerView>(R.id.detail_rec2).apply {
             layoutManager = MyLinearLayoutManager(context).apply {
                 orientation = LinearLayoutManager.HORIZONTAL
             }
             adapter = ItemAdapter(listTags).also {
                 it.setHasStableIds(true)
-            }
-            itemAnimator = SlideInDownAnimator()
-            itemAnimator?.let {
-                it.addDuration = 300
-                it.removeDuration = 800
-                it.moveDuration = 300
-                it.changeDuration = 500
             }
         }
     }
@@ -201,7 +178,8 @@ class AskQuestionActivity : AppCompatActivity(), LoadingDialogManager {
                 pathTags.clear()
                 pathTags.add(firstItem)
                 Log.d("tag_tree", it.toString())
-                listTags.refreshAll(bindTagPathWithDetailTag(it))
+                tagList.addAll(it[0].children)
+                listTags.refreshAll(bindTagPathWithDetailTag(it[0].children))
             }
         }
     }
@@ -252,7 +230,7 @@ class AskQuestionActivity : AppCompatActivity(), LoadingDialogManager {
                 //添加带图片的问题
                 AnnoPreference.myId?.let { id ->
                     GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
-                        AnnoService.addQuestion(mapOf("user_id" to id, "name" to titleString, "description" to detailString, "tagList" to listOf<Int>(idd))).awaitAndHandle {
+                        AnnoService.addQuestion(mapOf("user_id" to id, "name" to titleString, "description" to detailString, "tagList" to listOf<Int>(selectedTagId))).awaitAndHandle {
                             hideLoadingDialog()
                             failCallBack("上传失败")
                             Log.d("addQuestion error:", it.message)
@@ -275,7 +253,7 @@ class AskQuestionActivity : AppCompatActivity(), LoadingDialogManager {
                 //添加不带图片的问题
                 AnnoPreference.myId?.let { id ->
                     GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
-                        AnnoService.addQuestion(mapOf("user_id" to id, "name" to titleString, "description" to detailString, "tagList" to listOf<Int>(idd))).awaitAndHandle {
+                        AnnoService.addQuestion(mapOf("user_id" to id, "name" to titleString, "description" to detailString, "tagList" to listOf<Int>(selectedTagId))).awaitAndHandle {
                             hideLoadingDialog()
                             failCallBack("上传失败")
                             Log.d("addQuestion error:", it.message)
@@ -478,43 +456,50 @@ class AskQuestionActivity : AppCompatActivity(), LoadingDialogManager {
                 }
 
                 tagTree[index] = _data.map { child ->
-                    TagsDetailItem(child.name, child.id, true) {
-                        idd = child.id
+                    TagsDetailItem(child.name, child.id, child.id == selectedTagId) {
+                        if (selectedTagId == child.id) {
+                            selectedTagId = -1
+                        } else {
+                            selectedTagId = child.id
+                        }
+                        listTags.removeAll(listTags)
+                        listTags.refreshAll(bindTagPathWithDetailTag(_data))
+
 //                        if (child.children.isNotEmpty()) {
+//                        pathTags.add(TagBottomItem(child.name, index) {
+//                            tagTree[index + 1]?.let {
+//                                listTags.refreshAll(it)
+//                            }
+//                            (0 until pathTags.itemListSnapshot.size - index - 1).forEach { _ ->
+//                                pathTags.removeAt(pathTags.size - 1)
+//                                Log.e("delete tag", "de")
+//                            }
+//                            tagListRecyclerView.visibility = View.VISIBLE
+//
+//                        })
+//                            listTags.refreshAll(bindTagPathWithDetailTag(child.children))
+//
+//                        } else {
+//                             到最后一层标签后，打印当前路径或其他操作
+                        val path = pathTags.itemListSnapshot.map {
+                            (it as TagBottomItem).content
+                        }.toMutableList().apply {
+                            this.add(child.id.toString())
+                        }
                         pathTags.add(TagBottomItem(child.name, index) {
                             tagTree[index + 1]?.let {
                                 listTags.refreshAll(it)
                             }
                             (0 until pathTags.itemListSnapshot.size - index - 1).forEach { _ ->
                                 pathTags.removeAt(pathTags.size - 1)
-                                Log.e("delete tag", "de")
                             }
-                            tagListRecyclerView.visibility = View.VISIBLE
+                        }
+                        )
+                        if ((pathTags.itemListSnapshot[pathTags.size - 2] as TagBottomItem).content == child.name)
+                            pathTags.removeAt(pathTags.itemListSnapshot.lastIndex)
+//                            tagListRecyclerView.visibility = View.GONE
+                        Log.d("tag_path", path.toString())
 
-                        })
-//                            listTags.refreshAll(bindTagPathWithDetailTag(child.children))
-
-//                        } else {
-//                            // 到最后一层标签后，打印当前路径或其他操作
-////                            val path = pathTags.itemListSnapshot.map {
-////                                (it as TagBottomItem).content
-////                            }.toMutableList().apply {
-////                                this.add(child.id.toString())
-////                            }
-////                            pathTags.add(TagBottomItem(child.name, index) {
-////                                tagTree[index + 1]?.let {
-////                                    listTags.refreshAll(it)
-////                                }
-////                                (0 until pathTags.itemListSnapshot.size - index - 1).forEach { _ ->
-////                                    pathTags.removeAt(pathTags.size - 1)
-////                                }
-////                            }
-////                            )
-////                            if ((pathTags.itemListSnapshot[pathTags.size - 2] as TagBottomItem).content == child.name)
-////                                pathTags.removeAt(pathTags.itemListSnapshot.lastIndex)
-////                            tagListRecyclerView.visibility = View.GONE
-////                            Log.d("tag_path", path.toString())
-//
 //                        }
 
                     }
