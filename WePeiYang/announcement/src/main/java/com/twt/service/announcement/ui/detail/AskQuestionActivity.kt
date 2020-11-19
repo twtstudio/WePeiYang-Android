@@ -471,54 +471,51 @@ class AskQuestionActivity : AppCompatActivity(), LoadingDialogManager {
             mutableListOf<Item>().apply {
                 val index = pathTags.itemListSnapshot.size
                 index.takeIf { it == 1 }?.apply {
-                    firstItem.onclick = {
-                        tagTree.get(index)?.let { listTags.refreshAll(it) }
-                        (0 until pathTags.itemListSnapshot.size - 1).forEach { _ ->
-                            pathTags.removeAt(pathTags.size - 1)
-                        }
-                        tagListRecyclerView.visibility = View.VISIBLE
-                    }
+//                    firstItem.onclick = {
+                    tagTree[index]?.let { listTags.refreshAll(it) }
+                    tagListRecyclerView.visibility = View.VISIBLE
+//                    }
                 }
 
                 tagTree[index] = _data.map { child ->
-                    TagsDetailItem(child.name, child.id) {
+                    TagsDetailItem(child.name, child.id, true) {
                         idd = child.id
-                        if (child.children.isNotEmpty()) {
-                            pathTags.add(TagBottomItem(child.name, index) {
-                                tagTree[index + 1]?.let {
-                                    listTags.refreshAll(it)
-                                }
-                                (0 until pathTags.itemListSnapshot.size - index - 1).forEach { _ ->
-                                    pathTags.removeAt(pathTags.size - 1)
-                                    Log.e("delete tag", "de")
-                                }
-                                tagListRecyclerView.visibility = View.VISIBLE
-
-                            })
-                            listTags.refreshAll(bindTagPathWithDetailTag(child.children))
-
-                        } else {
-                            // 到最后一层标签后，打印当前路径或其他操作
-                            val path = pathTags.itemListSnapshot.map {
-                                (it as TagBottomItem).content
-                            }.toMutableList().apply {
-                                this.add(child.id.toString())
+//                        if (child.children.isNotEmpty()) {
+                        pathTags.add(TagBottomItem(child.name, index) {
+                            tagTree[index + 1]?.let {
+                                listTags.refreshAll(it)
                             }
-                            pathTags.add(TagBottomItem(child.name, index) {
-                                tagTree[index + 1]?.let {
-                                    listTags.refreshAll(it)
-                                }
-                                (0 until pathTags.itemListSnapshot.size - index - 1).forEach { _ ->
-                                    pathTags.removeAt(pathTags.size - 1)
-                                }
+                            (0 until pathTags.itemListSnapshot.size - index - 1).forEach { _ ->
+                                pathTags.removeAt(pathTags.size - 1)
+                                Log.e("delete tag", "de")
                             }
-                            )
-                            if ((pathTags.itemListSnapshot[pathTags.size - 2] as TagBottomItem).content == child.name)
-                                pathTags.removeAt(pathTags.itemListSnapshot.lastIndex)
-                            tagListRecyclerView.visibility = View.GONE
-                            Log.d("tag_path", path.toString())
+                            tagListRecyclerView.visibility = View.VISIBLE
 
-                        }
+                        })
+//                            listTags.refreshAll(bindTagPathWithDetailTag(child.children))
+
+//                        } else {
+//                            // 到最后一层标签后，打印当前路径或其他操作
+////                            val path = pathTags.itemListSnapshot.map {
+////                                (it as TagBottomItem).content
+////                            }.toMutableList().apply {
+////                                this.add(child.id.toString())
+////                            }
+////                            pathTags.add(TagBottomItem(child.name, index) {
+////                                tagTree[index + 1]?.let {
+////                                    listTags.refreshAll(it)
+////                                }
+////                                (0 until pathTags.itemListSnapshot.size - index - 1).forEach { _ ->
+////                                    pathTags.removeAt(pathTags.size - 1)
+////                                }
+////                            }
+////                            )
+////                            if ((pathTags.itemListSnapshot[pathTags.size - 2] as TagBottomItem).content == child.name)
+////                                pathTags.removeAt(pathTags.itemListSnapshot.lastIndex)
+////                            tagListRecyclerView.visibility = View.GONE
+////                            Log.d("tag_path", path.toString())
+//
+//                        }
 
                     }
                 }.also {

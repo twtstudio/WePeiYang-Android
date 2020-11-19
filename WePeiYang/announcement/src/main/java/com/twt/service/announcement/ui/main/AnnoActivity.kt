@@ -59,8 +59,10 @@ class AnnoActivity : AppCompatActivity() {
     private lateinit var floatingActionMenu: FloatingActionMenu
     private var nextUrl: String? = null
     private lateinit var quesRecManager: LinearLayoutManager
-    private var user_id = 1
+    private var user_id = 0
     private var canRefresh = true
+
+    private val selectedTagIdList = mutableListOf<Int>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -101,20 +103,20 @@ class AnnoActivity : AppCompatActivity() {
 
     private fun initRecyclerView() {
         //对应tagTree路径的rec
-        tagPathRecyclerView = findViewById<RecyclerView>(R.id.path_rec).apply {
-            layoutManager = MyLinearLayoutManager(context).apply {
-                orientation = LinearLayoutManager.HORIZONTAL
-            }
-            adapter = ItemAdapter(pathTags)
-            itemAnimator = SlideInDownAnimator()
-            itemAnimator?.let {
-                it.addDuration = 300
-                it.removeDuration = 800
-                it.changeDuration = 300
-                it.moveDuration = 500
-            }
-
-        }
+//        tagPathRecyclerView = findViewById<RecyclerView>(R.id.path_rec).apply {
+//            layoutManager = MyLinearLayoutManager(context).apply {
+//                orientation = LinearLayoutManager.HORIZONTAL
+//            }
+//            adapter = ItemAdapter(pathTags)
+//            itemAnimator = SlideInDownAnimator()
+//            itemAnimator?.let {
+//                it.addDuration = 300
+//                it.removeDuration = 800
+//                it.changeDuration = 300
+//                it.moveDuration = 500
+//            }
+//
+//        }
 
         //点击了某个tag后显示它对应的所有子tag
         tagListRecyclerView = findViewById<RecyclerView>(R.id.detail_rec).apply {
@@ -278,18 +280,19 @@ class AnnoActivity : AppCompatActivity() {
 
     private fun bindLiveData(context: Context) {
         annoViewModel.tagTree.bindNonNull(this) {
-            listTags.refreshAll(bindTagPathWithDetailTag(it))
+            listTags.refreshAll(bindTagPathWithDetailTag(it[0].children))
             closeFloatingMenu()
         }
 
         //每次设置quesId，就会更新数据
+        // 什么事quesId?   (=^•⊥•^=)
         annoViewModel.quesId.bindNonNull(this) { id ->
             Log.d("whataaa", id.toString())
             closeFloatingMenu()
             GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
                 AnnoService.getQuestion(
                         mapOf("searchString" to "",
-                                "tagList" to if (id == 0) emptyList() else listOf<Int>(id),
+                                "tagList" to if (id == 0) emptyList() else selectedTagIdList.toList(),
                                 "limits" to 20,
                                 "page" to 1, "user_id" to user_id)
                 ).awaitAndHandle {
@@ -348,12 +351,11 @@ class AnnoActivity : AppCompatActivity() {
     }
 
     //将三个rec，通过LiveData等绑定在一起
-    private fun bindTagPathWithDetailTag(_data: List<Tag>): List<Item> = listOf()
-//            mutableListOf<Item>().apply {
-//
+    private fun bindTagPathWithDetailTag(_data: List<Tag>): List<Item> =
+            mutableListOf<Item>().apply {
+
 //                tagListRecyclerView.visibility = View.VISIBLE
-//
-//                val index = pathTags.itemListSnapshot.size
+                val index = pathTags.itemListSnapshot.size
 //
 //                if (index == 1) {
 //                    firstItem.onclick = {
@@ -365,14 +367,17 @@ class AnnoActivity : AppCompatActivity() {
 //                        getAllQuestions()
 //                    }
 //                }
-//
-//                tagTree[index] = _data.map { child ->
-//                    TagsDetailItem(child.name, child.id) {
-//                        if (child.children.isNotEmpty()) {
+
+                tagTree[index] = _data.map { child ->
+                    TagsDetailItem(child.name, child.id, selectedTagIdList.contains(child.id)) {
+                        if (child.children.isNotEmpty()) {
 //                            pathTags.add(TagBottomItem(child.name, index) {
 //                                tagTree[index + 1]?.let {
 //                                    listTags.refreshAll(it)
 //                                }
+//
+//
+//
 //                                //改了个bug
 //                                annoViewModel.searchQuestion(child.id)
 //                                (0 until pathTags.itemListSnapshot.size - index - 1).forEach { _ ->
@@ -382,24 +387,30 @@ class AnnoActivity : AppCompatActivity() {
 //                                tagListRecyclerView.visibility = View.VISIBLE
 //                                closeFloatingMenu()
 //                            })
-//
-//                            try {
-//                                if ((pathTags.itemListSnapshot[pathTags.size - 2] as TagBottomItem).content == child.name)
-//                                    pathTags.removeAt(pathTags.itemListSnapshot.lastIndex)
-//                            } catch (e: Exception) {
-//                                // 越界
-//                            }
-//
-//                            listTags.refreshAll(bindTagPathWithDetailTag(child.children))
-//                        } else {
-//
-//                            // 到最后一层标签后，打印当前路径或其他操作
+
+                            try {
+                                if ((pathTags.itemListSnapshot[pathTags.size - 2] as TagBottomItem).content == child.name)
+                                    pathTags.removeAt(pathTags.itemListSnapshot.lastIndex)
+                            } catch (e: Exception) {
+                                // 越界
+                            }
+
+                            listTags.refreshAll(bindTagPathWithDetailTag(child.children))
+                        } else {
+                            Log.d("tranced is debugging!!!", selectedTagIdList.toString())
+
+                            if (selectedTagIdList.contains(child.id)) {
+                                selectedTagIdList.remove(child.id)
+                            } else {
+                                selectedTagIdList.add(child.id)
+                            }
+                            // 到最后一层标签后，打印当前路径或其他操作
 //                            val path = pathTags.itemListSnapshot.map {
 //                                (it as TagBottomItem).content
 //                            }.toMutableList().apply {
 //                                this.add(child.name + ":" + child.id.toString())
 //                            }
-//
+
 //                            pathTags.add(TagBottomItem(child.name, index) {
 //                                tagTree[index + 1]?.let {
 //                                    listTags.refreshAll(it)
@@ -409,25 +420,25 @@ class AnnoActivity : AppCompatActivity() {
 //                                }
 //                            }
 //                            )
-//                            try {
-//                                if ((pathTags.itemListSnapshot[pathTags.size - 2] as TagBottomItem).content == child.name)
-//                                    pathTags.removeAt(pathTags.itemListSnapshot.lastIndex)
-//                            } catch (e: Exception) {
-//                                // 越界
-//                            }
+                            try {
+                                if ((pathTags.itemListSnapshot[pathTags.size - 2] as TagBottomItem).content == child.name)
+                                    pathTags.removeAt(pathTags.itemListSnapshot.lastIndex)
+                            } catch (e: Exception) {
+                                // 越界
+                            }
 //                            tagListRecyclerView.visibility = View.GONE
-//
+
 //                            Log.e("tag_path", path.toString())
-//                        }
-//
-//
-//                        closeFloatingMenu()
-//                        annoViewModel.searchQuestion(child.id)
-//                    }
-//                }.also {
-//                    addAll(it)
-//                }
-//            }
+                        }
+
+
+                        closeFloatingMenu()
+                        annoViewModel.searchQuestion(child.id)
+                    }
+                }.also {
+                    addAll(it)
+                }
+            }
 
     /**
      * 进入[DetailActivity]，并传入一个[Question]

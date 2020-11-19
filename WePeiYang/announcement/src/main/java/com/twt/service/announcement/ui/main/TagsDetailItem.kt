@@ -1,5 +1,6 @@
 package com.twt.service.announcement.ui.main
 
+import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.View
@@ -8,9 +9,11 @@ import android.widget.TextView
 import com.twt.service.announcement.R
 import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemController
+import org.jetbrains.anko.backgroundColorResource
 import org.jetbrains.anko.layoutInflater
+import org.jetbrains.anko.textColorResource
 
-class TagsDetailItem(val content: String, val id: Int, val onclick: () -> Unit) : Item {
+class TagsDetailItem(val content: String, val id: Int, var state: Boolean, val onclick: () -> Unit) : Item {
     override fun areContentsTheSame(newItem: Item): Boolean {
         return content == (newItem as TagsDetailItem).content && id == newItem.id
     }
@@ -29,15 +32,33 @@ class TagsDetailItem(val content: String, val id: Int, val onclick: () -> Unit) 
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: Item) {
             holder as ViewHolder
             item as TagsDetailItem
-            holder.textView.text = item.content
-            holder.itemView.setOnClickListener {
-                item.onclick.invoke()
-                Log.d("tagsDetail is clicked", item.content + " " + it.id)
+            holder.apply {
+                if (item.state) {
+                    cardView.backgroundColorResource = R.color.colorPrimary
+                    textView.textColorResource = R.color.white_color
+                } else {
+                    cardView.backgroundColorResource = R.color.white_color
+                    textView.textColorResource = R.color.default_text_color
+                }
+                textView.text = item.content
+                itemView.setOnClickListener {
+                    if (item.state) {
+                        cardView.backgroundColorResource = R.color.white_color
+                        textView.textColorResource = R.color.default_text_color
+                    } else {
+                        cardView.backgroundColorResource = R.color.colorPrimary
+                        textView.textColorResource = R.color.white_color
+                    }
+                    item.state = !item.state
+                    item.onclick.invoke()
+                    Log.d("tagsDetail is clicked", item.content + " " + it.id)
+                }
             }
         }
 
         private class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             val textView: TextView = itemView.findViewById(R.id.tag_detail)
+            val cardView: CardView = itemView.findViewById(R.id.tag_detail_card)
         }
 
     }
