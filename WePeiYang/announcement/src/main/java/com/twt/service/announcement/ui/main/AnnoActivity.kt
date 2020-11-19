@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.AppBarLayout
 import android.support.v4.content.ContextCompat
+import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -40,6 +41,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.jetbrains.anko.support.v4.onRefresh
 import java.net.URLDecoder
 
 
@@ -51,6 +53,7 @@ class AnnoActivity : AppCompatActivity() {
     private val quesRecController by lazy { ItemManager() }
     private val firstItem by lazy { TagBottomItem("天津大学", 0) {} }
 
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     private lateinit var quesDetailRecyclerView: RecyclerView
     private lateinit var tagPathRecyclerView: RecyclerView
     private lateinit var tagListRecyclerView: RecyclerView
@@ -68,7 +71,7 @@ class AnnoActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_anno)
         appBar = findViewById(R.id.toolbar)
-
+        swipeRefreshLayout = findViewById(R.id.anno_refresh)
         // AnnoViewModel中有两个LiveData
         annoViewModel = ViewModelProviders.of(this)[AnnoViewModel::class.java]
 
@@ -80,6 +83,7 @@ class AnnoActivity : AppCompatActivity() {
             onBackPressed()
         }
         initFloatingActionMenu()
+        initSwipeRefreshLayout()
         initRecyclerView()
 
         //设置LiveData的观察方法
@@ -97,6 +101,24 @@ class AnnoActivity : AppCompatActivity() {
             }?.data?.let {
                 AnnoPreference.myId = it.user_id
                 user_id = it.user_id
+            }
+        }
+    }
+
+    private fun initSwipeRefreshLayout() {
+        swipeRefreshLayout.onRefresh {
+            swipeRefreshLayout.isRefreshing = true
+            GlobalScope.launch {
+                if (canRefresh) {
+                    canRefresh = false
+                    quesRecController.clear()
+                    appBar.setExpanded(true)
+                    initTagTree()
+                    getAllQuestions()
+//                closeFloatingMenu()
+                }
+            }.invokeOnCompletion {
+                swipeRefreshLayout.isRefreshing = false
             }
         }
     }
@@ -235,19 +257,6 @@ class AnnoActivity : AppCompatActivity() {
                 //initTagTree()
                 closeFloatingMenu()
                 startActivity(Intent(this@AnnoActivity, AskQuestionActivity::class.java))
-            }
-        }
-
-        findViewById<FloatingActionButton>(R.id.fa_c).apply {
-            this.setOnClickListener {
-                if (canRefresh) {
-                    canRefresh = false
-                    quesRecController.clear()
-                    appBar.setExpanded(true)
-                    initTagTree()
-                    getAllQuestions()
-//                closeFloatingMenu()
-                }
             }
         }
 
