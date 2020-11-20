@@ -2,6 +2,7 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:expandableTextView="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.detail.AskQuestionActivity">
@@ -64,11 +65,10 @@
 
             </android.support.v7.widget.Toolbar>
 
-            <!-- 这里高度为什么写死了 -->
             <LinearLayout
                 android:id="@+id/ll1"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="25dp"
                 android:layout_marginBottom="4dp"
                 android:gravity="center_vertical"
@@ -78,12 +78,12 @@
 
                 <TextView
                     android:id="@+id/sort"
-                    android:layout_width="50dp"
+                    android:layout_width="300dp"
                     android:layout_height="30dp"
                     android:layout_marginStart="12dp"
                     android:layout_marginTop="5dp"
                     android:gravity="center_vertical"
-                    android:text="分类:"
+                    android:text="分类(点击按钮显示部门介绍) :"
                     android:textSize="18sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@id/ll1" />
@@ -91,7 +91,7 @@
                 <LinearLayout
                     android:id="@+id/detail_sort"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginHorizontal="20dp"
                     android:layout_weight="4"
                     android:background="@color/white_color"
@@ -101,14 +101,41 @@
                         android:id="@+id/path_rec2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
-
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/detail_rec2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
+
                 </LinearLayout>
+                <!--折叠展开TextView的库-->
+
+                <com.ms.square.android.expandabletextview.ExpandableTextView
+                    android:id="@+id/expand_text_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    expandableTextView:maxCollapsedLines="1"
+                    expandableTextView:animDuration="200"
+                    expandableTextView:animAlphaStart="1">
+                    <TextView
+                        android:id="@id/expandable_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:textSize="16sp"
+                        android:text="....................................................................................."
+                        android:textColor="@color/black_color" />
+                    <ImageButton
+                        android:id="@id/expand_collapse"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp"
+                        android:layout_gravity="right|bottom"
+                        android:background="@android:color/transparent"/>
+                </com.ms.square.android.expandabletextview.ExpandableTextView>
 
             </LinearLayout>
+
 
             <android.support.constraint.ConstraintLayout
                 android:id="@+id/ll2"

@@ -22,11 +22,9 @@ import android.view.KeyEvent
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.Toast
+import android.widget.*
 import com.githang.statusbar.StatusBarCompat
+import com.ms.square.android.expandabletextview.ExpandableTextView
 import com.twt.service.announcement.R
 import com.twt.service.announcement.service.AnnoPreference
 import com.twt.service.announcement.service.AnnoService
@@ -64,7 +62,8 @@ class AskQuestionActivity : AppCompatActivity(), LoadingDialogManager {
 
     private lateinit var releasePicAdapter: ReleasePicAdapter
 
-    //    private lateinit var progressDialog: ProgressDialog
+    private lateinit var departmentDescription: ExpandableTextView
+
     private lateinit var picRecyclerView: RecyclerView // 添加多图的recycler
     private val picRecyclerViewManager = LinearLayoutManager(this)
     private var selectPicList = mutableListOf<Any>() //选择上传的图片
@@ -74,7 +73,8 @@ class AskQuestionActivity : AppCompatActivity(), LoadingDialogManager {
     private val pathTags by lazy { ItemManager() }
     private val listTags by lazy { ItemManager() }
     private val firstItem by lazy { TagBottomItem("天津大学", 0) {} }
-    private var selectedTagId = -1
+    private var selectedTagId = -1        //选择的tag的ID
+    private var selectedIndex = -1       //选择的tag的Index
     private val tagList = mutableListOf<Tag>()
 
     private lateinit var publishButton: Button
@@ -92,7 +92,8 @@ class AskQuestionActivity : AppCompatActivity(), LoadingDialogManager {
 
         title = findViewById(R.id.edit_title)
         detail = findViewById(R.id.edit_content)
-
+        departmentDescription = findViewById(R.id.expand_text_view)
+        departmentDescription.setText("部门介绍zxczczxcxzsfsdfdsfsdffsfsfsffdfsfsdfsdfsdfdsfdsfdsfdsfdsfdsfdfdsfsdfsdfsdfdsfsdfsdfsdf")
         detail.apply {
             setOnEditorActionListener { _, actionId, event ->
                 var flag = true
@@ -449,10 +450,9 @@ class AskQuestionActivity : AppCompatActivity(), LoadingDialogManager {
             mutableListOf<Item>().apply {
                 val index = pathTags.itemListSnapshot.size
                 index.takeIf { it == 1 }?.apply {
-//                    firstItem.onclick = {
                     tagTree[index]?.let { listTags.refreshAll(it) }
                     tagListRecyclerView.visibility = View.VISIBLE
-//                    }
+
                 }
 
                 tagTree[index] = _data.map { child ->
@@ -461,31 +461,27 @@ class AskQuestionActivity : AppCompatActivity(), LoadingDialogManager {
                             selectedTagId = -1
                         } else {
                             selectedTagId = child.id
+
                         }
+
+                            selectedIndex = tagList.indexOf(child)
+                            Log.d("tag_p", selectedIndex.toString())
+                            Log.d("tag_p", tagList[selectedIndex].name.toString())
+                            if(selectedIndex!=-1) {
+                                departmentDescription.setText(tagList[selectedIndex].tag_description)
+                            }
+
+
                         listTags.removeAll(listTags)
                         listTags.refreshAll(bindTagPathWithDetailTag(_data))
-
-//                        if (child.children.isNotEmpty()) {
-//                        pathTags.add(TagBottomItem(child.name, index) {
-//                            tagTree[index + 1]?.let {
-//                                listTags.refreshAll(it)
-//                            }
-//                            (0 until pathTags.itemListSnapshot.size - index - 1).forEach { _ ->
-//                                pathTags.removeAt(pathTags.size - 1)
-//                                Log.e("delete tag", "de")
-//                            }
-//                            tagListRecyclerView.visibility = View.VISIBLE
-//
-//                        })
-//                            listTags.refreshAll(bindTagPathWithDetailTag(child.children))
-//
-//                        } else {
 //                             到最后一层标签后，打印当前路径或其他操作
                         val path = pathTags.itemListSnapshot.map {
                             (it as TagBottomItem).content
                         }.toMutableList().apply {
                             this.add(child.id.toString())
+
                         }
+
                         pathTags.add(TagBottomItem(child.name, index) {
                             tagTree[index + 1]?.let {
                                 listTags.refreshAll(it)
