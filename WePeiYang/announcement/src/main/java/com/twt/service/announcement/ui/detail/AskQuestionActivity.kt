@@ -93,7 +93,7 @@ class AskQuestionActivity : AppCompatActivity(), LoadingDialogManager {
         title = findViewById(R.id.edit_title)
         detail = findViewById(R.id.edit_content)
         departmentDescription = findViewById(R.id.expand_text_view)
-        departmentDescription.setText("部门介绍zxczczxcxzsfsdfdsfsdffsfsfsffdfsfsdfsdfsdfdsfdsfdsfdsfdsfdsfdfdsfsdfsdfsdfdsfsdfsdfsdf")
+        departmentDescription.setText("部门介绍")
         detail.apply {
             setOnEditorActionListener { _, actionId, event ->
                 var flag = true
