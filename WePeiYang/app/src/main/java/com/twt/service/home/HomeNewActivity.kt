@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide
 import com.igexin.sdk.PushManager
 import com.twt.service.AppPreferences
 import com.twt.service.R
+import com.twt.service.announcement.ui.annoBannerItem
 import com.twt.service.announcement.ui.annoHomeItem
 import com.twt.service.ecard.model.LiveEcardManager
 import com.twt.service.home.message.*
@@ -98,6 +99,8 @@ class HomeNewActivity : AppCompatActivity() {
                 homeMessageItem()
                 mtaExpose("app_首页显示messageItem")
             }
+            annoBannerItem()
+
             homeScheduleItem(this@HomeNewActivity)
             if (AppPreferences.isDisplayGpa) {
                 gpaNewHomeItem(this@HomeNewActivity)
@@ -116,7 +119,6 @@ class HomeNewActivity : AppCompatActivity() {
         //TODO(这里后台数据返回的有问题，json无法解析)
         GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
             val messageBean = MessageService.getMessage().awaitAndHandle {
-
                 Log.d("testjsoncanconvert", it.message.toString())
             }
             val data = messageBean?.data

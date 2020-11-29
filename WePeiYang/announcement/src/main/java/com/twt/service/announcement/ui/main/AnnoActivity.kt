@@ -58,6 +58,7 @@ class AnnoActivity : AppCompatActivity() {
     private lateinit var tagListRecyclerView: RecyclerView
     private lateinit var appBar: AppBarLayout
     private lateinit var hintText: TextView
+    private lateinit var searchButton: ImageView
     private lateinit var floatingActionMenu: FloatingActionMenu
     private var nextUrl: String? = null
     private lateinit var quesRecManager: LinearLayoutManager
@@ -78,6 +79,9 @@ class AnnoActivity : AppCompatActivity() {
         hintText = findViewById(R.id.cannot_connect_text)
         findViewById<ImageView>(R.id.anno_back).setOnClickListener {
             onBackPressed()
+        }
+        findViewById<ImageView>(R.id.search_button).setOnClickListener {
+            startActivity(Intent(this@AnnoActivity, SearchActivity::class.java))
         }
         initFloatingActionMenu()
         initRecyclerView()
@@ -235,12 +239,12 @@ class AnnoActivity : AppCompatActivity() {
     private fun initFloatingActionMenu() {
         floatingActionMenu = findViewById(R.id.anno_fl_menu)
 
-        findViewById<FloatingActionButton>(R.id.fa_a).apply {
-            this.setOnClickListener {
-                closeFloatingMenu()
-                startActivity(Intent(this@AnnoActivity, SearchActivity::class.java))
-            }
-        }
+//        findViewById<FloatingActionButton>(R.id.fa_a).apply {
+//            this.setOnClickListener {
+//                closeFloatingMenu()
+//                startActivity(Intent(this@AnnoActivity, SearchActivity::class.java))
+//            }
+//        }
 
         findViewById<FloatingActionButton>(R.id.fa_b).apply {
 

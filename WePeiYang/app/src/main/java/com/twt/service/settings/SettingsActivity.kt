@@ -31,7 +31,6 @@ class SettingsActivity : CAppCompatActivity() {
         fragmentManager.beginTransaction()
                 .replace(R.id.settings_container, SettingsFragment())
                 .commit()
-
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
