@@ -77,13 +77,62 @@
                 app:layout_constraintTop_toBottomOf="@+id/anno_tb">
 
                 <TextView
+                    android:id="@+id/sortCampus"
+                    android:layout_width="300dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center_vertical"
+                    android:text="选择校区（非必选）:"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/ll1" />
+
+            <LinearLayout
+                android:id="@+id/campus_sort"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_weight="4"
+                android:background="@color/white_color"
+                android:orientation="horizontal">
+                <RadioGroup
+                    android:id="@+id/radio_campus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
+                    <RadioButton
+                        android:id="@+id/radio_Weijinlu"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:text="卫津路"/>
+                    <RadioButton
+                        android:id="@+id/radio_Beiyangyuan"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:text="北洋园"/>
+                </RadioGroup>
+<!--
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/campus_rec2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                    -->
+
+
+            </LinearLayout>
+
+                <TextView
                     android:id="@+id/sort"
                     android:layout_width="300dp"
                     android:layout_height="30dp"
                     android:layout_marginStart="12dp"
                     android:layout_marginTop="5dp"
                     android:gravity="center_vertical"
-                    android:text="分类(点击按钮显示部门介绍) :"
+                    android:text="选择部门（必选）:"
                     android:textSize="18sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@id/ll1" />
@@ -123,7 +172,7 @@
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
                         android:textSize="16sp"
-                        android:text="....................................................................................."
+                        android:text="....................."
                         android:textColor="@color/black_color" />
                     <ImageButton
                         android:id="@id/expand_collapse"
@@ -249,7 +298,7 @@
                         android:layout_height="30dp"
                         android:layout_marginStart="12dp"
                         android:gravity="center_vertical"
-                        android:text="配图:"
+                        android:text="图片:"
                         android:textSize="18sp" />
 
                     <android.support.v7.widget.RecyclerView

@@ -239,7 +239,8 @@ data class AddQuestion(
         val name: List<String>,
         val description: List<String>,
         val tagList: List<String>,
-        val question_id: Int
+        val question_id: Int,
+        val campus: Int
 )
 
 data class UserId(
