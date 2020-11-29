@@ -9,9 +9,16 @@ import android.widget.TextView
 import cn.edu.twt.retrox.recyclerviewdsl.Item
 import cn.edu.twt.retrox.recyclerviewdsl.ItemController
 import com.twt.service.announcement.R
+import com.twt.service.announcement.service.AnnoPreference
+import com.twt.service.announcement.service.AnnoService
 import com.twt.service.announcement.service.Reply
+import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
+import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import com.zzhoujay.richtext.ImageHolder
 import com.zzhoujay.richtext.RichText
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 /**
  * ReplyItem
@@ -47,15 +54,48 @@ class ReplyItem(
                         }
                 RichText.initCacheDir(itemView.context)
                 RichText.fromHtml(item.reply.contain).scaleType(ImageHolder.ScaleType.fit_auto).into(contentTv)
-//                likeCountTv.text = item.likeCount.toString()
+                likeCountTv.text = item.likeCount.toString()
                 /**
                  * 点赞按钮逻辑
                  * 点击按钮时在本地操作点赞数量
                  * 同时发送请求
                  */
-//                likeButtonIv.apply {
-//                    // TODO: 删除了点赞逻辑
-//                }
+                likeButtonIv.apply {
+                    setImageResource(
+                            when (item.likeState) {
+                                true -> R.drawable.good_fill
+                                false -> R.drawable.good
+                            }
+                    )
+                    setOnClickListener {
+                        if (item.isLikable && AnnoPreference.myId != null) {
+                            item.isLikable = false
+                            GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
+                                AnnoService.postThumbUpOrDown(
+                                        "answer",
+                                        when (item.likeState) {
+                                            true -> "dislike"
+                                            false -> "like"
+                                        },
+                                        item.reply.id,
+                                        AnnoPreference.myId!!
+                                ).awaitAndHandle {
+//                                    Toasty.error(itemView.context, "点赞状态更新失败").show()
+                                    item.isLikable = true
+                                }?.data?.let {
+                                    likeCountTv.text = it.toString()
+                                    item.likeCount = it
+                                    item.likeState = !item.likeState
+                                    likeButtonIv.setImageResource(when (item.likeState) {
+                                        false -> R.drawable.good
+                                        true -> R.drawable.good_fill
+                                    })
+                                    item.isLikable = true
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
 
@@ -66,10 +106,9 @@ class ReplyItem(
             val nameTv: TextView = itemView.findViewById(R.id.annoReplyName)
             val timeTv: TextView = itemView.findViewById(R.id.annoReplyTime)
             val contentTv: TextView = itemView.findViewById(R.id.annoReplyContent)
-//            val likeButtonIv: ImageView = itemView.findViewById(R.id.annoReplyLikeButton)
-//            val likeCountTv: TextView = itemView.findViewById(R.id.annoReplyLikeCount)
-//            return ReplyItemViewHolder(itemView, titleTv, nameTv, timeTv, contentTv, likeButtonIv, likeCountTv)
-            return ReplyItemViewHolder(itemView, titleTv, nameTv, timeTv, contentTv)
+            val likeButtonIv: ImageView = itemView.findViewById(R.id.annoReplyLikeButton)
+            val likeCountTv: TextView = itemView.findViewById(R.id.annoReplyLikeCount)
+            return ReplyItemViewHolder(itemView, titleTv, nameTv, timeTv, contentTv, likeButtonIv, likeCountTv)
         }
     }
 
@@ -81,9 +120,9 @@ class ReplyItem(
             val titleTv: TextView,
             val nameTv: TextView,
             val timeTv: TextView,
-            val contentTv: TextView
-//            val likeButtonIv: ImageView,
-//            val likeCountTv: TextView
+            val contentTv: TextView,
+            val likeButtonIv: ImageView,
+            val likeCountTv: TextView
     ) : RecyclerView.ViewHolder(itemView)
 }
 

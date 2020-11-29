@@ -15,9 +15,9 @@
         android:orientation="vertical">
 
         <android.support.design.widget.AppBarLayout
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/toolbar">
+            android:layout_height="wrap_content">
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/anno_tb"
@@ -31,10 +31,10 @@
                     android:layout_height="match_parent">
 
                     <ImageView
-                        android:contentDescription="@string/back_button"
                         android:id="@+id/anno_back"
                         android:layout_width="48dp"
                         android:layout_height="48dp"
+                        android:contentDescription="@string/back_button"
                         android:padding="8dp"
                         android:src="@drawable/left_arrow_white"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -46,14 +46,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
-                        android:text="校务专区"
-                        android:textSize="23sp"
                         android:singleLine="true"
+                        android:text="校务专区"
                         android:textColor="@color/white_color"
                         android:textColorHint="@color/white_color"
-                        app:layout_constraintTop_toTopOf="parent"
+                        android:textSize="23sp"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/anno_back" />
+                        app:layout_constraintStart_toEndOf="@+id/anno_back"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <ImageView
                         android:contentDescription="搜索按钮"
@@ -88,16 +88,23 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toBottomOf="@+id/path_rec" />
             </android.support.constraint.ConstraintLayout>
+
         </android.support.design.widget.AppBarLayout>
 
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/ques_rec"
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/anno_refresh"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/ques_rec"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+        </android.support.v4.widget.SwipeRefreshLayout>
         <!--        <include layout="@layout/no_question_list" android:visibility="invisible" android:layout_gravity="center"-->
         <!--            android:layout_height="wrap_content" android:layout_width="wrap_content" />-->
 
@@ -154,14 +161,14 @@
                 app:fab_colorPressed="#999999"
                 app:fab_size="mini" />
 
-            <com.github.clans.fab.FloatingActionButton
-                android:id="@+id/fa_c"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/exchange_rate"
-                app:fab_colorNormal="#eeeeee"
-                app:fab_colorPressed="#999999"
-                app:fab_size="mini" />
+            <!--            <com.github.clans.fab.FloatingActionButton-->
+            <!--                android:id="@+id/fa_c"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:src="@drawable/exchange_rate"-->
+            <!--                app:fab_colorNormal="#eeeeee"-->
+            <!--                app:fab_colorPressed="#999999"-->
+            <!--                app:fab_size="mini" />-->
 
             <com.github.clans.fab.FloatingActionButton
                 android:id="@+id/fa_d"
@@ -173,7 +180,6 @@
                 app:fab_size="mini" />
 
         </com.github.clans.fab.FloatingActionMenu>
-
 
     </android.support.design.widget.CoordinatorLayout>
 

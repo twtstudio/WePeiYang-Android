@@ -1,5 +1,6 @@
 package com.twt.service.announcement.ui.detail
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v4.widget.SwipeRefreshLayout
@@ -7,8 +8,6 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
-import android.util.Log
-import android.widget.Toast
 import cn.edu.twt.retrox.recyclerviewdsl.withItems
 import com.githang.statusbar.StatusBarCompat
 import com.twt.service.announcement.R
@@ -95,9 +94,12 @@ class DetailActivity : AppCompatActivity() {
                 }
                 replyList.forEach {
                     addDetailReplyItem(question.name, it, likeState, it.likes) {
-                        GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
-                            Toasty.warning(context, "您点击了赞赞")
-                        }
+                        val mIntent = Intent(this@DetailActivity, ReplyActivity::class.java)
+                                .putExtra("title", question.name)
+                                .putExtra("reply", it)
+                                .putExtra("questionId", question.id)
+                                .putExtra("userId", question.user_id)
+                        startActivityForResult(mIntent, 0)
                     }
                 }
                 commentList.forEach {
@@ -113,7 +115,6 @@ class DetailActivity : AppCompatActivity() {
 
     /**
      * 下拉刷新(真的)
-     * TODO: 我也希望这是真的
      */
     private fun setRefresh() {
         swipeRefreshLayout.onRefresh {
@@ -135,7 +136,6 @@ class DetailActivity : AppCompatActivity() {
         swipeRefreshLayout.isRefreshing = true
         // 这里获取问题回复
         AnnoService.getAnswer(question.id, AnnoPreference.myId!!).awaitAndHandle {
-            Log.d("getAnswererror", "获取回复失败: " + it.message)
 //            Toast.makeText(this@DetailActivity, "获取回复失败",Toast.LENGTH_SHORT).show()
         }?.data?.let {
             replyList.clear()
@@ -143,14 +143,14 @@ class DetailActivity : AppCompatActivity() {
                 replyList.add(reply)
             }
             // 这里对问题回复获取点赞状态
-                replyLikeList.clear()
-                replyList.forEach { reply ->
-                    AnnoService.getLikedState("answer", AnnoPreference.myId!!, reply.id).awaitAndHandle {
+            replyLikeList.clear()
+            replyList.forEach { reply ->
+                AnnoService.getLikedState("answer", AnnoPreference.myId!!, reply.id).awaitAndHandle {
 //                        Toast.makeText(this@DetailActivity, "获取回复点赞状态失败",Toast.LENGTH_SHORT).show()
-                    }?.data?.let { replyLike ->
-                        replyLikeList.add(replyLike.is_liked)
-                    }
+                }?.data?.let { replyLike ->
+                    replyLikeList.add(replyLike.is_liked)
                 }
+            }
             }
             // 这里获取问题评论
             // 为什么是commit?
@@ -171,12 +171,22 @@ class DetailActivity : AppCompatActivity() {
                     }
                 }
             }
-            // 这里获取问题的点赞状态
-            AnnoService.getLikedState("question", AnnoPreference.myId!!, question.id).awaitAndHandle {
+        // 这里获取问题的点赞状态
+        AnnoService.getLikedState("question", AnnoPreference.myId!!, question.id).awaitAndHandle {
 //                Toast.makeText(this@DetailActivity, "获取点赞状态失败",Toast.LENGTH_SHORT).show()
-            }?.data?.let {
-                likeState = it.is_liked
+        }?.data?.let {
+            likeState = it.is_liked
+        }
+        swipeRefreshLayout.isRefreshing = false
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
+            getData()
+        }.invokeOnCompletion {
+            runOnUiThread {
+                setRecyclerView()
             }
-            swipeRefreshLayout.isRefreshing = false
+        }
     }
 }

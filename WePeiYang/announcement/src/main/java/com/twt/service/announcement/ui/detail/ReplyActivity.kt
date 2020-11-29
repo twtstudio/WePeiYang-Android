@@ -10,10 +10,12 @@ import android.support.v7.widget.Toolbar
 import cn.edu.twt.retrox.recyclerviewdsl.withItems
 import com.githang.statusbar.StatusBarCompat
 import com.twt.service.announcement.R
+import com.twt.service.announcement.service.AnnoPreference
 import com.twt.service.announcement.service.AnnoService
 import com.twt.service.announcement.service.Reply
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
+import es.dmoral.toasty.Toasty
 import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -32,6 +34,11 @@ class ReplyActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
+    private lateinit var title: String
+    private lateinit var reply: Reply
+    private var replyIndex: Int = 0
+    private var questionId: Int = 0
+    private var userId: Int = 0
     private var likeCount: Int = 0
     private var likeState: Boolean = false
 
@@ -41,6 +48,7 @@ class ReplyActivity : AppCompatActivity() {
         // 设置状态栏的颜色
         StatusBarCompat.setStatusBarColor(this, ContextCompat.getColor(this, R.color.colorPrimary), false)
         findViews()
+        getDataFromPreviousActivity()
         setToolbar(toolbar, this, "回复详情") {
             finish()
         }
@@ -50,8 +58,19 @@ class ReplyActivity : AppCompatActivity() {
         }.invokeOnCompletion {
             runOnUiThread {
                 setRecyclerView()
+                swipeRefreshLayout.isRefreshing = false
             }
         }
+    }
+
+    /**
+     * 获取传入的数据
+     */
+    private fun getDataFromPreviousActivity() {
+        title = intent.getStringExtra("title")
+        reply = intent.getSerializableExtra("reply") as Reply
+        questionId = intent.getIntExtra("questionId", 0)
+        userId = intent.getIntExtra("userId", 0)
     }
 
     /**
@@ -71,17 +90,23 @@ class ReplyActivity : AppCompatActivity() {
             layoutManager = LinearLayoutManager(this@ReplyActivity)
             withItems {
                 addReplyItem(
-                        intent.getStringExtra("title"),
-                        intent.getSerializableExtra("reply") as Reply,
-                        likeState, likeCount
+                        title,
+                        reply,
+                        likeState,
+                        likeCount
                 ) {
                     GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
                         getData()
                     }.invokeOnCompletion {
                         runOnUiThread {
+                            swipeRefreshLayout.isRefreshing = false
                             setRecyclerView()
                         }
                     }
+                }
+                if (userId == AnnoPreference.myId) {
+//                if (AnnoPreference.myId == 18) {
+                    addReplyRatingItem(userId, reply.id, reply.score)
                 }
             }
             adapter = ScaleInAnimationAdapter(adapter)
@@ -110,13 +135,20 @@ class ReplyActivity : AppCompatActivity() {
 
     /**
      * 刷新数据
-     * // TODO: 假的假的假的
+     * // TODO: 这个要做，现在处于鸽鸽状态
      */
     private suspend fun getData() {
-//        delay(1000) // 模拟网络请求的艰辛
-//        AnnoService.getLikedState("answer", intent.getIntExtra("userId", 0), intent.getIntExtra("id", 0)).awaitAndHandle {
-//
-//        }
-        likeCount += 50
+        swipeRefreshLayout.isRefreshing = true
+        AnnoService.getAnswer(questionId, AnnoPreference.myId!!).awaitAndHandle {
+            Toasty.error(this, "拉取数据失败，请稍后再试").show()
+        }?.data?.let {
+            reply = it[replyIndex]
+            likeCount = it[replyIndex].likes
+            AnnoService.getLikedState("answer", AnnoPreference.myId!!, reply.id).awaitAndHandle {
+                Toasty.error(this, "拉取数据失败，请稍后再试").show()
+            }?.data?.let {
+                likeState = it.is_liked
+            }
+        }
     }
 }

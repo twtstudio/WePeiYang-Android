@@ -165,6 +165,8 @@ interface AnnoService {
     @GET("question/get/byId")
     fun getDetailQuestion(@Query("id") id: Int, @Query("user_id") user_id: Int): Deferred<CommonBody<Question>>
 
+
+
     companion object : AnnoService by AnnoServiceFactory()
 }
 
@@ -181,6 +183,7 @@ data class UserData(
 data class Tag(
         val id: Int,
         val name: String,
+        val tag_description: String,
         val children: List<Tag>
 ) : Serializable
 
