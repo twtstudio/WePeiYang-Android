@@ -11,7 +11,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
 import cn.edu.twt.retrox.recyclerviewdsl.withItems
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.GlideDrawable
@@ -68,7 +67,9 @@ class QuestionItem(val context: Context,
                                 item.questionDetail.tags.sortedBy {
                                     it.id
                                 }.map {
-                                    addTagList(it.name)
+                                    if (it.id != 3) {
+                                        addTagList(it.name)
+                                    }
                                 }
                             } else {
                                 tagList.visibility = View.VISIBLE

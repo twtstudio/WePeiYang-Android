@@ -101,7 +101,9 @@ class DetailQuestionItem(
                             item.question.tags.sortedBy {
                                 it.id
                             }.map {
-                                addTagList(it.name)
+                                if (it.id != 3) {
+                                    addTagList(it.name)
+                                }
                             }
                         } else {
                             tagListRec.visibility = View.VISIBLE
