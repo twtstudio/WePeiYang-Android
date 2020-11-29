@@ -24,7 +24,7 @@
         android:layout_marginTop="60dp"
         android:fontFamily="sans-serif-regular"
         android:gravity="center_horizontal"
-        android:text="不止首页功能优化\n更有众多改进与新功能\n只为遇见更好的你\n微北洋 并不微"
+        android:text="加入全新校务专区模块，全心全意，服务同学\n微北洋 并不微"
         android:textColor="@color/colorAccent"
         android:textSize="18sp"
         app:layout_parallaxFactor="1.0" />

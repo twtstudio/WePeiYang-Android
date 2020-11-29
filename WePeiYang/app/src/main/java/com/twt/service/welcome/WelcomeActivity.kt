@@ -19,10 +19,10 @@ class WelcomeActivity : MaterialIntroActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         addSlide(GpaWelcomeFragment())
-        addSlide(ScheduleWelcomeFragment())
+//        addSlide(ScheduleWelcomeFragment())
 //        addSlide(BikeWelcomeFragment())
         addSlide(BriefWelcomeFragment())
-        if (!CommonPreferences.tjuloginbind) addSlide(TjuBindFragment())
+//        if (!CommonPreferences.tjuloginbind) addSlide(TjuBindFragment())
 //        if (!CommonPreferences.isBindLibrary) addSlide(LibBindFragment())
     }
 
@@ -41,7 +41,7 @@ abstract class SimpleSlideFragment : SlideFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
             inflater.inflate(resource, container, false)
 
-    override fun backgroundColor() = R.color.white_color
+    override fun backgroundColor() = R.color.white
 
     override fun buttonsColor() = R.color.colorAccent
 
