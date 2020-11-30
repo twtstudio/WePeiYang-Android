@@ -28,12 +28,22 @@ class ReplyRatingItem(
             holder.apply {
                 if (item.score != -1) {
                     ratingBar.rating = item.score.toFloat() / 2f
+                } else {
+                    ratingBar.rating = 0f
                 }
                 button.onClick(Dispatchers.Main + QuietCoroutineExceptionHandler) {
-                    AnnoService.evaluateAnswer(3/*TODO*/, item.id, (ratingBar.rating * 2).toInt(), "test"/* 为什么事commit为什么事commit为什么事commit */).awaitAndHandle {
-                        Toasty.error(itemView.context, "拉取数据失败，请稍后再试").show()
-                    }?.msg?.let {
-                        Toasty.success(itemView.context, "评价成功").show()
+                    if ((ratingBar.rating * 2).toInt() <= 0) {
+                        AnnoService.evaluateAnswer(3/*TODO*/, item.id, -1, "test"/* 为什么事commit为什么事commit为什么事commit */).awaitAndHandle {
+                            Toasty.error(itemView.context, "拉取数据失败，请稍后再试").show()
+                        }?.msg?.let {
+                            Toasty.success(itemView.context, "评价成功").show()
+                        }
+                    } else {
+                        AnnoService.evaluateAnswer(3/*TODO*/, item.id, (ratingBar.rating * 2).toInt(), "test"/* 为什么事commit为什么事commit为什么事commit */).awaitAndHandle {
+                            Toasty.error(itemView.context, "拉取数据失败，请稍后再试").show()
+                        }?.msg?.let {
+                            Toasty.success(itemView.context, "评价成功").show()
+                        }
                     }
                 }
             }

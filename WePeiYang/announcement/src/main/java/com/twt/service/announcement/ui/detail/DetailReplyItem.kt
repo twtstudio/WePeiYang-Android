@@ -46,7 +46,7 @@ class DetailReplyItem(
             holder as DetailReplyItemViewHolder
             item as DetailReplyItem
             holder.apply {
-                nameTv.text = item.reply.user_name
+                nameTv.text = item.reply.admin_name
                 contentTv.apply {
                     text = Html.fromHtml(item.reply.contain.replace(Regex("<img.*?>"), ""))
                     onClick {

@@ -43,7 +43,7 @@ class ReplyItem(
             item as ReplyItem
             holder.apply {
                 titleTv.text = item.title
-                nameTv.text = item.reply.user_name
+                nameTv.text = item.reply.admin_name
                 timeTv.text = item.reply.created_at
                         .split("T", ".")
                         .subList(0, 2).joinToString(separator = " ") {

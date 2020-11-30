@@ -1,9 +1,5 @@
 package com.twt.service.announcement.service
 
-import android.content.Context
-import android.util.Log
-import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
-import es.dmoral.toasty.Toasty
 import kotlinx.coroutines.Deferred
 import okhttp3.MultipartBody
 import retrofit2.http.*
@@ -209,7 +205,7 @@ data class Question(
 data class Reply(
         val id: Int,
         val admin_id: Int,
-        val user_name: String,
+        val admin_name: String,
         val contain: String,
         val score: Int,
         val commit: String,
