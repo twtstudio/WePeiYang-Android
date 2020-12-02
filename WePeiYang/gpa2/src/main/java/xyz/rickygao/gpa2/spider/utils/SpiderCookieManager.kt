@@ -62,7 +62,7 @@ object SpiderCookieManager {
         // 未曾成功登录过，需要登录
         Log.d("SpiderCookieApi", "never login")
         GlobalScope.launch(Main) {
-//            val intent = Intent(DIALOG_ACTION)
+            //            val intent = Intent(DIALOG_ACTION)
 //            localBroadcastManager.sendBroadcast(intent)
 //            CommonContext.application.sendBroadcast(intent)
 //            throw NotLoginException("尚未登录办公网")

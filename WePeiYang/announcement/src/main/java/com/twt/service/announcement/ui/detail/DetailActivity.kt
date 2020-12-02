@@ -1,5 +1,6 @@
 package com.twt.service.announcement.ui.detail
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v4.widget.SwipeRefreshLayout
@@ -93,9 +94,12 @@ class DetailActivity : AppCompatActivity() {
                 }
                 replyList.forEach {
                     addDetailReplyItem(question.name, it, likeState, it.likes) {
-                        GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
-                            Toasty.warning(context, "您点击了赞赞")
-                        }
+                        val mIntent = Intent(this@DetailActivity, ReplyActivity::class.java)
+                                .putExtra("title", question.name)
+                                .putExtra("reply", it)
+                                .putExtra("questionId", question.id)
+                                .putExtra("userId", question.user_id)
+                        startActivityForResult(mIntent, 0)
                     }
                 }
                 commentList.forEach {
@@ -111,7 +115,6 @@ class DetailActivity : AppCompatActivity() {
 
     /**
      * 下拉刷新(真的)
-     * TODO: 我也希望这是真的
      */
     private fun setRefresh() {
         swipeRefreshLayout.onRefresh {
@@ -133,26 +136,26 @@ class DetailActivity : AppCompatActivity() {
         swipeRefreshLayout.isRefreshing = true
         // 这里获取问题回复
         AnnoService.getAnswer(question.id, AnnoPreference.myId!!).awaitAndHandle {
-            Toasty.error(this@DetailActivity, "获取回复失败").show()
+//            Toast.makeText(this@DetailActivity, "获取回复失败",Toast.LENGTH_SHORT).show()
         }?.data?.let {
             replyList.clear()
             it.forEach { reply ->
                 replyList.add(reply)
             }
             // 这里对问题回复获取点赞状态
-                replyLikeList.clear()
-                replyList.forEach { reply ->
-                    AnnoService.getLikedState("answer", AnnoPreference.myId!!, reply.id).awaitAndHandle {
-                        Toasty.error(this@DetailActivity, "获取回复点赞状态失败").show()
-                    }?.data?.let { replyLike ->
-                        replyLikeList.add(replyLike.is_liked)
-                    }
+            replyLikeList.clear()
+            replyList.forEach { reply ->
+                AnnoService.getLikedState("answer", AnnoPreference.myId!!, reply.id).awaitAndHandle {
+//                        Toast.makeText(this@DetailActivity, "获取回复点赞状态失败",Toast.LENGTH_SHORT).show()
+                }?.data?.let { replyLike ->
+                    replyLikeList.add(replyLike.is_liked)
                 }
+            }
             }
             // 这里获取问题评论
             // 为什么是commit?
             AnnoService.getCommit(question.id, AnnoPreference.myId!!).awaitAndHandle {
-                Toasty.error(this@DetailActivity, "获取评论失败").show()
+//                Toast.makeText(this@DetailActivity, "获取评论失败",Toast.LENGTH_SHORT).show()
             }?.data?.let {
                 commentList.clear()
                 it.forEach { comment ->
@@ -162,18 +165,28 @@ class DetailActivity : AppCompatActivity() {
                 commentLikeList.clear()
                 commentList.forEach { comment ->
                     AnnoService.getLikedState("commit", AnnoPreference.myId!!, comment.id).awaitAndHandle {
-                        Toasty.error(this@DetailActivity, "获取评论点赞状态失败").show()
+//                        Toast.makeText(this@DetailActivity, "获取评论点赞状态失败",Toast.LENGTH_SHORT).show()
                     }?.data?.let { commentLike ->
                         commentLikeList.add(commentLike.is_liked)
                     }
                 }
             }
-            // 这里获取问题的点赞状态
-            AnnoService.getLikedState("question", AnnoPreference.myId!!, question.id).awaitAndHandle {
-                Toasty.error(this@DetailActivity, "获取点赞状态失败").show()
-            }?.data?.let {
-                likeState = it.is_liked
+        // 这里获取问题的点赞状态
+        AnnoService.getLikedState("question", AnnoPreference.myId!!, question.id).awaitAndHandle {
+//                Toast.makeText(this@DetailActivity, "获取点赞状态失败",Toast.LENGTH_SHORT).show()
+        }?.data?.let {
+            likeState = it.is_liked
+        }
+        swipeRefreshLayout.isRefreshing = false
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
+            getData()
+        }.invokeOnCompletion {
+            runOnUiThread {
+                setRecyclerView()
             }
-            swipeRefreshLayout.isRefreshing = false
+        }
     }
 }

@@ -2,17 +2,20 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    xmlns:tool="http://schemas.android.com/tools">
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:cardUseCompatPadding="true"
         app:layout_constraintTop_toTopOf="parent">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="20dp">
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="10dp">
 
             <TextView
                 android:id="@+id/annoDetailQuestionTitle"
@@ -24,14 +27,23 @@
                 android:textSize="20sp"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                tool:layout_height="40dp"
+                app:layout_constraintTop_toBottomOf="@+id/annoDetailQuestionTitle"
+                app:layout_constraintBottom_toTopOf="@+id/annoDetailQuestionContent"
+                android:id="@+id/ques_tags" />
+
             <TextView
                 android:id="@+id/annoDetailQuestionContent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:singleLine="false"
                 android:textAlignment="textStart"
-                app:layout_constraintTop_toBottomOf="@id/annoDetailQuestionTitle" />
+                app:layout_constraintTop_toBottomOf="@id/ques_tags" />
 
             <com.jaeger.ninegridimageview.NineGridImageView
                 android:layout_marginTop="10dp"
@@ -59,20 +71,20 @@
                 android:layout_marginTop="10dp"
                 android:singleLine="true"
                 android:textAlignment="textEnd"
-                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/annoDetailQuestionImages" />
 
             <TextView
                 android:id="@+id/annoDetailQuestionStatus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="10dp"
                 android:singleLine="true"
                 android:textAlignment="textEnd"
                 android:textColor="#0F0"
                 android:textSize="12sp"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/annoDetailQuestionTime" />
+                app:layout_constraintTop_toBottomOf="@id/annoDetailQuestionImages" />
 
             <ImageView
                 android:id="@+id/annoDetailQuestionCommentButton"

@@ -101,7 +101,7 @@ object ScheduleSpider {
                 val week = Week(start = weeks[0].toInt(), end = weeks[1].toInt())
                 val campus = tds[9].text().let {
                     if (it.isNotEmpty()) {
-                        it.substring(0, 5)
+                        "${Regex("\\w*校区").find(it)}校区"
                     } else {
                         ""
                     }
@@ -265,6 +265,6 @@ object ScheduleSpider {
     }
 
     private fun Arrange.sameArrange(arrange: Arrange): Boolean {
-        return arrange.day == day && arrange.end == end && arrange.room == room && arrange.start == start && arrange.week == week
+        return arrange.day == day && arrange.end == end && /*arrange.room == room && */arrange.start == start && arrange.week == week
     }
 }

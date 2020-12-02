@@ -17,10 +17,7 @@ import com.twt.service.schedule2.model.school.refresh
 import com.twt.wepeiyang.commons.experimental.cache.CacheIndicator
 import com.twt.wepeiyang.commons.experimental.cache.RefreshState
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
-import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
+import kotlinx.coroutines.*
 
 object TotalCourseManager {
 
@@ -54,7 +51,7 @@ object TotalCourseManager {
             return mergedClassTableProvider
         }
 
-        GlobalScope.async(Dispatchers.Main) {
+        GlobalScope.async(Dispatchers.Main + QuietCoroutineExceptionHandler) {
 
             refreshCallback.invoke(RefreshState.Refreshing())
 
@@ -65,20 +62,34 @@ object TotalCourseManager {
 
             Log.d("testitemdisplaytime", "network process 1")
 
-            val tjuClassTableProvider: Deferred<AbsClasstableProvider> = async(Dispatchers.Default + QuietCoroutineExceptionHandler) {
+            // 如果获取课程表信息失败,则返回一个空列表
+            // 这里的问题是：加入网络请求错误，也会显示刷新成功。
+            val tjuClassTableProvider: Deferred<AbsClasstableProvider> = async(Dispatchers.Default) {
                 try {
                     val classTable = TjuCourseApi.refresh(refreshTju)
                     CommonClassTable(classTable)
                 } catch (e: IllegalStateException) {
-                    CommonClassTable(Classtable(courses = mutableListOf()))
+                    throw e
                 }
             }
+
+//            val tjuClassTableProvider: Deferred<AbsClasstableProvider> = async(Dispatchers.Main) {
+//                try {
+//                    val classTable = TjuCourseApi.refresh(refreshTju)
+//                    CommonClassTable(classTable)
+//                } catch (e: IllegalStateException) {
+//                    Log.d("testitemd tjuClas:","testitemd tjuClassTableProvider: " + e.message)
+//                    refreshCallback.invoke(RefreshState.Failure(e))
+//                    CommonClassTable(Classtable(courses = mutableListOf()))
+//                }
+//            }
 
             val auditClasstableProvider: Deferred<AbsClasstableProvider> = async(Dispatchers.Default) {
                 if (refreshAudit) {
                     try {
                         AuditCourseManager.refreshAuditClasstable() // 这里在网络请求失败的时候会抛出一个异常 需要捕获一下
                     } catch (e: Exception) {
+                        Log.d("testitemd audit error", "auditClasstableProvider" + e.message)
                         e.printStackTrace()
                     }
                 }
@@ -95,12 +106,16 @@ object TotalCourseManager {
                 DuplicateCourseManager.getDuplicateCourseProvider()
             }
 
+            Log.d("testitemdisplaytime", "network process examTableDeferred finish")
+
             val finalClasstableProvider = MergedClassTableProvider(
                     tjuClassTableProvider.await(),
-                    auditClasstableProvider.await(),
+                    auditClasstableProvider.await(), // ok
                     customCourseProvider.await(),
                     duplicateCourseProvider.await()
             )
+
+            Log.d("testitemdisplaytime", "finalClasstableProvider.totalCoursesList: " + finalClasstableProvider.totalCoursesList.toString())
 
             try {
 

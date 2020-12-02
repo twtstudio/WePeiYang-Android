@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import cn.edu.twt.retrox.recyclerviewdsl.Item
 import cn.edu.twt.retrox.recyclerviewdsl.ItemController
 import com.twt.service.announcement.R
@@ -53,13 +54,17 @@ class DetailCommentItem(
                 }
                 timeTv.text = item.time
                         .split("T", ".")
-                        .subList(0, 2)
-                        .joinToString(separator = " ")
+                        .subList(0, 2).joinToString(separator = " ") {
+                            if (it.contains(":"))
+                                it.split(":").subList(0, 2).joinToString(separator = ":")
+                            else
+                                it
+                        }
 
                 AnnoPreference.myId?.let {
                     GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
                         AnnoService.getLikedState("commit", it, item.id).awaitAndHandle {
-                            Toasty.error(itemView.context, "请求点赞数据失败").show()
+//                            Toast.makeText(itemView.context, "请求点赞数据失败",Toast.LENGTH_SHORT).show()
                         }?.data?.let { likeState ->
                             item.likeState = likeState.is_liked
                             when (item.likeState) {
@@ -96,7 +101,7 @@ class DetailCommentItem(
                                         item.id,
                                         AnnoPreference.myId!!
                                 ).awaitAndHandle {
-                                    Toasty.error(itemView.context, "点赞状态更新失败").show()
+//                                    Toast.makeText(itemView.context, "点赞状态更新失败",Toast.LENGTH_SHORT).show()
                                     item.isLikable = true
                                 }?.data?.let {
                                     likeCountTv.text = it.toString()

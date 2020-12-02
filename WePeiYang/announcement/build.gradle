@@ -57,4 +57,5 @@ dependencies {
     implementation 'com.zhihu.android:matisse:0.4.3'
     implementation 'com.jaeger.ninegridimageview:library:1.0.2'
     implementation 'android.arch.lifecycle:extensions:1.1.0'
+    implementation 'com.ms-square:expandableTextView:0.1.4'
 }

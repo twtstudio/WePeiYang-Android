@@ -1,12 +1,13 @@
 package com.twt.service.announcement.ui.detail
 
-import android.content.Intent
+import android.annotation.SuppressLint
 import android.support.v7.widget.RecyclerView
 import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.RatingBar
 import android.widget.TextView
 import cn.edu.twt.retrox.recyclerviewdsl.Item
 import cn.edu.twt.retrox.recyclerviewdsl.ItemController
@@ -16,10 +17,10 @@ import com.twt.service.announcement.service.AnnoService
 import com.twt.service.announcement.service.Reply
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
-import es.dmoral.toasty.Toasty
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import org.jetbrains.anko.sdk27.coroutines.onClick
 
 /**
  * DetailReplyItem
@@ -35,34 +36,35 @@ class DetailReplyItem(
         val reply: Reply,
         var likeState: Boolean,
         var likeCount: Int,
-        var onRefresh: () -> Unit,
+        var function: () -> Unit,
         var isLikable: Boolean = true
         // TODO: 呵呵，你觉得这就完了么
 ) : Item {
     companion object DetailReplyItemController : ItemController {
+        @SuppressLint("SetTextI18n")
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: Item) {
             holder as DetailReplyItemViewHolder
             item as DetailReplyItem
             holder.apply {
-                nameTv.text = item.reply.user_name
+                nameTv.text = item.reply.admin_name
                 contentTv.apply {
                     text = Html.fromHtml(item.reply.contain.replace(Regex("<img.*?>"), ""))
-                    setOnClickListener {
-                        val mIntent: Intent = Intent(itemView.context, ReplyActivity::class.java)
-                                .putExtra("title", item.title)
-                                .putExtra("reply", item.reply)
-                        itemView.context.startActivity(mIntent)
+                    onClick {
+                        item.function.invoke()
                     }
                 }
                 timeTv.text = item.reply.created_at
                         .split("T", ".")
-                        .subList(0, 2)
-                        .joinToString(separator = " ")
-
+                        .subList(0, 2).joinToString(separator = " ") {
+                            if (it.contains(":"))
+                                it.split(":").subList(0, 2).joinToString(separator = ":")
+                            else
+                                it
+                        }
                 AnnoPreference.myId?.let {
                     GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
                         AnnoService.getLikedState("answer", it, item.reply.id).awaitAndHandle {
-                            Toasty.error(itemView.context, "请求点赞数据失败").show()
+//                            Toast.makeText(itemView.context, "请求点赞数据失败",Toast.LENGTH_SHORT).show()
                         }?.data?.let { likeState ->
                             item.likeState = likeState.is_liked
                             when (item.likeState) {
@@ -72,10 +74,7 @@ class DetailReplyItem(
                         }
                     }
                 }
-
                 likeCountTv.text = item.likeCount.toString()
-
-
                 /**
                  * 点赞按钮逻辑
                  * 点击按钮时在本地操作点赞数量
@@ -101,7 +100,7 @@ class DetailReplyItem(
                                         item.reply.id,
                                         AnnoPreference.myId!!
                                 ).awaitAndHandle {
-                                    Toasty.error(itemView.context, "点赞状态更新失败").show()
+//                                    Toast.makeText(itemView.context, "点赞状态更新失败",Toast.LENGTH_SHORT).show()
                                     item.isLikable = true
                                 }?.data?.let {
                                     likeCountTv.text = it.toString()
@@ -117,6 +116,14 @@ class DetailReplyItem(
                         }
                     }
                 }
+                if (item.reply.score == -1) {
+                    ratingBar.visibility = View.GONE
+                    ratingLabelTv.visibility = View.GONE
+                } else {
+                    ratingBar.rating = item.reply.score.toFloat() / 2f
+                    ratingLabelTv.text = "${item.reply.score}分"
+                }
+
             }
         }
 
@@ -128,7 +135,9 @@ class DetailReplyItem(
             val timeTv: TextView = itemView.findViewById(R.id.annoDetailReplyTime)
             val likeButtonIv: ImageView = itemView.findViewById(R.id.annoDetailReplyLikeButton)
             val likeCountTv: TextView = itemView.findViewById(R.id.annoDetailReplyLikeCount)
-            return DetailReplyItemViewHolder(itemView, nameTv, contentTv, timeTv, likeButtonIv, likeCountTv)
+            val ratingBar: RatingBar = itemView.findViewById(R.id.annoDetailReplyRatingBar)
+            val ratingLabelTv: TextView = itemView.findViewById(R.id.annoDetailReplyRatingLabel)
+            return DetailReplyItemViewHolder(itemView, nameTv, contentTv, timeTv, likeButtonIv, likeCountTv, ratingBar, ratingLabelTv)
         }
     }
 
@@ -141,7 +150,9 @@ class DetailReplyItem(
             val contentTv: TextView,
             val timeTv: TextView,
             val likeButtonIv: ImageView,
-            val likeCountTv: TextView
+            val likeCountTv: TextView,
+            val ratingBar: RatingBar,
+            val ratingLabelTv: TextView
     ) : RecyclerView.ViewHolder(itemView)
 }
 
@@ -153,5 +164,5 @@ fun MutableList<Item>.addDetailReplyItem(
         reply: Reply,
         likeState: Boolean,
         likeCount: Int,
-        onRefresh: () -> Unit
-) = add(DetailReplyItem(title, reply, likeState, likeCount, onRefresh))
+        function: () -> Unit
+) = add(DetailReplyItem(title, reply, likeState, likeCount, function))

@@ -31,7 +31,6 @@ class SettingsActivity : CAppCompatActivity() {
         fragmentManager.beginTransaction()
                 .replace(R.id.settings_container, SettingsFragment())
                 .commit()
-
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -172,6 +171,14 @@ class SettingsActivity : CAppCompatActivity() {
 //                activity.startActivity(intent)
 //                false
 //            }
+
+            val privacyPolicy = findPreference(getString(R.string.pref_privacy_policy))
+            privacyPolicy.setOnPreferenceClickListener {
+                val intent = Intent(activity, PrivacyActivity::class.java)
+                startActivity(intent)
+//                activity.startActivity(intent)
+                false
+            }
 
             val contact = findPreference(getString(R.string.pref_contact_me))
             contact.onPreferenceClickListener = Preference.OnPreferenceClickListener {

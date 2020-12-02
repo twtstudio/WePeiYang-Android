@@ -26,6 +26,7 @@ val ecardFullInfoCache = Cache.hawk<ECardFullInfo>(ecardCacheKey)
 
 object LiveEcardManager {
 
+    //这是在绑定生命周期？没看懂
     private val eCardFullInfoLiveData = object : MutableLiveData<RefreshState<ECardFullInfo>>() {
         override fun onActive() {
             super.onActive()

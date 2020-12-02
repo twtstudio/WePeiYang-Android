@@ -133,7 +133,7 @@ fun <V : Any> RefreshableLiveData.Companion.use(local: Cache<V>, remote: Cache<V
 
             override fun refresh(vararg indicators: CacheIndicator, callback: suspend (RefreshState<CacheIndicator>) -> Unit) {
                 if (running?.isActive == true) return
-                running = GlobalScope.launch(Dispatchers.Main) {
+                running = GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
 
                     callback(RefreshState.Refreshing())
 

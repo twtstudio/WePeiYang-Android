@@ -3,7 +3,6 @@ package com.twt.service.announcement.ui.detail
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.AlertDialog
-import android.app.ProgressDialog
 import android.content.ContentUris
 import android.content.Intent
 import android.content.pm.ActivityInfo
@@ -23,11 +22,9 @@ import android.view.KeyEvent
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.Toast
+import android.widget.*
 import com.githang.statusbar.StatusBarCompat
+import com.ms.square.android.expandabletextview.ExpandableTextView
 import com.twt.service.announcement.R
 import com.twt.service.announcement.service.AnnoPreference
 import com.twt.service.announcement.service.AnnoService
@@ -46,7 +43,6 @@ import com.zhihu.matisse.Matisse
 import com.zhihu.matisse.MimeType
 import com.zhihu.matisse.engine.impl.GlideEngine
 import es.dmoral.toasty.Toasty
-import jp.wasabeef.recyclerview.animators.SlideInDownAnimator
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -56,14 +52,18 @@ import okhttp3.RequestBody
 import pub.devrel.easypermissions.EasyPermissions
 import java.io.*
 
-class AskQuestionActivity : AppCompatActivity(),LoadingDialogManager {
+class AskQuestionActivity : AppCompatActivity(), LoadingDialogManager {
+
+    override val loadingDialog by lazy { LoadingDialog(this) }
 
     //输入的标题和问题内容
-    private var idd: Int = 0
     private lateinit var title: EditText
     private lateinit var detail: EditText
+
     private lateinit var releasePicAdapter: ReleasePicAdapter
-    private lateinit var progressDialog: ProgressDialog
+
+    private lateinit var departmentDescription: ExpandableTextView
+
     private lateinit var picRecyclerView: RecyclerView // 添加多图的recycler
     private val picRecyclerViewManager = LinearLayoutManager(this)
     private var selectPicList = mutableListOf<Any>() //选择上传的图片
@@ -73,11 +73,18 @@ class AskQuestionActivity : AppCompatActivity(),LoadingDialogManager {
     private val pathTags by lazy { ItemManager() }
     private val listTags by lazy { ItemManager() }
     private val firstItem by lazy { TagBottomItem("天津大学", 0) {} }
-    private lateinit var publishButton:Button
+    private var selectedTagId = -1        //选择的tag的ID
+    private var selectedIndex = -1       //选择的tag的Index
+    private val tagList = mutableListOf<Tag>()
+    private var selectedCampus = 0
+    private lateinit var selectedCampusGroup:RadioGroup
+    private lateinit var selectedCampus1Button:RadioButton
+    private lateinit var selectedCampus2Button:RadioButton
+    private lateinit var publishButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
         setContentView(R.layout.activity_ask_question_activity)
 
         StatusBarCompat.setStatusBarColor(this, ContextCompat.getColor(this, R.color.colorPrimary), false)
@@ -85,9 +92,25 @@ class AskQuestionActivity : AppCompatActivity(),LoadingDialogManager {
         findViewById<ImageView>(R.id.anno_back).setOnClickListener {
             showExitDialog()
         }
+
+        selectedCampusGroup = findViewById(R.id.radio_campus)
+        selectedCampus1Button = findViewById(R.id.radio_Weijinlu)
+        selectedCampus2Button = findViewById(R.id.radio_Beiyangyuan)
+        selectedCampusGroup.setOnCheckedChangeListener{_,checkedId ->
+        when(checkedId){
+            R.id.radio_Weijinlu ->{
+                selectedCampus = 1
+            }
+            R.id.radio_Beiyangyuan ->{
+                selectedCampus = 2
+                Log.d("yankaqiu",selectedCampus.toString())
+            }
+        }
+    }
         title = findViewById(R.id.edit_title)
         detail = findViewById(R.id.edit_content)
-
+        departmentDescription = findViewById(R.id.expand_text_view)
+        departmentDescription.setText("部门介绍")
         detail.apply {
             setOnEditorActionListener { _, actionId, event ->
                 var flag = true
@@ -101,7 +124,9 @@ class AskQuestionActivity : AppCompatActivity(),LoadingDialogManager {
             }
         }
         initRecyclerView()
+
         initTagTree()
+
         selectPicList.add(noSelectPic) // supply a null list
         releasePicAdapter = ReleasePicAdapter(selectPicList, this, this)
 
@@ -113,12 +138,26 @@ class AskQuestionActivity : AppCompatActivity(),LoadingDialogManager {
             }
         }
 
-        publishButton=findViewById<Button>(R.id.anno_release_button).apply {
+        publishButton = findViewById<Button>(R.id.anno_release_button).apply {
             this.setOnClickListener {
                 //点击button时显示progressDialog
                 isEnabled = false
-                showLoadingDialog(this@AskQuestionActivity)
-                onClick()
+                if (selectedTagId != -1) {
+                    if (title.text.isNotEmpty() && detail.text.isNotEmpty()) {
+                        confirmAgain {
+                            showLoadingDialog(this@AskQuestionActivity)
+                            onClick()
+                        }
+                    } else if (title.text.isEmpty() && detail.text.isNotEmpty()) {
+                        showDialog("请为问题添加标题")
+                    } else if (detail.text.isEmpty() && title.text.isNotEmpty()) {
+                        showDialog("请为问题添加描述")
+                    } else {
+                        showDialog("请为问题添加标题和描述")
+                    }
+                } else {
+                    showDialog("请在分类栏至少选择一个标签！\n 如不确定问题所属标签，或没找到您问题所属的标签，请选择\" 其他\" ")
+                }
                 //hideLoadingDialog()
             }
         }
@@ -126,22 +165,17 @@ class AskQuestionActivity : AppCompatActivity(),LoadingDialogManager {
     }
 
 
+    private fun showDialog(text: String) {
+        AlertDialog.Builder(this)
+                .setTitle("温馨提示")
+                .setMessage(text)
+                .setPositiveButton("好的") { dialog, _ ->
+                    dialog?.dismiss()
+                }.show()
+        publishButton.isEnabled = true
+    }
+
     private fun initRecyclerView() {
-        tagPathRecyclerView = findViewById<RecyclerView>(R.id.path_rec2).apply {
-            layoutManager = MyLinearLayoutManager(context).apply {
-                orientation = LinearLayoutManager.HORIZONTAL
-            }
-            adapter = ItemAdapter(pathTags)
-            itemAnimator = SlideInDownAnimator()
-            itemAnimator?.let {
-                it.addDuration = 300
-                it.removeDuration = 800
-                it.changeDuration = 300
-                it.moveDuration = 500
-            }
-
-        }
-
         tagListRecyclerView = findViewById<RecyclerView>(R.id.detail_rec2).apply {
             layoutManager = MyLinearLayoutManager(context).apply {
                 orientation = LinearLayoutManager.HORIZONTAL
@@ -149,30 +183,24 @@ class AskQuestionActivity : AppCompatActivity(),LoadingDialogManager {
             adapter = ItemAdapter(listTags).also {
                 it.setHasStableIds(true)
             }
-            itemAnimator = SlideInDownAnimator()
-            itemAnimator?.let {
-                it.addDuration = 300
-                it.removeDuration = 800
-                it.moveDuration = 300
-                it.changeDuration = 500
-            }
         }
     }
+
 
     private fun initTagTree() {
         GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
             AnnoService.getTagTree().awaitAndHandle {
-//                it.printStackTrace()
+                it.printStackTrace()
                 Toast.makeText(this@AskQuestionActivity, "出了点问题", Toast.LENGTH_SHORT).show()
             }?.data?.let {
                 pathTags.clear()
                 pathTags.add(firstItem)
                 Log.d("tag_tree", it.toString())
-                bindTagPathWithDetailTag(it)
+                tagList.addAll(it[0].children)
+                listTags.refreshAll(bindTagPathWithDetailTag(it[0].children))
             }
         }
     }
-
 
     private fun AskQuestion(detailTitle: String, description: String) {
         title.setText(detailTitle)
@@ -220,14 +248,22 @@ class AskQuestionActivity : AppCompatActivity(),LoadingDialogManager {
                 //添加带图片的问题
                 AnnoPreference.myId?.let { id ->
                     GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
-                        AnnoService.addQuestion(mapOf("user_id" to id, "name" to titleString, "description" to detailString, "tagList" to listOf<Int>(idd))).awaitAndHandle {
+                        AnnoService.addQuestion(mapOf("user_id" to id, "name" to titleString, "description" to detailString, "tagList" to listOf<Int>(selectedTagId),"campus" to selectedCampus)).awaitAndHandle {
                             hideLoadingDialog()
                             failCallBack("上传失败")
-                        }?.data?.let {
-                            addPicture(id, pics, it.question_id)
-                        //判断拿到数据后，不显示dialog（hide)
-                            hideLoadingDialog()
-                            successCallBack()
+                            Log.d("addQuestion error:", it.message)
+                        }?.let {
+                            if (it.ErrorCode == 0) {
+                                it.data?.question_id?.let {
+                                    addPicture(id, pics, it)
+                                    //判断拿到数据后，不显示dialog（hide)
+                                    hideLoadingDialog()
+                                    successCallBack()
+                                }
+                            } else {
+                                hideLoadingDialog()
+                                failCallBack("上传失败")
+                            }
                         }
                     }
                 }
@@ -235,13 +271,17 @@ class AskQuestionActivity : AppCompatActivity(),LoadingDialogManager {
                 //添加不带图片的问题
                 AnnoPreference.myId?.let { id ->
                     GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
-                        AnnoService.addQuestion(mapOf("user_id" to id, "name" to titleString, "description" to detailString, "tagList" to listOf<Int>(idd))).awaitAndHandle {
+                        AnnoService.addQuestion(mapOf("user_id" to id, "name" to titleString, "description" to detailString, "tagList" to listOf<Int>(selectedTagId),"campus" to selectedCampus)).awaitAndHandle {
                             hideLoadingDialog()
                             failCallBack("上传失败")
+                            Log.d("addQuestion error:", it.message)
                         }?.let {
-                           if (it.ErrorCode == 0) {
-                               hideLoadingDialog()
+                            if (it.ErrorCode == 0) {
+                                hideLoadingDialog()
                                 successCallBack()
+                            } else {
+                                hideLoadingDialog()
+                                failCallBack("上传失败")
                             }
                             //判断拿到数据后，不显示dialog（hide)
                         }
@@ -251,6 +291,20 @@ class AskQuestionActivity : AppCompatActivity(),LoadingDialogManager {
         } catch (e: IOException) {
             e.printStackTrace()
         }
+    }
+
+    private fun confirmAgain(todo: () -> Unit) {
+        AlertDialog.Builder(this)
+                .setTitle("再次确认是否提交")
+                .setPositiveButton("好的") { dialog, _ ->
+                    dialog?.dismiss()
+                    todo.invoke()
+                }
+                .setNegativeButton("再看看") { dialog, _ ->
+                    dialog?.dismiss()
+                    publishButton.isEnabled = true
+                }
+                .show()
     }
 
     suspend fun addPicture(userId: Int, picPaths: List<MultipartBody.Part>, quesId: Int): List<String> =
@@ -408,58 +462,63 @@ class AskQuestionActivity : AppCompatActivity(),LoadingDialogManager {
         }
     }
 
+    //选校区的tag
+    private fun CampusTag(campusId:Int){
+
+    }
+
     //分类部分的tag
     private fun bindTagPathWithDetailTag(_data: List<Tag>): List<Item> =
             mutableListOf<Item>().apply {
                 val index = pathTags.itemListSnapshot.size
                 index.takeIf { it == 1 }?.apply {
-                    firstItem.onclick = {
-                        tagTree.get(index)?.let { listTags.refreshAll(it) }
-                        (0 until pathTags.itemListSnapshot.size - 1).forEach { _ ->
-                            pathTags.removeAt(pathTags.size - 1)
-                        }
-                    }
+                    tagTree[index]?.let { listTags.refreshAll(it) }
+                    tagListRecyclerView.visibility = View.VISIBLE
+
                 }
 
                 tagTree[index] = _data.map { child ->
-                    TagsDetailItem(child.name, child.id) {
-                        idd = child.id
-                        if (child.children.isNotEmpty()) {
-                            pathTags.add(TagBottomItem(child.name, index) {
-                                tagTree[index + 1]?.let {
-                                    listTags.refreshAll(it)
-                                }
-                                (0 until pathTags.itemListSnapshot.size - index - 1).forEach { _ ->
-                                    pathTags.removeAt(pathTags.size - 1)
-                                    Log.e("delete tag", "de")
-                                }
-                                tagListRecyclerView.visibility = View.VISIBLE
-
-                            })
-                            listTags.refreshAll(bindTagPathWithDetailTag(child.children))
-
+                    TagsDetailItem(child.name, child.id, child.id == selectedTagId) {
+                        if (selectedTagId == child.id) {
+                            selectedTagId = -1
                         } else {
-                            // 到最后一层标签后，打印当前路径或其他操作
-                            val path = pathTags.itemListSnapshot.map {
-                                (it as TagBottomItem).content
-                            }.toMutableList().apply {
-                                this.add(child.id.toString())
-                            }
-                            pathTags.add(TagBottomItem(child.name,index){
-                                tagTree[index + 1]?.let {
-                                    listTags.refreshAll(it)
-                                }
-                                (0 until pathTags.itemListSnapshot.size - index - 1).forEach { _ ->
-                                    pathTags.removeAt(pathTags.size - 1)
-                                }
-                                }
-                            )
-                            if((pathTags.itemListSnapshot[pathTags.size-2] as TagBottomItem).content==child.name)
-                                pathTags.removeAt(pathTags.itemListSnapshot.lastIndex)
-                            tagListRecyclerView.visibility= View.GONE
-                            Log.d("tag_path", path.toString())
+                            selectedTagId = child.id
 
                         }
+
+                            selectedIndex = tagList.indexOf(child)
+                            Log.d("tag_p", selectedIndex.toString())
+                            Log.d("tag_p", tagList[selectedIndex].name.toString())
+                            if(selectedIndex!=-1) {
+                                departmentDescription.setText(tagList[selectedIndex].tag_description)
+                            }
+
+
+                        listTags.removeAll(listTags)
+                        listTags.refreshAll(bindTagPathWithDetailTag(_data))
+//                             到最后一层标签后，打印当前路径或其他操作
+                        val path = pathTags.itemListSnapshot.map {
+                            (it as TagBottomItem).content
+                        }.toMutableList().apply {
+                            this.add(child.id.toString())
+
+                        }
+
+                        pathTags.add(TagBottomItem(child.name, index) {
+                            tagTree[index + 1]?.let {
+                                listTags.refreshAll(it)
+                            }
+                            (0 until pathTags.itemListSnapshot.size - index - 1).forEach { _ ->
+                                pathTags.removeAt(pathTags.size - 1)
+                            }
+                        }
+                        )
+                        if ((pathTags.itemListSnapshot[pathTags.size - 2] as TagBottomItem).content == child.name)
+                            pathTags.removeAt(pathTags.itemListSnapshot.lastIndex)
+//                            tagListRecyclerView.visibility = View.GONE
+                        Log.d("tag_path", path.toString())
+
+//                        }
 
                     }
                 }.also {
@@ -468,17 +527,15 @@ class AskQuestionActivity : AppCompatActivity(),LoadingDialogManager {
             }
 
     fun successCallBack() {
-        Toast.makeText(this,"上传成功",Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "上传成功", Toast.LENGTH_SHORT).show()
         finish()
     }
 
     fun failCallBack(message: String) {
-        if (progressDialog.isShowing) {
-            progressDialog.dismiss()
-        }
         Toasty.error(this, message, Toast.LENGTH_SHORT).show()
-        publishButton.isEnabled=true
+        publishButton.isEnabled = true
     }
+
 
     // 退出编辑发布或丢失页面的dialog
     private fun showExitDialog() = AlertDialog.Builder(this@AskQuestionActivity)
@@ -488,7 +545,4 @@ class AskQuestionActivity : AppCompatActivity(),LoadingDialogManager {
             .setNegativeButton("确定") { _, _ -> this@AskQuestionActivity.finish() }
             .create()
             .show()
-
-
-    override val loadingDialog by lazy { LoadingDialog(this) }
 }

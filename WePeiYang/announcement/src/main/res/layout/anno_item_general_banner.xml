@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="200dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!--    <ImageView-->
+    <!--        android:id="@+id/anno_banner_item"-->
+    <!--        android:src="@drawable/anno_banner_item"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="160dp"-->
+    <!--        android:paddingBottom="24dp"-->
+    <!--        android:paddingEnd="12dp"-->
+    <!--        android:paddingStart="36dp"-->
+    <!--        android:paddingTop="10dp"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        android:contentDescription="@null" />-->
+
+    <FrameLayout
+        android:id="@+id/anno_fl_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_height="200dp" />
+
+</android.support.constraint.ConstraintLayout>
