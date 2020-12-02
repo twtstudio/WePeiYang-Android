@@ -41,6 +41,7 @@ object SpiderCookieManager {
     suspend fun getClientBuilder(): OkHttpClient.Builder {
         printCookie("getClientBuilder")
         // 曾经成功登录办公网，账户密码依然可以继续使用
+        //cookieStore.cookies会在获取cookies时去掉过期cookie，如果有过期cookie会将登录状态设置为已过期
         if (cookieStore.cookies.isNotEmpty()) {
             Log.d("SpiderCookieApi", "has cookies")
             // 如果有cookie过期就重新登录

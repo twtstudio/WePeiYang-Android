@@ -92,7 +92,7 @@ object SpiderTjuApi {
         var requestLogin = Request.Builder().url(LOGIN_URL)
                 .post(requestBody).build()
 
-        val response = SpiderCookieManager.clientBuilder
+        val response = SpiderCookieManager.getClientBuilder()
 //                .followRedirects(false) // 禁用自动重定向
                 .build().newCall(requestLogin).execute()
         return response.code()
