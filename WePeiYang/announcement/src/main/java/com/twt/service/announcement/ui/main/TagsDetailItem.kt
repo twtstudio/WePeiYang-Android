@@ -33,6 +33,7 @@ class TagsDetailItem(val content: String, val id: Int, var state: Boolean, val o
             holder as ViewHolder
             item as TagsDetailItem
             holder.apply {
+                setIsRecyclable(false)
                 if (item.state) {
                     cardView.backgroundColorResource = R.color.colorPrimary
                     textView.textColorResource = R.color.white_color
