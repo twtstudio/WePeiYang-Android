@@ -47,9 +47,9 @@ import java.net.URLDecoder
 
 class AnnoActivity : AppCompatActivity() {
     private lateinit var annoViewModel: AnnoViewModel
-    private val tagTree by lazy { mutableMapOf<Int, List<Item>>() }
+    private val tagTree = mutableMapOf<Int, List<Item>>()
     private val pathTags by lazy { ItemManager() }
-    private val listTags by lazy { ItemManager() }
+    private val listTags = ItemManager()
     private val quesRecController by lazy { ItemManager() }
     private val firstItem by lazy { TagBottomItem("天津大学", 0) {} }
 
@@ -124,22 +124,6 @@ class AnnoActivity : AppCompatActivity() {
     }
 
     private fun initRecyclerView() {
-        //对应tagTree路径的rec
-//        tagPathRecyclerView = findViewById<RecyclerView>(R.id.path_rec).apply {
-//            layoutManager = MyLinearLayoutManager(context).apply {
-//                orientation = LinearLayoutManager.HORIZONTAL
-//            }
-//            adapter = ItemAdapter(pathTags)
-//            itemAnimator = SlideInDownAnimator()
-//            itemAnimator?.let {
-//                it.addDuration = 300
-//                it.removeDuration = 800
-//                it.changeDuration = 300
-//                it.moveDuration = 500
-//            }
-//
-//        }
-
         //点击了某个tag后显示它对应的所有子tag
         tagListRecyclerView = findViewById<RecyclerView>(R.id.detail_rec).apply {
             layoutManager = MyLinearLayoutManager(context).apply {
@@ -148,6 +132,7 @@ class AnnoActivity : AppCompatActivity() {
             adapter = ItemAdapter(listTags).also {
                 it.setHasStableIds(true)
             }
+            setItemViewCacheSize(128)
             itemAnimator = SlideInDownAnimator()
             itemAnimator?.let {
                 it.addDuration = 300
@@ -362,89 +347,30 @@ class AnnoActivity : AppCompatActivity() {
     //将三个rec，通过LiveData等绑定在一起
     private fun bindTagPathWithDetailTag(_data: List<Tag>): List<Item> =
             mutableListOf<Item>().apply {
-
-//                tagListRecyclerView.visibility = View.VISIBLE
                 val index = pathTags.itemListSnapshot.size
-//
-//                if (index == 1) {
-//                    firstItem.onclick = {
-//                        tagTree.get(1)?.let { listTags.refreshAll(it) }
-//                        (0 until pathTags.itemListSnapshot.size - 1).forEach { _ ->
-//                            pathTags.removeAt(pathTags.size - 1)
-//                        }
-//                        tagListRecyclerView.visibility = View.VISIBLE
-//                        getAllQuestions()
-//                    }
-//                }
-
                 tagTree[index] = _data.map { child ->
                     TagsDetailItem(child.name, child.id, selectedTagIdList.contains(child.id)) {
                         if (child.children.isNotEmpty()) {
-//                            pathTags.add(TagBottomItem(child.name, index) {
-//                                tagTree[index + 1]?.let {
-//                                    listTags.refreshAll(it)
-//                                }
-//
-//
-//
-//                                //改了个bug
-//                                annoViewModel.searchQuestion(child.id)
-//                                (0 until pathTags.itemListSnapshot.size - index - 1).forEach { _ ->
-//                                    pathTags.removeAt(pathTags.size - 1)
-//                                    Log.d("delete tag", "de")
-//                                }
-//                                tagListRecyclerView.visibility = View.VISIBLE
-//                                closeFloatingMenu()
-//                            })
-
                             try {
                                 if ((pathTags.itemListSnapshot[pathTags.size - 2] as TagBottomItem).content == child.name)
                                     pathTags.removeAt(pathTags.itemListSnapshot.lastIndex)
                             } catch (e: Exception) {
                                 // 越界
                             }
-
-                            listTags.refreshAll(bindTagPathWithDetailTag(child.children))
                         } else {
-                            Log.d("tranced is debugging!!!", selectedTagIdList.toString())
 
                             if (selectedTagIdList.contains(child.id)) {
                                 selectedTagIdList.remove(child.id)
                             } else {
                                 selectedTagIdList.add(child.id)
                             }
-                            // 到最后一层标签后，打印当前路径或其他操作
-//                            val path = pathTags.itemListSnapshot.map {
-//                                (it as TagBottomItem).content
-//                            }.toMutableList().apply {
-//                                this.add(child.name + ":" + child.id.toString())
-//                            }
-
-//                            pathTags.add(TagBottomItem(child.name, index) {
-//                                tagTree[index + 1]?.let {
-//                                    listTags.refreshAll(it)
-//                                }
-//                                (0 until pathTags.itemListSnapshot.size - index - 1).forEach { _ ->
-//                                    pathTags.removeAt(pathTags.size - 1)
-//                                }
-//                            }
-//                            )
-                            try {
-                                if ((pathTags.itemListSnapshot[pathTags.size - 2] as TagBottomItem).content == child.name)
-                                    pathTags.removeAt(pathTags.itemListSnapshot.lastIndex)
-                            } catch (e: Exception) {
-                                // 越界
-                            }
-//                            tagListRecyclerView.visibility = View.GONE
-
-//                            Log.e("tag_path", path.toString())
                         }
-
-
                         closeFloatingMenu()
                         annoViewModel.searchQuestion(child.id)
                     }
                 }.also {
+                    for (item in it) {
+                    }
                     addAll(it)
                 }
             }
