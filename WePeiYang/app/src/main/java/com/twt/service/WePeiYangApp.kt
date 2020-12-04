@@ -14,6 +14,7 @@ import com.tencent.mta.track.StatisticsDataAPI
 import com.tencent.stat.StatService
 import com.twt.service.push.DebugProxyService
 import com.twt.service.schedule2.view.theme.ScheduleTheme
+import com.twt.service.settings.PrivacyActivity
 import com.twt.service.settings.SingleBindActivity
 import com.twt.service.tjunet.reconnect.ReconnectJob
 import com.twt.service.welcome.WelcomeActivity
@@ -39,6 +40,7 @@ class WePeiYangApp : MultiDexApplication() {
             registerActivity("login", LoginActivity::class.java)
             registerActivity("welcome", WelcomeActivity::class.java)
             registerActivity("bind", SingleBindActivity::class.java)
+            registerActivity("privacy", PrivacyActivity::class.java)
         }
 
         StatService.registerActivityLifecycleCallbacks(this)
