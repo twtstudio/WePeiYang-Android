@@ -78,7 +78,8 @@ class QuestionItem(val context: Context,
                         }
                     }
 
-                    userName.text = ques.username
+//                    userName.text = ques.username
+                    userName.text = "匿名"
                     userName.paint.isFakeBoldText = true
                     createTime.text = ques.created_at
                             .split("T", ".")

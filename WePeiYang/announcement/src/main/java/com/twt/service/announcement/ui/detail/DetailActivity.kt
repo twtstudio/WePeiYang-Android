@@ -103,7 +103,7 @@ class DetailActivity : AppCompatActivity() {
                     }
                 }
                 commentList.forEach {
-                    addDetailCommentItem(it.id, it.username, it.contain, it.created_at, false, it.likes) {
+                    addDetailCommentItem(it.id, "匿名"/*it.username*/, it.contain, it.created_at, false, it.likes) {
                         GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
                             Toasty.warning(context, "您点击了一下赞赞")
                         }

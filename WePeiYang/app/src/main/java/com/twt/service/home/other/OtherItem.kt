@@ -62,10 +62,10 @@ class OtherItem : Item {
                     it.context.startActivity<NewsActivity>()
                 }
 
-                addItem("黄页", "天大电话簿") {
-                    mtaClick("app_首页OtherItem黄页Item")
-                    it.context.startActivity<YellowPageActivity>()
-                }
+//                addItem("黄页", "天大电话簿") {
+//                    mtaClick("app_首页OtherItem黄页Item")
+//                    it.context.startActivity<YellowPageActivity>()
+//                }
 
 //                addItem("失物招领", "我的心丢了，你看到了吗？") {
 //                    mtaClick("app_首页OtherItem失物招领Item")

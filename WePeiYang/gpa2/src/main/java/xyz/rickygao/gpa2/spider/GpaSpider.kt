@@ -111,7 +111,7 @@ object GpaSpider {
             "P" -> {
                 100.0
             }
-            "缓考" -> {
+            "--" -> {
                 DELAYED
             }
             "F" -> {

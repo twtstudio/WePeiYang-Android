@@ -126,7 +126,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:padding="5dp"
-        android:text="点击登录默认您同意隐私政策"
+        android:text="点击登录默认您同意隐私政策（点击查看）"
         android:textColor="@color/colorAccent"
         app:layout_constraintLeft_toLeftOf="@id/btn_login"
         app:layout_constraintRight_toRightOf="@id/btn_login"

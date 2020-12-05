@@ -45,7 +45,8 @@ class DetailCommentItem(
             holder as DetailCommentItemViewHolder
             item as DetailCommentItem
             holder.apply {
-                nameTv.text = item.name
+//                nameTv.text = item.name
+                nameTv.text = "匿名"
                 contentTv.apply {
                     text = item.content
                     setOnClickListener {

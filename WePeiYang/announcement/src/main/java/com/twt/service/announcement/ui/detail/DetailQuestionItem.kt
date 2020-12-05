@@ -71,7 +71,8 @@ class DetailQuestionItem(
                             else
                                 it
                         }
-                nameTv.text = item.question.username
+//                nameTv.text = item.question.username
+                nameTv.text = "匿名"
                 nameTv.maxEms = 10
                 statusTv.text = when (item.question.solved) {
                     0 -> {

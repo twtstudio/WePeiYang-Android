@@ -489,8 +489,9 @@ class AskQuestionActivity : AppCompatActivity(), LoadingDialogManager {
                             selectedIndex = tagList.indexOf(child)
                             Log.d("tag_p", selectedIndex.toString())
                             Log.d("tag_p", tagList[selectedIndex].name.toString())
+                            Log.d("tag_p", tagList[selectedIndex].description)
                             if(selectedIndex!=-1) {
-                                departmentDescription.setText(tagList[selectedIndex].tag_description)
+                                departmentDescription.setText(tagList[selectedIndex].description)
                             }
 
 
