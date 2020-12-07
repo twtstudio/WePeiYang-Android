@@ -77,9 +77,9 @@ class AskQuestionActivity : AppCompatActivity(), LoadingDialogManager {
     private var selectedIndex = -1       //选择的tag的Index
     private val tagList = mutableListOf<Tag>()
     private var selectedCampus = 0
-    private lateinit var selectedCampusGroup:RadioGroup
-    private lateinit var selectedCampus1Button:RadioButton
-    private lateinit var selectedCampus2Button:RadioButton
+    private lateinit var selectedCampusGroup: RadioGroup
+    private lateinit var selectedCampus1Button: RadioButton
+    private lateinit var selectedCampus2Button: RadioButton
     private lateinit var publishButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -96,17 +96,17 @@ class AskQuestionActivity : AppCompatActivity(), LoadingDialogManager {
         selectedCampusGroup = findViewById(R.id.radio_campus)
         selectedCampus1Button = findViewById(R.id.radio_Weijinlu)
         selectedCampus2Button = findViewById(R.id.radio_Beiyangyuan)
-        selectedCampusGroup.setOnCheckedChangeListener{_,checkedId ->
-        when(checkedId){
-            R.id.radio_Weijinlu ->{
-                selectedCampus = 1
-            }
-            R.id.radio_Beiyangyuan ->{
-                selectedCampus = 2
-                Log.d("yankaqiu",selectedCampus.toString())
+        selectedCampusGroup.setOnCheckedChangeListener { _, checkedId ->
+            when (checkedId) {
+                R.id.radio_Weijinlu -> {
+                    selectedCampus = 1
+                }
+                R.id.radio_Beiyangyuan -> {
+                    selectedCampus = 2
+                    Log.d("yankaqiu", selectedCampus.toString())
+                }
             }
         }
-    }
         title = findViewById(R.id.edit_title)
         detail = findViewById(R.id.edit_content)
         departmentDescription = findViewById(R.id.expand_text_view)
@@ -248,7 +248,7 @@ class AskQuestionActivity : AppCompatActivity(), LoadingDialogManager {
                 //添加带图片的问题
                 AnnoPreference.myId?.let { id ->
                     GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
-                        AnnoService.addQuestion(mapOf("user_id" to id, "name" to titleString, "description" to detailString, "tagList" to listOf<Int>(selectedTagId),"campus" to selectedCampus)).awaitAndHandle {
+                        AnnoService.addQuestion(mapOf("user_id" to id, "name" to titleString, "description" to detailString, "tagList" to listOf<Int>(selectedTagId), "campus" to selectedCampus)).awaitAndHandle {
                             hideLoadingDialog()
                             failCallBack("上传失败")
                             Log.d("addQuestion error:", it.message)
@@ -271,7 +271,7 @@ class AskQuestionActivity : AppCompatActivity(), LoadingDialogManager {
                 //添加不带图片的问题
                 AnnoPreference.myId?.let { id ->
                     GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
-                        AnnoService.addQuestion(mapOf("user_id" to id, "name" to titleString, "description" to detailString, "tagList" to listOf<Int>(selectedTagId),"campus" to selectedCampus)).awaitAndHandle {
+                        AnnoService.addQuestion(mapOf("user_id" to id, "name" to titleString, "description" to detailString, "tagList" to listOf<Int>(selectedTagId), "campus" to selectedCampus)).awaitAndHandle {
                             hideLoadingDialog()
                             failCallBack("上传失败")
                             Log.d("addQuestion error:", it.message)
@@ -463,7 +463,7 @@ class AskQuestionActivity : AppCompatActivity(), LoadingDialogManager {
     }
 
     //选校区的tag
-    private fun CampusTag(campusId:Int){
+    private fun CampusTag(campusId: Int) {
 
     }
 
@@ -479,20 +479,21 @@ class AskQuestionActivity : AppCompatActivity(), LoadingDialogManager {
 
                 tagTree[index] = _data.map { child ->
                     TagsDetailItem(child.name, child.id, child.id == selectedTagId) {
-                        if (selectedTagId == child.id) {
-                            selectedTagId = -1
+                        selectedTagId = if (selectedTagId == child.id) {
+                            -1
                         } else {
-                            selectedTagId = child.id
-
+                            child.id
                         }
 
-                            selectedIndex = tagList.indexOf(child)
-                            Log.d("tag_p", selectedIndex.toString())
-                            Log.d("tag_p", tagList[selectedIndex].name.toString())
-                            Log.d("tag_p", tagList[selectedIndex].description)
-                            if(selectedIndex!=-1) {
-                                departmentDescription.setText(tagList[selectedIndex].description)
-                            }
+                        selectedIndex = tagList.indexOf(child)
+//                        Log.d("tag_p", selectedIndex.toString())
+//                        Log.d("tag_p", tagList[selectedIndex].name.toString())
+//
+                        if (selectedIndex != -1 && !tagList[selectedIndex].tag_description.isNullOrEmpty()) {
+                            departmentDescription.text = tagList[selectedIndex].tag_description
+                        } else {
+                            departmentDescription.text = "暂无部门介绍"
+                        }
 
 
                         listTags.removeAll(listTags)

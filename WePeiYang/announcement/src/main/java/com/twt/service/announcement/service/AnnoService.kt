@@ -179,7 +179,7 @@ data class UserData(
 data class Tag(
         val id: Int,
         val name: String,
-        val description: String,
+        val tag_description: String?,
         val children: List<Tag>
 ) : Serializable
 

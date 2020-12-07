@@ -120,16 +120,31 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/et_password" />
 
+    <CheckBox
+        android:id="@+id/privacy_check"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="0dp"
+        android:theme="@style/My_CheckBox"
+        android:checked="true"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/tv_privacy"
+        app:layout_constraintTop_toTopOf="@id/tv_privacy">
+
+    </CheckBox>
+
     <TextView
         android:id="@+id/tv_privacy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
         android:padding="5dp"
         android:text="点击登录默认您同意隐私政策（点击查看）"
         android:textColor="@color/colorAccent"
-        app:layout_constraintLeft_toLeftOf="@id/btn_login"
-        app:layout_constraintRight_toRightOf="@id/btn_login"
+        app:layout_constraintLeft_toRightOf="@id/privacy_check"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btn_login" />
 
     <ProgressBar
