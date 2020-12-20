@@ -44,7 +44,6 @@ android:layout_height="wrap_content">
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:ellipsize="end"
-            android:maxLines="3"
             android:minLines="1"
             android:text="我觉得这是好的，并且没有任何坏处"
             android:textSize="12sp"

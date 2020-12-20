@@ -77,11 +77,11 @@ class DetailQuestionItem(
                 statusTv.text = when (item.question.solved) {
                     0 -> {
                         statusTv.setTextColor(Color.RED)
-                        "未反馈"
+                        "未回复"
                     }
                     else -> {
                         statusTv.setTextColor(Color.GREEN)
-                        "已反馈"
+                        "已回复"
                     }
                 }
                 statusTv.setTextColor(

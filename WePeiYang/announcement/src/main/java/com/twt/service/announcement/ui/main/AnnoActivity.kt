@@ -373,8 +373,11 @@ class AnnoActivity : AppCompatActivity() {
                         annoViewModel.searchQuestion(child.id)
                     }
                 }.also {
-                    for (item in it) {
+                    var str = ""
+                    for (tag in it){
+                        str += tag.content + "---"
                     }
+                    Log.d("tagdetaillist",str)
                     addAll(it)
                 }
             }

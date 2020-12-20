@@ -53,30 +53,34 @@
                 app:layout_constraintLeft_toRightOf="@id/annoDetailReplyName"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <RatingBar
-                android:id="@+id/annoDetailReplyRatingBar"
-                style="?attr/ratingBarStyleSmall"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:id="@+id/ratingbar_layout"
+                android:gravity="center_vertical"
                 android:layout_marginTop="5dp"
                 app:layout_constraintLeft_toLeftOf="@id/annoDetailReplyName"
-                app:layout_constraintTop_toBottomOf="@id/annoDetailReplyOfficialLogo" />
+                app:layout_constraintTop_toBottomOf="@id/annoDetailReplyOfficialLogo">
+                <RatingBar
+                    android:id="@+id/annoDetailReplyRatingBar"
+                    style="?attr/ratingBarStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
 
-            <TextView
-                android:id="@+id/annoDetailReplyRatingLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:textSize="12sp"
-                app:layout_constraintBottom_toBottomOf="@id/annoDetailReplyRatingBar"
-                app:layout_constraintLeft_toRightOf="@id/annoDetailReplyRatingBar"
-                app:layout_constraintTop_toTopOf="@id/annoDetailReplyRatingBar" />
-
+                <TextView
+                    android:id="@+id/annoDetailReplyRatingLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:textSize="10sp"
+                    tools:text="测试"
+                    />
+            </LinearLayout>
             <TextView
                 android:id="@+id/annoDetailReplyContent"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:ellipsize="end"
                 android:maxLines="3"
                 android:minLines="1"
@@ -84,7 +88,7 @@
                 android:textSize="12sp"
                 app:layout_constraintLeft_toLeftOf="@id/annoDetailReplyName"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/annoDetailReplyRatingBar" />
+                app:layout_constraintTop_toBottomOf="@id/ratingbar_layout" />
 
             <TextView
                 android:id="@+id/annoDetailReplyTime"

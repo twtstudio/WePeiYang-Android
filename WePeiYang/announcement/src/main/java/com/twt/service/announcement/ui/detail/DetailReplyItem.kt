@@ -1,6 +1,7 @@
 package com.twt.service.announcement.ui.detail
 
 import android.annotation.SuppressLint
+import android.graphics.Color
 import android.support.v7.widget.RecyclerView
 import android.text.Html
 import android.view.LayoutInflater
@@ -20,6 +21,7 @@ import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import org.jetbrains.anko.backgroundColor
 import org.jetbrains.anko.sdk27.coroutines.onClick
 
 /**
@@ -117,8 +119,10 @@ class DetailReplyItem(
                     }
                 }
                 if (item.reply.score == -1) {
+//                    ratingBar.visibility = View.GONE
+//                    ratingLabelTv.visibility = View.GONE
                     ratingBar.visibility = View.GONE
-                    ratingLabelTv.visibility = View.GONE
+                    ratingLabelTv.text = "未评分"
                 } else {
                     ratingBar.rating = item.reply.score.toFloat() / 2f
                     ratingLabelTv.text = "${item.reply.score}分"
