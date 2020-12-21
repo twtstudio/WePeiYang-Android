@@ -65,6 +65,7 @@ class AnnoActivity : AppCompatActivity() {
     private lateinit var quesRecManager: LinearLayoutManager
     private var user_id = 0
     private var canRefresh = true
+    private var currentTagId = 0
 
     private val selectedTagIdList = mutableListOf<Int>()
 
@@ -118,7 +119,7 @@ class AnnoActivity : AppCompatActivity() {
                     quesRecController.clear()
                     appBar.setExpanded(true)
                     initTagTree()
-                    getAllQuestions()
+                    annoViewModel.searchQuestion(currentTagId)
 //                closeFloatingMenu()
                 }
             }.invokeOnCompletion {
@@ -370,6 +371,7 @@ class AnnoActivity : AppCompatActivity() {
                             }
                         }
                         closeFloatingMenu()
+                        currentTagId = child.id
                         annoViewModel.searchQuestion(child.id)
                     }
                 }.also {
