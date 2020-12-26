@@ -56,7 +56,7 @@ class ScheduleActivity : CAppCompatActivity() {
                         Toasty.success(this, "虽然从服务器拉取数据失败了，但是我们机智的为你保存了一份本地课表ʕ•ٹ•ʔ")
                     }
                     else -> {
-                        Toasty.error(this, it.throwable.message.toString()).show()
+                        Toasty.info(this, it.throwable.message.toString()).show()
                     }
                 }
             }

@@ -102,7 +102,7 @@ class GpaActivity : AppCompatActivity() {
 
                                 when (loginState) {
                                     is RefreshState.Failure -> {
-                                        Toasty.error(this(), loginState.throwable.message.toString()).show()
+                                        Toasty.info(this(), loginState.throwable.message.toString()).show()
                                     }
                                 }
                             }
