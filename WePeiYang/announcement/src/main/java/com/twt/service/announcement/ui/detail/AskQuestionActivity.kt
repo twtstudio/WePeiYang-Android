@@ -7,6 +7,7 @@ import android.content.ContentUris
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
+import android.content.res.ColorStateList
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
@@ -34,6 +35,7 @@ import com.twt.service.announcement.ui.activity.detail.noSelectPic
 import com.twt.service.announcement.ui.main.MyLinearLayoutManager
 import com.twt.service.announcement.ui.main.TagBottomItem
 import com.twt.service.announcement.ui.main.TagsDetailItem
+import com.twt.wepeiyang.commons.experimental.color.getColorCompat
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import com.twt.wepeiyang.commons.ui.rec.Item
@@ -77,9 +79,9 @@ class AskQuestionActivity : AppCompatActivity(), LoadingDialogManager {
     private var selectedIndex = -1       //选择的tag的Index
     private val tagList = mutableListOf<Tag>()
     private var selectedCampus = 0
-    private lateinit var selectedCampusGroup: RadioGroup
-    private lateinit var selectedCampus1Button: RadioButton
-    private lateinit var selectedCampus2Button: RadioButton
+    //    private lateinit var selectedCampusGroup: RadioGroup
+    private lateinit var selectedCampus1Button: CheckBox
+    private lateinit var selectedCampus2Button: CheckBox
     private lateinit var publishButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -93,20 +95,45 @@ class AskQuestionActivity : AppCompatActivity(), LoadingDialogManager {
             showExitDialog()
         }
 
-        selectedCampusGroup = findViewById(R.id.radio_campus)
+//        selectedCampusGroup = findViewById(R.id.radio_campus)
         selectedCampus1Button = findViewById(R.id.radio_Weijinlu)
         selectedCampus2Button = findViewById(R.id.radio_Beiyangyuan)
-        selectedCampusGroup.setOnCheckedChangeListener { _, checkedId ->
-            when (checkedId) {
-                R.id.radio_Weijinlu -> {
-                    selectedCampus = 1
-                }
-                R.id.radio_Beiyangyuan -> {
-                    selectedCampus = 2
-                    Log.d("yankaqiu", selectedCampus.toString())
+
+        val checkBoxList: List<CheckBox> = listOf(selectedCampus1Button, selectedCampus2Button)
+        checkBoxList.forEach {
+            it.apply {
+                buttonTintList = ColorStateList.valueOf(getColorCompat(R.color.colorPrimary))
+                setOnCheckedChangeListener { buttonView, isChecked ->
+                    if (isChecked) {
+                        if (it == selectedCampus1Button) {
+                            selectedCampus = 1
+                        } else if (it == selectedCampus2Button) {
+                            selectedCampus = 2
+                        }
+                        checkBoxList.forEach { it.isChecked = false }
+                        it.isChecked = true
+                    }
                 }
             }
         }
+
+//        selectedCampusGroup.setOnCheckedChangeListener { _, checkedId ->
+//            if(findViewById<RadioButton>(checkedId)==selectedCampus1Button && !selectedCampus1Button.isChecked){
+//                selectedCampus1Button.isChecked = false
+//            }
+//            else if(findViewById<RadioButton>(checkedId)==selectedCampus2Button && !selectedCampus2Button.isChecked){
+//                selectedCampus2Button.isChecked = false
+//            }
+//            when (checkedId) {
+//                R.id.radio_Weijinlu -> {
+//                    selectedCampus = 1
+//                }
+//                R.id.radio_Beiyangyuan -> {
+//                    selectedCampus = 2
+//                    Log.d("yankaqiu", selectedCampus.toString())
+//                }
+//            }
+//        }
         title = findViewById(R.id.edit_title)
         detail = findViewById(R.id.edit_content)
         departmentDescription = findViewById(R.id.expand_text_view)

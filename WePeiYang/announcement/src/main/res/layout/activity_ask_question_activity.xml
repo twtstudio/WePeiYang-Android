@@ -96,26 +96,42 @@
                 android:layout_weight="4"
                 android:background="@color/white_color"
                 android:orientation="horizontal">
-                <RadioGroup
-                    android:id="@+id/radio_campus"
+                <CheckBox
+                    android:id="@+id/radio_Weijinlu"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    >
-                    <RadioButton
-                        android:id="@+id/radio_Weijinlu"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="14sp"
-                        android:text="卫津路"/>
-                    <RadioButton
-                        android:id="@+id/radio_Beiyangyuan"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="14sp"
-                        android:text="北洋园"/>
-                </RadioGroup>
-<!--
+                    android:text="卫津路"/>
+
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/radio_Beiyangyuan"
+                    android:textSize="14sp"
+                    android:text="北洋园"/>
+<!--                <RadioGroup-->
+<!--                    android:id="@+id/radio_campus"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+
+<!--                    android:orientation="horizontal"-->
+<!--                    >-->
+<!--                    <RadioButton-->
+<!--                        android:id="@+id/radio_Weijinlu"-->
+
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:textSize="14sp"-->
+<!--                        android:text="卫津路"/>-->
+<!--                    <RadioButton-->
+<!--                        android:id="@+id/radio_Beiyangyuan"-->
+
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:textSize="14sp"-->
+<!--                        android:text="北洋园"/>-->
+<!--                </RadioGroup>-->
+<!--&lt;!&ndash;-->
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/campus_rec2"
                     android:layout_width="match_parent"
