@@ -36,7 +36,9 @@ class PersistentCookieStore(context: Context) : CookieStore {
                     //因为进入首页会自动使用爬虫爬取课表与gpa,所以会调用这部分代码,更新办公网登录状态,
                     //确保了 CommonPreferences.tjulogin 的实时性
                     Log.d("SpiderCookieApi", "cookie expired \n$cookie")
-                    CommonPreferences.tjulogin = false
+                    if (CommonPreferences.tjulogin != null) {
+                        CommonPreferences.tjulogin = false
+                    }
                     // Clear cookies from local store
                     cookies[key]!!.remove(name!!)
 
@@ -107,7 +109,9 @@ class PersistentCookieStore(context: Context) : CookieStore {
             for (cookie in cookies) {
                 if (cookie.isExpired()) {
                     Log.d("SpiderCookieApi", "cookie expired \n$cookie")
-                    CommonPreferences.tjulogin = false
+                    if (CommonPreferences.tjulogin != null) {
+                        CommonPreferences.tjulogin = false
+                    }
                     this.remove(hostKey, cookie)
                 } else {
                     result.add(cookie)

@@ -112,11 +112,6 @@ class HomeNewActivity : AppCompatActivity() {
                 mtaExpose("app_首页显示gpaItem")
             }
 
-            if (AppPreferences.isDisplaySchedule) {
-                homeScheduleItem(this@HomeNewActivity)
-                mtaExpose("app_首页显示scheduleItem")
-            }
-
             annoHomeItem()
             examTableHomeItem()
 //            ecardInfoItem()

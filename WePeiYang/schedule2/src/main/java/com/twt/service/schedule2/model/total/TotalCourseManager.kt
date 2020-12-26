@@ -18,6 +18,7 @@ import com.twt.wepeiyang.commons.experimental.cache.CacheIndicator
 import com.twt.wepeiyang.commons.experimental.cache.RefreshState
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
 import kotlinx.coroutines.*
+import xyz.rickygao.gpa2.spider.utils.SpiderCookieManager
 
 object TotalCourseManager {
 
@@ -127,8 +128,18 @@ object TotalCourseManager {
                 e.printStackTrace()
             }
 
-            refreshCallback.invoke(RefreshState.Success(CacheIndicator.REMOTE))
             mergedClassTableProvider.value = finalClasstableProvider
+            if (refreshTju) {
+                SpiderCookieManager.getLoginState {
+                    when (it) {
+                        is RefreshState.Failure -> {
+                            throw it.throwable
+                        }
+                    }
+                }
+            }
+
+            refreshCallback.invoke(RefreshState.Success(CacheIndicator.REMOTE))
         }.invokeOnCompletion {
             it?.printStackTrace()
             it?.apply {

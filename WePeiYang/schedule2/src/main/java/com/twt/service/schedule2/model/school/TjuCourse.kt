@@ -32,13 +32,7 @@ val tjuCourseCache = Cache.hawk<Classtable>(classtableCacheKey)
  * 强制刷新的时候 网络错误返回缓存 刷新成功则同时刷写缓存
  */
 suspend fun TjuCourseApi.Companion.refresh(mustRefresh: Boolean = false): Classtable {
-    SpiderCookieManager.getLoginState {
-        when (it) {
-            is RefreshState.Failure -> {
-                throw it.throwable
-            }
-        }
-    }
+
     val deferredClasstable = getScheduleAsync()
 //    val deferredClasstable = getClassTable()
     val handler: suspend (Throwable) -> Unit = { it.printStackTrace() }
