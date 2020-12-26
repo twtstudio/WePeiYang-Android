@@ -97,6 +97,7 @@ class TjuBindFragment2 : Fragment() {
             // 如果是已登录状态进行重登，默认切换账号，所以不填入
             numEdit.text = SpannableStringBuilder(CommonPreferences.tjuuname)
             passwordEdit.text = SpannableStringBuilder(CommonPreferences.tjupwd)
+            etCaptcha.requestFocus()
         }
 
 

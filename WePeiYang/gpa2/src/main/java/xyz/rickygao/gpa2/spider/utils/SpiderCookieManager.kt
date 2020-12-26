@@ -2,6 +2,7 @@ package xyz.rickygao.gpa2.spider.utils
 
 import android.util.Log
 import com.twt.wepeiyang.commons.experimental.CommonContext
+import com.twt.wepeiyang.commons.experimental.cache.RefreshState
 import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
 import es.dmoral.toasty.Toasty
 import kotlinx.coroutines.Dispatchers.Main
@@ -16,22 +17,13 @@ import okhttp3.logging.HttpLoggingInterceptor
  */
 object SpiderCookieManager {
 
-    //    const val DIALOG_ACTION = "gpa2.spider.utils.dialog"
     val cookieStore = PersistentCookieStore(CommonContext.application)
     private val cookieJar = CookieJarImpl(cookieStore)
-    val clientBuilder = OkHttpClient.Builder()
+    val clientBuilder: OkHttpClient.Builder = OkHttpClient.Builder()
             .cookieJar(cookieJar)
             .addNetworkInterceptor(HttpLoggingInterceptor()
                     .apply { level = HttpLoggingInterceptor.Level.BODY })
 
-//    private val localBroadcastManager: LocalBroadcastManager = LocalBroadcastManager.getInstance(CommonContext.application)
-
-//    init {
-//        val intentFilter = IntentFilter()
-//        intentFilter.addAction(DIALOG_ACTION)
-//        val localReceiver = TjuLoginDialogReceiver()
-//        localBroadcastManager.registerReceiver(localReceiver, intentFilter)
-//    }
 
     /**
      * 构造爬虫所需 OkHttpClient.Builder
@@ -40,59 +32,33 @@ object SpiderCookieManager {
      */
     suspend fun getClientBuilder(): OkHttpClient.Builder {
         printCookie("getClientBuilder")
-        // 曾经成功登录办公网，账户密码依然可以继续使用
-        //cookieStore.cookies会在获取cookies时去掉过期cookie，如果有过期cookie会将登录状态设置为已过期
-        if (cookieStore.cookies.isNotEmpty()) {
-            Log.d("SpiderCookieApi", "has cookies")
-            // 如果有cookie过期就重新登录
-            if (CommonPreferences.tjulogin == false) {
-                GlobalScope.launch(Main) {
-                    // 因为进入首页会自动爬取课表与gpa,所以改提示会连续出现两次
-                    // 虽然字很长,但因为连续出现两次,将时间设置为SHORT
-                    Toasty.info(CommonContext.application, "办公网登录已过期，更新课表、GPA等信息要先重新登录").show()
-
-                }
-
-                //有验证码 无法自动登录 只能用户手动登录
-//                        checkTjuValid(SpiderTjuLogin.login(CommonPreferences.tjuuname, CommonPreferences.tjupwd))
-            }
-            return clientBuilder
-        }
-
-        // 未曾成功登录过，需要登录
-        Log.d("SpiderCookieApi", "never login")
-        GlobalScope.launch(Main) {
-//            val intent = Intent(DIALOG_ACTION)
-//            localBroadcastManager.sendBroadcast(intent)
-//            CommonContext.application.sendBroadcast(intent)
-//            throw NotLoginException("尚未登录办公网")
-            Toasty.warning(CommonContext.application, "尚未登录办公网").show()
-        }
-//        printCookie()
         return clientBuilder
     }
 
-//    private fun checkTjuValid(valid: Boolean) {
-//        if (!valid) {
-//            CommonPreferences.tjuloginbind = false
-////            Toast.makeText(CommonContext.application,"办公网重新绑定（最近更换密码）",Toast.LENGTH_LONG).show()
-//            CommonContext.application.startActivity("bind") {
-//                // module app 中的com.twt.service.settings.SingleBindActivity
-//                val TJU_BIND = 0xfaee01
-//                val TYPE = "type"
-//                this.putExtra(TYPE, TJU_BIND)
-//                this.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
-//            }
-//        } else {
-//            CommonPreferences.tjuloginbind = true
-//        }
-//    }
+    suspend fun getLoginState(callback: suspend (RefreshState<Unit>) -> Unit) {
+        // 清除过期cookie，如果有过期的，会在clearExpired里将tjulogin设置为false
+        cookieStore.clearExpired()
+        when (CommonPreferences.tjulogin) {
+            false -> {
+                callback(RefreshState.Failure(RuntimeException("办公网登录已过期，使用本地缓存数据")))
+            }
+            true -> {
+                callback(RefreshState.Success(Unit))
+            }
+            else -> {
+                callback(RefreshState.Failure(RuntimeException("未登录办公网，使用本地缓存数据")))
+            }
+
+        }
+
+    }
+
 
     fun clearCookie() {
         cookieStore.removeAll()
     }
 
-    fun printCookie(tag: String) {
+    private fun printCookie(tag: String) {
         Log.d("SpiderCookieApi", "$tag=======================================")
 //        Log.d("SpiderCookieApi", cookieStore.cookies.toString())
         for (cookie in cookieStore.cookies) {
@@ -100,4 +66,3 @@ object SpiderCookieManager {
         }
     }
 }
-

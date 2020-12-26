@@ -5,12 +5,14 @@ import com.twt.service.schedule2.model.SchedulePref
 import com.twt.service.schedule2.spider.ScheduleSpider.getScheduleAsync
 import com.twt.service.schedule2.spider.ScheduleSpider.parseHtml
 import com.twt.wepeiyang.commons.experimental.cache.Cache
+import com.twt.wepeiyang.commons.experimental.cache.RefreshState
 import com.twt.wepeiyang.commons.experimental.cache.hawk
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import com.twt.wepeiyang.commons.experimental.network.CommonBody
 import com.twt.wepeiyang.commons.experimental.network.ServiceFactory
 import kotlinx.coroutines.*
 import retrofit2.http.GET
+import xyz.rickygao.gpa2.spider.utils.SpiderCookieManager
 
 interface TjuCourseApi {
 
@@ -30,6 +32,13 @@ val tjuCourseCache = Cache.hawk<Classtable>(classtableCacheKey)
  * 强制刷新的时候 网络错误返回缓存 刷新成功则同时刷写缓存
  */
 suspend fun TjuCourseApi.Companion.refresh(mustRefresh: Boolean = false): Classtable {
+    SpiderCookieManager.getLoginState {
+        when (it) {
+            is RefreshState.Failure -> {
+                throw it.throwable
+            }
+        }
+    }
     val deferredClasstable = getScheduleAsync()
 //    val deferredClasstable = getClassTable()
     val handler: suspend (Throwable) -> Unit = { it.printStackTrace() }

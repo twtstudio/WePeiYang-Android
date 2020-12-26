@@ -27,7 +27,8 @@ object TotalCourseManager {
     /**
      * 做一个内存缓存
      */
-    private val mergedClassTableProvider: MutableLiveData<MergedClassTableProvider> = object : MutableLiveData<MergedClassTableProvider>() {
+    private val mergedClassTableProvider: MutableLiveData<MergedClassTableProvider> =
+            object : MutableLiveData<MergedClassTableProvider>() {
         override fun onActive() {
             super.onActive()
             invalidate()
@@ -54,7 +55,7 @@ object TotalCourseManager {
             return mergedClassTableProvider
         }
 
-        GlobalScope.async(Dispatchers.Main) {
+        GlobalScope.async(Dispatchers.Main + QuietCoroutineExceptionHandler) {
 
             refreshCallback.invoke(RefreshState.Refreshing())
 
@@ -65,7 +66,7 @@ object TotalCourseManager {
 
             Log.d("testitemdisplaytime", "network process 1")
 
-            val tjuClassTableProvider: Deferred<AbsClasstableProvider> = async(Dispatchers.Default + QuietCoroutineExceptionHandler) {
+            val tjuClassTableProvider: Deferred<AbsClasstableProvider> = async(Dispatchers.Default) {
                 try {
                     val classTable = TjuCourseApi.refresh(refreshTju)
                     CommonClassTable(classTable)
@@ -76,11 +77,11 @@ object TotalCourseManager {
 
             val auditClasstableProvider: Deferred<AbsClasstableProvider> = async(Dispatchers.Default) {
                 if (refreshAudit) {
-                    try {
-                        AuditCourseManager.refreshAuditClasstable() // 这里在网络请求失败的时候会抛出一个异常 需要捕获一下
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                    }
+//                    try {
+                    AuditCourseManager.refreshAuditClasstable() // 这里在网络请求失败的时候会抛出一个异常 需要捕获一下
+//                    } catch (e: Exception) {
+//                        e.printStackTrace()
+//                    }
                 }
                 AuditCourseManager.getAuditClasstableProvider()
             }

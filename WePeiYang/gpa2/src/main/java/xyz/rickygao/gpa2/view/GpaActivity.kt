@@ -1,5 +1,6 @@
 package xyz.rickygao.gpa2.view
 
+import android.content.Context
 import android.graphics.Rect
 import android.os.Bundle
 import android.support.v4.widget.NestedScrollView
@@ -11,17 +12,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
 import com.twt.wepeiyang.commons.experimental.cache.CacheIndicator.REMOTE
+import com.twt.wepeiyang.commons.experimental.cache.RefreshState
 import com.twt.wepeiyang.commons.experimental.cache.simpleCallback
 import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
 import com.twt.wepeiyang.commons.experimental.extensions.enableLightStatusBarMode
 import com.twt.wepeiyang.commons.experimental.extensions.fitSystemWindowWithNavigationBar
 import com.twt.wepeiyang.commons.experimental.extensions.fitSystemWindowWithStatusBar
+import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
 import com.twt.wepeiyang.commons.mta.mtaClick
 import com.twt.wepeiyang.commons.mta.mtaExpose
+import es.dmoral.toasty.Toasty
+import org.jetbrains.anko.coroutines.experimental.asReference
 import xyz.rickygao.gpa2.R
 import xyz.rickygao.gpa2.service.GpaBean
 import xyz.rickygao.gpa2.service.GpaLiveData
 import xyz.rickygao.gpa2.service.Term
+import xyz.rickygao.gpa2.spider.utils.SpiderCookieManager
 
 /**
  * Created by rickygao on 2017/11/9.
@@ -85,6 +91,26 @@ class GpaActivity : AppCompatActivity() {
             field = realIndex
         }
 
+    fun Context.gpaCallback(success: String? = "加载成功", error: String? = "发生错误", refreshing: String? = "加载中"): suspend (RefreshState<*>) -> Unit =
+            with(this.asReference()) {
+                {
+                    when (it) {
+                        is RefreshState.Success -> if (success != null) Toasty.success(this(), success).show()
+                        is RefreshState.Failure -> {
+                            SpiderCookieManager.getLoginState { loginState ->
+                                if (error != null) Toasty.error(this(), "$error ${it.throwable.message}！${it.javaClass.name}").show()
+
+                                when (loginState) {
+                                    is RefreshState.Failure -> {
+                                        Toasty.error(this(), loginState.throwable.message.toString()).show()
+                                    }
+                                }
+                            }
+                        }
+                        is RefreshState.Refreshing -> if (refreshing != null) Toasty.normal(this(), "$refreshing...").show()
+                    }
+                }
+            }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -127,7 +153,9 @@ class GpaActivity : AppCompatActivity() {
         }
         refreshBtn = findViewById<ImageButton>(R.id.btn_refresh).apply {
             setOnClickListener {
-                GpaLiveData.refresh(REMOTE, callback = simpleCallback())
+//                GpaLiveData.refresh(REMOTE, callback = simpleCallback())
+                GpaLiveData.refresh(REMOTE, callback = gpaCallback())
+
             }
         }
 

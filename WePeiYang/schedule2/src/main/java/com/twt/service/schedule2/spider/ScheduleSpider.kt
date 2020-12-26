@@ -2,6 +2,7 @@ package com.twt.service.schedule2.spider
 
 import android.util.Log
 import com.twt.service.schedule2.model.*
+import com.twt.wepeiyang.commons.experimental.cache.RefreshState
 import xyz.rickygao.gpa2.spider.utils.*
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
 import kotlinx.coroutines.Deferred

@@ -27,14 +27,14 @@ class PersistentCookieStore(context: Context) : CookieStore {
     private var omitNonPersistentCookies = false
 
     /** 移除失效cookie  */
-    private fun clearExpired() {
+    fun clearExpired() {
         val prefsWriter = cookiePrefs.edit()
         for (key in cookies.keys) {
             var changeFlag = false
             for ((name, cookie) in cookies[key]!!) {
                 if (cookie.isExpired()) {
                     //因为进入首页会自动使用爬虫爬取课表与gpa,所以会调用这部分代码,更新办公网登录状态,
-                    //确保了 CommonPreferences.tjuloginbind 的实时性
+                    //确保了 CommonPreferences.tjulogin 的实时性
                     Log.d("SpiderCookieApi", "cookie expired \n$cookie")
                     CommonPreferences.tjulogin = false
                     // Clear cookies from local store
