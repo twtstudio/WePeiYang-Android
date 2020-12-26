@@ -15,6 +15,8 @@ import com.bumptech.glide.Glide
 import com.igexin.sdk.PushManager
 import com.twt.service.AppPreferences
 import com.twt.service.R
+import com.twt.service.announcement.ui.annoBannerItem
+import com.twt.service.announcement.ui.annoHomeItem
 import com.twt.service.ecard.model.LiveEcardManager
 import com.twt.service.home.message.*
 import com.twt.service.home.other.homeOthers
@@ -97,23 +99,36 @@ class HomeNewActivity : AppCompatActivity() {
                 homeMessageItem()
                 mtaExpose("app_首页显示messageItem")
             }
-            homeScheduleItem(this@HomeNewActivity)
+            annoBannerItem()
+
+            if (AppPreferences.isDisplaySchedule) {
+                homeScheduleItem(this@HomeNewActivity)
+                mtaExpose("app_首页显示scheduleItem")
+            }
+
+//            homeScheduleItem(this@HomeNewActivity)
             if (AppPreferences.isDisplayGpa) {
                 gpaNewHomeItem(this@HomeNewActivity)
                 mtaExpose("app_首页显示gpaItem")
             }
+
+            if (AppPreferences.isDisplaySchedule) {
+                homeScheduleItem(this@HomeNewActivity)
+                mtaExpose("app_首页显示scheduleItem")
+            }
+
+            annoHomeItem()
             examTableHomeItem()
 //            ecardInfoItem()
 //            ecardTransactionInfoItem()
 //            libraryHomeItem(this@HomeNewActivity)
-            homeTjuNetItem(this@HomeNewActivity)
+//            homeTjuNetItem(this@HomeNewActivity)
             homeOthers()
         }
 
         //TODO(这里后台数据返回的有问题，json无法解析)
         GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
             val messageBean = MessageService.getMessage().awaitAndHandle {
-
                 Log.d("testjsoncanconvert", it.message.toString())
             }
             val data = messageBean?.data
@@ -132,6 +147,7 @@ class HomeNewActivity : AppCompatActivity() {
                 }
             }
         }
+
         rec.post {
             (rec.getChildAt(0)?.layoutParams as? RecyclerView.LayoutParams)?.topMargin = dip(4)
         }
@@ -141,7 +157,7 @@ class HomeNewActivity : AppCompatActivity() {
         super.onResume()
         PushManager.getInstance().initialize(this, MessagePushService::class.java)
         PushManager.getInstance().registerPushIntentService(this, MessageIntentService::class.java)
-        LiveEcardManager.refreshEcardFullInfo()
+//        LiveEcardManager.refreshEcardFullInfo()
     }
 
     override fun onConfigurationChanged(newConfig: Configuration?) {

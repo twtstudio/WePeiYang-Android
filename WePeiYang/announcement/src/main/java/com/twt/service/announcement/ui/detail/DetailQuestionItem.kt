@@ -1,9 +1,10 @@
 package com.twt.service.announcement.ui.detail
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
-import android.content.res.ColorStateList
 import android.graphics.Color
+import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
@@ -14,6 +15,7 @@ import android.widget.TextView
 import android.widget.Toast
 import cn.edu.twt.retrox.recyclerviewdsl.Item
 import cn.edu.twt.retrox.recyclerviewdsl.ItemController
+import cn.edu.twt.retrox.recyclerviewdsl.withItems
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.GlideDrawable
 import com.bumptech.glide.request.RequestListener
@@ -26,11 +28,11 @@ import com.twt.service.announcement.service.AnnoService
 import com.twt.service.announcement.service.Question
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
-import es.dmoral.toasty.Toasty
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.jetbrains.anko.layoutInflater
 import org.jetbrains.anko.sdk27.coroutines.onClick
 
 
@@ -63,18 +65,23 @@ class DetailQuestionItem(
                 contentTv.text = item.question.description
                 timeTv.text = item.question.created_at
                         .split("T", ".")
-                        .subList(0, 2)
-                        .joinToString(separator = " ")
-                nameTv.text = item.question.username
+                        .subList(0, 2).joinToString(separator = " ") {
+                            if (it.contains(":"))
+                                it.split(":").subList(0, 2).joinToString(separator = ":")
+                            else
+                                it
+                        }
+//                nameTv.text = item.question.username
+                nameTv.text = "匿名"
                 nameTv.maxEms = 10
                 statusTv.text = when (item.question.solved) {
                     0 -> {
                         statusTv.setTextColor(Color.RED)
-                        "校方未回复"
+                        "未回复"
                     }
                     else -> {
                         statusTv.setTextColor(Color.GREEN)
-                        "校方已回复"
+                        "已回复"
                     }
                 }
                 statusTv.setTextColor(
@@ -83,10 +90,34 @@ class DetailQuestionItem(
                             else -> Color.parseColor("#00FF00")
                         }
                 )
+
+
+                tagListRec.apply {
+                    layoutManager = LinearLayoutManager(item.context).apply {
+                        orientation = LinearLayoutManager.HORIZONTAL
+                    }
+                    withItems {
+                        if (item.question.tags.isNotEmpty()) {
+                            tagListRec.visibility = View.VISIBLE
+                            item.question.tags.sortedBy {
+                                it.id
+                            }.map {
+                                if (it.id != 3) {
+                                    addTagList(it.name)
+                                }
+                            }
+                        } else {
+                            tagListRec.visibility = View.VISIBLE
+                            addTagList("未分类")
+                        }
+
+                    }
+                }
+
                 AnnoPreference.myId?.let {
                     GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
                         AnnoService.getLikedState("question", it, item.question.id).awaitAndHandle {
-                            Toasty.error(itemView.context, "请求点赞数据失败").show()
+//                            Toasty.error(itemView.context, "请求点赞数据失败").show()
                         }?.data?.let { likeState ->
                             item.likeState = likeState.is_liked
                             when (item.likeState) {
@@ -97,6 +128,18 @@ class DetailQuestionItem(
                     }
                 }
                 likeCountTv.text = item.likeCount.toString()
+
+                AnnoPreference.myId?.let { user_id ->
+                    GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
+                        AnnoService.getDetailQuestion(id = item.question.id, user_id = user_id).awaitAndHandle {
+                            Log.d("getDetailQuestion error", it.message)
+                        }?.let {
+                            if (it.ErrorCode == 0 && it.data?.likes != null) {
+                                likeCountTv.text = it.data.likes.toString()
+                            }
+                        }
+                    }
+                }
 
                 /**
                  * 点赞按钮逻辑
@@ -123,7 +166,7 @@ class DetailQuestionItem(
                                         item.question.id,
                                         AnnoPreference.myId!!
                                 ).awaitAndHandle {
-                                    Toasty.error(itemView.context, "点赞状态更新失败").show()
+//                                    Toasty.error(itemView.context, "点赞状态更新失败").show()
                                     item.isLikable = true
                                 }?.data?.let {
                                     likeCountTv.text = it.toString()
@@ -154,7 +197,6 @@ class DetailQuestionItem(
                         item.onComment.invoke()
                     }
                 }
-                Log.d("tranced", item.question.url_list.toString())
                 val myAdapter: NineGridImageViewAdapter<String> = object : NineGridImageViewAdapter<String>() {
                     override fun onDisplayImage(context: Context?, imageView: ImageView?, t: String?) {
                         // TODO:让后端返回压缩后的图片，在点击查看大图时，再显示原图
@@ -200,7 +242,7 @@ class DetailQuestionItem(
                                                 delay(1000)
                                                 dismiss()
                                             }
-                                            Toast.makeText(mainPage, "图片加载失败", Toast.LENGTH_SHORT).show()
+//                                            Toast.makeText(mainPage, "图片加载失败", Toast.LENGTH_SHORT).show()
                                             //这里返回true表示事件已经消化了，不会往下传递，返回false表示没有消耗
                                             //如果设置为true error(int resid)设置异常占位图将会失效
                                             return false
@@ -254,7 +296,8 @@ class DetailQuestionItem(
             val commentButtonIv: ImageView = itemView.findViewById(R.id.annoDetailQuestionCommentButton)
             val commentLabelTv: TextView = itemView.findViewById(R.id.annoDetailQuestionCommentLabel)
             val nineGridImageView: NineGridImageView<String> = itemView.findViewById(R.id.annoDetailQuestionImages)
-            return DetailQuestionItemViewHolder(itemView, titleTv, contentTv, timeTv, nameTv, statusTv, likeButtonIv, likeCountTv, commentButtonIv, commentLabelTv, nineGridImageView)
+            val tagListRec: RecyclerView = itemView.findViewById(R.id.ques_tags)
+            return DetailQuestionItemViewHolder(itemView, titleTv, contentTv, timeTv, nameTv, statusTv, likeButtonIv, likeCountTv, commentButtonIv, commentLabelTv, tagListRec, nineGridImageView)
         }
     }
 
@@ -272,6 +315,7 @@ class DetailQuestionItem(
             val likeCountTv: TextView,
             val commentButtonIv: ImageView,
             val commentLabelTv: TextView,
+            val tagListRec: RecyclerView,
             val nineGridImageView: NineGridImageView<String>
     ) : RecyclerView.ViewHolder(itemView)
 }
@@ -292,3 +336,29 @@ fun MutableList<Item>.addDetailQuestionItem(
             onComment.invoke()
         }
 )
+
+class TagListItem(val text: String) : Item {
+    override val controller: ItemController
+        get() = Controller
+
+    companion object Controller : ItemController {
+
+        @SuppressLint("SetTextI18n")
+        override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: Item) {
+            holder as ViewHolder
+            item as TagListItem
+            holder.text.text = "   ${item.text}   "
+        }
+
+        override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
+            val view = parent.context.layoutInflater.inflate(R.layout.tag_list_item, parent, false)
+            return ViewHolder(view)
+        }
+
+        private class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+            val text: TextView = itemView.findViewById(R.id.tag_list_text)
+        }
+    }
+}
+
+fun MutableList<Item>.addTagList(text: String) = add(TagListItem(text))

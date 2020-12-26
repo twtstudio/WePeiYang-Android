@@ -4,7 +4,9 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.support.design.widget.AppBarLayout
 import android.support.v4.content.ContextCompat
+import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -33,37 +35,45 @@ import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
 import com.twt.wepeiyang.commons.ui.rec.Item
 import com.twt.wepeiyang.commons.ui.rec.ItemAdapter
 import com.twt.wepeiyang.commons.ui.rec.ItemManager
-import es.dmoral.toasty.Toasty
 import jp.wasabeef.recyclerview.animators.FadeInAnimator
 import jp.wasabeef.recyclerview.animators.SlideInDownAnimator
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.jetbrains.anko.support.v4.onRefresh
+import java.net.URLDecoder
 
 
 class AnnoActivity : AppCompatActivity() {
     private lateinit var annoViewModel: AnnoViewModel
-    private val tagTree by lazy { mutableMapOf<Int, List<Item>>() }
+    private val tagTree = mutableMapOf<Int, List<Item>>()
     private val pathTags by lazy { ItemManager() }
-    private val listTags by lazy { ItemManager() }
+    private val listTags = ItemManager()
     private val quesRecController by lazy { ItemManager() }
     private val firstItem by lazy { TagBottomItem("天津大学", 0) {} }
 
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     private lateinit var quesDetailRecyclerView: RecyclerView
     private lateinit var tagPathRecyclerView: RecyclerView
     private lateinit var tagListRecyclerView: RecyclerView
+    private lateinit var appBar: AppBarLayout
     private lateinit var hintText: TextView
+    private lateinit var searchButton: ImageView
     private lateinit var floatingActionMenu: FloatingActionMenu
     private var nextUrl: String? = null
     private lateinit var quesRecManager: LinearLayoutManager
-    private var user_id = 1
+    private var user_id = 0
     private var canRefresh = true
+    private var currentTagId = 0
+
+    private val selectedTagIdList = mutableListOf<Int>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_anno)
-
+        appBar = findViewById(R.id.toolbar)
+        swipeRefreshLayout = findViewById(R.id.anno_refresh)
         // AnnoViewModel中有两个LiveData
         annoViewModel = ViewModelProviders.of(this)[AnnoViewModel::class.java]
 
@@ -74,7 +84,11 @@ class AnnoActivity : AppCompatActivity() {
         findViewById<ImageView>(R.id.anno_back).setOnClickListener {
             onBackPressed()
         }
+        findViewById<ImageView>(R.id.search_button).setOnClickListener {
+            startActivity(Intent(this@AnnoActivity, SearchActivity::class.java))
+        }
         initFloatingActionMenu()
+        initSwipeRefreshLayout()
         initRecyclerView()
 
         //设置LiveData的观察方法
@@ -87,34 +101,34 @@ class AnnoActivity : AppCompatActivity() {
 
         // 这里获取一下本机用户的用户ID，存储到缓存
         GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
-            if (AnnoPreference.myId == null) {
-                AnnoService.getUserIDByName(CommonPreferences.studentid, CommonPreferences.realName).awaitAndHandle {
-                    Toasty.error(this@AnnoActivity, "获取用户ID失败，请重试").show()
-                }?.data?.let {
-                    AnnoPreference.myId = it.user_id
-                    user_id = it.user_id
+            AnnoService.getUserIDByName(CommonPreferences.studentid, CommonPreferences.realName).awaitAndHandle {
+                //                Toast.makeText(this@AnnoActivity, "获取用户ID失败",Toast.LENGTH_SHORT).show()
+            }?.data?.let {
+                AnnoPreference.myId = it.user_id
+                user_id = it.user_id
+            }
+        }
+    }
+
+    private fun initSwipeRefreshLayout() {
+        swipeRefreshLayout.onRefresh {
+            swipeRefreshLayout.isRefreshing = true
+            GlobalScope.launch {
+                if (canRefresh) {
+                    canRefresh = false
+                    quesRecController.clear()
+                    appBar.setExpanded(true)
+                    initTagTree()
+                    annoViewModel.searchQuestion(currentTagId)
+//                closeFloatingMenu()
                 }
+            }.invokeOnCompletion {
+                swipeRefreshLayout.isRefreshing = false
             }
         }
     }
 
     private fun initRecyclerView() {
-        //对应tagTree路径的rec
-        tagPathRecyclerView = findViewById<RecyclerView>(R.id.path_rec).apply {
-            layoutManager = MyLinearLayoutManager(context).apply {
-                orientation = LinearLayoutManager.HORIZONTAL
-            }
-            adapter = ItemAdapter(pathTags)
-            itemAnimator = SlideInDownAnimator()
-            itemAnimator?.let {
-                it.addDuration = 300
-                it.removeDuration = 800
-                it.changeDuration = 300
-                it.moveDuration = 500
-            }
-
-        }
-
         //点击了某个tag后显示它对应的所有子tag
         tagListRecyclerView = findViewById<RecyclerView>(R.id.detail_rec).apply {
             layoutManager = MyLinearLayoutManager(context).apply {
@@ -123,6 +137,7 @@ class AnnoActivity : AppCompatActivity() {
             adapter = ItemAdapter(listTags).also {
                 it.setHasStableIds(true)
             }
+            setItemViewCacheSize(128)
             itemAnimator = SlideInDownAnimator()
             itemAnimator?.let {
                 it.addDuration = 300
@@ -156,41 +171,55 @@ class AnnoActivity : AppCompatActivity() {
                     if (newState == RecyclerView.SCROLL_STATE_IDLE && quesRecManager.findLastVisibleItemPosition() == quesRecController.itemListSnapshot.size - 1) {
                         nextUrl?.let { url ->
                             GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
-                                val tagId = if (url.contains("tagList")) url.split("tagList")[1][1].toInt() else null
+                                val currentUrl = URLDecoder.decode(url, "GBK")
+                                val str1 = currentUrl.split("tagList=[")[1]
+                                var tag: String? = null
+                                if (!str1.startsWith("]")) {
+                                    tag = str1.split("]")[1]
+                                }
                                 url.split("page=")[1].toIntOrNull()?.let { page ->
                                     AnnoService.getQuestion(
                                             mapOf("searchString" to "",
-                                                    "tagList" to if (tagId != null) listOf(tagId) else emptyList(),
+                                                    "tagList" to if (tag != null) listOf(tag) else emptyList(),
                                                     "limits" to 20,
-                                                    "page" to page, "user_id" to user_id)
+                                                    "user_id" to user_id,
+                                                    "page" to page)
                                     ).awaitAndHandle {
                                         it.printStackTrace()
-
-
-                                    }?.data
-                                }?.apply {
-                                    nextUrl = if (to != total) next_page_url else null
-                                }?.data?.let { next ->
-                                    takeIf { next.isNotEmpty() }?.apply {
-                                        val items = next.map { ques ->
-                                            QuestionItem(context, ques) {
-                                                closeFloatingMenu()
-                                                // 跳转至详情页面
-                                                startDetailActivity(ques)
-
+                                        Log.d("getQuestionerror", "获取问题列表失败: " + tag)
+                                        quesRecController.removeAt(quesRecController.itemListSnapshot.size - 1)
+                                        Toast.makeText(this@AnnoActivity, "网络连接失败", Toast.LENGTH_SHORT).show()
+                                    }
+                                }?.let {
+                                    if (it.ErrorCode == 0) {
+                                        it.data?.apply {
+                                            nextUrl = if (to != total) next_page_url else null
+                                        }?.data?.let { next ->
+                                            takeIf { next.isNotEmpty() }?.apply {
+                                                val items = next.map { ques ->
+                                                    QuestionItem(context, ques, onClick = {
+                                                        closeFloatingMenu()
+                                                        // 跳转至详情页面
+                                                        startDetailActivity(ques)
+                                                    })
+                                                }
+                                                hintText.visibility = View.INVISIBLE
+                                                quesDetailRecyclerView.visibility = View.VISIBLE
+                                                with(quesRecController) {
+                                                    removeAt(quesRecController.itemListSnapshot.size - 1)
+                                                    addAll(items)
+                                                    if (nextUrl != null) {
+                                                        add(ButtonItem(ViewType.PROCESS_BAR))
+                                                    } else {
+                                                        add(ButtonItem(ViewType.BOTTOM_TEXT))
+                                                    }
+                                                }
                                             }
                                         }
-                                        hintText.visibility = View.INVISIBLE
-                                        quesDetailRecyclerView.visibility = View.VISIBLE
-                                        with(quesRecController) {
-                                            removeAt(quesRecController.itemListSnapshot.size - 1)
-                                            addAll(items)
-                                            if (nextUrl != null) {
-                                                add(ButtonItem(ViewType.PROCESS_BAR))
-                                            } else {
-                                                add(ButtonItem(ViewType.BOTTOM_TEXT))
-                                            }
-                                        }
+                                    } else {
+                                        quesRecController.removeAt(quesRecController.itemListSnapshot.size - 1)
+                                        quesRecController.add(ButtonItem(ViewType.BOTTOM_TEXT))
+                                        Toast.makeText(this@AnnoActivity, "服务器返回数据出错", Toast.LENGTH_SHORT).show()
                                     }
                                 }
                             }
@@ -204,31 +233,20 @@ class AnnoActivity : AppCompatActivity() {
     private fun initFloatingActionMenu() {
         floatingActionMenu = findViewById(R.id.anno_fl_menu)
 
-        findViewById<FloatingActionButton>(R.id.fa_a).apply {
-            this.setOnClickListener {
-                closeFloatingMenu()
-                startActivity(Intent(this@AnnoActivity, SearchActivity::class.java))
-            }
-        }
+//        findViewById<FloatingActionButton>(R.id.fa_a).apply {
+//            this.setOnClickListener {
+//                closeFloatingMenu()
+//                startActivity(Intent(this@AnnoActivity, SearchActivity::class.java))
+//            }
+//        }
 
         findViewById<FloatingActionButton>(R.id.fa_b).apply {
 
             //TODO(添加新的问题)
             this.setOnClickListener {
                 //initTagTree()
+                closeFloatingMenu()
                 startActivity(Intent(this@AnnoActivity, AskQuestionActivity::class.java))
-            }
-        }
-
-        findViewById<FloatingActionButton>(R.id.fa_c).apply {
-            this.setOnClickListener {
-                if (canRefresh) {
-                    canRefresh = false
-                    quesRecController.clear()
-                    initTagTree()
-                    getAllQuestions()
-//                closeFloatingMenu()
-                }
             }
         }
 
@@ -236,7 +254,7 @@ class AnnoActivity : AppCompatActivity() {
 
             //TODO(添加新的问题)
             this.setOnClickListener {
-
+                closeFloatingMenu()
                 startActivity(Intent(this@AnnoActivity, UserActivity::class.java))
             }
         }
@@ -261,27 +279,32 @@ class AnnoActivity : AppCompatActivity() {
 
     private fun bindLiveData(context: Context) {
         annoViewModel.tagTree.bindNonNull(this) {
-            listTags.refreshAll(bindTagPathWithDetailTag(it))
+            listTags.refreshAll(bindTagPathWithDetailTag(it[0].children))
             closeFloatingMenu()
         }
 
         //每次设置quesId，就会更新数据
+        // 什么事quesId?   (=^•⊥•^=)
         annoViewModel.quesId.bindNonNull(this) { id ->
             Log.d("whataaa", id.toString())
             closeFloatingMenu()
             GlobalScope.launch(Dispatchers.Main + QuietCoroutineExceptionHandler) {
                 AnnoService.getQuestion(
                         mapOf("searchString" to "",
-                                "tagList" to if (id == 0) emptyList() else listOf<Int>(id),
+                                "tagList" to if (id == 0) emptyList() else selectedTagIdList.toList(),
                                 "limits" to 20,
                                 "page" to 1, "user_id" to user_id)
                 ).awaitAndHandle {
+                    Log.d("getQuestion error", it.message)
                     hintText.visibility = View.VISIBLE
                     quesDetailRecyclerView.visibility = View.INVISIBLE
                     canRefresh = true
+                    throw it
                 }?.data?.apply {
+                    Log.d("whatquestion", this.data.toString())
                     nextUrl = if (to != total) next_page_url else null
                 }?.data?.let { quesList ->
+                    Log.d("whataaa", quesList.map { it.name }.toString())
 
                     GlobalScope.launch {
                         delay(1000)
@@ -298,12 +321,12 @@ class AnnoActivity : AppCompatActivity() {
                         else -> {
 
                             val items = quesList.map { ques ->
-                                QuestionItem(context, ques) {
+                                QuestionItem(context, ques, onClick = {
                                     closeFloatingMenu()
                                     // 跳转至详情页面
                                     startDetailActivity(ques)
 
-                                }
+                                })
                             }
                             hintText.visibility = View.INVISIBLE
                             quesDetailRecyclerView.visibility = View.VISIBLE
@@ -329,65 +352,34 @@ class AnnoActivity : AppCompatActivity() {
     //将三个rec，通过LiveData等绑定在一起
     private fun bindTagPathWithDetailTag(_data: List<Tag>): List<Item> =
             mutableListOf<Item>().apply {
-
-                tagListRecyclerView.visibility = View.VISIBLE
-
                 val index = pathTags.itemListSnapshot.size
-
-                if (index == 1) {
-                    firstItem.onclick = {
-                        tagTree.get(1)?.let { listTags.refreshAll(it) }
-                        (0 until pathTags.itemListSnapshot.size - 1).forEach { _ ->
-                            pathTags.removeAt(pathTags.size - 1)
-                        }
-                        tagListRecyclerView.visibility = View.VISIBLE
-                        getAllQuestions()
-                    }
-                }
-
                 tagTree[index] = _data.map { child ->
-                    TagsDetailItem(child.name, child.id) {
+                    TagsDetailItem(child.name, child.id, selectedTagIdList.contains(child.id)) {
                         if (child.children.isNotEmpty()) {
-                            pathTags.add(TagBottomItem(child.name, index) {
-                                tagTree[index + 1]?.let { listTags.refreshAll(it) }
-                                (0 until pathTags.itemListSnapshot.size - index - 1).forEach { _ ->
-                                    pathTags.removeAt(pathTags.size - 1)
-                                    Log.e("delete tag", "de")
-                                }
-                                tagListRecyclerView.visibility = View.VISIBLE
-                                closeFloatingMenu()
-                            })
-                            listTags.refreshAll(bindTagPathWithDetailTag(child.children))
+                            try {
+                                if ((pathTags.itemListSnapshot[pathTags.size - 2] as TagBottomItem).content == child.name)
+                                    pathTags.removeAt(pathTags.itemListSnapshot.lastIndex)
+                            } catch (e: Exception) {
+                                // 越界
+                            }
                         } else {
 
-                            // 到最后一层标签后，打印当前路径或其他操作
-                            val path = pathTags.itemListSnapshot.map {
-                                (it as TagBottomItem).content
-                            }.toMutableList().apply {
-                                this.add(child.name + ":" + child.id.toString())
+                            if (selectedTagIdList.contains(child.id)) {
+                                selectedTagIdList.remove(child.id)
+                            } else {
+                                selectedTagIdList.add(child.id)
                             }
-
-                            pathTags.add(TagBottomItem(child.name, index) {
-                                tagTree[index + 1]?.let {
-                                    listTags.refreshAll(it)
-                                }
-                                (0 until pathTags.itemListSnapshot.size - index - 1).forEach { _ ->
-                                    pathTags.removeAt(pathTags.size - 1)
-                                }
-                            }
-                            )
-                            if ((pathTags.itemListSnapshot[pathTags.size - 2] as TagBottomItem).content == child.name)
-                                pathTags.removeAt(pathTags.itemListSnapshot.lastIndex)
-                            tagListRecyclerView.visibility = View.INVISIBLE
-
-                            Log.e("tag_path", path.toString())
                         }
-
-
                         closeFloatingMenu()
+                        currentTagId = child.id
                         annoViewModel.searchQuestion(child.id)
                     }
                 }.also {
+                    var str = ""
+                    for (tag in it){
+                        str += tag.content + "---"
+                    }
+                    Log.d("tagdetaillist",str)
                     addAll(it)
                 }
             }

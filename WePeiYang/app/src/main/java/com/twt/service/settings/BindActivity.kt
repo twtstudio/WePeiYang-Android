@@ -14,7 +14,7 @@ class BindActivity : MaterialIntroActivity() {
         super.onCreate(savedInstanceState)
         enableLastSlideAlphaExitTransition(true)
         addSlide(TjuBindFragment())
-        addSlide(LibBindFragment())
+//        addSlide(LibBindFragment())
     }
 }
 

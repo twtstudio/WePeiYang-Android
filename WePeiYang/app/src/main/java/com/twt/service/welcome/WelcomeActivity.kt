@@ -9,7 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.twt.service.R
 import com.twt.service.home.HomeNewActivity
-import com.twt.service.settings.LibBindFragment
+//import com.twt.service.settings.LibBindFragment
 import com.twt.service.settings.TjuBindFragment
 import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
 
@@ -19,11 +19,11 @@ class WelcomeActivity : MaterialIntroActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         addSlide(GpaWelcomeFragment())
-        addSlide(ScheduleWelcomeFragment())
-        addSlide(BikeWelcomeFragment())
+//        addSlide(ScheduleWelcomeFragment())
+//        addSlide(BikeWelcomeFragment())
         addSlide(BriefWelcomeFragment())
-        if (CommonPreferences.tjulogin != true) addSlide(TjuBindFragment())
-        if (!CommonPreferences.isBindLibrary) addSlide(LibBindFragment())
+//        if (!CommonPreferences.tjuloginbind) addSlide(TjuBindFragment())
+//        if (!CommonPreferences.isBindLibrary) addSlide(LibBindFragment())
     }
 
     override fun onFinish() {
@@ -41,7 +41,7 @@ abstract class SimpleSlideFragment : SlideFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
             inflater.inflate(resource, container, false)
 
-    override fun backgroundColor() = R.color.white_color
+    override fun backgroundColor() = R.color.white
 
     override fun buttonsColor() = R.color.colorAccent
 

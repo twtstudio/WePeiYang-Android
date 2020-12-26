@@ -50,7 +50,8 @@
                         android:inputType="text"
                         android:singleLine="true"
                         android:textColor="@color/white_color"
-                        android:textColorHint="@color/white_color" />
+                        android:textColorHint="@color/white_color"
+                        android:theme='@style/MyEditText'/>
 
                     <ImageView
                         android:contentDescription="@string/search_refresh_button"

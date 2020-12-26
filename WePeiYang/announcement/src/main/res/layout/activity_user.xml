@@ -6,76 +6,242 @@
     android:layout_height="match_parent"
     tools:context=".ui.user.UserActivity">
 
-    <android.support.design.widget.CoordinatorLayout
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/user_refresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <android.support.design.widget.AppBarLayout
+        <android.support.design.widget.CoordinatorLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <android.support.v7.widget.Toolbar
+            <android.support.design.widget.AppBarLayout
+                android:id="@+id/user_bar"
                 android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:background="@color/colorPrimary"
-                app:layout_scrollFlags="scroll|enterAlways">
+                android:layout_height="wrap_content">
 
-                <android.support.constraint.ConstraintLayout
+                <android.support.v7.widget.Toolbar
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="56dp"
+                    android:background="@color/colorPrimary"
+                    app:layout_scrollFlags="scroll|enterAlways">
 
-                    <ImageView
-                        android:contentDescription="@string/back_button"
-                        android:id="@+id/liked_back"
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:padding="8dp"
-                        android:src="@drawable/left_arrow_white"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                    <android.support.constraint.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
 
-                    <TextView
-                        android:id="@+id/liked_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="15dp"
-                        android:text="点赞的问题"
-                        android:textSize="23sp"
-                        android:singleLine="true"
-                        android:textColor="@color/white_color"
-                        android:textColorHint="@color/white_color"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/liked_back" />
+                        <ImageView
+                            android:contentDescription="@string/back_button"
+                            android:id="@+id/liked_back"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:padding="8dp"
+                            android:src="@drawable/left_arrow_white"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
-                </android.support.constraint.ConstraintLayout>
+                        <TextView
+                            android:id="@+id/user_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="15dp"
+                            android:text="个人主页"
+                            android:textSize="23sp"
+                            android:singleLine="true"
+                            android:textColor="@color/white_color"
+                            android:textColorHint="@color/white_color"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/liked_back" />
 
-            </android.support.v7.widget.Toolbar>
+                    </android.support.constraint.ConstraintLayout>
 
-        </android.support.design.widget.AppBarLayout>
+                </android.support.v7.widget.Toolbar>
 
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/liked_rec"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-
-        <!--        <include layout="@layout/no_question_list" android:visibility="invisible" android:layout_gravity="center"-->
-        <!--            android:layout_height="wrap_content" android:layout_width="wrap_content" />-->
-
-        <TextView
-            android:id="@+id/liked_no_connect_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="加载失败......"
-            android:visibility="invisible" />
+            </android.support.design.widget.AppBarLayout>
 
 
-    </android.support.design.widget.CoordinatorLayout>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/liked_rec"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                android:visibility="gone" />
+
+            <!--        <include layout="@layout/no_question_list" android:visibility="invisible" android:layout_gravity="center"-->
+            <!--            android:layout_height="wrap_content" android:layout_width="wrap_content" />-->
+
+            <TextView
+                android:id="@+id/liked_no_connect_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="加载失败......"
+                android:visibility="gone" />
+
+            <android.support.constraint.ConstraintLayout
+                android:visibility="visible"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/user_page"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/user_inform"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <android.support.constraint.ConstraintLayout
+                        android:padding="14dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/user_logo"
+                            android:layout_width="64dp"
+                            android:layout_height="64dp"
+                            android:contentDescription="@null"
+                            android:src="@drawable/ic_avatar_copy"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/user_id"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="24dp"
+                            android:fontFamily="@font/montserrat_regular"
+                            android:maxLines="1"
+                            android:textColor="#302a2a"
+                            android:textSize="18sp"
+                            app:layout_constraintBottom_toTopOf="@+id/user_name"
+                            app:layout_constraintStart_toEndOf="@+id/user_logo"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:text="学号" />
+
+                        <TextView
+                            android:id="@+id/user_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="#999999"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="@+id/user_id"
+                            app:layout_constraintTop_toBottomOf="@+id/user_id"
+                            tools:text="真实姓名" />
+
+
+                    </android.support.constraint.ConstraintLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/user_favor_item"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/user_inform">
+
+                    <android.support.constraint.ConstraintLayout
+                        android:padding="14dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:contentDescription="@null"
+                            android:id="@+id/favor_icon"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:src="@drawable/favorites_fill"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/favor_label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/favor_icon"
+                            app:layout_constraintTop_toTopOf="parent"
+                            android:text="点赞的问题" />
+
+                        <TextView
+                            android:id="@+id/favor_state"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:text="状态" />
+
+
+                    </android.support.constraint.ConstraintLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/user_mine_item"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/user_favor_item">
+
+                    <android.support.constraint.ConstraintLayout
+                        android:padding="14dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:contentDescription="@null"
+                            android:id="@+id/mine_icon"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:src="@drawable/survey"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/mine_label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/mine_icon"
+                            app:layout_constraintTop_toTopOf="parent"
+                            android:text="我提出的问题" />
+
+                        <TextView
+                            android:id="@+id/mine_state"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:text="状态" />
+
+
+                    </android.support.constraint.ConstraintLayout>
+
+                </android.support.v7.widget.CardView>
+
+            </android.support.constraint.ConstraintLayout>
+
+        </android.support.design.widget.CoordinatorLayout>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </android.support.constraint.ConstraintLayout>

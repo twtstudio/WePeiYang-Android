@@ -6,4 +6,7 @@
         <item name="colorPrimaryDark">#d4d4d4</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+
+    <style name="My_CheckBox" parent="@android:style/Widget.Material.CompoundButton.CheckBox">
+        <item name="android:colorControlActivated">@color/colorAccent</item> <item name="android:colorControlNormal">@color/colorAccent</item> </style>
 </resources>
