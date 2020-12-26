@@ -46,12 +46,12 @@ object SpiderCookieManager {
             Log.d("SpiderCookieApi", "has cookies")
             // 如果有cookie过期就重新登录
             if (CommonPreferences.tjulogin == false) {
-                GlobalScope.launch(Main) {
-                    // 因为进入首页会自动爬取课表与gpa,所以改提示会连续出现两次
-                    // 虽然字很长,但因为连续出现两次,将时间设置为SHORT
-                    Toasty.info(CommonContext.application, "办公网登录已过期，更新课表、GPA等信息要先重新登录").show()
-
-                }
+//                GlobalScope.launch(Main) {
+//                    // 因为进入首页会自动爬取课表与gpa,所以改提示会连续出现两次
+//                    // 虽然字很长,但因为连续出现两次,将时间设置为SHORT
+//                    Toasty.info(CommonContext.application, "办公网登录已过期，更新课表、GPA等信息要先重新登录").show()
+//
+//                }
 
                 //有验证码 无法自动登录 只能用户手动登录
 //                        checkTjuValid(SpiderTjuLogin.login(CommonPreferences.tjuuname, CommonPreferences.tjupwd))
@@ -61,13 +61,13 @@ object SpiderCookieManager {
 
         // 未曾成功登录过，需要登录
         Log.d("SpiderCookieApi", "never login")
-        GlobalScope.launch(Main) {
-            //            val intent = Intent(DIALOG_ACTION)
-//            localBroadcastManager.sendBroadcast(intent)
-//            CommonContext.application.sendBroadcast(intent)
-//            throw NotLoginException("尚未登录办公网")
-            Toasty.warning(CommonContext.application, "尚未登录办公网").show()
-        }
+//        GlobalScope.launch(Main) {
+//            //            val intent = Intent(DIALOG_ACTION)
+////            localBroadcastManager.sendBroadcast(intent)
+////            CommonContext.application.sendBroadcast(intent)
+////            throw NotLoginException("尚未登录办公网")
+//            Toasty.warning(CommonContext.application, "尚未登录办公网").show()
+//        }
 //        printCookie()
         return clientBuilder
     }

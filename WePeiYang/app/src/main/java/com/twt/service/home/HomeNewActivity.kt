@@ -101,10 +101,20 @@ class HomeNewActivity : AppCompatActivity() {
             }
             annoBannerItem()
 
-            homeScheduleItem(this@HomeNewActivity)
+            if (AppPreferences.isDisplaySchedule) {
+                homeScheduleItem(this@HomeNewActivity)
+                mtaExpose("app_首页显示scheduleItem")
+            }
+
+//            homeScheduleItem(this@HomeNewActivity)
             if (AppPreferences.isDisplayGpa) {
                 gpaNewHomeItem(this@HomeNewActivity)
                 mtaExpose("app_首页显示gpaItem")
+            }
+
+            if (AppPreferences.isDisplaySchedule) {
+                homeScheduleItem(this@HomeNewActivity)
+                mtaExpose("app_首页显示scheduleItem")
             }
 
             annoHomeItem()

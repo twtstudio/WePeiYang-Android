@@ -23,4 +23,5 @@
     <string name="pref_clear_data">pref_clear_data</string>
     <string name="pref_check_update">pref_check_update</string>
     <string name="pref_proxy_settings">pref_proxy_settings</string>
+    <string name="pref_is_display_schedule">pref_is_display_schedule</string>
 </resources>

@@ -156,13 +156,13 @@ class SettingsActivity : CAppCompatActivity() {
 //                if (newValue == true) Toast.makeText(activity, "打开自行车模块以完成自行车功能的激活", Toast.LENGTH_SHORT).show()
 //                true
 //            }
-
-            val devTalking = findPreference(getString(R.string.pref_dev_talking))
-            devTalking.setOnPreferenceClickListener {
-                val intent = Intent(activity, DevTalkActivity::class.java)
-                activity.startActivity(intent)
-                false
-            }
+//
+//            val devTalking = findPreference(getString(R.string.pref_dev_talking))
+//            devTalking.setOnPreferenceClickListener {
+//                val intent = Intent(activity, DevTalkActivity::class.java)
+//                activity.startActivity(intent)
+//                false
+//            }
 
 //            val feedback = findPreference(getString(R.string.pref_feedback))
 //            feedback.onPreferenceClickListener = Preference.OnPreferenceClickListener {

@@ -10,6 +10,13 @@
             android:summaryOn="老夫就是要刺激"
             android:title="主页显示GPA" />
 
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="@string/pref_is_display_schedule"
+            android:summaryOff="算了还是留着吧"
+            android:summaryOn="我就是不想去上课"
+            android:title="主页显示课程表" />
+
 
 <!--        <SwitchPreference-->
 <!--            android:defaultValue="false"-->
@@ -45,10 +52,10 @@
 <!--            android:key="@string/pref_check_update"-->
 <!--            android:summary="瞅瞅微北洋有没有新版本"-->
 <!--            android:title="检查更新" />-->
-        <Preference
-            android:key="@string/pref_dev_talking"
-            android:summary="微北洋开发血泪史"
-            android:title="开发者说" />
+<!--        <Preference-->
+<!--            android:key="@string/pref_dev_talking"-->
+<!--            android:summary="微北洋开发血泪史"-->
+<!--            android:title="开发者说" />-->
 <!--        <Preference-->
 <!--            android:key="@string/pref_feedback"-->
 <!--            android:summary="到移动客户端版块，说出你的故事"-->

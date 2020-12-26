@@ -127,7 +127,7 @@
         android:layout_marginLeft="50dp"
         android:layout_marginTop="0dp"
         android:theme="@style/My_CheckBox"
-        android:checked="true"
+        android:checked="false"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@id/tv_privacy"
         app:layout_constraintTop_toTopOf="@id/tv_privacy">
