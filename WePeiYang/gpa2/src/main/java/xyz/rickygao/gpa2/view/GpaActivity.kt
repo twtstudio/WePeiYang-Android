@@ -8,17 +8,16 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
 import com.twt.wepeiyang.commons.experimental.cache.CacheIndicator.REMOTE
 import com.twt.wepeiyang.commons.experimental.cache.RefreshState
-import com.twt.wepeiyang.commons.experimental.cache.simpleCallback
 import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
 import com.twt.wepeiyang.commons.experimental.extensions.enableLightStatusBarMode
 import com.twt.wepeiyang.commons.experimental.extensions.fitSystemWindowWithNavigationBar
 import com.twt.wepeiyang.commons.experimental.extensions.fitSystemWindowWithStatusBar
-import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
 import com.twt.wepeiyang.commons.mta.mtaClick
 import com.twt.wepeiyang.commons.mta.mtaExpose
 import es.dmoral.toasty.Toasty
@@ -63,8 +62,26 @@ class GpaActivity : AppCompatActivity() {
     private lateinit var courseAdapter: CourseAdapter
     private var selectedTermIndex = 0
         set(value) {
+            val gpaBean = GpaLiveData.value
             val term = GpaLiveData.value?.data.orEmpty()
 
+            gpaBean?.stat?.total.let {
+                scoreTv.text = it?.score.toString()
+                gpaTv.text = it?.gpa.toString()
+                creditTv.text = it?.credit.toString()
+            }
+
+            gpaBean?.data?.asSequence().let {
+                if (toggleBtn.isChecked) it?.filter { it.name != "第二课堂" } else it
+            }?.map(Term::stat)?.map {
+                GpaLineChartView.DataWithDetail(it.score, """
+                        加权：${String.format("%.2f", it.score)}
+                        绩点：${String.format("%.2f", it.gpa)}
+                        学分：${it.credit}
+                        """.trimIndent())
+            }?.toList().let {
+                gpaLineCv.dataWithDetail = it!!
+            }
             if (term.isEmpty()) {
                 selectedTermTs.setText(EMPTY_TERM)
                 tbSelectedTermTv.text = EMPTY_TERM
@@ -231,8 +248,25 @@ class GpaActivity : AppCompatActivity() {
             }
         }
 
+//        val gpaObserver = Observer<GpaBean> {
+//            Log.d("LiveDataValue", it.toString())
+//        }
+
+        // Observe the LiveData, passing in this activity as the LifecycleOwner and the observer.
+
         // bind callback
+//        Log.d("Lifecycle", this.lifecycle.currentState.toString())
+        GpaLiveData.observeForever {
+//            Log.d("LiveDataValue", it.toString())
+        }
+        GpaLiveData.refresh(REMOTE, callback = gpaCallback())
+//        Log.d("Lifecycle", this.lifecycle)
+        Log.d("LiveDataValue", GpaLiveData.value?.toString())
         GpaLiveData.bindNonNull(this, ::bindGpaBean)
+
+        selectedTermIndex = GpaLiveData.value?.data?.size!! - 1
+//        Log.d("LiveDataValue", GpaLiveData.value?.toString())
+//        GpaLiveData.observe(this, gpaObserver)
 
     }
 

@@ -158,13 +158,13 @@
         app:layout_constraintTop_toTopOf="@+id/guideline_2" />
 
     <TextView
+        android:id="@+id/tv_register"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="64dp"
-        android:layout_marginEnd="64dp"
         android:layout_marginBottom="24dp"
-        android:text="请注意！\n为维护系统安全性与稳定性，微北洋app各项服务需绑定办公网（选课网）账户，可在个人中心页面进行绑定"
-        android:textColor="#FF0000"
+        android:textAlignment="center"
+        android:textColor="@color/colorAccent"
+        android:text="用户注册"
         android:textSize="17sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

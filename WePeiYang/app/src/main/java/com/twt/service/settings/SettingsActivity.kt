@@ -12,6 +12,7 @@ import android.widget.Toast
 import com.tencent.bugly.crashreport.CrashReport
 import com.twt.service.R
 import com.twt.service.update.UpdateManager
+import com.twtstudio.retrox.auth.view.InfoSuppleActivity
 import es.dmoral.toasty.Toasty
 import io.multimoon.colorful.CAppCompatActivity
 
@@ -171,6 +172,14 @@ class SettingsActivity : CAppCompatActivity() {
 //                activity.startActivity(intent)
 //                false
 //            }
+
+            val infoSupple = findPreference(getString(R.string.pref_info_supplement))
+            infoSupple.setOnPreferenceClickListener {
+                val intent = Intent(activity, InfoSuppleActivity::class.java)
+                startActivity(intent)
+//                activity.startActivity(intent)
+                false
+            }
 
             val privacyPolicy = findPreference(getString(R.string.pref_privacy_policy))
             privacyPolicy.setOnPreferenceClickListener {

@@ -17,13 +17,11 @@ import com.twt.service.AppPreferences
 import com.twt.service.R
 import com.twt.service.announcement.ui.annoBannerItem
 import com.twt.service.announcement.ui.annoHomeItem
-import com.twt.service.ecard.model.LiveEcardManager
 import com.twt.service.home.message.*
 import com.twt.service.home.other.homeOthers
 import com.twt.service.home.user.FragmentActivity
 import com.twt.service.schedule2.view.exam.examTableHomeItem
 import com.twt.service.schedule2.view.home.homeScheduleItem
-import com.twt.service.tjunet.view.homeTjuNetItem
 import com.twt.service.widget.ScheduleWidgetProvider
 import com.twt.wepeiyang.commons.experimental.color.getColorCompat
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
@@ -35,6 +33,7 @@ import com.twt.wepeiyang.commons.mta.mtaExpose
 import com.twt.wepeiyang.commons.ui.rec.withItems
 import com.twt.wepeiyang.commons.view.RecyclerViewDivider
 import com.twtstudio.retrox.auth.api.authSelfLiveData
+import com.twtstudio.retrox.auth.view.InfoSuppleActivity
 import es.dmoral.toasty.Toasty
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -93,6 +92,7 @@ class HomeNewActivity : AppCompatActivity() {
             Log.d("getui_register",it)
             Toasty.info(this,"it")
         }
+
         val itemManager = rec.withItems {
             // 重写了各个 item 的 areItemsTheSame areContentsTheSame 实现动画刷新主页
             if (MessagePreferences.isDisplayMessage) {

@@ -37,8 +37,8 @@ class UserAdapter(
             private val usernameTv = itemView.findViewById<TextView>(R.id.tv_username)
             private val realnameTv = itemView.findViewById<TextView>(R.id.tv_realname)
 
-            fun bind(avatar: String, username: String, realname: String, defaultAvatarRes: Int) {
-                Glide.with(itemView.context).load(avatar).asBitmap().placeholder(defaultAvatarRes).into(avatarIv)
+            fun bind(/*avatar: String, */username: String, realname: String, defaultAvatarRes: Int) {
+//                Glide.with(itemView.context).load(avatar).asBitmap().placeholder(defaultAvatarRes).into(avatarIv)
                 usernameTv.text = username
                 realnameTv.text = realname
             }
@@ -86,9 +86,9 @@ class UserAdapter(
         val item = items[position]
         when {
             item is UserItem.AvatarItem && holder is UserItemViewHolder.AvatarItemViewHolder -> {
-                item.avatarSrc.bindNonNull(lifecycleOwner) {
-                    holder.bind(it.avatar, it.username, it.realname, item.defaultAvatarRes)
-                }
+//                item.avatarSrc.bindNonNull(lifecycleOwner) {
+//                    holder.bind(/*it.avatar, */it.username, it.realname, item.defaultAvatarRes)
+//                }
             }
 
             item is UserItem.InfoItem && holder is UserItemViewHolder.InfoItemViewHolder -> {

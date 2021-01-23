@@ -12,6 +12,7 @@
         android:id="@+id/iv_avatar"
         android:layout_width="64dp"
         android:layout_height="64dp"
+        android:src="@drawable/ic_avatar_copy"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

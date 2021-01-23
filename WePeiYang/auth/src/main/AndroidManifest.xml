@@ -7,7 +7,15 @@
         android:supportsRtl="true">
 
         <activity
-            android:name=".view.LoginActivity"
+        android:name=".view.LoginActivity"
+        android:theme="@style/LoginTheme" />
+
+        <activity
+            android:name=".view.RegisterActivity"
+            android:theme="@style/LoginTheme" />
+
+        <activity
+            android:name=".view.InfoSuppleActivity"
             android:theme="@style/LoginTheme" />
     </application>
 

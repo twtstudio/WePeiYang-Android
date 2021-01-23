@@ -51,7 +51,7 @@ class UserFragment : Fragment() {
                     adapter = UserAdapter(
                             listOf(
                                     UserItem.AvatarItem(authSelfLiveData.map {
-                                        UserItem.AvatarBean(it.avatar, it.twtuname, it.realname)
+                                        UserItem.AvatarBean(it.avatar, it.nickname, it.realname)
                                     }, R.drawable.ic_avatar_copy),
                                     UserItem.InfoItem(R.drawable.ic_tju_little_icon, "办公网", authSelfLiveData.map {
 //                                        if (it.accounts.tju) "已绑定" else "未绑定"

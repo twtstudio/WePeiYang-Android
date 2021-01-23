@@ -4,13 +4,14 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.View
+import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import com.twt.wepeiyang.commons.experimental.cache.CacheIndicator.REMOTE
 import com.twt.wepeiyang.commons.experimental.cache.RefreshState
 import com.twt.wepeiyang.commons.experimental.startActivity
-import com.twtstudio.retrox.auth.R
 import com.twtstudio.retrox.auth.api.authSelfLiveData
 import com.twtstudio.retrox.auth.api.login
 import es.dmoral.toasty.Toasty
@@ -18,8 +19,10 @@ import org.jetbrains.anko.coroutines.experimental.asReference
 import com.tencent.stat.StatService
 import com.tencent.stat.StatMultiAccount
 import com.twt.wepeiyang.commons.experimental.CommonContext
+import com.twt.wepeiyang.commons.experimental.color.getColorCompat
+import com.twt.wepeiyang.commons.experimental.extensions.enableLightStatusBarMode
 import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
-import kotlinx.android.synthetic.main.auth_activity_login.*
+import com.twtstudio.retrox.auth.R
 
 
 /**
@@ -34,10 +37,18 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var loginPb: ProgressBar
     private lateinit var privacy: TextView
     private lateinit var privacy_checkbox: CheckBox
+    private lateinit var register_btn: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.auth_activity_login)
+
+        enableLightStatusBarMode(true)
+        window.apply {
+            addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+            statusBarColor = getColorCompat(R.color.white)
+        }
+
         usernameEt = findViewById(R.id.et_username)
         passwordEt = findViewById(R.id.et_password)
         privacy = findViewById<TextView>(R.id.tv_privacy).apply {
@@ -46,6 +57,15 @@ class LoginActivity : AppCompatActivity() {
             }
         }
         privacy_checkbox = findViewById(R.id.privacy_check)
+
+        register_btn = findViewById<TextView>(R.id.tv_register).apply {
+            setOnClickListener {
+                val intent = Intent(this@LoginActivity, RegisterActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                startActivity(intent)
+            }
+        }
+
         loginPb = findViewById(R.id.pb_login)
         loginBtn = findViewById<Button>(R.id.btn_login).apply {
             setOnClickListener {
@@ -53,14 +73,14 @@ class LoginActivity : AppCompatActivity() {
                 val activity = this@LoginActivity.asReference()
                 if (!privacy_checkbox.isChecked) {
                     Toasty.error(this@LoginActivity, "请同意隐私政策").show()
-                }
-                else if (usernameEt.text.isBlank()) {
+                } else if (usernameEt.text.isBlank()) {
                     Toasty.error(this@LoginActivity, "请输入用户名").show()
                 } else if (passwordEt.text.isBlank()) {
                     Toasty.error(this@LoginActivity, "请输入密码").show()
                 } else {
                     loginPb.visibility = View.VISIBLE
                     loginBtn.isEnabled = false
+
                     login(usernameEt.text.toString(), passwordEt.text.toString()) {
                         when (it) {
                             is RefreshState.Success ->
@@ -84,16 +104,23 @@ class LoginActivity : AppCompatActivity() {
                                             finish()
                                         }
                                         is RefreshState.Failure -> {
-                                            Toasty.error(activity(), "发生错误 ${it.throwable.message}！${it.javaClass.name}").show()
+                                            Toasty.error(activity(), "发生错误 ${it.throwable.message}").show()
                                             loginPb.visibility = View.INVISIBLE
                                             loginBtn.isEnabled = true
                                         }
                                     }
                                 }
                             is RefreshState.Failure -> {
-                                Toasty.error(activity(), "发生错误 ${it.throwable.message}！${it.javaClass.name}").show()
-                                loginPb.visibility = View.INVISIBLE
-                                loginBtn.isEnabled = true
+                                if (it.throwable.message.equals("请前往信息完善界面完善手机号等相关信息")) {
+                                    val intent = Intent(this@LoginActivity, InfoSuppleActivity::class.java)
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                    startActivity(intent)
+                                } else {
+                                    Toasty.error(activity(), "${it.throwable.message}！").show()
+                                    loginPb.visibility = View.INVISIBLE
+                                    loginBtn.isEnabled = true
+                                }
+
                             }
                         }
                     }

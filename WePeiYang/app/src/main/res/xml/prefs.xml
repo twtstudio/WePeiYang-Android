@@ -13,8 +13,8 @@
         <SwitchPreference
             android:defaultValue="true"
             android:key="@string/pref_is_display_schedule"
-            android:summaryOff="算了还是留着吧"
-            android:summaryOn="我就是不想去上课"
+            android:summaryOff="我就是不想去上课"
+            android:summaryOn="算了还是留着吧"
             android:title="主页显示课程表" />
 
 
@@ -60,6 +60,11 @@
 <!--            android:key="@string/pref_feedback"-->
 <!--            android:summary="到移动客户端版块，说出你的故事"-->
 <!--            android:title="意见反馈" />-->
+        <Preference
+            android:key="pref_info_supplement"
+            android:summary="更新用户信息"
+            android:title="更新用户信息" />
+
         <Preference
             android:key="pref_privacy_policy"
             android:summary="微北洋隐私政策"

@@ -10,9 +10,6 @@ import android.view.ViewGroup
 import com.twt.service.R
 import com.twt.service.home.HomeNewActivity
 //import com.twt.service.settings.LibBindFragment
-import com.twt.service.settings.TjuBindFragment
-import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
-
 
 class WelcomeActivity : MaterialIntroActivity() {
 

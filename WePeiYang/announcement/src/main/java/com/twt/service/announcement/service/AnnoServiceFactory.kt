@@ -1,15 +1,11 @@
 package com.twt.service.announcement.service
 
-import android.util.Log
 import com.twt.wepeiyang.commons.experimental.network.CoroutineCallAdapterFactory
-import com.twt.wepeiyang.commons.experimental.network.ServiceFactory
-import okhttp3.ConnectionPool
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
@@ -46,12 +42,6 @@ data class CommonBody<out T>(
         val msg: String,
         val data: T?
 )
-
-class NetInterceptor : Interceptor {
-    override fun intercept(chain: Interceptor.Chain): Response {
-        return chain.proceed(chain.request().newBuilder().addHeader("Connection", "close").build())
-    }
-}
 
 class HeaderInterceptor : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {

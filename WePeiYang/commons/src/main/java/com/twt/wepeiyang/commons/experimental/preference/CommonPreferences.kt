@@ -16,15 +16,7 @@ object CommonPreferences {
 
     var studentid by hawk("student_number", "")
 
-    var isBindTju by hawk("is_bind_tju", false)
-
-    var isBindLibrary by hawk("is_bind_library", false)
-
     var isBindBike by hawk("is_bind_bike", false)
-
-    var isAcceptTos by hawk("is_accept_tos", false)
-
-    var dropOut by hawk("drop_out", 0)
 
     var twtuname by hawk("user_id", "")
 
@@ -46,4 +38,7 @@ object CommonPreferences {
         CommonContext.defaultSharedPreferences.edit().clear().apply()
     }
 
+    var isUserInfoUpdated by hawk("user_info_update", false)
+
+    var telephone by hawk("user_phone_number", "")
 }

@@ -28,7 +28,7 @@
         android:clickable="true"
         android:foreground="?android:attr/selectableItemBackground"
         android:background="@drawable/ic_avatar_copy"
-        android:src="@color/black_color"
+        android:src="@drawable/ic_avatar_copy"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

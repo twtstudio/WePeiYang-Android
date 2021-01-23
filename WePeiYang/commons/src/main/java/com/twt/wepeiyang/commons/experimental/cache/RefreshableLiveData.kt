@@ -2,6 +2,7 @@ package com.twt.wepeiyang.commons.experimental.cache
 
 import android.arch.lifecycle.LiveData
 import android.content.Context
+import android.util.Log
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import es.dmoral.toasty.Toasty
@@ -17,7 +18,7 @@ import retrofit2.HttpException
  * Created by rickygao on 2018/3/23.
  */
 enum class CacheIndicator {
-    LOCAL, REMOTE
+    LOCAL,  REMOTE
 }
 
 abstract class RefreshableLiveData<V, I> : LiveData<V>() {
@@ -149,12 +150,14 @@ fun <V : Any> RefreshableLiveData.Companion.use(local: Cache<V>, remote: Cache<V
 
                     val localValue = localDeferred?.awaitAndHandle(handler)?.also {
                         value = it
+//                        Log.d("GpaBeanHahahahahahha", it.toString())
                         callbackOnEach(it)
                         callback(RefreshState.Success(CacheIndicator.LOCAL))
                     }
 
                     remoteDeferred?.awaitAndHandle(handler)?.takeIf { localValue != it }?.also {
                         value = it
+//                        Log.d("GpaBeanHahahahahahha", it.toString())
                         callbackOnEach(it)
                         callback(RefreshState.Success(CacheIndicator.REMOTE))
 
@@ -196,6 +199,7 @@ fun <V : Any> RefreshableLiveData.Companion.retrofit(remote: Cache<V>) = object 
 
             remoteDeferred?.awaitAndHandle(handler)?.also {
                 value = it
+                Log.d("GpaBeanHahahahahahha", it.toString())
                 callback(RefreshState.Success(CacheIndicator.REMOTE))
             }
 
@@ -207,6 +211,7 @@ fun <V : Any> RefreshableLiveData.Companion.retrofit(remote: Cache<V>) = object 
     }
 
     override fun onActive() {
+        Log.d("GpaBeanHahahahahahha", "Active")
         refresh(CacheIndicator.REMOTE)
     }
 
