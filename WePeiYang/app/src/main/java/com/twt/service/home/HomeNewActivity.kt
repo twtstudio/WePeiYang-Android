@@ -70,9 +70,9 @@ class HomeNewActivity : AppCompatActivity() {
                 startActivity<FragmentActivity>("frag" to "User")
             }
         }
-        authSelfLiveData.bindNonNull(this) {
-            Glide.with(this).load(it.avatar).into(imageView)
-        }
+//        authSelfLiveData.bindNonNull(this) {
+//            Glide.with(this).load(it.avatar).into(imageView)
+//        }
         rec = findViewById(R.id.rec_main)
         rec.apply {
             layoutManager = LinearLayoutManager(this.context)
@@ -113,7 +113,7 @@ class HomeNewActivity : AppCompatActivity() {
             }
 
             annoHomeItem()
-            examTableHomeItem()
+//            examTableHomeItem()
 //            ecardInfoItem()
 //            ecardTransactionInfoItem()
 //            libraryHomeItem(this@HomeNewActivity)

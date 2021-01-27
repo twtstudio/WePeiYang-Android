@@ -72,7 +72,7 @@ class OtherItem : Item {
 //                    it.context.startActivity<WaterfallActivity>()
 //                }
 
-                addUselessItem("学生党建 (维护中)", "和微北洋共建社会主义")
+//                addUselessItem("学生党建 (维护中)", "和微北洋共建社会主义")
 //                {
 //                    mtaClick("app_首页OtherItem党建Item")
 //                    it.context.startActivity<PartyActivity>()
@@ -83,7 +83,7 @@ class OtherItem : Item {
 //                    it.context.startActivity<ExamHomeActivity>()
 //                }
 
-                addUselessItem("就业 (维护中)", "就业信息，一网打尽")
+//                addUselessItem("就业 (维护中)", "就业信息，一网打尽")
 //                {
 //                    mtaClick("app_首页OtherItem中就业Item")
 //                    it.context.startActivity<JobHomeActivity>()

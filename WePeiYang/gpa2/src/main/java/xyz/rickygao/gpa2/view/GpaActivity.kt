@@ -65,23 +65,23 @@ class GpaActivity : AppCompatActivity() {
             val gpaBean = GpaLiveData.value
             val term = GpaLiveData.value?.data.orEmpty()
 
-            gpaBean?.stat?.total.let {
-                scoreTv.text = it?.score.toString()
-                gpaTv.text = it?.gpa.toString()
-                creditTv.text = it?.credit.toString()
-            }
-
-            gpaBean?.data?.asSequence().let {
-                if (toggleBtn.isChecked) it?.filter { it.name != "第二课堂" } else it
-            }?.map(Term::stat)?.map {
-                GpaLineChartView.DataWithDetail(it.score, """
-                        加权：${String.format("%.2f", it.score)}
-                        绩点：${String.format("%.2f", it.gpa)}
-                        学分：${it.credit}
-                        """.trimIndent())
-            }?.toList().let {
-                gpaLineCv.dataWithDetail = it!!
-            }
+//            gpaBean?.stat?.total.let {
+//                scoreTv.text = it?.score.toString()
+//                gpaTv.text = it?.gpa.toString()
+//                creditTv.text = it?.credit.toString()
+//            }
+//
+//            gpaBean?.data?.asSequence().let {
+//                if (toggleBtn.isChecked) it?.filter { it.name != "第二课堂" } else it
+//            }?.map(Term::stat)?.map {
+//                GpaLineChartView.DataWithDetail(it.score, """
+//                        加权：${String.format("%.2f", it.score)}
+//                        绩点：${String.format("%.2f", it.gpa)}
+//                        学分：${it.credit}
+//                        """.trimIndent())
+//            }?.toList().let {
+//                gpaLineCv.dataWithDetail = it!!
+//            }
             if (term.isEmpty()) {
                 selectedTermTs.setText(EMPTY_TERM)
                 tbSelectedTermTv.text = EMPTY_TERM
@@ -115,7 +115,7 @@ class GpaActivity : AppCompatActivity() {
                         is RefreshState.Success -> if (success != null) Toasty.success(this(), success).show()
                         is RefreshState.Failure -> {
                             SpiderCookieManager.getLoginState { loginState ->
-                                if (error != null) Toasty.error(this(), "$error ${it.throwable.message}！${it.javaClass.name}").show()
+                                if (error != null) Toasty.error(this(), "$error ${it.throwable.message}！").show()
 
                                 when (loginState) {
                                     is RefreshState.Failure -> {
@@ -256,15 +256,15 @@ class GpaActivity : AppCompatActivity() {
 
         // bind callback
 //        Log.d("Lifecycle", this.lifecycle.currentState.toString())
-        GpaLiveData.observeForever {
+//        GpaLiveData.observeForever {
 //            Log.d("LiveDataValue", it.toString())
-        }
-        GpaLiveData.refresh(REMOTE, callback = gpaCallback())
+//        }/
+//        GpaLiveData.refresh(REMOTE, callback = gpaCallback())
 //        Log.d("Lifecycle", this.lifecycle)
-        Log.d("LiveDataValue", GpaLiveData.value?.toString())
+//        Log.d("LiveDataValue", GpaLiveData.value?.toString())
         GpaLiveData.bindNonNull(this, ::bindGpaBean)
 
-        selectedTermIndex = GpaLiveData.value?.data?.size!! - 1
+//        selectedTermIndex = GpaLiveData.value?.data?.size!! - 1
 //        Log.d("LiveDataValue", GpaLiveData.value?.toString())
 //        GpaLiveData.observe(this, gpaObserver)
 

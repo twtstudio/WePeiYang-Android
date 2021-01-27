@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
@@ -23,6 +22,7 @@ import com.twt.wepeiyang.commons.experimental.color.getColorCompat
 import com.twt.wepeiyang.commons.experimental.extensions.enableLightStatusBarMode
 import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
 import com.twtstudio.retrox.auth.R
+import org.jetbrains.anko.alert
 
 
 /**
@@ -112,9 +112,18 @@ class LoginActivity : AppCompatActivity() {
                                 }
                             is RefreshState.Failure -> {
                                 if (it.throwable.message.equals("请前往信息完善界面完善手机号等相关信息")) {
-                                    val intent = Intent(this@LoginActivity, InfoSuppleActivity::class.java)
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                                    startActivity(intent)
+                                    alert {
+                                        title = "账户信息不完整"
+                                        message = "请前往信息完善界面完善账户信息"
+                                        positiveButton("去完善") {
+                                            val intent = Intent(this@LoginActivity, InfoSuppleActivity::class.java)
+                                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                            startActivity(intent)
+                                        }
+                                        negativeButton("算了") {
+                                            startActivity(name = "welcome")
+                                        }
+                                    }.show()
                                 } else {
                                     Toasty.error(activity(), "${it.throwable.message}！").show()
                                     loginPb.visibility = View.INVISIBLE
