@@ -29,15 +29,15 @@ public class UpdateManager {
     }
 
     private UpdateManager() {
-        api = DefaultRetrofitBuilder.getBuilder().baseUrl("https://mobile-api.twtstudio.com/").build().create(UpdateApi.class);
+        api = DefaultRetrofitBuilder.getBuilder().baseUrl("https://mobile-api.twt.edu.cn/").build().create(UpdateApi.class);
     }
 
-    public void checkUpdate(Activity activity) {
-        checkUpdate(activity,true);
+    public void checkUpdate(Activity activity, boolean inform) {
+        checkUpdate(activity,true, inform);
     }
 
-    public void checkUpdate(Activity activity,boolean toast) {
-
+    public void checkUpdate(Activity activity,boolean toast, boolean inform) {
+        boolean flag = false;
         api.checkUpdateInfo()
                 .map(updateBean -> updateBean.info)
                 .subscribeOn(Schedulers.io())
@@ -56,7 +56,7 @@ public class UpdateManager {
                             })
                                     .show();
                         } else {
-                            if (toast) {
+                            if (toast && inform) {
                                 Toast.makeText(activity,"已经是最新Beta版啦",Toast.LENGTH_SHORT).show();
                             }
                         }
@@ -70,10 +70,9 @@ public class UpdateManager {
                                         activity.startActivity(intent);
                                     }).setNegativeButton("关闭", (dialog, which) -> {
                                 dialog.dismiss();
-                            })
-                                    .show();
+                            }).show();
                         } else {
-                            if (toast){
+                            if (toast && inform){
                                 Toast.makeText(activity,"已经是最新版啦",Toast.LENGTH_SHORT).show();
                             }
                         }

@@ -86,9 +86,9 @@ class UserAdapter(
         val item = items[position]
         when {
             item is UserItem.AvatarItem && holder is UserItemViewHolder.AvatarItemViewHolder -> {
-//                item.avatarSrc.bindNonNull(lifecycleOwner) {
-//                    holder.bind(/*it.avatar, */it.username, it.realname, item.defaultAvatarRes)
-//                }
+                item.avatarSrc.bindNonNull(lifecycleOwner) {
+                    holder.bind(/*it.avatar, */it.username, it.realname, item.defaultAvatarRes)
+                }
             }
 
             item is UserItem.InfoItem && holder is UserItemViewHolder.InfoItemViewHolder -> {

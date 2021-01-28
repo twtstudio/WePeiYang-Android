@@ -39,7 +39,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
-        android:text="天外天账户信息更新"
+        android:text="天外天账户信息注册®️"
         android:textColor="@color/common_lv3"
         app:layout_constraintBottom_toTopOf="@+id/et_student_id"
         app:layout_constraintEnd_toEndOf="parent"

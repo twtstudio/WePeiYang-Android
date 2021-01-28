@@ -173,13 +173,13 @@ class SettingsActivity : CAppCompatActivity() {
 //                false
 //            }
 
-            val infoSupple = findPreference(getString(R.string.pref_info_supplement))
-            infoSupple.setOnPreferenceClickListener {
-                val intent = Intent(activity, InfoSuppleActivity::class.java)
-                startActivity(intent)
-//                activity.startActivity(intent)
-                false
-            }
+//            val infoSupple = findPreference(getString(R.string.pref_info_supplement))
+//            infoSupple.setOnPreferenceClickListener {
+//                val intent = Intent(activity, InfoSuppleActivity::class.java)
+//                startActivity(intent)
+////                activity.startActivity(intent)
+//                false
+//            }
 
             val privacyPolicy = findPreference(getString(R.string.pref_privacy_policy))
             privacyPolicy.setOnPreferenceClickListener {
@@ -205,18 +205,18 @@ class SettingsActivity : CAppCompatActivity() {
                 false
             }
 
-//            val checkUpdate = findPreference(getString(R.string.pref_check_update))
-//            checkUpdate.setOnPreferenceClickListener {
-//                UpdateManager.getInstance().checkUpdate(activity)
-//                true
-//            }
+            val checkUpdate = findPreference(getString(R.string.pref_check_update))
+            checkUpdate.setOnPreferenceClickListener {
+                UpdateManager.getInstance().checkUpdate(activity, true)
+                true
+            }
 
-//            val isAutoCheckUpdate = findPreference(getString(R.string.pref_is_auto_check_update)) as SwitchPreference
-//            isAutoCheckUpdate.isChecked = UpdateManager.getInstance().isAutoCheck
-//            isAutoCheckUpdate.setOnPreferenceChangeListener { _, newValue ->
-//                UpdateManager.getInstance().isAutoCheck = newValue as Boolean
-//                true
-//            }
+            val isAutoCheckUpdate = findPreference(getString(R.string.pref_is_auto_check_update)) as SwitchPreference
+            isAutoCheckUpdate.isChecked = UpdateManager.getInstance().isAutoCheck
+            isAutoCheckUpdate.setOnPreferenceChangeListener { _, newValue ->
+                UpdateManager.getInstance().isAutoCheck = newValue as Boolean
+                true
+            }
 
             val addGroup = findPreference(getString(R.string.pref_add_group))
             addGroup.setOnPreferenceClickListener {

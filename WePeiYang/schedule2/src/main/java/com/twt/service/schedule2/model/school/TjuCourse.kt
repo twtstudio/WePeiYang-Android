@@ -50,7 +50,7 @@ suspend fun TjuCourseApi.Companion.refresh(mustRefresh: Boolean = false): Classt
         } catch (e: IllegalStateException) {
             e.printStackTrace()
         }
-        return classtable ?: throw IllegalStateException("凉了啊...无法获取课程表,稍后再试（怕是办公网崩了）多刷新试试")
+        return classtable ?: throw IllegalStateException("请检查办公网绑定状态")
     } else {
         // 这种情况也要静默刷新一下 成功就刷
         try {

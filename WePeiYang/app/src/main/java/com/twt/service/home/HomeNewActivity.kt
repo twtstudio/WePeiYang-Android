@@ -22,6 +22,7 @@ import com.twt.service.home.other.homeOthers
 import com.twt.service.home.user.FragmentActivity
 import com.twt.service.schedule2.view.exam.examTableHomeItem
 import com.twt.service.schedule2.view.home.homeScheduleItem
+import com.twt.service.update.UpdateManager
 import com.twt.service.widget.ScheduleWidgetProvider
 import com.twt.wepeiyang.commons.experimental.color.getColorCompat
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
@@ -70,9 +71,16 @@ class HomeNewActivity : AppCompatActivity() {
                 startActivity<FragmentActivity>("frag" to "User")
             }
         }
-//        authSelfLiveData.bindNonNull(this) {
-//            Glide.with(this).load(it.avatar).into(imageView)
-//        }
+
+        authSelfLiveData.bindNonNull(this) {
+            Glide.with(this).load(it.avatar).into(imageView)
+//            if(it.telephone==null) {
+//                val intent = Intent(this@HomeNewActivity, InfoSuppleActivity::class.java)
+//                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+//                startActivity(intent)
+//            }
+        }
+
         rec = findViewById(R.id.rec_main)
         rec.apply {
             layoutManager = LinearLayoutManager(this.context)
@@ -92,6 +100,8 @@ class HomeNewActivity : AppCompatActivity() {
             Log.d("getui_register",it)
             Toasty.info(this,"it")
         }
+
+        UpdateManager.getInstance().checkUpdate(this, false)
 
         val itemManager = rec.withItems {
             // 重写了各个 item 的 areItemsTheSame areContentsTheSame 实现动画刷新主页

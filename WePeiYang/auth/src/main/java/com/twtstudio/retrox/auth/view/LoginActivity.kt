@@ -8,21 +8,21 @@ import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
+import com.tencent.stat.StatMultiAccount
+import com.tencent.stat.StatService
+import com.twt.wepeiyang.commons.experimental.CommonContext
 import com.twt.wepeiyang.commons.experimental.cache.CacheIndicator.REMOTE
 import com.twt.wepeiyang.commons.experimental.cache.RefreshState
-import com.twt.wepeiyang.commons.experimental.startActivity
-import com.twtstudio.retrox.auth.api.authSelfLiveData
-import com.twtstudio.retrox.auth.api.login
-import es.dmoral.toasty.Toasty
-import org.jetbrains.anko.coroutines.experimental.asReference
-import com.tencent.stat.StatService
-import com.tencent.stat.StatMultiAccount
-import com.twt.wepeiyang.commons.experimental.CommonContext
 import com.twt.wepeiyang.commons.experimental.color.getColorCompat
 import com.twt.wepeiyang.commons.experimental.extensions.enableLightStatusBarMode
 import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
+import com.twt.wepeiyang.commons.experimental.startActivity
 import com.twtstudio.retrox.auth.R
+import com.twtstudio.retrox.auth.api.authSelfLiveData
+import com.twtstudio.retrox.auth.api.login
+import es.dmoral.toasty.Toasty
 import org.jetbrains.anko.alert
+import org.jetbrains.anko.coroutines.experimental.asReference
 
 
 /**
@@ -58,13 +58,13 @@ class LoginActivity : AppCompatActivity() {
         }
         privacy_checkbox = findViewById(R.id.privacy_check)
 
-        register_btn = findViewById<TextView>(R.id.tv_register).apply {
-            setOnClickListener {
-                val intent = Intent(this@LoginActivity, RegisterActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                startActivity(intent)
-            }
-        }
+//        register_btn = findViewById<TextView>(R.id.tv_register).apply {
+//            setOnClickListener {
+//                val intent = Intent(this@LoginActivity, RegisterActivity::class.java)
+//                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+//                startActivity(intent)
+//            }
+//        }
 
         loginPb = findViewById(R.id.pb_login)
         loginBtn = findViewById<Button>(R.id.btn_login).apply {
@@ -117,12 +117,14 @@ class LoginActivity : AppCompatActivity() {
                                         message = "请前往信息完善界面完善账户信息"
                                         positiveButton("去完善") {
                                             val intent = Intent(this@LoginActivity, InfoSuppleActivity::class.java)
-                                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+//                                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+
                                             startActivity(intent)
                                         }
-                                        negativeButton("算了") {
-                                            startActivity(name = "welcome")
-                                        }
+//                                        negativeButton("算了") {
+//                                            startActivity(name = "welcome")
+//                                        }
                                     }.show()
                                 } else {
                                     Toasty.error(activity(), "${it.throwable.message}！").show()
@@ -138,6 +140,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
     }
+
 
     private fun hideSoftInputMethod() {
         val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager

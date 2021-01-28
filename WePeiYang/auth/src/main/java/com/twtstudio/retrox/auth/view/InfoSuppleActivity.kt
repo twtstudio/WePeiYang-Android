@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import android.view.KeyEvent
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
@@ -118,5 +119,12 @@ class InfoSuppleActivity : AppCompatActivity() {
         captcha = findViewById(R.id.et_captcha)
         email = findViewById(R.id.et_email)
         loginPb = findViewById(R.id.pb_login)
+    }
+
+    override fun dispatchKeyEvent(event: KeyEvent): Boolean {
+        return if (event.getKeyCode() === KeyEvent.KEYCODE_BACK) { //返回键
+            //do something.
+            true //分配结束
+        } else super.dispatchKeyEvent(event)
     }
 }

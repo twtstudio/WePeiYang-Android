@@ -8,6 +8,6 @@ import rx.Observable
  */
 
 interface UpdateApi {
-    @GET("https://mobile-api.twtstudio.com/api/app/latest-version/2")
+    @GET("https://mobile-api.twt.edu.cn/api/app/latest-version/2")
     fun checkUpdateInfo(): Observable<UpdateBean>
 }
