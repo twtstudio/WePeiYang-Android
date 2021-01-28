@@ -17,10 +17,18 @@
         tools:targetApi="m">
 
         <activity
-            android:name=".home.HomeNewActivity"
+            android:name=".home.HomeNewActivity">
+<!--            android:configChanges="orientation|keyboardHidden|screenSize"-->
+<!--            android:exported="true"-->
+<!--            android:launchMode="singleTask"-->
+        </activity>
+
+        <activity
+            android:name=".home.HomeActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="true"
             android:launchMode="singleTask"></activity>
+
         <activity android:name=".home.user.FragmentActivity" />
 
         <activity

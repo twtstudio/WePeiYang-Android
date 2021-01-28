@@ -40,10 +40,10 @@ class OtherItem : Item {
             holder as ViewHolder
             holder.homeItem.apply {
                 itemName.text = "OTHERS"
-                itemContent.text = "功能列表"
-                itemContent.setOnClickListener {
-                    it.context.startActivity<FragmentActivity>("frag" to "Tool")
-                }
+                itemContent.text = ""
+//                itemContent.setOnClickListener {
+//                    it.context.startActivity<FragmentActivity>("frag" to "Tool")
+//                }
             }
             val layout = holder.linearLayout as _LinearLayout
             layout.apply {

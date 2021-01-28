@@ -18,6 +18,7 @@ import android.util.Log
 import com.tencent.stat.MtaSDkException
 import com.tencent.stat.StatService
 import com.tencent.stat.e
+import com.twt.service.home.HomeActivity
 import com.twt.wepeiyang.commons.experimental.extensions.enableLightStatusBarMode
 
 
@@ -47,7 +48,8 @@ class StartupActivity : AppCompatActivity() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) createDynamicShortcuts()
 
         if (CommonPreferences.isLogin) {
-            startActivity<HomeNewActivity>()
+            startActivity<HomeActivity>()
+//            startActivity<HomeNewActivity>()
         } else startActivity<LoginActivity>()
 
         finish()

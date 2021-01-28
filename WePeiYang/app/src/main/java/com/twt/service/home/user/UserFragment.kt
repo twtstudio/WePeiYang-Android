@@ -42,9 +42,9 @@ class UserFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
             inflater.inflate(R.layout.fragment_user, container, false).apply {
-                findViewById<ImageView>(R.id.iv_fragment_user_back).setOnClickListener {
-                    activity?.onBackPressed()
-                }
+//                findViewById<ImageView>(R.id.iv_fragment_user_back).setOnClickListener {
+//                    activity?.onBackPressed()
+//                }
 
                 findViewById<RecyclerView>(R.id.recyclerView).apply {
                     layoutManager = LinearLayoutManager(context)

@@ -9,4 +9,6 @@
     <color name="backgroundGrey">#eeeeee</color>
     <color name="statusBarColor">#00a1e9</color>
     <color name="defaultTextColor">#808080</color>
+    <color name="GRAY">#2E2E2E</color>
+
 </resources>

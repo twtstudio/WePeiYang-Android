@@ -66,19 +66,19 @@ class HomeNewActivity : AppCompatActivity() {
             action = "com.twt.appwidget.refresh"
         }
         sendBroadcast(imageClickIntent)
-        val imageView = findViewById<ImageView>(R.id.iv_toolbar_avatar).apply {
-            setOnClickListener {
-                startActivity<FragmentActivity>("frag" to "User")
-            }
-        }
+//        val imageView = findViewById<ImageView>(R.id.iv_toolbar_avatar).apply {
+//            setOnClickListener {
+//                startActivity<FragmentActivity>("frag" to "User")
+//            }
+//        }
 
         authSelfLiveData.bindNonNull(this) {
-            Glide.with(this).load(it.avatar).into(imageView)
-//            if(it.telephone==null) {
-//                val intent = Intent(this@HomeNewActivity, InfoSuppleActivity::class.java)
-//                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-//                startActivity(intent)
-//            }
+//            Glide.with(this).load(it.avatar).into(imageView)
+            if(it.telephone==null) {
+                val intent = Intent(this@HomeNewActivity, InfoSuppleActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                startActivity(intent)
+            }
         }
 
         rec = findViewById(R.id.rec_main)
