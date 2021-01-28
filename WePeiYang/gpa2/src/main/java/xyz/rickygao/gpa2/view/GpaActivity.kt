@@ -62,26 +62,7 @@ class GpaActivity : AppCompatActivity() {
     private lateinit var courseAdapter: CourseAdapter
     private var selectedTermIndex = 0
         set(value) {
-            val gpaBean = GpaLiveData.value
             val term = GpaLiveData.value?.data.orEmpty()
-
-//            gpaBean?.stat?.total.let {
-//                scoreTv.text = it?.score.toString()
-//                gpaTv.text = it?.gpa.toString()
-//                creditTv.text = it?.credit.toString()
-//            }
-//
-//            gpaBean?.data?.asSequence().let {
-//                if (toggleBtn.isChecked) it?.filter { it.name != "第二课堂" } else it
-//            }?.map(Term::stat)?.map {
-//                GpaLineChartView.DataWithDetail(it.score, """
-//                        加权：${String.format("%.2f", it.score)}
-//                        绩点：${String.format("%.2f", it.gpa)}
-//                        学分：${it.credit}
-//                        """.trimIndent())
-//            }?.toList().let {
-//                gpaLineCv.dataWithDetail = it!!
-//            }
             if (term.isEmpty()) {
                 selectedTermTs.setText(EMPTY_TERM)
                 tbSelectedTermTv.text = EMPTY_TERM

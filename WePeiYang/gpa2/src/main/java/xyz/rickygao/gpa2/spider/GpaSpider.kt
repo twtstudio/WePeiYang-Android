@@ -12,6 +12,7 @@ import org.jsoup.nodes.Element
 import org.jsoup.select.Elements
 import xyz.rickygao.gpa2.service.*
 import xyz.rickygao.gpa2.spider.utils.SpiderCookieManager
+import java.lang.Exception
 
 
 object GpaSpider {
@@ -107,7 +108,15 @@ object GpaSpider {
             }
         }
 
-        val score: Double = when (val scoreStr = tds[6].text().toString()) {
+        var scoreStr = ""
+
+        try{
+            scoreStr = tds[6].text().toString()
+        } catch (e: Exception) {
+            Log.d("score", "有没评教的")
+        }
+
+        val score: Double = when (scoreStr) {
             "P" -> {
                 100.0
             }
@@ -130,6 +139,9 @@ object GpaSpider {
                 IGNORED
             }
             "E" -> {
+                IGNORED
+            }
+            "" -> {
                 IGNORED
             }
             else -> {
