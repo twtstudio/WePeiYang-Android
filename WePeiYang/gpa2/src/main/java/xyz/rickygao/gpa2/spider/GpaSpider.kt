@@ -38,6 +38,7 @@ object GpaSpider {
         okHttpClient.newCall(request).execute().body()?.string().orEmpty()
     }
 
+    // TODO:根据CommonPreference里的stuType【"stuType":"硕士研究生", "stuType":"本科生"】来进行本科生/研究生的解析
     fun parseHtml(htmlStr: String): GpaBean {
         Log.d("html", htmlStr)
         val doc = Jsoup.parse(htmlStr)

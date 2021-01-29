@@ -1,5 +1,6 @@
 package com.twt.service.home
 
+import android.Manifest
 import android.graphics.Color
 import android.os.Bundle
 import android.support.design.widget.TabLayout
@@ -13,6 +14,7 @@ import com.twt.service.home.user.UserFragment
 import com.twt.service.schedule2.view.custom.CustomPagerAdapter
 import com.twt.wepeiyang.commons.experimental.color.getColorCompat
 import com.twt.wepeiyang.commons.experimental.extensions.enableLightStatusBarMode
+import pub.devrel.easypermissions.EasyPermissions
 
 
 class HomeActivity : AppCompatActivity() {
@@ -20,6 +22,11 @@ class HomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
+        EasyPermissions.requestPermissions(this, "微北洋需要外部存储来提供必要的缓存\n 需要位置信息和手机状态来获取校园网连接状态", 0,
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.READ_PHONE_STATE)
+
         setContentView(R.layout.activity_home)
 
         enableLightStatusBarMode(true)

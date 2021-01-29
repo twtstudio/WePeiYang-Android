@@ -41,4 +41,5 @@ object CommonPreferences {
     var isUserInfoUpdated by hawk("user_info_update", false)
 
     var telephone by hawk("user_phone_number", "")
+    var stuType by hawk("user_stu_type", "")
 }

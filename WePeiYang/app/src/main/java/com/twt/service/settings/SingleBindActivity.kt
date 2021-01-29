@@ -1,7 +1,6 @@
 package com.twt.service.settings
 
 import android.app.Fragment
-import android.os.Build
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.text.SpannableStringBuilder
@@ -11,7 +10,6 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.Toast
 import butterknife.ButterKnife
 import butterknife.Unbinder
 import com.bumptech.glide.Glide
@@ -19,13 +17,10 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.model.GlideUrl
 import com.bumptech.glide.load.model.LazyHeaders
 import com.twt.service.R
-import com.twt.wepeiyang.commons.experimental.cache.CacheIndicator
-import com.twt.wepeiyang.commons.experimental.cache.RefreshState
+import com.twt.wepeiyang.commons.experimental.color.getColorCompat
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
+import com.twt.wepeiyang.commons.experimental.extensions.enableLightStatusBarMode
 import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
-import com.twtstudio.retrox.auth.api.authSelfLiveData
-import com.twtstudio.retrox.auth.api.login
-//import com.twtstudio.retrox.tjulibrary.provider.TjuLibProvider
 import es.dmoral.toasty.Toasty
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
@@ -45,7 +40,6 @@ class SingleBindActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_setting)
-
         findViewById<ImageView>(R.id.iv_activity_setting_back).setOnClickListener { onBackPressed() }
 
         val fragmentTransaction = fragmentManager.beginTransaction()

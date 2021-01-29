@@ -16,6 +16,7 @@ val authSelfLiveData = RefreshableLiveData.use(authSelfLocalCache, authSelfRemot
     CommonPreferences.studentid = it.userNumber
     CommonPreferences.realName = it.realname
     CommonPreferences.token = it.token
+    CommonPreferences.stuType = it.stuType
 }
 
 fun login(username: String, password: String, callback: suspend (RefreshState<Unit>) -> Unit = {}) {
