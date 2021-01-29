@@ -99,7 +99,7 @@ object GpaSpider {
         val no = tds[1].text()
         val name = tds[2].text()
 
-        val typeNum = when (val type = tds[4].text()) {
+        val typeNum = when (tds[4].text()) {
             "必修" -> {
                 0
             }
@@ -110,7 +110,7 @@ object GpaSpider {
 
         var scoreStr = ""
 
-        try{
+        try {
             scoreStr = tds[6].text().toString()
         } catch (e: Exception) {
             Log.d("score", "有没评教的")
