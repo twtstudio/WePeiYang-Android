@@ -2,6 +2,7 @@ package xyz.rickygao.gpa2.spider
 
 import android.util.Log
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
+import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.GlobalScope
@@ -38,21 +39,21 @@ object GpaSpider {
         okHttpClient.newCall(request).execute().body()?.string().orEmpty()
     }
 
-    // TODO:根据CommonPreference里的stuType【"stuType":"硕士研究生", "stuType":"本科生"】来进行本科生/研究生的解析
+    // 根据CommonPreference里的stuType【"stuType":"硕士研究生", "stuType":"本科生"】来进行本科生/研究生的解析
+    // 这里的stuType是天外天账号里的，本科生twt账号绑定研究生办公网账号会有问题
     fun parseHtml(htmlStr: String): GpaBean {
         Log.d("html", htmlStr)
         val doc = Jsoup.parse(htmlStr)
         // 根据id获取table
         val table: Elements = doc.getElementsByClass("gridtable")
 
-        // 使用选择器选择该table内所有的<tr> <tr/>
-        val totalTrs: Elements = table[0].select("tbody").select("tr")
-        val totalThs: Elements = totalTrs[0].select("th")
+        // 使用选择器选择该table内所有的<th> <th/>
+        val totalThs: Elements = table[0].select("th")
 
-        //计算总学分，总加权和总绩点
-        val totalCredits = totalThs[2].text().toDouble()
-        val totalGpa = totalThs[3].text().toDouble()
-        val totalScore = totalThs[4].text().toDouble()
+        //计算总学分，总绩点和总加权
+        val totalCredits = totalThs[totalThs.size - 5].text().toDouble()
+        val totalGpa = totalThs[totalThs.size - 4].text().toDouble()
+        val totalScore = totalThs[totalThs.size - 3].text().toDouble()
 
         val total = Total(totalScore, totalGpa, totalCredits)
 
@@ -97,11 +98,16 @@ object GpaSpider {
     }
 
     private fun parseCourses(tds: Elements) {
+        val type = if (CommonPreferences.stuType == "硕士研究生") {
+            3
+        } else {
+            2
+        }
         val no = tds[1].text()
-        val name = tds[2].text()
+        val name = tds[type].text()
 
         val typeNum = when (tds[4].text()) {
-            "必修" -> {
+            "必修", "必修课" -> {
                 0
             }
             else -> {
@@ -112,7 +118,11 @@ object GpaSpider {
         var scoreStr = ""
 
         try {
-            scoreStr = tds[6].text().toString()
+            scoreStr = if (type == 3) {
+                tds[8].text().toString()
+            } else {
+                tds[6].text().toString()
+            }
         } catch (e: Exception) {
             Log.d("score", "有没评教的")
         }
@@ -160,7 +170,7 @@ object GpaSpider {
 //        }
 
         if (score != DELAYED && score != IGNORED) {
-            val gpa = tds[8].text().toDouble()
+            val gpa = tds[type + 6].text().toDouble()
             val course = Course(no, name, typeNum, credits, 0, score, gpa, null)
             courseList.add(course)
         }
@@ -174,7 +184,9 @@ object GpaSpider {
             currentTermTotalCredits += course.credit
         }
         for (course in courseList) {
-            currentTermGpa += course.gpa.times((course.credit / currentTermTotalCredits))
+            if (CommonPreferences.stuType == "本科生") {
+                currentTermGpa += course.gpa.times((course.credit / currentTermTotalCredits))
+            }
             currentTermScore += course.score.times((course.credit) / currentTermTotalCredits)
         }
         val currentTermStat = TermStat(currentTermScore, currentTermGpa, currentTermTotalCredits)
