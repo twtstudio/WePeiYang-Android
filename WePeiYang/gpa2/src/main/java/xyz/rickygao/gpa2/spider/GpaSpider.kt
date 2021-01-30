@@ -19,12 +19,13 @@ import java.lang.Exception
 object GpaSpider {
     private const val DELAYED = 999.0
     private const val IGNORED = 999.0
-    private val termNameList: List<String> = listOf("大一上", "大一下", "大二上", "大二下", "大三上", "大三下", "大四上", "大四下", "大五上", "大五下")
+    private val termNameListBachelor: List<String> = listOf("大一上", "大一下", "大二上", "大二下", "大三上", "大三下", "大四上", "大四下", "大五上", "大五下")
+    private val termNameListMaster: List<String> = listOf("研一上", "研一下", "研二上", "研二下", "研三上", "研三下", "研四上", "研四下")
 
-    lateinit var gpaBean: GpaBean
-    var currentTermStr: String = ""
-    var termList: MutableList<Term> = ArrayList()
-    var courseList: MutableList<Course> = ArrayList()
+    private lateinit var gpaBean: GpaBean
+    private var currentTermStr: String = ""
+    private var termList: MutableList<Term> = ArrayList()
+    private var courseList: MutableList<Course> = ArrayList()
 
 
     fun getGpa(): Deferred<String> = GlobalScope.async(IO + QuietCoroutineExceptionHandler) {
@@ -90,7 +91,11 @@ object GpaSpider {
         }
 
         for ((index, term) in termList.withIndex()) {
-            term.name = termNameList[index]
+            term.name = if (CommonPreferences.stuType == "硕士研究生") {
+                termNameListMaster[index]
+            } else {
+                termNameListBachelor[index]
+            }
         }
 
         gpaBean = GpaBean(stat, termList, "", "")

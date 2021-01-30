@@ -97,15 +97,15 @@ class GpaMiniLineChartView @JvmOverloads constructor(context: Context, attrs: At
     var dataWithDetail: MutableList<DataWithDetail> = mutableListOf()
         set(value) {
             field = value
-            selectedIndex = selectedIndex // ha?
+//            selectedIndex = selectedIndex // ha?
             invalidate()
         }
 
-    var selectedIndex = 0
-        set(value) {
-            field = value.coerceIn(if (dataWithDetail.isNotEmpty()) dataWithDetail.indices else 0..0)
-            invalidate()
-        }
+//    var selectedIndex = 0
+//        set(value) {
+//            field = value.coerceIn(if (dataWithDetail.isNotEmpty()) dataWithDetail.indices else 0..0)
+//            invalidate()
+//        }
 
 
     private val linePath = Path()
@@ -141,16 +141,27 @@ class GpaMiniLineChartView @JvmOverloads constructor(context: Context, attrs: At
             val minDataExtended = minData - extension
             val maxDataExtended = maxData + extension
             val dataSpanExtended = maxDataExtended - minDataExtended
-            if (dataWithDetail.size == 1) {
-                points.add(PointF(startX.toFloat(), centerY))
-            } else {
-                /*单个数据的时候不执行……蜜汁问题*/
-                dataWithDetail.asSequence()
-                        .map { (it.data - minDataExtended) / dataSpanExtended }
-                        .mapIndexedTo(points) { index, ratio ->
-                            PointF(startX + widthStep * (index),
-                                    paddingTop + (1 - ratio.toFloat()) * contentHeight * 0.8.toFloat())
-                        }
+            when {
+                dataWithDetail.size == 1 -> {
+                    points.add(PointF(startX.toFloat(), centerY))
+                }
+                dataSpanExtended == 0.0 -> {
+                    dataWithDetail.asSequence()
+                            .map { (it.data - minDataExtended) / 4.0 }
+                            .mapIndexedTo(points) { index, ratio ->
+                                PointF(startX + widthStep * (index),
+                                        paddingTop + (1 - ratio.toFloat()) * contentHeight * 0.8.toFloat())
+                            }
+                }
+                else -> {
+                    /*单个数据的时候不执行……蜜汁问题*/
+                    dataWithDetail.asSequence()
+                            .map { (it.data - minDataExtended) / dataSpanExtended }
+                            .mapIndexedTo(points) { index, ratio ->
+                                PointF(startX + widthStep * (index),
+                                        paddingTop + (1 - ratio.toFloat()) * contentHeight * 0.8.toFloat())
+                            }
+                }
             }
 
 

@@ -36,9 +36,8 @@ class GpaItem(val owner: LifecycleOwner) : Item {
             item as GpaItem
             holder.bind(item.owner)
             GpaLiveData.bindNonNull(item.owner) {
-                val x = it.stat.total.score.toString().substring(0, it.stat.total.score.toString().length)
-                val gpa = it.stat.total.gpa.toString()
-                val y = gpa.substring(0, gpa.length)
+                val x = it.stat.total.score.toString()
+                val y = it.stat.total.gpa.toString()
                 val text = "加权: <span style=\"color:#E70C57\";>${x}</span>&nbsp;绩点: <span style=\"color:#E70C57\";>${y}</span>"
                 holder.homeItem.itemContent.text = text.spanned
             }
@@ -48,6 +47,7 @@ class GpaItem(val owner: LifecycleOwner) : Item {
 
         private class GpaItemViewHolder(itemView: View, val homeItem: HomeItem) : RecyclerView.ViewHolder(itemView) {
             private val cardView: CardView = itemView.findViewById(R.id.card_item_gpa2)
+
             //            val textView : TextView = itemView.findViewById(R.id.gpa2_text)
             val gpaMiniLineChartView: GpaMiniLineChartView = itemView.findViewById(R.id.gpa_mini)
 
@@ -58,8 +58,8 @@ class GpaItem(val owner: LifecycleOwner) : Item {
                     }
                     itemView.context.startActivity(intent)
                 }
-                GpaLiveData.bindNonNull(lifecycleOwner) {
-                    it.data.asSequence().map {
+                GpaLiveData.bindNonNull(lifecycleOwner) { bean ->
+                    bean.data.asSequence().map {
                         GpaMiniLineChartView.DataWithDetail(it.stat.gpa, it.name)
                     }.toMutableList().let {
                         gpaMiniLineChartView.dataWithDetail = it
