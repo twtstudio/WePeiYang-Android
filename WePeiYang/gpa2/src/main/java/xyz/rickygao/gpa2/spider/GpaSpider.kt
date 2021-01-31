@@ -103,13 +103,13 @@ object GpaSpider {
     }
 
     private fun parseCourses(tds: Elements) {
-        val type = if (CommonPreferences.stuType == "硕士研究生") {
-            3
-        } else {
-            2
-        }
+
         val no = tds[1].text()
-        val name = tds[type].text()
+        val name = if (CommonPreferences.stuType == "硕士研究生") {
+            tds[3].text()
+        } else {
+            tds[2].text()
+        }
 
         val typeNum = when (tds[4].text()) {
             "必修", "必修课" -> {
@@ -123,11 +123,7 @@ object GpaSpider {
         var scoreStr = ""
 
         try {
-            scoreStr = if (type == 3) {
-                tds[8].text().toString()
-            } else {
-                tds[6].text().toString()
-            }
+            scoreStr = tds[tds.size - 2].text().toString()
         } catch (e: Exception) {
             Log.d("score", "有没评教的")
         }
@@ -175,7 +171,7 @@ object GpaSpider {
 //        }
 
         if (score != DELAYED && score != IGNORED) {
-            val gpa = tds[type + 6].text().toDouble()
+            val gpa = tds[tds.size - 1].text().toDouble()
             val course = Course(no, name, typeNum, credits, 0, score, gpa, null)
             courseList.add(course)
         }
