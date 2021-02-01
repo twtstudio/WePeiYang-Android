@@ -123,7 +123,11 @@ object GpaSpider {
         var scoreStr = ""
 
         try {
-            scoreStr = tds[tds.size - 2].text().toString()
+            scoreStr = if (CommonPreferences.stuType == "硕士研究生") {
+                tds[tds.size - 2].text().toString()
+            } else {
+                tds[6].text().toString()
+            }
         } catch (e: Exception) {
             Log.d("score", "有没评教的")
         }
