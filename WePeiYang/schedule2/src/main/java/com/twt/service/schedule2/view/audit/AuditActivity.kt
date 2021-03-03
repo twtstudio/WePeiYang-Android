@@ -5,6 +5,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
 import android.graphics.drawable.ColorDrawable
+import android.media.AudioManager
 import android.os.Bundle
 import android.os.Handler
 import android.support.v7.widget.DefaultItemAnimator
@@ -47,6 +48,7 @@ import com.twt.wepeiyang.commons.ui.rec.ItemAdapter
 import com.twt.wepeiyang.commons.ui.rec.ItemManager
 import es.dmoral.toasty.Toasty
 import io.multimoon.colorful.CAppCompatActivity
+import kotlinx.android.synthetic.main.schedule_frag_add_custom.view.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -69,7 +71,7 @@ class AuditActivity : CAppCompatActivity() {
     lateinit var viewGroup: ViewGroup
     lateinit var autocomplete: Autocomplete<String>
     lateinit var searchEditText: EditText
-    
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.schedule_act_audit)
@@ -112,6 +114,31 @@ class AuditActivity : CAppCompatActivity() {
             textSize = 16f
             textColor = Color.parseColor("#60000000")
             typeface = Typeface.create("sans-serif-medium", Typeface.NORMAL)
+            this.setOnClickListener {
+                if (it is TextView && it.text == "我的蹭课") {
+                    if (AuditCourseManager.auditCourseVisibility) {
+                        alert {
+                            title = "关闭蹭课显示"
+                            message = "是否不在课表上显示蹭课"
+                            positiveButton("关闭显示") {
+                                GlobalScope.launch(Dispatchers.Default + QuietCoroutineExceptionHandler) {
+                                    AuditCourseManager.closeAuditClasstable()
+                                }
+                            }
+                        }.show()
+                        AuditCourseManager.auditCourseVisibility = false
+                    } else {
+                        alert {
+                            title = "开启蹭课显示"
+                            message = "是否在课表上显示蹭课"
+                            positiveButton("开启显示") {
+                                refreshData()
+                            }
+                        }.show()
+                        AuditCourseManager.auditCourseVisibility = true
+                    }
+                }
+            }
         }
 
         var popularCount = 3
@@ -230,7 +257,7 @@ class AuditActivity : CAppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        refreshData()
+//        refreshData()
     }
 
     private fun setUpSearchView(editText: EditText) {

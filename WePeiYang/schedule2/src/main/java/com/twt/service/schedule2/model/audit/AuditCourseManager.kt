@@ -14,6 +14,8 @@ import kotlinx.coroutines.*
 
 object AuditCourseManager {
 
+    var auditCourseVisibility = true
+
     /**
      * 从数据库拉取蹭课信息
      */
@@ -44,17 +46,24 @@ object AuditCourseManager {
         // 这个能获取到信息
         Log.d("testitemd audit good", auditCourse.toString())
 
-        deleteAuditCoursesLocal(dao)
-        var usableCourse: ArrayList<AuditCourse> = ArrayList()
-        auditCourse.forEach {
-            if (it.infos.isNotEmpty())
-                usableCourse.add(it)
+        if (auditCourseVisibility) {
+            deleteAuditCoursesLocal(dao)
+            var usableCourse: ArrayList<AuditCourse> = ArrayList()
+            auditCourse.forEach {
+                if (it.infos.isNotEmpty())
+                    usableCourse.add(it)
+            }
+            val array = usableCourse.toTypedArray()
+            dao.insertAuditCourses(*array)
         }
-        val array = usableCourse.toTypedArray()
-        dao.insertAuditCourses(*array)
+    }
+
+    fun closeAuditClasstable(dao: AuditCourseDao = ScheduleDb.auditCourseDao) {
+        deleteAuditCoursesLocal(dao)
     }
 
     private val suggestionLiveData = MutableLiveData<List<String>>()
+
     /**
      * 获取搜索建议的LiveData
      * LiveData获取一次即可 其余情况自动观察 不需要处理返回值
