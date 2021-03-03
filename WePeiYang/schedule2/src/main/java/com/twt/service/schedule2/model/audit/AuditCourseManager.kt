@@ -4,17 +4,12 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.util.Log
 import com.twt.service.schedule2.extensions.termStart
-import com.twt.service.schedule2.model.AbsClasstableProvider
-import com.twt.service.schedule2.model.Classtable
-import com.twt.service.schedule2.model.CommonClassTable
-import com.twt.service.schedule2.model.ScheduleDb
+import com.twt.service.schedule2.model.*
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import kotlinx.coroutines.*
 
 object AuditCourseManager {
-
-    var auditCourseVisibility = true
 
     /**
      * 从数据库拉取蹭课信息
@@ -46,7 +41,7 @@ object AuditCourseManager {
         // 这个能获取到信息
         Log.d("testitemd audit good", auditCourse.toString())
 
-        if (auditCourseVisibility) {
+        if (SchedulePref.auditCourseVisibility) {
             deleteAuditCoursesLocal(dao)
             var usableCourse: ArrayList<AuditCourse> = ArrayList()
             auditCourse.forEach {

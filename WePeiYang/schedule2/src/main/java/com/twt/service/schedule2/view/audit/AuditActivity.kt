@@ -25,6 +25,7 @@ import android.widget.TextView
 import com.otaliastudios.autocomplete.Autocomplete
 import com.otaliastudios.autocomplete.AutocompletePolicy
 import com.twt.service.schedule2.R
+import com.twt.service.schedule2.model.SchedulePref
 import com.twt.service.schedule2.model.audit.AuditApi
 import com.twt.service.schedule2.model.audit.AuditCourseManager
 import com.twt.service.schedule2.model.audit.auditPopluarLiveData
@@ -116,7 +117,7 @@ class AuditActivity : CAppCompatActivity() {
             typeface = Typeface.create("sans-serif-medium", Typeface.NORMAL)
             this.setOnClickListener {
                 if (it is TextView && it.text == "我的蹭课") {
-                    if (AuditCourseManager.auditCourseVisibility) {
+                    if (SchedulePref.auditCourseVisibility) {
                         alert {
                             title = "关闭蹭课显示"
                             message = "是否不在课表上显示蹭课"
@@ -126,7 +127,7 @@ class AuditActivity : CAppCompatActivity() {
                                 }
                             }
                         }.show()
-                        AuditCourseManager.auditCourseVisibility = false
+                        SchedulePref.auditCourseVisibility = false
                     } else {
                         alert {
                             title = "开启蹭课显示"
@@ -135,7 +136,7 @@ class AuditActivity : CAppCompatActivity() {
                                 refreshData()
                             }
                         }.show()
-                        AuditCourseManager.auditCourseVisibility = true
+                        SchedulePref.auditCourseVisibility = true
                     }
                 }
             }

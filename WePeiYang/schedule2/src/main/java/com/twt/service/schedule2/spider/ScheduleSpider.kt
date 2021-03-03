@@ -153,9 +153,9 @@ object ScheduleSpider {
                     week = 1,
                     cache = false,
                     courses = courses,
-                    termStart = 1598803200L,//TODO  unix时间戳 2020/8/31 0:0:0
+                    termStart = 1614528000L,//TODO  unix时间戳 2021/03/01 00:00:00
                     updatedAt = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA).format(Date(System.currentTimeMillis())),// 2020-03-10T20:07:41+08:00 ?
-                    term = "20211"//TODO  只能手动改了马
+                    term = "20212"//TODO  只能手动改了马
             )
 
         } catch (e: IllegalStateException) {
