@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import com.bumptech.glide.Glide
+import com.igexin.sdk.PushManager
 import com.twt.service.AppPreferences
 import com.twt.service.R
 import com.twt.service.announcement.ui.annoBannerItem
@@ -24,15 +25,18 @@ import com.twt.service.update.UpdateManager
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
 import com.twt.wepeiyang.commons.experimental.extensions.awaitAndHandle
 import com.twt.wepeiyang.commons.experimental.extensions.bindNonNull
+import com.twt.wepeiyang.commons.experimental.preference.CommonPreferences
 import com.twt.wepeiyang.commons.mta.mtaExpose
 import com.twt.wepeiyang.commons.ui.rec.withItems
 import com.twt.wepeiyang.commons.view.RecyclerViewDivider
 import com.twtstudio.retrox.auth.api.authSelfLiveData
+import es.dmoral.toasty.Toasty
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.support.v4.dip
+import org.jetbrains.anko.support.v4.startService
 import xyz.rickygao.gpa2.view.gpaNewHomeItem
 
 

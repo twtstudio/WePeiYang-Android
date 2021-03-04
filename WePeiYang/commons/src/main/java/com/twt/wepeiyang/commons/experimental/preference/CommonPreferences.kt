@@ -42,4 +42,6 @@ object CommonPreferences {
 
     var telephone by hawk("user_phone_number", "")
     var stuType by hawk("user_stu_type", "")
+
+    var isFer by hawk("first_login", true)
 }

@@ -213,6 +213,7 @@ class UserFragment : Fragment() {
                                                     StatService.removeMultiAccount(context, StatMultiAccount.AccountType.CUSTOM)
                                                     //清除办公网登录缓存
                                                     SpiderCookieManager.clearCookie()
+                                                    CommonPreferences.isFer = false
                                                     val intent = Intent(context, LoginActivity::class.java)
                                                     context.startActivity(intent)
                                                     (context as Activity).finish()

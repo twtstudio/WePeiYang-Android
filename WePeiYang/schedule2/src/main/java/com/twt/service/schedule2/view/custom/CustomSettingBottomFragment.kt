@@ -74,28 +74,28 @@ class CustomSettingBottomFragment : BottomSheetDialogFragment() {
 
                 }
 
-                indicator("蹭课")
-
-                constraintLayout {
-                    backgroundColor = Color.WHITE
-
-                    textView {
-                        text = "进入蹭课设置"
-                        textSize = 14f
-                        textColor = Color.BLACK
-                    }.lparams(width = wrapContent, height = wrapContent) {
-                        startToStart = PARENT_ID
-                        topToTop = PARENT_ID
-                        bottomToBottom = PARENT_ID
-                        leftMargin = dip(16)
-                    }
-                }.lparams(width = matchParent, height = dip(48)).apply {
-                    setOnClickListener {
-                        mtaClick("schedule_进入蹭课功能")
-                        val intent = Intent(activity, AuditActivity::class.java)
-                        activity?.startActivity(intent)
-                    }
-                }
+//                indicator("蹭课")
+//
+//                constraintLayout {
+//                    backgroundColor = Color.WHITE
+//
+//                    textView {
+//                        text = "进入蹭课设置"
+//                        textSize = 14f
+//                        textColor = Color.BLACK
+//                    }.lparams(width = wrapContent, height = wrapContent) {
+//                        startToStart = PARENT_ID
+//                        topToTop = PARENT_ID
+//                        bottomToBottom = PARENT_ID
+//                        leftMargin = dip(16)
+//                    }
+//                }.lparams(width = matchParent, height = dip(48)).apply {
+//                    setOnClickListener {
+//                        mtaClick("schedule_进入蹭课功能")
+//                        val intent = Intent(activity, AuditActivity::class.java)
+//                        activity?.startActivity(intent)
+//                    }
+//                }
 
                 indicator("自定义课程")
 
