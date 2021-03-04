@@ -2,7 +2,6 @@ package com.twt.service.schedule2.spider
 
 import android.util.Log
 import com.twt.service.schedule2.model.*
-import com.twt.wepeiyang.commons.experimental.cache.RefreshState
 import xyz.rickygao.gpa2.spider.utils.*
 import com.twt.wepeiyang.commons.experimental.extensions.QuietCoroutineExceptionHandler
 import kotlinx.coroutines.Deferred
@@ -10,6 +9,7 @@ import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import okhttp3.MultipartBody
+import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
@@ -20,9 +20,13 @@ object ScheduleSpider {
     private const val semesterId = "semester.id"
     private const val ids = "ids"
 
+    const val termStart = 1614528000L //TODO  unix时间戳 2021/03/01 00:00:00
+    private const val term = "20212" //TODO  只能手动改了马
+    private lateinit var okHttpClient: OkHttpClient
+
     fun getScheduleAsync(): Deferred<String> = GlobalScope.async(IO + QuietCoroutineExceptionHandler) {
 
-        val okHttpClient = SpiderCookieManager.getClientBuilder().build()
+        okHttpClient = SpiderCookieManager.getClientBuilder().build()
 
         val request1 = Request.Builder()
                 .url("http://classes.tju.edu.cn/eams/courseTableForStd.action")
@@ -31,8 +35,10 @@ object ScheduleSpider {
 
         val html1 = okHttpClient.newCall(request1).execute().body()?.string().orEmpty()
 
+        //获得post相关参数并存储辅修情况
         val map = if (checkMinor(html1)) {
-            //有辅修 再发一个
+            //有辅修
+            SchedulePref.ifMinor = true
             val request2 = Request.Builder()
                     .url("http://classes.tju.edu.cn/eams/courseTableForStd!innerIndex.action?projectId=1&_=${System.currentTimeMillis()}")
                     .get()
@@ -42,6 +48,7 @@ object ScheduleSpider {
             parseHtml(html2)
         } else {
             //一般情况
+            SchedulePref.ifMinor = false
             parseHtml(html1)
         }
 
@@ -51,7 +58,7 @@ object ScheduleSpider {
                         .addFormDataPart("ignoreHead", "1")
                         .addFormDataPart("setting.kind", "std")
                         .addFormDataPart("startWeek", "")
-                        .addFormDataPart("semester.id", map[semesterId] ?: "47")//找不到规律
+                        .addFormDataPart("semester.id", map[semesterId] ?: "48")//找不到规律
                         .addFormDataPart("ids", map[ids] ?: "0000000")//用户自己的id
                         .build())
                 .build()
@@ -59,8 +66,80 @@ object ScheduleSpider {
         okHttpClient.newCall(request0).execute().body()?.string().orEmpty()
     }
 
-    //辅修情况
+    fun getMinorScheduleAsync(): Deferred<String> = GlobalScope.async(IO + QuietCoroutineExceptionHandler) {
+        //介四为嘛 orz
+        val request1 = Request.Builder()
+                .url("http://classes.tju.edu.cn/eams/courseTableForStd!index.action?projectId=2")
+                .get()
+                .build()
+        okHttpClient.newCall(request1).execute()
+        //拿辅修课表的id
+        val request2 = Request.Builder()
+                .url("http://classes.tju.edu.cn/eams/courseTableForStd!innerIndex.action?projectId=2&_=${System.currentTimeMillis()}")
+                .get()
+                .build()
+
+        val html2 = okHttpClient.newCall(request2).execute().body()?.string().orEmpty()
+        val map = parseHtml(html2)
+
+        val request0 = Request.Builder()
+                .url("http://classes.tju.edu.cn/eams/courseTableForStd!courseTable.action")
+                .post(MultipartBody.Builder().setType(MultipartBody.FORM)
+                        .addFormDataPart("ignoreHead", "1")
+                        .addFormDataPart("setting.kind", "std")
+                        .addFormDataPart("startWeek", "")
+                        .addFormDataPart("semester.id", map[semesterId] ?: "48")
+                        .addFormDataPart("ids", map[ids] ?: "0000000")//对应课表的id
+                        .build())
+                .build()
+        //orz
+//        val request3 = Request.Builder()
+//                .url("http://classes.tju.edu.cn/eams/courseTableForStd!index.action?projectId=1")
+//                .get()
+//                .build()
+//        okHttpClient.newCall(request3).execute()
+        okHttpClient.newCall(request0).execute().body()?.string().orEmpty()
+    }
+
+    //检查是否有辅修
     private fun checkMinor(html1: String): Boolean = Jsoup.parse(html1).body().getElementsByTag("script").first().data().contains("bg.ready")
+
+    fun mergeClassTable(c1: Classtable?, c2: Classtable?): Classtable? {
+        val week: Int
+        val cache: Boolean
+        val courses = mutableListOf<Course>()
+        val termStart: Long
+        val updatedAt: String
+        val term: String
+        if (c1 == null && c2 != null) {
+            week = c2.week
+            cache = c2.cache
+            courses.addAll(c2.courses)
+            termStart = c2.termStart
+            updatedAt = c2.updatedAt
+            term = c2.term
+            return Classtable(week, cache, courses, termStart, updatedAt, term)
+        } else if (c1 != null && c2 == null) {
+            week = c1.week
+            cache = c1.cache
+            courses.addAll(c1.courses)
+            termStart = c1.termStart
+            updatedAt = c1.updatedAt
+            term = c1.term
+            return Classtable(week, cache, courses, termStart, updatedAt, term)
+        } else if (c1 != null && c2 != null) {
+            week = c1.week
+            cache = c1.cache
+            courses.addAll(c1.courses)
+            courses.addAll(c2.courses)
+            termStart = c1.termStart
+            updatedAt = c1.updatedAt
+            term = c1.term
+            return Classtable(week, cache, courses, termStart, updatedAt, term)
+        } else {
+            return null
+        }
+    }
 
     //拿出有用的request里的两个参数
     private fun parseHtml(html: String): MutableMap<String, String> {
@@ -153,9 +232,9 @@ object ScheduleSpider {
                     week = 1,
                     cache = false,
                     courses = courses,
-                    termStart = 1614528000L,//TODO  unix时间戳 2021/03/01 00:00:00
+                    termStart = termStart,
                     updatedAt = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA).format(Date(System.currentTimeMillis())),// 2020-03-10T20:07:41+08:00 ?
-                    term = "20212"//TODO  只能手动改了马
+                    term = term
             )
 
         } catch (e: IllegalStateException) {

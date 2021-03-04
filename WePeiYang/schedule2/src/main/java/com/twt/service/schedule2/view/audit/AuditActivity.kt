@@ -125,18 +125,18 @@ class AuditActivity : CAppCompatActivity() {
                                 GlobalScope.launch(Dispatchers.Default + QuietCoroutineExceptionHandler) {
                                     AuditCourseManager.closeAuditClasstable()
                                 }
+                                SchedulePref.auditCourseVisibility = false
                             }
                         }.show()
-                        SchedulePref.auditCourseVisibility = false
                     } else {
                         alert {
                             title = "开启蹭课显示"
                             message = "是否在课表上显示蹭课"
                             positiveButton("开启显示") {
                                 refreshData()
+                                SchedulePref.auditCourseVisibility = true
                             }
                         }.show()
-                        SchedulePref.auditCourseVisibility = true
                     }
                 }
             }
