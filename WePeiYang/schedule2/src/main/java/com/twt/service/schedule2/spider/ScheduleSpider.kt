@@ -28,17 +28,23 @@ object ScheduleSpider {
 
         okHttpClient = SpiderCookieManager.getClientBuilder().build()
 
-        val request1 = Request.Builder()
+        val request = Request.Builder()
                 .url("http://classes.tju.edu.cn/eams/courseTableForStd.action")
                 .get()
                 .build()
 
-        val html1 = okHttpClient.newCall(request1).execute().body()?.string().orEmpty()
+        val html1 = okHttpClient.newCall(request).execute().body()?.string().orEmpty()
 
         //获得post相关参数并存储辅修情况
         val map = if (checkMinor(html1)) {
             //有辅修
             SchedulePref.ifMinor = true
+            //TODO 这个get就很迷
+            val request1 = Request.Builder()
+                    .url("http://classes.tju.edu.cn/eams/courseTableForStd!index.action?projectId=1")
+                    .get()
+                    .build()
+            okHttpClient.newCall(request1).execute()
             val request2 = Request.Builder()
                     .url("http://classes.tju.edu.cn/eams/courseTableForStd!innerIndex.action?projectId=1&_=${System.currentTimeMillis()}")
                     .get()
@@ -67,7 +73,7 @@ object ScheduleSpider {
     }
 
     fun getMinorScheduleAsync(): Deferred<String> = GlobalScope.async(IO + QuietCoroutineExceptionHandler) {
-        //介四为嘛 orz
+        //TODO 介四为嘛 orz
         val request1 = Request.Builder()
                 .url("http://classes.tju.edu.cn/eams/courseTableForStd!index.action?projectId=2")
                 .get()
@@ -92,12 +98,7 @@ object ScheduleSpider {
                         .addFormDataPart("ids", map[ids] ?: "0000000")//对应课表的id
                         .build())
                 .build()
-        //orz
-//        val request3 = Request.Builder()
-//                .url("http://classes.tju.edu.cn/eams/courseTableForStd!index.action?projectId=1")
-//                .get()
-//                .build()
-//        okHttpClient.newCall(request3).execute()
+
         okHttpClient.newCall(request0).execute().body()?.string().orEmpty()
     }
 
