@@ -102,18 +102,14 @@ class CourseDetailBottomFragment : BottomSheetDialogFragment() {
             indicatorText("课程信息")
             iconLabel(CourseDetailViewModel(R.drawable.ic_schedule_other, "逻辑班号：${course.classid}\n课程编号：${course.courseid}"))
             indicatorText("自定义设置")
-//            iconLabel(CourseDetailViewModel(R.drawable.ic_schedule_search, "在蹭课功能中搜索相似课程", clickBlock = {
-//                mtaClick("schedule_单节课程底部弹出_${course.coursename}_搜索相似蹭课")
+//            iconLabel(CourseDetailViewModel(R.drawable.ic_schedule_event, "进入蹭课功能", clickBlock = {
+//                mtaClick("schedule_单节课程底部弹出_${course.coursename}_进入蹭课功能")
+//                startActivity(Intent(context, AuditActivity::class.java))
+//            }))
+//            iconLabel(CourseDetailViewModel(R.drawable.ic_schedule_search, "在蹭课中搜索相似课程", clickBlock = {
+//                mtaClick("schedule_单节课程底部弹出_${course.coursename}_进入蹭课中搜索相似课程功能")
 //                SearchResultActivity.searchCourse(it.context, course.coursename)
 //            }))
-            iconLabel(CourseDetailViewModel(R.drawable.ic_schedule_event, "进入蹭课功能", clickBlock = {
-                mtaClick("schedule_单节课程底部弹出_${course.coursename}_进入蹭课功能")
-                startActivity(Intent(context, AuditActivity::class.java))
-            }))
-            iconLabel(CourseDetailViewModel(R.drawable.ic_schedule_search, "在蹭课中搜索相似课程", clickBlock = {
-                mtaClick("schedule_单节课程底部弹出_${course.coursename}_进入蹭课中搜索相似课程功能")
-                SearchResultActivity.searchCourse(it.context, course.coursename)
-            }))
             iconLabel(CourseDetailViewModel(R.drawable.ic_schedule_event, "添加自定义课程/事件", clickBlock = {
                 mtaClick("schedule_单节课程底部弹出_${course.coursename}_添加自定义课程/事件")
                 startActivity(Intent(context, AddCustomCourseActivity::class.java))
